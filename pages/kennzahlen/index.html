@@ -2,6 +2,7 @@
 <html lang="de-CH">
 <head>
   <meta charset="UTF-8">
+  <meta name="last-updated" content="5. Februar 2026">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kennzahlen – Revamp-Info</title>
   <link rel="stylesheet" href="../../assets/css/styles.css">
@@ -292,40 +293,9 @@
 </head>
 <body>
   <div class="page-wrapper">
-    <nav class="main-nav">
-      <div class="nav-container">
-        <a href="../../index.html" class="nav-logo">Revamp-Info</a>
-        <ul class="nav-links">
-          <li><a href="../../index.html">Home</a></li>
-          <li class="nav-dropdown">
-            <a href="#">Strategie</a>
-            <div class="dropdown-menu">
-              <a href="../strategie/index.html">Vision & Mission</a>
-              <a href="../team/index.html">Team & HR</a>
-              <a href="../operations/index.html">Operations</a>
-            </div>
-          </li>
-          <li class="nav-dropdown">
-            <a href="#" class="active">Finanzen</a>
-            <div class="dropdown-menu">
-              <a href="../finanzen/index.html">Ubersicht</a>
-              <a href="index.html" class="active">Kennzahlen</a>
-              <a href="../preismodell/index.html">Preismodell</a>
-              <a href="../fundraising/index.html">Fundraising</a>
-            </div>
-          </li>
-          <li class="nav-dropdown">
-            <a href="#">Wirkung</a>
-            <div class="dropdown-menu">
-              <a href="../wirkung/index.html">Impact-Zahlen</a>
-              <a href="../methodik/index.html">Methodik</a>
-            </div>
-          </li>
-          <li><a href="../marketing/index.html">Marketing</a></li>
-          <li><a href="../dokumente/index.html">Dokumente</a></li>
-        </ul>
-      </div>
-    </nav>
+    <!-- Navigation (loaded via JS component - SSOT) -->
+    <div id="nav-placeholder"></div>
+    <script src="../../assets/js/components/nav.js"></script>
 
     <main class="page-content">
       <!-- Hero -->
@@ -716,9 +686,9 @@
       </div>
     </div>
 
-    <footer class="main-footer">
-      <p>Revamp-Info - Transparentes Dashboard fur Revamp-IT</p>
-    </footer>
+    <!-- Footer (loaded via JS component - SSOT) -->
+    <div id="footer-placeholder"></div>
+    <script src="../../assets/js/components/footer.js"></script>
   </div>
 
   <script src="../../assets/js/utils.js"></script>

@@ -2,6 +2,7 @@
 <html lang="de-CH">
 <head>
   <meta charset="UTF-8">
+  <meta name="last-updated" content="5. Februar 2026">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transparenz & Zahlen-Integrität – Revamp-Info</title>
   <link rel="stylesheet" href="../../assets/css/styles.css">
@@ -79,18 +80,9 @@
 </head>
 <body>
   <div class="page-wrapper">
-    <nav class="main-nav">
-      <div class="nav-container">
-        <a href="../../index.html" class="nav-logo">Revamp-Info</a>
-        <ul class="nav-links">
-          <li><a href="../../index.html">Home</a></li>
-          <li><a href="../finanzen/index.html">Finanzen</a></li>
-          <li><a href="../kennzahlen/index.html">Kennzahlen</a></li>
-          <li><a href="../wirkung/index.html">Wirkung</a></li>
-          <li><a href="index.html" class="active">Transparenz</a></li>
-        </ul>
-      </div>
-    </nav>
+    <!-- Navigation (loaded via JS component - SSOT) -->
+    <div id="nav-placeholder"></div>
+    <script src="../../assets/js/components/nav.js"></script>
 
     <main class="page-content">
       <div class="transparency-hero">
@@ -187,9 +179,9 @@
       </section>
     </main>
 
-    <footer class="main-footer">
-      <p>Revamp-Info © 2025 – Totale Transparenz für Revamp-IT</p>
-    </footer>
+    <!-- Footer (loaded via JS component - SSOT) -->
+    <div id="footer-placeholder"></div>
+    <script src="../../assets/js/components/footer.js"></script>
   </div>
 
   <script>
