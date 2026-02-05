@@ -454,12 +454,16 @@
           <!-- Ecological Impact -->
           <div class="impact-story-card eco">
             <div class="header">
-              <h3>🌍 Okologische Wirkung</h3>
+              <h3>🌍 Ökologische Wirkung</h3>
             </div>
             <div class="body">
               <div class="big-number" id="co2-total">~0 t</div>
               <div class="context">CO₂ vermieden durch Wiederverwendung</div>
-              <span class="data-badge estimated">Schatzung</span>
+              <span class="data-badge estimated">Schätzung</span>
+              <p style="font-size: 0.75rem; color: #6b7280; margin: 0.5rem 0;">
+                <strong>Berechnung:</strong> 285 kg CO₂ pro Laptop (300 kg Produktion − 15 kg Refurbishment)<br>
+                <a href="https://www.bafu.admin.ch/bafu/de/home/themen/abfall/publikationen-studien/publikationen/oekobilanzen-elektro-elektronikgeraete.html" target="_blank" rel="noopener" style="color: #3b82f6;">→ BAFU Ökobilanz-Studie</a>
+              </p>
               <div class="equivalents">
                 <h4>Das entspricht etwa:</h4>
                 <ul id="co2-equivalents">
@@ -477,9 +481,13 @@
             <div class="body">
               <div class="big-number" id="ewaste-total">~0 kg</div>
               <div class="context">Elektroschrott vermieden</div>
-              <span class="data-badge estimated">Schatzung</span>
+              <span class="data-badge estimated">Schätzung</span>
+              <p style="font-size: 0.75rem; color: #6b7280; margin: 0.5rem 0;">
+                <strong>Berechnung:</strong> ~5 kg Durchschnittsgewicht pro Gerät<br>
+                <a href="https://www.sens.ch/fachthemen/e-waste-statistik" target="_blank" rel="noopener" style="color: #3b82f6;">→ SENS eRecycling Statistik</a>
+              </p>
               <div class="equivalents">
-                <h4>Enthalt wertvolle Rohstoffe:</h4>
+                <h4>Enthält wertvolle Rohstoffe:</h4>
                 <ul>
                   <li>⚡ Seltene Erden</li>
                   <li>🪨 Kobalt & Lithium</li>
@@ -808,7 +816,7 @@
       const data = income.getValidRows();
       const warenverkauf = data.sum('warenverkauf');
       const devices = Math.round(warenverkauf / 150);
-      const co2 = devices * 300 / 1000; // tonnes
+      const co2 = devices * 285 / 1000; // tonnes (285 kg savings per laptop: 300 production - 15 refurbishment)
       const ewaste = devices * 5; // kg (more conservative)
       const lifeYears = devices * 4;
 
@@ -840,7 +848,7 @@
       const data = income.getValidRows();
       const warenverkauf = data.sum('warenverkauf');
       const devices = Math.round(warenverkauf / 150);
-      const co2 = devices * 300; // kg
+      const co2 = devices * 285; // kg (285 kg savings per laptop)
       const ewaste = devices * 5; // kg
 
       // CO2 display
@@ -864,7 +872,7 @@
 
       const labels = rows.map(r => Utils.formatMonthShort(r.period));
       const devices = rows.map(r => Math.round((r.warenverkauf || 0) / 150));
-      const co2 = devices.map(d => d * 0.3); // tonnes
+      const co2 = devices.map(d => d * 0.285); // tonnes (285 kg savings per laptop)
 
       charts.monthly = new Chart(ctx, {
         type: 'bar',
@@ -1018,11 +1026,11 @@
         name: 'CO₂ vermieden',
         value: '~',
         type: 'calculated',
-        source: 'Berechnet aus Geräteanzahl',
-        sourcePath: '01_Management/C_Kennzahlen_und_Reporting/KPI_Framework/CO2_und_Gewichtstabelle.csv',
-        formula: 'Geschätzte Geräte × 300 kg CO₂/Gerät (Durchschnitt)',
-        description: 'Basiert auf wissenschaftlichen LCA-Studien. Durchschnittswert für Business-Laptops: 300 kg CO₂ pro Gerät.',
-        link: '../methodik/index.html#co2-calculation',
+        source: 'BAFU Lifecycle Assessment 2023',
+        sourcePath: 'revampit/src/lib/hirn/data/methodology-ssot.ts',
+        formula: 'Geräte × 285 kg CO₂ Einsparung (Laptop: 300 kg Produktion − 15 kg Refurbishment)',
+        description: 'Basiert auf BAFU-Ökobilanz für Elektronikgeräte. Laptop-Neuproduktion: 300 kg CO₂, Refurbishment: 15 kg CO₂ → Einsparung: 285 kg. Desktop: 380 kg Einsparung (400 − 20).',
+        link: 'https://www.bafu.admin.ch/bafu/de/home/themen/abfall/publikationen-studien/publikationen/oekobilanzen-elektro-elektronikgeraete.html',
         confidence: 'medium'
       },
       ewaste_total: {
