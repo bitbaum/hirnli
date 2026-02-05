@@ -61,18 +61,26 @@ Revamp-Info is the **internal communication and dashboard site** for Revamp-IT. 
 
 ### DRY in Static HTML
 
-Even without a framework, avoid duplication:
+We use JavaScript components to avoid duplication:
 
 ```
-❌ BAD: Copy-paste navigation into every page
-✅ GOOD: Consistent navigation, edit template once
-
-❌ BAD: Inline same CSS in multiple pages
-✅ GOOD: Single styles.css, link from all pages
-
-❌ BAD: Hardcode same data in multiple pages
-✅ GOOD: Use data-loader.js to fetch from single CSV
+Navigation → assets/js/components/nav.js (SSOT)
+Footer     → assets/js/components/footer.js (SSOT)
+Common CSS → assets/css/styles.css (SSOT)
 ```
+
+**How to use in a page:**
+```html
+<!-- Instead of copy-pasting nav HTML -->
+<div id="nav-placeholder"></div>
+<script src="../../assets/js/components/nav.js"></script>
+
+<!-- Instead of copy-pasting footer HTML -->
+<div id="footer-placeholder"></div>
+<script src="../../assets/js/components/footer.js"></script>
+```
+
+**Template page:** See `pages/fundraising/stiftungen.html`
 
 ---
 
@@ -102,8 +110,11 @@ revamp-info/
 ├── index.html             # Main dashboard
 ├── assets/
 │   ├── css/
-│   │   └── styles.css     # Global styles
+│   │   └── styles.css     # Global styles (SSOT for common CSS)
 │   └── js/
+│       ├── components/    # Reusable JS components (SSOT)
+│       │   ├── nav.js     # Navigation - edit here, updates everywhere
+│       │   └── footer.js  # Footer - edit here, updates everywhere
 │       ├── data-loader.js # CSV loading utilities
 │       └── utils.js       # Formatting helpers
 └── pages/
@@ -236,9 +247,50 @@ git push
 
 1. Create folder: `pages/[section-name]/`
 2. Create file: `pages/[section-name]/index.html`
-3. Copy structure from existing page
-4. Add navigation link from parent page
+3. Use this template structure:
+
+```html
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="last-updated" content="[DATE]">
+  <title>[Title] – Revamp-Info</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    /* Page-specific styles only */
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Nav component (SSOT) -->
+    <div id="nav-placeholder"></div>
+    <script src="../../assets/js/components/nav.js"></script>
+
+    <main class="page-content">
+      <h1>[Page Title]</h1>
+      <!-- Content -->
+    </main>
+
+    <!-- Footer component (SSOT) -->
+    <div id="footer-placeholder"></div>
+    <script src="../../assets/js/components/footer.js"></script>
+  </div>
+</body>
+</html>
+```
+
+4. To add nav link: edit `assets/js/components/nav.js` (ONE place)
 5. Update main dashboard if needed
+
+### Migrating Existing Pages
+
+13 pages still use copy-pasted nav/footer. To migrate:
+1. Replace `<nav>...</nav>` with placeholder + script (see template above)
+2. Replace `<footer>...</footer>` with placeholder + script
+3. Add `<meta name="last-updated">` tag
+4. Test and commit
 
 ---
 
