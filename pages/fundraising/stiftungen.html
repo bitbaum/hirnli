@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="last-updated" content="5. Februar 2026">
   <title>Stiftungen & Förderer – Revamp-IT Fundraising</title>
   <link rel="stylesheet" href="../../assets/css/styles.css">
   <style>
@@ -340,17 +341,9 @@
 </head>
 <body>
   <div class="page-wrapper">
-    <!-- Navigation -->
-    <nav class="main-nav no-print">
-      <div class="nav-container">
-        <a href="../../index.html" class="nav-logo">Revamp-Info</a>
-        <ul class="nav-links">
-          <li><a href="../../index.html">Home</a></li>
-          <li><a href="index.html">Fundraising</a></li>
-          <li><a href="#" class="active">Stiftungen</a></li>
-        </ul>
-      </div>
-    </nav>
+    <!-- Navigation (loaded via JS component - SSOT) -->
+    <div id="nav-placeholder"></div>
+    <script src="../../assets/js/components/nav.js"></script>
 
     <main class="page-content">
 
@@ -1077,13 +1070,9 @@
 
     </main>
 
-    <footer class="main-footer no-print">
-      <p>Revamp-Info © 2026 - Revamp-IT Fundraising</p>
-      <div class="footer-links">
-        <a href="index.html">Zurück zu Fundraising</a>
-        <a href="../../index.html">Dashboard</a>
-      </div>
-    </footer>
+    <!-- Footer (loaded via JS component - SSOT) -->
+    <div id="footer-placeholder"></div>
+    <script src="../../assets/js/components/footer.js"></script>
   </div>
 </body>
 </html>

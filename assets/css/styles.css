@@ -1,6 +1,7 @@
 /**
- * Das Hirn – Revamp-IT Wissensbasis Styles
- * Single CSS file for simplicity - can be modularized later
+ * Revamp-Info – Revamp-IT Internal Communication Site
+ * Single CSS file for shared styles
+ * Page-specific styles remain inline for critical path rendering
  */
 
 /* ========================================
@@ -326,6 +327,38 @@ ul, ol {
   .dropdown-menu a.active {
     background: rgba(255,255,255,0.2);
     color: white;
+  }
+}
+
+/* Mobile Nav Toggle Button */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.5);
+  color: white;
+  font-size: 1.25rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-toggle:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: white;
+}
+
+@media (max-width: 767px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links.nav-open {
+    display: flex;
   }
 }
 
@@ -706,6 +739,230 @@ ul, ol {
   justify-content: center;
   gap: var(--space-4);
   margin-top: var(--space-2);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-meta {
+  margin-top: var(--space-2);
+  opacity: 0.7;
+}
+
+/* ========================================
+   DASHBOARD COMPONENTS (SSOT)
+   Common patterns extracted from page styles
+   ======================================== */
+
+/* Hero Stats - for dashboard header metrics */
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  text-align: center;
+  padding: 1rem 1.5rem;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.hero-stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  display: block;
+}
+
+.hero-stat-label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Chart Containers */
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+.chart-container-large {
+  height: 350px;
+}
+
+.chart-container-small {
+  height: 250px;
+}
+
+/* Insight Cards */
+.insight-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border-left: 4px solid;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.insight-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.insight-positive {
+  border-left-color: #10b981;
+  background: linear-gradient(135deg, #ecfdf5 0%, white 100%);
+}
+
+.insight-warning {
+  border-left-color: #f59e0b;
+  background: linear-gradient(135deg, #fffbeb 0%, white 100%);
+}
+
+.insight-action {
+  border-left-color: #3b82f6;
+  background: linear-gradient(135deg, #eff6ff 0%, white 100%);
+}
+
+.insight-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.insight-text {
+  font-size: 0.875rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.insight-action-btn {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.insight-action-btn:hover {
+  background: #1e3a8a;
+  color: white;
+}
+
+/* Data Source Indicators */
+.data-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.data-type--source {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.data-type--derived {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-text-light);
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: var(--color-danger);
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-section {
+  margin-bottom: 1.5rem;
+}
+
+.modal-section:last-child {
+  margin-bottom: 0;
+}
+
+.modal-section h4 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  margin-bottom: 0.5rem;
+}
+
+.modal-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 /* ========================================
