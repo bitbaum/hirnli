@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stiftungen & Förderer – Revamp-IT Fundraising</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    /* Print-friendly styles */
+    @media print {
+      .main-nav, .main-footer, .no-print { display: none !important; }
+      .page-wrapper { padding: 0; }
+      .page-content { max-width: 100%; }
+      section { page-break-inside: avoid; }
+      .foundation-card { break-inside: avoid; }
+      a { color: inherit !important; }
+      a::after { content: " (" attr(href) ")"; font-size: 0.7em; }
+    }
+
+    /* Hero Section */
+    .stiftungen-hero {
+      background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+      color: white;
+      padding: 3rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+    }
+    .stiftungen-hero h1 { margin: 0 0 0.5rem 0; font-size: 2.2rem; }
+    .stiftungen-hero .subtitle { font-size: 1.1rem; opacity: 0.95; margin-bottom: 1rem; }
+    .stiftungen-hero .update-info {
+      background: rgba(255,255,255,0.15);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .status-badge.open { background: #dcfce7; color: #166534; }
+    .status-badge.closed { background: #fee2e2; color: #991b1b; }
+    .status-badge.soon { background: #fef3c7; color: #92400e; }
+    .status-badge.rolling { background: #dbeafe; color: #1e40af; }
+
+    /* Source Links */
+    .source-link {
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: 0.5rem;
+    }
+    .source-link:hover { color: #1e40af; text-decoration: underline; }
+    .source-link::before { content: "📄"; }
+
+    /* Action Cards */
+    .action-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .action-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .action-card.priority-high { border-left: 4px solid #10b981; }
+    .action-card.priority-medium { border-left: 4px solid #f59e0b; }
+    .action-card.priority-low { border-left: 4px solid #6b7280; }
+
+    .action-card-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .action-card-header h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .action-card-header .tagline {
+      font-size: 0.85rem;
+      color: #6b7280;
+      font-style: italic;
+    }
+
+    .action-card-body { padding: 1.5rem; }
+
+    .action-card-body p {
+      margin: 0 0 1rem 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Key Info Box */
+    .key-info {
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .key-info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+    .key-info-item {
+      font-size: 0.85rem;
+    }
+    .key-info-item .label {
+      color: #6b7280;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .key-info-item .value {
+      font-weight: 600;
+      color: #111827;
+    }
+    .key-info-item .value a {
+      color: #1e40af;
+      text-decoration: none;
+    }
+    .key-info-item .value a:hover { text-decoration: underline; }
+
+    /* Requirements Box */
+    .requirements-box {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .requirements-box h4 {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.9rem;
+      color: #92400e;
+    }
+    .requirements-box ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.85rem;
+    }
+    .requirements-box li { margin-bottom: 0.35rem; }
+
+    /* Action Button */
+    .action-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #1e40af;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .action-button:hover { background: #1e3a8a; }
+    .action-button.secondary {
+      background: #f3f4f6;
+      color: #374151;
+    }
+    .action-button.secondary:hover { background: #e5e7eb; }
+
+    /* Fit Assessment */
+    .fit-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    .fit-section h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.85rem;
+      color: #374151;
+    }
+    .fit-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.85rem;
+    }
+    .fit-list li {
+      margin-bottom: 0.25rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    .fit-list li.pro::before { content: "✓"; position: absolute; left: 0; color: #10b981; font-weight: bold; }
+    .fit-list li.con::before { content: "!"; position: absolute; left: 0; color: #f59e0b; font-weight: bold; }
+    .fit-list li.no::before { content: "✗"; position: absolute; left: 0; color: #ef4444; font-weight: bold; }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .section-header .icon { font-size: 1.5rem; }
+    .section-header h2 { margin: 0; font-size: 1.3rem; }
+
+    /* Deadline Overview */
+    .deadline-overview {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+    }
+    .deadline-overview h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+    }
+    .deadline-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .deadline-table th, .deadline-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .deadline-table th {
+      background: #f9fafb;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .deadline-table a {
+      color: #1e40af;
+      text-decoration: none;
+    }
+    .deadline-table a:hover { text-decoration: underline; }
+
+    /* Not Recommended */
+    .not-recommended {
+      background: #fef2f2;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .not-recommended h3 { margin: 0 0 1rem 0; color: #991b1b; }
+    .not-recommended-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 0.75rem;
+    }
+    .not-recommended-item {
+      background: white;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+    }
+    .not-recommended-item strong { display: block; margin-bottom: 0.25rem; }
+    .not-recommended-item span { color: #6b7280; }
+
+    /* Checklist */
+    .checklist-section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+    }
+    .checklist-section h3 { margin: 0 0 1rem 0; }
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .checklist-category h4 {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.9rem;
+      color: #1e40af;
+    }
+    .checklist-category ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .checklist-category li {
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      padding-left: 1.75rem;
+      position: relative;
+    }
+    .checklist-category li::before {
+      content: "☐";
+      position: absolute;
+      left: 0;
+      color: #6b7280;
+    }
+
+    /* Alert Box */
+    .alert-box {
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+    .alert-box.warning {
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      color: #92400e;
+    }
+    .alert-box.info {
+      background: #dbeafe;
+      border: 1px solid #93c5fd;
+      color: #1e40af;
+    }
+    .alert-box.success {
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      color: #166534;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .key-info-grid { grid-template-columns: 1fr; }
+      .action-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Navigation -->
+    <nav class="main-nav no-print">
+      <div class="nav-container">
+        <a href="../../index.html" class="nav-logo">Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="index.html">Fundraising</a></li>
+          <li><a href="#" class="active">Stiftungen</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="page-content">
+
+      <!-- Hero -->
+      <section class="stiftungen-hero">
+        <h1>Stiftungen & Förderer für Revamp-IT</h1>
+        <p class="subtitle">Recherchiert, verifiziert, priorisiert. Bereit für Gesuche.</p>
+        <div class="update-info">
+          <strong>Stand:</strong> 5. Februar 2026 · Alle Deadlines und Links direkt von den offiziellen Stiftungs-Websites verifiziert.
+        </div>
+      </section>
+
+      <!-- Deadline Overview Table -->
+      <section class="deadline-overview">
+        <h3>📅 Deadline-Übersicht – Was ist jetzt möglich?</h3>
+        <table class="deadline-table">
+          <thead>
+            <tr>
+              <th>Stiftung</th>
+              <th>Status</th>
+              <th>Nächste Deadline</th>
+              <th>Betrag</th>
+              <th>Bewerbung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Migros "Get connected!"</strong></td>
+              <td><span class="status-badge soon">Öffnet Juni</span></td>
+              <td>15. Aug / 31. Okt 2025</td>
+              <td>CHF 2k-10k</td>
+              <td><a href="https://foerderung.migros-engagement.ch" target="_blank">Online-Portal →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Klimastiftung Schweiz</strong></td>
+              <td><span class="status-badge open">Offen</span></td>
+              <td>1. März / 1. September</td>
+              <td>bis CHF 200k</td>
+              <td><a href="https://www.klimastiftung.ch/de/antrag-stellen/" target="_blank">Online-Portal →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Ernst Göhner Stiftung</strong></td>
+              <td><span class="status-badge rolling">Laufend</span></td>
+              <td>4 Monate vor Projekt</td>
+              <td>CHF 15k-30k</td>
+              <td><a href="https://ernst-goehner-stiftung.ch/index.php/de/services/Downloads" target="_blank">Per Post →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Binding Stiftung</strong></td>
+              <td><span class="status-badge open">Offen</span></td>
+              <td>31. März 2026</td>
+              <td>CHF 3k-100k+</td>
+              <td><a href="https://request-binding.alphafoundation.app" target="_blank">Online-Portal →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Mercator Stiftung</strong></td>
+              <td><span class="status-badge rolling">Laufend</span></td>
+              <td>Jederzeit</td>
+              <td>CHF 15k-40k+</td>
+              <td><a href="https://gesuch.stiftung-mercator.ch" target="_blank">Online-Portal →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Hirschmann Stiftung</strong></td>
+              <td><span class="status-badge rolling">Laufend</span></td>
+              <td>6 Monate vor Projekt</td>
+              <td>Variabel</td>
+              <td><a href="https://www.hirschmann-stiftung.ch/en/sponsorship/" target="_blank">Per Email →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Drosos Stiftung</strong></td>
+              <td><span class="status-badge rolling">Laufend</span></td>
+              <td>Jederzeit</td>
+              <td>CHF 50k-500k+</td>
+              <td><a href="https://www.drosos.org/how-we-work/partner-us" target="_blank">Konzeptpapier →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Stadt Zürich KlimUp</strong></td>
+              <td><span class="status-badge closed">Geschlossen</span></td>
+              <td>Nächste Runde TBA (ca. Dez 2025)</td>
+              <td>CHF 5k-600k</td>
+              <td><a href="https://www.stadt-zuerich.ch/de/umwelt-und-energie/klima/beratung-und-foerderung/klimup.html" target="_blank">Info →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Prototype Fund</strong></td>
+              <td><span class="status-badge closed">2025 geschlossen</span></td>
+              <td>Nächste Runde: Jan 2026</td>
+              <td>bis CHF 100k</td>
+              <td><a href="https://prototypefund.opendata.ch" target="_blank">Info →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Stiftung Baugarten</strong></td>
+              <td><span class="status-badge open">Offen</span></td>
+              <td>1. Mai 2026</td>
+              <td>CHF 5k-50k</td>
+              <td><a href="https://www.baugarten-zuerich.ch/gesuch" target="_blank">Online-Portal →</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- PRIORITY 1: Apply Now -->
+      <section class="content-section">
+        <div class="section-header">
+          <span class="icon">🚀</span>
+          <h2>Priorität 1: Jetzt bewerben</h2>
+        </div>
+
+        <div class="action-cards">
+
+          <!-- Migros Get connected! -->
+          <div class="action-card priority-high">
+            <div class="action-card-header">
+              <h3>Migros Kulturprozent "Get connected!" <span class="status-badge soon">Öffnet Juni</span></h3>
+              <span class="tagline">"Das zugänglichste Förderprogramm der Schweiz"</span>
+            </div>
+            <div class="action-card-body">
+              <p>Digitale Inklusion für wirtschaftlich benachteiligte Menschen - <strong>wie für Revamp-IT gemacht!</strong> Kleiner Betrag, aber einfacher Prozess und hohe Erfolgschancen.</p>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Betrag</div>
+                    <div class="value">CHF 2'000 - 10'000</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Deadlines 2025</div>
+                    <div class="value">15. August / 31. Oktober</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Portal öffnet</div>
+                    <div class="value">23. Juni 2025</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Kontakt</div>
+                    <div class="value"><a href="mailto:isabelle.ruckli@mgb.ch">isabelle.ruckli@mgb.ch</a></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="requirements-box">
+                <h4>📋 Was wird benötigt?</h4>
+                <ul>
+                  <li>Online-Antrag (DE/FR/IT/EN verfügbar)</li>
+                  <li>Projektbeschreibung mit Digital-Inklusion-Fokus</li>
+                  <li>Nachweis gemeinnütziger Status</li>
+                  <li>Projekt muss bis Mitte 2026 laufen</li>
+                </ul>
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                <a href="https://foerderung.migros-engagement.ch/en/cases/a6ffc2fc-9b5a-4a81-996d-c1b75fb093ad/create" target="_blank" class="action-button">Zum Antragsportal →</a>
+                <a href="https://engagement.migros.ch/en/culture-percentage/social-affairs/getconnected" target="_blank" class="action-button secondary">Programm-Info →</a>
+              </div>
+
+              <a href="https://engagement.migros.ch/en/culture-percentage/social-affairs/getconnected" target="_blank" class="source-link">Quelle: engagement.migros.ch</a>
+
+              <div class="fit-section">
+                <h4>Warum Revamp-IT passt:</h4>
+                <ul class="fit-list">
+                  <li class="pro">Digitale Inklusion = unser Kernthema</li>
+                  <li class="pro">Wirtschaftlich Benachteiligte = unsere Zielgruppe</li>
+                  <li class="pro">Kleine NPOs willkommen</li>
+                  <li class="pro">Einfacher Bewerbungsprozess</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Klimastiftung Schweiz -->
+          <div class="action-card priority-high">
+            <div class="action-card-header">
+              <h3>Klimastiftung Schweiz <span class="status-badge open">Offen</span></h3>
+              <span class="tagline">"Die Stiftung, die KMUs beim Klimaschutz unterstützt"</span>
+            </div>
+            <div class="action-card-body">
+              <p>Gegründet 2008, vergibt jährlich ca. CHF 3 Mio. Unterstützt explizit <strong>kleine Organisationen</strong> - ein seltener Vorteil!</p>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Betrag</div>
+                    <div class="value">Max. CHF 200'000 (max. 50% Projektkosten)</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Deadlines</div>
+                    <div class="value">1. März → Entscheid Juni<br>1. September → Entscheid November</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Bewerbung</div>
+                    <div class="value"><a href="https://www.klimastiftung.ch/de/antrag-stellen/" target="_blank">Online-Portal</a></div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Sprachen</div>
+                    <div class="value">Deutsch, Französisch, Englisch</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="requirements-box">
+                <h4>📋 Was wird benötigt?</h4>
+                <ul>
+                  <li>Online-Antrag vor Projektbeginn</li>
+                  <li>KMU oder kleine Organisation in CH/FL</li>
+                  <li>Max. 250 Mitarbeitende</li>
+                  <li>Restfinanzierung (50%) gesichert</li>
+                  <li>Projekt muss primär in CH/FL umgesetzt werden</li>
+                </ul>
+              </div>
+
+              <div class="alert-box warning">
+                <strong>Wichtig:</strong> Antrag muss VOR Projektbeginn eingereicht werden. Max. 50% der Kosten werden übernommen.
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                <a href="https://www.klimastiftung.ch/de/antrag-stellen/" target="_blank" class="action-button">Antrag stellen →</a>
+                <a href="https://www.klimastiftung.ch/wp-content/uploads/20251119_Reglement_Innovationsfoerderung_E_003.pdf" target="_blank" class="action-button secondary">Förderreglement (PDF) →</a>
+              </div>
+
+              <a href="https://www.klimastiftung.ch/de/antrag-stellen/" target="_blank" class="source-link">Quelle: klimastiftung.ch</a>
+
+              <div class="fit-section">
+                <h4>Warum Revamp-IT passt:</h4>
+                <ul class="fit-list">
+                  <li class="pro">Kleine Organisationen explizit willkommen</li>
+                  <li class="pro">Klimaschutz durch Ressourcenschonung</li>
+                  <li class="pro">Messbare CO2-Einsparung (285kg/Laptop)</li>
+                  <li class="con">Braucht 50% Eigenfinanzierung</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ernst Göhner Stiftung -->
+          <div class="action-card priority-high">
+            <div class="action-card-header">
+              <h3>Ernst Göhner Stiftung <span class="status-badge rolling">Laufend</span></h3>
+              <span class="tagline">"Eine der grössten Schweizer Stiftungen"</span>
+            </div>
+            <div class="action-card-body">
+              <p>Gegründet 1957. Vergibt ca. <strong>CHF 40 Mio. jährlich</strong> an über 1'500 Projekte. Klassische, etablierte Förderstiftung.</p>
+
+              <div class="alert-box warning">
+                <strong>⚠️ Nur per Post!</strong> Keine Online-Bewerbung möglich. Gesuche müssen unterschrieben und per Post eingereicht werden.
+              </div>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Betrag</div>
+                    <div class="value">CHF 15'000 - 30'000 (typisch)</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Deadline</div>
+                    <div class="value">Min. 4 Monate vor Projektstart</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Postadresse</div>
+                    <div class="value">Ernst Göhner Stiftung<br>Artherstrasse 19<br>6300 Zug</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Kontakt</div>
+                    <div class="value"><a href="mailto:info@ernst-goehner-stiftung.ch">info@ernst-goehner-stiftung.ch</a><br>+41 41 729 66 33</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="requirements-box">
+                <h4>📋 Was wird benötigt? (alles per Post)</h4>
+                <ul>
+                  <li><strong>Antragsformular</strong> (unterschrieben) - <a href="https://ernst-goehner-stiftung.ch/index.php/download_file/view/b046b8d5-2add-4776-938b-5cc764121a68/210" target="_blank">Download für Soziales/Umwelt/Bildung</a></li>
+                  <li>Statuten der Organisation</li>
+                  <li>Steuerbefreiungsbescheinigung</li>
+                  <li>Letzte Jahresberichte und Bilanzen</li>
+                  <li>Detaillierte Projektbeschreibung + Budget</li>
+                  <li>Liste anderer kontaktierter Förderer</li>
+                  <li>QR-Einzahlungsschein (Papierform)</li>
+                </ul>
+              </div>
+
+              <div class="alert-box info">
+                <strong>Wichtig:</strong> Erwartet Co-Finanzierung von anderen Quellen. Ideal: Zuerst bei anderen Stiftungen bewerben, dann mit Zusagen bei Ernst Göhner einreichen.
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                <a href="https://ernst-goehner-stiftung.ch/index.php/download_file/view/b046b8d5-2add-4776-938b-5cc764121a68/210" target="_blank" class="action-button">Antragsformular (PDF) →</a>
+                <a href="https://ernst-goehner-stiftung.ch/index.php/de/services/Downloads" target="_blank" class="action-button secondary">Alle Downloads →</a>
+              </div>
+
+              <a href="https://ernst-goehner-stiftung.ch/index.php/de/services/Downloads" target="_blank" class="source-link">Quelle: ernst-goehner-stiftung.ch</a>
+
+              <div class="fit-section">
+                <h4>Warum Revamp-IT passt:</h4>
+                <ul class="fit-list">
+                  <li class="pro">Soziale Integration ("Chancengleichheit")</li>
+                  <li class="pro">Umweltprojekte (E-Waste)</li>
+                  <li class="pro">Bildung (Workshops)</li>
+                  <li class="con">Braucht breite Co-Finanzierung</li>
+                  <li class="con">Nur Postweg - mehr Aufwand</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Binding Stiftung -->
+          <div class="action-card priority-high">
+            <div class="action-card-header">
+              <h3>Sophie und Karl Binding Stiftung <span class="status-badge open">Offen</span></h3>
+              <span class="tagline">"Grosse Basler Stiftung mit Herz für Jugendintegration"</span>
+            </div>
+            <div class="action-card-body">
+              <p>Mehrjährige Projekte können über <strong>CHF 100'000/Jahr</strong> erhalten. Fokus auf Jugend und sozialen Zusammenhalt.</p>
+
+              <div class="alert-box success">
+                <strong>✓ Nur Online!</strong> Gesuche per Post werden NICHT bearbeitet. Alles über das elektronische Portal.
+              </div>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Betrag</div>
+                    <div class="value">CHF 3'000 - 100'000+/Jahr</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Deadlines 2026</div>
+                    <div class="value">31. März → Antwort Ende Juni<br>30. Juni → Antwort Ende Sept.<br>22. Sept. → Antwort Ende Dez.<br>15. Dez. → Antwort Ende März 2027</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Bewerbung</div>
+                    <div class="value"><a href="https://request-binding.alphafoundation.app" target="_blank">Online-Portal</a></div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Kontakt</div>
+                    <div class="value"><a href="mailto:contact@binding-stiftung.ch">contact@binding-stiftung.ch</a><br>+41 61 317 40 90</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="requirements-box">
+                <h4>📋 Förderbereiche (relevant für Revamp-IT)</h4>
+                <ul>
+                  <li><strong>Kinder & Jugend:</strong> Integration, Arbeitsmarkt-Übergang, Gewaltprävention</li>
+                  <li><strong>Sozialer Zusammenhalt:</strong> Demokratie, Medienkompetenz, kulturelles Verständnis</li>
+                </ul>
+              </div>
+
+              <div class="alert-box warning">
+                <strong>Nicht gefördert:</strong> Laufende Betriebskosten, Veranstaltungen, Forschung ohne Umsetzung, rückwirkende Finanzierung.
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                <a href="https://request-binding.alphafoundation.app/index.php?id=27&L=1" target="_blank" class="action-button">Zum Online-Portal →</a>
+                <a href="https://www.binding-stiftung.ch/gesuche/" target="_blank" class="action-button secondary">Gesuch-Info →</a>
+              </div>
+
+              <a href="https://www.binding-stiftung.ch/gesuche/" target="_blank" class="source-link">Quelle: binding-stiftung.ch</a>
+
+              <div class="fit-section">
+                <h4>Warum Revamp-IT passt:</h4>
+                <ul class="fit-list">
+                  <li class="pro">"Kinder & Jugend Integration in Arbeitsmarkt" - perfekt!</li>
+                  <li class="pro">"Sozialer Zusammenhalt" / Medienkompetenz</li>
+                  <li class="pro">Vereine explizit als Antragsteller genannt</li>
+                  <li class="no">Keine laufenden Betriebskosten</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PRIORITY 2: Good Options -->
+      <section class="content-section">
+        <div class="section-header">
+          <span class="icon">📋</span>
+          <h2>Priorität 2: Gute Optionen (laufende Bewerbung)</h2>
+        </div>
+
+        <div class="action-cards">
+
+          <!-- Mercator Stiftung -->
+          <div class="action-card priority-medium">
+            <div class="action-card-header">
+              <h3>Mercator Stiftung Schweiz <span class="status-badge rolling">Laufend</span></h3>
+              <span class="tagline">"Digitalisierung + Gesellschaft als Förderfeld"</span>
+            </div>
+            <div class="action-card-body">
+              <p>Gegründet 2006. Hat "Digitalisierung + Gesellschaft" als eines von fünf Schwerpunktthemen. <strong>Jederzeit bewerbbar</strong> - Antwort innerhalb 4 Wochen.</p>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Betrag</div>
+                    <div class="value">CHF 15'000 - 40'000+ (je nach Projekt)</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Deadline</div>
+                    <div class="value">Keine - laufend möglich</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Bewerbung</div>
+                    <div class="value"><a href="https://gesuch.stiftung-mercator.ch" target="_blank">Online-Portal</a></div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Erstantwort</div>
+                    <div class="value">Innerhalb 4 Wochen</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="requirements-box">
+                <h4>📋 Prozess</h4>
+                <ul>
+                  <li>Projektskizze über Online-Portal einreichen</li>
+                  <li>Bei Gesuchen unter CHF 30'000: Skizze reicht</li>
+                  <li>Bei Gesuchen über CHF 30'000: Detailantrag auf Einladung</li>
+                </ul>
+              </div>
+
+              <a href="https://gesuch.stiftung-mercator.ch" target="_blank" class="action-button">Projektskizze einreichen →</a>
+              <a href="https://www.stiftung-mercator.ch" target="_blank" class="source-link">Quelle: stiftung-mercator.ch</a>
+            </div>
+          </div>
+
+          <!-- Hirschmann Stiftung -->
+          <div class="action-card priority-medium">
+            <div class="action-card-header">
+              <h3>Hirschmann Stiftung <span class="status-badge rolling">Laufend</span></h3>
+              <span class="tagline">"Die Stiftung, die Grassroots-Projekte liebt"</span>
+            </div>
+            <div class="action-card-body">
+              <p>Gegründet 1985. Unterstützt explizit <strong>gut geführte Grassroots-Projekte</strong> - genau was Revamp-IT ist! Bevorzugt mehrjährige Partnerschaften.</p>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Betrag</div>
+                    <div class="value">Variabel (mehrjährig bevorzugt)</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Deadline</div>
+                    <div class="value">6 Monate vor Projektbeginn</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Bewerbung</div>
+                    <div class="value">Per Email (PDF max 8MB)</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Entscheid</div>
+                    <div class="value">3x jährlich (Frühling/Sommer/Winter)</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="requirements-box">
+                <h4>📋 Was wird benötigt?</h4>
+                <ul>
+                  <li>Antragsformular + Beilagen als PDF</li>
+                  <li>Email an: <a href="mailto:kontakt@hirschmann-stiftung.ch">kontakt@hirschmann-stiftung.ch</a></li>
+                  <li>Muss zu UN SDGs 3, 4 oder 8 beitragen</li>
+                  <li>Nur vollständige Dossiers werden bearbeitet</li>
+                </ul>
+              </div>
+
+              <a href="https://www.hirschmann-stiftung.ch/en/sponsorship/" target="_blank" class="action-button">Antragsinfos & Formular →</a>
+              <a href="https://www.hirschmann-stiftung.ch/en/sponsorship/" target="_blank" class="source-link">Quelle: hirschmann-stiftung.ch</a>
+            </div>
+          </div>
+
+          <!-- Drosos Stiftung -->
+          <div class="action-card priority-medium">
+            <div class="action-card-header">
+              <h3>Drosos Stiftung <span class="status-badge rolling">Laufend</span></h3>
+              <span class="tagline">"Ermöglicht benachteiligten Menschen, ihr Leben selbst zu gestalten"</span>
+            </div>
+            <div class="action-card-body">
+              <p>Grosse Zürcher Stiftung mit Fokus auf <strong>Jugendliche und junge Erwachsene</strong>. Grosse Beträge möglich, aber längerer Prozess (6-12 Monate).</p>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Betrag</div>
+                    <div class="value">CHF 50'000 - 500'000+ (3-5 Jahre)</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Deadline</div>
+                    <div class="value">Keine - laufend möglich</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Bewerbung</div>
+                    <div class="value">2-seitiges Konzeptpapier per Email</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Prozessdauer</div>
+                    <div class="value">6-12 Monate (inkl. Due Diligence)</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="requirements-box">
+                <h4>📋 Konzeptpapier (max 2 Seiten)</h4>
+                <ul>
+                  <li>Organisationstyp, Rechtsform, Registrierung</li>
+                  <li>Link zu Website</li>
+                  <li>Link zu letztem Jahresbericht</li>
+                  <li>Email an: <a href="mailto:info@drosos.org">info@drosos.org</a> (Deutsch/Französisch)</li>
+                </ul>
+              </div>
+
+              <a href="https://www.drosos.org/how-we-work/partner-us" target="_blank" class="action-button">Partner werden →</a>
+              <a href="https://www.drosos.org/how-we-work/partner-us" target="_blank" class="source-link">Quelle: drosos.org</a>
+            </div>
+          </div>
+
+          <!-- Arbeitsintegration Zürich -->
+          <div class="action-card priority-medium">
+            <div class="action-card-header">
+              <h3>Arbeitsintegration Zürich <span class="status-badge rolling">Laufend</span></h3>
+              <span class="tagline">"Partnerschaft statt Grant - nachhaltiges Einkommen"</span>
+            </div>
+            <div class="action-card-body">
+              <p>Die Stadt Zürich platziert täglich ca. 1'000 Arbeitslose in Integrationsprogrammen. <strong>Vereine als Einsatzbetriebe möglich!</strong> Ähnliche Velo-Werkstatt Programme existieren.</p>
+
+              <div class="alert-box info">
+                <strong>Kein Grant, sondern Partnerschaft:</strong> Revamp-IT wird Einsatzbetrieb, Stadt schickt Teilnehmende und trägt Lohnkosten.
+              </div>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Modell</div>
+                    <div class="value">Vertrag als Einsatzbetrieb</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Leistung Stadt</div>
+                    <div class="value">Lohnkosten + Betreuung</div>
+                  </div>
+                </div>
+              </div>
+
+              <a href="https://www.stadt-zuerich.ch/de/lebenslagen/unterstuetzung-und-beratung/arbeitslosigkeit/arbeitsintegration.html" target="_blank" class="action-button">Kontakt aufnehmen →</a>
+              <a href="https://www.stadt-zuerich.ch/sd/de/index/unterstuetzung/ai/arbeitsintegrationsozialhilfe.html" target="_blank" class="source-link">Quelle: stadt-zuerich.ch</a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PRIORITY 3: Watch & Wait -->
+      <section class="content-section">
+        <div class="section-header">
+          <span class="icon">⏳</span>
+          <h2>Priorität 3: Beobachten (aktuell geschlossen)</h2>
+        </div>
+
+        <div class="action-cards">
+
+          <!-- KlimUp -->
+          <div class="action-card priority-low">
+            <div class="action-card-header">
+              <h3>Stadt Zürich KlimUp <span class="status-badge closed">Geschlossen</span></h3>
+              <span class="tagline">"Das Zürcher Förderprogramm für Kreislaufwirtschaft"</span>
+            </div>
+            <div class="action-card-body">
+              <div class="alert-box warning">
+                <strong>Aktuell geschlossen.</strong> "Die Frist für die aktuelle Förderrunde ist abgelaufen. Es können zurzeit keine Anträge mehr eingereicht werden."
+              </div>
+
+              <p>CHF 14 Mio. Budget bis 2028. Vereine explizit förderfähig. <strong>Nächste Runde voraussichtlich Ende 2025 angekündigt.</strong></p>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Projektbeiträge NPOs</div>
+                    <div class="value">CHF 5'000 - 100'000</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Betriebsbeiträge NPOs</div>
+                    <div class="value">CHF 60'000 - 600'000 (2-4 Jahre)</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Nächste Runde</div>
+                    <div class="value">TBA (ca. Dezember 2025)</div>
+                  </div>
+                </div>
+              </div>
+
+              <a href="https://www.stadt-zuerich.ch/de/umwelt-und-energie/klima/beratung-und-foerderung/klimup.html" target="_blank" class="action-button secondary">Website beobachten →</a>
+              <a href="https://www.stadt-zuerich.ch/de/umwelt-und-energie/klima/beratung-und-foerderung/klimup.html" target="_blank" class="source-link">Quelle: stadt-zuerich.ch</a>
+            </div>
+          </div>
+
+          <!-- Prototype Fund -->
+          <div class="action-card priority-low">
+            <div class="action-card-header">
+              <h3>Prototype Fund Schweiz <span class="status-badge closed">2025 geschlossen</span></h3>
+              <span class="tagline">"Fördert Open-Source-Projekte für das Gemeinwohl"</span>
+            </div>
+            <div class="action-card-body">
+              <div class="alert-box warning">
+                <strong>Bewerbungsfenster 2025 geschlossen.</strong> War 23. Januar - 20. März 2025. Nächste Runde voraussichtlich Januar 2026.
+              </div>
+
+              <p>Fokus 2025: "Nachhaltige Digitalisierung und Digitale Suffizienz" - <strong>perfekt für unseren Linux-Ansatz!</strong></p>
+
+              <div class="key-info">
+                <div class="key-info-grid">
+                  <div class="key-info-item">
+                    <div class="label">Betrag</div>
+                    <div class="value">bis CHF 100'000 (6 Monate)</div>
+                  </div>
+                  <div class="key-info-item">
+                    <div class="label">Nächstes Fenster</div>
+                    <div class="value">Voraussichtlich Januar 2026</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="alert-box info">
+                <strong>Voraussetzung:</strong> Projekt muss Open Source sein (Code + Dokumentation öffentlich).
+              </div>
+
+              <a href="https://prototypefund.opendata.ch" target="_blank" class="action-button secondary">Website beobachten →</a>
+              <a href="https://prototypefund.opendata.ch/bewerbung/programmablauf/" target="_blank" class="source-link">Quelle: prototypefund.opendata.ch</a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- NOT RECOMMENDED -->
+      <section class="not-recommended">
+        <h3>❌ Nicht empfohlen (Fokus passt nicht)</h3>
+        <div class="not-recommended-grid">
+          <div class="not-recommended-item">
+            <strong>Avina Stiftung</strong>
+            <span>Nur Ernährung/Food - "Soziale Projekte" explizit ausgeschlossen</span>
+          </div>
+          <div class="not-recommended-item">
+            <strong>Gebert Rüf Stiftung</strong>
+            <span>Nur Uni-Spin-offs und Hochschulprojekte</span>
+          </div>
+          <div class="not-recommended-item">
+            <strong>Velux Stiftung</strong>
+            <span>Nur akademische Forschung (Tageslicht, Wald, Alter)</span>
+          </div>
+          <div class="not-recommended-item">
+            <strong>Stiftung Walder</strong>
+            <span>Nur Projekte für Senioren (65+)</span>
+          </div>
+          <div class="not-recommended-item">
+            <strong>Pestalozzi-Stiftung</strong>
+            <span>Führt eigene Programme, keine externe Förderung</span>
+          </div>
+          <div class="not-recommended-item">
+            <strong>UBS Optimus Foundation</strong>
+            <span>Aktuell geschlossen für Bewerbungen, globaler Fokus</span>
+          </div>
+          <div class="not-recommended-item">
+            <strong>Swiss Re Foundation</strong>
+            <span>Nur Entwicklungsländer</span>
+          </div>
+          <div class="not-recommended-item">
+            <strong>Coop Nachhaltigkeitsfonds</strong>
+            <span>Stark auf Food fokussiert, "Kerngeschäft-Verbindung" nötig</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHECKLIST -->
+      <section class="checklist-section">
+        <h3>✅ Dokumente vorbereiten (für alle Gesuche benötigt)</h3>
+
+        <div class="checklist-grid">
+          <div class="checklist-category">
+            <h4>Organisationsdokumente</h4>
+            <ul>
+              <li>Aktuelle Statuten (PDF)</li>
+              <li>Steuerbefreiungsbescheinigung</li>
+              <li>Handelsregisterauszug (falls vorhanden)</li>
+              <li>Organigramm / Vorstand</li>
+            </ul>
+          </div>
+          <div class="checklist-category">
+            <h4>Finanzdokumente</h4>
+            <ul>
+              <li>Letzte 2 Jahresrechnungen</li>
+              <li>Letzte 2 Jahresberichte</li>
+              <li>Aktuelles Budget</li>
+              <li>Revisionsbericht (falls vorhanden)</li>
+            </ul>
+          </div>
+          <div class="checklist-category">
+            <h4>Projektunterlagen</h4>
+            <ul>
+              <li>Projektbeschreibung (1-3 Seiten)</li>
+              <li>Detailliertes Projektbudget</li>
+              <li>Finanzierungsplan (andere Quellen)</li>
+              <li>Zeitplan / Meilensteine</li>
+            </ul>
+          </div>
+          <div class="checklist-category">
+            <h4>Revamp-IT Kennzahlen</h4>
+            <ul>
+              <li>Gegründet: Dezember 2003</li>
+              <li>Selbstfinanzierungsgrad: 96%</li>
+              <li>Kumulierter Umsatz: > CHF 1 Mio.</li>
+              <li>CO2-Einsparung: 285 kg/Laptop</li>
+              <li>Reuse-Rate: 75%</li>
+              <li>Trainings-Erfolgsquote: 90%</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer Info -->
+      <section class="content-section">
+        <div class="alert-box info">
+          <strong>Quellen & Methodik</strong><br>
+          Alle Informationen wurden am 5. Februar 2026 direkt von den offiziellen Stiftungs-Websites verifiziert.
+          Deadlines und Anforderungen können sich ändern - vor jeder Bewerbung den aktuellen Stand auf der verlinkten Website prüfen.
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="main-footer no-print">
+      <p>Das Hirn © 2026 - Revamp-IT Fundraising</p>
+      <div class="footer-links">
+        <a href="index.html">Zurück zu Fundraising</a>
+        <a href="../../index.html">Dashboard</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

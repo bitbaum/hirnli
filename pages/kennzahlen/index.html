@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kennzahlen – Das Hirn</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    /* Hero */
+    .kpi-hero {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+    }
+    .kpi-hero h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.75rem;
+    }
+    .kpi-hero .subtitle {
+      opacity: 0.9;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+    .hero-stat {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+    }
+    .hero-stat .number {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    .hero-stat .label {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      margin-top: 0.25rem;
+    }
+
+    /* Data coverage visualization */
+    .coverage-section {
+      margin-bottom: 2rem;
+    }
+    .coverage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    .coverage-card {
+      background: white;
+      border: 2px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .coverage-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .coverage-card.has-data { border-color: #10b981; background: #ecfdf5; }
+    .coverage-card.estimated { border-color: #f59e0b; background: #fffbeb; }
+    .coverage-card.no-data { border-color: #e5e7eb; background: #f9fafb; }
+    .coverage-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .coverage-card .name { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .coverage-card .count { font-size: 0.75rem; color: var(--color-text-muted); }
+    .coverage-card .status {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      display: inline-block;
+    }
+    .coverage-card.has-data .status { background: #10b981; color: white; }
+    .coverage-card.estimated .status { background: #f59e0b; color: white; }
+    .coverage-card.no-data .status { background: #9ca3af; color: white; }
+
+    /* Chart containers */
+    .chart-container {
+      position: relative;
+      height: 280px;
+      margin: 1rem 0;
+    }
+    .chart-container.small { height: 200px; }
+
+    /* KPI Cards enhanced */
+    .kpi-dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .kpi-tile {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .kpi-tile:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .kpi-tile .badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      font-size: 0.6rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .kpi-tile .badge.live { background: #d1fae5; color: #065f46; }
+    .kpi-tile .badge.derived { background: #fef3c7; color: #92400e; }
+    .kpi-tile .badge.estimated { background: #fee2e2; color: #991b1b; }
+    .kpi-tile .badge.missing { background: #e5e7eb; color: #6b7280; }
+    .kpi-tile .label {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .kpi-tile .value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .kpi-tile .value.primary { color: var(--color-primary); }
+    .kpi-tile .value.success { color: #10b981; }
+    .kpi-tile .value.warning { color: #f59e0b; }
+    .kpi-tile .value.muted { color: #9ca3af; }
+    .kpi-tile .target {
+      font-size: 0.7rem;
+      color: var(--color-text-muted);
+      margin-top: 0.25rem;
+    }
+    .kpi-tile .sparkline {
+      height: 30px;
+      margin-top: 0.75rem;
+    }
+
+    /* Dimension sections */
+    .dimension-section {
+      margin-bottom: 2rem;
+      border: 2px solid var(--color-border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .dimension-section.eco { border-color: #10b981; }
+    .dimension-section.social { border-color: #8b5cf6; }
+    .dimension-section.education { border-color: #f59e0b; }
+    .dimension-section.digital { border-color: #06b6d4; }
+    .dimension-section.finance { border-color: #3b82f6; }
+    .dimension-section.operations { border-color: #6b7280; }
+
+    .dimension-header {
+      padding: 1.25rem 1.5rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .dimension-section.eco .dimension-header { background: linear-gradient(135deg, #10b981 0%, #047857 100%); }
+    .dimension-section.social .dimension-header { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+    .dimension-section.education .dimension-header { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    .dimension-section.digital .dimension-header { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); }
+    .dimension-section.finance .dimension-header { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+    .dimension-section.operations .dimension-header { background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); }
+
+    .dimension-header h2 { margin: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .dimension-header .kpi-count {
+      font-size: 0.75rem;
+      background: rgba(255,255,255,0.25);
+      padding: 0.25rem 0.6rem;
+      border-radius: 12px;
+    }
+    .dimension-body { padding: 1.5rem; background: white; }
+
+    /* Data gap alert */
+    .data-gap-alert {
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+    }
+    .data-gap-alert.critical {
+      background: #fee2e2;
+      border-color: #fca5a5;
+    }
+
+    /* Progress bars */
+    .progress-bar {
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .progress-bar .fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    .progress-bar .fill.green { background: #10b981; }
+    .progress-bar .fill.blue { background: #3b82f6; }
+    .progress-bar .fill.orange { background: #f59e0b; }
+    .progress-bar .fill.red { background: #ef4444; }
+
+    /* Insights */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .insight-card {
+      padding: 1.25rem;
+      border-radius: 10px;
+      border-left: 4px solid;
+    }
+    .insight-card.success { background: #ecfdf5; border-color: #10b981; }
+    .insight-card.warning { background: #fffbeb; border-color: #f59e0b; }
+    .insight-card.info { background: #eff6ff; border-color: #3b82f6; }
+    .insight-card.action { background: #fef2f2; border-color: #ef4444; }
+    .insight-card h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .insight-card p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* Action table */
+    .action-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .action-table th, .action-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .action-table th {
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      background: #f8fafc;
+    }
+    .action-table .priority-high { color: #dc2626; font-weight: 600; }
+    .action-table .priority-medium { color: #d97706; }
+    .action-table .priority-low { color: #6b7280; }
+
+    /* Tab navigation */
+    .dimension-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .dimension-tab {
+      padding: 0.6rem 1rem;
+      border: 2px solid var(--color-border);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .dimension-tab:hover { background: #f8fafc; }
+    .dimension-tab.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="../../index.html" class="nav-logo">Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="../../index.html">Home</a></li>
+          <li class="nav-dropdown">
+            <a href="#">Strategie</a>
+            <div class="dropdown-menu">
+              <a href="../strategie/index.html">Vision & Mission</a>
+              <a href="../team/index.html">Team & HR</a>
+              <a href="../operations/index.html">Operations</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#" class="active">Finanzen</a>
+            <div class="dropdown-menu">
+              <a href="../finanzen/index.html">Ubersicht</a>
+              <a href="index.html" class="active">Kennzahlen</a>
+              <a href="../preismodell/index.html">Preismodell</a>
+              <a href="../fundraising/index.html">Fundraising</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Wirkung</a>
+            <div class="dropdown-menu">
+              <a href="../wirkung/index.html">Impact-Zahlen</a>
+              <a href="../methodik/index.html">Methodik</a>
+            </div>
+          </li>
+          <li><a href="../marketing/index.html">Marketing</a></li>
+          <li><a href="../dokumente/index.html">Dokumente</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="page-content">
+      <!-- Hero -->
+      <div class="kpi-hero">
+        <h1>Kennzahlen-Dashboard</h1>
+        <p class="subtitle">28 KPIs uber 6 strategische Dimensionen - Status und Performance auf einen Blick</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="number">28</div>
+            <div class="label">KPIs definiert</div>
+          </div>
+          <div class="hero-stat">
+            <div class="number" id="hero-tracked">6</div>
+            <div class="label">mit Daten</div>
+          </div>
+          <div class="hero-stat">
+            <div class="number" id="hero-coverage">21%</div>
+            <div class="label">Abdeckung</div>
+          </div>
+          <div class="hero-stat">
+            <div class="number">6</div>
+            <div class="label">Dimensionen</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Executive Summary -->
+      <section class="exec-summary">
+        <div class="exec-summary-header">
+          <h2>Zusammenfassung</h2>
+          <span class="badge badge-derived">Stand: Januar 2025</span>
+        </div>
+        <div class="exec-summary-body">
+          <div class="key-finding">
+            <span class="finding-icon">📊</span>
+            <div>
+              <strong>Kernaussage:</strong> Nur 6 von 28 KPIs werden aktuell systematisch getrackt. Die Kernmission (Soziale Integration) hat die grösste Datenlücke.
+            </div>
+          </div>
+          <ul class="findings-list">
+            <li class="finding-positive">Finanz-KPIs (6) vollständig aus Kivitendo verfügbar</li>
+            <li class="finding-warning">Ökologische KPIs (4) nur als Schätzungen aus Umsatzdaten</li>
+            <li class="finding-warning">Soziale Integrations-KPIs (4) – Kernmission – ohne Tracking</li>
+            <li class="finding-action">Priorität: Device-Tracking und Integrations-Tracking einführen</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Data Coverage Overview -->
+      <section class="coverage-section">
+        <h2 class="section-title">Datenabdeckung nach Dimension</h2>
+        <div class="coverage-grid">
+          <div class="coverage-card has-data" onclick="scrollToSection('finance')">
+            <div class="icon">💰</div>
+            <div class="name">Finanziell</div>
+            <div class="count">6 KPIs</div>
+            <span class="status">Live-Daten</span>
+          </div>
+          <div class="coverage-card estimated" onclick="scrollToSection('eco')">
+            <div class="icon">🌍</div>
+            <div class="name">Okologisch</div>
+            <div class="count">4 KPIs</div>
+            <span class="status">Schatzung</span>
+          </div>
+          <div class="coverage-card no-data" onclick="scrollToSection('social')">
+            <div class="icon">🤝</div>
+            <div class="name">Integration</div>
+            <div class="count">4 KPIs</div>
+            <span class="status">Fehlt</span>
+          </div>
+          <div class="coverage-card no-data" onclick="scrollToSection('education')">
+            <div class="icon">📚</div>
+            <div class="name">Bildung</div>
+            <div class="count">3 KPIs</div>
+            <span class="status">Fehlt</span>
+          </div>
+          <div class="coverage-card no-data" onclick="scrollToSection('digital')">
+            <div class="icon">💻</div>
+            <div class="name">Digital</div>
+            <div class="count">2 KPIs</div>
+            <span class="status">Fehlt</span>
+          </div>
+          <div class="coverage-card no-data" onclick="scrollToSection('operations')">
+            <div class="icon">⚙️</div>
+            <div class="name">Operativ</div>
+            <div class="count">4 KPIs</div>
+            <span class="status">Fehlt</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Financial KPIs with Charts (has data!) -->
+      <section class="dimension-section finance" id="finance">
+        <div class="dimension-header">
+          <h2>💰 Finanzielle Nachhaltigkeit</h2>
+          <span class="kpi-count">6 KPIs - Live-Daten</span>
+        </div>
+        <div class="dimension-body">
+          <div class="kpi-dashboard" id="finance-kpis">
+            <div class="loading">Lade Daten...</div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 1.5rem;">
+            <div class="card">
+              <h3 style="font-size: 1rem; margin: 0 0 0.5rem 0;">Einnahmenstruktur 2025</h3>
+              <div class="chart-container small">
+                <canvas id="revenueStructureChart"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <h3 style="font-size: 1rem; margin: 0 0 0.5rem 0;">Monatstrend</h3>
+              <div class="chart-container small">
+                <canvas id="monthlyTrendChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="insights-grid" id="finance-insights">
+            <div class="loading">Analysiere...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ecological KPIs (estimated) -->
+      <section class="dimension-section eco" id="eco">
+        <div class="dimension-header">
+          <h2>🌍 Okologische Wirkung</h2>
+          <span class="kpi-count">4 KPIs - Schatzungen</span>
+        </div>
+        <div class="dimension-body">
+          <div class="data-gap-alert">
+            <strong>⚠️ Schatzungen:</strong> Diese Werte basieren auf Finanzdaten (Warenverkauf / CHF 150).
+            Fur exakte Zahlen: Device-Tracking aktivieren.
+          </div>
+
+          <div class="kpi-dashboard" id="eco-kpis">
+            <div class="loading">Lade Daten...</div>
+          </div>
+
+          <div class="card" style="margin-top: 1.5rem;">
+            <h3 style="font-size: 1rem; margin: 0 0 0.5rem 0;">Geschatzte Umweltwirkung pro Jahr</h3>
+            <div class="chart-container small">
+              <canvas id="ecoImpactChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Social Integration KPIs (missing data) -->
+      <section class="dimension-section social" id="social">
+        <div class="dimension-header">
+          <h2>🤝 Soziale Integration</h2>
+          <span class="kpi-count">4 KPIs - Kernmission</span>
+        </div>
+        <div class="dimension-body">
+          <div class="data-gap-alert critical">
+            <strong>⚠️ Kritische Datenlucke:</strong> Diese KPIs messen unsere Kernmission -
+            die Reintegration von Menschen aus schwierigen Situationen. Datenerfassung hat hochste Prioritat!
+          </div>
+
+          <div class="kpi-dashboard">
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Aktive Teilnehmende</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 2-4/Monat</div>
+            </div>
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Integrationsstunden</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 150-300 Std./Monat</div>
+            </div>
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Skill-Entwicklung</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 3.5 (1-5 Skala)</div>
+            </div>
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Erfolgsquote</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: <span class="inspectable" onclick="inspectNumber('erfolgsquote_40', '40%', 'Erfolgsquote Reintegration')">40%</span></div>
+            </div>
+          </div>
+
+          <div style="background: #f3e8ff; border: 1px solid #c4b5fd; border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+            <strong>Historische Wirkung (seit 2009):</strong>
+            <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.85rem;">
+              <li><strong><span class="inspectable" onclick="inspectNumber('praktikanten_100', '100+', 'Praktikant:innen seit 2009')">100+</span> Praktikant:innen</strong> begleitet</li>
+              <li><strong><span class="inspectable" onclick="inspectNumber('erfolgsquote_40', '~40%', 'Erfolgsquote Reintegration')">~40%</span></strong> mit erfolgreicher Anschlusslosung</li>
+              <li><strong><span class="inspectable" onclick="inspectNumber('plaetze_8_10', '8-10', 'Verfügbare Plätze')">8-10 Platze</span></strong> gleichzeitig verfugbar</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education KPIs -->
+      <section class="dimension-section education" id="education">
+        <div class="dimension-header">
+          <h2>📚 Bildung & Kompetenzaufbau</h2>
+          <span class="kpi-count">3 KPIs</span>
+        </div>
+        <div class="dimension-body">
+          <div class="kpi-dashboard">
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Workshops durchgefuhrt</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 1-2/Monat</div>
+            </div>
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Teilnehmende</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 15-25/Monat</div>
+            </div>
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Lernstunden vermittelt</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 30-60 Std./Monat</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Digital Sovereignty KPIs -->
+      <section class="dimension-section digital" id="digital">
+        <div class="dimension-header">
+          <h2>💻 Digitale Souveranitat</h2>
+          <span class="kpi-count">2 KPIs</span>
+        </div>
+        <div class="dimension-body">
+          <div class="kpi-dashboard">
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Linux-Installationen</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 20-25/Monat</div>
+            </div>
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Aktive Linux-Nutzer</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 40/Monat</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Operations KPIs -->
+      <section class="dimension-section operations" id="operations">
+        <div class="dimension-header">
+          <h2>⚙️ Operative Exzellenz</h2>
+          <span class="kpi-count">4 KPIs</span>
+        </div>
+        <div class="dimension-body">
+          <div class="kpi-dashboard">
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Gerateeingang</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 40-60/Monat</div>
+            </div>
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Ø Lagerdauer</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: ≤30 Tage</div>
+            </div>
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Verarbeitungsquote</div>
+              <div class="value muted">?</div>
+              <div class="target">Ziel: 80%</div>
+            </div>
+            <div class="kpi-tile">
+              <span class="badge missing">Fehlt</span>
+              <div class="label">Lagerbestand</div>
+              <div class="value muted">?</div>
+              <div class="target">Optimal: 50-100</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Action Plan -->
+      <section class="content-section">
+        <h2 class="section-title">Aktionsplan: Datenabdeckung erhohen</h2>
+        <div class="card">
+          <table class="action-table">
+            <thead>
+              <tr>
+                <th>Prioritat</th>
+                <th>Massnahme</th>
+                <th>Betroffene KPIs</th>
+                <th>Verantwortlich</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="priority-high">HOCH</td>
+                <td>Teilhabe-Tracking aktivieren (03_Teilhabe_Reintegration_Tracking.csv)</td>
+                <td>4 Integration-KPIs</td>
+                <td>HR/Veronica</td>
+              </tr>
+              <tr>
+                <td class="priority-high">HOCH</td>
+                <td>Device-Outcome-Tracking einfuhren (01_Device_Outcome_Tracking.csv)</td>
+                <td>4 Oko + 4 Ops-KPIs</td>
+                <td>Operations</td>
+              </tr>
+              <tr>
+                <td class="priority-medium">MITTEL</td>
+                <td>Workshop-Tracking starten (04_Workshop_Tracking.csv)</td>
+                <td>3 Bildungs-KPIs</td>
+                <td>Events</td>
+              </tr>
+              <tr>
+                <td class="priority-low">NIEDRIG</td>
+                <td>Linux-Nutzung im Device-Tracking erfassen</td>
+                <td>2 Digital-KPIs</td>
+                <td>Tech</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <!-- First Principles Recommendations -->
+      <section class="first-principles content-section">
+        <h2>Handlungsempfehlungen (First Principles)</h2>
+        <div class="principle-card">
+          <div class="principle-header">
+            <span class="principle-icon">📊</span>
+            <h3>Messbare Wirkung</h3>
+          </div>
+          <p class="principle-goal">Ziel: Alle 28 KPIs mit mindestens 75% Datenabdeckung</p>
+          <div class="principle-constraints">
+            <strong>Constraints:</strong> Manuelle Erfassung aufwändig, bestehende Systeme nicht integriert
+          </div>
+          <div class="recommendations">
+            <div class="rec-item rec-high">
+              <span class="priority">HOCH</span>
+              <span class="action">Integrations-Tracking aktivieren (CSV: 03_Teilhabe_Reintegration_Tracking.csv)</span>
+              <span class="impact">→ Misst Kernmission: 4 KPIs</span>
+            </div>
+            <div class="rec-item rec-high">
+              <span class="priority">HOCH</span>
+              <span class="action">Device-Outcome-Tracking einführen</span>
+              <span class="impact">→ Ermöglicht 8 KPIs (Öko + Ops)</span>
+            </div>
+            <div class="rec-item rec-medium">
+              <span class="priority">MITTEL</span>
+              <span class="action">Workshop-Tracking starten</span>
+              <span class="impact">→ 3 Bildungs-KPIs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Downloads Section -->
+      <section class="downloads-section content-section">
+        <h2>Downloads</h2>
+        <p class="text-muted mb-4">Quelldateien zum Herunterladen</p>
+        <div class="downloads-grid">
+          <a href="../../../01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx" class="download-card" download>
+            <span class="download-icon">📊</span>
+            <div class="download-info">
+              <strong>Einnahmen 2025</strong>
+              <span class="download-meta">Excel · 25 KB · Basis für Finanz-KPIs</span>
+            </div>
+            <span class="download-arrow">↓</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Inspection Modal -->
+    <div class="modal-overlay" id="inspection-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title">Quelle & Details</h3>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body"></div>
+      </div>
+    </div>
+
+    <footer class="main-footer">
+      <p>Das Hirn - Transparentes Dashboard fur Revamp-IT</p>
+    </footer>
+  </div>
+
+  <script src="../../assets/js/utils.js"></script>
+  <script src="../../assets/js/data-loader.js"></script>
+  <script>
+    let charts = {};
+
+    Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const income = await DataLoader.loadIncome(2025);
+        renderFinanceKPIs(income);
+        renderRevenueStructureChart(income);
+        renderMonthlyTrendChart(income);
+        renderFinanceInsights(income);
+        renderEcoKPIs(income);
+        renderEcoImpactChart(income);
+      } catch (error) {
+        console.error('KPI-Fehler:', error);
+      }
+    });
+
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function renderFinanceKPIs(income) {
+      const container = document.getElementById('finance-kpis');
+      const data = income.getValidRows();
+
+      const yearTotal = data.sum('total');
+      const warenverkauf = data.sum('warenverkauf');
+      const dienstleistungen = data.sum('dienstleistungen');
+      const spenden = data.sum('spenden') + data.sum('aufstockung');
+      const earned = warenverkauf + dienstleistungen + data.sum('integration');
+      const selfFinancing = yearTotal > 0 ? earned / yearTotal : 0;
+      const monthCount = data.count();
+      const monthlyAvg = monthCount > 0 ? yearTotal / monthCount : 0;
+
+      // Progress bar color based on self-financing
+      const sfColor = selfFinancing >= 0.7 ? 'green' : selfFinancing >= 0.5 ? 'orange' : 'red';
+
+      container.innerHTML = `
+        <div class="kpi-tile">
+          <span class="badge live">Live</span>
+          <div class="label">Gesamteinnahmen 2025</div>
+          <div class="value primary">${Utils.formatCHF(yearTotal)}</div>
+          <div class="target">${monthCount} Monate erfasst</div>
+        </div>
+        <div class="kpi-tile">
+          <span class="badge live">Live</span>
+          <div class="label">Warenverkauf</div>
+          <div class="value">${Utils.formatCHF(warenverkauf)}</div>
+          <div class="target">${Utils.formatPercent(yearTotal > 0 ? warenverkauf/yearTotal : 0)} vom Total</div>
+          <div class="progress-bar"><div class="fill blue" style="width: ${yearTotal > 0 ? warenverkauf/yearTotal*100 : 0}%"></div></div>
+        </div>
+        <div class="kpi-tile">
+          <span class="badge live">Live</span>
+          <div class="label">Dienstleistungen</div>
+          <div class="value">${Utils.formatCHF(dienstleistungen)}</div>
+          <div class="target">${Utils.formatPercent(yearTotal > 0 ? dienstleistungen/yearTotal : 0)} vom Total</div>
+          <div class="progress-bar"><div class="fill blue" style="width: ${yearTotal > 0 ? dienstleistungen/yearTotal*100 : 0}%"></div></div>
+        </div>
+        <div class="kpi-tile">
+          <span class="badge derived">Berechnet</span>
+          <div class="label">Eigenfinanzierung</div>
+          <div class="value ${selfFinancing >= 0.7 ? 'success' : selfFinancing >= 0.5 ? 'warning' : ''}">${Utils.formatPercent(selfFinancing)}</div>
+          <div class="target">Ziel: 85%</div>
+          <div class="progress-bar"><div class="fill ${sfColor}" style="width: ${selfFinancing*100}%"></div></div>
+        </div>
+        <div class="kpi-tile">
+          <span class="badge derived">Berechnet</span>
+          <div class="label">Monatsdurchschnitt</div>
+          <div class="value">${Utils.formatCHF(monthlyAvg)}</div>
+          <div class="target">Ziel: CHF 8-12k</div>
+        </div>
+        <div class="kpi-tile">
+          <span class="badge live">Live</span>
+          <div class="label">Spenden & Aufstockung</div>
+          <div class="value">${Utils.formatCHF(spenden)}</div>
+          <div class="target">${Utils.formatPercent(yearTotal > 0 ? spenden/yearTotal : 0)} vom Total</div>
+        </div>
+      `;
+    }
+
+    function renderRevenueStructureChart(income) {
+      const ctx = document.getElementById('revenueStructureChart').getContext('2d');
+      const data = income.getValidRows();
+
+      if (charts.structure) charts.structure.destroy();
+
+      const values = [
+        data.sum('warenverkauf'),
+        data.sum('dienstleistungen'),
+        data.sum('integration'),
+        data.sum('spenden') + data.sum('aufstockung')
+      ];
+
+      charts.structure = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Warenverkauf', 'Dienstleistungen', 'Integration', 'Spenden'],
+          datasets: [{
+            data: values,
+            backgroundColor: ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981'],
+            borderWidth: 2,
+            borderColor: '#fff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } },
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                  const pct = total > 0 ? (ctx.raw / total * 100).toFixed(1) : 0;
+                  return `${ctx.label}: ${Utils.formatCHF(ctx.raw)} (${pct}%)`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderMonthlyTrendChart(income) {
+      const ctx = document.getElementById('monthlyTrendChart').getContext('2d');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+
+      if (charts.trend) charts.trend.destroy();
+
+      const labels = rows.map(r => Utils.formatMonthShort(r.period));
+      const totals = rows.map(r => r.total || 0);
+
+      charts.trend = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Monatsumsatz',
+            data: totals,
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => Utils.formatCHF(ctx.raw)
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { callback: val => Utils.formatCHF(val), font: { size: 10 } }
+            },
+            x: { ticks: { font: { size: 10 } } }
+          }
+        }
+      });
+    }
+
+    function renderFinanceInsights(income) {
+      const container = document.getElementById('finance-insights');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+      const insights = [];
+
+      const total = data.sum('total');
+      const earned = data.sum('warenverkauf') + data.sum('dienstleistungen') + data.sum('integration');
+      const selfFinancing = total > 0 ? earned / total : 0;
+
+      if (selfFinancing >= 0.7) {
+        insights.push({
+          type: 'success',
+          icon: '✓',
+          title: 'Hohe Eigenfinanzierung',
+          text: `${Utils.formatPercent(selfFinancing)} der Einnahmen werden selbst erwirtschaftet - uberdurchschnittlich fur Non-Profits.`
+        });
+      } else if (selfFinancing < 0.5) {
+        insights.push({
+          type: 'warning',
+          icon: '⚠',
+          title: 'Spendenabhangigkeit',
+          text: `Nur ${Utils.formatPercent(selfFinancing)} Eigenfinanzierung. Diversifizierung empfohlen.`
+        });
+      }
+
+      // Trend
+      if (rows.length >= 4) {
+        const recent = rows.slice(-3);
+        const earlier = rows.slice(0, 3);
+        const recentAvg = recent.reduce((a, r) => a + (r.total || 0), 0) / 3;
+        const earlierAvg = earlier.reduce((a, r) => a + (r.total || 0), 0) / 3;
+        const trend = earlierAvg > 0 ? (recentAvg - earlierAvg) / earlierAvg : 0;
+
+        if (trend > 0.1) {
+          insights.push({ type: 'success', icon: '📈', title: 'Positiver Trend', text: `+${Utils.formatPercent(trend)} in den letzten 3 Monaten vs. Jahresbeginn.` });
+        } else if (trend < -0.1) {
+          insights.push({ type: 'action', icon: '📉', title: 'Negativer Trend', text: `${Utils.formatPercent(trend)} in den letzten 3 Monaten. Analyse empfohlen.` });
+        }
+      }
+
+      // Best month
+      if (rows.length > 0) {
+        const best = rows.reduce((a, b) => (b.total || 0) > (a.total || 0) ? b : a);
+        insights.push({ type: 'info', icon: '🏆', title: 'Starkster Monat', text: `${Utils.formatMonthShort(best.period)} mit ${Utils.formatCHF(best.total)}` });
+      }
+
+      container.innerHTML = insights.map(i => `
+        <div class="insight-card ${i.type}">
+          <h4>${i.icon} ${i.title}</h4>
+          <p>${i.text}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderEcoKPIs(income) {
+      const container = document.getElementById('eco-kpis');
+      const data = income.getValidRows();
+      const warenverkauf = data.sum('warenverkauf');
+      const deviceEstimate = Math.round(warenverkauf / 150);
+
+      const co2 = deviceEstimate * 300 / 1000; // tonnes
+      const weight = deviceEstimate * 5; // kg
+      const years = deviceEstimate * 4; // extended life
+
+      container.innerHTML = `
+        <div class="kpi-tile">
+          <span class="badge estimated">Schatzung</span>
+          <div class="label">Gerate gerettet</div>
+          <div class="value success">~${deviceEstimate}</div>
+          <div class="target">Ziel: 300-420/Jahr</div>
+        </div>
+        <div class="kpi-tile">
+          <span class="badge estimated">Schatzung</span>
+          <div class="label">CO₂ vermieden</div>
+          <div class="value success">~${Utils.formatNumber(co2, 1)} t</div>
+          <div class="target">Ziel: 72-108 t/Jahr</div>
+        </div>
+        <div class="kpi-tile">
+          <span class="badge estimated">Schatzung</span>
+          <div class="label">E-Waste vermieden</div>
+          <div class="value success">~${Utils.formatNumber(weight)} kg</div>
+          <div class="target">Ziel: 1.5-2.1 t/Jahr</div>
+        </div>
+        <div class="kpi-tile">
+          <span class="badge estimated">Schatzung</span>
+          <div class="label">Lebensjahre verlangert</div>
+          <div class="value success">~${Utils.formatNumber(years)} J.</div>
+          <div class="target">3-5 Jahre pro Gerat</div>
+        </div>
+      `;
+    }
+
+    function renderEcoImpactChart(income) {
+      const ctx = document.getElementById('ecoImpactChart').getContext('2d');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+
+      if (charts.eco) charts.eco.destroy();
+
+      const labels = rows.map(r => Utils.formatMonthShort(r.period));
+      const devices = rows.map(r => Math.round((r.warenverkauf || 0) / 150));
+      const co2 = devices.map(d => d * 0.3); // tonnes
+
+      charts.eco = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Gerate gerettet',
+              data: devices,
+              backgroundColor: '#10b981',
+              borderRadius: 4,
+              yAxisID: 'y'
+            },
+            {
+              label: 'CO₂ vermieden (t)',
+              data: co2,
+              type: 'line',
+              borderColor: '#06b6d4',
+              backgroundColor: 'transparent',
+              tension: 0.3,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } }
+          },
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left',
+              beginAtZero: true,
+              title: { display: true, text: 'Gerate', font: { size: 10 } },
+              ticks: { font: { size: 10 } }
+            },
+            y1: {
+              type: 'linear',
+              position: 'right',
+              beginAtZero: true,
+              grid: { drawOnChartArea: false },
+              title: { display: true, text: 'CO₂ (t)', font: { size: 10 } },
+              ticks: { font: { size: 10 } }
+            },
+            x: { ticks: { font: { size: 10 } } }
+          }
+        }
+      });
+    }
+
+    // Number Source Database
+    const NumberSources = {
+      erfolgsquote_40: {
+        name: 'Erfolgsquote Reintegration',
+        value: '~40%',
+        type: 'target',
+        source: 'KPI Framework Definition',
+        sourcePath: '01_Management/C_Kennzahlen_und_Reporting/README.md',
+        formula: 'COUNTIF(Reintegration_Erfolg ∈ ["Ja - Festanstellung", "Ja - Ausbildung", "Ja - Selbständigkeit"]) ÷ COUNT(Follow_up_Datum) × 100',
+        dataSource: '03_Teilhabe_Reintegration_Tracking.csv',
+        description: 'Zielwert für erfolgreiche Wiedereingliederungen. Follow-up 6-12 Monate nach Programmabschluss. Erfolgreich = Festanstellung, Ausbildung oder Selbständigkeit.',
+        link: '../../../01_Management/C_Kennzahlen_und_Reporting/README.md#reintegration-success-erfolgsquote',
+        confidence: 'target'
+      },
+      praktikanten_100: {
+        name: 'Praktikant:innen seit 2009',
+        value: '100+',
+        type: 'historical',
+        source: 'Historische Schätzung',
+        description: 'Geschätzte Anzahl Praktikant:innen seit Gründung 2009. Exakte Zahl nicht systematisch erfasst.',
+        confidence: 'low'
+      },
+      plaetze_8_10: {
+        name: 'Verfügbare Integrationsplätze',
+        value: '8-10',
+        type: 'capacity',
+        source: 'Kapazitätsplanung',
+        description: 'Anzahl gleichzeitig verfügbarer Integrationsplätze für Praktikant:innen.',
+        confidence: 'medium'
+      }
+    };
+
+    function inspectNumber(key, displayValue, title) {
+      const info = NumberSources[key];
+      if (!info) {
+        alert(`Quelle für "${displayValue}" wird noch dokumentiert.`);
+        return;
+      }
+
+      document.getElementById('modal-title').textContent = title || info.name;
+      
+      let html = `
+        <div class="modal-section">
+          <h4>Wert</h4>
+          <div class="modal-value">${displayValue || info.value}</div>
+          <span class="badge ${info.confidence === 'target' ? 'derived' : info.confidence === 'low' ? 'missing' : 'live'}" style="margin-top: 0.5rem;">
+            ${info.confidence === 'target' ? 'Zielwert' : info.confidence === 'low' ? 'Schätzung' : 'Quelldaten'}
+          </span>
+        </div>
+        <div class="modal-section">
+          <h4>Datenquelle</h4>
+          <div class="source-path">
+            ${info.sourcePath ? `📁 ${info.sourcePath}<br>` : ''}
+            ${info.dataSource ? `📊 ${info.dataSource}<br>` : ''}
+            ${info.source || 'Nicht spezifiziert'}
+          </div>
+        </div>
+      `;
+
+      if (info.formula) {
+        html += `
+          <div class="modal-section">
+            <h4>Berechnungsformel</h4>
+            <div style="background: #f0f9ff; padding: 0.75rem; border-radius: 6px; font-family: monospace; font-size: 0.9rem;">
+              ${info.formula}
+            </div>
+          </div>
+        `;
+      }
+
+      if (info.description) {
+        html += `
+          <div class="modal-section">
+            <h4>Beschreibung</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6;">${info.description}</p>
+          </div>
+        `;
+      }
+
+      if (info.link) {
+        html += `
+          <div class="modal-section">
+            <h4>Weitere Informationen</h4>
+            <a href="${info.link}" target="_blank" style="color: var(--color-primary); text-decoration: underline;">
+              → Zur vollständigen Dokumentation
+            </a>
+          </div>
+        `;
+      }
+
+      document.getElementById('modal-body').innerHTML = html;
+      document.getElementById('inspection-modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('inspection-modal').classList.remove('active');
+    }
+
+    // Close modal on outside click
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('inspection-modal');
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target.classList.contains('modal-overlay')) closeModal();
+        });
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokumente – Das Hirn</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    /* Document Cards */
+    .doc-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-top: 4px solid var(--color-primary);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .doc-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .doc-card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .doc-card .doc-icon {
+      font-size: 1.5rem;
+    }
+    .doc-card .description {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+    }
+    .doc-card .audience {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.75rem;
+    }
+    .doc-card .formats {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .format-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background: var(--color-bg-light);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .format-badge--pdf { background: #fee2e2; color: #991b1b; }
+    .format-badge--md { background: #dbeafe; color: #1e40af; }
+    .format-badge--html { background: #d1fae5; color: #065f46; }
+    .format-badge--pptx { background: #fef3c7; color: #92400e; }
+
+    /* Audience Tags */
+    .audience-tag {
+      display: inline-block;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-right: 0.25rem;
+    }
+    .audience-tag--internal { background: #eff6ff; color: #1e40af; }
+    .audience-tag--funder { background: #f0fdf4; color: #065f46; }
+    .audience-tag--public { background: #fef3c7; color: #92400e; }
+
+    /* Generator Section */
+    .generator-section {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .generator-section h2 {
+      margin: 0 0 1rem 0;
+      color: var(--color-primary);
+    }
+
+    /* Category Headers */
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .category-header .icon {
+      font-size: 2rem;
+    }
+    .category-header h2 {
+      margin: 0;
+    }
+
+    /* Status Badge */
+    .status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .status-badge--ready { background: #d1fae5; color: #065f46; }
+    .status-badge--wip { background: #fef3c7; color: #92400e; }
+    .status-badge--planned { background: #f3f4f6; color: #6b7280; }
+
+    /* Quick Links */
+    .quick-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .quick-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      color: var(--color-text);
+      transition: all 0.2s;
+    }
+    .quick-link:hover {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    /* Print Styles for generated documents */
+    @media print {
+      .main-nav, .main-footer, .generator-section {
+        display: none !important;
+      }
+      .page-wrapper {
+        padding: 0;
+      }
+      .page-content {
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="../../index.html" class="nav-logo">Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="../../index.html">Home</a></li>
+          <li class="nav-dropdown">
+            <a href="#">Strategie</a>
+            <div class="dropdown-menu">
+              <a href="../strategie/index.html">Vision & Mission</a>
+              <a href="../team/index.html">Team & HR</a>
+              <a href="../operations/index.html">Operations</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Finanzen</a>
+            <div class="dropdown-menu">
+              <a href="../finanzen/index.html">Übersicht</a>
+              <a href="../kennzahlen/index.html">Kennzahlen</a>
+              <a href="../preismodell/index.html">Preismodell</a>
+              <a href="../fundraising/index.html">Fundraising</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Wirkung</a>
+            <div class="dropdown-menu">
+              <a href="../wirkung/index.html">Impact-Zahlen</a>
+              <a href="../methodik/index.html">Methodik</a>
+            </div>
+          </li>
+          <li><a href="../marketing/index.html">Marketing</a></li>
+          <li><a href="index.html" class="active">Dokumente</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+      <!-- Header -->
+      <header class="page-header">
+        <h1>Dokument-Generator</h1>
+        <p class="page-subtitle">Generiere Berichte, Präsentationen und One-Pager aus aktuellen Daten</p>
+      </header>
+
+      <!-- Quick Generator -->
+      <section class="generator-section">
+        <h2>🚀 Schnell-Generierung</h2>
+        <p style="margin-bottom: 1rem;">Wähle einen Dokumenttyp und generiere ihn mit aktuellen Daten:</p>
+        <div class="quick-links">
+          <a href="#" class="quick-link" onclick="alert('Feature in Entwicklung: Impact One-Pager wird generiert...')">
+            📄 Impact One-Pager (PDF)
+          </a>
+          <a href="#" class="quick-link" onclick="alert('Feature in Entwicklung: Finanzbericht wird generiert...')">
+            📊 Finanzbericht Q4/2025
+          </a>
+          <a href="#" class="quick-link" onclick="window.print()">
+            🖨️ Diese Seite drucken
+          </a>
+          <a href="../wirkung/index.html" class="quick-link">
+            🌍 Wirkungsbericht anzeigen
+          </a>
+          <a href="../fundraising/index.html" class="quick-link">
+            💰 Fundraising-Übersicht
+          </a>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 1rem;">
+          <strong>Tipp:</strong> Alle Seiten des Hirn-Dashboards können direkt gedruckt oder als PDF gespeichert werden (Strg/Cmd + P)
+        </p>
+      </section>
+
+      <!-- Für Funder -->
+      <section class="content-section">
+        <div class="category-header">
+          <span class="icon">💰</span>
+          <h2>Für Funder & Stiftungen</h2>
+        </div>
+        <div class="grid-3">
+          <div class="doc-card" onclick="window.location='../wirkung/index.html'">
+            <h3><span class="doc-icon">🌍</span> Wirkungsbericht</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">Vollständiger Impact-Report mit CO2-Ersparnis, Geräten gerettet und sozialer Wirkung</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--funder">Funder</span>
+              <span class="audience-tag audience-tag--public">Öffentlich</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+              <span class="format-badge format-badge--pdf">PDF (Print)</span>
+            </div>
+          </div>
+
+          <div class="doc-card" onclick="window.location='../fundraising/index.html'">
+            <h3><span class="doc-icon">📋</span> Fundraising-Pitch</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">Fördermöglichkeiten, Verwendungszwecke und konkrete Bedarfe</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--funder">Funder</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+              <span class="format-badge format-badge--pdf">PDF (Print)</span>
+            </div>
+          </div>
+
+          <div class="doc-card" style="opacity: 0.7;">
+            <h3><span class="doc-icon">📄</span> One-Pager</h3>
+            <span class="status-badge status-badge--wip">In Entwicklung</span>
+            <p class="description">Kompakte Zusammenfassung auf einer Seite - ideal für Erstkontakte</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--funder">Funder</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--pdf">PDF</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Finanzen -->
+      <section class="content-section">
+        <div class="category-header">
+          <span class="icon">📊</span>
+          <h2>Finanzberichte</h2>
+        </div>
+        <div class="grid-3">
+          <div class="doc-card" onclick="window.location='../../index.html'">
+            <h3><span class="doc-icon">📈</span> Einnahmen-Dashboard</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">Monatliche Einnahmen nach Kategorie mit Quellennachweis</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+              <span class="audience-tag audience-tag--funder">Funder</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+            </div>
+          </div>
+
+          <div class="doc-card" onclick="window.location='../finanzen/index.html'">
+            <h3><span class="doc-icon">💵</span> Finanzübersicht</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">Detaillierte Finanzanalyse mit Trends und Vergleichen</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+            </div>
+          </div>
+
+          <div class="doc-card" style="opacity: 0.7;">
+            <h3><span class="doc-icon">📑</span> Jahresabschluss</h3>
+            <span class="status-badge status-badge--planned">Geplant</span>
+            <p class="description">Vollständiger Jahresfinanzbericht für Steuern und GV</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--pdf">PDF</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Operations -->
+      <section class="content-section">
+        <div class="category-header">
+          <span class="icon">⚙️</span>
+          <h2>Operations & Prozesse</h2>
+        </div>
+        <div class="grid-3">
+          <div class="doc-card" onclick="window.location='../operations/index.html'">
+            <h3><span class="doc-icon">🔧</span> Refurbishment SOP</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">Standard Operating Procedures für den Refurbishment-Prozess</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+              <span class="format-badge format-badge--md">Markdown</span>
+            </div>
+          </div>
+
+          <div class="doc-card" onclick="window.location='../kennzahlen/index.html'">
+            <h3><span class="doc-icon">📊</span> KPI-Dashboard</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">28 KPIs über 6 Dimensionen mit Zielen und Status</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+            </div>
+          </div>
+
+          <div class="doc-card" onclick="window.location='../preismodell/index.html'">
+            <h3><span class="doc-icon">💲</span> Preismodell</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">Solidarisches 4-Stufen-Preismodell mit Beispielen</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+              <span class="audience-tag audience-tag--public">Öffentlich</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Strategie & Team -->
+      <section class="content-section">
+        <div class="category-header">
+          <span class="icon">🎯</span>
+          <h2>Strategie & Team</h2>
+        </div>
+        <div class="grid-3">
+          <div class="doc-card" onclick="window.location='../strategie/index.html'">
+            <h3><span class="doc-icon">🧭</span> Mission & Vision</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">Mission Statement, Vision 2030, Werte und SDG-Alignment</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--public">Öffentlich</span>
+              <span class="audience-tag audience-tag--funder">Funder</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+            </div>
+          </div>
+
+          <div class="doc-card" onclick="window.location='../team/index.html'">
+            <h3><span class="doc-icon">👥</span> Team-Übersicht</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">Organisationsstruktur, Team-Mitglieder und Kapazitäten</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+            </div>
+          </div>
+
+          <div class="doc-card" style="opacity: 0.7;">
+            <h3><span class="doc-icon">📽️</span> Pitch Deck</h3>
+            <span class="status-badge status-badge--planned">Geplant</span>
+            <p class="description">Präsentationsfolien für Vorstellungen und Pitches</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--funder">Funder</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--pptx">PPTX</span>
+              <span class="format-badge format-badge--pdf">PDF</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Methodik -->
+      <section class="content-section">
+        <div class="category-header">
+          <span class="icon">📐</span>
+          <h2>Methodik & Dokumentation</h2>
+        </div>
+        <div class="grid-3">
+          <div class="doc-card" onclick="window.location='../methodik/index.html'">
+            <h3><span class="doc-icon">📏</span> Methodikdokumentation</h3>
+            <span class="status-badge status-badge--ready">Verfügbar</span>
+            <p class="description">Berechnungsgrundlagen für alle Metriken und Schätzungen</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+              <span class="audience-tag audience-tag--funder">Funder</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+            </div>
+          </div>
+
+          <div class="doc-card" style="opacity: 0.7;">
+            <h3><span class="doc-icon">🗄️</span> Datenarchitektur</h3>
+            <span class="status-badge status-badge--wip">In Entwicklung</span>
+            <p class="description">Dokumentation des Datenflusses und der Systemarchitektur</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--md">Markdown</span>
+            </div>
+          </div>
+
+          <div class="doc-card" style="opacity: 0.7;">
+            <h3><span class="doc-icon">📚</span> API-Dokumentation</h3>
+            <span class="status-badge status-badge--planned">Geplant</span>
+            <p class="description">Technische Dokumentation für Daten-Exports und Integrationen</p>
+            <p class="audience">
+              <span class="audience-tag audience-tag--internal">Intern</span>
+            </p>
+            <div class="formats">
+              <span class="format-badge format-badge--html">HTML</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quelldokumente -->
+      <section class="content-section">
+        <h2 class="section-title">Quelldokumente (Markdown)</h2>
+        <div class="card">
+          <p style="margin-bottom: 1rem;">
+            Alle Dashboard-Inhalte basieren auf strukturierten Markdown-Dokumenten im <code>Revamp-Hirn</code> Repository.
+            Diese können direkt bearbeitet werden.
+          </p>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Dokument</th>
+                <th>Pfad</th>
+                <th>Verwendet in</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Mission & Vision</td>
+                <td><code>A_Strategie/Mission_Vision_Statement.md</code></td>
+                <td>Strategie-Seite</td>
+              </tr>
+              <tr>
+                <td>Finanzstrategie</td>
+                <td><code>B_Finanzen/Finanzstrategie_2025.md</code></td>
+                <td>Finanzen, Preismodell</td>
+              </tr>
+              <tr>
+                <td>HR-Übersicht</td>
+                <td><code>E_Personal/HR_Uebersicht.md</code></td>
+                <td>Team-Seite</td>
+              </tr>
+              <tr>
+                <td>Refurbishment SOP</td>
+                <td><code>G_Operations/Refurbishment/Standard_Operating_Procedure.md</code></td>
+                <td>Operations-Seite</td>
+              </tr>
+              <tr>
+                <td>Preismodell</td>
+                <td><code>B_Finanzen/Preismodell_Solidaritaet.md</code></td>
+                <td>Preismodell-Seite</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Roadmap -->
+      <section class="content-section">
+        <h2 class="section-title">Geplante Features</h2>
+        <div class="card">
+          <h3>Dokumenten-Generator Roadmap</h3>
+          <ul style="padding-left: 1.25rem;">
+            <li style="margin-bottom: 0.75rem;">
+              <strong>Phase 1 (Aktuell):</strong> Statische HTML-Seiten, druckbar als PDF
+            </li>
+            <li style="margin-bottom: 0.75rem;">
+              <strong>Phase 2:</strong> One-Click PDF-Export mit korrektem Layout
+            </li>
+            <li style="margin-bottom: 0.75rem;">
+              <strong>Phase 3:</strong> Automatische Befüllung von Templates (One-Pager, Pitch Deck)
+            </li>
+            <li style="margin-bottom: 0.75rem;">
+              <strong>Phase 4:</strong> Zeitraum-Filter (Q1, Q2, Jahresbericht)
+            </li>
+            <li>
+              <strong>Phase 5:</strong> Multi-Format Export (DOCX, PPTX, Markdown)
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p>Das Hirn &copy; 2025 - Transparentes Dashboard für Revamp-IT</p>
+      <div class="footer-links">
+        <a href="../../CLAUDE.md">Entwicklungsrichtlinien</a>
+        <a href="../../01_Management/B_Finanzen/DATA_ARCHITECTURE.md">Datenarchitektur</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

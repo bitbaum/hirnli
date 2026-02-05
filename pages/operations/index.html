@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operations – Das Hirn</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    /* Data Type Badges */
+    .data-type {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .data-type--source { background: #d1fae5; color: #065f46; }
+    .data-type--sop { background: #dbeafe; color: #1e40af; }
+    .data-type--kpi { background: #fef3c7; color: #92400e; }
+
+    /* Process Flow */
+    .process-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1.5rem;
+      background: var(--color-bg-light);
+      border-radius: 8px;
+    }
+    .process-step {
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      min-width: 100px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .process-step.active {
+      background: var(--color-primary);
+      color: white;
+    }
+    .process-step .step-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: block;
+    }
+    .process-step .step-name {
+      font-size: 0.75rem;
+    }
+    .process-arrow {
+      font-size: 1.25rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Category Badge */
+    .category-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .category-a { background: #d1fae5; color: #065f46; }
+    .category-b { background: #fef3c7; color: #92400e; }
+    .category-c { background: #dbeafe; color: #1e40af; }
+    .category-d { background: #fee2e2; color: #991b1b; }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .checklist li {
+      padding: 0.5rem 0;
+      padding-left: 1.75rem;
+      position: relative;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+    .checklist li::before {
+      content: '☐';
+      position: absolute;
+      left: 0;
+      color: var(--color-text-muted);
+    }
+
+    /* Time Badge */
+    .time-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      background: #eff6ff;
+      color: #1e40af;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* Source Notes */
+    .source-note {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* Decision Tree */
+    .decision-tree {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--color-bg-light);
+      padding: 1rem;
+      border-radius: 8px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* Tool Card */
+    .tool-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      border-left: 4px solid var(--color-primary);
+    }
+    .tool-card h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.95rem;
+    }
+    .tool-card ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="../../index.html" class="nav-logo">Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="../../index.html">Home</a></li>
+          <li class="nav-dropdown">
+            <a href="#" class="active">Strategie</a>
+            <div class="dropdown-menu">
+              <a href="../strategie/index.html">Vision & Mission</a>
+              <a href="../team/index.html">Team & HR</a>
+              <a href="index.html" class="active">Operations</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Finanzen</a>
+            <div class="dropdown-menu">
+              <a href="../finanzen/index.html">Übersicht</a>
+              <a href="../kennzahlen/index.html">Kennzahlen</a>
+              <a href="../preismodell/index.html">Preismodell</a>
+              <a href="../fundraising/index.html">Fundraising</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Wirkung</a>
+            <div class="dropdown-menu">
+              <a href="../wirkung/index.html">Impact-Zahlen</a>
+              <a href="../methodik/index.html">Methodik</a>
+            </div>
+          </li>
+          <li><a href="../marketing/index.html">Marketing</a></li>
+          <li><a href="../dokumente/index.html">Dokumente</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+      <!-- Header -->
+      <header class="page-header">
+        <h1>Operations & Prozesse</h1>
+        <p class="page-subtitle">Refurbishment-Prozess, Standard Operating Procedures und Qualitätskontrolle</p>
+        <p class="page-meta">
+          Quelldokument: <code>G_Operations_und_Prozesse/Refurbishment/Standard_Operating_Procedure.md</code>
+        </p>
+      </header>
+
+      <!-- Key Metrics -->
+      <section class="content-section">
+        <h2 class="section-title">Operative Kennzahlen</h2>
+        <div class="grid-4">
+          <div class="metric-card">
+            <span class="metric-value">25-35</span>
+            <span class="metric-label">Geräte/Monat refurbished</span>
+            <span class="metric-trend trend-neutral">Aktuelle Kapazität</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">~2-3h</span>
+            <span class="metric-label">Aktive Zeit pro Gerät</span>
+            <span class="metric-trend trend-neutral">Durchschnitt</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">&lt;30 Tage</span>
+            <span class="metric-label">Ziel: Lagerdauer</span>
+            <span class="metric-trend trend-neutral">STORAGE_DAYS</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">&gt;80%</span>
+            <span class="metric-label">Ziel: Wiederverwertung</span>
+            <span class="metric-trend trend-neutral">PROC_RATE</span>
+          </div>
+        </div>
+        <div class="source-note">
+          <span class="data-type data-type--kpi">KPI</span>
+          Definiert in KMS Framework (C_Kennzahlen_und_Reporting)
+        </div>
+      </section>
+
+      <!-- Refurbishment Process Overview -->
+      <section class="content-section">
+        <h2 class="section-title">Refurbishment-Prozess Übersicht</h2>
+        <div class="card">
+          <h3 style="text-align: center; margin-bottom: 1rem;">Von Spende bis Verkauf</h3>
+          <div class="process-flow">
+            <div class="process-step">
+              <span class="step-number">1</span>
+              <span class="step-name">INTAKE</span>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+              <span class="step-number">2</span>
+              <span class="step-name">TRIAGE</span>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+              <span class="step-number">3</span>
+              <span class="step-name">LÖSCHUNG</span>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+              <span class="step-number">4</span>
+              <span class="step-name">REINIGUNG</span>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+              <span class="step-number">5</span>
+              <span class="step-name">UPGRADE</span>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step active">
+              <span class="step-number">6</span>
+              <span class="step-name">LINUX</span>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+              <span class="step-number">7</span>
+              <span class="step-name">QA</span>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+              <span class="step-number">8</span>
+              <span class="step-name">VERKAUF</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 1: Intake -->
+      <section class="content-section">
+        <h2 class="section-title">1. Geräte-Intake</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Annahme-Prozess <span class="time-badge">5-10 Min/Gerät</span></h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">
+              <strong>Wer:</strong> Empfangsmitarbeiter/in oder Werkstattleitung
+            </p>
+            <ul class="checklist">
+              <li>Gerät entgegennehmen</li>
+              <li>Spendenbestätigung ausstellen (falls gewünscht)</li>
+              <li>Kurze Sichtprüfung: Offensichtliche Schäden?</li>
+              <li>Intake-Nummer vergeben: <code>JJJJ-MM-NNN</code></li>
+              <li>Etikette mit Intake-Nummer anbringen</li>
+              <li>In Intake-Log eintragen</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Intake-Log Felder</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Feld</th>
+                  <th>Beispiel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Datum</td><td>2025-11-15</td></tr>
+                <tr><td>Intake-Nummer</td><td>2025-11-042</td></tr>
+                <tr><td>Gerätetyp</td><td>Laptop</td></tr>
+                <tr><td>Marke/Modell</td><td>Lenovo ThinkPad T480</td></tr>
+                <tr><td>Spender</td><td>(optional)</td></tr>
+                <tr><td>Zustand</td><td>Gut / Mittel / Schlecht</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 2: Triage -->
+      <section class="content-section">
+        <h2 class="section-title">2. Triage & Testing</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Erstbewertung <span class="time-badge">10-15 Min</span></h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">
+              <strong>Wer:</strong> Techniker/in
+            </p>
+            <h4>Visuelle Inspektion:</h4>
+            <ul class="checklist">
+              <li>Gehäuse-Zustand</li>
+              <li>Display (bei Laptops/Monitors)</li>
+              <li>Anschlüsse</li>
+              <li>Tastatur/Trackpad</li>
+            </ul>
+            <h4 style="margin-top: 1rem;">Komponenten prüfen:</h4>
+            <ul class="checklist">
+              <li>RAM-Typ & -Grösse</li>
+              <li>Festplatte/SSD</li>
+              <li>Prozessor (CPU)</li>
+              <li>Grafikkarte (falls diskret)</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Funktionstest <span class="time-badge">15-30 Min</span></h3>
+            <h4>Hardware-Tests:</h4>
+            <ul class="checklist">
+              <li>BIOS-Zugang testen</li>
+              <li>Boot-Test (von USB-Stick)</li>
+              <li>RAM-Test (MemTest86+)</li>
+              <li>Festplatten-Test (S.M.A.R.T.)</li>
+              <li>Display-Test (Pixelfehler)</li>
+              <li>Tastatur-Test</li>
+              <li>WiFi/Bluetooth</li>
+              <li>Akku-Test (bei Laptops)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Kategorisierung -->
+        <div class="card" style="margin-top: 1rem;">
+          <h3>Kategorisierung - Entscheidungsbaum</h3>
+          <div class="decision-tree">
+Gerät funktioniert vollständig?
+├─ JA → Kategorie A (Refurbishment)
+│
+├─ TEILWEISE → Reparatur möglich & wirtschaftlich?
+│  ├─ JA → Kategorie B (Reparatur nötig)
+│  └─ NEIN → Kategorie C (Ersatzteile)
+│
+└─ NEIN → Kategorie D (Recycling)
+          </div>
+          <div class="grid-4" style="margin-top: 1rem;">
+            <div style="text-align: center;">
+              <span class="category-badge category-a">Kategorie A</span>
+              <p style="font-size: 0.8rem; margin-top: 0.5rem;">Ready for Refurbishment<br>Voll funktionsfähig</p>
+            </div>
+            <div style="text-align: center;">
+              <span class="category-badge category-b">Kategorie B</span>
+              <p style="font-size: 0.8rem; margin-top: 0.5rem;">Repair Needed<br>Kleine Reparaturen</p>
+            </div>
+            <div style="text-align: center;">
+              <span class="category-badge category-c">Kategorie C</span>
+              <p style="font-size: 0.8rem; margin-top: 0.5rem;">Parts Only<br>Ersatzteillager</p>
+            </div>
+            <div style="text-align: center;">
+              <span class="category-badge category-d">Kategorie D</span>
+              <p style="font-size: 0.8rem; margin-top: 0.5rem;">E-Waste<br>Fachgerecht recyceln</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3: Data Wiping -->
+      <section class="content-section">
+        <h2 class="section-title">3. Datenloschung</h2>
+        <div class="alert" style="background: #fee2e2; border-left-color: #ef4444;">
+          <strong>⚠️ WICHTIG:</strong> Dieser Schritt ist OBLIGATORISCH für alle Geräte mit Festplatten!
+        </div>
+        <div class="grid-3" style="margin-top: 1rem;">
+          <div class="card">
+            <h3>Option A: DBAN</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted);">Darik's Boot and Nuke</p>
+            <ul class="checklist">
+              <li>Von DBAN-USB booten</li>
+              <li>DoD Short (3 Passe) auswahlen</li>
+              <li>Loschen starten</li>
+              <li>Protokoll speichern</li>
+            </ul>
+            <p class="time-badge" style="margin-top: 0.5rem;">2-8 Stunden (passiv)</p>
+          </div>
+          <div class="card">
+            <h3>Option B: ATA Secure Erase</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted);">Linux-basiert</p>
+            <ul class="checklist">
+              <li>Von Linux Live-System booten</li>
+              <li><code>hdparm --security-erase</code></li>
+              <li>Verifizieren</li>
+            </ul>
+            <p class="time-badge" style="margin-top: 0.5rem;">1-2 Stunden</p>
+          </div>
+          <div class="card">
+            <h3>Option C: Physikalisch</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted);">Bei defekten Platten</p>
+            <ul class="checklist">
+              <li>Festplatte entfernen</li>
+              <li>Mit Bohrmaschine Locher bohren</li>
+              <li>Als E-Waste markieren</li>
+            </ul>
+            <p class="time-badge" style="margin-top: 0.5rem;">5 Minuten</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 1rem; background: #f0fdf4;">
+          <h4>Dokumentation:</h4>
+          <p style="font-size: 0.9rem;">Lösch-Zertifikat ausdrucken und bei Gerät archivieren. Wichtig für Corporate Spender!</p>
+        </div>
+      </section>
+
+      <!-- Steps 4-6 -->
+      <section class="content-section">
+        <h2 class="section-title">4-6. Reinigung, Upgrade & Linux-Installation</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>4. Reinigung <span class="time-badge">15-30 Min</span></h3>
+            <h4>Extern:</h4>
+            <ul class="checklist">
+              <li>Gehäuse abwischen (Isopropanol)</li>
+              <li>Tastatur reinigen</li>
+              <li>Display reinigen</li>
+              <li>Anschlüsse ausblasen</li>
+            </ul>
+            <h4 style="margin-top: 0.75rem;">Intern (bei Bedarf):</h4>
+            <ul class="checklist">
+              <li>Lufter ausblasen</li>
+              <li>Kuhlrippen reinigen</li>
+              <li>Warmeleitpaste erneuern</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>5. Hardware-Upgrade <span class="time-badge">10-30 Min</span></h3>
+            <h4>RAM-Upgrade:</h4>
+            <p style="font-size: 0.85rem;">Minimum: 4 GB (besser 8 GB)</p>
+            <h4 style="margin-top: 0.75rem;">SSD-Upgrade:</h4>
+            <p style="font-size: 0.85rem;">Wenn Festplatte &lt; 250 GB oder defekt</p>
+            <h4 style="margin-top: 0.75rem;">Weitere:</h4>
+            <ul style="font-size: 0.85rem; padding-left: 1.25rem; margin: 0;">
+              <li>WiFi-Karte (wenn fehlend)</li>
+              <li>Akku (wenn verfugbar)</li>
+            </ul>
+          </div>
+          <div class="card" style="border-left: 4px solid #10b981;">
+            <h3>6. Linux-Installation <span class="time-badge">35-50 Min</span></h3>
+            <h4>Standard-Distributionen:</h4>
+            <table class="data-table">
+              <tbody>
+                <tr><td>Anfanger</td><td>Linux Mint</td></tr>
+                <tr><td>Leichtgewichtig</td><td>Lubuntu/Xubuntu</td></tr>
+                <tr><td>Power-User</td><td>Debian/Fedora</td></tr>
+                <tr><td>Spezial</td><td>Nach Kundenwunsch</td></tr>
+              </tbody>
+            </table>
+            <p style="font-size: 0.85rem; margin-top: 0.75rem;">
+              <strong>Default:</strong> Linux Mint (Cinnamon)
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 7: QA -->
+      <section class="content-section">
+        <h2 class="section-title">7. Qualitätskontrolle</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Finale Tests <span class="time-badge">10-15 Min</span></h3>
+            <ul class="checklist">
+              <li>System bootet korrekt</li>
+              <li>Display funktioniert</li>
+              <li>Tastatur funktioniert</li>
+              <li>Trackpad/Maus funktioniert</li>
+              <li>WiFi verbindet</li>
+              <li>Sound funktioniert</li>
+              <li>USB-Ports funktionieren</li>
+              <li>Webcam (falls vorhanden)</li>
+              <li>Software installiert & funktioniert</li>
+              <li>Keine Fehlermeldungen</li>
+              <li>Performance akzeptabel</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Kosmetische Prufung</h3>
+            <ul class="checklist">
+              <li>Gerät sauber</li>
+              <li>Keine losen Teile</li>
+              <li>Display ohne Kratzer</li>
+              <li>Tastatur vollständig</li>
+            </ul>
+            <h4 style="margin-top: 1rem;">Dokumentation:</h4>
+            <table class="data-table">
+              <tbody>
+                <tr><td>QA-Status</td><td>Pass / Fail</td></tr>
+                <tr><td>QA-Datum</td><td>[Datum]</td></tr>
+                <tr><td>QA-Techniker</td><td>[Name]</td></tr>
+                <tr><td>Bemerkungen</td><td>[Notizen]</td></tr>
+              </tbody>
+            </table>
+            <p style="font-size: 0.85rem; margin-top: 0.75rem; color: #dc2626;">
+              <strong>Bei FAIL:</strong> Zuruck zu entsprechendem Schritt, Problem beheben, erneut testen.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 8: Pricing & Listing -->
+      <section class="content-section">
+        <h2 class="section-title">8. Pricing & Listing</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Preisbestimmung</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1rem;">
+              Basierend auf unserem <a href="../preismodell/index.html">Solidarischen 4-Stufen-Preismodell</a>
+            </p>
+            <h4>Faktoren:</h4>
+            <ul style="font-size: 0.9rem; padding-left: 1.25rem;">
+              <li>Alter des Geräts</li>
+              <li>CPU-Performance</li>
+              <li>RAM-Grösse</li>
+              <li>SSD vs. HDD</li>
+              <li>Display-Qualitat</li>
+              <li>Zustand</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Webshop-Listing <span class="time-badge">15-20 Min</span></h3>
+            <ul class="checklist">
+              <li>Fotos machen (min. 3: Front, Keyboard, Anschlüsse)</li>
+              <li>Specs auflisten (CPU, RAM, Storage, Display)</li>
+              <li>Beschreibung schreiben (Template)</li>
+              <li>Preis festlegen (Normal + andere Stufen)</li>
+              <li>In Webshop hochladen</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Time Overview -->
+      <section class="content-section">
+        <h2 class="section-title">Zeitaufwand-Übersicht</h2>
+        <div class="card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Schritt</th>
+                <th>Dauer (Durchschnitt)</th>
+                <th>Art</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1. Intake</td>
+                <td>5-10 Min</td>
+                <td>Aktiv</td>
+              </tr>
+              <tr>
+                <td>2. Triage & Testing</td>
+                <td>25-45 Min</td>
+                <td>Aktiv</td>
+              </tr>
+              <tr>
+                <td>3. Datenloschung</td>
+                <td>2-8 Stunden</td>
+                <td style="color: var(--color-text-muted);">Passiv</td>
+              </tr>
+              <tr>
+                <td>4. Reinigung</td>
+                <td>15-30 Min</td>
+                <td>Aktiv</td>
+              </tr>
+              <tr>
+                <td>5. Hardware-Upgrade</td>
+                <td>10-30 Min</td>
+                <td>Aktiv</td>
+              </tr>
+              <tr>
+                <td>6. Linux-Installation</td>
+                <td>35-50 Min</td>
+                <td>Semi-Aktiv</td>
+              </tr>
+              <tr>
+                <td>7. Qualitätskontrolle</td>
+                <td>10-15 Min</td>
+                <td>Aktiv</td>
+              </tr>
+              <tr>
+                <td>8. Pricing & Listing</td>
+                <td>15-20 Min</td>
+                <td>Aktiv</td>
+              </tr>
+              <tr style="background: var(--color-bg-light); font-weight: bold;">
+                <td>TOTAL (aktiv)</td>
+                <td>~2-3 Stunden</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="source-note">
+            <span class="data-type data-type--sop">SOP</span>
+            Standard_Operating_Procedure.md, Version 1.0
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools & Materials -->
+      <section class="content-section">
+        <h2 class="section-title">Werkzeuge & Materialien</h2>
+        <div class="grid-3">
+          <div class="tool-card">
+            <h4>🔧 Werkzeuge</h4>
+            <ul>
+              <li>Schraubendreher-Set (Kreuz, Torx)</li>
+              <li>Antistatik-Armband</li>
+              <li>Multimeter</li>
+              <li>USB-Sticks (Boot-Tools)</li>
+              <li>Etiketten-Drucker</li>
+            </ul>
+          </div>
+          <div class="tool-card">
+            <h4>🧴 Verbrauchsmaterial</h4>
+            <ul>
+              <li>Isopropanol</li>
+              <li>Mikrofaser-Tucher</li>
+              <li>Druckluft-Dosen</li>
+              <li>Bubble-Wrap</li>
+              <li>Versand-Kartons</li>
+              <li>Etiketten</li>
+            </ul>
+          </div>
+          <div class="tool-card">
+            <h4>💾 Software</h4>
+            <ul>
+              <li>MemTest86+</li>
+              <li>DBAN</li>
+              <li>Linux Mint ISO</li>
+              <li>GParted</li>
+              <li>hwinfo</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lager-Management -->
+      <section class="content-section">
+        <h2 class="section-title">Lager-Management Regeln</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Lagerdauer-Regeln</h3>
+            <table class="data-table">
+              <tbody>
+                <tr>
+                  <td><strong>&lt; 30 Tage</strong></td>
+                  <td style="color: #059669;">Ziel: Normaler Umschlag</td>
+                </tr>
+                <tr>
+                  <td><strong>&gt; 3 Monate</strong></td>
+                  <td style="color: #f59e0b;">Preis reduzieren</td>
+                </tr>
+                <tr>
+                  <td><strong>&gt; 6 Monate</strong></td>
+                  <td style="color: #dc2626;">Spenden oder Recyclen</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <h3>Kapazitäts-Regeln</h3>
+            <div class="alert" style="background: #fef3c7; border-left-color: #f59e0b; margin-bottom: 1rem;">
+              <strong>Wenn Lager &gt; 200 Geräte:</strong>
+            </div>
+            <ul style="font-size: 0.9rem; padding-left: 1.25rem;">
+              <li>Annahmestopp für"Low Quality"</li>
+              <li>Sofortiger "Sale" (Rabattaktion)</li>
+              <li>Geräte spenden an Partner</li>
+            </ul>
+          </div>
+        </div>
+        <div class="source-note">
+          <span class="data-type data-type--source">Quelldokument</span>
+          Finanzstrategie_2025.md, Operative Kennzahlen
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p>Das Hirn &copy; 2025 - Transparentes Dashboard für Revamp-IT</p>
+      <div class="footer-links">
+        <a href="../../CLAUDE.md">Entwicklungsrichtlinien</a>
+        <a href="../../01_Management/B_Finanzen/DATA_ARCHITECTURE.md">Datenarchitektur</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

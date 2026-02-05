@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Das Hirn – Revamp-IT Dashboard</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- Chart.js for beautiful visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    /* Dashboard-specific styles */
+    .dashboard-hero {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #2ECC71 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .dashboard-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 60%;
+      height: 200%;
+      background: rgba(255,255,255,0.05);
+      transform: rotate(15deg);
+    }
+    .dashboard-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    .dashboard-hero p { opacity: 0.9; font-size: 1.1rem; }
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      text-align: center;
+      padding: 1rem 1.5rem;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    .hero-stat-value { font-size: 2rem; font-weight: 700; display: block; }
+    .hero-stat-label { font-size: 0.85rem; opacity: 0.9; }
+
+    /* Chart containers */
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+    .chart-container-large {
+      height: 350px;
+    }
+    .chart-container-small {
+      height: 250px;
+    }
+
+    /* Insights cards */
+    .insight-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.25rem;
+      border-left: 4px solid;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .insight-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .insight-positive { border-left-color: #10b981; background: linear-gradient(135deg, #ecfdf5 0%, white 100%); }
+    .insight-warning { border-left-color: #f59e0b; background: linear-gradient(135deg, #fffbeb 0%, white 100%); }
+    .insight-action { border-left-color: #3b82f6; background: linear-gradient(135deg, #eff6ff 0%, white 100%); }
+    .insight-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .insight-text { font-size: 0.875rem; color: #4b5563; line-height: 1.5; }
+    .insight-action-btn {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.4rem 0.8rem;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .insight-action-btn:hover { background: #1e3a8a; color: white; }
+
+    /* KPI gauges */
+    .kpi-gauge {
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .gauge-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      position: relative;
+    }
+    .gauge-circle::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 8px solid #e5e7eb;
+    }
+    .gauge-good { color: #059669; }
+    .gauge-good::before { border-color: #d1fae5; border-top-color: #10b981; border-right-color: #10b981; }
+    .gauge-warning { color: #d97706; }
+    .gauge-warning::before { border-color: #fef3c7; border-top-color: #f59e0b; }
+    .gauge-label { font-size: 0.875rem; color: #6b7280; }
+
+    /* Year comparison pills */
+    .year-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .year-pill {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 2px solid var(--color-border);
+      background: white;
+      transition: all 0.2s;
+    }
+    .year-pill:hover { border-color: var(--color-primary); }
+    .year-pill.active {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    /* Quick nav cards */
+    .quick-nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+    .quick-nav-card {
+      padding: 1rem;
+      text-align: center;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid var(--color-border);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+    }
+    .quick-nav-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .quick-nav-card span { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; }
+
+    /* Inspection Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .modal-header {
+      background: var(--color-primary);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 { margin: 0; font-size: 1.1rem; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+    .modal-body { padding: 1.5rem; }
+    .modal-section {
+      margin-bottom: 1.25rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .modal-section:last-child { border-bottom: none; margin-bottom: 0; }
+    .modal-section h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+    .modal-value { font-size: 2rem; font-weight: 700; color: var(--color-primary); }
+    .source-path {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: var(--color-bg-light);
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      word-break: break-all;
+    }
+
+    /* Inspectable Numbers */
+    .inspectable {
+      cursor: pointer;
+      border-bottom: 2px dotted var(--color-primary-light);
+      transition: all 0.15s;
+    }
+    .inspectable:hover {
+      background: #dbeafe;
+      border-bottom-color: var(--color-primary);
+    }
+
+    /* Data Type Badges */
+    .data-type {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .data-type--source { background: #d1fae5; color: #065f46; }
+    .data-type--derived { background: #fef3c7; color: #92400e; }
+    .data-type--estimated { background: #fee2e2; color: #991b1b; }
+
+    /* Trend indicator */
+    .trend-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .trend-up { background: #d1fae5; color: #065f46; }
+    .trend-down { background: #fee2e2; color: #991b1b; }
+    .trend-flat { background: #e5e7eb; color: #6b7280; }
+
+    /* Section headers */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .section-header h2 {
+      font-size: 1.25rem;
+      color: var(--color-primary);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="index.html" class="nav-logo">Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Dashboard</a></li>
+          <li class="nav-dropdown">
+            <a href="#">Strategie</a>
+            <div class="dropdown-menu">
+              <a href="pages/strategie/index.html">Vision & Mission</a>
+              <a href="pages/team/index.html">Team & HR</a>
+              <a href="pages/operations/index.html">Operations</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Finanzen</a>
+            <div class="dropdown-menu">
+              <a href="pages/finanzen/index.html">Detailansicht</a>
+              <a href="pages/kennzahlen/index.html">Kennzahlen</a>
+              <a href="pages/preismodell/index.html">Preismodell</a>
+              <a href="pages/fundraising/index.html">Fundraising</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Wirkung</a>
+            <div class="dropdown-menu">
+              <a href="pages/wirkung/index.html">Impact-Zahlen</a>
+              <a href="pages/methodik/index.html">Methodik</a>
+            </div>
+          </li>
+          <li><a href="pages/dokumente/index.html">Dokumente</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+      <!-- Hero Section with Key Metrics -->
+      <section class="dashboard-hero" id="dashboard-hero">
+        <h1>Revamp-IT Financial Dashboard</h1>
+        <p>Echtzeitdaten aus Kivitendo – Letzte Aktualisierung: <span id="last-update">--</span></p>
+        <div class="hero-stats" id="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-value" id="hero-ytd">--</span>
+            <span class="hero-stat-label">Jahresumsatz YTD</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value" id="hero-monthly-avg">--</span>
+            <span class="hero-stat-label">Monatsdurchschnitt</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value" id="hero-self-financing">--</span>
+            <span class="hero-stat-label">Eigenfinanzierung</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value" id="hero-best-month">--</span>
+            <span class="hero-stat-label">Bester Monat</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Executive Summary -->
+      <section class="exec-summary">
+        <div class="exec-summary-header">
+          <h2>Zusammenfassung</h2>
+          <span class="badge badge-live">Stand: Januar 2025</span>
+        </div>
+        <div class="exec-summary-body">
+          <div class="key-finding">
+            <span class="finding-icon">📊</span>
+            <div>
+              <strong>Kernaussage:</strong> Revamp-IT zeigt solide Finanzbasis mit wachsendem Eigenfinanzierungsanteil, aber Datenerfassung muss verbessert werden.
+            </div>
+          </div>
+          <ul class="findings-list">
+            <li class="finding-positive">Einnahmen aus Kivitendo vollständig erfasst (2022-2025)</li>
+            <li class="finding-positive">Warenverkauf und Dienstleistungen als Haupteinnahmequellen identifiziert</li>
+            <li class="finding-warning">Stückzahlen der Geräte nicht erfasst – nur CHF-Werte verfügbar</li>
+            <li class="finding-warning">6 von 28 geplanten KPIs werden aktuell getrackt</li>
+            <li class="finding-action">Device-Tracking in Kivitendo einführen für bessere Wirkungsmessung</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Quick Navigation -->
+      <section class="content-section">
+        <div class="quick-nav">
+          <a href="pages/finanzen/index.html" class="quick-nav-card">
+            <span>💰</span>
+            Finanzen
+          </a>
+          <a href="pages/kennzahlen/index.html" class="quick-nav-card">
+            <span>📊</span>
+            KPIs
+          </a>
+          <a href="pages/wirkung/index.html" class="quick-nav-card">
+            <span>🌍</span>
+            Impact
+          </a>
+          <a href="pages/team/index.html" class="quick-nav-card">
+            <span>👥</span>
+            Team
+          </a>
+          <a href="pages/fundraising/index.html" class="quick-nav-card">
+            <span>🎯</span>
+            Fundraising
+          </a>
+          <a href="pages/dokumente/index.html" class="quick-nav-card">
+            <span>📄</span>
+            Berichte
+          </a>
+        </div>
+      </section>
+
+      <!-- Year Selection -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>Finanzanalyse <span id="selected-year">2025</span></h2>
+          <div class="year-pills" id="year-pills">
+            <button class="year-pill" data-year="2022">2022</button>
+            <button class="year-pill" data-year="2023">2023</button>
+            <button class="year-pill" data-year="2024">2024</button>
+            <button class="year-pill active" data-year="2025">2025</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Charts Grid -->
+      <section class="content-section">
+        <div class="grid-2">
+          <!-- Revenue Trend Chart -->
+          <div class="card">
+            <h3>📈 Umsatzentwicklung</h3>
+            <p class="text-sm text-muted mb-3">Monatliche Einnahmen im Zeitverlauf</p>
+            <div class="chart-container chart-container-large">
+              <canvas id="revenue-trend-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Revenue Composition Chart -->
+          <div class="card">
+            <h3>🥧 Einnahmen-Zusammensetzung</h3>
+            <p class="text-sm text-muted mb-3">Verteilung nach Kategorie</p>
+            <div class="chart-container chart-container-large">
+              <canvas id="revenue-composition-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Year over Year Comparison -->
+      <section class="content-section">
+        <div class="card">
+          <h3>📊 Jahresvergleich</h3>
+          <p class="text-sm text-muted mb-3">Gesamteinnahmen pro Jahr</p>
+          <div class="chart-container">
+            <canvas id="yoy-chart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Category Performance -->
+      <section class="content-section">
+        <div class="card">
+          <h3>📉 Kategorie-Performance im Zeitverlauf</h3>
+          <p class="text-sm text-muted mb-3">Warenverkauf vs. Dienstleistungen vs. Spenden</p>
+          <div class="chart-container chart-container-large">
+            <canvas id="category-trend-chart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Actionable Insights -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>🎯 Handlungsempfehlungen</h2>
+          <span class="data-type data-type--derived">Basierend auf Datenanalyse</span>
+        </div>
+        <div class="grid-3" id="insights-container">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- Key Performance Indicators -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>📊 Schlüsselkennzahlen</h2>
+        </div>
+        <div class="grid-4" id="kpi-cards">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- Monthly Breakdown Table -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2>📋 Monatliche Detailansicht</h2>
+          <span class="data-type data-type--source">Quelldaten aus Kivitendo</span>
+        </div>
+        <div class="card">
+          <div id="monthly-table" style="overflow-x: auto;">
+            <div class="loading">Lade Daten...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- First Principles Recommendations -->
+      <section class="first-principles content-section">
+        <h2>Handlungsempfehlungen (First Principles)</h2>
+        <div class="principle-card">
+          <div class="principle-header">
+            <span class="principle-icon">🎯</span>
+            <h3>Finanzielle Nachhaltigkeit</h3>
+          </div>
+          <p class="principle-goal">Ziel: >70% Eigenfinanzierung, stabile Liquidität, nachvollziehbare Mittelverwendung</p>
+          <div class="principle-constraints">
+            <strong>Constraints:</strong> Gemeinnützigkeitsregeln, Zahlungsziele, Spendenauflagen
+          </div>
+          <div class="recommendations">
+            <div class="rec-item rec-high">
+              <span class="priority">HOCH</span>
+              <span class="action">Device-Tracking in Kivitendo aktivieren</span>
+              <span class="impact">→ Ermöglicht Stückkosten-Analyse und Wirkungsmessung</span>
+            </div>
+            <div class="rec-item rec-high">
+              <span class="priority">HOCH</span>
+              <span class="action">Warenverkauf steigern (aktuell grösste Einnahmequelle)</span>
+              <span class="impact">→ Erhöht Eigenfinanzierungsquote</span>
+            </div>
+            <div class="rec-item rec-medium">
+              <span class="priority">MITTEL</span>
+              <span class="action">Dienstleistungsportfolio erweitern</span>
+              <span class="impact">→ Diversifiziert Einnahmen, reduziert Spendenabhängigkeit</span>
+            </div>
+            <div class="rec-item rec-low">
+              <span class="priority">TIEF</span>
+              <span class="action">Integrationsplätze dokumentieren und tracken</span>
+              <span class="impact">→ Nachweis sozialer Wirkung für Fördergeber</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Downloads Section -->
+      <section class="downloads-section content-section">
+        <h2>Downloads</h2>
+        <p class="text-muted mb-4">Quelldateien und Berichte zum Herunterladen</p>
+        <div class="downloads-grid">
+          <a href="../01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx" class="download-card" download>
+            <span class="download-icon">📊</span>
+            <div class="download-info">
+              <strong>Einnahmen 2025</strong>
+              <span class="download-meta">Excel · 25 KB · Kivitendo Export</span>
+            </div>
+            <span class="download-arrow">↓</span>
+          </a>
+          <a href="../01_Management/B_Finanzen/Revamp-IT Wirkungsbericht 2025.pdf" class="download-card" download>
+            <span class="download-icon">📄</span>
+            <div class="download-info">
+              <strong>Wirkungsbericht 2025</strong>
+              <span class="download-meta">PDF · 506 KB · Impact Report</span>
+            </div>
+            <span class="download-arrow">↓</span>
+          </a>
+          <a href="../docs/Digital_Brain_Slides.pdf" class="download-card" download>
+            <span class="download-icon">📑</span>
+            <div class="download-info">
+              <strong>Hirn-Methodologie</strong>
+              <span class="download-meta">PDF · 365 KB · Präsentation</span>
+            </div>
+            <span class="download-arrow">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Data Quality & Transparency -->
+      <section class="content-section">
+        <div class="alert alert-info">
+          <strong>🔍 Transparenz-Prinzip:</strong> Alle Zahlen stammen aus dem Kivitendo-Export
+          (<code>revamp-Einnahmen-2025.xlsx</code>). Klicke auf Werte für Quellendetails.
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p>Das Hirn © 2025 – Interne Wissensbasis von Revamp-IT</p>
+      <div class="footer-links">
+        <a href="../CLAUDE.md">Entwicklungsrichtlinien</a>
+        <a href="../01_Management/B_Finanzen/DATA_ARCHITECTURE.md">Datenarchitektur</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Inspection Modal -->
+  <div class="modal-overlay" id="inspection-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Details</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/data-loader.js"></script>
+  <script>
+    /**
+     * Revamp-IT Financial Dashboard
+     * Beautiful visualizations with Chart.js
+     * Real data from Kivitendo accounting system
+     */
+
+    let currentYear = 2025;
+    let allYearsData = {};
+    let charts = {};
+
+    // Chart.js default configuration
+    Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+    Chart.defaults.color = '#6b7280';
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+    // Color palette
+    const colors = {
+      primary: '#3b82f6',
+      secondary: '#10b981',
+      accent: '#f59e0b',
+      danger: '#ef4444',
+      purple: '#8b5cf6',
+      pink: '#ec4899',
+      teal: '#14b8a6',
+      gray: '#6b7280'
+    };
+
+    const categoryColors = {
+      warenverkauf: colors.primary,
+      dienstleistungen: colors.secondary,
+      integration: colors.purple,
+      spenden: colors.accent,
+      aufstockung: colors.pink
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Year pill event listeners
+      document.querySelectorAll('.year-pill').forEach(pill => {
+        pill.addEventListener('click', () => selectYear(parseInt(pill.dataset.year)));
+      });
+
+      // Modal close on outside click
+      document.getElementById('inspection-modal').addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal-overlay')) closeModal();
+      });
+
+      // Load all data
+      await loadAllYears();
+      renderDashboard();
+    });
+
+    async function loadAllYears() {
+      const years = [2022, 2023, 2024, 2025];
+      for (const year of years) {
+        try {
+          allYearsData[year] = await DataLoader.loadIncome(year);
+        } catch (e) {
+          console.error(`Error loading ${year}:`, e);
+        }
+      }
+      document.getElementById('last-update').textContent =
+        DataLoader.metadata.lastImport ? new Date(DataLoader.metadata.lastImport).toLocaleDateString('de-CH') : '--';
+    }
+
+    function selectYear(year) {
+      currentYear = year;
+      document.querySelectorAll('.year-pill').forEach(pill => {
+        pill.classList.toggle('active', parseInt(pill.dataset.year) === year);
+      });
+      document.getElementById('selected-year').textContent = year;
+      renderDashboard();
+    }
+
+    function renderDashboard() {
+      const income = allYearsData[currentYear];
+      if (!income) return;
+
+      renderHeroStats(income);
+      renderRevenueTrendChart(income);
+      renderCompositionChart(income);
+      renderYoYChart();
+      renderCategoryTrendChart(income);
+      renderInsights(income);
+      renderKPICards(income);
+      renderMonthlyTable(income);
+    }
+
+    function renderHeroStats(income) {
+      const data = income.getValidRows();
+      const total = data.sum('total');
+      const warenverkauf = data.sum('warenverkauf');
+      const dienstleistungen = data.sum('dienstleistungen');
+      const monthCount = data.count();
+      const monthlyAvg = monthCount > 0 ? total / monthCount : 0;
+      const selfFinancing = total > 0 ? (warenverkauf + dienstleistungen) / total : 0;
+
+      // Find best month
+      const rows = data.getAll();
+      let bestMonth = rows[0] || { period: '--', total: 0 };
+      rows.forEach(row => {
+        if (row.total > bestMonth.total) bestMonth = row;
+      });
+
+      document.getElementById('hero-ytd').innerHTML = `<span class="inspectable" onclick="inspectMetric('total', ${total})">${Utils.formatCHF(total)}</span>`;
+      document.getElementById('hero-monthly-avg').innerHTML = `<span class="inspectable" onclick="inspectMetric('monthly_avg', ${monthlyAvg})">${Utils.formatCHF(monthlyAvg)}</span>`;
+      document.getElementById('hero-self-financing').innerHTML = `<span class="inspectable" onclick="inspectMetric('self_financing', ${selfFinancing})">${Utils.formatPercent(selfFinancing)}</span>`;
+      document.getElementById('hero-best-month').textContent = bestMonth.period ? Utils.formatMonthShort(bestMonth.period) : '--';
+    }
+
+    function renderRevenueTrendChart(income) {
+      const ctx = document.getElementById('revenue-trend-chart').getContext('2d');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+
+      if (charts.revenueTrend) charts.revenueTrend.destroy();
+
+      const labels = rows.map(r => Utils.formatMonthShort(r.period));
+      const values = rows.map(r => r.total);
+
+      // Calculate trend line
+      const avgValue = values.reduce((a, b) => a + b, 0) / values.length;
+
+      charts.revenueTrend = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Monatliche Einnahmen',
+            data: values,
+            borderColor: colors.primary,
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5,
+            pointHoverRadius: 8,
+            pointBackgroundColor: colors.primary,
+            pointBorderColor: 'white',
+            pointBorderWidth: 2
+          }, {
+            label: 'Durchschnitt',
+            data: Array(values.length).fill(avgValue),
+            borderColor: colors.gray,
+            borderDash: [5, 5],
+            pointRadius: 0,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          },
+          plugins: {
+            legend: { display: true, position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.dataset.label}: ${Utils.formatCHF(context.raw)}`
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: (value) => Utils.formatCHF(value)
+              },
+              grid: { color: 'rgba(0,0,0,0.05)' }
+            },
+            x: {
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    function renderCompositionChart(income) {
+      const ctx = document.getElementById('revenue-composition-chart').getContext('2d');
+      const data = income.getValidRows();
+
+      if (charts.composition) charts.composition.destroy();
+
+      const categories = [
+        { key: 'warenverkauf', label: 'Warenverkauf', color: colors.primary },
+        { key: 'dienstleistungen', label: 'Dienstleistungen', color: colors.secondary },
+        { key: 'integration', label: 'Integration', color: colors.purple },
+        { key: 'spenden', label: 'Spenden', color: colors.accent },
+        { key: 'aufstockung', label: 'Aufstockung', color: colors.pink }
+      ];
+
+      const values = categories.map(cat => data.sum(cat.key));
+      const total = values.reduce((a, b) => a + b, 0);
+
+      charts.composition = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: categories.map(c => c.label),
+          datasets: [{
+            data: values,
+            backgroundColor: categories.map(c => c.color),
+            borderWidth: 3,
+            borderColor: 'white',
+            hoverOffset: 10
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '60%',
+          plugins: {
+            legend: {
+              display: true,
+              position: 'right',
+              labels: { padding: 15 }
+            },
+            tooltip: {
+              callbacks: {
+                label: (context) => {
+                  const value = context.raw;
+                  const pct = total > 0 ? (value / total * 100).toFixed(1) : 0;
+                  return `${context.label}: ${Utils.formatCHF(value)} (${pct}%)`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderYoYChart() {
+      const ctx = document.getElementById('yoy-chart').getContext('2d');
+
+      if (charts.yoy) charts.yoy.destroy();
+
+      const years = [2022, 2023, 2024, 2025];
+      const totals = years.map(year => {
+        const income = allYearsData[year];
+        return income ? income.getValidRows().sum('total') : 0;
+      });
+
+      // Calculate YoY growth
+      const growthRates = totals.map((val, i) => {
+        if (i === 0) return null;
+        const prev = totals[i - 1];
+        return prev > 0 ? ((val - prev) / prev * 100).toFixed(1) : null;
+      });
+
+      charts.yoy = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: years.map(y => y.toString()),
+          datasets: [{
+            label: 'Jahresumsatz',
+            data: totals,
+            backgroundColor: years.map(y => y === currentYear ? colors.primary : 'rgba(59, 130, 246, 0.4)'),
+            borderColor: colors.primary,
+            borderWidth: 2,
+            borderRadius: 8,
+            barThickness: 60
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterLabel: (context) => {
+                  const growth = growthRates[context.dataIndex];
+                  if (growth !== null) {
+                    const sign = parseFloat(growth) >= 0 ? '+' : '';
+                    return `Wachstum: ${sign}${growth}%`;
+                  }
+                  return '';
+                },
+                label: (context) => Utils.formatCHF(context.raw)
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { callback: (value) => Utils.formatCHF(value) },
+              grid: { color: 'rgba(0,0,0,0.05)' }
+            },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function renderCategoryTrendChart(income) {
+      const ctx = document.getElementById('category-trend-chart').getContext('2d');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+
+      if (charts.categoryTrend) charts.categoryTrend.destroy();
+
+      const labels = rows.map(r => Utils.formatMonthShort(r.period));
+
+      charts.categoryTrend = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Warenverkauf',
+              data: rows.map(r => r.warenverkauf),
+              borderColor: colors.primary,
+              backgroundColor: 'transparent',
+              tension: 0.3,
+              pointRadius: 4
+            },
+            {
+              label: 'Dienstleistungen',
+              data: rows.map(r => r.dienstleistungen),
+              borderColor: colors.secondary,
+              backgroundColor: 'transparent',
+              tension: 0.3,
+              pointRadius: 4
+            },
+            {
+              label: 'Spenden + Aufstockung',
+              data: rows.map(r => (r.spenden || 0) + (r.aufstockung || 0)),
+              borderColor: colors.accent,
+              backgroundColor: 'transparent',
+              tension: 0.3,
+              pointRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { intersect: false, mode: 'index' },
+          plugins: {
+            legend: { display: true, position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.dataset.label}: ${Utils.formatCHF(context.raw)}`
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { callback: (value) => Utils.formatCHF(value) },
+              grid: { color: 'rgba(0,0,0,0.05)' }
+            },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function renderInsights(income) {
+      const container = document.getElementById('insights-container');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+
+      const total = data.sum('total');
+      const warenverkauf = data.sum('warenverkauf');
+      const dienstleistungen = data.sum('dienstleistungen');
+      const spenden = data.sum('spenden') + data.sum('aufstockung');
+      const monthCount = data.count();
+      const monthlyAvg = monthCount > 0 ? total / monthCount : 0;
+
+      // Calculate trends
+      const lastThreeMonths = rows.slice(-3);
+      const firstThreeMonths = rows.slice(0, 3);
+      const recentAvg = lastThreeMonths.reduce((a, r) => a + r.total, 0) / lastThreeMonths.length;
+      const earlyAvg = firstThreeMonths.reduce((a, r) => a + r.total, 0) / firstThreeMonths.length;
+      const trendDirection = recentAvg > earlyAvg ? 'up' : recentAvg < earlyAvg ? 'down' : 'flat';
+
+      // Self-financing ratio
+      const selfFinancing = total > 0 ? (warenverkauf + dienstleistungen) / total : 0;
+
+      // Find weakest month
+      let weakestMonth = rows[0] || { period: '--', total: 0 };
+      rows.forEach(row => {
+        if (row.total < weakestMonth.total) weakestMonth = row;
+      });
+
+      const insights = [];
+
+      // Insight 1: Overall trend
+      if (trendDirection === 'up') {
+        insights.push({
+          type: 'positive',
+          icon: '📈',
+          title: 'Positiver Trend erkannt',
+          text: `Die letzten 3 Monate zeigen eine Verbesserung. Durchschnitt CHF ${Utils.formatNumber(recentAvg)} vs. CHF ${Utils.formatNumber(earlyAvg)} zu Jahresbeginn.`,
+          action: null
+        });
+      } else if (trendDirection === 'down') {
+        insights.push({
+          type: 'warning',
+          icon: '⚠️',
+          title: 'Rückläufiger Trend',
+          text: `Die Einnahmen der letzten 3 Monate (CHF ${Utils.formatNumber(recentAvg)}) liegen unter dem Jahresstart (CHF ${Utils.formatNumber(earlyAvg)}).`,
+          action: 'Massnahmen prüfen'
+        });
+      }
+
+      // Insight 2: Self-financing
+      if (selfFinancing < 0.5) {
+        insights.push({
+          type: 'warning',
+          icon: '💡',
+          title: 'Spendenabhängigkeit',
+          text: `Nur ${Utils.formatPercent(selfFinancing)} der Einnahmen stammen aus eigener Leistung. Ziel: >70% Eigenfinanzierung.`,
+          action: 'Verkauf steigern'
+        });
+      } else {
+        insights.push({
+          type: 'positive',
+          icon: '✅',
+          title: 'Starke Eigenfinanzierung',
+          text: `${Utils.formatPercent(selfFinancing)} der Einnahmen kommen aus Warenverkauf und Dienstleistungen. Gute Basis für Nachhaltigkeit.`,
+          action: null
+        });
+      }
+
+      // Insight 3: Action item
+      if (weakestMonth && weakestMonth.total < monthlyAvg * 0.5) {
+        insights.push({
+          type: 'action',
+          icon: '🎯',
+          title: 'Saisonale Planung empfohlen',
+          text: `${Utils.formatMonthShort(weakestMonth.period)} war mit ${Utils.formatCHF(weakestMonth.total)} der schwächste Monat. Gezielte Aktionen können helfen.`,
+          action: 'Kampagne planen'
+        });
+      } else {
+        insights.push({
+          type: 'action',
+          icon: '📊',
+          title: 'Datenqualität verbessern',
+          text: 'Für präzisere Insights: Stückzahlen der verkauften Geräte erfassen (aktuell nur CHF-Umsatz verfügbar).',
+          action: 'Tracking einführen'
+        });
+      }
+
+      container.innerHTML = insights.map(insight => `
+        <div class="insight-card insight-${insight.type}">
+          <div class="insight-title">${insight.icon} ${insight.title}</div>
+          <div class="insight-text">${insight.text}</div>
+          ${insight.action ? `<a href="#" class="insight-action-btn" onclick="event.preventDefault(); alert('Funktion in Entwicklung')">${insight.action}</a>` : ''}
+        </div>
+      `).join('');
+    }
+
+    function renderKPICards(income) {
+      const container = document.getElementById('kpi-cards');
+      const data = income.getValidRows();
+
+      const total = data.sum('total');
+      const warenverkauf = data.sum('warenverkauf');
+      const dienstleistungen = data.sum('dienstleistungen');
+      const monthCount = data.count();
+
+      // Calculate estimated devices (based on avg price assumption)
+      const avgDevicePrice = 150;
+      const estimatedDevices = Math.round(warenverkauf / avgDevicePrice);
+
+      // Calculate previous year comparison if available
+      let yoyGrowth = null;
+      const prevYearData = allYearsData[currentYear - 1];
+      if (prevYearData) {
+        const prevTotal = prevYearData.getValidRows().sum('total');
+        if (prevTotal > 0) {
+          yoyGrowth = ((total - prevTotal) / prevTotal * 100);
+        }
+      }
+
+      container.innerHTML = `
+        <div class="metric-card metric-card--primary">
+          <span class="data-type data-type--source">Quelldaten</span>
+          <span class="metric-value inspectable" onclick="inspectMetric('total', ${total})">
+            ${Utils.formatCHF(total)}
+          </span>
+          <span class="metric-label">Gesamteinnahmen</span>
+          ${yoyGrowth !== null ? `
+            <span class="trend-badge ${yoyGrowth >= 0 ? 'trend-up' : 'trend-down'}">
+              ${yoyGrowth >= 0 ? '↑' : '↓'} ${Math.abs(yoyGrowth).toFixed(1)}% ggü. Vorjahr
+            </span>
+          ` : '<span class="metric-trend trend-neutral">' + monthCount + ' Monate Daten</span>'}
+        </div>
+        <div class="metric-card">
+          <span class="data-type data-type--source">Quelldaten</span>
+          <span class="metric-value inspectable" onclick="inspectMetric('warenverkauf', ${warenverkauf})">
+            ${Utils.formatCHF(warenverkauf)}
+          </span>
+          <span class="metric-label">Warenverkauf</span>
+          <span class="metric-trend trend-neutral">Konto 3100</span>
+        </div>
+        <div class="metric-card">
+          <span class="data-type data-type--source">Quelldaten</span>
+          <span class="metric-value inspectable" onclick="inspectMetric('dienstleistungen', ${dienstleistungen})">
+            ${Utils.formatCHF(dienstleistungen)}
+          </span>
+          <span class="metric-label">Dienstleistungen</span>
+          <span class="metric-trend trend-neutral">Konto 3400</span>
+        </div>
+        <div class="metric-card">
+          <span class="data-type data-type--estimated">Schätzung</span>
+          <span class="metric-value inspectable" onclick="inspectMetric('devices_estimated', ${estimatedDevices})">
+            ~${estimatedDevices}
+          </span>
+          <span class="metric-label">Geräte verkauft</span>
+          <span class="metric-trend trend-neutral">CHF ${avgDevicePrice}/Gerät</span>
+        </div>
+      `;
+    }
+
+    function renderMonthlyTable(income) {
+      const container = document.getElementById('monthly-table');
+      const data = income.getValidRows();
+
+      if (data.isEmpty()) {
+        container.innerHTML = '<p class="text-muted text-center p-4">Keine Daten verfügbar</p>';
+        return;
+      }
+
+      const rows = data.getAll();
+      let html = `
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Monat</th>
+              <th class="col-number">Warenverkauf</th>
+              <th class="col-number">Dienstleistungen</th>
+              <th class="col-number">Integration</th>
+              <th class="col-number">Spenden</th>
+              <th class="col-number">Aufstockung</th>
+              <th class="col-number">Total</th>
+              <th class="col-number">Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      rows.forEach((row, index) => {
+        const prevRow = rows[index - 1];
+        let trendIcon = '';
+        if (prevRow) {
+          const diff = row.total - prevRow.total;
+          if (diff > 100) trendIcon = '<span style="color: #10b981;">↑</span>';
+          else if (diff < -100) trendIcon = '<span style="color: #ef4444;">↓</span>';
+          else trendIcon = '<span style="color: #6b7280;">→</span>';
+        }
+
+        html += `
+          <tr>
+            <td><strong>${Utils.formatMonthShort(row.period)}</strong></td>
+            <td class="col-number">${Utils.formatCHF(row.warenverkauf || 0)}</td>
+            <td class="col-number">${Utils.formatCHF(row.dienstleistungen || 0)}</td>
+            <td class="col-number">${Utils.formatCHF(row.integration || 0)}</td>
+            <td class="col-number">${Utils.formatCHF(row.spenden || 0)}</td>
+            <td class="col-number">${Utils.formatCHF(row.aufstockung || 0)}</td>
+            <td class="col-number font-bold">${Utils.formatCHF(row.total || 0)}</td>
+            <td class="col-number">${trendIcon}</td>
+          </tr>
+        `;
+      });
+
+      html += `
+          <tr style="background: var(--color-bg-light); font-weight: bold; border-top: 2px solid var(--color-primary);">
+            <td>GESAMT</td>
+            <td class="col-number">${Utils.formatCHF(data.sum('warenverkauf'))}</td>
+            <td class="col-number">${Utils.formatCHF(data.sum('dienstleistungen'))}</td>
+            <td class="col-number">${Utils.formatCHF(data.sum('integration'))}</td>
+            <td class="col-number">${Utils.formatCHF(data.sum('spenden'))}</td>
+            <td class="col-number">${Utils.formatCHF(data.sum('aufstockung'))}</td>
+            <td class="col-number" style="color: var(--color-primary);">${Utils.formatCHF(data.sum('total'))}</td>
+            <td></td>
+          </tr>
+        </tbody></table>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    // Modal Functions
+    const MetricInfo = {
+      total: {
+        name: 'Gesamteinnahmen',
+        account: '30-38 (Nettoerlöse Total)',
+        type: 'source',
+        sourcePath: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+        drivers: ['Anzahl verkaufter Geräte', 'Durchschnittlicher Verkaufspreis', 'Dienstleistungsaufträge'],
+        improvements: ['Mehr Geräte beschaffen', 'Marketing verstärken', 'Dienstleistungen erweitern']
+      },
+      monthly_avg: {
+        name: 'Monatsdurchschnitt',
+        account: 'Berechnet aus Gesamteinnahmen',
+        type: 'derived',
+        formula: 'Gesamteinnahmen / Anzahl Monate',
+        sourcePath: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+        drivers: ['Gesamteinnahmen', 'Anzahl Monate mit Daten'],
+        improvements: ['Konsistente monatliche Einnahmen anstreben']
+      },
+      self_financing: {
+        name: 'Eigenfinanzierungsgrad',
+        account: 'Berechnet aus 3100 + 3400',
+        type: 'derived',
+        formula: '(Warenverkauf + Dienstleistungen) / Gesamteinnahmen × 100%',
+        sourcePath: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+        drivers: ['Warenverkauf', 'Dienstleistungen', 'Gesamteinnahmen'],
+        improvements: ['Warenverkauf steigern', 'Dienstleistungen ausbauen', 'Spendenabhängigkeit reduzieren']
+      },
+      warenverkauf: {
+        name: 'Warenverkauf',
+        account: '3100',
+        type: 'source',
+        sourcePath: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+        drivers: ['Anzahl gespendeter Geräte', 'Kapazität für Aufbereitung', 'Nachfrage'],
+        improvements: ['Partnerschaften mit Unternehmen', 'Online-Präsenz ausbauen']
+      },
+      dienstleistungen: {
+        name: 'Dienstleistungen',
+        account: '3400',
+        type: 'source',
+        sourcePath: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+        drivers: ['Bekanntheitsgrad', 'Verfügbare Fachkräfte', 'Qualität'],
+        improvements: ['Reparatur-Café bewerben', 'Web-Development-Aufträge akquirieren']
+      },
+      devices_estimated: {
+        name: 'Geschätzte Geräteanzahl',
+        account: 'Abgeleitet von 3100',
+        type: 'estimated',
+        formula: 'Warenverkauf CHF / Durchschnittspreis CHF 150',
+        sourcePath: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+        drivers: ['Warenverkauf-Einnahmen'],
+        improvements: ['WICHTIG: Stückzahlen in Kivitendo erfassen', 'Artikelkategorien einführen']
+      }
+    };
+
+    function inspectMetric(metricKey, value) {
+      const info = MetricInfo[metricKey];
+      if (!info) return;
+
+      document.getElementById('modal-title').textContent = info.name + ' inspizieren';
+
+      let formattedValue;
+      if (metricKey === 'devices_estimated') {
+        formattedValue = '~' + value + ' Geräte';
+      } else {
+        formattedValue = Utils.formatCHF(value);
+      }
+
+      let html = `
+        <div class="modal-section">
+          <h4>Aktueller Wert</h4>
+          <div class="modal-value">${formattedValue}</div>
+          <span class="data-type data-type--${info.type}" style="margin-top: 0.5rem;">
+            ${info.type === 'source' ? 'Quelldaten' : info.type === 'derived' ? 'Berechnet' : 'Schätzung'}
+          </span>
+        </div>
+        <div class="modal-section">
+          <h4>Datenquelle</h4>
+          <div class="source-path">
+            ${info.sourcePath ? `📁 ${info.sourcePath}<br>` : '📁 revamp-Einnahmen-2025.xlsx<br>'}
+            📊 Konto: ${info.account}<br>
+            🗓️ Jahr: ${currentYear}
+          </div>
+        </div>
+      `;
+
+      if (info.formula) {
+        html += `
+          <div class="modal-section">
+            <h4>Berechnungsformel</h4>
+            <div style="background: #f0f9ff; padding: 0.75rem; border-radius: 6px; font-family: monospace; font-size: 0.9rem;">
+              ${info.formula}
+            </div>
+          </div>
+        `;
+      }
+
+      html += `
+        <div class="modal-section">
+          <h4>Was beeinflusst diesen Wert?</h4>
+          <ul style="list-style: disc; padding-left: 1.25rem;">
+            ${info.drivers.map(d => `<li>${d}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="modal-section">
+          <h4>Verbesserungsmöglichkeiten</h4>
+          <ul style="list-style: disc; padding-left: 1.25rem; color: var(--color-success);">
+            ${info.improvements.map(i => `<li>${i}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+
+      document.getElementById('modal-body').innerHTML = html;
+      document.getElementById('inspection-modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('inspection-modal').classList.remove('active');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

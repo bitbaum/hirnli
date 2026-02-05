@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fundraising & Vision 2026 – Das Hirn</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    /* Vision Hero */
+    .vision-hero {
+      background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
+      color: white;
+      padding: 3rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+    }
+    .vision-hero h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.2rem;
+    }
+    .vision-hero .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      margin-bottom: 1.5rem;
+    }
+    .vision-hero .tagline {
+      font-size: 1.25rem;
+      font-style: italic;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    /* Impact Grid in Hero */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .impact-card {
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .impact-card .icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .impact-card .title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .impact-card .stats {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+    .impact-card .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    /* Three Pillars Section */
+    .pillars-section {
+      margin-bottom: 2rem;
+    }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .pillar-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-top: 4px solid;
+    }
+    .pillar-card.ecology { border-color: #10b981; }
+    .pillar-card.social { border-color: #f59e0b; }
+    .pillar-card.education { border-color: #3b82f6; }
+    .pillar-card .pillar-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .pillar-card h3 {
+      margin: 0 0 0.75rem 0;
+      font-size: 1.1rem;
+    }
+    .pillar-card ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+    }
+    .pillar-card li {
+      margin-bottom: 0.35rem;
+    }
+    .pillar-card .highlight {
+      background: #f3f4f6;
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+    .pillar-card.ecology .highlight { background: #ecfdf5; }
+    .pillar-card.social .highlight { background: #fffbeb; }
+    .pillar-card.education .highlight { background: #eff6ff; }
+
+    /* Hub Vision */
+    .hub-section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+    }
+    .hub-section h2 {
+      margin: 0 0 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hub-zones {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .zone-card {
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .zone-card .zone-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .zone-card .zone-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+    .zone-card .zone-desc {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Financial Situation */
+    .finance-alert {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .finance-alert h3 {
+      margin: 0 0 1rem 0;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .finance-alert p {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.95rem;
+      color: #78350f;
+    }
+    .finance-alert .positive {
+      color: #065f46;
+      font-weight: 500;
+    }
+
+    /* Ask Section */
+    .ask-section {
+      background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .ask-section h2 {
+      margin: 0 0 1rem 0;
+    }
+    .ask-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .ask-breakdown {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .ask-breakdown h4 {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    .ask-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+    }
+    .ask-item:last-child {
+      border-bottom: none;
+    }
+    .ask-item.total {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      padding-top: 0.75rem;
+      border-top: 2px solid rgba(255,255,255,0.3);
+    }
+    .ask-highlight {
+      text-align: center;
+    }
+    .ask-highlight .big-number {
+      font-size: 3rem;
+      font-weight: 700;
+      display: block;
+    }
+    .ask-highlight .label {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    .ask-highlight .sub {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-top: 0.5rem;
+    }
+
+    /* Sponsorship Packages */
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .package-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .package-card:hover {
+      transform: translateY(-2px);
+    }
+    .package-card.featured {
+      border: 2px solid #059669;
+      position: relative;
+    }
+    .package-card.featured::before {
+      content: "Empfohlen";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #059669;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .package-card .package-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+    .package-card .package-amount {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 0.5rem;
+    }
+    .package-card .package-desc {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Projections Table */
+    .projections-section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+    }
+    .projections-section h3 {
+      margin: 0 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .projection-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .projection-table th, .projection-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .projection-table th {
+      background: #f9fafb;
+      font-weight: 600;
+    }
+    .projection-table .number {
+      text-align: right;
+      font-family: var(--font-mono);
+    }
+    .projection-table .verified {
+      color: #059669;
+    }
+    .projection-table .new {
+      color: #f59e0b;
+    }
+    .projection-table .subtotal {
+      background: #f3f4f6;
+      font-weight: 600;
+    }
+
+    /* Downloads */
+    .downloads-section {
+      margin-bottom: 2rem;
+    }
+    .downloads-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .download-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .download-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .download-card .download-icon {
+      font-size: 2rem;
+    }
+    .download-card .download-info {
+      flex: 1;
+    }
+    .download-card .download-info strong {
+      display: block;
+      font-size: 0.95rem;
+    }
+    .download-card .download-meta {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+    }
+    .download-card .download-arrow {
+      font-size: 1.25rem;
+      color: var(--color-primary);
+    }
+
+    /* Donation Data Section */
+    .donation-data {
+      background: #fff7ed;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .donation-data h3 {
+      margin: 0 0 1rem 0;
+      color: #c2410c;
+    }
+    .donation-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .donation-stat {
+      text-align: center;
+    }
+    .donation-stat .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ea580c;
+    }
+    .donation-stat .label {
+      font-size: 0.8rem;
+      color: #9a3412;
+    }
+
+    /* Chart Cards */
+    .chart-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .chart-card h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+    }
+    .chart-container {
+      position: relative;
+      height: 250px;
+    }
+
+    @media (max-width: 768px) {
+      .impact-grid, .pillars-grid, .hub-zones, .packages-grid, .downloads-grid {
+        grid-template-columns: 1fr;
+      }
+      .ask-grid {
+        grid-template-columns: 1fr;
+      }
+      .donation-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="../../index.html" class="nav-logo">Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="../../index.html">Home</a></li>
+          <li class="nav-dropdown">
+            <a href="#">Strategie</a>
+            <div class="dropdown-menu">
+              <a href="../strategie/index.html">Vision & Mission</a>
+              <a href="../team/index.html">Team & HR</a>
+              <a href="../operations/index.html">Operations</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#" class="active">Finanzen</a>
+            <div class="dropdown-menu">
+              <a href="../finanzen/index.html">Übersicht</a>
+              <a href="../kennzahlen/index.html">Kennzahlen</a>
+              <a href="../preismodell/index.html">Preismodell</a>
+              <a href="index.html" class="active">Fundraising</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Wirkung</a>
+            <div class="dropdown-menu">
+              <a href="../wirkung/index.html">Impact-Zahlen</a>
+              <a href="../methodik/index.html">Methodik</a>
+            </div>
+          </li>
+          <li><a href="../marketing/index.html">Marketing</a></li>
+          <li><a href="../dokumente/index.html">Dokumente</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+      <!-- Vision Hero -->
+      <section class="vision-hero">
+        <h1>Community Tech Hub 2026</h1>
+        <p class="tagline">"Alte Computer. Neue Chancen. Bessere Zukunft."</p>
+        <p class="subtitle">Seit 2003 verbinden wir Kreislaufwirtschaft, Arbeitsintegration und Tech-Bildung unter einem Dach.</p>
+
+        <div class="impact-grid">
+          <div class="impact-card">
+            <div class="icon">♻️</div>
+            <div class="title">Ökologie</div>
+            <div class="stats">
+              <span class="stat-value">285 kg</span>
+              CO₂ pro Laptop gespart
+            </div>
+          </div>
+          <div class="impact-card">
+            <div class="icon">👥</div>
+            <div class="title">Soziales</div>
+            <div class="stats">
+              <span class="stat-value">100+</span>
+              Menschen begleitet
+            </div>
+          </div>
+          <div class="impact-card">
+            <div class="icon">📚</div>
+            <div class="title">Bildung</div>
+            <div class="stats">
+              <span class="stat-value">20+</span>
+              Jahre Erfahrung
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Three Pillars -->
+      <section class="pillars-section content-section">
+        <h2 class="section-title">Unsere drei Säulen</h2>
+        <div class="pillars-grid">
+          <div class="pillar-card ecology">
+            <div class="pillar-icon">🌱</div>
+            <h3>Ökologie & Kreislaufwirtschaft</h3>
+            <ul>
+              <li>E-Waste reduzieren durch Wiederverwendung</li>
+              <li>Lebensdauer von Geräten verlängern</li>
+              <li>Linux statt Windows = längere Nutzung</li>
+              <li>Reparieren statt wegwerfen</li>
+            </ul>
+            <div class="highlight">
+              <strong>Wirkung:</strong> 1000+ Geräte/Jahr gerettet = 285 Tonnen CO₂ eingespart
+            </div>
+          </div>
+          <div class="pillar-card social">
+            <div class="pillar-icon">🤝</div>
+            <h3>Soziale Integration</h3>
+            <ul>
+              <li>Praktikumsplätze für Menschen in Übergangssituationen</li>
+              <li>Skills entwickeln: Hardware, Software, Kundenkontakt</li>
+              <li>Begleitung auf dem Weg zurück in den Arbeitsmarkt</li>
+              <li>Bezahlbare IT für alle</li>
+            </ul>
+            <div class="highlight">
+              <strong>Wirkung:</strong> 100+ Menschen begleitet, 90% Erfolgsquote
+            </div>
+          </div>
+          <div class="pillar-card education">
+            <div class="pillar-icon">🎓</div>
+            <h3>Tech-Bildung für alle</h3>
+            <ul>
+              <li>Reparatur-Wissen weitergeben (Repair Café)</li>
+              <li>Digitale Kompetenzen vermitteln</li>
+              <li>Kritisches Tech-Verständnis fördern</li>
+              <li>Hands-on Lernen statt passiver Konsum</li>
+            </ul>
+            <div class="highlight">
+              <strong>Vision:</strong> 200+ Workshop-Teilnehmer/Jahr, 40+ Kurse
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Financial Situation -->
+      <section class="finance-alert">
+        <h3>⚠️ Die ehrliche Finanzlage</h3>
+        <p>
+          <strong>Was passiert ist:</strong> Der Verlust von zwei B2B-Grosskunden hat unsere Dienstleistungs-Einnahmen um 76% reduziert. Von CHF 130'000 (2022-23) auf ~CHF 42'000 (2025).
+        </p>
+        <p>
+          <strong>Der Grund:</strong> Abhängigkeit von wenigen Kunden (Kivitendo-Hosting). Keine diversifizierten Einnahmequellen.
+        </p>
+        <p class="positive">
+          <strong>Das Positive:</strong> Unser Kerngeschäft (Geräteverkauf) blieb stabil. Der Hub ist unsere Turnaround-Strategie: diversifizierte Einnahmen durch Kurse, Repair Café und Community.
+        </p>
+      </section>
+
+      <!-- Hub Vision -->
+      <section class="hub-section">
+        <h2>🏢 Der Community Tech Hub</h2>
+        <p style="margin-bottom: 1.5rem;">Ein Ort, an dem Ökologie, Soziales und Bildung zusammenkommen. 320 m² für nachhaltige Technologie.</p>
+        <div class="hub-zones">
+          <div class="zone-card">
+            <div class="zone-icon">🛒</div>
+            <div class="zone-name">Shop</div>
+            <div class="zone-desc">Refurbished Geräte, Beratung</div>
+          </div>
+          <div class="zone-card">
+            <div class="zone-icon">🔧</div>
+            <div class="zone-name">Werkstatt</div>
+            <div class="zone-desc">Reparatur, Praktikumsplätze</div>
+          </div>
+          <div class="zone-card">
+            <div class="zone-icon">☕</div>
+            <div class="zone-name">Repair Café</div>
+            <div class="zone-desc">Gemeinsam reparieren lernen</div>
+          </div>
+          <div class="zone-card">
+            <div class="zone-icon">📖</div>
+            <div class="zone-name">Schulungsraum</div>
+            <div class="zone-desc">Kurse, Workshops, Bildung</div>
+          </div>
+          <div class="zone-card">
+            <div class="zone-icon">⚡</div>
+            <div class="zone-name">Hackerspace</div>
+            <div class="zone-desc">Maker-Bereich, Tüfteln</div>
+          </div>
+          <div class="zone-card">
+            <div class="zone-icon">🖥️</div>
+            <div class="zone-name">Museum</div>
+            <div class="zone-desc">Computergeschichte, Hands-on</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Ask -->
+      <section class="ask-section">
+        <h2>Der Förderbedarf</h2>
+        <div class="ask-grid">
+          <div class="ask-breakdown">
+            <h4>Verwendung (2 Jahre)</h4>
+            <div class="ask-item">
+              <span>Umzug & Einrichtung</span>
+              <span>CHF 130'000</span>
+            </div>
+            <div class="ask-item">
+              <span>2 Program Manager</span>
+              <span>CHF 216'000</span>
+            </div>
+            <div class="ask-item">
+              <span>Standort-Mehrkosten</span>
+              <span>CHF 102'000</span>
+            </div>
+            <div class="ask-item">
+              <span>Repair Café & Hackerspace</span>
+              <span>CHF 25'000</span>
+            </div>
+            <div class="ask-item">
+              <span>Weiterbildung & Kurse</span>
+              <span>CHF 20'000</span>
+            </div>
+            <div class="ask-item">
+              <span>Museum & Hands-on</span>
+              <span>CHF 17'000</span>
+            </div>
+            <div class="ask-item" style="color: #10b981;">
+              <span>Eigenerträge (datenbasiert)</span>
+              <span>- CHF 145'000</span>
+            </div>
+            <div class="ask-item total">
+              <span>Förderbedarf Total</span>
+              <span>CHF 370'000</span>
+            </div>
+          </div>
+          <div class="ask-highlight">
+            <span class="big-number">CHF 370k</span>
+            <span class="label">Förderbedarf über 2 Jahre</span>
+            <div class="sub">Wir finanzieren 28% selbst – trotz Krise</div>
+            <div class="sub" style="margin-top: 1rem;">74% der Eigenerträge historisch belegt</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sponsorship Packages -->
+      <section class="content-section">
+        <h2 class="section-title">Beteiligungsmöglichkeiten</h2>
+        <div class="packages-grid">
+          <div class="package-card featured">
+            <div class="package-name">Hauptpartner</div>
+            <div class="package-amount">CHF 185'000</div>
+            <div class="package-desc">Der Hub existiert</div>
+          </div>
+          <div class="package-card">
+            <div class="package-name">Hub-Einrichtung</div>
+            <div class="package-amount">CHF 130'000</div>
+            <div class="package-desc">Umzug & Aufbau</div>
+          </div>
+          <div class="package-card">
+            <div class="package-name">Bildungsprogramm</div>
+            <div class="package-amount">CHF 108'000</div>
+            <div class="package-desc">1 Jahr Kurse & Workshops</div>
+          </div>
+          <div class="package-card">
+            <div class="package-name">Integration</div>
+            <div class="package-amount">CHF 108'000</div>
+            <div class="package-desc">1 Jahr Praktikumsbetreuung</div>
+          </div>
+          <div class="package-card">
+            <div class="package-name">Jahrespartner</div>
+            <div class="package-amount">CHF 55'000</div>
+            <div class="package-desc">1 Jahr Standortkosten</div>
+          </div>
+          <div class="package-card">
+            <div class="package-name">Repair Café</div>
+            <div class="package-amount">CHF 15'000</div>
+            <div class="package-desc">Community-Reparaturwerkstatt</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projections -->
+      <section class="projections-section">
+        <h3>📊 Einnahmen-Projektion (datenbasiert)</h3>
+        <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--color-text-muted);">74% unserer Projektion basiert auf historischen Daten</p>
+        <table class="projection-table">
+          <thead>
+            <tr>
+              <th>Einnahmequelle</th>
+              <th class="number">Heute</th>
+              <th class="number">Jahr 2</th>
+              <th>Basis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Geräteverkauf</td>
+              <td class="number">22'000</td>
+              <td class="number">35'000</td>
+              <td class="verified">✅ Historischer Ø: 34'600</td>
+            </tr>
+            <tr>
+              <td>Reparaturen</td>
+              <td class="number">18'000</td>
+              <td class="number">25'000</td>
+              <td class="verified">✅ +40% durch Sichtbarkeit</td>
+            </tr>
+            <tr>
+              <td>Integration</td>
+              <td class="number">2'000</td>
+              <td class="number">6'000</td>
+              <td class="verified">✅ Historischer Ø: 6'700</td>
+            </tr>
+            <tr class="subtotal">
+              <td><strong>Bewährte Quellen</strong></td>
+              <td class="number"><strong>42'000</strong></td>
+              <td class="number"><strong>66'000</strong></td>
+              <td><strong>74% der Projektion</strong></td>
+            </tr>
+            <tr>
+              <td>Workshops & Kurse</td>
+              <td class="number">0</td>
+              <td class="number">10'000</td>
+              <td class="new">⚠️ Realistisch-Szenario</td>
+            </tr>
+            <tr>
+              <td>Repair Café</td>
+              <td class="number">0</td>
+              <td class="number">5'000</td>
+              <td class="new">⚠️ Realistisch-Szenario</td>
+            </tr>
+            <tr>
+              <td>Hackerspace</td>
+              <td class="number">0</td>
+              <td class="number">4'200</td>
+              <td class="new">⚠️ Realistisch-Szenario</td>
+            </tr>
+            <tr>
+              <td>Spezial-Projekte</td>
+              <td class="number">0</td>
+              <td class="number">4'000</td>
+              <td class="new">⚠️ Realistisch-Szenario</td>
+            </tr>
+            <tr class="subtotal">
+              <td><strong>Total Jahr 2</strong></td>
+              <td class="number"><strong>42'000</strong></td>
+              <td class="number"><strong>89'200</strong></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--color-text-muted);">
+          <strong>Pessimistisch-Szenario: CHF 59'400</strong> – Hub bleibt auch dann tragbar.
+        </p>
+      </section>
+
+      <!-- Donation Data (from Kivitendo) -->
+      <section class="donation-data">
+        <h3>🎁 Aktuelle Spendendaten (Kivitendo)</h3>
+        <div class="donation-stats" id="donationStats">
+          <div class="donation-stat">
+            <span class="value" id="totalDonations">CHF 0</span>
+            <span class="label">Total Spenden 2025</span>
+          </div>
+          <div class="donation-stat">
+            <span class="value" id="spendenValue">CHF 0</span>
+            <span class="label">Spenden (3500)</span>
+          </div>
+          <div class="donation-stat">
+            <span class="value" id="aufstockungValue">CHF 0</span>
+            <span class="label">Aufstockung (3510)</span>
+          </div>
+          <div class="donation-stat">
+            <span class="value" id="donationRatio">0%</span>
+            <span class="label">Anteil Einnahmen</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Charts -->
+      <section class="content-section">
+        <div class="grid-2">
+          <div class="chart-card">
+            <h3>Jahresvergleich: Spenden + Aufstockung</h3>
+            <div class="chart-container">
+              <canvas id="yearComparisonChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <h3>Selbstfinanzierung vs. Spenden</h3>
+            <div class="chart-container">
+              <canvas id="ratioChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stiftungen Link -->
+      <section class="content-section">
+        <a href="stiftungen.html" style="display: block; background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%); color: white; border-radius: 12px; padding: 1.5rem; text-decoration: none; transition: transform 0.2s;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <span style="font-size: 2.5rem;">🏛️</span>
+            <div style="flex: 1;">
+              <strong style="font-size: 1.2rem; display: block; margin-bottom: 0.25rem;">Stiftungen & Förderer Übersicht</strong>
+              <span style="opacity: 0.9; font-size: 0.95rem;">45+ recherchierte Förderer · Deadlines · Bewerbungsanforderungen · Priorisierte Aktionsliste</span>
+            </div>
+            <span style="font-size: 1.5rem;">→</span>
+          </div>
+        </a>
+      </section>
+
+      <!-- Downloads -->
+      <section class="downloads-section content-section">
+        <h2 class="section-title">Downloads</h2>
+        <div class="downloads-grid">
+          <a href="../../../01_Management/B_Finanzen/Fundraising/RevampIT_PitchDeck_2026.pdf" class="download-card" download>
+            <span class="download-icon">📊</span>
+            <div class="download-info">
+              <strong>Pitch Deck 2026</strong>
+              <span class="download-meta">PDF · Präsentation</span>
+            </div>
+            <span class="download-arrow">↓</span>
+          </a>
+          <a href="../../../01_Management/B_Finanzen/Fundraising/Vision_2026_Gesuch.md" class="download-card" download>
+            <span class="download-icon">📄</span>
+            <div class="download-info">
+              <strong>Vision-Dokument</strong>
+              <span class="download-meta">Markdown · Vollständig</span>
+            </div>
+            <span class="download-arrow">↓</span>
+          </a>
+          <a href="../../../01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx" class="download-card" download>
+            <span class="download-icon">📈</span>
+            <div class="download-info">
+              <strong>Einnahmen 2025</strong>
+              <span class="download-meta">Excel · Kivitendo Export</span>
+            </div>
+            <span class="download-arrow">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Data Source -->
+      <section class="content-section">
+        <div class="alert" style="background: #ecfdf5; border-left-color: #10b981;">
+          <strong>Datenquellen:</strong><br>
+          <span style="font-size: 0.85rem; color: var(--color-text-muted);">
+            Finanzdaten: revamp-Einnahmen-2025.xlsx (Kivitendo Export)<br>
+            Wirkungsdaten: BAFU Lifecycle-Analyse 2023, interne HR-Daten<br>
+            Alle Zahlen verifiziert. Projektionen mit drei Szenarien dokumentiert.
+          </span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p>Das Hirn &copy; 2025 - Transparentes Dashboard für Revamp-IT</p>
+      <div class="footer-links">
+        <a href="../../CLAUDE.md">Entwicklungsrichtlinien</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="../../assets/js/utils.js"></script>
+  <script src="../../assets/js/data-loader.js"></script>
+  <script>
+    let allYearsData = {};
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadAllYears();
+      renderDonationStats();
+      renderCharts();
+    });
+
+    async function loadAllYears() {
+      const years = [2022, 2023, 2024, 2025];
+      for (const year of years) {
+        try {
+          allYearsData[year] = await DataLoader.loadIncome(year);
+        } catch (e) {
+          console.error(`Error loading ${year}:`, e);
+        }
+      }
+    }
+
+    function renderDonationStats() {
+      const income = allYearsData[2025];
+      if (!income) return;
+
+      const data = income.getValidRows();
+      const spenden = data.sum('spenden');
+      const aufstockung = data.sum('aufstockung');
+      const total = spenden + aufstockung;
+      const yearTotal = data.sum('total');
+      const ratio = yearTotal > 0 ? total / yearTotal : 0;
+
+      document.getElementById('totalDonations').textContent = Utils.formatCHF(total);
+      document.getElementById('spendenValue').textContent = Utils.formatCHF(spenden);
+      document.getElementById('aufstockungValue').textContent = Utils.formatCHF(aufstockung);
+      document.getElementById('donationRatio').textContent = Utils.formatPercent(ratio);
+    }
+
+    function renderCharts() {
+      renderYearComparisonChart();
+      renderRatioChart();
+    }
+
+    function renderYearComparisonChart() {
+      const ctx = document.getElementById('yearComparisonChart');
+      if (!ctx) return;
+
+      const years = [2022, 2023, 2024, 2025];
+      const totals = years.map(year => {
+        const income = allYearsData[year];
+        if (!income) return 0;
+        const data = income.getValidRows();
+        return data.sum('spenden') + data.sum('aufstockung');
+      });
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: years.map(String),
+          datasets: [{
+            label: 'Spenden + Aufstockung',
+            data: totals,
+            backgroundColor: '#059669'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: v => 'CHF ' + v.toLocaleString('de-CH')
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderRatioChart() {
+      const ctx = document.getElementById('ratioChart');
+      if (!ctx) return;
+
+      const years = [2022, 2023, 2024, 2025];
+      const selfFinancing = [];
+      const donations = [];
+
+      years.forEach(year => {
+        const income = allYearsData[year];
+        if (!income) {
+          selfFinancing.push(0);
+          donations.push(0);
+          return;
+        }
+        const data = income.getValidRows();
+        const total = data.sum('total');
+        const don = data.sum('spenden') + data.sum('aufstockung');
+        const sf = total - don;
+        selfFinancing.push(Math.max(0, sf));
+        donations.push(Math.max(0, don));
+      });
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: years.map(String),
+          datasets: [
+            {
+              label: 'Selbstfinanzierung',
+              data: selfFinancing,
+              backgroundColor: '#3b82f6'
+            },
+            {
+              label: 'Spenden',
+              data: donations,
+              backgroundColor: '#059669'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { font: { size: 11 }, boxWidth: 12 }
+            }
+          },
+          scales: {
+            x: { stacked: true },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              ticks: {
+                callback: v => 'CHF ' + (v / 1000).toFixed(0) + 'k'
+              }
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing – Das Hirn</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        /* Marketing page styles using Revamp-IT brand colors */
+        .marketing-header {
+            background: linear-gradient(135deg, var(--revamp-grey-dark) 0%, #34495E 100%);
+            color: var(--revamp-white);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--revamp-orange);
+        }
+        .marketing-header h1 { color: var(--revamp-white); }
+        .marketing-header p { color: var(--revamp-grey-light); }
+
+        .strategy-card {
+            background: var(--revamp-white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+        }
+        .strategy-card h3 {
+            color: var(--revamp-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .channel-card {
+            background: var(--revamp-grey-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid var(--color-border);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .channel-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--revamp-blue);
+        }
+        .channel-card h4 {
+            color: var(--revamp-grey-dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .channel-card p { color: var(--color-text-light); }
+        .channel-card .meta { font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.5rem; }
+
+        .channel-priority {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .priority-primary { background: var(--revamp-green); color: white; }
+        .priority-secondary { background: var(--revamp-blue); color: white; }
+        .priority-tertiary { background: var(--revamp-grey-medium); color: white; }
+
+        .audience-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .audience-card {
+            background: var(--revamp-white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 4px solid;
+            box-shadow: var(--shadow-sm);
+        }
+        .audience-card h4 { color: var(--revamp-grey-dark); }
+        .audience-card.b2c { border-left-color: var(--revamp-green); }
+        .audience-card.b2b { border-left-color: var(--revamp-orange); }
+        .audience-card.funder { border-left-color: var(--revamp-blue); }
+        .audience-card.community { border-left-color: #1ABC9C; }
+
+        .funnel-stage {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--revamp-grey-light);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+        .funnel-stage .stage-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: var(--revamp-blue);
+            color: white;
+        }
+        .brand-colors {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        .color-swatch { text-align: center; }
+        .color-swatch .swatch {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            border: 2px solid var(--color-border);
+        }
+        .color-swatch .name { font-weight: 600; color: var(--color-text); }
+        .color-swatch .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-text-muted); }
+
+        .content-calendar {
+            background: var(--revamp-white);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+            border: 1px solid var(--color-border);
+        }
+        .content-calendar table { width: 100%; border-collapse: collapse; }
+        .content-calendar th, .content-calendar td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .content-calendar th {
+            background: var(--revamp-grey-light);
+            color: var(--revamp-blue);
+            font-weight: 600;
+        }
+        .content-type {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            background: var(--revamp-grey-light);
+            color: var(--revamp-grey-dark);
+        }
+        .philosophy-box {
+            background: linear-gradient(135deg, var(--revamp-grey-light) 0%, #D5DBDB 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--revamp-green);
+        }
+        .philosophy-box h3 { color: var(--revamp-green); margin-bottom: 1rem; }
+        .philosophy-box p { color: var(--color-text); }
+
+        .dos-donts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .dos, .donts {
+            background: var(--revamp-white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .dos { border-top: 3px solid var(--revamp-green); }
+        .donts { border-top: 3px solid #E74C3C; }
+        .dos h4 { color: var(--revamp-green); }
+        .donts h4 { color: #E74C3C; }
+        .dos li::marker { color: var(--revamp-green); }
+        .donts li::marker { color: #E74C3C; }
+
+        @media (max-width: 768px) {
+            .dos-donts { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="../../index.html" class="nav-logo">🧠 Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="../../index.html">Home</a></li>
+          <li class="nav-dropdown">
+            <a href="#">Strategie</a>
+            <div class="dropdown-menu">
+              <a href="../strategie/index.html">Vision & Mission</a>
+              <a href="../team/index.html">Team & HR</a>
+              <a href="../operations/index.html">Operations</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Finanzen</a>
+            <div class="dropdown-menu">
+              <a href="../finanzen/index.html">Übersicht</a>
+              <a href="../kennzahlen/index.html">Kennzahlen</a>
+              <a href="../preismodell/index.html">Preismodell</a>
+              <a href="../fundraising/index.html">Fundraising</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Wirkung</a>
+            <div class="dropdown-menu">
+              <a href="../wirkung/index.html">Impact-Zahlen</a>
+              <a href="../methodik/index.html">Methodik</a>
+            </div>
+          </li>
+          <li><a href="index.html" class="active">Marketing</a></li>
+          <li><a href="../dokumente/index.html">Dokumente</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container">
+        <div class="marketing-header">
+            <h1>Marketing & Kommunikation</h1>
+            <p>FOSS-First Marketing-Strategie 2025 - Authentisch, Community-driven, Wirkungsorientiert</p>
+        </div>
+
+        <!-- Marketing Philosophy -->
+        <div class="philosophy-box">
+            <h3>Unsere Marketing-Philosophie</h3>
+            <p><strong>Fediverse-First:</strong> Wir priorisieren offene, dezentrale Plattformen (Mastodon, Pixelfed, PeerTube) vor proprietären Netzwerken. Das spiegelt unsere Werte wider und erreicht eine technik-affine, werteorientierte Zielgruppe.</p>
+            <p style="margin-top: 1rem;"><strong>Authentizität vor Reichweite:</strong> Lieber 100 echte Unterstützer als 10.000 passive Follower. Wir kommunizieren offen, inkl. Herausforderungen und Learnings.</p>
+        </div>
+
+        <!-- Target Audiences -->
+        <section class="strategy-card">
+            <h3>Zielgruppen</h3>
+            <div class="audience-section">
+                <div class="audience-card b2c">
+                    <h4>B2C - Privatpersonen</h4>
+                    <ul>
+                        <li>Studis & Azubis (Budget-Computer)</li>
+                        <li>KulturLegi-Berechtigte</li>
+                        <li>Umweltbewusste Käufer*innen</li>
+                        <li>Linux-Interessierte & Bastler</li>
+                    </ul>
+                </div>
+                <div class="audience-card b2b">
+                    <h4>B2B - Organisationen</h4>
+                    <ul>
+                        <li>NGOs & Vereine</li>
+                        <li>Schulen & Bildungseinrichtungen</li>
+                        <li>Kleine Unternehmen</li>
+                        <li>Genossenschaften</li>
+                    </ul>
+                </div>
+                <div class="audience-card funder">
+                    <h4>Funder & Partner</h4>
+                    <ul>
+                        <li>Stiftungen (Umwelt, Digital, Sozial)</li>
+                        <li>Öffentliche Hand</li>
+                        <li>Impact Investoren</li>
+                        <li>Corporate Partners (IT-Spenden)</li>
+                    </ul>
+                </div>
+                <div class="audience-card community">
+                    <h4>Community</h4>
+                    <ul>
+                        <li>FOSS-Community</li>
+                        <li>Repair-Café-Bewegung</li>
+                        <li>Lokale Tech-Meetups</li>
+                        <li>Nachhaltigkeits-Netzwerke</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marketing Channels -->
+        <section class="strategy-card">
+            <h3>Marketing-Kanäle</h3>
+            <div class="channel-grid">
+                <div class="channel-card">
+                    <h4>Mastodon <span class="channel-priority priority-primary">Primär</span></h4>
+                    <p>Hauptkanal für Community-Engagement, Updates, Behind-the-Scenes.</p>
+                    <p class="meta">Frequenz: Täglich | Ziel: Community-Building</p>
+                </div>
+                <div class="channel-card">
+                    <h4>Website/Blog <span class="channel-priority priority-primary">Primär</span></h4>
+                    <p>SEO-optimierte Inhalte, Anleitungen, Impact-Stories, Transparenz-Dashboard.</p>
+                    <p class="meta">Frequenz: Wöchentlich | Ziel: Organic Traffic</p>
+                </div>
+                <div class="channel-card">
+                    <h4>Newsletter <span class="channel-priority priority-primary">Primär</span></h4>
+                    <p>Monatlicher Newsletter für Interessierte, Kunden, Funder.</p>
+                    <p class="meta">Frequenz: Monatlich | Ziel: Retention & Updates</p>
+                </div>
+                <div class="channel-card">
+                    <h4>LinkedIn <span class="channel-priority priority-secondary">Sekundär</span></h4>
+                    <p>B2B-Kontakte, Funder-Outreach, Professional Network.</p>
+                    <p class="meta">Frequenz: 2-3x/Woche | Ziel: B2B & Funder</p>
+                </div>
+                <div class="channel-card">
+                    <h4>Nostr <span class="channel-priority priority-secondary">Sekundär</span></h4>
+                    <p>Experimentell - Erreichen der Bitcoin/Crypto-affinen FOSS-Community.</p>
+                    <p class="meta">Frequenz: Wöchentlich | Ziel: Tech-Community</p>
+                </div>
+                <div class="channel-card">
+                    <h4>X (Twitter) <span class="channel-priority priority-tertiary">Tertiär</span></h4>
+                    <p>Cross-posting von Mastodon, minimaler Aufwand.</p>
+                    <p class="meta">Frequenz: Auto-Cross-Post | Ziel: Reichweite</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marketing Funnel -->
+        <section class="strategy-card">
+            <h3>Marketing-Funnel</h3>
+            <div class="funnel-stage">
+                <div class="stage-icon">1</div>
+                <div>
+                    <strong>Awareness</strong>
+                    <p>Social Media, SEO, Events, Mundpropaganda, Presse</p>
+                </div>
+            </div>
+            <div class="funnel-stage">
+                <div class="stage-icon">2</div>
+                <div>
+                    <strong>Interest</strong>
+                    <p>Website-Besuch, Newsletter-Anmeldung, Social Follow</p>
+                </div>
+            </div>
+            <div class="funnel-stage">
+                <div class="stage-icon">3</div>
+                <div>
+                    <strong>Consideration</strong>
+                    <p>Shop durchstöbern, Preise vergleichen, Fragen stellen</p>
+                </div>
+            </div>
+            <div class="funnel-stage">
+                <div class="stage-icon">4</div>
+                <div>
+                    <strong>Conversion</strong>
+                    <p>Kauf, Workshop-Buchung, Spende, Partnerschaft</p>
+                </div>
+            </div>
+            <div class="funnel-stage">
+                <div class="stage-icon">5</div>
+                <div>
+                    <strong>Loyalty</strong>
+                    <p>Wiederkauf, Empfehlung, Community-Mitglied, Botschafter</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Brand Identity -->
+        <section class="strategy-card">
+            <h3>Brand Identity</h3>
+
+            <h4 style="margin-top: 1.5rem;">Marken-Stimme</h4>
+            <ul>
+                <li><strong>Freundlich & Zugänglich:</strong> Keine Tech-Arroganz, jede Frage ist willkommen</li>
+                <li><strong>Transparent & Ehrlich:</strong> Wir zeigen auch was nicht funktioniert</li>
+                <li><strong>Kompetent & Hilfreich:</strong> Expertise ohne Überheblichkeit</li>
+                <li><strong>Aktivistisch & Wertgetrieben:</strong> Wir stehen für etwas</li>
+            </ul>
+
+            <h4 style="margin-top: 1.5rem;">Farbpalette (Official Revamp-IT)</h4>
+            <div class="brand-colors">
+                <div class="color-swatch">
+                    <div class="swatch" style="background: #2ECC71;"></div>
+                    <div class="name">Revamp Grün</div>
+                    <div class="code">#2ECC71</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch" style="background: #3498DB;"></div>
+                    <div class="name">Revamp Blau</div>
+                    <div class="code">#3498DB</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch" style="background: #E67E22;"></div>
+                    <div class="name">Revamp Orange</div>
+                    <div class="code">#E67E22</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch" style="background: #2C3E50;"></div>
+                    <div class="name">Grau Dunkel</div>
+                    <div class="code">#2C3E50</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch" style="background: #ECF0F1;"></div>
+                    <div class="name">Grau Hell</div>
+                    <div class="code">#ECF0F1</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dos and Don'ts -->
+        <section class="strategy-card">
+            <h3>Kommunikations-Richtlinien</h3>
+            <div class="dos-donts">
+                <div class="dos">
+                    <h4>Do's</h4>
+                    <ul>
+                        <li>Konkrete Impact-Zahlen nennen</li>
+                        <li>Echte Geschichten von Kund*innen teilen</li>
+                        <li>Auch Herausforderungen kommunizieren</li>
+                        <li>Lokalen Bezug herstellen (Zürich)</li>
+                        <li>FOSS-Vorteile erklären</li>
+                        <li>Preise transparent machen</li>
+                        <li>Community einbeziehen</li>
+                    </ul>
+                </div>
+                <div class="donts">
+                    <h4>Don'ts</h4>
+                    <ul>
+                        <li>Greenwashing oder Übertreibung</li>
+                        <li>Tech-Jargon ohne Erklärung</li>
+                        <li>Negative Wettbewerber-Kommunikation</li>
+                        <li>Stock-Fotos statt echte Bilder</li>
+                        <li>Versprechen die wir nicht halten können</li>
+                        <li>Proprietäre Plattformen priorisieren</li>
+                        <li>Kommunikation ohne Substanz</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Calendar -->
+        <section class="strategy-card">
+            <h3>Content-Kalender (Beispielwoche)</h3>
+            <div class="content-calendar">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tag</th>
+                            <th>Kanal</th>
+                            <th>Content-Typ</th>
+                            <th>Thema</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Montag</td>
+                            <td>Mastodon</td>
+                            <td><span class="content-type">Behind the Scenes</span></td>
+                            <td>Wochenstart im Lager</td>
+                        </tr>
+                        <tr>
+                            <td>Dienstag</td>
+                            <td>Blog</td>
+                            <td><span class="content-type">Anleitung</span></td>
+                            <td>Linux-Tutorial oder Reparatur-Guide</td>
+                        </tr>
+                        <tr>
+                            <td>Mittwoch</td>
+                            <td>Mastodon</td>
+                            <td><span class="content-type">Impact</span></td>
+                            <td>Gerät der Woche mit CO2-Ersparnis</td>
+                        </tr>
+                        <tr>
+                            <td>Donnerstag</td>
+                            <td>LinkedIn</td>
+                            <td><span class="content-type">B2B</span></td>
+                            <td>Case Study oder Partnerschaft</td>
+                        </tr>
+                        <tr>
+                            <td>Freitag</td>
+                            <td>Mastodon</td>
+                            <td><span class="content-type">Community</span></td>
+                            <td>Frage an die Community / Umfrage</td>
+                        </tr>
+                        <tr>
+                            <td>Samstag</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>Pause</td>
+                        </tr>
+                        <tr>
+                            <td>Sonntag</td>
+                            <td>Newsletter</td>
+                            <td><span class="content-type">Roundup</span></td>
+                            <td>Monatlicher Newsletter (1x/Monat)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Key Messages -->
+        <section class="strategy-card">
+            <h3>Kernbotschaften</h3>
+            <div class="audience-section">
+                <div class="audience-card b2c">
+                    <h4>Für Käufer*innen</h4>
+                    <p>"Qualitäts-Computer zum fairen Preis - gut für dich und die Umwelt."</p>
+                </div>
+                <div class="audience-card b2b">
+                    <h4>Für B2B</h4>
+                    <p>"Nachhaltige IT-Lösungen für Organisationen mit Werten."</p>
+                </div>
+                <div class="audience-card funder">
+                    <h4>Für Funder</h4>
+                    <p>"Messbarer Impact: Jeder Franken schafft digitale Teilhabe und spart Ressourcen."</p>
+                </div>
+                <div class="audience-card community">
+                    <h4>Für Community</h4>
+                    <p>"Gemeinsam für offene, reparierbare, faire Technologie."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Sources -->
+        <section class="strategy-card" style="border-left: 3px solid var(--revamp-blue);">
+            <h4>Datenquellen</h4>
+            <p><span class="channel-priority priority-secondary">decision</span> Marketing_Strategie_2025.md (Vorstand-Entscheid)</p>
+            <p><span class="channel-priority priority-secondary">decision</span> Brand_Identity.md (Team-Vereinbarung)</p>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+      <p>Das Hirn © 2025 – Interne Wissensbasis von Revamp-IT</p>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+</body>
+</html>

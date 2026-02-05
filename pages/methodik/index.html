@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodik – Das Hirn</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    .data-type {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .data-type--source { background: #d1fae5; color: #065f46; }
+    .data-type--derived { background: #fef3c7; color: #92400e; }
+    .data-type--estimated { background: #fee2e2; color: #991b1b; }
+
+    .methodology-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .methodology-card h3 {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .formula-box {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      margin: 1rem 0;
+    }
+    .assumption-list, .limitation-list {
+      margin: 0.5rem 0;
+      padding-left: 1.5rem;
+    }
+    .assumption-list li {
+      color: var(--color-text);
+      margin-bottom: 0.25rem;
+    }
+    .limitation-list li {
+      color: var(--color-danger);
+      margin-bottom: 0.25rem;
+    }
+    .confidence-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .confidence--high { background: #d1fae5; color: #065f46; }
+    .confidence--medium { background: #fef3c7; color: #92400e; }
+    .confidence--low { background: #fee2e2; color: #991b1b; }
+    .toc-section {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .toc-section a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+    .toc-section a:hover {
+      text-decoration: underline;
+    }
+    .data-flow {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+      background: var(--color-bg-light);
+      border-radius: 8px;
+    }
+    .data-flow-item {
+      text-align: center;
+      padding: 0.75rem;
+      background: white;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      min-width: 80px;
+    }
+    .data-flow-item .icon {
+      font-size: 1.5rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .data-flow-arrow {
+      font-size: 1.25rem;
+      color: var(--color-text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="../../index.html" class="nav-logo">🧠 Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="../../index.html">Home</a></li>
+          <li class="nav-dropdown">
+            <a href="#">Strategie</a>
+            <div class="dropdown-menu">
+              <a href="../strategie/index.html">Vision & Mission</a>
+              <a href="../team/index.html">Team & HR</a>
+              <a href="../operations/index.html">Operations</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Finanzen</a>
+            <div class="dropdown-menu">
+              <a href="../finanzen/index.html">Übersicht</a>
+              <a href="../kennzahlen/index.html">Kennzahlen</a>
+              <a href="../preismodell/index.html">Preismodell</a>
+              <a href="../fundraising/index.html">Fundraising</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#" class="active">Impact</a>
+            <div class="dropdown-menu">
+              <a href="../wirkung/index.html">Impact-Zahlen</a>
+              <a href="index.html" class="active">Methodik</a>
+            </div>
+          </li>
+          <li><a href="../marketing/index.html">Marketing</a></li>
+          <li><a href="../dokumente/index.html">Dokumente</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hauptinhalt -->
+    <main class="page-content">
+      <header class="page-header">
+        <h1>Methodik & Datenquellen</h1>
+        <p class="page-subtitle">Vollständige Transparenz über alle Berechnungen und Annahmen</p>
+        <p class="page-meta">
+          Jede Zahl im Dashboard ist hier erklärt und nachvollziehbar dokumentiert.
+        </p>
+      </header>
+
+      <!-- Datentypen-Legende -->
+      <section class="content-section">
+        <h2 class="section-title">Datentypen</h2>
+        <div class="card">
+          <div class="grid-3">
+            <div style="text-align: center; padding: 1rem;">
+              <span class="data-type data-type--source" style="font-size: 0.9rem;">Quelldaten</span>
+              <p class="text-sm mt-2"><strong>Hohe Konfidenz</strong></p>
+              <p class="text-xs text-muted">Direkt aus Kivitendo-Buchhaltung exportiert. Verifizierbar in Original-Excel.</p>
+            </div>
+            <div style="text-align: center; padding: 1rem;">
+              <span class="data-type data-type--derived" style="font-size: 0.9rem;">Berechnet</span>
+              <p class="text-sm mt-2"><strong>Mittlere Konfidenz</strong></p>
+              <p class="text-xs text-muted">Aus Quelldaten mathematisch abgeleitet. Formel dokumentiert.</p>
+            </div>
+            <div style="text-align: center; padding: 1rem;">
+              <span class="data-type data-type--estimated" style="font-size: 0.9rem;">Schätzung</span>
+              <p class="text-sm mt-2"><strong>Niedrige Konfidenz</strong></p>
+              <p class="text-xs text-muted">Basiert auf Annahmen. Echte Daten fehlen.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Datenfluss -->
+      <section class="content-section">
+        <h2 class="section-title">Datenfluss</h2>
+        <div class="card">
+          <div class="data-flow">
+            <div class="data-flow-item">
+              <span class="icon">📊</span>
+              Kivitendo
+            </div>
+            <span class="data-flow-arrow">→</span>
+            <div class="data-flow-item">
+              <span class="icon">📁</span>
+              Excel Export
+            </div>
+            <span class="data-flow-arrow">→</span>
+            <div class="data-flow-item">
+              <span class="icon">🐍</span>
+              Python Import
+            </div>
+            <span class="data-flow-arrow">→</span>
+            <div class="data-flow-item">
+              <span class="icon">🗄️</span>
+              SQLite DB
+            </div>
+            <span class="data-flow-arrow">→</span>
+            <div class="data-flow-item">
+              <span class="icon">📄</span>
+              JSON Export
+            </div>
+            <span class="data-flow-arrow">→</span>
+            <div class="data-flow-item" style="background: var(--color-primary); color: white;">
+              <span class="icon">📈</span>
+              Dashboard
+            </div>
+          </div>
+          <p class="text-sm text-muted text-center mt-4">
+            Quelldatei: <code>revamp-Einnahmen-2025.xlsx</code> |
+            Vollständige Dokumentation: <a href="../../../01_Management/B_Finanzen/DATA_ARCHITECTURE.md">DATA_ARCHITECTURE.md</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- Inhaltsverzeichnis -->
+      <section class="content-section">
+        <h2 class="section-title">Inhaltsverzeichnis</h2>
+        <div class="card">
+          <div class="toc-section">
+            <a href="#income-data">1. Einnahmen-Daten (Quelldaten)</a>
+          </div>
+          <div class="toc-section">
+            <a href="#self-financing">2. Eigenfinanzierungsgrad (Berechnet)</a>
+          </div>
+          <div class="toc-section">
+            <a href="#device-estimation">3. Geräteanzahl-Schätzung</a>
+          </div>
+          <div class="toc-section">
+            <a href="#co2-calculation">4. CO₂-Berechnung</a>
+          </div>
+          <div class="toc-section">
+            <a href="#ewaste-calculation">5. E-Waste-Berechnung</a>
+          </div>
+          <div class="toc-section">
+            <a href="#pricing-model">6. Preismodell-Methodik</a>
+          </div>
+          <div class="toc-section">
+            <a href="#data-gaps">7. Datenlücken</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1. Einnahmen-Daten -->
+      <section class="content-section" id="income-data">
+        <div class="methodology-card">
+          <h3>
+            <span class="data-type data-type--source">Quelldaten</span>
+            1. Einnahmen-Daten
+          </h3>
+          <p class="text-sm mb-4">
+            Die Einnahmen-Daten sind die einzigen direkten Quelldaten im Dashboard.
+            Sie werden direkt aus der Kivitendo-Buchhaltung exportiert.
+          </p>
+
+          <h4 class="text-sm font-medium mb-2">Kivitendo-Konten:</h4>
+          <table class="data-table mb-4">
+            <thead>
+              <tr>
+                <th>Konto</th>
+                <th>Name</th>
+                <th>Dashboard-Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>3100</td><td>Produktverkäufe</td><td>Warenverkauf</td></tr>
+              <tr><td>3400</td><td>Dienstleistungserlöse</td><td>Dienstleistungen</td></tr>
+              <tr><td>3450</td><td>Integrations-Arbeitsplätze</td><td>Integration</td></tr>
+              <tr><td>3500</td><td>Spendenerlöse</td><td>Spenden</td></tr>
+              <tr><td>3510</td><td>Aufstockung Richtpreis</td><td>Aufstockung</td></tr>
+              <tr><td>30-38</td><td>Nettoerlöse Total</td><td>Total</td></tr>
+            </tbody>
+          </table>
+
+          <h4 class="text-sm font-medium mb-2">Verifizierung:</h4>
+          <p class="text-sm text-muted">
+            Jeder Wert kann direkt in <code>revamp-Einnahmen-2025.xlsx</code> nachgeschlagen werden.
+            Die Datei enthält monatliche Werte für jedes Konto.
+          </p>
+
+          <div class="mt-4">
+            <span class="confidence-badge confidence--high">Konfidenz: Hoch</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Eigenfinanzierungsgrad -->
+      <section class="content-section" id="self-financing">
+        <div class="methodology-card">
+          <h3>
+            <span class="data-type data-type--derived">Berechnet</span>
+            2. Eigenfinanzierungsgrad
+          </h3>
+          <p class="text-sm mb-4">
+            Der Eigenfinanzierungsgrad zeigt, wie viel der Einnahmen durch eigene
+            Wirtschaftstätigkeit erwirtschaftet wird (ohne Spenden).
+          </p>
+
+          <div class="formula-box">
+            <strong>Formel:</strong><br>
+            Eigenfinanzierungsgrad = (Warenverkauf + Dienstleistungen + Integration) / Gesamteinnahmen × 100%
+          </div>
+
+          <h4 class="text-sm font-medium mb-2">Bedeutung:</h4>
+          <ul class="assumption-list text-sm">
+            <li><strong>&gt;60%:</strong> Hohe Unabhängigkeit von Spenden (Ziel)</li>
+            <li><strong>40-60%:</strong> Mischfinanzierung</li>
+            <li><strong>&lt;40%:</strong> Starke Spendenabhängigkeit</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">Treiber:</h4>
+          <ul class="assumption-list text-sm">
+            <li>Anzahl verkaufter Geräte</li>
+            <li>Durchschnittlicher Verkaufspreis</li>
+            <li>Anzahl Dienstleistungsaufträge</li>
+          </ul>
+
+          <div class="mt-4">
+            <span class="confidence-badge confidence--high">Konfidenz: Hoch</span>
+            <span class="text-xs text-muted ml-2">(Berechnung aus Quelldaten)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Geräteanzahl-Schätzung -->
+      <section class="content-section" id="device-estimation">
+        <div class="methodology-card">
+          <h3>
+            <span class="data-type data-type--estimated">Schätzung</span>
+            3. Geräteanzahl-Schätzung
+          </h3>
+          <p class="text-sm mb-4">
+            Da keine Stückzahlen in Kivitendo erfasst werden, schätzen wir die
+            Geräteanzahl aus den Einnahmen.
+          </p>
+
+          <div class="formula-box">
+            <strong>Formel:</strong><br>
+            Geschätzte Geräte = Warenverkauf (CHF) / Durchschnittspreis (CHF 150)
+          </div>
+
+          <h4 class="text-sm font-medium mb-2">Annahmen:</h4>
+          <ul class="assumption-list text-sm">
+            <li>Durchschnittspreis pro Gerät: <strong>CHF 150</strong></li>
+            <li>Alle Einnahmen auf Konto 3100 sind Geräteverkäufe</li>
+            <li>Keine Unterscheidung nach Gerätetyp</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">Limitationen:</h4>
+          <ul class="limitation-list text-sm">
+            <li>Zubehör (Kabel, Tastaturen, Mäuse) ist mitgezählt</li>
+            <li>Grosse Preisvariation (CHF 50–500)</li>
+            <li>Keine Unterscheidung Laptop/Desktop/Tablet</li>
+            <li>Durchschnittspreis ist Schätzung, nicht berechnet</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">Verbesserungsmöglichkeit:</h4>
+          <div class="alert" style="background: #fee2e2; border-left-color: var(--color-danger);">
+            <strong>KRITISCH:</strong> Stückzahlen sollten in Kivitendo erfasst werden.
+            Das würde diese Schätzung überflüssig machen.
+          </div>
+
+          <div class="mt-4">
+            <span class="confidence-badge confidence--low">Konfidenz: Niedrig</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. CO2-Berechnung -->
+      <section class="content-section" id="co2-calculation">
+        <div class="methodology-card">
+          <h3>
+            <span class="data-type data-type--calculated">Berechnet</span>
+            4. CO₂-Berechnung
+          </h3>
+          <p class="text-sm mb-4">
+            Die CO₂-Ersparnis wird basierend auf <strong>Hersteller-spezifischen Life Cycle Assessment (LCA) Reports</strong> berechnet.
+          </p>
+
+          <div class="formula-box">
+            <strong>Formel (für bekannte Modelle):</strong><br>
+            CO₂ vermieden = SUM(CO2_LCA_Total_kg pro Gerät)
+          </div>
+          <div class="formula-box" style="margin-top: 0.5rem;">
+            <strong>Formel (für unbekannte Modelle):</strong><br>
+            CO₂ vermieden = SUM(Gewicht_kg × CO2_Faktor_kg_per_kg)
+          </div>
+
+          <h4 class="text-sm font-medium mb-2 mt-4">Hersteller-spezifische CO₂-Werte (High Confidence):</h4>
+          <div style="overflow-x: auto; margin: 1rem 0;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+              <thead>
+                <tr style="background: #f3f4f6; border-bottom: 2px solid #d1d5db;">
+                  <th style="padding: 0.5rem; text-align: left; border: 1px solid #d1d5db;">Hersteller</th>
+                  <th style="padding: 0.5rem; text-align: left; border: 1px solid #d1d5db;">Modell</th>
+                  <th style="padding: 0.5rem; text-align: right; border: 1px solid #d1d5db;">CO₂ (kg)</th>
+                  <th style="padding: 0.5rem; text-align: left; border: 1px solid #d1d5db;">Quelle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">Lenovo</td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">ThinkPad X13</td>
+                  <td style="padding: 0.5rem; text-align: right; border: 1px solid #d1d5db;"><strong>377.6</strong></td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;"><a href="https://static.lenovo.com/ww/docs/eco-declaration/thinkpad-x13-gen-2.pdf" target="_blank" style="color: var(--color-primary);">Lenovo Eco Declaration</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">Lenovo</td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">ThinkPad X1 Extreme</td>
+                  <td style="padding: 0.5rem; text-align: right; border: 1px solid #d1d5db;"><strong>244.6</strong></td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;"><a href="https://static.lenovo.com/ww/docs/eco-declaration/thinkpad-x1-extreme-gen-5.pdf" target="_blank" style="color: var(--color-primary);">Lenovo Eco Declaration</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">Dell</td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">Latitude 9520</td>
+                  <td style="padding: 0.5rem; text-align: right; border: 1px solid #d1d5db;"><strong>325.5</strong></td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;"><a href="https://www.dell.com/en-us/lp/product-carbon-footprint" target="_blank" style="color: var(--color-primary);">Dell PCF</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">Dell</td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">XPS 15 (9530)</td>
+                  <td style="padding: 0.5rem; text-align: right; border: 1px solid #d1d5db;"><strong>383.7</strong></td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;"><a href="https://www.dell.com/en-us/lp/product-carbon-footprint" target="_blank" style="color: var(--color-primary);">Dell PCF</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">HP</td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">EliteBook 865 G10</td>
+                  <td style="padding: 0.5rem; text-align: right; border: 1px solid #d1d5db;"><strong>176.4</strong></td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;"><a href="https://h20195.www2.hp.com/v2/getpdf.aspx/c09146959.pdf" target="_blank" style="color: var(--color-primary);">HP PCF</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">Apple</td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;">MacBook Pro 16"</td>
+                  <td style="padding: 0.5rem; text-align: right; border: 1px solid #d1d5db;"><strong>348.0</strong></td>
+                  <td style="padding: 0.5rem; border: 1px solid #d1d5db;"><a href="https://www.apple.com/environment/reports/" target="_blank" style="color: var(--color-primary);">Apple Environmental Report</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="text-sm font-medium mb-2 mt-4">Datenquellen (Peer-Reviewed Studien):</h4>
+          <ul class="assumption-list text-sm">
+            <li><strong>MDPI Sustainability (2025):</strong> <a href="https://www.mdpi.com/2071-1050/17/10/4455" target="_blank" style="color: var(--color-primary);">Environmental and Economic Assessment Desktop vs. Laptop</a> - Business Laptop Durchschnitt: 300 kg CO₂</li>
+            <li><strong>ScienceDirect (2023):</strong> <a href="https://www.sciencedirect.com/science/article/pii/S1364032123002794" target="_blank" style="color: var(--color-primary);">Assessing embodied carbon emissions</a> - Monitore: 200-250 kg CO₂</li>
+            <li><strong>Circular Computing:</strong> <a href="https://circularcomputing.com/news/carbon-footprint-laptop/" target="_blank" style="color: var(--color-primary);">Analysis of 231 Laptops</a> - Consumer Laptop Durchschnitt: 250 kg CO₂</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mb-2 mt-4">Methodik:</h4>
+          <ul class="assumption-list text-sm">
+            <li><strong>Für bekannte Modelle:</strong> Direkte CO₂-Werte aus Hersteller-LCA-Reports (High Confidence)</li>
+            <li><strong>Für unbekannte Modelle:</strong> Hersteller-Durchschnitt oder Kategorie-Durchschnitt (Medium Confidence)</li>
+            <li><strong>Alle verkauften Geräte ersetzen Neukäufe</strong> (Avoided Burden Ansatz nach ISO 14040/14044)</li>
+            <li>Alle Quellen sind direkt verlinkt und nachprüfbar</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">Limitationen:</h4>
+          <ul class="limitation-list text-sm">
+            <li>Falls Geräteanzahl geschätzt wird, entsteht Unsicherheit (siehe Geräte-Berechnung)</li>
+            <li>Nicht alle Käufer hätten neu gekauft (konservative Annahme)</li>
+            <li>Lebensdauerverlängerung durch Refurbishment wird separat gemessen (LIFETIME_YEARS)</li>
+          </ul>
+
+          <div class="mt-4">
+            <span class="confidence-badge confidence--high">Konfidenz: Hoch</span>
+            <span class="text-xs text-muted ml-2">(Hersteller-LCA-Reports für bekannte Modelle)</span>
+          </div>
+          <div class="mt-2">
+            <p class="text-xs text-muted">
+              <strong>Vollständige Datenquelle:</strong> <a href="../../01_Management/C_Kennzahlen_und_Reporting/KPI_Framework/CO2_und_Gewichtstabelle.csv" target="_blank" style="color: var(--color-primary);">CO2_und_Gewichtstabelle.csv</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. E-Waste-Berechnung -->
+      <section class="content-section" id="ewaste-calculation">
+        <div class="methodology-card">
+          <h3>
+            <span class="data-type data-type--estimated">Schätzung</span>
+            5. E-Waste-Berechnung
+          </h3>
+          <p class="text-sm mb-4">
+            Die E-Waste-Ersparnis wird ebenfalls aus der geschätzten Geräteanzahl abgeleitet.
+          </p>
+
+          <div class="formula-box">
+            <strong>Formel:</strong><br>
+            E-Waste vermieden = Geschätzte Geräte × 10 kg/Gerät
+          </div>
+
+          <h4 class="text-sm font-medium mb-2">Annahmen:</h4>
+          <ul class="assumption-list text-sm">
+            <li>Durchschnittliches Gerätegewicht: 10 kg</li>
+            <li>Jedes wiederverwendete Gerät vermeidet Entsorgung</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">Limitationen:</h4>
+          <ul class="limitation-list text-sm">
+            <li>Gerätegewicht variiert stark (Laptop ~2kg, Desktop ~10kg)</li>
+            <li>Nur das Gerät selbst, nicht Verpackung/Zubehör</li>
+            <li>Basiert auf Geräteschätzung</li>
+          </ul>
+
+          <div class="mt-4">
+            <span class="confidence-badge confidence--low">Konfidenz: Niedrig</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Preismodell-Methodik -->
+      <section class="content-section" id="pricing-model">
+        <div class="methodology-card">
+          <h3>
+            <span class="data-type data-type--derived">Berechnet / Entscheidung</span>
+            6. Preismodell-Methodik
+          </h3>
+          <p class="text-sm mb-4">
+            Das solidarische Preismodell basiert auf einer Kombination aus Marktdaten,
+            externen Standards und Vorstandsentscheidungen.
+          </p>
+
+          <h4 class="text-sm font-medium mb-2">6.1 Normalpreis (Marktvergleich)</h4>
+          <div class="formula-box">
+            <strong>Methode:</strong><br>
+            Vergleich mit ähnlichen Angeboten auf Ricardo, Tutti, Revendo, eBay Kleinanzeigen
+          </div>
+          <ul class="assumption-list text-sm">
+            <li><strong>Quelle:</strong> Manuelle Marktbeobachtung</li>
+            <li><strong>Konfidenz:</strong> Mittel (variiert je nach Gerät)</li>
+            <li><strong>Beispiel:</strong> ThinkPad X270 i5/8GB → Ricardo CHF 180-250 → Normalpreis CHF 200</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">6.2 KulturLegi-Rabatt (50%)</h4>
+          <div class="formula-box">
+            <strong>Formel:</strong><br>
+            KulturLegi-Preis = Normalpreis × 0.5
+          </div>
+          <ul class="assumption-list text-sm">
+            <li><strong>Quelle:</strong> Vorstandsentscheidung (Januar 2025)</li>
+            <li><strong>Begründung:</strong> Einheitlicher, leicht kommunizierbarer Rabatt</li>
+            <li><strong>KulturLegi-Einkommensgrenze:</strong> ca. CHF 2'600/Monat (Einzelperson)</li>
+            <li><strong>Externe Quelle:</strong> <a href="https://www.kulturlegi.ch" target="_blank">kulturlegi.ch</a></li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">6.3 Supporter-Aufschlag (+20% bis +50%)</h4>
+          <div class="formula-box">
+            <strong>Formel:</strong><br>
+            Supporter-Preis = Normalpreis × (1 + Aufschlag)<br>
+            <span class="text-xs">wobei Aufschlag = 0.2 bis 0.5 (empfohlen)</span>
+          </div>
+          <ul class="assumption-list text-sm">
+            <li><strong>Quelle:</strong> Vorstandsentscheidung (Januar 2025)</li>
+            <li><strong>Begründung +20%:</strong> Niedrige Einstiegshürde (CHF 40 bei CHF 200 Gerät)</li>
+            <li><strong>Begründung +50%:</strong> Signifikanter Impact ohne zu hohe Abschreckung</li>
+            <li><strong>Buchung:</strong> Aufschlag wird separat auf Konto 3510 verbucht</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">6.4 Gratis-Quote (5-15% Ziel)</h4>
+          <div class="formula-box">
+            <strong>Formel:</strong><br>
+            Gratis-Quote = Anzahl Gratis-Abgaben / Anzahl Gesamtverkäufe × 100%
+          </div>
+          <ul class="assumption-list text-sm">
+            <li><strong>Quelle:</strong> Vorstandsentscheidung (Januar 2025)</li>
+            <li><strong>Begründung 5%:</strong> Mindestens 1 von 20 Geräten für Bedürftige</li>
+            <li><strong>Begründung 15%:</strong> Obergrenze zur finanziellen Nachhaltigkeit</li>
+            <li><strong>Limitierung:</strong> Aktuell nicht systematisch erfasst</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">6.5 Durchschnittspreis-Referenz (CHF 150)</h4>
+          <div class="formula-box">
+            <strong>Berechnung (geplant):</strong><br>
+            Durchschnittspreis = Warenverkauf (CHF) / Anzahl verkaufter Geräte
+          </div>
+          <ul class="limitation-list text-sm">
+            <li><strong>Aktuell:</strong> Schätzung basierend auf Erfahrungswerten</li>
+            <li><strong>Problem:</strong> Keine Stückzahlen in Kivitendo</li>
+            <li><strong>Verbesserung:</strong> Echte Durchschnittsberechnung nach Artikelerfassung</li>
+          </ul>
+
+          <h4 class="text-sm font-medium mt-4 mb-2">Preis-Beispiel vollständig nachvollziehbar:</h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Stufe</th>
+                <th>Berechnung</th>
+                <th>Ergebnis</th>
+                <th>Quelle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Normal</td>
+                <td>Marktvergleich Ricardo/Tutti</td>
+                <td>CHF 200</td>
+                <td>Marktdaten</td>
+              </tr>
+              <tr>
+                <td>KulturLegi</td>
+                <td>CHF 200 × 0.5</td>
+                <td>CHF 100</td>
+                <td>Vorstand</td>
+              </tr>
+              <tr>
+                <td>Supporter +20%</td>
+                <td>CHF 200 × 1.2</td>
+                <td>CHF 240</td>
+                <td>Vorstand</td>
+              </tr>
+              <tr>
+                <td>Supporter +50%</td>
+                <td>CHF 200 × 1.5</td>
+                <td>CHF 300</td>
+                <td>Vorstand</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="mt-4">
+            <span class="confidence-badge confidence--medium">Konfidenz: Mittel</span>
+            <span class="text-xs text-muted ml-2">(Entscheidungen dokumentiert, Marktvergleich nicht automatisiert)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Datenlücken -->
+      <section class="content-section" id="data-gaps">
+        <div class="methodology-card">
+          <h3>
+            7. Datenlücken
+          </h3>
+          <p class="text-sm mb-4">
+            Folgende Daten fehlen komplett und können nicht einmal geschätzt werden:
+          </p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Datenpunkt</th>
+                <th>Priorität</th>
+                <th>Warum wichtig</th>
+                <th>Wie beheben</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Geräte-Stückzahlen</td>
+                <td style="color: var(--color-danger);"><strong>Kritisch</strong></td>
+                <td>Alle Impact-Metriken hängen davon ab</td>
+                <td>Artikelerfassung in Kivitendo</td>
+              </tr>
+              <tr>
+                <td>Ausgaben-Daten</td>
+                <td style="color: var(--color-danger);"><strong>Kritisch</strong></td>
+                <td>Kein Gewinn/Verlust berechenbar</td>
+                <td>Ausgaben-Export aus Kivitendo</td>
+              </tr>
+              <tr>
+                <td>Gerätetypen</td>
+                <td style="color: var(--color-warning);">Hoch</td>
+                <td>CO₂ und E-Waste variieren stark</td>
+                <td>Kategorien definieren</td>
+              </tr>
+              <tr>
+                <td>Workshop-Teilnehmer</td>
+                <td>Mittel</td>
+                <td>Soziale Wirkung messen</td>
+                <td>Anmeldeliste führen</td>
+              </tr>
+              <tr>
+                <td>Freiwilligenstunden</td>
+                <td>Mittel</td>
+                <td>Soziale Wirkung messen</td>
+                <td>Zeiterfassung einführen</td>
+              </tr>
+              <tr>
+                <td>Linux-Installationen</td>
+                <td>Niedrig</td>
+                <td>Software-Wirkung messen</td>
+                <td>Bei Verkauf notieren</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Prinzipien -->
+      <section class="content-section">
+        <h2 class="section-title">Unsere Transparenz-Prinzipien</h2>
+        <div class="card">
+          <div class="grid-2">
+            <div>
+              <h4 class="font-medium mb-2">✅ Was wir tun</h4>
+              <ul class="text-sm" style="list-style: disc; padding-left: 1.5rem;">
+                <li class="mb-1">Nur echte Daten aus Kivitendo verwenden</li>
+                <li class="mb-1">Jede Berechnung dokumentieren</li>
+                <li class="mb-1">Annahmen offenlegen</li>
+                <li class="mb-1">Limitationen klar benennen</li>
+                <li class="mb-1">Datenlücken dokumentieren</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-medium mb-2">❌ Was wir nicht tun</h4>
+              <ul class="text-sm" style="list-style: disc; padding-left: 1.5rem;">
+                <li class="mb-1">Keine erfundenen Zahlen</li>
+                <li class="mb-1">Keine Schönfärberei</li>
+                <li class="mb-1">Keine versteckten Annahmen</li>
+                <li class="mb-1">Keine Pseudo-Präzision</li>
+                <li class="mb-1">Keine unbelegten Behauptungen</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Fusszeile -->
+    <footer class="main-footer">
+      <p>Das Hirn © 2025 – Transparentes Dashboard für Revamp-IT</p>
+      <div class="footer-links">
+        <a href="../../../01_Management/B_Finanzen/DATA_ARCHITECTURE.md">Datenarchitektur</a>
+        <a href="../finanzen/index.html">Finanzdaten</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="../../assets/js/utils.js"></script>
+</body>
+</html>

@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finanzen – Das Hirn</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    .finance-hero {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+    }
+    .finance-hero h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.75rem;
+    }
+    .finance-hero .subtitle {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .hero-metric {
+      text-align: center;
+    }
+    .hero-metric .value {
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+    .hero-metric .label {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      margin-top: 0.25rem;
+    }
+    .hero-metric .change {
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+      display: inline-block;
+    }
+    .hero-metric .change.positive { background: rgba(16, 185, 129, 0.3); }
+    .hero-metric .change.negative { background: rgba(239, 68, 68, 0.3); }
+
+    .year-selector {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .year-btn {
+      padding: 0.6rem 1.25rem;
+      border: 2px solid var(--color-border);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .year-btn:hover {
+      border-color: var(--color-primary);
+      background: #eff6ff;
+    }
+    .year-btn.active {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin: 1rem 0;
+    }
+    .chart-container.small {
+      height: 220px;
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .insight-card {
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      border-left: 4px solid;
+    }
+    .insight-card.success {
+      background: #ecfdf5;
+      border-color: #10b981;
+    }
+    .insight-card.warning {
+      background: #fffbeb;
+      border-color: #f59e0b;
+    }
+    .insight-card.info {
+      background: #eff6ff;
+      border-color: #3b82f6;
+    }
+    .insight-card.action {
+      background: #fef2f2;
+      border-color: #ef4444;
+    }
+    .insight-card h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .insight-card p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .category-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .category-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .category-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    .category-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .category-card .name {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .category-card .amount {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .category-card .percent {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      margin-top: 0.25rem;
+    }
+    .category-card .account-code {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-top: 0.5rem;
+    }
+
+    .data-source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: #d1fae5;
+      color: #065f46;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .monthly-sparkline {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 40px;
+      margin-top: 0.5rem;
+    }
+    .monthly-sparkline .bar {
+      flex: 1;
+      background: var(--color-primary);
+      border-radius: 2px 2px 0 0;
+      min-height: 4px;
+      transition: all 0.2s;
+    }
+    .monthly-sparkline .bar:hover {
+      opacity: 0.8;
+    }
+
+    .trend-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .trend-indicator.up { color: #10b981; }
+    .trend-indicator.down { color: #ef4444; }
+    .trend-indicator.flat { color: #6b7280; }
+
+    .comparison-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .comparison-row:last-child {
+      border-bottom: none;
+    }
+    .comparison-row .label {
+      font-size: 0.9rem;
+    }
+    .comparison-row .values {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .comparison-row .current {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .comparison-row .previous {
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* First Principles Transparency Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .modal-header {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 16px 16px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 { margin: 0; font-size: 1.25rem; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+    .modal-body { padding: 2rem; }
+    .fp-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .fp-section:last-child { border-bottom: none; margin-bottom: 0; }
+    .fp-section h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+    .fp-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 0.5rem;
+    }
+    .confidence-badge {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+    .confidence-high { background: #d1fae5; color: #065f46; }
+    .confidence-medium { background: #fef3c7; color: #92400e; }
+    .confidence-low { background: #fee2e2; color: #991b1b; }
+    .confidence-target { background: #e9d5ff; color: #6b28d9; }
+    
+    .source-path {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      background: #f3f4f6;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #3b82f6;
+      margin: 0.5rem 0;
+    }
+    .formula-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+    }
+    .assumption-item, .limitation-item {
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border-radius: 6px;
+      border-left: 3px solid;
+    }
+    .assumption-item {
+      background: #fef3c7;
+      border-color: #f59e0b;
+    }
+    .limitation-item {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+    .validation-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .validation-valid { background: #d1fae5; color: #065f46; }
+    .validation-warning { background: #fef3c7; color: #92400e; }
+    .validation-error { background: #fee2e2; color: #991b1b; }
+    
+    .trace-step {
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      background: #f9fafb;
+      border-radius: 6px;
+      border-left: 3px solid #3b82f6;
+    }
+    .trace-step-number {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: #3b82f6;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-right: 0.75rem;
+    }
+
+    /* Inspectable Numbers */
+    .inspectable {
+      cursor: pointer;
+      border-bottom: 2px dotted #3b82f6;
+      transition: all 0.15s;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+    .inspectable:hover {
+      background: #dbeafe;
+      border-bottom-color: #1e40af;
+    }
+    .inspectable::after {
+      content: '🔍';
+      font-size: 0.7em;
+      margin-left: 0.2em;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="../../index.html" class="nav-logo">Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="../../index.html">Home</a></li>
+          <li class="nav-dropdown">
+            <a href="#">Strategie</a>
+            <div class="dropdown-menu">
+              <a href="../strategie/index.html">Vision & Mission</a>
+              <a href="../team/index.html">Team & HR</a>
+              <a href="../operations/index.html">Operations</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#" class="active">Finanzen</a>
+            <div class="dropdown-menu">
+              <a href="index.html" class="active">Ubersicht</a>
+              <a href="../kennzahlen/index.html">Kennzahlen</a>
+              <a href="../preismodell/index.html">Preismodell</a>
+              <a href="../fundraising/index.html">Fundraising</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="#">Wirkung</a>
+            <div class="dropdown-menu">
+              <a href="../wirkung/index.html">Impact-Zahlen</a>
+              <a href="../methodik/index.html">Methodik</a>
+            </div>
+          </li>
+          <li><a href="../marketing/index.html">Marketing</a></li>
+          <li><a href="../dokumente/index.html">Dokumente</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hauptinhalt -->
+    <main class="page-content">
+      <!-- Hero Section -->
+      <div class="finance-hero" id="finance-hero">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1>Finanzubersicht <span id="hero-year">2025</span></h1>
+            <p class="subtitle">Detaillierte Einnahmen nach Kivitendo-Konten</p>
+          </div>
+          <span class="data-source-badge">Quelldaten aus Buchhaltung</span>
+        </div>
+        <div class="hero-metrics" id="hero-metrics">
+          <div class="loading">Lade Daten...</div>
+        </div>
+      </div>
+
+      <!-- Executive Summary -->
+      <section class="exec-summary">
+        <div class="exec-summary-header">
+          <h2>Zusammenfassung</h2>
+          <span class="badge badge-live">Stand: Januar 2025</span>
+        </div>
+        <div class="exec-summary-body">
+          <div class="key-finding">
+            <span class="finding-icon">💰</span>
+            <div>
+              <strong>Kernaussage:</strong> Finanzdaten aus Kivitendo vollständig erfasst. Warenverkauf ist die Haupteinnahmequelle, gefolgt von Dienstleistungen.
+            </div>
+          </div>
+          <ul class="findings-list">
+            <li class="finding-positive">Einnahmen nach 5 Konten kategorisiert (3100-3510)</li>
+            <li class="finding-positive">4 Jahre Vergleichsdaten verfügbar (2022-2025)</li>
+            <li class="finding-warning">Eigenfinanzierungsquote variiert je nach Jahr stark</li>
+            <li class="finding-action">Ziel: >70% Eigenfinanzierung erreichen</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Jahr-Auswahl -->
+      <section class="content-section">
+        <div class="year-selector" id="year-selector">
+          <button class="year-btn" data-year="2022">2022</button>
+          <button class="year-btn" data-year="2023">2023</button>
+          <button class="year-btn" data-year="2024">2024</button>
+          <button class="year-btn active" data-year="2025">2025</button>
+        </div>
+      </section>
+
+      <!-- Einnahmen nach Kategorie -->
+      <section class="content-section">
+        <h2 class="section-title">Einnahmen nach Kategorie</h2>
+        <div class="category-cards" id="category-cards">
+          <div class="loading">Lade...</div>
+        </div>
+      </section>
+
+      <!-- Charts Grid -->
+      <section class="content-section">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Monatlicher Umsatzverlauf</h3>
+            <p class="text-xs text-muted">Alle Einnahmen kombiniert</p>
+            <div class="chart-container">
+              <canvas id="monthlyRevenueChart"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Einnahmenverteilung</h3>
+            <p class="text-xs text-muted">Anteil nach Kategorie</p>
+            <div class="chart-container">
+              <canvas id="compositionChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Eigenfinanzierung vs Spenden -->
+      <section class="content-section">
+        <div class="card">
+          <h3>Eigenfinanzierung vs. Spenden</h3>
+          <p class="text-xs text-muted mb-3">Nachhaltigkeitsindikator: Wie viel erwirtschaften wir selbst?</p>
+          <div class="chart-container small">
+            <canvas id="selfFinancingChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Management Insights -->
+      <section class="content-section">
+        <h2 class="section-title">Management Insights</h2>
+        <div class="insight-grid" id="insights">
+          <div class="loading">Analysiere Daten...</div>
+        </div>
+      </section>
+
+      <!-- Jahresvergleich -->
+      <section class="content-section">
+        <div class="card">
+          <h3>Jahresvergleich</h3>
+          <p class="text-xs text-muted mb-3">Performance uber alle Jahre</p>
+          <div class="chart-container">
+            <canvas id="yearComparisonChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Detaillierte Monatstabelle -->
+      <section class="content-section">
+        <div class="card">
+          <h3>Monatliche Aufschlusselung <span id="table-year">2025</span></h3>
+          <div id="monthly-table" style="overflow-x: auto;">
+            <div class="loading">Lade Tabelle...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- First Principles Recommendations -->
+      <section class="first-principles content-section">
+        <h2>Handlungsempfehlungen (First Principles)</h2>
+        <div class="principle-card">
+          <div class="principle-header">
+            <span class="principle-icon">💰</span>
+            <h3>Finanzielle Nachhaltigkeit</h3>
+          </div>
+          <p class="principle-goal">Ziel: Transparente Liquidität, Budgettreue, nachvollziehbare Mittelverwendung</p>
+          <div class="principle-constraints">
+            <strong>Constraints:</strong> Gemeinnützigkeitsregeln, Zahlungsziele, Spendenauflagen
+          </div>
+          <div class="recommendations">
+            <div class="rec-item rec-high">
+              <span class="priority">HOCH</span>
+              <span class="action">Eigenfinanzierungsquote auf >70% steigern</span>
+              <span class="impact">→ Reduziert Spendenabhängigkeit</span>
+            </div>
+            <div class="rec-item rec-medium">
+              <span class="priority">MITTEL</span>
+              <span class="action">Dienstleistungsportfolio diversifizieren</span>
+              <span class="impact">→ Stabilere Einnahmenbasis</span>
+            </div>
+            <div class="rec-item rec-low">
+              <span class="priority">TIEF</span>
+              <span class="action">Saisonale Muster analysieren und Gegenmassnahmen planen</span>
+              <span class="impact">→ Glättet Einnahmenvolatilität</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Downloads Section -->
+      <section class="downloads-section content-section">
+        <h2>Downloads</h2>
+        <p class="text-muted mb-4">Quelldateien zum Herunterladen</p>
+        <div class="downloads-grid">
+          <a href="../../../01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx" class="download-card" download>
+            <span class="download-icon">📊</span>
+            <div class="download-info">
+              <strong>Einnahmen 2025</strong>
+              <span class="download-meta">Excel · 25 KB · Kivitendo Export</span>
+            </div>
+            <span class="download-arrow">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Quellen-Info -->
+      <section class="content-section">
+        <div class="alert alert-info">
+          <strong>Datenquelle:</strong> Kivitendo Buchhaltung (Export: revamp-Einnahmen-2025.xlsx)<br>
+          <small>Konten: 3100 Warenverkauf, 3400 Dienstleistungen, 3450 Integration, 3500 Spenden, 3510 Aufstockung</small>
+        </div>
+      </section>
+    </main>
+
+    <!-- First Principles Analysis Modal -->
+    <div class="modal-overlay" id="fp-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="fp-modal-title">First Principles Analyse</h3>
+          <button class="modal-close" onclick="closeFPModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="fp-modal-body"></div>
+      </div>
+    </div>
+
+    <!-- Fusszeile -->
+    <footer class="main-footer">
+      <p>Das Hirn - Transparentes Dashboard fur Revamp-IT</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="../../assets/js/utils.js"></script>
+  <script src="../../assets/js/data-loader.js"></script>
+  <script src="../../assets/js/number-sources.js"></script>
+  <script src="../../assets/js/first-principles-analyzer.js"></script>
+  <script>
+    let currentYear = 2025;
+    let allYearsData = {};
+    let charts = {};
+
+    // Chart.js defaults
+    Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Jahr-Buttons
+      document.querySelectorAll('.year-btn').forEach(btn => {
+        btn.addEventListener('click', () => selectYear(parseInt(btn.dataset.year)));
+      });
+
+      await loadAllYears();
+      renderPage();
+    });
+
+    async function loadAllYears() {
+      const years = [2022, 2023, 2024, 2025];
+      for (const year of years) {
+        try {
+          allYearsData[year] = await DataLoader.loadIncome(year);
+        } catch (e) {
+          console.error(`Fehler beim Laden von ${year}:`, e);
+        }
+      }
+    }
+
+    function selectYear(year) {
+      currentYear = year;
+      document.querySelectorAll('.year-btn').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.year) === year);
+      });
+      document.getElementById('hero-year').textContent = year;
+      document.getElementById('table-year').textContent = year;
+      renderPage();
+    }
+
+    function renderPage() {
+      const income = allYearsData[currentYear];
+      if (!income) return;
+
+      renderHeroMetrics(income);
+      renderCategoryCards(income);
+      renderMonthlyRevenueChart(income);
+      renderCompositionChart(income);
+      renderSelfFinancingChart(income);
+      renderInsights(income);
+      renderYearComparisonChart();
+      renderMonthlyTable(income);
+    }
+
+    function renderHeroMetrics(income) {
+      const container = document.getElementById('hero-metrics');
+      const data = income.getValidRows();
+
+      const total = data.sum('total');
+      const earned = data.sum('warenverkauf') + data.sum('dienstleistungen') + data.sum('integration');
+      const donations = data.sum('spenden') + data.sum('aufstockung');
+      const selfFinancing = total > 0 ? earned / total : 0;
+
+      // Calculate YoY change
+      const prevYear = allYearsData[currentYear - 1];
+      let yoyChange = null;
+      if (prevYear) {
+        const prevTotal = prevYear.getValidRows().sum('total');
+        if (prevTotal > 0) {
+          yoyChange = (total - prevTotal) / prevTotal;
+        }
+      }
+
+      // Monthly average
+      const monthCount = data.count();
+      const monthlyAvg = monthCount > 0 ? total / monthCount : 0;
+
+      container.innerHTML = `
+        <div class="hero-metric">
+          <div class="value inspectable" onclick="showFirstPrinciplesAnalysis('financial_total_${currentYear}', ${total}, {year: ${currentYear}, previousYear: ${prevYear ? prevYear.getValidRows().sum('total') : null}})">${Utils.formatCHF(total)}</div>
+          <div class="label">Gesamteinnahmen</div>
+          ${yoyChange !== null ? `
+            <div class="change ${yoyChange >= 0 ? 'positive' : 'negative'}">
+              ${yoyChange >= 0 ? '+' : ''}${Utils.formatPercent(yoyChange)} vs. ${currentYear - 1}
+            </div>
+          ` : ''}
+        </div>
+        <div class="hero-metric">
+          <div class="value inspectable" onclick="showFirstPrinciplesAnalysis('financial_earned_${currentYear}', ${earned}, {year: ${currentYear}})">${Utils.formatCHF(earned)}</div>
+          <div class="label">Eigenerwirtschaftet</div>
+        </div>
+        <div class="hero-metric">
+          <div class="value inspectable" onclick="showFirstPrinciplesAnalysis('financial_donations_${currentYear}', ${donations}, {year: ${currentYear}})">${Utils.formatCHF(donations)}</div>
+          <div class="label">Spenden & Forderung</div>
+        </div>
+        <div class="hero-metric">
+          <div class="value inspectable" onclick="showFirstPrinciplesAnalysis('financial_self_financing_${currentYear}', ${selfFinancing}, {year: ${currentYear}, total: ${total}, earned: ${earned}})">${Utils.formatPercent(selfFinancing)}</div>
+          <div class="label">Eigenfinanzierung</div>
+        </div>
+        <div class="hero-metric">
+          <div class="value inspectable" onclick="showFirstPrinciplesAnalysis('financial_monthly_avg_${currentYear}', ${monthlyAvg}, {year: ${currentYear}, total: ${total}, monthCount: ${monthCount}})">${Utils.formatCHF(monthlyAvg)}</div>
+          <div class="label">Monatsdurchschnitt</div>
+        </div>
+      `;
+    }
+
+    function renderCategoryCards(income) {
+      const container = document.getElementById('category-cards');
+      const data = income.getValidRows();
+      const total = data.sum('total');
+
+      const categories = [
+        { key: 'warenverkauf', name: 'Warenverkauf', icon: '🖥️', code: '3100', color: '#3b82f6' },
+        { key: 'dienstleistungen', name: 'Dienstleistungen', icon: '🔧', code: '3400', color: '#8b5cf6' },
+        { key: 'integration', name: 'Integration', icon: '👥', code: '3450', color: '#06b6d4' },
+        { key: 'spenden', name: 'Spenden', icon: '💝', code: '3500', color: '#10b981' },
+        { key: 'aufstockung', name: 'Aufstockung', icon: '📈', code: '3510', color: '#f59e0b' }
+      ];
+
+      container.innerHTML = categories.map(cat => {
+        const amount = data.sum(cat.key);
+        const percent = total > 0 ? amount / total : 0;
+        const rows = data.getAll();
+        const maxVal = Math.max(...rows.map(r => r[cat.key] || 0));
+
+        return `
+          <div class="category-card">
+            <div class="icon">${cat.icon}</div>
+            <div class="name">${cat.name}</div>
+            <div class="amount inspectable" onclick="showFirstPrinciplesAnalysis('financial_${cat.key}_${currentYear}', ${amount}, {year: ${currentYear}, total: ${total}})">${Utils.formatCHF(amount)}</div>
+            <div class="percent">${Utils.formatPercent(percent)} vom Total</div>
+            <div class="monthly-sparkline">
+              ${rows.map(r => {
+                const val = r[cat.key] || 0;
+                const height = maxVal > 0 ? (val / maxVal * 100) : 0;
+                return `<div class="bar" style="height: ${Math.max(height, 5)}%; background: ${cat.color};" title="${Utils.formatMonthShort(r.period)}: ${Utils.formatCHF(val)}"></div>`;
+              }).join('')}
+            </div>
+            <div class="account-code">Konto ${cat.code}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderMonthlyRevenueChart(income) {
+      const ctx = document.getElementById('monthlyRevenueChart').getContext('2d');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+
+      if (charts.monthly) charts.monthly.destroy();
+
+      const labels = rows.map(r => Utils.formatMonthShort(r.period));
+      const totals = rows.map(r => r.total || 0);
+      const avg = totals.length > 0 ? totals.reduce((a, b) => a + b, 0) / totals.length : 0;
+
+      charts.monthly = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Monatsumsatz',
+              data: totals,
+              borderColor: '#3b82f6',
+              backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              fill: true,
+              tension: 0.3,
+              pointRadius: 4,
+              pointHoverRadius: 6
+            },
+            {
+              label: 'Durchschnitt',
+              data: Array(totals.length).fill(avg),
+              borderColor: '#94a3b8',
+              borderDash: [5, 5],
+              pointRadius: 0,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: ctx => `${ctx.dataset.label}: ${Utils.formatCHF(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: val => Utils.formatCHF(val)
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderCompositionChart(income) {
+      const ctx = document.getElementById('compositionChart').getContext('2d');
+      const data = income.getValidRows();
+
+      if (charts.composition) charts.composition.destroy();
+
+      const values = [
+        data.sum('warenverkauf'),
+        data.sum('dienstleistungen'),
+        data.sum('integration'),
+        data.sum('spenden'),
+        data.sum('aufstockung')
+      ];
+
+      charts.composition = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Warenverkauf', 'Dienstleistungen', 'Integration', 'Spenden', 'Aufstockung'],
+          datasets: [{
+            data: values,
+            backgroundColor: ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'],
+            borderWidth: 2,
+            borderColor: '#fff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right'
+            },
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                  const pct = total > 0 ? (ctx.raw / total * 100).toFixed(1) : 0;
+                  return `${ctx.label}: ${Utils.formatCHF(ctx.raw)} (${pct}%)`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderSelfFinancingChart(income) {
+      const ctx = document.getElementById('selfFinancingChart').getContext('2d');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+
+      if (charts.selfFinancing) charts.selfFinancing.destroy();
+
+      const labels = rows.map(r => Utils.formatMonthShort(r.period));
+      const earned = rows.map(r => (r.warenverkauf || 0) + (r.dienstleistungen || 0) + (r.integration || 0));
+      const donations = rows.map(r => (r.spenden || 0) + (r.aufstockung || 0));
+
+      charts.selfFinancing = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Eigenerwirtschaftet',
+              data: earned,
+              backgroundColor: '#3b82f6',
+              borderRadius: 4
+            },
+            {
+              label: 'Spenden & Forderung',
+              data: donations,
+              backgroundColor: '#10b981',
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: ctx => `${ctx.dataset.label}: ${Utils.formatCHF(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            x: { stacked: true },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              ticks: {
+                callback: val => Utils.formatCHF(val)
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderInsights(income) {
+      const container = document.getElementById('insights');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+      const insights = [];
+
+      const total = data.sum('total');
+      const earned = data.sum('warenverkauf') + data.sum('dienstleistungen') + data.sum('integration');
+      const selfFinancing = total > 0 ? earned / total : 0;
+
+      // Self-financing insight
+      if (selfFinancing >= 0.6) {
+        insights.push({
+          type: 'success',
+          icon: '✓',
+          title: 'Starke Eigenfinanzierung',
+          text: `Mit ${Utils.formatPercent(selfFinancing)} Eigenfinanzierung ist die Organisation finanziell nachhaltig aufgestellt.`
+        });
+      } else if (selfFinancing < 0.4) {
+        insights.push({
+          type: 'warning',
+          icon: '⚠',
+          title: 'Hohe Spendenabhangigkeit',
+          text: `Nur ${Utils.formatPercent(selfFinancing)} werden selbst erwirtschaftet. Diversifizierung der Einnahmen empfohlen.`
+        });
+      }
+
+      // Trend analysis
+      if (rows.length >= 3) {
+        const recentMonths = rows.slice(-3);
+        const earlierMonths = rows.slice(0, 3);
+        const recentAvg = recentMonths.reduce((a, r) => a + (r.total || 0), 0) / recentMonths.length;
+        const earlierAvg = earlierMonths.reduce((a, r) => a + (r.total || 0), 0) / earlierMonths.length;
+        const trend = earlierAvg > 0 ? (recentAvg - earlierAvg) / earlierAvg : 0;
+
+        if (trend > 0.15) {
+          insights.push({
+            type: 'success',
+            icon: '📈',
+            title: 'Positiver Umsatztrend',
+            text: `Die letzten 3 Monate zeigen ${Utils.formatPercent(trend)} mehr Umsatz als der Jahresbeginn.`
+          });
+        } else if (trend < -0.15) {
+          insights.push({
+            type: 'action',
+            icon: '📉',
+            title: 'Rucklaufiger Umsatz',
+            text: `Die letzten 3 Monate zeigen ${Utils.formatPercent(Math.abs(trend))} weniger Umsatz. Analyse der Ursachen empfohlen.`
+          });
+        }
+      }
+
+      // Category analysis
+      const warenverkauf = data.sum('warenverkauf');
+      const dienstleistungen = data.sum('dienstleistungen');
+
+      if (warenverkauf > dienstleistungen * 2) {
+        insights.push({
+          type: 'info',
+          icon: '🖥️',
+          title: 'Warenverkauf dominiert',
+          text: `Der Hardwareverkauf macht den Grossteil der Einnahmen aus. Dienstleistungen haben Wachstumspotenzial.`
+        });
+      }
+
+      // YoY comparison
+      const prevYear = allYearsData[currentYear - 1];
+      if (prevYear) {
+        const prevTotal = prevYear.getValidRows().sum('total');
+        if (prevTotal > 0 && total > prevTotal * 1.1) {
+          insights.push({
+            type: 'success',
+            icon: '🎯',
+            title: 'Wachstum gegenuber Vorjahr',
+            text: `${Utils.formatPercent((total - prevTotal) / prevTotal)} mehr Einnahmen als ${currentYear - 1}.`
+          });
+        }
+      }
+
+      // Best month
+      if (rows.length > 0) {
+        const bestMonth = rows.reduce((best, r) => (r.total || 0) > (best.total || 0) ? r : best);
+        insights.push({
+          type: 'info',
+          icon: '🏆',
+          title: 'Starkster Monat',
+          text: `${Utils.formatMonthShort(bestMonth.period)} mit ${Utils.formatCHF(bestMonth.total)} war der umsatzstarkste Monat.`
+        });
+      }
+
+      container.innerHTML = insights.map(i => `
+        <div class="insight-card ${i.type}">
+          <h4>${i.icon} ${i.title}</h4>
+          <p>${i.text}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderYearComparisonChart() {
+      const ctx = document.getElementById('yearComparisonChart').getContext('2d');
+      const years = [2022, 2023, 2024, 2025];
+
+      if (charts.yearComparison) charts.yearComparison.destroy();
+
+      const datasets = [
+        { label: 'Warenverkauf', key: 'warenverkauf', color: '#3b82f6' },
+        { label: 'Dienstleistungen', key: 'dienstleistungen', color: '#8b5cf6' },
+        { label: 'Integration', key: 'integration', color: '#06b6d4' },
+        { label: 'Spenden + Aufstockung', keys: ['spenden', 'aufstockung'], color: '#10b981' }
+      ];
+
+      const chartDatasets = datasets.map(ds => ({
+        label: ds.label,
+        data: years.map(y => {
+          const income = allYearsData[y];
+          if (!income) return 0;
+          const data = income.getValidRows();
+          if (ds.keys) {
+            return ds.keys.reduce((sum, k) => sum + data.sum(k), 0);
+          }
+          return data.sum(ds.key);
+        }),
+        backgroundColor: ds.color,
+        borderRadius: 4
+      }));
+
+      charts.yearComparison = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: years.map(y => y.toString()),
+          datasets: chartDatasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: ctx => `${ctx.dataset.label}: ${Utils.formatCHF(ctx.raw)}`
+              }
+            }
+          },
+          scales: {
+            x: { stacked: true },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              ticks: {
+                callback: val => Utils.formatCHF(val)
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderMonthlyTable(income) {
+      const container = document.getElementById('monthly-table');
+      const data = income.getValidRows();
+      const rows = data.getAll();
+
+      if (rows.length === 0) {
+        container.innerHTML = '<p class="text-muted text-center p-4">Keine Daten verfugbar</p>';
+        return;
+      }
+
+      let html = `
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Monat</th>
+              <th class="col-number">Warenverkauf</th>
+              <th class="col-number">Dienstleist.</th>
+              <th class="col-number">Integration</th>
+              <th class="col-number">Spenden</th>
+              <th class="col-number">Aufstockung</th>
+              <th class="col-number">Total</th>
+              <th class="col-number">Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      let prevTotal = null;
+      rows.forEach((row, idx) => {
+        const monthTotal = row.total || 0;
+        let trendHtml = '-';
+        if (prevTotal !== null && prevTotal > 0) {
+          const change = (monthTotal - prevTotal) / prevTotal;
+          const cls = change > 0.05 ? 'up' : change < -0.05 ? 'down' : 'flat';
+          const arrow = change > 0.05 ? '↑' : change < -0.05 ? '↓' : '→';
+          trendHtml = `<span class="trend-indicator ${cls}">${arrow} ${Utils.formatPercent(Math.abs(change))}</span>`;
+        }
+        prevTotal = monthTotal;
+
+        html += `
+          <tr>
+            <td>${Utils.formatMonthShort(row.period)}</td>
+            <td class="col-number">${Utils.formatCHF(row.warenverkauf || 0)}</td>
+            <td class="col-number">${Utils.formatCHF(row.dienstleistungen || 0)}</td>
+            <td class="col-number">${Utils.formatCHF(row.integration || 0)}</td>
+            <td class="col-number">${Utils.formatCHF(row.spenden || 0)}</td>
+            <td class="col-number">${Utils.formatCHF(row.aufstockung || 0)}</td>
+            <td class="col-number font-bold">${Utils.formatCHF(monthTotal)}</td>
+            <td class="col-number">${trendHtml}</td>
+          </tr>
+        `;
+      });
+
+      // Total row
+      html += `
+        <tr style="background: var(--color-bg-light); font-weight: bold;">
+          <td>TOTAL</td>
+          <td class="col-number">${Utils.formatCHF(data.sum('warenverkauf'))}</td>
+          <td class="col-number">${Utils.formatCHF(data.sum('dienstleistungen'))}</td>
+          <td class="col-number">${Utils.formatCHF(data.sum('integration'))}</td>
+          <td class="col-number">${Utils.formatCHF(data.sum('spenden'))}</td>
+          <td class="col-number">${Utils.formatCHF(data.sum('aufstockung'))}</td>
+          <td class="col-number">${Utils.formatCHF(data.sum('total'))}</td>
+          <td></td>
+        </tr>
+        </tbody></table>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    // First Principles Analysis Functions
+    function showFirstPrinciplesAnalysis(numberKey, value, context = {}) {
+      // Try to get from NumberSources, if not found, create dynamic entry
+      let source = NumberSources[numberKey];
+      
+      if (!source) {
+        // Create dynamic source entry for financial numbers
+        const year = context.year || currentYear;
+        const baseKey = numberKey.replace(`_${year}`, '');
+        source = NumberSources[baseKey] || {
+          id: numberKey,
+          name: numberKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          category: 'financial',
+          dimension: 'economic',
+          format: numberKey.includes('percent') || numberKey.includes('self_financing') ? 'percent' : 'CHF',
+          source: {
+            type: numberKey.includes('estimated') ? 'estimated' : numberKey.includes('self_financing') || numberKey.includes('monthly_avg') || numberKey.includes('earned') ? 'derived' : 'source',
+            confidence: numberKey.includes('estimated') ? 'low' : 'high',
+            path: `01_Management/B_Finanzen/revamp-Einnahmen-${year}.xlsx`
+          },
+          documentation: {
+            description: 'Finanzkennzahl aus Kivitendo-Buchhaltung'
+          }
+        };
+      }
+
+      const analysis = FirstPrinciplesAnalyzer.analyze(numberKey, value, {
+        ...context,
+        currentYear: currentYear,
+        allYearsData: allYearsData
+      });
+
+      if (analysis.error) {
+        alert(`Zahl "${numberKey}" konnte nicht analysiert werden: ${analysis.error}`);
+        return;
+      }
+
+      document.getElementById('fp-modal-title').textContent = `First Principles: ${analysis.name}`;
+      
+      let html = `
+        <!-- Value & Confidence -->
+        <div class="fp-section">
+          <h4>🔢 Was ist diese Zahl?</h4>
+          <div class="fp-value">${analysis.formattedValue}</div>
+          <span class="confidence-badge confidence-${analysis.source.confidence}">
+            ${analysis.source.confidence === 'high' ? '● Hohe Konfidenz' : 
+              analysis.source.confidence === 'medium' ? '◐ Mittlere Konfidenz' : 
+              analysis.source.confidence === 'low' ? '○ Niedrige Konfidenz' : 
+              '🎯 Zielwert'}
+          </span>
+          <p style="margin-top: 1rem; color: #4b5563;">${analysis.definition.what}</p>
+          <div style="margin-top: 1rem; padding: 1rem; background: #eff6ff; border-radius: 8px;">
+            <strong>Warum ist das wichtig?</strong>
+            <p style="margin: 0.5rem 0 0 0; color: #1e40af;">${analysis.definition.whyItMatters}</p>
+          </div>
+        </div>
+
+        <!-- Source of Truth -->
+        <div class="fp-section">
+          <h4>📁 Woher kommt diese Zahl?</h4>
+          <div class="source-path">
+            ${analysis.source.path ? `📁 <strong>Quelldatei:</strong> ${analysis.source.path}<br>` : ''}
+            ${analysis.source.account ? `📊 <strong>Konto:</strong> ${analysis.source.account}<br>` : ''}
+            ${analysis.source.dataSource ? `📋 <strong>Datenquelle:</strong> ${analysis.source.dataSource}<br>` : ''}
+            ${analysis.source.lastUpdated ? `🗓️ <strong>Aktualisiert:</strong> ${analysis.source.lastUpdated}` : '🗓️ <strong>Aktualisiert:</strong> Wird dynamisch geladen'}
+          </div>
+          ${analysis.source.traceability.length > 0 ? `
+            <div style="margin-top: 1rem;">
+              <strong>Nachvollziehbarkeit:</strong>
+              ${analysis.source.traceability.map((step, i) => `
+                <div class="trace-step">
+                  <span class="trace-step-number">${i + 1}</span>
+                  <strong>${step.step}:</strong> ${step.location}
+                  ${step.verifiable ? ' ✅ Verifizierbar' : ' ⚠️ Nicht verifizierbar'}
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- Calculation -->
+        ${analysis.calculation.expression ? `
+        <div class="fp-section">
+          <h4>🧮 Wie wird sie berechnet?</h4>
+          <div class="formula-box">
+            <strong>Formel:</strong> ${analysis.calculation.expression}
+          </div>
+          <p style="margin-top: 0.5rem; color: #6b7280;">${analysis.calculation.formulaExplanation}</p>
+          ${analysis.calculation.stepByStep.length > 0 ? `
+            <div style="margin-top: 1rem;">
+              <strong>Schritt-für-Schritt:</strong>
+              ${analysis.calculation.stepByStep.map(step => `
+                <div class="trace-step">
+                  <span class="trace-step-number">${step.step}</span>
+                  ${step.description}: <strong>${step.value}</strong>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+        ` : ''}
+
+        <!-- Assumptions -->
+        ${analysis.assumptions.explicit.length > 0 || analysis.assumptions.implicit.length > 0 ? `
+        <div class="fp-section">
+          <h4>💭 Welche Annahmen werden gemacht?</h4>
+          ${analysis.assumptions.explicit.map(assumption => `
+            <div class="assumption-item">
+              <strong>Explizit:</strong> ${assumption}
+            </div>
+          `).join('')}
+          ${analysis.assumptions.implicit.map(assumption => `
+            <div class="assumption-item" style="background: #fef3c7; border-color: #fbbf24;">
+              <strong>Implizit:</strong> ${assumption}
+            </div>
+          `).join('')}
+        </div>
+        ` : ''}
+
+        <!-- Constraints & Limitations -->
+        ${analysis.constraints.limitations.length > 0 || analysis.constraints.dataGaps.length > 0 ? `
+        <div class="fp-section">
+          <h4>⚠️ Was sind die Einschränkungen?</h4>
+          ${analysis.constraints.limitations.map(limitation => `
+            <div class="limitation-item">
+              ${limitation}
+            </div>
+          `).join('')}
+          ${analysis.constraints.dataGaps.map(gap => `
+            <div class="limitation-item">
+              <strong>Datenlücke:</strong> ${gap.gap}<br>
+              <small>Impact: ${gap.impact} | Lösung: ${gap.solution}</small>
+            </div>
+          `).join('')}
+        </div>
+        ` : ''}
+
+        <!-- Validation -->
+        <div class="fp-section">
+          <h4>✅ Ist die Zahl korrekt?</h4>
+          <div class="validation-status validation-${analysis.validation.status === 'valid' ? 'valid' : analysis.validation.errors.length > 0 ? 'error' : 'warning'}">
+            ${analysis.validation.status === 'valid' ? '✅ Valid' : analysis.validation.errors.length > 0 ? '❌ Fehler gefunden' : '⚠️ Warnungen'}
+          </div>
+          ${analysis.validation.crossChecks.length > 0 ? `
+            <div style="margin-top: 1rem;">
+              <strong>Cross-Validierungen:</strong>
+              ${analysis.validation.crossChecks.map(check => `
+                <div style="padding: 0.75rem; margin: 0.5rem 0; background: ${check.status === 'pass' ? '#d1fae5' : '#fee2e2'}; border-radius: 6px;">
+                  ${check.check}: Erwartet ${typeof check.expected === 'number' ? Utils.formatCHF(check.expected) : check.expected}, Tatsächlich ${typeof check.actual === 'number' ? Utils.formatCHF(check.actual) : check.actual}
+                  ${check.status === 'pass' ? ' ✅' : ` ❌ (Abweichung: ${typeof check.difference === 'number' ? Utils.formatCHF(check.difference) : check.difference})`}
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+          ${analysis.validation.warnings.length > 0 ? `
+            <div style="margin-top: 1rem;">
+              <strong>Warnungen:</strong>
+              ${analysis.validation.warnings.map(warning => `
+                <div style="padding: 0.75rem; margin: 0.5rem 0; background: #fef3c7; border-radius: 6px;">
+                  ⚠️ ${warning.message}<br>
+                  <small>Empfehlung: ${warning.recommendation}</small>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+          ${analysis.validation.errors.length > 0 ? `
+            <div style="margin-top: 1rem;">
+              <strong>Fehler:</strong>
+              ${analysis.validation.errors.map(error => `
+                <div style="padding: 0.75rem; margin: 0.5rem 0; background: #fee2e2; border-radius: 6px;">
+                  ❌ ${error.message}<br>
+                  <small>Fix: ${error.fix}</small>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- Context & Impact -->
+        <div class="fp-section">
+          <h4>📊 Was bedeutet diese Zahl?</h4>
+          ${analysis.context.comparison.length > 0 ? `
+            <div style="margin-bottom: 1rem;">
+              <strong>Vergleiche:</strong>
+              ${analysis.context.comparison.map(comp => `
+                <div style="padding: 0.75rem; margin: 0.5rem 0; background: #f3f4f6; border-radius: 6px;">
+                  ${comp.type === 'target' ? `🎯 Ziel: ${comp.target} | Aktuell: ${comp.actual} ${comp.status === 'meets' ? '✅' : '❌'}` : 
+                    comp.type === 'year_over_year' ? `📈 Vorjahr: ${comp.previous} | Aktuell: ${comp.current} | Änderung: ${comp.changePercent >= 0 ? '+' : ''}${comp.changePercent.toFixed(1)}%` : ''}
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+          <div style="padding: 1rem; background: #eff6ff; border-radius: 8px; border-left: 4px solid #3b82f6;">
+            <strong>Impact:</strong>
+            <p style="margin: 0.5rem 0 0 0;">${analysis.context.impact.message}</p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #1e40af;">
+              Betrifft: ${analysis.context.impact.affects.join(', ')}
+            </p>
+          </div>
+        </div>
+
+        <!-- Reliability -->
+        <div class="fp-section">
+          <h4>🔍 Wie zuverlässig ist diese Zahl?</h4>
+          <div style="margin-bottom: 1rem;">
+            <strong>Konfidenz:</strong> ${analysis.reliability.confidence}<br>
+            <small style="color: #6b7280;">${analysis.reliability.confidenceExplanation}</small>
+          </div>
+          ${analysis.reliability.uncertainty ? `
+            <div style="padding: 0.75rem; background: #f3f4f6; border-radius: 6px; margin: 0.5rem 0;">
+              <strong>Unsicherheit:</strong> ${analysis.reliability.uncertainty.explanation}<br>
+              <small>Range: ${analysis.reliability.uncertainty.min.toLocaleString('de-CH')} - ${analysis.reliability.uncertainty.max.toLocaleString('de-CH')}</small>
+            </div>
+          ` : ''}
+          <div style="margin-top: 1rem;">
+            <strong>Datenqualität:</strong>
+            <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+              <div style="flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                <div style="height: 100%; width: ${analysis.reliability.dataQuality.score}%; background: ${analysis.reliability.dataQuality.score >= 80 ? '#10b981' : analysis.reliability.dataQuality.score >= 60 ? '#f59e0b' : '#ef4444'};"></div>
+              </div>
+              <span style="font-weight: 700; color: ${analysis.reliability.dataQuality.score >= 80 ? '#10b981' : analysis.reliability.dataQuality.score >= 60 ? '#f59e0b' : '#ef4444'};">
+                ${analysis.reliability.dataQuality.score}/100 (${analysis.reliability.dataQuality.grade})
+              </span>
+            </div>
+            ${analysis.reliability.dataQuality.issues.length > 0 ? `
+              <div style="margin-top: 0.5rem;">
+                ${analysis.reliability.dataQuality.issues.map(issue => `<small style="color: #ef4444;">⚠️ ${issue}</small>`).join('<br>')}
+              </div>
+            ` : ''}
+          </div>
+          ${analysis.reliability.recommendations.length > 0 ? `
+            <div style="margin-top: 1rem; padding: 1rem; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #10b981;">
+              <strong>Empfehlungen zur Verbesserung:</strong>
+              <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+                ${analysis.reliability.recommendations.map(rec => `
+                  <li style="margin: 0.25rem 0;">
+                    ${rec.priority === 'high' ? '🔴' : rec.priority === 'medium' ? '🟡' : '🟢'} 
+                    <strong>${rec.priority === 'high' ? 'HOCH' : rec.priority === 'medium' ? 'MITTEL' : 'NIEDRIG'}:</strong> 
+                    ${rec.action}<br>
+                    <small style="color: #6b7280;">→ ${rec.impact}</small>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- Verification -->
+        ${analysis.transparency.canBeVerified ? `
+        <div class="fp-section">
+          <h4>🔬 Wie kann ich das verifizieren?</h4>
+          ${analysis.transparency.verificationSteps.map((step, i) => `
+            <div class="trace-step">
+              <span class="trace-step-number">${i + 1}</span>
+              <strong>${step.action}:</strong> ${step.location || step.formula || ''}<br>
+              <small style="color: #6b7280;">Erwartet: ${step.expected}</small>
+            </div>
+          `).join('')}
+        </div>
+        ` : ''}
+
+        <!-- Related Numbers -->
+        ${analysis.transparency.relatedNumbers.length > 0 ? `
+        <div class="fp-section">
+          <h4>🔗 Verwandte Zahlen</h4>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            ${analysis.transparency.relatedNumbers.map(rel => `
+              <span style="padding: 0.5rem 1rem; background: #eff6ff; border-radius: 6px; font-size: 0.85rem;">
+                ${rel.relationship === 'depends_on' ? '←' : '→'} ${rel.name}
+              </span>
+            `).join('')}
+          </div>
+        </div>
+        ` : ''}
+      `;
+
+      document.getElementById('fp-modal-body').innerHTML = html;
+      document.getElementById('fp-modal').classList.add('active');
+    }
+
+    function closeFPModal() {
+      document.getElementById('fp-modal').classList.remove('active');
+    }
+
+    // Close modal on outside click or Escape key
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('fp-modal');
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target.classList.contains('modal-overlay')) closeFPModal();
+        });
+      }
+      
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeFPModal();
+      });
+    });
+
+    // Add missing number sources dynamically
+    function ensureNumberSource(key, year, baseSource) {
+      if (!NumberSources[key]) {
+        NumberSources[key] = {
+          ...baseSource,
+          id: key,
+          source: {
+            ...baseSource.source,
+            path: baseSource.source.path?.replace('2025', year) || `01_Management/B_Finanzen/revamp-Einnahmen-${year}.xlsx`
+          }
+        };
+      }
+    }
+
+    // Ensure all financial number sources exist for current year
+    document.addEventListener('DOMContentLoaded', () => {
+      const year = currentYear || 2025;
+      const baseSources = {
+        'financial_earned': {
+          name: 'Eigenerwirtschaftet',
+          category: 'financial',
+          dimension: 'economic',
+          format: 'CHF',
+          source: { type: 'derived', confidence: 'high' },
+          formula: { type: 'custom', expression: 'warenverkauf + dienstleistungen + integration' },
+          documentation: { description: 'Summe aller Einnahmen aus eigener Wirtschaftstätigkeit (ohne Spenden)' }
+        },
+        'financial_donations': {
+          name: 'Spenden & Forderung',
+          category: 'financial',
+          dimension: 'economic',
+          format: 'CHF',
+          source: { type: 'source', confidence: 'high' },
+          formula: { type: 'custom', expression: 'spenden + aufstockung' },
+          documentation: { description: 'Einnahmen aus Spenden und Aufstockungen' }
+        }
+      };
+
+      Object.keys(baseSources).forEach(baseKey => {
+        ensureNumberSource(`${baseKey}_${year}`, year, baseSources[baseKey]);
+      });
+    });
+  </script>
+</body>
+</html>

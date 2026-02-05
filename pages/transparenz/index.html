@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transparenz & Zahlen-Integrität – Das Hirn</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <script src="../../assets/js/utils.js"></script>
+  <script src="../../assets/js/number-sources.js"></script>
+  <script src="../../assets/js/first-principles-analyzer.js"></script>
+  <style>
+    .transparency-hero {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #10b981 100%);
+      color: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+    }
+    .transparency-hero h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2rem;
+    }
+    .transparency-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .transparency-stat {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    .transparency-stat .value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      display: block;
+    }
+    .transparency-stat .label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 0.5rem;
+    }
+
+    .integrity-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    .integrity-table th {
+      background: #f3f4f6;
+      padding: 0.75rem;
+      text-align: left;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-bottom: 2px solid #d1d5db;
+    }
+    .integrity-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .integrity-table tr:hover {
+      background: #f9fafb;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .status-ok { background: #d1fae5; color: #065f46; }
+    .status-warning { background: #fef3c7; color: #92400e; }
+    .status-error { background: #fee2e2; color: #991b1b; }
+    .status-missing { background: #e5e7eb; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="main-nav">
+      <div class="nav-container">
+        <a href="../../index.html" class="nav-logo">Das Hirn</a>
+        <ul class="nav-links">
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../finanzen/index.html">Finanzen</a></li>
+          <li><a href="../kennzahlen/index.html">Kennzahlen</a></li>
+          <li><a href="../wirkung/index.html">Wirkung</a></li>
+          <li><a href="index.html" class="active">Transparenz</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="page-content">
+      <div class="transparency-hero">
+        <h1>Totale Transparenz & Zahlen-Integrität</h1>
+        <p style="opacity: 0.9; font-size: 1.1rem;">
+          First Principles Approach: Jede Zahl ist nachvollziehbar, validierbar und kontextualisiert.
+        </p>
+        <div class="transparency-stats" id="transparency-stats">
+          <div class="transparency-stat">
+            <span class="value" id="stat-total">--</span>
+            <span class="label">Total Zahlen</span>
+          </div>
+          <div class="transparency-stat">
+            <span class="value" id="stat-clickable">--</span>
+            <span class="label">Klickbar</span>
+          </div>
+          <div class="transparency-stat">
+            <span class="value" id="stat-verifiable">--</span>
+            <span class="label">Verifizierbar</span>
+          </div>
+          <div class="transparency-stat">
+            <span class="value" id="stat-high-confidence">--</span>
+            <span class="label">High Confidence</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="content-section">
+        <h2 class="section-title">Zahlen-Integritäts-Report</h2>
+        <div class="card">
+          <p class="text-sm text-muted mb-3">
+            Vollständige Übersicht über alle Zahlen im Dashboard: Status, Konfidenz, Validierung
+          </p>
+          <div id="integrity-table-container">
+            <div class="loading">Lade Zahlen-Integritäts-Daten...</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="section-title">Transparenz-Prinzipien</h2>
+        <div class="card">
+          <div class="grid-2">
+            <div>
+              <h3 style="margin-top: 0;">✅ Was wir tun</h3>
+              <ul style="list-style: disc; padding-left: 1.5rem;">
+                <li>Jede Zahl ist klickbar mit vollständiger Quelle</li>
+                <li>Formeln sind explizit dokumentiert</li>
+                <li>Annahmen werden offengelegt</li>
+                <li>Limitationen werden klar benannt</li>
+                <li>Cross-Validierungen werden durchgeführt</li>
+                <li>Audit-Trail für alle Änderungen</li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">❌ Was wir nicht tun</h3>
+              <ul style="list-style: disc; padding-left: 1.5rem;">
+                <li>Keine erfundenen Zahlen</li>
+                <li>Keine Pseudo-Präzision</li>
+                <li>Keine versteckten Annahmen</li>
+                <li>Keine Broken Links</li>
+                <li>Keine unverifizierbaren Behauptungen</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2 class="section-title">First Principles Denken</h2>
+        <div class="card">
+          <p>
+            Statt zu fragen: <em>"Was zeigt diese Zahl?"</em><br>
+            Fragen wir: <strong>"Was ist die fundamentale Wahrheit hinter dieser Zahl?"</strong>
+          </p>
+          <div style="margin-top: 1.5rem; padding: 1.5rem; background: #eff6ff; border-radius: 8px; border-left: 4px solid #3b82f6;">
+            <h4 style="margin-top: 0;">Die 7 Transparenz-Fragen:</h4>
+            <ol style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+              <li><strong>Was ist es?</strong> Definition, Einheit, Kontext</li>
+              <li><strong>Woher kommt es?</strong> Source of Truth, Konto, Datum</li>
+              <li><strong>Wie wird es berechnet?</strong> Exakte Formel, Schritt-für-Schritt</li>
+              <li><strong>Was wird angenommen?</strong> Explizite & implizite Annahmen</li>
+              <li><strong>Was sind die Einschränkungen?</strong> Datenlücken, Constraints</li>
+              <li><strong>Ist es korrekt?</strong> Validierung, Cross-Checks</li>
+              <li><strong>Was bedeutet es?</strong> Kontext, Impact, Trends</li>
+            </ol>
+          </div>
+          <p style="margin-top: 1.5rem;">
+            <a href="../../../01_Management/C_Kennzahlen_und_Reporting/Transparency_Principles.md" target="_blank" style="color: var(--color-primary); text-decoration: underline;">
+              → Vollständige Transparenz-Prinzipien Dokumentation
+            </a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="main-footer">
+      <p>Das Hirn © 2025 – Totale Transparenz für Revamp-IT</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderIntegrityReport();
+    });
+
+    function renderIntegrityReport() {
+      const numbers = Object.values(NumberSources);
+      const total = numbers.length;
+      const clickable = numbers.filter(n => n.source?.path || n.formula).length;
+      const verifiable = numbers.filter(n => {
+        if (n.source?.path) return true;
+        if (n.source?.account) return true;
+        if (n.formula?.dependencies?.every(dep => NumberSources[dep])) return true;
+        return false;
+      }).length;
+      const highConfidence = numbers.filter(n => n.source?.confidence === 'high').length;
+
+      // Update stats
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-clickable').textContent = clickable;
+      document.getElementById('stat-verifiable').textContent = verifiable;
+      document.getElementById('stat-high-confidence').textContent = highConfidence;
+
+      // Render table
+      const container = document.getElementById('integrity-table-container');
+      let html = `
+        <table class="integrity-table">
+          <thead>
+            <tr>
+              <th>Zahl</th>
+              <th>Kategorie</th>
+              <th>Type</th>
+              <th>Confidence</th>
+              <th>Klickbar</th>
+              <th>Verifizierbar</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      numbers.forEach(num => {
+        const clickable = num.source?.path || num.formula ? '✅' : '❌';
+        const verifiable = (num.source?.path || num.source?.account || 
+          (num.formula?.dependencies?.every(dep => NumberSources[dep]))) ? '✅' : '❌';
+        const confidence = num.source?.confidence || 'unknown';
+        const status = confidence === 'high' ? 'ok' : confidence === 'medium' ? 'warning' : confidence === 'low' ? 'warning' : 'missing';
+
+        html += `
+          <tr>
+            <td><strong>${num.name}</strong></td>
+            <td>${num.category || '--'}</td>
+            <td>${num.source?.type || '--'}</td>
+            <td>
+              <span class="status-badge status-${confidence === 'high' ? 'ok' : confidence === 'medium' ? 'warning' : 'error'}">
+                ${confidence === 'high' ? '● High' : confidence === 'medium' ? '◐ Medium' : confidence === 'low' ? '○ Low' : '🎯 Target'}
+              </span>
+            </td>
+            <td>${clickable}</td>
+            <td>${verifiable}</td>
+            <td>
+              <span class="status-badge status-${status}">
+                ${status === 'ok' ? '✅ OK' : status === 'warning' ? '⚠️ Warning' : '❌ Missing'}
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      container.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
