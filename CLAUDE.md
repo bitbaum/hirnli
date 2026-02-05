@@ -41,6 +41,41 @@ Revamp-Info is the **internal communication and dashboard site** for Revamp-IT. 
 
 ---
 
+## SSOT (Single Source of Truth)
+
+### Data Sources
+
+| Data Type | SSOT Location | This Site |
+|-----------|---------------|-----------|
+| Financial data | Nextcloud CSVs (`Finanzmodell/`) | Renders & visualizes |
+| Foundation research | This site (`stiftungen.html`) | IS the SSOT |
+| KPIs | Nextcloud CSVs (`KPI_Framework/`) | Renders & visualizes |
+| Team info | Nextcloud (`Personal_und_HR/`) | Renders & links |
+
+### Rules
+
+1. **Never duplicate data** - If it exists in Nextcloud, reference it, don't copy it
+2. **Research pages ARE the SSOT** - Pages like `stiftungen.html` contain original research that doesn't exist elsewhere
+3. **Update in one place** - If data changes, update the source (CSV or this page), not both
+4. **Cite sources** - Every data point should link to where it came from
+
+### DRY in Static HTML
+
+Even without a framework, avoid duplication:
+
+```
+❌ BAD: Copy-paste navigation into every page
+✅ GOOD: Consistent navigation, edit template once
+
+❌ BAD: Inline same CSS in multiple pages
+✅ GOOD: Single styles.css, link from all pages
+
+❌ BAD: Hardcode same data in multiple pages
+✅ GOOD: Use data-loader.js to fetch from single CSV
+```
+
+---
+
 ## Architecture
 
 ### Tech Stack
