@@ -161,34 +161,91 @@
     <main class="page-content">
       <!-- Header -->
       <header class="page-header">
-        <h1>Dokument-Generator</h1>
-        <p class="page-subtitle">Generiere Berichte, Präsentationen und One-Pager aus aktuellen Daten</p>
+        <h1>Dokumente & Berichte</h1>
+        <p class="page-subtitle">Alle Unterlagen für Funder, Team und Partner – online und zum Download</p>
       </header>
 
-      <!-- Quick Generator -->
-      <section class="generator-section">
-        <h2>🚀 Schnell-Generierung</h2>
-        <p style="margin-bottom: 1rem;">Wähle einen Dokumenttyp und generiere ihn mit aktuellen Daten:</p>
-        <div class="quick-links">
-          <a href="#" class="quick-link" onclick="alert('Feature in Entwicklung: Impact One-Pager wird generiert...')">
-            📄 Impact One-Pager (PDF)
+      <!-- Quick Access for Fundraising -->
+      <section style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
+        <h2 style="margin: 0 0 1rem 0; font-size: 1.2rem; color: #065f46; display: flex; align-items: center; gap: 0.5rem;">
+          🎯 Für Fundraising & Gesuche
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <a href="../fundraising/index.html" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; color: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <strong style="color: #059669; display: block;">📋 Fundraising Hub</strong>
+            <span style="font-size: 0.85rem; color: #6b7280;">Vision, Budget, Pakete</span>
           </a>
-          <a href="#" class="quick-link" onclick="alert('Feature in Entwicklung: Finanzbericht wird generiert...')">
-            📊 Finanzbericht Q4/2025
+          <a href="../fundraising/stiftungen.html" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; color: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <strong style="color: #7c3aed; display: block;">🏛️ Stiftungen-Liste</strong>
+            <span style="font-size: 0.85rem; color: #6b7280;">45+ Förderer mit Deadlines</span>
           </a>
-          <a href="#" class="quick-link" onclick="window.print()">
-            🖨️ Diese Seite drucken
+          <a href="../wirkung/index.html" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; color: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <strong style="color: #1e40af; display: block;">🌍 Wirkungsbericht</strong>
+            <span style="font-size: 0.85rem; color: #6b7280;">Impact-Zahlen mit Quellen</span>
           </a>
-          <a href="../wirkung/index.html" class="quick-link">
-            🌍 Wirkungsbericht anzeigen
-          </a>
-          <a href="../fundraising/index.html" class="quick-link">
-            💰 Fundraising-Übersicht
+          <a href="../strategie/index.html" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; color: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <strong style="color: #dc2626; display: block;">🧭 Mission & Vision</strong>
+            <span style="font-size: 0.85rem; color: #6b7280;">Seit 2003, SDG-Alignment</span>
           </a>
         </div>
-        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 1rem;">
-          <strong>Tipp:</strong> Alle Seiten des Revamp-Info können direkt gedruckt oder als PDF gespeichert werden (Strg/Cmd + P)
+      </section>
+
+      <!-- Nextcloud Downloads -->
+      <section style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+        <h2 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #c2410c; display: flex; align-items: center; gap: 0.5rem;">
+          📁 Download-Dateien (Nextcloud)
+        </h2>
+        <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: #9a3412;">
+          Pitch Deck, Gesuch-Vorlagen, Excel-Dateien und PDFs sind im <strong>Nextcloud</strong> verfügbar:
         </p>
+        <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+          <table style="width: 100%; font-size: 0.85rem;">
+            <tr style="border-bottom: 1px solid #fed7aa;">
+              <td style="padding: 0.5rem 0;"><strong>Pitch Deck 2026</strong></td>
+              <td style="padding: 0.5rem 0; color: #6b7280;"><code>B_Finanzen/Fundraising/</code></td>
+              <td style="padding: 0.5rem 0; color: #9a3412;">PDF, PPTX</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #fed7aa;">
+              <td style="padding: 0.5rem 0;"><strong>Gesuch-Vorlage</strong></td>
+              <td style="padding: 0.5rem 0; color: #6b7280;"><code>B_Finanzen/Fundraising/</code></td>
+              <td style="padding: 0.5rem 0; color: #9a3412;">Markdown</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #fed7aa;">
+              <td style="padding: 0.5rem 0;"><strong>Einnahmen-Daten</strong></td>
+              <td style="padding: 0.5rem 0; color: #6b7280;"><code>B_Finanzen/</code></td>
+              <td style="padding: 0.5rem 0; color: #9a3412;">Excel</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.5rem 0;"><strong>Wirkungsbericht PDF</strong></td>
+              <td style="padding: 0.5rem 0; color: #6b7280;"><code>B_Finanzen/</code></td>
+              <td style="padding: 0.5rem 0; color: #9a3412;">PDF</td>
+            </tr>
+          </table>
+        </div>
+        <a href="https://cloud.revamp-it.ch" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #ea580c; color: white; padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 0.9rem;">
+          ☁️ Nextcloud öffnen →
+        </a>
+        <span style="font-size: 0.8rem; color: #9a3412; margin-left: 0.5rem;">Pfad: 01_Management/</span>
+      </section>
+
+      <!-- Quick Links -->
+      <section class="generator-section">
+        <h2>🖨️ Seiten als PDF speichern</h2>
+        <p style="margin-bottom: 1rem;">Alle Online-Berichte können direkt als PDF gedruckt werden (Strg/Cmd + P):</p>
+        <div class="quick-links">
+          <a href="../wirkung/index.html" class="quick-link">
+            🌍 Wirkungsbericht
+          </a>
+          <a href="../fundraising/index.html" class="quick-link">
+            💰 Fundraising-Pitch
+          </a>
+          <a href="../finanzen/index.html" class="quick-link">
+            📊 Finanzübersicht
+          </a>
+          <a href="../strategie/index.html" class="quick-link">
+            🧭 Strategie
+          </a>
+        </div>
       </section>
 
       <!-- Für Funder -->

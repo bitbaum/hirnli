@@ -58,8 +58,8 @@
           {
             title: 'Dokumente',
             items: [
-              { text: 'Gesuch-Vorlagen', href: 'pages/dokumente/index.html', desc: 'Templates für Anträge' },
-              { text: 'Organisationsprofil', href: 'pages/fundraising/index.html#profil', desc: 'SSOT für alle Gesuche' }
+              { text: 'Alle Dokumente', href: 'pages/dokumente/index.html', desc: 'Berichte, Vorlagen, Downloads' },
+              { text: 'Organisationsprofil', href: 'pages/fundraising/index.html#vision', desc: 'Vision & 3 Säulen' }
             ]
           },
           {
