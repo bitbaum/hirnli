@@ -439,8 +439,36 @@
 
     <!-- Main Content -->
     <main class="page-content">
+      <!-- Quick Start for Link Recipients -->
+      <section class="quick-start" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border: 2px solid #10b981; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
+        <h2 style="margin: 0 0 1rem 0; font-size: 1.3rem; color: #065f46; display: flex; align-items: center; gap: 0.5rem;">
+          👋 Willkommen! Was suchst du?
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <a href="#vision" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; color: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s;">
+            <strong style="color: #059669; display: block; margin-bottom: 0.25rem;">📋 Projekt verstehen</strong>
+            <span style="font-size: 0.85rem; color: #6b7280;">Vision, Säulen, Hub-Konzept</span>
+          </a>
+          <a href="stiftungen.html" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; color: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s;">
+            <strong style="color: #7c3aed; display: block; margin-bottom: 0.25rem;">🏛️ Stiftungen finden</strong>
+            <span style="font-size: 0.85rem; color: #6b7280;">45+ Förderer mit Deadlines</span>
+          </a>
+          <a href="#ask" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; color: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s;">
+            <strong style="color: #1e40af; display: block; margin-bottom: 0.25rem;">💰 Budget sehen</strong>
+            <span style="font-size: 0.85rem; color: #6b7280;">370k CHF über 2 Jahre</span>
+          </a>
+          <a href="../dokumente/index.html" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; color: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s;">
+            <strong style="color: #dc2626; display: block; margin-bottom: 0.25rem;">📄 Vorlagen holen</strong>
+            <span style="font-size: 0.85rem; color: #6b7280;">Gesuch-Templates</span>
+          </a>
+        </div>
+        <p style="margin: 1rem 0 0 0; font-size: 0.85rem; color: #6b7280; border-top: 1px solid #d1fae5; padding-top: 1rem;">
+          <strong>Tipp:</strong> Scrolle nach unten für die komplette Story oder nutze die Links oben für direkten Zugriff.
+        </p>
+      </section>
+
       <!-- Vision Hero -->
-      <section class="vision-hero">
+      <section class="vision-hero" id="vision">
         <h1>Community Tech Hub 2026</h1>
         <p class="tagline">"Alte Computer. Neue Chancen. Bessere Zukunft."</p>
         <p class="subtitle">Seit 2003 verbinden wir Kreislaufwirtschaft, Arbeitsintegration und Tech-Bildung unter einem Dach.</p>
@@ -572,7 +600,7 @@
       </section>
 
       <!-- The Ask -->
-      <section class="ask-section">
+      <section class="ask-section" id="ask">
         <h2>Der Förderbedarf</h2>
         <div class="ask-grid">
           <div class="ask-breakdown">
@@ -823,9 +851,36 @@
           <strong>Datenquellen:</strong><br>
           <span style="font-size: 0.85rem; color: var(--color-text-muted);">
             Finanzdaten: revamp-Einnahmen-2025.xlsx (Kivitendo Export)<br>
-            Wirkungsdaten: BAFU Lifecycle-Analyse 2023, interne HR-Daten<br>
+            Wirkungsdaten: <a href="https://www.bafu.admin.ch/bafu/de/home/themen/abfall/publikationen-studien/publikationen/oekobilanzen-elektro-elektronikgeraete.html" target="_blank" rel="noopener" style="color: #059669;">BAFU Lifecycle-Analyse 2023</a>, interne HR-Daten<br>
             Alle Zahlen verifiziert. Projektionen mit drei Szenarien dokumentiert.
           </span>
+        </div>
+      </section>
+
+      <!-- Next Steps CTA -->
+      <section class="content-section">
+        <div style="background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%); color: white; border-radius: 16px; padding: 2rem;">
+          <h2 style="margin: 0 0 1.5rem 0; font-size: 1.5rem;">🚀 Nächste Schritte</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div style="background: rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 12px;">
+              <h3 style="margin: 0 0 0.75rem 0; font-size: 1rem; opacity: 0.9;">1. Stiftung auswählen</h3>
+              <p style="margin: 0 0 1rem 0; font-size: 0.9rem; opacity: 0.85;">Priorisierte Liste mit Deadlines und Anforderungen.</p>
+              <a href="stiftungen.html" style="color: #a5f3fc; font-weight: 500;">→ Stiftungen-Übersicht öffnen</a>
+            </div>
+            <div style="background: rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 12px;">
+              <h3 style="margin: 0 0 0.75rem 0; font-size: 1rem; opacity: 0.9;">2. Gesuch vorbereiten</h3>
+              <p style="margin: 0 0 1rem 0; font-size: 0.9rem; opacity: 0.85;">Templates und Bausteine für schnellere Anträge.</p>
+              <a href="../dokumente/index.html" style="color: #a5f3fc; font-weight: 500;">→ Vorlagen herunterladen</a>
+            </div>
+            <div style="background: rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 12px;">
+              <h3 style="margin: 0 0 0.75rem 0; font-size: 1rem; opacity: 0.9;">3. Wirkung belegen</h3>
+              <p style="margin: 0 0 1rem 0; font-size: 0.9rem; opacity: 0.85;">Zahlen mit Quellenangaben für Glaubwürdigkeit.</p>
+              <a href="../wirkung/index.html" style="color: #a5f3fc; font-weight: 500;">→ Impact-Daten ansehen</a>
+            </div>
+          </div>
+          <p style="margin: 1.5rem 0 0 0; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.85rem; opacity: 0.8;">
+            <strong>Fragen?</strong> Kontaktiere das Team oder nutze das Organisationsprofil als Referenz für alle Gesuche.
+          </p>
         </div>
       </section>
     </main>

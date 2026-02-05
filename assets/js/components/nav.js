@@ -45,6 +45,7 @@
       {
         text: 'Fundraising',
         icon: '🎯',
+        href: 'pages/fundraising/index.html', // Main page is clickable
         mega: true, // This triggers mega menu rendering
         sections: [
           {
@@ -94,9 +95,11 @@
 
   // Build mega menu HTML
   function buildMegaMenu(item, prefixHref) {
+    const mainHref = item.href ? prefixHref(item.href) : '#';
+    const activeClass = isActive(item.href) ? ' class="active"' : '';
     let html = `
       <li class="nav-dropdown nav-mega">
-        <a href="#">${item.icon ? item.icon + ' ' : ''}${item.text}</a>
+        <a href="${mainHref}"${activeClass}>${item.icon ? item.icon + ' ' : ''}${item.text}</a>
         <div class="mega-menu">
           <div class="mega-menu-inner">`;
 
