@@ -51,7 +51,7 @@
           {
             title: 'Recherche',
             items: [
-              { text: 'Stiftungen-Übersicht', href: 'pages/fundraising/stiftungen.html', desc: 'Alle Förderstiftungen mit Deadlines', highlight: true },
+              { text: 'Stiftungen-Übersicht', href: 'pages/fundraising/stiftungen/index.html', desc: 'Alle Förderstiftungen mit Deadlines', highlight: true },
               { text: 'Fundraising Hub', href: 'pages/fundraising/index.html', desc: 'Übersicht & Pipeline' }
             ]
           },

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="last-updated" content="6. Februar 2026">
+  <title>Klimastiftung Schweiz – Revamp-IT</title>
+  <link rel="stylesheet" href="../../../assets/css/styles.css">
+  <style>
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --accent: #166534;
+      --light: #f0fdf4;
+      --lighter: #dcfce7;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    /* ========================================
+       MODE TOGGLE
+       ======================================== */
+    .mode-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      background: #f3f4f6;
+      border-radius: 8px;
+      padding: 4px;
+      margin-bottom: 2rem;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #6b7280;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .mode-btn.active {
+      background: white;
+      color: var(--primary-dark);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .mode-btn:hover:not(.active) { color: #374151; }
+
+    /* ========================================
+       HEADER (both modes)
+       ======================================== */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .back-link {
+      color: white;
+      text-decoration: none;
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+    .back-link:hover { opacity: 1; text-decoration: underline; }
+    .fit-badge {
+      background: white;
+      color: var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .page-header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.8rem;
+    }
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    .status-badge {
+      background: rgba(255,255,255,0.95);
+      color: var(--accent);
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+    .deadline-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .countdown {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .amount-info {
+      opacity: 0.95;
+    }
+
+    /* ========================================
+       INTERNAL MODE STYLES
+       ======================================== */
+    .internal-content { display: block; }
+    .presentation-content { display: none; }
+    body.presentation-mode .internal-content { display: none; }
+    body.presentation-mode .presentation-content { display: block; }
+
+    /* Quick Check Grid */
+    .quick-check {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .check-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .check-card.pass { border-left: 4px solid var(--primary); }
+    .check-card.warning { border-left: 4px solid var(--warning); }
+    .check-card.fail { border-left: 4px solid var(--danger); }
+    .check-card .label {
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+    .check-card .value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #111827;
+    }
+    .check-card .status {
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+    .check-card.pass .status { color: var(--primary); }
+    .check-card.warning .status { color: var(--warning); }
+
+    /* Section Cards */
+    .section-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .section-card h2 {
+      margin: 0 0 1rem 0;
+      font-size: 1.1rem;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-card h2 .num {
+      background: var(--light);
+      color: var(--accent);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    /* Criteria Match Table */
+    .criteria-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .criteria-table td {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f3f4f6;
+      vertical-align: top;
+    }
+    .criteria-table tr:last-child td { border-bottom: none; }
+    .criteria-table .criteria { color: #6b7280; width: 40%; }
+    .criteria-table .match { color: #111827; }
+    .criteria-table .check {
+      color: var(--primary);
+      font-weight: 700;
+      width: 30px;
+    }
+
+    /* Talking Points */
+    .lead-theme {
+      background: var(--light);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .lead-theme .label {
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .lead-theme .message {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #111827;
+      margin-top: 0.25rem;
+    }
+    .key-numbers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .key-number {
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .key-number .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .key-number .label {
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+    .evidence-list {
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    .evidence-list h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.85rem;
+      color: #374151;
+    }
+    .evidence-list ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.9rem;
+    }
+    .evidence-list li { margin-bottom: 0.25rem; }
+    .evidence-list a { color: var(--primary-dark); }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--primary);
+    }
+    .checklist .item-text { flex: 1; }
+    .checklist .item-note {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 0.25rem;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-secondary {
+      background: var(--light);
+      color: var(--accent);
+    }
+    .btn-secondary:hover { background: var(--lighter); }
+
+    /* Submit Section */
+    .submit-section {
+      background: var(--light);
+      border: 1px solid var(--lighter);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .timeline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+    .timeline-item .date {
+      font-weight: 700;
+      color: #111827;
+    }
+    .timeline-item .label {
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+
+    /* Warning Box */
+    .warning-box {
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.75rem;
+    }
+    .warning-box .icon { font-size: 1.25rem; }
+    .warning-box .text { font-size: 0.9rem; color: #92400e; }
+
+    /* Fazit Box */
+    .fazit-box {
+      background: var(--light);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .fazit-box .icon { font-size: 1.5rem; }
+    .fazit-box .text {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* ========================================
+       PRESENTATION MODE STYLES
+       ======================================== */
+    .presentation-content .hero {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+    }
+    .presentation-content .hero h1 {
+      font-size: 2rem;
+      margin: 0 0 0.5rem 0;
+    }
+    .presentation-content .hero .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.95;
+    }
+    .presentation-content .hero .metrics {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .presentation-content .hero .metric {
+      text-align: center;
+    }
+    .presentation-content .hero .metric .value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      display: block;
+    }
+    .presentation-content .hero .metric .label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .presentation-content .section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .presentation-content .section h2 {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.4rem;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .presentation-content .section h2 .icon {
+      width: 40px;
+      height: 40px;
+      background: var(--light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .fit-visual {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .fit-item {
+      background: var(--light);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .fit-item .criteria {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 0.5rem;
+    }
+    .fit-item .match {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #111827;
+    }
+    .fit-item .checkmark {
+      color: var(--primary);
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .project-card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.1rem;
+      color: #111827;
+    }
+    .project-card .desc {
+      font-size: 0.95rem;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+
+    .track-record {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      text-align: center;
+    }
+    .track-item .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .track-item .label {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .cta-section {
+      text-align: center;
+      background: var(--light);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+    .cta-section h2 {
+      margin: 0 0 0.5rem 0;
+      color: #111827;
+    }
+    .cta-section p {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: #6b7280;
+      font-size: 0.85rem;
+    }
+    .page-footer a { color: var(--primary-dark); }
+
+    /* Internal-only badge */
+    .internal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    body.presentation-mode .internal-badge { display: none; }
+
+    /* Share link box */
+    .share-box {
+      background: #f3f4f6;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .share-box input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+    .share-box button {
+      padding: 0.5rem 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div id="nav-placeholder"></div>
+    <script src="../../../assets/js/components/nav.js"></script>
+
+    <main class="page-content">
+
+      <!-- Mode Toggle -->
+      <div class="mode-toggle">
+        <button class="mode-btn active" data-mode="internal">
+          🔧 Vorbereitung
+        </button>
+        <button class="mode-btn" data-mode="presentation">
+          🎯 Präsentation
+        </button>
+      </div>
+
+      <!-- ============================================
+           INTERNAL MODE - Preparation Dashboard
+           ============================================ -->
+      <div class="internal-content">
+
+        <!-- Header -->
+        <header class="page-header">
+          <div class="header-top">
+            <a href="index.html" class="back-link">← Alle Stiftungen</a>
+            <span class="fit-badge">Fit: ✓✓✓</span>
+          </div>
+          <h1>Klimastiftung Schweiz</h1>
+          <div class="header-meta">
+            <span class="status-badge">Bewerbung Offen</span>
+            <div class="deadline-info">
+              <span>Deadline:</span>
+              <span class="countdown" id="countdown-internal">—</span>
+              <span>Tage (1. März 2026)</span>
+            </div>
+            <span class="amount-info">bis CHF 200'000 (max. 50%)</span>
+          </div>
+        </header>
+
+        <!-- 1. Quick Check -->
+        <section class="section-card">
+          <h2><span class="num">1</span> Schnell-Check: Lohnt sich das?</h2>
+          <div class="quick-check">
+            <div class="check-card pass">
+              <div class="label">Thema</div>
+              <div class="value">Klima</div>
+              <div class="status">✓ Perfekt</div>
+            </div>
+            <div class="check-card pass">
+              <div class="label">Region</div>
+              <div class="value">CH/FL</div>
+              <div class="status">✓ Passt</div>
+            </div>
+            <div class="check-card pass">
+              <div class="label">Betrag</div>
+              <div class="value">bis 200k</div>
+              <div class="status">✓ Interessant</div>
+            </div>
+            <div class="check-card pass">
+              <div class="label">Eigenanteil</div>
+              <div class="value">50%</div>
+              <div class="status">✓ Haben 96%</div>
+            </div>
+            <div class="check-card warning">
+              <div class="label">Aufwand</div>
+              <div class="value">Mittel</div>
+              <div class="status">Online-Formular</div>
+            </div>
+            <div class="check-card pass">
+              <div class="label">Typ</div>
+              <div class="value">A</div>
+              <div class="status">Professionell</div>
+            </div>
+          </div>
+          <div class="fazit-box">
+            <span class="icon">✅</span>
+            <span class="text">FAZIT: Hohe Priorität — unbedingt bewerben!</span>
+          </div>
+        </section>
+
+        <!-- 2. Foundation Lens -->
+        <section class="section-card">
+          <h2><span class="num">2</span> Was die Stiftung will (ihre Brille)</h2>
+          <table class="criteria-table">
+            <tr>
+              <td class="criteria">Klimaschutz-Projekte</td>
+              <td class="match">Genau unser Kernthema</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td class="criteria">KMU / kleine Organisationen</td>
+              <td class="match">Wir sind ein kleiner Verein (8 MA)</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td class="criteria">50% Eigenfinanzierung nötig</td>
+              <td class="match">Wir haben 96% Eigenfinanzierung</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td class="criteria">Messbare Klimawirkung</td>
+              <td class="match">285 kg CO₂ pro Gerät, dokumentiert</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td class="criteria">Sitz in CH oder FL</td>
+              <td class="match">Zürich</td>
+              <td class="check">✓</td>
+            </tr>
+          </table>
+          <div class="warning-box">
+            <span class="icon">⚠️</span>
+            <span class="text"><strong>Wichtig:</strong> Antrag muss VOR Projektbeginn eingereicht werden. Keine rückwirkende Förderung.</span>
+          </div>
+        </section>
+
+        <!-- 3. Our Positioning -->
+        <section class="section-card">
+          <h2><span class="num">3</span> Unsere Positionierung (so argumentieren wir)</h2>
+
+          <div class="lead-theme">
+            <div class="label">Lead-Thema</div>
+            <div class="message">„Jedes gerettete Gerät spart 285 kg CO₂"</div>
+          </div>
+
+          <h4 style="margin: 1rem 0 0.5rem; color: #374151;">Zahlen für das Gesuch:</h4>
+          <div class="key-numbers">
+            <div class="key-number">
+              <div class="value">~85t</div>
+              <div class="label">CO₂-Einsparung pro Jahr</div>
+            </div>
+            <div class="key-number">
+              <div class="value">300+</div>
+              <div class="label">Geräte pro Jahr</div>
+            </div>
+            <div class="key-number">
+              <div class="value">96%</div>
+              <div class="label">Eigenfinanzierung</div>
+            </div>
+            <div class="key-number">
+              <div class="value">20+</div>
+              <div class="label">Jahre Erfahrung</div>
+            </div>
+          </div>
+
+          <div class="evidence-list">
+            <h4>Evidenz zum Zitieren:</h4>
+            <ul>
+              <li><a href="https://circularcomputing.com/news/carbon-footprint-laptop/" target="_blank">Circular Computing</a>: 331 kg CO₂ pro neuem Laptop</li>
+              <li><a href="https://ewastemonitor.info/" target="_blank">Global E-waste Monitor</a>: 62 Mio. Tonnen E-Waste pro Jahr</li>
+              <li><a href="https://www.bafu.admin.ch/" target="_blank">BAFU</a>: Refurbishing reduziert Umweltbelastung um 70-80%</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 4. Prepare Application -->
+        <section class="section-card">
+          <h2><span class="num">4</span> Gesuch vorbereiten</h2>
+          <ul class="checklist">
+            <li>
+              <input type="checkbox" id="check1">
+              <div class="item-text">
+                <label for="check1"><strong>Online-Formular ausfüllen</strong></label>
+                <div class="item-note">Über das Portal der Klimastiftung</div>
+              </div>
+            </li>
+            <li>
+              <input type="checkbox" id="check2">
+              <div class="item-text">
+                <label for="check2"><strong>Projektbeschreibung verfassen</strong></label>
+                <div class="item-note">Fokus auf CO₂-Wirkung, max. 2-3 Seiten</div>
+              </div>
+            </li>
+            <li>
+              <input type="checkbox" id="check3">
+              <div class="item-text">
+                <label for="check3"><strong>Budget erstellen</strong></label>
+                <div class="item-note">Mit 50% Eigenanteil nachweisen</div>
+              </div>
+            </li>
+            <li>
+              <input type="checkbox" id="check4">
+              <div class="item-text">
+                <label for="check4"><strong>Vereinsstatuten beilegen</strong></label>
+                <div class="item-note">Aktuellste Version als PDF</div>
+              </div>
+            </li>
+            <li>
+              <input type="checkbox" id="check5">
+              <div class="item-text">
+                <label for="check5"><strong>Letzte Jahresrechnung beilegen</strong></label>
+                <div class="item-note">Zeigt Eigenfinanzierung</div>
+              </div>
+            </li>
+          </ul>
+          <div class="action-buttons">
+            <a href="#" class="btn btn-secondary" onclick="alert('Gesuch-Entwurf wird geladen...'); return false;">
+              📄 Gesuch-Entwurf öffnen
+            </a>
+            <a href="#" class="btn btn-secondary" onclick="alert('Budget-Vorlage wird geladen...'); return false;">
+              📊 Budget-Vorlage
+            </a>
+          </div>
+        </section>
+
+        <!-- 5. Submit -->
+        <section class="section-card">
+          <h2><span class="num">5</span> Einreichen</h2>
+          <div class="submit-section">
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="date">1. März 2026</div>
+                <div class="label">Eingabe-Deadline</div>
+              </div>
+              <div class="timeline-item">
+                <div class="date">Juni 2026</div>
+                <div class="label">Entscheid</div>
+              </div>
+              <div class="timeline-item">
+                <div class="date">1. Sept. 2026</div>
+                <div class="label">Nächste Runde</div>
+              </div>
+            </div>
+            <div class="action-buttons" style="margin-top: 1.5rem;">
+              <a href="https://www.klimastiftung.ch/de/antrag-stellen/" target="_blank" class="btn btn-primary">
+                → Zum Antragsportal
+              </a>
+              <a href="https://www.klimastiftung.ch" target="_blank" class="btn btn-secondary">
+                Website besuchen
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Share Link -->
+        <section class="section-card">
+          <h2>📤 Interaktives Gesuch teilen</h2>
+          <p style="color: #6b7280; margin-bottom: 1rem;">Statt PDF: Teile den Link zur Präsentations-Ansicht mit der Stiftung.</p>
+          <div class="share-box">
+            <input type="text" id="share-url" readonly>
+            <button onclick="copyShareLink()">Kopieren</button>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ============================================
+           PRESENTATION MODE - For Foundation
+           ============================================ -->
+      <div class="presentation-content">
+
+        <!-- Hero -->
+        <section class="hero">
+          <h1>Revamp-IT × Klimastiftung Schweiz</h1>
+          <p class="subtitle">Klimaschutz durch IT-Lebensdauerverlängerung</p>
+          <div class="metrics">
+            <div class="metric">
+              <span class="value">285 kg</span>
+              <span class="label">CO₂ gespart pro Gerät</span>
+            </div>
+            <div class="metric">
+              <span class="value">~85t</span>
+              <span class="label">CO₂-Einsparung/Jahr</span>
+            </div>
+            <div class="metric">
+              <span class="value">300+</span>
+              <span class="label">Geräte pro Jahr</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Why We Fit -->
+        <section class="section">
+          <h2><span class="icon">✓</span> Warum Revamp-IT zur Klimastiftung passt</h2>
+          <div class="fit-visual">
+            <div class="fit-item">
+              <div class="criteria">Ihr Fokus: Klimaschutz</div>
+              <div class="match">Unser Kernthema</div>
+              <div class="checkmark">✓</div>
+            </div>
+            <div class="fit-item">
+              <div class="criteria">Für KMU & kleine Orgs</div>
+              <div class="match">Verein mit 8 MA</div>
+              <div class="checkmark">✓</div>
+            </div>
+            <div class="fit-item">
+              <div class="criteria">50% Eigenfinanzierung</div>
+              <div class="match">Wir: 96%</div>
+              <div class="checkmark">✓</div>
+            </div>
+            <div class="fit-item">
+              <div class="criteria">Messbare Wirkung</div>
+              <div class="match">CO₂-Daten dokumentiert</div>
+              <div class="checkmark">✓</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- The Problem -->
+        <section class="section">
+          <h2><span class="icon">🌍</span> Das Problem</h2>
+          <p style="font-size: 1.1rem; line-height: 1.8; color: #374151;">
+            <strong>62 Millionen Tonnen Elektroschrott</strong> entstehen jährlich weltweit.
+            In der Schweiz werden funktionierende Geräte nach nur 3-4 Jahren ersetzt.
+            Dabei stecken in jedem Laptop bereits <strong>331 kg CO₂</strong> aus der Produktion —
+            die durch längere Nutzung eingespart werden könnten.
+          </p>
+        </section>
+
+        <!-- Our Solution -->
+        <section class="section">
+          <h2><span class="icon">♻️</span> Unsere Lösung</h2>
+          <p style="font-size: 1.05rem; line-height: 1.8; color: #374151; margin-bottom: 1.5rem;">
+            Revamp-IT verlängert die Lebensdauer von IT-Geräten um durchschnittlich <strong>5 Jahre</strong>.
+            Durch professionelles Refurbishing und Linux-Installation werden „alte" Laptops
+            zu leistungsfähigen, sicheren Arbeitsgeräten.
+          </p>
+          <div class="project-grid">
+            <div class="project-card">
+              <h3>🔧 IT-Refurbishing</h3>
+              <p class="desc">Professionelle Aufbereitung gespendeter Geräte. Diagnose, Reparatur, neue Komponenten bei Bedarf, sichere Datenlöschung.</p>
+            </div>
+            <div class="project-card">
+              <h3>🐧 Linux-Installation</h3>
+              <p class="desc">Freie Software statt geplanter Obsoleszenz. Auch ältere Hardware bleibt performant und sicher.</p>
+            </div>
+            <div class="project-card">
+              <h3>👥 Soziale Integration</h3>
+              <p class="desc">Praktikumsplätze für Menschen, die es auf dem Arbeitsmarkt schwer haben. IT-Skills für die Zukunft.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Track Record -->
+        <section class="section">
+          <h2><span class="icon">📊</span> Unsere Erfahrung</h2>
+          <div class="track-record">
+            <div class="track-item">
+              <div class="value">2003</div>
+              <div class="label">Gegründet</div>
+            </div>
+            <div class="track-item">
+              <div class="value">96%</div>
+              <div class="label">Eigenfinanzierung</div>
+            </div>
+            <div class="track-item">
+              <div class="value">100+</div>
+              <div class="label">Praktikant:innen betreut</div>
+            </div>
+            <div class="track-item">
+              <div class="value">Zürich</div>
+              <div class="label">Standort</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+          <h2>Gemeinsam für nachhaltige IT</h2>
+          <p>Wir freuen uns auf den Austausch mit der Klimastiftung Schweiz.</p>
+          <a href="https://revampit.ch" target="_blank" class="btn btn-primary">
+            Mehr über Revamp-IT →
+          </a>
+        </section>
+
+      </div>
+
+      <!-- Footer -->
+      <footer class="page-footer">
+        <span class="internal-badge">🔒 Internes Dokument</span>
+        <br><br>
+        Informationen verifiziert am 6. Februar 2026 ·
+        <a href="https://www.klimastiftung.ch" target="_blank">klimastiftung.ch</a>
+      </footer>
+
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="../../../assets/js/components/footer.js"></script>
+  </div>
+
+  <script>
+    // Mode Toggle
+    const modeButtons = document.querySelectorAll('.mode-btn');
+    modeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        modeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (btn.dataset.mode === 'presentation') {
+          document.body.classList.add('presentation-mode');
+          // Update URL for sharing
+          history.replaceState(null, '', '?view=presentation');
+        } else {
+          document.body.classList.remove('presentation-mode');
+          history.replaceState(null, '', window.location.pathname);
+        }
+      });
+    });
+
+    // Check URL for presentation mode
+    if (window.location.search.includes('view=presentation')) {
+      document.body.classList.add('presentation-mode');
+      modeButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === 'presentation');
+      });
+    }
+
+    // Countdown
+    function updateCountdown() {
+      const deadline = new Date('2026-03-01');
+      const today = new Date();
+      const diffDays = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+      const el = document.getElementById('countdown-internal');
+      if (el) el.textContent = diffDays > 0 ? diffDays : 0;
+    }
+    updateCountdown();
+
+    // Share URL
+    function copyShareLink() {
+      const url = window.location.origin + window.location.pathname + '?view=presentation';
+      document.getElementById('share-url').value = url;
+      navigator.clipboard.writeText(url);
+      alert('Link kopiert!');
+    }
+    document.getElementById('share-url').value =
+      window.location.origin + window.location.pathname + '?view=presentation';
+
+    // Save checklist state
+    document.querySelectorAll('.checklist input').forEach(checkbox => {
+      const key = 'klimastiftung-' + checkbox.id;
+      checkbox.checked = localStorage.getItem(key) === 'true';
+      checkbox.addEventListener('change', () => {
+        localStorage.setItem(key, checkbox.checked);
+      });
+    });
+  </script>
+</body>
+</html>
