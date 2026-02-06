@@ -827,6 +827,52 @@ const STIFTUNGEN_DATA = [
     needsResearch: false,
     researchNotes: "Fokus auf internationale E-Waste Projekte (nicht Schweiz). Kontakt: Dr. Andreas Röthlisberger, Kirschgarten 13, 5000 Aarau. Für Revamp-IT weniger relevant ausser bei internationaler Expansion."
   },
+  {
+    slug: "wirtschaft-gesellschaft",
+    name: "Stiftung für Wirtschaft und Gesellschaft",
+    type: "B",
+    status: "rolling",
+    deadline: null,
+    deadlineText: "Laufend",
+    amount: { min: null, max: null, text: "Darlehen/Beteiligung" },
+    fit: 3, // KMU + jobs for people with limited capacity!
+    priority: 3,
+    tagline: "Nachhaltiges Unternehmertum, KMU, Arbeitsplätze - SEHR RELEVANT!",
+    uid: "CHE-344.116.046",
+    region: "Heimberg / CH",
+    websiteUrl: "https://app.spheriq.ch/organisation/stiftung-fuer-wirtschaft-und-gesellschaft",
+    applicationMethod: "direct",
+    purposeSummary: "Fördert verantwortungsvolles KMU-Unternehmertum. Schaffung von Arbeitsplätzen, auch für Personen mit eingeschränkter Leistungsfähigkeit. Darlehen, Kapitalbeteiligung, Coaching.",
+    themes: ["soziale-integration", "arbeitsintegration"],
+    source: "esa",
+    researchDate: "2026-02-06",
+    needsResearch: true,
+    researchNotes: "Gegründet 2014 in Heimberg. SEHR RELEVANT: Explizit Arbeitsplätze für Personen mit eingeschränkter Leistungsfähigkeit genannt! Bietet Darlehen, Kapitalbeteiligung UND Coaching. Kein eigenes Website."
+  },
+  {
+    slug: "svc-unternehmertum",
+    name: "SVC Stiftung für das Unternehmertum",
+    type: "A",
+    status: "rolling",
+    deadline: null,
+    deadlineText: "Laufend",
+    amount: { min: null, max: null, text: "Projektförderung" },
+    fit: 2,
+    priority: 2,
+    tagline: "KMU-Förderung, Unternehmertum, Bildung",
+    uid: "CHE-217.027.356",
+    region: "Gümligen / CH",
+    websiteUrl: "https://svc-stiftung.swiss/",
+    contactEmail: "svc.stiftung@svc.swiss",
+    contactPhone: "+41 31 358 72 72",
+    applicationMethod: "direct",
+    purposeSummary: "Fördert Unternehmertum und KMU in allen Regionen der Schweiz. Bildungsmassnahmen für unternehmerische Kompetenzen. Gegründet 2010 aus Swiss Venture Club.",
+    themes: ["digitale-bildung"],
+    source: "esa",
+    researchDate: "2026-02-06",
+    needsResearch: false,
+    researchNotes: "Teil von Swiss Venture Club. Website: svc-stiftung.swiss. Fokus auf Entrepreneurship-Bildung. Adresse: Worbstrasse 187, 3073 Gümligen."
+  },
 
   // Networks & Resources (not direct funders)
   {
