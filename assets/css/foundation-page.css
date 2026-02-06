@@ -500,3 +500,170 @@
   font-size: 0.85rem;
 }
 .source-footer a { color: var(--foundation-primary); }
+
+/* ========================================
+   SIMPLE PAGE LAYOUT (legacy/simple pages)
+   Used by most foundation detail pages
+   ======================================== */
+
+/* Back link outside hero */
+a.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+}
+a.back-link:hover { opacity: 1; text-decoration: underline; }
+
+/* Simple 2-column grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+@media (max-width: 900px) {
+  .content-grid { grid-template-columns: 1fr; }
+}
+
+/* Main content sections (simple) */
+.main-content section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.main-content h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #111827;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+.main-content p { margin: 0 0 1rem 0; line-height: 1.7; }
+.main-content ul, .main-content ol { margin: 0; padding-left: 1.25rem; }
+.main-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+
+/* Sidebar info cards (simple) */
+.sidebar .info-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.sidebar h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #374151;
+}
+
+/* Simple action buttons (without .primary/.secondary) */
+a.action-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background: var(--foundation-primary);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  transition: background 0.2s;
+}
+a.action-btn:hover { background: var(--foundation-primary-dark); }
+
+/* Status badges - additional variants */
+.status-badge.open { background: #dcfce7; color: #166534; }
+.status-badge.closed { background: #fee2e2; color: #991b1b; }
+.status-badge.rolling { background: rgba(255,255,255,0.9); color: var(--foundation-accent); }
+.status-badge.soon { background: #fef3c7; color: #92400e; }
+.status-badge.research { background: #fef3c7; color: #92400e; }
+.status-badge.international { background: #fee2e2; color: #991b1b; }
+
+/* Fit badges */
+.fit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+/* Default fit-badge colors - can be overridden with inline styles */
+
+/* Banner variants */
+.highlight-banner {
+  background: #dcfce7;
+  border: 1px solid #22c55e;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+.highlight-banner strong { color: #166534; }
+
+.warning-banner {
+  background: #fee2e2;
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+.warning-banner strong { color: #991b1b; }
+
+.research-banner {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+.research-banner strong { color: #92400e; }
+
+/* Source link (simple) */
+a.source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+a.source-link:hover { color: var(--foundation-primary); text-decoration: underline; }
+
+/* Fit section (legacy) */
+.fit-section {
+  background: var(--foundation-light, #f0fdf4);
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 1rem;
+}
+.fit-section h4 {
+  margin: 0 0 0.75rem 0;
+  color: #166534;
+  font-size: 0.9rem;
+}
+.fit-list { margin: 0; padding: 0; list-style: none; }
+.fit-list li {
+  padding: 0.35rem 0 0.35rem 1.5rem;
+  position: relative;
+  font-size: 0.9rem;
+}
+.fit-list li.pro::before { content: "✓"; position: absolute; left: 0; color: #10b981; font-weight: bold; }
+.fit-list li.con::before { content: "!"; position: absolute; left: 0; color: #f59e0b; font-weight: bold; }
+
+/* Address box */
+.address-box {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
