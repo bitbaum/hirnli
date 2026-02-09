@@ -22,7 +22,7 @@ export const FoundationStatus = z.enum(['open', 'closed', 'rolling', 'soon']);
 export type FoundationStatus = z.infer<typeof FoundationStatus>;
 
 // Source IDs
-export const SourceId = z.enum(['manual', 'fundraiso', 'stiftungschweiz', 'esa', 'robert']);
+export const SourceId = z.enum(['manual', 'fundraiso', 'stiftungschweiz', 'esa', 'robert', 'zefix', 'website', 'cantonal']);
 export type SourceId = z.infer<typeof SourceId>;
 
 // Application methods
@@ -64,6 +64,13 @@ const contactSchema = z.object({
   email: z.string().optional(),
   phone: z.string().optional(),
 }).optional();
+
+// Source link (where we found this foundation on aggregator sites)
+const sourceLinkSchema = z.object({
+  source: SourceId,
+  url: z.string(),
+  label: z.string().optional(),
+});
 
 // Foundation deadline entry
 const deadlineEntrySchema = z.object({
@@ -119,6 +126,8 @@ export const foundationSchema = z.object({
   requiresContract: z.boolean().optional(),
   possiblePartners: z.array(z.string()).optional(),
   sdgs: z.array(z.number()).optional(),
+  sourceLinks: z.array(sourceLinkSchema).optional(),
+  applicationProcess: z.array(z.string()).optional(),
   criteria: criteriaSchema,
   smallProjects: z.object({ max: z.number(), text: z.string() }).optional(),
   stats2025: z.string().optional(),

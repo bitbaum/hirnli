@@ -21,6 +21,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     search: searchParams.get('q') || '',
     hideOperative: searchParams.get('hideOp') === '1',
     hideNetworks: searchParams.get('hideNet') === '1',
+    hideNoApplication: searchParams.get('hideNoApp') === '1',
   }), [searchParams]);
 
   const sort: SortField = (searchParams.get('sort') as SortField) || 'priority';
@@ -71,6 +72,10 @@ export function useFoundationFilters(foundations: Foundation[]) {
     updateParams({ sort: field === 'priority' ? null : field });
   }, [updateParams]);
 
+  const toggleHideNoApplication = useCallback(() => {
+    updateParams({ hideNoApp: filters.hideNoApplication ? null : '1' });
+  }, [filters.hideNoApplication, updateParams]);
+
   const resetFilters = useCallback(() => {
     router.replace(pathname, { scroll: false });
   }, [router, pathname]);
@@ -89,7 +94,8 @@ export function useFoundationFilters(foundations: Foundation[]) {
       filters.fit !== null ||
       filters.search !== '' ||
       filters.hideOperative ||
-      filters.hideNetworks
+      filters.hideNetworks ||
+      filters.hideNoApplication
     );
   }, [filters]);
 
@@ -105,6 +111,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     toggleStatus,
     setSearch,
     setSort,
+    toggleHideNoApplication,
     resetFilters,
   };
 }

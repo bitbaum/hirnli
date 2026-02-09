@@ -8,16 +8,9 @@ import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { useFinancialData } from '@/hooks/useFinancialData';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
-import {
-  formatCHF,
-  formatNumber,
-  formatPercent,
-} from '@/lib/utils/format';
-import {
-  estimateDeviceCount,
-  estimateCO2Avoided,
-  estimateEWastePrevented,
-} from '@/lib/domain/calculations';
+import { formatCHF, formatNumber } from '@/lib/utils/format';
+import { estimateDeviceCount, estimateCO2Avoided, estimateEWastePrevented } from '@/lib/domain/calculations';
+import { ToCColumn, ImpactStoryCards } from './components';
 
 export default function WirkungPage() {
   const {
@@ -148,75 +141,12 @@ export default function WirkungPage() {
       </MetricGrid>
 
       {/* Impact story cards */}
-      <section className="mb-8">
-        <h2 className="mb-4 text-lg font-semibold text-grey-dark">Wirkung im Detail</h2>
-        <div className="grid gap-6 md:grid-cols-3">
-          {/* Ecological impact */}
-          <Card padding={false}>
-            <div className="rounded-t-lg bg-gradient-to-r from-emerald-500 to-emerald-700 p-4 text-white">
-              <h3 className="font-semibold">Ökologische Wirkung</h3>
-            </div>
-            <div className="p-4">
-              <div className="mb-2 text-3xl font-bold">~{co2Avoided} t</div>
-              <p className="mb-2 text-sm text-text-muted">CO₂ vermieden durch Wiederverwendung</p>
-              <Badge variant="estimated">Schätzung</Badge>
-              <p className="mt-3 text-xs text-text-muted">
-                <strong>Berechnung:</strong> 285 kg CO₂ pro Laptop (300 kg Produktion - 15 kg Refurbishment)
-              </p>
-              <div className="mt-3 rounded-lg bg-bg-light p-3">
-                <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Das entspricht etwa:</h4>
-                <ul className="space-y-1 text-xs text-text-light">
-                  <li>🚗 {formatNumber(carsKm)} km Autofahrt</li>
-                  <li>✈️ {flightsZurichBerlin} Flüge Zürich-Berlin</li>
-                </ul>
-              </div>
-            </div>
-          </Card>
-
-          {/* Resource conservation */}
-          <Card padding={false}>
-            <div className="rounded-t-lg bg-gradient-to-r from-emerald-500 to-emerald-700 p-4 text-white">
-              <h3 className="font-semibold">Ressourcenschonung</h3>
-            </div>
-            <div className="p-4">
-              <div className="mb-2 text-3xl font-bold">~{formatNumber(eWaste)} kg</div>
-              <p className="mb-2 text-sm text-text-muted">Elektroschrott vermieden</p>
-              <Badge variant="estimated">Schätzung</Badge>
-              <p className="mt-3 text-xs text-text-muted">
-                <strong>Berechnung:</strong> ~5 kg Durchschnittsgewicht pro Gerät
-              </p>
-              <div className="mt-3 rounded-lg bg-bg-light p-3">
-                <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Enthält wertvolle Rohstoffe:</h4>
-                <ul className="space-y-1 text-xs text-text-light">
-                  <li>⚡ Seltene Erden</li>
-                  <li>🪨 Kobalt & Lithium</li>
-                  <li>🔧 Kupfer & Aluminium</li>
-                </ul>
-              </div>
-            </div>
-          </Card>
-
-          {/* Social impact */}
-          <Card padding={false}>
-            <div className="rounded-t-lg bg-gradient-to-r from-purple-500 to-purple-700 p-4 text-white">
-              <h3 className="font-semibold">Soziale Integration</h3>
-            </div>
-            <div className="p-4">
-              <div className="mb-2 text-3xl font-bold text-gray-400">?</div>
-              <p className="mb-2 text-sm text-text-muted">Praktikant:innen & Teilnehmende</p>
-              <Badge variant="none">Nicht erfasst</Badge>
-              <div className="mt-3 rounded-lg bg-red-50 p-3">
-                <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Historisch (seit 2009):</h4>
-                <ul className="space-y-1 text-xs text-text-light">
-                  <li>👥 <strong>100+</strong> Praktikant:innen</li>
-                  <li>✓ <strong>~40%</strong> Erfolgsquote</li>
-                  <li>🏠 <strong>8-10</strong> Plätze verfügbar</li>
-                </ul>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </section>
+      <ImpactStoryCards
+        co2Avoided={co2Avoided}
+        eWaste={eWaste}
+        carsKm={carsKm}
+        flightsZurichBerlin={flightsZurichBerlin}
+      />
 
       {/* Theory of Change */}
       <Card className="mb-8">
@@ -362,42 +292,6 @@ export default function WirkungPage() {
       </Card>
 
       <NumberInspector isOpen={inspector.isOpen} onClose={inspector.close} data={inspector.data} />
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Theory of Change column component
-// ---------------------------------------------------------------------------
-
-function ToCColumn({
-  title,
-  color,
-  titleColor,
-  items,
-}: {
-  title: string;
-  color: string;
-  titleColor: string;
-  items: Array<{ label: string; status: 'measured' | 'estimated' | 'missing' }>;
-}) {
-  const statusIndicator = {
-    measured: 'bg-success',
-    estimated: 'bg-warning',
-    missing: 'bg-gray-400',
-  };
-
-  return (
-    <div className={`rounded-lg border p-3 ${color}`}>
-      <h4 className={`mb-3 border-b pb-2 text-sm font-semibold ${titleColor}`}>{title}</h4>
-      <div className="space-y-2">
-        {items.map((item) => (
-          <div key={item.label} className="flex items-center justify-between rounded bg-white/70 px-2 py-1.5 text-xs">
-            <span>{item.label}</span>
-            <span className={`h-2 w-2 rounded-full ${statusIndicator[item.status]}`} />
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

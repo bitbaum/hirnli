@@ -31,14 +31,17 @@ export default function FoundationListClient() {
     toggleTheme,
     toggleStatus,
     setSearch,
+    toggleHideNoApplication,
     resetFilters,
   } = useFoundationFilters(STIFTUNGEN_DATA);
+
+  const highFitCount = filtered.filter((f) => f.fit === 3).length;
 
   return (
     <div>
       <PageHeader
-        title="Stiftungen-Übersicht"
-        subtitle="Alle recherchierten Förderstiftungen mit Deadlines und Fit-Analyse"
+        title="Stiftungen-Uebersicht"
+        subtitle="Alle recherchierten Foerderstiftungen mit Deadlines und Fit-Analyse"
         badge={`${filteredCount}/${totalCount}`}
       />
 
@@ -67,18 +70,30 @@ export default function FoundationListClient() {
           selected={filters.statuses}
           onToggle={toggleStatus}
         />
+        <div className="flex items-center gap-3">
+          <label className="flex cursor-pointer items-center gap-2 text-sm text-text-muted">
+            <input
+              type="checkbox"
+              checked={filters.hideNoApplication}
+              onChange={toggleHideNoApplication}
+              className="rounded border-border"
+            />
+            Nur mit Bewerbungsweg
+          </label>
+        </div>
       </div>
 
-      {hasActiveFilters && (
-        <div className="mb-4 flex items-center gap-2 text-sm">
-          <span className="text-text-muted">
-            {filteredCount} von {totalCount} Stiftungen
-          </span>
+      <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
+        <span className="text-text-muted">
+          {filteredCount} Stiftungen gefunden (von {totalCount} total)
+          {highFitCount > 0 && ` | ${highFitCount} mit hohem Fit`}
+        </span>
+        {hasActiveFilters && (
           <button onClick={resetFilters} className="text-primary hover:underline">
-            Filter zurücksetzen
+            Filter zuruecksetzen
           </button>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Foundation list */}
       <div className="space-y-3">

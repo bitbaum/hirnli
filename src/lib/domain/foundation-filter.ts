@@ -8,6 +8,7 @@ export interface FoundationFilters {
   search: string;
   hideOperative: boolean;
   hideNetworks: boolean;
+  hideNoApplication: boolean;
 }
 
 export const DEFAULT_FILTERS: FoundationFilters = {
@@ -18,6 +19,7 @@ export const DEFAULT_FILTERS: FoundationFilters = {
   search: '',
   hideOperative: false,
   hideNetworks: false,
+  hideNoApplication: false,
 };
 
 /** Filter foundations by criteria */
@@ -51,6 +53,9 @@ export function filterFoundations(
 
     // Hide networks
     if (filters.hideNetworks && f.isNetwork) return false;
+
+    // Hide foundations without application method
+    if (filters.hideNoApplication && (f.applicationMethod === 'unknown' || f.applicationMethod === 'none')) return false;
 
     // Text search
     if (filters.search) {

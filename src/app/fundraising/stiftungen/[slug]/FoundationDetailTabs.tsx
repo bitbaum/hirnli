@@ -74,6 +74,16 @@ export default function FoundationDetailTabs({ foundation: f }: Props) {
                       <p className="mt-1 text-sm text-text-light">{f.decisionCycle}</p>
                     </div>
                   )}
+                  {f.applicationProcess && f.applicationProcess.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-grey-dark">Bewerbungsprozess</h4>
+                      <ol className="mt-2 list-inside list-decimal space-y-1 text-sm text-text-light">
+                        {f.applicationProcess.map((step, i) => (
+                          <li key={i}>{step}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  )}
                 </div>
               </Card>
             );

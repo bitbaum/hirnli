@@ -6,8 +6,30 @@ interface FoundationSidebarProps {
   foundation: Foundation;
 }
 
+/** Compute data completeness as percentage of key fields filled */
+function computeCompleteness(f: Foundation): { percent: number; missing: string[] } {
+  const checks: [string, boolean][] = [
+    ['Name', !!f.name],
+    ['Website', !!f.websiteUrl],
+    ['Themen', f.themes.length > 0],
+    ['Bewerbungsweg', f.applicationMethod !== 'unknown'],
+    ['Bewerbungs-URL', !!f.applicationUrl],
+    ['Foerderbetrag', f.amount.min !== null || f.amount.max !== null],
+    ['Stiftungszweck', !!f.purposeSummary],
+    ['Jahresbudget', !!f.annualBudget],
+    ['Gruendungsjahr', !!f.founded],
+    ['Kontakt', !!(f.contact?.email || f.contactEmail || f.contact?.address)],
+    ['UID', !!f.uid],
+    ['Region', !!f.region],
+  ];
+  const filled = checks.filter(([, ok]) => ok).length;
+  const missing = checks.filter(([, ok]) => !ok).map(([label]) => label);
+  return { percent: Math.round((filled / checks.length) * 100), missing };
+}
+
 export default function FoundationSidebar({ foundation: f }: FoundationSidebarProps) {
   const source = SOURCES[f.source];
+  const { percent, missing } = computeCompleteness(f);
 
   return (
     <div className="space-y-4">
@@ -16,7 +38,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Auf einen Blick</h3>
         <dl className="space-y-2 text-sm">
           <div>
-            <dt className="text-text-muted">Förderbetrag</dt>
+            <dt className="text-text-muted">Foerderbetrag</dt>
             <dd className="font-medium text-grey-dark">{f.amount.text}</dd>
           </div>
           <div>
@@ -67,6 +89,26 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         </div>
       </Card>
 
+      {/* Source Links */}
+      {f.sourceLinks && f.sourceLinks.length > 0 && (
+        <Card>
+          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Quellen</h3>
+          <div className="space-y-2 text-sm">
+            {f.sourceLinks.map((link, i) => (
+              <a
+                key={i}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-primary hover:underline"
+              >
+                🔗 {link.label || SOURCES[link.source]?.label || link.source}
+              </a>
+            ))}
+          </div>
+        </Card>
+      )}
+
       {/* Contact */}
       {(f.contact || f.contactEmail) && (
         <Card>
@@ -86,6 +128,27 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           </div>
         </Card>
       )}
+
+      {/* Data Completeness */}
+      <Card>
+        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Datenvollstaendigkeit</h3>
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-sm">
+            <div className="h-2 flex-1 rounded-full bg-bg-light">
+              <div
+                className="h-2 rounded-full bg-primary"
+                style={{ width: `${percent}%` }}
+              />
+            </div>
+            <span className="text-xs font-medium text-text-muted">{percent}%</span>
+          </div>
+          {missing.length > 0 && (
+            <p className="text-xs text-text-muted">
+              Fehlend: {missing.join(', ')}
+            </p>
+          )}
+        </div>
+      </Card>
 
       {/* Research Info */}
       <Card>

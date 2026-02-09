@@ -15,27 +15,16 @@ const CategoryBreakdown = dynamic(() => import('@/components/charts/CategoryBrea
   ssr: false,
   loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
 });
-import Table from '@/components/ui/Table';
-import Badge from '@/components/ui/Badge';
 import { useFinancialData } from '@/hooks/useFinancialData';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import {
   formatCHF,
   formatPercent,
   formatMonthShort,
-  formatNumber,
   calcGrowth,
 } from '@/lib/utils/format';
-import type { MonthlyAggregate } from '@/lib/schemas/financial';
-
-// Revenue category config — SSOT for labels, codes, colors
-const REVENUE_CATEGORIES = [
-  { key: 'warenverkauf' as const, label: 'Warenverkauf', code: '3100' },
-  { key: 'dienstleistungen' as const, label: 'Dienstleistungen', code: '3400' },
-  { key: 'integration' as const, label: 'Integration', code: '3450' },
-  { key: 'spenden' as const, label: 'Spenden', code: '3500' },
-  { key: 'aufstockung' as const, label: 'Aufstockung', code: '3510' },
-] as const;
+import { REVENUE_CATEGORIES } from './data';
+import { InsightCard, YearComparison, MonthlyBreakdownTable } from './components';
 
 export default function FinanzenPage() {
   const {
@@ -216,109 +205,20 @@ export default function FinanzenPage() {
       </div>
 
       {/* Year-over-year comparison */}
-      {prevYear.totals.total > 0 && (
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Jahresvergleich {selectedYear - 1} vs. {selectedYear}</CardTitle>
-          </CardHeader>
-          <div className="space-y-3">
-            {[
-              { label: 'Gesamteinnahmen', current: totals.total, previous: prevYear.totals.total },
-              { label: 'Warenverkauf', current: totals.warenverkauf, previous: prevYear.totals.warenverkauf },
-              { label: 'Dienstleistungen', current: totals.dienstleistungen, previous: prevYear.totals.dienstleistungen },
-              { label: 'Integration', current: totals.integration, previous: prevYear.totals.integration },
-              { label: 'Spenden + Aufstockung', current: donations, previous: prevYear.totals.spenden + prevYear.totals.aufstockung },
-            ].map((row) => {
-              const change = row.previous > 0 ? calcGrowth(row.previous, row.current) : 0;
-              return (
-                <div key={row.label} className="flex items-center justify-between border-b border-border pb-3 last:border-0">
-                  <span className="text-sm">{row.label}</span>
-                  <div className="flex items-center gap-4">
-                    <span className="text-xs text-text-muted">{formatCHF(row.previous)}</span>
-                    <span className="font-semibold">{formatCHF(row.current)}</span>
-                    {row.previous > 0 && (
-                      <Badge variant={change > 0.05 ? 'success' : change < -0.05 ? 'danger' : 'default'}>
-                        {change > 0 ? '+' : ''}{formatPercent(change)}
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </Card>
-      )}
+      <YearComparison
+        selectedYear={selectedYear}
+        totals={totals}
+        prevTotals={prevYear.totals}
+        donations={donations}
+        prevDonations={prevYear.totals.spenden + prevYear.totals.aufstockung}
+      />
 
       {/* Monthly breakdown table */}
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Monatliche Aufschlüsselung {selectedYear}</CardTitle>
-        </CardHeader>
-        <Table<MonthlyAggregate>
-          columns={[
-            {
-              key: 'period',
-              header: 'Monat',
-              render: (row) => formatMonthShort(row.period),
-            },
-            {
-              key: 'warenverkauf',
-              header: 'Warenverkauf',
-              align: 'right',
-              render: (row) => formatCHF(row.warenverkauf),
-            },
-            {
-              key: 'dienstleistungen',
-              header: 'Dienste',
-              align: 'right',
-              render: (row) => formatCHF(row.dienstleistungen),
-            },
-            {
-              key: 'integration',
-              header: 'Integration',
-              align: 'right',
-              render: (row) => formatCHF(row.integration),
-            },
-            {
-              key: 'spenden',
-              header: 'Spenden',
-              align: 'right',
-              render: (row) => formatCHF(row.spenden),
-            },
-            {
-              key: 'aufstockung',
-              header: 'Aufstockung',
-              align: 'right',
-              render: (row) => formatCHF(row.aufstockung),
-            },
-            {
-              key: 'total',
-              header: 'Total',
-              align: 'right',
-              className: 'font-semibold',
-              render: (row) => formatCHF(row.total),
-            },
-          ]}
-          data={monthlyData}
-          keyExtractor={(row) => row.period}
-          compact
-        />
-
-        {/* Totals row */}
-        {monthlyData.length > 0 && (
-          <div className="mt-2 flex items-center justify-between border-t-2 border-border bg-bg-light px-3 py-2 text-sm font-bold">
-            <span>TOTAL</span>
-            <div className="flex gap-6">
-              <span>{formatCHF(totals.warenverkauf)}</span>
-              <span>{formatCHF(totals.dienstleistungen)}</span>
-              <span>{formatCHF(totals.integration)}</span>
-              <span>{formatCHF(totals.spenden)}</span>
-              <span>{formatCHF(totals.aufstockung)}</span>
-              <span>{formatCHF(totals.total)}</span>
-            </div>
-          </div>
-        )}
-      </Card>
+      <MonthlyBreakdownTable
+        selectedYear={selectedYear}
+        monthlyData={monthlyData}
+        totals={totals}
+      />
 
       {/* Insights */}
       <Card className="mb-8">
@@ -372,30 +272,6 @@ export default function FinanzenPage() {
       </Card>
 
       <NumberInspector isOpen={inspector.isOpen} onClose={inspector.close} data={inspector.data} />
-    </div>
-  );
-}
-
-// Small helper component for insight cards — keeps the page component clean
-function InsightCard({
-  variant,
-  title,
-  text,
-}: {
-  variant: 'success' | 'warning' | 'info';
-  title: string;
-  text: string;
-}) {
-  const colors = {
-    success: 'border-l-4 border-l-success bg-success-bg/30',
-    warning: 'border-l-4 border-l-warning bg-warning-bg/30',
-    info: 'border-l-4 border-l-primary bg-primary/5',
-  };
-
-  return (
-    <div className={`rounded-lg p-4 ${colors[variant]}`}>
-      <h4 className="mb-1 text-sm font-semibold text-grey-dark">{title}</h4>
-      <p className="text-xs text-text-light">{text}</p>
     </div>
   );
 }
