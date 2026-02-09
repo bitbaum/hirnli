@@ -1,12 +1,20 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import PageHeader from '@/components/layout/PageHeader';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
-import RevenueChart from '@/components/charts/RevenueChart';
-import CategoryBreakdown from '@/components/charts/CategoryBreakdown';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
+
+const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
+  ssr: false,
+  loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
+});
+const CategoryBreakdown = dynamic(() => import('@/components/charts/CategoryBreakdown'), {
+  ssr: false,
+  loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
+});
 import Table from '@/components/ui/Table';
 import Badge from '@/components/ui/Badge';
 import { useFinancialData } from '@/hooks/useFinancialData';

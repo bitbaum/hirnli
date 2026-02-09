@@ -57,9 +57,7 @@ export default function CategoryBreakdown({
 
   return (
     <ChartWrapper title={title} className={className}>
-      <div className="h-64">
-        <Doughnut data={chartData} options={options} />
-      </div>
+      <Doughnut data={chartData} options={options} />
     </ChartWrapper>
   );
 }

@@ -21,14 +21,16 @@ export default function ChartWrapper({ children, title, className = '' }: ChartW
 
   return (
     <div className={`rounded-lg border border-border bg-white p-4 ${className}`}>
-      {title && <h3 className="mb-3 text-sm font-semibold text-grey-dark">{title}</h3>}
-      {mounted ? (
-        children
-      ) : (
-        <div className="flex h-64 items-center justify-center text-text-muted">
-          Laden...
-        </div>
-      )}
+      {title && <h2 className="mb-3 text-sm font-semibold text-grey-dark">{title}</h2>}
+      <div className="h-72">
+        {mounted ? (
+          children
+        ) : (
+          <div className="flex h-full items-center justify-center text-text-muted">
+            Laden...
+          </div>
+        )}
+      </div>
     </div>
   );
 }

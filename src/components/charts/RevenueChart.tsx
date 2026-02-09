@@ -73,9 +73,7 @@ export default function RevenueChart({ data, title = 'Einnahmen nach Monat', cla
 
   return (
     <ChartWrapper title={title} className={className}>
-      <div className="h-64">
-        <Bar data={chartData} options={options} />
-      </div>
+      <Bar data={chartData} options={options} />
     </ChartWrapper>
   );
 }

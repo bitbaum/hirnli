@@ -1,13 +1,21 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
-import RevenueChart from '@/components/charts/RevenueChart';
-import CategoryBreakdown from '@/components/charts/CategoryBreakdown';
 import Card from '@/components/ui/Card';
+
+const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
+  ssr: false,
+  loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
+});
+const CategoryBreakdown = dynamic(() => import('@/components/charts/CategoryBreakdown'), {
+  ssr: false,
+  loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
+});
 import Table from '@/components/ui/Table';
 import { useFinancialData } from '@/hooks/useFinancialData';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
@@ -148,7 +156,7 @@ export default function DashboardClient() {
 
       {/* Monthly table */}
       <Card className="mb-8">
-        <h3 className="mb-4 text-lg font-semibold text-grey-dark">Monatliche Einnahmen {selectedYear}</h3>
+        <h2 className="mb-4 text-lg font-semibold text-grey-dark">Monatliche Einnahmen {selectedYear}</h2>
         <Table
           columns={[
             { key: 'period', header: 'Monat', render: (row: MonthlyAggregate) => formatMonthShort(row.period) },
