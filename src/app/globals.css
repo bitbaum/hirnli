@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* ========================================
+   DESIGN TOKENS - Revamp-IT Brand Colors
+   Source: Brand_Identity.md
+   ======================================== */
+
+@theme inline {
+  /* Revamp-IT Primary Colors */
+  --color-revamp-green: #2ECC71;
+  --color-revamp-blue: #3498DB;
+  --color-revamp-orange: #E67E22;
+
+  /* Greys */
+  --color-grey-dark: #2C3E50;
+  --color-grey-medium: #7F8C8D;
+  --color-grey-light: #ECF0F1;
+
+  /* Semantic Colors */
+  --color-primary: #3498DB;
+  --color-primary-light: #5DADE2;
+  --color-secondary: #2ECC71;
+  --color-accent: #E67E22;
+
+  --color-success: #2ECC71;
+  --color-success-bg: #D5F5E3;
+  --color-warning: #E67E22;
+  --color-warning-bg: #FDEBD0;
+  --color-danger: #E74C3C;
+  --color-danger-bg: #FADBD8;
+
+  --color-text: #2C3E50;
+  --color-text-light: #7F8C8D;
+  --color-text-muted: #95A5A6;
+  --color-bg: #FFFFFF;
+  --color-bg-light: #ECF0F1;
+  --color-border: #D5D8DC;
+
+  /* Chart Colors */
+  --color-chart-1: #3498DB;
+  --color-chart-2: #2ECC71;
+  --color-chart-3: #E67E22;
+  --color-chart-4: #E74C3C;
+  --color-chart-5: #9B59B6;
+  --color-chart-6: #1ABC9C;
+
+  /* Theme Colors (foundation themes) */
+  --color-theme-klima: #10b981;
+  --color-theme-kreislauf: #059669;
+  --color-theme-sozial: #8b5cf6;
+  --color-theme-bildung: #3b82f6;
+  --color-theme-digital: #6366f1;
+  --color-theme-jugend: #f59e0b;
+  --color-theme-zuerich: #ef4444;
+  --color-theme-arbeit: #14b8a6;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+
+  /* Font */
+  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Consolas', 'Monaco', monospace;
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

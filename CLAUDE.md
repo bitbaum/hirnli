@@ -1,296 +1,274 @@
-# Revamp-Info - Internal Communication Site
+# Revamp-Info — Fundraising Intelligence Platform
 
 @~/.claude/CLAUDE.md
 
 ---
 
-## Overview
+## Product Vision
 
-Revamp-Info is the **internal communication and dashboard site** for Revamp-IT. It provides interactive, navigable content for the team - replacing PDFs, emails, and static documents with a living website.
+### What This Is
 
-**Live URL:** https://revamp-info.vercel.app
-**Repository:** https://github.com/g-but/revamp-info (private)
+A **fundraising intelligence platform** that helps organizations present themselves compellingly to potential funders, find the right foundations, and generate professional application documents.
+
+**Currently:** Built for Revamp-IT as the first use case.
+**Future:** A universal platform any project can use to fundraise effectively.
+
+### The Core Value Chain
+
+```
+1. INGEST    → All project data (financials, impact, team, strategy)
+2. PRESENT   → Beautiful, transparent, viewer-friendly dashboards
+3. FIND      → Matching funders via intelligent foundation research
+4. PROFILE   → Fit analysis between project and each foundation
+5. GENERATE  → Professional documents (Gesuch, pitch deck, reports)
+```
+
+### Why This Matters
+
+Foundations receive hundreds of applications. Most are plain text templates that look the same. We want to:
+- **Make our data speak for itself** — transparent, inspectable, sourced
+- **Show fit, not just ask for money** — each foundation profile demonstrates mutual alignment
+- **Generate better documents** — not the boring plain-text Gesuch examples, but well-designed, compelling, reader-friendly documents that stand out
+- **Enable the foundation to evaluate us** — the foundation profile page itself becomes a presentation tool
+
+### Robert's Framework (Integrated)
+
+Robert Schmuki's foundation categorization system (A/B/C/D) is integrated into our research:
+
+| Type | Description | Our Approach |
+|------|-------------|--------------|
+| **A** | Perfect fit, high priority | Full proposal with tailored story |
+| **B** | Good fit, worth pursuing | Targeted application |
+| **C** | Possible fit, lower priority | Watch & apply when timing is right |
+| **D** | Network/ecosystem value | Maintain relationship |
+
+Robert's presentation informs our foundation search strategy and Gesuch writing, but we also aim for **better-designed** versions of the traditional Gesuch — visually compelling, data-rich, and reader-friendly rather than the plain-text documents typically shown as examples.
 
 ---
 
 ## First Principles
 
-### Purpose
+### 1. Data Transparency
 
-**Goal:** Enable team communication through interactive web content instead of static documents.
+Every number on the site must be **traceable to its source**.
 
-**Constraints:**
-- Must be simple (static HTML/CSS/JS - no build step)
-- Must be fast (no heavy frameworks)
-- Must be maintainable by non-developers (edit HTML directly)
-- Must work offline (no external API dependencies)
+- Click any metric → see source, formula, confidence level
+- `NumberSources` registry = SSOT for all displayed numbers
+- No black boxes. No "trust us" numbers.
 
-**Invariants:**
-- Content is internal but not secret (no password protection currently)
-- Single source of truth - data comes from CSVs in Nextcloud, rendered here
-- Swiss German standards (ss not ß, umlauts OK)
+### 2. Viewer-First Design
 
-### What This Is NOT
+The primary audience is **someone evaluating whether to fund us** (foundation program officers, donors, partners).
 
-| This IS | This is NOT |
-|---------|-------------|
-| Internal dashboards | Public marketing |
-| Team research & reference | User-facing features |
-| Static content | Dynamic app with database |
-| Communication tool | AI assistant (that's Hirn) |
+- Present data in the most viewer-friendly way possible
+- Progressive disclosure: overview → detail → methodology
+- Every page should answer: "Why should I care?" before "Here are the details"
+
+### 3. Foundation Profiles as Conversations
+
+Each foundation detail page is not just research for us — it's a **presentation tool** showing:
+- How our project aligns with their mission
+- Concrete evidence of fit (themes, impact areas, track record)
+- What we'd propose (tailored project + budget)
+- That we've done our homework on them
+
+### 4. Document Generation (Current + Future)
+
+| Document Type | Status | Description |
+|---------------|--------|-------------|
+| Foundation profile page | Working | Interactive web-based fit analysis |
+| Presentation mode | Working (3 pages) | Clean view for sharing with foundations |
+| Traditional Gesuch (PDF) | Planned | Well-designed PDF from same data |
+| Pitch Deck | Planned | Visual presentation format |
+| Reader-friendly Gesuch | Planned | Better-designed than plain-text standard |
+| Impact Report | Planned | Annual report from live data |
+
+### 5. Config-Driven Data
+
+Foundation data, themes, story components, and metrics are all in **TypeScript config files**, not hardcoded in components:
+
+```
+lib/config/foundations.ts  → Foundation entries (SSOT, 37 entries)
+lib/config/stories.ts      → Narrative building blocks (SSOT)
+lib/config/metrics.ts      → Metric metadata (SSOT)
+lib/data/financial.ts      → Financial data + FinanceDataSet class
+```
+
+Adding a new foundation requires: **1 data entry** in `foundations.ts` (1-file rule — dynamic route handles rendering).
 
 ---
 
-## SSOT (Single Source of Truth)
-
-### Data Sources
-
-| Data Type | SSOT Location | This Site |
-|-----------|---------------|-----------|
-| Financial data | Nextcloud CSVs (`Finanzmodell/`) | Renders & visualizes |
-| Foundation research | This site (`stiftungen.html`) | IS the SSOT |
-| KPIs | Nextcloud CSVs (`KPI_Framework/`) | Renders & visualizes |
-| Team info | Nextcloud (`Personal_und_HR/`) | Renders & links |
-
-### Rules
-
-1. **Never duplicate data** - If it exists in Nextcloud, reference it, don't copy it
-2. **Research pages ARE the SSOT** - Pages like `stiftungen.html` contain original research that doesn't exist elsewhere
-3. **Update in one place** - If data changes, update the source (CSV or this page), not both
-4. **Cite sources** - Every data point should link to where it came from
-
-### DRY in Static HTML
-
-We use JavaScript components to avoid duplication:
-
-```
-Navigation → assets/js/components/nav.js (SSOT)
-Footer     → assets/js/components/footer.js (SSOT)
-Common CSS → assets/css/styles.css (SSOT)
-```
-
-**How to use in a page:**
-```html
-<!-- Instead of copy-pasting nav HTML -->
-<div id="nav-placeholder"></div>
-<script src="../../assets/js/components/nav.js"></script>
-
-<!-- Instead of copy-pasting footer HTML -->
-<div id="footer-placeholder"></div>
-<script src="../../assets/js/components/footer.js"></script>
-```
-
-**Template page:** See `pages/fundraising/stiftungen.html`
-
----
-
-## Architecture
+## Current Architecture
 
 ### Tech Stack
 
 ```
-Static Site (No Build Step)
-├── HTML5          → Structure
-├── CSS3           → Styling (single stylesheet)
-├── Vanilla JS     → Interactivity (minimal)
-└── Vercel         → Hosting (auto-deploy from git)
+Next.js 15 + TypeScript + Tailwind CSS v4
+├── Next.js App Router    → Layouts, dynamic routes, static generation
+├── TypeScript (strict)   → Type safety throughout
+├── Tailwind CSS v4       → Utility-first styling with design tokens
+├── Zod                   → Schema validation, SSOT for types
+├── Chart.js + react-chartjs-2 → Financial visualizations
+└── Vercel                → Hosting (auto-deploy from git push)
 ```
-
-**No frameworks. No npm. No build process.**
-
-Edit HTML → Push to git → Live in seconds.
 
 ### File Structure
 
 ```
 revamp-info/
-├── CLAUDE.md              # THIS FILE
-├── README.md              # Project overview
-├── vercel.json            # Deployment config
-├── index.html             # Main dashboard
-├── assets/
-│   ├── css/
-│   │   └── styles.css     # Global styles (SSOT for common CSS)
-│   └── js/
-│       ├── components/    # Reusable JS components (SSOT)
-│       │   ├── nav.js     # Navigation - edit here, updates everywhere
-│       │   └── footer.js  # Footer - edit here, updates everywhere
-│       ├── data-loader.js # CSV loading utilities
-│       └── utils.js       # Formatting helpers
-└── pages/
-    ├── finanzen/          # Financial dashboards
-    ├── fundraising/       # Grant research
-    │   ├── index.html     # Fundraising overview
-    │   └── stiftungen.html # Foundation details
-    ├── kennzahlen/        # KPIs
-    ├── wirkung/           # Impact metrics
-    ├── strategie/         # Strategy docs
-    ├── team/              # Team info
-    ├── operations/        # Operations
-    ├── marketing/         # Marketing
-    ├── methodik/          # Methodology
-    ├── preismodell/       # Pricing model
-    ├── transparenz/       # Transparency
-    └── dokumente/         # Documents
+├── CLAUDE.md                          # THIS FILE — product vision + engineering guide
+├── vercel.json                        # Deployment config (headers, redirects)
+├── src/
+│   ├── app/                           # Next.js App Router (14 page routes)
+│   │   ├── layout.tsx                 # Root layout (Nav + Footer)
+│   │   ├── page.tsx                   # Dashboard
+│   │   ├── globals.css                # Design tokens + Tailwind v4
+│   │   ├── finanzen/page.tsx
+│   │   ├── kennzahlen/page.tsx
+│   │   ├── wirkung/page.tsx
+│   │   ├── methodik/page.tsx
+│   │   ├── transparenz/page.tsx
+│   │   ├── preismodell/page.tsx
+│   │   ├── strategie/page.tsx
+│   │   ├── team/page.tsx
+│   │   ├── operations/page.tsx
+│   │   ├── dokumente/page.tsx
+│   │   └── fundraising/
+│   │       ├── page.tsx               # Fundraising hub
+│   │       └── stiftungen/
+│   │           ├── page.tsx           # Foundation list (filterable)
+│   │           └── [slug]/page.tsx    # Dynamic detail (37 foundations)
+│   ├── components/
+│   │   ├── layout/                    # Nav, Footer, PageHeader
+│   │   ├── ui/                        # Badge, Card, FilterBar, Tabs, Modal, Table, CountdownTimer
+│   │   ├── charts/                    # RevenueChart, CategoryBreakdown, ChartWrapper
+│   │   ├── foundation/               # FoundationCard, Header, Sidebar, FitAnalysis
+│   │   └── metrics/                   # MetricCard, MetricGrid, NumberInspector, DataSourceBadge
+│   ├── lib/
+│   │   ├── schemas/                   # Zod schemas (foundation, financial, metric, story)
+│   │   ├── config/                    # foundations.ts, stories.ts, metrics.ts, nav.ts
+│   │   ├── data/                      # FinanceDataSet class + fallback data (2022-2025)
+│   │   ├── domain/                    # calculations.ts, foundation-filter.ts, story-composer.ts
+│   │   └── utils/format.ts           # formatCHF, formatPercent, etc.
+│   └── hooks/                         # useFinancialData, useFoundationFilters, useNumberInspector
+├── _legacy_pages/                     # Old HTML pages (archived)
+└── _legacy_index.html                 # Old dashboard (archived)
 ```
 
 ### Data Flow
 
 ```
-Nextcloud (SSOT)                    Revamp-Info (Presentation)
-─────────────────                   ─────────────────────────
-CSV files                    →      Dashboards load & display
-Markdown docs                →      Research pages reference
-
-Team edits CSVs              →      Site reflects latest data
+Kivitendo (Accounting)  →  CSV Export  →  lib/data/financial.ts (embedded)  →  Dashboard
+Foundation Research     →  lib/config/foundations.ts                         →  [slug] route
+Impact Methodology      →  lib/config/metrics.ts                            →  Inspectable metrics
+Narrative Content       →  lib/config/stories.ts                            →  Foundation stories
 ```
 
-**Note:** Some pages embed data directly (like stiftungen.html). For frequently changing data, use the data-loader.js to fetch CSVs.
+### SSOT Components
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| Navigation | `components/layout/Nav.tsx` | App-wide nav via layout.tsx |
+| Footer | `components/layout/Footer.tsx` | Footer via layout.tsx |
+| Formatting | `lib/utils/format.ts` | CHF, %, number, date formatting |
+| Foundation Data | `lib/config/foundations.ts` | 37 foundation entries |
+| Story Blocks | `lib/config/stories.ts` | WHY/HOW/WHAT/EVIDENCE narratives |
+| Number Metadata | `lib/config/metrics.ts` | Source, formula, confidence per metric |
+| Schemas | `lib/schemas/*.ts` | Zod schemas → TypeScript types |
 
 ---
 
-## Content Guidelines
+## Known Issues & Technical Debt
 
-### Page Structure
+### Resolved (from previous vanilla JS version)
 
-Every page should have:
+- ~~Missing minerva page~~ — resolved: dynamic route handles all slugs
+- ~~Orphan marketing page~~ — resolved: not migrated (was empty)
+- ~~DRY violations (inline scripts, duplicated tabs/timers/charts)~~ — resolved: shared component library
+- ~~Dead code (first-principles-analyzer.js)~~ — resolved: not migrated
+- ~~No URL state persistence~~ — resolved: `useFoundationFilters` syncs to URL params
+- ~~No text search~~ — resolved: search input on foundation list
 
-```html
-<!DOCTYPE html>
-<html lang="de-CH">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Page Title] - Revamp-Info</title>
-    <!-- Inline critical CSS or link to styles.css -->
-</head>
-<body>
-    <nav><!-- Navigation back to main sections --></nav>
-    <main>
-        <h1>[Page Title]</h1>
-        <!-- Content -->
-    </main>
-    <footer>
-        <p>Letzte Aktualisierung: [Date]</p>
-    </footer>
-</body>
-</html>
-```
+### Remaining
 
-### Writing Style
-
-| Do | Don't |
-|----|-------|
-| Schweizer Hochdeutsch (ss, not ß) | German ß |
-| Direct, actionable language | Vague descriptions |
-| Link to sources | Make claims without evidence |
-| Include "last updated" dates | Leave content undated |
-| Use tables for comparisons | Long prose paragraphs |
-
-### Visual Hierarchy
-
-```
-H1 → Page title (one per page)
-H2 → Major sections
-H3 → Subsections
-H4 → Detail headers (sparingly)
-
-Tables → For data, comparisons
-Lists  → For steps, options
-Cards  → For grouped info blocks
-```
-
-### Status Indicators
-
-Use consistent status badges:
-
-```html
-<span class="status status-open">Offen</span>
-<span class="status status-closed">Geschlossen</span>
-<span class="status status-soon">Bald</span>
-<span class="status status-rolling">Laufend</span>
-```
+- No actual downloadable documents (Gesuch PDFs, pitch decks) — Phase 2
+- Legacy HTML files still in `_legacy_pages/` and `_legacy_index.html` — safe to delete after verification
+- Marketing page content not migrated (was empty/minimal)
 
 ---
 
-## Development Workflow
+## Development Guide
 
 ### Local Development
 
 ```bash
-# Option 1: Just open in browser
-open index.html
-
-# Option 2: Local server (for JS module loading)
-npx serve .
-# Then visit http://localhost:3000
+npm run dev
+# Visit http://localhost:3000
 ```
 
-### Making Changes
+### Build
 
 ```bash
-# 1. Edit files
-code pages/fundraising/stiftungen.html
-
-# 2. Test locally
-open pages/fundraising/stiftungen.html
-
-# 3. Commit and push
-git add -A
-git commit -m "Update Stiftungen deadlines"
-git push
-
-# 4. Vercel auto-deploys (live in ~10 seconds)
+npm run build
 ```
 
-### Adding a New Page
+### Adding a Foundation
 
-1. Create folder: `pages/[section-name]/`
-2. Create file: `pages/[section-name]/index.html`
-3. Use this template structure:
+1. Add entry to `src/lib/config/foundations.ts`
+2. Done. `generateStaticParams()` automatically includes the new slug.
 
-```html
-<!DOCTYPE html>
-<html lang="de-CH">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="last-updated" content="[DATE]">
-  <title>[Title] – Revamp-Info</title>
-  <link rel="stylesheet" href="../../assets/css/styles.css">
-  <style>
-    /* Page-specific styles only */
-  </style>
-</head>
-<body>
-  <div class="page-wrapper">
-    <!-- Nav component (SSOT) -->
-    <div id="nav-placeholder"></div>
-    <script src="../../assets/js/components/nav.js"></script>
+### Adding a Section Page
 
-    <main class="page-content">
-      <h1>[Page Title]</h1>
-      <!-- Content -->
-    </main>
+1. Create `src/app/[section]/page.tsx`
+2. Add to `NAV_STRUCTURE` in `src/lib/config/nav.ts`
+3. Use `PageHeader` and `Card` components for consistent styling
 
-    <!-- Footer component (SSOT) -->
-    <div id="footer-placeholder"></div>
-    <script src="../../assets/js/components/footer.js"></script>
-  </div>
-</body>
-</html>
-```
+### Content Rules
 
-4. To add nav link: edit `assets/js/components/nav.js` (ONE place)
-5. Update main dashboard if needed
+- **Swiss German:** Use "ss" not "ß", umlauts OK
+- **Source everything:** Every data point needs a source citation
+- **Types from schemas:** Always derive types via `z.infer<>`, never define separately
+- **Config over code:** Data in `lib/config/`, business logic in `lib/domain/`, rendering in `components/`
 
-### Migrating Existing Pages
+---
 
-13 pages still use copy-pasted nav/footer. To migrate:
-1. Replace `<nav>...</nav>` with placeholder + script (see template above)
-2. Replace `<footer>...</footer>` with placeholder + script
-3. Add `<meta name="last-updated">` tag
-4. Test and commit
+## Quality Checklist
+
+Before pushing:
+
+- [ ] `npm run build` passes (TypeScript + static generation)
+- [ ] All internal links work (no 404s)
+- [ ] Mobile-responsive (test at 375px)
+- [ ] Swiss German spelling (ss not ß)
+- [ ] Sources cited for all data/claims
+- [ ] New data added to config files, not hardcoded in components
+- [ ] Types derived from Zod schemas, not defined separately
+
+---
+
+## Future Direction
+
+### Phase 1 (Current): Revamp-IT Specific — COMPLETE
+- Next.js 15 app with TypeScript, Tailwind, Zod
+- 14 page routes + 37 dynamic foundation pages (53 total)
+- Config-driven data architecture
+- Shared component library (20+ components)
+- URL-synced filter state
+- Click-to-inspect metric transparency
+
+### Phase 2: Document Generation
+- Generate PDFs from live data (Gesuch, pitch deck, impact report)
+- Better-designed Gesuch templates (not plain-text)
+- API routes at `app/api/documents/[type]/route.ts`
+- `@react-pdf/renderer` for PDF generation
+
+### Phase 3: Universal Platform
+- Multi-project support (any organization can use this)
+- Data ingestion API (upload financials, impact data, team info)
+- Dynamic foundation matching based on project profile
+- User accounts, saved searches, application tracking
+
+The architecture supports Phase 2-3 evolution. Config files naturally namespace into `config/projects/revamp-it/`. Schemas and components are project-agnostic. Add database + auth when actual multi-project need arises (YAGNI).
 
 ---
 
@@ -301,76 +279,22 @@ git push
 │                     REVAMP-IT ECOSYSTEM                      │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
-│  Nextcloud (Revamp-Hirn)     revamp-info.vercel.app         │
-│  ────────────────────────    ─────────────────────────      │
-│  • Source CSVs               • Renders data visually         │
-│  • Markdown docs             • Interactive navigation        │
-│  • Team file access          • Shareable URLs                │
+│  Kivitendo (Accounting)      revamp-info.vercel.app         │
+│  ──────────────────────      ─────────────────────────      │
+│  • Source financials         • Fundraising intelligence       │
+│  • Invoice/revenue data      • Foundation research            │
+│  • Export → CSV → site       • Impact dashboards              │
 │                                                              │
-│  revampit.vercel.app         revampit.vercel.app/admin      │
-│  ────────────────────        ────────────────────────       │
-│  • Public website            • Platform management           │
-│  • Shop, services            • Products, users, content      │
-│  • User-facing               • Staff-only                    │
-│                                                              │
-│  revampit.vercel.app/admin/hirn                             │
-│  ──────────────────────────────                             │
-│  • AI assistant                                              │
-│  • Helps navigate/use platform                               │
+│  Nextcloud (File Storage)    revampit.vercel.app             │
+│  ────────────────────────    ────────────────────            │
+│  • Team documents            • Public website                 │
+│  • KPI frameworks            • Shop, services                 │
+│  • HR files                  • User-facing                    │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Quality Checklist
-
-Before pushing changes:
-
-- [ ] Page loads without errors (check browser console)
-- [ ] All links work (no broken hrefs)
-- [ ] Mobile-responsive (test at 375px width)
-- [ ] "Last updated" date is current
-- [ ] Swiss German spelling (ss not ß)
-- [ ] Sources cited for data/claims
-- [ ] Navigation back to parent sections works
-
----
-
-## Common Tasks
-
-### Update Foundation Deadlines
-
-1. Edit `/pages/fundraising/stiftungen.html`
-2. Find the foundation section
-3. Update deadline, status badge, and "Quelle" link
-4. Update "Stand" date at top of page
-5. Commit and push
-
-### Add New Dashboard Section
-
-1. Create folder in `/pages/`
-2. Create `index.html` with standard structure
-3. Add card/link on main `index.html`
-4. Add to navigation if appropriate
-
-### Pull Latest Data from Nextcloud
-
-Currently manual - copy updated content. Future: automate CSV fetching.
-
----
-
-## Don't
-
-- Add npm/node dependencies (keep it simple)
-- Use frameworks (React, Vue, etc.)
-- Hardcode data that changes frequently (use data-loader)
-- Forget to update "last updated" dates
-- Use ß in German text (use ss)
-- Commit without testing locally first
-- Create pages without navigation links
-
----
-
-**Last Updated:** 2026-02-05
+**Last Updated:** 2026-02-09
 **Maintainer:** Revamp-IT Team

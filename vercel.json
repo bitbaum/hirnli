@@ -1,6 +1,4 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
@@ -15,5 +13,20 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    { "source": "/pages/finanzen", "destination": "/finanzen", "permanent": true },
+    { "source": "/pages/kennzahlen", "destination": "/kennzahlen", "permanent": true },
+    { "source": "/pages/wirkung", "destination": "/wirkung", "permanent": true },
+    { "source": "/pages/methodik", "destination": "/methodik", "permanent": true },
+    { "source": "/pages/transparenz", "destination": "/transparenz", "permanent": true },
+    { "source": "/pages/preismodell", "destination": "/preismodell", "permanent": true },
+    { "source": "/pages/strategie", "destination": "/strategie", "permanent": true },
+    { "source": "/pages/team", "destination": "/team", "permanent": true },
+    { "source": "/pages/operations", "destination": "/operations", "permanent": true },
+    { "source": "/pages/dokumente", "destination": "/dokumente", "permanent": true },
+    { "source": "/pages/fundraising", "destination": "/fundraising", "permanent": true },
+    { "source": "/pages/fundraising/stiftungen", "destination": "/fundraising/stiftungen", "permanent": true },
+    { "source": "/pages/fundraising/stiftungen/:slug", "destination": "/fundraising/stiftungen/:slug", "permanent": true }
   ]
 }
