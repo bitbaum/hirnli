@@ -3,39 +3,41 @@
 import PageHeader from '@/components/layout/PageHeader';
 import FilterBar from '@/components/ui/FilterBar';
 import FoundationCard from '@/components/foundation/FoundationCard';
-import { STIFTUNGEN_DATA, THEMES, STATUS_LABELS } from '@/lib/config/foundations';
+import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
-import type { ThemeId, FoundationStatus } from '@/lib/schemas/foundation';
-
-const THEME_CHIPS = Object.values(THEMES).map((t) => ({
-  id: t.id,
-  label: t.label,
-  icon: t.icon,
-  color: t.color,
-}));
-
-const STATUS_CHIPS = (Object.entries(STATUS_LABELS) as [FoundationStatus, { text: string }][]).map(
-  ([id, label]) => ({
-    id,
-    label: label.text,
-  }),
-);
+import type { SortField } from '@/lib/domain/foundation-filter';
+import {
+  THEME_CHIPS,
+  STATUS_CHIPS,
+  TYPE_CHIPS,
+  SORT_OPTIONS,
+  FIT_OPTIONS,
+} from './data';
 
 export default function FoundationListClient() {
   const {
     filters,
+    sort,
     filtered,
     hasActiveFilters,
     totalCount,
     filteredCount,
     toggleTheme,
+    toggleType,
     toggleStatus,
     setSearch,
+    setSort,
+    setFit,
     toggleHideNoApplication,
+    toggleHideOperative,
+    toggleHideNetworks,
     resetFilters,
   } = useFoundationFilters(STIFTUNGEN_DATA);
 
   const highFitCount = filtered.filter((f) => f.fit === 3).length;
+  const openCount = filtered.filter(
+    (f) => f.status === 'open' || f.status === 'rolling',
+  ).length;
 
   return (
     <div>
@@ -45,19 +47,30 @@ export default function FoundationListClient() {
         badge={`${filteredCount}/${totalCount}`}
       />
 
-      {/* Search */}
-      <div className="mb-4">
+      {/* Search + Sort row */}
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <input
           type="text"
           placeholder="Stiftung suchen..."
           value={filters.search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-lg border border-border px-4 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary md:w-96"
+          className="w-full rounded-lg border border-border px-4 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:w-96"
         />
+        <select
+          value={sort}
+          onChange={(e) => setSort(e.target.value as SortField)}
+          className="rounded-lg border border-border px-3 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+        >
+          {SORT_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {/* Filters */}
-      <div className="mb-6 space-y-3">
+      {/* Filter rows */}
+      <div className="mb-4 space-y-3">
         <FilterBar
           label="Themen"
           chips={THEME_CHIPS}
@@ -70,7 +83,38 @@ export default function FoundationListClient() {
           selected={filters.statuses}
           onToggle={toggleStatus}
         />
-        <div className="flex items-center gap-3">
+        <FilterBar
+          label="Typ"
+          chips={TYPE_CHIPS}
+          selected={filters.types}
+          onToggle={toggleType}
+        />
+
+        {/* Fit filter */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-semibold uppercase tracking-wider text-text-muted">
+            Fit:
+          </span>
+          {FIT_OPTIONS.map((opt) => {
+            const isActive = filters.fit === opt.value;
+            return (
+              <button
+                key={opt.label}
+                onClick={() => setFit(opt.value)}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  isActive
+                    ? 'bg-primary text-white'
+                    : 'bg-grey-light text-grey-dark hover:bg-border'
+                }`}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Checkbox toggles */}
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
           <label className="flex cursor-pointer items-center gap-2 text-sm text-text-muted">
             <input
               type="checkbox"
@@ -80,16 +124,39 @@ export default function FoundationListClient() {
             />
             Nur mit Bewerbungsweg
           </label>
+          <label className="flex cursor-pointer items-center gap-2 text-sm text-text-muted">
+            <input
+              type="checkbox"
+              checked={filters.hideOperative}
+              onChange={toggleHideOperative}
+              className="rounded border-border"
+            />
+            Operative ausblenden
+          </label>
+          <label className="flex cursor-pointer items-center gap-2 text-sm text-text-muted">
+            <input
+              type="checkbox"
+              checked={filters.hideNetworks}
+              onChange={toggleHideNetworks}
+              className="rounded border-border"
+            />
+            Netzwerke ausblenden
+          </label>
         </div>
       </div>
 
+      {/* Results summary */}
       <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
         <span className="text-text-muted">
-          {filteredCount} Stiftungen gefunden (von {totalCount} total)
+          {filteredCount} von {totalCount} Stiftungen
           {highFitCount > 0 && ` | ${highFitCount} mit hohem Fit`}
+          {openCount > 0 && ` | ${openCount} offen`}
         </span>
         {hasActiveFilters && (
-          <button onClick={resetFilters} className="text-primary hover:underline">
+          <button
+            onClick={resetFilters}
+            className="text-primary hover:underline"
+          >
             Filter zuruecksetzen
           </button>
         )}

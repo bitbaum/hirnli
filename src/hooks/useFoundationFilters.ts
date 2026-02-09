@@ -72,9 +72,21 @@ export function useFoundationFilters(foundations: Foundation[]) {
     updateParams({ sort: field === 'priority' ? null : field });
   }, [updateParams]);
 
+  const setFit = useCallback((value: number | null) => {
+    updateParams({ fit: value !== null ? String(value) : null });
+  }, [updateParams]);
+
   const toggleHideNoApplication = useCallback(() => {
     updateParams({ hideNoApp: filters.hideNoApplication ? null : '1' });
   }, [filters.hideNoApplication, updateParams]);
+
+  const toggleHideOperative = useCallback(() => {
+    updateParams({ hideOp: filters.hideOperative ? null : '1' });
+  }, [filters.hideOperative, updateParams]);
+
+  const toggleHideNetworks = useCallback(() => {
+    updateParams({ hideNet: filters.hideNetworks ? null : '1' });
+  }, [filters.hideNetworks, updateParams]);
 
   const resetFilters = useCallback(() => {
     router.replace(pathname, { scroll: false });
@@ -111,7 +123,10 @@ export function useFoundationFilters(foundations: Foundation[]) {
     toggleStatus,
     setSearch,
     setSort,
+    setFit,
     toggleHideNoApplication,
+    toggleHideOperative,
+    toggleHideNetworks,
     resetFilters,
   };
 }
