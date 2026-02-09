@@ -56,37 +56,37 @@ export const STATUS_BADGE_VARIANT: Record<FoundationStatus, 'success' | 'warning
 
 export const PILLARS = [
   {
-    title: 'Oekologie & Kreislaufwirtschaft',
+    title: 'Ökologie & Kreislaufwirtschaft',
     color: 'border-emerald-500',
     bgHighlight: 'bg-emerald-50',
     items: [
       'E-Waste reduzieren durch Wiederverwendung',
-      'Lebensdauer von Geraeten verlaengern',
-      'Linux statt Windows = laengere Nutzung',
+      'Lebensdauer von Geräten verlängern',
+      'Linux statt Windows = längere Nutzung',
       'Reparieren statt wegwerfen',
     ],
-    highlight: 'Wirkung: 1000+ Geraete/Jahr gerettet = 285 Tonnen CO2 eingespart',
+    highlight: 'Wirkung: 1000+ Geräte/Jahr gerettet = 285 Tonnen CO2 eingespart',
   },
   {
     title: 'Soziale Integration',
     color: 'border-amber-500',
     bgHighlight: 'bg-amber-50',
     items: [
-      'Praktikumsplaetze fuer Menschen in Uebergangssituationen',
+      'Praktikumsplätze für Menschen in Übergangssituationen',
       'Skills entwickeln: Hardware, Software, Kundenkontakt',
-      'Begleitung auf dem Weg zurueck in den Arbeitsmarkt',
-      'Bezahlbare IT fuer alle',
+      'Begleitung auf dem Weg zurück in den Arbeitsmarkt',
+      'Bezahlbare IT für alle',
     ],
     highlight: 'Wirkung: 100+ Menschen begleitet, 90% Erfolgsquote',
   },
   {
-    title: 'Tech-Bildung fuer alle',
+    title: 'Tech-Bildung für alle',
     color: 'border-blue-500',
     bgHighlight: 'bg-blue-50',
     items: [
       'Reparatur-Wissen weitergeben (Repair Cafe)',
       'Digitale Kompetenzen vermitteln',
-      'Kritisches Tech-Verstaendnis foerdern',
+      'Kritisches Tech-Verständnis fördern',
       'Hands-on Lernen statt passiver Konsum',
     ],
     highlight: 'Vision: 200+ Workshop-Teilnehmer/Jahr, 40+ Kurse',
@@ -94,11 +94,11 @@ export const PILLARS = [
 ];
 
 export const HUB_ZONES = [
-  { name: 'Shop', description: 'Refurbished Geraete, Beratung' },
-  { name: 'Werkstatt', description: 'Reparatur, Praktikumsplaetze' },
+  { name: 'Shop', description: 'Refurbished Geräte, Beratung' },
+  { name: 'Werkstatt', description: 'Reparatur, Praktikumsplätze' },
   { name: 'Repair Cafe', description: 'Gemeinsam reparieren lernen' },
   { name: 'Schulungsraum', description: 'Kurse, Workshops, Bildung' },
-  { name: 'Hackerspace', description: 'Maker-Bereich, Tuefteln' },
+  { name: 'Hackerspace', description: 'Maker-Bereich, Tüfteln' },
   { name: 'Museum', description: 'Computergeschichte, Hands-on' },
 ];
 
@@ -122,32 +122,32 @@ export const PACKAGES = [
 
 export const RESOURCES = [
   { href: '/wirkung', label: 'Wirkungsbericht', description: 'Impact-Zahlen mit Quellen' },
-  { href: '/fundraising/stiftungen', label: 'Stiftungen-Uebersicht', description: '45+ Foerderer mit Deadlines' },
+  { href: '/fundraising/stiftungen', label: 'Stiftungen-Übersicht', description: '45+ Förderer mit Deadlines' },
   { href: '/finanzen', label: 'Finanzdaten', description: 'Kivitendo-Daten visualisiert' },
 ];
 
 export const HERO_STATS = [
-  { label: 'Oekologie', value: '285 kg', sub: 'CO2 pro Laptop gespart' },
+  { label: 'Ökologie', value: '285 kg', sub: 'CO2 pro Laptop gespart' },
   { label: 'Soziales', value: '100+', sub: 'Menschen begleitet' },
   { label: 'Bildung', value: '20+', sub: 'Jahre Erfahrung' },
 ] as const;
 
 export const NEXT_STEPS = [
   {
-    step: '1. Stiftung auswaehlen',
+    step: '1. Stiftung auswählen',
     description: 'Priorisierte Liste mit Deadlines und Anforderungen.',
     href: '/fundraising/stiftungen',
-    linkLabel: 'Stiftungen-Uebersicht oeffnen',
+    linkLabel: 'Stiftungen-Übersicht öffnen',
   },
   {
     step: '2. Gesuch vorbereiten',
-    description: 'Templates und Bausteine fuer schnellere Antraege.',
+    description: 'Templates und Bausteine für schnellere Anträge.',
     href: '/dokumente',
     linkLabel: 'Vorlagen herunterladen',
   },
   {
     step: '3. Wirkung belegen',
-    description: 'Zahlen mit Quellenangaben fuer Glaubwuerdigkeit.',
+    description: 'Zahlen mit Quellenangaben für Glaubwürdigkeit.',
     href: '/wirkung',
     linkLabel: 'Impact-Daten ansehen',
   },

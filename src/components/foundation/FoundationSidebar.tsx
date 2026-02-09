@@ -14,10 +14,10 @@ function computeCompleteness(f: Foundation): { percent: number; missing: string[
     ['Themen', f.themes.length > 0],
     ['Bewerbungsweg', f.applicationMethod !== 'unknown'],
     ['Bewerbungs-URL', !!f.applicationUrl],
-    ['Foerderbetrag', f.amount.min !== null || f.amount.max !== null],
+    ['Förderbetrag', f.amount.min !== null || f.amount.max !== null],
     ['Stiftungszweck', !!f.purposeSummary],
     ['Jahresbudget', !!f.annualBudget],
-    ['Gruendungsjahr', !!f.founded],
+    ['Gründungsjahr', !!f.founded],
     ['Kontakt', !!(f.contact?.email || f.contactEmail || f.contact?.address)],
     ['UID', !!f.uid],
     ['Region', !!f.region],
@@ -38,7 +38,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Auf einen Blick</h3>
         <dl className="space-y-2 text-sm">
           <div>
-            <dt className="text-text-muted">Foerderbetrag</dt>
+            <dt className="text-text-muted">Förderbetrag</dt>
             <dd className="font-medium text-grey-dark">{f.amount.text}</dd>
           </div>
           <div>
@@ -131,7 +131,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
 
       {/* Data Completeness */}
       <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Datenvollstaendigkeit</h3>
+        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Datenvollständigkeit</h3>
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-sm">
             <div className="h-2 flex-1 rounded-full bg-bg-light">

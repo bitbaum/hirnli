@@ -24,10 +24,10 @@ export const TYPE_CHIPS = (
 }));
 
 export const SORT_OPTIONS: { value: SortField; label: string }[] = [
-  { value: 'priority', label: 'Prioritaet' },
+  { value: 'priority', label: 'Priorität' },
   { value: 'fit', label: 'Fit (beste zuerst)' },
   { value: 'name', label: 'Name (A-Z)' },
-  { value: 'deadline', label: 'Deadline (naechste zuerst)' },
+  { value: 'deadline', label: 'Deadline (nächste zuerst)' },
 ];
 
 export const FIT_OPTIONS: { value: number | null; label: string }[] = [

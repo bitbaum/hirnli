@@ -15,7 +15,7 @@ import {
 
 export const metadata: Metadata = {
   title: 'Dokumente & Berichte',
-  description: 'Alle Unterlagen fuer Funder, Team und Partner',
+  description: 'Alle Unterlagen für Funder, Team und Partner',
 };
 
 export default function DokumentePage() {
@@ -23,13 +23,13 @@ export default function DokumentePage() {
     <>
       <PageHeader
         title="Dokumente & Berichte"
-        subtitle="Alle Unterlagen fuer Funder, Team und Partner - online und zum Download"
+        subtitle="Alle Unterlagen für Funder, Team und Partner - online und zum Download"
       />
 
       {/* Quick Access for Fundraising */}
       <Card className="mb-6 border-emerald-500 bg-emerald-50">
         <h2 className="mb-4 text-lg font-semibold text-emerald-800">
-          Fuer Fundraising & Gesuche
+          Für Fundraising & Gesuche
         </h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {QUICK_LINKS.map((link) => (
@@ -52,7 +52,7 @@ export default function DokumentePage() {
         </h2>
         <p className="mb-4 text-sm text-orange-900">
           Pitch Deck, Gesuch-Vorlagen, Excel-Dateien und PDFs sind im{' '}
-          <strong>Nextcloud</strong> verfuegbar:
+          <strong>Nextcloud</strong> verfügbar:
         </p>
         <div className="mb-4 overflow-x-auto rounded-lg bg-white p-4">
           <table className="w-full text-sm">
@@ -75,7 +75,7 @@ export default function DokumentePage() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-lg bg-orange-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-700"
         >
-          Nextcloud oeffnen
+          Nextcloud öffnen
         </a>
         <span className="ml-2 text-xs text-orange-800">Pfad: 01_Management/</span>
       </Card>
@@ -86,13 +86,13 @@ export default function DokumentePage() {
           Seiten als PDF speichern
         </h2>
         <p className="mb-4 text-sm text-text-muted">
-          Alle Online-Berichte koennen direkt als PDF gedruckt werden (Strg/Cmd + P):
+          Alle Online-Berichte können direkt als PDF gedruckt werden (Strg/Cmd + P):
         </p>
         <div className="flex flex-wrap gap-3">
           {[
             { href: '/wirkung', label: 'Wirkungsbericht' },
             { href: '/fundraising', label: 'Fundraising-Pitch' },
-            { href: '/finanzen', label: 'Finanzuebersicht' },
+            { href: '/finanzen', label: 'Finanzübersicht' },
             { href: '/strategie', label: 'Strategie' },
           ].map((link) => (
             <Link
@@ -169,7 +169,7 @@ export default function DokumentePage() {
           <p className="mb-4 text-sm text-text-muted">
             Alle Dashboard-Inhalte basieren auf strukturierten Markdown-Dokumenten im{' '}
             <code className="rounded bg-gray-100 px-1 text-xs">Revamp-Hirn</code> Repository.
-            Diese koennen direkt bearbeitet werden.
+            Diese können direkt bearbeitet werden.
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">

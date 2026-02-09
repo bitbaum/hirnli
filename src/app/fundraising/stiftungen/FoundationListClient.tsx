@@ -42,8 +42,8 @@ export default function FoundationListClient() {
   return (
     <div>
       <PageHeader
-        title="Stiftungen-Uebersicht"
-        subtitle="Alle recherchierten Foerderstiftungen mit Deadlines und Fit-Analyse"
+        title="Stiftungen-Übersicht"
+        subtitle="Alle recherchierten Förderstiftungen mit Deadlines und Fit-Analyse"
         badge={`${filteredCount}/${totalCount}`}
       />
 
@@ -157,7 +157,7 @@ export default function FoundationListClient() {
             onClick={resetFilters}
             className="text-primary hover:underline"
           >
-            Filter zuruecksetzen
+            Filter zurücksetzen
           </button>
         )}
       </div>

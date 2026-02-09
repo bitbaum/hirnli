@@ -79,7 +79,7 @@ export default function FoundationCard({ foundation: f }: FoundationCardProps) {
 
       {f.isOperative && (
         <div className="mt-2 rounded bg-warning-bg px-2 py-1 text-xs text-warning">
-          Operative Stiftung — vergibt keine Foerdergelder
+          Operative Stiftung — vergibt keine Fördergelder
         </div>
       )}
     </Link>

@@ -9,7 +9,7 @@ import { NumberSources } from '@/lib/config/metrics';
 import type { Metric } from '@/lib/schemas/metric';
 
 export const metadata: Metadata = {
-  title: 'Transparenz & Zahlen-Integritaet',
+  title: 'Transparenz & Zahlen-Integrität',
   description: 'First Principles Approach: Jede Zahl ist nachvollziehbar, validierbar und kontextualisiert.',
 };
 
@@ -159,7 +159,7 @@ export default function TransparenzPage() {
       {/* Hero Section */}
       <div className="mb-8 rounded-2xl bg-gradient-to-br from-blue-800 via-blue-500 to-emerald-500 p-8 text-white">
         <h1 className="mb-2 text-2xl font-bold md:text-3xl">
-          Totale Transparenz & Zahlen-Integritaet
+          Totale Transparenz & Zahlen-Integrität
         </h1>
         <p className="text-lg opacity-90">
           First Principles Approach: Jede Zahl ist nachvollziehbar, validierbar und kontextualisiert.
@@ -188,11 +188,11 @@ export default function TransparenzPage() {
       {/* Integrity Report Table */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">
-          Zahlen-Integritaets-Report
+          Zahlen-Integritäts-Report
         </h2>
         <Card>
           <p className="mb-4 text-sm text-text-muted">
-            Vollstaendige Uebersicht ueber alle Zahlen im Dashboard: Status, Konfidenz, Validierung
+            Vollständige Übersicht über alle Zahlen im Dashboard: Status, Konfidenz, Validierung
           </p>
           <Table
             columns={INTEGRITY_COLUMNS}
@@ -211,19 +211,19 @@ export default function TransparenzPage() {
             <div>
               <h3 className="mb-3 text-lg font-semibold">Was wir tun</h3>
               <ul className="list-disc space-y-1 pl-6 text-sm">
-                <li>Jede Zahl ist klickbar mit vollstaendiger Quelle</li>
+                <li>Jede Zahl ist klickbar mit vollständiger Quelle</li>
                 <li>Formeln sind explizit dokumentiert</li>
                 <li>Annahmen werden offengelegt</li>
                 <li>Limitationen werden klar benannt</li>
-                <li>Cross-Validierungen werden durchgefuehrt</li>
-                <li>Audit-Trail fuer alle Aenderungen</li>
+                <li>Cross-Validierungen werden durchgeführt</li>
+                <li>Audit-Trail für alle Änderungen</li>
               </ul>
             </div>
             <div>
               <h3 className="mb-3 text-lg font-semibold">Was wir nicht tun</h3>
               <ul className="list-disc space-y-1 pl-6 text-sm">
                 <li>Keine erfundenen Zahlen</li>
-                <li>Keine Pseudo-Praezision</li>
+                <li>Keine Pseudo-Präzision</li>
                 <li>Keine versteckten Annahmen</li>
                 <li>Keine Broken Links</li>
                 <li>Keine unverifizierbaren Behauptungen</li>
@@ -247,16 +247,16 @@ export default function TransparenzPage() {
             <ol className="list-decimal space-y-2 pl-6 text-sm">
               <li><strong>Was ist es?</strong> Definition, Einheit, Kontext</li>
               <li><strong>Woher kommt es?</strong> Source of Truth, Konto, Datum</li>
-              <li><strong>Wie wird es berechnet?</strong> Exakte Formel, Schritt-fuer-Schritt</li>
+              <li><strong>Wie wird es berechnet?</strong> Exakte Formel, Schritt-für-Schritt</li>
               <li><strong>Was wird angenommen?</strong> Explizite & implizite Annahmen</li>
-              <li><strong>Was sind die Einschraenkungen?</strong> Datenluecken, Constraints</li>
+              <li><strong>Was sind die Einschränkungen?</strong> Datenlücken, Constraints</li>
               <li><strong>Ist es korrekt?</strong> Validierung, Cross-Checks</li>
               <li><strong>Was bedeutet es?</strong> Kontext, Impact, Trends</li>
             </ol>
           </div>
 
           <p className="mt-6 text-sm text-text-muted">
-            Vollstaendige Dokumentation:{' '}
+            Vollständige Dokumentation:{' '}
             <code className="rounded bg-bg-light px-1">
               01_Management/C_Kennzahlen_und_Reporting/Transparency_Principles.md
             </code>
@@ -267,7 +267,7 @@ export default function TransparenzPage() {
               rel="noopener noreferrer"
               className="text-primary hover:underline"
             >
-              Im Nextcloud oeffnen
+              Im Nextcloud öffnen
             </a>
           </p>
         </Card>

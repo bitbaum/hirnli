@@ -76,7 +76,7 @@ export default function PreismodellPage() {
             <Badge variant="derived" className="mr-1">Marktdaten</Badge> = Vergleich Ricardo/Tutti/Revendo |{' '}
             <Badge variant="primary" className="mr-1">Vorstand</Badge> = Vorstandsentscheidung Januar 2025 |{' '}
             <a href="/methodik#pricing-model" className="text-primary hover:underline">
-              Vollstaendige Methodik
+              Vollständige Methodik
             </a>
           </div>
         </Card>
@@ -86,7 +86,7 @@ export default function PreismodellPage() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Was ist KulturLegi?</h2>
         <Card className="border border-amber-300 bg-amber-50">
-          <h3 className="mb-3 text-lg font-semibold">Der Ausweis fuer Menschen mit wenig Geld</h3>
+          <h3 className="mb-3 text-lg font-semibold">Der Ausweis für Menschen mit wenig Geld</h3>
           <p className="mb-4 text-sm">
             Die <strong>KulturLegi</strong> ist ein schweizweiter Ausweis der Caritas. Er berechtigt
             Menschen mit bescheidenem Einkommen zu Rabatten bei Kultur, Sport, Bildung -- und bei uns.
@@ -113,7 +113,7 @@ export default function PreismodellPage() {
             <a href="https://www.kulturlegi.ch/ueber-uns/faq/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
               kulturlegi.ch FAQ
             </a>
-            . Der genaue Betrag kann je nach Kanton und Haushaltsgroesse variieren.
+            . Der genaue Betrag kann je nach Kanton und Haushaltsgrösse variieren.
           </div>
         </Card>
       </section>
@@ -135,7 +135,7 @@ export default function PreismodellPage() {
         <Card className="border-l-4 border-l-blue-400 bg-blue-50">
           <p className="text-sm">
             <strong>Kein Papierkram:</strong> Wir setzen auf Vertrauen. Die meisten Menschen sind ehrlich.
-            Die wenigen, die das System ausnutzen koennten, sind der Preis fuer ein unbuerokratisches System.
+            Die wenigen, die das System ausnutzen könnten, sind der Preis für ein unbürokratisches System.
           </p>
         </Card>
       </section>
@@ -147,15 +147,15 @@ export default function PreismodellPage() {
           <div className="flex flex-wrap items-center gap-8">
             <div className="min-w-[280px] flex-1">
               <h3 className="mb-3 text-lg font-semibold text-violet-600">
-                Mehr zahlen, mehr ermoeglichen
+                Mehr zahlen, mehr ermöglichen
               </h3>
               <p className="mb-3 text-sm">
-                Wenn du beim Kauf einen freiwilligen Aufschlag zahlst, ermoeglichst du damit:
+                Wenn du beim Kauf einen freiwilligen Aufschlag zahlst, ermöglichst du damit:
               </p>
               <ul className="mb-3 list-disc space-y-1 pl-6 text-sm">
-                <li>Gratis-Geraete fuer Menschen in Not</li>
-                <li>KulturLegi-Rabatte fuer Working Poor</li>
-                <li>Workshops fuer Kinder aus einkommensschwachen Familien</li>
+                <li>Gratis-Geräte für Menschen in Not</li>
+                <li>KulturLegi-Rabatte für Working Poor</li>
+                <li>Workshops für Kinder aus einkommensschwachen Familien</li>
               </ul>
               <p className="text-xs text-text-muted">
                 <strong>Empfohlen:</strong> +20% bis +50% auf den Normalpreis<br />
@@ -164,7 +164,7 @@ export default function PreismodellPage() {
             </div>
             <div className="flex-shrink-0 text-center">
               <p className="text-5xl">&#x1F91D;</p>
-              <p className="mt-2 text-sm text-text-muted">Solidaritaet in der Praxis</p>
+              <p className="mt-2 text-sm text-text-muted">Solidarität in der Praxis</p>
             </div>
           </div>
         </Card>
@@ -195,9 +195,9 @@ export default function PreismodellPage() {
           />
           <div className="mt-4 rounded-lg border-l-4 border-primary bg-bg-light p-3 text-xs text-text-muted">
             <strong>Quelle aller Zielwerte:</strong>{' '}
-            Vorstandsentscheidung Januar 2025. Basiert auf Schaetzungen, nicht auf historischen Daten.{' '}
+            Vorstandsentscheidung Januar 2025. Basiert auf Schätzungen, nicht auf historischen Daten.{' '}
             <a href="/methodik#pricing-model" className="text-primary hover:underline">
-              Vollstaendige Methodik
+              Vollständige Methodik
             </a>
           </div>
         </Card>
@@ -208,14 +208,14 @@ export default function PreismodellPage() {
             Die Gratis-, KulturLegi- und Supporter-Quoten sind noch nicht systematisch messbar.
           </p>
           <p className="mt-2 text-sm">
-            <strong>Naechster Schritt:</strong> Kassensystem erweitern, um Preisstufe pro Verkauf zu erfassen.
+            <strong>Nächster Schritt:</strong> Kassensystem erweitern, um Preisstufe pro Verkauf zu erfassen.
           </p>
         </Card>
       </section>
 
       {/* FAQ */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Haeufige Fragen</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Häufige Fragen</h2>
         <Card>
           <div className="divide-y divide-border">
             {FAQ_ITEMS.map((faq) => (
@@ -235,7 +235,7 @@ export default function PreismodellPage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Dokumentation</h2>
         <Card>
           <p className="text-sm">
-            Das vollstaendige Preismodell-Dokument mit allen Details zu Buchhaltung,
+            Das vollständige Preismodell-Dokument mit allen Details zu Buchhaltung,
             Umsetzung und Kommunikation findest du hier:
           </p>
           <p className="mt-2">
@@ -249,7 +249,7 @@ export default function PreismodellPage() {
             rel="noopener noreferrer"
             className="mt-4 inline-block rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
           >
-            Im Nextcloud oeffnen
+            Im Nextcloud öffnen
           </a>
         </Card>
       </section>

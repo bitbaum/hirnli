@@ -22,7 +22,7 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 
 ## Key Rules
 
-1. **Swiss German** — use "ss" not "ß", umlauts are OK
+1. **Swiss German** — use "ss" not "ß". **ALWAYS use real umlauts** (ä ö ü) in all user-facing strings. NEVER substitute with ae/oe/ue. This applies to labels, titles, descriptions, button text, placeholder text — everything the user sees. Code identifiers and URL slugs may use ASCII.
 2. **Source everything** — cite sources for data/claims
 3. **Types from schemas** — derive types via `z.infer<>`, never define separately
 4. **SSOT components** — shared component library, no copy-paste

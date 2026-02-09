@@ -21,7 +21,7 @@ export const DATA_TYPES = [
     badgeVariant: 'derived' as const,
   },
   {
-    label: 'Schaetzung',
+    label: 'Schätzung',
     confidence: 'Niedrige Konfidenz',
     description: 'Basiert auf Annahmen. Echte Daten fehlen.',
     badgeVariant: 'warning' as const,
@@ -48,11 +48,11 @@ export const PIPELINE_STEPS = [
 export const TOC_ITEMS = [
   { id: 'income-data', label: '1. Einnahmen-Daten (Quelldaten)' },
   { id: 'self-financing', label: '2. Eigenfinanzierungsgrad (Berechnet)' },
-  { id: 'device-estimation', label: '3. Geraeteanzahl-Schaetzung' },
+  { id: 'device-estimation', label: '3. Geräteanzahl-Schätzung' },
   { id: 'co2-calculation', label: '4. CO\u2082-Berechnung' },
   { id: 'ewaste-calculation', label: '5. E-Waste-Berechnung' },
   { id: 'pricing-model', label: '6. Preismodell-Methodik' },
-  { id: 'data-gaps', label: '7. Datenluecken' },
+  { id: 'data-gaps', label: '7. Datenlücken' },
 ];
 
 // ---------------------------------------------------------------------------
@@ -66,12 +66,12 @@ export interface AccountRow {
 }
 
 export const ACCOUNTS: AccountRow[] = [
-  { account: '3100', name: 'Produktverkaeufe', dashboardName: 'Warenverkauf' },
-  { account: '3400', name: 'Dienstleistungserloese', dashboardName: 'Dienstleistungen' },
-  { account: '3450', name: 'Integrations-Arbeitsplaetze', dashboardName: 'Integration' },
-  { account: '3500', name: 'Spendenerloese', dashboardName: 'Spenden' },
+  { account: '3100', name: 'Produktverkäufe', dashboardName: 'Warenverkauf' },
+  { account: '3400', name: 'Dienstleistungserlöse', dashboardName: 'Dienstleistungen' },
+  { account: '3450', name: 'Integrations-Arbeitsplätze', dashboardName: 'Integration' },
+  { account: '3500', name: 'Spendenerlöse', dashboardName: 'Spenden' },
   { account: '3510', name: 'Aufstockung Richtpreis', dashboardName: 'Aufstockung' },
-  { account: '30-38', name: 'Nettoerl\u00f6se Total', dashboardName: 'Total' },
+  { account: '30-38', name: 'Nettoerlöse Total', dashboardName: 'Total' },
 ];
 
 export const ACCOUNT_COLUMNS = [
@@ -139,10 +139,10 @@ export interface DataGapRow {
 }
 
 export const DATA_GAPS: DataGapRow[] = [
-  { dataPoint: 'Geraete-Stueckzahlen', priority: 'Kritisch', priorityColor: 'text-danger', whyImportant: 'Alle Impact-Metriken haengen davon ab', howToFix: 'Artikelerfassung in Kivitendo' },
+  { dataPoint: 'Geräte-Stückzahlen', priority: 'Kritisch', priorityColor: 'text-danger', whyImportant: 'Alle Impact-Metriken hängen davon ab', howToFix: 'Artikelerfassung in Kivitendo' },
   { dataPoint: 'Ausgaben-Daten', priority: 'Kritisch', priorityColor: 'text-danger', whyImportant: 'Kein Gewinn/Verlust berechenbar', howToFix: 'Ausgaben-Export aus Kivitendo' },
-  { dataPoint: 'Geraetetypen', priority: 'Hoch', priorityColor: 'text-warning', whyImportant: 'CO\u2082 und E-Waste variieren stark', howToFix: 'Kategorien definieren' },
-  { dataPoint: 'Workshop-Teilnehmer', priority: 'Mittel', priorityColor: 'text-text-muted', whyImportant: 'Soziale Wirkung messen', howToFix: 'Anmeldeliste fuehren' },
-  { dataPoint: 'Freiwilligenstunden', priority: 'Mittel', priorityColor: 'text-text-muted', whyImportant: 'Soziale Wirkung messen', howToFix: 'Zeiterfassung einfuehren' },
+  { dataPoint: 'Gerätetypen', priority: 'Hoch', priorityColor: 'text-warning', whyImportant: 'CO\u2082 und E-Waste variieren stark', howToFix: 'Kategorien definieren' },
+  { dataPoint: 'Workshop-Teilnehmer', priority: 'Mittel', priorityColor: 'text-text-muted', whyImportant: 'Soziale Wirkung messen', howToFix: 'Anmeldeliste führen' },
+  { dataPoint: 'Freiwilligenstunden', priority: 'Mittel', priorityColor: 'text-text-muted', whyImportant: 'Soziale Wirkung messen', howToFix: 'Zeiterfassung einführen' },
   { dataPoint: 'Linux-Installationen', priority: 'Niedrig', priorityColor: 'text-text-light', whyImportant: 'Software-Wirkung messen', howToFix: 'Bei Verkauf notieren' },
 ];

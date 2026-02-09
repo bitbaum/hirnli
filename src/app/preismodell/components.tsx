@@ -42,5 +42,5 @@ export const KPI_COLUMNS = [
     ),
   },
   { key: 'target', header: 'Zielwert' },
-  { key: 'rationale', header: 'Begruendung' },
+  { key: 'rationale', header: 'Begründung' },
 ];

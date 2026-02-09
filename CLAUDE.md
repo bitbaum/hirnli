@@ -225,7 +225,7 @@ npm run build
 
 ### Content Rules
 
-- **Swiss German:** Use "ss" not "ß", umlauts OK
+- **Swiss German:** Use "ss" not "ß". **ALWAYS use real umlauts** (ä ö ü) in all user-facing text — NEVER substitute with ae/oe/ue.
 - **Source everything:** Every data point needs a source citation
 - **Types from schemas:** Always derive types via `z.infer<>`, never define separately
 - **Config over code:** Data in `lib/config/`, business logic in `lib/domain/`, rendering in `components/`
@@ -239,7 +239,7 @@ Before pushing:
 - [ ] `npm run build` passes (TypeScript + static generation)
 - [ ] All internal links work (no 404s)
 - [ ] Mobile-responsive (test at 375px)
-- [ ] Swiss German spelling (ss not ß)
+- [ ] Swiss German spelling (ss not ß, real umlauts ä ö ü — never ae oe ue)
 - [ ] Sources cited for all data/claims
 - [ ] New data added to config files, not hardcoded in components
 - [ ] Types derived from Zod schemas, not defined separately

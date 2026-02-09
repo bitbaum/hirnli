@@ -19,12 +19,12 @@ export const PRICING_TIERS: PricingTier[] = [
     name: 'Gratis',
     badge: 'Spende',
     price: 'CHF 0',
-    description: 'Fuer Menschen in akuter Notlage und Repair-Aktivist:innen',
+    description: 'Für Menschen in akuter Notlage und Repair-Aktivist:innen',
     features: [
       'Formlosen Antrag stellen',
-      'Kurze Begruendung genuegt',
-      'Unbuerokratische Entscheidung',
-      'Auch fuer Repair-Cafes',
+      'Kurze Begründung genügt',
+      'Unbürokratische Entscheidung',
+      'Auch für Repair-Cafés',
     ],
     borderColor: 'border-emerald-500',
     bgGradient: 'from-emerald-50 to-white',
@@ -35,12 +35,12 @@ export const PRICING_TIERS: PricingTier[] = [
     name: 'KulturLegi',
     badge: '50% Rabatt',
     price: '50% vom Normalpreis',
-    description: 'Fuer Inhaber:innen einer gueltigen KulturLegi-Karte',
+    description: 'Für Inhaber:innen einer gültigen KulturLegi-Karte',
     features: [
       'KulturLegi-Karte vorzeigen',
       'Sofort 50% Rabatt',
-      'Fuer Working Poor',
-      'Fuer Studierende mit KulturLegi',
+      'Für Working Poor',
+      'Für Studierende mit KulturLegi',
     ],
     borderColor: 'border-amber-500',
     bgGradient: 'from-amber-50 to-white',
@@ -50,12 +50,12 @@ export const PRICING_TIERS: PricingTier[] = [
   {
     name: 'Normalpreis',
     badge: 'Standard',
-    price: 'Marktueblich',
-    description: 'Faire Preise, orientiert an aehnlichen Angeboten',
+    price: 'Marktüblich',
+    description: 'Faire Preise, orientiert an ähnlichen Angeboten',
     features: [
       'Vergleichbar mit Ricardo, Tutti',
       'Transparente Preisschilder',
-      'Qualitaetsgeprueft',
+      'Qualitätsgeprüft',
       'Inkl. Linux-Installation',
     ],
     borderColor: 'border-blue-500',
@@ -65,14 +65,14 @@ export const PRICING_TIERS: PricingTier[] = [
   },
   {
     name: 'Supporter',
-    badge: 'Solidaritaet',
+    badge: 'Solidarität',
     price: 'Normalpreis + X%',
-    description: 'Fuer alle, die mehr zahlen koennen und wollen',
+    description: 'Für alle, die mehr zahlen können und wollen',
     features: [
       'Freiwilliger Aufschlag',
       'Empfohlen: +20% bis +50%',
-      'Finanziert Gratis-Geraete',
-      'Ermoeglicht KulturLegi-Rabatte',
+      'Finanziert Gratis-Geräte',
+      'Ermöglicht KulturLegi-Rabatte',
     ],
     borderColor: 'border-violet-500',
     bgGradient: 'from-violet-50 to-white',
@@ -115,19 +115,19 @@ export interface KPIRow {
 export const KPI_DATA: KPIRow[] = [
   {
     kpi: 'Gratis-Quote',
-    formula: 'Gratis-Abgaben / Gesamtverkaeufe x 100',
+    formula: 'Gratis-Abgaben / Gesamtverkäufe x 100',
     target: '5 - 15%',
-    rationale: 'Min. 1/20 fuer Beduerftige, max. 1/7 fuer Nachhaltigkeit',
+    rationale: 'Min. 1/20 für Bedürftige, max. 1/7 für Nachhaltigkeit',
   },
   {
     kpi: 'KulturLegi-Quote',
-    formula: 'KulturLegi-Verkaeufe / Gesamtverkaeufe x 100',
+    formula: 'KulturLegi-Verkäufe / Gesamtverkäufe x 100',
     target: '10 - 20%',
-    rationale: 'Entspricht ca. Anteil Bevoelkerung mit tiefem Einkommen',
+    rationale: 'Entspricht ca. Anteil Bevölkerung mit tiefem Einkommen',
   },
   {
     kpi: 'Supporter-Quote',
-    formula: 'Supporter-Verkaeufe / Gesamtverkaeufe x 100',
+    formula: 'Supporter-Verkäufe / Gesamtverkäufe x 100',
     target: '10 - 20%',
     rationale: 'Soll Gratis+KulturLegi quersubventionieren',
   },
@@ -139,9 +139,9 @@ export const KPI_DATA: KPIRow[] = [
 
 export const PROCESS_STEPS = [
   { step: 1, title: 'Anfrage', description: 'Formlos per E-Mail, Formular oder direkt im Laden' },
-  { step: 2, title: 'Begruendung', description: 'Kurz erklaeren, warum du ein Gratis-Geraet brauchst' },
-  { step: 3, title: 'Entscheidung', description: 'Team entscheidet unbuerokratisch auf Vertrauensbasis' },
-  { step: 4, title: 'Abholung', description: 'Geraet abholen oder Lieferung vereinbaren' },
+  { step: 2, title: 'Begründung', description: 'Kurz erklären, warum du ein Gratis-Gerät brauchst' },
+  { step: 3, title: 'Entscheidung', description: 'Team entscheidet unbürokratisch auf Vertrauensbasis' },
+  { step: 4, title: 'Abholung', description: 'Gerät abholen oder Lieferung vereinbaren' },
 ];
 
 // ---------------------------------------------------------------------------
@@ -152,25 +152,25 @@ export const FAQ_ITEMS = [
   {
     question: 'Wie verhindert ihr Missbrauch beim Gratis-Angebot?',
     answer:
-      'Wir setzen auf Vertrauen und gesunden Menschenverstand. Die meisten Menschen sind ehrlich. Die wenigen, die das System ausnutzen, sind der Preis fuer ein unbuerokratisches System.',
+      'Wir setzen auf Vertrauen und gesunden Menschenverstand. Die meisten Menschen sind ehrlich. Die wenigen, die das System ausnutzen, sind der Preis für ein unbürokratisches System.',
   },
   {
     question: 'Muss ich meinen KulturLegi-Ausweis zeigen?',
     answer:
-      'Ja, bitte beim Kauf vorzeigen. Wir notieren keine persoenlichen Daten, nur dass der KulturLegi-Rabatt gewaehrt wurde.',
+      'Ja, bitte beim Kauf vorzeigen. Wir notieren keine persönlichen Daten, nur dass der KulturLegi-Rabatt gewährt wurde.',
   },
   {
-    question: 'Kann ich den Supporter-Aufschlag spaeter ueberweisen?',
-    answer: 'Ja! Spenden sind jederzeit willkommen, auch nachtraeglich.',
+    question: 'Kann ich den Supporter-Aufschlag später überweisen?',
+    answer: 'Ja! Spenden sind jederzeit willkommen, auch nachträglich.',
   },
   {
-    question: 'Werden Supporter-Kaeufer:innen speziell ausgewiesen?',
+    question: 'Werden Supporter-Käufer:innen speziell ausgewiesen?',
     answer:
-      'Nein. Wir fuehren keine oeffentliche Liste. Dein solidarischer Beitrag bleibt anonym.',
+      'Nein. Wir führen keine öffentliche Liste. Dein solidarischer Beitrag bleibt anonym.',
   },
   {
-    question: 'Gilt das Modell auch fuer Dienstleistungen (Reparaturen)?',
+    question: 'Gilt das Modell auch für Dienstleistungen (Reparaturen)?',
     answer:
-      'Grundsaetzlich ja. Bei Reparaturen koennen wir ebenfalls flexible Preise anbieten. KulturLegi-Rabatt gilt, Gratis-Reparaturen auf Anfrage fuer Menschen in Notsituationen.',
+      'Grundsätzlich ja. Bei Reparaturen können wir ebenfalls flexible Preise anbieten. KulturLegi-Rabatt gilt, Gratis-Reparaturen auf Anfrage für Menschen in Notsituationen.',
   },
 ];

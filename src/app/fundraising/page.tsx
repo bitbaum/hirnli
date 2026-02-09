@@ -21,7 +21,7 @@ import {
 
 export const metadata: Metadata = {
   title: 'Fundraising & Vision 2026',
-  description: 'Fundraising Hub - Vision, Budget, Pipeline und Foerdermoeglichkeiten',
+  description: 'Fundraising Hub - Vision, Budget, Pipeline und Fördermöglichkeiten',
 };
 
 export default function FundraisingPage() {
@@ -31,7 +31,7 @@ export default function FundraisingPage() {
     <>
       <PageHeader
         title="Fundraising & Vision 2026"
-        subtitle="Community Tech Hub - Oekologie, Soziales und Bildung unter einem Dach"
+        subtitle="Community Tech Hub - Ökologie, Soziales und Bildung unter einem Dach"
         badge="Fundraising"
       />
 
@@ -40,13 +40,13 @@ export default function FundraisingPage() {
         <MetricCard
           label="Stiftungen total"
           value={String(stats.total)}
-          subtitle="Recherchierte Foerderer"
+          subtitle="Recherchierte Förderer"
           sourceType="live"
         />
         <MetricCard
           label="Hoher Fit (3/3)"
           value={String(stats.highFitCount)}
-          subtitle="Beste Uebereinstimmung"
+          subtitle="Beste Übereinstimmung"
           sourceType="derived"
         />
         <MetricCard
@@ -86,7 +86,7 @@ export default function FundraisingPage() {
             href="/fundraising/stiftungen"
             className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-violet-700"
           >
-            Stiftungen & Foerderer Uebersicht
+            Stiftungen & Förderer Übersicht
             <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
@@ -118,7 +118,7 @@ export default function FundraisingPage() {
 
       {/* Three Pillars */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unsere drei Saeulen</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unsere drei Säulen</h2>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           {PILLARS.map((pillar) => (
             <Card key={pillar.title} className={`border-t-4 ${pillar.color}`}>
@@ -149,11 +149,11 @@ export default function FundraisingPage() {
             42&apos;000 (2025).
           </p>
           <p>
-            <strong>Der Grund:</strong> Abhaengigkeit von wenigen Kunden (Kivitendo-Hosting). Keine
+            <strong>Der Grund:</strong> Abhängigkeit von wenigen Kunden (Kivitendo-Hosting). Keine
             diversifizierten Einnahmequellen.
           </p>
           <p className="font-medium text-emerald-800">
-            <strong>Das Positive:</strong> Unser Kerngeschaeft (Geraeteverkauf) blieb stabil. Der
+            <strong>Das Positive:</strong> Unser Kerngeschäft (Geräteverkauf) blieb stabil. Der
             Hub ist unsere Turnaround-Strategie: diversifizierte Einnahmen durch Kurse, Repair Cafe
             und Community.
           </p>
@@ -166,7 +166,7 @@ export default function FundraisingPage() {
           <CardTitle>Der Community Tech Hub</CardTitle>
         </CardHeader>
         <p className="mb-4 text-sm text-text-muted">
-          Ein Ort, an dem Oekologie, Soziales und Bildung zusammenkommen. 320 m&#178; fuer
+          Ein Ort, an dem Ökologie, Soziales und Bildung zusammenkommen. 320 m&#178; für
           nachhaltige Technologie.
         </p>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
@@ -181,7 +181,7 @@ export default function FundraisingPage() {
 
       {/* The Ask / Budget */}
       <section className="mb-8 rounded-2xl bg-gradient-to-br from-blue-800 to-indigo-900 p-8 text-white">
-        <h2 className="mb-4 text-xl font-bold">Der Foerderbedarf</h2>
+        <h2 className="mb-4 text-xl font-bold">Der Förderbedarf</h2>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="rounded-lg bg-white/10 p-4">
             <h4 className="mb-3 text-sm font-medium opacity-90">Verwendung (2 Jahre)</h4>
@@ -196,23 +196,23 @@ export default function FundraisingPage() {
                 </div>
               ))}
               <div className="flex justify-between text-sm text-emerald-300">
-                <span>Eigenertraege (datenbasiert)</span>
+                <span>Eigenerträge (datenbasiert)</span>
                 <span>- CHF 145&apos;000</span>
               </div>
               <div className="mt-2 flex justify-between border-t-2 border-white/30 pt-3 text-base font-bold">
-                <span>Foerderbedarf Total</span>
+                <span>Förderbedarf Total</span>
                 <span>CHF 370&apos;000</span>
               </div>
             </div>
           </div>
           <div className="flex flex-col items-center justify-center text-center">
             <span className="text-5xl font-bold">CHF 370k</span>
-            <span className="mt-1 text-lg opacity-90">Foerderbedarf ueber 2 Jahre</span>
+            <span className="mt-1 text-lg opacity-90">Förderbedarf über 2 Jahre</span>
             <p className="mt-3 text-sm opacity-80">
               Wir finanzieren 28% selbst - trotz Krise
             </p>
             <p className="mt-1 text-sm opacity-80">
-              74% der Eigenertraege historisch belegt
+              74% der Eigenerträge historisch belegt
             </p>
           </div>
         </div>
@@ -220,7 +220,7 @@ export default function FundraisingPage() {
 
       {/* Sponsorship Packages */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Beteiligungsmoeglichkeiten</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Beteiligungsmöglichkeiten</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {PACKAGES.map((pkg) => (
             <Card
@@ -271,14 +271,14 @@ export default function FundraisingPage() {
               Nextcloud (Revamp-Hirn)
             </a>{' '}
             unter <code className="text-xs">01_Management/B_Finanzen/Fundraising/</code>{' '}
-            verfuegbar.
+            verfügbar.
           </p>
         </Card>
       </section>
 
       {/* Next Steps CTA */}
       <section className="rounded-2xl bg-gradient-to-br from-blue-900 to-indigo-900 p-8 text-white">
-        <h2 className="mb-6 text-xl font-bold">Naechste Schritte</h2>
+        <h2 className="mb-6 text-xl font-bold">Nächste Schritte</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {NEXT_STEPS.map((step) => (
             <div key={step.step} className="rounded-xl bg-white/10 p-5">
@@ -292,7 +292,7 @@ export default function FundraisingPage() {
         </div>
         <p className="mt-6 border-t border-white/20 pt-4 text-sm opacity-80">
           <strong>Fragen?</strong> Kontaktiere das Team oder nutze das Organisationsprofil als
-          Referenz fuer alle Gesuche.
+          Referenz für alle Gesuche.
         </p>
       </section>
     </>

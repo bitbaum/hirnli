@@ -43,7 +43,7 @@ export const DATA_GAP_COLUMNS = [
   { key: 'dataPoint', header: 'Datenpunkt' },
   {
     key: 'priority',
-    header: 'Prioritaet',
+    header: 'Priorität',
     render: (row: DataGapRow) => (
       <span className={`font-semibold ${row.priorityColor}`}>{row.priority}</span>
     ),
@@ -143,7 +143,7 @@ export function IncomeDataSection() {
       <p className="text-sm text-text-muted">
         Jeder Wert kann direkt in{' '}
         <code className="rounded bg-bg-light px-1">revamp-Einnahmen-2025.xlsx</code>{' '}
-        nachgeschlagen werden. Die Datei enthaelt monatliche Werte fuer jedes Konto.
+        nachgeschlagen werden. Die Datei enthält monatliche Werte für jedes Konto.
       </p>
     </MethodologySection>
   );
@@ -161,7 +161,7 @@ export function SelfFinancingSection() {
     >
       <p className="mb-4 text-sm text-text-light">
         Der Eigenfinanzierungsgrad zeigt, wie viel der Einnahmen durch eigene
-        Wirtschaftstaetigkeit erwirtschaftet wird (ohne Spenden).
+        Wirtschaftstätigkeit erwirtschaftet wird (ohne Spenden).
       </p>
 
       <FormulaBox>
@@ -171,16 +171,16 @@ export function SelfFinancingSection() {
 
       <h4 className="mb-2 text-sm font-medium">Bedeutung:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
-        <li><strong>&gt;60%:</strong> Hohe Unabhaengigkeit von Spenden (Ziel)</li>
+        <li><strong>&gt;60%:</strong> Hohe Unabhängigkeit von Spenden (Ziel)</li>
         <li><strong>40-60%:</strong> Mischfinanzierung</li>
-        <li><strong>&lt;40%:</strong> Starke Spendenabhaengigkeit</li>
+        <li><strong>&lt;40%:</strong> Starke Spendenabhängigkeit</li>
       </ul>
 
       <h4 className="mb-2 text-sm font-medium">Treiber:</h4>
       <ul className="list-disc space-y-1 pl-6 text-sm">
-        <li>Anzahl verkaufter Geraete</li>
+        <li>Anzahl verkaufter Geräte</li>
         <li>Durchschnittlicher Verkaufspreis</li>
-        <li>Anzahl Dienstleistungsauftraege</li>
+        <li>Anzahl Dienstleistungsaufträge</li>
       </ul>
     </MethodologySection>
   );
@@ -190,40 +190,40 @@ export function DeviceEstimationSection() {
   return (
     <MethodologySection
       id="device-estimation"
-      title="3. Geraeteanzahl-Schaetzung"
-      badgeLabel="Schaetzung"
+      title="3. Geräteanzahl-Schätzung"
+      badgeLabel="Schätzung"
       badgeVariant="estimated"
       confidence="low"
     >
       <p className="mb-4 text-sm text-text-light">
-        Da keine Stueckzahlen in Kivitendo erfasst werden, schaetzen wir die
-        Geraeteanzahl aus den Einnahmen.
+        Da keine Stückzahlen in Kivitendo erfasst werden, schätzen wir die
+        Geräteanzahl aus den Einnahmen.
       </p>
 
       <FormulaBox>
         <strong>Formel:</strong><br />
-        Geschaetzte Geraete = Warenverkauf (CHF) / Durchschnittspreis (CHF 150)
+        Geschätzte Geräte = Warenverkauf (CHF) / Durchschnittspreis (CHF 150)
       </FormulaBox>
 
       <h4 className="mb-2 text-sm font-medium">Annahmen:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
-        <li>Durchschnittspreis pro Geraet: <strong>CHF 150</strong></li>
-        <li>Alle Einnahmen auf Konto 3100 sind Geraeteverkaeufe</li>
-        <li>Keine Unterscheidung nach Geraetetyp</li>
+        <li>Durchschnittspreis pro Gerät: <strong>CHF 150</strong></li>
+        <li>Alle Einnahmen auf Konto 3100 sind Geräteverkäufe</li>
+        <li>Keine Unterscheidung nach Gerätetyp</li>
       </ul>
 
       <h4 className="mb-2 text-sm font-medium">Limitationen:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm text-danger">
-        <li>Zubehoer (Kabel, Tastaturen, Maeuse) ist mitgezaehlt</li>
+        <li>Zubehör (Kabel, Tastaturen, Mäuse) ist mitgezählt</li>
         <li>Grosse Preisvariation (CHF 50 - 500)</li>
         <li>Keine Unterscheidung Laptop/Desktop/Tablet</li>
-        <li>Durchschnittspreis ist Schaetzung, nicht berechnet</li>
+        <li>Durchschnittspreis ist Schätzung, nicht berechnet</li>
       </ul>
 
       <div className="rounded-lg border-l-4 border-danger bg-danger-bg p-4">
         <p className="text-sm font-medium text-danger">
-          KRITISCH: Stueckzahlen sollten in Kivitendo erfasst werden.
-          Das wuerde diese Schaetzung ueberfluessig machen.
+          KRITISCH: Stückzahlen sollten in Kivitendo erfasst werden.
+          Das würde diese Schätzung überflüssig machen.
         </p>
       </div>
     </MethodologySection>
@@ -238,18 +238,18 @@ export function CO2CalculationSection() {
       badgeLabel="Berechnet"
       badgeVariant="derived"
       confidence="high"
-      confidenceNote="(Hersteller-LCA-Reports fuer bekannte Modelle)"
+      confidenceNote="(Hersteller-LCA-Reports für bekannte Modelle)"
     >
       <p className="mb-4 text-sm text-text-light">
         Die CO&#x2082;-Ersparnis wird basierend auf <strong>Hersteller-spezifischen Life Cycle Assessment (LCA) Reports</strong> berechnet.
       </p>
 
       <FormulaBox>
-        <strong>Formel (fuer bekannte Modelle):</strong><br />
-        CO&#x2082; vermieden = SUM(CO2_LCA_Total_kg pro Geraet)
+        <strong>Formel (für bekannte Modelle):</strong><br />
+        CO&#x2082; vermieden = SUM(CO2_LCA_Total_kg pro Gerät)
       </FormulaBox>
       <FormulaBox>
-        <strong>Formel (fuer unbekannte Modelle):</strong><br />
+        <strong>Formel (für unbekannte Modelle):</strong><br />
         CO&#x2082; vermieden = SUM(Gewicht_kg &times; CO2_Faktor_kg_per_kg)
       </FormulaBox>
 
@@ -289,17 +289,17 @@ export function CO2CalculationSection() {
 
       <h4 className="mb-2 mt-4 text-sm font-medium">Methodik:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
-        <li><strong>Fuer bekannte Modelle:</strong> Direkte CO&#x2082;-Werte aus Hersteller-LCA-Reports (High Confidence)</li>
-        <li><strong>Fuer unbekannte Modelle:</strong> Hersteller-Durchschnitt oder Kategorie-Durchschnitt (Medium Confidence)</li>
-        <li><strong>Alle verkauften Geraete ersetzen Neukaeufe</strong> (Avoided Burden Ansatz nach ISO 14040/14044)</li>
-        <li>Alle Quellen sind direkt verlinkt und nachpruefbar</li>
+        <li><strong>Für bekannte Modelle:</strong> Direkte CO&#x2082;-Werte aus Hersteller-LCA-Reports (High Confidence)</li>
+        <li><strong>Für unbekannte Modelle:</strong> Hersteller-Durchschnitt oder Kategorie-Durchschnitt (Medium Confidence)</li>
+        <li><strong>Alle verkauften Geräte ersetzen Neukäufe</strong> (Avoided Burden Ansatz nach ISO 14040/14044)</li>
+        <li>Alle Quellen sind direkt verlinkt und nachprüfbar</li>
       </ul>
 
       <h4 className="mb-2 text-sm font-medium">Limitationen:</h4>
       <ul className="list-disc space-y-1 pl-6 text-sm text-danger">
-        <li>Falls Geraeteanzahl geschaetzt wird, entsteht Unsicherheit (siehe Geraete-Berechnung)</li>
-        <li>Nicht alle Kaeufer haetten neu gekauft (konservative Annahme)</li>
-        <li>Lebensdauerverlaengerung durch Refurbishment wird separat gemessen (LIFETIME_YEARS)</li>
+        <li>Falls Geräteanzahl geschätzt wird, entsteht Unsicherheit (siehe Geräte-Berechnung)</li>
+        <li>Nicht alle Käufer hätten neu gekauft (konservative Annahme)</li>
+        <li>Lebensdauerverlängerung durch Refurbishment wird separat gemessen (LIFETIME_YEARS)</li>
       </ul>
     </MethodologySection>
   );
@@ -310,30 +310,30 @@ export function EWasteSection() {
     <MethodologySection
       id="ewaste-calculation"
       title="5. E-Waste-Berechnung"
-      badgeLabel="Schaetzung"
+      badgeLabel="Schätzung"
       badgeVariant="estimated"
       confidence="low"
     >
       <p className="mb-4 text-sm text-text-light">
-        Die E-Waste-Ersparnis wird ebenfalls aus der geschaetzten Geraeteanzahl abgeleitet.
+        Die E-Waste-Ersparnis wird ebenfalls aus der geschätzten Geräteanzahl abgeleitet.
       </p>
 
       <FormulaBox>
         <strong>Formel:</strong><br />
-        E-Waste vermieden = Geschaetzte Geraete &times; 10 kg/Geraet
+        E-Waste vermieden = Geschätzte Geräte &times; 10 kg/Gerät
       </FormulaBox>
 
       <h4 className="mb-2 text-sm font-medium">Annahmen:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
-        <li>Durchschnittliches Geraetegewicht: 10 kg</li>
-        <li>Jedes wiederverwendete Geraet vermeidet Entsorgung</li>
+        <li>Durchschnittliches Gerätegewicht: 10 kg</li>
+        <li>Jedes wiederverwendete Gerät vermeidet Entsorgung</li>
       </ul>
 
       <h4 className="mb-2 text-sm font-medium">Limitationen:</h4>
       <ul className="list-disc space-y-1 pl-6 text-sm text-danger">
-        <li>Geraetegewicht variiert stark (Laptop ~2kg, Desktop ~10kg)</li>
-        <li>Nur das Geraet selbst, nicht Verpackung/Zubehoer</li>
-        <li>Basiert auf Geraeteschaetzung</li>
+        <li>Gerätegewicht variiert stark (Laptop ~2kg, Desktop ~10kg)</li>
+        <li>Nur das Gerät selbst, nicht Verpackung/Zubehör</li>
+        <li>Basiert auf Geräteschätzung</li>
       </ul>
     </MethodologySection>
   );
@@ -357,11 +357,11 @@ export function PricingModelSection() {
       <h4 className="mb-2 text-sm font-medium">6.1 Normalpreis (Marktvergleich)</h4>
       <FormulaBox>
         <strong>Methode:</strong><br />
-        Vergleich mit aehnlichen Angeboten auf Ricardo, Tutti, Revendo, eBay Kleinanzeigen
+        Vergleich mit ähnlichen Angeboten auf Ricardo, Tutti, Revendo, eBay Kleinanzeigen
       </FormulaBox>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
         <li><strong>Quelle:</strong> Manuelle Marktbeobachtung</li>
-        <li><strong>Konfidenz:</strong> Mittel (variiert je nach Geraet)</li>
+        <li><strong>Konfidenz:</strong> Mittel (variiert je nach Gerät)</li>
         <li><strong>Beispiel:</strong> ThinkPad X270 i5/8GB &rarr; Ricardo CHF 180-250 &rarr; Normalpreis CHF 200</li>
       </ul>
 
@@ -372,7 +372,7 @@ export function PricingModelSection() {
       </FormulaBox>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
         <li><strong>Quelle:</strong> Vorstandsentscheidung (Januar 2025)</li>
-        <li><strong>Begruendung:</strong> Einheitlicher, leicht kommunizierbarer Rabatt</li>
+        <li><strong>Begründung:</strong> Einheitlicher, leicht kommunizierbarer Rabatt</li>
         <li><strong>KulturLegi-Einkommensgrenze:</strong> ca. CHF 2&apos;600/Monat (Einzelperson)</li>
         <li><strong>Externe Quelle:</strong>{' '}
           <a href="https://www.kulturlegi.ch" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
@@ -389,12 +389,12 @@ export function PricingModelSection() {
       </FormulaBox>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
         <li><strong>Quelle:</strong> Vorstandsentscheidung (Januar 2025)</li>
-        <li><strong>Begruendung +20%:</strong> Niedrige Einstiegshuerde (CHF 40 bei CHF 200 Geraet)</li>
-        <li><strong>Begruendung +50%:</strong> Signifikanter Impact ohne zu hohe Abschreckung</li>
+        <li><strong>Begründung +20%:</strong> Niedrige Einstiegshürde (CHF 40 bei CHF 200 Gerät)</li>
+        <li><strong>Begründung +50%:</strong> Signifikanter Impact ohne zu hohe Abschreckung</li>
         <li><strong>Buchung:</strong> Aufschlag wird separat auf Konto 3510 verbucht</li>
       </ul>
 
-      <h4 className="mb-2 text-sm font-medium">Preis-Beispiel vollstaendig nachvollziehbar:</h4>
+      <h4 className="mb-2 text-sm font-medium">Preis-Beispiel vollständig nachvollziehbar:</h4>
       <Table
         columns={PRICING_COLUMNS}
         data={PRICING_EXAMPLE}
@@ -410,10 +410,10 @@ export function DataGapsSection() {
     <section id="data-gaps" className="scroll-mt-8">
       <Card>
         <CardHeader>
-          <CardTitle>7. Datenluecken</CardTitle>
+          <CardTitle>7. Datenlücken</CardTitle>
         </CardHeader>
         <p className="mb-4 text-sm text-text-light">
-          Folgende Daten fehlen komplett und koennen nicht einmal geschaetzt werden:
+          Folgende Daten fehlen komplett und können nicht einmal geschätzt werden:
         </p>
         <Table
           columns={DATA_GAP_COLUMNS}
@@ -439,16 +439,16 @@ export function TransparencyPrinciplesSection() {
               <li>Jede Berechnung dokumentieren</li>
               <li>Annahmen offenlegen</li>
               <li>Limitationen klar benennen</li>
-              <li>Datenluecken dokumentieren</li>
+              <li>Datenlücken dokumentieren</li>
             </ul>
           </div>
           <div>
             <h4 className="mb-3 font-medium">Was wir nicht tun</h4>
             <ul className="list-disc space-y-1 pl-6 text-sm">
               <li>Keine erfundenen Zahlen</li>
-              <li>Keine Schoenfaerberei</li>
+              <li>Keine Schönfärberei</li>
               <li>Keine versteckten Annahmen</li>
-              <li>Keine Pseudo-Praezision</li>
+              <li>Keine Pseudo-Präzision</li>
               <li>Keine unbelegten Behauptungen</li>
             </ul>
           </div>

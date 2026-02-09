@@ -25,10 +25,10 @@ export default function MethodikPage() {
     <>
       <PageHeader
         title="Methodik & Datenquellen"
-        subtitle="Vollstaendige Transparenz ueber alle Berechnungen und Annahmen"
+        subtitle="Vollständige Transparenz über alle Berechnungen und Annahmen"
       />
       <p className="mb-8 text-sm text-text-light">
-        Jede Zahl im Dashboard ist hier erklaert und nachvollziehbar dokumentiert.
+        Jede Zahl im Dashboard ist hier erklärt und nachvollziehbar dokumentiert.
       </p>
 
       {/* Datentypen-Legende */}
