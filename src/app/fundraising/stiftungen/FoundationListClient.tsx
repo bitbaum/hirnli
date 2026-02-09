@@ -31,6 +31,7 @@ export default function FoundationListClient() {
     toggleHideNoApplication,
     toggleHideOperative,
     toggleHideNetworks,
+    toggleOnlyResearched,
     resetFilters,
   } = useFoundationFilters(STIFTUNGEN_DATA);
 
@@ -38,6 +39,7 @@ export default function FoundationListClient() {
   const openCount = filtered.filter(
     (f) => f.status === 'open' || f.status === 'rolling',
   ).length;
+  const researchedCount = filtered.filter((f) => f.purposeSummary && !f.needsResearch).length;
 
   return (
     <div>
@@ -142,6 +144,15 @@ export default function FoundationListClient() {
             />
             Netzwerke ausblenden
           </label>
+          <label className="flex cursor-pointer items-center gap-2 text-sm font-medium text-primary">
+            <input
+              type="checkbox"
+              checked={filters.onlyResearched}
+              onChange={toggleOnlyResearched}
+              className="rounded border-primary"
+            />
+            Nur recherchierte
+          </label>
         </div>
       </div>
 
@@ -151,6 +162,7 @@ export default function FoundationListClient() {
           {filteredCount} von {totalCount} Stiftungen
           {highFitCount > 0 && ` | ${highFitCount} mit hohem Fit`}
           {openCount > 0 && ` | ${openCount} offen`}
+          {researchedCount > 0 && ` | ${researchedCount} recherchiert`}
         </span>
         {hasActiveFilters && (
           <button

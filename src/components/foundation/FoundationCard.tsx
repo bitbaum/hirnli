@@ -73,7 +73,14 @@ export default function FoundationCard({ foundation: f }: FoundationCardProps) {
       </div>
 
       <div className="mt-3 flex items-center justify-between text-xs text-text-muted">
-        <span>{f.deadlineText}</span>
+        <div className="flex items-center gap-2">
+          <span>{f.deadlineText}</span>
+          {f.purposeSummary && !f.needsResearch && (
+            <span className="rounded-full bg-green-50 px-1.5 py-0.5 text-[10px] font-medium text-green-700">
+              Recherchiert
+            </span>
+          )}
+        </div>
         <span>{f.amount.text}</span>
       </div>
 
