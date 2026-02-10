@@ -1,21 +1,33 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
+import type { BudgetModule } from '@/lib/config/stories';
 import { formatCHF } from '@/lib/utils/format';
 
 interface BudgetSectionProps {
   dok: ComposedGesuchDokument;
 }
 
-function BudgetCategoryRows({ lines, total }: { lines: { label: string; description: string; amount: number }[]; total: number }) {
+function ModuleRows({ modules, total }: { modules: BudgetModule[]; total: number }) {
   return (
     <>
-      {lines.map((line) => (
-        <tr key={line.label} className="border-b border-border">
+      {modules.map((mod) => (
+        <tr key={mod.label} className="border-b border-border">
           <td className="py-1.5">
-            <span>{line.label}</span>
-            <span className="ml-2 text-xs text-text-muted">{line.description}</span>
+            <span className="font-medium">{mod.label}</span>
+            <span className="ml-2 text-xs text-text-muted">{mod.description}</span>
+            {mod.items.length > 1 && (
+              <div className="mt-1 ml-4 text-xs text-text-muted">
+                {mod.items.map((item) => (
+                  <span key={item.label} className="mr-3">
+                    {item.label}: {formatCHF(item.amount)}
+                  </span>
+                ))}
+              </div>
+            )}
           </td>
-          <td className="py-1.5 text-right">{formatCHF(line.amount)}</td>
-          <td className="py-1.5 text-right text-text-muted">{Math.round(line.amount / total * 100)}%</td>
+          <td className="py-1.5 text-right align-top">{formatCHF(mod.amount)}</td>
+          <td className="py-1.5 text-right align-top text-text-muted">
+            {Math.round(mod.amount / total * 100)}%
+          </td>
         </tr>
       ))}
     </>
@@ -23,9 +35,10 @@ function BudgetCategoryRows({ lines, total }: { lines: { label: string; descript
 }
 
 export default function BudgetSection({ dok }: BudgetSectionProps) {
-  const personalLines = dok.budget.lines.filter((l) => l.category === 'personal');
-  const sachLines = dok.budget.lines.filter((l) => l.category === 'sachkosten');
-  const programmLines = dok.budget.lines.filter((l) => l.category === 'programm');
+  const einmalig = dok.budget.modules.filter((m) => m.type === 'einmalig');
+  const jaehrlich = dok.budget.modules.filter((m) => m.type === 'jaehrlich');
+  const einmaligTotal = einmalig.reduce((sum, m) => sum + m.amount, 0);
+  const jaehrlichTotal = jaehrlich.reduce((sum, m) => sum + m.amount, 0);
   const remaining = dok.budget.total - dok.budget.eigenleistung.amount - dok.budget.requestedAmount;
 
   return (
@@ -34,36 +47,35 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
         Budget und Finanzierungsplan
       </h2>
       <p className="mb-6 text-xs text-text-muted">
-        Projektlaufzeit: {dok.budget.projectDuration} | Gesamtbudget: {formatCHF(dok.budget.total)}
+        {dok.budget.projectDuration} | Gesamtbedarf: {formatCHF(dok.budget.total)}
       </p>
 
-      {/* Budget table */}
+      {/* Budget table by module */}
       <table className="mb-6 w-full text-sm">
         <thead>
           <tr className="border-b-2 border-grey-dark text-left">
-            <th className="pb-2 font-semibold">Position</th>
+            <th className="pb-2 font-semibold">Modul</th>
             <th className="pb-2 text-right font-semibold">Betrag</th>
             <th className="pb-2 text-right font-semibold">%</th>
           </tr>
         </thead>
         <tbody>
+          {/* Einmalige Investitionen */}
           <tr className="border-b border-border bg-bg-light">
-            <td className="py-2 font-semibold" colSpan={3}>Personalkosten</td>
+            <td className="py-2 font-semibold" colSpan={2}>Einmalige Investitionen</td>
+            <td className="py-2 text-right text-xs text-text-muted">{formatCHF(einmaligTotal)}</td>
           </tr>
-          <BudgetCategoryRows lines={personalLines} total={dok.budget.total} />
+          <ModuleRows modules={einmalig} total={dok.budget.total} />
 
+          {/* Jährliche Kosten */}
           <tr className="border-b border-border bg-bg-light">
-            <td className="py-2 font-semibold" colSpan={3}>Sachkosten</td>
+            <td className="py-2 font-semibold" colSpan={2}>Jährliche Kosten</td>
+            <td className="py-2 text-right text-xs text-text-muted">{formatCHF(jaehrlichTotal)}</td>
           </tr>
-          <BudgetCategoryRows lines={sachLines} total={dok.budget.total} />
-
-          <tr className="border-b border-border bg-bg-light">
-            <td className="py-2 font-semibold" colSpan={3}>Programmkosten</td>
-          </tr>
-          <BudgetCategoryRows lines={programmLines} total={dok.budget.total} />
+          <ModuleRows modules={jaehrlich} total={dok.budget.total} />
 
           <tr className="border-b-2 border-grey-dark font-bold">
-            <td className="py-2">Gesamtkosten</td>
+            <td className="py-2">Gesamtbedarf</td>
             <td className="py-2 text-right">{formatCHF(dok.budget.total)}</td>
             <td className="py-2 text-right">100%</td>
           </tr>
@@ -93,7 +105,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
           </tr>
           {remaining > 0 && (
             <tr className="border-b border-border text-text-muted">
-              <td className="py-1.5">Weitere Stiftungen (beantragt)</td>
+              <td className="py-1.5">Weitere Stiftungen und Partner (beantragt/geplant)</td>
               <td className="py-1.5 text-right">{formatCHF(remaining)}</td>
               <td className="py-1.5 text-right">
                 {Math.round(remaining / dok.budget.total * 100)}%

@@ -16,11 +16,12 @@ import {
   THEME_ID_TO_STORY_KEY,
   THEME_PRIORITY,
   CORE_FACTS,
-  BUDGET_LINES,
+  BUDGET_MODULES,
   BUDGET_TOTAL,
   BUDGET_EIGENLEISTUNG,
   ANSCHREIBEN_TEMPLATES,
 } from '@/lib/config/stories';
+import type { BudgetModule } from '@/lib/config/stories';
 import { TYPE_LABELS, THEMES } from '@/lib/config/foundations';
 
 interface ThemeMetadata {
@@ -62,13 +63,6 @@ export interface ComposedGesuch {
   };
 }
 
-export interface BudgetLine {
-  label: string;
-  description: string;
-  amount: number;
-  category: string;
-}
-
 export interface ComposedGesuchDokument extends ComposedGesuch {
   anschreiben: {
     date: string;
@@ -79,7 +73,7 @@ export interface ComposedGesuchDokument extends ComposedGesuch {
     themeAlignment: string;
   };
   budget: {
-    lines: BudgetLine[];
+    modules: BudgetModule[];
     total: number;
     eigenleistung: { label: string; description: string; amount: number };
     requestedAmount: number;
@@ -184,16 +178,18 @@ function buildThemeAlignment(foundation: Foundation, themeMetadata: ThemeMetadat
   }`;
 }
 
-/** Compute requested amount based on foundation's typical range */
+/** Compute requested amount based on foundation's typical range vs real budget gap */
 function computeRequestedAmount(foundation: Foundation): number {
+  const gap = BUDGET_TOTAL - BUDGET_EIGENLEISTUNG.amount; // CHF 455k
   const max = foundation.amount.max;
   const min = foundation.amount.min;
 
-  if (max && max <= BUDGET_TOTAL) return max;
-  if (max && min) return Math.min(Math.round((min + max) / 2), BUDGET_TOTAL);
-  if (min) return Math.min(min * 2, BUDGET_TOTAL);
-  // Default: ask for the gap between total and eigenleistung
-  return BUDGET_TOTAL - BUDGET_EIGENLEISTUNG.amount;
+  // Use foundation's known range, capped at our actual gap
+  if (max && max <= gap) return max;
+  if (max && min) return Math.min(Math.round((min + max) / 2), gap);
+  if (min) return Math.min(min * 2, gap);
+  // Default: a meaningful chunk (~20% of gap, rounded to nearest 5k)
+  return Math.round(gap * 0.2 / 5000) * 5000;
 }
 
 /** Build foundation mailing address from contact data */
@@ -225,16 +221,11 @@ export function composeGesuchDokument(foundation: Foundation): ComposedGesuchDok
       themeAlignment: buildThemeAlignment(foundation, themeMetadata),
     },
     budget: {
-      lines: BUDGET_LINES.map((l) => ({
-        label: l.label,
-        description: l.description,
-        amount: l.amount,
-        category: l.category,
-      })),
+      modules: BUDGET_MODULES,
       total: BUDGET_TOTAL,
       eigenleistung: BUDGET_EIGENLEISTUNG,
       requestedAmount,
-      projectDuration: '12 Monate',
+      projectDuration: 'Aufbauphase 2026–2027',
     },
     kurzportrait: {
       facts: [

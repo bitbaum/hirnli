@@ -545,40 +545,79 @@ export const BUDGET_TEMPLATES: BudgetTemplates = {
 };
 
 // ============================================================================
-// BUDGET AMOUNTS - Template CHF values for Gesuch documents
-// Follows Robert's framing: naming is critical, max 20% overhead
+// BUDGET MODULES - Project-based budget for Gesuch documents (CHF 555k)
+// Aligned with fundraising page. Robert's rule: "Budget erzählt die gleiche
+// Geschichte wie der Text" — modules match project narrative, not accounting.
 // ============================================================================
 
-interface BudgetLine {
+export interface BudgetModule {
   label: string;
   description: string;
   amount: number;
-  category: 'personal' | 'sachkosten' | 'programm';
+  type: 'einmalig' | 'jaehrlich';
+  items: { label: string; amount: number }[];
 }
 
-export const BUDGET_LINES: BudgetLine[] = [
-  // Personal (~60% — this IS the project, not overhead)
-  { label: 'Projektkoordination (40%)', description: 'Koordination, Monitoring, Berichterstattung, Fundraising', amount: 28800, category: 'personal' },
-  { label: 'Fachliche Betreuung Werkstatt (30%)', description: 'Technische Anleitung Refurbishing, Qualitätssicherung', amount: 21600, category: 'personal' },
-  { label: 'Sozialpädagogische Begleitung (20%)', description: 'Betreuung Praktikant:innen, Standortgespräche, Vermittlung', amount: 14400, category: 'personal' },
+export const BUDGET_MODULES: BudgetModule[] = [
+  // Einmalige Investitionen
+  {
+    label: 'Community Tech Space Aufbau',
+    description: 'Umzug in grösseren Standort, Einrichtung Werkstatt, Shop, Schulungsraum und Hands-on-Ausstellung',
+    amount: 147000,
+    type: 'einmalig',
+    items: [
+      { label: 'Umzug & Einrichtung', amount: 130000 },
+      { label: 'Museum & Hands-on-Ausstellung', amount: 17000 },
+    ],
+  },
+  {
+    label: 'Sovereign AI Lab',
+    description: 'GPU-Infrastruktur für lokale KI-Modelle — digitale Souveränität statt Cloud-Abhängigkeit',
+    amount: 45000,
+    type: 'einmalig',
+    items: [
+      { label: 'GPU-Server & Infrastruktur', amount: 45000 },
+    ],
+  },
 
-  // Sachkosten (~25%)
-  { label: 'Material und Ersatzteile', description: 'Ersatzteile, Werkzeug, Verbrauchsmaterial für Reparaturen', amount: 6000, category: 'sachkosten' },
-  { label: 'Infrastruktur (anteilig)', description: 'Raumkosten Werkstatt, Strom, Internet', amount: 8400, category: 'sachkosten' },
-  { label: 'IT-Infrastruktur', description: 'Server, Netzwerk, Diagnose-Tools', amount: 3600, category: 'sachkosten' },
-
-  // Programm (~15%)
-  { label: 'Workshop-Durchführung', description: 'Vorbereitung, Material, Räume für Bildungsangebote', amount: 4800, category: 'programm' },
-  { label: 'Wirkungsmessung', description: 'Tracking, Evaluation, Berichterstattung', amount: 2400, category: 'programm' },
+  // Jährliche Kosten
+  {
+    label: 'Programmleitung (2 Stellen)',
+    description: 'Zwei Programmleiter:innen für Arbeitsintegration und Bildungsprogramm — das Herzstück unserer Wirkung',
+    amount: 216000,
+    type: 'jaehrlich',
+    items: [
+      { label: 'Leitung Arbeitsintegration', amount: 108000 },
+      { label: 'Leitung Bildungsprogramm', amount: 108000 },
+    ],
+  },
+  {
+    label: 'Standort-Betrieb (Mehrkosten)',
+    description: 'Raummiete, Nebenkosten und Infrastruktur für den grösseren Community Tech Space',
+    amount: 102000,
+    type: 'jaehrlich',
+    items: [
+      { label: 'Miete, Nebenkosten, Strom, Internet', amount: 102000 },
+    ],
+  },
+  {
+    label: 'Bildung & Community',
+    description: 'Repair Café, Hackerspace, Weiterbildungskurse und Community-Angebote',
+    amount: 45000,
+    type: 'jaehrlich',
+    items: [
+      { label: 'Repair Café & Hackerspace', amount: 25000 },
+      { label: 'Weiterbildung & Kurse', amount: 20000 },
+    ],
+  },
 ];
 
-// Total: CHF 90'000/Jahr — scalable by foundation ask
-export const BUDGET_TOTAL = BUDGET_LINES.reduce((sum, l) => sum + l.amount, 0);
+export const BUDGET_TOTAL = BUDGET_MODULES.reduce((sum, m) => sum + m.amount, 0); // CHF 555'000
 
 export const BUDGET_EIGENLEISTUNG = {
   label: 'Eigenleistung Revamp-IT',
-  description: 'Erlöse aus Geräteverkauf, bestehende Infrastruktur',
-  amount: 54000, // Eigenleistung aus Geräteverkauf und bestehendem Betrieb
+  description: 'Erlöse Geräteverkauf, IT-Dienstleistungen, bestehende Infrastruktur und Freiwilligenarbeit',
+  amount: 100000,
 };
 
 // ============================================================================
