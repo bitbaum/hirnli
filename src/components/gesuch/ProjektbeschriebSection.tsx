@@ -116,8 +116,8 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
           Die Ergebnisse werden in unserem transparenten Online-Dashboard publiziert.
         </p>
         <p className="mt-2 text-sm leading-relaxed text-text">
-          Die Nachhaltigkeit des Projekts ist durch die hohe Eigenfinanzierungsquote von 96% gesichert.
-          Stiftungsgelder ermöglichen den Ausbau der Kapazität — nicht den Grundbetrieb.
+          Revamp-IT hat über 20 Jahre bewiesen, dass das Kerngeschäft tragfähig ist.
+          Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.
         </p>
       </div>
     </section>

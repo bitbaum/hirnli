@@ -17,20 +17,12 @@ export default function Footer() {
             GitHub
           </a>
           <a
-            href="https://revampit.vercel.app"
+            href="https://revamp-it.ch"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary"
           >
-            Hauptseite
-          </a>
-          <a
-            href="https://revampit.vercel.app/admin"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-primary"
-          >
-            Admin
+            revamp-it.ch
           </a>
         </div>
       </div>

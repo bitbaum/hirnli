@@ -32,6 +32,7 @@ export const HUB_CORE_SPACES = [
   { icon: '🔧', title: 'Offene Werkstatt', description: 'Community-Reparatur-Events, Hands-on Workshops, Repair Cafe' },
   { icon: '🏛️', title: 'Vintage-Hardware Museum', description: 'Von Apple I bis Amiga — Computergeschichte zum Anfassen' },
   { icon: '🎓', title: 'Schulungs- & Hackerspace', description: 'Kurse, Tüfteln, digitale Kompetenzen für alle' },
+  { icon: '🖥️', title: 'Sovereign AI Lab', description: 'Eigenes Rechenzentrum — lokale KI-Modelle hosten, trainieren und vermitteln' },
   { icon: '☕', title: 'Community Cafe', description: 'Austausch, Networking, niederschwelliger Treffpunkt' },
 ] as const;
 

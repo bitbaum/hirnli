@@ -67,13 +67,14 @@ export default function StrategiePage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Zukunftsvision: Community Tech Space</h2>
         <Card>
           <p className="mb-4 text-sm text-text-light">
-            Unser Traum ist ein grösserer Raum, der als Museum, Werkstatt und Treffpunkt für die nachhaltige Tech-Community dient.
+            Unser Traum ist ein grösserer Raum, der als Museum, Werkstatt, Rechenzentrum und Treffpunkt für die nachhaltige Tech-Community dient.
+            Mit einem eigenen Sovereign AI Lab hosten und trainieren wir lokale KI-Modelle — und vermitteln Menschen, wie sie es selbst tun können.
             Diese Vision wächst mit uns — einzelne Bereiche werden schrittweise realisiert, sobald Raum und Ressourcen es erlauben.
           </p>
 
           {/* Hub Core */}
           <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Hub-Kern</h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {HUB_CORE_SPACES.map((space) => (
               <div key={space.title} className="flex flex-col items-center rounded-xl border border-border bg-white p-5 text-center shadow-sm">
                 <span className="mb-3 text-4xl">{space.icon}</span>

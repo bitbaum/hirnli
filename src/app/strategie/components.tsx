@@ -54,8 +54,8 @@ export function KontaktSection() {
         <p className="text-sm"><strong>E-Mail:</strong> empfang@revamp-it.ch</p>
         <p className="text-sm">
           <strong>Web:</strong>{' '}
-          <a href="https://revampit.vercel.app" target="_blank" rel="noopener noreferrer">
-            revampit.vercel.app
+          <a href="https://revamp-it.ch" target="_blank" rel="noopener noreferrer">
+            revamp-it.ch
           </a>
         </p>
         <p className="mt-6 text-sm italic text-text-muted">

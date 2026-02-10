@@ -244,7 +244,7 @@ export function composeGesuchDokument(foundation: Foundation): ComposedGesuchDok
         { label: 'Standort', value: CORE_FACTS.organization.address },
         { label: 'Team', value: `${CORE_FACTS.organization.team_size} Mitarbeitende` },
         { label: 'Website', value: CORE_FACTS.organization.website },
-        { label: 'Eigenfinanzierung', value: '96%' },
+        { label: 'Geschäftsmodell', value: 'Eigenerwirtschaftet — investitionsbereit' },
         { label: 'Praktikant:innen betreut', value: '100+ seit Gründung' },
         { label: 'Wiedereingliederungsquote', value: '~40%' },
         { label: 'CO₂-Einsparung pro Laptop', value: `${CORE_FACTS.metrics.environmental.co2_per_laptop} kg` },

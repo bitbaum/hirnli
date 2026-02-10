@@ -189,12 +189,12 @@ export const NumberSources: Record<string, Metric> = {
       improvements: [
         'Warenverkauf steigern',
         'Dienstleistungen ausbauen',
-        'Spendenabhängigkeit reduzieren',
+        'Einnahmen diversifizieren (Fördermittel + Earned Income)',
       ],
       target: 70,
       link: '../methodik/index.html#self-financing',
       whyItMatters:
-        'Eigenfinanzierung zeigt Unabhängigkeit von Spenden. >70% = nachhaltig, <40% = gefährlich abhängig.',
+        'Zeigt Anteil eigener Wirtschaftstätigkeit. Historisch ~96% (da nie aktiv Fördermittel gesucht). Diversifizierung durch Fundraising ist der nächste Schritt.',
     },
   },
 

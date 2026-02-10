@@ -60,6 +60,7 @@ export const BUDGET_ITEMS = [
   { label: 'Standort-Mehrkosten', amount: "CHF 102'000" },
   { label: 'Repair Cafe & Hackerspace', amount: "CHF 25'000" },
   { label: 'Weiterbildung & Kurse', amount: "CHF 20'000" },
+  { label: 'GPU-Infrastruktur / Sovereign AI Lab', amount: "CHF 45'000" },
   { label: 'Museum & Hands-on', amount: "CHF 17'000" },
 ];
 

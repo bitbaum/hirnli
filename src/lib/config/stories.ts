@@ -90,13 +90,13 @@ export const CORE_FACTS: CoreFacts = {
     location: 'Zürich',
     address: 'Badenerstrasse 816, 8048 Zürich',
     team_size: 8,
-    website: 'https://revampit.ch',
+    website: 'https://revamp-it.ch',
   },
 
   // These IDs link to number-sources for actual values
   metrics: {
     financial: {
-      self_financing_rate: 'financial_self_financing_2025', // ~96%
+      self_financing_rate: 'financial_self_financing_2025', // historically ~96% (because never fundraised — not because no need)
       monthly_target: 'financial_monthly_avg_2025', // CHF 8-12k
     },
     environmental: {
@@ -128,7 +128,7 @@ export const CORE_FACTS: CoreFacts = {
   // Differentiators
   unique: [
     'Über 20 Jahre Erfahrung',
-    '96% Eigenfinanzierung (nicht spendenabhängig)',
+    'Bewährtes Geschäftsmodell — bereit für Skalierung mit Investitionen',
     'Kombination: Umwelt + Soziales + Digital',
     'Lokal in Zürich verankert',
     'Open-Source-First-Philosophie',
@@ -268,8 +268,8 @@ export const HOW: HowSection = {
     proof_points: [
       { label: 'Gegründet', value: '2003' },
       {
-        label: 'Eigenfinanzierungsgrad',
-        value: '96%',
+        label: 'Geschäftsmodell',
+        value: 'Tragfähig — investitionsbereit',
         metric_id: 'financial_self_financing_2025',
       },
       {
@@ -565,7 +565,7 @@ export const BUDGET_TOTAL = BUDGET_LINES.reduce((sum, l) => sum + l.amount, 0);
 export const BUDGET_EIGENLEISTUNG = {
   label: 'Eigenleistung Revamp-IT',
   description: 'Erlöse aus Geräteverkauf, bestehende Infrastruktur',
-  amount: 54000, // 60% self-financed (matches 96% claim — rest is growth)
+  amount: 54000, // Eigenleistung aus Geräteverkauf und bestehendem Betrieb
 };
 
 // ============================================================================
