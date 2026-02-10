@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { TYPE_LABELS } from '@/lib/config/foundations';
-import { TEMPLATE_TYPES, getTemplateFoundation } from '@/lib/config/gesuch-templates';
+import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
 import ProjektbeschriebSection from '@/components/gesuch/ProjektbeschriebSection';
@@ -19,12 +19,21 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { type } = await params;
-  const label = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
-  if (!label) return { title: 'Vorlage nicht gefunden' };
-  return {
-    title: `Fördergesuch-Vorlage Typ ${label.short} — ${label.long}`,
-    description: `Formelle Gesuch-Vorlage für ${label.long}`,
-  };
+  const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  if (typeLabel) {
+    return {
+      title: `Fördergesuch-Vorlage Typ ${typeLabel.short} — ${typeLabel.long}`,
+      description: `Formelle Gesuch-Vorlage für ${typeLabel.long}`,
+    };
+  }
+  const tplLabel = TEMPLATE_LABELS[type];
+  if (tplLabel) {
+    return {
+      title: `Fördergesuch-Vorlage: ${tplLabel.long} — Revamp-IT`,
+      description: tplLabel.desc,
+    };
+  }
+  return { title: 'Vorlage nicht gefunden' };
 }
 
 export default async function GesuchVorlageDokumentPage({ params }: Props) {
@@ -36,7 +45,11 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
   }
 
   const dok = composeGesuchDokument(foundation);
-  const label = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  const tplLabel = TEMPLATE_LABELS[type];
+  const bannerTitle = typeLabel
+    ? `VORLAGE — Typ ${typeLabel.short}: ${typeLabel.long}`
+    : `VORLAGE — ${tplLabel?.long ?? type}`;
 
   return (
     <div className="gesuch-dokument mx-auto max-w-3xl">
@@ -44,7 +57,7 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
       <div className="mb-8 space-y-3 print:hidden">
         <div className="rounded-lg border-2 border-warning bg-warning-bg p-4 text-center">
           <p className="text-sm font-semibold text-warning">
-            VORLAGE — Typ {label.short}: {label.long}
+            {bannerTitle}
           </p>
           <p className="mt-1 text-xs text-text-light">
             Platzhalterfelder wie <span className="font-mono">[Name der Stiftung]</span> vor dem Versand ersetzen.

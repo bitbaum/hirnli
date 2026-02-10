@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { THEMES, TYPE_LABELS } from '@/lib/config/foundations';
-import { TEMPLATE_TYPES, getTemplateFoundation } from '@/lib/config/gesuch-templates';
+import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import Card from '@/components/ui/Card';
 
@@ -16,12 +16,21 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { type } = await params;
-  const label = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
-  if (!label) return { title: 'Vorlage nicht gefunden' };
-  return {
-    title: `Gesuch-Vorlage Typ ${label.short} — ${label.long}`,
-    description: `Gesuch-Vorlage für ${label.long} (Robert Schmuki Typ ${label.short})`,
-  };
+  const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  if (typeLabel) {
+    return {
+      title: `Gesuch-Vorlage Typ ${typeLabel.short} — ${typeLabel.long}`,
+      description: `Gesuch-Vorlage für ${typeLabel.long} (Robert Schmuki Typ ${typeLabel.short})`,
+    };
+  }
+  const tplLabel = TEMPLATE_LABELS[type];
+  if (tplLabel) {
+    return {
+      title: `Gesuch-Vorlage: ${tplLabel.long} — Revamp-IT`,
+      description: tplLabel.desc,
+    };
+  }
+  return { title: 'Vorlage nicht gefunden' };
 }
 
 export default async function GesuchVorlagePage({ params }: Props) {
@@ -33,16 +42,25 @@ export default async function GesuchVorlagePage({ params }: Props) {
   }
 
   const gesuch = composeGesuch(foundation);
-  const label = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  const tplLabel = TEMPLATE_LABELS[type];
   const primaryThemeId = foundation.themes[0];
   const primaryColor = primaryThemeId ? THEMES[primaryThemeId]?.color ?? '#3498DB' : '#3498DB';
+
+  const bannerTitle = typeLabel
+    ? `VORLAGE — Typ ${typeLabel.short}: ${typeLabel.long}`
+    : `VORLAGE — ${tplLabel?.long ?? type}`;
+  const heroSubtitle = typeLabel
+    ? `Partnerschaftsvorschlag — Vorlage Typ ${typeLabel.short}`
+    : `Partnerschaftsvorschlag — ${tplLabel?.long ?? type}`;
+  const heroText = typeLabel?.approach ?? tplLabel?.desc ?? '';
 
   return (
     <div className="gesuch-page">
       {/* VORLAGE banner */}
       <div className="mb-4 rounded-lg border-2 border-warning bg-warning-bg p-4 text-center print:hidden">
         <p className="text-sm font-semibold text-warning">
-          VORLAGE — Typ {label.short}: {label.long}
+          {bannerTitle}
         </p>
         <p className="mt-1 text-xs text-text-light">
           Dies ist eine generische Vorlage. Felder wie <span className="font-mono">[Name der Stiftung]</span> müssen
@@ -59,13 +77,13 @@ export default async function GesuchVorlagePage({ params }: Props) {
       >
         <div className="mx-auto max-w-4xl">
           <p className="mb-2 text-sm font-medium uppercase tracking-wider text-white/70">
-            Partnerschaftsvorschlag — Vorlage Typ {label.short}
+            {heroSubtitle}
           </p>
           <h1 className="mb-4 text-4xl font-bold">
             Revamp-IT × {gesuch.foundation.name}
           </h1>
           <p className="mb-6 max-w-2xl text-lg text-white/90">
-            {label.approach}
+            {heroText}
           </p>
           <div className="flex flex-wrap gap-2">
             {gesuch.themes.all.map((theme) => (
