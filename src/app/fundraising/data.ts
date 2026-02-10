@@ -68,13 +68,15 @@ export const BUDGET_SUMMARY = {
   selfFinancingPct: Math.round((BUDGET_EIGENLEISTUNG.amount / BUDGET_TOTAL) * 100),
 };
 
+// Packages derived from BUDGET_MODULES — Hauptpartner covers full Förderbedarf
 export const PACKAGES = [
-  { name: 'Hauptpartner', amount: "CHF 185'000", description: 'Der Hub existiert', featured: true },
-  { name: 'Hub-Einrichtung', amount: "CHF 130'000", description: 'Umzug & Aufbau', featured: false },
-  { name: 'Bildungsprogramm', amount: "CHF 108'000", description: '1 Jahr Kurse & Workshops', featured: false },
-  { name: 'Integration', amount: "CHF 108'000", description: '1 Jahr Praktikumsbetreuung', featured: false },
-  { name: 'Jahrespartner', amount: "CHF 55'000", description: '1 Jahr Standortkosten', featured: false },
-  { name: 'Repair Cafe', amount: "CHF 15'000", description: 'Community-Reparaturwerkstatt', featured: false },
+  { name: 'Hauptpartner', amount: formatCHF(BUDGET_SUMMARY.foerderbedarf), description: 'Der Hub existiert', featured: true },
+  ...BUDGET_MODULES.map((m) => ({
+    name: m.label,
+    amount: formatCHF(m.amount),
+    description: m.description,
+    featured: false,
+  })),
 ];
 
 export const RESOURCES = [
