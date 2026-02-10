@@ -2,99 +2,105 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
-import { QUICK_LINKS, NEXTCLOUD_FILES } from './data';
+import { GESUCH_SECTIONS, ONLINE_REPORTS, NEXTCLOUD_FILES } from './data';
 
 export const metadata: Metadata = {
-  title: 'Dokumente & Downloads',
-  description: 'Online-Seiten und Downloads für Funder, Team und Partner',
+  title: 'Dokumente',
+  description: 'Gesuche, Berichte und Downloads — alles an einem Ort',
 };
 
 export default function DokumentePage() {
   return (
     <>
       <PageHeader
-        title="Dokumente & Downloads"
-        subtitle="Alles an einem Ort — online lesen oder herunterladen"
+        title="Dokumente"
+        subtitle="Gesuche, Berichte und Downloads — alles an einem Ort"
       />
 
-      {/* Quick Access */}
-      <Card className="mb-6 border-emerald-500 bg-emerald-50">
-        <h2 className="mb-4 text-lg font-semibold text-emerald-800">
-          Wichtigste Seiten
-        </h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {QUICK_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-lg bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
-            >
-              <span className="block font-semibold text-emerald-700">{link.label}</span>
-              <span className="text-sm text-text-muted">{link.description}</span>
-            </Link>
+      {/* 1. Gesuche & Vorlagen — the crown jewels */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Gesuche & Vorlagen</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {GESUCH_SECTIONS.map((section) => (
+            <Card key={section.title}>
+              <div className="flex items-start justify-between">
+                <h3 className="text-base font-semibold">{section.title}</h3>
+                <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                  {section.stats}
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-text-muted">{section.description}</p>
+              <Link
+                href={section.href}
+                className="mt-4 inline-block rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+              >
+                {section.linkLabel}
+              </Link>
+            </Card>
           ))}
         </div>
-      </Card>
+        <p className="mt-3 text-xs text-text-muted">
+          Jedes Gesuch folgt dem WHY / HOW / WHAT / Budget-Aufbau nach Robert Schmuki.
+          Stiftungs-Gesuche sind personalisiert nach Themen und Stiftungstyp.
+        </p>
+      </section>
 
-      {/* Print as PDF hint */}
-      <Card className="mb-6 bg-sky-50">
-        <h2 className="mb-3 text-lg font-semibold text-sky-800">
-          Seiten als PDF speichern
-        </h2>
+      {/* 2. Online-Berichte */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Online-Berichte</h2>
         <p className="mb-4 text-sm text-text-muted">
-          Alle Online-Berichte können direkt als PDF gedruckt werden (Strg/Cmd + P):
+          Alle Berichte sind Webseiten mit Live-Daten. Als PDF speichern: Strg/Cmd + P.
         </p>
-        <div className="flex flex-wrap gap-3">
-          {[
-            { href: '/wirkung', label: 'Wirkungsbericht' },
-            { href: '/fundraising', label: 'Fundraising-Pitch' },
-            { href: '/finanzen', label: 'Finanzübersicht' },
-            { href: '/strategie', label: 'Strategie' },
-          ].map((link) => (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {ONLINE_REPORTS.map((report) => (
             <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-md border border-border bg-white px-4 py-2 text-sm transition-colors hover:bg-primary hover:text-white"
+              key={report.href}
+              href={report.href}
+              className="rounded-lg border border-border bg-white p-4 transition-shadow hover:shadow-md"
             >
-              {link.label}
+              <span className="block font-semibold text-primary">{report.label}</span>
+              <span className="text-xs text-text-muted">{report.description}</span>
             </Link>
           ))}
         </div>
-      </Card>
+      </section>
 
-      {/* Nextcloud Downloads */}
-      <Card className="border-orange-300 bg-orange-50">
-        <h2 className="mb-3 text-lg font-semibold text-orange-800">
-          Downloads (Nextcloud)
-        </h2>
-        <p className="mb-4 text-sm text-orange-900">
-          Pitch Deck, Gesuch-Vorlagen, Excel-Dateien und PDFs:
-        </p>
-        <div className="mb-4 overflow-x-auto rounded-lg bg-white p-4">
-          <table className="w-full text-sm">
-            <tbody>
-              {NEXTCLOUD_FILES.map((file) => (
-                <tr key={file.name} className="border-b border-orange-200 last:border-0">
-                  <td className="py-2 font-semibold">{file.name}</td>
-                  <td className="py-2 text-text-muted">
-                    <code className="text-xs">{file.path}</code>
-                  </td>
-                  <td className="py-2 text-orange-800">{file.format}</td>
+      {/* 3. Downloads */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Downloads</h2>
+        <Card>
+          <div className="mb-4 overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border text-left text-xs text-text-muted">
+                  <th className="pb-2">Dokument</th>
+                  <th className="pb-2">Pfad</th>
+                  <th className="pb-2">Format</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <a
-          href="https://cloud.revamp-it.ch"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg bg-orange-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-700"
-        >
-          Nextcloud öffnen
-        </a>
-        <span className="ml-2 text-xs text-orange-800">Pfad: 01_Management/</span>
-      </Card>
+              </thead>
+              <tbody>
+                {NEXTCLOUD_FILES.map((file) => (
+                  <tr key={file.name} className="border-b border-border last:border-0">
+                    <td className="py-2 font-semibold">{file.name}</td>
+                    <td className="py-2 text-text-muted">
+                      <code className="text-xs">{file.path}</code>
+                    </td>
+                    <td className="py-2">{file.format}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <a
+            href="https://cloud.revamp-it.ch"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+          >
+            Nextcloud öffnen
+          </a>
+        </Card>
+      </section>
     </>
   );
 }
