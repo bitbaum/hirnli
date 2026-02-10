@@ -1,34 +1,35 @@
 export interface TeamMember {
   id: string;
   name: string;
-  role: string;
-  department: 'Management' | 'Tech' | 'Operations';
+  fachgebiete: string[];
+  bereich: 'Leitung' | 'Technik' | 'Betrieb';
   capacity?: string;
 }
 
 export const TEAM_MEMBERS: TeamMember[] = [
-  // Management
-  { id: 'PER-0001', name: 'Andreas', role: 'Founder & General Manager', department: 'Management' },
-  { id: 'PER-0002', name: 'Daniel', role: 'Operations & Business Lead', department: 'Management' },
-  { id: 'PER-0003', name: 'Veronica', role: 'HR & Social Responsibility', department: 'Management' },
-  // Tech
-  { id: 'PER-0004', name: 'Cem', role: 'Kivitendo & Engineering', department: 'Tech' },
-  { id: 'PER-0005', name: 'Georgie', role: 'Systems Development & Strategy Support', department: 'Tech', capacity: '60%' },
-  { id: 'PER-0006', name: 'Michael', role: 'Engineer', department: 'Tech' },
-  { id: 'PER-0007', name: 'Mike', role: 'Open Source & Linux Specialist', department: 'Tech' },
-  { id: 'PER-0008', name: 'Reza', role: 'Senior Repair Technician', department: 'Tech' },
-  { id: 'PER-0009', name: 'Romeo', role: 'Repair Technician', department: 'Tech' },
-  { id: 'PER-0010', name: 'Sili', role: 'Kivitendo & Engineering', department: 'Tech' },
-  { id: 'PER-0011', name: 'Simeon', role: 'Engineer', department: 'Tech' },
-  { id: 'PER-0012', name: 'Winchester', role: '3D Modeling Specialist', department: 'Tech' },
-  // Operations
-  { id: 'PER-0013', name: 'Heinz', role: 'Device Intake & Support', department: 'Operations' },
+  // Leitung
+  { id: 'PER-0001', name: 'Andreas', fachgebiete: ['Geschäftsführung', 'Strategie'], bereich: 'Leitung' },
+  { id: 'PER-0002', name: 'Daniel', fachgebiete: ['Elektrotechnik', 'Software Engineering', 'Betrieb'], bereich: 'Leitung' },
+  { id: 'PER-0003', name: 'Veronica', fachgebiete: ['Sozialpädagogik', 'HR', 'Fundraising'], bereich: 'Leitung' },
+  // Technik
+  { id: 'PER-0004', name: 'Cem', fachgebiete: ['Software Engineering', 'Kivitendo'], bereich: 'Technik' },
+  { id: 'PER-0005', name: 'Georgie', fachgebiete: ['Software Engineering', 'Fundraising', 'Betrieb', 'Systementwicklung'], bereich: 'Technik', capacity: '60%' },
+  { id: 'PER-0006', name: 'Michael', fachgebiete: ['Technik'], bereich: 'Technik' }, // Vero ergänzt
+  { id: 'PER-0007', name: 'Mike', fachgebiete: ['Open Source', 'Linux'], bereich: 'Technik' },
+  { id: 'PER-0008', name: 'Reza', fachgebiete: ['Reparatur', 'Technik'], bereich: 'Technik' },
+  { id: 'PER-0009', name: 'Romeo', fachgebiete: ['Reparatur'], bereich: 'Technik' },
+  { id: 'PER-0010', name: 'Sili', fachgebiete: ['Reparatur', 'Software Engineering', 'Kivitendo'], bereich: 'Technik' },
+  { id: 'PER-0011', name: 'Simeon', fachgebiete: ['Technik'], bereich: 'Technik' }, // Vero ergänzt
+  { id: 'PER-0012', name: 'Winchester', fachgebiete: ['3D-Modellierung'], bereich: 'Technik' }, // Vero ergänzt
+  // Betrieb
+  { id: 'PER-0013', name: 'Heinz', fachgebiete: ['Betrieb', 'Geräte-Annahme'], bereich: 'Betrieb' },
+  { id: 'PER-0014', name: 'Bruno', fachgebiete: ['Betrieb'], bereich: 'Betrieb' }, // Vero ergänzt
 ];
 
 export const DEPARTMENTS = [
-  { name: 'Management', icon: '👔', color: 'from-violet-500 to-purple-500', borderColor: 'border-l-violet-500' },
-  { name: 'Tech', icon: '🔧', color: 'from-blue-500 to-indigo-500', borderColor: 'border-l-blue-500' },
-  { name: 'Operations', icon: '📦', color: 'from-emerald-500 to-green-600', borderColor: 'border-l-emerald-500' },
+  { name: 'Leitung', icon: '👔', color: 'from-violet-500 to-purple-500', borderColor: 'border-l-violet-500' },
+  { name: 'Technik', icon: '🔧', color: 'from-blue-500 to-indigo-500', borderColor: 'border-l-blue-500' },
+  { name: 'Betrieb', icon: '📦', color: 'from-emerald-500 to-green-600', borderColor: 'border-l-emerald-500' },
 ] as const;
 
 export const LOCATIONS = [
@@ -40,14 +41,14 @@ export const MISSING_DATA = [
   { title: 'Kapazität & FTE', description: 'Arbeitspensum und Vollzeitäquivalente werden nicht systematisch erfasst.', detail: 'Nur Georgie (60%) hat einen Wert in HR_Roster.csv.' },
   { title: 'Auslastung & Bottlenecks', description: 'Es gibt keine Daten zur aktuellen Auslastung oder zu Engpässen im Team.' },
   { title: 'Praktikanten & Freiwillige', description: 'Das erweiterte Team (Arbeitsintegration, Freiwillige) wird nicht in HR_Roster.csv erfasst.' },
-  { title: 'Skills & Kompetenzen', description: 'Die Spalte "skills" in HR_Roster.csv ist leer.' },
+  { title: 'Fachgebiete unvollständig', description: 'Einige Fachgebiete müssen noch durch HR (Veronica) ergänzt werden.' },
 ] as const;
 
 export const HR_COLUMNS = [
   { field: 'id', description: 'Eindeutige ID (PER-0001, etc.)' },
   { field: 'name', description: 'Vorname' },
-  { field: 'role', description: 'Funktion/Titel' },
-  { field: 'department', description: 'Abteilung' },
+  { field: 'fachgebiete', description: 'Fachgebiete / Kompetenzbereiche' },
+  { field: 'bereich', description: 'Bereich (Leitung, Technik, Betrieb)' },
   { field: 'capacity_pct', description: 'Arbeitspensum (meist leer)' },
   { field: 'skills', description: 'Kompetenzen (leer)' },
   { field: 'cost_rate_chf_per_hour', description: 'Stundensatz (leer)' },

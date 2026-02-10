@@ -90,7 +90,7 @@ export const CORE_FACTS: CoreFacts = {
     founded: 2003, // Note: Some docs say 2009 - needs verification
     location: 'Zürich',
     address: 'Badenerstrasse 816, 8048 Zürich',
-    team_size: 8,
+    team_size: 3, // Festangestellte (Andreas, Daniel, Veronica)
     website: 'https://revamp-it.ch',
   },
 
@@ -129,7 +129,7 @@ export const CORE_FACTS: CoreFacts = {
   // Differentiators
   unique: [
     'Über 20 Jahre Erfahrung',
-    'Bewährtes Geschäftsmodell — bereit für Skalierung mit Investitionen',
+    'Gemeinnütziger Verein — alle Einnahmen fliessen in die Mission',
     'Kombination: Umwelt + Soziales + Digital',
     'Lokal in Zürich verankert',
     'Open-Source-First-Philosophie',
@@ -265,12 +265,12 @@ export const HOW: HowSection = {
   // Core competencies (same for all foundations, different emphasis)
   track_record: {
     headline: 'Über 20 Jahre Erfahrung',
-    text: `Seit 2003 repariert, refurbished und verkauft Revamp-IT Computer in Zürich. Was als kleine Werkstatt begann, ist heute ein etablierter Betrieb mit 8 Mitarbeitenden und einem klaren Auftrag: IT-Geräte länger nutzen, Menschen eine Chance geben.`,
+    text: `Seit 2003 repariert, refurbished und verkauft Revamp-IT Computer in Zürich. Was als kleine Werkstatt begann, ist heute ein etablierter Betrieb mit 3 Festangestellten, unterstützt durch Freelancer und 8-10 Integrationsteilnehmende — mit einem klaren Auftrag: IT-Geräte länger nutzen, Menschen eine Chance geben.`,
     proof_points: [
       { label: 'Gegründet', value: '2003' },
       {
-        label: 'Geschäftsmodell',
-        value: 'Tragfähig — investitionsbereit',
+        label: 'Gemeinnützigkeit',
+        value: 'Alle Einnahmen fliessen in die Mission',
         metric_id: 'financial_self_financing_2025',
       },
       {
@@ -278,7 +278,7 @@ export const HOW: HowSection = {
         value: '100+',
         metric_id: 'praktikanten_100',
       },
-      { label: 'Team', value: '8 Mitarbeitende' },
+      { label: 'Kernteam', value: '3 Festangestellte + Freelancer' },
     ],
   },
 
@@ -376,7 +376,7 @@ export const PROJECTS: Record<string, Project> = {
       'Reuse-Rate von 75% — nur was wirklich nicht mehr geht, wird recycelt',
     ],
     budget_category: 'Refurbishing-Betrieb',
-    themes: ['klima', 'kreislaufwirtschaft'],
+    themes: ['klima', 'kreislaufwirtschaft', 'digital'],
   },
 
   // Project 2: Spare parts recovery
@@ -582,13 +582,13 @@ export const BUDGET_MODULES: BudgetModule[] = [
 
   // Jährliche Kosten
   {
-    label: 'Programmleitung (2 Stellen)',
-    description: 'Zwei Programmleiter:innen für Arbeitsintegration und Bildungsprogramm — das Herzstück unserer Wirkung',
+    label: 'Bildungsleitung (2 Stellen)',
+    description: 'Zwei Bildungsleiter:innen für Hardware- und Software-Ausbildung — das Herzstück unserer Wirkung',
     amount: 216000,
     type: 'jaehrlich',
     items: [
-      { label: 'Leitung Arbeitsintegration', amount: 108000 },
-      { label: 'Leitung Bildungsprogramm', amount: 108000 },
+      { label: 'Bildungsleiter:in Hardware & Arbeitsintegration', amount: 108000 },
+      { label: 'Bildungsleiter:in Software & Digitale Kompetenz', amount: 108000 },
     ],
   },
   {

@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   description: 'Team-Struktur, Kapazität und Standorte von Revamp-IT',
 };
 
-function getMembersByDepartment(department: string) {
-  return TEAM_MEMBERS.filter((m) => m.department === department);
+function getMembersByBereich(bereich: string) {
+  return TEAM_MEMBERS.filter((m) => m.bereich === bereich);
 }
 
 export default function TeamPage() {
@@ -26,8 +26,8 @@ export default function TeamPage() {
 
       {/* Key metrics */}
       <MetricGrid columns={3} className="mb-8">
-        <MetricCard label="Team-Mitglieder" value="13" subtitle="in HR_Roster.csv" sourceType="live" />
-        <MetricCard label="Abteilungen" value="3" subtitle="Management, Tech, Operations" sourceType="live" />
+        <MetricCard label="Team-Mitglieder" value={String(TEAM_MEMBERS.length)} subtitle="in HR_Roster.csv" sourceType="live" />
+        <MetricCard label="Bereiche" value="3" subtitle="Leitung, Technik, Betrieb" sourceType="live" />
         <MetricCard label="FTE Kapazität" value="?" subtitle="Nicht erfasst" sourceType="none" />
       </MetricGrid>
 
@@ -39,14 +39,14 @@ export default function TeamPage() {
             <div>
               <strong>Kernaussage:</strong>{' '}
               <span className="text-sm text-text-light">
-                13 Teammitglieder erfasst, aber keine Kapazitäts- oder FTE-Daten vorhanden.
+                {TEAM_MEMBERS.length} Teammitglieder erfasst, aber keine Kapazitäts- oder FTE-Daten vorhanden.
               </span>
             </div>
           </div>
           <ul className="mt-3 space-y-1 pl-8 text-sm text-text-light">
             <li className="flex items-center gap-2">
               <Badge variant="success">+</Badge>
-              Vollständige Namensliste mit Rollen und Abteilungen
+              Vollständige Namensliste mit Fachgebieten und Bereichen
             </li>
             <li className="flex items-center gap-2">
               <Badge variant="warning">!</Badge>
@@ -69,7 +69,7 @@ export default function TeamPage() {
         <div className="rounded-lg border-l-4 border-l-amber-400 bg-amber-50 p-4">
           <strong>Hinweis zur Datenqualität:</strong>
           <p className="mt-1 text-sm text-text-light">
-            Die HR_Roster.csv enthält nur Namen, Rollen und Abteilungen.
+            Die HR_Roster.csv enthält nur Namen, Fachgebiete und Bereiche.
             Kapazitäten, FTE-Werte und Auslastung werden aktuell nicht systematisch erfasst.
           </p>
         </div>
@@ -79,7 +79,7 @@ export default function TeamPage() {
       <section className="mb-8">
         <h2 className="mb-6 text-xl font-semibold text-grey-dark">Team-Mitglieder</h2>
         {DEPARTMENTS.map((dept) => {
-          const members = getMembersByDepartment(dept.name);
+          const members = getMembersByBereich(dept.name);
           return (
             <div key={dept.name} className="mb-8">
               <div className="mb-4 flex items-center gap-3 border-b-2 border-primary pb-2">
@@ -96,10 +96,10 @@ export default function TeamPage() {
                       {member.name[0]}
                     </div>
                     <h4 className="text-base font-semibold">{member.name}</h4>
-                    <p className="text-sm text-text-muted">{member.role}</p>
+                    <p className="text-sm text-text-muted">{member.fachgebiete.join(', ')}</p>
                     <div className="mt-2">
                       <Badge variant="default">
-                        {member.department}{member.capacity ? ` · ${member.capacity}` : ''}
+                        {member.bereich}{member.capacity ? ` · ${member.capacity}` : ''}
                       </Badge>
                     </div>
                   </Card>
@@ -231,7 +231,7 @@ export default function TeamPage() {
         <div className="rounded-lg border-l-4 border-l-emerald-500 bg-emerald-50 p-4">
           <strong>Datenquelle:</strong> HR_Roster.csv
           <p className="mt-1 text-sm text-text-muted">
-            Alle Namen und Rollen auf dieser Seite stammen direkt aus HR_Roster.csv.
+            Alle Namen und Fachgebiete auf dieser Seite stammen direkt aus HR_Roster.csv.
             Keine Schätzungen, keine Placeholder-Daten.
           </p>
         </div>

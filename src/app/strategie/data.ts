@@ -22,7 +22,7 @@ export const VISION_TARGETS = [
   { value: "10'000+", label: 'Geräte jährlich vor Elektroschrott gerettet' },
   { value: 'Schweizweit', label: 'Netzwerk von Repair-Hubs aufbauen' },
   { value: '500+', label: 'Menschen pro Jahr in digitalen Skills ausbilden' },
-  { value: '100%', label: 'Finanzielle Nachhaltigkeit durch Social Business' },
+  { value: '100%', label: 'Aller Einnahmen fliessen zurück in die Mission' },
   { value: '#1', label: 'Führende Organisation für nachhaltige IT in der Schweiz' },
   { value: 'Community Tech Space', label: 'Museum, Werkstatt & Treffpunkt' },
 ] as const;
