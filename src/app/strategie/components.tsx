@@ -31,8 +31,8 @@ export function GeschichteSection() {
               <span className="mb-3 text-4xl">🏢</span>
               <h3 className="text-base font-semibold">Heute</h3>
               <p className="mt-2 text-left text-sm text-text-light">
-                <strong>Laden:</strong> Birmensdorferstrasse 379, Zürich<br />
-                <strong>Lager:</strong> Badenerstrasse 816<br /><br />
+                <strong>Laden:</strong> Birmensdorferstrasse 379, 8055 Zürich<br />
+                <strong>Lager:</strong> Badenerstrasse 816, 8048 Zürich<br /><br />
                 Werkstatt, Verkauf und Community-Treffpunkt unter einem Dach.
               </p>
             </div>

@@ -1,19 +1,25 @@
+import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { composeGesuch } from '@/lib/domain/gesuch-composer';
+import { TEMPLATE_TYPES } from '@/lib/config/gesuch-templates';
+
 // ── Gesuche & Vorlagen ──────────────────────────────────────────────────────
+
+const gesuchReadyCount = STIFTUNGEN_DATA.filter((f) => composeGesuch(f).ready).length;
 
 export const GESUCH_SECTIONS = [
   {
     title: 'Stiftungs-Gesuche',
-    description: 'Personalisierte Gesuche für 99 recherchierte Stiftungen — jeweils mit interaktiver Übersicht und druckfertigem 5-Seiten-Dokument.',
+    description: `Personalisierte Gesuche für ${STIFTUNGEN_DATA.length} recherchierte Stiftungen — jeweils mit interaktiver Übersicht und druckfertigem 5-Seiten-Dokument.`,
     href: '/fundraising/stiftungen',
     linkLabel: 'Alle Stiftungen anzeigen',
-    stats: '92 bereit',
+    stats: `${gesuchReadyCount} bereit`,
   },
   {
-    title: 'Gesuch-Vorlagen nach Typ',
-    description: 'Generische Vorlagen für die 5 Stiftungstypen (A/B/C/D/Netzwerk) nach Robert Schmuki — mit Platzhaltern zum Anpassen.',
+    title: 'Gesuch-Vorlagen',
+    description: `${TEMPLATE_TYPES.length} generische Vorlagen — nach Stiftungstyp (A/B/C/D/Netzwerk), Schwerpunkt (Klima, Sozial, Bildung, Digital) und eine universelle Vorlage.`,
     href: '/fundraising/gesuch-vorlagen',
     linkLabel: 'Vorlagen öffnen',
-    stats: '5 Typen',
+    stats: `${TEMPLATE_TYPES.length} Vorlagen`,
   },
 ];
 

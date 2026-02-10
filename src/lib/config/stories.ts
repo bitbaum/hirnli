@@ -87,7 +87,7 @@ export const CORE_FACTS: CoreFacts = {
   organization: {
     name: 'Revamp-IT',
     legalForm: 'Verein (gemeinnützig)',
-    founded: 2003, // Note: Some docs say 2009 - needs verification
+    founded: 2003, // Verein gegründet Dezember 2003; Integrationsprogramm seit 2009
     location: 'Zürich',
     address: 'Badenerstrasse 816, 8048 Zürich',
     team_size: 3, // Festangestellte (Andreas, Daniel, Veronica)
