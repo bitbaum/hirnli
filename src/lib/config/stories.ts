@@ -65,6 +65,7 @@ interface HowSection {
   social: CompetencySection & { partners: string[] };
   environmental: CompetencySection;
   digital: CompetencySection;
+  bildung: CompetencySection;
 }
 
 export type ThemeKey = 'klima' | 'kreislaufwirtschaft' | 'sozial' | 'bildung' | 'digital';
@@ -335,6 +336,18 @@ export const HOW: HowSection = {
       'Wissenstransfer und Schulungen',
     ],
   },
+
+  // Education / digital skills competencies
+  bildung: {
+    headline: 'Bildungskompetenz',
+    capabilities: [
+      'Konzeption und Durchführung praxisnaher IT-Workshops',
+      'Erfahrung mit heterogenen Lerngruppen (Anfänger bis Fortgeschrittene)',
+      'Niederschwellige Vermittlung: Lernen am echten Gerät, nicht am Simulator',
+      'Kombination von Hardware-Reparatur-Praxis und Software-Schulung',
+      'Bereitstellung von Übungsgeräten aus eigenem Bestand',
+    ],
+  },
 };
 
 // ============================================================================
@@ -343,24 +356,24 @@ export const HOW: HowSection = {
 export const PROJECTS: Record<string, Project> = {
   // Project 1: Device repair and refurbishment
   device_repair: {
-    title: 'Ressourcenschonung durch Reparatur',
-    subtitle: 'Verlängerung der Lebensdauer von IT-Geräten',
-    summary: `Revamp-IT repariert und refurbished IT-Geräte, die sonst im Müll landen würden. Durch professionelle Aufbereitung und Linux-Installation werden "alte" Geräte zu vollwertigen Arbeitsgeräten mit 5+ Jahren zusätzlicher Lebensdauer.`,
+    title: 'Ressourcenschonung durch Reparatur und Refurbishing',
+    subtitle: 'Verlängerung der Lebensdauer von IT-Geräten um 5+ Jahre',
+    summary: `Jedes Jahr landen in der Schweiz Tausende funktionsfähige Laptops und PCs im Elektroschrott — oft nur, weil ein Windows-Update sie „zu langsam" macht. Revamp-IT gibt diesen Geräten ein zweites Leben: Wir diagnostizieren auf Komponentenebene, tauschen defekte Teile, installieren Linux Mint oder Ubuntu und liefern vollwertige Arbeitsgeräte. Ein ThinkPad von 2017 läuft mit Linux einwandfrei als Office-Rechner, Schulcomputer oder Heimarbeitsplatz — noch mindestens 5 Jahre lang.`,
     goals: [
-      'X Geräte pro Jahr refurbishen (statt Zahl einsetzen)',
-      'CO₂-Einsparung von X Tonnen (berechnet aus Gerätezahl)',
-      'Verkauf zu sozialverträglichen Preisen',
+      'Mindestens 150 Geräte pro Jahr aufbereiten und in Umlauf bringen',
+      'CO₂-Einsparung von über 40 Tonnen pro Jahr durch verlängerte Gerätenutzung',
+      'Solidarisches Preismodell: bezahlbare IT für alle Einkommensschichten',
     ],
     activities: [
-      'Annahme von Geräte-Spenden von Unternehmen und Privatpersonen',
-      'Diagnose, Reparatur und Aufbereitung',
-      'Linux-Installation und Qualitätskontrolle',
-      'Verkauf über Laden und Online-Shop',
+      'Annahme von Geräte-Spenden von Unternehmen (Flottengeräte) und Privatpersonen',
+      'Hardware-Diagnose auf Komponentenebene: RAM, SSD, Akku, Display, Mainboard',
+      'Linux-Installation (Mint, Ubuntu), Konfiguration, Qualitätskontrolle',
+      'Verkauf über Laden an der Badenerstrasse und Online-Shop',
     ],
     outcomes: [
-      'Reduzierter Elektroschrott',
-      'CO₂-Einsparung durch verlängerte Nutzung',
-      'Zugang zu günstiger IT für einkommensschwache Haushalte',
+      'Jedes aufbereitete Gerät spart ~285 kg CO₂ gegenüber einem Neukauf',
+      'Einkommensschwache Haushalte, Schulen und Vereine erhalten bezahlbare IT',
+      'Reuse-Rate von 75% — nur was wirklich nicht mehr geht, wird recycelt',
     ],
     budget_category: 'Refurbishing-Betrieb',
     themes: ['klima', 'kreislaufwirtschaft'],
@@ -368,24 +381,24 @@ export const PROJECTS: Record<string, Project> = {
 
   // Project 2: Spare parts recovery
   spare_parts: {
-    title: 'Ersatzteilgewinnung für Reparaturen',
-    subtitle: 'Kreislaufwirtschaft in der Praxis',
-    summary: `Viele Reparaturen scheitern an fehlenden Ersatzteilen - Hersteller liefern nicht mehr. Revamp-IT gewinnt Ersatzteile aus nicht mehr reparierbaren Geräten und ermöglicht so Reparaturen, die sonst unmöglich wären.`,
+    title: 'Ersatzteilgewinnung und Reparatur-Infrastruktur',
+    subtitle: 'Kreislaufwirtschaft in der Praxis — nichts geht verloren',
+    summary: `Wer ein 5 Jahre altes Laptop reparieren will, findet beim Hersteller oft keine Ersatzteile mehr. Revamp-IT löst dieses Problem: Aus Geräten, die wirklich nicht mehr zu retten sind, gewinnen wir Displays, Tastaturen, RAM-Module, SSDs und Akkus. Diese Teile ermöglichen Reparaturen, die sonst unmöglich wären. So schliesst sich der Kreislauf — was bei einem Gerät nicht mehr funktioniert, gibt einem anderen neues Leben.`,
     goals: [
-      'Ersatzteilbestand für gängige Laptop-Modelle aufbauen',
-      'Reparaturquote erhöhen',
-      'Dokumentation und Katalogisierung',
+      'Systematischer Ersatzteilbestand für die gängigsten 20 Laptop-Modelle',
+      'Reparaturquote auf über 80% der eingehenden Geräte steigern',
+      'Dokumentation der Reparierbarkeit nach Modell und Hersteller',
     ],
     activities: [
-      'Systematische Demontage defekter Geräte',
-      'Prüfung und Katalogisierung von Ersatzteilen',
-      'Lagerung und Bestandsmanagement',
-      'Einsatz bei eigenen und externen Reparaturen',
+      'Fachgerechte Demontage nicht reparierbarer Geräte',
+      'Funktionsprüfung, Katalogisierung und Einlagerung gewonnener Teile',
+      'Einsatz bei eigenen Reparaturen und für externe Reparaturaufträge',
+      'Nicht verwertbare Reste gehen an SWICO-Partner zum fachgerechten Recycling',
     ],
     outcomes: [
-      'Mehr erfolgreiche Reparaturen',
-      'Weniger Geräte müssen entsorgt werden',
-      'Wissensaufbau über Reparierbarkeit verschiedener Modelle',
+      'Höhere Reparaturquote — mehr Geräte werden gerettet statt entsorgt',
+      'Aufbau einer einzigartigen Wissensbasis zur Reparierbarkeit von IT-Geräten',
+      'Reduktion des Materialverbrauchs durch maximale Wiederverwendung',
     ],
     budget_category: 'Ersatzteil-Programm',
     themes: ['kreislaufwirtschaft', 'klima'],
@@ -394,24 +407,24 @@ export const PROJECTS: Record<string, Project> = {
   // Project 3: Work integration program
   work_integration: {
     title: 'Arbeitsintegration durch IT-Praktika',
-    subtitle: 'Praxiserfahrung für den Wiedereinstieg',
-    summary: `Menschen, die es auf dem Arbeitsmarkt schwer haben, erhalten bei Revamp-IT Praktikumsplätze. Sie arbeiten an echten Projekten, lernen IT-Skills und bauen ihr Selbstvertrauen auf.`,
+    subtitle: 'Echte Arbeit, echte Verantwortung, echte Perspektiven',
+    summary: `Seit über 20 Jahren bietet Revamp-IT Praktikumsplätze für Menschen, die auf dem regulären Arbeitsmarkt keine Chance bekommen: Langzeitarbeitslose, Menschen mit Migrationshintergrund, Personen nach psychischen Krisen. Sie kommen über RAV, IV-Stellen oder die Sozialen Einrichtungen der Stadt Zürich zu uns. Bei Revamp-IT arbeiten sie nicht an Simulationen, sondern an echten Geräten für echte Kunden — von der Hardware-Diagnose über die Reparatur bis zur Linux-Installation. Über 100 Praktikant:innen haben diesen Weg bereits gemacht, rund 40% haben danach eine Festanstellung oder Ausbildung gefunden.`,
     goals: [
-      'X Praktikumsplätze pro Jahr anbieten',
-      'Erfolgsquote von X% bei der Wiedereingliederung',
-      'Aufbau von IT-Grundkompetenzen bei allen Teilnehmenden',
+      '8-10 Praktikumsplätze gleichzeitig, betreut durch sozialpädagogische Fachperson',
+      'Wiedereingliederungsquote von ~40% in Festanstellung oder Ausbildung halten',
+      'Aufbau marktrelevanter IT-Kompetenzen bei allen Teilnehmenden',
     ],
     activities: [
-      'Sozialpädagogische Begleitung',
-      'Strukturierte Einarbeitung in IT-Tätigkeiten',
-      'Regelmässige Standortgespräche',
-      'Unterstützung bei der Stellensuche',
+      'Individuelle sozialpädagogische Begleitung mit regelmässigen Standortgesprächen',
+      'Strukturierte Einarbeitung: Hardware-Diagnose, Reparatur, Linux, Kundenkontakt',
+      'Zusammenarbeit mit RAV, IV-Stellen und Sozialen Einrichtungen der Stadt Zürich',
+      'Unterstützung bei Bewerbungen, Referenzen und Vermittlung an Arbeitgeber',
     ],
     outcomes: [
-      'Berufserfahrung und Referenzen',
-      'IT-Skills für den Arbeitsmarkt',
-      'Gestärktes Selbstvertrauen',
-      'Vermittlung in Festanstellung oder Ausbildung',
+      'Berufserfahrung und Arbeitsreferenz in einem echten IT-Betrieb',
+      'Marktrelevante IT-Skills: Hardware, Linux, Kundenkommunikation',
+      'Strukturierter Tagesablauf und Wiederaufbau von Arbeitsroutinen',
+      'Rund 40% der Teilnehmenden finden den Weg zurück in den Arbeitsmarkt',
     ],
     budget_category: 'Integrations-Programm',
     themes: ['sozial', 'bildung'],
@@ -420,23 +433,23 @@ export const PROJECTS: Record<string, Project> = {
   // Project 4: Digital skills training
   digital_training: {
     title: 'Workshops für digitale Kompetenzen',
-    subtitle: 'Digitale Teilhabe ermöglichen',
-    summary: `Revamp-IT bietet praxisnahe Workshops zu Linux, Open-Source-Software und grundlegenden IT-Skills. Zielgruppe sind Menschen, die sich kommerzielle Kurse nicht leisten können.`,
+    subtitle: 'Digitale Teilhabe und Selbstbefähigung',
+    summary: `Wer sich keinen Laptop leisten kann, kann sich erst recht keinen IT-Kurs leisten. Revamp-IT verbindet beides: Wir bieten praxisnahe Workshops zu Linux, Open-Source-Software und IT-Grundlagen — und wer will, bekommt ein günstiges refurbished Gerät dazu. Unsere Teilnehmenden lernen am echten Gerät, nicht am Whiteboard. Vom ersten Einschalten über E-Mail-Einrichtung bis zur eigenen Cloud — was andere Kurse in der Theorie erklären, machen wir in der Praxis.`,
     goals: [
-      'X Workshop-Teilnehmende pro Jahr',
-      'Regelmässiges Kursangebot aufbauen',
-      'Kombination mit vergünstigten Geräten',
+      'Mindestens 50 Workshop-Teilnehmende pro Jahr',
+      'Regelmässiges monatliches Kursangebot (Einsteiger bis Fortgeschrittene)',
+      'Jeder Teilnehmende kann optional ein refurbished Gerät erwerben',
     ],
     activities: [
-      'Entwicklung von Workshop-Formaten',
-      'Durchführung von Kursen (Einsteiger bis Fortgeschrittene)',
-      'Bereitstellung von Übungsgeräten',
-      'Nachbetreuung und Community-Aufbau',
+      'Workshop-Formate: Linux-Einstieg, E-Mail & Cloud, Datensicherheit, Selbstreparatur',
+      'Durchführung in eigener Werkstatt mit Übungsgeräten aus eigenem Bestand',
+      'Repair Cafes: Gemeinsam reparieren, voneinander lernen',
+      'Nachbetreuung: Support-Hotline und Community-Treff für ehemalige Teilnehmende',
     ],
     outcomes: [
-      'Erhöhte digitale Kompetenz',
-      'Unabhängigkeit von proprietärer Software',
-      'Fähigkeit zur Selbsthilfe bei IT-Problemen',
+      'Teilnehmende können ihren Computer eigenständig bedienen und Probleme lösen',
+      'Unabhängigkeit von proprietärer Software und kostenpflichtigen Lizenzen',
+      'Digitale Selbstbestimmung: eigene Daten, eigene Werkzeuge, eigenes Wissen',
     ],
     budget_category: 'Bildungs-Programm',
     themes: ['bildung', 'digital'],
@@ -445,26 +458,26 @@ export const PROJECTS: Record<string, Project> = {
   // Project 5: Program management (meta-project for capacity)
   program_management: {
     title: 'Projektkoordination und Kapazitätsaufbau',
-    subtitle: 'Professionalisierung für mehr Wirkung',
-    summary: `Um die Wirkung zu skalieren, braucht Revamp-IT professionelle Projektkoordination. Eine zusätzliche Stelle ermöglicht systematisches Tracking, bessere Betreuung und strategische Weiterentwicklung.`,
+    subtitle: 'Vom Werkstatt-Betrieb zur skalierbaren Organisation',
+    summary: `Revamp-IT wird seit über 20 Jahren von Techniker:innen geführt, die reparieren, betreuen und verkaufen — gleichzeitig. Für den nächsten Schritt braucht es dedizierte Projektkoordination: jemand, der sich um Wirkungsmessung kümmert, der Praktikant:innen systematisch begleitet, der mit Stiftungen und Partnern kommuniziert. Nicht mehr Verwaltung — sondern die Kapazität, das zu tun, was wir gut können, in grösserem Massstab.`,
     goals: [
-      'Professionelles Wirkungsmonitoring aufbauen',
-      'Kapazität für Praktikumsbetreuung erhöhen',
-      'Fundraising und Partnerschaften systematisieren',
+      'Transparentes Wirkungsmonitoring mit nachvollziehbaren KPIs',
+      'Kapazität für 12-15 statt 8-10 gleichzeitige Praktikumsplätze',
+      'Systematischer Aufbau von Stiftungs-Partnerschaften',
     ],
     activities: [
-      'Einführung von Tracking-Systemen',
-      'Koordination zwischen Werkstatt und Integration',
-      'Kontaktpflege mit Partnern und Förderern',
-      'Berichterstattung und Kommunikation',
+      'Einführung eines KPI-Tracking-Systems für alle Wirkungsbereiche',
+      'Koordination zwischen Werkstatt, Integrationsprogramm und Bildungsangeboten',
+      'Kontaktpflege mit Stiftungen, Zuweisenden und potenziellen Partnern',
+      'Quartalsweise Wirkungsberichte und transparente Online-Dashboards',
     ],
     outcomes: [
-      'Bessere Datengrundlage für Entscheidungen',
-      'Mehr betreute Praktikant:innen',
-      'Nachhaltige Finanzierung durch Stiftungen',
+      'Nachvollziehbare Wirkungsdaten als Grundlage für Entscheidungen und Förderanträge',
+      'Mehr Menschen erhalten Zugang zu Praktikumsplätzen und Begleitung',
+      'Diversifizierte Finanzierung — weniger Abhängigkeit von einzelnen Einnahmequellen',
     ],
     budget_category: 'Projektkoordination',
-    themes: ['sozial', 'klima', 'bildung'], // Applicable to multiple
+    themes: ['sozial', 'klima', 'bildung'],
   },
 };
 
@@ -695,17 +708,17 @@ export function composeStory(
     why: WHY[primaryTheme],
     how: {
       track_record: HOW.track_record,
-      // Include relevant competency sections based on themes
+      // Include relevant competency sections based on themes (deduplicated)
       competencies: allThemes
         .map((t) => {
           if (t === 'klima' || t === 'kreislaufwirtschaft')
             return HOW.environmental;
           if (t === 'sozial') return HOW.social;
-          if (t === 'bildung') return HOW.social; // Similar competencies
+          if (t === 'bildung') return HOW.bildung;
           if (t === 'digital') return HOW.digital;
           return null;
         })
-        .filter((c): c is CompetencySection => c !== null),
+        .filter((c, i, arr): c is CompetencySection => c !== null && arr.indexOf(c) === i),
     },
     projects: getProjectsByTheme(primaryTheme),
     evidence:
