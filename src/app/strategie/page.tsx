@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
+import Table from '@/components/ui/Table';
 import MetricGrid from '@/components/metrics/MetricGrid';
-import { PILLARS, VISION_TARGETS, HUB_CORE_SPACES, HUB_CULTURAL_SPACES } from './data';
+import { PILLARS, VISION_TARGETS, HUB_CORE_SPACES, HUB_CULTURAL_SPACES, SDG_DATA, SDG_COLORS } from './data';
+import type { SdgRow } from './data';
 import { GeschichteSection, KontaktSection } from './components';
 
 export const metadata: Metadata = {
@@ -135,6 +137,33 @@ export default function StrategiePage() {
               </div>
             ))}
           </div>
+        </Card>
+      </section>
+
+      {/* SDG Alignment */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">UN Sustainable Development Goals</h2>
+        <Card>
+          <div className="mb-4 flex flex-wrap justify-center gap-2">
+            {SDG_DATA.map((sdg) => (
+              <span
+                key={sdg.sdg}
+                className={`inline-block rounded-full bg-gradient-to-br ${SDG_COLORS[sdg.sdg]} px-4 py-2 text-sm font-semibold text-white`}
+              >
+                {sdg.sdg}
+              </span>
+            ))}
+          </div>
+          <Table<SdgRow>
+            columns={[
+              { key: 'sdg', header: 'SDG', render: (r) => <strong>{r.sdg}</strong> },
+              { key: 'name', header: 'Ziel' },
+              { key: 'activities', header: 'Unser Beitrag' },
+            ]}
+            data={SDG_DATA}
+            keyExtractor={(r) => r.sdg}
+            compact
+          />
         </Card>
       </section>
 
