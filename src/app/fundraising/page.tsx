@@ -7,10 +7,12 @@ import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import { STATUS_LABELS } from '@/lib/config/foundations';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
+import { formatCHF } from '@/lib/utils/format';
 import {
   computePipelineStats,
   STATUS_BADGE_VARIANT,
   BUDGET_ITEMS,
+  BUDGET_SUMMARY,
   PACKAGES,
   HERO_STATS,
   RESOURCES,
@@ -91,8 +93,8 @@ export default function FundraisingPage() {
       </Card>
 
       {/* Vision — brief, links to Strategie for full vision */}
-      <section className="gradient-hero-fundraising mb-8 rounded-2xl p-8 text-white">
-        <h2 className="mb-2 text-2xl font-bold">Community Tech Hub 2026</h2>
+      <section className="gradient-hero-fundraising mb-8 rounded-2xl p-4 text-white md:p-8">
+        <h2 className="mb-2 text-xl font-bold md:text-2xl">Community Tech Hub 2026</h2>
         <p className="mb-2 text-lg italic opacity-90">
           &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
         </p>
@@ -142,11 +144,11 @@ export default function FundraisingPage() {
       </Card>
 
       {/* The Ask / Budget */}
-      <section className="gradient-hero-financial mb-8 rounded-2xl p-8 text-white">
-        <h2 className="mb-4 text-xl font-bold">Der Förderbedarf</h2>
+      <section className="gradient-hero-financial mb-8 rounded-2xl p-4 text-white md:p-8">
+        <h2 className="mb-4 text-lg font-bold md:text-xl">Der Förderbedarf</h2>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="rounded-lg bg-white/10 p-4">
-            <h4 className="mb-3 text-sm font-medium opacity-90">Verwendung (2 Jahre)</h4>
+            <h4 className="mb-3 text-sm font-medium opacity-90">Verwendung (einmalig + jährlich)</h4>
             <div className="space-y-2">
               {BUDGET_ITEMS.map((item) => (
                 <div
@@ -159,19 +161,19 @@ export default function FundraisingPage() {
               ))}
               <div className="flex justify-between text-sm text-emerald-300">
                 <span>Eigenerträge (datenbasiert)</span>
-                <span>- CHF 145&apos;000</span>
+                <span>- {formatCHF(BUDGET_SUMMARY.eigenleistung)}</span>
               </div>
               <div className="mt-2 flex justify-between border-t-2 border-white/30 pt-3 text-base font-bold">
                 <span>Förderbedarf Total</span>
-                <span>CHF 370&apos;000</span>
+                <span>{formatCHF(BUDGET_SUMMARY.foerderbedarf)}</span>
               </div>
             </div>
           </div>
           <div className="flex flex-col items-center justify-center text-center">
-            <span className="text-5xl font-bold">CHF 370k</span>
-            <span className="mt-1 text-lg opacity-90">Förderbedarf über 2 Jahre</span>
+            <span className="text-3xl font-bold md:text-5xl">CHF {Math.round(BUDGET_SUMMARY.foerderbedarf / 1000)}k</span>
+            <span className="mt-1 text-lg opacity-90">Förderbedarf (einmalig + 1 Jahr Betrieb)</span>
             <p className="mt-3 text-sm opacity-80">
-              Wir finanzieren 28% selbst - trotz Krise
+              Wir finanzieren {BUDGET_SUMMARY.selfFinancingPct}% selbst — trotz Krise
             </p>
             <p className="mt-1 text-sm opacity-80">
               74% der Eigenerträge historisch belegt
@@ -223,8 +225,8 @@ export default function FundraisingPage() {
       </section>
 
       {/* Next Steps CTA */}
-      <section className="gradient-hero-financial rounded-2xl p-8 text-white">
-        <h2 className="mb-6 text-xl font-bold">Nächste Schritte</h2>
+      <section className="gradient-hero-financial rounded-2xl p-4 text-white md:p-8">
+        <h2 className="mb-6 text-lg font-bold md:text-xl">Nächste Schritte</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {NEXT_STEPS.map((step) => (
             <div key={step.step} className="rounded-xl bg-white/10 p-5">

@@ -1,4 +1,6 @@
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { BUDGET_MODULES, BUDGET_TOTAL, BUDGET_EIGENLEISTUNG } from '@/lib/config/stories';
+import { formatCHF } from '@/lib/utils/format';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
 
 // -- Derived data from STIFTUNGEN_DATA ----------------------------------------
@@ -54,15 +56,17 @@ export const STATUS_BADGE_VARIANT: Record<FoundationStatus, 'success' | 'warning
   closed: 'danger',
 };
 
-export const BUDGET_ITEMS = [
-  { label: 'Umzug & Einrichtung', amount: "CHF 130'000" },
-  { label: '2 Program Manager', amount: "CHF 216'000" },
-  { label: 'Standort-Mehrkosten', amount: "CHF 102'000" },
-  { label: 'Repair Cafe & Hackerspace', amount: "CHF 25'000" },
-  { label: 'Weiterbildung & Kurse', amount: "CHF 20'000" },
-  { label: 'GPU-Infrastruktur / Sovereign AI Lab', amount: "CHF 45'000" },
-  { label: 'Museum & Hands-on', amount: "CHF 17'000" },
-];
+// Budget derived from SSOT (BUDGET_MODULES in stories.ts)
+export const BUDGET_ITEMS = BUDGET_MODULES.flatMap((m) =>
+  m.items.map((item) => ({ label: item.label, amount: formatCHF(item.amount) })),
+);
+
+export const BUDGET_SUMMARY = {
+  total: BUDGET_TOTAL,
+  eigenleistung: BUDGET_EIGENLEISTUNG.amount,
+  foerderbedarf: BUDGET_TOTAL - BUDGET_EIGENLEISTUNG.amount,
+  selfFinancingPct: Math.round((BUDGET_EIGENLEISTUNG.amount / BUDGET_TOTAL) * 100),
+};
 
 export const PACKAGES = [
   { name: 'Hauptpartner', amount: "CHF 185'000", description: 'Der Hub existiert', featured: true },
@@ -75,7 +79,7 @@ export const PACKAGES = [
 
 export const RESOURCES = [
   { href: '/wirkung', label: 'Wirkungsbericht', description: 'Impact-Zahlen mit Quellen' },
-  { href: '/fundraising/stiftungen', label: 'Stiftungen-Übersicht', description: '45+ Förderer mit Deadlines' },
+  { href: '/fundraising/stiftungen', label: 'Stiftungen-Übersicht', description: `${STIFTUNGEN_DATA.length} Förderer mit Deadlines` },
   { href: '/finanzen', label: 'Finanzdaten', description: 'Kivitendo-Daten visualisiert' },
 ];
 

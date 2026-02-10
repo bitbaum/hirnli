@@ -446,7 +446,7 @@ export const NumberSources: Record<string, Metric> = {
     },
     documentation: {
       description:
-        'Geschätzte Anzahl Praktikant:innen seit Gründung 2009. Exakte Zahl nicht systematisch erfasst.',
+        'Geschätzte Anzahl Praktikant:innen seit Beginn des Integrationsprogramms 2009. Exakte Zahl nicht systematisch erfasst.',
       limitations: [
         'Nicht systematisch getrackt',
         'Schätzung basierend auf Erinnerungen',

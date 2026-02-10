@@ -50,7 +50,7 @@ export default function TeamPage() {
             </li>
             <li className="flex items-center gap-2">
               <Badge variant="warning">!</Badge>
-              Nur 1 von 13 Personen hat Kapazität angegeben (Georgie: 60%)
+              Nur 1 von {TEAM_MEMBERS.length} Personen hat Kapazität angegeben (Georgie: 60%)
             </li>
             <li className="flex items-center gap-2">
               <Badge variant="warning">!</Badge>
