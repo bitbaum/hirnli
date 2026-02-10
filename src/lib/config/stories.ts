@@ -252,8 +252,8 @@ export const WHY: Record<string, WhySection> = {
     hook: `Wer Microsoft oder Apple nutzt, gibt Kontrolle ab - über Updates, über Daten, über die Lebensdauer des Geräts. Es gibt Alternativen.`,
     problem: `Proprietäre Software schafft Abhängigkeiten. Zwangsupdates machen funktionierende Hardware "obsolet". Daten fliessen in ausländische Clouds. Kleine Organisationen haben keine Wahl - oder kennen sie nicht.`,
     solution: `Revamp-IT installiert Linux auf allen refurbished Geräten. Wir zeigen, dass Open Source funktioniert - zuverlässig, sicher, kostenlos. Digitale Souveränität ist möglich.`,
-    evidence: [],
-    metrics: [],
+    evidence: ['digitalswitzerland', 'wef_future_of_jobs'],
+    metrics: ['devices_estimated_2025'],
     call_to_action: 'Unterstützen Sie digitale Unabhängigkeit.',
   },
 };
@@ -638,7 +638,7 @@ export const ANSCHREIBEN_TEMPLATES: Record<string, { opening: string; closing: s
     closing: 'Wir würden uns freuen, von Ihnen zu hören. Ein kurzes Telefonat genügt, um zu klären, ob eine Unterstützung in Frage kommt.',
   },
   D: {
-    opening: 'Als soziales Unternehmen an der Schnittstelle von Kreislaufwirtschaft, digitaler Bildung und Arbeitsintegration adressiert Revamp-IT mehrere Ihrer Förderschwerpunkte. Wir möchten Ihnen eine Zusammenarbeit vorschlagen, die messbare soziale und ökologische Wirkung erzielt.',
+    opening: 'Als gemeinnütziger Verein an der Schnittstelle von Kreislaufwirtschaft, digitaler Bildung und Arbeitsintegration adressiert Revamp-IT mehrere Ihrer Förderschwerpunkte. Wir möchten Ihnen eine Zusammenarbeit vorschlagen, die messbare soziale und ökologische Wirkung erzielt.',
     closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für eine Präsentation unserer Impact-Daten jederzeit bereit.',
   },
   network: {
@@ -749,17 +749,18 @@ export function composeStory(
       track_record: HOW.track_record,
       // Include relevant competency sections based on themes (deduplicated)
       competencies: allThemes
-        .map((t) => {
-          if (t === 'klima' || t === 'kreislaufwirtschaft')
-            return HOW.environmental;
-          if (t === 'sozial') return HOW.social;
-          if (t === 'bildung') return HOW.bildung;
-          if (t === 'digital') return HOW.digital;
-          return null;
+        .flatMap((t) => {
+          if (t === 'klima') return [HOW.environmental];
+          if (t === 'kreislaufwirtschaft') return [HOW.technical];
+          if (t === 'sozial') return [HOW.social];
+          if (t === 'bildung') return [HOW.bildung];
+          if (t === 'digital') return [HOW.digital];
+          return [];
         })
-        .filter((c, i, arr): c is CompetencySection => c !== null && arr.indexOf(c) === i),
+        .filter((c, i, arr): c is CompetencySection => arr.indexOf(c) === i),
     },
-    projects: getProjectsByTheme(primaryTheme),
+    // Collect projects from ALL themes, deduplicated and in order
+    projects: [...new Set(allThemes.flatMap((t) => getProjectsByTheme(t)))],
     evidence:
       WHY[primaryTheme]?.evidence
         ?.map((key) => {
