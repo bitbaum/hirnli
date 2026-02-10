@@ -48,7 +48,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         <p className="mb-3 text-sm leading-relaxed text-text">
           {dok.story.how.track_record.text}
         </p>
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {dok.story.how.track_record.proof_points.map((pp) => (
             <div key={pp.label} className="rounded border border-border p-2 text-center">
               <p className="text-lg font-bold text-primary">{pp.value}</p>
@@ -57,7 +57,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
           ))}
         </div>
         {dok.story.how.competencies.length > 0 && (
-          <div className="mt-4 grid grid-cols-2 gap-4">
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {dok.story.how.competencies.map((comp) => (
               <div key={comp.headline}>
                 <p className="mb-1 text-sm font-semibold text-grey-dark">{comp.headline}</p>
@@ -81,7 +81,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
               <p className="mb-1 font-semibold text-grey-dark">{project.title}</p>
               <p className="mb-3 text-sm text-text-light">{project.summary}</p>
 
-              <div className="grid grid-cols-3 gap-4 text-xs">
+              <div className="grid grid-cols-1 gap-4 text-xs sm:grid-cols-3">
                 <div>
                   <p className="mb-1 font-semibold text-primary">Ziele</p>
                   <ul className="text-text-light">

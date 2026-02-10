@@ -15,7 +15,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       </p>
 
       {/* Facts grid */}
-      <div className="mb-6 grid grid-cols-2 gap-x-8 gap-y-2">
+      <div className="mb-6 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
         {dok.kurzportrait.facts.map((fact) => (
           <div key={fact.label} className="flex justify-between border-b border-border py-1.5 text-sm">
             <span className="text-text-muted">{fact.label}</span>
@@ -27,7 +27,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       {/* Activities */}
       <div className="mb-6">
         <h3 className="mb-2 text-sm font-semibold text-grey-dark">Tätigkeitsfelder</h3>
-        <div className="grid grid-cols-2 gap-1 text-sm text-text-light">
+        <div className="grid grid-cols-1 gap-1 text-sm text-text-light sm:grid-cols-2">
           {dok.kurzportrait.activities.map((a) => (
             <p key={a}>• {a}</p>
           ))}
@@ -37,7 +37,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       {/* Unique selling points */}
       <div className="mb-6">
         <h3 className="mb-2 text-sm font-semibold text-grey-dark">Alleinstellungsmerkmale</h3>
-        <div className="grid grid-cols-2 gap-1 text-sm text-text-light">
+        <div className="grid grid-cols-1 gap-1 text-sm text-text-light sm:grid-cols-2">
           {dok.kurzportrait.unique.map((u) => (
             <p key={u}>• {u}</p>
           ))}
