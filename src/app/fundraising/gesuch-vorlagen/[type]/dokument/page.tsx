@@ -64,7 +64,7 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
           </p>
         </div>
         <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-center text-sm text-text-light">
-          <strong>Tipp:</strong> Drücken Sie Cmd+P (Mac) oder Ctrl+P (Windows) für eine saubere A4-PDF-Ausgabe.
+          <strong>Tipp:</strong> Drücken Sie Cmd+P (Mac) oder Ctrl+P (Windows/Linux) für eine saubere A4-PDF-Ausgabe.
           <div className="mt-2 flex justify-center gap-4">
             <Link href={`/fundraising/gesuch-vorlagen/${type}`} className="text-primary hover:underline">
               Interaktive Seite
