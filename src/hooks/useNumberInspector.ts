@@ -1,18 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-
-interface InspectorData {
-  label: string;
-  value: string;
-  sourceType: 'live' | 'derived' | 'estimated' | 'none';
-  source: string;
-  account?: string;
-  formula?: string;
-  updated?: string;
-  confidence?: string;
-  description?: string;
-}
+import type { InspectorData } from '@/lib/schemas/inspector';
 
 export function useNumberInspector() {
   const [isOpen, setIsOpen] = useState(false);

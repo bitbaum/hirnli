@@ -2,28 +2,19 @@
 
 import Modal from '@/components/ui/Modal';
 import Badge from '@/components/ui/Badge';
+import type { InspectorData, InspectorSourceType } from '@/lib/schemas/inspector';
 
 interface NumberInspectorProps {
   isOpen: boolean;
   onClose: () => void;
-  data: {
-    label: string;
-    value: string;
-    sourceType: 'live' | 'derived' | 'estimated' | 'none';
-    source: string;
-    account?: string;
-    formula?: string;
-    updated?: string;
-    confidence?: string;
-    description?: string;
-  } | null;
+  data: InspectorData | null;
 }
 
-const TYPE_LABELS = {
-  live: { label: 'Live-Daten', variant: 'live' as const, icon: '●' },
-  derived: { label: 'Berechnet', variant: 'derived' as const, icon: '◐' },
-  estimated: { label: 'Schätzung', variant: 'estimated' as const, icon: '○' },
-  none: { label: 'Keine Quelle', variant: 'none' as const, icon: '?' },
+const TYPE_LABELS: Record<InspectorSourceType, { label: string; variant: InspectorSourceType; icon: string }> = {
+  live: { label: 'Live-Daten', variant: 'live', icon: '●' },
+  derived: { label: 'Berechnet', variant: 'derived', icon: '◐' },
+  estimated: { label: 'Schätzung', variant: 'estimated', icon: '○' },
+  none: { label: 'Keine Quelle', variant: 'none', icon: '?' },
 };
 
 export default function NumberInspector({ isOpen, onClose, data }: NumberInspectorProps) {

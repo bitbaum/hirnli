@@ -6,7 +6,8 @@
  * formula (if derived), validation rules, and documentation link.
  */
 
-import type { Metric } from '../schemas/metric';
+import type { Metric, MetricSourceType, Confidence } from '../schemas/metric';
+import type { InspectorData, InspectorSourceType } from '../schemas/inspector';
 
 // ---------------------------------------------------------------------------
 // SSOT: All metric definitions
@@ -499,6 +500,52 @@ export function getNumbersByCategory(category: string): Metric[] {
 /** Return all metrics belonging to a given dimension (e.g. 'ecological'). */
 export function getNumbersByDimension(dimension: string): Metric[] {
   return Object.values(NumberSources).filter((m) => m.dimension === dimension);
+}
+
+// ---------------------------------------------------------------------------
+// Metric → InspectorData bridge
+// ---------------------------------------------------------------------------
+
+const SOURCE_TYPE_MAP: Record<MetricSourceType, InspectorSourceType> = {
+  source: 'live',
+  derived: 'derived',
+  estimated: 'estimated',
+  calculated: 'derived',
+  target: 'none',
+  capacity: 'none',
+};
+
+const CONFIDENCE_LABELS: Record<Confidence, string> = {
+  high: 'Hoch',
+  medium: 'Mittel',
+  low: 'Niedrig',
+};
+
+/**
+ * Convert a NumberSources metric to InspectorData for the NumberInspector modal.
+ * Year references ("2025") in name/description/path are auto-replaced when `year` is provided.
+ */
+export function metricToInspectorData(
+  metric: Metric,
+  value: string,
+  options?: {
+    year?: number;
+    formula?: string;
+  },
+): InspectorData {
+  const yearReplace = (s: string) =>
+    options?.year ? s.replace(/2025/g, String(options.year)) : s;
+
+  return {
+    label: yearReplace(metric.name),
+    value,
+    sourceType: SOURCE_TYPE_MAP[metric.source.type] ?? 'none',
+    source: yearReplace(metric.source.path ?? 'Berechnet'),
+    account: metric.source.account,
+    formula: options?.formula ?? (metric.formula ? yearReplace(metric.formula.expression) : undefined),
+    confidence: CONFIDENCE_LABELS[metric.source.confidence],
+    description: yearReplace(metric.documentation.description),
+  };
 }
 
 /** Validate a numeric value against the rules defined for a metric key. */

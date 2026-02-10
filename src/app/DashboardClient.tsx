@@ -7,6 +7,7 @@ import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
 import Card from '@/components/ui/Card';
+import YearSelector from '@/components/ui/YearSelector';
 
 const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
   ssr: false,
@@ -21,6 +22,8 @@ import { useFinancialData } from '@/hooks/useFinancialData';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { formatCHF, formatPercent, formatMonthShort, calcGrowth } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided } from '@/lib/domain/calculations';
+import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
+import { DASHBOARD_QUICKLINKS } from './data';
 import type { MonthlyAggregate } from '@/lib/schemas/financial';
 
 export default function DashboardClient() {
@@ -54,23 +57,12 @@ export default function DashboardClient() {
         subtitle="Finanzielle Kennzahlen und Wirkungsdaten"
       />
 
-      {/* Year selector */}
-      <div className="mb-6 flex items-center gap-2">
-        <span className="text-sm text-text-muted">Jahr:</span>
-        {availableYears.map((year) => (
-          <button
-            key={year}
-            onClick={() => setSelectedYear(year)}
-            className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-              selectedYear === year
-                ? 'bg-primary text-white'
-                : 'bg-grey-light text-grey-dark hover:bg-border'
-            }`}
-          >
-            {year}
-          </button>
-        ))}
-      </div>
+      <YearSelector
+        years={availableYears}
+        selected={selectedYear}
+        onChange={setSelectedYear}
+        className="mb-6"
+      />
 
       {/* Hero stats */}
       <MetricGrid columns={4} className="mb-8">
@@ -81,14 +73,11 @@ export default function DashboardClient() {
           trend={growth !== 0 ? { value: growth, label: 'vs. Vorjahr' } : undefined}
           sourceType="live"
           onClick={() =>
-            inspector.inspect({
-              label: 'Gesamteinnahmen',
-              value: formatCHF(totals.total),
-              sourceType: 'live',
-              source: 'revamp-Einnahmen-2025.xlsx',
-              account: '30-38 (Nettoerlöse Total)',
-              description: 'Gesamteinnahmen aus allen Geschäftsbereichen',
-            })
+            inspector.inspect(metricToInspectorData(
+              NumberSources.financial_total_2025,
+              formatCHF(totals.total),
+              { year: selectedYear },
+            ))
           }
         />
         <MetricCard
@@ -97,14 +86,11 @@ export default function DashboardClient() {
           subtitle="pro aktivem Monat"
           sourceType="derived"
           onClick={() =>
-            inspector.inspect({
-              label: 'Monatsdurchschnitt',
-              value: formatCHF(monthlyAvg),
-              sourceType: 'derived',
-              source: 'Berechnet aus Gesamteinnahmen',
-              formula: `${formatCHF(totals.total)} / ${monthCount} Monate`,
-              description: 'Durchschnittliche monatliche Einnahmen',
-            })
+            inspector.inspect(metricToInspectorData(
+              NumberSources.financial_monthly_avg_2025,
+              formatCHF(monthlyAvg),
+              { year: selectedYear, formula: `${formatCHF(totals.total)} / ${monthCount} Monate` },
+            ))
           }
         />
         <MetricCard
@@ -113,14 +99,14 @@ export default function DashboardClient() {
           subtitle="Waren + Dienste / Total"
           sourceType="derived"
           onClick={() =>
-            inspector.inspect({
-              label: 'Eigenfinanzierungsgrad',
-              value: formatPercent(selfFinancingRate),
-              sourceType: 'derived',
-              source: 'Berechnet aus Kategorien',
-              formula: `(${formatCHF(totals.warenverkauf)} + ${formatCHF(totals.dienstleistungen)}) / ${formatCHF(totals.total)}`,
-              description: 'Anteil der Einnahmen aus eigener Wirtschaftstätigkeit',
-            })
+            inspector.inspect(metricToInspectorData(
+              NumberSources.financial_self_financing_2025,
+              formatPercent(selfFinancingRate),
+              {
+                year: selectedYear,
+                formula: `(${formatCHF(totals.warenverkauf)} + ${formatCHF(totals.dienstleistungen)}) / ${formatCHF(totals.total)}`,
+              },
+            ))
           }
         />
         <MetricCard
@@ -129,15 +115,11 @@ export default function DashboardClient() {
           subtitle={`~${deviceCount} Geräte`}
           sourceType="estimated"
           onClick={() =>
-            inspector.inspect({
-              label: 'CO₂ vermieden',
-              value: `~${co2Avoided} Tonnen`,
-              sourceType: 'estimated',
-              source: 'Schätzung aus Warenverkauf',
-              formula: `${formatCHF(totals.warenverkauf)} / CHF 150 pro Gerät × 300 kg CO₂`,
-              confidence: 'Mittel',
-              description: 'Geschätzte CO₂-Einsparung durch refurbished Geräte',
-            })
+            inspector.inspect(metricToInspectorData(
+              NumberSources.co2_total_2025,
+              `~${co2Avoided} Tonnen`,
+              { year: selectedYear, formula: `${formatCHF(totals.warenverkauf)} / CHF 150 pro Gerät × 300 kg CO₂` },
+            ))
           }
         />
       </MetricGrid>
@@ -173,14 +155,7 @@ export default function DashboardClient() {
 
       {/* Quick navigation */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {[
-          { href: '/finanzen', icon: '💰', title: 'Finanzen', desc: 'Detaillierte Finanzanalyse' },
-          { href: '/kennzahlen', icon: '📊', title: 'Kennzahlen', desc: '28 KPIs über 6 Dimensionen' },
-          { href: '/wirkung', icon: '🌱', title: 'Wirkung', desc: 'CO₂, Geräte, Menschen' },
-          { href: '/fundraising/stiftungen', icon: '🎯', title: 'Stiftungen', desc: 'Alle Förderstiftungen' },
-          { href: '/methodik', icon: '🔬', title: 'Methodik', desc: 'Berechnungen & Quellen' },
-          { href: '/dokumente', icon: '📄', title: 'Dokumente', desc: 'Berichte & Vorlagen' },
-        ].map((link) => (
+        {DASHBOARD_QUICKLINKS.map((link) => (
           <Link
             key={link.href}
             href={link.href}

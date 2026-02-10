@@ -22,7 +22,7 @@ export const FoundationStatus = z.enum(['open', 'closed', 'rolling', 'soon']);
 export type FoundationStatus = z.infer<typeof FoundationStatus>;
 
 // Source IDs
-export const SourceId = z.enum(['manual', 'fundraiso', 'stiftungschweiz', 'esa', 'robert', 'zefix', 'website', 'cantonal']);
+export const SourceId = z.enum(['manual', 'fundraiso', 'stiftungschweiz', 'esa', 'zefix', 'website', 'cantonal']);
 export type SourceId = z.infer<typeof SourceId>;
 
 // Application methods

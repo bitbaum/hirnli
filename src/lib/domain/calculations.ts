@@ -3,10 +3,7 @@
  * No HTTP, no UI — just math.
  */
 
-/** CO₂ saved per device type (kg) */
-const CO2_PER_LAPTOP = 285; // 300 production - 15 refurb
-const CO2_PER_DESKTOP = 380;
-const AVG_CO2_PER_DEVICE = 300; // weighted average used in estimates
+const AVG_CO2_PER_DEVICE = 300; // weighted average (kg) used in estimates
 
 /** Estimate device count from revenue */
 export function estimateDeviceCount(revenue: number, avgPrice = 150): number {
@@ -34,16 +31,3 @@ export function calcSelfFinancingRate(
   return (warenverkauf + dienstleistungen) / total;
 }
 
-/** CO₂ calculation details for specific device types */
-export function calcCO2ForDeviceType(
-  type: 'laptop' | 'desktop',
-  count: number,
-): { co2Kg: number; co2Tonnes: number; methodology: string } {
-  const perDevice = type === 'laptop' ? CO2_PER_LAPTOP : CO2_PER_DESKTOP;
-  const co2Kg = count * perDevice;
-  return {
-    co2Kg,
-    co2Tonnes: Math.round(co2Kg / 1000 * 10) / 10,
-    methodology: `${count} ${type === 'laptop' ? 'Laptops' : 'Desktops'} × ${perDevice} kg CO₂/Gerät`,
-  };
-}

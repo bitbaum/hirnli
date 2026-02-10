@@ -1,30 +1,44 @@
-export interface NavItem {
-  text: string;
-  href?: string;
-  icon?: string;
-  children?: NavChild[];
-  mega?: boolean;
-  sections?: NavSection[];
-}
+import { z } from 'zod';
 
-export interface NavChild {
-  text: string;
-  href: string;
-  desc?: string;
-}
+// ---------------------------------------------------------------------------
+// Nav schemas (SSOT for navigation types)
+// ---------------------------------------------------------------------------
 
-export interface NavSection {
-  title: string;
-  items: NavLink[];
-}
+const navLinkSchema = z.object({
+  text: z.string(),
+  href: z.string(),
+  desc: z.string().optional(),
+  external: z.boolean().optional(),
+  highlight: z.boolean().optional(),
+});
+export type NavLink = z.infer<typeof navLinkSchema>;
 
-export interface NavLink {
-  text: string;
-  href: string;
-  desc?: string;
-  external?: boolean;
-  highlight?: boolean;
-}
+const navSectionSchema = z.object({
+  title: z.string(),
+  items: z.array(navLinkSchema),
+});
+export type NavSection = z.infer<typeof navSectionSchema>;
+
+const navChildSchema = z.object({
+  text: z.string(),
+  href: z.string(),
+  desc: z.string().optional(),
+});
+export type NavChild = z.infer<typeof navChildSchema>;
+
+const navItemSchema = z.object({
+  text: z.string(),
+  href: z.string().optional(),
+  icon: z.string().optional(),
+  children: z.array(navChildSchema).optional(),
+  mega: z.boolean().optional(),
+  sections: z.array(navSectionSchema).optional(),
+});
+export type NavItem = z.infer<typeof navItemSchema>;
+
+// ---------------------------------------------------------------------------
+// Navigation structure (SSOT)
+// ---------------------------------------------------------------------------
 
 export const NAV_STRUCTURE: {
   logo: { text: string; href: string };
