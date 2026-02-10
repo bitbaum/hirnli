@@ -1,37 +1,20 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
-import Card from '@/components/ui/Card';
-import YearSelector from '@/components/ui/YearSelector';
-
-const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
-  ssr: false,
-  loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
-});
-const CategoryBreakdown = dynamic(() => import('@/components/charts/CategoryBreakdown'), {
-  ssr: false,
-  loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
-});
-import Table from '@/components/ui/Table';
 import { useFinancialData } from '@/hooks/useFinancialData';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
-import { formatCHF, formatPercent, formatMonthShort, calcGrowth } from '@/lib/utils/format';
+import { formatCHF, formatPercent, calcGrowth } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided } from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import { DASHBOARD_QUICKLINKS } from './data';
-import type { MonthlyAggregate } from '@/lib/schemas/financial';
 
 export default function DashboardClient() {
   const {
     selectedYear,
-    setSelectedYear,
-    availableYears,
-    monthlyData,
     totals,
     monthCount,
     monthlyAvg,
@@ -40,11 +23,9 @@ export default function DashboardClient() {
 
   const inspector = useNumberInspector();
 
-  // Derived metrics
   const deviceCount = estimateDeviceCount(totals.warenverkauf);
   const co2Avoided = estimateCO2Avoided(deviceCount);
 
-  // Year comparison
   const prevYearData = useFinancialData(selectedYear - 1);
   const growth = prevYearData.totals.total > 0
     ? calcGrowth(prevYearData.totals.total, totals.total)
@@ -53,21 +34,14 @@ export default function DashboardClient() {
   return (
     <div>
       <PageHeader
-        title="Revamp-IT Dashboard"
-        subtitle="Finanzielle Kennzahlen und Wirkungsdaten"
+        title="Revamp-IT"
+        subtitle="Fundraising Intelligence & Organisationsdaten"
       />
 
-      <YearSelector
-        years={availableYears}
-        selected={selectedYear}
-        onChange={setSelectedYear}
-        className="mb-6"
-      />
-
-      {/* Hero stats */}
+      {/* Key numbers — click for detail, or navigate to dedicated pages */}
       <MetricGrid columns={4} className="mb-8">
         <MetricCard
-          label="Gesamteinnahmen"
+          label="Einnahmen 2025"
           value={formatCHF(totals.total)}
           subtitle={`${monthCount} Monate`}
           trend={growth !== 0 ? { value: growth, label: 'vs. Vorjahr' } : undefined}
@@ -124,36 +98,7 @@ export default function DashboardClient() {
         />
       </MetricGrid>
 
-      {/* Charts */}
-      <div className="mb-8 grid gap-6 lg:grid-cols-2">
-        <RevenueChart data={monthlyData} title={`Einnahmen ${selectedYear} nach Monat`} />
-        <CategoryBreakdown
-          warenverkauf={totals.warenverkauf}
-          dienstleistungen={totals.dienstleistungen}
-          integration={totals.integration}
-          spenden={totals.spenden + totals.aufstockung}
-          title={`Einnahmen ${selectedYear} nach Kategorie`}
-        />
-      </div>
-
-      {/* Monthly table */}
-      <Card className="mb-8">
-        <h2 className="mb-4 text-lg font-semibold text-grey-dark">Monatliche Einnahmen {selectedYear}</h2>
-        <Table
-          columns={[
-            { key: 'period', header: 'Monat', render: (row: MonthlyAggregate) => formatMonthShort(row.period) },
-            { key: 'warenverkauf', header: 'Warenverkauf', align: 'right', render: (row: MonthlyAggregate) => formatCHF(row.warenverkauf) },
-            { key: 'dienstleistungen', header: 'Dienste', align: 'right', render: (row: MonthlyAggregate) => formatCHF(row.dienstleistungen) },
-            { key: 'spenden', header: 'Spenden', align: 'right', render: (row: MonthlyAggregate) => formatCHF(row.spenden) },
-            { key: 'total', header: 'Total', align: 'right', className: 'font-semibold', render: (row: MonthlyAggregate) => formatCHF(row.total) },
-          ]}
-          data={monthlyData}
-          keyExtractor={(row) => row.period}
-          compact
-        />
-      </Card>
-
-      {/* Quick navigation */}
+      {/* Navigation */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {DASHBOARD_QUICKLINKS.map((link) => (
           <Link

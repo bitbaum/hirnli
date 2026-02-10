@@ -1,9 +1,12 @@
 // Dashboard quicklinks — SSOT for dashboard navigation shortcuts
 export const DASHBOARD_QUICKLINKS = [
-  { href: '/finanzen', icon: '💰', title: 'Finanzen', desc: 'Detaillierte Finanzanalyse' },
-  { href: '/kennzahlen', icon: '📊', title: 'Kennzahlen', desc: '28 KPIs über 6 Dimensionen' },
+  { href: '/strategie', icon: '🧭', title: 'Strategie & Vision', desc: 'Mission, Werte, Community Tech Space' },
+  { href: '/fundraising', icon: '🎯', title: 'Fundraising', desc: 'Budget, Pipeline, Pakete' },
+  { href: '/fundraising/stiftungen', icon: '🏛️', title: 'Stiftungen', desc: 'Alle Förderstiftungen mit Deadlines' },
   { href: '/wirkung', icon: '🌱', title: 'Wirkung', desc: 'CO₂, Geräte, Menschen' },
-  { href: '/fundraising/stiftungen', icon: '🎯', title: 'Stiftungen', desc: 'Alle Förderstiftungen' },
+  { href: '/finanzen', icon: '💰', title: 'Finanzen', desc: 'Einnahmen, Trends, Kategorien' },
   { href: '/methodik', icon: '🔬', title: 'Methodik', desc: 'Berechnungen & Quellen' },
-  { href: '/dokumente', icon: '📄', title: 'Dokumente', desc: 'Berichte & Vorlagen' },
+  { href: '/operations', icon: '⚙️', title: 'Operations', desc: 'Refurbishment-Prozess & SOPs' },
+  { href: '/team', icon: '👥', title: 'Team', desc: 'Mitarbeitende & Kapazitäten' },
+  { href: '/dokumente', icon: '📄', title: 'Dokumente', desc: 'Downloads & Vorlagen' },
 ] as const;

@@ -2,7 +2,7 @@ import Card from '@/components/ui/Card';
 
 export function GeschichteSection() {
   return (
-    <section className="mb-10">
+    <section className="mb-8">
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unsere Geschichte</h2>
       <Card>
         <div className="flex flex-wrap gap-8">
@@ -45,7 +45,7 @@ export function GeschichteSection() {
 
 export function KontaktSection() {
   return (
-    <section className="mb-10">
+    <section className="mb-8">
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Kontakt</h2>
       <Card className="text-center">
         <h3 className="mb-3 text-lg font-semibold">Revamp-IT</h3>

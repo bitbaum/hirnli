@@ -421,7 +421,7 @@ export const NumberSources: Record<string, Metric> = {
         'Integrations-Tracking einführen',
         'Follow-up-System etablieren',
       ],
-      link: '../kennzahlen/index.html',
+      link: '/methodik',
     },
   },
 

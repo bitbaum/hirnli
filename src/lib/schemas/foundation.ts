@@ -84,6 +84,18 @@ const criteriaSchema = z.object({
   education: z.string().optional(),
 }).optional();
 
+// ---------------------------------------------------------------------------
+// Research Quality Gate
+// ---------------------------------------------------------------------------
+// needsResearch: false requires ALL of:
+//   1. purposeSummary — what the foundation funds and why
+//   2. researchNotes  — strategic fit analysis for Revamp-IT
+//   3. contact        — how to reach them (address/email/phone)
+// Optional but recommended for needsResearch: false:
+//   4. applicationProcess — step-by-step how to apply
+//   5. sourceLinks        — where we found this info
+// ---------------------------------------------------------------------------
+
 // Foundation entry
 export const foundationSchema = z.object({
   slug: z.string(),
@@ -109,14 +121,12 @@ export const foundationSchema = z.object({
   websiteUrl: z.string(),
   applicationMethod: ApplicationMethod,
   contact: contactSchema,
-  contactEmail: z.string().optional(),
-  contactPhone: z.string().optional(),
   themes: z.array(ThemeId),
   source: SourceId,
   researchDate: z.string(),
   uid: z.string().optional(),
   purposeSummary: z.string().optional(),
-  needsResearch: z.boolean().optional(),
+  needsResearch: z.boolean(), // required — see Quality Gate above
   researchNotes: z.string().optional(),
   isOperative: z.boolean().optional(),
   isPartnership: z.boolean().optional(),
@@ -134,6 +144,15 @@ export const foundationSchema = z.object({
   members: z.string().optional(),
   events: z.array(z.string()).optional(),
   partners: z.array(z.string()).optional(),
+  // Registry-level data (from Fundraiso, Zefix, ESA, foundation websites)
+  grantExpenditure: z.string().optional(), // e.g., "CHF 53 Mio./Jahr"
+  boardMembers: z.array(z.object({
+    name: z.string(),
+    role: z.string(), // e.g., "Präsident", "Geschäftsführerin", "Mitglied"
+  })).optional(),
+  pastGrantees: z.array(z.string()).optional(), // Org names they've funded
+  supervisoryAuthority: z.string().optional(), // e.g., "Eidg. Stiftungsaufsicht" or cantonal
+  memberships: z.array(z.string()).optional(), // e.g., ["SwissFoundations", "proFonds"]
 });
 export type Foundation = z.infer<typeof foundationSchema>;
 

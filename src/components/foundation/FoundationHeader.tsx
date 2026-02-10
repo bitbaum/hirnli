@@ -1,7 +1,8 @@
 import Badge from '@/components/ui/Badge';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import type { Foundation } from '@/lib/schemas/foundation';
-import { THEMES, TYPE_LABELS, STATUS_LABELS } from '@/lib/config/foundations';
+import { TYPE_LABELS, STATUS_LABELS } from '@/lib/config/foundations';
+import ThemeBadgeList from './ThemeBadgeList';
 
 interface FoundationHeaderProps {
   foundation: Foundation;
@@ -41,19 +42,7 @@ export default function FoundationHeader({ foundation: f }: FoundationHeaderProp
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        {f.themes.map((themeId) => {
-          const theme = THEMES[themeId];
-          if (!theme) return null;
-          return (
-            <span
-              key={themeId}
-              className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium"
-              style={{ backgroundColor: theme.color + '20', color: theme.color }}
-            >
-              {theme.icon} {theme.label}
-            </span>
-          );
-        })}
+        <ThemeBadgeList themeIds={f.themes} size="md" />
       </div>
     </div>
   );

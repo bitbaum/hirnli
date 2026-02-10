@@ -17,7 +17,7 @@ function MegaMenu({ item, pathname }: { item: NavItem; pathname: string }) {
     <li className="group relative">
       <Link
         href={item.href || '#'}
-        className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary ${
+        className={`rounded px-3 py-2 text-sm font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
           isActive(item.href, pathname) ? 'text-primary' : 'text-grey-dark'
         }`}
       >
@@ -75,7 +75,7 @@ function MegaMenu({ item, pathname }: { item: NavItem; pathname: string }) {
 function Dropdown({ item, pathname }: { item: NavItem; pathname: string }) {
   return (
     <li className="group relative">
-      <button className="flex items-center px-3 py-2 text-sm font-medium text-grey-dark transition-colors hover:text-primary">
+      <button className="flex items-center rounded px-3 py-2 text-sm font-medium text-grey-dark transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
         {item.icon && <span className="mr-1">{item.icon}</span>}
         {item.text}
       </button>
@@ -114,7 +114,7 @@ export default function Nav() {
 
         {/* Mobile toggle */}
         <button
-          className="text-2xl lg:hidden"
+          className="rounded text-2xl lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Menu"
         >
@@ -134,7 +134,7 @@ export default function Nav() {
               <li key={item.text}>
                 <Link
                   href={item.href || '#'}
-                  className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary hover:no-underline ${
+                  className={`rounded px-3 py-2 text-sm font-medium transition-colors hover:text-primary hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                     isActive(item.href, pathname) ? 'text-primary' : 'text-grey-dark'
                   }`}
                 >
@@ -181,21 +181,25 @@ export default function Nav() {
                         </Link>
                       </li>
                     ))}
-                    {item.sections?.flatMap((s) =>
-                      s.items
-                        .filter((l) => !l.external)
-                        .map((link) => (
-                          <li key={link.href}>
-                            <Link
-                              href={link.href}
-                              className="block py-1 text-sm text-text-light"
-                              onClick={() => setMobileOpen(false)}
-                            >
-                              {link.text}
-                            </Link>
-                          </li>
-                        )),
-                    )}
+                    {item.sections?.map((section) => (
+                      <li key={section.title} className="ml-4 mt-2">
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-text-muted">{section.title}</h4>
+                        <ul className="mt-1 space-y-1">
+                          {section.items.filter((l) => !l.external).map((link) => (
+                            <li key={link.href}>
+                              <Link
+                                href={link.href}
+                                className="block py-1 text-sm text-text-light"
+                                onClick={() => setMobileOpen(false)}
+                              >
+                                {link.text}
+                                {link.desc && <span className="block text-xs text-text-muted">{link.desc}</span>}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
                   </ul>
                 )}
               </li>

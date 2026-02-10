@@ -54,54 +54,6 @@ export const STATUS_BADGE_VARIANT: Record<FoundationStatus, 'success' | 'warning
   closed: 'danger',
 };
 
-export const PILLARS = [
-  {
-    title: 'Ökologie & Kreislaufwirtschaft',
-    color: 'border-emerald-500',
-    bgHighlight: 'bg-emerald-50',
-    items: [
-      'E-Waste reduzieren durch Wiederverwendung',
-      'Lebensdauer von Geräten verlängern',
-      'Linux statt Windows = längere Nutzung',
-      'Reparieren statt wegwerfen',
-    ],
-    highlight: 'Wirkung: 1000+ Geräte/Jahr gerettet = 285 Tonnen CO2 eingespart',
-  },
-  {
-    title: 'Soziale Integration',
-    color: 'border-amber-500',
-    bgHighlight: 'bg-amber-50',
-    items: [
-      'Praktikumsplätze für Menschen in Übergangssituationen',
-      'Skills entwickeln: Hardware, Software, Kundenkontakt',
-      'Begleitung auf dem Weg zurück in den Arbeitsmarkt',
-      'Bezahlbare IT für alle',
-    ],
-    highlight: 'Wirkung: 100+ Menschen begleitet, 90% Erfolgsquote',
-  },
-  {
-    title: 'Tech-Bildung für alle',
-    color: 'border-blue-500',
-    bgHighlight: 'bg-blue-50',
-    items: [
-      'Reparatur-Wissen weitergeben (Repair Cafe)',
-      'Digitale Kompetenzen vermitteln',
-      'Kritisches Tech-Verständnis fördern',
-      'Hands-on Lernen statt passiver Konsum',
-    ],
-    highlight: 'Vision: 200+ Workshop-Teilnehmer/Jahr, 40+ Kurse',
-  },
-];
-
-export const HUB_ZONES = [
-  { name: 'Shop', description: 'Refurbished Geräte, Beratung' },
-  { name: 'Werkstatt', description: 'Reparatur, Praktikumsplätze' },
-  { name: 'Repair Cafe', description: 'Gemeinsam reparieren lernen' },
-  { name: 'Schulungsraum', description: 'Kurse, Workshops, Bildung' },
-  { name: 'Hackerspace', description: 'Maker-Bereich, Tüfteln' },
-  { name: 'Museum', description: 'Computergeschichte, Hands-on' },
-];
-
 export const BUDGET_ITEMS = [
   { label: 'Umzug & Einrichtung', amount: "CHF 130'000" },
   { label: '2 Program Manager', amount: "CHF 216'000" },
@@ -142,8 +94,8 @@ export const NEXT_STEPS = [
   {
     step: '2. Gesuch vorbereiten',
     description: 'Templates und Bausteine für schnellere Anträge.',
-    href: '/dokumente',
-    linkLabel: 'Vorlagen herunterladen',
+    href: '/fundraising/gesuch-vorlagen',
+    linkLabel: 'Gesuch-Vorlagen öffnen',
   },
   {
     step: '3. Wirkung belegen',

@@ -4,7 +4,7 @@ import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import Table from '@/components/ui/Table';
-import { VALUES, PILLARS, VISION_TARGETS, COMMUNITY_SPACES, TOC_STEPS, TOC_TABLE_DATA, SDG_DATA, SDG_COLORS, EWASTE_FACTS, UNIQUE_POINTS } from './data';
+import { VALUES, PILLARS, VISION_TARGETS, HUB_CORE_SPACES, HUB_CULTURAL_SPACES, TOC_STEPS, TOC_TABLE_DATA, SDG_DATA, SDG_COLORS, EWASTE_FACTS, UNIQUE_POINTS } from './data';
 import type { TocRow, SdgRow, EwasteRow } from './data';
 import { GeschichteSection, KontaktSection } from './components';
 
@@ -24,11 +24,11 @@ export default function StrategiePage() {
       <GeschichteSection />
 
       {/* Mission Statement */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Mission Statement</h2>
         <Card className="border-l-4 border-l-emerald-500 bg-gradient-to-br from-emerald-50 to-emerald-100">
           <p className="text-lg font-semibold text-emerald-800">
-            Revamp-IT gestaltet die Zukunft der IT durch nachhaltige Aufarbeitung und Recycling.
+            Revamp-IT gestaltet die Zukunft der IT durch Reparatur, Refurbishing und Lebensdauerverlängerung.
           </p>
           <p className="mt-3 text-sm text-text-light">
             Wir retten gebrauchte Computer vor dem Elektroschrott, indem wir sie mit Linux und Open-Source-Software
@@ -42,9 +42,9 @@ export default function StrategiePage() {
       </section>
 
       {/* Vision 2030 */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Vision 2030</h2>
-        <div className="rounded-2xl bg-gradient-to-br from-[#1e3a5f] to-[#2d5a87] p-8 text-white">
+        <div className="gradient-hero-vision rounded-2xl p-8 text-white">
           <h3 className="mb-4 text-xl font-bold">
             Eine Welt, in der jedes IT-Gerät sein volles Potenzial ausschöpft und niemand aufgrund mangelnder Technologie ausgeschlossen wird.
           </h3>
@@ -63,14 +63,18 @@ export default function StrategiePage() {
       </section>
 
       {/* Community Tech Space Vision */}
-      <section className="mb-10">
+      <section id="community-tech-space" className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Zukunftsvision: Community Tech Space</h2>
         <Card>
           <p className="mb-4 text-sm text-text-light">
-            Unser Traum ist ein grösserer Raum, der als Museum, Werkstatt und Treffpunkt für die nachhaltige Tech-Community dient:
+            Unser Traum ist ein grösserer Raum, der als Museum, Werkstatt und Treffpunkt für die nachhaltige Tech-Community dient.
+            Diese Vision wächst mit uns — einzelne Bereiche werden schrittweise realisiert, sobald Raum und Ressourcen es erlauben.
           </p>
+
+          {/* Hub Core */}
+          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Hub-Kern</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {COMMUNITY_SPACES.map((space) => (
+            {HUB_CORE_SPACES.map((space) => (
               <div key={space.title} className="flex flex-col items-center rounded-xl border border-border bg-white p-5 text-center shadow-sm">
                 <span className="mb-3 text-4xl">{space.icon}</span>
                 <h3 className="text-sm font-semibold">{space.title}</h3>
@@ -78,14 +82,33 @@ export default function StrategiePage() {
               </div>
             ))}
           </div>
+
+          {/* Cultural Expansion */}
+          <h3 className="mb-3 mt-6 text-sm font-semibold uppercase tracking-wider text-text-muted">Mögliche Erweiterungen: Kultur & Kunst</h3>
+          <p className="mb-3 text-xs text-text-light">
+            Technologie und Kultur gehören zusammen. Aus ausrangierten Platinen werden Skulpturen, aus geretteter Hardware entstehen Instrumente —
+            was einmal Elektroschrott war, wird zu etwas, das Freude bringt. Diese kulturelle Dimension könnte den Hub einzigartig machen
+            und begründet einen grösseren Raum mit ambitionierteren Zielen.
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {HUB_CULTURAL_SPACES.map((space) => (
+              <div key={space.title} className="flex flex-col items-center rounded-xl border border-dashed border-border bg-bg-light p-5 text-center">
+                <span className="mb-3 text-4xl">{space.icon}</span>
+                <h3 className="text-sm font-semibold">{space.title}</h3>
+                <p className="mt-1 text-xs text-text-muted">{space.description}</p>
+              </div>
+            ))}
+          </div>
+
           <p className="mt-4 text-sm italic text-text-muted">
-            Diese Vision macht uns einzigartig: Wir verbinden die Geschichte der Informatik mit der Zukunft der nachhaltigen IT.
+            Diese Vision macht uns einzigartig: Wir verbinden die Geschichte der Informatik mit der Zukunft der nachhaltigen IT —
+            und zeigen, dass aus Weggeworfenem Kunst, Wissen und Gemeinschaft entstehen können.
           </p>
         </Card>
       </section>
 
       {/* Unsere Werte */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unsere Werte</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {VALUES.map((v) => (
@@ -100,7 +123,7 @@ export default function StrategiePage() {
       </section>
 
       {/* Vier Säulen */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Vier Säulen unserer Arbeit</h2>
         <MetricGrid columns={4}>
           {PILLARS.map((p) => (
@@ -114,7 +137,7 @@ export default function StrategiePage() {
       </section>
 
       {/* Theory of Change */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Theory of Change</h2>
         <Card>
           <CardHeader>
@@ -159,7 +182,7 @@ export default function StrategiePage() {
       </section>
 
       {/* SDG Alignment */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Beitrag zu den UN Sustainable Development Goals</h2>
         <Card>
           {/* SDG badges */}
@@ -195,7 +218,7 @@ export default function StrategiePage() {
       </section>
 
       {/* Was uns einzigartig macht */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Was uns einzigartig macht</h2>
         <Card>
           <div className="space-y-4">
@@ -213,7 +236,7 @@ export default function StrategiePage() {
       </section>
 
       {/* E-Waste Krise */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die E-Waste Krise: Warum unsere Arbeit wichtig ist</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Card>

@@ -118,6 +118,52 @@ export default function FoundationDetailTabs({ foundation: f }: Props) {
                       </div>
                     </div>
                   )}
+                  {/* Board Members */}
+                  {f.boardMembers && f.boardMembers.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-grey-dark">Stiftungsrat</h4>
+                      <div className="mt-2 space-y-1">
+                        {f.boardMembers.map((m) => (
+                          <div key={m.name} className="flex items-baseline justify-between border-b border-border py-1">
+                            <span className="text-text">{m.name}</span>
+                            <span className="text-xs text-text-muted">{m.role}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {/* Past Grantees */}
+                  {f.pastGrantees && f.pastGrantees.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-grey-dark">Bisherige Förderempfänger</h4>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {f.pastGrantees.map((g) => (
+                          <span key={g} className="rounded bg-bg-light px-2 py-1 text-xs">{g}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {/* Supervisory Authority + Memberships */}
+                  {(f.supervisoryAuthority || (f.memberships && f.memberships.length > 0)) && (
+                    <div className="grid grid-cols-2 gap-4">
+                      {f.supervisoryAuthority && (
+                        <div>
+                          <h4 className="font-semibold text-grey-dark">Aufsichtsbehörde</h4>
+                          <p className="mt-1 text-text-light">{f.supervisoryAuthority}</p>
+                        </div>
+                      )}
+                      {f.memberships && f.memberships.length > 0 && (
+                        <div>
+                          <h4 className="font-semibold text-grey-dark">Mitgliedschaften</h4>
+                          <div className="mt-1 flex flex-wrap gap-1">
+                            {f.memberships.map((m) => (
+                              <span key={m} className="rounded bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">{m}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   {f.uid && (
                     <div>
                       <h4 className="font-semibold text-grey-dark">UID</h4>

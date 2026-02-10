@@ -1,6 +1,7 @@
+import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
-import { SOURCES } from '@/lib/config/foundations';
+import { SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
 
 interface FoundationSidebarProps {
   foundation: Foundation;
@@ -18,9 +19,11 @@ function computeCompleteness(f: Foundation): { percent: number; missing: string[
     ['Stiftungszweck', !!f.purposeSummary],
     ['Jahresbudget', !!f.annualBudget],
     ['Gründungsjahr', !!f.founded],
-    ['Kontakt', !!(f.contact?.email || f.contactEmail || f.contact?.address)],
+    ['Kontakt', !!(f.contact?.email || f.contact?.address)],
     ['UID', !!f.uid],
     ['Region', !!f.region],
+    ['Stiftungsrat', !!(f.boardMembers && f.boardMembers.length > 0)],
+    ['Vermögen', !!f.capital],
   ];
   const filled = checks.filter(([, ok]) => ok).length;
   const missing = checks.filter(([, ok]) => !ok).map(([label]) => label);
@@ -45,10 +48,22 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             <dt className="text-text-muted">Bewerbungsfrist</dt>
             <dd className="font-medium text-grey-dark">{f.deadlineText}</dd>
           </div>
+          {f.capital && (
+            <div>
+              <dt className="text-text-muted">Vermögen</dt>
+              <dd className="font-medium text-grey-dark">{f.capital}</dd>
+            </div>
+          )}
           {f.annualBudget && (
             <div>
               <dt className="text-text-muted">Jahresbudget</dt>
               <dd className="font-medium text-grey-dark">{f.annualBudget}</dd>
+            </div>
+          )}
+          {f.grantExpenditure && (
+            <div>
+              <dt className="text-text-muted">Förderausgaben</dt>
+              <dd className="font-medium text-grey-dark">{f.grantExpenditure}</dd>
             </div>
           )}
           <div>
@@ -58,7 +73,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           <div>
             <dt className="text-text-muted">Fit-Score</dt>
             <dd className="font-medium text-grey-dark">
-              {'★'.repeat(f.fit)}{'☆'.repeat(3 - f.fit)} ({f.fit}/3)
+              {FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? '☆☆☆'} ({f.fit}/3)
             </dd>
           </div>
         </dl>
@@ -89,6 +104,25 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         </div>
       </Card>
 
+      {/* Gesuch */}
+      <Card>
+        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Gesuch</h3>
+        <div className="space-y-2">
+          <Link
+            href={`/fundraising/stiftungen/${f.slug}/gesuch`}
+            className="block rounded-lg bg-primary/10 px-4 py-3 text-center text-sm font-semibold text-primary hover:bg-primary/20"
+          >
+            Interaktive Seite
+          </Link>
+          <Link
+            href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
+            className="block rounded-lg border border-border px-4 py-3 text-center text-sm font-medium text-grey-dark hover:bg-bg-light"
+          >
+            Formelles Dokument (PDF)
+          </Link>
+        </div>
+      </Card>
+
       {/* Source Links */}
       {f.sourceLinks && f.sourceLinks.length > 0 && (
         <Card>
@@ -110,20 +144,20 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       )}
 
       {/* Contact */}
-      {(f.contact || f.contactEmail) && (
+      {f.contact && (
         <Card>
           <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Kontakt</h3>
           <div className="space-y-1 text-sm text-text-light">
-            {f.contact?.address && <p>{f.contact.address}</p>}
-            {(f.contact?.email || f.contactEmail) && (
+            {f.contact.address && <p>{f.contact.address}</p>}
+            {f.contact.email && (
               <p>
-                <a href={`mailto:${f.contact?.email || f.contactEmail}`} className="text-primary">
-                  {f.contact?.email || f.contactEmail}
+                <a href={`mailto:${f.contact.email}`} className="text-primary">
+                  {f.contact.email}
                 </a>
               </p>
             )}
-            {(f.contact?.phone || f.contactPhone) && (
-              <p>{f.contact?.phone || f.contactPhone}</p>
+            {f.contact.phone && (
+              <p>{f.contact.phone}</p>
             )}
           </div>
         </Card>

@@ -32,7 +32,7 @@ export default function TeamPage() {
       </MetricGrid>
 
       {/* Zusammenfassung */}
-      <section className="mb-10">
+      <section className="mb-8">
         <Card className="border-l-4 border-l-amber-400 bg-amber-50">
           <div className="flex items-start gap-3">
             <span className="text-xl">👥</span>
@@ -65,7 +65,7 @@ export default function TeamPage() {
       </section>
 
       {/* Datenqualität-Hinweis */}
-      <section className="mb-10">
+      <section className="mb-8">
         <div className="rounded-lg border-l-4 border-l-amber-400 bg-amber-50 p-4">
           <strong>Hinweis zur Datenqualität:</strong>
           <p className="mt-1 text-sm text-text-light">
@@ -76,7 +76,7 @@ export default function TeamPage() {
       </section>
 
       {/* Team-Mitglieder nach Abteilung */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-6 text-xl font-semibold text-grey-dark">Team-Mitglieder</h2>
         {DEPARTMENTS.map((dept) => {
           const members = getMembersByDepartment(dept.name);
@@ -111,7 +111,7 @@ export default function TeamPage() {
       </section>
 
       {/* Handlungsempfehlungen */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Handlungsempfehlungen</h2>
         <Card>
           <CardHeader>
@@ -153,7 +153,7 @@ export default function TeamPage() {
       </section>
 
       {/* Nicht erfasste Daten */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Nicht erfasste Daten</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {MISSING_DATA.map((item) => (
@@ -169,7 +169,7 @@ export default function TeamPage() {
       </section>
 
       {/* Standorte */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Standorte</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {LOCATIONS.map((loc) => (
@@ -187,7 +187,7 @@ export default function TeamPage() {
       </section>
 
       {/* Insights & HR_Roster Spalten */}
-      <section className="mb-10">
+      <section className="mb-8">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="rounded-xl bg-gradient-to-br from-purple-50 to-fuchsia-50 p-6">
             <h3 className="mb-4 text-base font-semibold text-violet-700">Was sagen diese Daten?</h3>
@@ -227,7 +227,7 @@ export default function TeamPage() {
       </section>
 
       {/* Datenquelle */}
-      <section className="mb-10">
+      <section className="mb-8">
         <div className="rounded-lg border-l-4 border-l-emerald-500 bg-emerald-50 p-4">
           <strong>Datenquelle:</strong> HR_Roster.csv
           <p className="mt-1 text-sm text-text-muted">

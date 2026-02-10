@@ -1,5 +1,7 @@
 'use client';
 
+import { themeStyleSolid } from '@/lib/utils/theme';
+
 interface FilterChip {
   id: string;
   label: string;
@@ -25,16 +27,12 @@ export default function FilterBar({ label, chips, selected, onToggle, className 
           <button
             key={chip.id}
             onClick={() => onToggle(chip.id)}
-            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               isSelected
                 ? 'bg-primary text-white'
                 : 'bg-grey-light text-grey-dark hover:bg-border'
             }`}
-            style={
-              isSelected && chip.color
-                ? { backgroundColor: chip.color, color: 'white' }
-                : undefined
-            }
+            style={isSelected && chip.color ? themeStyleSolid(chip.color) : undefined}
           >
             {chip.icon && <span>{chip.icon}</span>}
             {chip.label}
@@ -44,7 +42,7 @@ export default function FilterBar({ label, chips, selected, onToggle, className 
       {selected.length > 0 && (
         <button
           onClick={() => selected.forEach(onToggle)}
-          className="text-xs text-text-muted hover:text-danger"
+          className="text-xs text-text-muted hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
         >
           Alle zurücksetzen
         </button>

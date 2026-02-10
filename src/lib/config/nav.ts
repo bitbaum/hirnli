@@ -37,6 +37,12 @@ const navItemSchema = z.object({
 export type NavItem = z.infer<typeof navItemSchema>;
 
 // ---------------------------------------------------------------------------
+// Brand name (SSOT)
+// ---------------------------------------------------------------------------
+
+export const BRAND_NAME = 'Revamp-Info';
+
+// ---------------------------------------------------------------------------
 // Navigation structure (SSOT)
 // ---------------------------------------------------------------------------
 
@@ -44,7 +50,7 @@ export const NAV_STRUCTURE: {
   logo: { text: string; href: string };
   items: NavItem[];
 } = {
-  logo: { text: 'Revamp-Info', href: '/' },
+  logo: { text: BRAND_NAME, href: '/' },
   items: [
     { text: 'Dashboard', href: '/', icon: '📊' },
     {
@@ -61,7 +67,6 @@ export const NAV_STRUCTURE: {
       icon: '💰',
       children: [
         { text: 'Übersicht', href: '/finanzen', desc: 'Einnahmen, Ausgaben, Trends' },
-        { text: 'Kennzahlen', href: '/kennzahlen', desc: 'KPIs und Metriken' },
         { text: 'Preismodell', href: '/preismodell', desc: 'Kalkulation, Margen' },
       ],
     },
@@ -81,6 +86,7 @@ export const NAV_STRUCTURE: {
         {
           title: 'Dokumente',
           items: [
+            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: 'Vorlagen nach Stiftungstyp (A/B/C/D)', highlight: true },
             { text: 'Alle Dokumente', href: '/dokumente', desc: 'Berichte, Vorlagen, Downloads' },
             { text: 'Organisationsprofil', href: '/fundraising#vision', desc: 'Vision & 3 Säulen' },
           ],

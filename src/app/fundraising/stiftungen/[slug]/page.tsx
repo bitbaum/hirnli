@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { getFoundationBySlug, generateFoundationParams } from '@/lib/domain/foundation-helpers';
 import FoundationHeader from '@/components/foundation/FoundationHeader';
 import FoundationSidebar from '@/components/foundation/FoundationSidebar';
 import FitAnalysis from '@/components/foundation/FitAnalysis';
@@ -10,14 +10,13 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-// Generate all slugs at build time
 export async function generateStaticParams() {
-  return STIFTUNGEN_DATA.map((f) => ({ slug: f.slug }));
+  return generateFoundationParams();
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const foundation = STIFTUNGEN_DATA.find((f) => f.slug === slug);
+  const foundation = getFoundationBySlug(slug);
   if (!foundation) return { title: 'Stiftung nicht gefunden' };
   return {
     title: foundation.name,
@@ -27,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function FoundationDetailPage({ params }: Props) {
   const { slug } = await params;
-  const foundation = STIFTUNGEN_DATA.find((f) => f.slug === slug);
+  const foundation = getFoundationBySlug(slug);
 
   if (!foundation) {
     notFound();

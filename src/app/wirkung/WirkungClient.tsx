@@ -12,8 +12,8 @@ import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { formatCHF, formatNumber } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided, estimateEWastePrevented } from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
-import { ToCColumn, ImpactStoryCards } from './components';
-import { TOC_COLUMNS, DATA_GAPS, WIRKUNG_NEXT_STEPS } from './data';
+import { ImpactStoryCards } from './components';
+import { DATA_GAPS, WIRKUNG_NEXT_STEPS } from './data';
 
 export default function WirkungClient() {
   const {
@@ -125,30 +125,6 @@ export default function WirkungClient() {
         flightsZurichBerlin={flightsZurichBerlin}
       />
 
-      {/* Theory of Change */}
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Theory of Change</CardTitle>
-          <p className="text-sm text-text-muted">Von den Inputs bis zum Impact — so entsteht unsere Wirkung.</p>
-        </CardHeader>
-        <div className="grid gap-4 md:grid-cols-4">
-          {TOC_COLUMNS.map((col) => (
-            <ToCColumn key={col.title} {...col} />
-          ))}
-        </div>
-        <div className="mt-4 flex flex-wrap gap-3 text-xs">
-          <span className="flex items-center gap-1">
-            <span className="inline-block h-2.5 w-2.5 rounded-full bg-success" /> Gemessen
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="inline-block h-2.5 w-2.5 rounded-full bg-warning" /> Geschätzt
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="inline-block h-2.5 w-2.5 rounded-full bg-gray-400" /> Nicht erfasst
-          </span>
-        </div>
-      </Card>
-
       {/* Data coverage */}
       <Card className="mb-8">
         <CardHeader>
@@ -205,6 +181,12 @@ export default function WirkungClient() {
           ))}
         </div>
       </Card>
+
+      {/* Cross-reference */}
+      <div className="mb-8 text-sm text-text-muted">
+        Wie diese Wirkung entsteht, beschreibt unsere{' '}
+        <a href="/strategie" className="font-medium text-primary hover:underline">Theory of Change auf der Strategie-Seite</a>.
+      </div>
 
       {/* Data source info */}
       <Card>

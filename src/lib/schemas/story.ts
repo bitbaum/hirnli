@@ -51,6 +51,22 @@ export const budgetLineItemSchema = z.object({
 });
 export type BudgetLineItem = z.infer<typeof budgetLineItemSchema>;
 
+// Proof point (track record evidence)
+export const proofPointSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  metric_id: z.string().optional(),
+});
+export type ProofPoint = z.infer<typeof proofPointSchema>;
+
+// Track record
+export const trackRecordSchema = z.object({
+  headline: z.string(),
+  text: z.string(),
+  proof_points: z.array(proofPointSchema),
+});
+export type TrackRecord = z.infer<typeof trackRecordSchema>;
+
 // Core facts
 export const coreFacts = z.object({
   organization: z.object({

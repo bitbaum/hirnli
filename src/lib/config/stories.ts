@@ -33,23 +33,13 @@ import type {
   WhySection,
   CompetencySection,
   Project,
+  ProofPoint,
+  TrackRecord,
 } from '@/lib/schemas/story';
 
 // ============================================================================
 // Types for structures not covered by the story schema
 // ============================================================================
-
-interface ProofPoint {
-  label: string;
-  value: string;
-  metric_id?: string;
-}
-
-interface TrackRecord {
-  headline: string;
-  text: string;
-  proof_points: ProofPoint[];
-}
 
 interface BudgetLineItemTemplate {
   label: string;
@@ -77,7 +67,7 @@ interface HowSection {
   digital: CompetencySection;
 }
 
-type ThemeKey = 'klima' | 'kreislaufwirtschaft' | 'sozial' | 'bildung' | 'digital';
+export type ThemeKey = 'klima' | 'kreislaufwirtschaft' | 'sozial' | 'bildung' | 'digital';
 
 interface ComposedStory {
   why: WhySection | undefined;
@@ -198,6 +188,12 @@ export const EVIDENCE: Record<string, Record<string, Evidence>> = {
       claim: 'Digitale Kompetenzen werden in 85% aller Berufe vorausgesetzt',
       url: 'https://digitalswitzerland.com/',
     },
+    wef_future_of_jobs: {
+      title: 'WEF Future of Jobs Report',
+      year: 2025,
+      claim: 'Bis 2030 werden 92 Millionen Arbeitsplätze durch Automatisierung und KI verdrängt — gleichzeitig entstehen 170 Millionen neue, die digitale Kompetenzen erfordern',
+      url: 'https://www.weforum.org/publications/the-future-of-jobs-report-2025/',
+    },
   },
 };
 
@@ -230,10 +226,10 @@ export const WHY: Record<string, WhySection> = {
   // For Soziale Integration / Arbeitsintegration foundations
   sozial: {
     headline: 'Jeder verdient eine zweite Chance.',
-    hook: `Menschen, die es auf dem Arbeitsmarkt schwer haben, brauchen mehr als Bewerbungstraining. Sie brauchen echte Arbeit, echte Verantwortung, echte Erfolgserlebnisse.`,
-    problem: `Langzeitarbeitslose, Menschen mit Migrationshintergrund, Wiedereinsteigerinnen - sie alle kämpfen gegen Vorurteile und fehlende Berufserfahrung. Ohne Praxis keine Stelle, ohne Stelle keine Praxis.`,
-    solution: `Revamp-IT bietet Praktikumsplätze in einem echten Betrieb. Unsere Praktikant:innen reparieren echte Geräte für echte Kunden. Sie lernen IT-Skills, die auf dem Arbeitsmarkt gefragt sind.`,
-    evidence: ['seco_arbeitsmarkt'],
+    hook: `In einer Arbeitswelt, die sich durch Automatisierung und KI rasant verändert, brauchen Menschen mehr als Bewerbungstraining. Sie brauchen echte Arbeit, echte Verantwortung, echte Erfolgserlebnisse — und neue Kompetenzen.`,
+    problem: `Langzeitarbeitslose, Menschen mit Migrationshintergrund, Wiedereinsteigerinnen — sie alle kämpfen gegen Vorurteile und fehlende Berufserfahrung. Wenn gleichzeitig Automatisierung traditionelle Tätigkeiten verdrängt, braucht es konkrete Wege in zukunftsfähige Berufe. Ohne Praxis keine Stelle, ohne Stelle keine Praxis.`,
+    solution: `Revamp-IT bietet Praktikumsplätze in einem echten Betrieb. Unsere Praktikant:innen reparieren echte Geräte für echte Kunden. Sie lernen IT-Skills, die auf dem Arbeitsmarkt gefragt sind — von Hardware-Diagnose bis Linux-Administration.`,
+    evidence: ['seco_arbeitsmarkt', 'wef_future_of_jobs'],
     metrics: ['praktikanten_100', 'erfolgsquote_40', 'plaetze_8_10'],
     call_to_action: 'Ermöglichen Sie mehr Menschen den Wiedereinstieg.',
   },
@@ -241,10 +237,10 @@ export const WHY: Record<string, WhySection> = {
   // For Bildung / Digitale Teilhabe foundations
   bildung: {
     headline: 'Digitale Kompetenz ist kein Luxus.',
-    hook: `In einer Welt, in der fast jeder Job digitale Skills verlangt, darf niemand zurückbleiben. Wer nicht mitkommt, wird abgehängt.`,
-    problem: `Viele Menschen haben keinen Zugang zu bezahlbarer IT-Bildung. Kommerzielle Kurse sind teuer, Volkshochschul-Angebote oft oberflächlich. Und wer keinen eigenen Computer hat, kann nicht üben.`,
-    solution: `Revamp-IT verbindet beides: günstige refurbished Geräte UND praxisnahe Workshops. Wir zeigen, wie man Linux nutzt, wie man Probleme selbst löst, wie man digital souverän wird.`,
-    evidence: ['digitalswitzerland'],
+    hook: `KI und Automatisierung verändern, welche Fähigkeiten gefragt sind. Wer digitale Grundkompetenzen hat, kann diese Werkzeuge nutzen. Wer sie nicht hat, wird von ihnen ersetzt. In dieser Welt darf niemand zurückbleiben.`,
+    problem: `Viele Menschen haben keinen Zugang zu bezahlbarer IT-Bildung. Kommerzielle Kurse sind teuer, Volkshochschul-Angebote oft oberflächlich. Und wer keinen eigenen Computer hat, kann nicht üben. Gleichzeitig steigen die Anforderungen: Digitale Kompetenzen werden in 85% aller Berufe vorausgesetzt — Tendenz steigend.`,
+    solution: `Revamp-IT verbindet beides: günstige refurbished Geräte UND praxisnahe Workshops. Wir zeigen, wie man Linux nutzt, wie man Probleme selbst löst, wie man digital souverän wird — und wie man neue Technologien kritisch und kompetent einordnet.`,
+    evidence: ['digitalswitzerland', 'wef_future_of_jobs'],
     metrics: ['praktikanten_100'],
     call_to_action: 'Investieren Sie in digitale Chancengleichheit.',
   },
@@ -536,6 +532,70 @@ export const BUDGET_TEMPLATES: BudgetTemplates = {
 };
 
 // ============================================================================
+// BUDGET AMOUNTS - Template CHF values for Gesuch documents
+// Follows Robert's framing: naming is critical, max 20% overhead
+// ============================================================================
+
+interface BudgetLine {
+  label: string;
+  description: string;
+  amount: number;
+  category: 'personal' | 'sachkosten' | 'programm';
+}
+
+export const BUDGET_LINES: BudgetLine[] = [
+  // Personal (~60% — this IS the project, not overhead)
+  { label: 'Projektkoordination (40%)', description: 'Koordination, Monitoring, Berichterstattung, Fundraising', amount: 28800, category: 'personal' },
+  { label: 'Fachliche Betreuung Werkstatt (30%)', description: 'Technische Anleitung Refurbishing, Qualitätssicherung', amount: 21600, category: 'personal' },
+  { label: 'Sozialpädagogische Begleitung (20%)', description: 'Betreuung Praktikant:innen, Standortgespräche, Vermittlung', amount: 14400, category: 'personal' },
+
+  // Sachkosten (~25%)
+  { label: 'Material und Ersatzteile', description: 'Ersatzteile, Werkzeug, Verbrauchsmaterial für Reparaturen', amount: 6000, category: 'sachkosten' },
+  { label: 'Infrastruktur (anteilig)', description: 'Raumkosten Werkstatt, Strom, Internet', amount: 8400, category: 'sachkosten' },
+  { label: 'IT-Infrastruktur', description: 'Server, Netzwerk, Diagnose-Tools', amount: 3600, category: 'sachkosten' },
+
+  // Programm (~15%)
+  { label: 'Workshop-Durchführung', description: 'Vorbereitung, Material, Räume für Bildungsangebote', amount: 4800, category: 'programm' },
+  { label: 'Wirkungsmessung', description: 'Tracking, Evaluation, Berichterstattung', amount: 2400, category: 'programm' },
+];
+
+// Total: CHF 90'000/Jahr — scalable by foundation ask
+export const BUDGET_TOTAL = BUDGET_LINES.reduce((sum, l) => sum + l.amount, 0);
+
+export const BUDGET_EIGENLEISTUNG = {
+  label: 'Eigenleistung Revamp-IT',
+  description: 'Erlöse aus Geräteverkauf, bestehende Infrastruktur',
+  amount: 54000, // 60% self-financed (matches 96% claim — rest is growth)
+};
+
+// ============================================================================
+// ANSCHREIBEN - Cover letter building blocks per foundation type
+// ============================================================================
+
+export const ANSCHREIBEN_TEMPLATES: Record<string, { opening: string; closing: string }> = {
+  A: {
+    opening: 'Wir erlauben uns, Ihnen ein Fördergesuch für unser Projekt einzureichen. Als gemeinnütziger Verein mit über 20 Jahren Erfahrung in der Verbindung von Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung möchten wir Ihnen eine Zusammenarbeit vorschlagen.',
+    closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für ein Gespräch jederzeit zur Verfügung. Gerne senden wir Ihnen weitere Unterlagen zu.',
+  },
+  B: {
+    opening: 'Revamp-IT verbindet seit über 20 Jahren Umweltschutz mit sozialer Integration — ein Anliegen, das uns mit Ihrer Stiftung verbindet. Wir möchten Ihnen zeigen, wie eine Partnerschaft konkret aussehen könnte.',
+    closing: 'Wir würden uns sehr über ein persönliches Gespräch freuen, um unsere Arbeit und mögliche Synergien vorzustellen.',
+  },
+  C: {
+    opening: 'In Zürich reparieren wir Computer, die sonst im Müll landen würden — und geben gleichzeitig Menschen eine zweite Chance auf dem Arbeitsmarkt. Dürfen wir Ihnen kurz erzählen, was wir tun?',
+    closing: 'Wir würden uns freuen, von Ihnen zu hören. Ein kurzes Telefonat genügt, um zu klären, ob eine Unterstützung in Frage kommt.',
+  },
+  D: {
+    opening: 'Als soziales Unternehmen an der Schnittstelle von Kreislaufwirtschaft, digitaler Bildung und Arbeitsintegration adressiert Revamp-IT mehrere Ihrer Förderschwerpunkte. Wir möchten Ihnen eine Zusammenarbeit vorschlagen, die messbare soziale und ökologische Wirkung erzielt.',
+    closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für eine Präsentation unserer Impact-Daten jederzeit bereit.',
+  },
+  network: {
+    opening: 'Revamp-IT ist seit 2003 in Zürich aktiv und verbindet Kreislaufwirtschaft mit sozialer Integration. Wir interessieren uns für eine Mitgliedschaft und mögliche Partnerschaften.',
+    closing: 'Wir freuen uns auf den Austausch.',
+  },
+};
+
+// ============================================================================
 // THEME SYNONYMS - For foundation matching (from meeting transcript)
 // ============================================================================
 export const THEME_SYNONYMS: Record<string, string[]> = {
@@ -570,6 +630,31 @@ export const THEME_SYNONYMS: Record<string, string[]> = {
     'Digitale Unabhängigkeit',
   ],
 };
+
+// ============================================================================
+// THEME MAPPING - Foundation ThemeIds → Story ThemeKeys
+// ============================================================================
+
+/** Maps foundation ThemeId values to story ThemeKey values */
+export const THEME_ID_TO_STORY_KEY: Record<string, ThemeKey> = {
+  'klima': 'klima',
+  'kreislaufwirtschaft': 'kreislaufwirtschaft',
+  'soziale-integration': 'sozial',
+  'digitale-bildung': 'bildung',
+  'digitale-souveraenitaet': 'digital',
+  'jugend': 'sozial',
+  'zuerich': 'klima',            // Geographic — use foundation's other themes first
+  'arbeitsintegration': 'sozial',
+};
+
+/** Priority order for selecting primary theme (last = richest story content) */
+export const THEME_PRIORITY: ThemeKey[] = [
+  'digital',
+  'bildung',
+  'kreislaufwirtschaft',
+  'sozial',
+  'klima',
+];
 
 // ============================================================================
 // HELPER FUNCTIONS

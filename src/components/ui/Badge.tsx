@@ -5,10 +5,10 @@ const VARIANTS = {
   warning: 'bg-warning-bg text-warning',
   danger: 'bg-danger-bg text-danger',
   // Data source badges
-  live: 'bg-green-100 text-green-800',
-  derived: 'bg-blue-100 text-blue-800',
-  estimated: 'bg-yellow-100 text-yellow-800',
-  none: 'bg-gray-100 text-gray-500',
+  live: 'bg-success-bg text-success',
+  derived: 'bg-primary/10 text-primary',
+  estimated: 'bg-warning-bg text-warning',
+  none: 'bg-grey-light text-text-muted',
 } as const;
 
 interface BadgeProps {

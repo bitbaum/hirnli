@@ -14,8 +14,8 @@ export const VALUES = [
 export const PILLARS = [
   { icon: '♻️', title: '1. Umweltschutz', description: 'Reduktion von Elektroschrott durch Wiederinstandsetzung, Reparatur, Weiterverwendung und fachgerechtes Recycling' },
   { icon: '🐧', title: '2. Digitale Souveränität', description: 'Förderung von Linux & Open-Source Software als nachhaltige, kostengünstige und befähigende Technologieoption' },
-  { icon: '📚', title: '3. Bildung & Aufklärung', description: 'Workshops, technische Unterstützung und niederschwellige Lernangebote für alle Altersgruppen' },
-  { icon: '🤝', title: '4. Soziale Integration', description: 'Unterstützung bei der beruflichen Wiedereingliederung durch Struktur, Routinen und sinnvolle Tätigkeiten' },
+  { icon: '📚', title: '3. Bildung & Aufklärung', description: 'Workshops, technische Unterstützung und niederschwellige Lernangebote — von Reparaturwissen bis zu digitalen Kompetenzen in einer Welt, die sich durch Automatisierung und KI rasant verändert' },
+  { icon: '🤝', title: '4. Soziale Integration', description: 'Unterstützung bei der beruflichen Wiedereingliederung durch Struktur, Routinen und sinnvolle Tätigkeiten — besonders wichtig, wenn Automatisierung traditionelle Berufsbilder verändert' },
 ] as const;
 
 export const VISION_TARGETS = [
@@ -27,11 +27,20 @@ export const VISION_TARGETS = [
   { value: 'Community Tech Space', label: 'Museum, Werkstatt & Treffpunkt' },
 ] as const;
 
-export const COMMUNITY_SPACES = [
-  { icon: '🏛️', title: 'Vintage-Hardware Museum', description: 'Von Apple I bis Amiga, von Commodore 64 bis frühen Linux-Workstations' },
-  { icon: '🎹', title: 'Synthesizer-Sammlung', description: 'Historische Synthesizer & elektronische Musikinstrumente' },
-  { icon: '🔧', title: 'Offene Werkstatt', description: 'Community-Reparatur-Events und Hands-on Workshops' },
-  { icon: '☕', title: 'Community Cafe', description: 'Austausch und informelles Networking' },
+/** Hub-Kern: Bereiche, die direkt aus der heutigen Arbeit wachsen */
+export const HUB_CORE_SPACES = [
+  { icon: '🔧', title: 'Offene Werkstatt', description: 'Community-Reparatur-Events, Hands-on Workshops, Repair Cafe' },
+  { icon: '🏛️', title: 'Vintage-Hardware Museum', description: 'Von Apple I bis Amiga — Computergeschichte zum Anfassen' },
+  { icon: '🎓', title: 'Schulungs- & Hackerspace', description: 'Kurse, Tüfteln, digitale Kompetenzen für alle' },
+  { icon: '☕', title: 'Community Cafe', description: 'Austausch, Networking, niederschwelliger Treffpunkt' },
+] as const;
+
+/** Kulturelle Dimension: Mögliche Erweiterungen, die den Hub einzigartig machen könnten */
+export const HUB_CULTURAL_SPACES = [
+  { icon: '🎨', title: 'Kunst aus Elektroschrott', description: 'Skulpturen, Installationen und Objekte aus ausrangierten Platinen, Gehäusen und Komponenten' },
+  { icon: '🎹', title: 'Elektronische Musik', description: 'Synthesizer, Drum Machines und Instrumente — restauriert, gebaut oder gerettet aus alter Hardware' },
+  { icon: '📖', title: 'Tech-Bibliothek', description: 'Leseecke mit Büchern, Zines und Magazinen rund um Technologie, Nachhaltigkeit und Maker-Kultur' },
+  { icon: '🎬', title: 'Filmabende', description: 'Dokumentarfilme und Diskussionsrunden zu Technologie, Nachhaltigkeit und digitaler Kultur' },
 ] as const;
 
 export const TOC_STEPS = [

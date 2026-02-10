@@ -157,14 +157,11 @@ export default function TransparenzPage() {
   return (
     <>
       {/* Hero Section */}
-      <div className="mb-8 rounded-2xl bg-gradient-to-br from-blue-800 via-blue-500 to-emerald-500 p-8 text-white">
-        <h1 className="mb-2 text-2xl font-bold md:text-3xl">
-          Totale Transparenz & Zahlen-Integrität
-        </h1>
-        <p className="text-lg opacity-90">
-          First Principles Approach: Jede Zahl ist nachvollziehbar, validierbar und kontextualisiert.
-        </p>
-
+      <PageHeader
+        title="Totale Transparenz & Zahlen-Integrität"
+        subtitle="First Principles Approach: Jede Zahl ist nachvollziehbar, validierbar und kontextualisiert."
+        variant="hero"
+      >
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <div className="rounded-xl bg-white/15 p-4 text-center backdrop-blur-sm">
             <span className="block text-3xl font-bold">{stats.total}</span>
@@ -183,7 +180,7 @@ export default function TransparenzPage() {
             <span className="mt-1 block text-sm opacity-90">High Confidence</span>
           </div>
         </div>
-      </div>
+      </PageHeader>
 
       {/* Integrity Report Table */}
       <section className="mb-8">

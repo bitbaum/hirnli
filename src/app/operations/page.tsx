@@ -29,7 +29,7 @@ export default function OperationsPage() {
       />
 
       {/* Operative Kennzahlen */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Operative Kennzahlen</h2>
         <MetricGrid columns={4}>
           <MetricCard label="Geräte/Monat refurbished" value="25-35" subtitle="Aktuelle Kapazität" />
@@ -44,7 +44,7 @@ export default function OperationsPage() {
       </section>
 
       {/* Refurbishment-Prozess Übersicht */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Refurbishment-Prozess Übersicht</h2>
         <Card>
           <CardHeader>
@@ -69,7 +69,7 @@ export default function OperationsPage() {
       </section>
 
       {/* Step 1: Intake */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">1. Geräte-Intake</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Card>
@@ -105,7 +105,7 @@ export default function OperationsPage() {
       <TriageSection />
 
       {/* Step 3: Datenlöschung */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">3. Datenlöschung</h2>
         <div className="mb-4 rounded-lg border-l-4 border-l-red-500 bg-red-50 p-4">
           <strong>WICHTIG:</strong> Dieser Schritt ist OBLIGATORISCH für alle Geräte mit Festplatten!
@@ -135,7 +135,7 @@ export default function OperationsPage() {
       <RefurbishmentStepsSection />
 
       {/* Step 7: QA */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">7. Qualitätskontrolle</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Card>
@@ -170,7 +170,7 @@ export default function OperationsPage() {
       </section>
 
       {/* Step 8: Pricing & Listing */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">8. Pricing & Listing</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Card>
@@ -210,7 +210,7 @@ export default function OperationsPage() {
       </section>
 
       {/* Zeitaufwand-Übersicht */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Zeitaufwand-Übersicht</h2>
         <Card>
           <Table<TimeRow>
@@ -240,7 +240,7 @@ export default function OperationsPage() {
       </section>
 
       {/* Werkzeuge & Materialien */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Werkzeuge & Materialien</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map((tool) => (

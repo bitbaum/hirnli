@@ -10,8 +10,6 @@ import type { FoundationStatus } from '@/lib/schemas/foundation';
 import {
   computePipelineStats,
   STATUS_BADGE_VARIANT,
-  PILLARS,
-  HUB_ZONES,
   BUDGET_ITEMS,
   PACKAGES,
   HERO_STATS,
@@ -30,8 +28,8 @@ export default function FundraisingPage() {
   return (
     <>
       <PageHeader
-        title="Fundraising & Vision 2026"
-        subtitle="Community Tech Hub - Ökologie, Soziales und Bildung unter einem Dach"
+        title="Fundraising 2026"
+        subtitle="Was wir brauchen, warum, und wie Sie uns unterstützen können"
         badge="Fundraising"
       />
 
@@ -92,15 +90,16 @@ export default function FundraisingPage() {
         </div>
       </Card>
 
-      {/* Vision Hero */}
-      <section className="mb-8 rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-900 p-8 text-white">
+      {/* Vision — brief, links to Strategie for full vision */}
+      <section className="gradient-hero-fundraising mb-8 rounded-2xl p-8 text-white">
         <h2 className="mb-2 text-2xl font-bold">Community Tech Hub 2026</h2>
         <p className="mb-2 text-lg italic opacity-90">
           &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
         </p>
         <p className="mb-6 opacity-95">
           Seit 2003 verbinden wir Kreislaufwirtschaft, Arbeitsintegration und Tech-Bildung unter
-          einem Dach.
+          einem Dach. Wir bauen einen grösseren Raum — Werkstatt, Schulung, Museum und Treffpunkt
+          für die nachhaltige Tech-Community.
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {HERO_STATS.map((item) => (
@@ -114,28 +113,10 @@ export default function FundraisingPage() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* Three Pillars */}
-      <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unsere drei Säulen</h2>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          {PILLARS.map((pillar) => (
-            <Card key={pillar.title} className={`border-t-4 ${pillar.color}`}>
-              <h3 className="mb-3 font-semibold text-grey-dark">{pillar.title}</h3>
-              <ul className="mb-3 space-y-1 pl-5 text-sm text-text-muted">
-                {pillar.items.map((item) => (
-                  <li key={item} className="list-disc">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div className={`rounded-lg ${pillar.bgHighlight} p-3 text-sm`}>
-                <strong>{pillar.highlight.split(':')[0]}:</strong>
-                {pillar.highlight.split(':').slice(1).join(':')}
-              </div>
-            </Card>
-          ))}
+        <div className="mt-4 text-center">
+          <Link href="/strategie#community-tech-space" className="text-sm font-medium text-cyan-300 hover:underline">
+            Vollständige Vision & Strategie &rarr;
+          </Link>
         </div>
       </section>
 
@@ -160,27 +141,8 @@ export default function FundraisingPage() {
         </div>
       </Card>
 
-      {/* Hub Vision */}
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Der Community Tech Hub</CardTitle>
-        </CardHeader>
-        <p className="mb-4 text-sm text-text-muted">
-          Ein Ort, an dem Ökologie, Soziales und Bildung zusammenkommen. 320 m&#178; für
-          nachhaltige Technologie.
-        </p>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {HUB_ZONES.map((zone) => (
-            <div key={zone.name} className="rounded-lg bg-gray-50 p-3 text-center">
-              <div className="text-sm font-semibold">{zone.name}</div>
-              <div className="text-xs text-text-muted">{zone.description}</div>
-            </div>
-          ))}
-        </div>
-      </Card>
-
       {/* The Ask / Budget */}
-      <section className="mb-8 rounded-2xl bg-gradient-to-br from-blue-800 to-indigo-900 p-8 text-white">
+      <section className="gradient-hero-financial mb-8 rounded-2xl p-8 text-white">
         <h2 className="mb-4 text-xl font-bold">Der Förderbedarf</h2>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="rounded-lg bg-white/10 p-4">
@@ -258,26 +220,10 @@ export default function FundraisingPage() {
             </Link>
           ))}
         </div>
-        <Card className="mt-4 border-l-4 border-amber-400 bg-amber-50">
-          <p className="text-sm text-amber-900">
-            <strong>Dokumente zum Download:</strong> Pitch Deck, Gesuch-Vorlagen und Excel-Dateien
-            sind im{' '}
-            <a
-              href="https://cloud.revamp-it.ch"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-amber-800 underline"
-            >
-              Nextcloud (Revamp-Hirn)
-            </a>{' '}
-            unter <code className="text-xs">01_Management/B_Finanzen/Fundraising/</code>{' '}
-            verfügbar.
-          </p>
-        </Card>
       </section>
 
       {/* Next Steps CTA */}
-      <section className="rounded-2xl bg-gradient-to-br from-blue-900 to-indigo-900 p-8 text-white">
+      <section className="gradient-hero-financial rounded-2xl p-8 text-white">
         <h2 className="mb-6 text-xl font-bold">Nächste Schritte</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {NEXT_STEPS.map((step) => (
@@ -290,10 +236,6 @@ export default function FundraisingPage() {
             </div>
           ))}
         </div>
-        <p className="mt-6 border-t border-white/20 pt-4 text-sm opacity-80">
-          <strong>Fragen?</strong> Kontaktiere das Team oder nutze das Organisationsprofil als
-          Referenz für alle Gesuche.
-        </p>
       </section>
     </>
   );

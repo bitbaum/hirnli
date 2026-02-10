@@ -37,7 +37,7 @@ export function TimeBadge({ children }: { children: React.ReactNode }) {
 
 export function TriageSection() {
   return (
-    <section className="mb-10">
+    <section className="mb-8">
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">2. Triage & Testing</h2>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>
@@ -106,7 +106,7 @@ export function TriageSection() {
 
 export function RefurbishmentStepsSection() {
   return (
-    <section className="mb-10">
+    <section className="mb-8">
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">4-6. Reinigung, Upgrade & Linux-Installation</h2>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {/* Reinigung */}
@@ -174,7 +174,7 @@ export function RefurbishmentStepsSection() {
 
 export function WarehouseSection() {
   return (
-    <section className="mb-10">
+    <section className="mb-8">
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Lager-Management Regeln</h2>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>

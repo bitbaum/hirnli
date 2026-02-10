@@ -42,7 +42,8 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
           <h3 className="text-lg font-semibold text-grey-dark">{title}</h3>
           <button
             onClick={onClose}
-            className="text-2xl text-text-muted hover:text-grey-dark"
+            aria-label="Schliessen"
+            className="rounded text-2xl text-text-muted hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             &times;
           </button>

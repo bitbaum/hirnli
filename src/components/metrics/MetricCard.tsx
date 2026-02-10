@@ -29,9 +29,10 @@ export default function MetricCard({
   return (
     <div
       className={`rounded-lg border border-border bg-white p-4 ${
-        onClick ? 'cursor-pointer transition-shadow hover:shadow-md' : ''
+        onClick ? 'cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2' : ''
       } ${className}`}
       onClick={onClick}
+      {...(onClick ? { tabIndex: 0, role: 'button', onKeyDown: (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } } : {})}
     >
       <div className="mb-1 flex items-center justify-between">
         <span className="text-xs font-medium uppercase tracking-wider text-text-muted">{label}</span>

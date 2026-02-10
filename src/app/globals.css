@@ -59,9 +59,18 @@
   --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
 
   /* Font */
-  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-inter), 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'Consolas', 'Monaco', monospace;
 }
+
+/* ========================================
+   GRADIENT TOKENS
+   ======================================== */
+
+.gradient-hero-vision { background: linear-gradient(to bottom right, #1e3a5f, #2d5a87); }
+.gradient-hero-transparency { background: linear-gradient(to bottom right, #1e40af, #3b82f6, #10b981); }
+.gradient-hero-fundraising { background: linear-gradient(to bottom right, #059669, #047857, #065f46); }
+.gradient-hero-financial { background: linear-gradient(to bottom right, #1e40af, #4338ca); }
 
 /* ========================================
    BASE STYLES
@@ -81,4 +90,32 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+/* ========================================
+   PRINT STYLES - Gesuch A4 output
+   ======================================== */
+
+@media print {
+  nav, footer { display: none !important; }
+  main { max-width: none !important; padding: 0 !important; }
+
+  /* Landing page print */
+  .gesuch-page { font-size: 11pt; line-height: 1.5; }
+  .gesuch-page section { break-inside: avoid; page-break-inside: avoid; }
+  .gesuch-page .rounded-lg, .gesuch-page .rounded-2xl { box-shadow: none !important; }
+  .gesuch-page section:first-child {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Formal Gesuch document print */
+  .gesuch-dokument { font-size: 11pt; line-height: 1.6; max-width: none !important; }
+  .gesuch-dokument .gesuch-section { break-before: page; }
+  .gesuch-dokument .gesuch-section:first-of-type { break-before: auto; }
+  .gesuch-dokument table { font-size: 10pt; }
+  .gesuch-dokument a { color: inherit; text-decoration: none; }
+  .gesuch-dokument a[href]::after { content: none; }
+
+  @page { margin: 1.5cm; size: A4; }
 }
