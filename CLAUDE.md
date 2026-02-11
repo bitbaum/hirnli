@@ -119,25 +119,28 @@ revamp-info/
 ├── CLAUDE.md                          # THIS FILE — product vision + engineering guide
 ├── vercel.json                        # Deployment config (headers, redirects)
 ├── src/
-│   ├── app/                           # Next.js App Router (14 page routes)
+│   ├── app/                           # Next.js App Router (17 page routes)
 │   │   ├── layout.tsx                 # Root layout (Nav + Footer)
 │   │   ├── page.tsx                   # Dashboard
 │   │   ├── globals.css                # Design tokens + Tailwind v4
-│   │   ├── finanzen/page.tsx
-│   │   ├── kennzahlen/page.tsx
-│   │   ├── wirkung/page.tsx
-│   │   ├── methodik/page.tsx
-│   │   ├── transparenz/page.tsx
-│   │   ├── preismodell/page.tsx
-│   │   ├── strategie/page.tsx
-│   │   ├── team/page.tsx
-│   │   ├── operations/page.tsx
-│   │   ├── dokumente/page.tsx
+│   │   ├── finanzen/                  # Financial deep dive (8-year P&L)
+│   │   ├── wirkung/                   # Impact metrics
+│   │   ├── methodik/                  # Methodology + transparency report
+│   │   ├── preismodell/               # Solidarity pricing model
+│   │   ├── strategie/                 # Vision, mission, SDGs
+│   │   ├── team/                      # Team & capacity
+│   │   ├── operations/                # SOPs & processes
+│   │   ├── dokumente/                 # Document library
 │   │   └── fundraising/
 │   │       ├── page.tsx               # Fundraising hub
-│   │       └── stiftungen/
-│   │           ├── page.tsx           # Foundation list (filterable)
-│   │           └── [slug]/page.tsx    # Dynamic detail (37 foundations)
+│   │       ├── stiftungen/
+│   │       │   ├── page.tsx           # Foundation list (filterable)
+│   │       │   └── [slug]/            # Dynamic detail (37 foundations)
+│   │       │       ├── page.tsx       # Foundation profile
+│   │       │       └── gesuch/        # Interactive + PDF gesuch
+│   │       └── gesuch-vorlagen/
+│   │           ├── page.tsx           # Template list
+│   │           └── [type]/            # Template detail (11 types)
 │   ├── components/
 │   │   ├── layout/                    # Nav, Footer, PageHeader
 │   │   ├── ui/                        # Badge, Card, FilterBar, Tabs, Modal, Table, CountdownTimer

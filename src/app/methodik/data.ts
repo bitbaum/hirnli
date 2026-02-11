@@ -53,6 +53,7 @@ export const TOC_ITEMS = [
   { id: 'ewaste-calculation', label: '5. E-Waste-Berechnung' },
   { id: 'pricing-model', label: '6. Preismodell-Methodik' },
   { id: 'data-gaps', label: '7. Datenlücken' },
+  { id: 'integrity-report', label: '8. Zahlen-Integritäts-Report' },
 ];
 
 // ---------------------------------------------------------------------------

@@ -63,11 +63,12 @@ export const NAV_STRUCTURE: {
       ],
     },
     {
-      text: 'Finanzen',
+      text: 'Finanzen & Wirkung',
       icon: '💰',
       children: [
-        { text: 'Übersicht', href: '/finanzen', desc: 'Einnahmen, Ausgaben, Trends' },
-        { text: 'Preismodell', href: '/preismodell', desc: 'Kalkulation, Margen' },
+        { text: 'Finanzen', href: '/finanzen', desc: 'Einnahmen, Ausgaben, 8-Jahres-Trend' },
+        { text: 'Wirkung', href: '/wirkung', desc: 'CO₂, Geräte, Menschen' },
+        { text: 'Preismodell', href: '/preismodell', desc: 'Solidarisches 4-Stufen-Modell' },
       ],
     },
     {
@@ -77,10 +78,10 @@ export const NAV_STRUCTURE: {
       mega: true,
       sections: [
         {
-          title: 'Recherche',
+          title: 'Übersicht',
           items: [
+            { text: 'Fundraising Hub', href: '/fundraising', desc: 'Vision, Budget & Pipeline' },
             { text: 'Stiftungen-Übersicht', href: '/fundraising/stiftungen', desc: 'Alle Förderstiftungen mit Deadlines', highlight: true },
-            { text: 'Fundraising Hub', href: '/fundraising', desc: 'Übersicht & Pipeline' },
           ],
         },
         {
@@ -88,28 +89,10 @@ export const NAV_STRUCTURE: {
           items: [
             { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: 'Vorlagen nach Stiftungstyp (A/B/C/D)', highlight: true },
             { text: 'Alle Dokumente', href: '/dokumente', desc: 'Berichte, Vorlagen, Downloads' },
-            { text: 'Organisationsprofil', href: '/fundraising#vision', desc: 'Vision & 3 Säulen' },
-          ],
-        },
-        {
-          title: 'Quick Links',
-          items: [
-            { text: 'Migros Engagement', href: 'https://engagement.migros.ch/de', external: true },
-            { text: 'Ernst Göhner', href: 'https://www.ernst-goehner-stiftung.ch', external: true },
-            { text: 'Stiftungsverzeichnis CH', href: 'https://stiftungsverzeichnis.ch', external: true },
           ],
         },
       ],
     },
-    {
-      text: 'Wirkung',
-      icon: '🌱',
-      children: [
-        { text: 'Impact-Zahlen', href: '/wirkung', desc: 'CO₂, Geräte, Menschen' },
-        { text: 'Methodik', href: '/methodik', desc: 'Berechnungen & Quellen' },
-        { text: 'Transparenz', href: '/transparenz', desc: 'Offenlegung & Reports' },
-      ],
-    },
-    { text: 'Dokumente', href: '/dokumente', icon: '📄' },
+    { text: 'Methodik', href: '/methodik', icon: '🔬' },
   ],
 };

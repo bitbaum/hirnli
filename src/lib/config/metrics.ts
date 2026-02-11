@@ -481,6 +481,248 @@ export const NumberSources: Record<string, Metric> = {
       link: '../wirkung/index.html',
     },
   },
+
+  // ==========================================================================
+  // BUDGET & FUNDRAISING NUMBERS
+  // ==========================================================================
+
+  budget_total_y1: {
+    id: 'budget_total_y1',
+    name: 'Gesamtbudget Jahr 1',
+    category: 'financial',
+    dimension: 'economic',
+    format: 'CHF',
+    source: {
+      type: 'derived',
+      confidence: 'high',
+      path: 'lib/config/stories.ts → BUDGET_MODULES',
+    },
+    formula: {
+      type: 'sum',
+      expression: 'SUM(BUDGET_MODULES.amount)',
+    },
+    validation: {
+      rules: [{ type: 'range', min: 400000, max: 800000 }],
+    },
+    documentation: {
+      description: 'Summe aller 7 Budgetmodule (4 einmalig + 3 jährlich) für Jahr 1.',
+      drivers: ['Standortgrösse', 'Personalkosten', 'Investitionsbedarf'],
+      link: '/fundraising',
+    },
+  },
+
+  budget_einmalig: {
+    id: 'budget_einmalig',
+    name: 'Einmalige Investitionen',
+    category: 'financial',
+    dimension: 'economic',
+    format: 'CHF',
+    source: {
+      type: 'derived',
+      confidence: 'high',
+      path: 'lib/config/stories.ts → BUDGET_MODULES (type=einmalig)',
+    },
+    formula: {
+      type: 'sum',
+      expression: 'SUM(BUDGET_MODULES.amount WHERE type=einmalig)',
+    },
+    validation: {
+      rules: [{ type: 'range', min: 100000, max: 300000 }],
+    },
+    documentation: {
+      description: '4 einmalige Investitionsmodule: Standort-Umzug, Werkstatt/Makerspace, IT-Infrastruktur/AI Lab, Museum/Kulturraum.',
+      link: '/fundraising',
+    },
+  },
+
+  budget_jaehrlich: {
+    id: 'budget_jaehrlich',
+    name: 'Jährliche Kosten',
+    category: 'financial',
+    dimension: 'economic',
+    format: 'CHF',
+    source: {
+      type: 'derived',
+      confidence: 'high',
+      path: 'lib/config/stories.ts → BUDGET_MODULES (type=jaehrlich)',
+    },
+    formula: {
+      type: 'sum',
+      expression: 'SUM(BUDGET_MODULES.amount WHERE type=jaehrlich)',
+    },
+    validation: {
+      rules: [{ type: 'range', min: 200000, max: 500000 }],
+    },
+    documentation: {
+      description: '3 jährliche Kostenmodule: Bildungsleitung (2 Stellen), Standort-Betrieb, Bildungs-/Community-Programm.',
+      link: '/fundraising',
+    },
+  },
+
+  budget_eigenleistung: {
+    id: 'budget_eigenleistung',
+    name: 'Eigenleistung Jahr 1',
+    category: 'financial',
+    dimension: 'economic',
+    format: 'CHF',
+    source: {
+      type: 'source',
+      confidence: 'high',
+      path: 'lib/config/stories.ts → BUDGET_EIGENLEISTUNG',
+    },
+    formula: undefined,
+    validation: {
+      rules: [{ type: 'range', min: 50000, max: 200000 }],
+    },
+    documentation: {
+      description: 'Eigenleistung Revamp-IT: Erlöse Geräteverkauf, IT-Dienstleistungen, bestehende Infrastruktur und Freiwilligenarbeit.',
+      link: '/fundraising',
+    },
+  },
+
+  project_3y_total: {
+    id: 'project_3y_total',
+    name: 'Gesamtprojekt 3 Jahre',
+    category: 'financial',
+    dimension: 'economic',
+    format: 'CHF',
+    source: {
+      type: 'derived',
+      confidence: 'high',
+      path: 'app/fundraising/data.ts → THREE_YEAR_MODEL',
+    },
+    formula: {
+      type: 'sum',
+      expression: 'SUM(THREE_YEAR_MODEL[].total)',
+    },
+    validation: {
+      rules: [{ type: 'range', min: 1000000, max: 2500000 }],
+    },
+    documentation: {
+      description: 'Summe aller 3 Jahresbudgets. Jahr 1 = BUDGET_MODULES total + Eigenleistung. Jahr 2-3 = degressives Modell.',
+      link: '/fundraising',
+    },
+  },
+
+  stiftungen_3y_total: {
+    id: 'stiftungen_3y_total',
+    name: 'Stiftungsfinanzierung 3 Jahre',
+    category: 'financial',
+    dimension: 'economic',
+    format: 'CHF',
+    source: {
+      type: 'derived',
+      confidence: 'high',
+      path: 'app/fundraising/data.ts → THREE_YEAR_MODEL',
+    },
+    formula: {
+      type: 'sum',
+      expression: 'SUM(THREE_YEAR_MODEL[].stiftungen + THREE_YEAR_MODEL[].einmalig)',
+    },
+    validation: {
+      rules: [{ type: 'range', min: 500000, max: 1500000 }],
+    },
+    documentation: {
+      description: 'Gesamte Stiftungsfinanzierung über 3 Jahre (einmalig + jährlich degressiv). Sinkt von ~568k (J1) auf ~180k (J3).',
+      link: '/fundraising',
+    },
+  },
+
+  eigen_3y_total: {
+    id: 'eigen_3y_total',
+    name: 'Eigenleistung 3 Jahre',
+    category: 'financial',
+    dimension: 'economic',
+    format: 'CHF',
+    source: {
+      type: 'derived',
+      confidence: 'high',
+      path: 'app/fundraising/data.ts → THREE_YEAR_MODEL',
+    },
+    formula: {
+      type: 'sum',
+      expression: 'SUM(THREE_YEAR_MODEL[].eigen)',
+    },
+    validation: {
+      rules: [{ type: 'range', min: 300000, max: 800000 }],
+    },
+    documentation: {
+      description: 'Eigenleistung über 3 Jahre — wachsend durch neue Einnahmequellen (Kurse, Repair Café, AI Hosting).',
+      link: '/fundraising',
+    },
+  },
+
+  revenue_current: {
+    id: 'revenue_current',
+    name: 'Einnahmen aktuell',
+    category: 'financial',
+    dimension: 'economic',
+    format: 'CHF',
+    source: {
+      type: 'estimated',
+      confidence: 'medium',
+      path: 'Geschäftsplan / Kivitendo 3100+3400',
+    },
+    formula: {
+      type: 'sum',
+      expression: 'SUM(REVENUE_STREAMS[].current)',
+    },
+    validation: {
+      rules: [{ type: 'range', min: 100000, max: 300000 }],
+    },
+    documentation: {
+      description: 'Aktuelle jährliche Einnahmen aus allen Quellen (primär Geräteverkauf).',
+      link: '/fundraising',
+    },
+  },
+
+  revenue_year3: {
+    id: 'revenue_year3',
+    name: 'Einnahmen-Prognose Jahr 3',
+    category: 'financial',
+    dimension: 'economic',
+    format: 'CHF',
+    source: {
+      type: 'estimated',
+      confidence: 'medium',
+      path: 'Geschäftsplan / Prognose',
+    },
+    formula: {
+      type: 'sum',
+      expression: 'SUM(REVENUE_STREAMS[].year3)',
+    },
+    validation: {
+      rules: [{ type: 'range', min: 200000, max: 500000 }],
+    },
+    documentation: {
+      description: 'Prognostizierte Einnahmen in Jahr 3 — diversifiziert durch 6 Einnahmequellen statt primär Geräteverkauf.',
+      link: '/fundraising',
+    },
+  },
+
+  space_total: {
+    id: 'space_total',
+    name: 'Gesamtfläche Community Tech Space',
+    category: 'operational',
+    dimension: 'capacity',
+    format: 'integer',
+    source: {
+      type: 'derived',
+      confidence: 'high',
+      path: 'app/fundraising/data.ts → SPACE_PLAN',
+    },
+    formula: {
+      type: 'sum',
+      expression: 'SUM(SPACE_PLAN[].sqm) + 100 (Verkehrsfläche)',
+    },
+    validation: {
+      rules: [{ type: 'range', min: 500, max: 800 }],
+    },
+    documentation: {
+      description: 'Gesamte Nutzfläche (11 Bereiche) plus ~100 m² Verkehrsfläche. Raumkonzept für neuen Standort.',
+      link: '/fundraising',
+    },
+  },
 };
 
 // ---------------------------------------------------------------------------

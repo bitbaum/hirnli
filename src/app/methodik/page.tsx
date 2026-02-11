@@ -12,8 +12,10 @@ import {
   EWasteSection,
   PricingModelSection,
   DataGapsSection,
+  IntegrityReportSection,
   TransparencyPrinciplesSection,
 } from './components';
+import { NumberSources } from '@/lib/config/metrics';
 
 export const metadata: Metadata = {
   title: 'Methodik & Datenquellen',
@@ -107,6 +109,7 @@ export default function MethodikPage() {
         <EWasteSection />
         <PricingModelSection />
         <DataGapsSection />
+        <IntegrityReportSection NumberSources={NumberSources} />
       </div>
 
       <TransparencyPrinciplesSection />

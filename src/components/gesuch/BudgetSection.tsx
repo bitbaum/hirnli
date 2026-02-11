@@ -47,10 +47,64 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
         Budget und Finanzierungsplan
       </h2>
       <p className="mb-6 text-xs text-text-muted">
-        {dok.budget.projectDuration} | Gesamtbedarf: {formatCHF(dok.budget.total)}
+        {dok.budget.projectDuration} | Gesamtbedarf 3 Jahre: {formatCHF(dok.budget.project3yTotal)}
       </p>
 
-      {/* Budget table by module */}
+      {/* 3-Year Trajectory — the headline story */}
+      <h3 className="mb-3 text-lg font-semibold text-grey-dark">3-Jahres-Finanzmodell (degressiv)</h3>
+      <table className="mb-6 w-full text-sm">
+        <thead>
+          <tr className="border-b-2 border-grey-dark text-left">
+            <th className="pb-2 font-semibold" />
+            {dok.budget.threeYearModel.map((y) => (
+              <th key={y.year} className="pb-2 text-right font-semibold">
+                {y.year}<br /><span className="text-xs font-normal text-text-muted">{y.label}</span>
+              </th>
+            ))}
+            <th className="pb-2 text-right font-semibold">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="border-b border-border">
+            <td className="py-1.5">Einmalige Investitionen</td>
+            {dok.budget.threeYearModel.map((y) => (
+              <td key={y.year} className="py-1.5 text-right">{y.einmalig > 0 ? formatCHF(y.einmalig) : '—'}</td>
+            ))}
+            <td className="py-1.5 text-right font-medium">{formatCHF(einmaligTotal)}</td>
+          </tr>
+          <tr className="border-b border-border">
+            <td className="py-1.5">Stiftungsfinanzierung (jährlich)</td>
+            {dok.budget.threeYearModel.map((y) => (
+              <td key={y.year} className="py-1.5 text-right">{formatCHF(y.stiftungen)}</td>
+            ))}
+            <td className="py-1.5 text-right font-medium">
+              {formatCHF(dok.budget.threeYearModel.reduce((s, y) => s + y.stiftungen, 0))}
+            </td>
+          </tr>
+          <tr className="border-b border-border bg-emerald-50">
+            <td className="py-1.5 font-medium text-emerald-800">Eigenleistung Revamp-IT</td>
+            {dok.budget.threeYearModel.map((y) => (
+              <td key={y.year} className="py-1.5 text-right text-emerald-800">{formatCHF(y.eigen)}</td>
+            ))}
+            <td className="py-1.5 text-right font-medium text-emerald-800">{formatCHF(dok.budget.eigen3yTotal)}</td>
+          </tr>
+          <tr className="border-b-2 border-grey-dark font-bold">
+            <td className="py-2">Total pro Jahr</td>
+            {dok.budget.threeYearModel.map((y) => (
+              <td key={y.year} className="py-2 text-right">{formatCHF(y.total)}</td>
+            ))}
+            <td className="py-2 text-right">{formatCHF(dok.budget.project3yTotal)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p className="mb-8 text-xs text-text-muted">
+        Stiftungsanteil sinkt von {Math.round((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) / dok.budget.threeYearModel[0].total * 100)}% (Jahr 1) auf {Math.round(dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total * 100)}% (Jahr 3).
+        Eigenleistung wächst durch diversifizierte Einnahmen (Geräteverkauf, Corporate Placements, Kurse, AI Hosting, Events).
+      </p>
+
+      {/* Budget detail by module (Jahr 1) */}
+      <h3 className="mb-3 text-lg font-semibold text-grey-dark">Budgetdetail Jahr 1 ({formatCHF(dok.budget.total)})</h3>
       <table className="mb-6 w-full text-sm">
         <thead>
           <tr className="border-b-2 border-grey-dark text-left">
@@ -75,7 +129,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
           <ModuleRows modules={jaehrlich} total={dok.budget.total} />
 
           <tr className="border-b-2 border-grey-dark font-bold">
-            <td className="py-2">Gesamtbedarf</td>
+            <td className="py-2">Gesamtbedarf Jahr 1</td>
             <td className="py-2 text-right">{formatCHF(dok.budget.total)}</td>
             <td className="py-2 text-right">100%</td>
           </tr>
@@ -113,7 +167,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
             </tr>
           )}
           <tr className="border-b-2 border-grey-dark font-bold">
-            <td className="py-2">Total Finanzierung</td>
+            <td className="py-2">Total Finanzierung Jahr 1</td>
             <td className="py-2 text-right">{formatCHF(dok.budget.total)}</td>
             <td className="py-2 text-right">100%</td>
           </tr>

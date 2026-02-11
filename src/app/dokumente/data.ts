@@ -28,12 +28,11 @@ export const GESUCH_SECTIONS = [
 export const ONLINE_REPORTS = [
   { href: '/strategie', label: 'Strategie & Vision', description: 'Mission, Souveränitäts-Pfad, Community Tech Space' },
   { href: '/wirkung', label: 'Wirkungsbericht', description: 'CO₂, Geräte, soziale Integration — mit Quellen' },
-  { href: '/finanzen', label: 'Finanzbericht', description: 'Einnahmen, Trends, Kategorien (Kivitendo-Daten)' },
+  { href: '/finanzen', label: 'Finanzbericht', description: 'Einnahmen, Ausgaben, 8-Jahres-Trend (Kivitendo-Daten)' },
   { href: '/fundraising', label: 'Fundraising-Pitch', description: 'Budget, Pipeline, Förderbedarf' },
   { href: '/team', label: 'Team & Kapazitäten', description: 'Mitarbeitende, Rollen, Verfügbarkeit' },
   { href: '/operations', label: 'Operations & SOPs', description: 'Refurbishment-Prozess, Qualitätsstandards' },
-  { href: '/methodik', label: 'Methodik', description: 'Berechnungsgrundlagen und Quellenverzeichnis' },
-  { href: '/transparenz', label: 'Transparenzbericht', description: 'Datenintegrität und Vollständigkeit' },
+  { href: '/methodik', label: 'Methodik & Transparenz', description: 'Berechnungen, Quellen, Zahlen-Integritäts-Report' },
 ];
 
 // ── Downloads (Nextcloud) ───────────────────────────────────────────────────

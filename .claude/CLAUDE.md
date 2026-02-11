@@ -33,36 +33,34 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 
 ```
 src/
-├── app/                           # Next.js App Router
+├── app/                           # Next.js App Router (17 page routes)
 │   ├── layout.tsx                 # Root layout (Nav + Footer)
 │   ├── page.tsx                   # Dashboard
 │   ├── globals.css                # Design tokens + Tailwind v4
-│   ├── finanzen/page.tsx          # Financial deep dive
-│   ├── kennzahlen/page.tsx        # 28 KPIs across 6 dimensions
-│   ├── wirkung/page.tsx           # Impact metrics
-│   ├── methodik/page.tsx          # Calculation methodology
-│   ├── transparenz/page.tsx       # Data integrity report
-│   ├── preismodell/page.tsx       # Solidarity pricing model
-│   ├── strategie/page.tsx         # Vision, mission, SDGs
-│   ├── team/page.tsx              # Team & capacity
-│   ├── operations/page.tsx        # SOPs & processes
-│   ├── dokumente/page.tsx         # Document library
+│   ├── finanzen/                  # Financial deep dive (8-year P&L)
+│   ├── wirkung/                   # Impact metrics
+│   ├── methodik/                  # Methodology + transparency report
+│   ├── preismodell/               # Solidarity pricing model
+│   ├── strategie/                 # Vision, mission, SDGs
+│   ├── team/                      # Team & capacity
+│   ├── operations/                # SOPs & processes
+│   ├── dokumente/                 # Document library
 │   └── fundraising/
 │       ├── page.tsx               # Fundraising hub
-│       └── stiftungen/
-│           ├── page.tsx           # Filterable foundation list
-│           └── [slug]/page.tsx    # Dynamic foundation detail (37 foundations)
+│       ├── stiftungen/            # Foundation list + [slug] detail (37)
+│       └── gesuch-vorlagen/       # Template list + [type] detail (11)
 ├── components/
 │   ├── layout/                    # Nav, Footer, PageHeader
 │   ├── ui/                        # Badge, Card, FilterBar, Tabs, Modal, Table, CountdownTimer
-│   ├── charts/                    # RevenueChart, CategoryBreakdown, ChartWrapper
+│   ├── charts/                    # RevenueChart, CategoryBreakdown, AnnualTrendChart, ChartWrapper
 │   ├── foundation/                # FoundationCard, FoundationHeader, FoundationSidebar, FitAnalysis
+│   ├── gesuch/                    # Gesuch section components (Hero, Why, How, Projects, Evidence, Contact)
 │   └── metrics/                   # MetricCard, MetricGrid, NumberInspector, DataSourceBadge
 ├── lib/
 │   ├── schemas/                   # Zod schemas (SSOT for all types)
-│   ├── config/                    # Data (foundations, stories, metrics, nav)
+│   ├── config/                    # Data (foundations, stories, metrics, nav, gesuch-templates)
 │   ├── data/                      # FinanceDataSet + fallback financial data
-│   ├── domain/                    # Pure business logic (calculations, filters, story-composer)
+│   ├── domain/                    # Pure business logic (calculations, filters, gesuch-composer)
 │   └── utils/                     # Formatting (formatCHF, formatPercent, etc.)
 └── hooks/                         # useFinancialData, useFoundationFilters, useNumberInspector
 ```

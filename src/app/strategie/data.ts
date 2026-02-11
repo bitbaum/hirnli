@@ -29,11 +29,12 @@ export const VISION_TARGETS = [
 
 /** Hub-Kern: Bereiche, die direkt aus der heutigen Arbeit wachsen */
 export const HUB_CORE_SPACES = [
-  { icon: '🔧', title: 'Offene Werkstatt', description: 'Community-Reparatur-Events, Hands-on Workshops, Repair Cafe' },
-  { icon: '🏛️', title: 'Vintage-Hardware Museum', description: 'Von Apple I bis Amiga — Computergeschichte zum Anfassen' },
+  { icon: '🔧', title: 'Offene Werkstatt & Makerspace', description: 'Community-Reparatur, 3D-Drucker, Lötarbeitsplätze, Robotik-Kits — vom Repair Café bis zum eigenen Arduino-Projekt' },
+  { icon: '🏛️', title: 'Museum & Kulturraum', description: 'Computergeschichte zum Anfassen, E-Waste-Kunst-Installationen, Vintage-Synthesizer-Restaurierung' },
   { icon: '🎓', title: 'Schulungs- & Hackerspace', description: 'Kurse, Tüfteln, digitale Kompetenzen für alle' },
-  { icon: '🖥️', title: 'Sovereign AI Lab', description: 'Eigenes Rechenzentrum — lokale KI-Modelle hosten, trainieren und vermitteln' },
-  { icon: '☕', title: 'Community Cafe', description: 'Austausch, Networking, niederschwelliger Treffpunkt' },
+  { icon: '🖥️', title: 'Sovereign AI Lab', description: 'GPU-Cluster aus Unternehmens-Spenden — lokale KI-Modelle hosten, trainieren und vermitteln. Souveränes KI-Hosting für Schweizer Organisationen.' },
+  { icon: '🎤', title: 'Event- & Kulturraum', description: 'Tags Café & Co-Working, abends Konzerte, Talks, Filmabende, Repair-Partys — 50-80 Personen' },
+  { icon: '☕', title: 'Community Café', description: 'Austausch, Networking, niederschwelliger Treffpunkt' },
 ] as const;
 
 /** Kulturelle Dimension: Mögliche Erweiterungen, die den Hub einzigartig machen könnten */

@@ -246,15 +246,15 @@ export const WHY: Record<string, WhySection> = {
     call_to_action: 'Investieren Sie in digitale Chancengleichheit.',
   },
 
-  // For Digitale Souveränität / Open Source foundations
+  // For Digitale Souveränität / Open Source / Sovereign AI foundations
   digital: {
-    headline: 'Unabhängigkeit beginnt beim Betriebssystem.',
-    hook: `Wer Microsoft oder Apple nutzt, gibt Kontrolle ab - über Updates, über Daten, über die Lebensdauer des Geräts. Es gibt Alternativen.`,
-    problem: `Proprietäre Software schafft Abhängigkeiten. Zwangsupdates machen funktionierende Hardware "obsolet". Daten fliessen in ausländische Clouds. Kleine Organisationen haben keine Wahl - oder kennen sie nicht.`,
-    solution: `Revamp-IT installiert Linux auf allen refurbished Geräten. Wir zeigen, dass Open Source funktioniert - zuverlässig, sicher, kostenlos. Digitale Souveränität ist möglich.`,
+    headline: 'Souveränität beginnt bei der Infrastruktur.',
+    hook: `Wer Microsoft oder Apple nutzt, gibt Kontrolle ab — über Updates, über Daten, über die Lebensdauer des Geräts. Wer ChatGPT nutzt, sendet seine Daten in US-Clouds. Es gibt Alternativen — und wir bauen sie.`,
+    problem: `Proprietäre Software schafft Abhängigkeiten. Zwangsupdates machen funktionierende Hardware "obsolet". Daten fliessen in ausländische Clouds — mit CLOUD Act und Schrems II ein reales Risiko für Schweizer Organisationen. Gleichzeitig werden KI-Werkzeuge unverzichtbar, aber lokale Alternativen fehlen.`,
+    solution: `Revamp-IT geht zwei Schritte: Erstens installieren wir Linux auf allen refurbished Geräten — digitale Souveränität auf dem Desktop. Zweitens bauen wir aus gespendeten GPU-Servern eine lokale KI-Infrastruktur auf. Schweizer Organisationen können Open-Source-KI-Modelle nutzen, ohne Daten das Land verlassen zu lassen. Dasselbe Prinzip wie bei Laptops: Unternehmen spenden ausgemusterte Hardware, wir geben ihr ein zweites Leben.`,
     evidence: ['digitalswitzerland', 'wef_future_of_jobs'],
     metrics: ['devices_estimated_2025'],
-    call_to_action: 'Unterstützen Sie digitale Unabhängigkeit.',
+    call_to_action: 'Unterstützen Sie Schweizer Datensouveränität — vom Betriebssystem bis zur KI.',
   },
 };
 
@@ -479,6 +479,58 @@ export const PROJECTS: Record<string, Project> = {
     budget_category: 'Projektkoordination',
     themes: ['sozial', 'klima', 'bildung'],
   },
+
+  // Project 6: Open Hardware, Robotik & Makerspace
+  open_hardware: {
+    title: 'Open Hardware, Robotik & Makerspace',
+    subtitle: 'Selber bauen, verstehen, teilen — Technologie zum Anfassen',
+    summary: `Reparieren ist der erste Schritt. Der nächste: selber bauen. Im Makerspace von Revamp-IT lernen Teilnehmende, wie Elektronik funktioniert — vom Lötkolben bis zum 3D-Drucker, vom Arduino-Projekt bis zum Roboter aus recycelten Komponenten. Alle Projekte werden offen dokumentiert und als Open Hardware veröffentlicht. So entsteht nicht nur individuelles Wissen, sondern ein Beitrag zur globalen Maker-Community.`,
+    goals: [
+      'Makerspace mit 3D-Druckern, Lötarbeitsplätzen und Elektronik-Werkzeugen aufbauen',
+      'Monatliche Robotik- und Elektronik-Workshops für Einsteiger:innen und Fortgeschrittene',
+      'Mindestens 10 Open-Hardware-Projekte pro Jahr dokumentiert und veröffentlicht',
+    ],
+    activities: [
+      '3D-Druck-Workshops: Von der Idee zum Objekt, Reparaturteile selber drucken',
+      'Elektronik-Grundlagen: Löten, Schaltungen, Arduino und Raspberry Pi',
+      'Robotik aus Recycling-Komponenten: Motoren, Sensoren und Steuerung aus alten Geräten',
+      'Open-Hardware-Dokumentation: Anleitungen, Schaltpläne und Bauanleitungen frei zugänglich',
+    ],
+    outcomes: [
+      'Technisches Verständnis auf Komponentenebene — nicht nur nutzen, sondern verstehen',
+      'Praktische Fähigkeiten: Löten, 3D-Druck, Programmierung, Sensorik',
+      'Nachhaltige Kreislaufwirtschaft: Neue Produkte aus alten Komponenten',
+      'Beitrag zur Open-Hardware-Community: Wissen, das allen gehört',
+    ],
+    budget_category: 'Makerspace-Programm',
+    themes: ['bildung', 'digital', 'kreislaufwirtschaft'],
+  },
+
+  // Project 7: Sovereign AI Infrastructure
+  sovereign_ai: {
+    title: 'Souveräne KI-Infrastruktur',
+    subtitle: 'GPU-Spenden, lokale KI-Modelle, Schweizer Datensouveränität',
+    summary: `Unternehmen ersetzen ihre GPU-Server alle 3-5 Jahre — genau wie bei Laptops landet funktionierende Hardware im Müll. Revamp-IT erweitert das bewährte Spendenmodell auf GPUs: Wir nehmen ausgemusterte Grafikkarten und Server entgegen, testen und clustern sie, und bauen daraus eine lokale KI-Infrastruktur. Das Ergebnis: Schweizer Organisationen können KI-Modelle nutzen, ohne Daten in ausländische Clouds zu senden — ein konkreter Beitrag zur digitalen Souveränität.`,
+    goals: [
+      'GPU-Cluster aus gespendeter Hardware aufbauen und betreiben',
+      'KI-Workshops für Einsteiger:innen und Fortgeschrittene anbieten',
+      'Lokales Hosting von Open-Source-KI-Modellen für Schweizer Organisationen',
+    ],
+    activities: [
+      'GPU-Spenden von Unternehmen entgegennehmen, testen und in Cluster integrieren',
+      'Workshops zu KI-Grundlagen, Prompt Engineering und lokalen Modellen',
+      'Fine-Tuning-Services für Schweizer KMU und NPOs',
+      'Souveränes KI-Hosting: Schweizer Daten bleiben in der Schweiz',
+    ],
+    outcomes: [
+      'Schweizer Datensouveränität: KI ohne CLOUD Act und Schrems II-Risiken',
+      'KI-Kompetenz in der Breite: Nicht nur für Tech-Konzerne, sondern für alle',
+      'Selbsttragende Einnahmen durch Hosting- und Fine-Tuning-Dienstleistungen',
+      'Kreislaufwirtschaft auch bei GPUs: Zweites Leben statt Elektroschrott',
+    ],
+    budget_category: 'AI-Infrastruktur',
+    themes: ['digital', 'bildung'],
+  },
 };
 
 // ============================================================================
@@ -545,7 +597,7 @@ export const BUDGET_TEMPLATES: BudgetTemplates = {
 };
 
 // ============================================================================
-// BUDGET MODULES - Project-based budget for Gesuch documents (CHF 555k)
+// BUDGET MODULES - Project-based budget for Gesuch documents (CHF 568k)
 // Aligned with fundraising page. Robert's rule: "Budget erzählt die gleiche
 // Geschichte wie der Text" — modules match project narrative, not accounting.
 // ============================================================================
@@ -556,36 +608,66 @@ export interface BudgetModule {
   amount: number;
   type: 'einmalig' | 'jaehrlich';
   items: { label: string; amount: number }[];
+  icon?: string;
 }
 
 export const BUDGET_MODULES: BudgetModule[] = [
-  // Einmalige Investitionen
+  // Einmalige Investitionen (4 Module, CHF 192k total)
   {
-    label: 'Community Tech Space Aufbau',
-    description: 'Umzug in grösseren Standort, Einrichtung Werkstatt, Shop, Schulungsraum und Hands-on-Ausstellung',
-    amount: 147000,
+    label: 'Standort-Umzug & Einrichtung',
+    description: 'Umzug in grösseren Standort mit Werkstatt, Shop, Schulungsraum und Community-Fläche',
+    amount: 90000,
     type: 'einmalig',
+    icon: '🏗️',
     items: [
-      { label: 'Umzug & Einrichtung', amount: 130000 },
-      { label: 'Museum & Hands-on-Ausstellung', amount: 17000 },
+      { label: 'Umzug & Grundausbau', amount: 45000 },
+      { label: 'Werkstatt-Einrichtung & Mobiliar', amount: 25000 },
+      { label: 'Shop & Empfangsbereich', amount: 20000 },
     ],
   },
   {
-    label: 'Sovereign AI Lab',
-    description: 'GPU-Infrastruktur für lokale KI-Modelle — digitale Souveränität statt Cloud-Abhängigkeit',
-    amount: 45000,
+    label: 'Werkstatt & Makerspace',
+    description: '3D-Drucker, Lötarbeitsplätze, Robotik-Kits und Open-Hardware-Werkzeuge für Bildung und Community',
+    amount: 35000,
     type: 'einmalig',
+    icon: '🔧',
     items: [
-      { label: 'GPU-Server & Infrastruktur', amount: 45000 },
+      { label: '3D-Drucker & CNC-Fräse', amount: 15000 },
+      { label: 'Löt- & Elektronik-Arbeitsplätze', amount: 12000 },
+      { label: 'Robotik-Kits (Arduino, Raspberry Pi)', amount: 8000 },
+    ],
+  },
+  {
+    label: 'IT-Infrastruktur & AI Lab',
+    description: 'Server, Netzwerk und GPU-Infrastruktur für lokale KI-Modelle — digitale Souveränität statt Cloud-Abhängigkeit. Ergänzt durch GPU-Sachspenden von Unternehmen.',
+    amount: 40000,
+    type: 'einmalig',
+    icon: '🖥️',
+    items: [
+      { label: 'GPU-Server & KI-Infrastruktur', amount: 25000 },
+      { label: 'Netzwerk & Storage', amount: 15000 },
+    ],
+  },
+  {
+    label: 'Museum & Kulturraum',
+    description: 'Hands-on-Ausstellung, E-Waste-Kunst-Installationen und Vintage-Synthesizer-Restaurierung',
+    amount: 27000,
+    type: 'einmalig',
+    icon: '🏛️',
+    items: [
+      { label: 'Ausstellungskonzept & Vitrinen', amount: 12000 },
+      { label: 'E-Waste-Kunst & Installationen', amount: 8000 },
+      { label: 'Synthesizer- & Vintage-Hardware-Restaurierung', amount: 7000 },
     ],
   },
 
-  // Jährliche Kosten
+  // Jährliche Kosten (3 Module, CHF 376k)
   {
     label: 'Bildungsleitung (2 Stellen)',
     description: 'Zwei Bildungsleiter:innen für Hardware- und Software-Ausbildung — das Herzstück unserer Wirkung',
     amount: 216000,
     type: 'jaehrlich',
+    icon: '🎓',
     items: [
       { label: 'Bildungsleiter:in Hardware & Arbeitsintegration', amount: 108000 },
       { label: 'Bildungsleiter:in Software & Digitale Kompetenz', amount: 108000 },
@@ -593,26 +675,31 @@ export const BUDGET_MODULES: BudgetModule[] = [
   },
   {
     label: 'Standort-Betrieb (Mehrkosten)',
-    description: 'Raummiete, Nebenkosten und Infrastruktur für den grösseren Community Tech Space',
-    amount: 102000,
+    description: 'Raummiete, Nebenkosten und Infrastruktur für ~650 m² Community Tech Space',
+    amount: 115000,
     type: 'jaehrlich',
+    icon: '🏠',
     items: [
-      { label: 'Miete, Nebenkosten, Strom, Internet', amount: 102000 },
+      { label: 'Miete (zusätzliche Fläche ~400 m²)', amount: 85000 },
+      { label: 'Nebenkosten, Strom, Internet, Kühlung', amount: 30000 },
     ],
   },
   {
-    label: 'Bildung & Community',
-    description: 'Repair Café, Hackerspace, Weiterbildungskurse und Community-Angebote',
+    label: 'Bildungs- & Community-Programm',
+    description: 'Repair Café, Kurse, Robotik-Workshops und Kulturveranstaltungen für die Community',
     amount: 45000,
     type: 'jaehrlich',
+    icon: '🤝',
     items: [
-      { label: 'Repair Café & Hackerspace', amount: 25000 },
-      { label: 'Weiterbildung & Kurse', amount: 20000 },
+      { label: 'Repair Café (Material, Organisation)', amount: 15000 },
+      { label: 'Weiterbildungskurse & Workshops', amount: 15000 },
+      { label: 'Robotik- & Maker-Programm', amount: 8000 },
+      { label: 'Kultur & Veranstaltungen', amount: 7000 },
     ],
   },
 ];
 
-export const BUDGET_TOTAL = BUDGET_MODULES.reduce((sum, m) => sum + m.amount, 0); // CHF 555'000
+export const BUDGET_TOTAL = BUDGET_MODULES.reduce((sum, m) => sum + m.amount, 0); // CHF 568'000
 
 export const BUDGET_EIGENLEISTUNG = {
   label: 'Eigenleistung Revamp-IT',
@@ -638,8 +725,8 @@ export const ANSCHREIBEN_TEMPLATES: Record<string, { opening: string; closing: s
     closing: 'Wir würden uns freuen, von Ihnen zu hören. Ein kurzes Telefonat genügt, um zu klären, ob eine Unterstützung in Frage kommt.',
   },
   D: {
-    opening: 'Als gemeinnütziger Verein an der Schnittstelle von Kreislaufwirtschaft, digitaler Bildung und Arbeitsintegration adressiert Revamp-IT mehrere Ihrer Förderschwerpunkte. Wir möchten Ihnen eine Zusammenarbeit vorschlagen, die messbare soziale und ökologische Wirkung erzielt.',
-    closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für eine Präsentation unserer Impact-Daten jederzeit bereit.',
+    opening: 'Als gemeinnütziger Verein an der Schnittstelle von Kreislaufwirtschaft, digitaler Bildung und Arbeitsintegration bietet Revamp-IT konkrete Partnerschaftsmodelle für Unternehmen: Hardware-Spenden (Computer und GPUs) erhalten ein zweites Leben, Corporate Placements ermöglichen sinnvolle Outplacement-Lösungen, und unsere Bildungsprogramme stärken digitale Kompetenzen in der Region. Wir möchten Ihnen eine Zusammenarbeit vorschlagen, die messbare soziale, ökologische und wirtschaftliche Wirkung erzielt.',
+    closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für eine Präsentation unserer Impact-Daten und Partnerschaftsmodelle jederzeit bereit.',
   },
   network: {
     opening: 'Revamp-IT ist seit 2003 in Zürich aktiv und verbindet Kreislaufwirtschaft mit sozialer Integration. Wir interessieren uns für eine Mitgliedschaft und mögliche Partnerschaften.',

@@ -23,6 +23,13 @@ import {
 } from '@/lib/config/stories';
 import type { BudgetModule } from '@/lib/config/stories';
 import { TYPE_LABELS, THEMES } from '@/lib/config/foundations';
+import {
+  THREE_YEAR_MODEL,
+  STIFTUNGEN_3Y_TOTAL,
+  EIGEN_3Y_TOTAL,
+  PROJECT_3Y_TOTAL,
+  PROJECT_DURATION_LABEL,
+} from '@/app/fundraising/data';
 
 interface ThemeMetadata {
   id: string;
@@ -78,6 +85,17 @@ export interface ComposedGesuchDokument extends ComposedGesuch {
     eigenleistung: { label: string; description: string; amount: number };
     requestedAmount: number;
     projectDuration: string;
+    threeYearModel: {
+      year: string;
+      einmalig: number;
+      stiftungen: number;
+      eigen: number;
+      total: number;
+      label: string;
+    }[];
+    stiftungen3yTotal: number;
+    eigen3yTotal: number;
+    project3yTotal: number;
   };
   kurzportrait: {
     facts: { label: string; value: string }[];
@@ -178,9 +196,9 @@ function buildThemeAlignment(foundation: Foundation, themeMetadata: ThemeMetadat
   }`;
 }
 
-/** Compute requested amount based on foundation's typical range vs real budget gap */
+/** Compute requested amount based on foundation's typical range vs year-1 funding gap */
 function computeRequestedAmount(foundation: Foundation): number {
-  const gap = BUDGET_TOTAL - BUDGET_EIGENLEISTUNG.amount; // CHF 455k
+  const gap = BUDGET_TOTAL - BUDGET_EIGENLEISTUNG.amount; // CHF 468k (year 1 gap)
   const max = foundation.amount.max;
   const min = foundation.amount.min;
 
@@ -225,7 +243,18 @@ export function composeGesuchDokument(foundation: Foundation): ComposedGesuchDok
       total: BUDGET_TOTAL,
       eigenleistung: BUDGET_EIGENLEISTUNG,
       requestedAmount,
-      projectDuration: 'Aufbauphase 2026–2027',
+      projectDuration: `3 Jahre (2026–2028): ${PROJECT_DURATION_LABEL}`,
+      threeYearModel: THREE_YEAR_MODEL.map((y) => ({
+        year: y.year,
+        einmalig: y.einmalig,
+        stiftungen: y.stiftungen,
+        eigen: y.eigen,
+        total: y.total,
+        label: y.label,
+      })),
+      stiftungen3yTotal: STIFTUNGEN_3Y_TOTAL,
+      eigen3yTotal: EIGEN_3Y_TOTAL,
+      project3yTotal: PROJECT_3Y_TOTAL,
     },
     kurzportrait: {
       facts: [
