@@ -101,7 +101,7 @@ export const CORE_FACTS: CoreFacts = {
       monthly_target: 'financial_monthly_avg_2025', // CHF 8-12k
     },
     environmental: {
-      co2_per_laptop: 285, // kg CO2 saved per laptop (300 production - 15 refurb)
+      co2_per_laptop: 285, // kg CO2 saved per laptop (~300 kg production conservative estimate - 15 kg refurb; sources range 176-384 kg, Circular Computing avg 331 kg)
       co2_per_desktop: 380, // kg CO2 saved per desktop
       device_lifespan_extension: 5, // years
       reuse_rate: 75, // percent
@@ -205,7 +205,7 @@ export const WHY: Record<string, WhySection> = {
   // For Klimaschutz / Nachhaltigkeit foundations
   klima: {
     headline: '62 Millionen Tonnen Elektroschrott. Jedes Jahr.',
-    hook: `Während wir über Klimaziele diskutieren, landen funktionierende Laptops im Müll. Jedes weggeworfene Gerät bedeutet 300 kg CO₂, die umsonst produziert wurden. Das muss nicht sein.`,
+    hook: `Während wir über Klimaziele diskutieren, landen funktionierende Laptops im Müll. Jedes weggeworfene Gerät bedeutet bis zu 330 kg CO₂, die umsonst produziert wurden. Das muss nicht sein.`,
     problem: `Die IT-Industrie setzt auf geplante Obsoleszenz. Geräte werden nach 3-4 Jahren ersetzt, obwohl sie technisch noch Jahre funktionieren könnten. Die Umweltkosten dieser Wegwerfkultur sind enorm.`,
     solution: `Revamp-IT verlängert die Lebensdauer von IT-Geräten um durchschnittlich 5 Jahre. Durch professionelles Refurbishing und Linux-Installation werden "alte" Laptops zu leistungsfähigen, sicheren Arbeitsgeräten.`,
     evidence: ['circular_computing', 'global_ewaste_monitor', 'bafu_lca'],

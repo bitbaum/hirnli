@@ -50,7 +50,7 @@ export function KontaktSection() {
       <Card className="text-center">
         <h3 className="mb-3 text-lg font-semibold">Revamp-IT</h3>
         <p className="text-sm"><strong>Adresse:</strong> Birmensdorferstrasse 379, 8055 Zürich</p>
-        <p className="text-sm"><strong>Telefon:</strong> +41 44 586 86 86</p>
+        <p className="text-sm"><strong>Telefon:</strong> +41 (0)43 960 32 64</p>
         <p className="text-sm"><strong>E-Mail:</strong> empfang@revamp-it.ch</p>
         <p className="text-sm">
           <strong>Web:</strong>{' '}
