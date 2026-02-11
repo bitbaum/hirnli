@@ -16,7 +16,7 @@ export const GESUCH_SECTIONS = [
   },
   {
     title: 'Gesuch-Vorlagen',
-    description: `${TEMPLATE_TYPES.length} generische Vorlagen — nach Stiftungstyp (A/B/C/D/Netzwerk), Schwerpunkt (Klima, Sozial, Bildung, Digital) und eine universelle Vorlage.`,
+    description: `${TEMPLATE_TYPES.length} Referenz-Vorlagen — nach Stiftungstyp (A/B/C/D/Netzwerk) plus eine universelle Fallback-Vorlage. Zeigen Struktur und Ton für jeden Foundation-Typ.`,
     href: '/fundraising/gesuch-vorlagen',
     linkLabel: 'Vorlagen öffnen',
     stats: `${TEMPLATE_TYPES.length} Vorlagen`,

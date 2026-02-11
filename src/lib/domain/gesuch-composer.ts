@@ -150,11 +150,18 @@ export function composeGesuch(foundation: Foundation): ComposedGesuch {
   const typeLabel = TYPE_LABELS[foundation.type];
   const mapped = mapFoundationThemes(foundation);
 
-  // Quality gate
-  if (foundation.needsResearch || mapped.all.length === 0) {
-    const reason = foundation.needsResearch
-      ? 'Diese Stiftung benötigt noch weitere Recherche.'
-      : 'Keine passenden Themen für die Gesuch-Generierung gefunden.';
+  // Quality gate — only generate Gesuchs for Priority 1-2 foundations
+  if (foundation.needsResearch || mapped.all.length === 0 || (foundation.priority && foundation.priority >= 3)) {
+    let reason = '';
+    if (foundation.needsResearch) {
+      reason = 'Diese Stiftung benötigt noch weitere Recherche.';
+    } else if (foundation.priority && foundation.priority >= 3) {
+      reason = foundation.priority === 3
+        ? 'Priorität 3: Noch nicht bereit für die Bewerbung. Erst weitere Vorarbeiten nötig.'
+        : 'Priorität 4: Netzwerk-Stiftung. Keine formelle Bewerbung geplant.';
+    } else {
+      reason = 'Keine passenden Themen für die Gesuch-Generierung gefunden.';
+    }
     return {
       ready: false,
       readyReason: reason,

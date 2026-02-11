@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { THEMES } from '@/lib/config/foundations';
-import { getFoundationBySlug, generateFoundationParams } from '@/lib/domain/foundation-helpers';
+import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundation-helpers';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import Card from '@/components/ui/Card';
 import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return generateFoundationParams();
+  return generateGesuchParams();  // Only priority 1-2 foundations
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

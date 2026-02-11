@@ -151,171 +151,24 @@ export const TEMPLATE_FOUNDATIONS: Record<string, Foundation> = {
     researchNotes: 'Universelle Vorlage — zeigt das gesamte Revamp-IT-Profil',
   },
 
-  // =========================================================================
-  // Level 3: By theme/focus — different content angle per Schwerpunkt
-  // =========================================================================
-  klima: {
-    slug: 'vorlage-klima',
-    name: '[Name der Stiftung]',
-    type: 'A',
-    status: 'rolling',
-    deadline: null,
-    deadlineText: 'Laufend',
-    amount: { min: 10000, max: 50000, text: 'CHF 10\'000–50\'000' },
-    fit: 3,
-    priority: 1,
-    tagline: 'Gesuch-Vorlage mit Schwerpunkt Klima & Umwelt',
-    region: '[Region]',
-    websiteUrl: 'https://example.ch',
-    applicationMethod: 'email',
-    contact: { address: '[Adresse der Stiftung]', email: '[email@stiftung.ch]' },
-    themes: ['klima', 'kreislaufwirtschaft'],
-    source: 'manual',
-    researchDate: '2026-02-10',
-    needsResearch: false,
-    purposeSummary: '[Stiftungszweck hier einfügen]',
-    researchNotes: 'Schwerpunkt-Vorlage Klima — betont CO2-Reduktion und Nachhaltigkeit',
-  },
-  kreislaufwirtschaft: {
-    slug: 'vorlage-kreislaufwirtschaft',
-    name: '[Name der Stiftung]',
-    type: 'A',
-    status: 'rolling',
-    deadline: null,
-    deadlineText: 'Laufend',
-    amount: { min: 10000, max: 50000, text: 'CHF 10\'000–50\'000' },
-    fit: 3,
-    priority: 1,
-    tagline: 'Gesuch-Vorlage mit Schwerpunkt Kreislaufwirtschaft',
-    region: '[Region]',
-    websiteUrl: 'https://example.ch',
-    applicationMethod: 'email',
-    contact: { address: '[Adresse der Stiftung]', email: '[email@stiftung.ch]' },
-    themes: ['kreislaufwirtschaft', 'klima'],
-    source: 'manual',
-    researchDate: '2026-02-10',
-    needsResearch: false,
-    purposeSummary: '[Stiftungszweck hier einfügen]',
-    researchNotes: 'Schwerpunkt-Vorlage Kreislaufwirtschaft — betont IT-Refurbishing und E-Waste-Reduktion',
-  },
-  sozial: {
-    slug: 'vorlage-sozial',
-    name: '[Name der Stiftung]',
-    type: 'A',
-    status: 'rolling',
-    deadline: null,
-    deadlineText: 'Laufend',
-    amount: { min: 10000, max: 50000, text: 'CHF 10\'000–50\'000' },
-    fit: 3,
-    priority: 1,
-    tagline: 'Gesuch-Vorlage mit Schwerpunkt Soziale Integration',
-    region: '[Region]',
-    websiteUrl: 'https://example.ch',
-    applicationMethod: 'email',
-    contact: { address: '[Adresse der Stiftung]', email: '[email@stiftung.ch]' },
-    themes: ['soziale-integration', 'arbeitsintegration', 'jugend'],
-    source: 'manual',
-    researchDate: '2026-02-10',
-    needsResearch: false,
-    purposeSummary: '[Stiftungszweck hier einfügen]',
-    researchNotes: 'Schwerpunkt-Vorlage Sozial — betont Arbeitsintegration und Second Chance',
-  },
-  bildung: {
-    slug: 'vorlage-bildung',
-    name: '[Name der Stiftung]',
-    type: 'A',
-    status: 'rolling',
-    deadline: null,
-    deadlineText: 'Laufend',
-    amount: { min: 10000, max: 50000, text: 'CHF 10\'000–50\'000' },
-    fit: 3,
-    priority: 1,
-    tagline: 'Gesuch-Vorlage mit Schwerpunkt Digitale Bildung',
-    region: '[Region]',
-    websiteUrl: 'https://example.ch',
-    applicationMethod: 'email',
-    contact: { address: '[Adresse der Stiftung]', email: '[email@stiftung.ch]' },
-    themes: ['digitale-bildung', 'soziale-integration'],
-    source: 'manual',
-    researchDate: '2026-02-10',
-    needsResearch: false,
-    purposeSummary: '[Stiftungszweck hier einfügen]',
-    researchNotes: 'Schwerpunkt-Vorlage Bildung — betont IT-Workshops und Kompetenzaufbau',
-  },
-  digital: {
-    slug: 'vorlage-digital',
-    name: '[Name der Stiftung]',
-    type: 'A',
-    status: 'rolling',
-    deadline: null,
-    deadlineText: 'Laufend',
-    amount: { min: 10000, max: 50000, text: 'CHF 10\'000–50\'000' },
-    fit: 3,
-    priority: 1,
-    tagline: 'Gesuch-Vorlage mit Schwerpunkt Digitale Souveränität',
-    region: '[Region]',
-    websiteUrl: 'https://example.ch',
-    applicationMethod: 'email',
-    contact: { address: '[Adresse der Stiftung]', email: '[email@stiftung.ch]' },
-    themes: ['digitale-souveraenitaet', 'digitale-bildung'],
-    source: 'manual',
-    researchDate: '2026-02-10',
-    needsResearch: false,
-    purposeSummary: '[Stiftungszweck hier einfügen]',
-    researchNotes: 'Schwerpunkt-Vorlage Digital — betont Open Source und digitale Unabhängigkeit',
-  },
 };
 
 /** All valid template type keys */
 export const TEMPLATE_TYPES = [
   'A', 'B', 'C', 'D', 'network',
   'generisch',
-  'klima', 'kreislaufwirtschaft', 'sozial', 'bildung', 'digital',
 ] as const;
 
 /** Subset: Robert Schmuki type templates */
 export const TYPE_TEMPLATE_KEYS = ['A', 'B', 'C', 'D', 'network'] as const;
 
-/** Subset: Theme/focus templates */
-export const THEME_TEMPLATE_KEYS = ['klima', 'kreislaufwirtschaft', 'sozial', 'bildung', 'digital'] as const;
-
-/** Labels for generic + theme templates (type templates use TYPE_LABELS from foundations/metadata) */
-export const TEMPLATE_LABELS: Record<string, { short: string; long: string; desc: string; category: 'generic' | 'theme' }> = {
+/** Labels for generic template (type templates use TYPE_LABELS from foundations/metadata) */
+export const TEMPLATE_LABELS: Record<string, { short: string; long: string; desc: string; category: 'generic' }> = {
   generisch: {
     short: 'Generisch',
     long: 'Universelle Vorlage',
     desc: 'Das gesamte Revamp-IT-Profil — alle Schwerpunkte, alle Projekte. Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen.',
     category: 'generic',
-  },
-  klima: {
-    short: 'Klima',
-    long: 'Klima & Umwelt',
-    desc: 'Betont CO2-Reduktion durch IT-Refurbishing, Ressourcenschonung und nachhaltige Technologienutzung.',
-    category: 'theme',
-  },
-  kreislaufwirtschaft: {
-    short: 'Kreislaufwirtschaft',
-    long: 'Kreislaufwirtschaft & Reparatur',
-    desc: 'Fokus auf Wiederverwendung, Reparatur und Verlängerung der Lebensdauer von IT-Geräten.',
-    category: 'theme',
-  },
-  sozial: {
-    short: 'Sozial',
-    long: 'Soziale Integration',
-    desc: 'Betont Arbeitsintegration, Second Chance und Chancengleichheit durch IT-Ausbildung.',
-    category: 'theme',
-  },
-  bildung: {
-    short: 'Bildung',
-    long: 'Digitale Bildung',
-    desc: 'Fokus auf IT-Workshops, Kompetenzaufbau und Zugang zu digitaler Teilhabe.',
-    category: 'theme',
-  },
-  digital: {
-    short: 'Digital',
-    long: 'Digitale Souveränität',
-    desc: 'Betont Open Source, Linux und digitale Unabhängigkeit von proprietären Systemen.',
-    category: 'theme',
   },
 };
 

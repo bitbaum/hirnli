@@ -10,3 +10,10 @@ export function getFoundationBySlug(slug: string): Foundation | undefined {
 export function generateFoundationParams(): { slug: string }[] {
   return STIFTUNGEN_DATA.map((f) => ({ slug: f.slug }));
 }
+
+/** Generate static params for gesuch-ready foundations only (priority 1-2) */
+export function generateGesuchParams(): { slug: string }[] {
+  return STIFTUNGEN_DATA
+    .filter((f) => !f.needsResearch && (!f.priority || f.priority <= 2))
+    .map((f) => ({ slug: f.slug }));
+}

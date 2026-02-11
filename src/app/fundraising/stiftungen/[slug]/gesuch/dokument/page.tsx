@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getFoundationBySlug, generateFoundationParams } from '@/lib/domain/foundation-helpers';
+import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
 import ProjektbeschriebSection from '@/components/gesuch/ProjektbeschriebSection';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return generateFoundationParams();
+  return generateGesuchParams();
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
