@@ -111,7 +111,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               {foundation?.name || 'Unknown Foundation'}
             </h1>
           </div>
-          <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status)}`}>
+          <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status as any)}`}>
             {application.status}
           </span>
         </div>

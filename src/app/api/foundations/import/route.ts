@@ -162,7 +162,7 @@ export async function POST(request: NextRequest) {
 
     // Transform and insert
     const transformed = newFoundations.map(f => {
-      const { min, max } = parseGrantRange(f.grantRange);
+      const { min, max } = parseGrantRange(f.grantRange || '');
 
       return {
         id: generateSlug(f.name),

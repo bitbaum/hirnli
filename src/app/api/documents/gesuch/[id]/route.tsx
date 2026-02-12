@@ -103,9 +103,9 @@ export async function POST(
     const stream = await renderToStream(pdfComponent);
 
     // Convert stream to buffer
-    const chunks: Uint8Array[] = [];
+    const chunks: Buffer[] = [];
     for await (const chunk of stream) {
-      chunks.push(chunk);
+      chunks.push(Buffer.from(chunk));
     }
     const buffer = Buffer.concat(chunks);
 

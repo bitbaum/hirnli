@@ -151,7 +151,7 @@ export async function GET(request: NextRequest) {
         items: stuckApplications.slice(0, 10).map(({ application, foundation }) => ({
           id: application.id,
           name: foundation?.name || 'Unknown',
-          detail: `Last update: ${new Date(application.updatedAt).toLocaleDateString('de-CH')}`,
+          detail: `Last update: ${application.updatedAt ? new Date(application.updatedAt).toLocaleDateString('de-CH') : 'Never'}`,
         })),
       });
     }
