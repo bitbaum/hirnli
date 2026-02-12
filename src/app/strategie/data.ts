@@ -19,12 +19,66 @@ export const PILLARS = [
 ] as const;
 
 export const VISION_TARGETS = [
-  { value: "10'000+", label: 'Geräte jährlich vor Elektroschrott gerettet' },
-  { value: 'Schweizweit', label: 'Netzwerk von Repair-Hubs aufbauen' },
-  { value: '500+', label: 'Menschen pro Jahr in digitalen Skills ausbilden' },
-  { value: '100%', label: 'Aller Einnahmen fliessen zurück in die Mission' },
-  { value: '#1', label: 'Führende Organisation für nachhaltige IT in der Schweiz' },
-  { value: 'Community Tech Space', label: 'Museum, Werkstatt & Treffpunkt' },
+  {
+    value: "10'000+",
+    label: 'Geräte jährlich vor Elektroschrott gerettet',
+    source: {
+      methodology: 'Hochrechnung basierend auf geplanter Skalierung: 2025 = ~300 Geräte/Jahr → 2030 = 10\'000+ durch Community Tech Space (5× Werkstattfläche + Freiwilligen-Netzwerk)',
+      confidence: 'aspirational',
+      lastVerified: '2026-01-15',
+      notes: 'Abhängig von: Neues Lokal, Freiwilligen-Rekrutierung, Partnerschaften mit Firmen (Corporate-Spenden)',
+    },
+  },
+  {
+    value: 'Schweizweit',
+    label: 'Netzwerk von Repair-Hubs aufbauen',
+    source: {
+      methodology: 'Vision für föderales Modell: Zürich als Flagship-Hub, Franchise-/Partner-Modell für Bern, Basel, Genf, Lausanne, St. Gallen',
+      confidence: 'aspirational',
+      lastVerified: '2026-01-15',
+      notes: 'Erfordert: Standardisierte SOPs, Train-the-Trainer Programme, zentrale Logistik',
+    },
+  },
+  {
+    value: '500+',
+    label: 'Menschen pro Jahr in digitalen Skills ausbilden',
+    source: {
+      methodology: 'Berechnung: 2025 = ~50 Workshop-Teilnehmer → 2030 = 500+ durch Schulungsraum + Online-Kurse + Corporate-Workshops',
+      confidence: 'aspirational',
+      lastVerified: '2026-01-15',
+      notes: 'Abhängig von: Schulungsraumkapazität (Community Tech Space), Trainer-Team, Kursportfolio-Entwicklung',
+    },
+  },
+  {
+    value: '100%',
+    label: 'Aller Einnahmen fliessen zurück in die Mission',
+    source: {
+      methodology: 'Gemeinnütziger Verein (non-profit): Per Statuten keine Gewinnausschüttung, alle Einnahmen reinvestiert in Mission',
+      confidence: 'high',
+      lastVerified: '2026-01-15',
+      notes: 'Bereits heute 100% — Dies ist keine Zukunftsvision, sondern unser Grundprinzip seit 2003',
+    },
+  },
+  {
+    value: '#1',
+    label: 'Führende Organisation für nachhaltige IT in der Schweiz',
+    source: {
+      methodology: 'Qualitative Vision: Anerkennung durch Stiftungen, Medien, Politik und Community als führende Organisation im Bereich Circular IT + digitale Inklusion',
+      confidence: 'aspirational',
+      lastVerified: '2026-01-15',
+      notes: 'Messkriterien: SwissFoundations-Mitgliedschaft, Medienberichte, Auszeichnungen, Partnerschaften (ETH, ZHAW, etc.)',
+    },
+  },
+  {
+    value: 'Community Tech Space',
+    label: 'Museum, Werkstatt & Treffpunkt',
+    source: {
+      methodology: 'Konkretes Projekt: Neues Lokal (bis Ende 2026 erforderlich) mit 500-1000m² für Werkstatt, Shop, Schulung, Museum, Café, Event-Space',
+      confidence: 'medium',
+      lastVerified: '2026-01-15',
+      notes: 'Abhängig von: Immobilienmarkt Zürich, Stiftungsgelder (CHF 500k-1M benötigt), Partnerschaften für langfristigen Mietvertrag',
+    },
+  },
 ] as const;
 
 /** Hub-Kern: Bereiche, die direkt aus der heutigen Arbeit wachsen */

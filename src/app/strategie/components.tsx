@@ -1,5 +1,8 @@
 import Card from '@/components/ui/Card';
 
+export { default as SovereigntyPillar } from './components/SovereigntyPillar';
+export { default as VisionMetric } from './components/VisionMetric';
+
 export function GeschichteSection() {
   return (
     <section className="mb-8">

@@ -5,7 +5,7 @@ import Table from '@/components/ui/Table';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import { PILLARS, VISION_TARGETS, HUB_CORE_SPACES, HUB_CULTURAL_SPACES, SDG_DATA, SDG_COLORS } from './data';
 import type { SdgRow } from './data';
-import { GeschichteSection, KontaktSection } from './components';
+import { GeschichteSection, KontaktSection, SovereigntyPillar, VisionMetric } from './components';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
@@ -24,7 +24,7 @@ export default function StrategiePage() {
       />
 
       <WhyThisMatters
-        purpose="Unsere Mission, Werte und Vision 2026 erklären WARUM wir existieren und WOHIN wir gehen."
+        purpose="Unsere Mission, Werte und Vision 2030 erklären WARUM wir existieren und WOHIN wir gehen."
         connection="Strategie ist die Grundlage für alle anderen Seiten: Operations (WIE), Fundraising (WOMIT), Wirkung (ERGEBNIS)."
       />
 
@@ -66,12 +66,17 @@ export default function StrategiePage() {
           <h3 className="mb-2 text-xl font-bold">
             Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder Technologie ausgeschlossen.
           </h3>
+          <p className="text-sm opacity-90 mb-6">
+            💡 Klicke auf die Metriken, um Details zur Datenquelle und Methodik zu sehen.
+          </p>
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {VISION_TARGETS.map((target) => (
-              <div key={target.value} className="rounded-lg bg-white/10 p-4">
-                <strong className="block text-xl">{target.value}</strong>
-                <span className="text-sm opacity-90">{target.label}</span>
-              </div>
+              <VisionMetric
+                key={target.value}
+                value={target.value}
+                label={target.label}
+                source={target.source}
+              />
             ))}
           </div>
         </div>
@@ -86,26 +91,64 @@ export default function StrategiePage() {
             Dieser Weg führt konsequent weiter:
           </p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50 p-5 text-center">
-              <span className="mb-2 block text-3xl">🔧</span>
-              <h3 className="text-sm font-bold text-emerald-800">Hardware-Souveränität</h3>
-              <p className="mt-1 text-xs text-emerald-700">Repariere dein eigenes Gerät. Seit 2003.</p>
-            </div>
-            <div className="rounded-xl border-2 border-blue-200 bg-blue-50 p-5 text-center">
-              <span className="mb-2 block text-3xl">🐧</span>
-              <h3 className="text-sm font-bold text-blue-800">Software-Souveränität</h3>
-              <p className="mt-1 text-xs text-blue-700">Linux & Open Source statt Lizenzen.</p>
-            </div>
-            <div className="rounded-xl border-2 border-violet-200 bg-violet-50 p-5 text-center">
-              <span className="mb-2 block text-3xl">☁️</span>
-              <h3 className="text-sm font-bold text-violet-800">Daten-Souveränität</h3>
-              <p className="mt-1 text-xs text-violet-700">Schweizer Cloud & Hosting. Seit 2022.</p>
-            </div>
-            <div className="rounded-xl border-2 border-amber-200 bg-amber-50 p-5 text-center">
-              <span className="mb-2 block text-3xl">🧠</span>
-              <h3 className="text-sm font-bold text-amber-800">KI-Souveränität</h3>
-              <p className="mt-1 text-xs text-amber-700">Eigene Modelle hosten, trainieren, vermitteln.</p>
-            </div>
+            <SovereigntyPillar
+              icon="🔧"
+              title="Hardware-Souveränität"
+              description="Repariere dein eigenes Gerät. Seit 2003."
+              colorScheme="emerald"
+              achievements={[
+                'Seit 2003: Repair-Workshops & Open-Source-Hardware',
+                '25-35 Geräte/Monat professionell refurbished',
+                'Right to Repair — Community-getrieben',
+              ]}
+              relatedPages={[
+                { title: 'Operations', href: '/operations', reason: 'Wie unser Refurbishment-Prozess funktioniert' },
+                { title: 'Wirkung', href: '/wirkung', reason: 'Wie viele Geräte wir gerettet haben' },
+              ]}
+            />
+            <SovereigntyPillar
+              icon="🐧"
+              title="Software-Souveränität"
+              description="Linux & Open Source statt Lizenzen."
+              colorScheme="blue"
+              achievements={[
+                'Seit 2003: Linux-Fokus (Ubuntu, Linux Mint, etc.)',
+                '100% Open-Source-Software auf allen Geräten',
+                'Keine Lizenzkosten = niedrigere Preise',
+              ]}
+              relatedPages={[
+                { title: 'Preismodell', href: '/preismodell', reason: 'Wie Open-Source Zugang ermöglicht' },
+                { title: 'Team', href: '/team', reason: 'Unser Linux-Expertise' },
+              ]}
+            />
+            <SovereigntyPillar
+              icon="☁️"
+              title="Daten-Souveränität"
+              description="Schweizer Cloud & Hosting. Seit 2022."
+              colorScheme="violet"
+              achievements={[
+                'Seit 2022: Nextcloud (Swiss Hosting)',
+                'Alle Daten bleiben in der Schweiz',
+                'DSGVO-konform, transparent, selbst gehostet',
+              ]}
+              relatedPages={[
+                { title: 'Methodik', href: '/methodik', reason: 'Wie wir Daten verarbeiten' },
+              ]}
+            />
+            <SovereigntyPillar
+              icon="🧠"
+              title="KI-Souveränität"
+              description="Eigene Modelle hosten, trainieren, vermitteln."
+              colorScheme="amber"
+              achievements={[
+                'GPU-Cluster geplant (Community Tech Space)',
+                'Lokale KI-Modelle statt Cloud-Abhängigkeit',
+                'Sovereign AI Lab für Schweizer Organisationen',
+              ]}
+              relatedPages={[
+                { title: 'Strategie → Community Tech Space', href: '/strategie#community-tech-space', reason: 'Sovereign AI Lab Details' },
+              ]}
+            />
           </div>
         </Card>
       </section>
