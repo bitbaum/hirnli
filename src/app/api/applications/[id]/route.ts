@@ -62,8 +62,8 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
-    const { id } = await params;
 
     const result = await db
       .select({
@@ -88,7 +88,7 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error(`GET /api/applications/${params.id} error:`, error);
+    console.error(`GET /api/applications/${id} error:`, error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch application' },
       { status: 500 }
@@ -104,8 +104,8 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
-    const { id } = await params;
     const body = await request.json();
 
     // Validate input
@@ -187,7 +187,7 @@ export async function PATCH(
     });
 
   } catch (error) {
-    console.error(`PATCH /api/applications/${params.id} error:`, error);
+    console.error(`PATCH /api/applications/${id} error:`, error);
     return NextResponse.json(
       { success: false, error: 'Failed to update application' },
       { status: 500 }
@@ -203,8 +203,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
-    const { id } = await params;
 
     // Check if application exists
     const existing = await db
@@ -246,7 +246,7 @@ export async function DELETE(
     });
 
   } catch (error) {
-    console.error(`DELETE /api/applications/${params.id} error:`, error);
+    console.error(`DELETE /api/applications/${id} error:`, error);
     return NextResponse.json(
       { success: false, error: 'Failed to delete application' },
       { status: 500 }

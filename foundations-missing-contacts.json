@@ -1,0 +1,834 @@
+{
+  "foundations": [
+    {
+      "slug": "fondation-valery",
+      "name": "Fondation Valery",
+      "type": "A",
+      "priority": 1,
+      "website": "https://www.fondation-valery.ch",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": false,
+        "address": false
+      },
+      "missingFields": [
+        "email"
+      ]
+    },
+    {
+      "slug": "stiftung-gruenau",
+      "name": "Stiftung Grünau",
+      "type": "C",
+      "priority": 1,
+      "website": "https://www.stiftunggruenau.ch",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "circular-zuerich",
+      "name": "Circular Zürich (Stadt Zürich)",
+      "type": "network",
+      "priority": 1,
+      "website": "https://www.stadt-zuerich.ch/de/umwelt-und-energie/klima/kreislaufwirtschaft.html",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "temperatio",
+      "name": "Stiftung Temperatio",
+      "type": "B",
+      "priority": 2,
+      "website": "https://temperatio.ch",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "ggkz",
+      "name": "Gemeinn\\u00FCtzige Gesellschaft des Kantons Z\\u00FCrich",
+      "type": "B",
+      "priority": 2,
+      "website": "https://www.ggkz.ch",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "vontobel-stiftung",
+      "name": "Vontobel-Stiftung",
+      "type": "B",
+      "priority": 2,
+      "website": "https://www.vontobel-stiftung.ch",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "fuchs-eugster",
+      "name": "Fuchs-Eugster Stiftung",
+      "type": "C",
+      "priority": 2,
+      "website": "https://stiftungen.stiftungschweiz.ch/organisation/fuchs-eugster-stiftung",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "swisslos-zh",
+      "name": "Swisslos-Fonds Kanton Zürich (Gemeinnütziger Fonds)",
+      "type": "D",
+      "priority": 2,
+      "website": "https://www.zh.ch/de/sport-kultur/swisslos-fonds/gemeinnuetziger-fonds.html",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "migros-soziales",
+      "name": "Migros-Kulturprozent Soziale Projekte",
+      "type": "D",
+      "priority": 2,
+      "website": "https://engagement.migros.ch/de/foerderung-beantragen/filter/soziales",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "swisscom-jetzt-hier",
+      "name": "Swisscom «Jetzt & Hier»",
+      "type": "D",
+      "priority": 2,
+      "website": "https://www.swisscom.ch/de/ueber-swisscom/nachhaltigkeit/soziales-engagement.html",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "mobiliar-jubilaeum",
+      "name": "Mobiliar Jubiläumsstiftung",
+      "type": "D",
+      "priority": 2,
+      "website": "https://www.mobiliar.ch/die-mobiliar/engagement/mobiliar-jubilaeumsstiftung",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "coop-nachhaltigkeit",
+      "name": "Coop Nachhaltigkeitsfonds",
+      "type": "D",
+      "priority": 2,
+      "website": "https://www.coop.ch/de/unternehmen/nachhaltigkeit.html",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "swiss-re-foundation",
+      "name": "Swiss Re Foundation",
+      "type": "D",
+      "priority": 2,
+      "website": "https://www.swissre.com/foundation.html",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "baloise-foundation",
+      "name": "Baloise Group Stiftung",
+      "type": "D",
+      "priority": 2,
+      "website": "https://www.baloise.com/de/home/ueber-uns/nachhaltigkeit.html",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "zurich-insurance-foundation",
+      "name": "Z Zurich Foundation",
+      "type": "D",
+      "priority": 2,
+      "website": "https://www.zurich.com/en/sustainability/z-zurich-foundation",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "stadt-zh-kooperationen",
+      "name": "Stadt Zürich Förderangebot Kooperationen",
+      "type": "network",
+      "priority": 2,
+      "website": "https://www.stadt-zuerich.ch/de/umwelt-und-energie/klima/beratung-und-foerderung/kooperationen.html",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "gemeinnütziger-fonds-bildung",
+      "name": "Gemeinnütziger Fonds Bildung (Kanton Zürich)",
+      "type": "network",
+      "priority": 2,
+      "website": "https://www.zh.ch/de/bildungsdirektion/generalsekretariat-der-bildungsdirektion/gemeinnuetziger-fonds-bildung.html",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "sens-erecycling",
+      "name": "Stiftung SENS / eRecycling",
+      "type": "network",
+      "priority": 2,
+      "website": "https://www.erecycling.ch",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "impacthub-zuerich",
+      "name": "Impact Hub Z\\u00FCrich",
+      "type": "network",
+      "priority": 2,
+      "website": "https://zurich.impacthub.ch",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "sens-suisse",
+      "name": "SENS \\u2014 Social Entrepreneurship Schweiz",
+      "type": "network",
+      "priority": 2,
+      "website": "https://sens-suisse.ch",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "eckenstein-geigy",
+      "name": "Eckenstein-Geigy Stiftung",
+      "type": "A",
+      "priority": 3,
+      "website": "https://eckenstein-geigy-stiftung.org",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": false,
+        "address": false
+      },
+      "missingFields": [
+        "email"
+      ]
+    },
+    {
+      "slug": "drittes-millennium",
+      "name": "Stiftung Drittes Millennium",
+      "type": "A",
+      "priority": 3,
+      "website": "https://stiftung3m.org",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "laudes-foundation",
+      "name": "Laudes Foundation",
+      "type": "B",
+      "priority": 3,
+      "website": "https://www.laudesfoundation.org",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": false,
+        "address": false
+      },
+      "missingFields": [
+        "email"
+      ]
+    },
+    {
+      "slug": "swisslos-sportfonds-zh",
+      "name": "Swisslos Sportfonds Kanton Z\\u00FCrich",
+      "type": "B",
+      "priority": 3,
+      "website": "https://www.zh.ch/de/sport-kultur/sport/unterstuetzung-aus-sportfonds.html",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "weisskopf-cuadra",
+      "name": "Stiftung Weisskopf de la Cuadra",
+      "type": "C",
+      "priority": 3,
+      "website": "https://stiftungen.stiftungschweiz.ch/organisation/stiftung-weisskopf-de-la-cuadra",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "stiftung-wobis",
+      "name": "Stiftung WOBIS",
+      "type": "C",
+      "priority": 3,
+      "website": "https://stiftungen.stiftungschweiz.ch/organisation/stiftung-wobis",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "hans-eggenberger",
+      "name": "Hans-Eggenberger-Stiftung",
+      "type": "C",
+      "priority": 3,
+      "website": "https://www.hans-eggenberger-stiftung.ch",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "anbespo",
+      "name": "AnBeSPo Foundation",
+      "type": "C",
+      "priority": 3,
+      "website": "https://anbespo.ch",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "greuter-briner",
+      "name": "Stiftung Greuter-Briner",
+      "type": "C",
+      "priority": 3,
+      "website": "https://stiftung-gb.ch",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "michael-kohn",
+      "name": "Michael Kohn-Stiftung",
+      "type": "C",
+      "priority": 3,
+      "website": "https://stiftungen.stiftungschweiz.ch/organisation/michael-kohn-stiftung",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": false,
+        "address": false
+      },
+      "missingFields": [
+        "email"
+      ]
+    },
+    {
+      "slug": "ruckstuhl",
+      "name": "Ruckstuhl Stiftung",
+      "type": "C",
+      "priority": 3,
+      "website": "https://stiftungen.stiftungschweiz.ch/organisation/ruckstuhl-stiftung",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "walter-zuettel",
+      "name": "Walter Z\\u00FCttel Stiftung",
+      "type": "C",
+      "priority": 3,
+      "website": "https://stiftungen.stiftungschweiz.ch/organisation/walter-zuettel-stiftung",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "pjubs",
+      "name": "Stiftung pro Jugend und Berufsbildung Schweiz",
+      "type": "C",
+      "priority": 3,
+      "website": "https://www.pjubs.ch",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "alice-ackermann",
+      "name": "Alice Ackermann Stiftung",
+      "type": "C",
+      "priority": 3,
+      "website": "https://stiftungen.stiftungschweiz.ch/organisation/alice-ackermann-stiftung",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": false,
+        "address": false
+      },
+      "missingFields": [
+        "email"
+      ]
+    },
+    {
+      "slug": "migros-pionierfonds",
+      "name": "Migros-Pionierfonds",
+      "type": "D",
+      "priority": 3,
+      "website": "https://engagement.migros.ch/de/pionierfonds",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": false,
+        "address": false
+      },
+      "missingFields": [
+        "email"
+      ]
+    },
+    {
+      "slug": "migros-hilfsfonds",
+      "name": "Migros-Unterst\\u00FCtzungsfonds",
+      "type": "D",
+      "priority": 3,
+      "website": "https://engagement.migros.ch/de/hilfsfonds",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": false,
+        "address": false
+      },
+      "missingFields": [
+        "email"
+      ]
+    },
+    {
+      "slug": "lombard-odier",
+      "name": "Fondation Lombard Odier",
+      "type": "D",
+      "priority": 3,
+      "website": "https://www.lombardodier.com/philanthropy",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "google-org-ch",
+      "name": "Google.org (Schweiz)",
+      "type": "D",
+      "priority": 3,
+      "website": "https://www.google.org",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "six-group-foundation",
+      "name": "SIX Group Stiftung",
+      "type": "D",
+      "priority": 3,
+      "website": "https://www.six-group.com/de/company/sustainability.html",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "seif",
+      "name": "SEIF (Social Entrepreneurship Initiative & Foundation)",
+      "type": "network",
+      "priority": 3,
+      "website": "https://seif.org",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "kickstart-innovation",
+      "name": "Kickstart Innovation",
+      "type": "network",
+      "priority": 3,
+      "website": "https://www.kickstart-innovation.com",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "ashoka-schweiz",
+      "name": "Ashoka Switzerland",
+      "type": "network",
+      "priority": 3,
+      "website": "https://www.ashoka.org/en-ch",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "netzwerk-zuerich",
+      "name": "Stiftung Netzwerk Z\\u00FCrich",
+      "type": "network",
+      "priority": 3,
+      "website": "https://www.netz-werk.ch",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "email",
+        "phone"
+      ]
+    },
+    {
+      "slug": "heks",
+      "name": "HEKS \\u2014 Hilfswerk der Evangelischen Kirchen Schweiz",
+      "type": "network",
+      "priority": 3,
+      "website": "https://www.heks.ch",
+      "hasContact": true,
+      "missing": {
+        "email": true,
+        "phone": false,
+        "address": false
+      },
+      "missingFields": [
+        "email"
+      ]
+    },
+    {
+      "slug": "sinnovativ",
+      "name": "Sinnovativ - Stiftung f\\u00FCr soziale Innovation",
+      "type": "network",
+      "priority": 4,
+      "website": "https://sinnovativ.ch",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "stiftung-sag",
+      "name": "Stiftung SAG",
+      "type": "network",
+      "priority": 4,
+      "website": "https://www.stiftung-sag.ch",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "digitalswitzerland",
+      "name": "digitalswitzerland",
+      "type": "network",
+      "priority": 4,
+      "website": "https://digitalswitzerland.com",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    },
+    {
+      "slug": "schwab-foundation",
+      "name": "Schwab Foundation for Social Entrepreneurship",
+      "type": "network",
+      "priority": 4,
+      "website": "https://www.schwabfound.org",
+      "hasContact": false,
+      "missing": {
+        "email": true,
+        "phone": true,
+        "address": true
+      },
+      "missingFields": [
+        "email",
+        "phone",
+        "address"
+      ]
+    },
+    {
+      "slug": "digitale-gesellschaft",
+      "name": "Digitale Gesellschaft",
+      "type": "network",
+      "priority": 4,
+      "website": "https://www.digitale-gesellschaft.ch",
+      "hasContact": true,
+      "missing": {
+        "email": false,
+        "phone": true,
+        "address": false
+      },
+      "missingFields": [
+        "phone"
+      ]
+    }
+  ],
+  "summary": {
+    "total": 70,
+    "missingEmail": 33,
+    "missingPhone": 41,
+    "missingAddress": 14,
+    "missingAny": 49
+  }
+}
