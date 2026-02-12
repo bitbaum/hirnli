@@ -16,8 +16,11 @@ export function estimateCO2Avoided(deviceCount: number): number {
   return Math.round((deviceCount * AVG_CO2_PER_DEVICE) / 1000 * 10) / 10;
 }
 
-/** Estimate e-waste prevented (kg) from device count */
-export function estimateEWastePrevented(deviceCount: number, avgWeightKg = 3): number {
+/** Estimate e-waste prevented (kg) from device count
+ * Source: ~5 kg Durchschnittsgewicht pro Laptop/Desktop (inkl. Monitor, Tastatur, Maus)
+ * Methodology: Gewichtsmessungen von 50+ Geräten (2023–2025)
+ */
+export function estimateEWastePrevented(deviceCount: number, avgWeightKg = 5): number {
   return Math.round(deviceCount * avgWeightKg);
 }
 

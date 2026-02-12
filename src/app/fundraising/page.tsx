@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import FundraisingClient from './FundraisingClient';
 
 export const metadata: Metadata = {
-  title: 'Fundraising & Vision 2026',
-  description: 'Fundraising Hub - Vision, Budget, Pipeline und Fördermöglichkeiten',
+  title: 'Fundraising Plan 2026–2028',
+  description: '3-Jahres-Fundraising-Plan zur Realisierung der Vision 2030',
 };
 
 export default function FundraisingPage() {

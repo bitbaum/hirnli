@@ -67,7 +67,7 @@ export async function POST(
         'Wir kombinieren Kreislaufwirtschaft (285kg CO2 gespart pro Laptop) mit sozialer Integration (15 Arbeitsplätze geschaffen) und digitaler Inklusion (1\'200+ Laptops verkauft).',
 
       approach:
-        'Unser Geschäftsmodell ist finanziell nachhaltig: 80% Eigenfinanzierung durch Laptop-Verkäufe, 20% Stiftungsfinanzierung für Kapazitätsausbau.',
+        'Unser Geschäftsmodell kombiniert Eigenfinanzierung (Laptop-Verkäufe & Services) mit Stiftungsfinanzierung für Kapazitätsausbau und soziale Programme.',
 
       impact:
         '2025: 1\'200 Laptops refurbiert, 285 Tonnen CO2 eingespart, 15 Menschen beschäftigt, 95% Kundenzufriedenheit.',
