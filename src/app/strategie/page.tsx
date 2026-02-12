@@ -5,7 +5,7 @@ import Table from '@/components/ui/Table';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import { PILLARS, VISION_TARGETS, HUB_CORE_SPACES, HUB_CULTURAL_SPACES, SDG_DATA, SDG_COLORS } from './data';
 import type { SdgRow } from './data';
-import { GeschichteSection, KontaktSection, SovereigntyPillar, VisionMetric } from './components';
+import { GeschichteSection, KontaktSection, SovereigntyPillar, VisionMetric, PillarDetail } from './components';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
@@ -47,16 +47,109 @@ export default function StrategiePage() {
 
       {/* Vier Säulen */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Vier Säulen</h2>
-        <MetricGrid columns={4}>
-          {PILLARS.map((p) => (
-            <div key={p.title} className="flex flex-col items-center rounded-xl border border-border bg-white p-5 text-center shadow-sm">
-              <span className="mb-3 text-4xl">{p.icon}</span>
-              <h3 className="text-sm font-semibold">{p.title}</h3>
-              <p className="mt-2 text-xs text-text-muted">{p.description}</p>
-            </div>
-          ))}
-        </MetricGrid>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Vier Säulen unserer Arbeit</h2>
+        <p className="mb-6 text-sm text-text-light">
+          Unsere Mission ruht auf vier gleichwertigen Säulen. Klicke auf «Mehr erfahren», um zu sehen,
+          was wir konkret tun, warum es wichtig ist und was wir erreicht haben.
+        </p>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <PillarDetail
+            icon="♻️"
+            title="1. Umweltschutz"
+            description="Reduktion von Elektroschrott durch Wiederinstandsetzung, Reparatur, Weiterverwendung und fachgerechtes Recycling"
+            colorScheme="emerald"
+            activities={[
+              'Professionelles Refurbishment: 25-35 Geräte/Monat mit standardisiertem Prozess',
+              'Datenvernichtung nach NIST 800-88 Standard (secure data wipe)',
+              'Fachgerechtes Recycling für nicht reparierbare Komponenten (>80% Quote)',
+              'Lebensdauerverlängerung: Ältere Hardware läuft mit Linux weitere 5-10 Jahre',
+            ]}
+            whyItMatters="Jeder neue Laptop verursacht ~300 kg CO₂ bei der Herstellung. Durch Refurbishment vermeiden wir diese Emissionen und reduzieren Elektroschrott – einer der am schnellsten wachsenden Abfallströme weltweit (62 Mio. Tonnen/Jahr). Gleichzeitig schonen wir wertvolle Rohstoffe wie Kupfer, Gold und seltene Erden."
+            achievements={[
+              'Seit 2003: Tausende Geräte vor Elektroschrott gerettet',
+              '2025: ~300 Laptops refurbished = ~90 Tonnen CO₂ vermieden',
+              'Durchschnittliche Lebensdauerverlängerung: 5-7 Jahre pro Gerät',
+              'Recycling-Quote für nicht reparierbare Teile: >80%',
+            ]}
+            relatedPages={[
+              { title: 'Wirkung', href: '/wirkung', reason: 'Siehe detaillierte Umwelt-Impact-Zahlen' },
+              { title: 'Operations', href: '/operations', reason: 'Wie unser Refurbishment-Prozess funktioniert' },
+              { title: 'Methodik', href: '/methodik', reason: 'Wie wir CO₂-Einsparungen berechnen' },
+            ]}
+          />
+
+          <PillarDetail
+            icon="🐧"
+            title="2. Digitale Souveränität"
+            description="Förderung von Linux & Open-Source Software als nachhaltige, kostengünstige und befähigende Technologieoption"
+            colorScheme="blue"
+            activities={[
+              '100% Linux-Installation (Ubuntu, Linux Mint, Pop!_OS) auf allen verkauften Geräten',
+              'Keine Lizenzkosten = niedrigere Preise für Endkunden',
+              'Workshops zu Linux-Grundlagen, Terminal, Softwareinstallation',
+              'Community-Support & Dokumentation in deutscher Sprache',
+            ]}
+            whyItMatters="Digitale Souveränität bedeutet: Du besitzt dein Gerät wirklich. Keine Zwangsupdates, keine Vendor Lock-ins, keine Lizenzkosten. Open-Source-Software gibt Nutzern Kontrolle zurück und ermöglicht es, ältere Hardware weiter zu nutzen. Das ist besonders wichtig für Menschen mit geringem Einkommen und für Organisationen, die unabhängig bleiben wollen."
+            achievements={[
+              'Seit 2003: Pioniere für Linux-Desktop in der Schweiz',
+              '1\'200+ Geräte mit vorinstalliertem Linux verkauft (2022-2025)',
+              'Workshops & Support: Hunderte Menschen an Linux herangeführt',
+              'Teil der weltweiten Open-Source-Bewegung',
+            ]}
+            relatedPages={[
+              { title: 'Preismodell', href: '/preismodell', reason: 'Wie Open-Source niedrigere Preise ermöglicht' },
+              { title: 'Strategie → Souveränität', href: '/strategie#souveraenitat', reason: 'Unser Souveränitäts-Pfad im Detail' },
+            ]}
+          />
+
+          <PillarDetail
+            icon="📚"
+            title="3. Bildung & Aufklärung"
+            description="Workshops, technische Unterstützung und niederschwellige Lernangebote — von Reparaturwissen bis zu digitalen Kompetenzen"
+            colorScheme="violet"
+            activities={[
+              'Repair-Workshops: Wie repariere ich meinen eigenen Laptop?',
+              'Linux-Einführungskurse für Einsteiger (Deutsch & Englisch)',
+              'Technischer Support per E-Mail, Telefon und vor Ort',
+              'Community-Events: Repair Cafés, Tech-Talks, Wissensaustausch',
+            ]}
+            whyItMatters="In einer Welt, die sich durch Automatisierung und KI rasant verändert, werden digitale Kompetenzen zur Grundvoraussetzung für Teilhabe. Gleichzeitig geht Reparaturwissen verloren – dabei ist es ein Schlüssel zu Nachhaltigkeit und Unabhängigkeit. Wir vermitteln beides: Wie man Technologie nutzt UND wie man sie wartet."
+            achievements={[
+              '2022-2025: ~150 Workshop-Teilnehmer in Repair & Linux',
+              'Praktikanten-Ausbildung: 10+ Menschen in IT-Skills trainiert',
+              'Niederschwelliger Zugang: Keine Vorkenntnisse erforderlich',
+              'Wissensdokumentation: Anleitungen & How-Tos für Community',
+            ]}
+            relatedPages={[
+              { title: 'Team', href: '/team', reason: 'Wer diese Workshops durchführt' },
+              { title: 'Wirkung', href: '/wirkung', reason: 'Wie viele Menschen wir erreicht haben' },
+            ]}
+          />
+
+          <PillarDetail
+            icon="🤝"
+            title="4. Soziale Integration"
+            description="Unterstützung bei der beruflichen Wiedereingliederung durch Struktur, Routinen und sinnvolle Tätigkeiten"
+            colorScheme="amber"
+            activities={[
+              'Arbeitsintegrationsprogramme für Menschen mit erschwertem Arbeitsmarktzugang',
+              'Praktikumsplätze mit Betreuung & Skill-Entwicklung',
+              'Strukturierte Tagesabläufe: Refurbishment, Verkauf, Werkstatt',
+              'Zusammenarbeit mit Sozialdiensten (AOZ, Caritas, etc.)',
+            ]}
+            whyItMatters="Geflüchtete, Langzeitarbeitslose und Menschen mit Behinderungen haben oft erschwerten Zugang zum Arbeitsmarkt – nicht wegen fehlender Fähigkeiten, sondern wegen fehlender Chancen. Wir bieten einen geschützten Rahmen, um praktische IT-Skills zu entwickeln, Selbstvertrauen aufzubauen und Referenzen zu sammeln. Das ist besonders wichtig, wenn Automatisierung traditionelle Einstiegsjobs ersetzt."
+            achievements={[
+              '2022-2025: 10+ Praktikanten erfolgreich betreut',
+              'Zusammenarbeit mit AOZ, Caritas und anderen Sozialpartnern',
+              'Mehrere erfolgreiche Vermittlungen in den ersten Arbeitsmarkt',
+              'Sinnvolle Arbeit: Jedes refurbishte Gerät ist messbarer Impact',
+            ]}
+            relatedPages={[
+              { title: 'Wirkung', href: '/wirkung', reason: 'Soziale Impact-Metriken im Detail' },
+              { title: 'Team', href: '/team', reason: 'Unser Team & unsere Werte' },
+            ]}
+          />
+        </div>
       </section>
 
       {/* Vision 2030 */}
@@ -83,7 +176,7 @@ export default function StrategiePage() {
       </section>
 
       {/* Der Souveränitäts-Pfad */}
-      <section className="mb-8">
+      <section id="souveraenitat" className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unser Weg: Souveränität auf jeder Ebene</h2>
         <Card>
           <p className="mb-6 text-sm text-text-light">
