@@ -107,6 +107,12 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       icon: '⚙️',
     },
     {
+      title: 'Fundraising',
+      href: '/fundraising',
+      reason: 'Hub + Menschen: Was wir brauchen',
+      icon: '💰',
+    },
+    {
       title: 'Strategie',
       href: '/strategie',
       reason: 'Unsere Vision & Mission',
@@ -194,16 +200,16 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
 
   fundraising: [
     {
+      title: 'Team',
+      href: '/team',
+      reason: 'Wer setzt Hub + Menschen um?',
+      icon: '👥',
+    },
+    {
       title: 'Strategie',
       href: '/strategie',
       reason: 'Unsere Vision verstehen',
       icon: '🎯',
-    },
-    {
-      title: 'Finanzen',
-      href: '/finanzen',
-      reason: 'Aktuelle finanzielle Situation',
-      icon: '💰',
     },
     {
       title: 'Wirkung',

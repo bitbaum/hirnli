@@ -209,6 +209,81 @@ export default function FundraisingClient() {
       </section>
 
       {/* ================================================================ */}
+      {/* HUB + MENSCHEN — What we're fundraising for                      */}
+      {/* ================================================================ */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wir sammeln für 2 Dinge: Hub + Menschen</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Hub */}
+          <Card className="border-l-4 border-l-blue-500">
+            <div className="flex items-start gap-4">
+              <span className="text-4xl">🏢</span>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-grey-dark">1. Community Tech Hub (Raum)</h3>
+                <p className="mt-2 text-sm text-text-light">
+                  <strong>250m² → 1000m²:</strong> Werkstatt, AI Lab, Event Space, Shop, Offices
+                </p>
+                <p className="mt-2 text-sm text-text-light">
+                  <strong>Multiplikator:</strong> 4× Raum-Kapazität
+                </p>
+                <p className="mt-2 text-sm text-text-light">
+                  <strong>Ergebnis:</strong> Von 30 Geräten/Monat → 120+ Geräte/Monat (nur durch Hub)
+                </p>
+              </div>
+            </div>
+          </Card>
+
+          {/* Menschen */}
+          <Card className="border-l-4 border-l-violet-500">
+            <div className="flex items-start gap-4">
+              <span className="text-4xl">👥</span>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-grey-dark">2. Bildungsprogrammleiter (Team)</h3>
+                <p className="mt-2 text-sm text-text-light">
+                  <strong>2× neue Stellen:</strong> Hardware-BPL + Software/AI-BPL
+                </p>
+                <p className="mt-2 text-sm text-text-light">
+                  <strong>Multiplikator:</strong> Train-the-Trainer Modell (1:100 Ratio)
+                </p>
+                <p className="mt-2 text-sm text-text-light">
+                  <strong>Ergebnis:</strong> 150-200 Menschen/Jahr erreicht (Techniker + Entwickler + Workshop-Teilnehmer)
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Combined Effect */}
+        <div className="mt-6 rounded-lg border-2 border-dashed border-gray-300 bg-white/50 p-6 text-center">
+          <div className="text-sm font-medium uppercase tracking-wider text-gray-500">
+            Kombinierter Effekt: Hub × Menschen
+          </div>
+          <div className="mt-2 font-mono text-lg text-gray-700">
+            4× (Hub-Raum) × 2.5× (Team-Multiplikator je BPL) × 2 (BPL) ≈ 6× Gesamtkapazität
+          </div>
+          <div className="mt-2 text-3xl font-bold text-blue-600">
+            30 → 180 Geräte/Monat
+          </div>
+          <div className="mt-3 text-sm text-gray-600">
+            Von CHF 80k (2025) → CHF 290k Revenue (Jahr 3, 2028)
+          </div>
+          <div className="mt-1 text-sm font-semibold text-violet-600">
+            + 150-200 Menschen/Jahr in Tech-Bildung & Integration
+          </div>
+          <div className="mt-4 pt-4 border-t border-gray-300">
+            <Link
+              href="/fundraising/hub"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors text-sm"
+            >
+              <span>📖</span>
+              <span>Detaillierte Hub-Planung ansehen</span>
+              <span>→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================ */}
       {/* VISION HERO                                                      */}
       {/* ================================================================ */}
       <section className="gradient-hero-fundraising mb-8 rounded-2xl p-4 text-white md:p-8">

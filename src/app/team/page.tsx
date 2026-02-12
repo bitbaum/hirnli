@@ -83,6 +83,300 @@ export default function TeamPage() {
         </div>
       </section>
 
+      {/* ========== STRATEGISCHE TEAM-STRUKTUR ========== */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Strategische Team-Struktur 2026-2028</h2>
+        <p className="mb-6 text-sm text-text-light">
+          Unser Wachstum basiert auf <strong>Hub + Menschen</strong>. Neben dem 1000m² Hub fundraisen wir für 2 neue Schlüsselpositionen,
+          die durch das <strong>Train-the-Trainer Modell</strong> unsere Kapazität und Impact multiplizieren.
+        </p>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Current Core Team */}
+          <Card className="border-l-4 border-l-emerald-500">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="text-3xl">✅</span>
+              <div>
+                <h3 className="text-lg font-bold text-grey-dark">Kernteam (aktuell)</h3>
+                <p className="text-sm text-emerald-600">3 FTE — Geschäftsleitung, Operations, Strategie</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-start gap-2">
+                <span className="text-lg">👤</span>
+                <div className="flex-1 text-sm">
+                  <div className="font-semibold text-gray-900">Vero</div>
+                  <div className="text-gray-600">Geschäftsleitung & Koordination</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-lg">👤</span>
+                <div className="flex-1 text-sm">
+                  <div className="font-semibold text-gray-900">Dani</div>
+                  <div className="text-gray-600">Operations & Refurbishment</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-lg">👤</span>
+                <div className="flex-1 text-sm">
+                  <div className="font-semibold text-gray-900">Andreas</div>
+                  <div className="text-gray-600">Strategie & Entwicklung</div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Aktuelle Kapazität</span>
+                <span className="font-semibold text-gray-900">25-35 Geräte/Monat</span>
+              </div>
+            </div>
+          </Card>
+
+          {/* Planned Hires: Bildungsprogrammleiter */}
+          <Card className="border-l-4 border-l-violet-500">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="text-3xl">🎯</span>
+              <div>
+                <h3 className="text-lg font-bold text-grey-dark">Bildungsprogrammleiter (geplant)</h3>
+                <p className="text-sm text-violet-600">+2 FTE — Train-the-Trainer Multiplikator</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-start gap-2">
+                <span className="text-lg">🔧</span>
+                <div className="flex-1 text-sm">
+                  <div className="font-semibold text-gray-900">Hardware-Bildungsprogrammleiter</div>
+                  <div className="text-gray-600">Techniker ausbilden & managen</div>
+                  <div className="mt-1 text-xs text-gray-500">
+                    → 8-12 Techniker/Jahr trainiert<br />
+                    → 2.5× Geräte-Kapazität
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-lg">💻</span>
+                <div className="flex-1 text-sm">
+                  <div className="font-semibold text-gray-900">Software/AI-Bildungsprogrammleiter</div>
+                  <div className="text-gray-600">Entwickler & AI-Literacy Programme</div>
+                  <div className="mt-1 text-xs text-gray-500">
+                    → 6-10 Entwickler/Jahr trainiert<br />
+                    → AI-Tools & Open Source Projects
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Ziel-Kapazität (Jahr 3)</span>
+                <span className="font-semibold text-gray-900">150-200 Geräte/Monat</span>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Multiplier Explanation */}
+        <div className="mt-6 rounded-lg border-2 border-dashed border-gray-300 bg-white p-6">
+          <h4 className="mb-3 text-sm font-bold text-gray-900 flex items-center gap-2">
+            <span className="text-xl">📊</span>
+            Train-the-Trainer Multiplikator-Effekt
+          </h4>
+          <p className="mb-4 text-sm text-gray-600">
+            Jeder Bildungsprogrammleiter trainiert nicht nur direkt, sondern bildet auch Trainer aus, die wiederum unterrichten.
+            Dadurch erreichen wir ein <strong>1:100 Verhältnis</strong> (1 BPL → 100 Menschen erreicht).
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="bg-blue-50 rounded-lg p-4">
+              <div className="font-semibold text-blue-900 mb-2">Geräte-Kapazität</div>
+              <div className="text-blue-800">
+                <strong>Heute:</strong> 30 Geräte/Monat (3 FTE Kernteam)<br />
+                <strong>Mit 2× BPL:</strong> 180 Geräte/Monat (5 FTE + Trainierte)<br />
+                <strong>Multiplikator:</strong> 6× Steigerung
+              </div>
+            </div>
+            <div className="bg-violet-50 rounded-lg p-4">
+              <div className="font-semibold text-violet-900 mb-2">Soziale Wirkung</div>
+              <div className="text-violet-800">
+                <strong>Heute:</strong> ~5 Menschen/Jahr begleitet<br />
+                <strong>Mit 2× BPL:</strong> 150-200 Menschen/Jahr<br />
+                <strong>Multiplikator:</strong> 32× Steigerung
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========== SCALING ROADMAP TO 10,000 DEVICES/YEAR ========== */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Skalierungsplan zur Vision 2030: 10'000 Geräte/Jahr</h2>
+        <p className="mb-6 text-sm text-text-light">
+          Unser Wachstum erfolgt schrittweise: Hub + Menschen (Jahr 3) → Weitere Skalierung (Jahr 5) → Vision 2030 (10'000 Geräte/Jahr)
+        </p>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+          {/* Phase 1: Heute */}
+          <Card className="border-l-4 border-l-gray-400">
+            <div className="text-center mb-3">
+              <div className="inline-block px-3 py-1 bg-gray-100 text-gray-700 text-xs font-semibold rounded-full mb-2">
+                HEUTE (2025)
+              </div>
+              <div className="text-3xl font-bold text-gray-900">360</div>
+              <div className="text-sm text-gray-600">Geräte/Jahr</div>
+            </div>
+            <div className="pt-3 border-t border-gray-200 space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Team:</span>
+                <span className="font-semibold">3 FTE</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Raum:</span>
+                <span className="font-semibold">250m²</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Kapazität:</span>
+                <span className="font-semibold">30/Monat</span>
+              </div>
+            </div>
+          </Card>
+
+          {/* Phase 2: Jahr 3 (Hub + 2× BPL) */}
+          <Card className="border-l-4 border-l-blue-500 bg-blue-50/30">
+            <div className="text-center mb-3">
+              <div className="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full mb-2">
+                JAHR 3 (2028)
+              </div>
+              <div className="text-3xl font-bold text-blue-900">2'160</div>
+              <div className="text-sm text-blue-700">Geräte/Jahr</div>
+            </div>
+            <div className="pt-3 border-t border-blue-200 space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-blue-700">Team:</span>
+                <span className="font-semibold text-blue-900">5 FTE</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-blue-700">Raum:</span>
+                <span className="font-semibold text-blue-900">1000m² Hub</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-blue-700">Kapazität:</span>
+                <span className="font-semibold text-blue-900">180/Monat</span>
+              </div>
+              <div className="mt-2 pt-2 border-t border-blue-200">
+                <div className="text-blue-600 font-semibold">6× Wachstum</div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Phase 3: Jahr 5 (4× BPL + Automation) */}
+          <Card className="border-l-4 border-l-violet-500 bg-violet-50/30">
+            <div className="text-center mb-3">
+              <div className="inline-block px-3 py-1 bg-violet-100 text-violet-700 text-xs font-semibold rounded-full mb-2">
+                JAHR 5 (2030)
+              </div>
+              <div className="text-3xl font-bold text-violet-900">5'000</div>
+              <div className="text-sm text-violet-700">Geräte/Jahr</div>
+            </div>
+            <div className="pt-3 border-t border-violet-200 space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-violet-700">Team:</span>
+                <span className="font-semibold text-violet-900">9 FTE</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-violet-700">BPL:</span>
+                <span className="font-semibold text-violet-900">4× (Hw×2, Sw×2)</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-violet-700">Automation:</span>
+                <span className="font-semibold text-violet-900">AI Triage</span>
+              </div>
+              <div className="mt-2 pt-2 border-t border-violet-200">
+                <div className="text-violet-600 font-semibold">14× Wachstum</div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Phase 4: Vision 2030 (Multi-Standort) */}
+          <Card className="border-l-4 border-l-emerald-500 bg-emerald-50/30">
+            <div className="text-center mb-3">
+              <div className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-full mb-2">
+                VISION 2030 (J7+)
+              </div>
+              <div className="text-3xl font-bold text-emerald-900">10'000</div>
+              <div className="text-sm text-emerald-700">Geräte/Jahr</div>
+            </div>
+            <div className="pt-3 border-t border-emerald-200 space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-emerald-700">Team:</span>
+                <span className="font-semibold text-emerald-900">15 FTE</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-emerald-700">Standorte:</span>
+                <span className="font-semibold text-emerald-900">Hub + Satellit</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-emerald-700">Automation:</span>
+                <span className="font-semibold text-emerald-900">Vollautomation</span>
+              </div>
+              <div className="mt-2 pt-2 border-t border-emerald-200">
+                <div className="text-emerald-600 font-semibold">28× Wachstum</div>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Key Enablers */}
+        <div className="mt-6 rounded-lg border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-6">
+          <h4 className="mb-4 text-sm font-bold text-gray-900">Wie erreichen wir 10'000 Geräte/Jahr?</h4>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl flex-shrink-0">🏢</span>
+              <div>
+                <div className="font-semibold text-gray-900">Raum-Skalierung</div>
+                <div className="text-gray-600 text-xs mt-1">
+                  Jahr 3: 1000m² Hub voll auslasten<br />
+                  Jahr 7+: 2. Standort (Satellit-Werkstatt)
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-2xl flex-shrink-0">👥</span>
+              <div>
+                <div className="font-semibold text-gray-900">Team-Multiplikation</div>
+                <div className="text-gray-600 text-xs mt-1">
+                  Jahr 3: 2× BPL (5 FTE total)<br />
+                  Jahr 5: 4× BPL (9 FTE total)<br />
+                  Jahr 7+: 6× BPL (15 FTE total)
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-2xl flex-shrink-0">🤖</span>
+              <div>
+                <div className="font-semibold text-gray-900">Automatisierung</div>
+                <div className="text-gray-600 text-xs mt-1">
+                  Jahr 5: AI-Triage + Auto-Listing<br />
+                  Jahr 7+: Robot-assisted Testing + Vollautomation
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Realistic Note */}
+        <div className="mt-4 rounded-lg bg-amber-50 border-l-4 border-amber-500 p-4">
+          <div className="flex items-start gap-3">
+            <span className="text-lg">⚠️</span>
+            <div className="text-sm text-amber-900">
+              <div className="font-semibold">Realistische Einschätzung</div>
+              <div className="mt-1 text-amber-800">
+                Vision 2030 (10'000 Geräte/Jahr) ist <strong>aspirational</strong>. Erreichbar bei optimalen Bedingungen:
+                erfolgreiche Stiftungsfinanzierung Jahr 1-3, Hub-Eröffnung 2027, erfolgreiche BPL-Rekrutierung,
+                und Marktakzeptanz für skalierte Services. Jahr 3 (2'160 Geräte/Jahr) ist das primäre Fundraising-Ziel.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Team-Mitglieder nach Abteilung */}
       <section className="mb-8">
         <h2 className="mb-6 text-xl font-semibold text-grey-dark">Team-Mitglieder</h2>
