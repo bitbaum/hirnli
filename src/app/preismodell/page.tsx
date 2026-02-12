@@ -7,6 +7,10 @@ import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import { PRICING_TIERS, PRICE_EXAMPLES, KPI_DATA, PROCESS_STEPS, FAQ_ITEMS } from './data';
 import { PRICE_EXAMPLE_COLUMNS, KPI_COLUMNS } from './components';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import UnifiedNumberDisplay from '@/components/data/UnifiedNumberDisplay';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export const metadata: Metadata = {
   title: 'Solidarisches Preismodell',
@@ -21,11 +25,21 @@ export default function PreismodellPage() {
         subtitle="Wer kann, zahlt mehr. Wer nicht kann, zahlt weniger. So hat jede:r Zugang zu IT."
       />
 
+      <WhyThisMatters
+        purpose="Wir bieten KOSTENLOSE Laptops an Organisationen (AOZ, Caritas) für deren Klient:innen. Solidarisches Preismodell ermöglicht dies."
+        connection="Revenue = Operations finanziert. Stiftungen = Impact finanziert (kostenlose Geräte, Workshops, Stipendien)."
+      />
+
       {/* Grundsatz */}
       <Card className="mb-8 border-l-4 border-l-primary bg-bg-light">
         <p className="text-lg">
           <strong>Unser Grundsatz:</strong> IT-Zugang ist ein Grundrecht. Niemand soll wegen Geld
           keinen funktionierenden Computer haben.
+        </p>
+        <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+          <strong>Wichtig:</strong> Wir bieten <strong>kostenlose Laptops</strong> an soziale Organisationen
+          wie AOZ, Caritas, Solinetz für deren Klient:innen. Dies wird durch Stiftungsgelder finanziert.
+          Zahlende Kund:innen finanzieren unsere Betriebskosten (Operations).
         </p>
       </Card>
 
@@ -177,9 +191,9 @@ export default function PreismodellPage() {
         </h2>
 
         <MetricGrid columns={4} className="mb-6">
-          <MetricCard label="Gratis-Quote" value="5 - 15%" subtitle="Ziel" sourceType="none" />
-          <MetricCard label="KulturLegi-Quote" value="10 - 20%" subtitle="Ziel" sourceType="none" />
-          <MetricCard label="Supporter-Quote" value="10 - 20%" subtitle="Ziel" sourceType="none" />
+          <UnifiedNumberDisplay numberKey="GRATIS_QUOTE_TARGET" size="md" showLabel={true} />
+          <UnifiedNumberDisplay numberKey="KULTURLEGI_QUOTE_TARGET" size="md" showLabel={true} />
+          <UnifiedNumberDisplay numberKey="SUPPORTER_QUOTE_TARGET" size="md" showLabel={true} />
           <MetricCard label="Aufstockungen" value="Konto 3510" subtitle="Quelldaten" sourceType="live" />
         </MetricGrid>
 
@@ -253,6 +267,8 @@ export default function PreismodellPage() {
           </a>
         </Card>
       </section>
+
+      <StoryBridge bridges={STORY_BRIDGES.preismodell} />
     </>
   );
 }

@@ -8,6 +8,10 @@ import NumberInspector from '@/components/metrics/NumberInspector';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Tabs from '@/components/ui/Tabs';
 import YearSelector from '@/components/ui/YearSelector';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import GrowthMechanics from '@/components/data/GrowthMechanics';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
   ssr: false,
@@ -86,6 +90,11 @@ export default function FinanzenClient() {
         title="Finanzübersicht"
         subtitle="Einnahmen & Aufwand — Kivitendo Buchhaltung 2018–2025"
         badge="Quelldaten aus Buchhaltung"
+      />
+
+      <WhyThisMatters
+        purpose="Transparente Finanzdaten zeigen unsere wirtschaftliche Entwicklung und Herausforderungen."
+        connection="Zahlen erklären WARUM wir Stiftungsgelder brauchen (B2B-Einnahmen gesunken von CHF 180k auf CHF 80k)."
       />
 
       <Tabs tabs={TABS} defaultTab="overview">
@@ -434,6 +443,10 @@ export default function FinanzenClient() {
       </Tabs>
 
       <NumberInspector isOpen={inspector.isOpen} onClose={inspector.close} data={inspector.data} />
+
+      <GrowthMechanics />
+
+      <StoryBridge bridges={STORY_BRIDGES.finanzen} />
     </div>
   );
 }

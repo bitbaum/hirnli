@@ -14,6 +14,10 @@ import {
   DATA_WIPE_OPTIONS, QA_TESTS, QA_COSMETIC, TIME_DATA, TOOLS,
   type IntakeField, type TimeRow,
 } from './data';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import UnifiedNumberDisplay from '@/components/data/UnifiedNumberDisplay';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export const metadata: Metadata = {
   title: 'Operations & Prozesse',
@@ -28,14 +32,19 @@ export default function OperationsPage() {
         subtitle="Refurbishment-Prozess, Standard Operating Procedures und Qualitätskontrolle"
       />
 
+      <WhyThisMatters
+        purpose="Standardisierter Refurbishment-Prozess garantiert Qualität, Effizienz und Skalierbarkeit."
+        connection="Operations sind die Basis für Impact (Wirkung) und Kapazitätsplanung (Team)."
+      />
+
       {/* Operative Kennzahlen */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Operative Kennzahlen</h2>
         <MetricGrid columns={4}>
-          <MetricCard label="Geräte/Monat refurbished" value="25-35" subtitle="Aktuelle Kapazität" />
-          <MetricCard label="Aktive Zeit pro Gerät" value="~2-3h" subtitle="Durchschnitt" />
-          <MetricCard label="Ziel: Lagerdauer" value="<30 Tage" subtitle="STORAGE_DAYS" />
-          <MetricCard label="Ziel: Wiederverwertung" value=">80%" subtitle="PROC_RATE" />
+          <UnifiedNumberDisplay numberKey="DEVICES_PER_MONTH_CURRENT" size="md" showLabel={true} />
+          <UnifiedNumberDisplay numberKey="TIME_PER_DEVICE" size="md" showLabel={true} />
+          <UnifiedNumberDisplay numberKey="STORAGE_DAYS_TARGET" size="md" showLabel={true} />
+          <UnifiedNumberDisplay numberKey="RECYCLING_RATE_TARGET" size="md" showLabel={true} />
         </MetricGrid>
         <p className="mt-2 text-xs text-text-muted">
           <Badge variant="estimated">KPI</Badge>{' '}
@@ -257,6 +266,8 @@ export default function OperationsPage() {
       </section>
 
       <WarehouseSection />
+
+      <StoryBridge bridges={STORY_BRIDGES.operations} />
     </>
   );
 }

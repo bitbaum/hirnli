@@ -5,6 +5,9 @@ import Badge from '@/components/ui/Badge';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import { TEAM_MEMBERS, DEPARTMENTS, LOCATIONS, MISSING_DATA, HR_COLUMNS } from './data';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export const metadata: Metadata = {
   title: 'Team',
@@ -22,6 +25,11 @@ export default function TeamPage() {
         title="Team"
         subtitle="Mitarbeitende, Kapazität und Standorte"
         badge="HR_Roster.csv"
+      />
+
+      <WhyThisMatters
+        purpose="Zeigt, wer hinter Revamp-IT steht und welche Kapazität wir haben."
+        connection="Team-Kapazität bestimmt Operations-Volumen (siehe Operations-Seite)."
       />
 
       {/* Key metrics */}
@@ -236,6 +244,8 @@ export default function TeamPage() {
           </p>
         </div>
       </section>
+
+      <StoryBridge bridges={STORY_BRIDGES.team} />
     </>
   );
 }

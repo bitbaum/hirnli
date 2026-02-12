@@ -16,6 +16,9 @@ import {
   TransparencyPrinciplesSection,
 } from './components';
 import { NumberSources } from '@/lib/config/metrics';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export const metadata: Metadata = {
   title: 'Methodik & Datenquellen',
@@ -29,6 +32,12 @@ export default function MethodikPage() {
         title="Methodik & Datenquellen"
         subtitle="Vollständige Transparenz über alle Berechnungen und Annahmen"
       />
+
+      <WhyThisMatters
+        purpose="Vollständige Transparenz: Jede Zahl, jede Berechnung, jede Annahme ist hier dokumentiert."
+        connection="Diese Methodik erklärt, wie wir alle Zahlen in Finanzen, Wirkung und Operations berechnen."
+      />
+
       <p className="mb-8 text-sm text-text-light">
         Jede Zahl im Dashboard ist hier erklärt und nachvollziehbar dokumentiert.
       </p>
@@ -113,6 +122,8 @@ export default function MethodikPage() {
       </div>
 
       <TransparencyPrinciplesSection />
+
+      <StoryBridge bridges={STORY_BRIDGES.methodik} />
     </>
   );
 }

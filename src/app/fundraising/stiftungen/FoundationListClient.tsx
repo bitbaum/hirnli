@@ -13,6 +13,9 @@ import {
   SORT_OPTIONS,
   FIT_OPTIONS,
 } from './data';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export default function FoundationListClient() {
   const {
@@ -47,6 +50,11 @@ export default function FoundationListClient() {
         title="Stiftungen-Übersicht"
         subtitle="Alle recherchierten Förderstiftungen mit Deadlines und Fit-Analyse"
         badge={`${filteredCount}/${totalCount}`}
+      />
+
+      <WhyThisMatters
+        purpose="37 Förderstiftungen recherchiert, nach Fit analysiert, mit Deadlines und Kontaktdaten."
+        connection="Jede Stiftung hat eine eigene Detailseite mit massgeschneidertem Gesuch (siehe einzelne Stiftung)."
       />
 
       {/* Search + Sort row */}
@@ -185,6 +193,8 @@ export default function FoundationListClient() {
           </div>
         )}
       </div>
+
+      <StoryBridge bridges={STORY_BRIDGES.stiftungen || []} />
     </div>
   );
 }

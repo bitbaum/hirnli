@@ -15,6 +15,9 @@ import { formatCHF } from '@/lib/utils/format';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import type { InspectorData } from '@/lib/schemas/inspector';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import {
   computePipelineStats,
   STATUS_BADGE_VARIANT,
@@ -158,6 +161,11 @@ export default function FundraisingClient() {
         title="Fundraising 2026–2028"
         subtitle="3-Jahres-Plan: Was wir brauchen, warum, und wie wir unabhängig werden"
         badge="Fundraising"
+      />
+
+      <WhyThisMatters
+        purpose="3-Jahres-Fundraising-Plan zeigt WARUM wir Stiftungsgelder brauchen (B2B-Einnahmen gefallen) und WIE wir damit unabhängig werden."
+        connection="Revenue = Operations finanziert. Stiftungen = Impact finanziert (Hub, kostenlose Geräte, Workshops)."
       />
 
       {/* ================================================================ */}
@@ -946,6 +954,8 @@ export default function FundraisingClient() {
 
       {/* Number Inspector Modal */}
       <NumberInspector isOpen={inspector.isOpen} onClose={inspector.close} data={inspector.data} />
+
+      <StoryBridge bridges={STORY_BRIDGES.fundraising} />
     </>
   );
 }

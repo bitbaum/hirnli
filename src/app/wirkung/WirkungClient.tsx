@@ -14,6 +14,9 @@ import { estimateDeviceCount, estimateCO2Avoided, estimateEWastePrevented } from
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import { ImpactStoryCards } from './components';
 import { DATA_GAPS, WIRKUNG_NEXT_STEPS } from './data';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export default function WirkungClient() {
   const {
@@ -40,6 +43,11 @@ export default function WirkungClient() {
       <PageHeader
         title={`Unsere Wirkung ${selectedYear}`}
         subtitle="Jedes Gerät, das wir retten, vermeidet Elektroschrott und schenkt neues digitales Leben."
+      />
+
+      <WhyThisMatters
+        purpose="Impact-Kennzahlen zeigen konkret, welchen Umwelt- und Sozialeffekt wir erzielen."
+        connection="Wirkung = finanziert durch Solidarisches Preismodell + Stiftungsgelder (siehe Finanzen)."
       />
 
       <YearSelector
@@ -200,6 +208,8 @@ export default function WirkungClient() {
       </Card>
 
       <NumberInspector isOpen={inspector.isOpen} onClose={inspector.close} data={inspector.data} />
+
+      <StoryBridge bridges={STORY_BRIDGES.wirkung} />
     </div>
   );
 }

@@ -6,6 +6,9 @@ import MetricGrid from '@/components/metrics/MetricGrid';
 import { PILLARS, VISION_TARGETS, HUB_CORE_SPACES, HUB_CULTURAL_SPACES, SDG_DATA, SDG_COLORS } from './data';
 import type { SdgRow } from './data';
 import { GeschichteSection, KontaktSection } from './components';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export const metadata: Metadata = {
   title: 'Strategie & Vision',
@@ -18,6 +21,11 @@ export default function StrategiePage() {
       <PageHeader
         title="Strategie & Vision"
         subtitle="Woher wir kommen, wofür wir stehen, wohin wir gehen"
+      />
+
+      <WhyThisMatters
+        purpose="Unsere Mission, Werte und Vision 2026 erklären WARUM wir existieren und WOHIN wir gehen."
+        connection="Strategie ist die Grundlage für alle anderen Seiten: Operations (WIE), Fundraising (WOMIT), Wirkung (ERGEBNIS)."
       />
 
       <GeschichteSection />
@@ -168,6 +176,8 @@ export default function StrategiePage() {
       </section>
 
       <KontaktSection />
+
+      <StoryBridge bridges={STORY_BRIDGES.strategie} />
     </>
   );
 }

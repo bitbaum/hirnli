@@ -11,6 +11,9 @@ import { formatCHF, formatPercent, calcGrowth } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided } from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import { DASHBOARD_QUICKLINKS } from './data';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export default function DashboardClient() {
   const {
@@ -36,6 +39,11 @@ export default function DashboardClient() {
       <PageHeader
         title="Revamp-IT"
         subtitle="Fundraising Intelligence & Organisationsdaten"
+      />
+
+      <WhyThisMatters
+        purpose="Zentrale Übersicht aller Organisationsdaten: Finanzen, Impact, Fundraising, Operations."
+        connection="Von hier aus führen alle Wege zu detaillierten Analysen. Jede Zahl ist klickbar und vollständig nachvollziehbar."
       />
 
       {/* Key numbers — click for detail, or navigate to dedicated pages */}
@@ -116,6 +124,8 @@ export default function DashboardClient() {
       </div>
 
       <NumberInspector isOpen={inspector.isOpen} onClose={inspector.close} data={inspector.data} />
+
+      <StoryBridge bridges={STORY_BRIDGES.dashboard || []} />
     </div>
   );
 }

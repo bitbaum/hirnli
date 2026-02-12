@@ -3,6 +3,9 @@ import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import { GESUCH_SECTIONS, ONLINE_REPORTS, NEXTCLOUD_FILES } from './data';
+import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import StoryBridge from '@/components/layout/StoryBridge';
+import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export const metadata: Metadata = {
   title: 'Dokumente',
@@ -15,6 +18,11 @@ export default function DokumentePage() {
       <PageHeader
         title="Dokumente"
         subtitle="Gesuche, Berichte und Downloads — alles an einem Ort"
+      />
+
+      <WhyThisMatters
+        purpose="Zentraler Zugang zu allen Fundraising-Dokumenten, Berichten und Quelldaten."
+        connection="Diese Dokumente unterstützen Stiftungsgesuche (siehe Fundraising) und belegen Methodiken (siehe Methodik)."
       />
 
       {/* 1. Gesuche & Vorlagen — the crown jewels */}
@@ -101,6 +109,8 @@ export default function DokumentePage() {
           </a>
         </Card>
       </section>
+
+      <StoryBridge bridges={STORY_BRIDGES.dokumente} />
     </>
   );
 }
