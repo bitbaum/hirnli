@@ -163,49 +163,93 @@ export default function FundraisingClient() {
         badge="Fundraising"
       />
 
-      <WhyThisMatters
-        purpose="3-Jahres-Fundraising-Plan zeigt WARUM wir Stiftungsgelder brauchen (B2B-Einnahmen gefallen) und WIE wir damit unabhängig werden."
-        connection="Revenue = Operations finanziert. Stiftungen = Impact finanziert (Hub, kostenlose Geräte, Workshops)."
-      />
+      {/* ================================================================ */}
+      {/* THE STORY — Why we need your help                                */}
+      {/* ================================================================ */}
+      <section className="mb-8">
+        <Card className="border-l-4 border-l-blue-500 bg-blue-50/30">
+          <div className="prose prose-sm max-w-none">
+            <h2 className="text-xl font-bold text-blue-900 mt-0">Die Situation: Warum wir Stiftungen brauchen</h2>
 
-      {/* ================================================================ */}
-      {/* HEADLINE NUMBERS — 3-Year at a glance                           */}
-      {/* ================================================================ */}
-      <section className="mb-8 rounded-2xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-5 md:p-8">
-        <div className="mb-4 text-center">
-          <div className="text-xs font-semibold uppercase tracking-wider text-text-muted">{PROJECT_DURATION}</div>
-          <div className="text-sm text-text-muted">{PROJECT_DURATION_LABEL}</div>
-        </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <div className="rounded-xl border border-gray-200 bg-white p-4 text-center shadow-sm">
-            <div className="text-xs font-medium text-text-muted">Gesamtprojekt</div>
-            <Inspectable data={inspectProject3Y} inspector={inspector} className="mt-1 text-2xl font-bold tabular-nums text-grey-dark">
-              {formatCHF(PROJECT_3Y_TOTAL)}
-            </Inspectable>
-            <div className="text-xs text-text-muted">über 3 Jahre</div>
+            <p className="text-gray-700 leading-relaxed">
+              Seit 2003 reparieren und verkaufen wir refurbished Computer. <strong>Aber unser Geschäftsmodell funktioniert nicht mehr.</strong>
+            </p>
+
+            <p className="text-gray-700 leading-relaxed">
+              Unsere B2B-Einnahmen sind von <strong>CHF 140'000 (2021)</strong> auf <strong>CHF 60'000 (2025)</strong> gefallen —
+              ein Rückgang von <strong>57%</strong>. Unternehmen spenden weniger gebrauchte Geräte, und der Markt für refurbished
+              IT wird härter.
+            </p>
+
+            <p className="text-gray-700 leading-relaxed">
+              <strong>Gleichzeitig:</strong> Die Nachfrage nach günstigen, funktionierenden Computern steigt. Organisationen
+              wie AOZ und Caritas fragen uns regelmässig: "Können wir 20 Laptops für unsere Klienten bekommen?"
+              Und wir müssen zu oft Nein sagen, weil uns die Kapazität fehlt.
+            </p>
+
+            <div className="bg-amber-100 border-l-4 border-amber-500 p-4 my-4">
+              <p className="text-amber-900 font-semibold mb-2">Das Problem in einem Satz:</p>
+              <p className="text-amber-800 mb-0">
+                Wir haben zu wenig Raum (250m²), zu wenig Team (3 Personen), und zu wenig Einnahmen (CHF 60k/Jahr),
+                um den Impact zu schaffen, den die Gesellschaft braucht.
+              </p>
+            </div>
+
+            <h3 className="text-lg font-bold text-blue-900 mt-6">Die Lösung: Hub + Menschen</h3>
+
+            <p className="text-gray-700 leading-relaxed">
+              Statt zu schrumpfen, wollen wir <strong>wachsen</strong> — aber anders. Nicht durch mehr Verkauf,
+              sondern durch <strong>mehr Impact</strong>:
+            </p>
+
+            <ul className="text-gray-700 space-y-2">
+              <li>
+                <strong>Ein 1000m² Community Tech Hub</strong> (statt 250m²) mit Werkstatt, AI Lab, Event Space —
+                ein Ort für Kreislaufwirtschaft, Tech-Bildung und digitale Souveränität
+              </li>
+              <li>
+                <strong>2 Bildungsprogrammleiter</strong> die nicht nur Geräte reparieren, sondern Menschen ausbilden:
+                Techniker, Entwickler, AI-Literacy für alle
+              </li>
+            </ul>
+
+            <p className="text-gray-700 leading-relaxed">
+              Das Ergebnis? Von <strong>30 Geräten/Monat</strong> (heute) auf <strong>180 Geräte/Monat</strong> (Jahr 3).
+              Von <strong>5 Menschen/Jahr</strong> begleitet auf <strong>150-200 Menschen/Jahr</strong> in Tech-Bildung.
+            </p>
+
+            <h3 className="text-lg font-bold text-blue-900 mt-6">Was wir von Stiftungen brauchen</h3>
+
+            <p className="text-gray-700 leading-relaxed mb-0">
+              Wir brauchen <strong>Anschubfinanzierung für 3 Jahre</strong>, um Hub + Team aufzubauen.
+              Danach sind wir selbsttragend (Operations durch Revenue finanziert).
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 not-prose">
+              <div className="bg-white rounded-lg p-4 border-2 border-blue-200">
+                <div className="text-sm text-blue-600 font-semibold">Jahr 1 (2026)</div>
+                <div className="text-2xl font-bold text-blue-900 my-2">CHF 450k</div>
+                <div className="text-xs text-gray-600">87% von Stiftungen<br/>Aufbau: Hub-Einrichtung + Team-Rekrutierung</div>
+              </div>
+              <div className="bg-white rounded-lg p-4 border-2 border-violet-200">
+                <div className="text-sm text-violet-600 font-semibold">Jahr 2 (2027)</div>
+                <div className="text-2xl font-bold text-violet-900 my-2">CHF 340k</div>
+                <div className="text-xs text-gray-600">61% von Stiftungen<br/>Wachstum: Revenue steigt, Stiftungen sinken</div>
+              </div>
+              <div className="bg-white rounded-lg p-4 border-2 border-emerald-200">
+                <div className="text-sm text-emerald-600 font-semibold">Jahr 3 (2028)</div>
+                <div className="text-2xl font-bold text-emerald-900 my-2">CHF 250k</div>
+                <div className="text-xs text-gray-600">46% von Stiftungen<br/>Selbständigkeit: Revenue CHF 290k, Operations selbsttragend</div>
+              </div>
+            </div>
+
+            <p className="text-gray-700 leading-relaxed mt-4 mb-0">
+              <strong>Degressives Modell:</strong> Je mehr wir wachsen, desto weniger Stiftungsgelder brauchen wir.
+              Jahr 1 → Jahr 3: <strong>-44% weniger Stiftungsgelder</strong>. Ab Jahr 4: Nur noch Impact-Finanzierung
+              (kostenlose Geräte, Stipendien), keine Betriebskosten mehr.
+            </p>
           </div>
-          <div className="rounded-xl border border-violet-200 bg-violet-50 p-4 text-center shadow-sm">
-            <div className="text-xs font-medium text-violet-600">Stiftungen</div>
-            <Inspectable data={inspectStiftungen3Y} inspector={inspector} className="mt-1 text-2xl font-bold tabular-nums text-violet-700">
-              {formatCHF(STIFTUNGEN_3Y_TOTAL)}
-            </Inspectable>
-            <div className="text-xs text-violet-600">degressiv über 3 Jahre</div>
-          </div>
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center shadow-sm">
-            <div className="text-xs font-medium text-emerald-600">Eigenleistung</div>
-            <Inspectable data={inspectEigen3Y} inspector={inspector} className="mt-1 text-2xl font-bold tabular-nums text-emerald-700">
-              {formatCHF(EIGEN_3Y_TOTAL)}
-            </Inspectable>
-            <div className="text-xs text-emerald-600">wachsend über 3 Jahre</div>
-          </div>
-          <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-center shadow-sm">
-            <div className="text-xs font-medium text-amber-600">Reduktion</div>
-            <Inspectable data={inspectReduction} inspector={inspector} className="mt-1 text-2xl font-bold tabular-nums text-amber-700">
-              -{REDUCTION_PCT}%
-            </Inspectable>
-            <div className="text-xs text-amber-600">weniger Stiftungsgelder (J1→J3)</div>
-          </div>
-        </div>
+        </Card>
       </section>
 
       {/* ================================================================ */}
@@ -451,105 +495,107 @@ export default function FundraisingClient() {
         </div>
       </Card>
 
-      {/* Revenue History — verified Kivitendo data */}
+      {/* Revenue Trend — Story Format */}
       <section className="mb-8">
-        <h2 className="mb-2 text-xl font-semibold text-grey-dark">Einnahmen-Entwicklung 2018–2025</h2>
-        <p className="mb-4 text-sm text-text-muted">
-          Alle Zahlen aus Kivitendo Erfolgsrechnung, verifiziert 11.02.2026.
-          Kosten nur bis 2023 vollständig gebucht.
-        </p>
-        <div className="overflow-hidden rounded-xl border border-gray-200">
-          <div className="space-y-1.5 p-4">
-            {REVENUE_HISTORY.map((row) => {
-              const maxTotal = Math.max(...REVENUE_HISTORY.map(r => r.total));
-              const barPct = (row.total / maxTotal) * 100;
-              const dlPct = (row.dienstleistungen / row.total) * 100;
-              const wvPct = (row.warenverkauf / row.total) * 100;
-              const isIncomplete = row.year >= 2024;
-              return (
-                <div key={row.year} className="flex items-center gap-3">
-                  <span className={`w-10 text-right text-xs font-medium tabular-nums ${isIncomplete ? 'text-amber-600' : 'text-text-muted'}`}>
-                    {row.year}
-                  </span>
-                  <div className="flex-1">
-                    <div className="relative h-6 w-full overflow-hidden rounded bg-gray-100">
-                      <div className="flex h-full" style={{ width: `${barPct}%` }}>
-                        <div className="bg-violet-500" style={{ width: `${dlPct}%` }} title={`Dienstleistungen: ${formatCHF(row.dienstleistungen)}`} />
-                        <div className="bg-blue-400" style={{ width: `${wvPct}%` }} title={`Warenverkauf: ${formatCHF(row.warenverkauf)}`} />
-                        <div className="flex-1 bg-gray-300" title="Übrige Einnahmen" />
-                      </div>
-                    </div>
-                  </div>
-                  <Inspectable
-                    data={{
-                      label: `Gesamteinnahmen ${row.year}`,
-                      value: formatCHF(row.total),
-                      sourceType: 'live',
-                      source: `Kivitendo Erfolgsrechnung ${row.year}`,
-                      description: `Warenverkauf (3100): ${formatCHF(row.warenverkauf)} | Dienstleistungen (3400): ${formatCHF(row.dienstleistungen)} | Übrige: ${formatCHF(row.total - row.warenverkauf - row.dienstleistungen)}`,
-                      confidence: 'Hoch',
-                    }}
-                    inspector={inspector}
-                    className={`w-20 text-right text-xs font-bold tabular-nums ${isIncomplete ? 'text-amber-600' : 'text-grey-dark'}`}
-                  >
-                    {formatCHF(row.total)}
-                  </Inspectable>
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex items-center gap-4 border-t border-gray-200 bg-gray-50 px-4 py-2 text-xs text-text-muted">
-            <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded bg-violet-500" /> Dienstleistungen</span>
-            <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded bg-blue-400" /> Warenverkauf</span>
-            <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded bg-gray-300" /> Übrige</span>
-            <span className="ml-auto text-amber-600">* 2024-25: nur Einnahmen gebucht</span>
-          </div>
-        </div>
-      </section>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Was ist mit unseren Einnahmen passiert?</h2>
+        <Card>
+          <div className="prose prose-sm max-w-none">
+            <p className="text-gray-700 leading-relaxed">
+              Unsere Einnahmen sind in den letzten Jahren stark gesunken. <strong>Der Peak war 2021</strong> mit
+              CHF 140'000, hauptsächlich durch B2B-Hosting und IT-Dienstleistungen für Unternehmen.
+            </p>
 
-      {/* Cost Structure 2023 — last complete year */}
-      <section className="mb-8">
-        <h2 className="mb-2 text-xl font-semibold text-grey-dark">Kostenstruktur 2023 (letztes vollständiges Jahr)</h2>
-        <p className="mb-4 text-sm text-text-muted">
-          Einnahmen {formatCHF(COST_STRUCTURE_2023.totalRevenue)} vs. Ausgaben {formatCHF(COST_STRUCTURE_2023.totalExpenses)} = Verlust{' '}
-          <span className="font-semibold text-red-600">{formatCHF(COST_STRUCTURE_2023.result)}</span>.
-          Miete allein frisst fast die Hälfte der Ausgaben.
-        </p>
-        <div className="overflow-hidden rounded-xl border border-gray-200">
-          {/* Stacked bar */}
-          <div className="flex h-8 w-full overflow-hidden">
-            {COST_STRUCTURE_2023.categories.map((cat) => (
-              <div
-                key={cat.label}
-                className={`${cat.color} transition-all hover:opacity-80`}
-                style={{ width: `${cat.pctOfExpenses}%` }}
-                title={`${cat.label}: ${formatCHF(cat.amount)} (${cat.pctOfExpenses}%)`}
-              />
-            ))}
-          </div>
-          {/* Legend table */}
-          <div className="divide-y divide-gray-100">
-            {COST_STRUCTURE_2023.categories.map((cat) => (
-              <div key={cat.label} className="flex items-center justify-between px-4 py-2 text-sm">
-                <span className="flex items-center gap-2">
-                  <span className={`inline-block h-2.5 w-2.5 rounded-sm ${cat.color}`} />
-                  <span className="text-grey-dark">{cat.label}</span>
-                </span>
-                <div className="flex items-center gap-4">
-                  <span className="text-xs text-text-muted">{cat.pctOfExpenses}%</span>
-                  <span className="w-20 text-right font-medium tabular-nums text-grey-dark">{formatCHF(cat.amount)}</span>
-                </div>
-              </div>
-            ))}
-            <div className="flex items-center justify-between bg-red-50 px-4 py-2 text-sm font-semibold">
-              <span className="text-red-800">Total Aufwand (119% der Einnahmen)</span>
-              <span className="tabular-nums text-red-800">{formatCHF(COST_STRUCTURE_2023.totalExpenses)}</span>
+            <p className="text-gray-700 leading-relaxed">
+              <strong>Dann kam der Absturz:</strong>
+            </p>
+
+            <ul className="text-gray-700 space-y-1">
+              <li><strong>2021:</strong> CHF 140'000 (Höhepunkt)</li>
+              <li><strong>2022:</strong> CHF 130'000 (-7%)</li>
+              <li><strong>2023:</strong> CHF 134'000 (leichte Erholung)</li>
+              <li><strong>2024:</strong> CHF 119'000 (-11%)</li>
+              <li><strong>2025:</strong> CHF 60'000 (-50% gegenüber 2024!) ⚠️</li>
+            </ul>
+
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 my-4">
+              <p className="text-red-900 font-semibold mb-2">Warum dieser Einbruch?</p>
+              <p className="text-red-800 mb-0">
+                Zwei grosse B2B-Hosting-Kunden kündigten 2024/2025. Wir hatten uns zu sehr auf wenige
+                Kunden verlassen und keine diversifizierten Einnahmequellen aufgebaut.
+              </p>
+            </div>
+
+            <p className="text-gray-700 leading-relaxed mb-0">
+              <strong>Die gute Nachricht:</strong> Geräteverkauf (refurbished Laptops) bleibt stabil bei
+              CHF 60-70k/Jahr. Das Kerngeschäft funktioniert — wir brauchen nur mehr Kapazität und
+              neue Einnahmeströme (Workshops, Corporate Training, Events).
+            </p>
+
+            <div className="mt-4 pt-4 border-t border-gray-200 text-xs text-gray-500 not-prose">
+              <strong>Datenquelle:</strong> Kivitendo Erfolgsrechnung 2018-2025, verifiziert 11.02.2026.
+              Alle Zahlen sind klickbar für Details.
             </div>
           </div>
-          <div className="border-t border-gray-200 bg-gray-50 px-4 py-2 text-xs text-text-muted">
-            Quelle: {COST_STRUCTURE_2023.source}
+        </Card>
+      </section>
+
+      {/* Cost Structure 2023 — narrative explanation */}
+      <section className="mb-8">
+        <Card className="prose prose-sm max-w-none">
+          <h2>Kostenstruktur 2023: Warum wir Verlust machen</h2>
+
+          <p>
+            2023 war das letzte vollständige Geschäftsjahr vor unserer aktuellen Krise.
+            Einnahmen <strong>CHF 103'000</strong> vs. Ausgaben <strong>CHF 123'000</strong> ={' '}
+            <span className="text-red-600 font-semibold">Verlust CHF -19'800</span>.
+          </p>
+
+          <h3>Wohin geht das Geld?</h3>
+
+          <p>
+            <strong>Die grössten Kostentreiber 2023:</strong>
+          </p>
+
+          <ul>
+            <li>
+              <strong>Miete:</strong> CHF 58'000 (47% der Ausgaben) — Laden + Lager in zwei getrennten Standorten.
+              Das ist ineffizient und teuer.
+            </li>
+            <li>
+              <strong>Personalkosten:</strong> CHF 40'000 (33%) — Minimale Besetzung, trotzdem nicht gedeckt durch Einnahmen.
+            </li>
+            <li>
+              <strong>Wareneinkauf:</strong> CHF 15'000 (12%) — Geräte-Einkauf für Refurbishment.
+            </li>
+            <li>
+              <strong>Sonstige Betriebskosten:</strong> CHF 10'000 (8%) — Versicherung, Buchhaltung, Material.
+            </li>
+          </ul>
+
+          <div className="bg-red-50 border-l-4 border-red-400 p-4 my-4">
+            <p className="font-semibold text-red-800 mb-2">Das Problem:</p>
+            <p className="text-red-700">
+              Die Miete allein (CHF 58'000) ist fast so hoch wie unsere B2B-Einnahmen (CHF 60'000 in 2025).
+              Wir zahlen <strong>119% unserer Einnahmen</strong> nur für laufende Kosten — das ist nicht nachhaltig.
+            </p>
           </div>
-        </div>
+
+          <h3>Die Lösung: Hub + Menschen</h3>
+
+          <p>
+            Der Hub bringt Laden + Lager + Werkstatt unter ein Dach. Dadurch sparen wir Doppelmiete,
+            gewinnen Effizienz, und schaffen Platz für neue Einnahmequellen (Workshops, Corporate Training, Events).
+          </p>
+
+          <p>
+            <strong>Unser Ziel:</strong> Nicht mehr mit Defizit arbeiten, sondern durch Effizienzgewinn + neue Revenue-Streams
+            einen nachhaltigen Betrieb aufbauen.
+          </p>
+
+          <div className="mt-4 pt-4 border-t border-gray-200 text-xs text-gray-500 not-prose">
+            <strong>Datenquelle:</strong> {COST_STRUCTURE_2023.source}. Alle Zahlen verifiziert 11.02.2026.
+          </div>
+        </Card>
       </section>
 
       {/* ================================================================ */}
@@ -594,27 +640,7 @@ export default function FundraisingClient() {
                   {formatCHF(year.total)}
                 </Inspectable>
 
-                {/* Stacked horizontal bar */}
-                <div className="mb-3 h-5 w-full overflow-hidden rounded-full bg-gray-100">
-                  <div className="flex h-full">
-                    {year.einmalig > 0 && (
-                      <div
-                        className="bg-blue-500"
-                        style={{ width: `${Math.round((year.einmalig / year.total) * 100)}%` }}
-                      />
-                    )}
-                    <div
-                      className="bg-violet-500"
-                      style={{ width: `${Math.round((year.stiftungen / year.total) * 100)}%` }}
-                    />
-                    <div
-                      className="bg-emerald-500"
-                      style={{ width: `${eigenPct}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Legend */}
+                {/* Breakdown (no visual bar, just text) */}
                 <div className="space-y-1.5 text-xs">
                   {year.einmalig > 0 && (
                     <div className="flex items-center justify-between">
@@ -723,81 +749,53 @@ export default function FundraisingClient() {
       </section>
 
       {/* ================================================================ */}
-      {/* SPACE PLAN                                                       */}
+      {/* SPACE PLAN — narrative explanation                              */}
       {/* ================================================================ */}
       <section className="mb-8">
-        <h2 className="mb-2 text-xl font-semibold text-grey-dark">
-          Raumkonzept:{' '}
-          <Inspectable data={inspectSpace} inspector={inspector}>
-            {SPACE_TOTAL_WITH_CIRCULATION} m²
-          </Inspectable>
-        </h2>
-        <p className="mb-4 text-sm text-text-muted">
-          Von 250 auf {SPACE_TOTAL_WITH_CIRCULATION} m² — endlich Platz für das, was wir tun.
-        </p>
-        <div className="overflow-hidden rounded-xl border border-gray-200">
-          {/* Visual bar showing proportional sizes */}
-          <div className="flex h-8 w-full overflow-hidden bg-gray-100">
-            {SPACE_PLAN.map((space, i) => {
-              const colors = [
-                'bg-blue-500', 'bg-violet-500', 'bg-amber-500', 'bg-emerald-500',
-                'bg-pink-500', 'bg-cyan-500', 'bg-orange-500', 'bg-lime-500',
-                'bg-indigo-500', 'bg-red-500', 'bg-gray-400',
-              ];
-              return (
-                <div
-                  key={space.area}
-                  className={`${colors[i]} transition-all hover:opacity-80`}
-                  style={{ width: `${(space.sqm / SPACE_TOTAL_WITH_CIRCULATION) * 100}%` }}
-                  title={`${space.area}: ${space.sqm} m²`}
-                />
-              );
-            })}
-            {/* Verkehrsfläche */}
-            <div
-              className="bg-gray-300"
-              style={{ width: `${(100 / SPACE_TOTAL_WITH_CIRCULATION) * 100}%` }}
-              title="Verkehrsfläche: ~100 m²"
-            />
+        <Card className="prose prose-sm max-w-none">
+          <h2>Raumkonzept: Von 250 m² auf {SPACE_TOTAL_WITH_CIRCULATION} m²</h2>
+
+          <p>
+            <strong>Heute haben wir:</strong> 250 m² verteilt auf zwei getrennte Standorte (Laden + Lager).
+            Das ist ineffizient, teuer, und hemmt unser Wachstum.
+          </p>
+
+          <p>
+            <strong>Der Hub bringt alles unter ein Dach:</strong> ~{SPACE_TOTAL_WITH_CIRCULATION} m² Gesamtfläche
+            (inkl. Verkehrsfläche) mit {SPACE_PLAN_TOTAL} m² Nutzfläche für 5 Community Spaces.
+          </p>
+
+          <h3>Die 5 Community Spaces:</h3>
+
+          <div className="space-y-3 not-prose">
+            {SPACE_PLAN.map((space) => (
+              <div key={space.area} className="border-l-4 border-blue-400 pl-4 py-2">
+                <div className="flex items-baseline justify-between mb-1">
+                  <strong className="text-base text-grey-dark">{space.area}</strong>
+                  <span className="text-sm font-semibold text-grey-dark tabular-nums">{space.sqm} m²</span>
+                </div>
+                <p className="text-sm text-text-muted m-0">{space.description}</p>
+              </div>
+            ))}
           </div>
 
-          {/* Table */}
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-200 bg-gray-50 text-left">
-                <th className="px-4 py-2.5 font-semibold text-grey-dark">Bereich</th>
-                <th className="px-4 py-2.5 text-right font-semibold text-grey-dark">m²</th>
-                <th className="px-4 py-2.5 font-semibold text-grey-dark">Beschreibung</th>
-              </tr>
-            </thead>
-            <tbody>
-              {SPACE_PLAN.map((space, i) => {
-                const colors = [
-                  'bg-blue-500', 'bg-violet-500', 'bg-amber-500', 'bg-emerald-500',
-                  'bg-pink-500', 'bg-cyan-500', 'bg-orange-500', 'bg-lime-500',
-                  'bg-indigo-500', 'bg-red-500', 'bg-gray-400',
-                ];
-                return (
-                  <tr key={space.area} className="border-b border-gray-100 last:border-b-0">
-                    <td className="px-4 py-2">
-                      <span className="flex items-center gap-2">
-                        <span className={`inline-block h-2.5 w-2.5 rounded-sm ${colors[i]}`} />
-                        <span className="font-medium text-grey-dark">{space.area}</span>
-                      </span>
-                    </td>
-                    <td className="px-4 py-2 text-right tabular-nums font-medium text-grey-dark">{space.sqm}</td>
-                    <td className="px-4 py-2 text-text-muted">{space.description}</td>
-                  </tr>
-                );
-              })}
-              <tr className="border-t border-gray-200 bg-gray-50 font-medium">
-                <td className="px-4 py-2 text-grey-dark">Nutzfläche + Verkehrsfläche (~100 m²)</td>
-                <td className="px-4 py-2 text-right tabular-nums font-bold text-grey-dark">~{SPACE_TOTAL_WITH_CIRCULATION}</td>
-                <td className="px-4 py-2 text-text-muted">{SPACE_PLAN_TOTAL} m² Nutzfläche + ~100 m² Flure, Treppen</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <div className="bg-emerald-50 border-l-4 border-emerald-400 p-4 my-4">
+            <p className="font-semibold text-emerald-800 mb-2">Warum so viel Raum?</p>
+            <p className="text-emerald-700">
+              Unser Wachstumsziel ist <strong>2'160 Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell ~360/Jahr).
+              Das ist eine <strong>6× Skalierung</strong> — dafür brauchen wir die Infrastruktur.
+            </p>
+            <p className="text-emerald-700 mt-2">
+              Plus: Workshops, Trainings, Events, und Community-Treffpunkt generieren neue Einnahmequellen,
+              die langfristig unsere Unabhängigkeit sichern.
+            </p>
+          </div>
+
+          <p className="text-sm text-gray-600">
+            <strong>Gesamtfläche:</strong> {SPACE_PLAN_TOTAL} m² Nutzfläche + ~100 m² Verkehrsfläche (Flure, Treppen, Toiletten)
+            = ~{SPACE_TOTAL_WITH_CIRCULATION} m² Total.
+          </p>
+        </Card>
       </section>
 
       {/* ================================================================ */}
@@ -891,19 +889,20 @@ export default function FundraisingClient() {
           {' '}in Jahr 3 — das ist der Weg zur Unabhängigkeit.
         </p>
 
-        {/* Revenue comparison bar */}
-        <div className="mb-6 rounded-xl border border-gray-200 p-4">
-          <div className="mb-3 flex items-baseline justify-between text-sm">
-            <span className="text-text-muted">Heute: {formatCHF(REVENUE_CURRENT_TOTAL)}</span>
-            <span className="font-semibold text-emerald-700">Jahr 3: {formatCHF(REVENUE_YEAR3_TOTAL)}</span>
-          </div>
-          <div className="flex gap-1">
-            <div className="h-3 rounded-full bg-gray-300" style={{ width: `${(REVENUE_CURRENT_TOTAL / REVENUE_YEAR3_TOTAL) * 100}%` }} />
-            <div className="h-3 flex-1 rounded-full bg-emerald-500" />
-          </div>
-          <div className="mt-1 text-right text-xs text-emerald-600">
-            +{Math.round(((REVENUE_YEAR3_TOTAL - REVENUE_CURRENT_TOTAL) / REVENUE_CURRENT_TOTAL) * 100)}% Wachstum
-          </div>
+        {/* Revenue narrative */}
+        <div className="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+          <p className="text-sm text-grey-dark mb-2">
+            <strong>Aktuell:</strong> {formatCHF(REVENUE_CURRENT_TOTAL)}/Jahr
+            (B2B Services + Geräteverkauf + Integration + Spenden)
+          </p>
+          <p className="text-base font-semibold text-emerald-700 mb-1">
+            <strong>Jahr 3:</strong> {formatCHF(REVENUE_YEAR3_TOTAL)}/Jahr
+            — das ist +{Math.round(((REVENUE_YEAR3_TOTAL - REVENUE_CURRENT_TOTAL) / REVENUE_CURRENT_TOTAL) * 100)}% Wachstum
+          </p>
+          <p className="text-xs text-emerald-600">
+            Durch neue Einnahmequellen (Workshops, Corporate Training, Events, erhöhter Geräteverkauf)
+            decken wir immer mehr unserer laufenden Kosten selbst.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -943,12 +942,10 @@ export default function FundraisingClient() {
                     </Inspectable>
                   </div>
                 </div>
-                {/* Mini bar */}
-                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
-                  <div className="h-full rounded-full bg-emerald-500" style={{ width: `${barWidth}%` }} />
-                </div>
                 {growth !== null && (
-                  <div className="mt-1 text-xs text-emerald-600">+{growth}%</div>
+                  <div className="mt-2 text-xs font-medium text-emerald-600">
+                    Wachstum: +{growth}%
+                  </div>
                 )}
               </Card>
             );
