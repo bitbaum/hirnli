@@ -3,6 +3,7 @@ import Card from '@/components/ui/Card';
 export { default as SovereigntyPillar } from './components/SovereigntyPillar';
 export { default as VisionMetric } from './components/VisionMetric';
 export { default as PillarDetail } from './components/PillarDetail';
+export { default as CommunitySpaceCard } from './components/CommunitySpaceCard';
 
 export function GeschichteSection() {
   return (

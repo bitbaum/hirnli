@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import Table from '@/components/ui/Table';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import { PILLARS, VISION_TARGETS, HUB_CORE_SPACES, HUB_CULTURAL_SPACES, SDG_DATA, SDG_COLORS } from './data';
 import type { SdgRow } from './data';
-import { GeschichteSection, KontaktSection, SovereigntyPillar, VisionMetric, PillarDetail } from './components';
+import { GeschichteSection, KontaktSection, SovereigntyPillar, VisionMetric, PillarDetail, CommunitySpaceCard } from './components';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
@@ -248,40 +249,241 @@ export default function StrategiePage() {
 
       {/* Community Tech Space Vision */}
       <section id="community-tech-space" className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Community Tech Space</h2>
-        <Card>
-          <p className="mb-2 text-sm text-text-light">
-            Wir müssen unser aktuelles Lokal bis Ende 2026 verlassen. Das ist unsere Chance,
-            etwas Grösseres zu schaffen — ein Ort, an dem Nachhaltigkeit, Technologie und Gemeinschaft zusammenkommen.
+        <div className="mb-6 rounded-2xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 p-8 text-white">
+          <h2 className="text-3xl font-bold mb-4">Community Tech Space</h2>
+          <p className="text-lg mb-3 leading-relaxed">
+            <strong className="text-yellow-300">⏰ Deadline: Ende 2026</strong> — Wir müssen unser aktuelles Lokal verlassen.
           </p>
-          <p className="mb-6 text-sm text-text-light">
-            Shop, Werkstatt, Schulungsraum, Rechenzentrum und Treffpunkt unter einem Dach.
+          <p className="text-lg mb-4 leading-relaxed">
+            Das ist unsere Chance, etwas Grösseres zu schaffen: Ein Ort, an dem <strong>Nachhaltigkeit, Technologie und Gemeinschaft</strong> zusammenkommen.
           </p>
-
-          {/* Hub Core */}
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Bereiche</h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {HUB_CORE_SPACES.map((space) => (
-              <div key={space.title} className="flex flex-col items-center rounded-xl border border-border bg-white p-5 text-center shadow-sm">
-                <span className="mb-3 text-4xl">{space.icon}</span>
-                <h3 className="text-sm font-semibold">{space.title}</h3>
-                <p className="mt-1 text-xs text-text-muted">{space.description}</p>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
+              <div className="text-3xl font-bold">500-1000 m²</div>
+              <div className="text-sm opacity-90">Werkstatt, Events, Schulung, Museum</div>
+            </div>
+            <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
+              <div className="text-3xl font-bold">CHF 500k-1M</div>
+              <div className="text-sm opacity-90">Einrichtung + 1. Jahr Betrieb</div>
+            </div>
+            <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
+              <div className="text-3xl font-bold">10'000+</div>
+              <div className="text-sm opacity-90">Geräte/Jahr Zielkapazität</div>
+            </div>
           </div>
+        </div>
 
-          {/* Cultural Expansion */}
-          <h3 className="mb-3 mt-6 text-sm font-semibold uppercase tracking-wider text-text-muted">Mögliche Erweiterungen</h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {HUB_CULTURAL_SPACES.map((space) => (
-              <div key={space.title} className="flex flex-col items-center rounded-xl border border-dashed border-border bg-bg-light p-5 text-center">
-                <span className="mb-3 text-4xl">{space.icon}</span>
-                <h3 className="text-sm font-semibold">{space.title}</h3>
-                <p className="mt-1 text-xs text-text-muted">{space.description}</p>
-              </div>
-            ))}
+        {/* Core Spaces */}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">🎯 Kernbereiche (Essential)</h3>
+          <p className="text-sm text-gray-600 mb-6">
+            Diese Bereiche wachsen direkt aus unserer heutigen Arbeit und sind essenziell für die Vision 2030.
+            Klicke auf «Mehr Details», um Aktivitäten, Kapazität und SDG-Beitrag zu sehen.
+          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <CommunitySpaceCard
+              icon="🔧"
+              title="Offene Werkstatt & Makerspace"
+              tagline="Vom Repair Café bis zum eigenen Projekt"
+              description="650 m² mit professioneller Ausstattung für Community-Reparatur, Prototyping und Maker-Projekte."
+              type="core"
+              activities={[
+                'Repair Cafés: Öffentliche Reparatur-Events (2× pro Monat)',
+                '3D-Drucker, Lasercutter, CNC-Fräse für Prototyping',
+                'Lötarbeitsplätze für Elektronik-Reparatur & Modding',
+                'Robotik-Kits & Arduino-Projekte für Schulen',
+                'Tool Library: Werkzeugverleih für CHF 20/Tag',
+              ]}
+              capacity="30-40 Arbeitsplätze gleichzeitig, 100+ Menschen/Woche"
+              targetAudience="Hobbyisten, Schüler, Startups, Community"
+              sdgs={['SDG 12', 'SDG 9', 'SDG 4']}
+              estimatedCost="CHF 150'000 (Werkzeuge, Maschinen, Einrichtung)"
+            />
+
+            <CommunitySpaceCard
+              icon="🖥️"
+              title="Sovereign AI Lab"
+              tagline="Lokale KI-Modelle hosten, trainieren, vermitteln"
+              description="GPU-Cluster aus Unternehmens-Spenden für souveränes KI-Hosting. Schweizer Organisationen können eigene Modelle trainieren — ohne Cloud-Abhängigkeit."
+              type="core"
+              activities={[
+                'KI-Hosting für Schweizer NGOs & KMUs (Data Sovereignty)',
+                'AI Literacy Workshops: Wie nutze ich ChatGPT sicher?',
+                'Modell-Training für spezifische Use Cases (lokale Sprachen, Fachdaten)',
+                'AI Ethics: Diskussionen zu Bias, Privacy, Automatisierung',
+                'Corporate AI Training: Workshops für Unternehmen (Revenue)',
+              ]}
+              capacity="20-30 GPU-Nodes, 60 Workshop-Teilnehmer/Monat"
+              targetAudience="NGOs, KMUs, Geflüchtete, Studierende"
+              sdgs={['SDG 4', 'SDG 9', 'SDG 10']}
+              estimatedCost="CHF 80'000 (GPUs aus Spenden, Cooling, Infrastruktur)"
+            />
+
+            <CommunitySpaceCard
+              icon="🎓"
+              title="Schulungs- & Hackerspace"
+              tagline="Digitale Kompetenzen für alle"
+              description="60 m² Schulungsraum mit 20 Arbeitsplätzen für Kurse, Workshops und offenes Tüfteln."
+              type="core"
+              activities={[
+                'Linux-Einführungskurse (Deutsch, Englisch, Ukrainisch)',
+                'Repair-Skills: Laptop-Reparatur von Grund auf',
+                'Programmieren lernen (Python, JavaScript für Anfänger)',
+                'Digital Literacy für Geflüchtete (Asylorganisationen)',
+                'Hackathons, Tech-Talks, Community-Events',
+              ]}
+              capacity="20 Kursplätze, 500+ Teilnehmer/Jahr"
+              targetAudience="Geflüchtete, Arbeitslose, Quereinsteiger, Schüler"
+              sdgs={['SDG 4', 'SDG 8', 'SDG 10']}
+              estimatedCost="CHF 40'000 (20× Computer, Möbel, AV-Equipment)"
+            />
+
+            <CommunitySpaceCard
+              icon="🎤"
+              title="Event- & Kulturraum"
+              tagline="Tags Café, abends Konzerte & Talks"
+              description="100 m² flexibler Raum für 50-80 Personen. Tags Co-Working & Café, abends Events, Konzerte, Filmabende."
+              type="core"
+              activities={[
+                'Tagsüber: Community Café & Co-Working (CHF 5/Tag)',
+                'Tech-Talks & Panels zu Nachhaltigkeit, KI, Open Source',
+                'Konzerte (elektronische Musik, Vintage-Synths)',
+                'Filmabende: Dokumentarfilme zu Tech & Gesellschaft',
+                'Repair-Partys: Social + Reparatur + Musik',
+              ]}
+              capacity="50-80 Personen, 2-3 Events/Woche"
+              targetAudience="Tech-Community, Nachbarschaft, Kulturinteressierte"
+              sdgs={['SDG 11', 'SDG 17']}
+              estimatedCost="CHF 60'000 (PA-Anlage, Möbel, Küche, Bar)"
+            />
+
+            <CommunitySpaceCard
+              icon="🏛️"
+              title="Museum & Kulturraum"
+              tagline="Computergeschichte zum Anfassen"
+              description="80 m² für Ausstellungen, E-Waste-Kunst und Vintage-Tech. Von Commodore 64 bis zur ersten Cray."
+              type="core"
+              activities={[
+                'Permanent: Computergeschichte-Ausstellung (Commodore, Amiga, NeXT)',
+                'Wechselausstellungen: E-Waste-Kunst, Tech-Fotografie',
+                'Vintage-Synth-Restaurierung & Konzerte',
+                'Führungen für Schulklassen (CHF 200/Klasse)',
+                'Depot für historische Hardware (Schenkungen)',
+              ]}
+              capacity="30-40 Besucher gleichzeitig"
+              targetAudience="Schulklassen, Tech-Nostalgiker, Kulturinteressierte"
+              sdgs={['SDG 11', 'SDG 4']}
+              estimatedCost="CHF 50'000 (Vitrinen, Ausstellungskonzept, Objekte)"
+            />
+
+            <CommunitySpaceCard
+              icon="☕"
+              title="Community Café"
+              tagline="Niederschwelliger Treffpunkt"
+              description="30 m² Café-Bereich für Austausch, Networking und informelles Lernen."
+              type="core"
+              activities={[
+                'Fair-Trade-Kaffee & Snacks (kostendeckend)',
+                'Offener Treffpunkt: Keine Konsumpflicht',
+                'Tech-Support-Sprechstunde (Di + Do 14-17 Uhr)',
+                'Community-Board für Projekte, Jobs, Gesuche',
+                'WiFi, Steckdosen, informelles Coworking',
+              ]}
+              capacity="15-20 Sitzplätze"
+              targetAudience="Alle — niederschwelliger Zugang"
+              sdgs={['SDG 11']}
+              estimatedCost="CHF 30'000 (Café-Ausstattung, Möbel)"
+            />
           </div>
-        </Card>
+        </div>
+
+        {/* Expansion Spaces */}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">✨ Mögliche Erweiterungen</h3>
+          <p className="text-sm text-gray-600 mb-6">
+            Diese Bereiche könnten den Hub einzigartig machen — abhängig von Funding, Partnerschaften und Community-Interesse.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CommunitySpaceCard
+              icon="🎨"
+              title="Kunst aus Elektroschrott"
+              tagline="Skulpturen & Installationen"
+              description="Künstler:innen erschaffen aus ausrangierten Platinen, Gehäusen und Komponenten neue Kunstwerke."
+              type="expansion"
+              activities={[
+                'Resident Artists: 3-6 Monate Atelierplatz',
+                'E-Waste-Art-Workshops für Schulen',
+                'Ausstellungen & Verkauf (50% für Künstler)',
+              ]}
+              targetAudience="Künstler, Schulen, Kunstinteressierte"
+            />
+
+            <CommunitySpaceCard
+              icon="🎹"
+              title="Elektronische Musik"
+              tagline="Synthesizer, Drum Machines"
+              description="Vintage-Synths restaurieren, Circuit-Bending, Modular-Synthese lernen und Live-Konzerte veranstalten."
+              type="expansion"
+              activities={[
+                'Synth-Restaurierung (Roland, Korg, Moog)',
+                'Circuit-Bending-Workshops',
+                'Modular-Synthese für Anfänger',
+                'Live-Konzerte & DJ-Sets',
+              ]}
+              targetAudience="Musiker, Elektronik-Fans"
+            />
+
+            <CommunitySpaceCard
+              icon="📖"
+              title="Tech-Bibliothek"
+              tagline="Bücher, Zines, Magazine"
+              description="Leseecke mit kuratierter Sammlung zu Technologie, Nachhaltigkeit, Maker-Kultur und digitaler Gesellschaft."
+              type="expansion"
+              activities={[
+                'Bücher-Tausch & Spenden',
+                'Zine-Produktion: Selbstverlag fördern',
+                'Lesekreise zu Tech-Ethik, KI, Klimakrise',
+              ]}
+              targetAudience="Alle"
+            />
+
+            <CommunitySpaceCard
+              icon="🎬"
+              title="Filmabende & Diskussionen"
+              tagline="Dokumentarfilme zu Tech & Gesellschaft"
+              description="Monatliche Filmabende mit anschliessender Diskussion zu Themen wie Überwachung, KI-Ethik, Klimakrise."
+              type="expansion"
+              activities={[
+                'Dokumentarfilm-Screenings (1×/Monat)',
+                'Panel-Diskussionen mit Expert:innen',
+                'Community-Voting: Welchen Film als nächstes?',
+              ]}
+              targetAudience="Tech-Community, Aktivisten"
+            />
+          </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 p-8 text-white text-center">
+          <h3 className="text-2xl font-bold mb-4">Hilf uns, diese Vision zu verwirklichen</h3>
+          <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
+            Der Community Tech Space ist mehr als ein Gebäude — es ist eine Plattform für <strong>digitale Teilhabe, nachhaltige Technologie und soziale Innovation</strong>. Mit deiner Unterstützung können wir diesen Ort schaffen.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/fundraising"
+              className="px-8 py-4 bg-white text-emerald-700 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg"
+            >
+              📊 3-Jahres-Fundraising-Plan ansehen
+            </Link>
+            <Link
+              href="/fundraising/stiftungen"
+              className="px-8 py-4 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors duration-200 border-2 border-white"
+            >
+              🏛️ Passende Stiftungen finden
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* SDG Alignment */}
