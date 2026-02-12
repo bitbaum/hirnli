@@ -1,0 +1,401 @@
+# Knowledge Architecture & SSOT Governance
+
+**Purpose:** Prevent data inconsistencies, stale documentation, and SSOT violations
+**Last Updated:** 2026-02-12
+**Status:** ✅ Active Policy
+
+---
+
+## Problem Statement
+
+As the codebase grew, knowledge fragmented across:
+- Config files (`numbers.ts`, `stories.ts`)
+- .md documentation files
+- Code comments
+- Database schema
+
+**Result:** Numbers appeared in multiple places with different values, documentation drifted from reality, and trust in data eroded.
+
+**Example of what went wrong:**
+- `calculations.ts` said "300 kg CO₂ per laptop"
+- `numbers.ts` said "285 kg CO₂ per laptop" (SSOT with source)
+- `CONTENT_CORRECTIONS.md` said "285 kg" (documentation)
+- `strategie/page.tsx` used "300 kg" (wrong!)
+
+---
+
+## Solution: 3-Tier Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ TIER 1: AUTHORITATIVE SOURCES (SSOT)                        │
+│ → The ONLY place where data/metrics/claims live             │
+│ → Every entry has: value, source, methodology, confidence   │
+├─────────────────────────────────────────────────────────────┤
+│ TIER 2: DERIVED/DISPLAY                                     │
+│ → Read from Tier 1, never store data                        │
+│ → UI components, calculations, API responses                │
+├─────────────────────────────────────────────────────────────┤
+│ TIER 3: DOCUMENTATION                                       │
+│ → Explains WHY/HOW, never stores WHAT                       │
+│ → Principles, architecture, workflows                       │
+│ → Links to Tier 1 for actual values                         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Tier 1: Authoritative Sources (SSOT)
+
+### What Lives Here
+
+**1. Metrics & Numbers**
+- **File:** `src/lib/config/numbers.ts`
+- **Contains:** All quantifiable claims with full source metadata
+- **Format:**
+  ```typescript
+  METRIC_NAME: {
+    value: 285,
+    label: 'kg CO₂ gespart pro Laptop',
+    source: {
+      methodology: 'Fraunhofer IZM Studie 2023',
+      calculation: 'Neuproduktion (350kg) - Refurbishing (65kg) = 285kg',
+      confidence: 'high',
+      lastVerified: '2026-01-15',
+      documentUrl: '/documents/sources/fraunhofer-izm-2023.pdf',
+    },
+    category: 'environmental',
+  }
+  ```
+
+**2. Narrative Content**
+- **File:** `src/lib/config/stories.ts`
+- **Contains:** Reusable text blocks (WHY, HOW, WHAT, EVIDENCE)
+- **Use when:** Same story used in multiple places (Gesuch templates, foundation profiles)
+
+**3. Foundation Data**
+- **File:** `src/lib/config/foundations/*.ts`
+- **Contains:** 37+ foundation profiles (name, website, themes, fit scores)
+
+**4. Financial Data**
+- **File:** `src/lib/data/financial.ts`
+- **Source:** Kivitendo CSV exports (manually imported)
+- **Update frequency:** Monthly or as needed
+
+**5. Database Schema**
+- **File:** `src/lib/db/schema.ts`
+- **Contains:** Applications, customizations, foundation relationships
+
+**6. External Sources**
+- **Location:** `/public/documents/sources/`
+- **Contains:** PDFs of studies (Fraunhofer, etc.)
+- **Purpose:** Downloadable proof for all SSOT claims
+
+---
+
+### Rules for Tier 1
+
+✅ **DO:**
+- Add new metrics with FULL source metadata (methodology, confidence, lastVerified)
+- Update existing metrics when new data becomes available
+- Document calculation formulas
+- Include links to source PDFs
+
+❌ **DON'T:**
+- Add metrics without sources
+- Use "estimated" confidence without documenting methodology
+- Duplicate data across multiple config files
+- Store data in .md files
+
+---
+
+## Tier 2: Derived/Display
+
+### What Lives Here
+
+All code that READS from Tier 1 but never stores data:
+
+```
+src/
+├── components/       ← UI components (import from Tier 1)
+├── app/             ← Pages (import from Tier 1)
+├── hooks/           ← Data fetching (read from Tier 1)
+└── lib/domain/      ← Business logic (use Tier 1 constants)
+```
+
+### Rules for Tier 2
+
+✅ **DO:**
+```typescript
+// Import from SSOT
+import { NUMBERS_REGISTRY } from '@/lib/config/numbers';
+const co2Value = NUMBERS_REGISTRY.CO2_SAVED_PER_LAPTOP.value;
+
+// Use in calculations
+import { AVG_CO2_PER_DEVICE } from '@/lib/domain/calculations';
+const totalCO2 = deviceCount * AVG_CO2_PER_DEVICE;
+```
+
+❌ **DON'T:**
+```typescript
+// Hardcode values
+const co2Value = 285; // ❌ Where does this come from?
+
+// Duplicate constants
+const AVG_CO2 = 300; // ❌ Already in calculations.ts
+```
+
+---
+
+## Tier 3: Documentation
+
+### What Lives Here
+
+.md files that explain WHY/HOW but NEVER store data:
+
+| File | Purpose | Contains | Should NOT Contain |
+|------|---------|----------|-------------------|
+| `CLAUDE.md` | Engineering principles | First principles, best practices | Specific metrics |
+| `DATABASE_SETUP.md` | Setup instructions | SQL commands, env vars | Actual connection strings |
+| `KNOWLEDGE_ARCHITECTURE.md` | This file | Architecture rules | Actual numbers |
+| `UX_CONSISTENCY_GUIDE.md` | Design patterns | When to use components | Specific colors (use CSS vars) |
+
+### Rules for Tier 3
+
+✅ **DO:**
+- Explain WHY decisions were made
+- Document HOW to do tasks
+- Link to SSOT for actual values: `See numbers.ts line 45 for CO₂ value`
+- Use `[EXAMPLE]` prefix for illustrative numbers: `[EXAMPLE] 285 kg CO₂`
+
+❌ **DON'T:**
+- Store actual metrics: ❌ "We refurbished 1,200 laptops"
+- Make claims that could go stale: ❌ "We have 37 foundation profiles"
+- Duplicate SSOT content: ❌ Copying entire config files into .md
+- Use .md as knowledge base for queryable data
+
+---
+
+## Migration Plan: Current .md Files
+
+### ✅ KEEP (Convert to Tier 3 Format)
+
+**1. CLAUDE.md**
+- **Status:** Good — already focuses on principles
+- **Action:** ✅ No changes needed
+
+**2. DATABASE_SETUP.md**
+- **Status:** Good — setup instructions, no stale data
+- **Action:** ✅ No changes needed
+
+**3. UX_CONSISTENCY_GUIDE.md**
+- **Status:** Good — design patterns
+- **Action:** ✅ No changes needed
+
+**4. KNOWLEDGE_ARCHITECTURE.md** (this file)
+- **Status:** New governance document
+- **Action:** ✅ Keep as reference
+
+---
+
+### ⚠️ ARCHIVE (Contains Stale/Duplicate Data)
+
+**5. CONTENT_CORRECTIONS.md**
+- **Problem:** Contains specific numbers (285 kg CO₂, 1,200 laptops, etc.) that duplicate Tier 1
+- **Action:**
+  - ✅ Extract any principles/corrections that aren't in code
+  - ✅ Add missing metrics to `numbers.ts` with sources
+  - ✅ Move to `_archive/CONTENT_CORRECTIONS.md`
+  - ✅ Add note: "ARCHIVED 2026-02-12 — Data moved to numbers.ts"
+
+**6. IMPLEMENTATION_SUMMARY.md**
+- **Problem:** Likely duplicates what's already in code
+- **Action:**
+  - ✅ Review for any architectural decisions to preserve
+  - ✅ Move to `_archive/`
+
+**7. COMPLETE.md**
+- **Problem:** Unknown content (need to review)
+- **Action:**
+  - ✅ Review and either keep (if principles) or archive (if data)
+
+**8. STORYTELLING_IMPLEMENTATION_PLAN.md**
+- **Problem:** Implementation plans go stale after implementation
+- **Action:**
+  - ✅ If plan is complete → archive
+  - ✅ If plan has ongoing reference value → convert to guide format
+
+**9. FUNDRAISING_AUTOMATION_PROGRESS.md**
+- **Problem:** Progress docs go stale
+- **Action:**
+  - ✅ Check if work is complete
+  - ✅ If yes → archive
+  - ✅ If no → convert to TODO.md with clear tasks
+
+---
+
+### 📖 KEEP (Reference)
+
+**10. README.md**
+- **Status:** Good — project overview
+- **Action:** ✅ Keep, ensure no specific metrics
+
+---
+
+## Automation: Preventing Drift
+
+### 1. Automated SSOT Validation
+
+Create `scripts/validate-ssot.ts`:
+
+```typescript
+/**
+ * Validates that no hardcoded numbers exist outside SSOT
+ * Run in CI/CD pipeline before deployment
+ */
+
+import { NUMBERS_REGISTRY } from '@/lib/config/numbers';
+import { glob } from 'glob';
+import fs from 'fs';
+
+async function validateSSOT() {
+  const errors: string[] = [];
+
+  // Get all known SSOT values
+  const ssotValues = Object.values(NUMBERS_REGISTRY).map(n => n.value);
+
+  // Scan all .tsx/.ts files (exclude config/)
+  const files = await glob('src/{app,components,hooks}/**/*.{ts,tsx}');
+
+  for (const file of files) {
+    const content = fs.readFileSync(file, 'utf-8');
+
+    // Find hardcoded numbers (basic regex)
+    const hardcodedNumbers = content.match(/(?:const|let|var)\s+\w+\s*=\s*\d+/g);
+
+    if (hardcodedNumbers) {
+      errors.push(`${file}: Found hardcoded numbers - should import from SSOT`);
+    }
+  }
+
+  if (errors.length > 0) {
+    console.error('SSOT violations found:');
+    errors.forEach(e => console.error(`  - ${e}`));
+    process.exit(1);
+  }
+
+  console.log('✅ SSOT validation passed');
+}
+
+validateSSOT();
+```
+
+Add to `package.json`:
+```json
+{
+  "scripts": {
+    "validate-ssot": "tsx scripts/validate-ssot.ts",
+    "prebuild": "npm run validate-ssot"
+  }
+}
+```
+
+---
+
+### 2. Documentation Staleness Warnings
+
+Add to top of docs that could go stale:
+
+```markdown
+<!-- STALENESS WARNING: This document was last reviewed on 2026-02-12 -->
+<!-- If it's been >6 months, verify accuracy before trusting content -->
+```
+
+---
+
+### 3. Code Comments for SSOT References
+
+```typescript
+// ✅ GOOD: Points to SSOT
+const co2Saved = 285; // Source: numbers.ts CO2_SAVED_PER_LAPTOP
+
+// ❌ BAD: No context
+const co2Saved = 285; // CO2 per laptop
+```
+
+---
+
+## Workflow: Adding New Metrics
+
+### Step-by-Step
+
+**1. Check if metric exists in SSOT**
+```bash
+grep -r "metric_name" src/lib/config/numbers.ts
+```
+
+**2. If NOT exists, add to SSOT**
+```typescript
+// src/lib/config/numbers.ts
+export const NUMBERS_REGISTRY = {
+  NEW_METRIC: {
+    value: 42,
+    label: 'Answer to everything',
+    source: {
+      methodology: 'Deep Thought computation (7.5M years)',
+      calculation: 'Ultimate Question of Life, Universe, Everything',
+      confidence: 'absolute',
+      lastVerified: '2026-02-12',
+      documentUrl: '/documents/sources/deep-thought-result.pdf',
+    },
+    category: 'philosophical',
+  },
+};
+```
+
+**3. Use in code**
+```typescript
+import { NUMBERS_REGISTRY } from '@/lib/config/numbers';
+const answer = NUMBERS_REGISTRY.NEW_METRIC.value;
+```
+
+**4. Never duplicate**
+❌ Don't copy value to .md files
+✅ Link to SSOT: `See numbers.ts line 123 for the answer`
+
+---
+
+## Review Checklist
+
+Before deploying ANY change that introduces data:
+
+- [ ] Does this number exist in `numbers.ts`?
+- [ ] If not, did I add it with full source metadata?
+- [ ] Did I import from SSOT instead of hardcoding?
+- [ ] Did I update .md files to LINK to SSOT instead of duplicating?
+- [ ] Did I run `npm run validate-ssot`?
+
+---
+
+## Summary
+
+**The Rule:**
+- 📊 **Tier 1:** Data lives here (SSOT)
+- 🖥️ **Tier 2:** Reads from Tier 1 (never stores)
+- 📝 **Tier 3:** Explains Tier 1 (never duplicates)
+
+**The Test:**
+If you find the same number in 2 places, one of them is wrong.
+
+**The Fix:**
+- Move data to Tier 1 (SSOT)
+- Update Tier 2 to import from SSOT
+- Update Tier 3 to link to SSOT
+
+---
+
+**Next Steps:**
+1. Archive stale .md files → `_archive/`
+2. Migrate any valuable content to SSOT
+3. Add `validate-ssot` script to CI/CD
+4. Train team on this architecture

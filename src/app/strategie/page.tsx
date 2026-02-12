@@ -64,10 +64,10 @@ export default function StrategiePage() {
               'Fachgerechtes Recycling für nicht reparierbare Komponenten (>80% Quote)',
               'Lebensdauerverlängerung: Ältere Hardware läuft mit Linux weitere 5-10 Jahre',
             ]}
-            whyItMatters="Jeder neue Laptop verursacht ~300 kg CO₂ bei der Herstellung. Durch Refurbishment vermeiden wir diese Emissionen und reduzieren Elektroschrott – einer der am schnellsten wachsenden Abfallströme weltweit (62 Mio. Tonnen/Jahr). Gleichzeitig schonen wir wertvolle Rohstoffe wie Kupfer, Gold und seltene Erden."
+            whyItMatters="Jeder neue Laptop verursacht ~350 kg CO₂ bei der Herstellung, Refurbishment nur ~65 kg. Netto-Einsparung: 285 kg CO₂ pro Gerät (Fraunhofer IZM 2023). Elektroschrott ist einer der am schnellsten wachsenden Abfallströme weltweit (62 Mio. Tonnen/Jahr). Gleichzeitig schonen wir wertvolle Rohstoffe wie Kupfer, Gold und seltene Erden."
             achievements={[
-              'Seit 2003: Tausende Geräte vor Elektroschrott gerettet',
-              '2025: ~300 Laptops refurbished = ~90 Tonnen CO₂ vermieden',
+              'Seit 2003: 1\'200+ Geräte vor Elektroschrott gerettet',
+              'Aktuelle Kapazität: 25-35 Geräte/Monat (ca. 300-420/Jahr)',
               'Durchschnittliche Lebensdauerverlängerung: 5-7 Jahre pro Gerät',
               'Recycling-Quote für nicht reparierbare Teile: >80%',
             ]}
@@ -92,8 +92,8 @@ export default function StrategiePage() {
             whyItMatters="Digitale Souveränität bedeutet: Du besitzt dein Gerät wirklich. Keine Zwangsupdates, keine Vendor Lock-ins, keine Lizenzkosten. Open-Source-Software gibt Nutzern Kontrolle zurück und ermöglicht es, ältere Hardware weiter zu nutzen. Das ist besonders wichtig für Menschen mit geringem Einkommen und für Organisationen, die unabhängig bleiben wollen."
             achievements={[
               'Seit 2003: Pioniere für Linux-Desktop in der Schweiz',
-              '1\'200+ Geräte mit vorinstalliertem Linux verkauft (2022-2025)',
-              'Workshops & Support: Hunderte Menschen an Linux herangeführt',
+              'Seit 2003: 1\'200+ Geräte mit vorinstalliertem Linux verkauft',
+              '100% Open-Source-Software auf allen verkauften Geräten',
               'Teil der weltweiten Open-Source-Bewegung',
             ]}
             relatedPages={[
@@ -115,8 +115,8 @@ export default function StrategiePage() {
             ]}
             whyItMatters="In einer Welt, die sich durch Automatisierung und KI rasant verändert, werden digitale Kompetenzen zur Grundvoraussetzung für Teilhabe. Gleichzeitig geht Reparaturwissen verloren – dabei ist es ein Schlüssel zu Nachhaltigkeit und Unabhängigkeit. Wir vermitteln beides: Wie man Technologie nutzt UND wie man sie wartet."
             achievements={[
-              '2022-2025: ~150 Workshop-Teilnehmer in Repair & Linux',
-              'Praktikanten-Ausbildung: 10+ Menschen in IT-Skills trainiert',
+              'Seit 2003: 100+ Menschen in Workshops & Praktika begleitet',
+              'Repair-Workshops, Linux-Kurse, technischer Support',
               'Niederschwelliger Zugang: Keine Vorkenntnisse erforderlich',
               'Wissensdokumentation: Anleitungen & How-Tos für Community',
             ]}
@@ -139,9 +139,9 @@ export default function StrategiePage() {
             ]}
             whyItMatters="Geflüchtete, Langzeitarbeitslose und Menschen mit Behinderungen haben oft erschwerten Zugang zum Arbeitsmarkt – nicht wegen fehlender Fähigkeiten, sondern wegen fehlender Chancen. Wir bieten einen geschützten Rahmen, um praktische IT-Skills zu entwickeln, Selbstvertrauen aufzubauen und Referenzen zu sammeln. Das ist besonders wichtig, wenn Automatisierung traditionelle Einstiegsjobs ersetzt."
             achievements={[
-              '2022-2025: 10+ Praktikanten erfolgreich betreut',
+              'Seit 2009: Arbeitsintegrationsprogramme für benachteiligte Menschen',
               'Zusammenarbeit mit AOZ, Caritas und anderen Sozialpartnern',
-              'Mehrere erfolgreiche Vermittlungen in den ersten Arbeitsmarkt',
+              'Erfolgreiche Vermittlungen in den ersten Arbeitsmarkt',
               'Sinnvolle Arbeit: Jedes refurbishte Gerät ist messbarer Impact',
             ]}
             relatedPages={[
