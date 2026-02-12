@@ -14,25 +14,17 @@ import { createClient } from '@libsql/client';
 import * as schema from './schema';
 
 // Environment validation
-const DATABASE_URL = process.env.DATABASE_URL;
-const DATABASE_AUTH_TOKEN = process.env.DATABASE_AUTH_TOKEN;
+const DATABASE_URL = process.env.DATABASE_URL || '';
+const DATABASE_AUTH_TOKEN = process.env.DATABASE_AUTH_TOKEN || '';
 
-if (!DATABASE_URL) {
-  throw new Error('DATABASE_URL environment variable is not set');
-}
-
-if (!DATABASE_AUTH_TOKEN) {
-  throw new Error('DATABASE_AUTH_TOKEN environment variable is not set');
-}
-
-// Create Turso client
-const client = createClient({
+// Create Turso client (will fail at runtime if env vars missing, but won't fail at build time)
+const client = DATABASE_URL ? createClient({
   url: DATABASE_URL,
   authToken: DATABASE_AUTH_TOKEN,
-});
+}) : null;
 
 // Create Drizzle instance with schema
-export const db = drizzle(client, { schema });
+export const db = client ? drizzle(client, { schema }) : null as any;
 
 // Export types for convenience
 export type Database = typeof db;
