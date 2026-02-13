@@ -22,29 +22,25 @@ export default function HubPage() {
       {/* Vision */}
       <section className="mb-8">
         <Card className="border-l-4 border-l-blue-500">
-          <h2 className="text-2xl font-bold mb-4 text-grey-dark">Der Revamp Hub: Von 30 auf 180 Geräte/Monat</h2>
+          <h2 className="text-2xl font-bold mb-4 text-grey-dark">Der Revamp Hub: Prozesse professionalisieren, Menschen befähigen</h2>
           <p className="text-base text-text-light mb-4 leading-relaxed">
-            <strong>Das Kernproblem heute:</strong> Wir haben das Know-how und die Nachfrage — aber nicht die Infrastruktur.
-            4 Reparaturtische vorhanden, aber meist nur 1-2 in Nutzung. Unstrukturierte Workflows. Lange Wartezeiten.
+            <strong>Das Kernproblem heute:</strong> Nicht fehlende Fläche, sondern fehlende Organisation.
+            Wir haben zu viel Inventar in 2 Lagern, aber keine effizienten Verkaufs- und Refurbishment-Prozesse.
+            4 Reparaturtische vorhanden, meist nur 1-2 in Nutzung. Unstrukturierte Workflows.
           </p>
           <p className="text-base text-text-light mb-6 leading-relaxed">
-            <strong>Die Lösung:</strong> ~1000 m² professionell organisierter Raum. Nicht nur mehr Platz —
-            sondern strukturierte Prozesse, parallele Linien, professionelle Leitung. Plus: Kultur & Innovation als
-            Anziehungspunkt, damit Menschen kommen, lernen, bleiben.
+            <strong>Die Lösung:</strong> ~500-600 m² effizienter, gut organisierter Raum. Nicht endlos Platz —
+            sondern <strong>strukturierte Prozesse</strong> mit 2 Bildungsprogrammleitern + sozialpädagogischer Begleitung (Veronica).
+            Plus: Tech-Bildung, AI Lab, Makerspace — damit Menschen nicht nur konsumieren, sondern lernen und gestalten.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 bg-blue-50 p-4 rounded-lg">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-900">~1000 m²</div>
-              <div className="text-sm text-blue-800">Werkstatt + Shop + Innovation + Kultur</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-900">180+</div>
-              <div className="text-sm text-blue-800">Geräte/Monat (6× mehr als heute)</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-900">2000+</div>
-              <div className="text-sm text-blue-800">Menschen/Jahr erreicht (direkt + Workshops)</div>
-            </div>
+          <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-lg">
+            <p className="text-sm text-amber-900 mb-2">
+              <strong>Hinweis:</strong> Die Quadratmeterzahlen unten sind <strong>Planungsentwürfe</strong> und werden
+              noch konkretisiert. Jede Zahl muss begründbar und anklickbar sein (Quellenangabe folgt).
+            </p>
+            <p className="text-xs text-amber-800">
+              Feedback willkommen: Sind diese Zahlen realistisch? Wo müssen wir effizienter sein?
+            </p>
           </div>
         </Card>
       </section>
@@ -101,48 +97,45 @@ export default function HubPage() {
                 <div className="text-3xl">🔧</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Refurbishment-Werkstatt</h3>
-                  <p className="text-sm text-blue-700 font-medium">600 m² — Professionelle Reparatur & Testinfrastruktur</p>
+                  <p className="text-sm text-blue-700 font-medium">~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)</p>
                 </div>
               </div>
-              <Badge color="blue">CHF 220'000</Badge>
+              <Badge color="blue">CHF 80'000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Das Herzstück: Hier entstehen refurbishte Geräte. <strong>Heute:</strong> 4 Tische, chaotisch, nur 1-2 in Nutzung.
-              <strong> Neu:</strong> Strukturierte Linien, paralleles Arbeiten, professionelle Organisation.
+              <strong> Neu:</strong> Strukturierte Prozesse (Triage → Data Wipe → Repair → Test → QA), nicht endlos Platz.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4">
               <div>
-                <p className="font-semibold text-grey-dark mb-2">Flächen & Zonen:</p>
+                <p className="font-semibold text-grey-dark mb-2">Flächen & Zonen (ENTWURF):</p>
                 <ul className="space-y-1 text-text-light">
-                  <li>• <strong>180 m²</strong> Haupt-Werkstatt (10× Reparaturtische à ~18m²)</li>
-                  <li>• <strong>80 m²</strong> Testlabor (20× Testplätze, automatisierte Checks)</li>
-                  <li>• <strong>100 m²</strong> Data Wipe & Security Zone (NIST 800-88)</li>
-                  <li>• <strong>120 m²</strong> Komponenten-Lager (Ersatzteile, Zubehör)</li>
-                  <li>• <strong>80 m²</strong> Quality Assurance (Endkontrolle, Verpackung)</li>
-                  <li>• <strong>40 m²</strong> Tool Library & Reinigung</li>
+                  <li>• <strong>70 m²</strong> Haupt-Werkstatt (6-8× Reparaturtische)</li>
+                  <li>• <strong>30 m²</strong> Test & Data Wipe (10× Plätze parallel)</li>
+                  <li>• <strong>30 m²</strong> Quality Assurance & Verpackung</li>
+                  <li>• <strong>20 m²</strong> Ersatzteile & Werkzeug-Lager</li>
                 </ul>
               </div>
               <div>
                 <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Kapazität:</p>
                 <ul className="space-y-1 text-text-light">
-                  <li>• <strong>10× Reparaturtische</strong> (Haupt-Werkstatt)</li>
-                  <li>• <strong>20× Testplätze</strong> (parallel)</li>
-                  <li>• <strong>6× Data-Wipe-Stationen</strong> (parallel)</li>
-                  <li>• <strong>8× QA-Arbeitsplätze</strong> (Endkontrolle)</li>
-                  <li>• <strong>Kapazität:</strong> 150-200 Geräte/Monat</li>
-                  <li>• <strong>Personal:</strong> 3-5 Techniker gleichzeitig</li>
+                  <li>• <strong>6-8× Reparaturtische</strong> (kompakt, effizient)</li>
+                  <li>• <strong>10× Test/Data-Wipe-Plätze</strong> (parallel)</li>
+                  <li>• <strong>Personal:</strong> 2-4 Techniker gleichzeitig</li>
+                  <li>• <strong>Kapazität:</strong> 80-120 Geräte/Monat (realistischer)</li>
                 </ul>
               </div>
             </div>
             <div className="bg-blue-50 rounded-lg p-4 text-sm">
-              <p className="font-semibold text-blue-900 mb-2">Warum 6× mehr Kapazität?</p>
+              <p className="font-semibold text-blue-900 mb-2">Effizienz durch Prozesse, nicht durch Platz</p>
               <p className="text-blue-800 text-xs">
-                Nicht nur mehr Tische — sondern <strong>strukturierte Prozesse</strong>: Triage → Data Wipe → Repair → Test → QA → Verpackung.
-                Paralleles Arbeiten statt Bottlenecks. Plus: 2× Bildungsprogrammleiter organisieren Training & Workflows.
+                Nicht 600m² Werkstatt, sondern <strong>klare Prozesse</strong> mit 2× Bildungsprogrammleitern.
+                Sie organisieren Workflows, bilden Techniker aus, koordinieren Freiwillige & Reintegrations-Teilnehmer.
+                Plus: Sozialpädagogische Begleitung (Veronica) für nachhaltige Arbeitsintegration.
               </p>
             </div>
             <div className="mt-4 pt-4 border-t border-gray-200 text-xs text-text-light">
-              <strong>Zielgruppe:</strong> Techniker (fest & Praktikanten), Reintegrations-Programme, Schulungs-Teilnehmer
+              <strong>Zielgruppe:</strong> Techniker (fest & Praktikanten), Reintegrations-Programme, Freiwillige, Schulungs-Teilnehmer
             </div>
           </Card>
         </div>
@@ -325,29 +318,57 @@ export default function HubPage() {
               <div className="flex items-center gap-3">
                 <div className="text-3xl">🤖</div>
                 <div>
-                  <h3 className="text-lg font-semibold text-grey-dark">AI Sovereignty Node</h3>
-                  <p className="text-sm text-cyan-700 font-medium">40 m² — Eigene GPUs, eigene Modelle</p>
+                  <h3 className="text-lg font-semibold text-grey-dark">AI Lab — Verschiedene Setups möglich</h3>
+                  <p className="text-sm text-cyan-700 font-medium">20-40 m² — Eigene GPUs, digitale Souveränität</p>
                 </div>
               </div>
-              <Badge color="cyan">CHF 80'000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
-              Nicht Cloud-abhängig: GPU-Cluster für AI-Modelle trainieren, hosten, nutzen. Digitale Souveränität.
+              <strong>Vision:</strong> Nicht Cloud-abhängig. Eigene GPU-Infrastruktur für AI-Modelle trainieren, hosten, nutzen.
+              GPUs können gekauft oder gespendet werden — <strong>verschiedene Setups möglich</strong>, je nach Budget & Spenden.
             </p>
-            <div className="text-sm mb-3">
-              <p className="font-semibold text-grey-dark mb-2">Infrastruktur & Nutzung:</p>
-              <ul className="space-y-1 text-text-light text-xs">
-                <li>• <strong>20-30 GPU-Nodes</strong> (NVIDIA/AMD, Corporate-Spenden)</li>
-                <li>• Server-Racks mit Kühlung (klimatisiert)</li>
-                <li>• AI-gestützte Diagnostik (Hardware-Tests automatisieren)</li>
-                <li>• Eigene Modelle trainieren (nicht ChatGPT-abhängig)</li>
-                <li>• AI Hosting für NGOs/KMUs (Data Sovereignty)</li>
-                <li>• AI Literacy Workshops (60 Teilnehmer/Monat)</li>
-              </ul>
+
+            <div className="text-sm mb-4">
+              <p className="font-semibold text-grey-dark mb-3">Mögliche Setups (aufsteigend):</p>
+
+              <div className="space-y-3">
+                <div className="bg-cyan-50 p-3 rounded-lg">
+                  <p className="font-semibold text-cyan-900 mb-1">Setup A — Starter (CHF 15'000-20'000)</p>
+                  <ul className="text-xs text-cyan-800 space-y-1">
+                    <li>• 2-4× Consumer GPUs (NVIDIA RTX 3090/4090, gebraucht oder gespendet)</li>
+                    <li>• 1× Server-Rack mit Basis-Kühlung</li>
+                    <li>• <strong>Wirkung:</strong> AI Literacy Workshops (20-30 Teilnehmer/Monat), kleine Modelle fine-tunen</li>
+                  </ul>
+                </div>
+
+                <div className="bg-cyan-100 p-3 rounded-lg">
+                  <p className="font-semibold text-cyan-900 mb-1">Setup B — Professional (CHF 40'000-60'000)</p>
+                  <ul className="text-xs text-cyan-800 space-y-1">
+                    <li>• 8-12× Professional GPUs (NVIDIA A40/A100, teilweise gespendet von Unternehmen)</li>
+                    <li>• 2× Server-Racks mit professioneller Kühlung</li>
+                    <li>• <strong>Wirkung:</strong> AI-gestützte Hardware-Diagnostik, AI Hosting für NGOs/KMUs, größere Modelle trainieren</li>
+                  </ul>
+                </div>
+
+                <div className="bg-cyan-200 p-3 rounded-lg">
+                  <p className="font-semibold text-cyan-900 mb-1">Setup C — Enterprise (CHF 100'000-150'000)</p>
+                  <ul className="text-xs text-cyan-800 space-y-1">
+                    <li>• 20-30× Enterprise GPUs (NVIDIA H100/A100, Corporate-Spenden + Teilkauf)</li>
+                    <li>• 3-4× Server-Racks mit Klimatisierung & Redundanz</li>
+                    <li>• <strong>Wirkung:</strong> Alle oben + Open-Source-Modelle hosten, AI-Forschung für NGO-Sektor, Data Sovereignty für sensible Daten</li>
+                  </ul>
+                </div>
+              </div>
             </div>
+
+            <div className="bg-amber-50 border-l-4 border-amber-500 p-3 text-xs text-amber-900 mb-3">
+              <strong>Wichtig:</strong> Wir starten nicht mit Setup C. Wir bauen modular auf, basierend auf Spenden + verfügbarem Budget.
+              Jedes Setup ist nützlich — auch Setup A ermöglicht AI Literacy Workshops und kleine Modelle.
+            </div>
+
             <div className="text-xs text-text-light pt-3 border-t border-gray-200">
-              <strong>Kapazität:</strong> 20-30 GPU-Nodes, 60 Workshop-Teilnehmer/Monat<br />
-              <strong>Zielgruppe:</strong> NGOs, KMUs, Entwickler, AI-Interessierte
+              <strong>Potenzielle Wirkung (je nach Setup):</strong> 20-60 Workshop-Teilnehmer/Monat, AI Hosting für 5-20 NGOs/KMUs, Hardware-Diagnostik-Automatisierung<br />
+              <strong>Zielgruppe:</strong> NGOs, KMUs, Entwickler, AI-Interessierte, Studierende
             </div>
           </Card>
         </div>
@@ -554,108 +575,102 @@ export default function HubPage() {
         <Card>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <h3 className="text-lg font-semibold text-grey-dark mb-3">Einmalige Investitionen (Setup)</h3>
+              <h3 className="text-lg font-semibold text-grey-dark mb-3">Einmalige Investitionen (Setup) — ENTWURF</h3>
+              <div className="bg-amber-50 p-3 rounded mb-4 text-xs text-amber-900">
+                <strong>Wichtig:</strong> Diese Zahlen sind Planungsentwürfe. Jeder Betrag muss noch validiert und mit Quellenangabe versehen werden.
+              </div>
               <div className="space-y-2 text-sm mb-4">
                 <p className="text-xs text-text-light font-semibold mb-2">KERNGESCHÄFT (Shop + Werkstatt + Operations):</p>
                 <div className="flex justify-between">
-                  <span className="text-text-light">Shop & Kundenbereich (80m²)</span>
-                  <span className="font-semibold">CHF 35'000</span>
+                  <span className="text-text-light">Shop & Kundenbereich (~50m²)</span>
+                  <span className="font-semibold">CHF 25'000</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-text-light">Refurbishment-Werkstatt (600m²)</span>
-                  <span className="font-semibold">CHF 220'000</span>
+                  <span className="text-text-light">Refurbishment-Werkstatt (~150m²)</span>
+                  <span className="font-semibold">CHF 80'000</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-text-light">Offices, Lager, Logistik (300m²)</span>
-                  <span className="font-semibold">CHF 95'000</span>
+                  <span className="text-text-light">Offices, Lager, Logistik (~120m²)</span>
+                  <span className="font-semibold">CHF 50'000</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-gray-200">
                   <span className="font-semibold text-grey-dark">Subtotal Kerngeschäft</span>
-                  <span className="font-semibold text-blue-900">CHF 350'000</span>
+                  <span className="font-semibold text-blue-900">CHF 155'000</span>
                 </div>
               </div>
 
               <div className="space-y-2 text-sm mb-4">
                 <p className="text-xs text-text-light font-semibold mb-2">INNOVATION (Makerspace + AI + Bildung):</p>
                 <div className="flex justify-between">
-                  <span className="text-text-light">Makerspace & Hackerspace (80m²)</span>
-                  <span className="font-semibold">CHF 70'000</span>
+                  <span className="text-text-light">Makerspace & Hackerspace (~60m²)</span>
+                  <span className="font-semibold">CHF 40'000</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-text-light">Robotik-Labor (60m²)</span>
-                  <span className="font-semibold">CHF 50'000</span>
+                  <span className="text-text-light">AI Lab (Setup A-C, siehe oben)</span>
+                  <span className="font-semibold">CHF 15-150k</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-text-light">Schulungs- & Kursräume (70m²)</span>
-                  <span className="font-semibold">CHF 45'000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">AI Sovereignty Node (40m²)</span>
-                  <span className="font-semibold">CHF 80'000</span>
+                  <span className="text-text-light">Schulungs- & Kursräume (~50m²)</span>
+                  <span className="font-semibold">CHF 30'000</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-gray-200">
                   <span className="font-semibold text-grey-dark">Subtotal Innovation</span>
-                  <span className="font-semibold text-purple-900">CHF 245'000</span>
+                  <span className="font-semibold text-purple-900">CHF 85-220k</span>
                 </div>
               </div>
 
               <div className="space-y-2 text-sm mb-4">
-                <p className="text-xs text-text-light font-semibold mb-2">KULTUR (Museum + Musik + Kunst + Events):</p>
+                <p className="text-xs text-text-light font-semibold mb-2">KULTUR & COMMUNITY (optional/modular):</p>
                 <div className="flex justify-between">
-                  <span className="text-text-light">Computer History Museum (60m²)</span>
-                  <span className="font-semibold">CHF 50'000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Synth-Labor (50m²)</span>
+                  <span className="text-text-light">Event- & Multifunktionsraum (~80m²)</span>
                   <span className="font-semibold">CHF 40'000</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-text-light">E-Waste-Art Studio (40m²)</span>
-                  <span className="font-semibold">CHF 30'000</span>
+                  <span className="text-text-light">Community Kitchen (~30m²)</span>
+                  <span className="font-semibold">CHF 25'000</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-text-light">Event-Raum (100m²)</span>
-                  <span className="font-semibold">CHF 60'000</span>
+                  <span className="text-text-light">Repair Café (teilt Event-Raum)</span>
+                  <span className="font-semibold">CHF 10'000</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Community Kitchen (50m²)</span>
-                  <span className="font-semibold">CHF 40'000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Repair Café (30m²)</span>
-                  <span className="font-semibold">CHF 20'000</span>
+                <div className="flex justify-between text-xs text-text-muted italic">
+                  <span>Weitere Kultur-Module (Museum, Synth-Lab, E-Waste-Art)</span>
+                  <span>optional</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-gray-200">
-                  <span className="font-semibold text-grey-dark">Subtotal Kultur</span>
-                  <span className="font-semibold text-pink-900">CHF 240'000</span>
+                  <span className="font-semibold text-grey-dark">Subtotal Kultur (Basis)</span>
+                  <span className="font-semibold text-pink-900">CHF 75'000</span>
                 </div>
               </div>
 
               <div className="flex justify-between pt-3 border-t-2 border-gray-300 text-base">
-                <span className="font-bold">Total Einmalig (Setup)</span>
-                <span className="font-bold text-blue-900">CHF 835'000</span>
+                <span className="font-bold">Total Einmalig (Setup) — ENTWURF</span>
+                <span className="font-bold text-blue-900">CHF 315-450k</span>
               </div>
+              <p className="text-xs text-text-muted mt-2">
+                Je nach AI Lab Setup (A/B/C) und optionalen Kultur-Modulen
+              </p>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-grey-dark mb-3">Jährliche Kosten (Betrieb)</h3>
+              <h3 className="text-lg font-semibold text-grey-dark mb-3">Jährliche Kosten (Betrieb) — ENTWURF</h3>
               <div className="space-y-2 text-sm mb-4">
                 <p className="text-xs text-text-light font-semibold mb-2">MIETE & NEBENKOSTEN:</p>
                 <div className="flex justify-between">
-                  <span className="text-text-light">Miete (~1000 m² in ZH/Agglo)</span>
-                  <span className="font-semibold">CHF 200'000</span>
+                  <span className="text-text-light">Miete (~500-600 m² in ZH/Agglo)</span>
+                  <span className="font-semibold">CHF 120-150k</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-light">Nebenkosten (Strom, Heizung, Internet)</span>
-                  <span className="font-semibold">CHF 80'000</span>
+                  <span className="font-semibold">CHF 40-50k</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-light">Versicherung & Sicherheit</span>
-                  <span className="font-semibold">CHF 20'000</span>
+                  <span className="font-semibold">CHF 15k</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-gray-200">
                   <span className="font-semibold text-grey-dark">Subtotal Infrastruktur</span>
-                  <span className="font-semibold text-blue-900">CHF 300'000</span>
+                  <span className="font-semibold text-blue-900">CHF 175-215k</span>
                 </div>
               </div>
 
@@ -663,25 +678,25 @@ export default function HubPage() {
                 <p className="text-xs text-text-light font-semibold mb-2">MATERIAL & BETRIEB:</p>
                 <div className="flex justify-between">
                   <span className="text-text-light">Ersatzteile & Komponenten</span>
-                  <span className="font-semibold">CHF 50'000</span>
+                  <span className="font-semibold">CHF 30-40k</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-light">Werkzeuge & Verbrauchsmaterial</span>
-                  <span className="font-semibold">CHF 20'000</span>
+                  <span className="font-semibold">CHF 15k</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-light">Events & Programm (Kultur, Workshops)</span>
-                  <span className="font-semibold">CHF 30'000</span>
+                  <span className="font-semibold">CHF 20k</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-gray-200">
                   <span className="font-semibold text-grey-dark">Subtotal Material</span>
-                  <span className="font-semibold text-purple-900">CHF 100'000</span>
+                  <span className="font-semibold text-purple-900">CHF 65-75k</span>
                 </div>
               </div>
 
               <div className="flex justify-between pt-3 border-t-2 border-gray-300 text-base mb-4">
-                <span className="font-bold">Total Jährlich (ohne Personal)</span>
-                <span className="font-bold text-blue-900">CHF 400'000</span>
+                <span className="font-bold">Total Jährlich (ohne Personal) — ENTWURF</span>
+                <span className="font-bold text-blue-900">CHF 240-290k</span>
               </div>
 
               <div className="p-3 bg-blue-50 rounded-lg">
@@ -690,32 +705,39 @@ export default function HubPage() {
                   <Link href="/fundraising/bildung" className="underline">Bildungsprogramm</Link>
                 </p>
                 <p className="text-xs text-blue-800">
-                  CHF 175k/Jahr für 2× BPL (Kernteam CHF 220k bereits in Basisbetrieb)
+                  CHF 175k/Jahr für 2× BPL (Kernteam-Gehälter bereits im Basisbetrieb enthalten)
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-6 text-center">
-            <p className="text-sm text-emerald-900 mb-2">
-              <strong>Gesamtinvestition (Setup + 1. Jahr Betrieb):</strong>
+          <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-6 text-center">
+            <p className="text-sm text-amber-900 mb-2 font-semibold">
+              <strong>Gesamtinvestition (Setup + 1. Jahr Betrieb) — ENTWURF</strong>
             </p>
-            <p className="text-4xl font-bold text-emerald-900">CHF 1'235'000</p>
-            <p className="text-xs text-emerald-800 mt-2">
-              CHF 835k Setup + CHF 400k Betrieb Jahr 1 (ohne Personal)
-            </p>
-            <p className="text-xs text-emerald-800 mt-1">
-              Ab Jahr 2: CHF 400k/Jahr Betrieb (ohne Personal)
-            </p>
+            <p className="text-3xl font-bold text-amber-900 mb-3">CHF 555-740k</p>
+            <div className="text-xs text-amber-800 space-y-1">
+              <p>Setup: CHF 315-450k (je nach AI Lab Setup A/B/C)</p>
+              <p>Betrieb Jahr 1: CHF 240-290k (ohne Personal)</p>
+              <p className="mt-3 pt-3 border-t border-amber-300">
+                <strong>Ab Jahr 2:</strong> CHF 240-290k/Jahr Betrieb (ohne Personal)
+              </p>
+            </div>
+            <div className="mt-4 pt-4 border-t border-amber-300">
+              <p className="text-xs text-amber-900 font-semibold">
+                WICHTIG: Alle Zahlen sind Planungsentwürfe und müssen noch validiert werden.
+                Jede Zahl braucht Quellenangabe oder Begründung.
+              </p>
+            </div>
           </div>
         </Card>
       </section>
 
       {/* Call to Action */}
       <section className="mb-8">
-        <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 p-8 text-white text-center">
-          <h3 className="text-2xl font-bold mb-4">Hilf uns, diesen Ort zu schaffen</h3>
-          <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
+        <div className="rounded-lg border-2 border-emerald-200 bg-emerald-50 p-8 text-center">
+          <h3 className="text-2xl font-bold mb-4 text-grey-dark">Hilf uns, diesen Ort zu schaffen</h3>
+          <p className="text-base mb-6 leading-relaxed max-w-3xl mx-auto text-grey-dark">
             Der Revamp Hub ist mehr als ein Gebäude — es ist eine Plattform für <strong>digitale Teilhabe,
             kulturelle Transformation und nachhaltige Innovation</strong>. Mit deiner Unterstützung können wir zeigen:
             Elektroschrott ist nicht Müll — es ist Potenzial.
@@ -723,19 +745,19 @@ export default function HubPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/fundraising"
-              className="px-8 py-4 bg-white text-emerald-700 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg"
+              className="px-6 py-3 bg-white text-emerald-700 font-semibold rounded-lg border-2 border-emerald-700 hover:bg-emerald-700 hover:text-white transition-all duration-200 no-underline"
             >
               📊 Fundraising-Übersicht
             </Link>
             <Link
               href="/fundraising/stiftungen"
-              className="px-8 py-4 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors duration-200 border-2 border-white"
+              className="px-6 py-3 bg-emerald-700 text-white font-semibold rounded-lg border-2 border-emerald-700 hover:bg-emerald-800 hover:border-emerald-800 transition-all duration-200 no-underline"
             >
               🏛️ Passende Stiftungen finden
             </Link>
             <Link
               href="/revamp-2030"
-              className="px-8 py-4 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors duration-200 border-2 border-white"
+              className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-lg border-2 border-blue-700 hover:bg-blue-800 hover:border-blue-800 transition-all duration-200 no-underline"
             >
               🚀 Gesamtstrategie 2030
             </Link>
