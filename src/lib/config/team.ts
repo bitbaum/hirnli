@@ -91,6 +91,17 @@ export const TEAM_SUMMARY = {
  * Train-the-Trainer Multiplication Effect
  *
  * How 2× Bildungsprogrammleiter create 32× social impact
+ *
+ * WICHTIG: Diese Zahlen sind PROJEKTIONEN basierend auf:
+ * - Train-the-Trainer Konzept (etablierte Bildungsstrategie, siehe z.B. WHO, NGO-Praxis)
+ * - Unsere eigene Erfahrung (informell, nicht systematisch dokumentiert)
+ * - Schätzungen für realistische Kapazität bei strukturierter Organisation
+ *
+ * NICHT: Empirisch gemessen oder aus externer Quelle zitiert.
+ * Diese Zahlen müssen wir ab 2026 systematisch erfassen (Teil der Data-Strategie).
+ *
+ * Das Train-the-Trainer Konzept selbst ist real und etabliert, aber die spezifischen
+ * Zahlen für unseren Kontext sind Schätzungen/Planungen, keine verifizierten Daten.
  */
 export const MULTIPLICATION_EFFECT = {
   hardware_bpl: {
@@ -118,8 +129,8 @@ export const MULTIPLICATION_EFFECT = {
  */
 export const TEAM_SALARIES = {
   kernteam_total: 220_000, // CHF/Jahr (3 VZÄ)
-  hardware_bpl: 85_000, // CHF/Jahr
-  software_bpl: 90_000, // CHF/Jahr
+  hardware_bpl: 87_500, // CHF/Jahr (gleicher Lohn für beide BPL)
+  software_bpl: 87_500, // CHF/Jahr (gleicher Lohn für beide BPL)
   total_with_bpl: 395_000, // CHF/Jahr (5 VZÄ)
   social_charges_multiplier: 1.20, // 20% Arbeitgeberanteil
   total_personnel_cost: 475_000, // CHF/Jahr inkl. Sozialleistungen

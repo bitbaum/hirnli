@@ -179,6 +179,13 @@ export default function Revamp2030Page() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie wir von 5 auf 160+ Menschen/Jahr skalieren</h2>
         <Card>
+          <div className="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 mb-6">
+            <p className="text-sm text-blue-900">
+              <strong>Transparenz-Hinweis:</strong> Die Zahlen unten (10 Techniker/Jahr, 5 gleichzeitig aktiv, etc.) sind <strong>Projektionen</strong>,
+              basierend auf Train-the-Trainer Konzept (etablierte Bildungsstrategie) und unserer informellen Erfahrung.
+              <strong> Nicht empirisch gemessen.</strong> Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
+            </p>
+          </div>
           <p className="text-sm text-text-light mb-6">
             Der Schlüssel: <strong>Organisation + Train-the-Trainer + Online-Content</strong>. Nicht einfach mehr Mitarbeitende einstellen.
           </p>

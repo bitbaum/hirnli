@@ -167,6 +167,17 @@ export default function BildungPage() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie funktioniert Train-the-Trainer?</h2>
         <Card>
+          <div className="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 mb-6">
+            <p className="text-sm text-blue-900 mb-2">
+              <strong>Transparenz-Hinweis:</strong> Train-the-Trainer ist ein etabliertes Konzept in Bildung und Capacity Building
+              (z.B. WHO, viele NGOs nutzen diesen Ansatz).
+            </p>
+            <p className="text-sm text-blue-900">
+              Die spezifischen Zahlen unten (10 Techniker/Jahr, 5 gleichzeitig aktiv, je 10 erreicht = 50 indirekt) sind <strong>Projektionen</strong>
+              basierend auf unserer informellen Erfahrung und Schätzungen. <strong>Nicht empirisch gemessen.</strong>
+              Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
+            </p>
+          </div>
           <div className="space-y-6">
             {/* Stufe 1 */}
             <div className="flex items-start gap-4">
