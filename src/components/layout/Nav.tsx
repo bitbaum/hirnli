@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { NAV_STRUCTURE } from '@/lib/config/nav';
+import { BRANDING } from '@/lib/config/branding';
 import type { NavItem, NavSection } from '@/lib/config/nav';
 
 function isActive(href: string | undefined, pathname: string): boolean {
@@ -145,12 +147,22 @@ export default function Nav() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
         <Link
           href="/"
-          className="group flex items-center gap-2 text-xl font-bold text-grey-dark transition-all hover:text-revamp-green hover:no-underline"
+          className="group flex items-center gap-3 transition-all hover:opacity-80 hover:no-underline"
         >
-          <span className="text-2xl">♻️</span>
-          <span className="bg-gradient-to-r from-revamp-blue to-revamp-green bg-clip-text text-transparent">
-            {NAV_STRUCTURE.logo.text}
-          </span>
+          <Image
+            src={BRANDING.logo.main}
+            alt={BRANDING.logo.alt}
+            width={BRANDING.logo.width}
+            height={BRANDING.logo.height}
+            priority
+            className="h-auto w-auto"
+          />
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-revamp-green">
+              {BRANDING.siteName}
+            </span>
+            <span className="text-xs text-text-muted">{BRANDING.siteTagline}</span>
+          </div>
         </Link>
 
         {/* Mobile toggle */}

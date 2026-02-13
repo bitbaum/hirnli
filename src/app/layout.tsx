@@ -2,17 +2,20 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
-import { BRAND_NAME } from '@/lib/config/nav';
+import { BRANDING } from '@/lib/config/branding';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: {
-    default: `${BRAND_NAME} – Fundraising Intelligence`,
-    template: `%s – ${BRAND_NAME}`,
+    default: `${BRANDING.siteName} — Transparenz-Hub für Revamp-IT Fundraising`,
+    template: `%s — ${BRANDING.siteName}`,
   },
-  description: 'Interne Wissensbasis von Revamp-IT',
+  description: 'Fundraising Intelligence Platform: Alle Daten, alle Quellen, komplett transparent. Finanzen, Wirkung, Strategie, Stiftungen.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({

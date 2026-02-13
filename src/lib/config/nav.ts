@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { BRANDING } from './branding';
 
 // ---------------------------------------------------------------------------
 // Nav schemas (SSOT for navigation types)
@@ -37,10 +38,10 @@ const navItemSchema = z.object({
 export type NavItem = z.infer<typeof navItemSchema>;
 
 // ---------------------------------------------------------------------------
-// Brand name (SSOT)
+// Brand name (re-export from branding config for backward compatibility)
 // ---------------------------------------------------------------------------
 
-export const BRAND_NAME = 'Revamp-Info';
+export const BRAND_NAME = BRANDING.siteName;
 
 // ---------------------------------------------------------------------------
 // Navigation structure (SSOT)
