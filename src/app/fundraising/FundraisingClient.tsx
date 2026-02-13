@@ -172,50 +172,54 @@ export default function FundraisingClient() {
             <h2 className="text-xl font-bold text-blue-900 mt-0">Die Situation: Warum wir Stiftungen brauchen</h2>
 
             <p className="text-gray-700 leading-relaxed">
-              Seit 2003 reparieren und verkaufen wir refurbished Computer. <strong>Aber unser Geschäftsmodell funktioniert nicht mehr.</strong>
+              Seit 2003 reparieren und verkaufen wir refurbished Computer. <strong>Aber unser aktuelles Geschäftsmodell ist nicht nachhaltig.</strong>
             </p>
 
             <p className="text-gray-700 leading-relaxed">
-              Unsere B2B-Einnahmen sind von <strong>CHF 140'000 (2021)</strong> auf <strong>CHF 60'000 (2025)</strong> gefallen —
-              ein Rückgang von <strong>57%</strong>. Unternehmen spenden weniger gebrauchte Geräte, und der Markt für refurbished
-              IT wird härter.
+              <strong>Die Herausforderung:</strong> Wir haben 2 grosse Kivitendo-Kunden verloren. Unser Kivitendo-System braucht dringend
+              eine Überarbeitung, aber uns fehlen die Ressourcen dafür. Die Web-Design-Praxis funktioniert aus demselben Grund nicht mehr.
             </p>
 
             <p className="text-gray-700 leading-relaxed">
-              <strong>Gleichzeitig:</strong> Die Nachfrage nach günstigen, funktionierenden Computern steigt. Organisationen
-              wie AOZ und Caritas fragen uns regelmässig: "Können wir 20 Laptops für unsere Klienten bekommen?"
-              Und wir müssen zu oft Nein sagen, weil uns die Kapazität fehlt.
+              <strong>Das eigentliche Problem:</strong> Nicht fehlende Refurbishment-Kapazität, sondern <strong>fehlende Organisation
+              für Verkauf und Ausführung</strong>. Wir haben bereits zu viel Inventar in 2 Lagern. Viele Organisationen in Zürich
+              entsorgen alte Technologie — aber wir brauchen keine zusätzlichen Geräte, sondern bessere Prozesse.
             </p>
 
             <div className="bg-amber-100 border-l-4 border-amber-500 p-4 my-4">
               <p className="text-amber-900 font-semibold mb-2">Das Problem in einem Satz:</p>
               <p className="text-amber-800 mb-0">
-                Wir haben zu wenig Raum (250m²), zu wenig Team (3 Personen), und zu wenig Einnahmen (CHF 60k/Jahr),
-                um den Impact zu schaffen, den die Gesellschaft braucht.
+                Wir haben Know-how und Material — aber zu wenig bezahlte Kapazität (3 bezahlte Personen*), um Prozesse zu
+                professionalisieren und das volle Potenzial auszuschöpfen.
+                <br /><span className="text-xs mt-1 block">* Kernteam: Andreas, Veronica (Sozialpädagogin), Dani. Rest: Freiwillige, 1 Praktikant (Reza), Reintegrations-Mitarbeiter</span>
               </p>
             </div>
 
-            <h3 className="text-lg font-bold text-blue-900 mt-6">Die Lösung: Hub + Menschen</h3>
+            <h3 className="text-lg font-bold text-blue-900 mt-6">Die Lösung: Professionalisierung + Bildung + Community</h3>
 
             <p className="text-gray-700 leading-relaxed">
-              Statt zu schrumpfen, wollen wir <strong>wachsen</strong> — aber anders. Nicht durch mehr Verkauf,
-              sondern durch <strong>mehr Impact</strong>:
+              Statt nur Refurbishment zu skalieren, wollen wir unser Modell <strong>transformieren</strong>:
             </p>
 
             <ul className="text-gray-700 space-y-2">
               <li>
-                <strong>Ein 1000m² Community Tech Hub</strong> (statt 250m²) mit Werkstatt, AI Lab, Event Space —
-                ein Ort für Kreislaufwirtschaft, Tech-Bildung und digitale Souveränität
+                <strong>Professionelle Prozesse:</strong> 2 Bildungsprogrammleiter organisieren Refurbishment-Workflows,
+                bilden Techniker aus (mit sozialpädagogischer Begleitung durch Veronica)
               </li>
               <li>
-                <strong>2 Bildungsprogrammleiter</strong> die nicht nur Geräte reparieren, sondern Menschen ausbilden:
-                Techniker, Entwickler, AI-Literacy für alle
+                <strong>Tech-Bildung & AI Lab:</strong> Nicht nur Geräte reparieren, sondern Menschen befähigen.
+                AI-Souveränität durch eigene GPUs (gespendet oder gekauft — verschiedene Setups möglich, siehe Hub-Details)
+              </li>
+              <li>
+                <strong>Community Hub:</strong> Ein Ort für Kreislaufwirtschaft, Makerspace, Tech-Kultur — wo Menschen
+                nicht nur konsumieren, sondern lernen und gestalten
               </li>
             </ul>
 
             <p className="text-gray-700 leading-relaxed">
-              Das Ergebnis? Von <strong>30 Geräten/Monat</strong> (heute) auf <strong>180 Geräte/Monat</strong> (Jahr 3).
-              Von <strong>5 Menschen/Jahr</strong> begleitet auf <strong>150-200 Menschen/Jahr</strong> in Tech-Bildung.
+              <strong>Warum Stiftungen?</strong> Weil wir eine soziale Mission haben, keine Silicon-Valley-Startup-Mentalität.
+              Wir arbeiten mit Reintegrations-Programmen (z.B. GEP), Freiwilligen, Praktikanten. Professionalisierung braucht
+              Ressourcen — und die kommen nicht aus Verkaufserlösen allein.
             </p>
 
             <h3 className="text-lg font-bold text-blue-900 mt-6">Was wir von Stiftungen brauchen</h3>
@@ -507,46 +511,37 @@ export default function FundraisingClient() {
         </div>
       </Card>
 
-      {/* Revenue Trend — Story Format */}
+      {/* Revenue & Business Model Challenge */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Was ist mit unseren Einnahmen passiert?</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Geschäftsmodell-Herausforderung</h2>
         <Card>
           <div className="prose prose-sm max-w-none">
             <p className="text-gray-700 leading-relaxed">
-              Unsere Einnahmen sind in den letzten Jahren stark gesunken. <strong>Der Peak war 2021</strong> mit
-              CHF 140'000, hauptsächlich durch B2B-Hosting und IT-Dienstleistungen für Unternehmen.
+              <strong>Unsere aktuelle Situation:</strong> Wir haben 2 grosse Kivitendo-Kunden verloren. Das hat
+              unsere B2B-Einnahmen stark reduziert.
             </p>
+
+            <div className="bg-amber-100 border-l-4 border-amber-500 p-4 my-4">
+              <p className="text-amber-900 font-semibold mb-2">Warum wir nicht einfach "mehr verkaufen" können:</p>
+              <ul className="text-amber-800 space-y-2 mb-0">
+                <li>Unser Kivitendo-System braucht dringend eine Überarbeitung — aber uns fehlen die Ressourcen</li>
+                <li>Web-Design-Praxis ist aus demselben Grund nicht funktionsfähig</li>
+                <li>Problem ist nicht fehlende Geräte, sondern fehlende Organisation für Verkauf & Ausführung</li>
+                <li>Wir haben bereits zu viel Inventar in 2 Lagern — mehr Geräte helfen nicht</li>
+              </ul>
+            </div>
 
             <p className="text-gray-700 leading-relaxed">
-              <strong>Dann kam der Absturz:</strong>
+              <strong>Was wir brauchen:</strong> Nicht mehr Verkauf, sondern <strong>bessere Prozesse</strong> und
+              <strong> diversifizierte Einnahmen</strong> (Tech-Bildung, Workshops, AI Lab Services, Corporate Training,
+              Community Events).
             </p>
-
-            <ul className="text-gray-700 space-y-1">
-              <li><strong>2021:</strong> CHF 140'000 (Höhepunkt)</li>
-              <li><strong>2022:</strong> CHF 130'000 (-7%)</li>
-              <li><strong>2023:</strong> CHF 134'000 (leichte Erholung)</li>
-              <li><strong>2024:</strong> CHF 119'000 (-11%)</li>
-              <li><strong>2025:</strong> CHF 60'000 (-50% gegenüber 2024!) ⚠️</li>
-            </ul>
-
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 my-4">
-              <p className="text-red-900 font-semibold mb-2">Warum dieser Einbruch?</p>
-              <p className="text-red-800 mb-0">
-                Zwei grosse B2B-Hosting-Kunden kündigten 2024/2025. Wir hatten uns zu sehr auf wenige
-                Kunden verlassen und keine diversifizierten Einnahmequellen aufgebaut.
-              </p>
-            </div>
 
             <p className="text-gray-700 leading-relaxed mb-0">
-              <strong>Die gute Nachricht:</strong> Geräteverkauf (refurbished Laptops) bleibt stabil bei
-              CHF 60-70k/Jahr. Das Kerngeschäft funktioniert — wir brauchen nur mehr Kapazität und
-              neue Einnahmeströme (Workshops, Corporate Training, Events).
+              Detaillierte Finanzdaten (2018-2025) sind verfügbar im{' '}
+              <Link href="/finanzen" className="underline">Finanzen-Bereich</Link> — alle Zahlen aus Kivitendo,
+              klickbar mit Quellenangabe.
             </p>
-
-            <div className="mt-4 pt-4 border-t border-gray-200 text-xs text-gray-500 not-prose">
-              <strong>Datenquelle:</strong> Kivitendo Erfolgsrechnung 2018-2025, verifiziert 11.02.2026.
-              Alle Zahlen sind klickbar für Details.
-            </div>
           </div>
         </Card>
       </section>
