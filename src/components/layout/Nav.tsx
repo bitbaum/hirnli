@@ -17,22 +17,29 @@ function MegaMenu({ item, pathname }: { item: NavItem; pathname: string }) {
     <li className="group relative">
       <Link
         href={item.href || '#'}
-        className={`rounded px-3 py-2 text-sm font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-          isActive(item.href, pathname) ? 'text-primary' : 'text-grey-dark'
+        className={`flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all hover:bg-gradient-to-r hover:from-blue-50 hover:to-emerald-50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+          isActive(item.href, pathname)
+            ? 'bg-gradient-to-r from-blue-50 to-emerald-50 text-primary'
+            : 'text-grey-dark'
         }`}
       >
-        {item.icon && <span className="mr-1">{item.icon}</span>}
+        {item.icon && <span className="text-lg">{item.icon}</span>}
         {item.text}
       </Link>
-      <div className="invisible absolute left-1/2 top-full z-50 w-[600px] -translate-x-1/2 pt-2 opacity-0 transition-all group-hover:visible group-hover:opacity-100">
-        <div className="rounded-lg border border-border bg-white p-6 shadow-md">
-          <div className="grid grid-cols-3 gap-6">
-            {item.sections?.map((section: NavSection) => (
+      <div className="invisible absolute left-1/2 top-full z-50 w-[640px] -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+        <div className="overflow-hidden rounded-xl border-2 border-emerald-200 bg-white shadow-2xl">
+          {/* Gradient header bar */}
+          <div className="h-2 bg-gradient-to-r from-revamp-blue via-revamp-green to-revamp-orange"></div>
+          <div className="grid grid-cols-2 gap-8 p-8">
+            {item.sections?.map((section: NavSection, idx: number) => (
               <div key={section.title}>
-                <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-text-muted">
-                  {section.title}
-                </h4>
-                <ul className="space-y-1">
+                <div className="mb-4 flex items-center gap-2">
+                  <div className="h-1 w-8 rounded-full bg-gradient-to-r from-revamp-blue to-revamp-green"></div>
+                  <h4 className="text-sm font-bold uppercase tracking-wider text-revamp-blue">
+                    {section.title}
+                  </h4>
+                </div>
+                <ul className="space-y-2">
                   {section.items.map((link) => (
                     <li key={link.href}>
                       {link.external ? (
@@ -40,9 +47,11 @@ function MegaMenu({ item, pathname }: { item: NavItem; pathname: string }) {
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block rounded px-2 py-1.5 text-sm text-text-light transition-colors hover:bg-bg-light hover:text-primary"
+                          className="group/link block rounded-lg border-l-3 border-transparent px-3 py-2.5 text-sm transition-all hover:border-l-revamp-green hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50 hover:pl-4"
                         >
-                          <span className="font-medium">{link.text}</span>
+                          <span className="font-semibold text-grey-dark group-hover/link:text-revamp-green">
+                            {link.text}
+                          </span>
                           {link.desc && (
                             <span className="block text-xs text-text-muted">{link.desc}</span>
                           )}
@@ -50,11 +59,23 @@ function MegaMenu({ item, pathname }: { item: NavItem; pathname: string }) {
                       ) : (
                         <Link
                           href={link.href}
-                          className={`block rounded px-2 py-1.5 text-sm transition-colors hover:bg-bg-light hover:text-primary ${
-                            link.highlight ? 'font-semibold text-primary' : 'text-text-light'
-                          } ${isActive(link.href, pathname) ? 'bg-bg-light text-primary' : ''}`}
+                          className={`group/link block rounded-lg border-l-3 px-3 py-2.5 text-sm transition-all hover:border-l-revamp-green hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50 hover:pl-4 ${
+                            link.highlight
+                              ? 'border-l-revamp-orange bg-gradient-to-r from-orange-50 to-yellow-50'
+                              : 'border-transparent'
+                          } ${
+                            isActive(link.href, pathname)
+                              ? 'border-l-revamp-blue bg-gradient-to-r from-blue-50 to-emerald-50'
+                              : ''
+                          }`}
                         >
-                          <span className="font-medium">{link.text}</span>
+                          <span
+                            className={`font-semibold group-hover/link:text-revamp-green ${
+                              link.highlight ? 'text-revamp-orange' : 'text-grey-dark'
+                            } ${isActive(link.href, pathname) ? 'text-revamp-blue' : ''}`}
+                          >
+                            {link.text}
+                          </span>
                           {link.desc && (
                             <span className="block text-xs text-text-muted">{link.desc}</span>
                           )}
@@ -75,26 +96,38 @@ function MegaMenu({ item, pathname }: { item: NavItem; pathname: string }) {
 function Dropdown({ item, pathname }: { item: NavItem; pathname: string }) {
   return (
     <li className="group relative">
-      <button className="flex items-center rounded px-3 py-2 text-sm font-medium text-grey-dark transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-        {item.icon && <span className="mr-1">{item.icon}</span>}
+      <button className="flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold text-grey-dark transition-all hover:bg-gradient-to-r hover:from-blue-50 hover:to-emerald-50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+        {item.icon && <span className="text-lg">{item.icon}</span>}
         {item.text}
       </button>
-      <div className="invisible absolute left-0 top-full z-50 w-56 pt-2 opacity-0 transition-all group-hover:visible group-hover:opacity-100">
-        <div className="rounded-lg border border-border bg-white py-2 shadow-md">
-          {item.children?.map((child) => (
-            <Link
-              key={child.href}
-              href={child.href}
-              className={`block px-4 py-2 text-sm transition-colors hover:bg-bg-light hover:text-primary ${
-                isActive(child.href, pathname) ? 'bg-bg-light text-primary' : 'text-grey-dark'
-              }`}
-            >
-              <span className="font-medium">{child.text}</span>
-              {child.desc && (
-                <span className="block text-xs text-text-muted">{child.desc}</span>
-              )}
-            </Link>
-          ))}
+      <div className="invisible absolute left-0 top-full z-50 w-72 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+        <div className="overflow-hidden rounded-xl border-2 border-blue-200 bg-white shadow-2xl">
+          {/* Gradient header bar */}
+          <div className="h-2 bg-gradient-to-r from-revamp-blue to-revamp-green"></div>
+          <div className="py-3">
+            {item.children?.map((child) => (
+              <Link
+                key={child.href}
+                href={child.href}
+                className={`group/link mx-2 my-1 block rounded-lg border-l-3 px-4 py-3 text-sm transition-all hover:border-l-revamp-green hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50 hover:pl-5 ${
+                  isActive(child.href, pathname)
+                    ? 'border-l-revamp-blue bg-gradient-to-r from-blue-50 to-emerald-50'
+                    : 'border-transparent'
+                }`}
+              >
+                <span
+                  className={`font-semibold group-hover/link:text-revamp-green ${
+                    isActive(child.href, pathname) ? 'text-revamp-blue' : 'text-grey-dark'
+                  }`}
+                >
+                  {child.text}
+                </span>
+                {child.desc && (
+                  <span className="block text-xs text-text-muted mt-0.5">{child.desc}</span>
+                )}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </li>
@@ -106,10 +139,18 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-border bg-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-lg font-bold text-grey-dark hover:text-primary hover:no-underline">
-          {NAV_STRUCTURE.logo.text}
+    <nav className="sticky top-0 z-40 border-b-2 border-emerald-100 bg-white shadow-sm">
+      {/* Brand color accent bar */}
+      <div className="h-1 bg-gradient-to-r from-revamp-blue via-revamp-green to-revamp-orange"></div>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+        <Link
+          href="/"
+          className="group flex items-center gap-2 text-xl font-bold text-grey-dark transition-all hover:text-revamp-green hover:no-underline"
+        >
+          <span className="text-2xl">♻️</span>
+          <span className="bg-gradient-to-r from-revamp-blue to-revamp-green bg-clip-text text-transparent">
+            {NAV_STRUCTURE.logo.text}
+          </span>
         </Link>
 
         {/* Mobile toggle */}
@@ -134,11 +175,13 @@ export default function Nav() {
               <li key={item.text}>
                 <Link
                   href={item.href || '#'}
-                  className={`rounded px-3 py-2 text-sm font-medium transition-colors hover:text-primary hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-                    isActive(item.href, pathname) ? 'text-primary' : 'text-grey-dark'
+                  className={`flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all hover:bg-gradient-to-r hover:from-blue-50 hover:to-emerald-50 hover:text-primary hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+                    isActive(item.href, pathname)
+                      ? 'bg-gradient-to-r from-blue-50 to-emerald-50 text-primary'
+                      : 'text-grey-dark'
                   }`}
                 >
-                  {item.icon && <span className="mr-1">{item.icon}</span>}
+                  {item.icon && <span className="text-lg">{item.icon}</span>}
                   {item.text}
                 </Link>
               </li>
