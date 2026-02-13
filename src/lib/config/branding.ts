@@ -10,10 +10,10 @@
 export const BRANDING = {
   // Logo assets (from main Revamp-IT site)
   logo: {
-    main: '/revampit-logo.png', // Orange smiling chip + green "revamp-it" text
-    alt: 'Revamp-IT Logo',
-    width: 180,
-    height: 45,
+    main: '/revampit-icon.png', // Orange smiling chip icon (text shown separately)
+    alt: 'Revamp-IT Icon',
+    width: 40,
+    height: 40,
   },
 
   // Site identity

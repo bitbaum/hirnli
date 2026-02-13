@@ -56,10 +56,9 @@ export const NAV_STRUCTURE: {
     {
       text: 'Revamp 2030',
       icon: '🚀',
+      href: '/revamp-2030',
       children: [
         { text: 'Vision & Strategie', href: '/revamp-2030', desc: 'Wohin wir gehen: Organisation + Hub + Bildung' },
-        { text: 'Hub (Infrastruktur)', href: '/fundraising/hub', desc: '~1000m² Werkstatt, AI Lab, Kultur' },
-        { text: 'Bildung (Team)', href: '/fundraising/bildung', desc: '2× Bildungsprogrammleiter, Train-the-Trainer' },
       ],
     },
     {
@@ -81,17 +80,19 @@ export const NAV_STRUCTURE: {
       mega: true,
       sections: [
         {
-          title: 'Übersicht',
+          title: 'Projekte 2025-2027',
           items: [
-            { text: 'Fundraising-Übersicht', href: '/fundraising', desc: '3-Jahres-Plan, Budget, Pipeline' },
-            { text: 'Stiftungen', href: '/fundraising/stiftungen', desc: 'Alle Förderstiftungen mit Deadlines', highlight: true },
+            { text: 'Übersicht & Budget', href: '/fundraising', desc: '3-Jahres-Plan, CHF 2.1M Finanzierungsbedarf' },
+            { text: 'Hub (1000m²)', href: '/fundraising/hub', desc: 'Werkstatt, AI Lab, Hackerspace, Kulturraum', highlight: true },
+            { text: 'Bildung', href: '/fundraising/bildung', desc: '2× Programmleiter, Train-the-Trainer' },
           ],
         },
         {
-          title: 'Dokumente',
+          title: 'Stiftungen & Dokumente',
           items: [
-            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: 'Vorlagen nach Stiftungstyp (A/B/C/D)', highlight: true },
-            { text: 'Alle Dokumente', href: '/dokumente', desc: 'Berichte, Vorlagen, Downloads' },
+            { text: 'Stiftungsliste', href: '/fundraising/stiftungen', desc: '37 Förderstiftungen mit Fit-Score & Deadlines' },
+            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: '11 Vorlagen nach Stiftungstyp (A/B/C/D/Netzwerk)' },
+            { text: 'Alle Dokumente', href: '/dokumente', desc: '51 Gesuche, Vorlagen & Datenexporte' },
           ],
         },
       ],
