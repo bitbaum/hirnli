@@ -240,7 +240,7 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
     },
   ],
 
-  'strategie-2030': [
+  'revamp-2030': [
     {
       title: 'Hub Fundraising',
       href: '/fundraising/hub',

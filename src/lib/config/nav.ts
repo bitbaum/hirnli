@@ -62,7 +62,7 @@ export const NAV_STRUCTURE: {
         { text: 'Operations', href: '/operations', desc: 'Prozesse, SOPs, Qualität' },
       ],
     },
-    { text: 'Strategie 2030', href: '/strategie-2030', icon: '🚀' },
+    { text: 'Revamp 2030', href: '/revamp-2030', icon: '🚀' },
     {
       text: 'Finanzen & Wirkung',
       icon: '💰',
