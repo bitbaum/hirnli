@@ -150,7 +150,7 @@ export default function Revamp2030Page() {
                       <li>Organisiert Reparatur-Tische: Zeitpläne, Qualitätssicherung, Prozesse</li>
                       <li>Bildet Techniker aus (nicht nur reparieren, sondern auch trainieren lernen)</li>
                       <li>Strukturierte Programme statt "komm, wenn du willst"</li>
-                      <li>Train-the-Trainer: Trainierte werden selbst zu Multiplikatoren</li>
+                      <li>Train-the-Trainer: Trainierte geben ihr Wissen an andere weiter</li>
                     </ul>
                   </div>
                   <div className="bg-violet-50 rounded-lg p-3">
@@ -167,7 +167,7 @@ export default function Revamp2030Page() {
                   href="/fundraising/bildung"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-900 transition-colors"
                 >
-                  📊 Bildung-Details & Multiplikationseffekt →
+                  📊 Bildung-Details & Reach-Strategie →
                 </Link>
               </div>
             </div>
@@ -175,12 +175,12 @@ export default function Revamp2030Page() {
         </div>
       </section>
 
-      {/* Multiplikationseffekt erklärt */}
+      {/* Wie wir mehr Menschen erreichen */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie funktioniert der Multiplikationseffekt?</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie wir von 5 auf 160+ Menschen/Jahr skalieren</h2>
         <Card>
           <p className="text-sm text-text-light mb-6">
-            Der Schlüssel ist <strong>Organisation + Train-the-Trainer</strong>, nicht nur mehr Raum oder mehr Mitarbeitende.
+            Der Schlüssel: <strong>Organisation + Train-the-Trainer + Online-Content</strong>. Nicht einfach mehr Mitarbeitende einstellen.
           </p>
           <div className="space-y-6">
             {/* Heute */}
@@ -227,7 +227,7 @@ export default function Revamp2030Page() {
                       <li>• <strong>Hardware-BPL organisiert:</strong> Zeitpläne, Qualität, Prozesse</li>
                       <li>• Alle Tische genutzt (strukturierte Schichten, klare Verantwortlichkeiten)</li>
                       <li>• <strong>10 Techniker/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
-                      <li>• <strong>5 gleichzeitig aktiv</strong> als Multiplikatoren → je 10 Menschen = 50 indirekt</li>
+                      <li>• <strong>5 ausgebildete Techniker</strong> trainieren parallel → je 10 Menschen = 50 indirekt</li>
                       <li>• <strong>6× Geräte-Kapazität: ~180 Geräte/Monat</strong> (effizientere Nutzung + mehr Raum)</li>
                     </ul>
                   </div>
@@ -247,8 +247,52 @@ export default function Revamp2030Page() {
                   <p className="text-xs text-emerald-800">
                     <strong>Organisation + bezahlte Fachleute</strong> bedeuten: verlässliche Zeitpläne, strukturierte Programme,
                     systematisches Training. Freiwillige können kommen und gehen — aber die Struktur bleibt stabil.
-                    Trainierte werden selbst zu Trainern (Multiplikation). <strong>Das ist der eigentliche Game-Changer</strong>,
+                    Trainierte geben ihr Wissen weiter — jede:r kann 10+ Menschen/Jahr erreichen. <strong>Das ist der eigentliche Game-Changer</strong>,
                     nicht nur mehr m².
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Online Content & Skalierung */}
+            <div>
+              <h3 className="text-md font-semibold text-grey-dark mb-3 flex items-center gap-2">
+                <Badge variant="info">Bonus: Online Content</Badge>
+                Noch mehr Reichweite ohne zusätzliche Personalkosten
+              </h3>
+              <div className="bg-blue-50 rounded-lg p-4">
+                <p className="text-sm text-blue-900 mb-3">
+                  <strong>Hub + Bildungsprogrammleiter:innen ermöglichen auch Online-Content-Produktion:</strong>
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                  <div>
+                    <p className="text-sm font-semibold text-blue-900 mb-2">Hub bietet Infrastruktur:</p>
+                    <ul className="text-xs text-blue-800 space-y-1">
+                      <li>• Professioneller Schulungsraum = Video-Studio</li>
+                      <li>• Werkstatt = Praxis-Aufnahmen für Tutorials</li>
+                      <li>• Event-Raum = Live-Streaming von Workshops</li>
+                      <li>• AI Lab = Content-Entwicklung & -Bearbeitung</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-blue-900 mb-2">BPL produzieren Content:</p>
+                    <ul className="text-xs text-blue-800 space-y-1">
+                      <li>• Video-Tutorials (Laptop-Reparatur Schritt-für-Schritt)</li>
+                      <li>• Online-Kurse (AI Literacy, Linux-Grundlagen)</li>
+                      <li>• Dokumentation & Guides (Open-Source-Wissen)</li>
+                      <li>• Webinare & Live-Sessions (Fragen & Antworten)</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="bg-white rounded-lg p-3">
+                  <p className="text-sm font-bold text-blue-900 mb-2">Zusätzliche Reichweite:</p>
+                  <p className="text-xs text-blue-800 mb-2">
+                    Ein gut produziertes Tutorial-Video kann <strong>100-1000+ Menschen erreichen</strong> — ohne zusätzlichen Zeitaufwand.
+                    Online-Kurse skalieren unbegrenzt: 1× produzieren, 100× nutzen.
+                  </p>
+                  <p className="text-xs text-blue-800">
+                    <strong>Beispiel:</strong> "Wie repariere ich meinen Laptop?" Video → 500 Views/Jahr = 500 Menschen erreicht,
+                    für 0 zusätzliche Kosten nach Produktion.
                   </p>
                 </div>
               </div>

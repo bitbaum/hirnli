@@ -50,7 +50,7 @@ export default function BildungPage() {
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>Dedizierte Bildungsprogrammleiter:innen für systematisches Training</li>
-                  <li>Train-the-Trainer Ansatz: Multiplikatoren ausbilden statt nur direkt trainieren</li>
+                  <li>Train-the-Trainer Ansatz: Traineren ausbilden statt nur direkt trainieren</li>
                   <li>Strukturierte Curricula für Hardware- und Software-/AI-Bildung</li>
                   <li>Skalierbare Kapazität: Aus 5 Menschen/Jahr werden 160+ Menschen/Jahr</li>
                 </ul>
@@ -71,7 +71,7 @@ export default function BildungPage() {
             </div>
           </div>
           <p className="text-lg mb-4 leading-relaxed text-center max-w-3xl mx-auto">
-            Statt selbst zu trainieren, bilden unsere <strong>2× Bildungsprogrammleiter:innen</strong> Multiplikatoren aus,
+            Statt selbst zu trainieren, bilden unsere <strong>2× Bildungsprogrammleiter:innen</strong> Traineren aus,
             die wiederum andere trainieren. Exponentielles Wachstum durch systematisches Train-the-Trainer.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -132,7 +132,7 @@ export default function BildungPage() {
                       <strong>{MULTIPLICATION_EFFECT.hardware_bpl.direct_training} Techniker/Jahr</strong> direkt trainiert
                     </p>
                     <p>
-                      <strong>{MULTIPLICATION_EFFECT.hardware_bpl.trained_technicians_active} gleichzeitig aktiv</strong> als Multiplikatoren
+                      <strong>{MULTIPLICATION_EFFECT.hardware_bpl.trained_technicians_active} gleichzeitig aktiv</strong> als Traineren
                     </p>
                     <p>
                       <strong>{MULTIPLICATION_EFFECT.hardware_bpl.indirect_reach} Menschen/Jahr</strong> indirekt erreicht
@@ -175,7 +175,7 @@ export default function BildungPage() {
               </div>
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">
-                  Bildungsprogrammleiter:innen trainieren Multiplikatoren
+                  Bildungsprogrammleiter:innen trainieren Traineren
                 </h3>
                 <p className="text-sm text-text-light mb-3">
                   Hardware-BPL bildet <strong>10 Techniker/Jahr</strong> aus. Software/AI-BPL trainiert <strong>8 Entwickler/Jahr</strong>.
@@ -195,7 +195,7 @@ export default function BildungPage() {
               </div>
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">
-                  Multiplikatoren trainieren andere
+                  Traineren trainieren andere
                 </h3>
                 <p className="text-sm text-text-light mb-3">
                   Hardware: <strong>5 gleichzeitig aktive Techniker</strong> → je 10 Menschen/Jahr = <strong>50 indirekt</strong>.
@@ -305,7 +305,7 @@ export default function BildungPage() {
                 <h3 className="text-md font-semibold text-grey-dark mb-2">Aufbau & Pilotphase</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                   <li>Hardware-BPL eingestellt, Curricula entwickelt, erste Trainings</li>
-                  <li>Erste trainierte Techniker werden aktiv (2-3 Multiplikatoren)</li>
+                  <li>Erste trainierte Techniker werden aktiv (2-3 Traineren)</li>
                   <li>Finanzierung: 100% Stiftungsgelder (CHF 85k + Sozialabgaben)</li>
                   <li>Einnahmen: Workshop-Fees beginnen (CHF 5-10k, nicht ausreichend für Selbsttragung)</li>
                 </ul>
@@ -331,7 +331,7 @@ export default function BildungPage() {
                 <h3 className="text-md font-semibold text-grey-dark mb-2">Selbsttragung erreicht</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                   <li>Train-the-Trainer voll etabliert, 160+ Menschen/Jahr erreicht</li>
-                  <li>Multiplikatoren trainieren ohne unsere direkte Beteiligung</li>
+                  <li>Traineren trainieren ohne unsere direkte Beteiligung</li>
                   <li>Finanzierung: 50% Stiftungsgelder (CHF 87.5k), 50% Eigenmittel (CHF 87.5k)</li>
                   <li>Einnahmen: Corporate Trainings, Workshops, Zuschüsse (CHF 80-100k/Jahr)</li>
                 </ul>

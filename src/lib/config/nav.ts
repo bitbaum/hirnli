@@ -54,22 +54,24 @@ export const NAV_STRUCTURE: {
   items: [
     { text: 'Dashboard', href: '/', icon: '📊' },
     {
-      text: 'Organisation',
+      text: 'Revamp 2030',
+      icon: '🚀',
+      children: [
+        { text: 'Vision & Strategie', href: '/revamp-2030', desc: 'Wohin wir gehen: Organisation + Hub + Bildung' },
+        { text: 'Hub (Infrastruktur)', href: '/fundraising/hub', desc: '~1000m² Werkstatt, AI Lab, Kultur' },
+        { text: 'Bildung (Team)', href: '/fundraising/bildung', desc: '2× Bildungsprogrammleiter, Train-the-Trainer' },
+      ],
+    },
+    {
+      text: 'Revamp Heute',
       icon: '🏢',
       children: [
         { text: 'Mission & Werte', href: '/strategie', desc: 'Vier Säulen, SDGs, Souveränität' },
-        { text: 'Team & HR', href: '/team', desc: 'Mitarbeitende, Rollen, Kapazitäten' },
-        { text: 'Operations', href: '/operations', desc: 'Prozesse, SOPs, Qualität' },
-      ],
-    },
-    { text: 'Revamp 2030', href: '/revamp-2030', icon: '🚀' },
-    {
-      text: 'Finanzen & Wirkung',
-      icon: '💰',
-      children: [
+        { text: 'Team & Operations', href: '/team', desc: 'Wer wir sind, was wir tun' },
         { text: 'Finanzen', href: '/finanzen', desc: 'Einnahmen, Ausgaben, 8-Jahres-Trend' },
         { text: 'Wirkung', href: '/wirkung', desc: 'CO₂, Geräte, Menschen' },
         { text: 'Preismodell', href: '/preismodell', desc: 'Solidarisches 4-Stufen-Modell' },
+        { text: 'Methodik', href: '/methodik', desc: 'Wie wir Daten erheben & berechnen' },
       ],
     },
     {
@@ -81,15 +83,8 @@ export const NAV_STRUCTURE: {
         {
           title: 'Übersicht',
           items: [
-            { text: 'Fundraising Hub', href: '/fundraising', desc: 'Vision, Budget & Pipeline' },
-            { text: 'Stiftungen-Übersicht', href: '/fundraising/stiftungen', desc: 'Alle Förderstiftungen mit Deadlines', highlight: true },
-          ],
-        },
-        {
-          title: 'Investitionen',
-          items: [
-            { text: 'Community Tech Hub', href: '/fundraising/hub', desc: '1000m² Infrastruktur (6× Geräte-Kapazität)' },
-            { text: 'Bildungsprogramm', href: '/fundraising/bildung', desc: '2× BPL, Train-the-Trainer (32× Social Impact)' },
+            { text: 'Fundraising-Übersicht', href: '/fundraising', desc: '3-Jahres-Plan, Budget, Pipeline' },
+            { text: 'Stiftungen', href: '/fundraising/stiftungen', desc: 'Alle Förderstiftungen mit Deadlines', highlight: true },
           ],
         },
         {
@@ -101,6 +96,5 @@ export const NAV_STRUCTURE: {
         },
       ],
     },
-    { text: 'Methodik', href: '/methodik', icon: '🔬' },
   ],
 };
