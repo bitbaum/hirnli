@@ -34,14 +34,16 @@ export default function Revamp2030Page() {
             <strong>Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder Technologie ausgeschlossen.</strong>
           </p>
           <p className="text-lg mb-6 leading-relaxed opacity-90">
-            Bis 2030 wollen wir von heute <strong>~30 Geräte/Monat</strong> auf <strong>180+ Geräte/Monat</strong> skalieren
-            und gleichzeitig von geschätzt <strong>~5 Menschen/Jahr</strong> auf <strong>160+ Menschen/Jahr</strong> wachsen.
+            Bis 2030 wollen wir durch <strong>bessere Prozesse und Bildungsprogramme</strong> mehr Menschen befähigen
+            und effizienter refurbishen — nicht durch endlosen Raum, sondern durch klare Organisation.
           </p>
           <div className="bg-white/10 rounded-lg p-4 backdrop-blur mb-4">
             <p className="text-sm opacity-90">
-              <strong>Transparenz-Hinweis:</strong> Die aktuellen Zahlen (30 Geräte/Monat, 5 Menschen/Jahr) sind Schätzungen.
-              Wir erfassen diese Metriken nicht systematisch, weil uns die Kapazität fehlt. Teil unserer Data-Strategie
-              (in Entwicklung) ist die strukturierte Erfassung dieser KPIs ab 2026.
+              <strong>Realistische Ziele (Jahr 3):</strong> 80-120 Geräte/Monat (durch effiziente Prozesse, nicht durch 600m² Werkstatt).
+              Menschen-Wirkung: Abhängig von Train-the-Trainer-Effektivität (konservativ geschätzt: 60+ Menschen/Jahr direkt + indirekt).
+            </p>
+            <p className="text-xs opacity-75 mt-2">
+              Aktuelle Kapazität nicht systematisch getrackt — Zahlen sind Schätzungen. Systematische Erfassung ab 2026 geplant.
             </p>
           </div>
         </div>
@@ -60,13 +62,13 @@ export default function Revamp2030Page() {
                   <p className="font-semibold mb-2">Hardware-Refurbishment: Unstrukturiert & ineffizient</p>
                   <ul className="list-disc list-inside space-y-1 ml-4">
                     <li><strong>4 Reparaturtische vorhanden</strong> — aber meist nur 1-2 in Nutzung</li>
-                    <li><strong>1 Intern (Reza)</strong> kommt zuverlässig, <strong>2 Freiwillige (Romeo, Sili)</strong> kommen manchmal</li>
-                    <li>Wenn Freiwillige nicht da sind: <strong>Tische bleiben leer</strong>, Geräte-Backlog wächst</li>
-                    <li>Viel Raum für <strong>Lagerung</strong> genutzt (nicht optimal organisiert)</li>
-                    <li><strong>Niemand leitet Training</strong> oder organisiert Reparaturen systematisch</li>
-                    <li>Menschen kommen, "wenn sie sich danach fühlen" — <strong>keine Struktur, kein Zeitplan</strong></li>
+                    <li>Team: 1 Praktikant (Reza), wechselnde Freiwillige, Reintegrations-Mitarbeiter (GEP-Programm)</li>
+                    <li><strong>Problem:</strong> Keine systematische Organisation oder Prozess-Leitung</li>
+                    <li>Viel Raum für <strong>Lagerung</strong> genutzt — bereits 2 Lager zu voll, nicht optimal organisiert</li>
+                    <li><strong>Niemand koordiniert Training</strong> oder Workflows — jeder arbeitet nach eigenem Tempo</li>
+                    <li>Freiwillige & Reintegrations-Mitarbeiter brauchen <strong>sozialpädagogische Begleitung</strong> (Veronica macht das, aber nicht als Teil eines strukturierten Programms)</li>
                     <li>Reparatur-Leute machen auch Kundenservice, Telefon, etc. (aus Notwendigkeit, nicht by Design)</li>
-                    <li><strong>Resultat: Lange Wartezeiten, langsamer Output</strong></li>
+                    <li><strong>Resultat: Langsamer Output, lange Wartezeiten, kein skalierbarers Modell</strong></li>
                   </ul>
                 </div>
 
@@ -109,7 +111,7 @@ export default function Revamp2030Page() {
                   Verteilt auf 2 Standorte, suboptimal organisiert.
                 </p>
                 <p className="text-sm text-text-light mb-3">
-                  <strong>Was wir brauchen:</strong> ~1000 m² zentraler Hub mit:
+                  <strong>Was wir brauchen:</strong> ~500-600 m² zentraler Hub mit:
                 </p>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside mb-4">
                   <li>Professionelle Werkstatt (mehr Tische, Testinfrastruktur, bessere Organisation)</li>
@@ -235,7 +237,7 @@ export default function Revamp2030Page() {
                       <li>• Alle Tische genutzt (strukturierte Schichten, klare Verantwortlichkeiten)</li>
                       <li>• <strong>10 Techniker/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
                       <li>• <strong>5 ausgebildete Techniker</strong> trainieren parallel → je 10 Menschen = 50 indirekt</li>
-                      <li>• <strong>6× Geräte-Kapazität: ~180 Geräte/Monat</strong> (effizientere Nutzung + mehr Raum)</li>
+                      <li>• <strong>3-4× Geräte-Kapazität: ~80-120 Geräte/Monat</strong> (durch bessere Prozesse, nicht nur Raum)</li>
                     </ul>
                   </div>
                   <div>
@@ -381,7 +383,7 @@ export default function Revamp2030Page() {
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 1: Fundraising & Standortsuche</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
-                  <li>Standortsuche: ~1000 m² in Zürich oder Agglomeration</li>
+                  <li>Standortsuche: ~500-600 m² in Zürich oder Agglomeration</li>
                   <li>Fundraising: CHF 500k-1M für Hub, CHF 525k für Bildung (3 Jahre)</li>
                   <li>Planung: Raumkonzept, Prozesse, Betriebsmodell</li>
                   <li><strong>Data-Strategie:</strong> Systematische KPI-Erfassung etablieren (Geräte/Monat, Menschen/Jahr, Wartezeiten)</li>
@@ -411,7 +413,7 @@ export default function Revamp2030Page() {
                   <li>Hub-Betrieb optimiert, alle Bereiche aktiv (Werkstatt, AI Lab, Event-Raum, Museum)</li>
                   <li>Train-the-Trainer voll etabliert: Multiplikatoren arbeiten eigenständig</li>
                   <li>Kultur-Programm läuft: Konzerte, Ausstellungen, Workshops beeinflussen öffentliche Wahrnehmung</li>
-                  <li>Ziele erreicht: 180+ Geräte/Monat, 160+ Menschen/Jahr, Selbsttragung operativ</li>
+                  <li>Ziele erreicht: 80-120 Geräte/Monat, 160+ Menschen/Jahr, Selbsttragung operativ</li>
                 </ul>
               </div>
             </div>

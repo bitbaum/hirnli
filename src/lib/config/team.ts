@@ -21,12 +21,12 @@ export interface TeamMember {
 
 export const KERNTEAM: TeamMember[] = [
   {
-    name: 'Vero',
-    role: 'Geschäftsleitung & Koordination',
+    name: 'Veronica',
+    role: 'Geschäftsleitung & Sozialpädagogik',
     vza: 1.0,
     bereich: 'Leitung',
     status: 'aktiv',
-    fachgebiete: ['Geschäftsleitung', 'Strategische Planung', 'Fundraising', 'Netzwerk'],
+    fachgebiete: ['Geschäftsleitung', 'Sozialpädagogik', 'Arbeitsintegration', 'Strategische Planung', 'Fundraising', 'Netzwerk'],
   },
   {
     name: 'Dani',
@@ -137,50 +137,68 @@ export const TEAM_SALARIES = {
 } as const;
 
 /**
- * Capacity Projections
+ * Capacity Projections — DRAFT/ESTIMATES
+ *
+ * IMPORTANT: These are planning estimates, NOT verified data.
+ * - Current capacity: NOT systematically tracked (estimates based on informal observation)
+ * - Year 3 projections: Based on realistic hub plan (~150m² werkstatt, NOT 600m²)
+ * - All numbers need validation and systematic measurement starting 2026
  */
 export const TEAM_CAPACITY = {
   current: {
-    devices_per_month: 30,
-    devices_per_year: 360,
-    people_trained_per_year: 5,
+    devices_per_month: 25, // ESTIMATE - not systematically tracked
+    devices_per_year: 300, // ESTIMATE - not systematically tracked
+    people_trained_per_year: 0, // NOT SYSTEMATICALLY TRACKED - informal training happens but not measured
     team_size_vza: 3,
   },
   year3_with_hub_and_bpl: {
-    devices_per_month: 180,
-    devices_per_year: 2_160,
-    people_trained_per_year: 175,
-    team_size_vza: 5,
-    device_multiplier: 6, // 180/30 = 6×
-    social_impact_multiplier: 35, // 175/5 = 35×
+    devices_per_month: 100, // Mid-point estimate (80-120 range based on realistic 150m² werkstatt)
+    devices_per_year: 1200, // 100 × 12
+    people_trained_per_year: 60, // CONSERVATIVE ESTIMATE - depends on Train-the-Trainer effectiveness
+    team_size_vza: 5, // 3 current + 2 BPL
+    device_multiplier: 4, // 100/25 = 4×
+    social_impact_multiplier: '60+', // Conservative estimate, not the inflated 32× from before
   },
 } as const;
 
 /**
- * Data Quality Notes
+ * Data Quality Notes & Team Reality
  *
- * WHAT WE KNOW (high confidence):
- * - 3 VZÄ Kernteam (Vero, Dani, Andreas) - operativ verifiziert
- * - Rollen und Bereiche - klar definiert
- * - Geplant: 2 VZÄ Bildungsprogrammleiter
+ * KERNTEAM (BEZAHLT):
+ * - 3 Personen: Andreas, Veronica (Sozialpädagogin), Dani
+ * - Note: Andreas may not even be paid (doesn't like talking about it)
+ * - Diese 3 sind das "Kernteam" - täglich präsent, Verantwortung tragen
+ *
+ * WEITERE TEAM-MITGLIEDER (NICHT IM VZÄ ERFASST):
+ * - Freiwillige (Volunteers) - variable Anzahl, nicht systematisch getrackt
+ * - 1 Praktikant: Reza - consistently present, wichtiger Beitrag
+ * - Reintegrations-Mitarbeiter - via GEP-Programm und ähnliche Initiativen
+ *
+ * SOZIALE MISSION:
+ * - Wir sind KEIN Silicon-Valley-Startup mit "move fast break things" Mentalität
+ * - Soziale Mission steht im Vordergrund - Menschen entwickeln, nicht nur produktiv sein
+ * - Veronica's Rolle als Sozialpädagogin ist zentral für Arbeitsintegration
  *
  * WHAT WE DON'T TRACK SYSTEMATICALLY:
- * - Stundensätze (cost_rate) - nicht systematisch erfasst
- * - Detaillierte Skills-Matrix - informell bekannt, nicht dokumentiert
- * - Arbeitszeiten/Anwesenheit - Vertrauensarbeitszeit, keine Zeiterfassung
- * - Urlaubstage, Krankheit - HR-Daten nicht digitalisiert
+ * - Stundenleistung von Freiwilligen (variabel, vertrauensbasiert)
+ * - Detaillierte Anwesenheit/Zeiterfassung (Vertrauensarbeitszeit)
+ * - Aktuelle Refurbishment-Kapazität (Schätzung: ~25 Geräte/Monat)
+ * - Aktuelle Bildungswirkung (informelles Training passiert, aber nicht gemessen)
  *
  * WHY THIS IS OK:
- * - Wir sind ein 3-Personen-Team, keine formelle HR-Abteilung nötig
- * - Für Fundraising/Transparenz reichen VZÄ und Rollen
- * - Detaillierte HR-Daten sind privacy-sensitiv (gehören nicht auf public site)
+ * - Kleine Organisation, keine formelle HR-Abteilung nötig
+ * - Für Fundraising/Transparenz reichen VZÄ des Kernteams
+ * - Privacy-sensible Daten gehören nicht auf public site
+ * - Fokus auf soziale Mission, nicht auf Metriken-Optimierung
  */
 
 export const DATA_QUALITY_NOTE = {
-  what_we_know: 'VZÄ, Rollen, Bereiche - operativ verifiziert',
-  what_we_dont_track: 'Stundensätze, Skills-Matrix, Zeiterfassung - nicht systematisch erfasst',
-  why_this_is_ok: '3-Personen-Team, keine formelle HR-Abteilung nötig. Für Transparenz reichen VZÄ und Rollen.',
-  previous_source: 'HR_Roster.csv (retired 2026-02-13 - incomplete data, external dependency)',
+  kernteam_paid: '3 Personen (Andreas*, Veronica, Dani) - *may not even be paid',
+  weitere_mitglieder: 'Freiwillige, 1 Praktikant (Reza), Reintegrations-Mitarbeiter (GEP-Programm)',
+  social_mission: 'Sozialpädagogischer Fokus (Veronica), NICHT Silicon Valley Mentalität',
+  what_we_dont_track: 'Freiwilligen-Stunden, aktuelle Kapazität, informelle Bildungswirkung',
+  why_this_is_ok: 'Kleine Org, soziale Mission > Metriken, Privacy-sensible Daten nicht public',
+  previous_source: 'HR_Roster.csv (retired 2026-02-13 - incomplete data)',
   current_source: 'team.ts (SSOT - operational reality)',
 } as const;
 
