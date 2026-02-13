@@ -36,7 +36,7 @@ export default function TeamPage() {
       <MetricGrid columns={3} className="mb-8">
         <MetricCard label="Team-Mitglieder" value={String(TEAM_MEMBERS.length)} subtitle="in HR_Roster.csv" sourceType="live" />
         <MetricCard label="Bereiche" value="3" subtitle="Leitung, Technik, Betrieb" sourceType="live" />
-        <MetricCard label="FTE Kapazität" value="?" subtitle="Nicht erfasst" sourceType="none" />
+        <MetricCard label="VZÄ erfasst" value="1 von 7" subtitle="Georgie: 60%" sourceType="live" />
       </MetricGrid>
 
       {/* Zusammenfassung */}
@@ -47,7 +47,7 @@ export default function TeamPage() {
             <div>
               <strong>Kernaussage:</strong>{' '}
               <span className="text-sm text-text-light">
-                {TEAM_MEMBERS.length} Teammitglieder erfasst, aber keine Kapazitäts- oder FTE-Daten vorhanden.
+                {TEAM_MEMBERS.length} Teammitglieder erfasst, aber nur 1 Person hat Vollzeitäquivalent (VZÄ) angegeben.
               </span>
             </div>
           </div>
@@ -78,9 +78,25 @@ export default function TeamPage() {
           <strong>Hinweis zur Datenqualität:</strong>
           <p className="mt-1 text-sm text-text-light">
             Die HR_Roster.csv enthält nur Namen, Fachgebiete und Bereiche.
-            Kapazitäten, FTE-Werte und Auslastung werden aktuell nicht systematisch erfasst.
+            Kapazitäten, VZÄ-Werte (Vollzeitäquivalente) und Auslastung werden aktuell nicht systematisch erfasst.
+          </p>
+          <p className="mt-2 text-xs text-text-light">
+            <em>VZÄ = Vollzeitäquivalent (auch bekannt als "FTE" im internationalen Kontext)</em>
           </p>
         </div>
+      </section>
+
+      {/* ========== OPERATIVE REALITÄT ========== */}
+      <section className="mb-8">
+        <Card className="bg-emerald-50 border-l-4 border-emerald-500">
+          <h3 className="font-semibold mb-2 text-emerald-900">Operative Realität (2026)</h3>
+          <p className="text-sm text-emerald-800">
+            <strong>Aktuelles Kernteam:</strong> 3 Vollzeitäquivalente (VZÄ) — Vero (Geschäftsleitung), Dani (Operations), Andreas (Strategie)
+          </p>
+          <p className="text-xs text-emerald-700 mt-2">
+            <em>Hinweis: Diese Angabe basiert auf operativer Praxis. HR_Roster.csv erfasst diese Kapazitäten noch nicht systematisch.</em>
+          </p>
+        </Card>
       </section>
 
       {/* ========== STRATEGISCHE TEAM-STRUKTUR ========== */}
@@ -91,6 +107,15 @@ export default function TeamPage() {
           die durch das <strong>Train-the-Trainer Modell</strong> unsere Kapazität und Impact multiplizieren.
         </p>
 
+        <Card className="mb-6 bg-amber-50 border-l-4 border-amber-500">
+          <h3 className="font-semibold mb-2">Warum planen wir so gross?</h3>
+          <p className="text-sm">
+            <strong>Heute:</strong> 3 VZÄ schaffen ~360 Geräte/Jahr (30/Monat). Das ist unsere aktuelle Kapazität.<br />
+            <strong>Problem:</strong> Mit nur 3 Personen können wir nicht mehr wachsen — wir sind am Limit.<br />
+            <strong>Lösung:</strong> Hub + Menschen (Raum + 2 Bildungsprogrammleiter) ermöglichen Train-the-Trainer Skalierung.
+          </p>
+        </Card>
+
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Current Core Team */}
           <Card className="border-l-4 border-l-emerald-500">
@@ -98,7 +123,7 @@ export default function TeamPage() {
               <span className="text-3xl">✅</span>
               <div>
                 <h3 className="text-lg font-bold text-grey-dark">Kernteam (aktuell)</h3>
-                <p className="text-sm text-emerald-600">3 FTE — Geschäftsleitung, Operations, Strategie</p>
+                <p className="text-sm text-emerald-600">3 VZÄ — Geschäftsleitung, Operations, Strategie</p>
               </div>
             </div>
             <div className="space-y-3">
@@ -138,7 +163,7 @@ export default function TeamPage() {
               <span className="text-3xl">🎯</span>
               <div>
                 <h3 className="text-lg font-bold text-grey-dark">Bildungsprogrammleiter (geplant)</h3>
-                <p className="text-sm text-violet-600">+2 FTE — Train-the-Trainer Multiplikator</p>
+                <p className="text-sm text-violet-600">+2 VZÄ — Train-the-Trainer Multiplikator</p>
               </div>
             </div>
             <div className="space-y-3">
@@ -146,10 +171,14 @@ export default function TeamPage() {
                 <span className="text-lg">🔧</span>
                 <div className="flex-1 text-sm">
                   <div className="font-semibold text-gray-900">Hardware-Bildungsprogrammleiter</div>
-                  <div className="text-gray-600">Techniker ausbilden & managen</div>
+                  <div className="text-gray-600">Freiwillige/Praktikant:innen ausbilden & managen</div>
                   <div className="mt-1 text-xs text-gray-500">
-                    → 8-12 Techniker/Jahr trainiert<br />
-                    → 2.5× Geräte-Kapazität
+                    → 8-12 Freiwillige/Praktikant:innen/Jahr trainiert<br />
+                    → 2.5× Geräte-Kapazität (durch unbezahlte Arbeit)<br />
+                    <span className="text-gray-400">
+                      Annahme: 1 BPL trainiert 4-6 Freiwillige/Jahr. Jeder: ~15 Geräte/Monat.
+                      Konfidenz: Mittel (abhängig von Programm-Rekrutierung)
+                    </span>
                   </div>
                 </div>
               </div>
@@ -178,38 +207,46 @@ export default function TeamPage() {
         <div className="mt-6 rounded-lg border-2 border-dashed border-gray-300 bg-white p-6">
           <h4 className="mb-3 text-sm font-bold text-gray-900 flex items-center gap-2">
             <span className="text-xl">📊</span>
-            Train-the-Trainer Multiplikator-Effekt
+            Train-the-Trainer Multiplikator-Effekt (Nonprofit-Modell)
           </h4>
           <p className="mb-4 text-sm text-gray-600">
-            Jeder Bildungsprogrammleiter trainiert nicht nur direkt, sondern bildet auch Trainer aus, die wiederum unterrichten.
-            Dadurch erreichen wir ein <strong>1:100 Verhältnis</strong> (1 BPL → 100 Menschen erreicht).
+            <strong>2 bezahlte BPL</strong> trainieren und managen <strong>Freiwillige, Praktikant:innen, Zivis, Corporate Placements und Integrationsprogramm-Teilnehmende</strong> (unbezahlte/subventionierte Arbeit).
+            So multiplizieren wir Kapazität ohne massive Lohnkosten — das ist der Kern des sozialen Unternehmensmodells.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div className="bg-blue-50 rounded-lg p-4">
               <div className="font-semibold text-blue-900 mb-2">Geräte-Kapazität</div>
               <div className="text-blue-800">
-                <strong>Heute:</strong> 30 Geräte/Monat (3 FTE Kernteam)<br />
-                <strong>Mit 2× BPL:</strong> 180 Geräte/Monat (5 FTE + Trainierte)<br />
-                <strong>Multiplikator:</strong> 6× Steigerung
+                <strong>Heute:</strong> 30 Geräte/Monat (3 VZÄ Kernteam)<br />
+                <strong>Mit 2× BPL:</strong> 180 Geräte/Monat (6× von heute)<br />
+                <div className="text-xs text-blue-600 mt-2 border-t border-blue-200 pt-2">
+                  <strong>Annahmen:</strong> Jeder BPL trainiert 4-6 Freiwillige/Praktikant:innen/Zivis pro Jahr.
+                  Bei 2× BPL = 8-12 unbezahlte Techniker:innen = ~150 Geräte/Monat zusätzlich.<br />
+                  <strong>Konfidenz:</strong> Mittel (abhängig von Programm-Rekrutierung + Hub-Raumkapazität)
+                </div>
               </div>
             </div>
             <div className="bg-violet-50 rounded-lg p-4">
               <div className="font-semibold text-violet-900 mb-2">Soziale Wirkung</div>
               <div className="text-violet-800">
                 <strong>Heute:</strong> ~5 Menschen/Jahr begleitet<br />
-                <strong>Mit 2× BPL:</strong> 150-200 Menschen/Jahr<br />
-                <strong>Multiplikator:</strong> 32× Steigerung
+                <strong>Mit 2× BPL:</strong> 150-200 Menschen/Jahr (32× von heute)<br />
+                <div className="text-xs text-violet-600 mt-2 border-t border-violet-200 pt-2">
+                  <strong>Annahmen:</strong> Jeder BPL begleitet direkt 10-15 Menschen/Jahr.
+                  Zusätzlich: Trainierte Techniker begleiten weitere 50-75 Menschen/Jahr.<br />
+                  <strong>Konfidenz:</strong> Mittel (abhängig von Programm-Aufnahmekapazität)
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ========== SCALING ROADMAP TO 10,000 DEVICES/YEAR ========== */}
+      {/* ========== SCALING ROADMAP ========== */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Skalierungsplan zur Vision 2030: 10'000 Geräte/Jahr</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wachstumsplan: Primäres Ziel Jahr 3 (2'160 Geräte/Jahr)</h2>
         <p className="mb-6 text-sm text-text-light">
-          Unser Wachstum erfolgt schrittweise: Hub + Menschen (Jahr 3) → Weitere Skalierung (Jahr 5) → Vision 2030 (10'000 Geräte/Jahr)
+          <strong>Fundraising-Ziel: Jahr 3 (Hub + 2 BPL).</strong> Jahr 5 und Vision 2030 sind aspirational — zeigen langfristiges Potenzial, aber hängen von erfolgreicher Jahr-3-Finanzierung ab.
         </p>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -225,7 +262,7 @@ export default function TeamPage() {
             <div className="pt-3 border-t border-gray-200 space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-gray-600">Team:</span>
-                <span className="font-semibold">3 FTE</span>
+                <span className="font-semibold">3 VZÄ</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Raum:</span>
@@ -250,7 +287,7 @@ export default function TeamPage() {
             <div className="pt-3 border-t border-blue-200 space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-blue-700">Team:</span>
-                <span className="font-semibold text-blue-900">5 FTE</span>
+                <span className="font-semibold text-blue-900">5 VZÄ</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-blue-700">Raum:</span>
@@ -262,15 +299,18 @@ export default function TeamPage() {
               </div>
               <div className="mt-2 pt-2 border-t border-blue-200">
                 <div className="text-blue-600 font-semibold">6× Wachstum</div>
+                <div className="text-blue-500 text-[10px] mt-1">
+                  Basis: Hub-Raum + 2× BPL trainieren 8-12 Freiwillige/Praktikant:innen
+                </div>
               </div>
             </div>
           </Card>
 
-          {/* Phase 3: Jahr 5 (4× BPL + Automation) */}
-          <Card className="border-l-4 border-l-violet-500 bg-violet-50/30">
+          {/* Phase 3: Jahr 5 (4× BPL + Automation) - ASPIRATIONAL */}
+          <Card className="border-l-4 border-l-violet-500 bg-violet-50/30 opacity-75">
             <div className="text-center mb-3">
               <div className="inline-block px-3 py-1 bg-violet-100 text-violet-700 text-xs font-semibold rounded-full mb-2">
-                JAHR 5 (2030)
+                JAHR 5 (2030) — Aspirational
               </div>
               <div className="text-3xl font-bold text-violet-900">5'000</div>
               <div className="text-sm text-violet-700">Geräte/Jahr</div>
@@ -278,7 +318,7 @@ export default function TeamPage() {
             <div className="pt-3 border-t border-violet-200 space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-violet-700">Team:</span>
-                <span className="font-semibold text-violet-900">9 FTE</span>
+                <span className="font-semibold text-violet-900">~7-9 VZÄ (bezahlt)</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-violet-700">BPL:</span>
@@ -286,19 +326,22 @@ export default function TeamPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-violet-700">Automation:</span>
-                <span className="font-semibold text-violet-900">AI Triage</span>
+                <span className="font-semibold text-violet-900">Falls AI/DevOps gesichert</span>
               </div>
               <div className="mt-2 pt-2 border-t border-violet-200">
                 <div className="text-violet-600 font-semibold">14× Wachstum</div>
+                <div className="text-violet-500 text-[10px] mt-1">
+                  Erfordert: AI/DevOps-Kapazität + erweiterte BPL-Programme
+                </div>
               </div>
             </div>
           </Card>
 
-          {/* Phase 4: Vision 2030 (Multi-Standort) */}
-          <Card className="border-l-4 border-l-emerald-500 bg-emerald-50/30">
+          {/* Phase 4: Vision 2030 (Multi-Standort) - HIGHLY ASPIRATIONAL */}
+          <Card className="border-l-4 border-l-emerald-500 bg-emerald-50/30 opacity-60">
             <div className="text-center mb-3">
               <div className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-full mb-2">
-                VISION 2030 (J7+)
+                VISION 2030 (J7+) — Hochgradig aspirational
               </div>
               <div className="text-3xl font-bold text-emerald-900">10'000</div>
               <div className="text-sm text-emerald-700">Geräte/Jahr</div>
@@ -306,7 +349,7 @@ export default function TeamPage() {
             <div className="pt-3 border-t border-emerald-200 space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-emerald-700">Team:</span>
-                <span className="font-semibold text-emerald-900">15 FTE</span>
+                <span className="font-semibold text-emerald-900">~12-15 VZÄ (bezahlt)</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-emerald-700">Standorte:</span>
@@ -314,10 +357,13 @@ export default function TeamPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-emerald-700">Automation:</span>
-                <span className="font-semibold text-emerald-900">Vollautomation</span>
+                <span className="font-semibold text-emerald-900">Falls möglich</span>
               </div>
               <div className="mt-2 pt-2 border-t border-emerald-200">
                 <div className="text-emerald-600 font-semibold">28× Wachstum</div>
+                <div className="text-emerald-500 text-[10px] mt-1">
+                  Erfordert: Multi-Standort + massive BPL-Expansion + Vollautomation
+                </div>
               </div>
             </div>
           </Card>
@@ -325,7 +371,7 @@ export default function TeamPage() {
 
         {/* Key Enablers */}
         <div className="mt-6 rounded-lg border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-6">
-          <h4 className="mb-4 text-sm font-bold text-gray-900">Wie erreichen wir 10'000 Geräte/Jahr?</h4>
+          <h4 className="mb-4 text-sm font-bold text-gray-900">Wie KÖNNTEN wir 10'000 Geräte/Jahr erreichen? (Aspirational)</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="flex items-start gap-3">
               <span className="text-2xl flex-shrink-0">🏢</span>
@@ -342,9 +388,9 @@ export default function TeamPage() {
               <div>
                 <div className="font-semibold text-gray-900">Team-Multiplikation</div>
                 <div className="text-gray-600 text-xs mt-1">
-                  Jahr 3: 2× BPL (5 FTE total)<br />
-                  Jahr 5: 4× BPL (9 FTE total)<br />
-                  Jahr 7+: 6× BPL (15 FTE total)
+                  Jahr 3: 2× BPL (5 VZÄ total)<br />
+                  Jahr 5: 4× BPL (9 VZÄ total)<br />
+                  Jahr 7+: 6× BPL (15 VZÄ total)
                 </div>
               </div>
             </div>
@@ -368,9 +414,11 @@ export default function TeamPage() {
             <div className="text-sm text-amber-900">
               <div className="font-semibold">Realistische Einschätzung</div>
               <div className="mt-1 text-amber-800">
-                Vision 2030 (10'000 Geräte/Jahr) ist <strong>aspirational</strong>. Erreichbar bei optimalen Bedingungen:
-                erfolgreiche Stiftungsfinanzierung Jahr 1-3, Hub-Eröffnung 2027, erfolgreiche BPL-Rekrutierung,
-                und Marktakzeptanz für skalierte Services. Jahr 3 (2'160 Geräte/Jahr) ist das primäre Fundraising-Ziel.
+                <strong>Jahr 3 (2'160 Geräte/Jahr) ist das primäre Fundraising-Ziel.</strong> Erreichbar mit Hub + 2 bezahlten BPL,
+                die Freiwillige/Praktikant:innen trainieren (Nonprofit-Multiplikator-Modell).<br /><br />
+                Jahr 5 und Vision 2030 sind <strong>hochgradig aspirational</strong> und hängen ab von:
+                erfolgreicher Jahr-3-Finanzierung, Hub-Eröffnung, BPL-Rekrutierung, AI/DevOps-Kapazität (aktuell nicht gesichert),
+                und Multi-Standort-Expansion. <strong>Fokus: Jahr 3 erreichen, dann neu evaluieren.</strong>
               </div>
             </div>
           </div>
@@ -423,7 +471,7 @@ export default function TeamPage() {
             </div>
           </CardHeader>
           <p className="mb-2 text-sm text-text-light">
-            <strong>Ziel:</strong> Transparente FTE-Kapazität für Ressourcenplanung und Bottleneck-Erkennung.
+            <strong>Ziel:</strong> Transparente VZÄ-Kapazität für Ressourcenplanung und Bottleneck-Erkennung.
           </p>
           <p className="mb-4 text-sm text-text-muted">
             <strong>Constraints:</strong> Datenschutz, Teilzeit-Variabilität, freiwillige Angaben.
@@ -433,7 +481,7 @@ export default function TeamPage() {
               <Badge variant="danger">HOCH</Badge>
               <div className="text-sm">
                 <span>capacity_pct in HR_Roster.csv für alle Mitarbeitenden erfassen</span>
-                <p className="mt-1 text-text-muted">&rarr; Ermöglicht FTE-Berechnung und Auslastungsanalyse</p>
+                <p className="mt-1 text-text-muted">&rarr; Ermöglicht VZÄ-Berechnung und Auslastungsanalyse</p>
               </div>
             </div>
             <div className="flex items-start gap-3 rounded-lg bg-amber-50 p-3">

@@ -64,13 +64,13 @@ export async function POST(
         'Revamp-IT refurbiert gespendete Laptops und bietet sie zu Solidaritätspreisen an. Parallel schaffen wir Arbeitsplätze für Menschen mit erschwertem Arbeitsmarktzugang, insbesondere Geflüchtete.',
 
       whyUs:
-        'Wir kombinieren Kreislaufwirtschaft (285kg CO2 gespart pro Laptop) mit sozialer Integration (15 Arbeitsplätze geschaffen) und digitaler Inklusion (1\'200+ Laptops verkauft).',
+        'Wir kombinieren Kreislaufwirtschaft (285kg CO2 gespart pro Laptop) mit sozialer Integration (15 Arbeitsplätze geschaffen) und digitaler Inklusion (~1\'600+ Laptops verkauft seit 2018).',
 
       approach:
         'Unser Geschäftsmodell kombiniert Eigenfinanzierung (Laptop-Verkäufe & Services) mit Stiftungsfinanzierung für Kapazitätsausbau und soziale Programme.',
 
       impact:
-        '2025: 1\'200 Laptops refurbiert, 285 Tonnen CO2 eingespart, 15 Menschen beschäftigt, 95% Kundenzufriedenheit.',
+        '2018-2025: ~1\'600 Laptops refurbiert (CHF 238\'309 verifiziert), ~480 Tonnen CO2 eingespart, Arbeitsplätze für Menschen mit erschwertem Arbeitsmarktzugang.',
 
       budget: {
         modules: personalized.customizations.visibleBudgetModules.map(

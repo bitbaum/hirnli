@@ -150,6 +150,11 @@ export const PROCESS_STEPS = [
 
 export const FAQ_ITEMS = [
   {
+    question: 'Kann ich einfach kommen und ein Gratis-Gerät abholen?',
+    answer:
+      'Nein. Kostenlose Geräte werden nur über Partnerorganisationen (AOZ, Caritas, Solinetz) oder auf Einzelantrag mit Begründung der Notlage vergeben. Für alle anderen bieten wir extreme Preisflexibilität — wir finden fast immer eine Lösung — aber nicht automatisch gratis.',
+  },
+  {
     question: 'Wie verhindert ihr Missbrauch beim Gratis-Angebot?',
     answer:
       'Wir setzen auf Vertrauen und gesunden Menschenverstand. Die meisten Menschen sind ehrlich. Die wenigen, die das System ausnutzen, sind der Preis für ein unbürokratisches System.',

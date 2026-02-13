@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
@@ -49,6 +50,14 @@ export default function WirkungClient() {
         purpose="Impact-Kennzahlen zeigen konkret, welchen Umwelt- und Sozialeffekt wir erzielen."
         connection="Wirkung = finanziert durch Solidarisches Preismodell + Stiftungsgelder (siehe Finanzen)."
       />
+
+      <Card className="mb-6 bg-green-50 border-l-4 border-green-500">
+        <p className="text-sm">
+          <strong>Diese Seite zeigt:</strong> Impact-Kennzahlen (was bewirken wir?)<br />
+          <strong>Finanzierung ansehen:</strong> <Link href="/finanzen" className="text-green-600 hover:underline font-medium">Finanzseite</Link>
+          {' '}zeigt, woher das Budget kommt.
+        </p>
+      </Card>
 
       <YearSelector
         years={availableYears}

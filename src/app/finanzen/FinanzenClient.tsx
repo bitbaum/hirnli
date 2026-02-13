@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
@@ -96,6 +97,14 @@ export default function FinanzenClient() {
         purpose="Transparente Finanzdaten zeigen unsere wirtschaftliche Entwicklung und Herausforderungen."
         connection="Zahlen erklären WARUM wir Stiftungsgelder brauchen (B2B-Einnahmen gesunken von CHF 180k auf CHF 80k)."
       />
+
+      <Card className="mb-6 bg-blue-50 border-l-4 border-blue-500">
+        <p className="text-sm">
+          <strong>Diese Seite zeigt:</strong> Einnahmen & Ausgaben (woher kommt das Geld?)<br />
+          <strong>Impact ansehen:</strong> <Link href="/wirkung" className="text-blue-600 hover:underline font-medium">Wirkungsseite</Link>
+          {' '}zeigt, was wir mit dem Geld bewirken.
+        </p>
+      </Card>
 
       <Tabs tabs={TABS} defaultTab="overview">
         {(activeTab) => (

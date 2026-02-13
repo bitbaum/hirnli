@@ -62,15 +62,15 @@ export default function StrategiePage() {
             activities={[
               'Professionelles Refurbishment: 25-35 Geräte/Monat mit standardisiertem Prozess',
               'Datenvernichtung nach NIST 800-88 Standard (secure data wipe)',
-              'Fachgerechtes Recycling für nicht reparierbare Komponenten (>80% Quote)',
-              'Lebensdauerverlängerung: Ältere Hardware läuft mit Linux weitere 5-10 Jahre',
+              'Fachgerechtes Recycling für nicht reparierbare Komponenten',
+              'Lebensdauerverlängerung: Ältere Hardware läuft mit Linux weitere 4+ Jahre',
             ]}
             whyItMatters="Jeder neue Laptop verursacht ~350 kg CO₂ bei der Herstellung, Refurbishment nur ~65 kg. Netto-Einsparung: 285 kg CO₂ pro Gerät (Fraunhofer IZM 2023). Elektroschrott ist einer der am schnellsten wachsenden Abfallströme weltweit (62 Mio. Tonnen/Jahr). Gleichzeitig schonen wir wertvolle Rohstoffe wie Kupfer, Gold und seltene Erden."
             achievements={[
-              'Seit 2003: 1\'200+ Geräte vor Elektroschrott gerettet',
+              '~1\'600+ Geräte seit 2018 (verifiziert aus Kivitendo: CHF 238\'309 / CHF 150)',
               'Aktuelle Kapazität: 25-35 Geräte/Monat (ca. 300-420/Jahr)',
-              'Durchschnittliche Lebensdauerverlängerung: 5-7 Jahre pro Gerät',
-              'Recycling-Quote für nicht reparierbare Teile: >80%',
+              'Durchschnittliche Lebensdauerverlängerung: 4+ Jahre pro Gerät (alte Hardware mit Linux)',
+              'Fachgerechtes Recycling für nicht reparierbare Teile (Quote nicht systematisch erfasst)',
             ]}
             relatedPages={[
               { title: 'Wirkung', href: '/wirkung', reason: 'Siehe detaillierte Umwelt-Impact-Zahlen' },
@@ -93,7 +93,7 @@ export default function StrategiePage() {
             whyItMatters="Digitale Souveränität bedeutet: Du besitzt dein Gerät wirklich. Keine Zwangsupdates, keine Vendor Lock-ins, keine Lizenzkosten. Open-Source-Software gibt Nutzern Kontrolle zurück und ermöglicht es, ältere Hardware weiter zu nutzen. Das ist besonders wichtig für Menschen mit geringem Einkommen und für Organisationen, die unabhängig bleiben wollen."
             achievements={[
               'Seit 2003: Pioniere für Linux-Desktop in der Schweiz',
-              'Seit 2003: 1\'200+ Geräte mit vorinstalliertem Linux verkauft',
+              '~1\'600+ Geräte mit vorinstalliertem Linux verkauft (2018-2025 verifiziert)',
               '100% Open-Source-Software auf allen verkauften Geräten',
               'Teil der weltweiten Open-Source-Bewegung',
             ]}
@@ -116,7 +116,7 @@ export default function StrategiePage() {
             ]}
             whyItMatters="In einer Welt, die sich durch Automatisierung und KI rasant verändert, werden digitale Kompetenzen zur Grundvoraussetzung für Teilhabe. Gleichzeitig geht Reparaturwissen verloren – dabei ist es ein Schlüssel zu Nachhaltigkeit und Unabhängigkeit. Wir vermitteln beides: Wie man Technologie nutzt UND wie man sie wartet."
             achievements={[
-              'Seit 2003: 100+ Menschen in Workshops & Praktika begleitet',
+              'Seit 2003: 100+ Menschen in Workshops & Praktika begleitet (Schätzung, nicht systematisch erfasst)',
               'Repair-Workshops, Linux-Kurse, technischer Support',
               'Niederschwelliger Zugang: Keine Vorkenntnisse erforderlich',
               'Wissensdokumentation: Anleitungen & How-Tos für Community',

@@ -26,7 +26,7 @@ export default function PreismodellPage() {
       />
 
       <WhyThisMatters
-        purpose="Wir bieten KOSTENLOSE Laptops an Organisationen (AOZ, Caritas) für deren Klient:innen. Solidarisches Preismodell ermöglicht dies."
+        purpose="KOSTENLOSE Laptops gibt es nur auf Anfrage von Partnerorganisationen (AOZ, Caritas, Solinetz) oder bei nachgewiesener Notlage. Ansonsten bieten wir extreme Preisflexibilität (auch unter KulturLegi-Niveau) — aber nicht automatisch gratis."
         connection="Revenue = Operations finanziert. Stiftungen = Impact finanziert (kostenlose Geräte, Workshops, Stipendien)."
       />
 
