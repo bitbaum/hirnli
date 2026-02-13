@@ -2,377 +2,471 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
-import { NumberWithSource } from '@/components/data/NumberWithSource';
+import Badge from '@/components/ui/Badge';
 import { CommunitySpaceCard } from '@/app/strategie/components';
 
 export const metadata: Metadata = {
-  title: 'Community Tech Hub',
-  description: '1000m² Hub für Kreislaufwirtschaft, Tech-Bildung und digitale Souveränität',
+  title: 'Revamp Hub — Community Tech Space',
+  description: 'Werkstatt, Kultur, Innovation: Wo Nachhaltigkeit, Technologie und Gemeinschaft zusammenkommen',
 };
 
 export default function HubPage() {
   return (
     <>
       <PageHeader
-        title="Community Tech Hub"
-        subtitle="250m² → 1000m²: Vom Käsekeller zum Tech-Leuchtturm"
+        title="Revamp Hub"
+        subtitle="Mehr als eine Werkstatt: Ein Ort, wo Technologie, Kultur und Gemeinschaft zusammenkommen"
         badge="Hub"
       />
 
-      {/* ========== PROBLEM: Current Constraints ========== */}
+      {/* Vision */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Das Problem: Räumliche Grenzen</h2>
-        <Card className="border-l-4 border-l-amber-500 bg-amber-50/50">
-          <div className="flex items-start gap-4">
-            <span className="text-4xl flex-shrink-0">⚠️</span>
-            <div className="flex-1">
-              <h3 className="text-lg font-bold text-amber-900 mb-2">Aktueller Engpass</h3>
-              <div className="space-y-2 text-sm text-amber-800">
-                <p>
-                  <strong>250m² verteilt auf 2 Standorte:</strong> Laden (120m²) + Lager (130m²)
-                </p>
-                <p>
-                  <strong>Kapazität:</strong> Maximal 30-35 Geräte/Monat mit aktuellem Setup
-                </p>
-                <p>
-                  <strong>Was fehlt:</strong>
-                </p>
-                <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>Professionelle Werkstatt mit Testinfrastruktur</li>
-                  <li>AI Lab für Diagnostik & Software-Entwicklung</li>
-                  <li>Schulungsräume für Workshops & Ausbildung</li>
-                  <li>Event Space für Community & Partnerships</li>
-                  <li>Zentrale Lage mit guter Erreichbarkeit</li>
-                </ul>
-              </div>
+        <div className="rounded-2xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 p-8 text-white">
+          <h2 className="text-3xl font-bold mb-4">Die Vision</h2>
+          <p className="text-xl mb-4 leading-relaxed">
+            <strong>Nicht nur reparieren — transformieren.</strong> Der Revamp Hub ist ein Ort, an dem Menschen
+            ihre Beziehung zu Technologie neu definieren.
+          </p>
+          <p className="text-lg mb-6 leading-relaxed opacity-90">
+            Tags: Werkstatt brummt, Reparaturen laufen, Menschen lernen. <br />
+            Abends: Konzerte aus Vintage-Synths, Filmabende über Technik & Gesellschaft, E-Waste-Kunst-Ausstellungen.<br />
+            <strong>Ein Raum, der zeigt: Elektroschrott ist nicht Müll — es ist Ressource, Geschichte, Potenzial.</strong>
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div className="bg-white/10 rounded-lg p-4 backdrop-blur text-center">
+              <div className="text-3xl font-bold">~1000 m²</div>
+              <div className="text-sm opacity-90">Werkstatt + Kultur + Innovation</div>
             </div>
-          </div>
-        </Card>
-      </section>
-
-      {/* ========== VISION: 1000m² Hub ========== */}
-      <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Vision: 1000m² Community Tech Hub</h2>
-        <div className="rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 p-8 text-white mb-6">
-          <div className="text-center mb-6">
-            <div className="text-5xl font-bold mb-2">
-              <NumberWithSource numberKey="HUB_SPACE_TOTAL" size="xl" showLabel={false} />
+            <div className="bg-white/10 rounded-lg p-4 backdrop-blur text-center">
+              <div className="text-3xl font-bold">180+</div>
+              <div className="text-sm opacity-90">Geräte/Monat (6× heute)</div>
             </div>
-            <div className="text-xl opacity-90">Gesamt-Hub: Werkstatt + AI Lab + Event Space + Shop + Offices</div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white/10 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold">4×</div>
-              <div className="text-sm opacity-90">Raum-Multiplikator</div>
-            </div>
-            <div className="bg-white/10 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold">180</div>
-              <div className="text-sm opacity-90">Geräte/Monat (Ziel Jahr 3)</div>
-            </div>
-            <div className="bg-white/10 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold">150-200</div>
-              <div className="text-sm opacity-90">Menschen/Jahr trainiert</div>
+            <div className="bg-white/10 rounded-lg p-4 backdrop-blur text-center">
+              <div className="text-3xl font-bold">2000+</div>
+              <div className="text-sm opacity-90">Menschen/Jahr erreicht</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ========== RÄUME: Space Breakdown ========== */}
+      {/* Warum Kultur & Gemeinschaft zentral sind */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Räume: Was entsteht im Hub</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Warum Kultur & Gemeinschaft genauso wichtig sind wie Technik</h2>
+        <Card className="border-l-4 border-l-pink-500">
+          <p className="text-sm text-text-light mb-4">
+            <strong>Technik allein ändert kein Verhalten.</strong> Menschen kommen nicht zu einer "Reparaturwerkstatt" —
+            aber sie kommen zu einem Konzert, einer Ausstellung, einem Filmabend. Und dann sehen sie: "Ah, alte Synths können Musik machen.
+            Alte Computer sind Kunstobjekte. Reparatur ist keine Pflicht — es ist Kultur."
+          </p>
+          <div className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg p-4">
+            <p className="text-sm font-bold text-purple-900 mb-2">Das ist Impact auf einer anderen Ebene:</p>
+            <p className="text-xs text-purple-800">
+              Nicht nur Geräte retten, sondern <strong>wie Menschen über Technologie denken verändern</strong>.
+              Kunst, Musik, Ausstellungen, gemeinsames Essen, Film — das sind Einstiegspunkte für Menschen,
+              die nie zu einem "Repair-Workshop" kämen. Und plötzlich reparieren sie selbst.
+            </p>
+          </div>
+        </Card>
+      </section>
+
+      {/* Core Production Spaces */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">🔧 Produktion & Kapazität</h2>
+        <p className="text-sm text-text-light mb-6">
+          Das Herzstück: Professionelle Werkstatt + AI-gestützte Infrastruktur für 180+ Geräte/Monat.
+        </p>
         <div className="grid grid-cols-1 gap-6">
-          {/* Werkstatt */}
           <CommunitySpaceCard
             icon="🔧"
-            title="Professionelle Refurbishment-Werkstatt"
-            tagline="600m² — Das Herzstück"
-            description="Hochmoderne Werkstatt mit Testinfrastruktur, Diagnose-Tools und Prozesslinien für effizientes Refurbishment."
+            title="Refurbishment-Werkstatt"
+            tagline="600m² — 6× mehr Kapazität"
+            description="Professionelle Werkstatt mit Testinfrastruktur, parallelen Prozesslinien und strukturierter Organisation."
             type="core"
             activities={[
-              'Intake & Triage Station (2× Arbeitsplätze)',
-              'Data Wipe & Security Zone (4× Workstations)',
-              'Repair & Refurbishment Linien (6× Arbeitsplätze)',
-              'Quality Assurance Lab (Automated Testing)',
-              'Komponenten-Lager & Werkzeug-Bibliothek',
+              'Intake & Triage Station (schnelle Erstdiagnose)',
+              'Data Wipe & Security Zone (NIST 800-88 Standard)',
+              '6× parallele Reparatur-Linien (statt 4 ungenutzte Tische)',
+              'Quality Assurance Lab (automatisierte Tests)',
+              'Komponenten-Lager & Tool Library',
             ]}
-            capacity="6× parallele Prozesslinien, 150-200 Geräte/Monat"
+            capacity="6× Arbeitsplätze parallel, 150-200 Geräte/Monat"
             targetAudience="Techniker, Praktikanten, Reintegrations-Programme"
-            sdgs={['SDG 12: Responsible Consumption', 'SDG 8: Decent Work']}
-            estimatedCost="CHF 180'000 (Einrichtung + Erstjahr)"
+            sdgs={['SDG 12', 'SDG 8']}
+            estimatedCost="CHF 180'000"
           />
 
-          {/* AI Lab */}
           <CommunitySpaceCard
             icon="🤖"
-            title="AI Lab & Software-Entwicklung"
-            tagline="150m² — Innovation Hub"
-            description="Raum für AI-gestützte Diagnostik, Open-Source Entwicklung und digitale Souveränität."
+            title="AI Sovereignty Node"
+            tagline="GPU-Cluster für eigene Modelle"
+            description="Nicht Cloud-abhängig, sondern eigene GPUs: AI-Modelle trainieren, hosten, vermitteln. Digitale Souveränität für Schweizer NGOs & KMUs."
             type="core"
             activities={[
-              'AI-Diagnostik: Automatisierte Hardware-Tests',
-              'Software-Entwicklung: Linux, FOSS, Tools',
-              'AI-Literacy Workshops für Community',
-              'Entwickler-Arbeitsplätze (Hot-Desking)',
+              'GPU-Cluster aus Unternehmens-Spenden (NVIDIA, AMD)',
+              'AI-gestützte Diagnostik (Hardware-Tests automatisieren)',
+              'Eigene Modelle trainieren (nicht ChatGPT-abhängig)',
+              'AI Hosting für NGOs/KMUs (Data Sovereignty)',
+              'AI Literacy Workshops: "Wie nutze ich AI sicher?"',
             ]}
-            capacity="10-12 Entwickler gleichzeitig, 8-10 trainiert/Jahr"
-            targetAudience="Software-Entwickler, AI-Interessierte, Open-Source Contributors"
-            sdgs={['SDG 9: Innovation', 'SDG 4: Quality Education']}
-            estimatedCost="CHF 90'000 (Einrichtung + Erstjahr)"
+            capacity="20-30 GPU-Nodes, 60 Workshop-Teilnehmer/Monat"
+            targetAudience="NGOs, KMUs, Entwickler, AI-Interessierte"
+            sdgs={['SDG 9', 'SDG 4']}
+            estimatedCost="CHF 80'000"
           />
+        </div>
+      </section>
 
-          {/* Event Space */}
+      {/* Cultural & Community Spaces */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">🎨 Kultur, Kunst & Gemeinschaft</h2>
+        <p className="text-sm text-text-light mb-6">
+          Hier passiert die kulturelle Transformation: Menschen kommen für Musik, Kunst, Film — und gehen mit neuer Perspektive auf Technik.
+        </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <CommunitySpaceCard
-            icon="🎭"
-            title="Event Space & Kulturraum"
-            tagline="100m² — Community Treffpunkt"
-            description="Mehrzweckraum für Workshops, Events, Ausstellungen und Community-Aktivitäten."
+            icon="🏛️"
+            title="Computer History Museum"
+            tagline="Technik-Nostalgie zum Anfassen"
+            description="Von Commodore 64 bis zur ersten Cray: Computergeschichte als lebendiges Archiv. Zeigt, dass alte Hardware wertvoll ist — nicht Müll."
             type="core"
             activities={[
-              'Tech-Workshops & Repair Cafés',
-              'Corporate Offsites & Team-Buildings',
-              'Ausstellungen (Circular Economy, Tech-Geschichte)',
-              'Community Events & Meetups',
+              'Permanent-Ausstellung: Commodore, Amiga, NeXT, Cray',
+              'Wechselausstellungen: E-Waste-Kunst, Tech-Fotografie',
+              'Führungen für Schulklassen (CHF 200/Klasse)',
+              'Depot für historische Hardware (Schenkungen)',
+              'Tech-Nostalgie-Events: "Deine erste Konsole?"',
             ]}
-            capacity="50 Personen (Event-Modus), 20 Personen (Workshop-Modus)"
-            targetAudience="Öffentlichkeit, Unternehmen, Schulen, Community"
-            sdgs={['SDG 11: Sustainable Cities', 'SDG 17: Partnerships']}
-            estimatedCost="CHF 50'000 (Einrichtung + Erstjahr)"
+            capacity="30-40 Besucher gleichzeitig"
+            targetAudience="Schulklassen, Tech-Nostalgiker, Kulturinteressierte"
+            sdgs={['SDG 11', 'SDG 4']}
+            estimatedCost="CHF 50'000"
           />
 
-          {/* Shop */}
           <CommunitySpaceCard
-            icon="🏪"
-            title="Shop & Kundenbereich"
-            tagline="50m² — Verkauf & Service"
-            description="Verkaufsfläche für refurbished Geräte, Reparatur-Annahme und Kundenberatung."
+            icon="🎹"
+            title="Elektronische Musik & Synth-Labor"
+            tagline="Alte Elektronik wird Musik"
+            description="Vintage-Synths restaurieren, Circuit-Bending-Workshops, Modular-Synthese lernen, Live-Konzerte veranstalten."
             type="core"
             activities={[
-              'Verkauf refurbished IT-Geräte',
-              'Reparatur-Annahme & Beratung',
-              'Pickup Point für Online-Bestellungen',
+              'Synth-Restaurierung (Roland, Korg, Moog aus 70er/80er)',
+              'Circuit-Bending: Spielzeug-Elektronik zu Instrumenten',
+              'Modular-Synthese für Anfänger',
+              'Live-Konzerte (elektronische Musik, Vintage-Synths)',
+              'DJ-Sets & Experimental-Musik-Abende',
             ]}
-            capacity="3-4 Kunden gleichzeitig"
-            targetAudience="Privatkunden, KulturLegi-Inhaber, Organisationen"
-            estimatedCost="CHF 25'000 (Einrichtung + Erstjahr)"
+            capacity="20 Konzert-Besucher, 10 Workshop-Teilnehmer"
+            targetAudience="Musiker, Elektronik-Fans, Experimentelle Szene"
+            sdgs={['SDG 11']}
+            estimatedCost="CHF 40'000"
           />
 
-          {/* Offices */}
           <CommunitySpaceCard
-            icon="💼"
-            title="Offices & Sozialräume"
-            tagline="100m² — Team & Verwaltung"
-            description="Büros für Geschäftsleitung, Koordination, Meetings plus Aufenthaltsraum für Team."
+            icon="🎨"
+            title="E-Waste-Art Studio"
+            tagline="Elektroschrott wird Kunst"
+            description="Künstler:innen schaffen aus Platinen, Gehäusen und Komponenten Skulpturen und Installationen. Zeigt: Schrott = Ressource."
             type="core"
             activities={[
-              'Geschäftsleitung & Koordination (3 Büros)',
-              'Meeting-Raum',
-              'Pausenraum & Küche',
-              'Storage für Admin & Dokumente',
+              'Resident Artists: 3-6 Monate Atelierplatz',
+              'E-Waste-Art-Workshops für Schulen',
+              'Wechselausstellungen im Hub',
+              'Verkauf (50% für Künstler, 50% für Hub)',
+              'Zusammenarbeit mit lokalen Kunstschulen',
             ]}
-            capacity="5-9 FTE Team"
-            targetAudience="Kernteam, Bildungsprogrammleiter"
-            estimatedCost="CHF 40'000 (Einrichtung + Erstjahr)"
+            capacity="3 Resident Artists, 20 Workshop-Teilnehmer"
+            targetAudience="Künstler, Schulen, Kunstinteressierte"
+            sdgs={['SDG 11', 'SDG 12']}
+            estimatedCost="CHF 30'000"
+          />
+
+          <CommunitySpaceCard
+            icon="🎬"
+            title="Film Nights & Diskussionen"
+            tagline="Dokumentarfilme zu Tech & Gesellschaft"
+            description="Monatliche Filmabende mit Diskussion: Überwachung, KI-Ethik, Klimakrise, Right to Repair."
+            type="core"
+            activities={[
+              'Dokumentarfilm-Screenings (1×/Monat)',
+              'Panel-Diskussionen mit Expert:innen',
+              'Community-Voting: Welchen Film als nächstes?',
+              'Themen: Überwachung, E-Waste, Planned Obsolescence',
+            ]}
+            capacity="50-80 Besucher"
+            targetAudience="Tech-Community, Aktivisten, Nachbarschaft"
+            sdgs={['SDG 4', 'SDG 11']}
+            estimatedCost="CHF 15'000"
+          />
+
+          <CommunitySpaceCard
+            icon="☕"
+            title="Zero-Waste Community Kitchen"
+            tagline="Gemeinsam essen, gemeinsam lernen"
+            description="Fair-Trade-Café tags, Community-Kitchen abends. Niederschwelliger Treffpunkt — keine Konsumpflicht."
+            type="core"
+            activities={[
+              'Fair-Trade-Kaffee & Snacks (kostendeckend)',
+              'Community-Kitchen: Gemeinsames Kochen (1×/Woche)',
+              'Zero-Waste-Prinzip: Kompostierung, Mehrweg',
+              'Offener Treffpunkt: Keine Konsumpflicht',
+              'Tech-Support-Sprechstunde (Di + Do 14-17 Uhr)',
+            ]}
+            capacity="15-20 Sitzplätze, 30 beim Community-Dinner"
+            targetAudience="Alle — niederschwelliger Zugang"
+            sdgs={['SDG 11', 'SDG 12']}
+            estimatedCost="CHF 40'000"
+          />
+
+          <CommunitySpaceCard
+            icon="🔧"
+            title="Repair Café"
+            tagline="Community-Reparatur, jeden Samstag"
+            description="Öffentliche Reparatur-Events (2×/Monat): Bring dein kaputtes Gerät, wir helfen dir es zu reparieren."
+            type="core"
+            activities={[
+              'Jeden 1. & 3. Samstag im Monat (10-16 Uhr)',
+              'Freiwillige Techniker helfen bei Reparatur',
+              'Werkzeuge & Material vor Ort',
+              'Spende nach eigenem Ermessen',
+              'Lernen durch Tun: Du reparierst, wir unterstützen',
+            ]}
+            capacity="30-40 Besucher/Event, 60-80 Menschen/Monat"
+            targetAudience="Jede:r mit kaputtem Gerät"
+            sdgs={['SDG 12', 'SDG 4']}
+            estimatedCost="CHF 20'000"
           />
         </div>
       </section>
 
-      {/* ========== TEAM: Who Works Here ========== */}
+      {/* Innovation & Education */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Das Team: Wer arbeitet im Hub</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="border-l-4 border-l-emerald-500">
-            <h3 className="text-lg font-bold text-grey-dark mb-3 flex items-center gap-2">
-              <span className="text-2xl">✅</span>
-              Kernteam (3 FTE)
-            </h3>
-            <div className="space-y-2 text-sm">
-              <div><strong>Vero:</strong> Geschäftsleitung & Koordination</div>
-              <div><strong>Dani:</strong> Operations & Refurbishment</div>
-              <div><strong>Andreas:</strong> Strategie & Entwicklung</div>
-            </div>
-          </Card>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">🚀 Innovation, Makerspace & Bildung</h2>
+        <p className="text-sm text-text-light mb-6">
+          Von Robotik bis 3D-Druck: Raum zum Experimentieren, Prototyping, Lernen.
+        </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <CommunitySpaceCard
+            icon="🛠️"
+            title="Makerspace & Hackerspace"
+            tagline="Prototyping, Tüfteln, Erfinden"
+            description="Offene Werkstatt mit 3D-Druckern, Laser-Cuttern, Elektronik-Lab. Vom Prototyp zum Produkt."
+            type="core"
+            activities={[
+              '3D-Drucker (FDM & Resin)',
+              'Laser-Cutter & CNC-Fräse',
+              'Lötarbeitsplätze für Elektronik',
+              'Tool Library: Werkzeugverleih (CHF 20/Tag)',
+              'Offene Werkstatt: Jeden Mittwoch (18-22 Uhr)',
+            ]}
+            capacity="20-30 Arbeitsplätze, 100+ Menschen/Monat"
+            targetAudience="Maker, Hobbyisten, Startups, Schüler"
+            sdgs={['SDG 9', 'SDG 4']}
+            estimatedCost="CHF 70'000"
+          />
 
-          <Card className="border-l-4 border-l-violet-500">
-            <h3 className="text-lg font-bold text-grey-dark mb-3 flex items-center gap-2">
-              <span className="text-2xl">🎯</span>
-              Bildungsprogrammleiter (2 FTE)
-            </h3>
-            <div className="space-y-2 text-sm">
-              <div><strong>Hardware-BPL:</strong> Techniker ausbilden (8-12/Jahr)</div>
-              <div><strong>Software/AI-BPL:</strong> Entwickler trainieren (6-10/Jahr)</div>
-              <div className="mt-3 pt-3 border-t border-gray-200">
-                <strong>Multiplikator:</strong> Train-the-Trainer → 1:100 Ratio
-              </div>
-            </div>
-          </Card>
+          <CommunitySpaceCard
+            icon="🤖"
+            title="Robotik & Bildung"
+            tagline="Von Arduino bis autonome Roboter"
+            description="Robotik-Kits für Schulen, Arduino-Workshops, autonome Systeme bauen."
+            type="core"
+            activities={[
+              'Arduino & Raspberry Pi Workshops',
+              'Robotik-Kits für Schulklassen (Leihgabe)',
+              'Autonome Roboter-Projekte',
+              'First Lego League Vorbereitung',
+              'Hackathons für Schüler (1×/Jahr)',
+            ]}
+            capacity="20 Kursplätze, 200+ Schüler/Jahr"
+            targetAudience="Schulen, Jugendliche, MINT-Interessierte"
+            sdgs={['SDG 4', 'SDG 9']}
+            estimatedCost="CHF 50'000"
+          />
+
+          <CommunitySpaceCard
+            icon="🎓"
+            title="Schulungs- & Kursräume"
+            tagline="Linux, AI, Coding für alle"
+            description="60 m² Schulungsraum mit 20 Arbeitsplätzen für Kurse, Workshops und strukturierte Bildung."
+            type="core"
+            activities={[
+              'Linux-Einführungskurse (Deutsch, Englisch, Ukrainisch)',
+              'AI Literacy: Wie nutze ich ChatGPT sicher?',
+              'Programmieren lernen (Python, JavaScript)',
+              'Digital Literacy für Geflüchtete',
+              'Corporate Trainings (Revenue: CHF 2000-5000/Tag)',
+            ]}
+            capacity="20 Kursplätze, 500+ Teilnehmer/Jahr"
+            targetAudience="Geflüchtete, Arbeitslose, Quereinsteiger, Unternehmen"
+            sdgs={['SDG 4', 'SDG 8', 'SDG 10']}
+            estimatedCost="CHF 40'000"
+          />
+
+          <CommunitySpaceCard
+            icon="🎤"
+            title="Event- & Multifunktionsraum"
+            tagline="Tags Workshops, abends Events"
+            description="100 m² flexibler Raum für 50-80 Personen. Tags: Workshops, Co-Working. Abends: Konzerte, Talks, Filmabende."
+            type="core"
+            activities={[
+              'Tech-Talks & Panels (Nachhaltigkeit, KI, Open Source)',
+              'Konzerte (elektronische Musik, Vintage-Synths)',
+              'Filmabende (Dokumentarfilme zu Tech & Gesellschaft)',
+              'Repair-Partys: Social + Reparatur + Musik',
+              'Corporate Events & Team-Buildings (Revenue)',
+            ]}
+            capacity="50-80 Personen (Events), 20 Personen (Workshops)"
+            targetAudience="Tech-Community, Nachbarschaft, Unternehmen"
+            sdgs={['SDG 11', 'SDG 17']}
+            estimatedCost="CHF 60'000"
+          />
         </div>
       </section>
 
-      {/* ========== PLAN: Timeline ========== */}
+      {/* Operational Spaces */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Der Plan: Meilensteine</h2>
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300"></div>
-
-          {/* Milestones */}
-          <div className="space-y-6 relative">
-            {[
-              { year: '2026 (Jahr 1)', title: 'Fundraising & Planung', items: ['Stiftungsgesuche eingereicht', 'Standortsuche & Verhandlungen', 'Team-Rekrutierung (2× BPL)', 'Detailplanung Infrastruktur'] },
-              { year: '2027 (Jahr 2)', title: 'Aufbau & Einrichtung', items: ['Hub-Eröffnung Q2/Q3', 'Werkstatt-Einrichtung', 'AI Lab Setup', 'Team-Onboarding & Training'] },
-              { year: '2028 (Jahr 3)', title: 'Vollbetrieb', items: ['150-200 Geräte/Monat', '150-200 Menschen/Jahr trainiert', 'CHF 290k Revenue', 'Reduktion Stiftungsgelder -44%'] },
-            ].map((milestone, idx) => (
-              <div key={idx} className="flex items-start gap-4">
-                <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0 relative z-10">
-                  {idx + 1}
-                </div>
-                <Card className="flex-1">
-                  <div className="font-bold text-blue-900 mb-1">{milestone.year}</div>
-                  <div className="text-lg font-semibold text-grey-dark mb-2">{milestone.title}</div>
-                  <ul className="space-y-1 text-sm text-text-light">
-                    {milestone.items.map((item, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-blue-600">→</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========== KOSTEN: Investment Breakdown ========== */}
-      <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Kosten: Investment-Übersicht</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="border-l-4 border-l-blue-500">
-            <h3 className="text-lg font-bold text-grey-dark mb-4">Einmalige Investitionen</h3>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between pb-2 border-b border-gray-200">
-                <span>Werkstatt-Einrichtung</span>
-                <span className="font-semibold">CHF 180'000</span>
-              </div>
-              <div className="flex justify-between pb-2 border-b border-gray-200">
-                <span>AI Lab Setup</span>
-                <span className="font-semibold">CHF 90'000</span>
-              </div>
-              <div className="flex justify-between pb-2 border-b border-gray-200">
-                <span>Event Space</span>
-                <span className="font-semibold">CHF 50'000</span>
-              </div>
-              <div className="flex justify-between pb-2 border-b border-gray-200">
-                <span>Shop & Offices</span>
-                <span className="font-semibold">CHF 65'000</span>
-              </div>
-              <div className="flex justify-between pt-2 font-bold text-blue-900">
-                <span>Total Einmalig</span>
-                <span>CHF 385'000</span>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="border-l-4 border-l-violet-500">
-            <h3 className="text-lg font-bold text-grey-dark mb-4">Jährliche Betriebskosten (Jahr 1)</h3>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between pb-2 border-b border-gray-200">
-                <span>Miete 1000m² (CHF 300/m²)</span>
-                <span className="font-semibold">CHF 300'000</span>
-              </div>
-              <div className="flex justify-between pb-2 border-b border-gray-200">
-                <span>Nebenkosten (Strom, etc.)</span>
-                <span className="font-semibold">CHF 50'000</span>
-              </div>
-              <div className="flex justify-between pb-2 border-b border-gray-200">
-                <span>Versicherungen</span>
-                <span className="font-semibold">CHF 15'000</span>
-              </div>
-              <div className="flex justify-between pb-2 border-b border-gray-200">
-                <span>Instandhaltung</span>
-                <span className="font-semibold">CHF 20'000</span>
-              </div>
-              <div className="flex justify-between pt-2 font-bold text-violet-900">
-                <span>Total Jährlich</span>
-                <span>CHF 385'000</span>
-              </div>
-            </div>
-          </Card>
-        </div>
-        <div className="mt-4 rounded-lg bg-amber-50 border-l-4 border-amber-500 p-4 text-sm">
-          <strong>Hinweis:</strong> Personalkosten (CHF 475k/Jahr) kommen zusätzlich.
-          Total Jahr 1: CHF 385k (Einmalig) + CHF 385k (Miete/Betrieb) + CHF 475k (Personal) = <strong>CHF 1'245k</strong>.
-          Ab Jahr 2 reduziert sich auf CHF 860k/Jahr (ohne Einmalig-Investitionen).
-        </div>
-      </section>
-
-      {/* ========== WIRKUNG: Impact Projections ========== */}
-      <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Wirkung: Erwarteter Impact</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">💼 Betrieb & Infrastruktur</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="text-center border-l-4 border-l-emerald-500">
-            <div className="text-4xl mb-2">🌱</div>
-            <div className="text-3xl font-bold text-emerald-900">2'160</div>
-            <div className="text-sm text-emerald-700 mb-2">Geräte/Jahr (Jahr 3)</div>
-            <div className="text-xs text-gray-600">
-              6× mehr als heute<br />
-              ~615 Tonnen CO₂ gespart/Jahr
-            </div>
+          <Card className="border-l-4 border-l-gray-500">
+            <h3 className="text-md font-semibold text-grey-dark mb-3">🏪 Shop & Verkauf</h3>
+            <p className="text-sm text-text-light mb-3">
+              50 m² Verkaufsfläche für refurbishte Geräte, Reparatur-Annahme, Kundenberatung.
+            </p>
+            <p className="text-xs text-text-light">
+              <strong>Zielgruppe:</strong> Privatkunden, KulturLegi, NGOs<br />
+              <strong>Kosten:</strong> CHF 25'000
+            </p>
           </Card>
 
-          <Card className="text-center border-l-4 border-l-blue-500">
-            <div className="text-4xl mb-2">👥</div>
-            <div className="text-3xl font-bold text-blue-900">150-200</div>
-            <div className="text-sm text-blue-700 mb-2">Menschen/Jahr trainiert</div>
-            <div className="text-xs text-gray-600">
-              32× mehr als heute<br />
-              Train-the-Trainer Multiplikator
-            </div>
+          <Card className="border-l-4 border-l-gray-500">
+            <h3 className="text-md font-semibold text-grey-dark mb-3">💼 Offices & Sozialräume</h3>
+            <p className="text-sm text-text-light mb-3">
+              100 m² für Geschäftsleitung, Koordination, Meetings, Pausenraum.
+            </p>
+            <p className="text-xs text-text-light">
+              <strong>Team:</strong> 5 VZÄ (Kernteam + 2× BPL)<br />
+              <strong>Kosten:</strong> CHF 40'000
+            </p>
           </Card>
 
-          <Card className="text-center border-l-4 border-l-violet-500">
-            <div className="text-4xl mb-2">💰</div>
-            <div className="text-3xl font-bold text-violet-900">CHF 290k</div>
-            <div className="text-sm text-violet-700 mb-2">Revenue Jahr 3</div>
-            <div className="text-xs text-gray-600">
-              3.6× Wachstum<br />
-              Selbsttragend (Operations)
-            </div>
+          <Card className="border-l-4 border-l-gray-500">
+            <h3 className="text-md font-semibold text-grey-dark mb-3">📦 Lager & Logistik</h3>
+            <p className="text-sm text-text-light mb-3">
+              120 m² für Eingang/Triage, Ersatzteile, Fertigware, Recycling-Staging.
+            </p>
+            <p className="text-xs text-text-light">
+              <strong>Kapazität:</strong> 500+ Geräte gleichzeitig<br />
+              <strong>Kosten:</strong> CHF 30'000
+            </p>
           </Card>
         </div>
       </section>
 
-      {/* ========== CTA: Next Steps ========== */}
+      {/* Budget */}
       <section className="mb-8">
-        <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-blue-900 mb-4">Bereit, Teil dieser Vision zu werden?</h2>
-            <p className="text-blue-800 mb-6">
-              Wir suchen Stiftungen und Partner, die Kreislaufwirtschaft, Tech-Bildung und digitale Souveränität ermöglichen.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/fundraising/stiftungen"
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-              >
-                Stiftungsliste ansehen
-              </Link>
-              <Link
-                href="/fundraising/gesuch-vorlagen"
-                className="px-6 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
-              >
-                Gesuch-Vorlagen
-              </Link>
-              <Link
-                href="/team"
-                className="px-6 py-3 bg-violet-600 text-white rounded-lg font-semibold hover:bg-violet-700 transition-colors"
-              >
-                Team & Menschen kennenlernen
-              </Link>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Budget: Was kostet der Hub?</h2>
+        <Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 className="text-lg font-semibold text-grey-dark mb-3">Einmalige Investitionen</h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-text-light">Werkstatt-Einrichtung</span>
+                  <span className="font-semibold">CHF 180'000</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-light">AI Node (GPUs)</span>
+                  <span className="font-semibold">CHF 80'000</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-light">Makerspace & Robotik</span>
+                  <span className="font-semibold">CHF 120'000</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-light">Kultur (Museum, Musik, Kunst)</span>
+                  <span className="font-semibold">CHF 120'000</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-light">Infrastruktur (Shop, Offices, Lager)</span>
+                  <span className="font-semibold">CHF 95'000</span>
+                </div>
+                <div className="flex justify-between pt-2 border-t border-gray-200">
+                  <span className="font-bold">Total Einmalig</span>
+                  <span className="font-bold text-blue-900">CHF 595'000</span>
+                </div>
+              </div>
             </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-grey-dark mb-3">Jährliche Kosten (Jahr 1)</h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-text-light">Miete (~1000 m² in ZH/Agglo)</span>
+                  <span className="font-semibold">CHF 200'000</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-light">Nebenkosten (Strom, Heizung, etc.)</span>
+                  <span className="font-semibold">CHF 80'000</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-light">Versicherung & Sicherheit</span>
+                  <span className="font-semibold">CHF 20'000</span>
+                </div>
+                <div className="flex justify-between pt-2 border-t border-gray-200">
+                  <span className="font-bold">Total Jährlich</span>
+                  <span className="font-bold text-blue-900">CHF 300'000</span>
+                </div>
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                  <p className="text-xs text-blue-800">
+                    <strong>Personalkosten separat:</strong> Siehe <Link href="/fundraising/bildung" className="underline">Bildungsprogramm</Link> (CHF 175k/Jahr für 2× BPL)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-6 text-center">
+            <p className="text-sm text-emerald-900 mb-2">
+              <strong>Gesamtinvestition (Einrichtung + 1. Jahr Betrieb):</strong>
+            </p>
+            <p className="text-4xl font-bold text-emerald-900">CHF 895'000</p>
+            <p className="text-xs text-emerald-800 mt-2">
+              Plus CHF 300k/Jahr ab Jahr 2 (Miete + Nebenkosten)
+            </p>
           </div>
         </Card>
+      </section>
+
+      {/* Call to Action */}
+      <section className="mb-8">
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 p-8 text-white text-center">
+          <h3 className="text-2xl font-bold mb-4">Hilf uns, diesen Ort zu schaffen</h3>
+          <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
+            Der Revamp Hub ist mehr als ein Gebäude — es ist eine Plattform für <strong>digitale Teilhabe,
+            kulturelle Transformation und nachhaltige Innovation</strong>. Mit deiner Unterstützung können wir zeigen:
+            Elektroschrott ist nicht Müll — es ist Potenzial.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/fundraising"
+              className="px-8 py-4 bg-white text-emerald-700 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg"
+            >
+              📊 Fundraising-Übersicht
+            </Link>
+            <Link
+              href="/fundraising/stiftungen"
+              className="px-8 py-4 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors duration-200 border-2 border-white"
+            >
+              🏛️ Passende Stiftungen finden
+            </Link>
+            <Link
+              href="/revamp-2030"
+              className="px-8 py-4 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors duration-200 border-2 border-white"
+            >
+              🚀 Gesamtstrategie 2030
+            </Link>
+          </div>
+        </div>
       </section>
     </>
   );
