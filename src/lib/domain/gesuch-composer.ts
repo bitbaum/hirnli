@@ -16,13 +16,17 @@ import {
   THEME_ID_TO_STORY_KEY,
   THEME_PRIORITY,
   CORE_FACTS,
-  BUDGET_MODULES,
-  BUDGET_TOTAL,
-  BUDGET_EIGENLEISTUNG,
   ANSCHREIBEN_TEMPLATES,
 } from '@/lib/config/stories';
-import type { BudgetModule } from '@/lib/config/stories';
 import { TYPE_LABELS, THEMES } from '@/lib/config/foundations';
+import {
+  BUDGET_SCENARIOS,
+  EIGENLEISTUNG_CONFIG,
+  getScenario,
+  getLineItemsForScenario,
+} from '@/lib/config/budget-scenarios';
+import type { BudgetLineItem, BudgetScenario } from '@/lib/schemas/budget';
+import { calculate3YearTotals } from '@/lib/domain/budget-calculations';
 import {
   THREE_YEAR_MODEL,
   STIFTUNGEN_3Y_TOTAL,
@@ -80,9 +84,8 @@ export interface ComposedGesuchDokument extends ComposedGesuch {
     themeAlignment: string;
   };
   budget: {
-    modules: BudgetModule[];
-    total: number;
-    eigenleistung: { label: string; description: string; amount: number };
+    scenario: BudgetScenario;
+    lineItems: BudgetLineItem[];
     requestedAmount: number;
     projectDuration: string;
     threeYearModel: {
@@ -203,9 +206,36 @@ function buildThemeAlignment(foundation: Foundation, themeMetadata: ThemeMetadat
   }`;
 }
 
+/**
+ * Map foundation type to budget scenario
+ * Type A → Maximum (full vision)
+ * Type B → Moderate (recommended)
+ * Type C, D → Minimal (solid foundation)
+ */
+function getScenarioForFoundation(foundation: Foundation): BudgetScenario {
+  let scenarioId: string;
+
+  if (foundation.type === 'A') {
+    scenarioId = 'maximum';
+  } else if (foundation.type === 'B') {
+    scenarioId = 'moderate';
+  } else {
+    scenarioId = 'minimal'; // Type C, D, network
+  }
+
+  const scenario = getScenario(scenarioId);
+  if (!scenario) {
+    // Fallback to moderate if scenario not found
+    return getScenario('moderate')!;
+  }
+
+  return scenario;
+}
+
 /** Compute requested amount based on foundation's typical range vs year-1 funding gap */
-function computeRequestedAmount(foundation: Foundation): number {
-  const gap = BUDGET_TOTAL - BUDGET_EIGENLEISTUNG.amount; // CHF 468k (year 1 gap)
+function computeRequestedAmount(foundation: Foundation, scenario: BudgetScenario): number {
+  const year1Budget = scenario.threeYearModel.year1.einmalig + scenario.threeYearModel.year1.jaehrlich;
+  const gap = year1Budget - scenario.threeYearModel.year1.eigenleistung;
   const max = foundation.amount.max;
   const min = foundation.amount.min;
 
@@ -228,7 +258,11 @@ export function composeGesuchDokument(foundation: Foundation): ComposedGesuchDok
   const gesuch = composeGesuch(foundation);
   const template = ANSCHREIBEN_TEMPLATES[foundation.type] ?? ANSCHREIBEN_TEMPLATES['A'];
   const themeMetadata = collectThemeMetadata(foundation);
-  const requestedAmount = computeRequestedAmount(foundation);
+
+  // Get appropriate scenario based on foundation type
+  const scenario = getScenarioForFoundation(foundation);
+  const lineItems = getLineItemsForScenario(scenario.id);
+  const requestedAmount = computeRequestedAmount(foundation, scenario);
 
   const today = new Date();
   const dateStr = `Zürich, ${today.getDate()}. ${
@@ -246,9 +280,8 @@ export function composeGesuchDokument(foundation: Foundation): ComposedGesuchDok
       themeAlignment: buildThemeAlignment(foundation, themeMetadata),
     },
     budget: {
-      modules: BUDGET_MODULES,
-      total: BUDGET_TOTAL,
-      eigenleistung: BUDGET_EIGENLEISTUNG,
+      scenario,
+      lineItems,
       requestedAmount,
       projectDuration: `3 Jahre (2026–2028): ${PROJECT_DURATION_LABEL}`,
       threeYearModel: THREE_YEAR_MODEL.map((y) => ({

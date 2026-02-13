@@ -4,6 +4,14 @@ import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { CommunitySpaceCard } from '@/app/strategie/components';
+import {
+  ZURICH_MARKET_DATA,
+  SPACE_SUMMARY,
+  MULTI_PURPOSE_STRATEGY,
+  HUB_SPACE_AREAS,
+} from '@/lib/config/hub-space-plan';
+import { HubImageGenerator } from '@/components/hub/HubImageGenerator';
+import BudgetSection from './BudgetSection';
 
 export const metadata: Metadata = {
   title: 'Revamp Hub — Community Tech Space',
@@ -33,14 +41,174 @@ export default function HubPage() {
             sondern <strong>strukturierte Prozesse</strong> mit 2 Bildungsprogrammleitern + sozialpädagogischer Begleitung (Veronica).
             Plus: Tech-Bildung, AI Lab, Makerspace — damit Menschen nicht nur konsumieren, sondern lernen und gestalten.
           </p>
-          <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-lg">
-            <p className="text-sm text-amber-900 mb-2">
-              <strong>Hinweis:</strong> Die Quadratmeterzahlen unten sind <strong>Planungsentwürfe</strong> und werden
-              noch konkretisiert. Jede Zahl muss begründbar und anklickbar sein (Quellenangabe folgt).
+          <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+            <p className="text-sm font-semibold text-red-900 mb-2">
+              ⚠️ WICHTIG: Zahlen-Audit läuft (2026-02-13)
             </p>
+            <p className="text-sm text-red-800 mb-3">
+              <strong>Problem erkannt:</strong> Die unten aufgeführten Räume ergeben zusammen ~1,100 m², aber wir sprechen von "500-600 m²".
+              Budgetzahlen in den Karten stimmen nicht mit der Budget-Zusammenfassung überein. AI Lab GPU-Zahlen waren unrealistisch (korrigiert).
+            </p>
+            <p className="text-xs text-red-700 mb-2">
+              <strong>Was jetzt passiert:</strong> Wir überarbeiten systematisch alle Zahlen für Konsistenz.
+              Einige Räume unten sind "Aspirational" (Zukunftsvision), nicht "Phase 1" (realistisch in 550m²).
+            </p>
+            <p className="text-xs text-red-700">
+              <strong>Phase 1 (realistisch, 550m²):</strong> Shop, Werkstatt, Offices, Lager, Makerspace, AI Lab (klein), Schulung, Event+Café kombiniert.
+              <br />
+              <strong>Zukunft (wenn Budget/Raum vorhanden):</strong> Museum, Synth-Lab, E-Waste-Art, Robotik, erweiterte Kultur-Programme.
+            </p>
+          </div>
+        </Card>
+      </section>
+
+      {/* Space Planning: Total Overview & Zürich Market Research */}
+      <section className="mb-8">
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">📐 Raumplanung: Wie gross? Warum? Was kostet es?</h2>
+        <p className="text-sm text-text-light mb-6">
+          Detaillierte Begründung für jede Fläche — basierend auf Industrie-Standards, Zürich-Marktforschung und Multi-Purpose-Strategie.
+        </p>
+
+        {/* Total Space Summary */}
+        <Card className="mb-6 border-l-4 border-l-blue-500">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-grey-dark mb-2">Gesamt-Raumkonzept</h3>
+              <p className="text-2xl font-bold text-blue-900">{SPACE_SUMMARY.total_usable_space} m²</p>
+            </div>
+            <Badge color="blue">Realistisch</Badge>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div className="bg-blue-50 p-3 rounded-lg">
+              <p className="text-xs font-semibold text-blue-900 mb-1">Kerngeschäft</p>
+              <p className="text-lg font-bold text-blue-900">{SPACE_SUMMARY.by_category.core_business.total_sqm} m²</p>
+              <p className="text-xs text-blue-800">Shop + Werkstatt + Lager</p>
+            </div>
+            <div className="bg-purple-50 p-3 rounded-lg">
+              <p className="text-xs font-semibold text-purple-900 mb-1">Innovation & Bildung</p>
+              <p className="text-lg font-bold text-purple-900">{SPACE_SUMMARY.by_category.innovation.total_sqm} m²</p>
+              <p className="text-xs text-purple-800">Makerspace + AI Lab + Schulung</p>
+            </div>
+            <div className="bg-pink-50 p-3 rounded-lg">
+              <p className="text-xs font-semibold text-pink-900 mb-1">Kultur & Community</p>
+              <p className="text-lg font-bold text-pink-900">{SPACE_SUMMARY.by_category.culture_community.total_sqm} m²</p>
+              <p className="text-xs text-pink-800">Events + Café + Repair Café</p>
+            </div>
+          </div>
+
+          <div className="bg-amber-50 border-l-4 border-amber-500 p-4 text-sm">
+            <p className="font-semibold text-amber-900 mb-2">Warum diese Grösse?</p>
             <p className="text-xs text-amber-800">
-              Feedback willkommen: Sind diese Zahlen realistisch? Wo müssen wir effizienter sein?
+              Basiert auf Industrie-Standards: Auto-Werkstatt mit 2 Hebebühnen = 140-185m² (Baseline für Werkstatt-Dimensionierung).
+              Professionelle Reparatur-Arbeitsplätze benötigen <strong>12-18m²</strong> (Werkbank + Lagerfläche + Bewegungsraum).
+              Workshop-Räume optimal bei <strong>2,4-3,6m Deckenhöhe</strong> (Belüftung + Beleuchtung). Unsere Planung:
+              <strong> ~{SPACE_SUMMARY.total_usable_space}m² effizient genutzter Raum</strong>, nicht 1000m² ineffizient.
             </p>
+          </div>
+        </Card>
+
+        {/* Zürich Market Research */}
+        <Card className="mb-6 border-l-4 border-l-green-500">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-grey-dark mb-2">Zürich Marktforschung: Was kostet {SPACE_SUMMARY.total_usable_space}m²?</h3>
+            </div>
+            <Badge color="green">Marktdaten 2026</Badge>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="bg-green-50 p-4 rounded-lg">
+              <p className="text-xs font-semibold text-green-900 mb-2">Agglomeration (empfohlen)</p>
+              <p className="text-sm text-green-800 mb-2">
+                <strong>{ZURICH_MARKET_DATA.agglomeration.commercial_space_per_year}</strong> pro m²/Jahr
+              </p>
+              <p className="text-xs text-green-700 mb-3">
+                Standorte: {ZURICH_MARKET_DATA.agglomeration.locations.join(', ')}
+              </p>
+              <div className="pt-3 border-t border-green-200">
+                <p className="text-xs text-green-700 mb-1">Für {SPACE_SUMMARY.total_usable_space}m²:</p>
+                <p className="text-lg font-bold text-green-900">
+                  CHF {ZURICH_MARKET_DATA.estimate_for_550m2.agglomeration.min.toLocaleString('de-CH')} - {ZURICH_MARKET_DATA.estimate_for_550m2.agglomeration.max.toLocaleString('de-CH')} /Jahr
+                </p>
+                <p className="text-xs text-green-700 mt-1">
+                  (Realistisch: CHF {ZURICH_MARKET_DATA.estimate_for_550m2.agglomeration.realistic.toLocaleString('de-CH')} für gute Lage)
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <p className="text-xs font-semibold text-blue-900 mb-2">Stadt Zürich (teurer)</p>
+              <p className="text-sm text-blue-800 mb-2">
+                <strong>{ZURICH_MARKET_DATA.city_zurich.office_space_per_year}</strong> pro m²/Jahr
+              </p>
+              <p className="text-xs text-blue-700 mb-3">
+                Zentrale Lagen (Kreis 4/5, Zürich West)
+              </p>
+              <div className="pt-3 border-t border-blue-200">
+                <p className="text-xs text-blue-700 mb-1">Für {SPACE_SUMMARY.total_usable_space}m²:</p>
+                <p className="text-lg font-bold text-blue-900">
+                  CHF {ZURICH_MARKET_DATA.estimate_for_550m2.city_zurich.min.toLocaleString('de-CH')} - {ZURICH_MARKET_DATA.estimate_for_550m2.city_zurich.max.toLocaleString('de-CH')} /Jahr
+                </p>
+                <p className="text-xs text-blue-700 mt-1">
+                  ({ZURICH_MARKET_DATA.estimate_for_550m2.city_zurich.note})
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-4 text-xs">
+            <p className="font-semibold text-blue-900 mb-1">Quelle & Methodik:</p>
+            <p className="text-blue-800">
+              Marktforschung basiert auf Homegate.ch, ImmoScout24, Comparis (Februar 2026). Kategorisierung:
+              <strong> Agglomeration</strong> ({ZURICH_MARKET_DATA.agglomeration.locations.join(', ')}) vs. <strong>Stadt Zürich</strong> (Zentrale Lagen).
+              Für detaillierte Quellenangaben siehe Methodik-Seite.
+            </p>
+          </div>
+        </Card>
+
+        {/* Multi-Purpose Efficiency Strategy */}
+        <Card className="mb-6 border-l-4 border-l-purple-500">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-grey-dark mb-2">Multi-Purpose-Strategie: Effizienz durch Zeit-Sharing</h3>
+            </div>
+            <Badge color="purple">Platzsparend</Badge>
+          </div>
+
+          <p className="text-sm text-text-light mb-4">
+            Nicht jede Funktion braucht einen eigenen Raum 24/7. Durch intelligente Zeit-Nutzung sparen wir <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong>.
+          </p>
+
+          <div className="bg-purple-50 p-4 rounded-lg mb-4">
+            <p className="font-semibold text-purple-900 mb-3">Event-Raum + Café (kombiniert 100m²)</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div className="bg-white p-3 rounded border border-purple-200">
+                <p className="font-semibold text-purple-900 mb-1">Werktag (9-17 Uhr)</p>
+                <p className="text-purple-800">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_day}</p>
+              </div>
+              <div className="bg-white p-3 rounded border border-purple-200">
+                <p className="font-semibold text-purple-900 mb-1">Abends (18-22 Uhr)</p>
+                <p className="text-purple-800">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_evening}</p>
+              </div>
+              <div className="bg-white p-3 rounded border border-purple-200">
+                <p className="font-semibold text-purple-900 mb-1">1./3. Samstag</p>
+                <p className="text-purple-800">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.saturday_1st_3rd}</p>
+              </div>
+            </div>
+            <p className="text-xs text-purple-700 mt-3">
+              <strong>Ersparnis:</strong> Statt 140m² (60m² Café + 80m² Event-Raum separat) nutzen wir 100m² kombiniert.
+              Das spart <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong> und damit CHF {(MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved * 200).toLocaleString('de-CH')}/Jahr Miete.
+            </p>
+          </div>
+
+          <div className="text-xs text-text-light">
+            <p className="font-semibold text-grey-dark mb-2">Weitere Multi-Purpose-Konzepte:</p>
+            <ul className="space-y-1">
+              <li>• <strong>Schulungsraum + Repair Café:</strong> Werktags Kurse, 1./3. Samstag öffentliche Reparaturen</li>
+              <li>• <strong>Makerspace + Synth-Labor:</strong> Geteilte Werkbänke, unterschiedliche Nutzungszeiten</li>
+              <li>• <strong>AI Lab + Schulungsraum:</strong> GPUs für Training (nachts) + Workshops (tags)</li>
+            </ul>
           </div>
         </Card>
       </section>
@@ -344,7 +512,7 @@ export default function HubPage() {
                 <div className="bg-cyan-100 p-3 rounded-lg">
                   <p className="font-semibold text-cyan-900 mb-1">Setup B — Professional (CHF 40'000-60'000)</p>
                   <ul className="text-xs text-cyan-800 space-y-1">
-                    <li>• 8-12× Professional GPUs (NVIDIA A40/A100, teilweise gespendet von Unternehmen)</li>
+                    <li>• 4-6× Professional GPUs (NVIDIA A40, teilweise gespendet von Unternehmen)</li>
                     <li>• 2× Server-Racks mit professioneller Kühlung</li>
                     <li>• <strong>Wirkung:</strong> AI-gestützte Hardware-Diagnostik, AI Hosting für NGOs/KMUs, größere Modelle trainieren</li>
                   </ul>
@@ -353,8 +521,9 @@ export default function HubPage() {
                 <div className="bg-cyan-200 p-3 rounded-lg">
                   <p className="font-semibold text-cyan-900 mb-1">Setup C — Enterprise (CHF 100'000-150'000)</p>
                   <ul className="text-xs text-cyan-800 space-y-1">
-                    <li>• 20-30× Enterprise GPUs (NVIDIA H100/A100, Corporate-Spenden + Teilkauf)</li>
-                    <li>• 3-4× Server-Racks mit Klimatisierung & Redundanz</li>
+                    <li>• 8-12× NVIDIA A100 GPUs (Corporate-Spenden + Teilkauf, je CHF 10-15k)</li>
+                    <li>• ODER 4-6× NVIDIA H100 GPUs (falls verfügbar, je CHF 25-35k)</li>
+                    <li>• 2-3× Server-Racks mit Klimatisierung & Redundanz</li>
                     <li>• <strong>Wirkung:</strong> Alle oben + Open-Source-Modelle hosten, AI-Forschung für NGO-Sektor, Data Sovereignty für sensible Daten</li>
                   </ul>
                 </div>
@@ -364,6 +533,9 @@ export default function HubPage() {
             <div className="bg-amber-50 border-l-4 border-amber-500 p-3 text-xs text-amber-900 mb-3">
               <strong>Wichtig:</strong> Wir starten nicht mit Setup C. Wir bauen modular auf, basierend auf Spenden + verfügbarem Budget.
               Jedes Setup ist nützlich — auch Setup A ermöglicht AI Literacy Workshops und kleine Modelle.
+              <br /><br />
+              <strong>Realität:</strong> Enterprise GPUs sind teuer (A100: CHF 10-15k, H100: CHF 25-35k pro Stück).
+              Setup C erfordert massive Corporate-Spenden oder schrittweisen Aufbau über mehrere Jahre.
             </div>
 
             <div className="text-xs text-text-light pt-3 border-t border-gray-200">
@@ -569,168 +741,17 @@ export default function HubPage() {
         </div>
       </section>
 
-      {/* Budget */}
+      {/* Budget (Interactive Scenarios) */}
+      <BudgetSection />
+
+      {/* AI Image Generation */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">💰 Budget: Was kostet der Hub?</h2>
-        <Card>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <h3 className="text-lg font-semibold text-grey-dark mb-3">Einmalige Investitionen (Setup) — ENTWURF</h3>
-              <div className="bg-amber-50 p-3 rounded mb-4 text-xs text-amber-900">
-                <strong>Wichtig:</strong> Diese Zahlen sind Planungsentwürfe. Jeder Betrag muss noch validiert und mit Quellenangabe versehen werden.
-              </div>
-              <div className="space-y-2 text-sm mb-4">
-                <p className="text-xs text-text-light font-semibold mb-2">KERNGESCHÄFT (Shop + Werkstatt + Operations):</p>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Shop & Kundenbereich (~50m²)</span>
-                  <span className="font-semibold">CHF 25'000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Refurbishment-Werkstatt (~150m²)</span>
-                  <span className="font-semibold">CHF 80'000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Offices, Lager, Logistik (~120m²)</span>
-                  <span className="font-semibold">CHF 50'000</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-gray-200">
-                  <span className="font-semibold text-grey-dark">Subtotal Kerngeschäft</span>
-                  <span className="font-semibold text-blue-900">CHF 155'000</span>
-                </div>
-              </div>
-
-              <div className="space-y-2 text-sm mb-4">
-                <p className="text-xs text-text-light font-semibold mb-2">INNOVATION (Makerspace + AI + Bildung):</p>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Makerspace & Hackerspace (~60m²)</span>
-                  <span className="font-semibold">CHF 40'000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">AI Lab (Setup A-C, siehe oben)</span>
-                  <span className="font-semibold">CHF 15-150k</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Schulungs- & Kursräume (~50m²)</span>
-                  <span className="font-semibold">CHF 30'000</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-gray-200">
-                  <span className="font-semibold text-grey-dark">Subtotal Innovation</span>
-                  <span className="font-semibold text-purple-900">CHF 85-220k</span>
-                </div>
-              </div>
-
-              <div className="space-y-2 text-sm mb-4">
-                <p className="text-xs text-text-light font-semibold mb-2">KULTUR & COMMUNITY (optional/modular):</p>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Event- & Multifunktionsraum (~80m²)</span>
-                  <span className="font-semibold">CHF 40'000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Community Kitchen (~30m²)</span>
-                  <span className="font-semibold">CHF 25'000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Repair Café (teilt Event-Raum)</span>
-                  <span className="font-semibold">CHF 10'000</span>
-                </div>
-                <div className="flex justify-between text-xs text-text-muted italic">
-                  <span>Weitere Kultur-Module (Museum, Synth-Lab, E-Waste-Art)</span>
-                  <span>optional</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-gray-200">
-                  <span className="font-semibold text-grey-dark">Subtotal Kultur (Basis)</span>
-                  <span className="font-semibold text-pink-900">CHF 75'000</span>
-                </div>
-              </div>
-
-              <div className="flex justify-between pt-3 border-t-2 border-gray-300 text-base">
-                <span className="font-bold">Total Einmalig (Setup) — ENTWURF</span>
-                <span className="font-bold text-blue-900">CHF 315-450k</span>
-              </div>
-              <p className="text-xs text-text-muted mt-2">
-                Je nach AI Lab Setup (A/B/C) und optionalen Kultur-Modulen
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold text-grey-dark mb-3">Jährliche Kosten (Betrieb) — ENTWURF</h3>
-              <div className="space-y-2 text-sm mb-4">
-                <p className="text-xs text-text-light font-semibold mb-2">MIETE & NEBENKOSTEN:</p>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Miete (~500-600 m² in ZH/Agglo)</span>
-                  <span className="font-semibold">CHF 120-150k</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Nebenkosten (Strom, Heizung, Internet)</span>
-                  <span className="font-semibold">CHF 40-50k</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Versicherung & Sicherheit</span>
-                  <span className="font-semibold">CHF 15k</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-gray-200">
-                  <span className="font-semibold text-grey-dark">Subtotal Infrastruktur</span>
-                  <span className="font-semibold text-blue-900">CHF 175-215k</span>
-                </div>
-              </div>
-
-              <div className="space-y-2 text-sm mb-4">
-                <p className="text-xs text-text-light font-semibold mb-2">MATERIAL & BETRIEB:</p>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Ersatzteile & Komponenten</span>
-                  <span className="font-semibold">CHF 30-40k</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Werkzeuge & Verbrauchsmaterial</span>
-                  <span className="font-semibold">CHF 15k</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-light">Events & Programm (Kultur, Workshops)</span>
-                  <span className="font-semibold">CHF 20k</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-gray-200">
-                  <span className="font-semibold text-grey-dark">Subtotal Material</span>
-                  <span className="font-semibold text-purple-900">CHF 65-75k</span>
-                </div>
-              </div>
-
-              <div className="flex justify-between pt-3 border-t-2 border-gray-300 text-base mb-4">
-                <span className="font-bold">Total Jährlich (ohne Personal) — ENTWURF</span>
-                <span className="font-bold text-blue-900">CHF 240-290k</span>
-              </div>
-
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <p className="text-xs text-blue-800 mb-1">
-                  <strong>Personalkosten separat:</strong> Siehe{' '}
-                  <Link href="/fundraising/bildung" className="underline">Bildungsprogramm</Link>
-                </p>
-                <p className="text-xs text-blue-800">
-                  CHF 175k/Jahr für 2× BPL (Kernteam-Gehälter bereits im Basisbetrieb enthalten)
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-6 text-center">
-            <p className="text-sm text-amber-900 mb-2 font-semibold">
-              <strong>Gesamtinvestition (Setup + 1. Jahr Betrieb) — ENTWURF</strong>
-            </p>
-            <p className="text-3xl font-bold text-amber-900 mb-3">CHF 555-740k</p>
-            <div className="text-xs text-amber-800 space-y-1">
-              <p>Setup: CHF 315-450k (je nach AI Lab Setup A/B/C)</p>
-              <p>Betrieb Jahr 1: CHF 240-290k (ohne Personal)</p>
-              <p className="mt-3 pt-3 border-t border-amber-300">
-                <strong>Ab Jahr 2:</strong> CHF 240-290k/Jahr Betrieb (ohne Personal)
-              </p>
-            </div>
-            <div className="mt-4 pt-4 border-t border-amber-300">
-              <p className="text-xs text-amber-900 font-semibold">
-                WICHTIG: Alle Zahlen sind Planungsentwürfe und müssen noch validiert werden.
-                Jede Zahl braucht Quellenangabe oder Begründung.
-              </p>
-            </div>
-          </div>
-        </Card>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">🎨 Hub visualisieren: AI-Bilder generieren</h2>
+        <p className="text-sm text-text-light mb-6">
+          Erstelle professionelle Visualisierungen der verschiedenen Hub-Bereiche mit AI-Bildgenerierung.
+          Wähle einen Raum, kopiere den Prompt, und generiere in Midjourney, DALL-E 3 oder Stable Diffusion.
+        </p>
+        <HubImageGenerator />
       </section>
 
       {/* Call to Action */}

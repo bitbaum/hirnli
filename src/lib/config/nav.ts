@@ -54,23 +54,36 @@ export const NAV_STRUCTURE: {
   logo: { text: BRAND_NAME, href: '/' },
   items: [
     {
-      text: 'Revamp 2030',
-      icon: '🚀',
-      href: '/revamp-2030',
-      children: [
-        { text: 'Vision & Strategie', href: '/revamp-2030', desc: 'Wohin wir gehen: Organisation + Hub + Bildung' },
-      ],
-    },
-    {
-      text: 'Revamp Heute',
+      text: 'Revamp Gestern & Heute',
       icon: '🏢',
       children: [
-        { text: 'Mission & Werte', href: '/strategie', desc: 'Vier Säulen, SDGs, Souveränität' },
+        { text: 'Mission & Geschichte', href: '/strategie', desc: 'Warum wir existieren, woher wir kommen' },
         { text: 'Team & Operations', href: '/team', desc: 'Wer wir sind, was wir tun' },
         { text: 'Finanzen', href: '/finanzen', desc: 'Einnahmen, Ausgaben, 8-Jahres-Trend' },
         { text: 'Wirkung', href: '/wirkung', desc: 'CO₂, Geräte, Menschen' },
         { text: 'Preismodell', href: '/preismodell', desc: 'Solidarisches 4-Stufen-Modell' },
         { text: 'Methodik', href: '/methodik', desc: 'Wie wir Daten erheben & berechnen' },
+      ],
+    },
+    {
+      text: 'Revamp 2030',
+      icon: '🚀',
+      href: '/revamp-2030',
+      mega: true,
+      sections: [
+        {
+          title: 'Vision & Strategie',
+          items: [
+            { text: 'Revamp 2030 Übersicht', href: '/revamp-2030', desc: 'Die grosse Vision: Organisation, Hub, Bildung' },
+          ],
+        },
+        {
+          title: 'Projekte 2026-2028 (3-Jahres-Plan)',
+          items: [
+            { text: 'Hub (550m²)', href: '/fundraising/hub', desc: 'Werkstatt, AI Lab, Hackerspace, Kulturraum', highlight: true },
+            { text: 'Bildungsprogramm', href: '/fundraising/bildung', desc: '2× Programmleiter, Train-the-Trainer' },
+          ],
+        },
       ],
     },
     {
@@ -80,19 +93,24 @@ export const NAV_STRUCTURE: {
       mega: true,
       sections: [
         {
-          title: 'Projekte 2025-2027',
+          title: 'Finanzierung & Status',
           items: [
-            { text: 'Übersicht & Budget', href: '/fundraising', desc: '3-Jahres-Plan, CHF 2.1M Finanzierungsbedarf' },
-            { text: 'Hub (1000m²)', href: '/fundraising/hub', desc: 'Werkstatt, AI Lab, Hackerspace, Kulturraum', highlight: true },
-            { text: 'Bildung', href: '/fundraising/bildung', desc: '2× Programmleiter, Train-the-Trainer' },
+            { text: 'Fundraising-Übersicht', href: '/fundraising', desc: 'Budget, Finanzierungsbedarf, Timeline' },
+          ],
+        },
+        {
+          title: 'Projekte (Fundraising-Kampagnen)',
+          items: [
+            { text: 'Hub (550m²)', href: '/fundraising/hub', desc: 'Werkstatt, AI Lab, Hackerspace, Kulturraum', highlight: true },
+            { text: 'Bildungsprogramm', href: '/fundraising/bildung', desc: '2× Programmleiter, Train-the-Trainer' },
           ],
         },
         {
           title: 'Stiftungen & Dokumente',
           items: [
             { text: 'Stiftungsliste', href: '/fundraising/stiftungen', desc: '37 Förderstiftungen mit Fit-Score & Deadlines' },
-            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: '11 Vorlagen nach Stiftungstyp (A/B/C/D/Netzwerk)' },
-            { text: 'Alle Dokumente', href: '/dokumente', desc: '51 Gesuche, Vorlagen & Datenexporte' },
+            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: '6 Vorlagen nach Stiftungstyp (A/B/C/D/Netzwerk/Generisch)' },
+            { text: 'Alle Dokumente', href: '/dokumente', desc: '52 Gesuche, Vorlagen & Datenexporte' },
           ],
         },
       ],

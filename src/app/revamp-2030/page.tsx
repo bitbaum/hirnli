@@ -56,39 +56,40 @@ export default function Revamp2030Page() {
           <div className="flex items-start gap-4">
             <span className="text-4xl flex-shrink-0">⚠️</span>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-red-900 mb-3">Warum wir langsam sind (ehrliche Diagnose)</h3>
+              <h3 className="text-lg font-bold text-red-900 mb-3">Unsere Kapazitäts-Grenzen (ehrliche Diagnose)</h3>
               <div className="space-y-4 text-sm text-red-800">
                 <div>
-                  <p className="font-semibold mb-2">Hardware-Refurbishment: Unstrukturiert & ineffizient</p>
+                  <p className="font-semibold mb-2">Hardware-Refurbishment: Potential nicht ausgeschöpft</p>
                   <ul className="list-disc list-inside space-y-1 ml-4">
-                    <li><strong>4 Reparaturtische vorhanden</strong> — aber meist nur 1-2 in Nutzung</li>
-                    <li>Team: 1 Praktikant (Reza), wechselnde Freiwillige, Reintegrations-Mitarbeiter (GEP-Programm)</li>
-                    <li><strong>Problem:</strong> Keine systematische Organisation oder Prozess-Leitung</li>
-                    <li>Viel Raum für <strong>Lagerung</strong> genutzt — bereits 2 Lager zu voll, nicht optimal organisiert</li>
-                    <li><strong>Niemand koordiniert Training</strong> oder Workflows — jeder arbeitet nach eigenem Tempo</li>
-                    <li>Freiwillige & Reintegrations-Mitarbeiter brauchen <strong>sozialpädagogische Begleitung</strong> (Veronica macht das, aber nicht als Teil eines strukturierten Programms)</li>
-                    <li>Reparatur-Leute machen auch Kundenservice, Telefon, etc. (aus Notwendigkeit, nicht by Design)</li>
-                    <li><strong>Resultat: Langsamer Output, lange Wartezeiten, kein skalierbarers Modell</strong></li>
+                    <li><strong>4 Reparaturtische vorhanden</strong> — Kapazität für paralleles Arbeiten ist da</li>
+                    <li>Engagiertes Team: Praktikanten, Freiwillige, Reintegrations-Mitarbeiter (GEP-Programm)</li>
+                    <li><strong>Fehlende Ressource:</strong> Bezahlte Fachperson für Prozess-Organisation und Koordination</li>
+                    <li>Lagerkapazität vorhanden, aber <strong>Optimierungspotential</strong> bei der Organisation</li>
+                    <li><strong>Bedarf:</strong> Systematisches Training & standardisierte Workflows zur Skalierung</li>
+                    <li>Sozialpädagogische Begleitung läuft gut, könnte aber als <strong>strukturiertes Programm</strong> professionalisiert werden</li>
+                    <li>Multi-Tasking (Reparatur + Kundenservice) funktioniert, ist aber nicht optimal für Spezialisierung</li>
+                    <li><strong>Resultat: Wir könnten mehr Output erreichen mit dedizierter Prozess-Leitung</strong></li>
                   </ul>
                 </div>
 
                 <div>
-                  <p className="font-semibold mb-2">Software/AI: Besser, aber auch Kapazitätsgrenzen</p>
+                  <p className="font-semibold mb-2">Software/AI: Gute Fortschritte, aber zeitliche Engpässe</p>
                   <ul className="list-disc list-inside space-y-1 ml-4">
-                    <li>Andreas macht Web-Entwicklung mit Sili und Cem (die auch mit Kivitendo beschäftigt sind)</li>
-                    <li>Dani entwickelt Effizienz-Systeme (automatische Erfassung)</li>
-                    <li>George baut Website + Fundraising-Plattform</li>
-                    <li><strong>Aber:</strong> Keine Zeit für Workshops, AI-Bildung, Coding-Kurse, Open-Source-Education</li>
-                    <li><strong>Keine Organisation, keine Ressourcen, keine Struktur für systematische Bildung</strong></li>
+                    <li>Web-Entwicklung läuft aktiv — Team arbeitet fokussiert an internen Systemen (Kivitendo-Integration, Datenerfassung)</li>
+                    <li>Effizienz-Systeme werden entwickelt (automatische Erfassung, Prozessoptimierung)</li>
+                    <li>Fundraising-Infrastruktur wird aufgebaut (diese Plattform, Stiftungs-Research)</li>
+                    <li><strong>Zeitkonflikt:</strong> Operatives Tagesgeschäft vs. Bildungsprogramme (Workshops, AI-Kurse, Open-Source-Education)</li>
+                    <li><strong>Fehlende Ressource:</strong> Dedizierte Bildungsleitung, die parallel zum Dev-Team arbeitet</li>
                   </ul>
                 </div>
 
                 <div className="bg-red-100 border-l-4 border-red-600 p-3 my-3">
-                  <p className="font-bold text-red-900 mb-1">Das Problem in einem Satz:</p>
+                  <p className="font-bold text-red-900 mb-1">Die Kernherausforderung:</p>
                   <p className="text-red-800">
-                    Wir haben <strong>ungenutzte Kapazität</strong> (leere Tische, unstrukturierte Arbeit),
-                    aber <strong>niemanden, der professionell organisiert, trainiert und Programme leitet</strong>.
-                    Mehr Raum allein löst das nicht — wir brauchen <strong>bezahlte Fachleute für Organisation & Ausbildung</strong>.
+                    Unser Team leistet <strong>hervorragende Arbeit</strong>, aber die Kapazität ist begrenzt.
+                    Wir haben <strong>ungenutzte Infrastruktur</strong> (Tische, Raum, Tools),
+                    aber <strong>keine bezahlten Fachleute, die ausschließlich Programme entwickeln, organisieren und skalieren</strong>.
+                    Mehr Raum allein löst das nicht — wir brauchen <strong>dedizierte Bildungs- & Prozessleitung</strong>.
                   </p>
                 </div>
               </div>
@@ -375,7 +376,11 @@ export default function Revamp2030Page() {
 
       {/* Zeitplan */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Zeitplan: 3 Jahre bis 2030-Niveau</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Roadmap 2026-2030: Wie wir hinkommen</h2>
+        <p className="text-sm text-text-light mb-6">
+          <strong>Phase 1 (2026-2028):</strong> Foundation - Hub aufbauen + Bildungsprogramm starten.
+          <strong> Phase 2 (2029-2030):</strong> Skalierung - volle Kapazität, zusätzliche Programme, nachhaltige Selbsttragung.
+        </p>
         <Card>
           <div className="space-y-6">
             <div className="flex items-start gap-4">
@@ -407,13 +412,27 @@ export default function Revamp2030Page() {
             <div className="flex items-start gap-4">
               <Badge variant="success" className="mt-1">2028</Badge>
               <div className="flex-1">
-                <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 3: Volle Kapazität & Selbsttragung</h3>
+                <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 1 abgeschlossen: Grundlagen stehen</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
-                  <li>Zweite:r Bildungsprogrammleiter:in eingestellt</li>
-                  <li>Hub-Betrieb optimiert, alle Bereiche aktiv (Werkstatt, AI Lab, Event-Raum, Museum)</li>
-                  <li>Train-the-Trainer voll etabliert: Multiplikatoren arbeiten eigenständig</li>
-                  <li>Kultur-Programm läuft: Konzerte, Ausstellungen, Workshops beeinflussen öffentliche Wahrnehmung</li>
-                  <li>Ziele erreicht: 80-120 Geräte/Monat, 160+ Menschen/Jahr, Selbsttragung operativ</li>
+                  <li>Zweite:r Bildungsprogrammleiter:in eingestellt (beide BPL aktiv)</li>
+                  <li>Hub-Betrieb läuft: Werkstatt, Schulungsräume, Event-/Kulturraum etabliert</li>
+                  <li>Train-the-Trainer etabliert: Erste Multiplikatoren arbeiten</li>
+                  <li>Kapazität: ~80-100 Geräte/Monat, ~40-60 Menschen/Jahr trainiert</li>
+                  <li>Kultur-Programm aktiv: Regelmässige Events & Ausstellungen</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <Badge variant="warning" className="mt-1">2029-2030</Badge>
+              <div className="flex-1">
+                <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 2: Skalierung & Vollausbau</h3>
+                <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
+                  <li>Skalierung: 100-120 Geräte/Monat durch optimierte Prozesse</li>
+                  <li>Train-the-Trainer-Multiplikation zeigt Wirkung: 80-100+ Menschen/Jahr erreicht</li>
+                  <li>Zusätzliche Programme: AI Lab vollständig aktiv, Makerspace/Hackerspace ausgebaut</li>
+                  <li>Nachhaltige Selbsttragung: Betriebskosten gedeckt, reinvestierbare Überschüsse</li>
+                  <li>Community etabliert: Hub ist bekannter Ort für digitale Teilhabe & Kultur</li>
                 </ul>
               </div>
             </div>
@@ -425,25 +444,25 @@ export default function Revamp2030Page() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Warum jetzt?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="border-l-4 border-l-amber-500">
-            <h3 className="text-md font-semibold text-grey-dark mb-2">📉 Revenue-Rückgang</h3>
+          <Card className="border-l-4 border-l-red-500">
+            <h3 className="text-md font-semibold text-grey-dark mb-2">🚨 Das Problem</h3>
             <p className="text-sm text-text-light">
-              Von CHF 140k (2021) auf CHF 60k (2025) — unser altes Geschäftsmodell funktioniert nicht mehr.
-              Wir müssen uns neu erfinden oder verschwinden.
+              Wir haben 2 grosse Kivitendo-Kunden verloren. Zu viel Inventar in 2 Lagern. Das eigentliche Problem:
+              <strong> Fehlende Organisation für Verkauf & Ausführung</strong>, nicht fehlende Kapazität.
             </p>
           </Card>
-          <Card className="border-l-4 border-l-red-500">
-            <h3 className="text-md font-semibold text-grey-dark mb-2">📈 Nachfrage steigt</h3>
+          <Card className="border-l-4 border-l-amber-500">
+            <h3 className="text-md font-semibold text-grey-dark mb-2">🎯 Die Lösung</h3>
             <p className="text-sm text-text-light">
-              AOZ, Caritas, Schulen fragen regelmässig nach Laptops. Wartelisten wachsen.
-              Der Bedarf ist da — wir können ihn nur nicht decken (fehlende Struktur, nicht Raum).
+              Nicht mehr Raum, sondern <strong>bessere Prozesse + bezahlte Bildungsprogrammleiter</strong>.
+              Sie organisieren Workflows, bilden Techniker aus, koordinieren Freiwillige & Reintegrations-Teilnehmer.
             </p>
           </Card>
           <Card className="border-l-4 border-l-emerald-500">
             <h3 className="text-md font-semibold text-grey-dark mb-2">💪 Wir sind bereit</h3>
             <p className="text-sm text-text-light">
-              22 Jahre Erfahrung (seit 2003). Wir wissen, was fehlt: <strong>Organisation, Struktur, bezahlte Fachleute</strong>.
-              Nicht mehr, nicht weniger.
+              22 Jahre Erfahrung (seit 2003). Soziale Mission mit sozialpädagogischem Fokus (Veronica).
+              Wir wissen genau, was fehlt: <strong>Organisation, Struktur, bezahlte Fachleute</strong>.
             </p>
           </Card>
         </div>

@@ -10,7 +10,7 @@ import NumberInspector from '@/components/metrics/NumberInspector';
 import { STATUS_LABELS } from '@/lib/config/foundations';
 import { CORE_FACTS } from '@/lib/config/stories';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
-import type { BudgetModule } from '@/lib/config/stories';
+import type { BudgetLineItem } from '@/lib/schemas/budget';
 import { formatCHF } from '@/lib/utils/format';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
@@ -77,25 +77,27 @@ function Inspectable({
 
 // -- Budget module card -------------------------------------------------------
 
-function BudgetModuleCard({ module, borderColor }: { module: BudgetModule; borderColor: string }) {
+function BudgetLineItemCard({ item, borderColor }: { item: BudgetLineItem; borderColor: string }) {
   return (
     <Card className={`border-l-4 ${borderColor}`}>
       <div className="flex items-start gap-3">
-        {module.icon && <span className="text-2xl" aria-hidden="true">{module.icon}</span>}
+        {item.icon && <span className="text-2xl" aria-hidden="true">{item.icon}</span>}
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline justify-between gap-2">
-            <h4 className="font-semibold text-grey-dark">{module.label}</h4>
-            <span className="shrink-0 font-bold text-grey-dark">{formatCHF(module.amount)}</span>
+            <h4 className="font-semibold text-grey-dark">{item.label}</h4>
+            <span className="shrink-0 font-bold text-grey-dark">{formatCHF(item.amount)}</span>
           </div>
-          <p className="mt-1 text-sm text-text-muted">{module.description}</p>
-          <ul className="mt-3 space-y-1">
-            {module.items.map((item) => (
-              <li key={item.label} className="flex justify-between text-sm">
-                <span className="text-text-muted">{item.label}</span>
-                <span className="text-grey-dark">{formatCHF(item.amount)}</span>
-              </li>
-            ))}
-          </ul>
+          <p className="mt-1 text-sm text-text-muted">{item.description}</p>
+          {item.subItems && item.subItems.length > 0 && (
+            <ul className="mt-3 space-y-1">
+              {item.subItems.map((sub, idx) => (
+                <li key={idx} className="flex justify-between text-sm">
+                  <span className="text-text-muted">{sub.label}</span>
+                  <span className="text-grey-dark">{formatCHF(sub.amount)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </Card>
@@ -829,8 +831,8 @@ export default function FundraisingClient() {
             </Inspectable>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {BUDGET_EINMALIG.map((m) => (
-              <BudgetModuleCard key={m.label} module={m} borderColor="border-l-blue-500" />
+            {BUDGET_EINMALIG.map((item) => (
+              <BudgetLineItemCard key={item.id} item={item} borderColor="border-l-blue-500" />
             ))}
           </div>
         </div>
@@ -848,8 +850,8 @@ export default function FundraisingClient() {
             </Inspectable>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {BUDGET_JAEHRLICH.map((m) => (
-              <BudgetModuleCard key={m.label} module={m} borderColor="border-l-violet-500" />
+            {BUDGET_JAEHRLICH.map((item) => (
+              <BudgetLineItemCard key={item.id} item={item} borderColor="border-l-violet-500" />
             ))}
           </div>
         </div>

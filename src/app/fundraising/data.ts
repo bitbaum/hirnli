@@ -1,6 +1,7 @@
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
-import { BUDGET_MODULES, BUDGET_TOTAL, BUDGET_EIGENLEISTUNG, CORE_FACTS } from '@/lib/config/stories';
-import type { BudgetModule } from '@/lib/config/stories';
+import { CORE_FACTS } from '@/lib/config/stories';
+import { getScenario, getLineItemsForScenario, EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
+import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
 
 // -- Derived data from STIFTUNGEN_DATA ----------------------------------------
@@ -56,17 +57,25 @@ export const STATUS_BADGE_VARIANT: Record<FoundationStatus, 'success' | 'warning
   closed: 'danger',
 };
 
-// Budget modules grouped by type — derived from SSOT (BUDGET_MODULES in stories.ts)
-export const BUDGET_EINMALIG: BudgetModule[] = BUDGET_MODULES.filter((m) => m.type === 'einmalig');
-export const BUDGET_JAEHRLICH: BudgetModule[] = BUDGET_MODULES.filter((m) => m.type === 'jaehrlich');
+// Budget line items grouped by type — derived from SSOT (budget-scenarios.ts)
+// Using 'moderate' scenario as the default recommended solution for fundraising dashboard
+const MODERATE_SCENARIO = getScenario('moderate');
+if (!MODERATE_SCENARIO) {
+  throw new Error('Moderate budget scenario not found - check budget-scenarios.ts configuration');
+}
+
+const MODERATE_LINE_ITEMS = getLineItemsForScenario('moderate');
+
+export const BUDGET_EINMALIG: BudgetLineItem[] = MODERATE_LINE_ITEMS.filter((m) => m.type === 'einmalig');
+export const BUDGET_JAEHRLICH: BudgetLineItem[] = MODERATE_LINE_ITEMS.filter((m) => m.type === 'jaehrlich');
 export const BUDGET_EINMALIG_TOTAL = BUDGET_EINMALIG.reduce((sum, m) => sum + m.amount, 0);
 export const BUDGET_JAEHRLICH_TOTAL = BUDGET_JAEHRLICH.reduce((sum, m) => sum + m.amount, 0);
 
 export const BUDGET_SUMMARY = {
-  total: BUDGET_TOTAL,
-  eigenleistung: BUDGET_EIGENLEISTUNG.amount,
-  foerderbedarf: BUDGET_TOTAL - BUDGET_EIGENLEISTUNG.amount,
-  selfFinancingPct: Math.round((BUDGET_EIGENLEISTUNG.amount / BUDGET_TOTAL) * 100),
+  total: BUDGET_EINMALIG_TOTAL + BUDGET_JAEHRLICH_TOTAL,
+  eigenleistung: MODERATE_SCENARIO.threeYearModel.year1.eigenleistung,
+  foerderbedarf: (BUDGET_EINMALIG_TOTAL + BUDGET_JAEHRLICH_TOTAL) - MODERATE_SCENARIO.threeYearModel.year1.eigenleistung,
+  selfFinancingPct: Math.round((MODERATE_SCENARIO.threeYearModel.year1.eigenleistung / (BUDGET_EINMALIG_TOTAL + BUDGET_JAEHRLICH_TOTAL)) * 100),
 };
 
 // -- 3-Year Budget Summary (the REAL numbers foundations see) -------------------
@@ -110,10 +119,10 @@ export const SPACE_PLAN_TOTAL = SPACE_PLAN.reduce((sum, s) => sum + s.sqm, 0);
 export const SPACE_TOTAL_WITH_CIRCULATION = SPACE_PLAN_TOTAL + 100; // ~650 m²
 
 // -- 3-Year Degressive Funding Model (derived from SSOT) ----------------------
-// Year 1 is fully derived from BUDGET_MODULES (stories.ts)
+// Year 1 is fully derived from moderate scenario (budget-scenarios.ts)
 const Y1_EINMALIG = BUDGET_EINMALIG_TOTAL;
 const Y1_STIFTUNGEN = BUDGET_JAEHRLICH_TOTAL;
-const Y1_EIGEN = BUDGET_EIGENLEISTUNG.amount;
+const Y1_EIGEN = MODERATE_SCENARIO.threeYearModel.year1.eigenleistung;
 
 // Year 2-3: degressive assumptions — explicit config with rationale
 // Standard Swiss 3-year model: foundations expect 25-50% reduction/year

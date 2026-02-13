@@ -47,11 +47,18 @@ export default function DocumentCard({ document }: DocumentCardProps) {
         {document.description}
       </p>
 
-      {document.size && (
-        <p className="text-xs text-text-muted mb-3">
-          <strong>Größe:</strong> {document.size}
-        </p>
-      )}
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted mb-3">
+        {document.size && (
+          <span>
+            <strong>Größe:</strong> {document.size}
+          </span>
+        )}
+        {document.lastUpdated && (
+          <span>
+            <strong>Stand:</strong> {new Date(document.lastUpdated).toLocaleDateString('de-CH')}
+          </span>
+        )}
+      </div>
 
       <div className="flex items-center justify-between pt-3 border-t border-gray-200">
         <span className="text-sm font-medium text-primary group-hover:text-primary-light transition-colors">

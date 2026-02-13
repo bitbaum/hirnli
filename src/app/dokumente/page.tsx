@@ -85,15 +85,34 @@ export default function DokumentePage() {
       <section className="mb-12">
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-grey-dark mb-2">
-            Daten-Exporte
+            Generierte Exporte
           </h2>
           <p className="text-sm text-text-light">
-            Rohdaten als CSV zum Download. Öffnen Sie die Dateien in Excel, Google Sheets oder einem Texteditor.
+            Live generierte CSV-Exporte aus aktuellen Daten. Diese Dateien werden bei jedem Download neu erstellt und sind immer aktuell.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {DOCUMENTS.exports.map((doc) => (
+            <DocumentCard key={doc.id} document={doc} />
+          ))}
+        </div>
+      </section>
+
+      {/* Source Files */}
+      <section className="mb-12">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-grey-dark mb-2">
+            Quelldateien (Kivitendo)
+          </h2>
+          <p className="text-sm text-text-light">
+            Original-Datenquellen aus Kivitendo (anonymisiert). Diese Dateien bilden die Grundlage für alle Finanzdaten auf dieser Seite.
+            <strong className="text-primary ml-1">Empfohlen: Lesen Sie zuerst das README!</strong>
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {DOCUMENTS.quellen.map((doc) => (
             <DocumentCard key={doc.id} document={doc} />
           ))}
         </div>

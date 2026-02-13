@@ -495,11 +495,11 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'derived',
       confidence: 'high',
-      path: 'lib/config/stories.ts → BUDGET_MODULES',
+      path: 'lib/config/budget-scenarios.ts → BUDGET_LINE_ITEMS (moderate scenario)',
     },
     formula: {
       type: 'sum',
-      expression: 'SUM(BUDGET_MODULES.amount)',
+      expression: 'SUM(BUDGET_LINE_ITEMS.amount)',
     },
     validation: {
       rules: [{ type: 'range', min: 400000, max: 800000 }],
@@ -520,11 +520,11 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'derived',
       confidence: 'high',
-      path: 'lib/config/stories.ts → BUDGET_MODULES (type=einmalig)',
+      path: 'lib/config/budget-scenarios.ts → BUDGET_LINE_ITEMS (type=einmalig)',
     },
     formula: {
       type: 'sum',
-      expression: 'SUM(BUDGET_MODULES.amount WHERE type=einmalig)',
+      expression: 'SUM(BUDGET_LINE_ITEMS.amount WHERE type=einmalig)',
     },
     validation: {
       rules: [{ type: 'range', min: 100000, max: 300000 }],
@@ -544,11 +544,11 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'derived',
       confidence: 'high',
-      path: 'lib/config/stories.ts → BUDGET_MODULES (type=jaehrlich)',
+      path: 'lib/config/budget-scenarios.ts → BUDGET_LINE_ITEMS (type=jaehrlich)',
     },
     formula: {
       type: 'sum',
-      expression: 'SUM(BUDGET_MODULES.amount WHERE type=jaehrlich)',
+      expression: 'SUM(BUDGET_LINE_ITEMS.amount WHERE type=jaehrlich)',
     },
     validation: {
       rules: [{ type: 'range', min: 200000, max: 500000 }],
@@ -568,7 +568,7 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'source',
       confidence: 'high',
-      path: 'lib/config/stories.ts → BUDGET_EIGENLEISTUNG',
+      path: 'lib/config/budget-scenarios.ts → EIGENLEISTUNG_CONFIG',
     },
     formula: undefined,
     validation: {
@@ -599,7 +599,7 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 1000000, max: 2500000 }],
     },
     documentation: {
-      description: 'Summe aller 3 Jahresbudgets. Jahr 1 = BUDGET_MODULES total + Eigenleistung. Jahr 2-3 = degressives Modell.',
+      description: 'Summe aller 3 Jahresbudgets. Jahr 1 = BUDGET_LINE_ITEMS total + Eigenleistung. Jahr 2-3 = degressives Modell.',
       link: '/fundraising',
     },
   },
