@@ -54,34 +54,34 @@ export const NAV_STRUCTURE: {
   logo: { text: BRAND_NAME, href: '/' },
   items: [
     {
-      text: 'Revamp Gestern & Heute',
+      text: 'Über uns',
       icon: '🏢',
       children: [
-        { text: 'Mission & Geschichte', href: '/strategie', desc: 'Warum wir existieren, woher wir kommen' },
-        { text: 'Team & Operations', href: '/team', desc: 'Wer wir sind, was wir tun' },
-        { text: 'Finanzen', href: '/finanzen', desc: 'Einnahmen, Ausgaben, 8-Jahres-Trend' },
-        { text: 'Wirkung', href: '/wirkung', desc: 'CO₂, Geräte, Menschen' },
-        { text: 'Preismodell', href: '/preismodell', desc: 'Solidarisches 4-Stufen-Modell' },
-        { text: 'Methodik', href: '/methodik', desc: 'Wie wir Daten erheben & berechnen' },
+        { text: 'Mission & Strategie', href: '/strategie', desc: 'Warum wir existieren & was wir erreichen wollen' },
+        { text: 'Team', href: '/team', desc: 'Wer wir sind & wie wir arbeiten' },
+        { text: 'Finanzen 2018-2025', href: '/finanzen', desc: 'Transparente Einnahmen & Ausgaben (8 Jahre)' },
+        { text: 'Wirkung & Impact', href: '/wirkung', desc: 'CO₂ eingespart, Geräte refurbiert, Menschen erreicht' },
+        { text: 'Preismodell', href: '/preismodell', desc: 'Solidarische Preise (4 Stufen nach Einkommen)' },
+        { text: 'Methodik', href: '/methodik', desc: 'Wie wir messen & berechnen (Transparenzreport)' },
       ],
     },
     {
-      text: 'Revamp 2030',
+      text: 'Zukunft 2030',
       icon: '🚀',
       href: '/revamp-2030',
       mega: true,
       sections: [
         {
-          title: 'Vision & Strategie',
+          title: 'Vision',
           items: [
-            { text: 'Revamp 2030 Übersicht', href: '/revamp-2030', desc: 'Die grosse Vision: Organisation, Hub, Bildung' },
+            { text: 'Revamp 2030 — Die Vision', href: '/revamp-2030', desc: 'Wo wir 2030 stehen wollen: Hub, Bildung, Impact' },
           ],
         },
         {
-          title: 'Projekte 2026-2028 (3-Jahres-Plan)',
+          title: 'Konkrete Projekte (2026-2028)',
           items: [
-            { text: 'Hub (550m²)', href: '/fundraising/hub', desc: 'Werkstatt, AI Lab, Hackerspace, Kulturraum', highlight: true },
-            { text: 'Bildungsprogramm', href: '/fundraising/bildung', desc: '2× Programmleiter, Train-the-Trainer' },
+            { text: 'Hub 550m²', href: '/fundraising/hub', desc: '🏢 Werkstatt + AI Lab + Hackerspace + Kulturraum', highlight: true },
+            { text: 'Bildungsprogramm', href: '/fundraising/bildung', desc: '🎓 2× Programmleiter für Train-the-Trainer & Workshops' },
           ],
         },
       ],
@@ -93,27 +93,24 @@ export const NAV_STRUCTURE: {
       mega: true,
       sections: [
         {
-          title: 'Finanzierung & Status',
+          title: 'Budget & Status',
           items: [
-            { text: 'Fundraising-Übersicht', href: '/fundraising', desc: 'Budget, Finanzierungsbedarf, Timeline' },
+            { text: 'Fundraising-Dashboard', href: '/fundraising', desc: '📊 Budget-Übersicht, Finanzierungsbedarf, Timeline' },
           ],
         },
         {
-          title: 'Projekte (Fundraising-Kampagnen)',
+          title: 'Stiftungen',
           items: [
-            { text: 'Hub (550m²)', href: '/fundraising/hub', desc: 'Werkstatt, AI Lab, Hackerspace, Kulturraum', highlight: true },
-            { text: 'Bildungsprogramm', href: '/fundraising/bildung', desc: '2× Programmleiter, Train-the-Trainer' },
-          ],
-        },
-        {
-          title: 'Stiftungen & Dokumente',
-          items: [
-            { text: 'Stiftungsliste', href: '/fundraising/stiftungen', desc: '37 Förderstiftungen mit Fit-Score & Deadlines' },
-            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: '6 Vorlagen nach Stiftungstyp (A/B/C/D/Netzwerk/Generisch)' },
-            { text: 'Alle Dokumente', href: '/dokumente', desc: '52 Gesuche, Vorlagen & Datenexporte' },
+            { text: '37 Stiftungen', href: '/fundraising/stiftungen', desc: '🔍 Mit Fit-Score, Themen, Deadlines, Beträgen' },
+            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: '📝 6 Referenz-Vorlagen nach Typ (A/B/C/D)' },
           ],
         },
       ],
+    },
+    {
+      text: 'Dokumente',
+      icon: '📦',
+      href: '/dokumente',
     },
   ],
 };

@@ -15,14 +15,21 @@ const FORMAT_ICONS: Record<string, string> = {
 };
 
 const ACTION_LABELS: Record<string, string> = {
-  print: 'PDF erstellen',
-  download: 'Herunterladen',
+  print: 'Öffnen & Cmd/Ctrl+P',
+  download: 'Download',
   external: 'Öffnen',
+};
+
+const ACTION_ICONS: Record<string, string> = {
+  print: '🖨️',
+  download: '⬇️',
+  external: '🔗',
 };
 
 export default function DocumentCard({ document }: DocumentCardProps) {
   const icon = FORMAT_ICONS[document.format] || '📄';
   const actionLabel = ACTION_LABELS[document.action] || 'Öffnen';
+  const actionIcon = ACTION_ICONS[document.action] || '→';
 
   const CardContent = () => (
     <>
@@ -61,11 +68,12 @@ export default function DocumentCard({ document }: DocumentCardProps) {
       </div>
 
       <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-        <span className="text-sm font-medium text-primary group-hover:text-primary-light transition-colors">
-          {actionLabel} →
+        <span className="text-sm font-medium text-primary group-hover:text-primary-light transition-colors flex items-center gap-2">
+          <span>{actionIcon}</span>
+          <span>{actionLabel}</span>
         </span>
-        {document.action === 'print' && (
-          <span className="text-xs text-text-muted">Cmd/Ctrl+P</span>
+        {document.action === 'download' && (
+          <span className="text-xs text-emerald-600 font-semibold">Direkt-Download</span>
         )}
       </div>
     </>

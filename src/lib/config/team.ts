@@ -22,27 +22,27 @@ export interface TeamMember {
 export const KERNTEAM: TeamMember[] = [
   {
     name: 'Veronica',
-    role: 'Geschäftsleitung & Sozialpädagogik',
+    role: 'Sozialpädagogik, Personal & Fundraising',
     vza: 1.0,
     bereich: 'Leitung',
     status: 'aktiv',
-    fachgebiete: ['Geschäftsleitung', 'Sozialpädagogik', 'Arbeitsintegration', 'Strategische Planung', 'Fundraising', 'Netzwerk'],
+    fachgebiete: ['Sozialpädagogik', 'Personalwesen', 'Fundraising', 'Arbeitsintegration', 'Netzwerk & Partnerschaften'],
   },
   {
     name: 'Dani',
-    role: 'Operations & Refurbishment',
+    role: 'Engineering & Operations',
     vza: 1.0,
     bereich: 'Technik',
     status: 'aktiv',
-    fachgebiete: ['Refurbishment', 'Werkstatt-Management', 'Qualitätssicherung', 'Logistik'],
+    fachgebiete: ['Engineering', 'Operations Management', 'Werkstatt-Koordination', 'Qualitätssicherung', 'Logistik'],
   },
   {
     name: 'Andreas',
-    role: 'Strategie & Entwicklung',
+    role: 'Operations & Entwicklung (macht meistens alles)',
     vza: 1.0,
     bereich: 'Strategie',
     status: 'aktiv',
-    fachgebiete: ['Software-Entwicklung', 'IT-Infrastruktur', 'Digitale Transformation', 'Innovation'],
+    fachgebiete: ['Software-Entwicklung', 'IT-Infrastruktur', 'Strategie', 'Digitale Transformation', 'Innovation', 'Website', 'Systeme', 'Datenanalyse'],
   },
 ];
 
