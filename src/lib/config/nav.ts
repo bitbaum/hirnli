@@ -52,7 +52,6 @@ export const NAV_STRUCTURE: {
 } = {
   logo: { text: BRAND_NAME, href: '/' },
   items: [
-    { text: 'Dashboard', href: '/', icon: '📊' },
     {
       text: 'Revamp 2030',
       icon: '🚀',
