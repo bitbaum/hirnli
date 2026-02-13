@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
-import Card from '@/components/ui/Card';
-import { GESUCH_SECTIONS, ONLINE_REPORTS, NEXTCLOUD_FILES } from './data';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
+import DocumentCard from '@/components/documents/DocumentCard';
+import Card from '@/components/ui/Card';
+import { DOCUMENTS, DOCUMENT_STATS } from '@/lib/config/documents';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export const metadata: Metadata = {
   title: 'Dokumente',
-  description: 'Gesuche, Berichte und Downloads — alles an einem Ort',
+  description: 'Gesuche, Vorlagen und Datenexporte — alle Dokumente zum Download',
 };
 
 export default function DokumentePage() {
@@ -17,97 +17,86 @@ export default function DokumentePage() {
     <>
       <PageHeader
         title="Dokumente"
-        subtitle="Gesuche, Berichte und Downloads — alles an einem Ort"
+        subtitle="Gesuche, Vorlagen und Datenexporte — alle Dokumente zum Download"
+        badge={`${DOCUMENT_STATS.totalCount} Dokumente`}
       />
 
       <WhyThisMatters
-        purpose="Zentraler Zugang zu allen Fundraising-Dokumenten, Berichten und Quelldaten."
-        connection="Diese Dokumente unterstützen Stiftungsgesuche (siehe Fundraising) und belegen Methodiken (siehe Methodik)."
+        purpose="Zentraler Zugang zu allen herunterladbaren Dokumenten: Stiftungsgesuche, Vorlagen und Datenexporte."
+        connection="Gesuche basieren auf Stiftungsdaten (siehe Fundraising). Exporte liefern Rohdaten für eigene Analysen."
       />
 
-      {/* 1. Gesuche & Vorlagen — the crown jewels */}
-      <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Gesuche & Vorlagen</h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {GESUCH_SECTIONS.map((section) => (
-            <Card key={section.title}>
-              <div className="flex items-start justify-between">
-                <h3 className="text-base font-semibold">{section.title}</h3>
-                <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-                  {section.stats}
-                </span>
-              </div>
-              <p className="mt-2 text-sm text-text-muted">{section.description}</p>
-              <Link
-                href={section.href}
-                className="mt-4 inline-block rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
-              >
-                {section.linkLabel}
-              </Link>
-            </Card>
-          ))}
-        </div>
-        <p className="mt-3 text-xs text-text-muted">
-          Jedes Gesuch folgt dem WHY / HOW / WHAT / Budget-Aufbau nach Robert Schmuki.
-          Stiftungs-Gesuche sind personalisiert nach Themen und Stiftungstyp.
-        </p>
-      </section>
-
-      {/* 2. Online-Berichte */}
-      <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Online-Berichte</h2>
-        <p className="mb-4 text-sm text-text-muted">
-          Alle Berichte sind Webseiten mit Live-Daten. Als PDF speichern: Strg/Cmd + P.
-        </p>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {ONLINE_REPORTS.map((report) => (
-            <Link
-              key={report.href}
-              href={report.href}
-              className="rounded-lg border border-border bg-white p-4 transition-shadow hover:shadow-md"
-            >
-              <span className="block font-semibold text-primary">{report.label}</span>
-              <span className="text-xs text-text-muted">{report.description}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* 3. Downloads */}
-      <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Downloads</h2>
-        <Card>
-          <div className="mb-4 overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border text-left text-xs text-text-muted">
-                  <th className="pb-2">Dokument</th>
-                  <th className="pb-2">Pfad</th>
-                  <th className="pb-2">Format</th>
-                </tr>
-              </thead>
-              <tbody>
-                {NEXTCLOUD_FILES.map((file) => (
-                  <tr key={file.name} className="border-b border-border last:border-0">
-                    <td className="py-2 font-semibold">{file.name}</td>
-                    <td className="py-2 text-text-muted">
-                      <code className="text-xs">{file.path}</code>
-                    </td>
-                    <td className="py-2">{file.format}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* Print Instructions Banner */}
+      <Card className="mb-8 bg-blue-50 border-l-4 border-l-blue-500">
+        <div className="flex items-start gap-3">
+          <span className="text-2xl">💡</span>
+          <div>
+            <h3 className="font-semibold text-blue-900 mb-2">PDF erstellen (Gesuche & Vorlagen)</h3>
+            <p className="text-sm text-blue-800 mb-2">
+              Für Gesuche und Vorlagen: Klicken Sie auf das Dokument, dann <strong>Cmd+P (Mac)</strong> oder{' '}
+              <strong>Ctrl+P (Windows/Linux)</strong> und wählen Sie "Als PDF speichern".
+            </p>
+            <p className="text-xs text-blue-700">
+              CSV-Exporte werden direkt heruntergeladen (keine Print-Funktion nötig).
+            </p>
           </div>
-          <a
-            href="https://cloud.revamp-it.ch"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
-          >
-            Nextcloud öffnen
-          </a>
-        </Card>
+        </div>
+      </Card>
+
+      {/* Foundation Gesuche */}
+      <section className="mb-12">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-grey-dark mb-2">
+            Stiftungsgesuche
+          </h2>
+          <p className="text-sm text-text-light">
+            Personalisierte Gesuche für {DOCUMENT_STATS.gesucheCount} recherchierte Stiftungen.
+            Jedes Gesuch folgt dem WHY/HOW/WHAT/Budget-Aufbau nach Robert Schmuki.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {DOCUMENTS.gesuche.map((doc) => (
+            <DocumentCard key={doc.id} document={doc} />
+          ))}
+        </div>
+      </section>
+
+      {/* Templates */}
+      <section className="mb-12">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-grey-dark mb-2">
+            Gesuch-Vorlagen
+          </h2>
+          <p className="text-sm text-text-light">
+            {DOCUMENT_STATS.vorlagenCount} Referenz-Vorlagen nach Stiftungstyp (A/B/C/D/Netzwerk).
+            Zeigen Struktur und Ton für jeden Foundation-Typ.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {DOCUMENTS.vorlagen.map((doc) => (
+            <DocumentCard key={doc.id} document={doc} />
+          ))}
+        </div>
+      </section>
+
+      {/* Data Exports */}
+      <section className="mb-12">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-grey-dark mb-2">
+            Daten-Exporte
+          </h2>
+          <p className="text-sm text-text-light">
+            Rohdaten als CSV zum Download. Öffnen Sie die Dateien in Excel, Google Sheets oder einem Texteditor.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {DOCUMENTS.exports.map((doc) => (
+            <DocumentCard key={doc.id} document={doc} />
+          ))}
+        </div>
       </section>
 
       <StoryBridge bridges={STORY_BRIDGES.dokumente} />

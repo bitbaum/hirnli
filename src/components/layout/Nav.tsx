@@ -141,7 +141,7 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-40 border-b-2 border-emerald-100 bg-white shadow-sm">
+    <nav className="border-b-2 border-emerald-100 bg-white shadow-sm">
       {/* Brand color accent bar */}
       <div className="h-1 bg-gradient-to-r from-revamp-blue via-revamp-green to-revamp-orange"></div>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">

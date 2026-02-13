@@ -1,0 +1,88 @@
+import Link from 'next/link';
+import Badge from '@/components/ui/Badge';
+import Card from '@/components/ui/Card';
+import type { Document } from '@/lib/config/documents';
+
+interface DocumentCardProps {
+  document: Document;
+}
+
+const FORMAT_ICONS: Record<string, string> = {
+  PDF: '📄',
+  CSV: '📊',
+  Excel: '📈',
+  Markdown: '📝',
+};
+
+const ACTION_LABELS: Record<string, string> = {
+  print: 'PDF erstellen',
+  download: 'Herunterladen',
+  external: 'Öffnen',
+};
+
+export default function DocumentCard({ document }: DocumentCardProps) {
+  const icon = FORMAT_ICONS[document.format] || '📄';
+  const actionLabel = ACTION_LABELS[document.action] || 'Öffnen';
+
+  const CardContent = () => (
+    <>
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl" aria-hidden="true">{icon}</span>
+          <div>
+            <h3 className="text-base font-semibold text-grey-dark group-hover:text-primary transition-colors">
+              {document.title}
+            </h3>
+            {document.badge && (
+              <Badge color="blue" className="mt-1">{document.badge}</Badge>
+            )}
+          </div>
+        </div>
+        <Badge color={document.format === 'PDF' ? 'purple' : 'emerald'}>
+          {document.format}
+        </Badge>
+      </div>
+
+      <p className="text-sm text-text-light mb-4">
+        {document.description}
+      </p>
+
+      {document.size && (
+        <p className="text-xs text-text-muted mb-3">
+          <strong>Größe:</strong> {document.size}
+        </p>
+      )}
+
+      <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+        <span className="text-sm font-medium text-primary group-hover:text-primary-light transition-colors">
+          {actionLabel} →
+        </span>
+        {document.action === 'print' && (
+          <span className="text-xs text-text-muted">Cmd/Ctrl+P</span>
+        )}
+      </div>
+    </>
+  );
+
+  if (document.action === 'download') {
+    return (
+      <Card className="group border-l-4 border-l-emerald-500 hover:shadow-lg transition-all duration-200">
+        <a
+          href={document.href}
+          download
+          className="block no-underline"
+        >
+          <CardContent />
+        </a>
+      </Card>
+    );
+  }
+
+  return (
+    <Link href={document.href} className="block group no-underline">
+      <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-all duration-200">
+        <CardContent />
+      </Card>
+    </Link>
+  );
+}
