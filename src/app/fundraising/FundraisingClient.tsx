@@ -273,6 +273,12 @@ export default function FundraisingClient() {
                 <p className="mt-2 text-sm text-text-light">
                   <strong>Ergebnis:</strong> Von 30 Geräten/Monat → 120+ Geräte/Monat (nur durch Hub)
                 </p>
+                <Link
+                  href="/fundraising/hub"
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900 transition-colors"
+                >
+                  📊 Hub-Details & Budget ansehen →
+                </Link>
               </div>
             </div>
           </Card>
@@ -292,6 +298,12 @@ export default function FundraisingClient() {
                 <p className="mt-2 text-sm text-text-light">
                   <strong>Ergebnis:</strong> 150-200 Menschen/Jahr erreicht (Techniker + Entwickler + Workshop-Teilnehmer)
                 </p>
+                <Link
+                  href="/fundraising/bildung"
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-900 transition-colors"
+                >
+                  📊 Bildung-Details & Multiplikationseffekt →
+                </Link>
               </div>
             </div>
           </Card>

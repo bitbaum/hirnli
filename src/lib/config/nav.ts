@@ -57,11 +57,12 @@ export const NAV_STRUCTURE: {
       text: 'Organisation',
       icon: '🏢',
       children: [
-        { text: 'Vision & Strategie', href: '/strategie', desc: 'Mission, Ziele, Ausrichtung' },
+        { text: 'Mission & Werte', href: '/strategie', desc: 'Vier Säulen, SDGs, Souveränität' },
         { text: 'Team & HR', href: '/team', desc: 'Mitarbeitende, Rollen, Kapazitäten' },
         { text: 'Operations', href: '/operations', desc: 'Prozesse, SOPs, Qualität' },
       ],
     },
+    { text: 'Strategie 2030', href: '/strategie-2030', icon: '🚀' },
     {
       text: 'Finanzen & Wirkung',
       icon: '💰',
@@ -82,6 +83,13 @@ export const NAV_STRUCTURE: {
           items: [
             { text: 'Fundraising Hub', href: '/fundraising', desc: 'Vision, Budget & Pipeline' },
             { text: 'Stiftungen-Übersicht', href: '/fundraising/stiftungen', desc: 'Alle Förderstiftungen mit Deadlines', highlight: true },
+          ],
+        },
+        {
+          title: 'Investitionen',
+          items: [
+            { text: 'Community Tech Hub', href: '/fundraising/hub', desc: '1000m² Infrastruktur (6× Geräte-Kapazität)' },
+            { text: 'Bildungsprogramm', href: '/fundraising/bildung', desc: '2× BPL, Train-the-Trainer (32× Social Impact)' },
           ],
         },
         {

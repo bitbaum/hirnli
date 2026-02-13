@@ -12,16 +12,16 @@ import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export const metadata: Metadata = {
-  title: 'Strategie & Vision',
-  description: 'Mission, Werte und strategische Ausrichtung von Revamp-IT',
+  title: 'Mission & Werte',
+  description: 'Vier Säulen, Souveränität und SDG-Alignment — was Revamp-IT heute ausmacht',
 };
 
 export default function StrategiePage() {
   return (
     <>
       <PageHeader
-        title="Strategie & Vision"
-        subtitle="Woher wir kommen, wofür wir stehen, wohin wir gehen"
+        title="Mission & Werte"
+        subtitle="Woher wir kommen, wofür wir stehen — unsere vier Säulen"
       />
 
       <WhyThisMatters

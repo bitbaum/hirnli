@@ -239,6 +239,27 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       icon: '📄',
     },
   ],
+
+  'strategie-2030': [
+    {
+      title: 'Hub Fundraising',
+      href: '/fundraising/hub',
+      reason: 'Detailliertes Hub-Budget & Umsetzung',
+      icon: '🏢',
+    },
+    {
+      title: 'Bildung Fundraising',
+      href: '/fundraising/bildung',
+      reason: 'Train-the-Trainer Programm Details',
+      icon: '🎓',
+    },
+    {
+      title: 'Stiftungen',
+      href: '/fundraising/stiftungen',
+      reason: 'Passende Förderstiftungen finden',
+      icon: '🏛️',
+    },
+  ],
 };
 
 /**
