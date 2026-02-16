@@ -21,7 +21,8 @@
     "research:foundation": "tsx scripts/foundation-research-assistant.ts",
     "research:batch": "tsx scripts/foundation-batch-research.ts",
     "research:phase3": "tsx scripts/phase-3-research-v2.ts",
-    "screen:v2": "tsx scripts/foundation-screen-v2.ts"
+    "screen:v2": "tsx scripts/foundation-screen-v2.ts",
+    "screen:v3": "tsx scripts/foundation-screen-v3.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
