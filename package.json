@@ -12,7 +12,10 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "migrate": "tsx src/scripts/migrate-to-database.ts",
-    "seed:rules": "tsx src/scripts/seed-customization-rules.ts"
+    "seed:rules": "tsx src/scripts/seed-customization-rules.ts",
+    "sync-numbers": "npx tsx scripts/sync-org-numbers.ts",
+    "validate:foundations": "tsx scripts/foundation-validate.ts",
+    "foundation:add": "tsx scripts/foundation-add.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -36,10 +39,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/pg": "^8",
     "drizzle-kit": "^0.31.9",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "pg": "^8",
     "tsx": "^4.21.0",
     "typescript": "^5"
   }

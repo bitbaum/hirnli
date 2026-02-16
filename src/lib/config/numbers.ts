@@ -12,7 +12,13 @@
  * AUDIT 2026-02-16: Reconciled all values for launch readiness.
  * Removed unverifiable multipliers and aspirational projections.
  * All values now match budget-scenarios.ts and fundraising/data.ts.
+ *
+ * 9 entries share values with revampit's Neon DB via SHARED_ORG_NUMBERS.
+ * To update shared values: edit seed script in revampit, re-seed DB,
+ * then run `npm run sync-numbers` here.
  */
+
+import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated'
 
 export type NumberConfidence = 'high' | 'medium' | 'estimated' | 'target' | 'unknown';
 
@@ -33,7 +39,7 @@ export interface NumberSource {
 export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   // Impact Metrics
   CO2_SAVED_PER_LAPTOP: {
-    value: 285,
+    value: SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP,
     label: 'kg CO2 gespart pro Laptop',
     source: {
       methodology: 'Fraunhofer IZM Studie 2023: Refurbishing vs. Neuproduktion',
@@ -47,7 +53,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   REUSE_RATE: {
-    value: 75,
+    value: SHARED_ORG_NUMBERS.REUSE_RATE,
     label: '% Reuse-Rate',
     source: {
       methodology: 'Interne Auswertung: Anteil der eingegangenen Geräte, die als funktionierende Geräte wieder in Umlauf gebracht werden',
@@ -59,7 +65,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   DEVICE_LIFESPAN_EXTENSION: {
-    value: 5,
+    value: SHARED_ORG_NUMBERS.DEVICE_LIFESPAN_EXTENSION,
     label: 'Jahre zusätzliche Nutzungsdauer',
     source: {
       methodology: 'Erfahrungswerte aus 20+ Jahren Refurbishing: Linux verlängert Lebensdauer älterer Hardware signifikant',
@@ -84,7 +90,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   PEOPLE_HELPED: {
-    value: '100+',
+    value: SHARED_ORG_NUMBERS.PEOPLE_HELPED,
     label: 'Menschen begleitet (2003-2025)',
     source: {
       methodology: 'Praktikanten + Volunteers + Workshop-Teilnehmer (nicht systematisch erfasst vor 2024)',
@@ -96,8 +102,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   YEARS_EXPERIENCE: {
-    value: 23,
-    label: 'Jahre Erfahrung (seit 2003)',
+    value: new Date().getFullYear() - SHARED_ORG_NUMBERS.FOUNDING_YEAR,
+    label: `Jahre Erfahrung (seit ${SHARED_ORG_NUMBERS.FOUNDING_YEAR})`,
     source: {
       methodology: 'Handelsregister Eintrag, Gründungsjahr verifiziert',
       confidence: 'high',
@@ -109,7 +115,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 
   // Current Operations (2025)
   CURRENT_BUDGET: {
-    value: 60_000,
+    value: SHARED_ORG_NUMBERS.CURRENT_BUDGET,
     label: 'Aktuelles Jahresbudget (2025)',
     source: {
       methodology: 'Kivitendo Erfolgsrechnung 2025 (Volljahr)',
@@ -261,7 +267,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   TEAM_CORE_FTE: {
-    value: 3,
+    value: SHARED_ORG_NUMBERS.TEAM_CORE_FTE,
     label: 'FTE Kernteam (aktuell)',
     source: {
       methodology: 'Vero (Geschäftsleitung) + Dani (Operations) + Andreas (Strategie/Entwicklung)',
@@ -297,7 +303,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   AVG_DEVICE_PRICE: {
-    value: 150,
+    value: SHARED_ORG_NUMBERS.AVG_DEVICE_PRICE,
     label: 'CHF Durchschnittspreis pro Gerät',
     source: {
       methodology: 'Geschätzter Durchschnittspreis aus Warenverkauf / Geräteanzahl über mehrere Jahre',
@@ -322,7 +328,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   DEVICES_YEAR_CURRENT: {
-    value: 150,
+    value: SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT,
     label: 'Geräte/Jahr verkauft (2025, geschätzt)',
     source: {
       methodology: 'Abgeleitet aus Warenverkauf-Umsatz (Kivitendo Konto 3100)',

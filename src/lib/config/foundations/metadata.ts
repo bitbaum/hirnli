@@ -278,6 +278,19 @@ export const NOT_RECOMMENDED = [
   { name: 'Paradies-Stiftung fürsoziale Innovation', reason: 'Nimmt keine Gesuche an - Stiftungsrat waehlt proaktiv aus' },
   { name: 'Stiftung fürangepasste Technologie und Sozialoekologie', reason: 'Operativ (Oekozentrum) - kein Förderprogramm fürexterne Projekte' },
   { name: 'Beatrice Ederer-Weber Stiftung', reason: 'Nur Behinderung/Innovation und Tierschutz - zu enge Nische fürRevamp-IT' },
+  // Batch 9: Fundraiso discovery Phase 3 exclusions (Feb 2026, ad6ef8d)
+  { name: 'reSPact Foundation', reason: 'Operativ - führt eigene Nachhaltigkeitsprojekte, keine externe Förderung' },
+  { name: 'Malia Stiftung', reason: 'Operativ - Arbeitsintegrationsdienste in Altstätten SG, nicht Zürich, kein Förderer' },
+  { name: 'Heinrich & Erna Walder-Bachmann Stiftung', reason: 'Operativ - betreibt Seniorenwohnungen, keine Jugendförderung' },
+  { name: 'Brockenhaus Reimal Stiftung', reason: 'Operativ - Brockenhaus für Arbeitsintegration (ähnlich Revamp-IT Modell), kein Förderer' },
+  { name: 'Schweizer Jugend forscht', reason: 'Operativ - führt eigenes Jugend-Wissenschaftsprogramm, keine externe Projektförderung' },
+  { name: 'Lucie Gunst-Stiftung', reason: 'Standort Luzern nicht Zürich + Thema Denkmalpflege, nicht Jugend/IT' },
+  { name: 'Zurich Community Trust', reason: 'Birmingham UK, nicht Zürich Schweiz - komplett falscher Eintrag auf Fundraiso' },
+  { name: 'Stiftung Kreislaufwirtschaft Schweiz', reason: 'Existiert nicht - kein Eintrag in ESA oder offiziellem Register' },
+  { name: 'Rutz-Möbius-Stiftung', reason: 'Existiert nicht - nicht auffindbar in öffentlichen Datenbanken' },
+  { name: 'Iris & Matthias Mettler-Hofer Stiftung', reason: 'Existiert nicht - kein Eintrag in ESA oder Zefix' },
+  { name: 'Stiftung Zukunftsfähig', reason: 'Existiert nicht - kein Eintrag in ESA oder offiziellen Registern' },
+  { name: 'Stiftung für Wissenschaft und Gesellschaft', reason: 'Existiert nicht unter diesem Namen - möglicherweise Science et Cité (operativ)' },
 ] as const;
 
 // ============================================================================
