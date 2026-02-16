@@ -1093,7 +1093,7 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     applicationUrl: 'https://www.bafu.admin.ch/bafu/en/home/topics/education/innovation/gesuch.html',
     applicationMethod: 'online',
     purposeSummary: 'Bundesamt für Umwelt fördert Pilot- und Demonstrationsprojekte für innovative Umwelttechnologien vor der Markteinführung. Kreislaufwirtschaft, Ressourceneffizienz und Umwelttechnologie-Innovation.',
-    researchNotes: 'Annahme neuer Gesuche sistiert — abhängig von parlamentarischer Entscheidung über CO2-Gesetz und Umwelttechnologie-Finanzierung, voraussichtlich 2027. Kein Zeitplan für Wiedereröffnung. Website periodisch prüfen.',
+    researchNotes: 'Annahme neuer Gesuche sistiert — abhängig von parlamentarischer Entscheidung über CO2-Gesetz und Umwelttechnologie-Finanzierung, voraussichtlich 2027. Kein Zeitplan für Wiedereröffnung. Website periodisch prüfen. Revamp-IT passt als IT-Refurbishing-Projekt in den Bereich Kreislaufwirtschaft und Ressourceneffizienz. Bei Wiedereröffnung Gesuch als Pilot-/Demonstrationsprojekt für Circular-IT einreichen.',
     sourceLinks: [
       { source: 'website', url: 'https://www.bafu.admin.ch/en/education-research-and-innovation', label: 'BAFU UTF' },
     ],
@@ -1242,7 +1242,7 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     websiteUrl: 'https://www.kickstart-innovation.com',
     applicationMethod: 'online',
     purposeSummary: 'Zero-Equity Open Innovation Platform. Bringt ~100 Startups jährlich mit Corporates, Städten, Stiftungen und Universitäten zusammen. Fokus: Smart Cities, New Work & Learning, Health. Mission 2030: Circular Economy, Inclusion, AI for Impact.',
-    researchNotes: '2026-Kohorte bereits selektiert. Für 2027 bewerben. Accelerator-Programm für Impact-Startups. Revamp-IT sollte 2027 Bewerbungsfenster beobachten.',
+    researchNotes: '2026-Kohorte bereits selektiert. Für 2027 bewerben. Accelerator-Programm für Impact-Startups verbindet mit Corporates wie Swisscom, SBB, Migros. Revamp-IT sollte 2027 Bewerbungsfenster beobachten. Zero-Equity-Modell bedeutet kein direktes Funding, aber Zugang zu Corporate-Pilotprojekten und Netzwerk. Bewerbung typischerweise März-Mai. Track Circular Economy und New Work sind am relevantesten.',
     sourceLinks: [
       { source: 'website', url: 'https://www.kickstart-innovation.com', label: 'Kickstart Innovation' },
     ],

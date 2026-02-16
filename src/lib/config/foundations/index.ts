@@ -49,17 +49,20 @@ function validateFoundationQuality(data: Foundation[]): QualityViolation[] {
 
     const issues: string[] = [];
 
-    if (!f.purposeSummary || f.purposeSummary.length < 50) {
-      issues.push(`purposeSummary missing or too short (${f.purposeSummary?.length ?? 0} chars, min 50)`);
+    if (!f.purposeSummary || f.purposeSummary.length < 150) {
+      issues.push(`purposeSummary missing or too short (${f.purposeSummary?.length ?? 0} chars, min 150)`);
     }
-    if (!f.researchNotes || f.researchNotes.length < 50) {
-      issues.push(`researchNotes missing or too short (${f.researchNotes?.length ?? 0} chars, min 50)`);
+    if (!f.researchNotes || f.researchNotes.length < 250) {
+      issues.push(`researchNotes missing or too short (${f.researchNotes?.length ?? 0} chars, min 250)`);
     }
     if (!f.contact || (!f.contact.email && !f.contact.phone && !f.contact.address)) {
       issues.push('contact missing (need at least email, phone, or address)');
     }
     if (!f.themes || f.themes.length === 0) {
       issues.push('no themes assigned');
+    }
+    if (!f.websiteUrl) {
+      issues.push('websiteUrl missing');
     }
 
     if (issues.length > 0) {

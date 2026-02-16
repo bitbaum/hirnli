@@ -433,7 +433,7 @@ export const STIFTUNGEN_CORE: Foundation[] = [
     source: 'manual',
     researchDate: '2026-02-10',
     purposeSummary: 'AOZ-Arbeitsintegrationsprogramme begleiten Sozialhilfeempfänger zur Arbeitsmarktintegration. Programme umfassen NAVI (4-Wochen-Orientierung), Workshops, Coaching und Garten-/Waldunterhalt. 4 von 10 Teilnehmenden kehren in den primären Arbeitsmarkt zurück.',
-    researchNotes: 'KEINE fördernde Stiftung, sondern eine städtische Abteilung (AOZ) mit Integrationsleistungen. Revamp-IT müsste eine Partnerschaft als Programmanbieter oder Platzierungspartner prüfen. Kontakt AOZ: Zypressenstrasse 60, 8040 Zürich, Tel 044 415 65 00.',
+    researchNotes: 'KEINE fördernde Stiftung, sondern eine städtische Abteilung (AOZ) mit Integrationsleistungen. Revamp-IT müsste eine Partnerschaft als Programmanbieter oder Platzierungspartner prüfen. AOZ betreibt Programme in verschiedenen Bereichen (Gastronomie, Textil, Logistik). IT-Refurbishment und Linux-Schulungen könnten als neues AOZ-Arbeitsintegrationsprogramm positioniert werden. Stadt Zürich finanziert Programmplätze direkt.',
     needsResearch: false,
     contact: {
       address: 'Zypressenstrasse 60, 8040 Zürich',

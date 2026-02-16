@@ -30,7 +30,7 @@ export interface Document {
   href: string;
   size?: string; // e.g., "~5 pages", "~2 MB"
   lastUpdated?: string; // ISO date
-  badge?: string; // e.g., "107 Stiftungen", "11 Vorlagen"
+  badge?: string; // e.g., "N Stiftungen", "N Vorlagen" (derive from data, never hardcode)
 }
 
 // ---------------------------------------------------------------------------

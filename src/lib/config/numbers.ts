@@ -561,18 +561,6 @@ export function getNumericValue(key: keyof typeof NUMBERS_REGISTRY): number {
 export const CO2_PER_LAPTOP = getNumericValue('CO2_SAVED_PER_LAPTOP');
 
 /**
- * Helper function to format currency
- */
-export function formatCHF(amount: number): string {
-  return new Intl.NumberFormat('de-CH', {
-    style: 'currency',
-    currency: 'CHF',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-/**
  * Helper function to get all numbers by category
  */
 export function getNumbersByCategory(category: NumberSource['category']): Record<string, NumberSource> {

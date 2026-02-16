@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { BRANDING } from './branding';
 import { STIFTUNGEN_DATA } from './foundations';
+import { TEMPLATE_TYPES } from './gesuch-templates';
 
 // ---------------------------------------------------------------------------
 // Nav schemas (SSOT for navigation types)
@@ -103,7 +104,7 @@ export const NAV_STRUCTURE: {
           title: 'Stiftungen',
           items: [
             { text: `${STIFTUNGEN_DATA.length} Stiftungen`, href: '/fundraising/stiftungen', desc: '🔍 Mit Fit-Score, Themen, Deadlines, Beträgen' },
-            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: '📝 6 Referenz-Vorlagen nach Typ (A/B/C/D)' },
+            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: `📝 ${TEMPLATE_TYPES.length} Referenz-Vorlagen nach Typ (A/B/C/D)` },
           ],
         },
       ],
