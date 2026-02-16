@@ -31,27 +31,3 @@ export const DEPARTMENTS = [
   { name: 'Technik', icon: '🔧', color: 'from-blue-500 to-indigo-500', borderColor: 'border-l-blue-500' },
   { name: 'Betrieb', icon: '📦', color: 'from-emerald-500 to-green-600', borderColor: 'border-l-emerald-500' },
 ] as const;
-
-export const LOCATIONS = [
-  { icon: '🏪', title: 'Hauptsitz & Verkauf', address: 'Birmensdorferstrasse 379, 8055 Zürich' },
-  { icon: '🏭', title: 'Lager & Werkstatt', address: 'Badenerstrasse 816, 8048 Zürich' },
-] as const;
-
-export const MISSING_DATA = [
-  { title: 'Kapazität & FTE', description: 'Arbeitspensum und Vollzeitäquivalente werden nicht systematisch erfasst.', detail: 'Nur Georgie (60%) hat einen Wert in HR_Roster.csv.' },
-  { title: 'Auslastung & Bottlenecks', description: 'Es gibt keine Daten zur aktuellen Auslastung oder zu Engpässen im Team.' },
-  { title: 'Praktikanten & Freiwillige', description: 'Das erweiterte Team (Arbeitsintegration, Freiwillige) wird nicht in HR_Roster.csv erfasst.' },
-  { title: 'Fachgebiete unvollständig', description: 'Einige Fachgebiete müssen noch durch HR (Veronica) ergänzt werden.' },
-] as const;
-
-export const HR_COLUMNS = [
-  { field: 'id', description: 'Eindeutige ID (PER-0001, etc.)' },
-  { field: 'name', description: 'Vorname' },
-  { field: 'fachgebiete', description: 'Fachgebiete / Kompetenzbereiche' },
-  { field: 'bereich', description: 'Bereich (Leitung, Technik, Betrieb)' },
-  { field: 'capacity_pct', description: 'Arbeitspensum (meist leer)' },
-  { field: 'skills', description: 'Kompetenzen (leer)' },
-  { field: 'cost_rate_chf_per_hour', description: 'Stundensatz (leer)' },
-  { field: 'status', description: 'Anstellungsstatus (leer)' },
-  { field: 'profile_path', description: 'Link zu Profil-Datei' },
-] as const;

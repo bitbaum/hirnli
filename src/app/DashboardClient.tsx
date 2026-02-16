@@ -10,6 +10,7 @@ import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { formatCHF, formatPercent, calcGrowth } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided } from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
+import { CO2_PER_LAPTOP, AVG_DEVICE_PRICE } from '@/lib/config/numbers';
 import { DASHBOARD_QUICKLINKS } from './data';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
@@ -100,7 +101,7 @@ export default function DashboardClient() {
             inspector.inspect(metricToInspectorData(
               NumberSources.co2_total_2025,
               `~${co2Avoided} Tonnen`,
-              { year: selectedYear, formula: `${formatCHF(totals.warenverkauf)} / CHF 150 pro Gerät × 300 kg CO₂` },
+              { year: selectedYear, formula: `${formatCHF(totals.warenverkauf)} / CHF ${AVG_DEVICE_PRICE} pro Gerät × ${CO2_PER_LAPTOP} kg CO₂` },
             ))
           }
         />

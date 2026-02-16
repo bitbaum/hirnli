@@ -4,6 +4,7 @@ import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import { TEAM_MEMBERS } from '@/app/team/data';
 import {
   BILDUNGSPROGRAMMLEITER,
   MULTIPLICATION_EFFECT,
@@ -40,7 +41,7 @@ export default function BildungPage() {
               <h3 className="text-lg font-bold text-amber-900 mb-2">Aktueller Engpass</h3>
               <div className="space-y-2 text-sm text-amber-800">
                 <p>
-                  <strong>14 Personen im Team</strong> (Leitung, Techniker, Betrieb) — aber nur 3 in der Leitung (Vero, Dani, Andreas), keine dedizierte Bildungskapazität
+                  <strong>{TEAM_MEMBERS.length} Personen im Team</strong> (Leitung, Techniker, Betrieb) — aber nur 3 in der Leitung (Vero, Dani, Andreas), keine dedizierte Bildungskapazität
                 </p>
                 <p>
                   <strong>Aktuelle Reichweite:</strong> ~5 Menschen/Jahr direkt trainiert (Schätzung, nicht systematisch erfasst)

@@ -3,12 +3,12 @@
  * No HTTP, no UI — just math.
  */
 
-import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
+import { CO2_PER_LAPTOP, AVG_DEVICE_PRICE } from '@/lib/config/numbers';
 
 const AVG_CO2_PER_DEVICE = CO2_PER_LAPTOP;
 
 /** Estimate device count from revenue */
-export function estimateDeviceCount(revenue: number, avgPrice = 150): number {
+export function estimateDeviceCount(revenue: number, avgPrice = AVG_DEVICE_PRICE): number {
   if (!revenue || revenue <= 0) return 0;
   return Math.round(revenue / avgPrice);
 }

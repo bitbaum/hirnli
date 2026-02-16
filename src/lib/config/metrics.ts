@@ -51,7 +51,7 @@ export const NumberSources: Record<string, Metric> = {
         'Marketing verstärken',
         'Dienstleistungen erweitern',
       ],
-      link: '../methodik/index.html#income-data',
+      link: '/methodik#income-data',
     },
   },
 
@@ -86,7 +86,7 @@ export const NumberSources: Record<string, Metric> = {
         'Partnerschaften mit Unternehmen',
         'Online-Präsenz ausbauen',
       ],
-      link: '../methodik/index.html#income-data',
+      link: '/methodik#income-data',
     },
   },
 
@@ -118,7 +118,7 @@ export const NumberSources: Record<string, Metric> = {
         'Reparatur-Café bewerben',
         'Web-Development-Aufträge akquirieren',
       ],
-      link: '../methodik/index.html#income-data',
+      link: '/methodik#income-data',
     },
   },
 
@@ -145,7 +145,7 @@ export const NumberSources: Record<string, Metric> = {
       description: 'Durchschnittliche monatliche Einnahmen im Jahr 2025',
       drivers: ['Gesamteinnahmen', 'Anzahl Monate mit Daten'],
       improvements: ['Konsistente monatliche Einnahmen anstreben'],
-      link: '../methodik/index.html#income-data',
+      link: '/methodik#income-data',
     },
   },
 
@@ -192,7 +192,7 @@ export const NumberSources: Record<string, Metric> = {
         'Einnahmen diversifizieren (Fördermittel + Earned Income)',
       ],
       target: 70,
-      link: '../methodik/index.html#self-financing',
+      link: '/methodik#self-financing',
       whyItMatters:
         'Zeigt Anteil eigener Wirtschaftstätigkeit. Historisch ~96% (da nie aktiv Fördermittel gesucht). Diversifizierung durch Fundraising ist der nächste Schritt.',
     },
@@ -231,7 +231,7 @@ export const NumberSources: Record<string, Metric> = {
         'Mehr Geräte verkaufen',
         'Dienstleistungen ausbauen',
       ],
-      link: '../methodik/index.html#income-data',
+      link: '/methodik#income-data',
     },
   },
 
@@ -262,7 +262,7 @@ export const NumberSources: Record<string, Metric> = {
         'Fundraising verstärken',
         'Supporter-Programm ausbauen',
       ],
-      link: '../methodik/index.html#income-data',
+      link: '/methodik#income-data',
     },
   },
 
@@ -305,7 +305,7 @@ export const NumberSources: Record<string, Metric> = {
         'WICHTIG: Stückzahlen in Kivitendo erfassen',
         'Artikelkategorien einführen',
       ],
-      link: '../methodik/index.html#device-estimation',
+      link: '/methodik#device-estimation',
     },
   },
 
@@ -319,11 +319,11 @@ export const NumberSources: Record<string, Metric> = {
       type: 'calculated',
       confidence: 'medium',
       path: '01_Management/C_Kennzahlen_und_Reporting/KPI_Framework/CO2_und_Gewichtstabelle.csv',
-      assumption: '300 kg CO2 pro Gerät (Durchschnitt)',
+      assumption: '285 kg CO2 Netto-Einsparung pro Gerät (350 kg Neuproduktion − 65 kg Refurbishment)',
     },
     formula: {
       type: 'custom',
-      expression: 'devices * 300 / 1000',
+      expression: 'devices * 285 / 1000',
       dependencies: ['devices_estimated_2025'],
     },
     validation: {
@@ -343,7 +343,7 @@ export const NumberSources: Record<string, Metric> = {
         'Exakte Gerätezahlen erfassen',
         'Gerätespezifische CO2-Werte verwenden',
       ],
-      link: '../methodik/index.html#co2-calculation',
+      link: '/methodik#co2-calculation',
     },
   },
 
@@ -377,7 +377,7 @@ export const NumberSources: Record<string, Metric> = {
         'Basiert auf Geräteschätzung',
       ],
       improvements: ['Exakte Gerätezahlen und -gewichte erfassen'],
-      link: '../methodik/index.html#ewaste-calculation',
+      link: '/methodik#ewaste-calculation',
     },
   },
 
@@ -455,7 +455,7 @@ export const NumberSources: Record<string, Metric> = {
         'Rückwirkende Erfassung (wenn möglich)',
         'Systematisches Tracking einführen',
       ],
-      link: '../wirkung/index.html',
+      link: '/wirkung',
     },
   },
 
@@ -478,7 +478,7 @@ export const NumberSources: Record<string, Metric> = {
         'Anzahl gleichzeitig verfügbarer Integrationsplätze für Praktikant:innen.',
       limitations: ['Abhängig von Raumkapazität und Betreuung'],
       improvements: ['Kapazität dokumentieren', 'Auslastung tracken'],
-      link: '../wirkung/index.html',
+      link: '/wirkung',
     },
   },
 
@@ -729,20 +729,6 @@ export const NumberSources: Record<string, Metric> = {
 // Helper functions
 // ---------------------------------------------------------------------------
 
-/** Look up a single metric by key. Returns null if not found. */
-export function getNumberSource(key: string): Metric | null {
-  return NumberSources[key] ?? null;
-}
-
-/** Return all metrics belonging to a given category (e.g. 'financial'). */
-export function getNumbersByCategory(category: string): Metric[] {
-  return Object.values(NumberSources).filter((m) => m.category === category);
-}
-
-/** Return all metrics belonging to a given dimension (e.g. 'ecological'). */
-export function getNumbersByDimension(dimension: string): Metric[] {
-  return Object.values(NumberSources).filter((m) => m.dimension === dimension);
-}
 
 // ---------------------------------------------------------------------------
 // Metric → InspectorData bridge

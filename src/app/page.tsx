@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { TEAM_MEMBERS } from '@/app/team/data';
 
 export const metadata: Metadata = {
   title: 'Revamp-Info — Transparenz-Hub für Revamp-IT Fundraising',
@@ -170,12 +171,12 @@ export default function HomePage() {
                   <div className="text-3xl">👥</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-pink-600">Team</h3>
-                    <Badge color="pink">14 Teammitglieder</Badge>
+                    <Badge color="pink">{TEAM_MEMBERS.length} Teammitglieder</Badge>
                   </div>
                 </div>
               </div>
               <p className="text-sm text-text-light mb-3">
-                14 Menschen arbeiten bei uns: Leitung, Techniker, Betrieb — plus geplante Bildungsprogrammleiter.
+                {TEAM_MEMBERS.length} Menschen arbeiten bei uns: Leitung, Techniker, Betrieb — plus geplante Bildungsprogrammleiter.
               </p>
               <div className="text-xs text-pink-600 font-semibold">→ Team kennenlernen</div>
             </Card>

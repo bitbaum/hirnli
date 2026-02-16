@@ -13,7 +13,7 @@ import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { formatCHF, formatNumber } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided, estimateEWastePrevented } from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
-import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
+import { CO2_PER_LAPTOP, AVG_DEVICE_PRICE, getNumericValue } from '@/lib/config/numbers';
 import { ImpactStoryCards } from './components';
 import { DATA_GAPS, WIRKUNG_NEXT_STEPS } from './data';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
@@ -34,7 +34,8 @@ export default function WirkungClient() {
   const deviceCount = estimateDeviceCount(totals.warenverkauf);
   const co2Avoided = estimateCO2Avoided(deviceCount);
   const eWaste = estimateEWastePrevented(deviceCount, 5); // 5 kg avg weight
-  const lifeYears = deviceCount * 4; // 4 years extended life per device
+  const lifespanExt = getNumericValue('DEVICE_LIFESPAN_EXTENSION');
+  const lifeYears = deviceCount * lifespanExt;
 
   // CO2 equivalents for context
   const carsKm = Math.round((co2Avoided * 1000) / 0.2); // ~200g CO2 per km
@@ -85,7 +86,7 @@ export default function WirkungClient() {
             inspector.inspect(metricToInspectorData(
               NumberSources.devices_estimated_2025,
               `~${formatNumber(deviceCount)}`,
-              { year: selectedYear, formula: `${formatCHF(totals.warenverkauf)} / CHF 150 pro Gerät` },
+              { year: selectedYear, formula: `${formatCHF(totals.warenverkauf)} / CHF ${AVG_DEVICE_PRICE} pro Gerät` },
             ))
           }
         />
@@ -118,7 +119,7 @@ export default function WirkungClient() {
         <MetricCard
           label="Lebensjahre verlängert"
           value={`~${formatNumber(lifeYears)} J.`}
-          subtitle="~4 Jahre pro Gerät"
+          subtitle={`~${lifespanExt} Jahre pro Gerät`}
           sourceType="estimated"
           onClick={() =>
             inspector.inspect({
@@ -126,10 +127,10 @@ export default function WirkungClient() {
               value: `~${formatNumber(lifeYears)} Jahre`,
               sourceType: 'estimated',
               source: 'Berechnet aus Geräteanzahl',
-              formula: `${formatNumber(deviceCount)} Geräte × 4 Jahre`,
+              formula: `${formatNumber(deviceCount)} Geräte × ${lifespanExt} Jahre`,
               confidence: 'Niedrig',
               description:
-                'Geschätzte Lebensdauerverlängerung durch Refurbishment. Annahme: 4 zusätzliche Nutzungsjahre pro Gerät.',
+                `Geschätzte Lebensdauerverlängerung durch Refurbishment. Annahme: ${lifespanExt} zusätzliche Nutzungsjahre pro Gerät.`,
             })
           }
         />

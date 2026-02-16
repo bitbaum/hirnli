@@ -296,6 +296,18 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     category: 'social',
   },
 
+  AVG_DEVICE_PRICE: {
+    value: 150,
+    label: 'CHF Durchschnittspreis pro Gerät',
+    source: {
+      methodology: 'Geschätzter Durchschnittspreis aus Warenverkauf / Geräteanzahl über mehrere Jahre',
+      calculation: 'Mix aus Laptops (CHF 100-300), Desktops (CHF 50-150), Monitore (CHF 30-80)',
+      confidence: 'estimated',
+      lastVerified: '2026-02-16',
+    },
+    category: 'operations',
+  },
+
   // Operations KPIs (current state)
   DEVICES_PER_MONTH_CURRENT: {
     value: '~12-15',
@@ -559,12 +571,5 @@ export function getNumericValue(key: keyof typeof NUMBERS_REGISTRY): number {
 
 // Convenience exports for the most commonly referenced constants
 export const CO2_PER_LAPTOP = getNumericValue('CO2_SAVED_PER_LAPTOP');
+export const AVG_DEVICE_PRICE = getNumericValue('AVG_DEVICE_PRICE');
 
-/**
- * Helper function to get all numbers by category
- */
-export function getNumbersByCategory(category: NumberSource['category']): Record<string, NumberSource> {
-  return Object.fromEntries(
-    Object.entries(NUMBERS_REGISTRY).filter(([_, value]) => value.category === category)
-  );
-}
