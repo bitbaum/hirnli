@@ -53,7 +53,7 @@ export default function FoundationListClient() {
       />
 
       <WhyThisMatters
-        purpose="37 Förderstiftungen recherchiert, nach Fit analysiert, mit Deadlines und Kontaktdaten."
+        purpose={`${totalCount} Förderstiftungen recherchiert, nach Fit analysiert, mit Deadlines und Kontaktdaten.`}
         connection="Jede Stiftung hat eine eigene Detailseite mit massgeschneidertem Gesuch (siehe einzelne Stiftung)."
       />
 

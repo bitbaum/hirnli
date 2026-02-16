@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 
 export const metadata: Metadata = {
   title: 'Revamp-Info — Transparenz-Hub für Revamp-IT Fundraising',
@@ -30,7 +31,7 @@ export default function HomePage() {
               <div className="text-sm opacity-90 mt-2">2018-2025, direkt aus Kivitendo</div>
             </div>
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur">
-              <div className="text-4xl font-bold mb-2">37+</div>
+              <div className="text-4xl font-bold mb-2">{STIFTUNGEN_DATA.length}</div>
               <div className="text-lg">Stiftungen</div>
               <div className="text-sm opacity-90 mt-2">Mit Fit-Analyse & Deadlines</div>
             </div>
@@ -72,7 +73,7 @@ export default function HomePage() {
               Fundraising-Intelligence: Passende Stiftungen finden, Fit analysieren, professionelle Gesuche generieren.
             </p>
             <ul className="text-sm text-text-light space-y-2">
-              <li>✓ 37+ Stiftungen mit Fit-Analyse & Deadlines</li>
+              <li>✓ {STIFTUNGEN_DATA.length} Stiftungen mit Fit-Analyse & Deadlines</li>
               <li>✓ Gesuch-Vorlagen nach Stiftungstyp (A/B/C/D)</li>
               <li>✓ Interaktive Foundation Profiles (Präsentations-Modus)</li>
               <li>✓ Daten-Strategie: Was wir wissen, was fehlt</li>
@@ -112,7 +113,7 @@ export default function HomePage() {
                   <div className="text-3xl">🎯</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-emerald-600">Fundraising</h3>
-                    <Badge color="emerald">37+ Stiftungen</Badge>
+                    <Badge color="emerald">{STIFTUNGEN_DATA.length} Stiftungen</Badge>
                   </div>
                 </div>
               </div>

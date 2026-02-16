@@ -88,7 +88,7 @@ Each foundation detail page is not just research for us — it's a **presentatio
 Foundation data, themes, story components, and metrics are all in **TypeScript config files**, not hardcoded in components:
 
 ```
-lib/config/foundations.ts  → Foundation entries (SSOT, 37 entries)
+lib/config/foundations.ts  → Foundation entries (SSOT — count derived at runtime via STIFTUNGEN_DATA.length)
 lib/config/stories.ts      → Narrative building blocks (SSOT)
 lib/config/metrics.ts      → Metric metadata (SSOT)
 lib/data/financial.ts      → Financial data + FinanceDataSet class
@@ -135,7 +135,7 @@ revamp-info/
 │   │       ├── page.tsx               # Fundraising hub
 │   │       ├── stiftungen/
 │   │       │   ├── page.tsx           # Foundation list (filterable)
-│   │       │   └── [slug]/            # Dynamic detail (37 foundations)
+│   │       │   └── [slug]/            # Dynamic detail (all STIFTUNGEN_DATA entries)
 │   │       │       ├── page.tsx       # Foundation profile
 │   │       │       └── gesuch/        # Interactive + PDF gesuch
 │   │       └── gesuch-vorlagen/
@@ -174,7 +174,7 @@ Narrative Content       →  lib/config/stories.ts                            �
 | Navigation | `components/layout/Nav.tsx` | App-wide nav via layout.tsx |
 | Footer | `components/layout/Footer.tsx` | Footer via layout.tsx |
 | Formatting | `lib/utils/format.ts` | CHF, %, number, date formatting |
-| Foundation Data | `lib/config/foundations.ts` | 37 foundation entries |
+| Foundation Data | `lib/config/foundations/` | STIFTUNGEN_DATA (batches in stiftungen-*.ts) |
 | Story Blocks | `lib/config/stories.ts` | WHY/HOW/WHAT/EVIDENCE narratives |
 | Number Metadata | `lib/config/metrics.ts` | Source, formula, confidence per metric |
 | Schemas | `lib/schemas/*.ts` | Zod schemas → TypeScript types |
@@ -217,8 +217,24 @@ npm run build
 
 ### Adding a Foundation
 
-1. Add entry to `src/lib/config/foundations.ts`
-2. Done. `generateStaticParams()` automatically includes the new slug.
+1. Add entry to a `stiftungen-*.ts` file in `src/lib/config/foundations/`
+2. Include in `STIFTUNGEN_DATA` array in `foundations/index.ts`
+3. Done. `generateStaticParams()` automatically includes the new slug.
+
+**Foundation data lives in batches:** `stiftungen-core.ts` (original 37), `stiftungen-2026-02.ts` (70 from Feb 2026 research). New research batches get their own file (`stiftungen-YYYY-MM.ts`) and are spread into `STIFTUNGEN_DATA`.
+
+**Quality gate for `needsResearch: false`:** An entry must have:
+- `purposeSummary` (150+ chars, specific focus areas — not just tagline-level)
+- `researchNotes` (250+ chars, strategic fit analysis for Revamp-IT)
+- `contact` with at least email or phone
+- `themes` properly assigned
+- `websiteUrl` that resolves
+
+If any of these are missing, the entry must keep `needsResearch: true`.
+
+**Gesuch pages are only generated** for entries with `needsResearch: false` AND `priority <= 2` (see `generateGesuchParams()` in `foundation-helpers.ts`).
+
+**NEVER hardcode foundation/template counts** in UI text or documentation. Always derive from `STIFTUNGEN_DATA.length` or equivalent. Counts go stale the moment a new batch is added.
 
 ### Adding a Section Page
 
@@ -253,7 +269,7 @@ Before pushing:
 
 ### Phase 1 (Current): Revamp-IT Specific — COMPLETE
 - Next.js 15 app with TypeScript, Tailwind, Zod
-- 14 page routes + 37 dynamic foundation pages (53 total)
+- 17 page routes + dynamic foundation pages (STIFTUNGEN_DATA.length) + 18 gesuch templates
 - Config-driven data architecture
 - Shared component library (20+ components)
 - URL-synced filter state

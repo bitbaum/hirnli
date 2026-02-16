@@ -404,7 +404,11 @@ export const STIFTUNGEN_CORE: Foundation[] = [
     researchDate: '2026-02-09',
     purposeSummary: 'Unterstützt Projekte mit messbarer Wirkung im Kanton Zürich in den Bereichen Soziales, Kultur, Gesundheit, Bildung, Wissenschaft und Ökologie. Förderstiftung und Dachstiftung.',
     researchNotes: 'WICHTIG: Nur auf Einladung. Unaufgeforderte Anträge werden weder geprüft noch beantwortet. Stiftung sucht aktiv nach passenden Organisationen und kontaktiert diese. Gegründet 2024 als Nachfolgerin früherer ZKB-Wohltätigkeitsaktivitäten. StiftungSchweiz-Profil abonnieren für zukünftige Ausschreibungen.',
-    needsResearch: true,
+    needsResearch: false,
+    contact: {
+      address: 'c/o ZKB, Bahnhofstrasse 9, 8010 Zürich',
+      email: 'Natalie.Joho@zkb.ch',
+    },
   },
   {
     slug: 'arbeitsintegration-zh',
@@ -462,7 +466,10 @@ export const STIFTUNGEN_CORE: Foundation[] = [
     researchDate: '2026-02-10',
     purposeSummary: 'Gemeinsame Initiative von Wirtschaft und Stadt Zürich zur Arbeitsintegration von Sozialhilfeempfängern und Jugendlichen. Unterstützt KMU mit Ressourcen und Expertise für Arbeitsplatzierungen. Stiftungskapital CHF 3.4 Mio., gegründet 2006.',
     researchNotes: 'Kein spezifisches Antrags-/Gesuchverfahren gefunden. Website stiftungzuerichjobs.ch direkt konsultieren. Stiftung unterstützt öffentliche und private Organisationen bei der Arbeitsintegration für Jugendliche/junge Erwachsene und marktorientierte Integration für Sozialhilfeempfänger.',
-    needsResearch: true,
+    needsResearch: false,
+    contact: {
+      email: 'annemarie.homberger@stiftungzuerichjobs.ch',
+    },
   },
   {
     slug: 'max-kohler',
@@ -648,8 +655,12 @@ export const STIFTUNGEN_CORE: Foundation[] = [
     source: 'manual',
     researchDate: '2026-02-10',
     purposeSummary: 'Programm der Stadt Zürich zur Förderung von Startups (CHF 35\'000-250\'000) und NPOs (Projekte CHF 5\'000-100\'000, Betrieb CHF 60\'000-600\'000 über 2-4 Jahre) in Klimaschutz und Kreislaufwirtschaft.',
-    researchNotes: 'Startups müssen max. 5 Jahre alt sein, Gründer mind. 50% Anteile halten, Standort Zürich erforderlich. NPOs müssen steuerbefreit sein mit Schweizer Sitz oder Niederlassung. Website kündigt an, dass Informationen zu künftigen Runden bald publiziert werden. Aufmerksam beobachten angesichts des zusätzlichen CHF 3 Mio. Kredits.',
-    needsResearch: true,
+    researchNotes: 'Startups müssen max. 5 Jahre alt sein, Gründer mind. 50% Anteile halten, Standort Zürich erforderlich. NPOs müssen steuerbefreit sein mit Schweizer Sitz oder Niederlassung. Zusatzkredit von CHF 3 Mio. soll weitere Förderrunde 2026 ermöglichen. Anfang 2026 externe Evaluation geplant. Kontakt: René Estermann, Direktor Umwelt- und Gesundheitsschutz.',
+    needsResearch: false,
+    contact: {
+      email: 'rene.estermann@zuerich.ch',
+      phone: '+41 44 412 47 54',
+    },
   },
 
   // ---- PRIORITY 3: Research Needed - From ESA Registry ----

@@ -573,7 +573,12 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     themes: ['zuerich', 'arbeitsintegration', 'soziale-integration'],
     source: 'website',
     researchDate: '2026-02-09',
-    needsResearch: true,
+    needsResearch: false,
+    contact: {
+      address: 'Sonnenbergstrasse 74, 8603 Schwerzenbach',
+      phone: '044 905 77 00',
+      email: 'youwork@stiftung-sag.ch',
+    },
   },
   // === Batch 3: ESA candidates deep research (2026-02-09) ===
   {
@@ -1535,6 +1540,9 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     source: 'website',
     researchDate: '2026-02-10',
     needsResearch: true,
+    contact: {
+      address: 'Kalkbreitestrasse 10, 8003 Zürich',
+    },
   },
   {
     slug: 'ashoka-schweiz',
@@ -1877,6 +1885,9 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     source: 'website',
     researchDate: '2026-02-09',
     needsResearch: true,
+    contact: {
+      address: 'c/o World Economic Forum, Route de la Capite 91-93, 1223 Cologny/Geneva',
+    },
   },
   {
     slug: 'swisslos-sportfonds-zh',
@@ -1945,15 +1956,20 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     region: 'Schweiz',
     websiteUrl: 'https://www.mobiliar.ch/die-mobiliar/engagement/mobiliar-jubilaeumsstiftung',
     applicationMethod: 'online',
-    purposeSummary: 'Die Mobiliar Jubiläumsstiftung fördert soziale und gesellschaftliche Projekte in der ganzen Schweiz. Schwerpunkte: Zusammenleben, Chancengleichheit, soziale Integration.',
-    researchNotes: 'Relevanz für Revamp-IT: Arbeitsintegration und soziale Inklusion sind Kernthemen der Stiftung. Fördert gemeinnützige Organisationen mit messbarer sozialer Wirkung. Gesuche online einreichen. Genaue Konditionen und aktuelle Förderrunden auf Website prüfen.',
+    purposeSummary: 'Die Mobiliar Jubiläumsstiftung fördert soziale und gesellschaftliche Projekte in der ganzen Schweiz. Schwerpunkte: Zusammenleben, Chancengleichheit, soziale Integration. Nur online-Gesuche während Einreichefristen.',
+    researchNotes: 'Relevanz für Revamp-IT: Arbeitsintegration und soziale Inklusion sind Kernthemen der Stiftung. Fördert gemeinnützige Organisationen mit messbarer sozialer Wirkung. Gesuche online einreichen über mobiliar.ch (Formular nur während Einreichefristen verfügbar). Postalische Eingaben nicht akzeptiert. Vollständige Unterlagen erforderlich: Online-Formular, Begleitbrief mit gültiger Postadresse, Projektbeschreibung mit Angaben zum Projektträger.',
     sourceLinks: [
       { source: 'website', url: 'https://www.mobiliar.ch/die-mobiliar/engagement/mobiliar-jubilaeumsstiftung', label: 'Mobiliar Jubiläumsstiftung' },
     ],
     themes: ['soziale-integration', 'arbeitsintegration'],
     source: 'website',
-    researchDate: '2026-02-11',
-    needsResearch: true,
+    researchDate: '2026-02-16',
+    needsResearch: false,
+    contact: {
+      address: 'Bundesgasse 35, 3001 Bern',
+      email: 'jubilaeumsstiftung@mobiliar.ch',
+      phone: '+41 31 389 79 68',
+    },
   },
   {
     slug: 'coop-nachhaltigkeit',
@@ -1978,6 +1994,9 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     source: 'website',
     researchDate: '2026-02-11',
     needsResearch: true,
+    contact: {
+      email: 'sponsoring-hs@coop.ch',
+    },
   },
   {
     slug: 'swiss-re-foundation',
@@ -1993,15 +2012,20 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     region: 'Schweiz / International',
     websiteUrl: 'https://www.swissre.com/foundation.html',
     applicationMethod: 'contact',
-    purposeSummary: 'Die Swiss Re Foundation fördert Programme für Resilienz, Klimaanpassung und inklusive Wirtschaftsentwicklung. Unterstützt Social-Impact-Initiativen und Sozialunternehmen.',
-    researchNotes: 'Swiss Re Foundation ist bereits Partner beim Social Impact Catalyst (zusammen mit ZKB und Mercator). Fokus auf Resilienz und soziale Inklusion. Für Revamp-IT relevant: (1) Sozialunternehmens-Förderung, (2) Klimaresilienz durch Kreislaufwirtschaft. Anfrage über bestehende SENS/Social Impact Catalyst-Verbindung möglich.',
+    purposeSummary: 'Die Swiss Re Foundation fördert Programme für Resilienz, Klimaanpassung und inklusive Wirtschaftsentwicklung. Unterstützt Social-Impact-Initiativen und Sozialunternehmen. «Shine»-Programm entwickelt Businesspläne mit Early-Stage Social Entrepreneurs.',
+    researchNotes: 'Swiss Re Foundation ist bereits Partner beim Social Impact Catalyst (zusammen mit ZKB und Mercator). Fokus auf Resilienz und soziale Inklusion. Für Revamp-IT relevant: (1) Sozialunternehmens-Förderung via Shine-Programm, (2) Klimaresilienz durch Kreislaufwirtschaft. Anfrage über bestehende SENS/Social Impact Catalyst-Verbindung möglich. Online-Bewerbungsportal: application.swissrefoundation.org.',
     sourceLinks: [
       { source: 'website', url: 'https://www.swissre.com/foundation.html', label: 'Swiss Re Foundation' },
+      { source: 'website', url: 'https://application.swissrefoundation.org/en', label: 'Bewerbungsportal' },
     ],
     themes: ['klima', 'soziale-integration', 'arbeitsintegration'],
     source: 'website',
-    researchDate: '2026-02-11',
-    needsResearch: true,
+    researchDate: '2026-02-16',
+    needsResearch: false,
+    contact: {
+      address: 'Mythenquai 50/60, 8022 Zürich',
+      email: 'swissrefoundation@swissre.com',
+    },
   },
   {
     slug: 'baloise-foundation',
@@ -2065,15 +2089,18 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     region: 'Schweiz / International',
     websiteUrl: 'https://www.zurich.com/en/sustainability/z-zurich-foundation',
     applicationMethod: 'contact',
-    purposeSummary: 'Die Z Zurich Foundation fördert Programme für Resilienz, Beschäftigung und Bildung. In der Schweiz Fokus auf Community Investment und Corporate Volunteering.',
+    purposeSummary: 'Die Z Zurich Foundation ist das Hauptvehikel der Zurich Insurance Group für Community Investment. Drei Säulen: Klimaanpassung, psychische Gesundheit und soziale Chancengleichheit. In der Schweiz Fokus auf lokale Community-Projekte und Corporate Volunteering.',
     researchNotes: 'Zurich Insurance hat Hauptsitz in Zürich. Für Revamp-IT relevant: (1) Beschäftigungs- und Bildungsprogramme passen zu Arbeitsintegration, (2) Corporate Volunteering — Mitarbeitende in Werkstatt, (3) Mögliche Hardware-Spenden (IT-Infrastruktur). Community-Investment-Programm könnte lokale Projekte in Zürich fördern.',
     sourceLinks: [
       { source: 'website', url: 'https://www.zurich.com/en/sustainability/z-zurich-foundation', label: 'Z Zurich Foundation' },
     ],
     themes: ['soziale-integration', 'arbeitsintegration', 'digitale-bildung'],
     source: 'website',
-    researchDate: '2026-02-11',
-    needsResearch: true,
+    researchDate: '2026-02-16',
+    needsResearch: false,
+    contact: {
+      email: 'z.zurich.foundation@zurich.com',
+    },
   },
   {
     slug: 'six-group-foundation',
@@ -2098,6 +2125,9 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     source: 'website',
     researchDate: '2026-02-11',
     needsResearch: true,
+    contact: {
+      address: 'Hardturmstrasse 201, 8021 Zürich',
+    },
   },
 
   {

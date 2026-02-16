@@ -30,7 +30,7 @@ export interface Document {
   href: string;
   size?: string; // e.g., "~5 pages", "~2 MB"
   lastUpdated?: string; // ISO date
-  badge?: string; // e.g., "37 Stiftungen", "11 Vorlagen"
+  badge?: string; // e.g., "107 Stiftungen", "11 Vorlagen"
 }
 
 // ---------------------------------------------------------------------------
@@ -100,13 +100,13 @@ const DATA_EXPORTS: Document[] = [
   {
     id: 'export-foundations',
     title: 'Stiftungsliste',
-    description: 'Alle 37 recherchierten Stiftungen mit Fit-Score, Themen, Status, Deadlines — live generiert aus STIFTUNGEN_DATA',
+    description: `Alle ${STIFTUNGEN_DATA.length} recherchierten Stiftungen mit Fit-Score, Themen, Status, Deadlines — live generiert aus STIFTUNGEN_DATA`,
     format: 'CSV',
     category: 'export',
     action: 'download',
     href: '/api/export/foundations',
     size: '~50 KB',
-    badge: '37 Stiftungen',
+    badge: `${STIFTUNGEN_DATA.length} Stiftungen`,
     lastUpdated: '2026-02-13',
   },
   {

@@ -47,7 +47,7 @@ src/
 │   ├── dokumente/                 # Document library
 │   └── fundraising/
 │       ├── page.tsx               # Fundraising hub
-│       ├── stiftungen/            # Foundation list + [slug] detail (37)
+│       ├── stiftungen/            # Foundation list + [slug] detail (dynamic from STIFTUNGEN_DATA)
 │       └── gesuch-vorlagen/       # Template list + [type] detail (11)
 ├── components/
 │   ├── layout/                    # Nav, Footer, PageHeader
