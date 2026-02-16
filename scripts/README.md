@@ -137,6 +137,63 @@ npm run esa:validate
 
 ---
 
+### `foundation-research-assistant.ts`
+
+**Purpose**: LLM-assisted individual foundation research (Phase 3 automation).
+
+**Usage**:
+```bash
+npm run research:foundation -- --name="Foundation Name" --url=https://...
+```
+
+**What it does**:
+- Fetches foundation website content
+- Queries ESA register for official Stiftungszweck
+- Generates detailed analysis prompt
+- Outputs structured research for LLM analysis
+
+**Output**: `research/drafts/YYYY-MM-DD/foundation-slug.json`
+
+**Note**: Currently generates prompts for manual LLM analysis. Future: integrate Anthropic API for automated analysis.
+
+---
+
+### `foundation-batch-research.ts`
+
+**Purpose**: Batch research prompt generation for multiple candidates.
+
+**Usage**:
+```bash
+npm run research:batch                    # Default: load from Fundraiso discovery
+npm run research:batch -- --tier=1        # Load Tier 1 candidates
+npm run research:batch -- --file=path.json # Load from custom file
+```
+
+**What it does**:
+- Loads candidates from Fundraiso discovery or custom JSON
+- Filters to Tier 1-2 (Zürich-based or multi-match signal)
+- Generates structured research prompts for each foundation
+- Saves to: `research/batch-analysis/YYYY-MM-DD/NN-slug.md`
+
+**Output structure**:
+- Individual `.md` files with research tasks
+- `batch-summary.json` with candidate list
+- Prompts include: website visit, ESA check, fit assessment, decision framework
+
+**Workflow**:
+1. Run script to generate prompts
+2. Use Claude Code to analyze each foundation (WebFetch + ESA)
+3. Save analysis results as JSON
+4. Review and approve/reject entries
+
+**Tested results (2026-02-16)**:
+- 20 candidates processed
+- 9 analyzed (2 already in DB, 1 medium candidate, 6 exclusions)
+- **Time: 2.8 min per foundation** (vs 15-20 min manual) = **82% time savings**
+- **False positive rate: 86%** - confirms need for better Phase 2 screening
+
+---
+
 ## Integration with CI/CD
 
 To enforce quality gates in CI:
