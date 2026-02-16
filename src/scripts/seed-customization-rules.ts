@@ -8,6 +8,7 @@
 import { db } from '../lib/db/client';
 import { customizationRules } from '../lib/db/schema';
 import { nanoid } from 'nanoid';
+import { CO2_PER_LAPTOP } from '../lib/config/numbers';
 
 const EXAMPLE_RULES = [
   // Global rule: Circular economy focus
@@ -19,7 +20,7 @@ const EXAMPLE_RULES = [
     actionType: 'emphasize_narrative',
     actionValue: 'circular_economy_impact',
     rationale:
-      'Lead with "285kg CO2 saved per laptop" for circular economy foundations',
+      `Lead with "${CO2_PER_LAPTOP}kg CO2 saved per laptop" for circular economy foundations`,
     priority: 100,
     active: true,
   },

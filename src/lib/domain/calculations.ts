@@ -3,7 +3,9 @@
  * No HTTP, no UI — just math.
  */
 
-const AVG_CO2_PER_DEVICE = 285; // Fraunhofer IZM 2023: 350kg (Neuproduktion) - 65kg (Refurbishing) = 285kg gespart
+import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
+
+const AVG_CO2_PER_DEVICE = CO2_PER_LAPTOP;
 
 /** Estimate device count from revenue */
 export function estimateDeviceCount(revenue: number, avgPrice = 150): number {

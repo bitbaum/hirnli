@@ -11,6 +11,7 @@ import { applications, foundations } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { GesuchPDF } from '@/lib/pdf/GesuchTemplate';
 import { generatePersonalizedGesuch } from '@/lib/domain/personalization-engine';
+import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
 
 /**
  * POST /api/documents/gesuch/[id]
@@ -64,7 +65,7 @@ export async function POST(
         'Revamp-IT refurbiert gespendete Laptops und bietet sie zu Solidaritätspreisen an. Parallel schaffen wir Arbeitsplätze für Menschen mit erschwertem Arbeitsmarktzugang, insbesondere Geflüchtete.',
 
       whyUs:
-        'Wir kombinieren Kreislaufwirtschaft (285kg CO2 gespart pro Laptop) mit sozialer Integration (15 Arbeitsplätze geschaffen) und digitaler Inklusion (~1\'600+ Laptops verkauft seit 2018).',
+        `Wir kombinieren Kreislaufwirtschaft (${CO2_PER_LAPTOP}kg CO2 gespart pro Laptop) mit sozialer Integration (15 Arbeitsplätze geschaffen) und digitaler Inklusion (~1'600+ Laptops verkauft seit 2018).`,
 
       approach:
         'Unser Geschäftsmodell kombiniert Eigenfinanzierung (Laptop-Verkäufe & Services) mit Stiftungsfinanzierung für Kapazitätsausbau und soziale Programme.',

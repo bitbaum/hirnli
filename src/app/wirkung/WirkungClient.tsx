@@ -13,6 +13,7 @@ import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { formatCHF, formatNumber } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided, estimateEWastePrevented } from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
+import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
 import { ImpactStoryCards } from './components';
 import { DATA_GAPS, WIRKUNG_NEXT_STEPS } from './data';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
@@ -91,13 +92,13 @@ export default function WirkungClient() {
         <MetricCard
           label="CO₂ vermieden"
           value={`~${co2Avoided} t`}
-          subtitle="285 kg CO₂ pro Gerät (Fraunhofer IZM)"
+          subtitle={`${CO2_PER_LAPTOP} kg CO₂ pro Gerät (Fraunhofer IZM)`}
           sourceType="estimated"
           onClick={() =>
             inspector.inspect(metricToInspectorData(
               NumberSources.co2_total_2025,
               `~${co2Avoided} Tonnen`,
-              { year: selectedYear, formula: `${formatNumber(deviceCount)} Geräte × 285 kg CO₂ / 1000` },
+              { year: selectedYear, formula: `${formatNumber(deviceCount)} Geräte × ${CO2_PER_LAPTOP} kg CO₂ / 1000` },
             ))
           }
         />

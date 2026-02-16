@@ -46,6 +46,30 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     category: 'impact',
   },
 
+  REUSE_RATE: {
+    value: 75,
+    label: '% Reuse-Rate',
+    source: {
+      methodology: 'Interne Auswertung: Anteil der eingegangenen Geräte, die als funktionierende Geräte wieder in Umlauf gebracht werden',
+      calculation: '~75% der eingegangenen Geräte werden refurbished und verkauft/gespendet, ~25% gehen in Ersatzteilgewinnung oder Recycling',
+      confidence: 'estimated',
+      lastVerified: '2026-02-16',
+    },
+    category: 'impact',
+  },
+
+  DEVICE_LIFESPAN_EXTENSION: {
+    value: 5,
+    label: 'Jahre zusätzliche Nutzungsdauer',
+    source: {
+      methodology: 'Erfahrungswerte aus 20+ Jahren Refurbishing: Linux verlängert Lebensdauer älterer Hardware signifikant',
+      calculation: 'Durchschnittliche zusätzliche Nutzungsdauer nach Refurbishing mit Linux-Installation',
+      confidence: 'estimated',
+      lastVerified: '2026-02-16',
+    },
+    category: 'impact',
+  },
+
   LAPTOPS_REFURBISHED_TOTAL: {
     value: '1\'200+',
     label: 'Laptops refurbished (2003-2025)',
@@ -523,6 +547,18 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 export function getNumber(key: keyof typeof NUMBERS_REGISTRY): NumberSource {
   return NUMBERS_REGISTRY[key];
 }
+
+/** Extract numeric value from a registry entry. Throws if not numeric. */
+export function getNumericValue(key: keyof typeof NUMBERS_REGISTRY): number {
+  const entry = NUMBERS_REGISTRY[key];
+  if (typeof entry.value !== 'number') {
+    throw new Error(`NUMBERS_REGISTRY.${key} is not numeric: ${entry.value}`);
+  }
+  return entry.value;
+}
+
+// Convenience exports for the most commonly referenced constants
+export const CO2_PER_LAPTOP = getNumericValue('CO2_SAVED_PER_LAPTOP');
 
 /**
  * Helper function to format currency

@@ -1,6 +1,7 @@
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { formatNumber } from '@/lib/utils/format';
+import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
 
 // ---------------------------------------------------------------------------
 // Theory of Change column component
@@ -74,7 +75,7 @@ export function ImpactStoryCards({
             <p className="mb-2 text-sm text-text-muted">CO₂ vermieden durch Wiederverwendung</p>
             <Badge variant="estimated">Schätzung</Badge>
             <p className="mt-3 text-xs text-text-muted">
-              <strong>Berechnung:</strong> 285 kg CO₂ pro Laptop (300 kg Produktion - 15 kg Refurbishment)
+              <strong>Berechnung:</strong> {CO2_PER_LAPTOP} kg CO₂ pro Laptop (300 kg Produktion - 15 kg Refurbishment)
             </p>
             <div className="mt-3 rounded-lg bg-bg-light p-3">
               <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Das entspricht etwa:</h4>

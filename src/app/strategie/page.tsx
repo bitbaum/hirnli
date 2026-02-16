@@ -10,6 +10,7 @@ import { GeschichteSection, KontaktSection, SovereigntyPillar, VisionMetric, Pil
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
+import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
 
 export const metadata: Metadata = {
   title: 'Mission & Werte',
@@ -65,7 +66,7 @@ export default function StrategiePage() {
               'Fachgerechtes Recycling für nicht reparierbare Komponenten',
               'Lebensdauerverlängerung: Ältere Hardware läuft mit Linux weitere 4+ Jahre',
             ]}
-            whyItMatters="Jeder neue Laptop verursacht ~350 kg CO₂ bei der Herstellung, Refurbishment nur ~65 kg. Netto-Einsparung: 285 kg CO₂ pro Gerät (Fraunhofer IZM 2023). Elektroschrott ist einer der am schnellsten wachsenden Abfallströme weltweit (62 Mio. Tonnen/Jahr). Gleichzeitig schonen wir wertvolle Rohstoffe wie Kupfer, Gold und seltene Erden."
+            whyItMatters={`Jeder neue Laptop verursacht ~350 kg CO₂ bei der Herstellung, Refurbishment nur ~65 kg. Netto-Einsparung: ${CO2_PER_LAPTOP} kg CO₂ pro Gerät (Fraunhofer IZM 2023). Elektroschrott ist einer der am schnellsten wachsenden Abfallströme weltweit (62 Mio. Tonnen/Jahr). Gleichzeitig schonen wir wertvolle Rohstoffe wie Kupfer, Gold und seltene Erden.`}
             achievements={[
               '~1\'600+ Geräte seit 2018 (geschätzt aus Kivitendo-Warenverkauf: CHF 238\'309 / ~CHF 150 Durchschnittspreis)',
               'Aktuelle Kapazität: ~12-15 Geräte/Monat, ~150/Jahr (geschätzt aus Umsatzdaten)',

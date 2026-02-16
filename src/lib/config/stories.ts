@@ -36,6 +36,7 @@ import type {
   ProofPoint,
   TrackRecord,
 } from '@/lib/schemas/story';
+import { getNumericValue, CO2_PER_LAPTOP } from '@/lib/config/numbers';
 
 // ============================================================================
 // Types for structures not covered by the story schema
@@ -101,10 +102,10 @@ export const CORE_FACTS: CoreFacts = {
       monthly_target: 'financial_monthly_avg_2025', // CHF 8-12k
     },
     environmental: {
-      co2_per_laptop: 285, // kg CO2 saved per laptop (~300 kg production conservative estimate - 15 kg refurb; sources range 176-384 kg, Circular Computing avg 331 kg)
-      co2_per_desktop: 380, // kg CO2 saved per desktop
-      device_lifespan_extension: 5, // years
-      reuse_rate: 75, // percent
+      co2_per_laptop: getNumericValue('CO2_SAVED_PER_LAPTOP'),
+      co2_per_desktop: 380, // kg CO2 saved per desktop (only used here — YAGNI)
+      device_lifespan_extension: getNumericValue('DEVICE_LIFESPAN_EXTENSION'),
+      reuse_rate: getNumericValue('REUSE_RATE'),
       co2_total: 'co2_total_2025',
       devices: 'devices_estimated_2025',
       ewaste: 'ewaste_total_2025',
@@ -371,9 +372,9 @@ export const PROJECTS: Record<string, Project> = {
       'Verkauf über Laden an der Badenerstrasse und Online-Shop',
     ],
     outcomes: [
-      'Jedes aufbereitete Gerät spart ~285 kg CO₂ gegenüber einem Neukauf',
+      `Jedes aufbereitete Gerät spart ~${CO2_PER_LAPTOP} kg CO₂ gegenüber einem Neukauf`,
       'Einkommensschwache Haushalte, Schulen und Vereine erhalten bezahlbare IT',
-      'Reuse-Rate von 75% — nur was wirklich nicht mehr geht, wird recycelt',
+      `Reuse-Rate von ${getNumericValue('REUSE_RATE')}% — nur was wirklich nicht mehr geht, wird recycelt`,
     ],
     budget_category: 'Refurbishing-Betrieb',
     themes: ['klima', 'kreislaufwirtschaft', 'digital'],
