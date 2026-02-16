@@ -61,7 +61,7 @@ export default function HomePage() {
             <ul className="text-sm text-text-light space-y-2">
               <li>✓ Finanzhistorie 2018-2025 (inkl. Trendanalyse)</li>
               <li>✓ Wirkungskennzahlen (CO₂, Geräte, Menschen erreicht)</li>
-              <li>✓ Team & Kapazität (VZÄ, Rollen, Bereiche)</li>
+              <li>✓ Team & Kapazität (Rollen, Bereiche, Planung)</li>
               <li>✓ Strategie 2030 (Organisation, Hub, Bildung)</li>
             </ul>
           </Card>
@@ -98,7 +98,7 @@ export default function HomePage() {
                 </div>
               </div>
               <p className="text-sm text-text-light mb-3">
-                Wohin wir gehen: Von 30 auf 180 Geräte/Monat. Organisation + Hub + Bildung.
+                Wohin wir gehen: Organisation + Hub + Bildung. ~480 Geräte/Jahr + 40-60 Menschen trainiert.
               </p>
               <div className="text-xs text-blue-600 font-semibold">→ Vision & Strategie ansehen</div>
             </Card>
@@ -169,12 +169,12 @@ export default function HomePage() {
                   <div className="text-3xl">👥</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-pink-600">Team</h3>
-                    <Badge color="pink">3 VZÄ</Badge>
+                    <Badge color="pink">14 Teammitglieder</Badge>
                   </div>
                 </div>
               </div>
               <p className="text-sm text-text-light mb-3">
-                Wer wir sind, was wir tun: Kernteam + geplante Bildungsprogrammleiter.
+                14 Menschen arbeiten bei uns: Leitung, Techniker, Betrieb — plus geplante Bildungsprogrammleiter.
               </p>
               <div className="text-xs text-pink-600 font-semibold">→ Team kennenlernen</div>
             </Card>

@@ -11,7 +11,6 @@ import Tabs from '@/components/ui/Tabs';
 import YearSelector from '@/components/ui/YearSelector';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
-import GrowthMechanics from '@/components/data/GrowthMechanics';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
@@ -95,8 +94,28 @@ export default function FinanzenClient() {
 
       <WhyThisMatters
         purpose="Transparente Finanzdaten zeigen unsere wirtschaftliche Entwicklung und Herausforderungen."
-        connection="Zahlen erklären WARUM wir Stiftungsgelder brauchen (B2B-Einnahmen gesunken von CHF 180k auf CHF 80k)."
+        connection="Zahlen erklären WARUM wir Stiftungsgelder brauchen — und warum Transformation jetzt nötig ist, nicht irgendwann."
       />
+
+      {/* Revenue decline narrative — the "burning platform" */}
+      <Card className="mb-6 border-l-4 border-l-orange-500 bg-orange-50">
+        <h3 className="font-semibold text-grey-dark mb-2">Warum jetzt? Die Ausgangslage ehrlich</h3>
+        <div className="text-sm text-text-light space-y-2">
+          <p>
+            Unsere Einnahmen sind von <strong>CHF {formatCHF(PEAK_REVENUE)}</strong> ({PEAK_YEAR}) auf <strong>{formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenue)}</strong> ({ANNUAL_PL[ANNUAL_PL.length - 1].year}) gefallen — ein Rückgang von über 50%.
+            Der Haupttreiber: Verlust von B2B-Hosting-Kunden (Dienstleistungen von CHF 80k auf CHF 28k).
+          </p>
+          <p>
+            Das aktuelle Modell — abhängig von wenigen grossen Einzelkunden — ist <strong>fragil</strong>.
+            Stiftungsgelder sind keine Wachstumsinvestition, sondern ermöglichen die <strong>Diversifizierung</strong>,
+            die Revamp-IT zum langfristigen Überleben braucht.
+          </p>
+          <p className="text-xs text-text-muted">
+            Alle Zahlen aus Kivitendo Buchhaltung. Vollständige P&L nur für {DATA_QUALITY.completeRange} verfügbar.
+            Seit 2024 wurden keine Aufwände verbucht.
+          </p>
+        </div>
+      </Card>
 
       <Card className="mb-6 bg-blue-50 border-l-4 border-blue-500">
         <p className="text-sm">
@@ -452,8 +471,6 @@ export default function FinanzenClient() {
       </Tabs>
 
       <NumberInspector isOpen={inspector.isOpen} onClose={inspector.close} data={inspector.data} />
-
-      <GrowthMechanics />
 
       <StoryBridge bridges={STORY_BRIDGES.finanzen} />
     </div>

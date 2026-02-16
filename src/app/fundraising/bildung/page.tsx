@@ -13,7 +13,7 @@ import {
 
 export const metadata: Metadata = {
   title: 'Bildungsprogramm — Train-the-Trainer',
-  description: '2× Bildungsprogrammleiter:innen schaffen 32× Social Impact durch Multiplikationseffekt',
+  description: '2× Bildungsprogrammleiter:innen ermöglichen Train-the-Trainer und erreichen 40-60 Menschen/Jahr',
 };
 
 export default function BildungPage() {
@@ -21,13 +21,13 @@ export default function BildungPage() {
     <>
       <PageHeader
         title="Bildungsprogramm"
-        subtitle="Train-the-Trainer: 2× Menschen bezahlen, 160+ Menschen/Jahr erreichen"
+        subtitle="Train-the-Trainer: 2× Bildungsprogrammleiter:innen, 40-60 Menschen/Jahr erreichen"
         badge="Bildung"
       />
 
       <WhyThisMatters
-        purpose="Das Bildungsprogramm zeigt, wie wir von 5 Menschen/Jahr auf 160+ Menschen/Jahr skalieren — ohne das ganze Team zu vervielfachen."
-        connection="Kombiniert mit dem Hub (Infrastruktur) ergibt sich exponentielles Wachstum: 6× Geräte + 32× Menschen."
+        purpose="Das Bildungsprogramm zeigt, wie wir durch strukturiertes Train-the-Trainer 40-60 Menschen/Jahr erreichen — ohne das ganze Team zu vervielfachen."
+        connection="Kombiniert mit dem Hub (Infrastruktur) skalieren wir sowohl Geräte-Kapazität als auch Bildungswirkung."
       />
 
       {/* Problem: Current Bottleneck */}
@@ -40,7 +40,7 @@ export default function BildungPage() {
               <h3 className="text-lg font-bold text-amber-900 mb-2">Aktueller Engpass</h3>
               <div className="space-y-2 text-sm text-amber-800">
                 <p>
-                  <strong>3 VZÄ Kernteam:</strong> Vero (Geschäftsleitung), Dani (Operations), Andreas (Strategie)
+                  <strong>14 Personen im Team</strong> (Leitung, Techniker, Betrieb) — aber nur 3 in der Leitung (Vero, Dani, Andreas), keine dedizierte Bildungskapazität
                 </p>
                 <p>
                   <strong>Aktuelle Reichweite:</strong> ~5 Menschen/Jahr direkt trainiert (Schätzung, nicht systematisch erfasst)
@@ -52,7 +52,7 @@ export default function BildungPage() {
                   <li>Dedizierte Bildungsprogrammleiter:innen für systematisches Training</li>
                   <li>Train-the-Trainer Ansatz: Traineren ausbilden statt nur direkt trainieren</li>
                   <li>Strukturierte Curricula für Hardware- und Software-/AI-Bildung</li>
-                  <li>Skalierbare Kapazität: Aus 5 Menschen/Jahr werden 160+ Menschen/Jahr</li>
+                  <li>Skalierbare Kapazität: Von informellem Training zu 40-60 Menschen/Jahr</li>
                 </ul>
               </div>
             </div>
@@ -62,17 +62,17 @@ export default function BildungPage() {
 
       {/* Vision: Train-the-Trainer */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Lösung: Train-the-Trainer Multiplikationseffekt</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Lösung: Train-the-Trainer</h2>
         <div className="rounded-xl bg-gradient-to-br from-violet-600 to-purple-600 p-8 text-white mb-6">
           <div className="text-center mb-6">
-            <div className="text-6xl font-bold mb-2">32×</div>
+            <div className="text-6xl font-bold mb-2">40-60</div>
             <div className="text-xl opacity-90">
-              Social Impact Multiplier: Von 5 Menschen/Jahr auf 160+ Menschen/Jahr
+              Menschen/Jahr direkt erreicht durch strukturiertes Training + Workshops
             </div>
           </div>
           <p className="text-lg mb-4 leading-relaxed text-center max-w-3xl mx-auto">
-            Statt selbst zu trainieren, bilden unsere <strong>2× Bildungsprogrammleiter:innen</strong> Traineren aus,
-            die wiederum andere trainieren. Exponentielles Wachstum durch systematisches Train-the-Trainer.
+            Unsere <strong>2× Bildungsprogrammleiter:innen</strong> bilden Techniker und Entwickler aus
+            und führen Workshops durch. Strukturiertes Training statt informellem Wissenstransfer.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white/10 rounded-lg p-4 text-center backdrop-blur">
@@ -84,8 +84,8 @@ export default function BildungPage() {
               <div className="text-sm opacity-90">Direkt trainiert/Jahr</div>
             </div>
             <div className="bg-white/10 rounded-lg p-4 text-center backdrop-blur">
-              <div className="text-3xl font-bold">160+</div>
-              <div className="text-sm opacity-90">Total erreicht/Jahr (inkl. indirekt)</div>
+              <div className="text-3xl font-bold">40-60</div>
+              <div className="text-sm opacity-90">Mit Workshops erreicht/Jahr</div>
             </div>
           </div>
         </div>
@@ -132,13 +132,7 @@ export default function BildungPage() {
                       <strong>{MULTIPLICATION_EFFECT.hardware_bpl.direct_training} Techniker/Jahr</strong> direkt trainiert
                     </p>
                     <p>
-                      <strong>{MULTIPLICATION_EFFECT.hardware_bpl.trained_technicians_active} gleichzeitig aktiv</strong> als Traineren
-                    </p>
-                    <p>
-                      <strong>{MULTIPLICATION_EFFECT.hardware_bpl.indirect_reach} Menschen/Jahr</strong> indirekt erreicht
-                    </p>
-                    <p className="pt-2 border-t border-violet-300">
-                      <strong>Total: {MULTIPLICATION_EFFECT.hardware_bpl.total_reach} Menschen/Jahr</strong>
+                      Strukturierte Refurbishment-Ausbildung mit Curricula und Qualitätssicherung
                     </p>
                   </div>
                 ) : (
@@ -147,13 +141,7 @@ export default function BildungPage() {
                       <strong>{MULTIPLICATION_EFFECT.software_bpl.direct_training} Menschen/Jahr</strong> direkt trainiert
                     </p>
                     <p>
-                      <strong>{MULTIPLICATION_EFFECT.software_bpl.ai_literacy_trainers} Trainer</strong> ausgebildet (AI Literacy)
-                    </p>
-                    <p>
-                      <strong>{MULTIPLICATION_EFFECT.software_bpl.indirect_reach} Menschen/Jahr</strong> indirekt erreicht
-                    </p>
-                    <p className="pt-2 border-t border-violet-300">
-                      <strong>Total: {MULTIPLICATION_EFFECT.software_bpl.total_reach} Menschen/Jahr</strong>
+                      AI Literacy, Coding, Open-Source-Workshops für verschiedene Niveaus
                     </p>
                   </div>
                 )}
@@ -232,7 +220,7 @@ export default function BildungPage() {
                   Zusätzlich zu direktem und indirektem Training: <strong>Workshops, Events, Repair Cafés</strong> im Hub erreichen weitere 50-80 Menschen/Jahr.
                 </p>
                 <div className="bg-emerald-50 rounded-lg p-3 text-sm text-emerald-800">
-                  <strong>Gesamt-Reichweite:</strong> 18 (direkt) + 90 (indirekt) + 50-80 (Workshops) = <strong>160+ Menschen/Jahr</strong> (32× mehr als heute).
+                  <strong>Gesamt-Reichweite (konservativ):</strong> 18 (direkt trainiert) + 20-40 (Workshop-Teilnehmer) = <strong>40-60 Menschen/Jahr</strong>.
                 </div>
               </div>
             </div>
@@ -278,23 +266,23 @@ export default function BildungPage() {
             <h3 className="text-lg font-semibold text-emerald-800 mb-4">Return on Investment</h3>
             <div className="space-y-3">
               <div className="bg-white rounded-lg p-3">
-                <div className="text-sm text-emerald-700 mb-1">Investition pro Kopf</div>
+                <div className="text-sm text-emerald-700 mb-1">Investition pro direkt Trainierter</div>
                 <div className="text-2xl font-bold text-emerald-900">
-                  CHF {Math.round(((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier) / MULTIPLICATION_EFFECT.combined.total_people_reached).toLocaleString('de-CH')}
+                  CHF {Math.round(((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier) / MULTIPLICATION_EFFECT.combined.direct_training).toLocaleString('de-CH')}
                 </div>
-                <div className="text-xs text-emerald-700">pro erreichter Person/Jahr</div>
+                <div className="text-xs text-emerald-700">pro direkt trainierter Person/Jahr</div>
               </div>
               <div className="bg-white rounded-lg p-3">
-                <div className="text-sm text-emerald-700 mb-1">Social Impact Multiplier</div>
+                <div className="text-sm text-emerald-700 mb-1">Menschen erreicht (konservativ)</div>
                 <div className="text-2xl font-bold text-emerald-900">
-                  {MULTIPLICATION_EFFECT.combined.social_impact_multiplier}×
+                  {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops}
                 </div>
-                <div className="text-xs text-emerald-700">von 5 auf 160 Menschen/Jahr</div>
+                <div className="text-xs text-emerald-700">Menschen/Jahr (direkt + Workshops)</div>
               </div>
               <div className="bg-white rounded-lg p-3">
                 <div className="text-sm text-emerald-700 mb-1">Finanzierungsziel</div>
                 <div className="text-2xl font-bold text-emerald-900">3 Jahre</div>
-                <div className="text-xs text-emerald-700">CHF 525k bis Selbsttragung</div>
+                <div className="text-xs text-emerald-700">CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')}/Jahr bis Selbsttragung</div>
               </div>
             </div>
           </Card>
@@ -306,7 +294,7 @@ export default function BildungPage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Finanzierungsstrategie: 3 Jahre bis Selbsttragung</h2>
         <Card>
           <p className="text-sm text-text-light mb-6">
-            Wir suchen <strong>CHF 525k Stiftungsfinanzierung über 3 Jahre</strong> (CHF 175k/Jahr),
+            Wir suchen <strong>Stiftungsfinanzierung über 3 Jahre</strong> (CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')}/Jahr, degressiv),
             um die Bildungsprogrammleiter:innen-Stellen zu finanzieren, während wir parallel Einnahmequellen aufbauen.
           </p>
           <div className="space-y-4">
@@ -317,7 +305,7 @@ export default function BildungPage() {
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                   <li>Hardware-BPL eingestellt, Curricula entwickelt, erste Trainings</li>
                   <li>Erste trainierte Techniker werden aktiv (2-3 Traineren)</li>
-                  <li>Finanzierung: 100% Stiftungsgelder (CHF 85k + Sozialabgaben)</li>
+                  <li>Finanzierung: 100% Stiftungsgelder (1× BPL: CHF {(TEAM_SALARIES.hardware_bpl * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')} inkl. Sozialabgaben)</li>
                   <li>Einnahmen: Workshop-Fees beginnen (CHF 5-10k, nicht ausreichend für Selbsttragung)</li>
                 </ul>
               </div>
@@ -330,20 +318,20 @@ export default function BildungPage() {
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                   <li>Software/AI-BPL eingestellt, beide Programme laufen parallel</li>
                   <li>5 Hardware-Techniker + 3 AI-Trainer gleichzeitig aktiv</li>
-                  <li>Finanzierung: 80% Stiftungsgelder (CHF 140k), 20% Eigenmittel (CHF 35k)</li>
+                  <li>Finanzierung: degressiv (Stiftungsgelder sinken, Eigenmittel durch Kurseinnahmen steigen)</li>
                   <li>Einnahmen: Corporate Trainings, Workshop-Fees (CHF 30-40k/Jahr)</li>
                 </ul>
               </div>
             </div>
 
             <div className="flex items-start gap-4">
-              <Badge variant="success" className="mt-1">Jahr 3</Badge>
+              <Badge variant="success" className="mt-1">Jahr 3 (Ziel)</Badge>
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">Selbsttragung erreicht</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
-                  <li>Train-the-Trainer voll etabliert, 160+ Menschen/Jahr erreicht</li>
+                  <li>Train-the-Trainer voll etabliert, 40-60 Menschen/Jahr erreicht</li>
                   <li>Traineren trainieren ohne unsere direkte Beteiligung</li>
-                  <li>Finanzierung: 50% Stiftungsgelder (CHF 87.5k), 50% Eigenmittel (CHF 87.5k)</li>
+                  <li>Finanzierung: 50% Stiftungsgelder, 50% Eigenmittel (Workshop-Fees, Corporate Training)</li>
                   <li>Einnahmen: Corporate Trainings, Workshops, Zuschüsse (CHF 80-100k/Jahr)</li>
                 </ul>
               </div>
@@ -373,12 +361,12 @@ export default function BildungPage() {
             </p>
             <div className="grid grid-cols-2 gap-3 mb-3">
               <div className="bg-white rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-emerald-900">6×</div>
-                <div className="text-xs text-emerald-700">Geräte (Hub)</div>
+                <div className="text-2xl font-bold text-emerald-900">480</div>
+                <div className="text-xs text-emerald-700">Geräte/Jahr (Hub)</div>
               </div>
               <div className="bg-white rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-emerald-900">32×</div>
-                <div className="text-xs text-emerald-700">Menschen (Bildung)</div>
+                <div className="text-2xl font-bold text-emerald-900">40-60</div>
+                <div className="text-xs text-emerald-700">Menschen/Jahr (Bildung)</div>
               </div>
             </div>
             <Badge variant="success">Beide Dimensionen skalieren</Badge>
@@ -391,8 +379,8 @@ export default function BildungPage() {
         <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-8 text-white text-center">
           <h3 className="text-2xl font-bold mb-4">Unterstütze das Bildungsprogramm</h3>
           <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
-            Mit <strong>CHF 175k/Jahr über 3 Jahre</strong> schaffen wir ein selbsttragendes Train-the-Trainer-Programm,
-            das 160+ Menschen/Jahr erreicht — 32× mehr als heute.
+            Mit <strong>CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')}/Jahr über 3 Jahre</strong> (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm,
+            das 40-60 Menschen/Jahr erreicht.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

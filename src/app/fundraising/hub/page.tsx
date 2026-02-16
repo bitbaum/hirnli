@@ -37,7 +37,7 @@ export default function HubPage() {
             4 Reparaturtische vorhanden, meist nur 1-2 in Nutzung. Unstrukturierte Workflows.
           </p>
           <p className="text-base text-text-light mb-6 leading-relaxed">
-            <strong>Die Lösung:</strong> ~500-600 m² effizienter, gut organisierter Raum. Nicht endlos Platz —
+            <strong>Die Lösung:</strong> ~550 m² effizienter, gut organisierter Raum. Nicht endlos Platz —
             sondern <strong>strukturierte Prozesse</strong> mit 2 Bildungsprogrammleitern + sozialpädagogischer Begleitung (Veronica).
             Plus: Tech-Bildung, AI Lab, Makerspace — damit Menschen nicht nur konsumieren, sondern lernen und gestalten.
           </p>
@@ -46,7 +46,7 @@ export default function HubPage() {
               ⚠️ WICHTIG: Zahlen-Audit läuft (2026-02-13)
             </p>
             <p className="text-sm text-red-800 mb-3">
-              <strong>Problem erkannt:</strong> Die unten aufgeführten Räume ergeben zusammen ~1,100 m², aber wir sprechen von "500-600 m²".
+              <strong>Problem erkannt:</strong> Die unten aufgeführten Räume ergeben zusammen ~1,100 m², aber unser realistisches Ziel sind ~550 m².
               Budgetzahlen in den Karten stimmen nicht mit der Budget-Zusammenfassung überein. AI Lab GPU-Zahlen waren unrealistisch (korrigiert).
             </p>
             <p className="text-xs text-red-700 mb-2">
@@ -290,7 +290,7 @@ export default function HubPage() {
                   <li>• <strong>6-8× Reparaturtische</strong> (kompakt, effizient)</li>
                   <li>• <strong>10× Test/Data-Wipe-Plätze</strong> (parallel)</li>
                   <li>• <strong>Personal:</strong> 2-4 Techniker gleichzeitig</li>
-                  <li>• <strong>Kapazität:</strong> 80-120 Geräte/Monat (realistischer)</li>
+                  <li>• <strong>Kapazität:</strong> ~40 Geräte/Monat (durch bessere Prozesse + strukturiertes Team)</li>
                 </ul>
               </div>
             </div>
@@ -332,7 +332,7 @@ export default function HubPage() {
             </ul>
             <div className="pt-3 border-t border-gray-200">
               <p className="text-xs text-text-light">
-                <strong>Team:</strong> 5 VZÄ (Kernteam + 2× BPL)<br />
+                <strong>Team:</strong> 14 Personen + 2 geplante BPL<br />
                 <strong>Kosten:</strong> CHF 40'000
               </p>
             </div>

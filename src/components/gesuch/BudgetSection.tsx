@@ -102,7 +102,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
 
       <p className="mb-8 text-xs text-text-muted">
         Stiftungsanteil sinkt von {Math.round((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) / dok.budget.threeYearModel[0].total * 100)}% (Jahr 1) auf {Math.round(dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total * 100)}% (Jahr 3).
-        Eigenleistung wächst durch diversifizierte Einnahmen (Geräteverkauf, Corporate Placements, Kurse, AI Hosting, Events).
+        Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF 35/h), kein Cashflow. Wächst durch Community-Aufbau und Hub-Betrieb.
       </p>
 
       {/* Budget detail by line item (Jahr 1) */}

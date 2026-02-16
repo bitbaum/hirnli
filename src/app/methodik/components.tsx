@@ -320,12 +320,12 @@ export function EWasteSection() {
 
       <FormulaBox>
         <strong>Formel:</strong><br />
-        E-Waste vermieden = Geschätzte Geräte &times; 10 kg/Gerät
+        E-Waste vermieden = Geschätzte Geräte &times; 5 kg/Gerät
       </FormulaBox>
 
       <h4 className="mb-2 text-sm font-medium">Annahmen:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
-        <li>Durchschnittliches Gerätegewicht: 10 kg</li>
+        <li>Durchschnittliches Gerätegewicht: 5 kg (inkl. Peripherie)</li>
         <li>Jedes wiederverwendete Gerät vermeidet Entsorgung</li>
       </ul>
 
@@ -469,8 +469,10 @@ function buildIntegrityRows(NumberSources: Record<string, { name: string; catego
 const CONFIDENCE_BADGE_MAP: Record<string, { label: string; variant: 'success' | 'warning' | 'danger' | 'default' }> = {
   high: { label: 'High', variant: 'success' },
   medium: { label: 'Medium', variant: 'warning' },
+  estimated: { label: 'Geschätzt', variant: 'warning' },
+  target: { label: 'Budget-Ziel', variant: 'default' },
   low: { label: 'Low', variant: 'danger' },
-  unknown: { label: 'Unbekannt', variant: 'default' },
+  unknown: { label: 'Unbekannt', variant: 'danger' },
 };
 
 const INTEGRITY_COLUMNS = [

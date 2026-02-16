@@ -14,6 +14,7 @@ import {
   TEAM_CAPACITY,
   DATA_QUALITY_NOTE,
 } from '@/lib/config/team';
+import { TEAM_MEMBERS, DEPARTMENTS } from './data';
 
 export const metadata: Metadata = {
   title: 'Team & Kapazität',
@@ -25,65 +26,72 @@ export default function TeamPage() {
     <>
       <PageHeader
         title="Team & Kapazität"
-        subtitle="3 VZÄ Kernteam + 2 geplante Bildungsprogrammleiter"
+        subtitle={`${TEAM_MEMBERS.length} Menschen arbeiten bei Revamp-IT — Leitung, Techniker, Betrieb`}
         badge="SSOT"
       />
 
       <WhyThisMatters
         purpose="Zeigt, wer hinter Revamp-IT steht und wie wir durch Train-the-Trainer skalieren."
-        connection="2× Bildungsprogrammleiter ermöglichen 32× soziale Wirkung durch Multiplikator-Effekt."
+        connection="2× Bildungsprogrammleiter ermöglichen 40-60 Menschen/Jahr direkt zu erreichen durch Train-the-Trainer."
       />
 
       {/* Key metrics */}
       <MetricGrid columns={3} className="mb-8">
         <MetricCard
           label="Aktuelles Team"
-          value={String(TEAM_SUMMARY.total_current_vza)}
-          subtitle="VZÄ (Vollzeitäquivalente)"
+          value={String(TEAM_MEMBERS.length)}
+          subtitle="Personen (Leitung, Technik, Betrieb)"
           sourceType="live"
         />
         <MetricCard
-          label="Mit Hub geplant"
-          value={String(TEAM_SUMMARY.total_planned_vza)}
-          subtitle="VZÄ (inkl. 2× BPL)"
-          sourceType="live"
+          label="Geplant mit Hub"
+          value={String(TEAM_MEMBERS.length + BILDUNGSPROGRAMMLEITER.length)}
+          subtitle={`+ ${BILDUNGSPROGRAMMLEITER.length} Bildungsprogrammleiter`}
+          sourceType="estimated"
         />
         <MetricCard
-          label="Multiplikator-Effekt"
-          value="32×"
-          subtitle="Soziale Wirkung steigt"
+          label="Menschen/Jahr (Ziel)"
+          value="40-60"
+          subtitle="Direkt trainiert + Workshops"
           sourceType="estimated"
         />
       </MetricGrid>
 
-      {/* ========== KERNTEAM (AKTUELL) ========== */}
+      {/* ========== GANZES TEAM ========== */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Kernteam (aktuell)</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {KERNTEAM.map((member) => (
-            <Card key={member.name} className="border-l-4 border-l-emerald-500">
-              <div className="flex items-start gap-3">
-                <div className="text-3xl">👤</div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-grey-dark">{member.name}</h3>
-                  <div className="text-sm text-emerald-700 mb-2">{member.role}</div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Badge variant="success">{member.vza} VZÄ</Badge>
-                    <Badge variant="primary">{member.bereich}</Badge>
-                  </div>
-                  {member.fachgebiete && (
-                    <div className="text-xs text-text-muted">
-                      {member.fachgebiete.join(' • ')}
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unser Team ({TEAM_MEMBERS.length} Personen)</h2>
+        <p className="mb-6 text-sm text-text-muted">
+          Leitung, Techniker, Betrieb — eine Mischung aus Festangestellten, Freiwilligen und Reintegrations-Teilnehmern.
+          Nicht alle arbeiten Vollzeit; Arbeitspensum wird nicht systematisch erfasst.
+        </p>
+
+        {DEPARTMENTS.map((dept) => {
+          const members = TEAM_MEMBERS.filter((m) => m.bereich === dept.name);
+          return (
+            <div key={dept.name} className="mb-6">
+              <h3 className="text-md font-semibold text-grey-dark mb-3 flex items-center gap-2">
+                <span>{dept.icon}</span> {dept.name} ({members.length})
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {members.map((member) => (
+                  <Card key={member.id} className={`border-l-4 ${dept.borderColor}`}>
+                    <div className="flex items-start gap-3">
+                      <div className="flex-1">
+                        <h4 className="font-bold text-grey-dark">{member.name}</h4>
+                        <div className="text-xs text-text-muted mt-1">
+                          {member.fachgebiete.join(' · ')}
+                        </div>
+                        {member.capacity && (
+                          <Badge variant="warning" className="mt-2">{member.capacity}</Badge>
+                        )}
+                      </div>
                     </div>
-                  )}
-                </div>
+                  </Card>
+                ))}
               </div>
-            </Card>
-          ))}
-        </div>
-        <div className="mt-4 text-sm text-text-muted">
-          <strong>VZÄ = Vollzeitäquivalent</strong> (auch bekannt als "FTE" im internationalen Kontext)
-        </div>
+            </div>
+          );
+        })}
       </section>
 
       {/* ========== BILDUNGSPROGRAMMLEITER (GEPLANT) ========== */}
@@ -123,8 +131,7 @@ export default function TeamPage() {
           </p>
           <div className="text-sm text-violet-800">
             <strong>Direkte Wirkung:</strong> {MULTIPLICATION_EFFECT.combined.direct_training} Menschen/Jahr direkt trainiert<br />
-            <strong>Multiplikator-Effekt:</strong> {MULTIPLICATION_EFFECT.combined.total_people_reached} Menschen/Jahr erreicht (direkt + indirekt)<br />
-            <strong>Steigerung:</strong> Von 5/Jahr heute auf {MULTIPLICATION_EFFECT.combined.total_people_reached}/Jahr = <strong>{MULTIPLICATION_EFFECT.combined.social_impact_multiplier}× soziale Wirkung</strong>
+            <strong>Mit Workshops:</strong> {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops} Menschen/Jahr erreicht (direkt + Workshop-Teilnehmer)
           </div>
         </Card>
       </section>
@@ -133,7 +140,7 @@ export default function TeamPage() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Train-the-Trainer Multiplikator-Effekt</h2>
         <p className="mb-6 text-sm text-text-muted">
-          Wie 2 bezahlte Bildungsprogrammleiter (CHF 175k/Jahr) eine 32× soziale Wirkung erzeugen.
+          Wie 2 geplante Bildungsprogrammleiter (Budget-Ziel: CHF 180k/Jahr) durch Train-the-Trainer 40-60 Menschen/Jahr erreichen sollen.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -148,16 +155,8 @@ export default function TeamPage() {
                 <div className="font-semibold text-blue-900 mb-1">Direkte Ausbildung</div>
                 <div className="text-blue-800">{MULTIPLICATION_EFFECT.hardware_bpl.direct_training} Menschen/Jahr direkt trainiert</div>
               </div>
-              <div className="bg-blue-50 rounded-lg p-3">
-                <div className="font-semibold text-blue-900 mb-1">Geräte-Multiplikator</div>
-                <div className="text-blue-800">{MULTIPLICATION_EFFECT.hardware_bpl.device_multiplier}× Kapazitätssteigerung durch trainierte Techniker</div>
-              </div>
-              <div className="bg-blue-50 rounded-lg p-3">
-                <div className="font-semibold text-blue-900 mb-1">Indirekte Wirkung</div>
-                <div className="text-blue-800">{MULTIPLICATION_EFFECT.hardware_bpl.indirect_reach} Menschen/Jahr durch trainierte Techniker erreicht</div>
-              </div>
               <div className="bg-blue-100 rounded-lg p-3 border-l-4 border-blue-600">
-                <div className="font-bold text-blue-900">Total: {MULTIPLICATION_EFFECT.hardware_bpl.total_reach} Menschen/Jahr</div>
+                <div className="font-bold text-blue-900">Techniker, Praktikanten und Freiwillige lernen strukturiert Refurbishment</div>
               </div>
             </div>
           </Card>
@@ -173,16 +172,8 @@ export default function TeamPage() {
                 <div className="font-semibold text-violet-900 mb-1">Direkte Ausbildung</div>
                 <div className="text-violet-800">{MULTIPLICATION_EFFECT.software_bpl.direct_training} Entwickler/Jahr direkt trainiert</div>
               </div>
-              <div className="bg-violet-50 rounded-lg p-3">
-                <div className="font-semibold text-violet-900 mb-1">AI-Literacy Trainer</div>
-                <div className="text-violet-800">{MULTIPLICATION_EFFECT.software_bpl.ai_literacy_trainers} ausgebildet zu Trainern (Train-the-Trainer)</div>
-              </div>
-              <div className="bg-violet-50 rounded-lg p-3">
-                <div className="font-semibold text-violet-900 mb-1">Indirekte Wirkung</div>
-                <div className="text-violet-800">{MULTIPLICATION_EFFECT.software_bpl.indirect_reach} Menschen/Jahr durch AI-Literacy Trainer erreicht</div>
-              </div>
               <div className="bg-violet-100 rounded-lg p-3 border-l-4 border-violet-600">
-                <div className="font-bold text-violet-900">Total: {MULTIPLICATION_EFFECT.software_bpl.total_reach} Menschen/Jahr</div>
+                <div className="font-bold text-violet-900">AI Literacy, Coding, Open-Source-Workshops für alle Niveaus</div>
               </div>
             </div>
           </Card>
@@ -192,27 +183,22 @@ export default function TeamPage() {
         <Card className="mt-6 bg-gradient-to-br from-blue-50 to-violet-50 border-2 border-blue-200">
           <div className="text-center">
             <h3 className="text-xl font-bold text-grey-dark mb-4">Kombinierter Effekt</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <div className="text-sm text-text-muted mb-1">Direkt trainiert</div>
                 <div className="text-3xl font-bold text-blue-900">{MULTIPLICATION_EFFECT.combined.direct_training}</div>
                 <div className="text-xs text-text-muted">Menschen/Jahr</div>
               </div>
               <div>
-                <div className="text-sm text-text-muted mb-1">Total erreicht</div>
-                <div className="text-3xl font-bold text-violet-900">{MULTIPLICATION_EFFECT.combined.total_people_reached}</div>
-                <div className="text-xs text-text-muted">Menschen/Jahr</div>
-              </div>
-              <div>
-                <div className="text-sm text-text-muted mb-1">Multiplikator-Effekt</div>
-                <div className="text-3xl font-bold text-emerald-900">{MULTIPLICATION_EFFECT.combined.social_impact_multiplier}×</div>
-                <div className="text-xs text-text-muted">Von 5/Jahr → {MULTIPLICATION_EFFECT.combined.total_people_reached}/Jahr</div>
+                <div className="text-sm text-text-muted mb-1">Mit Workshops erreicht</div>
+                <div className="text-3xl font-bold text-violet-900">{MULTIPLICATION_EFFECT.combined.people_reached_with_workshops}</div>
+                <div className="text-xs text-text-muted">Menschen/Jahr (konservativ)</div>
               </div>
             </div>
             <div className="bg-white/70 rounded-lg p-4 text-sm text-left">
               <strong>Das ist der Kern des sozialen Unternehmensmodells:</strong><br />
-              CHF 175k/Jahr für 2× BPL investieren → {MULTIPLICATION_EFFECT.combined.total_people_reached} Menschen/Jahr erreichen.<br />
-              Kosten pro Person: CHF {Math.round(175000 / MULTIPLICATION_EFFECT.combined.total_people_reached)} (ohne Multiplikator: CHF {Math.round(175000 / MULTIPLICATION_EFFECT.combined.direct_training)})
+              Budget-Ziel: CHF 180k/Jahr für 2× BPL → {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops} Menschen/Jahr erreichen (Prognose).<br />
+              Geplante Kosten pro direkt trainierter Person: CHF {Math.round(180000 / MULTIPLICATION_EFFECT.combined.direct_training)}
             </div>
           </div>
         </Card>
@@ -224,7 +210,7 @@ export default function TeamPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Current */}
           <Card className="border-l-4 border-l-gray-400">
-            <h3 className="text-lg font-bold text-grey-dark mb-4">Heute (2025)</h3>
+            <h3 className="text-lg font-bold text-grey-dark mb-4">Heute (2025, geschätzt)</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-text-muted">Team:</span>
@@ -247,7 +233,7 @@ export default function TeamPage() {
 
           {/* Year 3 with Hub + BPL */}
           <Card className="border-l-4 border-l-emerald-500">
-            <h3 className="text-lg font-bold text-grey-dark mb-4">Jahr 3 (Hub + 2× BPL)</h3>
+            <h3 className="text-lg font-bold text-grey-dark mb-4">Jahr 3 — Ziel (Hub + 2× BPL)</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-text-muted">Team:</span>
@@ -255,7 +241,7 @@ export default function TeamPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-text-muted">Geräte/Monat:</span>
-                <span className="font-semibold text-emerald-700">{TEAM_CAPACITY.year3_with_hub_and_bpl.devices_per_month} ({TEAM_CAPACITY.year3_with_hub_and_bpl.device_multiplier}× mehr)</span>
+                <span className="font-semibold text-emerald-700">{TEAM_CAPACITY.year3_with_hub_and_bpl.devices_per_month}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-text-muted">Geräte/Jahr:</span>
@@ -263,7 +249,7 @@ export default function TeamPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-text-muted">Menschen trainiert/Jahr:</span>
-                <span className="font-semibold text-emerald-700">{TEAM_CAPACITY.year3_with_hub_and_bpl.people_trained_per_year} ({TEAM_CAPACITY.year3_with_hub_and_bpl.social_impact_multiplier}× mehr)</span>
+                <span className="font-semibold text-emerald-700">{TEAM_CAPACITY.year3_with_hub_and_bpl.people_trained_per_year}</span>
               </div>
             </div>
           </Card>
@@ -276,7 +262,7 @@ export default function TeamPage() {
           <h3 className="font-semibold text-grey-dark mb-3">Hinweis zur Datenqualität</h3>
           <div className="space-y-2 text-sm text-text-muted">
             <div>
-              <strong>Was wir wissen:</strong> {DATA_QUALITY_NOTE.what_we_know}
+              <strong>Kernteam:</strong> {DATA_QUALITY_NOTE.kernteam}
             </div>
             <div>
               <strong>Was wir nicht systematisch erfassen:</strong> {DATA_QUALITY_NOTE.what_we_dont_track}

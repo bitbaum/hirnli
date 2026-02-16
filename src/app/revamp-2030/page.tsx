@@ -39,8 +39,8 @@ export default function Revamp2030Page() {
           </p>
           <div className="bg-white/10 rounded-lg p-4 backdrop-blur mb-4">
             <p className="text-sm opacity-90">
-              <strong>Realistische Ziele (Jahr 3):</strong> 80-120 Geräte/Monat (durch effiziente Prozesse, nicht durch 600m² Werkstatt).
-              Menschen-Wirkung: Abhängig von Train-the-Trainer-Effektivität (konservativ geschätzt: 60+ Menschen/Jahr direkt + indirekt).
+              <strong>Realistische Ziele (Jahr 3):</strong> ~40 Geräte/Monat (durch effiziente Prozesse, nicht durch endlos Raum).
+              Menschen-Wirkung: 40-60 Menschen/Jahr durch Train-the-Trainer + Workshops (konservative Schätzung).
             </p>
             <p className="text-xs opacity-75 mt-2">
               Aktuelle Kapazität nicht systematisch getrackt — Zahlen sind Schätzungen. Systematische Erfassung ab 2026 geplant.
@@ -112,7 +112,7 @@ export default function Revamp2030Page() {
                   Verteilt auf 2 Standorte, suboptimal organisiert.
                 </p>
                 <p className="text-sm text-text-light mb-3">
-                  <strong>Was wir brauchen:</strong> ~500-600 m² zentraler Hub mit:
+                  <strong>Was wir brauchen:</strong> ~550 m² zentraler Hub mit:
                 </p>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside mb-4">
                   <li>Professionelle Werkstatt (mehr Tische, Testinfrastruktur, bessere Organisation)</li>
@@ -180,7 +180,7 @@ export default function Revamp2030Page() {
 
       {/* Wie wir mehr Menschen erreichen */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie wir von 5 auf 160+ Menschen/Jahr skalieren</h2>
+        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie wir mehr Menschen erreichen</h2>
         <Card>
           <div className="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 mb-6">
             <p className="text-sm text-blue-900">
@@ -207,7 +207,7 @@ export default function Revamp2030Page() {
                       <li>• 4 Tische vorhanden, aber nur 1-2 genutzt (Reza + manchmal Freiwillige)</li>
                       <li>• Keine strukturierten Trainings, kein Zeitplan</li>
                       <li>• Lange Wartezeiten, Backlog wächst</li>
-                      <li>• <strong>~30 Geräte/Monat</strong> (Schätzung)</li>
+                      <li>• <strong>~12-15 Geräte/Monat</strong> (geschätzt aus Umsatzdaten)</li>
                     </ul>
                   </div>
                   <div>
@@ -237,8 +237,7 @@ export default function Revamp2030Page() {
                       <li>• <strong>Hardware-BPL organisiert:</strong> Zeitpläne, Qualität, Prozesse</li>
                       <li>• Alle Tische genutzt (strukturierte Schichten, klare Verantwortlichkeiten)</li>
                       <li>• <strong>10 Techniker/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
-                      <li>• <strong>5 ausgebildete Techniker</strong> trainieren parallel → je 10 Menschen = 50 indirekt</li>
-                      <li>• <strong>3-4× Geräte-Kapazität: ~80-120 Geräte/Monat</strong> (durch bessere Prozesse, nicht nur Raum)</li>
+                      <li>• <strong>~40 Geräte/Monat</strong> (durch bessere Prozesse + mehr Kapazität)</li>
                     </ul>
                   </div>
                   <div>
@@ -246,9 +245,8 @@ export default function Revamp2030Page() {
                     <ul className="text-xs text-emerald-800 space-y-1">
                       <li>• <strong>Software/AI-BPL organisiert:</strong> Curricula, Workshops, Events</li>
                       <li>• <strong>8 Entwickler/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
-                      <li>• <strong>3 AI-Literacy-Trainer</strong> ausgebildet → je ~13 Menschen = 40 indirekt</li>
-                      <li>• Plus Workshops, Events, Repair Cafés: 50-80 zusätzlich</li>
-                      <li>• <strong>32× Social Impact: ~160 Menschen/Jahr</strong> total erreicht</li>
+                      <li>• Plus Workshops, Events, Repair Cafés</li>
+                      <li>• <strong>40-60 Menschen/Jahr</strong> total erreicht (konservative Schätzung)</li>
                     </ul>
                   </div>
                 </div>
@@ -388,8 +386,8 @@ export default function Revamp2030Page() {
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 1: Fundraising & Standortsuche</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
-                  <li>Standortsuche: ~500-600 m² in Zürich oder Agglomeration</li>
-                  <li>Fundraising: CHF 500k-1M für Hub, CHF 525k für Bildung (3 Jahre)</li>
+                  <li>Standortsuche: ~550 m² in Zürich Agglomeration</li>
+                  <li>Fundraising für Hub + Bildungsprogramm (3 Jahre)</li>
                   <li>Planung: Raumkonzept, Prozesse, Betriebsmodell</li>
                   <li><strong>Data-Strategie:</strong> Systematische KPI-Erfassung etablieren (Geräte/Monat, Menschen/Jahr, Wartezeiten)</li>
                 </ul>
@@ -417,7 +415,7 @@ export default function Revamp2030Page() {
                   <li>Zweite:r Bildungsprogrammleiter:in eingestellt (beide BPL aktiv)</li>
                   <li>Hub-Betrieb läuft: Werkstatt, Schulungsräume, Event-/Kulturraum etabliert</li>
                   <li>Train-the-Trainer etabliert: Erste Multiplikatoren arbeiten</li>
-                  <li>Kapazität: ~80-100 Geräte/Monat, ~40-60 Menschen/Jahr trainiert</li>
+                  <li>Kapazität: ~40 Geräte/Monat, ~40-60 Menschen/Jahr trainiert</li>
                   <li>Kultur-Programm aktiv: Regelmässige Events & Ausstellungen</li>
                 </ul>
               </div>
@@ -428,8 +426,8 @@ export default function Revamp2030Page() {
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 2: Skalierung & Vollausbau</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
-                  <li>Skalierung: 100-120 Geräte/Monat durch optimierte Prozesse</li>
-                  <li>Train-the-Trainer-Multiplikation zeigt Wirkung: 80-100+ Menschen/Jahr erreicht</li>
+                  <li>Weitere Optimierung der Prozesse und Kapazitäten</li>
+                  <li>Train-the-Trainer-Programme voll etabliert und selbsttragend</li>
                   <li>Zusätzliche Programme: AI Lab vollständig aktiv, Makerspace/Hackerspace ausgebaut</li>
                   <li>Nachhaltige Selbsttragung: Betriebskosten gedeckt, reinvestierbare Überschüsse</li>
                   <li>Community etabliert: Hub ist bekannter Ort für digitale Teilhabe & Kultur</li>
@@ -447,8 +445,8 @@ export default function Revamp2030Page() {
           <Card className="border-l-4 border-l-red-500">
             <h3 className="text-md font-semibold text-grey-dark mb-2">🚨 Das Problem</h3>
             <p className="text-sm text-text-light">
-              Wir haben 2 grosse Kivitendo-Kunden verloren. Zu viel Inventar in 2 Lagern. Das eigentliche Problem:
-              <strong> Fehlende Organisation für Verkauf & Ausführung</strong>, nicht fehlende Kapazität.
+              Einnahmen von CHF 140k (2021) auf CHF 60k (2025) gefallen — B2B-Kunden verloren, Dienstleistungen eingebrochen.
+              Das eigentliche Problem: <strong>Fehlende Organisation für Verkauf & Ausführung</strong>, nicht fehlende Kapazität.
             </p>
           </Card>
           <Card className="border-l-4 border-l-amber-500">
@@ -461,7 +459,7 @@ export default function Revamp2030Page() {
           <Card className="border-l-4 border-l-emerald-500">
             <h3 className="text-md font-semibold text-grey-dark mb-2">💪 Wir sind bereit</h3>
             <p className="text-sm text-text-light">
-              22 Jahre Erfahrung (seit 2003). Soziale Mission mit sozialpädagogischem Fokus (Veronica).
+              23 Jahre Erfahrung (seit 2003). Soziale Mission mit sozialpädagogischem Fokus (Veronica).
               Wir wissen genau, was fehlt: <strong>Organisation, Struktur, bezahlte Fachleute</strong>.
             </p>
           </Card>

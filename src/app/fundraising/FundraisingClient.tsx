@@ -178,8 +178,8 @@ export default function FundraisingClient() {
             </p>
 
             <p className="text-gray-700 leading-relaxed">
-              <strong>Die Herausforderung:</strong> Wir haben 2 grosse Kivitendo-Kunden verloren. Unser Kivitendo-System braucht dringend
-              eine Überarbeitung, aber uns fehlen die Ressourcen dafür. Die Web-Design-Praxis funktioniert aus demselben Grund nicht mehr.
+              <strong>Die Herausforderung:</strong> Unsere Einnahmen sind von CHF 140k (2021) auf CHF 60k (2025) gefallen — B2B-Hosting-Kunden verloren,
+              Dienstleistungen von CHF 80k auf CHF 28k geschrumpft. Das aktuelle Modell — abhängig von wenigen Einzelkunden — ist fragil.
             </p>
 
             <p className="text-gray-700 leading-relaxed">
@@ -191,9 +191,9 @@ export default function FundraisingClient() {
             <div className="bg-amber-100 border-l-4 border-amber-500 p-4 my-4">
               <p className="text-amber-900 font-semibold mb-2">Das Problem in einem Satz:</p>
               <p className="text-amber-800 mb-0">
-                Wir haben Know-how und Material — aber zu wenig bezahlte Kapazität (3 bezahlte Personen*), um Prozesse zu
-                professionalisieren und das volle Potenzial auszuschöpfen.
-                <br /><span className="text-xs mt-1 block">* Kernteam: Andreas, Veronica (Sozialpädagogin), Dani. Rest: Freiwillige, 1 Praktikant (Reza), Reintegrations-Mitarbeiter</span>
+                Wir haben 14 Menschen im Team (Techniker, Betrieb, Leitung) — aber zu wenig bezahlte Kapazität und keine
+                dedizierte Bildungsstruktur, um Prozesse zu professionalisieren und das volle Potenzial auszuschöpfen.
+                <br /><span className="text-xs mt-1 block">Leitung: Andreas, Veronica (Sozialpädagogin), Dani. Technik & Betrieb: Freiwillige, Praktikanten, Reintegrations-Teilnehmer.</span>
               </p>
             </div>
 
@@ -232,26 +232,28 @@ export default function FundraisingClient() {
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 not-prose">
-              <div className="bg-white rounded-lg p-4 border-2 border-blue-200">
-                <div className="text-sm text-blue-600 font-semibold">Jahr 1 (2026)</div>
-                <div className="text-2xl font-bold text-blue-900 my-2">CHF 450k</div>
-                <div className="text-xs text-gray-600">87% von Stiftungen<br/>Aufbau: Hub-Einrichtung + Team-Rekrutierung</div>
-              </div>
-              <div className="bg-white rounded-lg p-4 border-2 border-violet-200">
-                <div className="text-sm text-violet-600 font-semibold">Jahr 2 (2027)</div>
-                <div className="text-2xl font-bold text-violet-900 my-2">CHF 340k</div>
-                <div className="text-xs text-gray-600">61% von Stiftungen<br/>Wachstum: Revenue steigt, Stiftungen sinken</div>
-              </div>
-              <div className="bg-white rounded-lg p-4 border-2 border-emerald-200">
-                <div className="text-sm text-emerald-600 font-semibold">Jahr 3 (2028)</div>
-                <div className="text-2xl font-bold text-emerald-900 my-2">CHF 250k</div>
-                <div className="text-xs text-gray-600">46% von Stiftungen<br/>Selbständigkeit: Revenue CHF 290k, Operations selbsttragend</div>
-              </div>
+              {THREE_YEAR_MODEL.map((year, i) => {
+                const stiftungenAmt = year.stiftungen + year.einmalig;
+                const stiftungenPct = Math.round((stiftungenAmt / year.total) * 100);
+                const colors = [
+                  { border: 'border-blue-200', text: 'text-blue-600', bold: 'text-blue-900' },
+                  { border: 'border-violet-200', text: 'text-violet-600', bold: 'text-violet-900' },
+                  { border: 'border-emerald-200', text: 'text-emerald-600', bold: 'text-emerald-900' },
+                ];
+                const labels = ['Aufbau: Hub-Einrichtung + Team-Rekrutierung', 'Wachstum: Revenue steigt, Stiftungen sinken', `Verselbständigung: Revenue ${formatCHF(REVENUE_YEAR3_TOTAL)}, Operations zunehmend selbsttragend`];
+                return (
+                  <div key={year.year} className={`bg-white rounded-lg p-4 border-2 ${colors[i].border}`}>
+                    <div className={`text-sm ${colors[i].text} font-semibold`}>{year.year} ({2026 + i})</div>
+                    <div className={`text-2xl font-bold ${colors[i].bold} my-2`}>{formatCHF(stiftungenAmt)}</div>
+                    <div className="text-xs text-gray-600">{stiftungenPct}% von Stiftungen<br/>{labels[i]}</div>
+                  </div>
+                );
+              })}
             </div>
 
             <p className="text-gray-700 leading-relaxed mt-4 mb-0">
               <strong>Degressives Modell:</strong> Je mehr wir wachsen, desto weniger Stiftungsgelder brauchen wir.
-              Jahr 1 → Jahr 3: <strong>-44% weniger Stiftungsgelder</strong>. Ab Jahr 4: Nur noch Impact-Finanzierung
+              Jahr 1 → Jahr 3: <strong>-{REDUCTION_PCT}% weniger Stiftungsgelder</strong>. Ab Jahr 4: Nur noch Impact-Finanzierung
               (kostenlose Geräte, Stipendien), keine Betriebskosten mehr.
             </p>
           </div>
@@ -271,13 +273,10 @@ export default function FundraisingClient() {
               <div className="flex-1">
                 <h3 className="text-lg font-bold text-grey-dark">1. Community Tech Hub (Raum)</h3>
                 <p className="mt-2 text-sm text-text-light">
-                  <strong>250m² → 1000m²:</strong> Werkstatt, AI Lab, Event Space, Shop, Offices
+                  <strong>~550 m²:</strong> Werkstatt, AI Lab, Event Space, Shop, Offices — alles unter einem Dach
                 </p>
                 <p className="mt-2 text-sm text-text-light">
-                  <strong>Multiplikator:</strong> 4× Raum-Kapazität
-                </p>
-                <p className="mt-2 text-sm text-text-light">
-                  <strong>Ergebnis:</strong> Von 30 Geräten/Monat → 120+ Geräte/Monat (nur durch Hub)
+                  <strong>Ergebnis:</strong> Effizientere Prozesse, mehr parallele Arbeitsplätze, neue Einnahmequellen
                 </p>
                 <Link
                   href="/fundraising/hub"
@@ -299,10 +298,10 @@ export default function FundraisingClient() {
                   <strong>2× neue Stellen:</strong> Hardware-BPL + Software/AI-BPL
                 </p>
                 <p className="mt-2 text-sm text-text-light">
-                  <strong>Multiplikator:</strong> Train-the-Trainer Modell (1:100 Ratio)
+                  <strong>Train-the-Trainer:</strong> Strukturierte Ausbildung statt informellem Wissenstransfer
                 </p>
                 <p className="mt-2 text-sm text-text-light">
-                  <strong>Ergebnis:</strong> 150-200 Menschen/Jahr erreicht (Techniker + Entwickler + Workshop-Teilnehmer)
+                  <strong>Ergebnis:</strong> 40-60 Menschen/Jahr erreicht (Techniker + Entwickler + Workshop-Teilnehmer)
                 </p>
                 <Link
                   href="/fundraising/bildung"
@@ -318,19 +317,19 @@ export default function FundraisingClient() {
         {/* Combined Effect */}
         <div className="mt-6 rounded-lg border-2 border-dashed border-gray-300 bg-white/50 p-6 text-center">
           <div className="text-sm font-medium uppercase tracking-wider text-gray-500">
-            Kombinierter Effekt: Hub × Menschen
+            Kombinierter Effekt: Hub + Menschen
           </div>
-          <div className="mt-2 font-mono text-lg text-gray-700">
-            4× (Hub-Raum) × 2.5× (Team-Multiplikator je BPL) × 2 (BPL) ≈ 6× Gesamtkapazität
+          <div className="mt-2 text-lg text-gray-700">
+            Bessere Prozesse + strukturierte Bildung + diversifizierte Einnahmen
           </div>
           <div className="mt-2 text-3xl font-bold text-blue-600">
-            30 → 180 Geräte/Monat
+            ~480 Geräte/Jahr + 40-60 Menschen trainiert
           </div>
           <div className="mt-3 text-sm text-gray-600">
-            Von CHF 80k (2025) → CHF 290k Revenue (Jahr 3, 2028)
+            Von CHF 60k (aktuell, 2025) → CHF 195k Revenue (Ziel Jahr 3, 2028)
           </div>
           <div className="mt-1 text-sm font-semibold text-violet-600">
-            + 150-200 Menschen/Jahr in Tech-Bildung & Integration
+            + 40-60 Menschen/Jahr in Tech-Bildung & Integration
           </div>
           <div className="mt-4 pt-4 border-t border-gray-300">
             <Link
@@ -555,8 +554,8 @@ export default function FundraisingClient() {
 
           <p>
             2023 war das letzte vollständige Geschäftsjahr vor unserer aktuellen Krise.
-            Einnahmen <strong>CHF 103'000</strong> vs. Ausgaben <strong>CHF 123'000</strong> ={' '}
-            <span className="text-red-600 font-semibold">Verlust CHF -19'800</span>.
+            Einnahmen <strong>{formatCHF(COST_STRUCTURE_2023.totalRevenue)}</strong> vs. Ausgaben <strong>{formatCHF(COST_STRUCTURE_2023.totalExpenses)}</strong> ={' '}
+            <span className="text-red-600 font-semibold">Verlust {formatCHF(COST_STRUCTURE_2023.result)}</span>.
           </p>
 
           <h3>Wohin geht das Geld?</h3>
@@ -566,26 +565,18 @@ export default function FundraisingClient() {
           </p>
 
           <ul>
-            <li>
-              <strong>Miete:</strong> CHF 58'000 (47% der Ausgaben) — Laden + Lager in zwei getrennten Standorten.
-              Das ist ineffizient und teuer.
-            </li>
-            <li>
-              <strong>Personalkosten:</strong> CHF 40'000 (33%) — Minimale Besetzung, trotzdem nicht gedeckt durch Einnahmen.
-            </li>
-            <li>
-              <strong>Wareneinkauf:</strong> CHF 15'000 (12%) — Geräte-Einkauf für Refurbishment.
-            </li>
-            <li>
-              <strong>Sonstige Betriebskosten:</strong> CHF 10'000 (8%) — Versicherung, Buchhaltung, Material.
-            </li>
+            {COST_STRUCTURE_2023.categories.map((cat) => (
+              <li key={cat.label}>
+                <strong>{cat.label}:</strong> {formatCHF(cat.amount)} ({cat.pctOfExpenses}% der Ausgaben)
+              </li>
+            ))}
           </ul>
 
           <div className="bg-red-50 border-l-4 border-red-400 p-4 my-4">
             <p className="font-semibold text-red-800 mb-2">Das Problem:</p>
             <p className="text-red-700">
-              Die Miete allein (CHF 58'000) ist fast so hoch wie unsere B2B-Einnahmen (CHF 60'000 in 2025).
-              Wir zahlen <strong>119% unserer Einnahmen</strong> nur für laufende Kosten — das ist nicht nachhaltig.
+              Die Miete allein ({formatCHF(COST_STRUCTURE_2023.categories[0].amount)}) übersteigt unsere gesamten Einnahmen 2025 ({formatCHF(FINANCIAL_CONTEXT.total_2025)}).
+              Die Ausgaben 2023 waren <strong>{Math.round((COST_STRUCTURE_2023.totalExpenses / COST_STRUCTURE_2023.totalRevenue) * 100)}% der Einnahmen</strong> — das ist nicht nachhaltig.
             </p>
           </div>
 
@@ -614,7 +605,7 @@ export default function FundraisingClient() {
         <h2 className="mb-2 text-xl font-semibold text-grey-dark">3-Jahres-Modell: Weg zur Selbständigkeit</h2>
         <p className="mb-6 text-sm text-text-muted">
           Einmalige Investitionen nur im Jahr 1. Stiftungsgelder sinken jedes Jahr.
-          Eigenleistung verdreifacht sich durch neue Einnahmequellen.
+          Eigenleistung (bewertete Freiwilligenarbeit, kein Cash) wächst durch Community-Aufbau.
         </p>
 
         {/* Year cards with visual bars */}
@@ -670,7 +661,7 @@ export default function FundraisingClient() {
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
                       <span className="inline-block h-2.5 w-2.5 rounded-sm bg-emerald-500" />
-                      Eigenleistung
+                      Eigenleistung*
                     </span>
                     <span className="tabular-nums font-medium">{formatCHF(year.eigen)}</span>
                   </div>
@@ -729,7 +720,7 @@ export default function FundraisingClient() {
                 <td className="px-4 py-2">
                   <span className="flex items-center gap-1.5">
                     <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
-                    Eigenleistung
+                    Eigenleistung*
                   </span>
                 </td>
                 {THREE_YEAR_MODEL.map((y) => (
@@ -755,6 +746,11 @@ export default function FundraisingClient() {
             </tbody>
           </table>
         </div>
+
+        <p className="mt-3 text-xs text-text-muted italic">
+          * Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF 35/h, NGO-Standard), kein Cashflow.
+          Jahr 3 setzt ~6.857 Freiwilligen-Stunden voraus (~3.4 Vollzeit-Äquivalente).
+        </p>
       </section>
 
       {/* ================================================================ */}
@@ -791,8 +787,8 @@ export default function FundraisingClient() {
           <div className="bg-emerald-50 border-l-4 border-emerald-400 p-4 my-4">
             <p className="font-semibold text-emerald-800 mb-2">Warum so viel Raum?</p>
             <p className="text-emerald-700">
-              Unser Wachstumsziel ist <strong>2'160 Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell ~360/Jahr).
-              Das ist eine <strong>6× Skalierung</strong> — dafür brauchen wir die Infrastruktur.
+              Unser Ziel ist <strong>~480 Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell ~150/Jahr geschätzt).
+              Dafür brauchen wir effizientere Infrastruktur und strukturierte Prozesse.
             </p>
             <p className="text-emerald-700 mt-2">
               Plus: Workshops, Trainings, Events, und Community-Treffpunkt generieren neue Einnahmequellen,
@@ -867,7 +863,7 @@ export default function FundraisingClient() {
                 {' '}<span className="text-base font-normal text-text-muted">Jahr 1</span>
               </div>
               <p className="mt-1 text-sm text-text-muted">
-                Davon {formatCHF(BUDGET_SUMMARY.eigenleistung)} Eigenleistung ({BUDGET_SUMMARY.selfFinancingPct}%)
+                Davon {formatCHF(BUDGET_SUMMARY.eigenleistung)} Eigenleistung* ({BUDGET_SUMMARY.selfFinancingPct}%)
               </p>
             </div>
             <div className="text-right">
@@ -905,8 +901,8 @@ export default function FundraisingClient() {
             (B2B Services + Geräteverkauf + Integration + Spenden)
           </p>
           <p className="text-base font-semibold text-emerald-700 mb-1">
-            <strong>Jahr 3:</strong> {formatCHF(REVENUE_YEAR3_TOTAL)}/Jahr
-            — das ist +{Math.round(((REVENUE_YEAR3_TOTAL - REVENUE_CURRENT_TOTAL) / REVENUE_CURRENT_TOTAL) * 100)}% Wachstum
+            <strong>Ziel Jahr 3:</strong> {formatCHF(REVENUE_YEAR3_TOTAL)}/Jahr (Prognose)
+            — das wäre +{Math.round(((REVENUE_YEAR3_TOTAL - REVENUE_CURRENT_TOTAL) / REVENUE_CURRENT_TOTAL) * 100)}% Wachstum
           </p>
           <p className="text-xs text-emerald-600">
             Durch neue Einnahmequellen (Workshops, Corporate Training, Events, erhöhter Geräteverkauf)
@@ -934,7 +930,7 @@ export default function FundraisingClient() {
                   </div>
                   <span className="text-text-muted" aria-hidden="true">&rarr;</span>
                   <div>
-                    <div className="text-xs text-text-muted">Jahr 3</div>
+                    <div className="text-xs text-text-muted">Jahr 3 (Ziel)</div>
                     <Inspectable
                       data={{
                         label: `${stream.source} — Jahr 3 Prognose`,

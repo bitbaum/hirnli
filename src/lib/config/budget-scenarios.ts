@@ -420,17 +420,17 @@ export const BUDGET_SCENARIOS: BudgetScenario[] = [
  * Eigenleistung (Volunteer Value) Configuration
  */
 export const EIGENLEISTUNG_CONFIG: EigenleistungConfig = {
-  label: 'Eigenleistung (Freiwilligenarbeit)',
-  description: 'Wert der Freiwilligenarbeit, Sachspenden und In-Kind-Beiträge',
+  label: 'Eigenleistung (kein Cash — Freiwilligenarbeit bewertet)',
+  description: 'Bewerteter Wert der Freiwilligenarbeit, KEIN Cashflow. Berechnet als Stunden × CHF 35/h (NGO-Standard für Freiwilligenarbeit). Jahr 3 setzt ~3.4 VZÄ unbezahlte Arbeit voraus.',
   year1: 80_000,
   year2: 160_000,
   year3: 240_000,
   source: {
-    methodology: 'Schätzung basierend auf Freiwilligen-Stunden × CHF 35/h (NGO-Standard)',
-    calculation: 'Jahr 1: 2,286h × CHF 35, Jahr 2: 4,571h × CHF 35, Jahr 3: 6,857h × CHF 35',
-    confidence: 'medium',
-    lastVerified: '2026-02-13',
-    notes: 'Wert steigt progressiv mit Community-Aufbau',
+    methodology: 'Bewertete Freiwilligen-Stunden × CHF 35/h (NGO-Standard). KEIN Cashflow — rein kalkulatorischer Wert.',
+    calculation: 'Jahr 1: 2,286h × CHF 35 (~1.1 VZÄ), Jahr 2: 4,571h × CHF 35 (~2.3 VZÄ), Jahr 3: 6,857h × CHF 35 (~3.4 VZÄ). Wachstum setzt Community-Aufbau und Hub voraus.',
+    confidence: 'estimated',
+    lastVerified: '2026-02-16',
+    notes: 'Nicht Cash. Setzt voraus, dass Freiwilligen-Stunden durch Hub-Aufbau und Community-Wachstum steigen. Aktuell nicht systematisch erfasst.',
   },
 };
 

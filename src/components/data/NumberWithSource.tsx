@@ -18,10 +18,12 @@ const SIZE_CLASSES = {
   xl: 'text-5xl font-bold',
 };
 
-const CONFIDENCE_COLORS = {
+const CONFIDENCE_COLORS: Record<string, string> = {
   high: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
   medium: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
   estimated: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
+  target: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+  unknown: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
 };
 
 /**
@@ -121,10 +123,12 @@ export function NumberWithSource({
                 <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Verlässlichkeit
                 </div>
-                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${CONFIDENCE_COLORS[data.source.confidence]}`}>
+                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${CONFIDENCE_COLORS[data.source.confidence] ?? CONFIDENCE_COLORS.unknown}`}>
                   {data.source.confidence === 'high' && 'Hoch (verifiziert)'}
                   {data.source.confidence === 'medium' && 'Mittel (Schätzung mit Basis)'}
                   {data.source.confidence === 'estimated' && 'Geschätzt (Prognose)'}
+                  {data.source.confidence === 'target' && 'Budget-Ziel (noch nicht realisiert)'}
+                  {data.source.confidence === 'unknown' && 'Unbekannt (Daten fehlen)'}
                 </span>
               </div>
 
@@ -305,10 +309,12 @@ export function InlineNumber({ numberKey }: InlineNumberProps) {
                 <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Verlässlichkeit
                 </div>
-                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${CONFIDENCE_COLORS[data.source.confidence]}`}>
+                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${CONFIDENCE_COLORS[data.source.confidence] ?? CONFIDENCE_COLORS.unknown}`}>
                   {data.source.confidence === 'high' && 'Hoch (verifiziert)'}
                   {data.source.confidence === 'medium' && 'Mittel (Schätzung mit Basis)'}
                   {data.source.confidence === 'estimated' && 'Geschätzt (Prognose)'}
+                  {data.source.confidence === 'target' && 'Budget-Ziel (noch nicht realisiert)'}
+                  {data.source.confidence === 'unknown' && 'Unbekannt (Daten fehlen)'}
                 </span>
               </div>
 

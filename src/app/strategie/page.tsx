@@ -60,15 +60,15 @@ export default function StrategiePage() {
             description="Reduktion von Elektroschrott durch Wiederinstandsetzung, Reparatur, Weiterverwendung und fachgerechtes Recycling"
             colorScheme="emerald"
             activities={[
-              'Professionelles Refurbishment: 25-35 Geräte/Monat mit standardisiertem Prozess',
+              'Professionelles Refurbishment: ~12-15 Geräte/Monat aktuell (Ziel mit Hub: ~40/Monat)',
               'Datenvernichtung nach NIST 800-88 Standard (secure data wipe)',
               'Fachgerechtes Recycling für nicht reparierbare Komponenten',
               'Lebensdauerverlängerung: Ältere Hardware läuft mit Linux weitere 4+ Jahre',
             ]}
             whyItMatters="Jeder neue Laptop verursacht ~350 kg CO₂ bei der Herstellung, Refurbishment nur ~65 kg. Netto-Einsparung: 285 kg CO₂ pro Gerät (Fraunhofer IZM 2023). Elektroschrott ist einer der am schnellsten wachsenden Abfallströme weltweit (62 Mio. Tonnen/Jahr). Gleichzeitig schonen wir wertvolle Rohstoffe wie Kupfer, Gold und seltene Erden."
             achievements={[
-              '~1\'600+ Geräte seit 2018 (verifiziert aus Kivitendo: CHF 238\'309 / CHF 150)',
-              'Aktuelle Kapazität: 25-35 Geräte/Monat (ca. 300-420/Jahr)',
+              '~1\'600+ Geräte seit 2018 (geschätzt aus Kivitendo-Warenverkauf: CHF 238\'309 / ~CHF 150 Durchschnittspreis)',
+              'Aktuelle Kapazität: ~12-15 Geräte/Monat, ~150/Jahr (geschätzt aus Umsatzdaten)',
               'Durchschnittliche Lebensdauerverlängerung: 4+ Jahre pro Gerät (alte Hardware mit Linux)',
               'Fachgerechtes Recycling für nicht reparierbare Teile (Quote nicht systematisch erfasst)',
             ]}
@@ -93,7 +93,7 @@ export default function StrategiePage() {
             whyItMatters="Digitale Souveränität bedeutet: Du besitzt dein Gerät wirklich. Keine Zwangsupdates, keine Vendor Lock-ins, keine Lizenzkosten. Open-Source-Software gibt Nutzern Kontrolle zurück und ermöglicht es, ältere Hardware weiter zu nutzen. Das ist besonders wichtig für Menschen mit geringem Einkommen und für Organisationen, die unabhängig bleiben wollen."
             achievements={[
               'Seit 2003: Pioniere für Linux-Desktop in der Schweiz',
-              '~1\'600+ Geräte mit vorinstalliertem Linux verkauft (2018-2025 verifiziert)',
+              '~1\'600+ Geräte mit vorinstalliertem Linux verkauft (2018-2025, geschätzt aus Umsatzdaten)',
               '100% Open-Source-Software auf allen verkauften Geräten',
               'Teil der weltweiten Open-Source-Bewegung',
             ]}
@@ -192,7 +192,7 @@ export default function StrategiePage() {
               colorScheme="emerald"
               achievements={[
                 'Seit 2003: Repair-Workshops & Open-Source-Hardware',
-                '25-35 Geräte/Monat professionell refurbished',
+                '~12-15 Geräte/Monat aktuell, ~40/Monat (Ziel mit Hub)',
                 'Right to Repair — Community-getrieben',
               ]}
               relatedPages={[
@@ -259,16 +259,16 @@ export default function StrategiePage() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-              <div className="text-3xl font-bold">500-1000 m²</div>
-              <div className="text-sm opacity-90">Werkstatt, Events, Schulung, Museum</div>
+              <div className="text-3xl font-bold">~550 m²</div>
+              <div className="text-sm opacity-90">Werkstatt, Events, Schulung, Kultur</div>
             </div>
             <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-              <div className="text-3xl font-bold">CHF 500k-1M</div>
-              <div className="text-sm opacity-90">Einrichtung + 1. Jahr Betrieb</div>
+              <div className="text-3xl font-bold">3 Jahre</div>
+              <div className="text-sm opacity-90">Aufbauphase mit Stiftungsfinanzierung</div>
             </div>
             <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-              <div className="text-3xl font-bold">10'000+</div>
-              <div className="text-sm opacity-90">Geräte/Jahr Zielkapazität</div>
+              <div className="text-3xl font-bold">~480</div>
+              <div className="text-sm opacity-90">Geräte/Jahr Zielkapazität (Jahr 3)</div>
             </div>
           </div>
         </div>
@@ -285,7 +285,7 @@ export default function StrategiePage() {
               icon="🔧"
               title="Offene Werkstatt & Makerspace"
               tagline="Vom Repair Café bis zum eigenen Projekt"
-              description="650 m² mit professioneller Ausstattung für Community-Reparatur, Prototyping und Maker-Projekte."
+              description="Teil des ~550 m² Hub mit professioneller Ausstattung für Community-Reparatur, Prototyping und Maker-Projekte."
               type="core"
               activities={[
                 'Repair Cafés: Öffentliche Reparatur-Events (2× pro Monat)',

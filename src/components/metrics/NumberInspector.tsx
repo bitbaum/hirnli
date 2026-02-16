@@ -95,7 +95,9 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
                     {data.confidence === 'high' && 'Hoch (verifizierte Buchhaltungsdaten)'}
                     {data.confidence === 'medium' && 'Mittel (Schätzung mit dokumentierter Basis)'}
                     {data.confidence === 'estimated' && 'Geschätzt (Prognose basierend auf Trends)'}
-                    {!['high', 'medium', 'estimated'].includes(data.confidence) && data.confidence}
+                    {data.confidence === 'target' && 'Budget-Ziel (noch nicht realisiert)'}
+                    {data.confidence === 'unknown' && 'Unbekannt (aktuelle Daten fehlen)'}
+                    {!['high', 'medium', 'estimated', 'target', 'unknown'].includes(data.confidence) && data.confidence}
                   </div>
                 </div>
               </div>

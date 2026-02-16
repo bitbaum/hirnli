@@ -88,52 +88,46 @@ export const TEAM_SUMMARY = {
 } as const;
 
 /**
- * Train-the-Trainer Multiplication Effect
+ * Train-the-Trainer Effect (Direct Training Only)
  *
- * How 2× Bildungsprogrammleiter create 32× social impact
+ * WICHTIG: Nur direkte Trainings-Zahlen. Keine Kaskadenberechnungen oder
+ * Multiplikatoren, da diese nicht verifizierbar sind.
  *
- * WICHTIG: Diese Zahlen sind PROJEKTIONEN basierend auf:
- * - Train-the-Trainer Konzept (etablierte Bildungsstrategie, siehe z.B. WHO, NGO-Praxis)
- * - Unsere eigene Erfahrung (informell, nicht systematisch dokumentiert)
+ * Diese Zahlen sind PROJEKTIONEN basierend auf:
+ * - Train-the-Trainer Konzept (etablierte Bildungsstrategie)
  * - Schätzungen für realistische Kapazität bei strukturierter Organisation
  *
- * NICHT: Empirisch gemessen oder aus externer Quelle zitiert.
- * Diese Zahlen müssen wir ab 2026 systematisch erfassen (Teil der Data-Strategie).
- *
- * Das Train-the-Trainer Konzept selbst ist real und etabliert, aber die spezifischen
- * Zahlen für unseren Kontext sind Schätzungen/Planungen, keine verifizierten Daten.
+ * NICHT: Empirisch gemessen. Ab 2026 systematisch erfassen.
  */
 export const MULTIPLICATION_EFFECT = {
   hardware_bpl: {
     direct_training: 10, // Menschen/Jahr direkt trainiert
-    trained_technicians_active: 5, // Gleichzeitig aktive trainierte Techniker
-    indirect_reach: 50, // Menschen/Jahr erreicht durch trainierte Techniker
-    total_reach: 60, // Direkt + Indirekt
-    device_multiplier: 2.5, // Geräte-Kapazität Multiplikator (durch trainierte Techniker)
   },
   software_bpl: {
     direct_training: 8, // Menschen/Jahr direkt trainiert
-    ai_literacy_trainers: 3, // Ausgebildet zu Trainern
-    indirect_reach: 40, // Menschen/Jahr erreicht durch Trainer
-    total_reach: 48, // Direkt + Indirekt
   },
   combined: {
     direct_training: 18, // 10 + 8
-    total_people_reached: 160, // 60 + 48 + Workshops (50-80)
-    social_impact_multiplier: 32, // Von 5/Jahr heute auf 160/Jahr = 32×
+    people_reached_with_workshops: '40-60', // Direkte Trainings + Workshop-Teilnehmer (konservativ)
   },
 } as const;
 
 /**
- * Team Salary Structure (from numbers.ts for cross-reference)
+ * Team Salary Structure — BUDGET-ZIELE, nicht aktuelle Löhne
+ *
+ * WICHTIG: Aktuelle Gehälter von Dani und Veronica sind uns NICHT bekannt.
+ * Kivitendo zeigt historisch CHF 30-48k/Jahr TOTAL Personal (2020-2023),
+ * was für Zürich weit unter Markt liegt. Die hier genannten Zahlen sind
+ * Budget-Ziele für faire Entlöhnung, NICHT aktuelle Ist-Werte.
  */
 export const TEAM_SALARIES = {
-  kernteam_total: 220_000, // CHF/Jahr (3 VZÄ)
-  hardware_bpl: 87_500, // CHF/Jahr (gleicher Lohn für beide BPL)
-  software_bpl: 87_500, // CHF/Jahr (gleicher Lohn für beide BPL)
-  total_with_bpl: 395_000, // CHF/Jahr (5 VZÄ)
+  kernteam_total: 220_000, // CHF/Jahr — BUDGET-ZIEL für 3 Personen (aktuelle Löhne unbekannt)
+  hardware_bpl: 90_000, // CHF/Jahr — Budget-Ziel (Position noch nicht besetzt)
+  software_bpl: 90_000, // CHF/Jahr — Budget-Ziel (Position noch nicht besetzt)
+  total_with_bpl: 400_000, // CHF/Jahr — Budget-Ziel (5 Personen): 220k + 90k + 90k
   social_charges_multiplier: 1.20, // 20% Arbeitgeberanteil
-  total_personnel_cost: 475_000, // CHF/Jahr inkl. Sozialleistungen
+  total_personnel_cost: 480_000, // CHF/Jahr — Budget-Ziel inkl. Sozialleistungen: 400k × 1.20
+  _note: 'Alle Werte sind Budget-Ziele. Historische Kivitendo-Daten (2020-2023): CHF 30-48k/Jahr total Personal.',
 } as const;
 
 /**
@@ -146,27 +140,27 @@ export const TEAM_SALARIES = {
  */
 export const TEAM_CAPACITY = {
   current: {
-    devices_per_month: 25, // ESTIMATE - not systematically tracked
-    devices_per_year: 300, // ESTIMATE - not systematically tracked
+    devices_per_month: 12, // ESTIMATE - derived from Warenverkauf: CHF 22k ÷ CHF 150 ÷ 12
+    devices_per_year: 150, // ESTIMATE - derived from Warenverkauf revenue
     people_trained_per_year: 0, // NOT SYSTEMATICALLY TRACKED - informal training happens but not measured
     team_size_vza: 3,
   },
   year3_with_hub_and_bpl: {
-    devices_per_month: 100, // Mid-point estimate (80-120 range based on realistic 150m² werkstatt)
-    devices_per_year: 1200, // 100 × 12
-    people_trained_per_year: 60, // CONSERVATIVE ESTIMATE - depends on Train-the-Trainer effectiveness
+    devices_per_month: 40, // Conservative 2-3× from current ~15 (better processes + more space)
+    devices_per_year: 480, // 40 × 12
+    people_trained_per_year: 50, // Conservative: 18 direct (BPL) + ~30 workshop participants
     team_size_vza: 5, // 3 current + 2 BPL
-    device_multiplier: 4, // 100/25 = 4×
-    social_impact_multiplier: '60+', // Conservative estimate, not the inflated 32× from before
   },
 } as const;
 
 /**
  * Data Quality Notes & Team Reality
  *
- * KERNTEAM (BEZAHLT):
+ * KERNTEAM:
  * - 3 Personen: Andreas, Veronica (Sozialpädagogin), Dani
- * - Note: Andreas may not even be paid (doesn't like talking about it)
+ * - Aktuelle Gehälter sind NICHT bekannt
+ * - Andreas may not even be paid (doesn't like talking about it)
+ * - Kivitendo zeigt CHF 30-48k/Jahr TOTAL Personal (2020-2023) — weit unter Markt
  * - Diese 3 sind das "Kernteam" - täglich präsent, Verantwortung tragen
  *
  * WEITERE TEAM-MITGLIEDER (NICHT IM VZÄ ERFASST):
@@ -182,7 +176,7 @@ export const TEAM_CAPACITY = {
  * WHAT WE DON'T TRACK SYSTEMATICALLY:
  * - Stundenleistung von Freiwilligen (variabel, vertrauensbasiert)
  * - Detaillierte Anwesenheit/Zeiterfassung (Vertrauensarbeitszeit)
- * - Aktuelle Refurbishment-Kapazität (Schätzung: ~25 Geräte/Monat)
+ * - Aktuelle Refurbishment-Kapazität (Schätzung: ~12-15 Geräte/Monat, basierend auf Umsatz)
  * - Aktuelle Bildungswirkung (informelles Training passiert, aber nicht gemessen)
  *
  * WHY THIS IS OK:
@@ -193,7 +187,7 @@ export const TEAM_CAPACITY = {
  */
 
 export const DATA_QUALITY_NOTE = {
-  kernteam_paid: '3 Personen (Andreas*, Veronica, Dani) - *may not even be paid',
+  kernteam: '3 Personen (Andreas*, Veronica, Dani) — aktuelle Gehälter nicht bekannt. *may not even be paid. Kivitendo: CHF 30-48k/Jahr total Personal (2020-2023).',
   weitere_mitglieder: 'Freiwillige, 1 Praktikant (Reza), Reintegrations-Mitarbeiter (GEP-Programm)',
   social_mission: 'Sozialpädagogischer Fokus (Veronica), NICHT Silicon Valley Mentalität',
   what_we_dont_track: 'Freiwilligen-Stunden, aktuelle Kapazität, informelle Bildungswirkung',

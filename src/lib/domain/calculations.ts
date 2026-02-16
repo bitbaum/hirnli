@@ -3,7 +3,7 @@
  * No HTTP, no UI — just math.
  */
 
-const AVG_CO2_PER_DEVICE = 300; // weighted average (kg) used in estimates
+const AVG_CO2_PER_DEVICE = 285; // Fraunhofer IZM 2023: 350kg (Neuproduktion) - 65kg (Refurbishing) = 285kg gespart
 
 /** Estimate device count from revenue */
 export function estimateDeviceCount(revenue: number, avgPrice = 150): number {

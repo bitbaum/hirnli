@@ -43,7 +43,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
               <span className="font-medium">{formatCHF(year1.jaehrlich)}</span>
             </div>
             <div className="flex justify-between text-green-700 pt-1 border-t border-blue-200">
-              <span>+ Eigenleistung:</span>
+              <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year1.eigenleistung)}</span>
             </div>
           </div>
@@ -61,7 +61,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
               <span className="font-medium">{formatCHF(year2.jaehrlich)}</span>
             </div>
             <div className="flex justify-between text-green-700 pt-1 border-t border-gray-200">
-              <span>+ Eigenleistung:</span>
+              <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year2.eigenleistung)}</span>
             </div>
           </div>
@@ -79,7 +79,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
               <span className="font-medium">{formatCHF(year3.jaehrlich)}</span>
             </div>
             <div className="flex justify-between text-green-700 pt-1 border-t border-gray-200">
-              <span>+ Eigenleistung:</span>
+              <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year3.eigenleistung)}</span>
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
           <span className="font-bold text-blue-700">{formatCHF(totals.stiftungenTotal)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Eigenleistung Total (3 Jahre):</span>
+          <span className="text-gray-600">Eigenleistung Total (bewertete Freiwilligenarbeit):</span>
           <span className="font-bold text-green-700">{formatCHF(totals.eigenTotal)}</span>
         </div>
         <div className="flex justify-between pt-2 border-t border-gray-200">

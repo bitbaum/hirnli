@@ -91,13 +91,13 @@ export default function WirkungClient() {
         <MetricCard
           label="CO₂ vermieden"
           value={`~${co2Avoided} t`}
-          subtitle="300 kg CO₂ pro Gerät"
+          subtitle="285 kg CO₂ pro Gerät (Fraunhofer IZM)"
           sourceType="estimated"
           onClick={() =>
             inspector.inspect(metricToInspectorData(
               NumberSources.co2_total_2025,
               `~${co2Avoided} Tonnen`,
-              { year: selectedYear, formula: `${formatNumber(deviceCount)} Geräte × 300 kg CO₂ / 1000` },
+              { year: selectedYear, formula: `${formatNumber(deviceCount)} Geräte × 285 kg CO₂ / 1000` },
             ))
           }
         />

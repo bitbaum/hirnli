@@ -20,33 +20,33 @@ export const PILLARS = [
 
 export const VISION_TARGETS = [
   {
-    value: "10'000+",
-    label: 'Geräte jährlich vor Elektroschrott gerettet',
+    value: '~550 m²',
+    label: 'Community Tech Hub in Zürich Agglomeration',
     source: {
-      methodology: 'Hochrechnung basierend auf geplanter Skalierung: 2025 = ~300 Geräte/Jahr → 2030 = 10\'000+ durch Community Tech Space (5× Werkstattfläche + Freiwilligen-Netzwerk)',
-      confidence: 'aspirational',
-      lastVerified: '2026-01-15',
-      notes: 'Abhängig von: Neues Lokal, Freiwilligen-Rekrutierung, Partnerschaften mit Firmen (Corporate-Spenden)',
+      methodology: 'Detaillierter Raumplan (fundraising/data.ts SPACE_PLAN) + Mietkalkulation budget-scenarios.ts',
+      confidence: 'medium',
+      lastVerified: '2026-02-16',
+      notes: 'Mietkosten: 550m² × CHF 200/m²/Jahr = CHF 110k/Jahr (Agglomeration)',
     },
   },
   {
     value: 'Schweizweit',
     label: 'Netzwerk von Repair-Hubs aufbauen',
     source: {
-      methodology: 'Vision für föderales Modell: Zürich als Flagship-Hub, Franchise-/Partner-Modell für Bern, Basel, Genf, Lausanne, St. Gallen',
+      methodology: 'Vision für föderales Modell: Zürich als Flagship-Hub, Franchise-/Partner-Modell für weitere Städte',
       confidence: 'aspirational',
       lastVerified: '2026-01-15',
       notes: 'Erfordert: Standardisierte SOPs, Train-the-Trainer Programme, zentrale Logistik',
     },
   },
   {
-    value: '500+',
-    label: 'Menschen pro Jahr in digitalen Skills ausbilden',
+    value: '40-60',
+    label: 'Menschen pro Jahr direkt trainiert (Jahr 3)',
     source: {
-      methodology: 'Berechnung: 2025 = ~50 Workshop-Teilnehmer → 2030 = 500+ durch Schulungsraum + Online-Kurse + Corporate-Workshops',
-      confidence: 'aspirational',
-      lastVerified: '2026-01-15',
-      notes: 'Abhängig von: Schulungsraumkapazität (Community Tech Space), Trainer-Team, Kursportfolio-Entwicklung',
+      methodology: 'Konservative Schätzung: 2× BPL direkte Trainings + Workshop-Teilnehmer',
+      confidence: 'estimated',
+      lastVerified: '2026-02-16',
+      notes: 'Hardware-BPL 10 + Software-BPL 8 + Workshops 20-40 = 40-60 Menschen/Jahr',
     },
   },
   {
@@ -57,26 +57,6 @@ export const VISION_TARGETS = [
       confidence: 'high',
       lastVerified: '2026-01-15',
       notes: 'Bereits heute 100% — Dies ist keine Zukunftsvision, sondern unser Grundprinzip seit 2003',
-    },
-  },
-  {
-    value: '#1',
-    label: 'Führende Organisation für nachhaltige IT in der Schweiz',
-    source: {
-      methodology: 'Qualitative Vision: Anerkennung durch Stiftungen, Medien, Politik und Community als führende Organisation im Bereich Circular IT + digitale Inklusion',
-      confidence: 'aspirational',
-      lastVerified: '2026-01-15',
-      notes: 'Messkriterien: SwissFoundations-Mitgliedschaft, Medienberichte, Auszeichnungen, Partnerschaften (ETH, ZHAW, etc.)',
-    },
-  },
-  {
-    value: 'Community Tech Space',
-    label: 'Museum, Werkstatt & Treffpunkt',
-    source: {
-      methodology: 'Konkretes Projekt: Neues Lokal (bis Ende 2026 erforderlich) mit 500-1000m² für Werkstatt, Shop, Schulung, Museum, Café, Event-Space',
-      confidence: 'medium',
-      lastVerified: '2026-01-15',
-      notes: 'Abhängig von: Immobilienmarkt Zürich, Stiftungsgelder (CHF 500k-1M benötigt), Partnerschaften für langfristigen Mietvertrag',
     },
   },
 ] as const;
@@ -143,7 +123,7 @@ export const EWASTE_FACTS: EwasteRow[] = [
   { stat: '62 Mio. Tonnen', description: 'Elektroschrott jährlich weltweit' },
   { stat: '22.3%', description: 'werden korrekt recycelt' },
   { stat: '~23 kg', description: 'E-Waste pro Person/Jahr in der Schweiz' },
-  { stat: '~331 kg CO2', description: 'Herstellung eines neuen Laptops' },
+  { stat: '~350 kg CO2', description: 'Herstellung eines neuen Laptops (Fraunhofer IZM)' },
 ];
 
 export const UNIQUE_POINTS = [
