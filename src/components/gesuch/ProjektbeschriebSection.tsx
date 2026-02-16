@@ -1,5 +1,5 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { CORE_FACTS, findEvidence } from '@/lib/config/stories';
+import { GESUCH_TEXT, findEvidence } from '@/lib/config/stories';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
 interface ProjektbeschriebSectionProps {
@@ -7,8 +7,6 @@ interface ProjektbeschriebSectionProps {
 }
 
 export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSectionProps) {
-  const metrics = CORE_FACTS.metrics;
-
   return (
     <section className="gesuch-section mb-12">
       <h2 className="mb-2 border-b-2 border-grey-dark pb-2 text-2xl font-bold text-grey-dark">
@@ -28,8 +26,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
           </p>
         )}
         <p className="text-sm leading-relaxed text-text">
-          Revamp-IT verlängert die Lebensdauer von IT-Geräten durch professionelles Refurbishing
-          und bietet gleichzeitig Arbeitsintegrationsplätze für Menschen am Rand des Arbeitsmarktes.
+          {GESUCH_TEXT.zusammenfassung_intro}
           {dok.story.why && ` ${dok.story.why.solution}`}
         </p>
       </div>
@@ -180,18 +177,14 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         </div>
       )}
 
-      {/* 5. Wirkungsmessung — metrics interpolated from CORE_FACTS */}
+      {/* 5. Wirkungsmessung */}
       <div className="mb-8">
         <h3 className="mb-2 text-lg font-semibold text-grey-dark">5. Wirkungsmessung und Nachhaltigkeit</h3>
         <p className="text-sm leading-relaxed text-text">
-          Revamp-IT misst die Wirkung seiner Aktivitäten anhand konkreter Indikatoren:
-          CO₂-Einsparung pro Gerät ({metrics.environmental.co2_per_laptop} kg/Laptop), Anzahl betreuter Praktikant:innen,
-          Wiedereingliederungsquote (~{metrics.social.success_rate === 'erfolgsquote_40' ? '40' : metrics.social.success_rate}%), sowie die Reuse-Rate ({metrics.environmental.reuse_rate}%) der eingegangenen Geräte.
-          Die Ergebnisse werden in unserem transparenten Online-Dashboard publiziert.
+          {GESUCH_TEXT.wirkungsmessung.indicators}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-text">
-          Revamp-IT hat über 20 Jahre bewiesen, dass das Kerngeschäft tragfähig ist.
-          Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.
+          {GESUCH_TEXT.wirkungsmessung.sustainability}
         </p>
       </div>
     </section>

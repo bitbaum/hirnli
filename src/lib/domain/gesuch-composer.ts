@@ -10,12 +10,13 @@
 
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeKey } from '@/lib/config/stories';
-import type { Evidence, WhySection, CompetencySection, Project, CoreFacts, ProofPoint, TrackRecord, Anecdote, PhotoSlot } from '@/lib/schemas/story';
+import type { Evidence, WhySection, CompetencySection, Project, CoreFacts, TrackRecord, Anecdote, PhotoSlot } from '@/lib/schemas/story';
 import {
   composeStory,
   THEME_ID_TO_STORY_KEY,
   THEME_PRIORITY,
   CORE_FACTS,
+  SOCIAL_DISPLAY,
   ANSCHREIBEN_TEMPLATES,
   PARTNER_HIGHLIGHTS,
   getAnecdotes,
@@ -211,9 +212,6 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
   const whyAnecdotes = getAnecdotes(mapped.primary, 'why').slice(0, 2);
   const howAnecdotes = getAnecdotes(mapped.primary, 'how').slice(0, 1);
 
-  // Photos per placement
-  const primaryTheme = mapped.primary;
-
   return {
     ready: true,
     foundation: buildFoundationInfo(foundation),
@@ -227,9 +225,9 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
     anecdotes: { why: whyAnecdotes, how: howAnecdotes },
     photos: {
-      why: getPhotoSlots('why', primaryTheme),
-      how: getPhotoSlots('how', primaryTheme),
-      projects: getPhotoSlots('projects', primaryTheme),
+      why: getPhotoSlots('why', mapped.primary),
+      how: getPhotoSlots('how', mapped.primary),
+      projects: getPhotoSlots('projects', mapped.primary),
       kurzportrait: getPhotoSlots('kurzportrait'),
     },
     partnerHighlights: PARTNER_HIGHLIGHTS,
@@ -352,8 +350,8 @@ export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: Sc
         { label: 'Kernteam', value: `${CORE_FACTS.organization.team_size} Festangestellte + Freelancer` },
         { label: 'Website', value: CORE_FACTS.organization.website },
         { label: 'Gemeinnützigkeit', value: 'Verein — alle Einnahmen fliessen in die Mission' },
-        { label: 'Praktikant:innen betreut', value: '100+ seit Gründung' },
-        { label: 'Wiedereingliederungsquote', value: '~40%' },
+        { label: 'Praktikant:innen betreut', value: `${SOCIAL_DISPLAY.practitioners_total} seit Gründung` },
+        { label: 'Wiedereingliederungsquote', value: SOCIAL_DISPLAY.success_rate },
         { label: 'CO₂-Einsparung pro Laptop', value: `${CORE_FACTS.metrics.environmental.co2_per_laptop} kg` },
         { label: 'Reuse-Rate', value: `${CORE_FACTS.metrics.environmental.reuse_rate}%` },
       ],

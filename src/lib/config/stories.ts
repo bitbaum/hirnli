@@ -140,6 +140,35 @@ export const CORE_FACTS: CoreFacts = {
 };
 
 // ============================================================================
+// SOCIAL DISPLAY VALUES — Resolved display strings for social metric IDs
+// (The IDs in CORE_FACTS.metrics.social are references to metrics.ts,
+//  but nobody resolves them at runtime. These are the SSOT display values.)
+// ============================================================================
+
+export const SOCIAL_DISPLAY = {
+  practitioners_total: '100+',
+  success_rate: '~40%',
+  success_rate_numeric: 40,
+  capacity: '8-10',
+} as const;
+
+// ============================================================================
+// GESUCH TEXT BLOCKS — Reusable text for Gesuch sections (not in components)
+// ============================================================================
+
+export const GESUCH_TEXT = {
+  zusammenfassung_intro:
+    'Revamp-IT verlängert die Lebensdauer von IT-Geräten durch professionelles Refurbishing und bietet gleichzeitig Arbeitsintegrationsplätze für Menschen am Rand des Arbeitsmarktes.',
+  wirkungsmessung: {
+    indicators: `Revamp-IT misst die Wirkung seiner Aktivitäten anhand konkreter Indikatoren: CO₂-Einsparung pro Gerät (${CORE_FACTS.metrics.environmental.co2_per_laptop} kg/Laptop), Anzahl betreuter Praktikant:innen, Wiedereingliederungsquote (${SOCIAL_DISPLAY.success_rate}), sowie die Reuse-Rate (${CORE_FACTS.metrics.environmental.reuse_rate}%) der eingegangenen Geräte. Die Ergebnisse werden in unserem transparenten Online-Dashboard publiziert.`,
+    sustainability:
+      'Revamp-IT hat über 20 Jahre bewiesen, dass das Kerngeschäft tragfähig ist. Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.',
+  },
+  kurzportrait_subtitle:
+    'Gemeinnütziger Verein seit 2003 — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung',
+} as const;
+
+// ============================================================================
 // EVIDENCE - Scientific citations (for evidenzbasiert arguments)
 // ============================================================================
 export const EVIDENCE: Record<string, Record<string, Evidence>> = {
@@ -857,13 +886,7 @@ export function composeStory(
     projects: [...new Set(allThemes.flatMap((t) => getProjectsByTheme(t)))],
     evidence:
       WHY[primaryTheme]?.evidence
-        ?.map((key) => {
-          // Find evidence across all categories
-          for (const category of Object.keys(EVIDENCE)) {
-            if (EVIDENCE[category][key]) return EVIDENCE[category][key];
-          }
-          return null;
-        })
+        ?.map((key) => findEvidence(key))
         .filter((e): e is Evidence => e !== null) ?? [],
   };
 }

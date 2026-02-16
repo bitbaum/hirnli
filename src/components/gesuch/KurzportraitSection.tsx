@@ -1,4 +1,5 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
+import { GESUCH_TEXT } from '@/lib/config/stories';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
 interface KurzportraitSectionProps {
@@ -12,7 +13,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
         Kurzportrait Revamp-IT
       </h2>
       <p className="mb-6 text-xs text-text-muted">
-        Gemeinnütziger Verein seit 2003 — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung
+        {GESUCH_TEXT.kurzportrait_subtitle}
       </p>
 
       {/* Facts grid */}
