@@ -6,6 +6,14 @@ import Badge from '@/components/ui/Badge';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
+import {
+  HUB_SPACE_DISPLAY,
+  DEVICES_PER_MONTH_CURRENT_DISPLAY,
+  DEVICES_PER_MONTH_TARGET,
+  PEOPLE_REACHED_DISPLAY,
+  REVENUE_DECLINE_DISPLAY,
+  YEARS_EXPERIENCE_DISPLAY,
+} from '@/lib/config/projections';
 
 export const metadata: Metadata = {
   title: 'Revamp 2030 — Zukunftsvision',
@@ -39,8 +47,8 @@ export default function Revamp2030Page() {
           </p>
           <div className="bg-white/10 rounded-lg p-4 backdrop-blur mb-4">
             <p className="text-sm opacity-90">
-              <strong>Realistische Ziele (Jahr 3):</strong> ~40 Geräte/Monat (durch effiziente Prozesse, nicht durch endlos Raum).
-              Menschen-Wirkung: 40-60 Menschen/Jahr durch Train-the-Trainer + Workshops (konservative Schätzung).
+              <strong>Realistische Ziele (Jahr 3):</strong> ~{DEVICES_PER_MONTH_TARGET} Geräte/Monat (durch effiziente Prozesse, nicht durch endlos Raum).
+              Menschen-Wirkung: {PEOPLE_REACHED_DISPLAY} durch Train-the-Trainer + Workshops (konservative Schätzung).
             </p>
             <p className="text-xs opacity-75 mt-2">
               Aktuelle Kapazität nicht systematisch getrackt — Zahlen sind Schätzungen. Systematische Erfassung ab 2026 geplant.
@@ -112,7 +120,7 @@ export default function Revamp2030Page() {
                   Verteilt auf 2 Standorte, suboptimal organisiert.
                 </p>
                 <p className="text-sm text-text-light mb-3">
-                  <strong>Was wir brauchen:</strong> ~550 m² zentraler Hub mit:
+                  <strong>Was wir brauchen:</strong> {HUB_SPACE_DISPLAY} zentraler Hub mit:
                 </p>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside mb-4">
                   <li>Professionelle Werkstatt (mehr Tische, Testinfrastruktur, bessere Organisation)</li>
@@ -207,7 +215,7 @@ export default function Revamp2030Page() {
                       <li>• 4 Tische vorhanden, aber nur 1-2 genutzt (Reza + manchmal Freiwillige)</li>
                       <li>• Keine strukturierten Trainings, kein Zeitplan</li>
                       <li>• Lange Wartezeiten, Backlog wächst</li>
-                      <li>• <strong>~12-15 Geräte/Monat</strong> (geschätzt aus Umsatzdaten)</li>
+                      <li>• <strong>{DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat</strong> (geschätzt aus Umsatzdaten)</li>
                     </ul>
                   </div>
                   <div>
@@ -237,7 +245,7 @@ export default function Revamp2030Page() {
                       <li>• <strong>Hardware-BPL organisiert:</strong> Zeitpläne, Qualität, Prozesse</li>
                       <li>• Alle Tische genutzt (strukturierte Schichten, klare Verantwortlichkeiten)</li>
                       <li>• <strong>10 Techniker/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
-                      <li>• <strong>~40 Geräte/Monat</strong> (durch bessere Prozesse + mehr Kapazität)</li>
+                      <li>• <strong>~{DEVICES_PER_MONTH_TARGET} Geräte/Monat</strong> (durch bessere Prozesse + mehr Kapazität)</li>
                     </ul>
                   </div>
                   <div>
@@ -246,7 +254,7 @@ export default function Revamp2030Page() {
                       <li>• <strong>Software/AI-BPL organisiert:</strong> Curricula, Workshops, Events</li>
                       <li>• <strong>8 Entwickler/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
                       <li>• Plus Workshops, Events, Repair Cafés</li>
-                      <li>• <strong>40-60 Menschen/Jahr</strong> total erreicht (konservative Schätzung)</li>
+                      <li>• <strong>{PEOPLE_REACHED_DISPLAY}</strong> total erreicht (konservative Schätzung)</li>
                     </ul>
                   </div>
                 </div>
@@ -386,7 +394,7 @@ export default function Revamp2030Page() {
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 1: Fundraising & Standortsuche</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
-                  <li>Standortsuche: ~550 m² in Zürich Agglomeration</li>
+                  <li>Standortsuche: {HUB_SPACE_DISPLAY} in Zürich Agglomeration</li>
                   <li>Fundraising für Hub + Bildungsprogramm (3 Jahre)</li>
                   <li>Planung: Raumkonzept, Prozesse, Betriebsmodell</li>
                   <li><strong>Data-Strategie:</strong> Systematische KPI-Erfassung etablieren (Geräte/Monat, Menschen/Jahr, Wartezeiten)</li>
@@ -415,7 +423,7 @@ export default function Revamp2030Page() {
                   <li>Zweite:r Bildungsprogrammleiter:in eingestellt (beide BPL aktiv)</li>
                   <li>Hub-Betrieb läuft: Werkstatt, Schulungsräume, Event-/Kulturraum etabliert</li>
                   <li>Train-the-Trainer etabliert: Erste Multiplikatoren arbeiten</li>
-                  <li>Kapazität: ~40 Geräte/Monat, ~40-60 Menschen/Jahr trainiert</li>
+                  <li>Kapazität: ~{DEVICES_PER_MONTH_TARGET} Geräte/Monat, {PEOPLE_REACHED_DISPLAY} trainiert</li>
                   <li>Kultur-Programm aktiv: Regelmässige Events & Ausstellungen</li>
                 </ul>
               </div>
@@ -445,7 +453,7 @@ export default function Revamp2030Page() {
           <Card className="border-l-4 border-l-red-500">
             <h3 className="text-md font-semibold text-grey-dark mb-2">🚨 Das Problem</h3>
             <p className="text-sm text-text-light">
-              Einnahmen von CHF 140k (2021) auf CHF 60k (2025) gefallen — B2B-Kunden verloren, Dienstleistungen eingebrochen.
+              Einnahmen von {REVENUE_DECLINE_DISPLAY} gefallen — B2B-Kunden verloren, Dienstleistungen eingebrochen.
               Das eigentliche Problem: <strong>Fehlende Organisation für Verkauf & Ausführung</strong>, nicht fehlende Kapazität.
             </p>
           </Card>
@@ -459,7 +467,7 @@ export default function Revamp2030Page() {
           <Card className="border-l-4 border-l-emerald-500">
             <h3 className="text-md font-semibold text-grey-dark mb-2">💪 Wir sind bereit</h3>
             <p className="text-sm text-text-light">
-              23 Jahre Erfahrung (seit 2003). Soziale Mission mit sozialpädagogischem Fokus (Veronica).
+              {YEARS_EXPERIENCE_DISPLAY}. Soziale Mission mit sozialpädagogischem Fokus (Veronica).
               Wir wissen genau, was fehlt: <strong>Organisation, Struktur, bezahlte Fachleute</strong>.
             </p>
           </Card>

@@ -16,8 +16,18 @@ import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import type { InspectorData } from '@/lib/schemas/inspector';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import { TEAM_MEMBERS } from '@/app/team/data';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
+import {
+  HUB_SPACE_DISPLAY,
+  DEVICES_PER_YEAR_TARGET_DISPLAY,
+  PEOPLE_REACHED_DISPLAY,
+  REVENUE_GROWTH_DISPLAY,
+  REVENUE_PEAK_DISPLAY,
+  REVENUE_PEAK_YEAR,
+  REVENUE_CURRENT_DISPLAY,
+} from '@/lib/config/projections';
 import {
   computePipelineStats,
   STATUS_BADGE_VARIANT,
@@ -178,7 +188,7 @@ export default function FundraisingClient() {
             </p>
 
             <p className="text-gray-700 leading-relaxed">
-              <strong>Die Herausforderung:</strong> Unsere Einnahmen sind von CHF 140k (2021) auf CHF 60k (2025) gefallen — B2B-Hosting-Kunden verloren,
+              <strong>Die Herausforderung:</strong> Unsere Einnahmen sind von {REVENUE_PEAK_DISPLAY} ({REVENUE_PEAK_YEAR.year}) auf {REVENUE_CURRENT_DISPLAY} (2025) gefallen — B2B-Hosting-Kunden verloren,
               Dienstleistungen von CHF 80k auf CHF 28k geschrumpft. Das aktuelle Modell — abhängig von wenigen Einzelkunden — ist fragil.
             </p>
 
@@ -191,7 +201,7 @@ export default function FundraisingClient() {
             <div className="bg-amber-100 border-l-4 border-amber-500 p-4 my-4">
               <p className="text-amber-900 font-semibold mb-2">Das Problem in einem Satz:</p>
               <p className="text-amber-800 mb-0">
-                Wir haben 14 Menschen im Team (Techniker, Betrieb, Leitung) — aber zu wenig bezahlte Kapazität und keine
+                Wir haben {TEAM_MEMBERS.length} Menschen im Team (Techniker, Betrieb, Leitung) — aber zu wenig bezahlte Kapazität und keine
                 dedizierte Bildungsstruktur, um Prozesse zu professionalisieren und das volle Potenzial auszuschöpfen.
                 <br /><span className="text-xs mt-1 block">Leitung: Andreas, Veronica (Sozialpädagogin), Dani. Technik & Betrieb: Freiwillige, Praktikanten, Reintegrations-Teilnehmer.</span>
               </p>
@@ -273,7 +283,7 @@ export default function FundraisingClient() {
               <div className="flex-1">
                 <h3 className="text-lg font-bold text-grey-dark">1. Community Tech Hub (Raum)</h3>
                 <p className="mt-2 text-sm text-text-light">
-                  <strong>~550 m²:</strong> Werkstatt, AI Lab, Event Space, Shop, Offices — alles unter einem Dach
+                  <strong>{HUB_SPACE_DISPLAY}:</strong> Werkstatt, AI Lab, Event Space, Shop, Offices — alles unter einem Dach
                 </p>
                 <p className="mt-2 text-sm text-text-light">
                   <strong>Ergebnis:</strong> Effizientere Prozesse, mehr parallele Arbeitsplätze, neue Einnahmequellen
@@ -301,7 +311,7 @@ export default function FundraisingClient() {
                   <strong>Train-the-Trainer:</strong> Strukturierte Ausbildung statt informellem Wissenstransfer
                 </p>
                 <p className="mt-2 text-sm text-text-light">
-                  <strong>Ergebnis:</strong> 40-60 Menschen/Jahr erreicht (Techniker + Entwickler + Workshop-Teilnehmer)
+                  <strong>Ergebnis:</strong> {PEOPLE_REACHED_DISPLAY} erreicht (Techniker + Entwickler + Workshop-Teilnehmer)
                 </p>
                 <Link
                   href="/fundraising/bildung"
@@ -323,13 +333,13 @@ export default function FundraisingClient() {
             Bessere Prozesse + strukturierte Bildung + diversifizierte Einnahmen
           </div>
           <div className="mt-2 text-3xl font-bold text-blue-600">
-            ~480 Geräte/Jahr + 40-60 Menschen trainiert
+            {DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr + {PEOPLE_REACHED_DISPLAY} trainiert
           </div>
           <div className="mt-3 text-sm text-gray-600">
-            Von CHF 60k (aktuell, 2025) → CHF 195k Revenue (Ziel Jahr 3, 2028)
+            {REVENUE_GROWTH_DISPLAY}
           </div>
           <div className="mt-1 text-sm font-semibold text-violet-600">
-            + 40-60 Menschen/Jahr in Tech-Bildung & Integration
+            + {PEOPLE_REACHED_DISPLAY} in Tech-Bildung & Integration
           </div>
           <div className="mt-4 pt-4 border-t border-gray-300">
             <Link
@@ -787,7 +797,7 @@ export default function FundraisingClient() {
           <div className="bg-emerald-50 border-l-4 border-emerald-400 p-4 my-4">
             <p className="font-semibold text-emerald-800 mb-2">Warum so viel Raum?</p>
             <p className="text-emerald-700">
-              Unser Ziel ist <strong>~480 Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell ~150/Jahr geschätzt).
+              Unser Ziel ist <strong>{DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell ~150/Jahr geschätzt).
               Dafür brauchen wir effizientere Infrastruktur und strukturierte Prozesse.
             </p>
             <p className="text-emerald-700 mt-2">

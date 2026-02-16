@@ -2,6 +2,8 @@
    Static data for the strategie page
    ──────────────────────────────────────────── */
 
+import { HUB_SPACE_DISPLAY, PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
+
 export const VALUES = [
   { icon: '🌍', title: 'Nachhaltigkeit', description: 'Wir verlängern die Lebensdauer von IT-Geräten und reduzieren aktiv Elektroschrott und CO2-Emissionen.', color: 'border-l-emerald-500' },
   { icon: '🔓', title: 'Offenheit', description: 'Wir setzen auf Open Source Software, transparente Prozesse und teilen unser Wissen frei mit der Community.', color: 'border-l-blue-500' },
@@ -20,7 +22,7 @@ export const PILLARS = [
 
 export const VISION_TARGETS = [
   {
-    value: '~550 m²',
+    value: HUB_SPACE_DISPLAY,
     label: 'Community Tech Hub in Zürich Agglomeration',
     source: {
       methodology: 'Detaillierter Raumplan (fundraising/data.ts SPACE_PLAN) + Mietkalkulation budget-scenarios.ts',
@@ -40,7 +42,7 @@ export const VISION_TARGETS = [
     },
   },
   {
-    value: '40-60',
+    value: PEOPLE_REACHED_PER_YEAR,
     label: 'Menschen pro Jahr direkt trainiert (Jahr 3)',
     source: {
       methodology: 'Konservative Schätzung: 2× BPL direkte Trainings + Workshop-Teilnehmer',

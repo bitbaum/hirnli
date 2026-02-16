@@ -10,7 +10,17 @@ import { GeschichteSection, KontaktSection, SovereigntyPillar, VisionMetric, Pil
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
-import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
+import { CO2_PER_LAPTOP, getNumericValue } from '@/lib/config/numbers';
+import {
+  HUB_SPACE_DISPLAY,
+  DEVICES_PER_MONTH_CURRENT_DISPLAY,
+  DEVICES_PER_MONTH_TARGET,
+  DEVICES_PER_YEAR_TARGET_DISPLAY,
+  PEOPLE_REACHED_DISPLAY,
+  getCombinedSpaceCost,
+  getSpaceCostDisplay,
+} from '@/lib/config/projections';
+import { formatCHF } from '@/lib/utils/format';
 
 export const metadata: Metadata = {
   title: 'Mission & Werte',
@@ -61,16 +71,16 @@ export default function StrategiePage() {
             description="Reduktion von Elektroschrott durch Wiederinstandsetzung, Reparatur, Weiterverwendung und fachgerechtes Recycling"
             colorScheme="emerald"
             activities={[
-              'Professionelles Refurbishment: ~12-15 Geräte/Monat aktuell (Ziel mit Hub: ~40/Monat)',
+              `Professionelles Refurbishment: ${DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat aktuell (Ziel mit Hub: ~${DEVICES_PER_MONTH_TARGET}/Monat)`,
               'Datenvernichtung nach NIST 800-88 Standard (secure data wipe)',
               'Fachgerechtes Recycling für nicht reparierbare Komponenten',
-              'Lebensdauerverlängerung: Ältere Hardware läuft mit Linux weitere 4+ Jahre',
+              `Lebensdauerverlängerung: Ältere Hardware läuft mit Linux weitere ~${getNumericValue('DEVICE_LIFESPAN_EXTENSION')} Jahre`,
             ]}
             whyItMatters={`Jeder neue Laptop verursacht ~350 kg CO₂ bei der Herstellung, Refurbishment nur ~65 kg. Netto-Einsparung: ${CO2_PER_LAPTOP} kg CO₂ pro Gerät (Fraunhofer IZM 2023). Elektroschrott ist einer der am schnellsten wachsenden Abfallströme weltweit (62 Mio. Tonnen/Jahr). Gleichzeitig schonen wir wertvolle Rohstoffe wie Kupfer, Gold und seltene Erden.`}
             achievements={[
               '~1\'600+ Geräte seit 2018 (geschätzt aus Kivitendo-Warenverkauf: CHF 238\'309 / ~CHF 150 Durchschnittspreis)',
-              'Aktuelle Kapazität: ~12-15 Geräte/Monat, ~150/Jahr (geschätzt aus Umsatzdaten)',
-              'Durchschnittliche Lebensdauerverlängerung: 4+ Jahre pro Gerät (alte Hardware mit Linux)',
+              `Aktuelle Kapazität: ${DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat, ~150/Jahr (geschätzt aus Umsatzdaten)`,
+              `Durchschnittliche Lebensdauerverlängerung: ~${getNumericValue('DEVICE_LIFESPAN_EXTENSION')} Jahre pro Gerät (alte Hardware mit Linux)`,
               'Fachgerechtes Recycling für nicht reparierbare Teile (Quote nicht systematisch erfasst)',
             ]}
             relatedPages={[
@@ -193,7 +203,7 @@ export default function StrategiePage() {
               colorScheme="emerald"
               achievements={[
                 'Seit 2003: Repair-Workshops & Open-Source-Hardware',
-                '~12-15 Geräte/Monat aktuell, ~40/Monat (Ziel mit Hub)',
+                `${DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat aktuell, ~${DEVICES_PER_MONTH_TARGET}/Monat (Ziel mit Hub)`,
                 'Right to Repair — Community-getrieben',
               ]}
               relatedPages={[
@@ -260,7 +270,7 @@ export default function StrategiePage() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-              <div className="text-3xl font-bold">~550 m²</div>
+              <div className="text-3xl font-bold">{HUB_SPACE_DISPLAY}</div>
               <div className="text-sm opacity-90">Werkstatt, Events, Schulung, Kultur</div>
             </div>
             <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
@@ -268,7 +278,7 @@ export default function StrategiePage() {
               <div className="text-sm opacity-90">Aufbauphase mit Stiftungsfinanzierung</div>
             </div>
             <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-              <div className="text-3xl font-bold">~480</div>
+              <div className="text-3xl font-bold">{DEVICES_PER_YEAR_TARGET_DISPLAY}</div>
               <div className="text-sm opacity-90">Geräte/Jahr Zielkapazität (Jahr 3)</div>
             </div>
           </div>
@@ -286,7 +296,7 @@ export default function StrategiePage() {
               icon="🔧"
               title="Offene Werkstatt & Makerspace"
               tagline="Vom Repair Café bis zum eigenen Projekt"
-              description="Teil des ~550 m² Hub mit professioneller Ausstattung für Community-Reparatur, Prototyping und Maker-Projekte."
+              description={`Teil des ${HUB_SPACE_DISPLAY} Hub mit professioneller Ausstattung für Community-Reparatur, Prototyping und Maker-Projekte.`}
               type="core"
               activities={[
                 'Repair Cafés: Öffentliche Reparatur-Events (2× pro Monat)',
@@ -298,7 +308,7 @@ export default function StrategiePage() {
               capacity="30-40 Arbeitsplätze gleichzeitig, 100+ Menschen/Woche"
               targetAudience="Hobbyisten, Schüler, Startups, Community"
               sdgs={['SDG 12', 'SDG 9', 'SDG 4']}
-              estimatedCost="CHF 150'000 (Werkzeuge, Maschinen, Einrichtung)"
+              estimatedCost={`${formatCHF(getCombinedSpaceCost(['Refurbishment Workshop', 'Makerspace & Hackerspace']))} (Werkzeuge, Maschinen, Einrichtung)`}
             />
 
             <CommunitySpaceCard
@@ -317,7 +327,7 @@ export default function StrategiePage() {
               capacity="20-30 GPU-Nodes, 60 Workshop-Teilnehmer/Monat"
               targetAudience="NGOs, KMUs, Geflüchtete, Studierende"
               sdgs={['SDG 4', 'SDG 9', 'SDG 10']}
-              estimatedCost="CHF 80'000 (GPUs aus Spenden, Cooling, Infrastruktur)"
+              estimatedCost={`CHF ${getSpaceCostDisplay('AI Lab (Server Room)')}`}
             />
 
             <CommunitySpaceCard
@@ -336,7 +346,7 @@ export default function StrategiePage() {
               capacity="20 Kursplätze, 500+ Teilnehmer/Jahr"
               targetAudience="Geflüchtete, Arbeitslose, Quereinsteiger, Schüler"
               sdgs={['SDG 4', 'SDG 8', 'SDG 10']}
-              estimatedCost="CHF 40'000 (20× Computer, Möbel, AV-Equipment)"
+              estimatedCost={`${getSpaceCostDisplay('Training & Course Room')} (20× Computer, Möbel, AV-Equipment)`}
             />
 
             <CommunitySpaceCard
@@ -355,7 +365,7 @@ export default function StrategiePage() {
               capacity="50-80 Personen, 2-3 Events/Woche"
               targetAudience="Tech-Community, Nachbarschaft, Kulturinteressierte"
               sdgs={['SDG 11', 'SDG 17']}
-              estimatedCost="CHF 60'000 (PA-Anlage, Möbel, Küche, Bar)"
+              estimatedCost={`${getSpaceCostDisplay('Event Space + Community Café (MULTI-PURPOSE)')} (PA-Anlage, Möbel, Küche, Bar)`}
             />
 
             <CommunitySpaceCard

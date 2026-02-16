@@ -10,8 +10,10 @@ import {
   MULTI_PURPOSE_STRATEGY,
   HUB_SPACE_AREAS,
 } from '@/lib/config/hub-space-plan';
+import { HUB_SPACE_DISPLAY } from '@/lib/config/projections';
 import { HubImageGenerator } from '@/components/hub/HubImageGenerator';
 import BudgetSection from './BudgetSection';
+import { TEAM_MEMBERS } from '@/app/team/data';
 
 export const metadata: Metadata = {
   title: 'Revamp Hub — Community Tech Space',
@@ -37,28 +39,10 @@ export default function HubPage() {
             4 Reparaturtische vorhanden, meist nur 1-2 in Nutzung. Unstrukturierte Workflows.
           </p>
           <p className="text-base text-text-light mb-6 leading-relaxed">
-            <strong>Die Lösung:</strong> ~550 m² effizienter, gut organisierter Raum. Nicht endlos Platz —
+            <strong>Die Lösung:</strong> {HUB_SPACE_DISPLAY} effizienter, gut organisierter Raum. Nicht endlos Platz —
             sondern <strong>strukturierte Prozesse</strong> mit 2 Bildungsprogrammleitern + sozialpädagogischer Begleitung (Veronica).
             Plus: Tech-Bildung, AI Lab, Makerspace — damit Menschen nicht nur konsumieren, sondern lernen und gestalten.
           </p>
-          <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
-            <p className="text-sm font-semibold text-red-900 mb-2">
-              ⚠️ WICHTIG: Zahlen-Audit läuft (2026-02-13)
-            </p>
-            <p className="text-sm text-red-800 mb-3">
-              <strong>Problem erkannt:</strong> Die unten aufgeführten Räume ergeben zusammen ~1,100 m², aber unser realistisches Ziel sind ~550 m².
-              Budgetzahlen in den Karten stimmen nicht mit der Budget-Zusammenfassung überein. AI Lab GPU-Zahlen waren unrealistisch (korrigiert).
-            </p>
-            <p className="text-xs text-red-700 mb-2">
-              <strong>Was jetzt passiert:</strong> Wir überarbeiten systematisch alle Zahlen für Konsistenz.
-              Einige Räume unten sind "Aspirational" (Zukunftsvision), nicht "Phase 1" (realistisch in 550m²).
-            </p>
-            <p className="text-xs text-red-700">
-              <strong>Phase 1 (realistisch, 550m²):</strong> Shop, Werkstatt, Offices, Lager, Makerspace, AI Lab (klein), Schulung, Event+Café kombiniert.
-              <br />
-              <strong>Zukunft (wenn Budget/Raum vorhanden):</strong> Museum, Synth-Lab, E-Waste-Art, Robotik, erweiterte Kultur-Programme.
-            </p>
-          </div>
         </Card>
       </section>
 
@@ -332,7 +316,7 @@ export default function HubPage() {
             </ul>
             <div className="pt-3 border-t border-gray-200">
               <p className="text-xs text-text-light">
-                <strong>Team:</strong> 14 Personen + 2 geplante BPL<br />
+                <strong>Team:</strong> {TEAM_MEMBERS.length} Personen + 2 geplante BPL<br />
                 <strong>Kosten:</strong> CHF 40'000
               </p>
             </div>
