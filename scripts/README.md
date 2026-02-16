@@ -66,6 +66,77 @@ npm run foundation:add
 
 ---
 
+### `esa-download-and-parse.ts`
+
+**Purpose**: Download and parse the official ESA foundation register.
+
+**Usage**:
+```bash
+npm run esa:download
+```
+
+**What it does**:
+- Downloads the Excel file from ESA (Eidgenössische Stiftungsaufsicht)
+- Parses 5,392 foundations under federal supervision
+- Extracts: UID, name, Stiftungszweck (purpose), city, status
+- Saves as JSON: `research/esa-register-YYYY-MM-DD.json`
+
+**Output structure**:
+```json
+{
+  "downloadDate": "2026-02-16",
+  "source": "https://backend.esa.admin.ch/...",
+  "count": 5392,
+  "foundations": [
+    {
+      "uid": "CHE-XXX.XXX.XXX",
+      "name": "Foundation Name",
+      "purpose": "Official Stiftungszweck text...",
+      "city": "Zürich",
+      "status": "aktiv"
+    }
+  ]
+}
+```
+
+**Update frequency**: Run monthly or when ESA publishes a new version.
+
+---
+
+### `esa-bulk-validate.ts`
+
+**Purpose**: Validate all foundation UIDs against the official ESA register.
+
+**Usage**:
+```bash
+npm run esa:validate
+```
+
+**Prerequisite**: Run `npm run esa:download` first.
+
+**What it checks**:
+- ✅ **Valid**: UID exists in ESA register and name matches
+- ⚠️ **Name mismatch**: UID valid but name differs from official ESA name
+- ❌ **Not found**: UID doesn't exist in ESA (may be incorrect or under cantonal supervision)
+- ❓ **Missing UID**: Foundation in our data but no UID (can often auto-fill from ESA by name)
+
+**Output**:
+- Console report with categorized issues
+- Detailed JSON: `research/esa-validation-results.json`
+
+**Current results** (2026-02-16):
+- 27 valid (24%)
+- 5 not found in ESA (potentially invalid UIDs)
+- 81 missing UIDs (26 can be auto-filled from ESA name matching)
+- 1 minor name mismatch
+
+**Key findings**:
+- **3 of our recent additions have invalid UIDs** - confirms the 80% false positive rate from manual research
+- **26 major foundations can have UIDs auto-filled** (Klimastiftung, Binding, Drosos, Hasler, Pro Juventute, etc.)
+- **Many foundations not in ESA** - expected, as not all Swiss foundations are under federal supervision (cantonal, associations, networks)
+
+---
+
 ## Integration with CI/CD
 
 To enforce quality gates in CI:
