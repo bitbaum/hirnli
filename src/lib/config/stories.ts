@@ -35,6 +35,8 @@ import type {
   Project,
   ProofPoint,
   TrackRecord,
+  Anecdote,
+  PhotoSlot,
 } from '@/lib/schemas/story';
 import { getNumericValue, CO2_PER_LAPTOP } from '@/lib/config/numbers';
 
@@ -312,6 +314,7 @@ export const HOW: HowSection = {
       'RAV Zürich',
       'IV-Stellen',
     ],
+    evidence: ['seco_arbeitsmarkt'],
   },
 
   // Environmental competencies
@@ -324,6 +327,7 @@ export const HOW: HowSection = {
       'Transparente Wirkungsmessung',
       'Partnerschaft mit SWICO für fachgerechtes Recycling',
     ],
+    evidence: ['bafu_lca', 'circular_computing'],
   },
 
   // Digital/Open Source competencies
@@ -336,6 +340,7 @@ export const HOW: HowSection = {
       'Eigene IT-Infrastruktur auf Open-Source-Basis',
       'Wissenstransfer und Schulungen',
     ],
+    evidence: ['digitalswitzerland'],
   },
 
   // Education / digital skills competencies
@@ -348,6 +353,7 @@ export const HOW: HowSection = {
       'Kombination von Hardware-Reparatur-Praxis und Software-Schulung',
       'Bereitstellung von Übungsgeräten aus eigenem Bestand',
     ],
+    evidence: ['digitalswitzerland', 'wef_future_of_jobs'],
   },
 };
 
@@ -692,6 +698,83 @@ export const THEME_PRIORITY: ThemeKey[] = [
 ];
 
 // ============================================================================
+// PARTNER HIGHLIGHTS — Prominent partnerships (Robert: "angeben, dass die Stadt uns unterstützt")
+// ============================================================================
+
+export const PARTNER_HIGHLIGHTS = [
+  {
+    name: 'Stadt Zürich',
+    relationship: 'Die Sozialen Einrichtungen der Stadt Zürich weisen regelmässig Praktikant:innen an Revamp-IT zu. Diese langjährige Zusammenarbeit bestätigt die Qualität unserer Integrationsarbeit.',
+    since: '[seit JJJJ — Jahreszahl verifizieren]',
+  },
+];
+
+// ============================================================================
+// ANECDOTES — Human stories with [placeholder] markers (Robert: "Anektoden mit Menschen sind cool")
+// ============================================================================
+
+export const ANECDOTES: Anecdote[] = [
+  {
+    id: 'integration_success',
+    template: '[Name] kam über [Zuweiser, z.B. RAV/IV-Stelle/Sozialdienst] zu uns. Nach [Dauer] Praktikum in der Werkstatt — von der Hardware-Diagnose bis zur Linux-Installation — fand [er/sie] eine Festanstellung als [Beruf/Tätigkeit]. Heute arbeitet [Name] bei [Arbeitgeber] in Zürich.',
+    themes: ['sozial', 'bildung'],
+    placement: 'why',
+  },
+  {
+    id: 'klima_impact',
+    template: 'Eine Zürcher [Firma/Schule] spendete [Anzahl] ausgemusterte Laptops. Unsere Praktikant:innen diagnostizierten jedes Gerät, tauschten defekte Komponenten und installierten Linux. [Anzahl] Geräte gingen an [Empfänger, z.B. eine Schule/einen Verein/einkommensschwache Familien]. Die restlichen lieferten Ersatzteile für künftige Reparaturen. Kein einziges Gerät landete im Müll.',
+    themes: ['klima', 'kreislaufwirtschaft'],
+    placement: 'why',
+  },
+  {
+    id: 'digital_empowerment',
+    template: '[Name] hatte noch nie einen eigenen Computer. Im Workshop bei Revamp-IT lernte [er/sie] Schritt für Schritt: E-Mail einrichten, Dokumente erstellen, sicher im Internet recherchieren. Am Ende nahm [Name] ein refurbished Laptop mit nach Hause — zum Solidaritätspreis von [Betrag] Franken.',
+    themes: ['bildung', 'digital'],
+    placement: 'why',
+  },
+  {
+    id: 'werkstatt_daily',
+    template: 'An einem typischen Tag in der Werkstatt: [Name_1] testet Akkus, [Name_2] lötet einen USB-Port, [Name_3] installiert Linux Mint auf einem ThinkPad von [Jahr]. Drei Menschen, drei Geschichten, ein gemeinsames Ziel — und am Ende des Tages [Anzahl] Geräte mehr, die wieder funktionieren.',
+    themes: ['sozial', 'klima', 'kreislaufwirtschaft', 'bildung', 'digital'],
+    placement: 'how',
+  },
+];
+
+// ============================================================================
+// PHOTO SLOTS — Placeholder descriptions (Robert: "+ Bilder", team: Bruno/Mohannad)
+// ============================================================================
+
+export const PHOTO_SLOTS: PhotoSlot[] = [
+  {
+    id: 'werkstatt_overview',
+    description: '[Foto: Werkstatt-Übersicht — Praktikant:innen bei der Arbeit an Geräten, Badenerstrasse 816]',
+    placement: 'why',
+  },
+  {
+    id: 'team_working',
+    description: '[Foto: Nahaufnahme — Hände bei der Reparatur eines Laptops (Tastatur/Mainboard)]',
+    placement: 'how',
+  },
+  {
+    id: 'refurbished_devices',
+    description: '[Foto: Fertige Geräte — aufbereitete Laptops mit Linux-Desktop, bereit für den Verkauf]',
+    placement: 'projects',
+    themes: ['klima', 'kreislaufwirtschaft', 'digital'],
+  },
+  {
+    id: 'workshop_scene',
+    description: '[Foto: Workshop — Teilnehmende lernen am eigenen Gerät, Kursleiter erklärt]',
+    placement: 'projects',
+    themes: ['bildung'],
+  },
+  {
+    id: 'team_portrait',
+    description: '[Foto: Teamfoto — Kernteam und Praktikant:innen vor der Werkstatt, Badenerstrasse 816]',
+    placement: 'kurzportrait',
+  },
+];
+
+// ============================================================================
 // HELPER FUNCTIONS
 // ============================================================================
 
@@ -714,6 +797,34 @@ export function getProjectsByTheme(theme: string): Project[] {
  */
 export function getEvidence(category: string, key: string): Evidence | null {
   return EVIDENCE[category]?.[key] ?? null;
+}
+
+/**
+ * Find evidence by key across all categories
+ */
+export function findEvidence(key: string): Evidence | null {
+  for (const category of Object.keys(EVIDENCE)) {
+    if (EVIDENCE[category][key]) return EVIDENCE[category][key];
+  }
+  return null;
+}
+
+/**
+ * Get anecdotes matching a theme and placement
+ */
+export function getAnecdotes(theme: ThemeKey, placement: 'why' | 'how'): Anecdote[] {
+  return ANECDOTES.filter(
+    (a) => a.placement === placement && a.themes.includes(theme),
+  );
+}
+
+/**
+ * Get photo slots matching a placement and optional theme
+ */
+export function getPhotoSlots(placement: PhotoSlot['placement'], theme?: ThemeKey): PhotoSlot[] {
+  return PHOTO_SLOTS.filter(
+    (p) => p.placement === placement && (!p.themes || !theme || p.themes.includes(theme)),
+  );
 }
 
 /**

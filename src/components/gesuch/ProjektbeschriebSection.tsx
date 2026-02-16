@@ -1,5 +1,6 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { CORE_FACTS } from '@/lib/config/stories';
+import { CORE_FACTS, findEvidence } from '@/lib/config/stories';
+import PhotoPlaceholder from './PhotoPlaceholder';
 
 interface ProjektbeschriebSectionProps {
   dok: ComposedGesuchDokument;
@@ -17,9 +18,15 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         {dok.organization.organization.name} — Fördergesuch an {dok.foundation.name}
       </p>
 
-      {/* 1. Zusammenfassung */}
+      {/* 1. Zusammenfassung — with foundation purpose (Gap #3) */}
       <div className="mb-8">
         <h3 className="mb-2 text-lg font-semibold text-grey-dark">1. Zusammenfassung</h3>
+        {dok.foundation.purposeSummary && (
+          <p className="mb-3 text-sm leading-relaxed text-text">
+            Die {dok.foundation.name} fördert {dok.foundation.purposeSummary.split('.')[0].toLowerCase()}.
+            {' '}Revamp-IT adressiert dieses Anliegen direkt:
+          </p>
+        )}
         <p className="text-sm leading-relaxed text-text">
           Revamp-IT verlängert die Lebensdauer von IT-Geräten durch professionelles Refurbishing
           und bietet gleichzeitig Arbeitsintegrationsplätze für Menschen am Rand des Arbeitsmarktes.
@@ -39,6 +46,25 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
               Quellen: {dok.story.evidence.map((e) => `${e.title} (${e.year})`).join('; ')}
             </p>
           )}
+          {/* Photo placeholder: WHY section (Gap #2) */}
+          {dok.photos.why.map((slot) => (
+            <PhotoPlaceholder key={slot.id} slot={slot} />
+          ))}
+        </div>
+      )}
+
+      {/* Anecdotes — human stories after Ausgangslage (Gap #1) */}
+      {dok.anecdotes.why.length > 0 && (
+        <div className="mb-8 rounded border border-border bg-surface-alt p-4">
+          <p className="mb-2 text-sm font-semibold text-grey-dark">Aus der Praxis</p>
+          {dok.anecdotes.why.map((a) => (
+            <p key={a.id} className="mb-2 text-sm leading-relaxed text-text italic">
+              {a.template}
+            </p>
+          ))}
+          <p className="mt-2 text-xs text-text-muted">
+            [Hinweis: Platzhalter in eckigen Klammern vor Versand mit echten Angaben ersetzen]
+          </p>
         </div>
       )}
 
@@ -66,6 +92,50 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
                     <li key={c}>• {c}</li>
                   ))}
                 </ul>
+                {/* Evidence citations per competency (Gap #4) */}
+                {comp.evidence && comp.evidence.length > 0 && (
+                  <p className="mt-1 text-xs text-text-muted">
+                    Quellen: {comp.evidence
+                      .map((key) => findEvidence(key))
+                      .filter((e): e is NonNullable<typeof e> => e !== null)
+                      .map((e) => `${e.title} (${e.year})`)
+                      .join('; ')}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* HOW anecdote (Gap #1) */}
+        {dok.anecdotes.how.length > 0 && (
+          <div className="mt-4 rounded border border-border bg-surface-alt p-4">
+            {dok.anecdotes.how.map((a) => (
+              <p key={a.id} className="text-sm leading-relaxed text-text italic">
+                {a.template}
+              </p>
+            ))}
+            <p className="mt-2 text-xs text-text-muted">
+              [Hinweis: Platzhalter in eckigen Klammern vor Versand mit echten Angaben ersetzen]
+            </p>
+          </div>
+        )}
+
+        {/* Photo placeholder: HOW section (Gap #2) */}
+        {dok.photos.how.map((slot) => (
+          <PhotoPlaceholder key={slot.id} slot={slot} />
+        ))}
+
+        {/* Partner highlights — Stadt Zürich prominent mention (Gap #5) */}
+        {dok.partnerHighlights.length > 0 && (
+          <div className="mt-4 rounded border border-primary/20 bg-primary/5 p-4">
+            <p className="mb-2 text-sm font-semibold text-grey-dark">Referenz-Partnerschaften</p>
+            {dok.partnerHighlights.map((p) => (
+              <div key={p.name}>
+                <p className="text-sm leading-relaxed text-text">
+                  <span className="font-semibold">{p.name}:</span> {p.relationship}
+                </p>
+                <p className="mt-1 text-xs text-text-muted">{p.since}</p>
               </div>
             ))}
           </div>
@@ -102,6 +172,10 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
                 </div>
               </div>
             </div>
+          ))}
+          {/* Photo placeholder: projects section (Gap #2) */}
+          {dok.photos.projects.map((slot) => (
+            <PhotoPlaceholder key={slot.id} slot={slot} />
           ))}
         </div>
       )}

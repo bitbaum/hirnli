@@ -26,6 +26,7 @@ export const competencySectionSchema = z.object({
   headline: z.string(),
   capabilities: z.array(z.string()),
   partners: z.array(z.string()).optional(),
+  evidence: z.array(z.string()).optional(), // keys into EVIDENCE registry
 });
 export type CompetencySection = z.infer<typeof competencySectionSchema>;
 
@@ -102,3 +103,21 @@ export const coreFacts = z.object({
   unique: z.array(z.string()),
 });
 export type CoreFacts = z.infer<typeof coreFacts>;
+
+// Anecdote template (placeholder text with [bracket markers])
+export const anecdoteSchema = z.object({
+  id: z.string(),
+  template: z.string(),
+  themes: z.array(z.string()),
+  placement: z.enum(['why', 'how']),
+});
+export type Anecdote = z.infer<typeof anecdoteSchema>;
+
+// Photo slot placeholder
+export const photoSlotSchema = z.object({
+  id: z.string(),
+  description: z.string(),
+  placement: z.enum(['why', 'how', 'projects', 'kurzportrait']),
+  themes: z.array(z.string()).optional(),
+});
+export type PhotoSlot = z.infer<typeof photoSlotSchema>;

@@ -10,13 +10,16 @@
 
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeKey } from '@/lib/config/stories';
-import type { Evidence, WhySection, CompetencySection, Project, CoreFacts, ProofPoint, TrackRecord } from '@/lib/schemas/story';
+import type { Evidence, WhySection, CompetencySection, Project, CoreFacts, ProofPoint, TrackRecord, Anecdote, PhotoSlot } from '@/lib/schemas/story';
 import {
   composeStory,
   THEME_ID_TO_STORY_KEY,
   THEME_PRIORITY,
   CORE_FACTS,
   ANSCHREIBEN_TEMPLATES,
+  PARTNER_HIGHLIGHTS,
+  getAnecdotes,
+  getPhotoSlots,
 } from '@/lib/config/stories';
 import { TYPE_LABELS, THEMES } from '@/lib/config/foundations';
 import {
@@ -73,6 +76,17 @@ export interface ComposedGesuch {
     strategy: string;
     typeDescription: string;
   };
+  anecdotes: {
+    why: Anecdote[];
+    how: Anecdote[];
+  };
+  photos: {
+    why: PhotoSlot[];
+    how: PhotoSlot[];
+    projects: PhotoSlot[];
+    kurzportrait: PhotoSlot[];
+  };
+  partnerHighlights: typeof PARTNER_HIGHLIGHTS;
 }
 
 export interface ComposedGesuchDokument extends ComposedGesuch {
@@ -185,10 +199,20 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
       story: { why: undefined, how: { track_record: { headline: '', text: '', proof_points: [] }, competencies: [] }, projects: [], evidence: [] },
       organization: CORE_FACTS,
       approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
+      anecdotes: { why: [], how: [] },
+      photos: { why: [], how: [], projects: [], kurzportrait: [] },
+      partnerHighlights: [],
     };
   }
 
   const story = composeStory(mapped.primary, mapped.secondary);
+
+  // Anecdotes: max 2 for WHY, max 1 for HOW
+  const whyAnecdotes = getAnecdotes(mapped.primary, 'why').slice(0, 2);
+  const howAnecdotes = getAnecdotes(mapped.primary, 'how').slice(0, 1);
+
+  // Photos per placement
+  const primaryTheme = mapped.primary;
 
   return {
     ready: true,
@@ -201,6 +225,14 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     story,
     organization: CORE_FACTS,
     approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
+    anecdotes: { why: whyAnecdotes, how: howAnecdotes },
+    photos: {
+      why: getPhotoSlots('why', primaryTheme),
+      how: getPhotoSlots('how', primaryTheme),
+      projects: getPhotoSlots('projects', primaryTheme),
+      kurzportrait: getPhotoSlots('kurzportrait'),
+    },
+    partnerHighlights: PARTNER_HIGHLIGHTS,
   };
 }
 

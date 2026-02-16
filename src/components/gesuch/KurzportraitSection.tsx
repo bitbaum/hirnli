@@ -1,4 +1,5 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
+import PhotoPlaceholder from './PhotoPlaceholder';
 
 interface KurzportraitSectionProps {
   dok: ComposedGesuchDokument;
@@ -43,6 +44,11 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
           ))}
         </div>
       </div>
+
+      {/* Team photo placeholder (Gap #2) */}
+      {dok.photos.kurzportrait.map((slot) => (
+        <PhotoPlaceholder key={slot.id} slot={slot} />
+      ))}
 
       {/* Online presence */}
       <div className="rounded border border-border p-4 text-sm">
