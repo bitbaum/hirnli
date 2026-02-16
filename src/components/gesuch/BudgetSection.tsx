@@ -1,19 +1,23 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
+import type { ThemeKey } from '@/lib/config/stories';
+import { getThemedLabel } from '@/lib/config/budget-scenarios';
 import { formatCHF } from '@/lib/utils/format';
 
 interface BudgetSectionProps {
   dok: ComposedGesuchDokument;
 }
 
-function LineItemRows({ items, total }: { items: BudgetLineItem[]; total: number }) {
+function LineItemRows({ items, total, themeKey }: { items: BudgetLineItem[]; total: number; themeKey?: ThemeKey }) {
   return (
     <>
-      {items.map((item) => (
+      {items.map((item) => {
+        const themed = getThemedLabel(item, themeKey);
+        return (
         <tr key={item.id} className="border-b border-border">
           <td className="py-1.5">
-            <span className="font-medium">{item.icon} {item.label}</span>
-            <span className="ml-2 text-xs text-text-muted">{item.description}</span>
+            <span className="font-medium">{item.icon} {themed.label}</span>
+            <span className="ml-2 text-xs text-text-muted">{themed.description}</span>
             {item.subItems && item.subItems.length > 0 && (
               <div className="mt-1 ml-4 text-xs text-text-muted">
                 {item.subItems.map((sub, idx) => (
@@ -29,12 +33,14 @@ function LineItemRows({ items, total }: { items: BudgetLineItem[]; total: number
             {Math.round((item.amount / total) * 100)}%
           </td>
         </tr>
-      ))}
+        );
+      })}
     </>
   );
 }
 
 export default function BudgetSection({ dok }: BudgetSectionProps) {
+  const themeKey = dok.budget.primaryThemeKey;
   const einmalig = dok.budget.lineItems.filter((m) => m.type === 'einmalig');
   const jaehrlich = dok.budget.lineItems.filter((m) => m.type === 'jaehrlich');
   const einmaligTotal = einmalig.reduce((sum, m) => sum + m.amount, 0);
@@ -124,14 +130,14 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
             <td className="py-2 font-semibold" colSpan={2}>Einmalige Investitionen</td>
             <td className="py-2 text-right text-xs text-text-muted">{formatCHF(einmaligTotal)}</td>
           </tr>
-          <LineItemRows items={einmalig} total={year1Total} />
+          <LineItemRows items={einmalig} total={year1Total} themeKey={themeKey} />
 
           {/* Jährliche Kosten */}
           <tr className="border-b border-border bg-bg-light">
             <td className="py-2 font-semibold" colSpan={2}>Jährliche Kosten</td>
             <td className="py-2 text-right text-xs text-text-muted">{formatCHF(jaehrlichTotal)}</td>
           </tr>
-          <LineItemRows items={jaehrlich} total={year1Total} />
+          <LineItemRows items={jaehrlich} total={year1Total} themeKey={themeKey} />
 
           <tr className="border-b-2 border-grey-dark font-bold">
             <td className="py-2">Gesamtbedarf Jahr 1</td>

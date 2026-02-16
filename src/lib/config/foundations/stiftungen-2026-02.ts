@@ -971,7 +971,7 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     applicationProcess: [
       'Online-Gesuch auf zh.ch (Formular)',
       'Kleine Projekte (bis CHF 5000): laufend, Entscheid innert 1 Monat',
-      'Größere Projekte (bis CHF 50k): 2 Runden/Jahr, Entscheid innert 2 Monaten',
+      'Grössere Projekte (bis CHF 50k): 2 Runden/Jahr, Entscheid innert 2 Monaten',
       'Erstbewerber: vorgängig Fachstelle kontaktieren empfohlen',
     ],
     sourceLinks: [
@@ -1232,7 +1232,7 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     amount: { min: null, max: null, text: 'Zero-Equity (kein Geld, aber Zugang zu Corporates/Pilots)' },
     fit: 2,
     priority: 3,
-    tagline: 'Europas größte Zero-Equity Innovation Platform',
+    tagline: 'Europas grösste Zero-Equity Innovation Platform',
     region: 'Schweiz (Sitz Zürich)',
     websiteUrl: 'https://www.kickstart-innovation.com',
     applicationMethod: 'online',

@@ -19,6 +19,12 @@ export const BudgetSourceSchema = z.object({
   notes: z.string().optional(),
 });
 
+// Theme-specific label override for Robert Rule III (same cost, different framing)
+const ThemeLabelSchema = z.object({
+  label: z.string(),
+  description: z.string(),
+});
+
 // Atomic unit: single budget line item
 export const BudgetLineItemSchema = z.object({
   id: z.string().min(1),
@@ -35,6 +41,7 @@ export const BudgetLineItemSchema = z.object({
   })).optional(),
   icon: z.string().optional(),
   isOptional: z.boolean().default(false),
+  themeLabels: z.record(z.string(), ThemeLabelSchema).optional(),
 });
 
 // Scenario: collection of line items with 3-year financial model

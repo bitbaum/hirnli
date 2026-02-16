@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { TYPE_LABELS } from '@/lib/config/foundations';
-import { TYPE_TEMPLATE_KEYS, TEMPLATE_LABELS } from '@/lib/config/gesuch-templates';
+import { TYPE_TEMPLATE_KEYS, TEMPLATE_LABELS, SCHWERPUNKT_TEMPLATE_TYPES } from '@/lib/config/gesuch-templates';
+import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 
 export const metadata: Metadata = {
   title: 'Gesuch-Vorlagen — Revamp-IT',
-  description: 'Gesuch-Referenzvorlagen nach Stiftungstyp (A/B/C/D/Netzwerk) plus universelle Fallback-Vorlage',
+  description: 'Gesuch-Vorlagen nach Schwerpunkt und Stiftungstyp — themenspezifische und typbasierte Referenzvorlagen',
 };
 
 function TemplateCard({ slug, title, description, subtitle }: {
@@ -52,17 +53,68 @@ export default function GesuchVorlagenPage() {
       <div className="mb-8">
         <h1 className="mb-4 text-3xl font-bold text-grey-dark">Gesuch-Vorlagen</h1>
         <p className="mb-2 text-lg text-text-light">
-          6 Referenz-Vorlagen: nach Stiftungstyp (A/B/C/D/Netzwerk) + eine universelle Fallback-Vorlage.
+          Vorlagen nach Schwerpunkt (themenspezifisch) und Stiftungstyp (tonspezifisch).
         </p>
         <p className="text-sm text-text-muted">
-          Verwenden Sie diese als Ausgangspunkt für neue Stiftungen. Jede Vorlage zeigt die richtige Struktur,
-          den passenden Ton und relevante Inhalte für den jeweiligen Foundation-Typ.
+          Jede Vorlage zeigt die richtige Struktur, den passenden Ton und relevante Inhalte.
           Platzhalter wie <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">[Name der Stiftung]</span> ersetzen
           Sie mit echten Angaben.
         </p>
       </div>
 
-      {/* Section 1: Universelle Vorlage */}
+      {/* Section 1: Nach Schwerpunkt (primary — the new way) */}
+      <section className="mb-10">
+        <h2 className="mb-2 text-xl font-semibold text-grey-dark">Nach Schwerpunkt</h2>
+        <p className="mb-4 text-sm text-text-light">
+          Wählen Sie den thematischen Schwerpunkt, der zur Stiftung passt.
+          Gleiches Budget, unterschiedliche Framing — die Stiftung sieht genau die Aktivitäten,
+          die ihrem Förderzweck entsprechen.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {SCHWERPUNKT_IDS.map((id) => {
+            const sp = SCHWERPUNKTE[id];
+            return (
+              <div key={id} className="rounded-xl border border-border bg-white p-5">
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="text-2xl">{sp.icon}</span>
+                  <div>
+                    <h3 className="font-semibold text-grey-dark">{sp.shortLabel}</h3>
+                    <p className="text-xs text-text-muted">{sp.description}</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {SCHWERPUNKT_TEMPLATE_TYPES.map((type) => {
+                    const typeLabel = TYPE_LABELS[type];
+                    return (
+                      <div key={type} className="flex gap-1">
+                        <Link
+                          href={`/fundraising/gesuch-vorlagen/${id}/${type}`}
+                          className="rounded-md bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20"
+                          title={`${sp.shortLabel} × ${typeLabel.long}`}
+                        >
+                          {typeLabel.short}
+                        </Link>
+                        <Link
+                          href={`/fundraising/gesuch-vorlagen/${id}/${type}/dokument`}
+                          className="rounded-md border border-border px-2 py-1.5 text-xs text-text-muted hover:bg-bg-light"
+                          title={`${sp.shortLabel} × ${typeLabel.long} (Dokument)`}
+                        >
+                          PDF
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="mt-2 text-xs text-text-muted">
+                  A = Professionell · B = Familienstiftung · C = Klein
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Section 2: Universelle Vorlage */}
       <section className="mb-10">
         <h2 className="mb-2 text-xl font-semibold text-grey-dark">Universelle Vorlage</h2>
         <p className="mb-4 text-sm text-text-light">
@@ -76,15 +128,12 @@ export default function GesuchVorlagenPage() {
         />
       </section>
 
-      {/* Section 2: Nach Stiftungstyp (Robert Schmuki) */}
+      {/* Section 3: Nach Stiftungstyp (legacy) */}
       <section className="mb-10">
         <h2 className="mb-2 text-xl font-semibold text-grey-dark">Nach Stiftungstyp</h2>
         <p className="mb-4 text-sm text-text-light">
-          Jeder Stiftungstyp benötigt eine andere Ansprache und Struktur:
-          Typ A (professionalisierte Foundations) = strukturiert & metriklastig.
-          Typ C (kleine Familienstiftungen) = kurz & persönlich.
-          Typ D (Corporate) = business-case & ROI.
-          Netzwerk = Partnerschaft statt Förderantrag.
+          Klassische Vorlagen nur nach Typ — wenn Sie den Schwerpunkt noch nicht kennen,
+          aber den Stiftungstyp schon. Inkl. D (Corporate) und Netzwerk.
         </p>
         <div className="mb-4 grid gap-2 text-sm md:grid-cols-5">
           {TYPE_TEMPLATE_KEYS.map((type) => {
@@ -112,7 +161,6 @@ export default function GesuchVorlagenPage() {
           })}
         </div>
       </section>
-
 
       <div className="mt-8 rounded-lg bg-bg-light p-6 text-center">
         <p className="mb-3 text-sm text-text-light">

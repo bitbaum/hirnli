@@ -1,4 +1,5 @@
 import type { BudgetLineItem, BudgetScenario, EigenleistungConfig } from '@/lib/schemas/budget';
+import type { ThemeKey } from '@/lib/config/stories';
 
 /**
  * Budget Scenarios Configuration - SSOT
@@ -31,6 +32,12 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
       notes: 'City Zürich würde CHF 137-192k/Jahr kosten (zu teuer für NGO-Budget)',
     },
     icon: '🏢',
+    themeLabels: {
+      klima: { label: 'Kreislaufwirtschafts-Hub (Miete)', description: 'Werkstatt + Lager für Geräte-Refurbishing und Recycling-Logistik' },
+      sozial: { label: 'Integrationszentrum (Miete)', description: 'Arbeitsplätze für begleitete Reintegration und Praktika' },
+      bildung: { label: 'Bildungs- und Workshopzentrum (Miete)', description: 'Schulungsräume, Makerspace und Übungswerkstatt' },
+      digital: { label: 'Open-Source-Werkstatt & Serverraum (Miete)', description: 'Werkstatt für Linux-Refurbishing und klimatisierter GPU-Raum' },
+    },
   },
 
   // ==================== EQUIPMENT ====================
@@ -55,6 +62,12 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
       { label: 'Reserve & Unvorhergesehenes (16%)', amount: 4_000 },
     ],
     icon: '🔧',
+    themeLabels: {
+      klima: { label: 'Refurbishing-Werkstatt Einrichtung', description: 'Arbeitsplätze für Geräte-Aufbereitung und Lebensdauerverlängerung' },
+      sozial: { label: 'Integrations-Werkstatt Einrichtung', description: 'Betreute Arbeitsplätze für Praktikant:innen und Teilnehmende' },
+      bildung: { label: 'Lernwerkstatt Einrichtung', description: 'Hands-on-Arbeitsplätze für Hardware-Workshops und Repair Cafés' },
+      digital: { label: 'Linux-Werkstatt Einrichtung', description: 'Diagnose- und Installationsplätze für Open-Source-Refurbishing' },
+    },
   },
 
   {
@@ -154,6 +167,12 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
       { label: 'Verkabelung & Installation (Cat6, Patchpanels)', amount: 4_000 },
     ],
     icon: '🖥️',
+    themeLabels: {
+      klima: { label: 'Betriebsnetzwerk (Refurbishing-Hub)', description: 'Netzwerk-Infrastruktur für Werkstatt und Lager' },
+      sozial: { label: 'IT-Infrastruktur Integrationszentrum', description: 'Netzwerk und Arbeitsplatz-Infrastruktur für Teilnehmende' },
+      bildung: { label: 'Schulungs-IT & Netzwerk', description: 'WLAN, Netzwerk und Drucker für Workshops und Kurse' },
+      digital: { label: 'Souveräne IT-Infrastruktur', description: 'Open-Source-Netzwerk (OPNsense, Ubiquiti) ohne Vendor-Lock-in' },
+    },
   },
 
   {
@@ -222,6 +241,12 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
       { label: 'Person 2: AI Literacy Lead (60%)', amount: 90_000 },
     ],
     icon: '👥',
+    themeLabels: {
+      klima: { label: 'Fachleitung Kreislaufwirtschafts-Programme (2 Personen)', description: 'Leitung CO\u2082-Reduktion durch Geräte-Refurbishing und Recycling-Prozesse' },
+      sozial: { label: 'Leitung Begleitete Arbeitsintegration (2 Personen)', description: 'Strukturierte IT-Reintegration und sozialpädagogische Begleitung' },
+      bildung: { label: 'Programmleitung Digitale Kompetenzen (2 Personen)', description: 'Konzeption und Durchführung von Workshops und Trainings' },
+      digital: { label: 'Leitung Open-Source & Souveräne IT (2 Personen)', description: 'Aufbau vendor-unabhängiger, datenschutzkonformer IT-Lösungen' },
+    },
   },
 
   // ==================== PROGRAMS ====================
@@ -245,6 +270,12 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
       { label: 'Lernmaterialien (Bücher, Handouts)', amount: 3_000 },
     ],
     icon: '📚',
+    themeLabels: {
+      klima: { label: 'Reparatur- und Recycling-Material', description: 'Ersatzteile, Diagnosewerkzeuge und Verbrauchsmaterial für Refurbishing' },
+      sozial: { label: 'Integrations-Programm Material', description: 'Lernmaterial und Übungsgeräte für Praktikant:innen' },
+      bildung: { label: 'Workshop-Materialien & Kursunterlagen', description: 'Elektronik-Kits, Software-Lizenzen und Handouts für Teilnehmende' },
+      digital: { label: 'Open-Source-Schulungsmaterial', description: 'Linux-Übungsgeräte, Dokumentation und Installations-Medien' },
+    },
   },
 
   {
@@ -268,6 +299,12 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     ],
     icon: '🎉',
     isOptional: true,
+    themeLabels: {
+      klima: { label: 'Repair Cafés & Nachhaltigkeits-Events', description: 'Community-Reparaturveranstaltungen und Kreislaufwirtschafts-Demos' },
+      sozial: { label: 'Integrations-Events & Netzwerktreffen', description: 'Vernetzung mit Arbeitgebern, RAV und Sozialinstitutionen' },
+      bildung: { label: 'Hack-Nights & Bildungs-Events', description: 'Community-Workshops, Vorträge und Hands-on-Abende' },
+      digital: { label: 'Open-Source-Meetups & Install-Feste', description: 'Linux Install Parties, Open-Source-Demos und Community-Treffen' },
+    },
   },
 
   {
@@ -297,7 +334,7 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     amount: 10_000,
     type: 'jaehrlich',
     source: {
-      methodology: 'Pauschalschätzung basierend auf Raumgröße',
+      methodology: 'Pauschalschätzung basierend auf Raumgrösse',
       calculation: 'CHF 15-20/m²/Jahr für 550m² = CHF 10k',
       confidence: 'medium',
       lastVerified: '2026-02-13',
@@ -308,6 +345,12 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
       { label: 'Verbrauchsmaterial (Werkstatt, Shop)', amount: 4_000 },
     ],
     icon: '🧹',
+    themeLabels: {
+      klima: { label: 'Betriebsmaterial Kreislaufwirtschaft', description: 'Reinigung, Verpackung und Logistikmaterial für Geräte-Kreislauf' },
+      sozial: { label: 'Betriebsmaterial Integrationsbetrieb', description: 'Büro- und Werkstattmaterial für den täglichen Betrieb' },
+      bildung: { label: 'Betriebsmaterial Bildungszentrum', description: 'Verbrauchsmaterial für Workshops, Kurse und Veranstaltungen' },
+      digital: { label: 'Betriebsmaterial Open-Source-Lab', description: 'Installationsmedien, Kabel und Verbrauchsmaterial' },
+    },
   },
 
   {
@@ -452,4 +495,12 @@ export function getLineItemsForScenario(scenarioId: string): BudgetLineItem[] {
   return scenario.lineItemIds
     .map((id) => getLineItem(id))
     .filter((item): item is BudgetLineItem => item !== undefined);
+}
+
+/** Get themed label for a budget line item (Robert Rule III: same cost, different framing) */
+export function getThemedLabel(item: BudgetLineItem, themeKey?: ThemeKey): { label: string; description: string } {
+  if (themeKey && item.themeLabels?.[themeKey]) {
+    return item.themeLabels[themeKey];
+  }
+  return { label: item.label, description: item.description };
 }

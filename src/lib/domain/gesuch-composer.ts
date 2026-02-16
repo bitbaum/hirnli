@@ -25,6 +25,7 @@ import {
   getScenario,
   getLineItemsForScenario,
 } from '@/lib/config/budget-scenarios';
+import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { BudgetLineItem, BudgetScenario } from '@/lib/schemas/budget';
 import { calculate3YearTotals } from '@/lib/domain/budget-calculations';
 import {
@@ -99,6 +100,7 @@ export interface ComposedGesuchDokument extends ComposedGesuch {
     stiftungen3yTotal: number;
     eigen3yTotal: number;
     project3yTotal: number;
+    primaryThemeKey?: ThemeKey;
   };
   kurzportrait: {
     facts: { label: string; value: string }[];
@@ -126,6 +128,14 @@ function mapFoundationThemes(foundation: Foundation) {
   return { primary: sorted[0], secondary: sorted.slice(1), all: mappedThemes };
 }
 
+/** Map Schwerpunkt to story themes — overrides foundation's own theme list */
+function mapSchwerpunktThemes(schwerpunktId: SchwerpunktId) {
+  const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
+  const primary = schwerpunkt.storyThemes[0];
+  const secondary = schwerpunkt.storyThemes.slice(1);
+  return { primary, secondary, all: schwerpunkt.storyThemes };
+}
+
 function collectThemeMetadata(foundation: Foundation): ThemeMetadata[] {
   return foundation.themes
     .map((id) => THEMES[id])
@@ -149,9 +159,11 @@ function buildFoundationInfo(foundation: Foundation) {
 // composeGesuch — Landing page content
 // ============================================================================
 
-export function composeGesuch(foundation: Foundation): ComposedGesuch {
+export function composeGesuch(foundation: Foundation, schwerpunktId?: SchwerpunktId): ComposedGesuch {
   const typeLabel = TYPE_LABELS[foundation.type];
-  const mapped = mapFoundationThemes(foundation);
+  const mapped = schwerpunktId
+    ? mapSchwerpunktThemes(schwerpunktId)
+    : mapFoundationThemes(foundation);
 
   // Quality gate — only generate Gesuchs for Priority 1-2 foundations
   if (foundation.needsResearch || mapped.all.length === 0 || (foundation.priority && foundation.priority >= 3)) {
@@ -254,8 +266,8 @@ function buildFoundationAddress(foundation: Foundation): string {
   return parts.join('\n');
 }
 
-export function composeGesuchDokument(foundation: Foundation): ComposedGesuchDokument {
-  const gesuch = composeGesuch(foundation);
+export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: SchwerpunktId): ComposedGesuchDokument {
+  const gesuch = composeGesuch(foundation, schwerpunktId);
   const template = ANSCHREIBEN_TEMPLATES[foundation.type] ?? ANSCHREIBEN_TEMPLATES['A'];
   const themeMetadata = collectThemeMetadata(foundation);
 
@@ -295,6 +307,9 @@ export function composeGesuchDokument(foundation: Foundation): ComposedGesuchDok
       stiftungen3yTotal: STIFTUNGEN_3Y_TOTAL,
       eigen3yTotal: EIGEN_3Y_TOTAL,
       project3yTotal: PROJECT_3Y_TOTAL,
+      primaryThemeKey: schwerpunktId
+        ? SCHWERPUNKTE[schwerpunktId].storyThemes[0]
+        : undefined,
     },
     kurzportrait: {
       facts: [

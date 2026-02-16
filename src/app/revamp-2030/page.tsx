@@ -88,7 +88,7 @@ export default function Revamp2030Page() {
                   <p className="text-red-800">
                     Unser Team leistet <strong>hervorragende Arbeit</strong>, aber die Kapazität ist begrenzt.
                     Wir haben <strong>ungenutzte Infrastruktur</strong> (Tische, Raum, Tools),
-                    aber <strong>keine bezahlten Fachleute, die ausschließlich Programme entwickeln, organisieren und skalieren</strong>.
+                    aber <strong>keine bezahlten Fachleute, die ausschliesslich Programme entwickeln, organisieren und skalieren</strong>.
                     Mehr Raum allein löst das nicht — wir brauchen <strong>dedizierte Bildungs- & Prozessleitung</strong>.
                   </p>
                 </div>

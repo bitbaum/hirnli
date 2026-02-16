@@ -10,7 +10,9 @@
  * that users replace when customizing for a specific foundation.
  */
 
-import type { Foundation } from '@/lib/schemas/foundation';
+import type { Foundation, FoundationType } from '@/lib/schemas/foundation';
+import { SCHWERPUNKTE, SCHWERPUNKT_IDS, type SchwerpunktId } from '@/lib/config/schwerpunkte';
+import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
 
 /** Virtual foundations per template key — placeholder data for template generation */
 export const TEMPLATE_FOUNDATIONS: Record<string, Foundation> = {
@@ -175,4 +177,62 @@ export const TEMPLATE_LABELS: Record<string, { short: string; long: string; desc
 /** Get a template foundation by type */
 export function getTemplateFoundation(type: string): Foundation | undefined {
   return TEMPLATE_FOUNDATIONS[type];
+}
+
+// =========================================================================
+// Schwerpunkt × Type Templates (4 Schwerpunkte × 3 Types = 12 templates)
+// =========================================================================
+
+/** Only generate A/B/C for Schwerpunkt templates (D and network are niche legacy) */
+export const SCHWERPUNKT_TEMPLATE_TYPES = ['A', 'B', 'C'] as const;
+
+/** Amount ranges per type — reflects Robert Schmuki's typical ranges */
+const SCHWERPUNKT_AMOUNTS: Record<string, { min: number; max: number; text: string }> = {
+  A: { min: 20000, max: 50000, text: "CHF 20'000–50'000" },
+  B: { min: 10000, max: 30000, text: "CHF 10'000–30'000" },
+  C: { min: 5000, max: 15000, text: "CHF 5'000–15'000" },
+};
+
+/** Create a template foundation for a Schwerpunkt × Type combination */
+function createSchwerpunktTemplate(schwerpunktId: SchwerpunktId, type: string): Foundation {
+  const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
+  const typeLabel = TYPE_LABELS[type as FoundationType];
+  const amount = SCHWERPUNKT_AMOUNTS[type] ?? SCHWERPUNKT_AMOUNTS['B'];
+
+  return {
+    slug: `vorlage-${schwerpunktId}-${type.toLowerCase()}`,
+    name: '[Name der Stiftung]',
+    type: type as FoundationType,
+    status: 'rolling',
+    deadline: null,
+    deadlineText: 'Laufend',
+    amount,
+    fit: 3,
+    priority: 1,
+    tagline: `Vorlage: ${schwerpunkt.shortLabel} × Typ ${typeLabel.short}`,
+    region: '[Region]',
+    websiteUrl: 'https://example.ch',
+    applicationMethod: type === 'A' ? 'online' : type === 'B' ? 'email' : 'contact',
+    contact: { address: '[Adresse der Stiftung]', email: '[email@stiftung.ch]' },
+    themes: schwerpunkt.themeIds,
+    source: 'manual',
+    researchDate: '2026-02-16',
+    needsResearch: false,
+    purposeSummary: '[Stiftungszweck hier einfügen]',
+    researchNotes: `Schwerpunkt-Vorlage: ${schwerpunkt.label} (Typ ${typeLabel.short})`,
+  };
+}
+
+/** Get a Schwerpunkt template foundation */
+export function getSchwerpunktTemplate(schwerpunktId: string, type: string): Foundation | undefined {
+  if (!SCHWERPUNKT_IDS.includes(schwerpunktId as SchwerpunktId)) return undefined;
+  if (!SCHWERPUNKT_TEMPLATE_TYPES.includes(type as typeof SCHWERPUNKT_TEMPLATE_TYPES[number])) return undefined;
+  return createSchwerpunktTemplate(schwerpunktId as SchwerpunktId, type);
+}
+
+/** All valid Schwerpunkt route params (for generateStaticParams) */
+export function getSchwerpunktStaticParams(): { schwerpunkt: string; type: string }[] {
+  return SCHWERPUNKT_IDS.flatMap((s) =>
+    SCHWERPUNKT_TEMPLATE_TYPES.map((t) => ({ schwerpunkt: s, type: t }))
+  );
 }

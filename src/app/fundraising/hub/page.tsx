@@ -514,7 +514,7 @@ export default function HubPage() {
                   <ul className="text-xs text-cyan-800 space-y-1">
                     <li>• 4-6× Professional GPUs (NVIDIA A40, teilweise gespendet von Unternehmen)</li>
                     <li>• 2× Server-Racks mit professioneller Kühlung</li>
-                    <li>• <strong>Wirkung:</strong> AI-gestützte Hardware-Diagnostik, AI Hosting für NGOs/KMUs, größere Modelle trainieren</li>
+                    <li>• <strong>Wirkung:</strong> AI-gestützte Hardware-Diagnostik, AI Hosting für NGOs/KMUs, grössere Modelle trainieren</li>
                   </ul>
                 </div>
 

@@ -57,7 +57,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
       <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted mb-3">
         {document.size && (
           <span>
-            <strong>Größe:</strong> {document.size}
+            <strong>Grösse:</strong> {document.size}
           </span>
         )}
         {document.lastUpdated && (
