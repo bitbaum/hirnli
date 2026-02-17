@@ -19,6 +19,7 @@ import { DATA_GAPS, WIRKUNG_NEXT_STEPS } from './data';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
+import ShareButton from '@/components/ui/ShareButton';
 
 export default function WirkungClient() {
   const {
@@ -43,10 +44,15 @@ export default function WirkungClient() {
 
   return (
     <div>
-      <PageHeader
-        title={`Unsere Wirkung ${selectedYear}`}
-        subtitle="Jedes Gerät, das wir retten, vermeidet Elektroschrott und schenkt neues digitales Leben."
-      />
+      <div className="flex items-start justify-between gap-4 mb-0">
+        <PageHeader
+          title={`Unsere Wirkung ${selectedYear}`}
+          subtitle="Jedes Gerät, das wir retten, vermeidet Elektroschrott und schenkt neues digitales Leben."
+        />
+        <div className="shrink-0 pt-1">
+          <ShareButton />
+        </div>
+      </div>
 
       <WhyThisMatters
         purpose="Impact-Kennzahlen zeigen konkret, welchen Umwelt- und Sozialeffekt wir erzielen."

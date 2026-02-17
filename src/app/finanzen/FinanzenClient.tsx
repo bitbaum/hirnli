@@ -12,6 +12,7 @@ import YearSelector from '@/components/ui/YearSelector';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
+import ShareButton from '@/components/ui/ShareButton';
 
 const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
   ssr: false,
@@ -86,11 +87,16 @@ export default function FinanzenClient() {
 
   return (
     <div>
-      <PageHeader
-        title="Finanzübersicht"
-        subtitle="Einnahmen & Aufwand — Kivitendo Buchhaltung 2018–2025"
-        badge="Quelldaten aus Buchhaltung"
-      />
+      <div className="flex items-start justify-between gap-4 mb-0">
+        <PageHeader
+          title="Finanzübersicht"
+          subtitle="Einnahmen & Aufwand — Kivitendo Buchhaltung 2018–2025"
+          badge="Quelldaten aus Buchhaltung"
+        />
+        <div className="shrink-0 pt-1">
+          <ShareButton />
+        </div>
+      </div>
 
       <WhyThisMatters
         purpose="Transparente Finanzdaten zeigen unsere wirtschaftliche Entwicklung und Herausforderungen."
