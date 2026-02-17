@@ -23,6 +23,7 @@ import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
 import { APPLICATION_STATUSES, KANBAN_COLUMNS } from '@/lib/config/application-statuses';
+import { formatCHF } from '@/lib/utils/format';
 import type { Application, Foundation } from '@/lib/db/schema';
 
 interface ApplicationWithFoundation {
@@ -180,11 +181,19 @@ export function ApplicationBoard() {
     );
   }
 
+  // Stats derived from applications state — no extra API call
+  const totalRequested = applications.reduce(
+    (sum, { application }) => sum + (application.requestedAmount || 0),
+    0
+  )
+  const submittedCount = applications.filter(
+    ({ application }) => application.status === 'submitted'
+  ).length
+
   return (
     <div className="space-y-4">
-      {/* Header with refresh button */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Gesuch-Verwaltung</h1>
+      {/* Refresh button */}
+      <div className="flex justify-end">
         <button
           onClick={fetchApplications}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -192,6 +201,21 @@ export function ApplicationBoard() {
           Aktualisieren
         </button>
       </div>
+
+      {/* Stats bar — only shown when there is data */}
+      {applications.length > 0 && (
+        <div className="flex flex-wrap gap-6 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">
+          <span>
+            <span className="font-semibold text-gray-900">{applications.length}</span> Gesuche
+          </span>
+          <span>
+            <span className="font-semibold text-gray-900">{formatCHF(totalRequested)}</span> beantragt
+          </span>
+          <span>
+            <span className="font-semibold text-gray-900">{submittedCount}</span> eingereicht
+          </span>
+        </div>
+      )}
 
       {/* Kanban board */}
       <DndContext

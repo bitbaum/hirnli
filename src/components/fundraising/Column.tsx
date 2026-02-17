@@ -73,8 +73,8 @@ export function Column({ status, applications }: ColumnProps) {
           strategy={verticalListSortingStrategy}
         >
           {applications.length === 0 ? (
-            <div className="text-center text-gray-400 text-sm py-8">
-              Keine Gesuche
+            <div className="flex items-center justify-center h-16 text-gray-400 text-sm select-none">
+              Hierher ziehen
             </div>
           ) : (
             applications.map(({ application, foundation }) => (
