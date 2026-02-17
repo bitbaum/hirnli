@@ -192,72 +192,84 @@ export function ApplicationBoard() {
 
   return (
     <div className="space-y-4">
-      {/* Refresh button */}
-      <div className="flex justify-end">
-        <button
-          onClick={fetchApplications}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Aktualisieren
-        </button>
-      </div>
-
-      {/* Stats bar — only shown when there is data */}
-      {applications.length > 0 && (
-        <div className="flex flex-wrap gap-6 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">
-          <span>
-            <span className="font-semibold text-gray-900">{applications.length}</span> Gesuche
-          </span>
-          <span>
-            <span className="font-semibold text-gray-900">{formatCHF(totalRequested)}</span> beantragt
-          </span>
-          <span>
-            <span className="font-semibold text-gray-900">{submittedCount}</span> eingereicht
-          </span>
-        </div>
-      )}
-
-      {/* Kanban board */}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <div className="grid grid-cols-5 gap-4 h-[calc(100vh-200px)]">
-          {applicationsByStatus.map(({ status, applications }) => (
-            <Column
-              key={status.id}
-              status={status}
-              applications={applications}
-            />
-          ))}
-        </div>
-
-        {/* Drag overlay */}
-        <DragOverlay>
-          {activeApplication ? (
-            <div className="rotate-3 opacity-90">
-              <ApplicationCard
-                application={activeApplication.application}
-                foundation={activeApplication.foundation}
-              />
-            </div>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
-
-      {/* Empty state */}
-      {applications.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500 mb-4">Noch keine Gesuche vorhanden</p>
+      {/* Header row: stats + actions */}
+      <div className="flex items-center justify-between gap-4">
+        {applications.length > 0 ? (
+          <div className="flex flex-wrap gap-6 text-sm text-gray-700">
+            <span>
+              <span className="font-semibold text-gray-900">{applications.length}</span> Gesuche
+            </span>
+            <span>
+              <span className="font-semibold text-gray-900">{formatCHF(totalRequested)}</span> beantragt
+            </span>
+            <span>
+              <span className="font-semibold text-gray-900">{submittedCount}</span> eingereicht
+            </span>
+          </div>
+        ) : (
+          <div />
+        )}
+        <div className="flex gap-2 shrink-0">
           <a
             href="/fundraising/stiftungen"
-            className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 text-sm font-medium"
           >
-            Stiftungen durchsuchen
+            + Gesuch hinzufügen
+          </a>
+          <button
+            onClick={fetchApplications}
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+          >
+            Aktualisieren
+          </button>
+        </div>
+      </div>
+
+      {/* Empty state — shown instead of the board when no applications exist */}
+      {applications.length === 0 ? (
+        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 py-20 text-center">
+          <p className="text-lg font-semibold text-gray-700 mb-1">Noch keine Gesuche</p>
+          <p className="text-sm text-gray-500 mb-6 max-w-xs">
+            Wähle eine Stiftung aus der Liste und klicke auf &ldquo;Gesuch starten&rdquo;,
+            um sie in die Pipeline aufzunehmen.
+          </p>
+          <a
+            href="/fundraising/stiftungen"
+            className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm font-semibold"
+          >
+            Stiftungen durchsuchen →
           </a>
         </div>
+      ) : (
+        /* Kanban board */
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="grid grid-cols-5 gap-4 h-[calc(100vh-200px)]">
+            {applicationsByStatus.map(({ status, applications }) => (
+              <Column
+                key={status.id}
+                status={status}
+                applications={applications}
+              />
+            ))}
+          </div>
+
+          {/* Drag overlay */}
+          <DragOverlay>
+            {activeApplication ? (
+              <div className="rotate-3 opacity-90">
+                <ApplicationCard
+                  application={activeApplication.application}
+                  foundation={activeApplication.foundation}
+                />
+              </div>
+            ) : null}
+          </DragOverlay>
+        </DndContext>
       )}
     </div>
   );
