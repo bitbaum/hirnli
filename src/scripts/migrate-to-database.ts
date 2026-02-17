@@ -1,12 +1,15 @@
 /**
- * Migration Script: TypeScript + JSON → SQLite Database
+ * Migration Script: TypeScript + JSON → Neon Database
  *
  * Imports foundation data from:
  * 1. TypeScript config files (107 foundations)
  * 2. JSON research files (82+ foundations)
  *
- * Run with: npx tsx src/scripts/migrate-to-database.ts
+ * Run with: npm run migrate
  */
+
+import { config } from 'dotenv';
+config({ path: '.env.local' });
 
 import { readFileSync } from 'fs';
 import { resolve } from 'path';

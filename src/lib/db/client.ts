@@ -1,30 +1,19 @@
 /**
- * Database Client - Turso Connection
+ * Database Client - Neon PostgreSQL Connection
  *
- * Singleton pattern for database connection.
- * Uses Turso (hosted SQLite) with edge replication.
+ * Uses the shared revampit Neon DB via HTTP (edge-compatible).
+ * Tables are prefixed with `fundraising_` to avoid conflicts.
  *
  * Environment Variables Required:
- * - DATABASE_URL: libsql://[database].turso.io
- * - DATABASE_AUTH_TOKEN: [token]
+ * - DATABASE_URL: postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require
  */
 
-import { drizzle } from 'drizzle-orm/libsql';
-import { createClient } from '@libsql/client';
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
 import * as schema from './schema';
 
-// Environment validation
-const DATABASE_URL = process.env.DATABASE_URL || '';
-const DATABASE_AUTH_TOKEN = process.env.DATABASE_AUTH_TOKEN || '';
+const sql = neon(process.env.DATABASE_URL!);
 
-// Create Turso client (will fail at runtime if env vars missing, but won't fail at build time)
-const client = DATABASE_URL ? createClient({
-  url: DATABASE_URL,
-  authToken: DATABASE_AUTH_TOKEN,
-}) : null;
+export const db = drizzle(sql, { schema });
 
-// Create Drizzle instance with schema
-export const db = client ? drizzle(client, { schema }) : null as any;
-
-// Export types for convenience
 export type Database = typeof db;

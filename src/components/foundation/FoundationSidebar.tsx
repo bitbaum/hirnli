@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
+import AddToPipelineButton from './AddToPipelineButton';
 
 interface FoundationSidebarProps {
   foundation: Foundation;
@@ -108,6 +109,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Gesuch</h3>
         <div className="space-y-2">
+          <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
           <Link
             href={`/fundraising/stiftungen/${f.slug}/gesuch`}
             className="block rounded-lg bg-primary/10 px-4 py-3 text-center text-sm font-semibold text-primary hover:bg-primary/20"

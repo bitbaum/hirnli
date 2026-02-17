@@ -105,6 +105,7 @@ export const NAV_STRUCTURE: {
           items: [
             { text: `${STIFTUNGEN_DATA.length} Stiftungen`, href: '/fundraising/stiftungen', desc: '🔍 Mit Fit-Score, Themen, Deadlines, Beträgen' },
             { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: `📝 ${TEMPLATE_TYPES.length} Referenz-Vorlagen nach Typ (A/B/C/D)` },
+            { text: 'Gesuch-Pipeline', href: '/fundraising/applications', desc: '📋 Stiftungsgesuche verwalten und nachverfolgen' },
           ],
         },
       ],

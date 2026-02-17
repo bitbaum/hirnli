@@ -1,22 +1,25 @@
 /**
  * Database Schema - Single Source of Truth
  *
- * All tables defined with Drizzle ORM.
+ * All tables defined with Drizzle ORM for PostgreSQL (Neon).
  * Types are automatically derived from schema (never define separately).
+ *
+ * Table names prefixed with `fundraising_` to avoid conflicts with
+ * revampit's existing tables in the shared Neon database.
  *
  * Schema serves Ground Truth #2: State defines behavior, one source of truth.
  */
 
 import { sql } from 'drizzle-orm';
-import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
+import { text, integer, boolean, pgTable } from 'drizzle-orm/pg-core';
 
 /**
  * Foundations Table - SSOT for all foundation data
  *
- * Stores 189+ foundations (107 from TypeScript legacy + 82 from JSON research files).
+ * Stores 267+ foundations from TypeScript config + research JSON files.
  * This is the primary entity for the fundraising intelligence platform.
  */
-export const foundations = sqliteTable('foundations', {
+export const foundations = pgTable('fundraising_foundations', {
   // Primary key - kebab-case slug (e.g., 'volkart-stiftung')
   id: text('id').primaryKey(),
 
@@ -56,9 +59,9 @@ export const foundations = sqliteTable('foundations', {
 
   // Admin
   source: text('source'), // swissfoundations, spheriq, zhaw, typescript-legacy, rapid-assessment, etc.
-  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`),
-  archived: integer('archived', { mode: 'boolean' }).default(false),
+  createdAt: text('created_at').default(sql`now()`),
+  updatedAt: text('updated_at').default(sql`now()`),
+  archived: boolean('archived').default(false),
 });
 
 /**
@@ -67,7 +70,7 @@ export const foundations = sqliteTable('foundations', {
  * Manages the full lifecycle from prospect to accepted/rejected.
  * Each application links to a foundation and tracks status, timeline, outcomes.
  */
-export const applications = sqliteTable('applications', {
+export const applications = pgTable('fundraising_applications', {
   id: text('id').primaryKey(),
   foundationId: text('foundation_id').notNull().references(() => foundations.id),
 
@@ -100,8 +103,8 @@ export const applications = sqliteTable('applications', {
   priorityLevel: integer('priority_level'), // 1-4 (1 = highest)
 
   // Admin
-  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`),
+  createdAt: text('created_at').default(sql`now()`),
+  updatedAt: text('updated_at').default(sql`now()`),
 });
 
 /**
@@ -110,7 +113,7 @@ export const applications = sqliteTable('applications', {
  * Rules define how to customize Gesuch documents for specific foundations.
  * Condition → Action pattern allows flexible personalization at scale.
  */
-export const customizationRules = sqliteTable('customization_rules', {
+export const customizationRules = pgTable('fundraising_customization_rules', {
   id: text('id').primaryKey(),
   foundationId: text('foundation_id').references(() => foundations.id), // NULL = global rule
 
@@ -125,10 +128,10 @@ export const customizationRules = sqliteTable('customization_rules', {
   // Metadata
   rationale: text('rationale'), // Why this rule exists (human-readable explanation)
   priority: integer('priority').default(50), // Higher = applied first
-  active: integer('active', { mode: 'boolean' }).default(true),
+  active: boolean('active').default(true),
 
   // Admin
-  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+  createdAt: text('created_at').default(sql`now()`),
 });
 
 /**
@@ -137,7 +140,7 @@ export const customizationRules = sqliteTable('customization_rules', {
  * Immutable log of all actions taken on foundations and applications.
  * Enables full history tracking and accountability.
  */
-export const activityLog = sqliteTable('activity_log', {
+export const activityLog = pgTable('fundraising_activity_log', {
   id: text('id').primaryKey(),
 
   // What was modified
@@ -152,7 +155,7 @@ export const activityLog = sqliteTable('activity_log', {
   performedBy: text('performed_by'), // User/system identifier
 
   // When
-  timestamp: text('timestamp').default(sql`CURRENT_TIMESTAMP`),
+  timestamp: text('timestamp').default(sql`now()`),
 });
 
 /**
@@ -161,7 +164,7 @@ export const activityLog = sqliteTable('activity_log', {
  * Manages contact information for foundations with validation status.
  * Supports multiple contacts per foundation.
  */
-export const contacts = sqliteTable('contacts', {
+export const contacts = pgTable('fundraising_contacts', {
   id: text('id').primaryKey(),
   foundationId: text('foundation_id').notNull().references(() => foundations.id),
 
@@ -172,15 +175,15 @@ export const contacts = sqliteTable('contacts', {
   contactRole: text('contact_role'), // Their role at foundation
 
   // Validation
-  validated: integer('validated', { mode: 'boolean' }).default(false),
+  validated: boolean('validated').default(false),
   validationDate: text('validation_date'), // ISO date
-  isPrimary: integer('is_primary', { mode: 'boolean' }).default(false), // Primary contact for foundation
+  isPrimary: boolean('is_primary').default(false), // Primary contact for foundation
 
   // Notes
   notes: text('notes'), // Communication history, preferences, etc.
 
   // Admin
-  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+  createdAt: text('created_at').default(sql`now()`),
 });
 
 /**
