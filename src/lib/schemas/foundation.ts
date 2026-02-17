@@ -125,6 +125,10 @@ export const foundationSchema = z.object({
   source: SourceId,
   researchDate: z.string(),
   uid: z.string().optional(),
+  // Whether this foundation accepts unsolicited applications from any eligible org.
+  // 'yes' = open submissions, 'no' = closed/no-applications, 'invitation_only' = by invite only,
+  // 'unknown' = not yet researched (default assumption — does not affect screening)
+  acceptsApplications: z.enum(['yes', 'no', 'invitation_only', 'unknown']).optional(),
   purposeSummary: z.string().optional(),
   needsResearch: z.boolean(), // required — see Quality Gate above
   researchNotes: z.string().optional(),
