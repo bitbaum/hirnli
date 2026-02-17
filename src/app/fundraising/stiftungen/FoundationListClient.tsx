@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import PageHeader from '@/components/layout/PageHeader';
 import FilterBar from '@/components/ui/FilterBar';
 import FoundationCard from '@/components/foundation/FoundationCard';
@@ -37,6 +38,25 @@ export default function FoundationListClient() {
     toggleOnlyResearched,
     resetFilters,
   } = useFoundationFilters(STIFTUNGEN_DATA);
+
+  // Foundation slugs that already have a pipeline entry
+  const [pipelineSlugs, setPipelineSlugs] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    fetch('/api/applications')
+      .then((r) => r.json())
+      .then((result) => {
+        if (result.success) {
+          const slugs = new Set<string>(
+            // foundationId stores the slug (set by AddToPipelineButton)
+            result.data
+              .map((item: { application: { foundationId: string } }) => item.application.foundationId)
+              .filter(Boolean),
+          );
+          setPipelineSlugs(slugs);
+        }
+      })
+      .catch(() => {}); // non-critical, silently ignore
+  }, []);
 
   const highFitCount = filtered.filter((f) => f.fit === 3).length;
   const openCount = filtered.filter(
@@ -185,7 +205,7 @@ export default function FoundationListClient() {
       {/* Foundation list */}
       <div className="space-y-3">
         {filtered.map((f) => (
-          <FoundationCard key={f.slug} foundation={f} />
+          <FoundationCard key={f.slug} foundation={f} inPipeline={pipelineSlugs.has(f.slug)} />
         ))}
         {filtered.length === 0 && (
           <div className="rounded-lg border border-border bg-bg-light p-8 text-center text-text-muted">

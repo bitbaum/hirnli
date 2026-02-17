@@ -175,6 +175,31 @@ export default function FundraisingClient() {
         badge="Fundraising"
       />
 
+      {/* Quick actions — where a working fundraiser goes from here */}
+      <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <Link
+          href="/fundraising/stiftungen"
+          className="flex items-center justify-between rounded-xl border-2 border-primary/20 bg-primary/5 px-5 py-4 font-semibold text-primary transition-colors hover:bg-primary/10"
+        >
+          <span>Stiftungen durchsuchen</span>
+          <span aria-hidden="true">→</span>
+        </Link>
+        <Link
+          href="/fundraising/applications"
+          className="flex items-center justify-between rounded-xl border-2 border-violet-200 bg-violet-50 px-5 py-4 font-semibold text-violet-700 transition-colors hover:bg-violet-100"
+        >
+          <span>Pipeline öffnen</span>
+          <span aria-hidden="true">→</span>
+        </Link>
+        <Link
+          href="/fundraising/dashboard"
+          className="flex items-center justify-between rounded-xl border-2 border-gray-200 bg-gray-50 px-5 py-4 font-semibold text-gray-700 transition-colors hover:bg-gray-100"
+        >
+          <span>Dashboard</span>
+          <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+
       {/* ================================================================ */}
       {/* THE STORY — Why we need your help                                */}
       {/* ================================================================ */}

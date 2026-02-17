@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { STIFTUNGEN_DATA, FIT_CONFIG } from '@/lib/config/foundations';
 import { TEAM_MEMBERS } from '@/app/team/data';
 
 export const metadata: Metadata = {
@@ -11,6 +11,12 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  // Top P1/P2 foundations that are open and fully researched — actionable now
+  const topActionable = STIFTUNGEN_DATA
+    .filter(f => f.priority <= 2 && (f.status === 'open' || f.status === 'rolling') && !f.needsResearch)
+    .sort((a, b) => a.priority - b.priority || b.fit - a.fit)
+    .slice(0, 3);
+
   return (
     <>
       {/* Hero Section */}
@@ -39,6 +45,49 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Fundraiser quick-start — top actionable foundations right now */}
+      {topActionable.length > 0 && (
+        <section className="mb-12">
+          <div className="flex items-baseline justify-between mb-4">
+            <h2 className="text-xl font-semibold text-grey-dark">Jetzt beantragbar — P1 & P2</h2>
+            <Link href="/fundraising/stiftungen?status=open" className="text-sm text-primary hover:underline">
+              Alle Stiftungen →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+            {topActionable.map(f => (
+              <Link
+                key={f.slug}
+                href={`/fundraising/stiftungen/${f.slug}`}
+                className="block rounded-xl border border-border bg-white p-4 hover:border-primary/30 hover:shadow-md transition-all"
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-bold bg-danger-bg text-danger rounded px-1.5 py-0.5">P{f.priority}</span>
+                  <span className="text-xs font-bold text-success">{(FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG])?.stars ?? '☆☆☆'}</span>
+                </div>
+                <p className="font-semibold text-grey-dark text-sm">{f.name}</p>
+                <p className="text-xs text-text-muted mt-1">{f.deadlineText}</p>
+                <p className="text-xs text-text-light mt-1 line-clamp-2">{f.tagline}</p>
+              </Link>
+            ))}
+          </div>
+          <div className="flex gap-3">
+            <Link
+              href="/fundraising/applications"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary/90"
+            >
+              Pipeline öffnen →
+            </Link>
+            <Link
+              href="/fundraising/stiftungen"
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-5 py-2.5 text-sm font-semibold text-grey-dark hover:bg-bg-light"
+            >
+              Alle {STIFTUNGEN_DATA.length} Stiftungen
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* What is this site? */}
       <section className="mb-12">
