@@ -27,7 +27,10 @@
     "research:phase3": "tsx scripts/phase-3-research-v2.ts",
     "screen:v2": "tsx scripts/foundation-screen-v2.ts",
     "screen:v3": "tsx scripts/foundation-screen-v3.ts",
-    "screen:v3.1": "tsx scripts/foundation-screen-v3.1.ts"
+    "screen:v3.1": "tsx scripts/foundation-screen-v3.1.ts",
+    "research:queue": "tsx scripts/foundation-research-queue.ts",
+    "registry:migrate": "tsx src/scripts/migrate-registry.ts",
+    "registry:import": "tsx scripts/registry-import.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

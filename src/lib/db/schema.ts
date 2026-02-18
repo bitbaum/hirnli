@@ -14,10 +14,38 @@ import { sql } from 'drizzle-orm';
 import { text, integer, boolean, jsonb, pgTable } from 'drizzle-orm/pg-core';
 
 /**
- * Foundations Table - SSOT for all foundation data
+ * Foundation Registry Table - Universal facts (org-agnostic)
  *
- * Stores 267+ foundations from TypeScript config + research JSON files.
- * This is the primary entity for the fundraising intelligence platform.
+ * Layer 1: Stores universal data about foundations that survives org swaps.
+ * Can grow to 14k+ entries (ESA, Zefix, Fundraiso) independent of analysis.
+ * The registryData JSONB holds the full FoundationRegistry Zod object.
+ */
+export const foundationRegistry = pgTable('fundraising_foundation_registry', {
+  id: text('id').primaryKey(),                        // slug (matches foundations.id)
+  name: text('name').notNull(),
+  uid: text('uid'),                                   // CHE-xxx.xxx.xxx
+  officialPurpose: text('official_purpose'),           // From ESA/Zefix register
+  websiteUrl: text('website_url'),
+  region: text('region'),                              // Canton/city
+  contactEmail: text('contact_email'),
+  contactPhone: text('contact_phone'),
+  acceptsApplications: text('accepts_applications'),   // yes/no/invitation_only/unknown
+  applicationMethod: text('application_method'),
+  isOperative: boolean('is_operative'),
+  source: text('source'),                              // Primary discovery source
+  registryData: jsonb('registry_data'),                // Full FoundationRegistry object
+  dataQuality: integer('data_quality'),                // 1-5 scale
+  lastVerified: text('last_verified'),                 // ISO date
+  createdAt: text('created_at').default(sql`now()`),
+  updatedAt: text('updated_at').default(sql`now()`),
+});
+
+/**
+ * Foundations Table - Org-specific analysis (Layer 2)
+ *
+ * Stores per-org assessments of foundations (fit, priority, themes, etc.).
+ * The configData JSONB holds the merged Foundation object (registry + analysis)
+ * for backward compatibility with the sync pipeline.
  */
 export const foundations = pgTable('fundraising_foundations', {
   // Primary key - kebab-case slug (e.g., 'volkart-stiftung')
@@ -60,6 +88,9 @@ export const foundations = pgTable('fundraising_foundations', {
   // Full config object (Zod Foundation schema shape) — used by sync script
   // to generate TypeScript config. DB is write SSOT, generated TS is build cache.
   configData: jsonb('config_data'),
+
+  // Multi-org support
+  orgId: text('org_id').default('revamp-it'), // Enables per-org analysis of same foundation
 
   // Admin
   source: text('source'), // swissfoundations, spheriq, zhaw, typescript-legacy, rapid-assessment, etc.
@@ -195,6 +226,9 @@ export const contacts = pgTable('fundraising_contacts', {
  *
  * Following Ground Truth #2: Schema is SSOT, types are derived.
  */
+export type FoundationRegistryRow = typeof foundationRegistry.$inferSelect;
+export type NewFoundationRegistryRow = typeof foundationRegistry.$inferInsert;
+
 export type Foundation = typeof foundations.$inferSelect;
 export type NewFoundation = typeof foundations.$inferInsert;
 

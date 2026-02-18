@@ -84,23 +84,49 @@ const criteriaSchema = z.object({
   education: z.string().optional(),
 }).optional();
 
-// ---------------------------------------------------------------------------
-// Research Quality Gate
-// ---------------------------------------------------------------------------
-// needsResearch: false requires ALL of:
-//   1. purposeSummary — what the foundation funds and why
-//   2. researchNotes  — strategic fit analysis for Revamp-IT
-//   3. contact        — how to reach them (address/email/phone)
-// Optional but recommended for needsResearch: false:
-//   4. applicationProcess — step-by-step how to apply
-//   5. sourceLinks        — where we found this info
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// Layer 1: Registry — Universal facts about a foundation (org-agnostic)
+// ===========================================================================
+// Data that survives org swaps and can be bulk-imported from ESA/Zefix/Fundraiso.
 
-// Foundation entry
-export const foundationSchema = z.object({
+export const registrySchema = z.object({
+  // Identity
   slug: z.string(),
   name: z.string(),
-  type: FoundationType,
+  uid: z.string().optional(),
+  websiteUrl: z.string(),
+  applicationUrl: z.string().optional(),
+  officialPurpose: z.string().optional(), // Legal Zweckbeschreibung from ESA/Zefix register
+
+  // Location
+  region: z.string(),
+  contact: contactSchema,
+
+  // Governance
+  founded: z.number().nullable().optional(),
+  capital: z.string().optional(),
+  annualBudget: z.string().optional(),
+  totalBudget: z.string().optional(),
+  grantExpenditure: z.string().optional(),
+  supervisoryAuthority: z.string().optional(),
+  boardMembers: z.array(z.object({
+    name: z.string(),
+    role: z.string(),
+  })).optional(),
+  memberships: z.array(z.string()).optional(),
+
+  // Applications
+  acceptsApplications: z.enum(['yes', 'no', 'invitation_only', 'unknown']).optional(),
+  applicationMethod: ApplicationMethod,
+  applicationProcess: z.array(z.string()).optional(),
+  isOperative: z.boolean().optional(),
+  isPartnership: z.boolean().optional(),
+  isNetwork: z.boolean().optional(),
+  requiresOpenSource: z.boolean().optional(),
+  requiresPartner: z.boolean().optional(),
+  requiresContract: z.boolean().optional(),
+
+  // Timing
   status: FoundationStatus,
   deadline: z.string().nullable().optional(),
   deadlineText: z.string(),
@@ -108,56 +134,72 @@ export const foundationSchema = z.object({
   deadlines: z.array(deadlineEntrySchema).optional(),
   responseTime: z.string().optional(),
   decisionCycle: z.string().optional(),
+
+  // Funding
   amount: amountSchema,
-  fit: z.number().min(1).max(3),
-  priority: z.number().min(1).max(4),
-  tagline: z.string(),
-  founded: z.number().nullable().optional(),
-  annualBudget: z.string().optional(),
-  capital: z.string().optional(),
-  totalBudget: z.string().optional(),
-  region: z.string(),
-  applicationUrl: z.string().optional(),
-  websiteUrl: z.string(),
-  applicationMethod: ApplicationMethod,
-  contact: contactSchema,
-  themes: z.array(ThemeId),
-  source: SourceId,
-  researchDate: z.string(),
-  uid: z.string().optional(),
-  // Whether this foundation accepts unsolicited applications from any eligible org.
-  // 'yes' = open submissions, 'no' = closed/no-applications, 'invitation_only' = by invite only,
-  // 'unknown' = not yet researched (default assumption — does not affect screening)
-  acceptsApplications: z.enum(['yes', 'no', 'invitation_only', 'unknown']).optional(),
-  purposeSummary: z.string().optional(),
-  needsResearch: z.boolean(), // required — see Quality Gate above
-  researchNotes: z.string().optional(),
-  isOperative: z.boolean().optional(),
-  isPartnership: z.boolean().optional(),
-  isNetwork: z.boolean().optional(),
-  requiresOpenSource: z.boolean().optional(),
-  requiresPartner: z.boolean().optional(),
-  requiresContract: z.boolean().optional(),
-  possiblePartners: z.array(z.string()).optional(),
-  sdgs: z.array(z.number()).optional(),
-  sourceLinks: z.array(sourceLinkSchema).optional(),
-  applicationProcess: z.array(z.string()).optional(),
   criteria: criteriaSchema,
   smallProjects: z.object({ max: z.number(), text: z.string() }).optional(),
-  stats2025: z.string().optional(),
-  members: z.string().optional(),
-  events: z.array(z.string()).optional(),
+
+  // Relationships
+  pastGrantees: z.array(z.string()).optional(),
   partners: z.array(z.string()).optional(),
-  // Registry-level data (from Fundraiso, Zefix, ESA, foundation websites)
-  grantExpenditure: z.string().optional(), // e.g., "CHF 53 Mio./Jahr"
-  boardMembers: z.array(z.object({
-    name: z.string(),
-    role: z.string(), // e.g., "Präsident", "Geschäftsführerin", "Mitglied"
-  })).optional(),
-  pastGrantees: z.array(z.string()).optional(), // Org names they've funded
-  supervisoryAuthority: z.string().optional(), // e.g., "Eidg. Stiftungsaufsicht" or cantonal
-  memberships: z.array(z.string()).optional(), // e.g., ["SwissFoundations", "proFonds"]
+  events: z.array(z.string()).optional(),
+  members: z.string().optional(),
+  stats2025: z.string().optional(),
+  sdgs: z.array(z.number()).optional(),
+
+  // Meta
+  sourceLinks: z.array(sourceLinkSchema).optional(),
+  source: SourceId,
+  purposeSummary: z.string().optional(),
 });
+export type FoundationRegistry = z.infer<typeof registrySchema>;
+
+// ===========================================================================
+// Layer 2: Analysis — Per-org assessment (org-specific)
+// ===========================================================================
+// Fields that differ per organization analyzing the same foundation.
+
+export const analysisSchema = z.object({
+  // Classification
+  fit: z.number().min(1).max(3),
+  priority: z.number().min(1).max(4),
+  type: FoundationType,
+  themes: z.array(ThemeId),
+
+  // Content
+  tagline: z.string(),
+  researchNotes: z.string().optional(),
+
+  // Status
+  needsResearch: z.boolean(),
+  researchDate: z.string(),
+
+  // Relationships
+  possiblePartners: z.array(z.string()).optional(),
+
+  // Identity (for multi-org support)
+  orgId: z.string().default('revamp-it'),
+});
+export type FoundationAnalysis = z.infer<typeof analysisSchema>;
+
+// ===========================================================================
+// Composed: Foundation — Merged view (registry + analysis)
+// ===========================================================================
+// Identical shape to the pre-split foundationSchema.
+// All ~56 consumer files see the same Foundation type — zero breaking changes.
+//
+// Research Quality Gate (needsResearch: false requires ALL of):
+//   1. purposeSummary — what the foundation funds and why
+//   2. researchNotes  — strategic fit analysis for Revamp-IT
+//   3. contact        — how to reach them (address/email/phone)
+// Optional but recommended:
+//   4. applicationProcess — step-by-step how to apply
+//   5. sourceLinks        — where we found this info
+
+export const foundationSchema = registrySchema.extend(
+  analysisSchema.omit({ orgId: true }).shape
+);
 export type Foundation = z.infer<typeof foundationSchema>;
 
 // Type labels

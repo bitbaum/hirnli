@@ -52,12 +52,11 @@ interface ESARegister {
 type ExclusionReason =
   | 'duplicate_in_db'
   | 'duplicate_in_not_recommended'
-  | 'not_in_esa'
   | 'geographic_international_only'
   | 'operator_not_funder'
   | 'french_italian_only'
   | 'sector_mismatch'
-  | 'no_social_dimension'; // NEW in v3
+  | 'no_social_dimension';
 
 interface ScreeningResult {
   candidate: Candidate;
@@ -592,17 +591,26 @@ function screenCandidate(
     };
   }
 
-  // Filter 3: ESA validation
+  // Filter 3: ESA validation (soft — non-ESA foundations pass with lower confidence)
   const esaMatch = findInESA(esaRegister, candidate.name);
 
+  // Non-ESA candidates: pass through as tier 3 (cantonal, Vereine, or unmatched name)
+  // They need research but should NOT be excluded — ESA only covers federal foundations
   if (!esaMatch) {
+    const candidateCity = candidate.location?.replace(/, ?CH$/, '').toLowerCase() || '';
+    const isZurichArea = candidateCity.includes('zürich') || candidateCity.includes('winterthur')
+      || candidateCity.includes('schlieren') || candidateCity.includes('maur');
+
     return {
       candidate,
-      decision: 'exclude',
-      reason: 'not_in_esa',
-      details: 'Not found in ESA register (may not exist or under cantonal supervision)',
+      decision: 'pass' as const,
+      tier: isZurichArea ? 3 as const : 4 as const,
+      details: `Not in ESA (cantonal/other supervision) - ${isZurichArea ? 'ZH area' : 'needs location check'}`,
+      scores: { funderScore: 0, operatorScore: 0, socialScore: 0, confidence: 'low' as const },
     };
   }
+
+  // --- ESA-confirmed candidates: run full filter pipeline ---
 
   // Filter 4: Geographic filtering
   if (hasInternationalDevelopmentFocus(esaMatch.purpose, esaMatch.city)) {
@@ -725,12 +733,11 @@ function processBatch(candidates: Candidate[], esaRegister: ESARegister): Screen
   const exclusionBreakdown: Record<ExclusionReason, number> = {
     duplicate_in_db: 0,
     duplicate_in_not_recommended: 0,
-    not_in_esa: 0,
     geographic_international_only: 0,
     operator_not_funder: 0,
     french_italian_only: 0,
     sector_mismatch: 0,
-    no_social_dimension: 0, // NEW
+    no_social_dimension: 0,
   };
   const tierBreakdown: Record<1 | 2 | 3 | 4, number> = { 1: 0, 2: 0, 3: 0, 4: 0 };
 
