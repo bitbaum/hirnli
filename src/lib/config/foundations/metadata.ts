@@ -101,9 +101,9 @@ export const SOURCES: Record<SourceId, Source> = {
   },
   stiftungschweiz: {
     id: 'stiftungschweiz',
-    label: 'StiftungSchweiz',
-    url: 'https://stiftungen.stiftungschweiz.ch',
-    description: "~14'000 Stiftungen mit Filteroptionen",
+    label: 'Spheriq (ex StiftungSchweiz)',
+    url: 'https://app.spheriq.ch',
+    description: "~14'000 Stiftungen mit SDG-/Themen-/Zielgruppenfilter (Login erforderlich)",
   },
   esa: {
     id: 'esa',
@@ -306,17 +306,17 @@ export const DATABASES = [
     description: 'T\u00E4glich aktualisierte Datenbank aller gemeinn\u00FCtzigen Stiftungen der Schweiz',
   },
   {
-    name: 'StiftungSchweiz',
-    url: 'https://stiftungen.stiftungschweiz.ch/',
+    name: 'Spheriq (ex StiftungSchweiz)',
+    url: 'https://app.spheriq.ch',
     count: "~14'000",
-    cost: 'Basis: Gratis / Premium: Abo',
-    description: 'Umfassende Plattform mit erweiterten Filteroptionen: Wirkungsart, Themengebiet, Zielgruppe, SDGs',
+    cost: 'Login erforderlich / Premium: Abo',
+    description: 'Beste Filteroptionen: SDGs, Wirkungsart, Themengebiet, Zielgruppe. Rebranded von StiftungSchweiz (Feb 2026)',
   },
   {
-    name: 'Eidg. Stiftungsaufsicht',
+    name: 'Eidg. Stiftungsaufsicht (ESA)',
     url: 'https://www.esa.admin.ch/de/stiftungsverzeichnis',
-    count: 'Variabel',
+    count: "~5'400",
     cost: 'Gratis',
-    description: 'Offizielles Register der Stiftungen unter Bundesaufsicht',
+    description: 'Offizielles Bundesregister der Stiftungen unter Bundesaufsicht. Excel-Download mit UID, Zweck, Kanton',
   },
 ] as const;
