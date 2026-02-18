@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { THEMES, TYPE_LABELS } from '@/lib/config/foundations';
-import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
+import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
+import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
 import GesuchWhySection from '@/components/gesuch/GesuchWhySection';
@@ -12,53 +14,39 @@ import GesuchEvidenceSection from '@/components/gesuch/GesuchEvidenceSection';
 import GesuchContactSection from '@/components/gesuch/GesuchContactSection';
 
 interface Props {
-  params: Promise<{ type: string }>;
+  params: Promise<{ vorlage: string; type: string }>;
 }
 
 export async function generateStaticParams() {
-  return TEMPLATE_TYPES.map((type) => ({ type }));
+  return getSchwerpunktStaticParams();
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { type } = await params;
+  const { vorlage: schwerpunkt, type } = await params;
+  const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
   const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
-  if (typeLabel) {
-    return {
-      title: `Gesuch-Vorlage Typ ${typeLabel.short} — ${typeLabel.long}`,
-      description: `Gesuch-Vorlage für ${typeLabel.long} (Robert Schmuki Typ ${typeLabel.short})`,
-    };
-  }
-  const tplLabel = TEMPLATE_LABELS[type];
-  if (tplLabel) {
-    return {
-      title: `Gesuch-Vorlage: ${tplLabel.long} — Revamp-IT`,
-      description: tplLabel.desc,
-    };
-  }
-  return { title: 'Vorlage nicht gefunden' };
+  if (!sp || !typeLabel) return { title: 'Vorlage nicht gefunden' };
+
+  return {
+    title: `Gesuch-Vorlage: ${sp.shortLabel} \u00D7 Typ ${typeLabel.short} \u2014 ${ORG_PROFILE.name}`,
+    description: `${sp.label} \u2014 Gesuch-Vorlage f\u00FCr ${typeLabel.long}`,
+  };
 }
 
-export default async function GesuchVorlagePage({ params }: Props) {
-  const { type } = await params;
-  const foundation = getTemplateFoundation(type);
+export default async function SchwerpunktGesuchPage({ params }: Props) {
+  const { vorlage: schwerpunkt, type } = await params;
+  const foundation = getSchwerpunktTemplate(schwerpunkt, type);
 
   if (!foundation) {
     notFound();
   }
 
-  const gesuch = composeGesuch(foundation);
+  const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
   const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
-  const tplLabel = TEMPLATE_LABELS[type];
-  const primaryThemeId = foundation.themes[0];
-  const primaryColor = primaryThemeId ? THEMES[primaryThemeId]?.color ?? '#3498DB' : '#3498DB';
+  const gesuch = composeGesuch(foundation, schwerpunkt as SchwerpunktId);
+  const primaryColor = sp?.color ?? '#3498DB';
 
-  const bannerTitle = typeLabel
-    ? `VORLAGE — Typ ${typeLabel.short}: ${typeLabel.long}`
-    : `VORLAGE — ${tplLabel?.long ?? type}`;
-  const heroSubtitle = typeLabel
-    ? `Partnerschaftsvorschlag — Vorlage Typ ${typeLabel.short}`
-    : `Partnerschaftsvorschlag — ${tplLabel?.long ?? type}`;
-  const heroText = typeLabel?.approach ?? tplLabel?.desc ?? '';
+  const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;
 
   return (
     <div className="gesuch-page">
@@ -68,15 +56,15 @@ export default async function GesuchVorlagePage({ params }: Props) {
           {bannerTitle}
         </p>
         <p className="mt-1 text-xs text-text-light">
-          Dies ist eine generische Vorlage. Felder wie <span className="font-mono">[Name der Stiftung]</span> müssen
-          vor dem Versand durch die tatsächlichen Angaben ersetzt werden.
+          Schwerpunkt: <strong>{sp.label}</strong> |
+          Felder wie <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">[Name der Stiftung]</span> vor dem Versand ersetzen.
         </p>
       </div>
 
       <GesuchHeroSection
-        subtitle={heroSubtitle}
+        subtitle={`Partnerschaftsvorschlag \u2014 ${sp.shortLabel} (Typ ${typeLabel.short})`}
         foundationName={gesuch.foundation.name}
-        description={heroText}
+        description={typeLabel.approach}
         themes={gesuch.themes.all}
         primaryColor={primaryColor}
       />
@@ -101,7 +89,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
         {/* Navigation links */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">
           <Link
-            href={`/fundraising/gesuch-vorlagen/${type}/dokument`}
+            href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}/dokument`}
             className="rounded-lg bg-grey-dark px-5 py-3 text-sm font-semibold text-white hover:bg-grey-dark/90"
           >
             Formelles Gesuch-Dokument (PDF)

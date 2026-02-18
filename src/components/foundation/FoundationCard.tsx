@@ -7,6 +7,8 @@ import ThemeBadgeList from './ThemeBadgeList';
 interface FoundationCardProps {
   foundation: Foundation;
   inPipeline?: boolean;
+  /** Relevance score (0-1) shown during search */
+  score?: number;
 }
 
 const PRIORITY_BADGE: Record<number, string> = {
@@ -16,7 +18,7 @@ const PRIORITY_BADGE: Record<number, string> = {
   4: 'bg-grey-light text-text-muted',
 };
 
-export default function FoundationCard({ foundation: f, inPipeline }: FoundationCardProps) {
+export default function FoundationCard({ foundation: f, inPipeline, score }: FoundationCardProps) {
   const statusLabel = STATUS_LABELS[f.status];
   const typeLabel = TYPE_LABELS[f.type];
 
@@ -37,6 +39,11 @@ export default function FoundationCard({ foundation: f, inPipeline }: Foundation
             <span className={`text-xs font-bold ${FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.color ?? 'text-text-muted'}`}>
               {FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? '☆☆☆'}
             </span>
+            {score != null && (
+              <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">
+                {Math.round(score * 100)}% Relevanz
+              </span>
+            )}
             {inPipeline && (
               <span className="rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-semibold text-violet-700">
                 In Pipeline

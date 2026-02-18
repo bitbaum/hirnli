@@ -1,9 +1,12 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getFoundationBySlug, generateFoundationParams } from '@/lib/domain/foundation-helpers';
+import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { generateFitNarrative, generateThemeAlignments, generateApproachSteps, getApplicationReadiness } from '@/lib/domain/foundation-contextualization';
+import { findSimilarFoundations } from '@/lib/domain/foundation-recommendations';
 import FoundationHeader from '@/components/foundation/FoundationHeader';
 import FoundationSidebar from '@/components/foundation/FoundationSidebar';
-import FitAnalysis from '@/components/foundation/FitAnalysis';
+import SimilarFoundations from '@/components/foundation/SimilarFoundations';
 import FoundationDetailTabs from './FoundationDetailTabs';
 
 interface Props {
@@ -32,16 +35,30 @@ export default async function FoundationDetailPage({ params }: Props) {
     notFound();
   }
 
+  // Compute contextualization data (pure functions, no I/O)
+  const fitNarrative = generateFitNarrative(foundation);
+  const themeAlignments = generateThemeAlignments(foundation);
+  const approachSteps = generateApproachSteps(foundation);
+  const readiness = getApplicationReadiness(foundation);
+  const similar = findSimilarFoundations(foundation, STIFTUNGEN_DATA, 5);
+
   return (
     <div>
       <FoundationHeader foundation={foundation} />
 
       <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
         <div>
-          <FoundationDetailTabs foundation={foundation} />
+          <FoundationDetailTabs
+            foundation={foundation}
+            fitNarrative={fitNarrative}
+            themeAlignments={themeAlignments}
+            approachSteps={approachSteps}
+            readiness={readiness}
+          />
         </div>
-        <aside>
+        <aside className="space-y-4">
           <FoundationSidebar foundation={foundation} />
+          <SimilarFoundations similar={similar} />
         </aside>
       </div>
     </div>

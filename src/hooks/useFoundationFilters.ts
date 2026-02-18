@@ -3,22 +3,31 @@
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import type { ThemeId, FoundationType, FoundationStatus } from '@/lib/schemas/foundation';
-import type { FoundationFilters, SortField } from '@/lib/domain/foundation-filter';
+import type { FoundationFilters, SortField, ThemeLogic } from '@/lib/domain/foundation-filter';
 import { DEFAULT_FILTERS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';
+import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
+import { SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
+import Fuse from 'fuse.js';
+import { createSearchIndex, searchFoundations } from '@/lib/domain/foundation-search';
 
 export function useFoundationFilters(foundations: Foundation[]) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
+  // Fuse.js index — computed once from static data
+  const fuseIndex = useMemo(() => createSearchIndex(foundations), [foundations]);
+
   // Parse filters from URL
   const filters: FoundationFilters = useMemo(() => ({
     themes: (searchParams.get('themes')?.split(',').filter(Boolean) || []) as ThemeId[],
+    themeLogic: (searchParams.get('tl') as ThemeLogic) || 'or',
     types: (searchParams.get('types')?.split(',').filter(Boolean) || []) as FoundationType[],
     statuses: (searchParams.get('statuses')?.split(',').filter(Boolean) || []) as FoundationStatus[],
-    fit: searchParams.get('fit') ? Number(searchParams.get('fit')) : null,
+    fit: searchParams.get('fit')?.split(',').map(Number).filter((n) => !isNaN(n)) || [],
     search: searchParams.get('q') || '',
+    schwerpunkt: (searchParams.get('sp') as SchwerpunktId) || null,
     hideOperative: searchParams.get('hideOp') === '1',
     hideNetworks: searchParams.get('hideNet') === '1',
     hideNoApplication: searchParams.get('hideNoApp') === '1',
@@ -73,8 +82,24 @@ export function useFoundationFilters(foundations: Foundation[]) {
     updateParams({ sort: field === 'priority' ? null : field });
   }, [updateParams]);
 
-  const setFit = useCallback((value: number | null) => {
-    updateParams({ fit: value !== null ? String(value) : null });
+  const setFit = useCallback((value: number[]) => {
+    updateParams({ fit: value.length > 0 ? value.join(',') : null });
+  }, [updateParams]);
+
+  const toggleFit = useCallback((value: number) => {
+    const current = filters.fit;
+    const next = current.includes(value)
+      ? current.filter((v) => v !== value)
+      : [...current, value];
+    setFit(next);
+  }, [filters.fit, setFit]);
+
+  const toggleThemeLogic = useCallback(() => {
+    updateParams({ tl: filters.themeLogic === 'or' ? 'and' : null });
+  }, [filters.themeLogic, updateParams]);
+
+  const setSchwerpunkt = useCallback((sp: SchwerpunktId | null) => {
+    updateParams({ sp: sp });
   }, [updateParams]);
 
   const toggleHideNoApplication = useCallback(() => {
@@ -97,19 +122,49 @@ export function useFoundationFilters(foundations: Foundation[]) {
     router.replace(pathname, { scroll: false });
   }, [router, pathname]);
 
-  // Apply filters and sort
-  const filtered = useMemo(() => {
+  // Apply filters and sort — use Fuse.js when searching (>=2 chars)
+  const { filtered, scoreMap } = useMemo(() => {
+    const isSearching = filters.search.length >= 2;
+
+    if (isSearching) {
+      // Fuse.js search first, then apply non-text filters
+      const searchResults = searchFoundations(
+        foundations,
+        filters.search,
+        filters.themes.length > 0 ? filters.themes : undefined,
+        fuseIndex,
+      );
+      // Build slug→score map for display
+      const scores = new Map<string, number>();
+      for (const r of searchResults) {
+        scores.set(r.foundation.slug, r.score);
+      }
+      // Apply structural filters on the Fuse results
+      const filtersWithoutSearch = { ...filters, search: '' };
+      const structuralFiltered = filterFoundations(
+        searchResults.map((r) => r.foundation),
+        filtersWithoutSearch,
+      );
+      // Already sorted by relevance — don't re-sort unless user picked a specific sort
+      const result = sort === 'priority'
+        ? structuralFiltered
+        : sortFoundations(structuralFiltered, sort);
+      return { filtered: result, scoreMap: scores };
+    }
+
     const result = filterFoundations(foundations, filters);
-    return sortFoundations(result, sort);
-  }, [foundations, filters, sort]);
+    return { filtered: sortFoundations(result, sort), scoreMap: new Map<string, number>() };
+  }, [foundations, filters, sort, fuseIndex]);
 
   const hasActiveFilters = useMemo(() => {
     return (
       filters.themes.length > 0 ||
+      filters.themeLogic !== 'or' ||
       filters.types.length > 0 ||
       filters.statuses.length > 0 ||
-      filters.fit !== null ||
+      filters.fit.length > 0 ||
       filters.search !== '' ||
+      filters.schwerpunkt !== null ||
       filters.hideOperative ||
       filters.hideNetworks ||
       filters.hideNoApplication ||
@@ -121,6 +176,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     filters,
     sort,
     filtered,
+    scoreMap,
     hasActiveFilters,
     totalCount: foundations.length,
     filteredCount: filtered.length,
@@ -130,6 +186,9 @@ export function useFoundationFilters(foundations: Foundation[]) {
     setSearch,
     setSort,
     setFit,
+    toggleFit,
+    toggleThemeLogic,
+    setSchwerpunkt,
     toggleHideNoApplication,
     toggleHideOperative,
     toggleHideNetworks,

@@ -2,15 +2,21 @@
 
 import Tabs from '@/components/ui/Tabs';
 import FitAnalysis from '@/components/foundation/FitAnalysis';
+import ApproachChecklist from '@/components/foundation/ApproachChecklist';
 import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS } from '@/lib/config/foundations';
+import type { FitNarrative, ThemeAlignment, ApproachStep, ReadinessItem } from '@/lib/domain/foundation-contextualization';
 
 interface Props {
   foundation: Foundation;
+  fitNarrative?: FitNarrative;
+  themeAlignments?: ThemeAlignment[];
+  approachSteps?: ApproachStep[];
+  readiness?: ReadinessItem[];
 }
 
-export default function FoundationDetailTabs({ foundation: f }: Props) {
+export default function FoundationDetailTabs({ foundation: f, fitNarrative, themeAlignments, approachSteps, readiness }: Props) {
   const typeLabel = TYPE_LABELS[f.type];
 
   const tabs = [
@@ -24,68 +30,81 @@ export default function FoundationDetailTabs({ foundation: f }: Props) {
       {(activeTab) => {
         switch (activeTab) {
           case 'fit':
-            return <FitAnalysis foundation={f} />;
+            return (
+              <FitAnalysis
+                foundation={f}
+                fitNarrative={fitNarrative}
+                themeAlignments={themeAlignments}
+              />
+            );
 
           case 'strategy':
             return (
-              <Card>
-                <h3 className="mb-4 text-lg font-semibold text-grey-dark">Bewerbungsstrategie</h3>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="text-sm font-semibold text-grey-dark">Stiftungstyp</h4>
-                    <p className="mt-1 text-sm text-text-light">
-                      <strong>Typ {typeLabel.short}:</strong> {typeLabel.desc}
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-grey-dark">Empfohlener Ansatz</h4>
-                    <p className="mt-1 text-sm text-text-light">{typeLabel.approach}</p>
-                  </div>
-                  {f.deadlines && f.deadlines.length > 0 && (
+              <div className="space-y-4">
+                <Card>
+                  <h3 className="mb-4 text-lg font-semibold text-grey-dark">Bewerbungsstrategie</h3>
+                  <div className="space-y-4">
                     <div>
-                      <h4 className="text-sm font-semibold text-grey-dark">Eingabefristen</h4>
-                      <table className="mt-2 w-full text-sm">
-                        <thead>
-                          <tr className="border-b border-border">
-                            <th className="py-2 text-left text-xs font-semibold text-text-muted">Eingabe bis</th>
-                            <th className="py-2 text-left text-xs font-semibold text-text-muted">Antwort</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {f.deadlines.map((d, i) => (
-                            <tr key={i} className="border-b border-border">
-                              <td className="py-2">{d.date}</td>
-                              <td className="py-2">{d.response}</td>
+                      <h4 className="text-sm font-semibold text-grey-dark">Stiftungstyp</h4>
+                      <p className="mt-1 text-sm text-text-light">
+                        <strong>Typ {typeLabel.short}:</strong> {typeLabel.desc}
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-grey-dark">Empfohlener Ansatz</h4>
+                      <p className="mt-1 text-sm text-text-light">{typeLabel.approach}</p>
+                    </div>
+                    {f.deadlines && f.deadlines.length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-semibold text-grey-dark">Eingabefristen</h4>
+                        <table className="mt-2 w-full text-sm">
+                          <thead>
+                            <tr className="border-b border-border">
+                              <th className="py-2 text-left text-xs font-semibold text-text-muted">Eingabe bis</th>
+                              <th className="py-2 text-left text-xs font-semibold text-text-muted">Antwort</th>
                             </tr>
+                          </thead>
+                          <tbody>
+                            {f.deadlines.map((d, i) => (
+                              <tr key={i} className="border-b border-border">
+                                <td className="py-2">{d.date}</td>
+                                <td className="py-2">{d.response}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                    {f.responseTime && (
+                      <div>
+                        <h4 className="text-sm font-semibold text-grey-dark">Antwortzeit</h4>
+                        <p className="mt-1 text-sm text-text-light">{f.responseTime}</p>
+                      </div>
+                    )}
+                    {f.decisionCycle && (
+                      <div>
+                        <h4 className="text-sm font-semibold text-grey-dark">Entscheidungszyklus</h4>
+                        <p className="mt-1 text-sm text-text-light">{f.decisionCycle}</p>
+                      </div>
+                    )}
+                    {f.applicationProcess && f.applicationProcess.length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-semibold text-grey-dark">Bewerbungsprozess</h4>
+                        <ol className="mt-2 list-inside list-decimal space-y-1 text-sm text-text-light">
+                          {f.applicationProcess.map((step, i) => (
+                            <li key={i}>{step}</li>
                           ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                  {f.responseTime && (
-                    <div>
-                      <h4 className="text-sm font-semibold text-grey-dark">Antwortzeit</h4>
-                      <p className="mt-1 text-sm text-text-light">{f.responseTime}</p>
-                    </div>
-                  )}
-                  {f.decisionCycle && (
-                    <div>
-                      <h4 className="text-sm font-semibold text-grey-dark">Entscheidungszyklus</h4>
-                      <p className="mt-1 text-sm text-text-light">{f.decisionCycle}</p>
-                    </div>
-                  )}
-                  {f.applicationProcess && f.applicationProcess.length > 0 && (
-                    <div>
-                      <h4 className="text-sm font-semibold text-grey-dark">Bewerbungsprozess</h4>
-                      <ol className="mt-2 list-inside list-decimal space-y-1 text-sm text-text-light">
-                        {f.applicationProcess.map((step, i) => (
-                          <li key={i}>{step}</li>
-                        ))}
-                      </ol>
-                    </div>
-                  )}
-                </div>
-              </Card>
+                        </ol>
+                      </div>
+                    )}
+                  </div>
+                </Card>
+
+                {/* Approach checklist — derived from foundation data */}
+                {approachSteps && readiness && (
+                  <ApproachChecklist steps={approachSteps} readiness={readiness} />
+                )}
+              </div>
             );
 
           case 'details':
@@ -118,7 +137,6 @@ export default function FoundationDetailTabs({ foundation: f }: Props) {
                       </div>
                     </div>
                   )}
-                  {/* Board Members */}
                   {f.boardMembers && f.boardMembers.length > 0 && (
                     <div>
                       <h4 className="font-semibold text-grey-dark">Stiftungsrat</h4>
@@ -132,7 +150,6 @@ export default function FoundationDetailTabs({ foundation: f }: Props) {
                       </div>
                     </div>
                   )}
-                  {/* Past Grantees */}
                   {f.pastGrantees && f.pastGrantees.length > 0 && (
                     <div>
                       <h4 className="font-semibold text-grey-dark">Bisherige Förderempfänger</h4>
@@ -143,7 +160,6 @@ export default function FoundationDetailTabs({ foundation: f }: Props) {
                       </div>
                     </div>
                   )}
-                  {/* Supervisory Authority + Memberships */}
                   {(f.supervisoryAuthority || (f.memberships && f.memberships.length > 0)) && (
                     <div className="grid grid-cols-2 gap-4">
                       {f.supervisoryAuthority && (

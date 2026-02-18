@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { TYPE_LABELS } from '@/lib/config/foundations';
-import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
+import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
+import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
 import ProjektbeschriebSection from '@/components/gesuch/ProjektbeschriebSection';
@@ -10,46 +12,38 @@ import BudgetSection from '@/components/gesuch/BudgetSection';
 import KurzportraitSection from '@/components/gesuch/KurzportraitSection';
 
 interface Props {
-  params: Promise<{ type: string }>;
+  params: Promise<{ vorlage: string; type: string }>;
 }
 
 export async function generateStaticParams() {
-  return TEMPLATE_TYPES.map((type) => ({ type }));
+  return getSchwerpunktStaticParams();
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { type } = await params;
+  const { vorlage: schwerpunkt, type } = await params;
+  const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
   const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
-  if (typeLabel) {
-    return {
-      title: `Fördergesuch-Vorlage Typ ${typeLabel.short} — ${typeLabel.long}`,
-      description: `Formelle Gesuch-Vorlage für ${typeLabel.long}`,
-    };
-  }
-  const tplLabel = TEMPLATE_LABELS[type];
-  if (tplLabel) {
-    return {
-      title: `Fördergesuch-Vorlage: ${tplLabel.long} — Revamp-IT`,
-      description: tplLabel.desc,
-    };
-  }
-  return { title: 'Vorlage nicht gefunden' };
+  if (!sp || !typeLabel) return { title: 'Vorlage nicht gefunden' };
+
+  return {
+    title: `F\u00F6rdergesuch: ${sp.shortLabel} \u00D7 Typ ${typeLabel.short} \u2014 ${ORG_PROFILE.name}`,
+    description: `Formelles Gesuch-Dokument \u2014 ${sp.label} f\u00FCr ${typeLabel.long}`,
+  };
 }
 
-export default async function GesuchVorlageDokumentPage({ params }: Props) {
-  const { type } = await params;
-  const foundation = getTemplateFoundation(type);
+export default async function SchwerpunktGesuchDokumentPage({ params }: Props) {
+  const { vorlage: schwerpunkt, type } = await params;
+  const foundation = getSchwerpunktTemplate(schwerpunkt, type);
 
   if (!foundation) {
     notFound();
   }
 
-  const dok = composeGesuchDokument(foundation);
+  const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
   const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
-  const tplLabel = TEMPLATE_LABELS[type];
-  const bannerTitle = typeLabel
-    ? `VORLAGE — Typ ${typeLabel.short}: ${typeLabel.long}`
-    : `VORLAGE — ${tplLabel?.long ?? type}`;
+  const dok = composeGesuchDokument(foundation, schwerpunkt as SchwerpunktId);
+
+  const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;
 
   return (
     <div className="gesuch-dokument mx-auto max-w-3xl">
@@ -60,13 +54,14 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
             {bannerTitle}
           </p>
           <p className="mt-1 text-xs text-text-light">
-            Platzhalterfelder wie <span className="font-mono">[Name der Stiftung]</span> vor dem Versand ersetzen.
+            Schwerpunkt: <strong>{sp.label}</strong> |
+            Platzhalterfelder vor dem Versand ersetzen.
           </p>
         </div>
         <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-center text-sm text-text-light">
           <strong>Tipp:</strong> Drücken Sie Cmd+P (Mac) oder Ctrl+P (Windows/Linux) für eine saubere A4-PDF-Ausgabe.
           <div className="mt-2 flex justify-center gap-4">
-            <Link href={`/fundraising/gesuch-vorlagen/${type}`} className="text-primary hover:underline">
+            <Link href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}`} className="text-primary hover:underline">
               Interaktive Seite
             </Link>
             <Link href="/fundraising/gesuch-vorlagen" className="text-primary hover:underline">
@@ -84,7 +79,7 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
       {/* Back link — hidden in print */}
       <div className="pb-12 text-center print:hidden">
         <Link
-          href={`/fundraising/gesuch-vorlagen/${type}`}
+          href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}`}
           className="text-sm text-primary hover:underline"
         >
           &larr; Zurück zur interaktiven Vorlage

@@ -1,11 +1,13 @@
 import type { WhySection } from '@/lib/schemas/story';
+import type { ThemeKey } from '@/lib/config/stories';
 import Card from '@/components/ui/Card';
 
 interface GesuchWhySectionProps {
   why: WhySection;
+  secondaryThemeRelevance?: { theme: ThemeKey; label: string; connection: string }[];
 }
 
-export default function GesuchWhySection({ why }: GesuchWhySectionProps) {
+export default function GesuchWhySection({ why, secondaryThemeRelevance }: GesuchWhySectionProps) {
   return (
     <section>
       <h2 className="mb-6 text-xl font-bold text-grey-dark md:text-3xl">
@@ -28,6 +30,27 @@ export default function GesuchWhySection({ why }: GesuchWhySectionProps) {
           </p>
         </Card>
       </div>
+
+      {secondaryThemeRelevance && secondaryThemeRelevance.length > 0 && (
+        <div className="mt-8">
+          <h3 className="mb-4 text-lg font-semibold text-grey-dark">
+            Weitere relevante Schwerpunkte
+          </h3>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {secondaryThemeRelevance.map((item) => (
+              <div
+                key={item.theme}
+                className="rounded-lg border border-border bg-bg-light p-4"
+              >
+                <span className="text-sm font-semibold text-primary">{item.label}</span>
+                <p className="mt-1 text-xs leading-relaxed text-text-light">
+                  {item.connection}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

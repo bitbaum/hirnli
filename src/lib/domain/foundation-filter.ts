@@ -1,11 +1,17 @@
 import type { Foundation, ThemeId, FoundationType, FoundationStatus } from '../schemas/foundation';
+import type { SchwerpunktId } from '../config/schwerpunkte';
+import { SCHWERPUNKTE } from '../config/schwerpunkte';
+
+export type ThemeLogic = 'or' | 'and';
 
 export interface FoundationFilters {
   themes: ThemeId[];
+  themeLogic: ThemeLogic;
   types: FoundationType[];
   statuses: FoundationStatus[];
-  fit: number | null;
+  fit: number[];
   search: string;
+  schwerpunkt: SchwerpunktId | null;
   hideOperative: boolean;
   hideNetworks: boolean;
   hideNoApplication: boolean;
@@ -14,10 +20,12 @@ export interface FoundationFilters {
 
 export const DEFAULT_FILTERS: FoundationFilters = {
   themes: [],
+  themeLogic: 'or',
   types: [],
   statuses: [],
-  fit: null,
+  fit: [],
   search: '',
+  schwerpunkt: null,
   hideOperative: false,
   hideNetworks: false,
   hideNoApplication: false,
@@ -30,9 +38,19 @@ export function filterFoundations(
   filters: FoundationFilters,
 ): Foundation[] {
   return foundations.filter((f) => {
-    // Theme filter (OR logic — matches if foundation has ANY selected theme)
+    // Theme filter — OR: foundation has ANY selected theme; AND: foundation has ALL
     if (filters.themes.length > 0) {
-      if (!filters.themes.some((t) => f.themes.includes(t))) return false;
+      if (filters.themeLogic === 'and') {
+        if (!filters.themes.every((t) => f.themes.includes(t))) return false;
+      } else {
+        if (!filters.themes.some((t) => f.themes.includes(t))) return false;
+      }
+    }
+
+    // Schwerpunkt filter — foundation must have at least one of the schwerpunkt's themeIds
+    if (filters.schwerpunkt) {
+      const sp = SCHWERPUNKTE[filters.schwerpunkt];
+      if (!sp.themeIds.some((t) => f.themes.includes(t))) return false;
     }
 
     // Type filter
@@ -45,9 +63,9 @@ export function filterFoundations(
       if (!filters.statuses.includes(f.status)) return false;
     }
 
-    // Fit filter
-    if (filters.fit !== null) {
-      if (f.fit < filters.fit) return false;
+    // Fit filter — multi-select: foundation must match one of the selected fit values
+    if (filters.fit.length > 0) {
+      if (!filters.fit.includes(f.fit)) return false;
     }
 
     // Hide operative foundations

@@ -10,6 +10,7 @@
 
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeKey } from '@/lib/config/stories';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { Evidence, WhySection, CompetencySection, Project, CoreFacts, TrackRecord, Anecdote, PhotoSlot } from '@/lib/schemas/story';
 import {
   composeStory,
@@ -19,6 +20,7 @@ import {
   SOCIAL_DISPLAY,
   ANSCHREIBEN_TEMPLATES,
   PARTNER_HIGHLIGHTS,
+  WHY,
   getAnecdotes,
   getPhotoSlots,
 } from '@/lib/config/stories';
@@ -58,11 +60,15 @@ export interface ComposedGesuch {
     approach: string;
     purposeSummary?: string;
   };
+  /** Bridge text connecting foundation's purpose to Revamp-IT's relevance */
+  foundationBridge: string;
   themes: {
     primary: ThemeKey;
     secondary: ThemeKey[];
     all: ThemeMetadata[];
   };
+  /** Secondary theme relevance — one-sentence connection per non-primary theme */
+  secondaryThemeRelevance: { theme: ThemeKey; label: string; connection: string }[];
   story: {
     why: WhySection | undefined;
     how: {
@@ -171,6 +177,89 @@ function buildFoundationInfo(foundation: Foundation) {
 }
 
 // ============================================================================
+// Foundation Bridge — connects foundation's purpose to Revamp-IT relevance
+// ============================================================================
+
+const TYPE_VERBS: Record<string, string> = {
+  A: 'fördert',
+  B: 'unterstützt',
+  C: 'engagiert sich für',
+  D: 'investiert in',
+  network: 'vernetzt Akteure im Bereich',
+};
+
+/** Build a bridge sentence connecting foundation purpose to Revamp-IT */
+function buildFoundationBridge(foundation: Foundation, primaryThemeLabel: string): string {
+  const verb = TYPE_VERBS[foundation.type] || 'fördert';
+  const purposeCore = foundation.purposeSummary
+    ? foundation.purposeSummary.split('.')[0].trim()
+    : '';
+
+  if (purposeCore) {
+    return `Die ${foundation.name} ${verb} ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} — ${ORG_PROFILE.name} bringt ${ORG_PROFILE.experienceLabel} in ${primaryThemeLabel} ein.`;
+  }
+  return `Die ${foundation.name} ${verb} Projekte im Bereich ${primaryThemeLabel} — genau dort, wo ${ORG_PROFILE.name} seit über 20 Jahren wirkt.`;
+}
+
+// ============================================================================
+// Secondary Theme Relevance — one-sentence connection per non-primary theme
+// ============================================================================
+
+function buildSecondaryRelevance(
+  secondaryThemes: ThemeKey[],
+): { theme: ThemeKey; label: string; connection: string }[] {
+  return secondaryThemes
+    .map((theme) => {
+      const whySection = WHY[theme];
+      if (!whySection) return null;
+
+      // Use the first sentence of the WHY solution as the connection
+      const solution = whySection.solution;
+      const firstSentence = solution.split('.')[0].trim() + '.';
+
+      // Get label from THEME_ID_TO_STORY_KEY reverse lookup
+      const themeId = Object.entries(THEME_ID_TO_STORY_KEY).find(
+        ([, key]) => key === theme,
+      )?.[0];
+      const label = themeId ? THEMES[themeId as keyof typeof THEMES]?.label ?? theme : theme;
+
+      return { theme, label, connection: firstSentence };
+    })
+    .filter((r): r is { theme: ThemeKey; label: string; connection: string } => r !== null);
+}
+
+// ============================================================================
+// Dynamic Opening — type-specific Anschreiben that references foundation purpose
+// ============================================================================
+
+function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: string): string {
+  const purposeCore = foundation.purposeSummary
+    ? foundation.purposeSummary.split('.')[0].trim()
+    : '';
+
+  switch (foundation.type) {
+    case 'A':
+      return purposeCore
+        ? `Wir erlauben uns, Ihnen ein Fördergesuch einzureichen. Ihr Engagement für ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} deckt sich eng mit unserer Arbeit im Bereich ${primaryThemeLabel}. Als ${ORG_PROFILE.legalForm.toLowerCase()} mit ${ORG_PROFILE.experienceLabel} in der Verbindung von ${ORG_PROFILE.missionSummary} möchten wir Ihnen eine Zusammenarbeit vorschlagen.`
+        : ANSCHREIBEN_TEMPLATES['A'].opening;
+    case 'B':
+      return purposeCore
+        ? `Ihr Engagement für ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} hat uns angesprochen. ${ORG_PROFILE.name} verbindet seit über 20 Jahren Umweltschutz mit sozialer Integration — ein Anliegen, das uns mit Ihrer Stiftung verbindet. Wir möchten Ihnen zeigen, wie eine Partnerschaft im Bereich ${primaryThemeLabel} konkret aussehen könnte.`
+        : ANSCHREIBEN_TEMPLATES['B'].opening;
+    case 'C':
+      return purposeCore
+        ? `Wir wissen, dass ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} Ihnen ein wichtiges Anliegen ist. In ${ORG_PROFILE.location} reparieren wir Computer, die sonst im Müll landen würden — und geben gleichzeitig Menschen eine zweite Chance auf dem Arbeitsmarkt. Dürfen wir Ihnen kurz erzählen, was wir im Bereich ${primaryThemeLabel} tun?`
+        : ANSCHREIBEN_TEMPLATES['C'].opening;
+    case 'D':
+      return purposeCore
+        ? `Ihr Fokus auf ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} zeigt, dass messbare Wirkung für Sie zählt. ${ORG_PROFILE.name} liefert genau das: transparente Impact-Daten zu ${ORG_PROFILE.missionSummary} im Bereich ${primaryThemeLabel}.`
+        : ANSCHREIBEN_TEMPLATES['D'].opening;
+    default:
+      return ANSCHREIBEN_TEMPLATES['A'].opening;
+  }
+}
+
+// ============================================================================
 // composeGesuch — Landing page content
 // ============================================================================
 
@@ -196,7 +285,9 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
       ready: false,
       readyReason: reason,
       foundation: buildFoundationInfo(foundation),
+      foundationBridge: '',
       themes: { primary: 'klima', secondary: [], all: [] },
+      secondaryThemeRelevance: [],
       story: { why: undefined, how: { track_record: { headline: '', text: '', proof_points: [] }, competencies: [] }, projects: [], evidence: [] },
       organization: CORE_FACTS,
       approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
@@ -208,6 +299,14 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
 
   const story = composeStory(mapped.primary, mapped.secondary);
 
+  // Primary theme label for bridge text
+  const primaryThemeId = Object.entries(THEME_ID_TO_STORY_KEY).find(
+    ([, key]) => key === mapped.primary,
+  )?.[0];
+  const primaryThemeLabel = primaryThemeId
+    ? THEMES[primaryThemeId as keyof typeof THEMES]?.label ?? mapped.primary
+    : mapped.primary;
+
   // Anecdotes: max 2 for WHY, max 1 for HOW
   const whyAnecdotes = getAnecdotes(mapped.primary, 'why').slice(0, 2);
   const howAnecdotes = getAnecdotes(mapped.primary, 'how').slice(0, 1);
@@ -215,11 +314,13 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
   return {
     ready: true,
     foundation: buildFoundationInfo(foundation),
+    foundationBridge: buildFoundationBridge(foundation, primaryThemeLabel),
     themes: {
       primary: mapped.primary,
       secondary: mapped.secondary,
       all: collectThemeMetadata(foundation),
     },
+    secondaryThemeRelevance: buildSecondaryRelevance(mapped.secondary),
     story,
     organization: CORE_FACTS,
     approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
@@ -249,15 +350,28 @@ function buildThemeAlignment(foundation: Foundation, themeMetadata: ThemeMetadat
 }
 
 /**
- * Map foundation type to budget scenario
- * Type A → Maximum (full vision)
- * Type B → Moderate (recommended)
- * Type C, D → Minimal (solid foundation)
+ * Map foundation to budget scenario — grant range first, type as fallback.
+ *
+ * Uses the foundation's known grant range to pick the right scenario,
+ * preventing us from asking CHF 50k from a foundation that gives max CHF 15k.
+ *
+ * Grant range logic: <20k → minimal, 20-50k → moderate, >50k → maximum
+ * Fallback (no range): Type A → maximum, Type B → moderate, C/D → minimal
  */
 function getScenarioForFoundation(foundation: Foundation): BudgetScenario {
   let scenarioId: string;
 
-  if (foundation.type === 'A') {
+  const maxGrant = foundation.amount.max;
+  if (maxGrant !== null) {
+    // Grant range known — use it
+    if (maxGrant < 20_000) {
+      scenarioId = 'minimal';
+    } else if (maxGrant <= 50_000) {
+      scenarioId = 'moderate';
+    } else {
+      scenarioId = 'maximum';
+    }
+  } else if (foundation.type === 'A') {
     scenarioId = 'maximum';
   } else if (foundation.type === 'B') {
     scenarioId = 'moderate';
@@ -267,7 +381,6 @@ function getScenarioForFoundation(foundation: Foundation): BudgetScenario {
 
   const scenario = getScenario(scenarioId);
   if (!scenario) {
-    // Fallback to moderate if scenario not found
     return getScenario('moderate')!;
   }
 
@@ -300,6 +413,7 @@ export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: Sc
   const gesuch = composeGesuch(foundation, schwerpunktId);
   const template = ANSCHREIBEN_TEMPLATES[foundation.type] ?? ANSCHREIBEN_TEMPLATES['A'];
   const themeMetadata = collectThemeMetadata(foundation);
+  const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
 
   // Get appropriate scenario based on foundation type
   const scenario = getScenarioForFoundation(foundation);
@@ -316,8 +430,8 @@ export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: Sc
     anschreiben: {
       date: dateStr,
       foundationAddress: buildFoundationAddress(foundation),
-      subject: `Fördergesuch: ${gesuch.story.projects[0]?.title ?? 'Kreislaufwirtschaft und Arbeitsintegration'}`,
-      opening: template.opening,
+      subject: `Fördergesuch: ${primaryLabel} — ${ORG_PROFILE.name}`,
+      opening: buildDynamicOpening(foundation, primaryLabel),
       closing: template.closing,
       themeAlignment: buildThemeAlignment(foundation, themeMetadata),
     },

@@ -2,33 +2,11 @@ import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
+import { computeCompleteness } from '@/lib/domain/foundation-research-stats';
 import AddToPipelineButton from './AddToPipelineButton';
 
 interface FoundationSidebarProps {
   foundation: Foundation;
-}
-
-/** Compute data completeness as percentage of key fields filled */
-function computeCompleteness(f: Foundation): { percent: number; missing: string[] } {
-  const checks: [string, boolean][] = [
-    ['Name', !!f.name],
-    ['Website', !!f.websiteUrl],
-    ['Themen', f.themes.length > 0],
-    ['Bewerbungsweg', f.applicationMethod !== 'unknown'],
-    ['Bewerbungs-URL', !!f.applicationUrl],
-    ['Förderbetrag', f.amount.min !== null || f.amount.max !== null],
-    ['Stiftungszweck', !!f.purposeSummary],
-    ['Jahresbudget', !!f.annualBudget],
-    ['Gründungsjahr', !!f.founded],
-    ['Kontakt', !!(f.contact?.email || f.contact?.address)],
-    ['UID', !!f.uid],
-    ['Region', !!f.region],
-    ['Stiftungsrat', !!(f.boardMembers && f.boardMembers.length > 0)],
-    ['Vermögen', !!f.capital],
-  ];
-  const filled = checks.filter(([, ok]) => ok).length;
-  const missing = checks.filter(([, ok]) => !ok).map(([label]) => label);
-  return { percent: Math.round((filled / checks.length) * 100), missing };
 }
 
 export default function FoundationSidebar({ foundation: f }: FoundationSidebarProps) {

@@ -8,9 +8,14 @@
  * These "template foundations" flow through the existing composeGesuch/composeGesuchDokument
  * pipeline. Foundation-specific fields (name, address, amount) use placeholder text
  * that users replace when customizing for a specific foundation.
+ *
+ * ORG-SPECIFIC: Content written for Revamp-IT.
+ * To support a new org, rewrite this file's content.
+ * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
  */
 
 import type { Foundation, FoundationType } from '@/lib/schemas/foundation';
+import { ORG_PROFILE } from './org-profile';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
 
@@ -140,7 +145,7 @@ export const TEMPLATE_FOUNDATIONS: Record<string, Foundation> = {
     amount: { min: 10000, max: 50000, text: 'CHF 10\'000–50\'000' },
     fit: 3,
     priority: 1,
-    tagline: 'Universelle Gesuch-Vorlage für Revamp-IT',
+    tagline: `Universelle Gesuch-Vorlage für ${ORG_PROFILE.name}`,
     region: '[Region]',
     websiteUrl: 'https://example.ch',
     applicationMethod: 'email',
@@ -150,7 +155,7 @@ export const TEMPLATE_FOUNDATIONS: Record<string, Foundation> = {
     researchDate: '2026-02-10',
     needsResearch: false,
     purposeSummary: '[Stiftungszweck hier einfügen]',
-    researchNotes: 'Universelle Vorlage — zeigt das gesamte Revamp-IT-Profil',
+    researchNotes: `Universelle Vorlage — zeigt das gesamte ${ORG_PROFILE.name}-Profil`,
   },
 
 };
@@ -169,7 +174,7 @@ export const TEMPLATE_LABELS: Record<string, { short: string; long: string; desc
   generisch: {
     short: 'Generisch',
     long: 'Universelle Vorlage',
-    desc: 'Das gesamte Revamp-IT-Profil — alle Schwerpunkte, alle Projekte. Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen.',
+    desc: `Das gesamte ${ORG_PROFILE.name}-Profil — alle Schwerpunkte, alle Projekte. Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen.`,
     category: 'generic',
   },
 };
@@ -231,8 +236,8 @@ export function getSchwerpunktTemplate(schwerpunktId: string, type: string): Fou
 }
 
 /** All valid Schwerpunkt route params (for generateStaticParams) */
-export function getSchwerpunktStaticParams(): { schwerpunkt: string; type: string }[] {
+export function getSchwerpunktStaticParams(): { vorlage: string; type: string }[] {
   return SCHWERPUNKT_IDS.flatMap((s) =>
-    SCHWERPUNKT_TEMPLATE_TYPES.map((t) => ({ schwerpunkt: s, type: t }))
+    SCHWERPUNKT_TEMPLATE_TYPES.map((t) => ({ vorlage: s, type: t }))
   );
 }
