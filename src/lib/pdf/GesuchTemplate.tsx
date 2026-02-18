@@ -14,6 +14,7 @@ import {
   StyleSheet,
   Font,
 } from '@react-pdf/renderer';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 // Define styles
 const styles = StyleSheet.create({
@@ -148,7 +149,7 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
         <View style={styles.header}>
           <Text style={styles.title}>Gesuch an {content.foundationName}</Text>
           <Text style={styles.subtitle}>
-            Revamp-IT Schweiz | {today}
+            {ORG_PROFILE.name} Schweiz | {today}
           </Text>
         </View>
 
@@ -176,7 +177,7 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
 
         {/* Why Revamp-IT */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Warum Revamp-IT?</Text>
+          <Text style={styles.sectionTitle}>Warum {ORG_PROFILE.name}?</Text>
           <Text style={styles.paragraph}>{content.whyUs}</Text>
         </View>
 
@@ -248,11 +249,11 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
         {/* Footer */}
         <View style={styles.footer}>
           <Text>
-            Revamp-IT Schweiz | Technoparkstrasse 1, 8005 Zürich |
-            info@revamp-it.ch
+            {ORG_PROFILE.name} Schweiz | {ORG_PROFILE.address} |
+            {ORG_PROFILE.email}
           </Text>
           <Text style={{ marginTop: 5 }}>
-            🌱 Generiert mit Revamp-IT Fundraising System
+            🌱 Generiert mit {ORG_PROFILE.name} Fundraising System
           </Text>
         </View>
       </Page>

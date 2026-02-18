@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
+
+const filePrefix = ORG_PROFILE.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
 function escapeCSV(value: string | number | null | undefined): string {
   if (value === null || value === undefined) return '';
@@ -101,7 +104,7 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': 'attachment; filename="revampit-fundraising-pipeline.csv"',
+        'Content-Disposition': `attachment; filename="${filePrefix}-fundraising-pipeline.csv"`,
       },
     });
   } catch (error) {

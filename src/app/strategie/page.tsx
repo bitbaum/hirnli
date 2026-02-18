@@ -7,6 +7,7 @@ import MetricGrid from '@/components/metrics/MetricGrid';
 import { PILLARS, VISION_TARGETS, HUB_CORE_SPACES, HUB_CULTURAL_SPACES, SDG_DATA, SDG_COLORS } from './data';
 import type { SdgRow } from './data';
 import { GeschichteSection, KontaktSection, SovereigntyPillar, VisionMetric, PillarDetail, CommunitySpaceCard } from './components';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
@@ -24,7 +25,7 @@ import { formatCHF } from '@/lib/utils/format';
 
 export const metadata: Metadata = {
   title: 'Mission & Werte',
-  description: 'Vier Säulen, Souveränität und SDG-Alignment — was Revamp-IT heute ausmacht',
+  description: `Vier Säulen, Souveränität und SDG-Alignment — was ${ORG_PROFILE.name} heute ausmacht`,
 };
 
 export default function StrategiePage() {
@@ -47,7 +48,7 @@ export default function StrategiePage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Mission</h2>
         <Card className="border-l-4 border-l-emerald-500 bg-gradient-to-br from-emerald-50 to-emerald-100">
           <p className="text-lg font-semibold text-emerald-800">
-            Revamp-IT gestaltet die Zukunft der IT durch Reparatur, Refurbishing und Lebensdauerverlängerung.
+            {ORG_PROFILE.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und Lebensdauerverlängerung.
           </p>
           <p className="mt-3 text-sm text-text-light">
             Wir retten gebrauchte Computer vor dem Elektroschrott, indem wir sie mit Linux und Open-Source-Software

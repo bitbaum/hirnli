@@ -7,6 +7,10 @@
  * Each Schwerpunkt combines:
  * - Story themes (ThemeKey from stories.ts) → controls WHY/HOW/WHAT content
  * - Foundation theme IDs (ThemeId from foundation schema) → controls template foundation themes
+ *
+ * ORG-SPECIFIC: Content written for Revamp-IT.
+ * To support a new org, rewrite this file's content.
+ * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
  */
 
 import type { ThemeKey } from '@/lib/config/stories';

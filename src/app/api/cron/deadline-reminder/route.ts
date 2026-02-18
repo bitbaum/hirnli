@@ -13,6 +13,7 @@ import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
 import { eq, and, gte, lte } from 'drizzle-orm';
 import { Resend } from 'resend';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 // Initialize Resend (requires RESEND_API_KEY in env)
 const resend = process.env.RESEND_API_KEY
@@ -83,8 +84,8 @@ export async function GET(request: NextRequest) {
       const emailBody = formatEmailBody(notifications);
 
       await resend.emails.send({
-        from: 'Revamp-IT Fundraising <noreply@revamp-it.ch>',
-        to: ['fundraising@revamp-it.ch'], // Configure in env
+        from: `${ORG_PROFILE.name} Fundraising <noreply@${ORG_PROFILE.website.replace('https://', '')}>`,
+        to: [ORG_PROFILE.fundraisingEmail],
         subject: `⏰ ${notifications.length} Fristen in den nächsten 14 Tagen`,
         html: emailBody,
       });
@@ -203,7 +204,7 @@ function formatEmailBody(
       </a>
     </p>
     <p style="font-size: 12px; color: #9CA3AF;">
-      Diese Nachricht wurde automatisch von Revamp-IT Fundraising System generiert.
+      Diese Nachricht wurde automatisch von ${ORG_PROFILE.name} Fundraising System generiert.
     </p>
   </div>
 </body>

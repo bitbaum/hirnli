@@ -1,5 +1,6 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { GESUCH_TEXT } from '@/lib/config/stories';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
 interface KurzportraitSectionProps {
@@ -10,7 +11,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
   return (
     <section className="gesuch-section mb-12">
       <h2 className="mb-2 border-b-2 border-grey-dark pb-2 text-2xl font-bold text-grey-dark">
-        Kurzportrait Revamp-IT
+        Kurzportrait {ORG_PROFILE.name}
       </h2>
       <p className="mb-6 text-xs text-text-muted">
         {GESUCH_TEXT.kurzportrait_subtitle}

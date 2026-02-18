@@ -6,6 +6,7 @@ import Badge from '@/components/ui/Badge';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import {
   KERNTEAM,
   BILDUNGSPROGRAMMLEITER,
@@ -26,12 +27,12 @@ export default function TeamPage() {
     <>
       <PageHeader
         title="Team & Kapazität"
-        subtitle={`${TEAM_MEMBERS.length} Menschen arbeiten bei Revamp-IT — Leitung, Techniker, Betrieb`}
+        subtitle={`${TEAM_MEMBERS.length} Menschen arbeiten bei ${ORG_PROFILE.name} — Leitung, Techniker, Betrieb`}
         badge="SSOT"
       />
 
       <WhyThisMatters
-        purpose="Zeigt, wer hinter Revamp-IT steht und wie wir durch Train-the-Trainer skalieren."
+        purpose={`Zeigt, wer hinter ${ORG_PROFILE.name} steht und wie wir durch Train-the-Trainer skalieren.`}
         connection="2× Bildungsprogrammleiter ermöglichen 40-60 Menschen/Jahr direkt zu erreichen durch Train-the-Trainer."
       />
 

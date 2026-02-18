@@ -98,6 +98,31 @@ Adding a new foundation requires: **1 data entry** in `foundations.ts` (1-file r
 
 ---
 
+## Organization Profile
+
+### `src/lib/config/org-profile.ts` — Identity SSOT
+All programmatic references to the organization (name, website, email,
+mission summary) import from `ORG_PROFILE`. Never hardcode org name in
+domain logic or UI chrome.
+
+### ORG-SPECIFIC Files
+Files marked `ORG-SPECIFIC` contain content specific to the current org.
+To support a new org, these files need content rewriting (not just
+search-replace). See file headers for details.
+
+### Swapping Orgs Checklist
+1. Edit `org-profile.ts` with new org identity
+2. Rewrite `stories.ts` narratives
+3. Rewrite THEMES in `metadata.ts` + ThemeId enum in `foundation.ts`
+4. Reseed foundation DB (new research, fit scores, priorities)
+5. Run `npm run sync` to regenerate config
+6. Rewrite NOT_RECOMMENDED, schwerpunkte, budget-scenarios
+7. Rewrite page content (/revamp-2030, /strategie, /team)
+8. Update branding (logo, colors if needed)
+9. `npm run build` must pass
+
+---
+
 ## Current Architecture
 
 ### Tech Stack

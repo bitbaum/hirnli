@@ -13,6 +13,7 @@ import { db } from '@/lib/db/client';
 import { foundations, applications } from '@/lib/db/schema';
 import { and, eq, isNull, lt, gte } from 'drizzle-orm';
 import { Resend } from 'resend';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -210,8 +211,8 @@ export async function GET(request: NextRequest) {
       const emailBody = formatQualityReport(issues);
 
       await resend.emails.send({
-        from: 'Revamp-IT Fundraising <noreply@revamp-it.ch>',
-        to: ['fundraising@revamp-it.ch'],
+        from: `${ORG_PROFILE.name} Fundraising <noreply@${ORG_PROFILE.website.replace('https://', '')}>`,
+        to: [ORG_PROFILE.fundraisingEmail],
         subject: `📊 Datenqualität Report: ${issues.length} Probleme gefunden`,
         html: emailBody,
       });
@@ -305,7 +306,7 @@ function formatQualityReport(issues: DataQualityIssue[]): string {
       </a>
     </p>
     <p style="font-size: 12px; color: #9CA3AF;">
-      Diese Nachricht wurde automatisch vom Revamp-IT Fundraising System generiert.
+      Diese Nachricht wurde automatisch vom ${ORG_PROFILE.name} Fundraising System generiert.
     </p>
   </div>
 </body>

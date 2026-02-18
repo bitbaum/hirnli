@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { TYPE_LABELS } from '@/lib/config/foundations';
 import { TYPE_TEMPLATE_KEYS, TEMPLATE_LABELS, SCHWERPUNKT_TEMPLATE_TYPES } from '@/lib/config/gesuch-templates';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 
 export const metadata: Metadata = {
-  title: 'Gesuch-Vorlagen — Revamp-IT',
+  title: `Gesuch-Vorlagen — ${ORG_PROFILE.name}`,
   description: 'Gesuch-Vorlagen nach Schwerpunkt und Stiftungstyp — themenspezifische und typbasierte Referenzvorlagen',
 };
 
@@ -119,7 +120,7 @@ export default function GesuchVorlagenPage() {
         <h2 className="mb-2 text-xl font-semibold text-grey-dark">Universelle Vorlage</h2>
         <p className="mb-4 text-sm text-text-light">
           Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen.
-          Sie enthält das gesamte Revamp-IT-Profil mit allen Schwerpunkten.
+          Sie enthält das gesamte {ORG_PROFILE.name}-Profil mit allen Schwerpunkten.
         </p>
         <TemplateCard
           slug="generisch"

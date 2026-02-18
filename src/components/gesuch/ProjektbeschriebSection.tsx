@@ -1,5 +1,6 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { GESUCH_TEXT, findEvidence } from '@/lib/config/stories';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
 interface ProjektbeschriebSectionProps {
@@ -22,7 +23,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         {dok.foundation.purposeSummary && (
           <p className="mb-3 text-sm leading-relaxed text-text">
             Die {dok.foundation.name} fördert {dok.foundation.purposeSummary.split('.')[0].toLowerCase()}.
-            {' '}Revamp-IT adressiert dieses Anliegen direkt:
+            {' '}{ORG_PROFILE.name} adressiert dieses Anliegen direkt:
           </p>
         )}
         <p className="text-sm leading-relaxed text-text">

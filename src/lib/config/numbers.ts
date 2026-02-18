@@ -16,6 +16,10 @@
  * 9 entries share values with revampit's Neon DB via SHARED_ORG_NUMBERS.
  * To update shared values: edit seed script in revampit, re-seed DB,
  * then run `npm run sync-numbers` here.
+ *
+ * ORG-SPECIFIC: Content written for Revamp-IT.
+ * To support a new org, rewrite this file's content.
+ * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
  */
 
 import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated'

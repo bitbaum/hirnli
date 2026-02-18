@@ -1,4 +1,10 @@
+/**
+ * ORG-SPECIFIC: Content written for Revamp-IT.
+ * To support a new org, rewrite this file's content.
+ * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
+ */
 import Card from '@/components/ui/Card';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 export { default as SovereigntyPillar } from './components/SovereigntyPillar';
 export { default as VisionMetric } from './components/VisionMetric';
@@ -53,14 +59,14 @@ export function KontaktSection() {
     <section className="mb-8">
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Kontakt</h2>
       <Card className="text-center">
-        <h3 className="mb-3 text-lg font-semibold">Revamp-IT</h3>
+        <h3 className="mb-3 text-lg font-semibold">{ORG_PROFILE.name}</h3>
         <p className="text-sm"><strong>Adresse:</strong> Birmensdorferstrasse 379, 8055 Zürich</p>
         <p className="text-sm"><strong>Telefon:</strong> +41 (0)43 960 32 64</p>
-        <p className="text-sm"><strong>E-Mail:</strong> empfang@revamp-it.ch</p>
+        <p className="text-sm"><strong>E-Mail:</strong> {ORG_PROFILE.email}</p>
         <p className="text-sm">
           <strong>Web:</strong>{' '}
-          <a href="https://revamp-it.ch" target="_blank" rel="noopener noreferrer">
-            revamp-it.ch
+          <a href={ORG_PROFILE.website} target="_blank" rel="noopener noreferrer">
+            {ORG_PROFILE.website.replace('https://', '')}
           </a>
         </p>
         <p className="mt-6 text-sm italic text-text-muted">

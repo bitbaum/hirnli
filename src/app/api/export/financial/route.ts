@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { exportFinancialData } from '@/lib/domain/data-exporters';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
+
+const filePrefix = ORG_PROFILE.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
 export async function GET() {
   try {
@@ -9,7 +12,7 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': 'attachment; filename="revampit-finanzen-2018-2025.csv"',
+        'Content-Disposition': `attachment; filename="${filePrefix}-finanzen-2018-2025.csv"`,
       },
     });
   } catch (error) {

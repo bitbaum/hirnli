@@ -2,6 +2,10 @@
  * Gesuch PDF Generation API
  *
  * POST /api/documents/gesuch/[id] — Generate and download PDF for application
+ *
+ * ORG-SPECIFIC: Content written for Revamp-IT.
+ * To support a new org, rewrite this file's content.
+ * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -12,6 +16,7 @@ import { eq } from 'drizzle-orm';
 import { GesuchPDF } from '@/lib/pdf/GesuchTemplate';
 import { generatePersonalizedGesuch } from '@/lib/domain/personalization-engine';
 import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 /**
  * POST /api/documents/gesuch/[id]
@@ -90,7 +95,7 @@ export async function POST(
 
       contact: {
         name: 'Andreas Hunkeler',
-        email: 'andreas@revamp-it.ch',
+        email: ORG_PROFILE.email,
         phone: '+41 76 123 45 67',
       },
 

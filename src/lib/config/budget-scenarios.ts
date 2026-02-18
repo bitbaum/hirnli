@@ -6,6 +6,10 @@ import type { ThemeKey } from '@/lib/config/stories';
  *
  * All budget data lives here. No hardcoded CHF amounts elsewhere.
  * Every line item has full source attribution (methodology, confidence, lastVerified).
+ *
+ * ORG-SPECIFIC: Content written for Revamp-IT.
+ * To support a new org, rewrite this file's content.
+ * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
  */
 
 /**

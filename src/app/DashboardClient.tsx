@@ -7,6 +7,7 @@ import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
 import { useFinancialData } from '@/hooks/useFinancialData';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatCHF, formatPercent, calcGrowth } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided } from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
@@ -38,7 +39,7 @@ export default function DashboardClient() {
   return (
     <div>
       <PageHeader
-        title="Revamp-IT"
+        title={ORG_PROFILE.name}
         subtitle="Fundraising Intelligence & Organisationsdaten"
       />
 

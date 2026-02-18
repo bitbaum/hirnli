@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
@@ -21,8 +22,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const foundation = getFoundationBySlug(slug);
   if (!foundation) return { title: 'Stiftung nicht gefunden' };
   return {
-    title: `Fördergesuch — Revamp-IT an ${foundation.name}`,
-    description: `Formelles Fördergesuch von Revamp-IT an ${foundation.name}`,
+    title: `Fördergesuch — ${ORG_PROFILE.name} an ${foundation.name}`,
+    description: `Formelles Fördergesuch von ${ORG_PROFILE.name} an ${foundation.name}`,
   };
 }
 

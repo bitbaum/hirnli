@@ -1,4 +1,5 @@
 import type { CoreFacts } from '@/lib/schemas/story';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 interface GesuchContactSectionProps {
   foundationName: string;
@@ -12,7 +13,7 @@ export default function GesuchContactSection({ foundationName, organization }: G
     <section className="rounded-2xl bg-bg-light p-4 text-center md:p-8">
       <h2 className="mb-4 text-xl font-bold text-grey-dark md:text-2xl">Lassen Sie uns ins Gespräch kommen</h2>
       <p className="mb-6 text-text-light">
-        Wir freuen uns auf einen Austausch darüber, wie Revamp-IT und {foundationName} gemeinsam wirken können.
+        Wir freuen uns auf einen Austausch darüber, wie {ORG_PROFILE.name} und {foundationName} gemeinsam wirken können.
       </p>
       <div className="mb-6 space-y-1 text-sm text-text-light">
         <p className="font-semibold text-grey-dark">{organization.organization.name}</p>

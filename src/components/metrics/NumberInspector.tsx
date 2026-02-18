@@ -3,6 +3,7 @@
 import Modal from '@/components/ui/Modal';
 import Badge from '@/components/ui/Badge';
 import type { InspectorData, InspectorSourceType } from '@/lib/schemas/inspector';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 interface NumberInspectorProps {
   isOpen: boolean;
@@ -128,8 +129,8 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
             <p>
               Alle Zahlen auf dieser Seite sind klickbar und vollständig nachvollziehbar.
               Bei Fragen zur Datenherkunft kontaktieren Sie uns unter{' '}
-              <a href="mailto:empfang@revamp-it.ch" className="text-blue-600 dark:text-blue-400 hover:underline">
-                empfang@revamp-it.ch
+              <a href={`mailto:${ORG_PROFILE.email}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                {ORG_PROFILE.email}
               </a>
             </p>
           </div>

@@ -1,3 +1,8 @@
+/**
+ * ORG-SPECIFIC: Content written for Revamp-IT.
+ * To support a new org, rewrite this file's content.
+ * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
+ */
 export interface TeamMember {
   id: string;
   name: string;

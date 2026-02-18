@@ -5,11 +5,12 @@
  * Drag-and-drop cards between status columns.
  */
 
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { ApplicationBoard } from '@/components/fundraising/ApplicationBoard';
 import PageHeader from '@/components/layout/PageHeader';
 
 export const metadata = {
-  title: 'Gesuch-Pipeline | Revamp-IT Fundraising',
+  title: `Gesuch-Pipeline | ${ORG_PROFILE.name} Fundraising`,
   description: 'Stiftungsgesuche verwalten und nachverfolgen',
 };
 

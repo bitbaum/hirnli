@@ -1,5 +1,9 @@
 /* ────────────────────────────────────────────
    Static data for the strategie page
+
+   ORG-SPECIFIC: Content written for Revamp-IT.
+   To support a new org, rewrite this file's content.
+   Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
    ──────────────────────────────────────────── */
 
 import { HUB_SPACE_DISPLAY, PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';

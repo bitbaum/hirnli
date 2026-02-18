@@ -4,9 +4,10 @@ import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { STIFTUNGEN_DATA, FIT_CONFIG } from '@/lib/config/foundations';
 import { TEAM_MEMBERS } from '@/app/team/data';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 export const metadata: Metadata = {
-  title: 'Revamp-Info — Transparenz-Hub für Revamp-IT Fundraising',
+  title: `${ORG_PROFILE.platform.name} — Transparenz-Hub für ${ORG_PROFILE.name} Fundraising`,
   description: 'Alle Daten, alle Quellen, komplett transparent: Finanzen, Wirkung, Strategie, Fundraising-Pipeline',
 };
 
@@ -22,9 +23,9 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="mb-12">
         <div className="rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-12 text-white">
-          <h1 className="text-5xl font-bold mb-6">Willkommen bei Revamp-Info</h1>
+          <h1 className="text-5xl font-bold mb-6">Willkommen bei {ORG_PROFILE.platform.name}</h1>
           <p className="text-2xl mb-8 leading-relaxed">
-            <strong>Transparenz-Hub für Revamp-IT:</strong> Alle Daten, alle Quellen, komplett transparent.
+            <strong>Transparenz-Hub für {ORG_PROFILE.name}:</strong> Alle Daten, alle Quellen, komplett transparent.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur">
@@ -91,11 +92,11 @@ export default function HomePage() {
 
       {/* What is this site? */}
       <section className="mb-12">
-        <h2 className="text-3xl font-bold mb-6 text-grey-dark">Was ist Revamp-Info?</h2>
+        <h2 className="text-3xl font-bold mb-6 text-grey-dark">Was ist {ORG_PROFILE.platform.name}?</h2>
         <Card className="border-l-4 border-l-blue-500 mb-6">
           <p className="text-lg text-text-light mb-4 leading-relaxed">
-            <strong>Revamp-Info ist unser Transparenz-Hub</strong> — eine interaktive Plattform, die alle Daten
-            über Revamp-IT an einem Ort sammelt und für Stiftungen, Partner und Interessierte zugänglich macht.
+            <strong>{ORG_PROFILE.platform.name} ist unser Transparenz-Hub</strong> — eine interaktive Plattform, die alle Daten
+            über {ORG_PROFILE.name} an einem Ort sammelt und für Stiftungen, Partner und Interessierte zugänglich macht.
           </p>
           <p className="text-base text-text-light leading-relaxed">
             Statt PDF-Berichten mit Zahlen ohne Kontext zeigen wir: <strong>Woher kommt jede Zahl? Wie wurde sie berechnet?
@@ -118,7 +119,7 @@ export default function HomePage() {
           </Card>
 
           <Card className="border-l-4 border-l-purple-500">
-            <h3 className="text-xl font-semibold text-grey-dark mb-3">Für uns (Revamp-IT)</h3>
+            <h3 className="text-xl font-semibold text-grey-dark mb-3">Für uns ({ORG_PROFILE.name})</h3>
             <p className="text-sm text-text-light mb-4">
               Fundraising-Intelligence: Passende Stiftungen finden, Fit analysieren, professionelle Gesuche generieren.
             </p>

@@ -1,16 +1,14 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { THEMES } from '@/lib/config/foundations';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
+import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundation-helpers';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
+import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
 import Card from '@/components/ui/Card';
-import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
-import GesuchWhySection from '@/components/gesuch/GesuchWhySection';
-import GesuchHowSection from '@/components/gesuch/GesuchHowSection';
-import GesuchProjectsSection from '@/components/gesuch/GesuchProjectsSection';
-import GesuchEvidenceSection from '@/components/gesuch/GesuchEvidenceSection';
-import GesuchContactSection from '@/components/gesuch/GesuchContactSection';
+import GesuchPageClient from './GesuchPageClient';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -25,9 +23,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const foundation = getFoundationBySlug(slug);
   if (!foundation) return { title: 'Stiftung nicht gefunden' };
   return {
-    title: `Gesuch — Revamp-IT × ${foundation.name}`,
+    title: `Gesuch — ${ORG_PROFILE.name} × ${foundation.name}`,
     description: `Personalisiertes Gesuch für ${foundation.name}`,
   };
+}
+
+/** Get primary color from a composed gesuch's first theme */
+function getPrimaryColor(gesuch: ComposedGesuch): string {
+  return gesuch.themes.all[0]?.color ?? '#3498DB';
 }
 
 export default async function GesuchPage({ params }: Props) {
@@ -38,17 +41,17 @@ export default async function GesuchPage({ params }: Props) {
     notFound();
   }
 
-  const gesuch = composeGesuch(foundation);
+  const autoGesuch = composeGesuch(foundation);
 
   // Not-ready fallback
-  if (!gesuch.ready) {
+  if (!autoGesuch.ready) {
     return (
       <div className="gesuch-page mx-auto max-w-4xl px-4 py-12">
         <Card className="text-center">
           <h1 className="mb-4 text-2xl font-bold text-grey-dark">
-            Gesuch für {gesuch.foundation.name}
+            Gesuch für {autoGesuch.foundation.name}
           </h1>
-          <p className="mb-6 text-text-light">{gesuch.readyReason}</p>
+          <p className="mb-6 text-text-light">{autoGesuch.readyReason}</p>
           <Link
             href={`/fundraising/stiftungen/${slug}`}
             className="inline-block rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white hover:bg-primary-light"
@@ -60,52 +63,24 @@ export default async function GesuchPage({ params }: Props) {
     );
   }
 
-  const primaryThemeId = foundation.themes[0];
-  const primaryColor = primaryThemeId ? THEMES[primaryThemeId]?.color ?? '#3498DB' : '#3498DB';
+  // Pre-compute all Schwerpunkt variants (pure functions, no I/O)
+  const variants: Record<string, ComposedGesuch> = { auto: autoGesuch };
+  const primaryColors: Record<string, string> = { auto: getPrimaryColor(autoGesuch) };
+
+  for (const spId of SCHWERPUNKT_IDS) {
+    const variant = composeGesuch(foundation, spId);
+    if (variant.ready) {
+      variants[spId] = variant;
+      primaryColors[spId] = SCHWERPUNKTE[spId].color;
+    }
+  }
 
   return (
-    <div className="gesuch-page">
-      <GesuchHeroSection
-        subtitle="Partnerschaftsvorschlag"
-        foundationName={gesuch.foundation.name}
-        description={gesuch.foundation.purposeSummary ?? ''}
-        themes={gesuch.themes.all}
-        primaryColor={primaryColor}
-      />
-
-      <div className="mx-auto max-w-4xl space-y-12 px-4 py-12 md:px-0">
-        {gesuch.story.why && <GesuchWhySection why={gesuch.story.why} />}
-
-        <GesuchHowSection
-          trackRecord={gesuch.story.how.track_record}
-          competencies={gesuch.story.how.competencies}
-        />
-
-        <GesuchProjectsSection projects={gesuch.story.projects} />
-
-        <GesuchEvidenceSection evidence={gesuch.story.evidence} />
-
-        <GesuchContactSection
-          foundationName={gesuch.foundation.name}
-          organization={gesuch.organization}
-        />
-
-        {/* Navigation links */}
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">
-          <Link
-            href={`/fundraising/stiftungen/${slug}/gesuch/dokument`}
-            className="rounded-lg bg-grey-dark px-5 py-3 text-sm font-semibold text-white hover:bg-grey-dark/90"
-          >
-            Formelles Gesuch-Dokument (PDF)
-          </Link>
-          <Link
-            href={`/fundraising/stiftungen/${slug}`}
-            className="py-3 text-sm text-primary hover:underline"
-          >
-            &larr; Zurück zur Stiftungsseite
-          </Link>
-        </div>
-      </div>
-    </div>
+    <GesuchPageClient
+      slug={slug}
+      foundationThemes={foundation.themes}
+      variants={variants}
+      primaryColors={primaryColors}
+    />
   );
 }

@@ -2,6 +2,10 @@
 /**
  * Foundation Screening v3.1 - Gap Fixes + Smart Tiering
  *
+ * ORG-SPECIFIC: Content written for Revamp-IT.
+ * To support a new org, rewrite this file's content.
+ * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
+ *
  * Fixes based on Phase 3 final 8 analysis (measured 50% FP rate):
  * 1. **Operator keywords enhanced** - Add "trägerin", "informationsaustausch", "plattform"
  * 2. **International development complete** - Add "dritte welt" (old German term)

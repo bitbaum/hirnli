@@ -17,6 +17,10 @@
  * 4. WHAT - Project templates (Pages 3-4 of Gesuch)
  * 5. EVIDENCE - Scientific citations and sources
  *
+ * ORG-SPECIFIC: Content written for Revamp-IT.
+ * To support a new org, rewrite this file's content.
+ * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
+ *
  * USAGE:
  * - Foundation pages import and combine relevant sections
  * - Same core facts, different lens per foundation

@@ -1,24 +1,26 @@
 /**
  * Branding Configuration - SSOT
  *
- * Visual identity for Revamp-Info (fundraising platform)
- * Inherits from Revamp-IT brand identity but specialized for fundraising context
+ * Visual identity for the fundraising platform.
+ * Org identity comes from org-profile.ts; this file owns visual identity only.
  *
- * Last Updated: 2026-02-13
+ * Last Updated: 2026-02-18
  */
 
+import { ORG_PROFILE } from './org-profile';
+
 export const BRANDING = {
-  // Logo assets (from main Revamp-IT site)
+  // Logo assets
   logo: {
     main: '/revampit-icon.png', // Orange smiling chip icon (text shown separately)
-    alt: 'Revamp-IT Icon',
+    alt: `${ORG_PROFILE.name} Icon`,
     width: 40,
     height: 40,
   },
 
   // Site identity
-  siteName: 'Revamp-Info',
-  siteTagline: 'Fundraising Hub',
+  siteName: ORG_PROFILE.platform.name,
+  siteTagline: ORG_PROFILE.platform.tagline,
 
   // Brand colors (inherited from Revamp-IT)
   colors: {

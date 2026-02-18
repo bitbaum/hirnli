@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-// Theme IDs
+// ORG-SPECIFIC: Theme values match current org's focus areas
 export const ThemeId = z.enum([
   'klima',
   'kreislaufwirtschaft',

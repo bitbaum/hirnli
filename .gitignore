@@ -20,6 +20,9 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Screenshots
+screenshot-*.png
+
 # Vercel
 .vercel
 .env*.local

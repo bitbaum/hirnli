@@ -1,4 +1,5 @@
 import { BRAND_NAME } from '@/lib/config/nav';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -6,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="mt-auto border-t border-border bg-bg-light">
       <div className="mx-auto max-w-7xl px-4 py-6 text-center text-sm text-text-light">
-        <p>{BRAND_NAME} &copy; {currentYear} &ndash; Interne Wissensbasis von Revamp-IT</p>
+        <p>{BRAND_NAME} &copy; {currentYear} &ndash; Interne Wissensbasis von {ORG_PROFILE.name}</p>
         <div className="mt-2 flex justify-center gap-4">
           <a
             href="https://github.com/g-but/revamp-info"
@@ -17,12 +18,12 @@ export default function Footer() {
             GitHub
           </a>
           <a
-            href="https://revamp-it.ch"
+            href={ORG_PROFILE.website}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary"
           >
-            revamp-it.ch
+            {ORG_PROFILE.website.replace('https://', '')}
           </a>
         </div>
       </div>

@@ -3,6 +3,7 @@ import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { ThemeKey } from '@/lib/config/stories';
 import { getThemedLabel } from '@/lib/config/budget-scenarios';
 import { formatCHF } from '@/lib/utils/format';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 interface BudgetSectionProps {
   dok: ComposedGesuchDokument;
@@ -90,7 +91,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
             </td>
           </tr>
           <tr className="border-b border-border bg-emerald-50">
-            <td className="py-1.5 font-medium text-emerald-800">Eigenleistung Revamp-IT</td>
+            <td className="py-1.5 font-medium text-emerald-800">Eigenleistung {ORG_PROFILE.name}</td>
             {dok.budget.threeYearModel.map((y) => (
               <td key={y.year} className="py-1.5 text-right text-emerald-800">{formatCHF(y.eigen)}</td>
             ))}
@@ -153,7 +154,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
         <tbody>
           <tr className="border-b border-border">
             <td className="py-1.5">
-              <span>Eigenleistung Revamp-IT</span>
+              <span>Eigenleistung {ORG_PROFILE.name}</span>
               <span className="ml-2 text-xs text-text-muted">
                 Erlöse Geräteverkauf, IT-Dienstleistungen, Infrastruktur und Freiwilligenarbeit
               </span>
