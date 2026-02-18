@@ -286,7 +286,7 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     simultaneous_capacity: '1-2 people for maintenance (not a workspace, technical room)',
     ceiling_height_min: 2.4,
     layout_type: 'Hot aisle / cold aisle for efficient cooling',
-    cost_estimate_chf: '15-150k (highly variable, depends on GPU Setup A/B/C)',
+    cost_estimate_chf: 80_000, // 15-150k range, highly variable — depends on GPU Setup A/B/C
   },
 
   {

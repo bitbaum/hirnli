@@ -196,6 +196,3 @@ export const DATA_QUALITY_NOTE = {
   current_source: 'team.ts (SSOT - operational reality)',
 } as const;
 
-// Type exports
-export type { TeamMember };
-export { KERNTEAM, BILDUNGSPROGRAMMLEITER, TEAM_SUMMARY, MULTIPLICATION_EFFECT, TEAM_SALARIES, TEAM_CAPACITY, DATA_QUALITY_NOTE };

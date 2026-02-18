@@ -40,7 +40,7 @@ export const BudgetLineItemSchema = z.object({
     note: z.string().optional(),
   })).optional(),
   icon: z.string().optional(),
-  isOptional: z.boolean().default(false),
+  isOptional: z.boolean().optional(),
   themeLabels: z.record(z.string(), ThemeLabelSchema).optional(),
 });
 

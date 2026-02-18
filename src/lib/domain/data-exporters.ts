@@ -5,7 +5,7 @@
  * Used by API routes in /app/api/export/*
  */
 
-import { FinanceDataSet } from '@/lib/data/financial';
+import { loadFinancialData } from '@/lib/data/financial';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { REVENUE_HISTORY } from '@/app/fundraising/data';
 
@@ -16,7 +16,6 @@ import { REVENUE_HISTORY } from '@/app/fundraising/data';
 function escapeCSV(value: string | number | null | undefined): string {
   if (value === null || value === undefined) return '';
   const str = String(value);
-  // Escape quotes and wrap in quotes if contains comma, quote, or newline
   if (str.includes(',') || str.includes('"') || str.includes('\n')) {
     return `"${str.replace(/"/g, '""')}"`;
   }
@@ -40,15 +39,14 @@ export function exportFinancialData(): string {
   const rows: (string | number)[][] = [];
 
   years.forEach((year) => {
-    const data = new FinanceDataSet(year);
-    const totals = data.getTotals();
+    const data = loadFinancialData(year);
 
-    rows.push([year, 'Warenverkauf', totals.warenverkauf, 'Kivitendo']);
-    rows.push([year, 'Dienstleistungen', totals.dienstleistungen, 'Kivitendo']);
-    rows.push([year, 'Integration', totals.integration, 'Kivitendo']);
-    rows.push([year, 'Spenden', totals.spenden, 'Kivitendo']);
-    rows.push([year, 'Aufstockung', totals.aufstockung, 'Kivitendo']);
-    rows.push([year, 'Total', totals.total, 'Berechnet']);
+    rows.push([year, 'Warenverkauf', data.sum('warenverkauf'), 'Kivitendo']);
+    rows.push([year, 'Dienstleistungen', data.sum('dienstleistungen'), 'Kivitendo']);
+    rows.push([year, 'Integration', data.sum('integration'), 'Kivitendo']);
+    rows.push([year, 'Spenden', data.sum('spenden'), 'Kivitendo']);
+    rows.push([year, 'Aufstockung', data.sum('aufstockung'), 'Kivitendo']);
+    rows.push([year, 'Total', data.sum('total'), 'Berechnet']);
   });
 
   return arrayToCSV(headers, rows);
@@ -67,7 +65,7 @@ export function exportFoundationList(): string {
     'Deadline',
     'Betrag (CHF)',
     'Fit-Score',
-    'Geographie',
+    'Region',
     'URL',
   ];
 
@@ -76,11 +74,11 @@ export function exportFoundationList(): string {
     foundation.type,
     foundation.themes.join('; '),
     foundation.status,
-    foundation.deadline || 'Rolling',
-    foundation.amount || 'Variabel',
+    foundation.deadlineText || 'Rolling',
+    foundation.amount.text || 'Variabel',
     `${foundation.fit}/3`,
-    foundation.geo?.join(', ') || 'CH',
-    foundation.website || '',
+    foundation.region || 'CH',
+    foundation.websiteUrl || '',
   ]);
 
   return arrayToCSV(headers, rows);

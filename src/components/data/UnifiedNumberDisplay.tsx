@@ -51,39 +51,34 @@ export default function UnifiedNumberDisplay({
   // 2. Fall back to NumberSources (legacy system)
   const legacyMetric = NumberSources[numberKey];
   if (legacyMetric) {
+    const sourceTypeMap: Record<string, 'live' | 'derived' | 'estimated' | 'none'> = {
+      source: 'live',
+      capacity: 'derived',
+      estimated: 'estimated',
+      target: 'derived',
+      derived: 'derived',
+      calculated: 'derived',
+    };
+
     const handleClick = () => {
-      // Convert legacy metric to InspectorData format
       const data: InspectorData = {
-        type: 'number' as const,
-        number: {
-          id: legacyMetric.id,
-          name: legacyMetric.name,
-          category: legacyMetric.category,
-          dimension: legacyMetric.dimension,
-          format: legacyMetric.format,
-          formula: legacyMetric.formula,
-          validation: legacyMetric.validation,
-          documentation: legacyMetric.documentation,
-        },
-        source: {
-          type: legacyMetric.source.type,
-          confidence: legacyMetric.source.confidence,
-          path: legacyMetric.source.path || '',
-          account: legacyMetric.source.account,
-          lastUpdated: legacyMetric.source.lastUpdated || undefined,
-        },
+        label: legacyMetric.name,
+        value: '—',
+        sourceType: sourceTypeMap[legacyMetric.source.type] || 'none',
+        source: legacyMetric.source.path || '',
+        account: legacyMetric.source.account,
+        formula: legacyMetric.formula?.expression,
+        confidence: legacyMetric.source.confidence,
       };
       setInspectorData(data);
     };
 
-    // Extract value from metric name (workaround - in real usage, value would be passed)
-    // For now, show the metric exists and is clickable
     return (
       <div className={className}>
         <MetricCard
           label={legacyMetric.name}
-          value="—" // Placeholder - actual value would come from data source
-          sourceType={legacyMetric.source.type}
+          value="—"
+          sourceType={sourceTypeMap[legacyMetric.source.type] || 'none'}
           onClick={handleClick}
         />
         {/* Inspector modal would go here - for now, legacy system handles it */}
