@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prebuild": "npm run sync",
+    "sync": "tsx src/scripts/sync-foundations.ts",
+    "seed:config": "tsx src/scripts/seed-config-to-db.ts",
     "start": "next start",
     "lint": "eslint",
     "db:setup": "tsx src/scripts/setup-db.ts",
@@ -34,6 +37,7 @@
     "@react-pdf/renderer": "^4.3.2",
     "chart.js": "^4.5.1",
     "drizzle-orm": "^0.45.1",
+    "fuse.js": "^7.1.0",
     "nanoid": "^5.1.6",
     "next": "16.1.6",
     "react": "19.2.3",

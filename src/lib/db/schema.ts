@@ -11,7 +11,7 @@
  */
 
 import { sql } from 'drizzle-orm';
-import { text, integer, boolean, pgTable } from 'drizzle-orm/pg-core';
+import { text, integer, boolean, jsonb, pgTable } from 'drizzle-orm/pg-core';
 
 /**
  * Foundations Table - SSOT for all foundation data
@@ -56,6 +56,10 @@ export const foundations = pgTable('fundraising_foundations', {
   researchDate: text('research_date'), // ISO date
   researchFilePath: text('research_file_path'), // Path to original /research/*.md file
   dataQuality: integer('data_quality'), // 1-5 scale
+
+  // Full config object (Zod Foundation schema shape) — used by sync script
+  // to generate TypeScript config. DB is write SSOT, generated TS is build cache.
+  configData: jsonb('config_data'),
 
   // Admin
   source: text('source'), // swissfoundations, spheriq, zhaw, typescript-legacy, rapid-assessment, etc.

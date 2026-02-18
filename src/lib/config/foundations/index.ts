@@ -2,7 +2,10 @@
  * Foundation Configuration — Re-exports
  *
  * All imports from '@/lib/config/foundations' resolve here.
- * Adding a new research batch: create stiftungen-YYYY-MM.ts, add to STIFTUNGEN_DATA below.
+ * Foundation data is generated from DB via `npm run sync`.
+ *
+ * Legacy batch files (stiftungen-core.ts, stiftungen-2026-02.ts) are kept
+ * as seed data reference but are no longer the runtime source.
  */
 
 import type { Foundation } from '../../schemas/foundation';
@@ -17,16 +20,9 @@ export {
   DATABASES,
 } from './metadata';
 
-export { STIFTUNGEN_CORE } from './stiftungen-core';
-export { STIFTUNGEN_2026_02 } from './stiftungen-2026-02';
+import { STIFTUNGEN_GENERATED } from './stiftungen-generated';
 
-import { STIFTUNGEN_CORE } from './stiftungen-core';
-import { STIFTUNGEN_2026_02 } from './stiftungen-2026-02';
-
-export const STIFTUNGEN_DATA: Foundation[] = [
-  ...STIFTUNGEN_CORE,
-  ...STIFTUNGEN_2026_02,
-];
+export const STIFTUNGEN_DATA: Foundation[] = STIFTUNGEN_GENERATED;
 
 // ---------------------------------------------------------------------------
 // Quality Gate Validation (enforced at build time)

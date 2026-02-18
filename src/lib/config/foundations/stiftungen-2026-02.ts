@@ -2323,6 +2323,7 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     tagline: 'Bildung, Jugend, soziale Unterstützung',
     founded: null,
     region: 'Zürich',
+    websiteUrl: '', // No public web presence — managed via Bratschi AG
     applicationMethod: 'contact',
     contact: {
       address: 'c/o Bratschi AG, Bahnhofstrasse 70, 8001 Zürich',
@@ -2351,6 +2352,7 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     tagline: 'Jugend, Bildung (primär jüdische Gemeinschaft)',
     founded: null,
     region: 'Zürich',
+    websiteUrl: '', // No public web presence — c/o ICZ
     applicationMethod: 'contact',
     contact: {
       address: 'c/o Israelitische Cultusgemeinde Zürich, Lavaterstrasse 33, 8002 Zürich',

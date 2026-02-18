@@ -2,7 +2,8 @@
  * Foundation Detail API
  *
  * GET    /api/foundations/[id]  — Get single foundation by ID
- * PATCH  /api/foundations/[id]  — Update foundation
+ * PUT    /api/foundations/[id]  — Replace full config_data (Zod Foundation object)
+ * PATCH  /api/foundations/[id]  — Update flat DB columns (partial)
  * DELETE /api/foundations/[id]  — Archive foundation (soft delete)
  */
 
@@ -12,6 +13,7 @@ import { foundations, activityLog } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
+import { foundationSchema } from '@/lib/schemas/foundation';
 
 // Validation schema for updates
 const updateFoundationSchema = z.object({
@@ -74,6 +76,106 @@ export async function GET(
     console.error(`GET /api/foundations/${id} error:`, error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch foundation' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * PUT /api/foundations/[id]
+ * Replace full config_data with a validated Foundation object.
+ * Also syncs relevant flat columns for backward compatibility.
+ */
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  try {
+    const body = await request.json();
+
+    // Validate against full Zod Foundation schema
+    const validation = foundationSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Validation failed',
+          details: validation.error.issues.map((i) => ({
+            path: i.path.join('.'),
+            message: i.message,
+          })),
+        },
+        { status: 400 }
+      );
+    }
+
+    // Check if foundation exists
+    const existing = await db
+      .select({ id: foundations.id })
+      .from(foundations)
+      .where(eq(foundations.id, id))
+      .limit(1);
+
+    if (existing.length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'Foundation not found' },
+        { status: 404 }
+      );
+    }
+
+    const data = validation.data;
+    const now = new Date().toISOString();
+
+    // Update config_data (full object) + relevant flat columns
+    await db
+      .update(foundations)
+      .set({
+        configData: data,
+        name: data.name,
+        websiteUrl: data.websiteUrl,
+        contactEmail: data.contact?.email || null,
+        contactPhone: data.contact?.phone || null,
+        fitScore: data.fit,
+        priority: data.priority,
+        focusAreas: JSON.stringify(data.themes),
+        geographicScope: data.region,
+        organizationType: data.type === 'network' ? 'network' : 'foundation',
+        applicationMethod: data.applicationMethod,
+        applicationDeadline: data.deadline || null,
+        updatedAt: now,
+      })
+      .where(eq(foundations.id, id));
+
+    // Log activity
+    await db.insert(activityLog).values({
+      id: nanoid(),
+      entityType: 'foundation',
+      entityId: id,
+      actionType: 'updated',
+      actionDetails: JSON.stringify({
+        source: 'api-put',
+        fields: Object.keys(data),
+      }),
+      performedBy: 'api',
+      timestamp: now,
+    });
+
+    // Fetch updated row
+    const updated = await db
+      .select()
+      .from(foundations)
+      .where(eq(foundations.id, id))
+      .limit(1);
+
+    return NextResponse.json({
+      success: true,
+      data: updated[0],
+    });
+  } catch (error) {
+    console.error(`PUT /api/foundations/${id} error:`, error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to update foundation' },
       { status: 500 }
     );
   }
