@@ -224,6 +224,7 @@ export const NOT_RECOMMENDED = [
   { name: 'Blue Earth Foundation', reason: 'Nimmt keine externen Gesuche an - operiert über Blue Earth Capital (Impact Investor)' },
   { name: 'Stiftung fürBevoelkerung, Migration und Umwelt', reason: 'Aufgeloest Mai 2020' },
   { name: 'Innovationsstiftung SZKB', reason: 'VC fürTech-Startups (CHF 300k-2M Eigenkapital/Darlehen) - Kt. Schwyz Fokus' },
+  { name: 'Gemeinnütziger Fonds Bildung (Kanton Zürich)', reason: 'Aufgelöst Ende 2023 — Bildungsförderung an Swisslos Gemeinnützigen Fonds richten' },
   // Batch 6: ESA candidate research (false positives)
   { name: 'Bridging Nations Stiftung', reason: 'Kunst/kulturelle Diplomatie/interreligioeser Dialog - kein Technologie/IT-Bezug' },
   { name: 'SEFA KAYA FOUNDATION', reason: 'Nur Entwicklungsländer mit hoher Armut - kein Schweiz-Inland' },

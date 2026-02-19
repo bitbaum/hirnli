@@ -1,6 +1,6 @@
 // AUTO-GENERATED — DO NOT EDIT MANUALLY
 // Source: Neon DB (fundraising_foundations.config_data)
-// Generated: 2026-02-19T08:08:24.398Z
+// Generated: 2026-02-19T09:41:15.381Z
 // Run `npm run sync` to regenerate from database
 // Foundations: 119
 
@@ -442,38 +442,38 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   {
     "slug": "baloise-foundation",
     "name": "Baloise Group Stiftung",
+    "uid": "CHE-000.000.000",
     "websiteUrl": "https://www.baloise.com/de/home/ueber-uns/nachhaltigkeit.html",
-    "region": "Schweiz (Schwerpunkt Nordwestschweiz)",
+    "officialPurpose": "CSR-Engagement in den Bereichen soziale Integration, Bildung, Nachhaltigkeit und Innovation. Keine eigenständige Förderstiftung — Förderung über CSR-Programm.",
+    "region": "Basel",
+    "contact": {
+      "address": "Aeschengraben 21, 4002 Basel",
+      "email": "nachhaltigkeit@baloise.com"
+    },
     "applicationMethod": "contact",
+    "isOperative": true,
     "status": "rolling",
-    "deadline": null,
-    "deadlineText": "Laufende Gesuche; regionale Schwerpunkte beachten",
+    "deadlineText": "Unbekannt",
     "amount": {
       "min": null,
       "max": null,
-      "text": "Projektabhängig"
+      "text": "Unbekannt"
     },
-    "sourceLinks": [
-      {
-        "source": "website",
-        "url": "https://www.baloise.com/de/home/ueber-uns/nachhaltigkeit.html",
-        "label": "Baloise Nachhaltigkeit"
-      }
-    ],
-    "source": "website",
-    "purposeSummary": "Die Baloise engagiert sich in den Bereichen soziale Integration, Bildung und Nachhaltigkeit. Unterstützt lokale Projekte mit gesellschaftlichem Mehrwert in der Schweiz.",
+    "sourceLinks": [],
+    "source": "esa",
+    "purposeSummary": "Baloise (seit 2025 Helvetia Baloise Gruppe) engagiert sich über ein formales CSR-Programm (CSR Charter 2024) in fünf Bereichen: Gemeinschaft, Umweltschutz, Gesundheit, Bildung & Forschung, Innovation & Sicherheit. Kein offener Bewerbungsprozess — Förderungen werden einzelfallbasiert auf Ebene der nationalen Geschäftseinheiten entschieden. Die ehemalige Baloise-Jubilaeumsstiftung wurde im Oktober 2022 aufgelöst.",
     "fit": 2,
-    "priority": 2,
+    "priority": 3,
     "type": "D",
     "themes": [
       "soziale-integration",
       "arbeitsintegration",
       "klima"
     ],
-    "tagline": "Soziale Projekte und Nachhaltigkeit in der Region Basel/Zürich",
-    "researchNotes": "Baloise hat starkes CSR-Engagement mit Fokus auf Nordwestschweiz (Basel), aber auch schweizweit aktiv. Für Revamp-IT: (1) Arbeitsintegration als CSR-Thema, (2) Mögliche Corporate Placements (Outplacement-Partnerschaft), (3) Hardware-Spenden. Genaue Förderstruktur und Antragsverfahren recherchieren.",
-    "needsResearch": true,
-    "researchDate": "2026-02-11"
+    "tagline": "Baloise (seit 2025 Helvetia Baloise Gruppe) engagiert sich über ein formales CSR",
+    "researchNotes": "Kein klassischer Fördergeber. CSR-Programm ist relationship-driven ohne öffentliche Ausschreibung. Thematisch passt Revamp-IT gut (Arbeitsintegration, Kreislaufwirtschaft, digitale Bildung decken 3-4 der 5 CSR-Fokusbereiche ab), aber der Zugang ist opak. Die Helvetia-Baloise-Fusion 2025 könnte die CSR-Landschaft verändert haben — Helvetia hatte eigene Community-Programme. Empfehlung: Direkter Kontakt via nachhaltigkeit@baloise.com mit Pitch, der Alignment zu CSR-Fokusbereichen zeigt. Keine offenen Förderanträge möglich. Eher als langfristige Corporate-Partnerschaft positionieren (Hardware-Spenden, Corporate Volunteering, Outplacement-Partnerschaft).",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "baugarten",
@@ -889,40 +889,37 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   {
     "slug": "coop-nachhaltigkeit",
     "name": "Coop Nachhaltigkeitsfonds",
-    "websiteUrl": "https://www.coop.ch/de/unternehmen/nachhaltigkeit.html",
-    "region": "Schweiz",
+    "uid": "CHE-000.000.001",
+    "websiteUrl": "https://www.taten-statt-worte.ch/de/nachhaltigkeitsthemen/gesellschaft/fonds-fuer-nachhaltigkeit.html",
+    "officialPurpose": "Fonds für Nachhaltigkeit: Forschungs-, Entwicklungs- und Sensibilisierungsprojekte in der Schweiz. Innovationsprojekte mit innovativen Lösungsansätzen für Umwelt und Gesellschaft.",
+    "region": "Basel",
     "contact": {
+      "address": "Coop Genossenschaft, Basel",
       "email": "sponsoring-hs@coop.ch"
     },
     "applicationMethod": "contact",
+    "isOperative": false,
     "status": "rolling",
-    "deadline": null,
-    "deadlineText": "Laufende Projektanfragen; Nachhaltigkeits-Team kontaktieren",
+    "deadlineText": "Unbekannt",
     "amount": {
       "min": null,
       "max": null,
-      "text": "Projektabhängig"
+      "text": "Unbekannt"
     },
-    "sourceLinks": [
-      {
-        "source": "website",
-        "url": "https://www.coop.ch/de/unternehmen/nachhaltigkeit.html",
-        "label": "Coop Nachhaltigkeit"
-      }
-    ],
-    "source": "website",
-    "purposeSummary": "Coop investiert über den Nachhaltigkeitsfonds in Projekte für Kreislaufwirtschaft, Ressourcenschonung und nachhaltige Lieferketten. Fokus auf konkrete, messbare Umweltwirkung.",
+    "sourceLinks": [],
+    "source": "esa",
+    "purposeSummary": "Der Coop Fonds für Nachhaltigkeit ('Taten statt Worte') fördert Forschungs-, Entwicklungs- und Innovationsprojekte in der Schweiz für Umwelt und Gesellschaft. Bewertungskriterien: (1) Bezug zu Coop (Konsum, Sortiment, Kundenbedürfnisse), (2) Innovation, (3) Praxisbezug (Machbarkeit), (4) Partnerschaft mit Institutionen wie FiBL oder WWF. Kein offener Bewerbungsprozess — strategische Partnerauswahl. Zusätzlich existiert ein Sponsoring-Programm mit Online-Formular.",
     "fit": 2,
-    "priority": 2,
+    "priority": 3,
     "type": "D",
     "themes": [
       "kreislaufwirtschaft",
       "klima"
     ],
-    "tagline": "Kreislaufwirtschaft, Nachhaltigkeit und Ressourcenschonung",
-    "researchNotes": "Coop ist einer der grössten Schweizer Detailhändler mit starkem Nachhaltigkeitsengagement. Passt zu Revamp-IT über: (1) Kreislaufwirtschaft — Geräte-Aufbereitung als konkretes Circular-Economy-Beispiel, (2) Ressourcenschonung — CO₂-Einsparungen durch Refurbishing. Mögliche Sachspenden (IT-Infrastruktur). Genaue Fördermechanismen recherchieren.",
-    "needsResearch": true,
-    "researchDate": "2026-02-11"
+    "tagline": "Der Coop Fonds für Nachhaltigkeit ('Taten statt Worte') fördert Forschungs-, Ent",
+    "researchNotes": "Schwieriges Ziel für Revamp-IT: Der Nachhaltigkeitsfonds funktioniert über strategische Partnerschaften, nicht über offene Anträge. Das Kriterium 'Bezug zu Coop' (Relevanz für Sortiment/Kunden) ist für IT-Refurbishing nur indirekt erfüllt. Coops Nachhaltigkeitsfokus liegt primär auf Lebensmittel-Nachhaltigkeit (Bio-Landwirtschaft, nachhaltige Lieferketten). Realistischerer Weg: (1) Sponsoring-Anfrage via coop.ch/sponsoring unter 'Mensch & Umwelt', (2) Supply-Chain-Partnerschaft positionieren (refurbished Geräte für Coop-Filialen, Sammelstellen in Läden). Die Email sponsoring-hs@coop.ch ist für Event-Sponsoring, NICHT für den Nachhaltigkeitsfonds. Für Berggebiete: patenschaft@coop.ch (nicht relevant).",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "corymbo",
@@ -2458,40 +2455,38 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   },
   {
     "slug": "innovation-foundation-zh",
-    "name": "Innovation Foundation",
+    "name": "Innovation Foundation (Adecco Group)",
     "uid": "CHE-426.764.839",
-    "websiteUrl": "https://www.moneyhouse.ch/en/company/innovation-foundation-13929128311",
+    "websiteUrl": "https://www.adeccogroup.com/innovationfoundation/",
+    "officialPurpose": "Social Innovation Lab der Adecco Group. Hilft unterversorgten Bevölkerungsgruppen, ihre Beschäftigungsfähigkeit und den Zugang zu Arbeitsmärkten zu verbessern. Schwerpunkte: Youth@Risk, Women Back To Work, Mature Workers.",
     "region": "Zürich",
+    "contact": {
+      "address": "Bellerivestrasse 30, 8008 Zürich"
+    },
     "applicationMethod": "contact",
+    "isOperative": true,
     "status": "rolling",
-    "deadline": null,
-    "deadlineText": "Keine öffentlich bekannten Fristen; Kontakt über Stiftungsrat",
+    "deadlineText": "Unbekannt",
     "amount": {
       "min": null,
       "max": null,
-      "text": "Variabel"
+      "text": "Unbekannt"
     },
-    "sourceLinks": [
-      {
-        "source": "esa",
-        "url": "https://www.zefix.ch/de/search/entity/list?mainSearch=CHE-426.764.839",
-        "label": "Zefix"
-      }
-    ],
+    "sourceLinks": [],
     "source": "esa",
-    "purposeSummary": "Zürcher Stiftung zur Förderung der gesellschaftlichen Integration im Arbeitsmarkt. Schwerpunkte: Bekämpfung von Diskriminierung, Förderung fairer Arbeitsbedingungen, Unterstützung benachteiligter Gruppen, Bekämpfung von Arbeitslosigkeit und innovative Ansätze für die Zukunft der Arbeit.",
+    "purposeSummary": "Social Innovation Lab der Adecco Group ('Innovation Foundation, empowered by the Adecco Group'). Mission: Unterversorgte Bevölkerungsgruppen bei Beschäftigungsfähigkeit und Arbeitsmarktzugang unterstützen. Drei Programmbereiche: Youth@Risk (gefährdete Jugendliche), Women Back To Work (Frauen-Wiedereinstieg), Mature Workers (50+). Operiert als Lab mit eigenem Design-Prozess (identify → develop → prototype → deploy), nicht als klassische Förderstiftung. Sitz: Bellerivestrasse 30, 8008 Zürich.",
     "fit": 2,
-    "priority": 2,
-    "type": "B",
+    "priority": 3,
+    "type": "D",
     "themes": [
       "arbeitsintegration",
       "soziale-integration",
       "zuerich"
     ],
-    "tagline": "Arbeitsmarktintegration und Chancengleichheit — Zürich",
-    "researchNotes": "Spannende Zürcher Stiftung mit direktem Fokus auf Arbeitsmarktintegration und Chancengleichheit. Prominenter internationaler Stiftungsrat (u.a. Dr. Daniela Seabrook, Ory Okolloh). Könnte Revamp-ITs Arbeitsintegrationsprogramme direkt fördern. Genaue Fördermechanismen, Website und Antragsverfahren noch zu recherchieren — Stiftung hat keine eigene öffentliche Website gefunden.",
-    "needsResearch": true,
-    "researchDate": "2026-02-16"
+    "tagline": "Social Innovation Lab der Adecco Group ('Innovation Foundation, empowered by the",
+    "researchNotes": "Kein klassischer Fördergeber, sondern Corporate Innovation Lab. Hohe thematische Relevanz für Revamp-IT (Arbeitsmarktintegration ist Kernmission beider Organisationen), aber kein offener Antragsprozess. Das Lab identifiziert selbst Probleme, entwickelt Lösungen und sucht dann Umsetzungspartner. Revamp-IT könnte als Implementierungspartner für Youth@Risk oder Women Back To Work positioniert werden — z.B. IT-Refurbishing als praktischer Qualifizierungspfad für deren Zielgruppen. Board: J.-C. Deslarzes (Adecco Chairman), Cynthia Hansen (MD), Dr. Daniela Seabrook, Ory Okolloh (Co-Founder Ushahidi), Virginia Wilson, Robert James. Team: Shareena Hatta (Innovation Lab Director), Camila Muller (Operations). Kontakt über Website-Formular: adeccogroup.com/innovationfoundation/contact.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "kath-kirche-zh",
@@ -4165,46 +4160,38 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   {
     "slug": "sens-suisse",
     "name": "SENS — Social Entrepreneurship Schweiz",
+    "uid": "CHE-000.000.003",
     "websiteUrl": "https://sens-suisse.ch",
-    "region": "Schweiz",
+    "officialPurpose": "Nationaler Dachverband für wirkungsorientierte Unternehmen (Sozialunternehmen) in der Schweiz. Programme: Impact Catalyst (Accelerator), Buy Social (Beschaffungsmatching), Swiss Social Economy Forum.",
+    "region": "Zürich",
     "contact": {
-      "address": "Kalkbreitestrasse 10, 8003 Zürich"
+      "address": "Kalkbreitestrasse 10, 8003 Zürich",
+      "email": "info@sens-suisse.ch"
     },
     "applicationMethod": "online",
+    "isOperative": true,
     "status": "rolling",
-    "deadline": null,
-    "deadlineText": "Social Impact Catalyst: Pilot hatte Frist März 2025; auf 2026-Runde prüfen. Buy Social: laufend.",
+    "deadlineText": "Unbekannt",
     "amount": {
       "min": null,
-      "max": null,
-      "text": "Programm-basiert (Coaching, Investor-Matching)"
+      "max": 20000,
+      "text": "Unbekannt"
     },
-    "sourceLinks": [
-      {
-        "source": "website",
-        "url": "https://sens-suisse.ch",
-        "label": "SENS Schweiz"
-      },
-      {
-        "source": "website",
-        "url": "https://www.socialimpactcatalyst.ch",
-        "label": "Social Impact Catalyst"
-      }
-    ],
-    "source": "website",
-    "purposeSummary": "Nationaler Dachverband für Sozialunternehmen. Betreibt das Social Impact Catalyst Programm (mit ZKB, Swiss Re Foundation, Mercator). Bietet Pitch-Training, Marktanalyse, Impact-Messung, Investor-Speed-Dating.",
-    "fit": 2,
-    "priority": 2,
+    "sourceLinks": [],
+    "source": "esa",
+    "purposeSummary": "Nationaler Dachverband für wirkungsorientierte Unternehmen (Sozialunternehmen) in der Schweiz. Kernprogramme: (1) Impact Catalyst — Accelerator mit Investment-Readiness-Programm, 1:1-Investor-Matchmaking und CHF 20'000 Preisgeld (2026-Runde: Bewerbung offen bis Ende März, Investors Day 15. April bei Swiss Re). (2) Buy Social — Beschaffungsmatching zwischen Sozialunternehmen und Corporates. (3) Swiss Social Economy Forum (#SSEF26, 7. Mai 2026, Basel). 300+ Unternehmen auf der Social Entrepreneurship Map.",
+    "fit": 1,
+    "priority": 1,
     "type": "network",
     "themes": [
       "soziale-integration",
       "arbeitsintegration",
       "kreislaufwirtschaft"
     ],
-    "tagline": "Dachverband Sozialunternehmen Schweiz — Social Impact Catalyst Programm",
-    "researchNotes": "SENS ist primär Ökosystem-Aufbauer, keine Förderstiftung. Programme: (1) Social Impact Catalyst — Accelerator für Social-Impact-Startups, betrieben mit Venturelab, finanziert von ZKB Philanthropie, Swiss Re Foundation, Mercator. Pilot (10 Startups) Frist März 2025. Auf 2026-Runde achten. (2) Buy Social — verbindet Sozialunternehmen mit Firmen für Beschaffung. Revamp-IT sollte: SENS-Netzwerk beitreten, Social Impact Catalyst beobachten, Buy Social für Firmen-Gerätebeschaffung nutzen.",
-    "needsResearch": true,
-    "researchDate": "2026-02-10"
+    "tagline": "Nationaler Dachverband für wirkungsorientierte Unternehmen (Sozialunternehmen) i",
+    "researchNotes": "HÖCHSTE PRIORITÄT für Revamp-IT. Vier sofortige Handlungsoptionen: (1) IMPACT CATALYST 2026 — Bewerbung JETZT bis Ende März 2026 via impactcatalyst.ch. 12 Startups werden ausgewählt, erhalten Investment-Readiness-Coaching, 1:1-Speed-Dating mit ~60 Investoren/Stiftungen (darunter ZKB, Swiss Re Foundation, Mercator), Deal-Making-Support, und Chance auf CHF 20'000 Preis. (2) BUY SOCIAL — Registrierung als Sozialunternehmen im Lieferantenpool (buysocial.ch), Zugang zu Corporate-Beschaffung für refurbished IT. (3) SENS-MITGLIEDSCHAFT — CHF 250/Jahr (bei <150k Umsatz) oder CHF 500/Jahr (150-500k). Netzwerkzugang, Sichtbarkeit auf der Map (300+ Unternehmen), internes Netzwerk. (4) #SSEF26 besuchen (7. Mai 2026, Basel). Kontakt: info@sens-suisse.ch / impactcatalyst@sens-suisse.ch. CEO: Rahel Pfister. Sitz: Kalkbreitestrasse 10, 8003 Zürich. Ähnliche bestehende Mitglieder: Techtipp AG (digitale Bildung), OFFCUT (Material-Reuse), VEBO (berufliche Inklusion).",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "sgg",
@@ -4906,39 +4893,39 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   },
   {
     "slug": "swisscom-jetzt-hier",
-    "name": "Swisscom «Jetzt & Hier»",
-    "websiteUrl": "https://www.swisscom.ch/de/ueber-swisscom/nachhaltigkeit/soziales-engagement.html",
-    "region": "Schweiz",
+    "name": "Swisscom Corporate Responsibility",
+    "uid": "CHE-000.000.002",
+    "websiteUrl": "https://www.swisscom.ch/de/about/nachhaltigkeit/soziales-engagement.html",
+    "officialPurpose": "Corporate-Responsibility-Programme: Give & Grow (Corporate Volunteering), Mobile Aid (Gerätesammlung mit SOS-Kinderdorf), Swisscom Campus (Digitale Bildung). Kein 'Jetzt & Hier'-Programm identifiziert.",
+    "region": "Bern",
+    "contact": {
+      "address": "Swisscom AG, Bern",
+      "email": "Marius.Schlegel@swisscom.com"
+    },
     "applicationMethod": "contact",
+    "isOperative": true,
     "status": "rolling",
-    "deadline": null,
-    "deadlineText": "Laufende Projektanfragen; Community-Engagement-Team kontaktieren",
+    "deadlineText": "Unbekannt",
     "amount": {
       "min": null,
       "max": null,
-      "text": "Projektabhängig (Sachleistungen + Förderung)"
+      "text": "Unbekannt"
     },
-    "sourceLinks": [
-      {
-        "source": "website",
-        "url": "https://www.swisscom.ch/de/ueber-swisscom/nachhaltigkeit/soziales-engagement.html",
-        "label": "Swisscom Nachhaltigkeit"
-      }
-    ],
-    "source": "website",
-    "purposeSummary": "Swisscom engagiert sich über «Jetzt & Hier» für digitale Inklusion und Community-Projekte. Fokus auf digitale Kompetenzen, Nachhaltigkeit und gesellschaftlichen Zusammenhalt.",
+    "sourceLinks": [],
+    "source": "esa",
+    "purposeSummary": "Swisscom betreibt kein offenes Förderprogramm, aber mehrere CR-Programme mit Partnerschaftspotenzial: Give & Grow (Corporate Volunteering — 1 bezahlter Arbeitstag/Jahr pro Mitarbeitende für soziale/ökologische Zwecke), Mobile Aid (Handysammlung und -verwertung mit Partner SOS-Kinderdorf Schweiz), Swisscom Campus (Medienkompetenz-Programm für Schulen, Eltern und Senioren mit ~2 Mio. erreichten Personen/Jahr). Ein Programm namens 'Jetzt & Hier' existiert nicht.",
     "fit": 2,
     "priority": 2,
     "type": "D",
     "themes": [
       "digitale-bildung",
       "soziale-integration",
-      "digitale-souveraenitaet"
+      "kreislaufwirtschaft"
     ],
-    "tagline": "Digitale Inklusion, Community-Projekte und Nachhaltigkeit",
-    "researchNotes": "Swisscom investiert in digitale Bildung und Nachhaltigkeit. Passt zu Revamp-IT über: (1) Digitale Inklusion — günstige Geräte + Linux-Bildung, (2) Kreislaufwirtschaft — Geräte-Aufbereitung, (3) Potenzielle Hardware-Spenden (ausgemusterte Swisscom-Geräte). Corporate-Volunteering-Programm könnte Mitarbeitende in Werkstatt einbinden.",
-    "needsResearch": true,
-    "researchDate": "2026-02-11"
+    "tagline": "Swisscom betreibt kein offenes Förderprogramm, aber mehrere CR-Programme mit Par",
+    "researchNotes": "Sehr relevanter Partnerschaftskandidat für Revamp-IT, auch wenn kein direkter Fördergeber. Vier realistische Wege: (1) Give & Grow Partner werden — Swisscom-Mitarbeitende könnten in der Werkstatt bei IT-Refurbishing oder digitaler Bildung helfen. (2) Mobile Aid Partnerschaft — aktuell exklusiv mit SOS-Kinderdorf, aber thematisch perfekt für Geräte-Kreislauf. Kontakt: Marius Schlegel (Marius.Schlegel@swisscom.com) — zuständig für klimafreundliche Services und Mobile Aid. (3) Sustainability Partnership à la Impact Hub Zürich. (4) Sponsoring-Anfrage über sponsoringrequest.swisscom.com. Head of Sustainability: Saskia Günther (Saskia.Guenther@swisscom.com). Weitere Kontakte: Res Witschi (nachhaltige Digitalisierung), Andrea Burkhard-Kaufmann (Medienkompetenz/Schulprogramme).",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "swisslos-sportfonds-zh",
