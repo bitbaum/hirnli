@@ -150,6 +150,45 @@ export default function WirkungClient() {
         flightsZurichBerlin={flightsZurichBerlin}
       />
 
+      {/* Platform / Digital Infrastructure */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Digitale Infrastruktur</CardTitle>
+          <p className="text-sm text-text-muted">
+            Eigenentwickelte Open-Source-Community-Plattform — skaliert Wirkung ohne proportionale Kostensteigerung
+          </p>
+        </CardHeader>
+        <MetricGrid columns={4}>
+          <MetricCard
+            label="TypeScript-Dateien"
+            value={formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))}
+            subtitle="Eigenentwickelter Code"
+            sourceType="live"
+          />
+          <MetricCard
+            label="React-Komponenten"
+            value={formatNumber(getNumericValue('PLATFORM_COMPONENTS'))}
+            subtitle="Wiederverwendbare UI-Bausteine"
+            sourceType="live"
+          />
+          <MetricCard
+            label="Seiten"
+            value={formatNumber(getNumericValue('PLATFORM_PAGES'))}
+            subtitle="App-Router-Seiten"
+            sourceType="live"
+          />
+          <MetricCard
+            label="DB-Migrationen"
+            value={formatNumber(getNumericValue('PLATFORM_DB_MIGRATIONS'))}
+            subtitle="PostgreSQL-Schema-Versionen"
+            sourceType="live"
+          />
+        </MetricGrid>
+        <p className="mt-4 text-xs text-text-muted">
+          Plattform: <a href="https://revampit.vercel.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">revampit.vercel.app</a> — Next.js, TypeScript, PostgreSQL, Open Source
+        </p>
+      </Card>
+
       {/* Data coverage */}
       <Card className="mb-8">
         <CardHeader>

@@ -7,6 +7,8 @@
    ──────────────────────────────────────────── */
 
 import { HUB_SPACE_DISPLAY, PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
+import { getNumericValue } from '@/lib/config/numbers';
+import { formatNumber } from '@/lib/utils/format';
 
 export const VALUES = [
   { icon: '🌍', title: 'Nachhaltigkeit', description: 'Wir verlängern die Lebensdauer von IT-Geräten und reduzieren aktiv Elektroschrott und CO2-Emissionen.', color: 'border-l-emerald-500' },
@@ -19,7 +21,7 @@ export const VALUES = [
 
 export const PILLARS = [
   { icon: '♻️', title: '1. Umweltschutz', description: 'Reduktion von Elektroschrott durch Wiederinstandsetzung, Reparatur, Weiterverwendung und fachgerechtes Recycling' },
-  { icon: '🐧', title: '2. Digitale Souveränität', description: 'Förderung von Linux & Open-Source Software als nachhaltige, kostengünstige und befähigende Technologieoption' },
+  { icon: '🐧', title: '2. Digitale Souveränität', description: 'Förderung von Linux & Open-Source Software als nachhaltige, kostengünstige und befähigende Technologieoption — inklusive Eigenentwicklung einer Community-Plattform mit Marktplatz, IT-Hilfe und Wissensportal' },
   { icon: '📚', title: '3. Bildung & Aufklärung', description: 'Workshops, technische Unterstützung und niederschwellige Lernangebote — von Reparaturwissen bis zu digitalen Kompetenzen in einer Welt, die sich durch Automatisierung und KI rasant verändert' },
   { icon: '🤝', title: '4. Soziale Integration', description: 'Unterstützung bei der beruflichen Wiedereingliederung durch Struktur, Routinen und sinnvolle Tätigkeiten — besonders wichtig, wenn Automatisierung traditionelle Berufsbilder verändert' },
 ] as const;
@@ -138,4 +140,5 @@ export const UNIQUE_POINTS = [
   { icon: '👥', title: 'Community', text: 'Starkes Netzwerk aus Freiwilligen, Praktikanten und Partnern.' },
   { icon: '📊', title: 'Messbare Wirkung', text: 'Klare KPIs und transparentes Impact-Reporting – jede Zahl ist nachvollziehbar.' },
   { icon: '📍', title: 'Lokale Verankerung', text: 'Zürich-basiert mit schweizweitem Service, physischer Treffpunkt und persönliche Beratung.' },
-] as const;
+  { icon: '🌐', title: 'Eigene Plattform', text: `Eigenentwickelte Open-Source-Community-Plattform mit Marktplatz für gebrauchte IT, Wissensportal und IT-Hilfe — ${formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, professionelle Software-Architektur.` },
+];

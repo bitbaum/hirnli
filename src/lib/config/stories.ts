@@ -43,6 +43,7 @@ import type {
   PhotoSlot,
 } from '@/lib/schemas/story';
 import { getNumericValue, CO2_PER_LAPTOP } from '@/lib/config/numbers';
+import { formatNumber } from '@/lib/utils/format';
 
 // ============================================================================
 // Types for structures not covered by the story schema
@@ -131,6 +132,7 @@ export const CORE_FACTS: CoreFacts = {
     'Arbeitsintegration und Praktikumsplätze',
     'Workshops für digitale Kompetenzen',
     'Fachgerechtes Recycling nicht-reparierbarer Geräte',
+    'Entwicklung einer Open-Source-Community-Plattform (Marktplatz, IT-Hilfe, Wissensplattform)',
   ],
 
   // Differentiators
@@ -140,6 +142,7 @@ export const CORE_FACTS: CoreFacts = {
     'Kombination: Umwelt + Soziales + Digital',
     'Lokal in Zürich verankert',
     'Open-Source-First-Philosophie',
+    'Eigene Open-Source-Plattform mit Community-Marktplatz, IT-Hilfe und Wissensportal',
   ],
 };
 
@@ -231,6 +234,12 @@ export const EVIDENCE: Record<string, Record<string, Evidence>> = {
       claim: 'Bis 2030 werden 92 Millionen Arbeitsplätze durch Automatisierung und KI verdrängt — gleichzeitig entstehen 170 Millionen neue, die digitale Kompetenzen erfordern',
       url: 'https://www.weforum.org/publications/the-future-of-jobs-report-2025/',
     },
+    open_source_platform: {
+      title: 'Revamp-IT Community Platform (Open Source)',
+      year: 2026,
+      claim: `Produktionsreife Full-Stack-Plattform mit ${formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, eigenentwickelt als Open Source`,
+      url: 'https://revampit.vercel.app',
+    },
   },
 };
 
@@ -277,7 +286,7 @@ export const WHY: Record<string, WhySection> = {
     hook: `KI und Automatisierung verändern, welche Fähigkeiten gefragt sind. Wer digitale Grundkompetenzen hat, kann diese Werkzeuge nutzen. Wer sie nicht hat, wird von ihnen ersetzt. In dieser Welt darf niemand zurückbleiben.`,
     problem: `Viele Menschen haben keinen Zugang zu bezahlbarer IT-Bildung. Kommerzielle Kurse sind teuer, Volkshochschul-Angebote oft oberflächlich. Und wer keinen eigenen Computer hat, kann nicht üben. Gleichzeitig steigen die Anforderungen: Digitale Kompetenzen werden in 85% aller Berufe vorausgesetzt — Tendenz steigend.`,
     solution: `Revamp-IT verbindet beides: günstige refurbished Geräte UND praxisnahe Workshops. Wir zeigen, wie man Linux nutzt, wie man Probleme selbst löst, wie man digital souverän wird — und wie man neue Technologien kritisch und kompetent einordnet.`,
-    evidence: ['digitalswitzerland', 'wef_future_of_jobs'],
+    evidence: ['digitalswitzerland', 'wef_future_of_jobs', 'open_source_platform'],
     metrics: ['praktikanten_100'],
     call_to_action: 'Investieren Sie in digitale Chancengleichheit.',
   },
@@ -287,8 +296,8 @@ export const WHY: Record<string, WhySection> = {
     headline: 'Souveränität beginnt bei der Infrastruktur.',
     hook: `Wer Microsoft oder Apple nutzt, gibt Kontrolle ab — über Updates, über Daten, über die Lebensdauer des Geräts. Wer ChatGPT nutzt, sendet seine Daten in US-Clouds. Es gibt Alternativen — und wir bauen sie.`,
     problem: `Proprietäre Software schafft Abhängigkeiten. Zwangsupdates machen funktionierende Hardware "obsolet". Daten fliessen in ausländische Clouds — mit CLOUD Act und Schrems II ein reales Risiko für Schweizer Organisationen. Gleichzeitig werden KI-Werkzeuge unverzichtbar, aber lokale Alternativen fehlen.`,
-    solution: `Revamp-IT geht zwei Schritte: Erstens installieren wir Linux auf allen refurbished Geräten — digitale Souveränität auf dem Desktop. Zweitens bauen wir aus gespendeten GPU-Servern eine lokale KI-Infrastruktur auf. Schweizer Organisationen können Open-Source-KI-Modelle nutzen, ohne Daten das Land verlassen zu lassen. Dasselbe Prinzip wie bei Laptops: Unternehmen spenden ausgemusterte Hardware, wir geben ihr ein zweites Leben.`,
-    evidence: ['digitalswitzerland', 'wef_future_of_jobs'],
+    solution: `Revamp-IT geht drei Schritte: Erstens installieren wir Linux auf allen refurbished Geräten — digitale Souveränität auf dem Desktop. Zweitens bauen wir aus gespendeten GPU-Servern eine lokale KI-Infrastruktur auf. Schweizer Organisationen können Open-Source-KI-Modelle nutzen, ohne Daten das Land verlassen zu lassen. Drittens entwickeln wir eine Open-Source-Community-Plattform: ein digitaler Marktplatz für gebrauchte IT, eine Wissensplattform mit Reparaturanleitungen und Workshops, und ein IT-Hilfe-Portal, auf dem die Community sich gegenseitig unterstützt — alles selbst entwickelt, alles Open Source.`,
+    evidence: ['digitalswitzerland', 'wef_future_of_jobs', 'open_source_platform'],
     metrics: ['devices_estimated_2025'],
     call_to_action: 'Unterstützen Sie Schweizer Datensouveränität — vom Betriebssystem bis zur KI.',
   },
@@ -372,8 +381,10 @@ export const HOW: HowSection = {
       'Webentwicklung mit modernen Open-Source-Tools',
       'Eigene IT-Infrastruktur auf Open-Source-Basis',
       'Wissenstransfer und Schulungen',
+      'Full-Stack-Webentwicklung: Next.js, TypeScript, PostgreSQL, Redis, Meilisearch',
+      `Eigenentwicklung einer Community-Plattform mit ${formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, E-Commerce, Authentifizierung und Suchfunktion`,
     ],
-    evidence: ['digitalswitzerland'],
+    evidence: ['digitalswitzerland', 'open_source_platform'],
   },
 
   // Education / digital skills competencies
@@ -546,7 +557,35 @@ export const PROJECTS: Record<string, Project> = {
     themes: ['bildung', 'digital', 'kreislaufwirtschaft'],
   },
 
-  // Project 7: Sovereign AI Infrastructure
+  // Project 7: Open-Source Community Platform
+  community_platform: {
+    title: 'Open-Source-Community-Plattform',
+    subtitle: 'Digitale Infrastruktur für Kreislaufwirtschaft und Wissenstransfer',
+    summary: `Revamp-IT entwickelt eine eigene Community-Plattform als Open-Source-Software. Die Plattform umfasst einen digitalen Marktplatz für gebrauchte IT-Geräte, ein IT-Hilfe-Portal für gegenseitige Unterstützung in der Community, eine Wissensplattform mit Reparaturanleitungen und Workshops, sowie Enterprise-AI-Lösungen. Mit ${formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, PostgreSQL-Datenbank, Volltextsuche und professioneller Software-Architektur ist dies keine Bastelei, sondern produktionsreife Software — und ein konkreter Beweis, dass ein gemeinnütziger Verein anspruchsvolle Technologie entwickeln kann. Die Plattform erhöht die messbare Wirkung: Jedes Gerät wird systematisch erfasst, jeder Service-Kontakt dokumentiert, jede Reparaturanleitung erreicht unbegrenzt viele Menschen online.`,
+    goals: [
+      'Digitaler Marktplatz für gebrauchte IT mit transparenter Preisgestaltung und Solidaritätsmodell',
+      'IT-Hilfe-Portal: Community-basierte technische Unterstützung — skaliert ohne proportionale Kostensteigerung',
+      'Wissensplattform: Reparaturanleitungen, Workshops und Knowhow frei zugänglich',
+      'Systematische Erfassung aller Geräte, Services und Impact-Daten für transparentes Wirkungsmonitoring',
+    ],
+    activities: [
+      'Full-Stack-Entwicklung mit Next.js, TypeScript, PostgreSQL, Redis und Meilisearch',
+      'Community-Marktplatz mit Produktkatalog, Suche und E-Commerce-Integration (Stripe)',
+      'IT-Hilfe-System: Anfragen stellen, Community antwortet, Wissen wird archiviert',
+      'Knowhow-Blog mit Reparaturanleitungen, Workshop-Dokumentation und Best Practices',
+      'Geräte-Erfassungssystem: Vom Eingang über Refurbishing bis zum Verkauf — lückenlos dokumentiert',
+    ],
+    outcomes: [
+      'Jedes Gerät wird systematisch erfasst — messbare Wirkungsdaten statt Schätzungen',
+      'Online-Reichweite: Reparaturanleitungen und Knowhow erreichen unbegrenzt viele Menschen',
+      'Skalierung ohne proportionale Kosten: Ein IT-Hilfe-Portal bedient 100 Anfragen so effizient wie 10',
+      'Open Source: Andere Organisationen können die Plattform nachnutzen und anpassen',
+    ],
+    budget_category: 'Plattform-Entwicklung',
+    themes: ['digital', 'bildung', 'kreislaufwirtschaft', 'sozial'],
+  },
+
+  // Project 8: Sovereign AI Infrastructure
   sovereign_ai: {
     title: 'Souveräne KI-Infrastruktur',
     subtitle: 'GPU-Spenden, lokale KI-Modelle, Schweizer Datensouveränität',
@@ -702,6 +741,9 @@ export const THEME_SYNONYMS: Record<string, string[]> = {
     'Freie Software',
     'Linux',
     'Digitale Unabhängigkeit',
+    'Community-Plattform',
+    'Webentwicklung',
+    'Digitale Infrastruktur',
   ],
 };
 

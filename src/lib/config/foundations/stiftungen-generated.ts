@@ -1,6 +1,6 @@
 // AUTO-GENERATED — DO NOT EDIT MANUALLY
 // Source: Neon DB (fundraising_foundations.config_data)
-// Generated: 2026-02-19T09:41:15.381Z
+// Generated: 2026-02-19T10:39:44.860Z
 // Run `npm run sync` to regenerate from database
 // Foundations: 119
 
@@ -15,6 +15,11 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "uid": "CHE-453.346.048",
     "websiteUrl": "https://www.accessability.ch",
     "region": "Luzern",
+    "contact": {
+      "address": "Bürgenstrasse 12, CH-6005 Luzern",
+      "email": "info@accessability.ch",
+      "phone": "041 552 14 52"
+    },
     "applicationMethod": "partnership",
     "isOperative": true,
     "isNetwork": true,
@@ -28,13 +33,23 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     },
     "sourceLinks": [
       {
+        "source": "website",
+        "url": "https://www.accessability.ch",
+        "label": "AccessAbility"
+      },
+      {
+        "source": "website",
+        "url": "https://accesstech.ch",
+        "label": "Accesstech AG"
+      },
+      {
         "source": "esa",
         "url": "https://www.zefix.ch/de/search/entity/list?mainSearch=CHE-453.346.048",
         "label": "Zefix"
       }
     ],
     "source": "esa",
-    "purposeSummary": "Gemeinnützige Stiftung für ICT-Barrierefreiheit: erschliesst blinden und sehbehinderten Personen den Zugang zu Informations- und Kommunikationstechnologien. Fördert Autonomie der Betroffenen und schafft Voraussetzungen für erfolgreiche berufliche und gesellschaftliche Integration.",
+    "purposeSummary": "Gemeinnützige Stiftung für ICT-Barrierefreiheit: erschliesst blinden und sehbehinderten Personen den Zugang zu Informations- und Kommunikationstechnologien. 5 Standorte (Luzern, Bern, Zürich, St. Gallen, Neuchâtel). Produkte via Schwester-Firma Accesstech AG (JAWS, ZoomText, Braillezeilen, OrCam). Beratung, Beschaffung, IV/AHV-Abrechnung, Schulung und Support.",
     "fit": 2,
     "priority": 3,
     "type": "network",
@@ -45,9 +60,9 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "arbeitsintegration"
     ],
     "tagline": "ICT-Barrierefreiheit für Sehbehinderte — digitale Inklusion",
-    "researchNotes": "AccessAbility adressiert eine spezifische Dimension digitaler Inklusion: ICT-Zugänglichkeit für Sehbehinderte. Für Revamp-IT relevant als: (1) Potentieller Partner für barrierefreie Linux-Konfigurationen auf refurbished Geräten, (2) Know-how-Austausch zu assistiven Technologien, (3) Gemeinsame Projekte zu digitaler Inklusion. Ergänzendes Profil — Revamp-IT liefert Hardware, AccessAbility die Zugänglichkeits-Expertise.",
-    "needsResearch": true,
-    "researchDate": "2026-02-16"
+    "researchNotes": "Operative Stiftung (gegr. 2016 aus Accesstech AG, gegr. 1989). Formell partnert mit SBV-FSA (Schweizerischer Blinden- und Sehbehindertenverband). Stiftungsrat: Urs Hiltebrand (Präsident/ehem. GF), Christian Hugentobler (VP), Stephan Hüsler, Kannarath Meystre. Neuer GF wurde Anfang 2024 gesucht (Nachfolger von Hiltebrand). Für Revamp-IT: (1) Barrierefreie Linux-Konfigurationen auf refurbished Geräten, (2) Know-how-Austausch assistive Technologien, (3) Gemeinsame Projekte digitale Inklusion — Revamp-IT liefert Hardware, AccessAbility die Zugänglichkeits-Expertise. Hohe Partnerschaftsbereitschaft.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "afb-social-green-it",
@@ -216,7 +231,7 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "source": "esa",
     "purposeSummary": "Stiftung (gegr. 2019) zur Förderung von Unternehmensgründung/-entwicklung, Bildungsprojekten (inkl. digital) und politischer Teilhabe für Jugendliche in CH/AT/DE.",
     "fit": 2,
-    "priority": 3,
+    "priority": 2,
     "type": "C",
     "themes": [
       "klima",
@@ -227,7 +242,7 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "soziale-integration"
     ],
     "tagline": "Bildung, Unternehmertum und oekologische Ressourcennutzung",
-    "researchNotes": "Website anbespo.ch mit 'Wir fördern'-Seite. Drei Säulen: (1) Unternehmertum & Gründung in CH/AT/DE, (2) Bildung inkl. digitale Bildung für alle, (3) Politische Meinungsbildung Jugendlicher. FIT-BEWERTUNG: MITTEL-HOCH. Mehrere Überschneidungen: 'Unternehmensgründung' passt zu Revamp-IT als Sozialunternehmen, 'digitale Bildung für alle' passt direkt zu Revamp-ITs Mission. Kontakt per E-Mail mit fokussiertem Pitch empfohlen.",
+    "researchNotes": "Website anbespo.ch mit 'Wir fördern'-Seite. Drei Säulen: (1) Unternehmertum & Gründung in CH/AT/DE, (2) Bildung inkl. digitale Bildung für alle, (3) Politische Meinungsbildung Jugendlicher. FIT-BEWERTUNG: HOCH. Mehrere Überschneidungen: 'Unternehmensgründung' passt zu Revamp-IT als Sozialunternehmen, 'digitale Bildung für alle' passt direkt zu Revamp-ITs Mission. NEU: Die Community-Plattform (revampit.vercel.app) demonstriert 'digitale Bildung für alle' konkret — nicht nur Workshops, sondern eine permanente, frei zugängliche Wissensplattform mit Reparaturanleitungen, Blog und Community-Support. Kontakt per E-Mail mit fokussiertem Pitch empfohlen.",
     "needsResearch": false,
     "researchDate": "2026-02-09"
   },
@@ -318,38 +333,90 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "slug": "asuera-stiftung",
     "name": "Asuera Stiftung",
     "uid": "CHE-452.574.859",
-    "websiteUrl": "https://www.asuerastiftung.ch/",
-    "officialPurpose": "Die Asuera Stiftung bezweckt die Unterstützung und Förderung von Personen, Institutionen und Projekten im In- und Ausland, welche in gemeinnütziger Weise karitativ, humanitär, gesundheitsfördernd, erzieherisch, wissenschaftlich oder kulturell tätig sind und sich zugunsten einer nachhaltigen Entwicklung engagieren. Die Stiftung verfolgt diesen Zweck mit dem Ziel der Schaffung von Chancen für möglichst viele Menschen, ihre Lebensbedingungen durch eigene Anstrengungen zu verbessern.",
-    "region": "Freienbach",
+    "websiteUrl": "https://www.asuerastiftung.ch",
+    "applicationUrl": "https://wf.asuerastiftung.ch/asuera/webforms.nsf/startrequest.xsp",
+    "region": "Zürich-Region (Hurden/Freienbach)",
     "contact": {
       "address": "Hurdnerstrasse 4, CH-8640 Hurden",
       "email": "info@asuerastiftung.ch",
       "phone": "+41 55 415 44 55"
     },
+    "founded": 2019,
+    "boardMembers": [
+      {
+        "name": "Marcel Nauer",
+        "role": "Präsident"
+      },
+      {
+        "name": "Petra Christina Antonella Gössi",
+        "role": "Stiftungsrat"
+      },
+      {
+        "name": "Elisabeth Meyerhans Sarasin",
+        "role": "Stiftungsrat"
+      }
+    ],
+    "acceptsApplications": "yes",
     "applicationMethod": "online",
-    "isOperative": false,
+    "applicationProcess": [
+      "Online-Formular öffnen: wf.asuerastiftung.ch/asuera/webforms.nsf/startrequest.xsp",
+      "Projektbeschreibung mit Bezug zu einem der 5 Schwerpunkte ausformulieren",
+      "Budget und Finanzplanung inkl. Ko-Finanzierungsnachweis beilegen",
+      "Innovationscharakter und Multiplikationspotenzial herausarbeiten",
+      "Einreichen rechtzeitig vor Projektbeginn (Entscheid dreimal jährlich)",
+      "Bei Fragen: Di 9-12 / 14-17 Uhr unter +41 55 415 44 55 oder info@asuerastiftung.ch"
+    ],
     "status": "rolling",
-    "deadlineText": "Unbekannt",
+    "deadline": null,
+    "deadlineText": "Laufende Anträge. Board-Entscheide dreimal jährlich (Frühling, Sommer, Frühwinter). Rechtzeitig vor Projektbeginn einreichen. NUR über Online-Formular — E-Mail/Post-Anträge werden NICHT berücksichtigt.",
     "amount": {
-      "min": 5000,
-      "max": 50000,
-      "text": "ca. CHF 20’000"
+      "min": null,
+      "max": null,
+      "text": "Nicht öffentlich (Seed-Finanzierung, max. 5 Jahre Unterstützung)"
     },
-    "sourceLinks": [],
-    "source": "esa",
-    "purposeSummary": "Die Asuera Stiftung fördert Personen, Institutionen und Projekte, die sich für nachhaltige Entwicklung engagieren — mit dem Ziel, Chancen zu schaffen, damit Menschen ihre Lebensbedingungen durch eigene Anstrengungen verbessern können. Schwerpunkte: Technologie, Bewegung & Sport, Finanzbildung sowie regionale Projekte am oberen Zürichsee. Gegründet 2019, Sitz in Hurden/Freienbach (SZ).",
-    "fit": 2,
+    "pastGrantees": [
+      "Campus 42 Zürich",
+      "Swiss EdTech Collider",
+      "Schweizer Kinderhilfswerk Kovive",
+      "Stiftung SILVIVA"
+    ],
+    "sourceLinks": [
+      {
+        "source": "website",
+        "url": "https://www.asuerastiftung.ch/foerderung/themen/",
+        "label": "Förderthemen"
+      },
+      {
+        "source": "website",
+        "url": "https://www.asuerastiftung.ch/foerderung/kriterien/",
+        "label": "Förderkriterien"
+      },
+      {
+        "source": "website",
+        "url": "https://www.asuerastiftung.ch/foerderung/ausschluss/",
+        "label": "Ausschlusskriterien"
+      },
+      {
+        "source": "fundraiso",
+        "url": "https://www.fundraiso.com/en/organisations/asuera-stiftung",
+        "label": "Fundraiso-Profil"
+      }
+    ],
+    "source": "website",
+    "purposeSummary": "Fünf Förderpillar: (1) Technologie — moderne Technologie für gesellschaftliche Herausforderungen, digitale Bildung, Naturressourcenschutz; (2) Bewegung & Sport — niederschwelliger Zugang zu Freizeit-Sport und Gesundheitsförderung; (3) Finanzbildung — Finanzkompetenz für alle Altersgruppen; (4) Lokale Projekte — Gemeinschaftsinitiativen im oberen Zürichsee-Raum; (5) Stiftungssektoren-Entwicklung. Innovation und Modellcharakter vorausgesetzt. Max. 5 Jahre Förderdauer, Mitfinanzierung erwartet.",
+    "fit": 3,
     "priority": 2,
     "type": "B",
     "themes": [
       "soziale-integration",
       "digitale-bildung",
+      "arbeitsintegration",
       "kreislaufwirtschaft"
     ],
-    "tagline": "Die Asuera Stiftung fördert Personen, Institutionen und Projekte, die sich für n",
-    "researchNotes": "Guter Fit für Revamp-IT: Die Asuera Stiftung hat 'Technologie' als expliziten Förderbereich — IT-Recycling und digitale Bildung passen hier direkt. Der Stiftungszweck betont Selbstbefähigung ('Lebensbedingungen durch eigene Anstrengungen verbessern'), was exakt dem Revamp-IT-Modell entspricht (Arbeitsintegration durch Refurbishing-Ausbildung). Die regionale Nähe (oberer Zürichsee → Zürich) ist gegeben. Strategischer Ansatz: Revamp-IT als Technologie-Projekt positionieren, das gleichzeitig soziale Integration und Kreislaufwirtschaft fördert. Bewerbung über formalen Antragsprozess auf der Website.",
+    "tagline": "Technologie für soziale Herausforderungen, Bildung, nachhaltige Entwicklung",
+    "researchNotes": "Starke Passung mit Revamp-IT: Technologie-Pillar deckt IT-Recycling + digitale Integration explizit ab (\"moderne Technologie für soziale Herausforderungen\", \"Erwachsene können neue Fähigkeiten erlernen und an technologischer Entwicklung teilhaben\"). Revamp-IT ist Innovations-/Modellcharakter: Kombination IT-Recycling + Arbeitsintegration ist einzigartig, gut als Seed-Projekt positionierbar. Kreislaufwirtschaft (E-Waste-Reduktion) passt zu Nachhaltigkeits-Fokus. Ko-Finanzierung vorhanden (Stadt Zürich). WICHTIG: Online-Formular ZWINGEND, kein E-Mail/Post. Kontakt nur Di 9-12 / 14-17 Uhr. Geschäftsführerin: Sibylle Feltrin Ilar. Bewerbung empfohlen für ein neues Programm (nicht für Basisfinanzierung). Vergangene Grantees: Campus 42 Zürich, Swiss EdTech Collider, Kovive. Konkurrenz hoch (\"Nachfrage übersteigt verfügbare Mittel deutlich\").",
     "needsResearch": false,
-    "researchDate": "2026-02-19"
+    "researchDate": "2026-02-16"
   },
   {
     "slug": "bafu-utf",
@@ -441,37 +508,45 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   },
   {
     "slug": "baloise-foundation",
-    "name": "Baloise Group Stiftung",
-    "uid": "CHE-000.000.000",
+    "name": "Helvetia Baloise Group (ehem. Baloise)",
     "websiteUrl": "https://www.baloise.com/de/home/ueber-uns/nachhaltigkeit.html",
-    "officialPurpose": "CSR-Engagement in den Bereichen soziale Integration, Bildung, Nachhaltigkeit und Innovation. Keine eigenständige Förderstiftung — Förderung über CSR-Programm.",
-    "region": "Basel",
+    "region": "Schweiz (Schwerpunkt Nordwestschweiz/Basel)",
     "contact": {
-      "address": "Aeschengraben 21, 4002 Basel",
-      "email": "nachhaltigkeit@baloise.com"
+      "email": "sponsoring@baloise.ch"
     },
     "applicationMethod": "contact",
-    "isOperative": true,
     "status": "rolling",
-    "deadlineText": "Unbekannt",
+    "deadline": null,
+    "deadlineText": "Kein offener Antragsprozess — Kontakt via sponsoring@baloise.ch oder nachhaltigkeit@baloise.com",
     "amount": {
       "min": null,
       "max": null,
-      "text": "Unbekannt"
+      "text": "Projektabhängig (Sponsoring + Sachleistungen)"
     },
-    "sourceLinks": [],
-    "source": "esa",
-    "purposeSummary": "Baloise (seit 2025 Helvetia Baloise Gruppe) engagiert sich über ein formales CSR-Programm (CSR Charter 2024) in fünf Bereichen: Gemeinschaft, Umweltschutz, Gesundheit, Bildung & Forschung, Innovation & Sicherheit. Kein offener Bewerbungsprozess — Förderungen werden einzelfallbasiert auf Ebene der nationalen Geschäftseinheiten entschieden. Die ehemalige Baloise-Jubilaeumsstiftung wurde im Oktober 2022 aufgelöst.",
+    "sourceLinks": [
+      {
+        "source": "website",
+        "url": "https://www.baloise.com/de/home/ueber-uns/nachhaltigkeit.html",
+        "label": "Baloise Nachhaltigkeit"
+      },
+      {
+        "source": "website",
+        "url": "https://www.baloise.com/en/home/about-us/what-we-stand-for/sustainability/society.html",
+        "label": "Society & CSR"
+      }
+    ],
+    "source": "website",
+    "purposeSummary": "Baloise (seit Dez. 2025 fusioniert mit Helvetia zu Helvetia Baloise Group) engagiert sich in sozialer Integration, Bildung und Nachhaltigkeit. Keine allgemeine Förderstiftung — CSR läuft über Corporate Sponsoring, Mitarbeiter-Volunteering (Digital Scouts) und Partnerschaften (Swiss Climate Foundation). InnoPrix SO! (CHF 25'000/Jahr) nur für Region Solothurn.",
     "fit": 2,
     "priority": 3,
     "type": "D",
     "themes": [
       "soziale-integration",
       "arbeitsintegration",
-      "klima"
+      "digitale-bildung"
     ],
-    "tagline": "Baloise (seit 2025 Helvetia Baloise Gruppe) engagiert sich über ein formales CSR",
-    "researchNotes": "Kein klassischer Fördergeber. CSR-Programm ist relationship-driven ohne öffentliche Ausschreibung. Thematisch passt Revamp-IT gut (Arbeitsintegration, Kreislaufwirtschaft, digitale Bildung decken 3-4 der 5 CSR-Fokusbereiche ab), aber der Zugang ist opak. Die Helvetia-Baloise-Fusion 2025 könnte die CSR-Landschaft verändert haben — Helvetia hatte eigene Community-Programme. Empfehlung: Direkter Kontakt via nachhaltigkeit@baloise.com mit Pitch, der Alignment zu CSR-Fokusbereichen zeigt. Keine offenen Förderanträge möglich. Eher als langfristige Corporate-Partnerschaft positionieren (Hardware-Spenden, Corporate Volunteering, Outplacement-Partnerschaft).",
+    "tagline": "Corporate CSR — Digitale Inklusion, Nachhaltigkeit, Sponsoring",
+    "researchNotes": "Baloise hat KEINE allgemeine philanthropische Stiftung. Engagement über: (1) Sponsoring (sponsoring@baloise.ch), (2) Digital Scouts — Mitarbeiter-Freiwillige für digitale Bildung bei Senioren/Jugendlichen, (3) Swiss Climate Foundation Partnerschaft (10-Jahres-Vertrag seit 2021), (4) InnoPrix SO! — CHF 25'000 Innovationspreis der Stiftung Baloise Bank AG (nur Kt. Solothurn + Nachbarkantone). Für Revamp-IT: (a) Corporate Volunteering in Werkstatt, (b) Hardware-Spenden, (c) Nachhaltigkeits-Partnerschaft. Merger mit Helvetia (Dez. 2025) → CSR-Struktur wird 2026 reorganisiert. Neue Group-Website: helvetia-baloise.com.",
     "needsResearch": false,
     "researchDate": "2026-02-19"
   },
@@ -889,35 +964,38 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   {
     "slug": "coop-nachhaltigkeit",
     "name": "Coop Nachhaltigkeitsfonds",
-    "uid": "CHE-000.000.001",
-    "websiteUrl": "https://www.taten-statt-worte.ch/de/nachhaltigkeitsthemen/gesellschaft/fonds-fuer-nachhaltigkeit.html",
-    "officialPurpose": "Fonds für Nachhaltigkeit: Forschungs-, Entwicklungs- und Sensibilisierungsprojekte in der Schweiz. Innovationsprojekte mit innovativen Lösungsansätzen für Umwelt und Gesellschaft.",
-    "region": "Basel",
+    "websiteUrl": "https://www.coop.ch/de/unternehmen/nachhaltigkeit.html",
+    "region": "Schweiz",
     "contact": {
-      "address": "Coop Genossenschaft, Basel",
       "email": "sponsoring-hs@coop.ch"
     },
     "applicationMethod": "contact",
-    "isOperative": false,
     "status": "rolling",
-    "deadlineText": "Unbekannt",
+    "deadline": null,
+    "deadlineText": "Laufende Projektanfragen; jedoch starker Food/Kerngeschäft-Bezug nötig",
     "amount": {
       "min": null,
       "max": null,
-      "text": "Unbekannt"
+      "text": "Projektabhängig"
     },
-    "sourceLinks": [],
-    "source": "esa",
-    "purposeSummary": "Der Coop Fonds für Nachhaltigkeit ('Taten statt Worte') fördert Forschungs-, Entwicklungs- und Innovationsprojekte in der Schweiz für Umwelt und Gesellschaft. Bewertungskriterien: (1) Bezug zu Coop (Konsum, Sortiment, Kundenbedürfnisse), (2) Innovation, (3) Praxisbezug (Machbarkeit), (4) Partnerschaft mit Institutionen wie FiBL oder WWF. Kein offener Bewerbungsprozess — strategische Partnerauswahl. Zusätzlich existiert ein Sponsoring-Programm mit Online-Formular.",
-    "fit": 2,
-    "priority": 3,
+    "sourceLinks": [
+      {
+        "source": "website",
+        "url": "https://www.coop.ch/de/unternehmen/nachhaltigkeit.html",
+        "label": "Coop Nachhaltigkeit"
+      }
+    ],
+    "source": "website",
+    "purposeSummary": "Coop investiert über den Nachhaltigkeitsfonds in Projekte für Kreislaufwirtschaft, Ressourcenschonung und nachhaltige Lieferketten. Starker Fokus auf Food-System und Kerngeschäft-Verbindung (Detailhandel). Externe IT-Projekte ohne Coop-Bezug haben geringe Erfolgschancen.",
+    "fit": 3,
+    "priority": 4,
     "type": "D",
     "themes": [
       "kreislaufwirtschaft",
       "klima"
     ],
-    "tagline": "Der Coop Fonds für Nachhaltigkeit ('Taten statt Worte') fördert Forschungs-, Ent",
-    "researchNotes": "Schwieriges Ziel für Revamp-IT: Der Nachhaltigkeitsfonds funktioniert über strategische Partnerschaften, nicht über offene Anträge. Das Kriterium 'Bezug zu Coop' (Relevanz für Sortiment/Kunden) ist für IT-Refurbishing nur indirekt erfüllt. Coops Nachhaltigkeitsfokus liegt primär auf Lebensmittel-Nachhaltigkeit (Bio-Landwirtschaft, nachhaltige Lieferketten). Realistischerer Weg: (1) Sponsoring-Anfrage via coop.ch/sponsoring unter 'Mensch & Umwelt', (2) Supply-Chain-Partnerschaft positionieren (refurbished Geräte für Coop-Filialen, Sammelstellen in Läden). Die Email sponsoring-hs@coop.ch ist für Event-Sponsoring, NICHT für den Nachhaltigkeitsfonds. Für Berggebiete: patenschaft@coop.ch (nicht relevant).",
+    "tagline": "Kreislaufwirtschaft und Nachhaltigkeit — stark Food/Retail-fokussiert",
+    "researchNotes": "Der Coop Nachhaltigkeitsfonds ist stark auf Food-System und Kerngeschäft (Detailhandel) fokussiert. Geförderte Projekte haben fast immer direkten Bezug zu Coops Lieferkette oder Produkten. Für Revamp-IT: (1) Kreislaufwirtschaft-Bezug theoretisch vorhanden, aber ohne Verbindung zu Coops Kerngeschäft unrealistisch, (2) Auf NOT_RECOMMENDED-Liste — Aufwand-Nutzen-Verhältnis ungünstig. Besser: andere Kreislaufwirtschafts-Förderer priorisieren. Kontakt sponsoring-hs@coop.ch existiert für Sponsoring, aber Nachhaltigkeitsfonds hat eigene Steuerung.",
     "needsResearch": false,
     "researchDate": "2026-02-19"
   },
@@ -1239,31 +1317,31 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   {
     "slug": "elisabeth-nothmann-stiftung",
     "name": "Elisabeth Nothmann Stiftung",
-    "uid": "CHE-106.024.651",
+    "uid": "CHE-110.383.039",
     "websiteUrl": "",
     "region": "Zürich",
     "contact": {
-      "address": "c/o Bratschi AG, Bahnhofstrasse 70, 8001 Zürich"
+      "address": "Stockerstrasse 48, 8002 Zürich"
     },
-    "founded": null,
+    "founded": 1978,
     "applicationMethod": "contact",
     "status": "rolling",
     "deadline": null,
-    "deadlineText": "Unbekannt - Kontakt über Bratschi AG erforderlich",
+    "deadlineText": "Unbekannt — Kontakt über Firminvest AG (NICHT Bratschi AG)",
     "amount": {
-      "min": null,
-      "max": null,
-      "text": "Unbekannt"
+      "min": 5000,
+      "max": 10000,
+      "text": "Kleine Beträge (bekannter Grant: CHF 9'000 an Pestalozzi-Stiftung 2023)"
     },
     "sourceLinks": [
       {
         "source": "fundraiso",
-        "url": "https://www.fundraiso.ch/de/organisations/elisabeth-nothmann-stiftung",
+        "url": "https://www.fundraiso.com/en/organisations/elisabeth-nothmann-stiftung",
         "label": "Fundraiso-Profil"
       }
     ],
     "source": "fundraiso",
-    "purposeSummary": "Fördert Institutionen in den Bereichen Bildung, Jugend und soziale Unterstützung. Laut Fundraiso nur institutionelle Förderung (keine Einzelpersonen). Kein öffentlicher Web-Auftritt, Kontakt über Anwaltskanzlei.",
+    "purposeSummary": "Gemeinnützige Fürsorge im weitesten Sinne: Beiträge für Unterhalt, Erziehung und Ausbildung Jugendlicher, finanzielle Unterstützung Bedürftiger, Betagter und Kranker, Förderung sozial/erzieherisch/wohltätig tätiger Personen und Institutionen. Nur Institutionen (keine Einzelpersonen). Kleine Stiftung mit langfristigen festen Verpflichtungen.",
     "fit": 2,
     "priority": 3,
     "type": "C",
@@ -1273,9 +1351,9 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "soziale-integration"
     ],
     "tagline": "Bildung, Jugend, soziale Unterstützung",
-    "researchNotes": "Kleine bis mittlere Zürcher Stiftung ohne eigene Website, verwaltet durch Bratschi AG. Fundraiso bestätigt Förderung von Institutionen in Bildung/Jugend/Soziales. Revamp-IT könnte als gemeinnütziger Verein theoretisch Gesuch stellen für digitale Bildungsprojekte oder Jugend-Arbeitsintegration. Fehlende öffentliche Informationen zu Förderkriterien, Beträgen, Prozess. Direktkontakt über Bratschi AG erforderlich. Zürich-Standort vorteilhaft.",
-    "needsResearch": true,
-    "researchDate": "2026-02-16"
+    "researchNotes": "KORREKTUR: Verwaltet durch Firminvest AG (Vermögensverwaltung), NICHT Bratschi AG. Direktor/Stiftungsrat: Christoph Markus Corrodi (Firminvest AG). Gegründet 1978, Sitz Stockerstrasse 48, 8002 Zürich. Bekannte Grants: CHF 9'000 an Pestalozzi-Stiftung (2023), Förderung an burundikids schweiz (2023). Kleine Stiftung mit «langfristigen festen Verpflichtungen» — begrenzte freie Mittel. Keine Website, keine öffentlichen Förderkriterien. Revamp-IT könnte als gemeinnütziger Verein Gesuch stellen für Jugend-IT-Bildung, aber Erfolgswahrscheinlichkeit gering wegen kleiner Beträge und bestehender Verpflichtungen.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "erde-2-0",
@@ -1812,7 +1890,7 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "digitale-souveraenitaet"
     ],
     "tagline": "Wissenschafts- und Innovationsstiftung der Schweiz",
-    "researchNotes": "BREF Social Innovation Programm (2009-2017) ist bestätigt BEENDET. Kein Ersatzprogramm. Alle aktuellen Programme (First Ventures, InnoBooster, Scientainment) erfordern Universitätsanbindung. FIT-BEWERTUNG: NIEDRIG für Revamp-IT. Ohne Hochschul-Partnerschaft keine Qualifikation. Ein möglicher Ansatz wäre eine Forschungskooperation mit einer Fachhochschule (z.B. ZHAW), aber die Stiftung fokussiert auf Deeptech/Uni-Spinoffs.",
+    "researchNotes": "BREF Social Innovation Programm (2009-2017) ist bestätigt BEENDET. Kein Ersatzprogramm. Alle aktuellen Programme (First Ventures, InnoBooster, Scientainment) erfordern Universitätsanbindung. FIT-BEWERTUNG: NIEDRIG für Revamp-IT ohne Hochschulpartner. Die Community-Plattform könnte als 'Science to Market' gerahmt werden, wenn mit einer Fachhochschule (z.B. ZHAW) gepaart — aber die Uni-Partnerschaft bleibt ein harter Blocker. Beobachten für den Fall einer FH-Kooperation.",
     "needsResearch": false,
     "researchDate": "2026-02-09"
   },
@@ -1828,7 +1906,7 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "amount": {
       "min": null,
       "max": null,
-      "text": "Projektabhängig"
+      "text": "Nicht mehr verfügbar"
     },
     "sourceLinks": [
       {
@@ -1838,19 +1916,19 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       }
     ],
     "source": "website",
-    "purposeSummary": "Gemeinnütziger Fonds der Bildungsdirektion Kanton Zürich. Fördert wohltätige Projekte und Kulturangebote im Bildungsbereich und in der Kinder-/Jugendhilfe. Separat vom Swisslos-Fonds.",
-    "fit": 2,
-    "priority": 2,
-    "type": "network",
+    "purposeSummary": "Gemeinnütziger Fonds der Bildungsdirektion Kanton Zürich. Förderte wohltätige Projekte und Kulturangebote im Bildungsbereich und in der Kinder-/Jugendhilfe. Separat vom Swisslos-Fonds. AUFGELÖST Ende 2023.",
+    "fit": 3,
+    "priority": 4,
+    "type": "D",
     "themes": [
       "digitale-bildung",
       "jugend",
       "zuerich"
     ],
-    "tagline": "Kantonaler Bildungsfonds für gemeinnützige Projekte",
-    "researchNotes": "Fonds existiert nicht mehr. Betrieb von 2016 bis 2023, aufgelöst Ende 2023. Bildungsförderung an Swisslos Gemeinnützigen Fonds richten.",
-    "needsResearch": true,
-    "researchDate": "2026-02-09"
+    "tagline": "Kantonaler Bildungsfonds — aufgelöst Ende 2023",
+    "researchNotes": "Fonds existiert nicht mehr. Betrieb von 2016 bis 2023, aufgelöst per Regierungsratsbeschluss Ende 2023. Bildungsförderung an den Swisslos Gemeinnützigen Fonds (swisslos-zh) richten — dieser existiert weiterhin und akzeptiert Gesuche für einmalige gemeinnützige Projekte mit Kantonsbezug.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "ggkz",
@@ -2004,6 +2082,16 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
         "source": "website",
         "url": "https://www.google.org",
         "label": "Google.org"
+      },
+      {
+        "source": "website",
+        "url": "https://www.google.org/impact-challenges/",
+        "label": "Impact Challenges"
+      },
+      {
+        "source": "website",
+        "url": "https://www.google.org/opportunities/",
+        "label": "Opportunities"
       }
     ],
     "source": "website",
@@ -2018,9 +2106,9 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "soziale-integration"
     ],
     "tagline": "Tech for Good — KI, digitale Bildung und Inklusion",
-    "researchNotes": "Google Zürich ist einer der grössten Google-Standorte. Für Revamp-IT hochrelevant: (1) GPU-Sachspenden — ausgemusterte Server/GPUs aus Googles Rechenzentren, (2) Sovereign AI als Tech-for-Good-Projekt, (3) Digitale Bildung und Inklusion. Google.org Impact Challenges öffnen periodisch. Primär einladungsbasiert, aber auch proaktive Kontaktaufnahme möglich über Google Zürich Community Relations.",
-    "needsResearch": true,
-    "researchDate": "2026-02-11"
+    "researchNotes": "KEIN direkter Kontakt oder lokales Community-Relations-Team bei Google Zürich. Google.org nimmt KEINE unaufgeforderten Gesuche an — nur über kompetitive Impact Challenges. Aktuell offen: AI for Government Innovation (Deadline 3.4.2026) und AI for Science (Deadline 17.4.2026) — beide schlechte Passung für IT-Refurbishment. Schweiz oft NICHT förderberechtigt bei EU-Programmen (z.B. AI Opportunity Fund: Europe exkludierte CH). Beste Aktion: Expression of Interest Formular ausfüllen (Google Forms), Google for Nonprofits registrieren (CHF 10K/Monat Ad Grants), nächste «Tech for Social Good»-Challenge abwarten. Accessibility Discovery Center Zürich als lokaler Kontaktpunkt. Netzwerk über Impact Hub Zürich Events aufbauen.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "greuter-briner",
@@ -2187,7 +2275,7 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "jugend"
     ],
     "tagline": "Die ICT-Stiftung der Schweiz seit 1948",
-    "researchNotes": "Primär akademisch/forschungsorientiert. Offene Förderung für Universitäten und nicht-kommerzielle Organisationen. Kleinprojekte (bis CHF 50k) ganzjährig mit 30-Tage-Entscheid. Aktuelles Spezialprogramm: 'Hasler Mercator Digitalisierung & Demokratie' (Start Jan. 2025). Relevanz für Revamp-IT begrenzt — primär akademische Forschung und Uni-Projekte. Könnte unter ICT-Bildung oder digitale Inklusion passen, wenn akademisch gerahmt.",
+    "researchNotes": "Primär akademisch/forschungsorientiert. Offene Förderung für Universitäten und nicht-kommerzielle Organisationen. Kleinprojekte (bis CHF 50k) ganzjährig mit 30-Tage-Entscheid. Aktuelles Spezialprogramm: 'Hasler Mercator Digitalisierung & Demokratie' (Start Jan. 2025). Relevanz für Revamp-IT begrenzt — primär akademische Forschung und Uni-Projekte. Könnte unter ICT-Bildung oder digitale Inklusion passen, wenn akademisch gerahmt. NEU: Die Community-Plattform (1'165 TypeScript-Dateien, Full-Stack Next.js/PostgreSQL) stärkt den Fall für ICT-Bildungsprojekte — beweist Software-Engineering-Kompetenz auf professionellem Niveau.",
     "needsResearch": false,
     "researchDate": "2026-02-09"
   },
@@ -2367,7 +2455,9 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "websiteUrl": "https://rafisa.ch",
     "region": "Meilen (ZH)",
     "contact": {
-      "address": "Feldgüetliweg 137, 8706 Meilen"
+      "address": "Lindenstrasse 16, 6340 Baar",
+      "email": "rafisa@rafisa.ch",
+      "phone": "044 910 50 10"
     },
     "applicationMethod": "partnership",
     "isOperative": true,
@@ -2387,13 +2477,18 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
         "label": "Rafisa Informatik"
       },
       {
+        "source": "website",
+        "url": "https://rafisa.ch/en/cooperations-services/",
+        "label": "Kooperationen"
+      },
+      {
         "source": "esa",
         "url": "https://www.zefix.ch/de/search/entity/list?mainSearch=CHE-115.245.367",
         "label": "Zefix"
       }
     ],
     "source": "esa",
-    "purposeSummary": "Stiftung zur IT-Ausbildung von jungen Menschen mit Autismus-Spektrum-Störung (insb. Asperger). Umfassendes Ausbildungsprogramm vermittelt IT-Kompetenzen und IT-Ressourcen für den regulären Arbeitsmarkt. Betrieben durch Rafisa Informatik GmbH mit Fokus auf verschiedene IT-Spezialisierungen.",
+    "purposeSummary": "Stiftung zur IT-Ausbildung von jungen Menschen mit Autismus-Spektrum-Störung (insb. Asperger). Umfassendes Ausbildungsprogramm vermittelt IT-Kompetenzen für den regulären Arbeitsmarkt. Betrieben durch Rafisa Informatik GmbH an 6-7 Standorten schweizweit (Baar, Basel, Bern, Dietikon, Fribourg, Winterthur, Zug) mit 100-150 Mitarbeitenden und Lernenden.",
     "fit": 3,
     "priority": 3,
     "type": "network",
@@ -2404,9 +2499,9 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "zuerich"
     ],
     "tagline": "IT-Ausbildung für Menschen im Autismus-Spektrum — Peer-Organisation",
-    "researchNotes": "Sehr enge Verwandtschaft mit Revamp-IT: IT-Ausbildung + Arbeitsintegration in der Region Zürich. Betrieben über Rafisa Informatik GmbH, die IT-Training für Menschen im Autismus-Spektrum anbietet. Kooperationsmöglichkeiten: (1) Gemeinsame Lehrwerkstatt oder Praktikumsplätze, (2) Know-how-Austausch IT-Ausbildung, (3) Revamp-IT-Geräte als Übungsmaterial, (4) Gemeinsame Förderanträge für Inklusions-Projekte. Geschäftsführer: Siegfried Wirtner.",
-    "needsResearch": true,
-    "researchDate": "2026-02-16"
+    "researchNotes": "Engste Peer-Organisation zu Revamp-IT im IT-Ausbildungsbereich. GF: Siegfried Wirtner. Kooperationspartner: Johnson & Johnson, Microsoft Switzerland, Insor AG. Auszeichnung «Bester Ausbildungsbetrieb 2025» (FAV Freiburg). Kooperationsmodell: Firmen bieten kostenlose Praktika für Rafisa-Lernende (2.-3. Lehrjahr, 1-3 Tage/Woche, 1-12 Monate). Rafisa behält Lehrvertrag/Lohn/Versicherung und bietet Betreuung + Autismus-Sensibilisierung. ISO-zertifiziert. Auch bei «Zukunft Inklusion» als Aktionspartner gelistet. Kooperationsmöglichkeiten: (1) Gemeinsame Lehrwerkstatt/Praktikumsplätze, (2) Know-how-Austausch IT-Ausbildung, (3) Revamp-IT-Geräte als Übungsmaterial, (4) Gemeinsame Förderanträge.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "innosuisse",
@@ -2457,34 +2552,50 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "slug": "innovation-foundation-zh",
     "name": "Innovation Foundation (Adecco Group)",
     "uid": "CHE-426.764.839",
-    "websiteUrl": "https://www.adeccogroup.com/innovationfoundation/",
-    "officialPurpose": "Social Innovation Lab der Adecco Group. Hilft unterversorgten Bevölkerungsgruppen, ihre Beschäftigungsfähigkeit und den Zugang zu Arbeitsmärkten zu verbessern. Schwerpunkte: Youth@Risk, Women Back To Work, Mature Workers.",
-    "region": "Zürich",
+    "websiteUrl": "https://www.adeccogroup.com/innovationfoundation",
+    "region": "Zürich / International",
     "contact": {
-      "address": "Bellerivestrasse 30, 8008 Zürich"
+      "address": "Bellerivestrasse 30, 8008 Zürich",
+      "email": "cynthia.hansen@adeccogroup.com"
     },
     "applicationMethod": "contact",
     "isOperative": true,
-    "status": "rolling",
-    "deadlineText": "Unbekannt",
+    "status": "closed",
+    "deadline": null,
+    "deadlineText": "Nimmt KEINE externen Gesuche an — operiert als Social Innovation Lab der Adecco Group",
     "amount": {
       "min": null,
       "max": null,
-      "text": "Unbekannt"
+      "text": "Kein externes Fördergeld (Assets: 10-50 Mio. CHF, Ausgaben ~2.7 Mio./Jahr)"
     },
-    "sourceLinks": [],
+    "sourceLinks": [
+      {
+        "source": "esa",
+        "url": "https://www.zefix.ch/de/search/entity/list?mainSearch=CHE-426.764.839",
+        "label": "Zefix"
+      },
+      {
+        "source": "website",
+        "url": "https://www.adeccogroup.com/innovationfoundation",
+        "label": "Innovation Foundation"
+      },
+      {
+        "source": "website",
+        "url": "https://www.fundraiso.com/en/organisations/innovation-foundation",
+        "label": "Fundraiso"
+      }
+    ],
     "source": "esa",
-    "purposeSummary": "Social Innovation Lab der Adecco Group ('Innovation Foundation, empowered by the Adecco Group'). Mission: Unterversorgte Bevölkerungsgruppen bei Beschäftigungsfähigkeit und Arbeitsmarktzugang unterstützen. Drei Programmbereiche: Youth@Risk (gefährdete Jugendliche), Women Back To Work (Frauen-Wiedereinstieg), Mature Workers (50+). Operiert als Lab mit eigenem Design-Prozess (identify → develop → prototype → deploy), nicht als klassische Förderstiftung. Sitz: Bellerivestrasse 30, 8008 Zürich.",
-    "fit": 2,
-    "priority": 3,
-    "type": "D",
+    "purposeSummary": "Die Innovation Foundation (ehemals Adecco Group Foundation, gegr. 2017) ist das Social Innovation Lab der Adecco Group. Betreibt eigene Programme: Youth@Risk, Women Back To Work, Mature Workers, Athlete Programmes (mit IOC/IPC). Keine Förderstiftung — nimmt KEINE externen Gesuche oder Projektvorschläge an.",
+    "fit": 3,
+    "priority": 4,
+    "type": "network",
     "themes": [
       "arbeitsintegration",
-      "soziale-integration",
-      "zuerich"
+      "soziale-integration"
     ],
-    "tagline": "Social Innovation Lab der Adecco Group ('Innovation Foundation, empowered by the",
-    "researchNotes": "Kein klassischer Fördergeber, sondern Corporate Innovation Lab. Hohe thematische Relevanz für Revamp-IT (Arbeitsmarktintegration ist Kernmission beider Organisationen), aber kein offener Antragsprozess. Das Lab identifiziert selbst Probleme, entwickelt Lösungen und sucht dann Umsetzungspartner. Revamp-IT könnte als Implementierungspartner für Youth@Risk oder Women Back To Work positioniert werden — z.B. IT-Refurbishing als praktischer Qualifizierungspfad für deren Zielgruppen. Board: J.-C. Deslarzes (Adecco Chairman), Cynthia Hansen (MD), Dr. Daniela Seabrook, Ory Okolloh (Co-Founder Ushahidi), Virginia Wilson, Robert James. Team: Shareena Hatta (Innovation Lab Director), Camila Muller (Operations). Kontakt über Website-Formular: adeccogroup.com/innovationfoundation/contact.",
+    "tagline": "Adecco Group Social Innovation Lab — operativ, keine Förderung",
+    "researchNotes": "WICHTIG: Die «Innovation Foundation» ist KEINE klassische Förderstiftung, sondern das Corporate Social Innovation Lab des Personaldienstleisters Adecco Group (Fortune Global 500). Fundraiso bestätigt: «The foundation does not currently consider requests for fundamental strategic reasons» und «is not a funding institution». Methodik: Scan → Build → Scale für eigene Programme. Stiftungsrat: Jean-Christophe Deslarzes (Präsident/Adecco-VR-Präsident), Cynthia Hansen (GF, ex-WEF), Dr. Daniela Seabrook, Ory Okolloh. Für Revamp-IT: Denkbar als Wissenspartner im Bereich Arbeitsintegration, aber keine Fördergelder. Kontakt nur für potenzielle Umsetzungspartnerschaften.",
     "needsResearch": false,
     "researchDate": "2026-02-19"
   },
@@ -3735,18 +3846,19 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     ],
     "source": "manual",
     "purposeSummary": "Fördert Open-Source-Projekte, die gesellschaftliche Herausforderungen in der Schweiz adressieren. Fokus auf nachhaltige Digitalisierung und digitale Suffizienz. Eine Runde pro Jahr, bis CHF 100'000. Schweizer Arbeitsbewilligung erforderlich.",
-    "fit": 3,
-    "priority": 3,
+    "fit": 1,
+    "priority": 1,
     "type": "A",
     "themes": [
       "digitale-souveraenitaet",
       "klima",
-      "kreislaufwirtschaft"
+      "kreislaufwirtschaft",
+      "digitale-bildung"
     ],
     "tagline": "Fördert Open-Source-Projekte für das Gemeinwohl",
-    "researchNotes": "Runde 4 Prototyping-Phase endete am 22. Jan. 2026 (Demo Day). Runde 5 voraussichtlich bald offen, aber keine bestätigten Daten. Alle Ergebnisse müssen unter Open-Source-Lizenz stehen. Kontakt: info@prototypefund.ch oder Newsletter abonnieren. Exzellenter Fit für Revamp-ITs Linux-/Open-Source-Arbeit.",
+    "researchNotes": "PERFEKTER FIT: Revamp-ITs Community-Plattform (revampit.vercel.app) ist ein produktionsreifes Open-Source-Projekt mit 1'165 TypeScript-Dateien, das drei gesellschaftliche Herausforderungen adressiert: (1) Digitale Souveränität — Open-Source-Marktplatz und Wissensplattform, (2) Kreislaufwirtschaft — digitale Infrastruktur für gebrauchte IT, (3) Digitale Bildung — Knowhow-Portal und IT-Hilfe. Die Plattform ist bereits gebaut und kann als Prototype-Fund-Einreichung eingereicht werden. Runde 5 voraussichtlich bald offen. Alle Ergebnisse stehen bereits unter Open-Source-Lizenz. Kontakt: info@prototypefund.ch oder Newsletter abonnieren.",
     "needsResearch": false,
-    "researchDate": "2026-02-10"
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "pusch",
@@ -4075,8 +4187,8 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     ],
     "tagline": "WEF-Schwesterorganisation — Anerkennung und Netzwerk für Sozialunternehmer",
     "researchNotes": "WICHTIG: Vergibt KEINE finanziellen Zuschüsse und investiert nicht in Organisationen. Bietet Anerkennung, Netzwerkzugang (WEF) und Stipendien für Weiterbildung (Harvard, Stanford, INSEAD). 2026-Awards bereits bei Davos vergeben. Nominierungsbasiert. Selektiv global. Eher langfristiges Aspirationsziel. Nominierungsprozess auf schwabfound.org/selection-process.",
-    "needsResearch": true,
-    "researchDate": "2026-02-09"
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "seif",
@@ -4105,8 +4217,8 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     ],
     "source": "website",
     "purposeSummary": "SEIF fördert seit 2011 Impact-Innovation und bietet die Tech for Impact Awards (CHF 10'000 pro Award), Impact Academy und Accelerator-Programme für europäische Sozialunternehmen, die zu den UN SDGs beitragen.",
-    "fit": 2,
-    "priority": 3,
+    "fit": 1,
+    "priority": 2,
     "type": "network",
     "themes": [
       "digitale-bildung",
@@ -4114,7 +4226,7 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "kreislaufwirtschaft"
     ],
     "tagline": "Impact Venture Accelerator und Tech for Impact Awards",
-    "researchNotes": "Hauptangebot für Revamp-IT wären die Tech for Impact Awards. Über 3'800 Impact-Startups evaluiert. Finalisten haben seit 2019 über CHF 135 Mio. eingeworben. SEIF betreibt auch einen Social Impact Accelerator mit SENS, unterstützt von Engagement Migros und Stiftung Mercator. Digitale Inklusion / E-Waste-Reduktion von Revamp-IT passt gut zu SDG-Ausrichtung. Award-Betrag bescheiden (CHF 10K), bietet aber Sichtbarkeit und Netzwerkzugang.",
+    "researchNotes": "ZEITKRITISCH: Tech for Impact Awards öffnen historisch ca. März/April — Bewerbung vorbereiten! Revamp-ITs Community-Plattform (1'165 TS-Dateien, Open Source) ist ein starker Kandidat: Tech for Impact im Bereich Kreislaufwirtschaft + digitale Inklusion. Die Plattform erhöht die messbare Wirkung (systematische Geräteerfassung, Online-Reichweite). Über 3'800 Impact-Startups evaluiert. Finalisten haben seit 2019 über CHF 135 Mio. eingeworben. Award-Betrag bescheiden (CHF 10K), bietet aber Sichtbarkeit und Netzwerkzugang.",
     "needsResearch": false,
     "researchDate": "2026-02-09"
   },
@@ -4160,36 +4272,51 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   {
     "slug": "sens-suisse",
     "name": "SENS — Social Entrepreneurship Schweiz",
-    "uid": "CHE-000.000.003",
     "websiteUrl": "https://sens-suisse.ch",
-    "officialPurpose": "Nationaler Dachverband für wirkungsorientierte Unternehmen (Sozialunternehmen) in der Schweiz. Programme: Impact Catalyst (Accelerator), Buy Social (Beschaffungsmatching), Swiss Social Economy Forum.",
-    "region": "Zürich",
+    "region": "Schweiz",
     "contact": {
       "address": "Kalkbreitestrasse 10, 8003 Zürich",
-      "email": "info@sens-suisse.ch"
+      "email": "info@sens-suisse.ch",
+      "phone": "+41 44 585 33 45"
     },
     "applicationMethod": "online",
-    "isOperative": true,
     "status": "rolling",
-    "deadlineText": "Unbekannt",
+    "deadline": "2026-03-31",
+    "deadlineText": "Social Impact Catalyst 2026: Bewerbung JETZT OFFEN bis Ende März 2026. Buy Social: laufend.",
     "amount": {
       "min": null,
-      "max": 20000,
-      "text": "Unbekannt"
+      "max": null,
+      "text": "Programm-basiert (Coaching, Investor-Matching, Netzwerk)"
     },
-    "sourceLinks": [],
-    "source": "esa",
-    "purposeSummary": "Nationaler Dachverband für wirkungsorientierte Unternehmen (Sozialunternehmen) in der Schweiz. Kernprogramme: (1) Impact Catalyst — Accelerator mit Investment-Readiness-Programm, 1:1-Investor-Matchmaking und CHF 20'000 Preisgeld (2026-Runde: Bewerbung offen bis Ende März, Investors Day 15. April bei Swiss Re). (2) Buy Social — Beschaffungsmatching zwischen Sozialunternehmen und Corporates. (3) Swiss Social Economy Forum (#SSEF26, 7. Mai 2026, Basel). 300+ Unternehmen auf der Social Entrepreneurship Map.",
+    "sourceLinks": [
+      {
+        "source": "website",
+        "url": "https://sens-suisse.ch",
+        "label": "SENS Schweiz"
+      },
+      {
+        "source": "website",
+        "url": "https://impactcatalyst.ch/en/",
+        "label": "Social Impact Catalyst 2026"
+      },
+      {
+        "source": "website",
+        "url": "https://buysocial.ch/",
+        "label": "Buy Social"
+      }
+    ],
+    "source": "website",
+    "purposeSummary": "Nationaler Dachverband für Sozialunternehmen (Verein, gegr. 2017 als CooperativeSuisse). Betreibt das Social Impact Catalyst Programm (mit ZKB Philanthropie, Swiss Re Foundation, Mercator, Venturelab). Bietet Pitch-Training, Marktanalyse, Impact-Messung, Investor-Speed-Dating. Buy Social verbindet Sozialunternehmen mit Firmen für wirkungsorientierte Beschaffung.",
     "fit": 1,
-    "priority": 1,
+    "priority": 2,
     "type": "network",
     "themes": [
       "soziale-integration",
       "arbeitsintegration",
       "kreislaufwirtschaft"
     ],
-    "tagline": "Nationaler Dachverband für wirkungsorientierte Unternehmen (Sozialunternehmen) i",
-    "researchNotes": "HÖCHSTE PRIORITÄT für Revamp-IT. Vier sofortige Handlungsoptionen: (1) IMPACT CATALYST 2026 — Bewerbung JETZT bis Ende März 2026 via impactcatalyst.ch. 12 Startups werden ausgewählt, erhalten Investment-Readiness-Coaching, 1:1-Speed-Dating mit ~60 Investoren/Stiftungen (darunter ZKB, Swiss Re Foundation, Mercator), Deal-Making-Support, und Chance auf CHF 20'000 Preis. (2) BUY SOCIAL — Registrierung als Sozialunternehmen im Lieferantenpool (buysocial.ch), Zugang zu Corporate-Beschaffung für refurbished IT. (3) SENS-MITGLIEDSCHAFT — CHF 250/Jahr (bei <150k Umsatz) oder CHF 500/Jahr (150-500k). Netzwerkzugang, Sichtbarkeit auf der Map (300+ Unternehmen), internes Netzwerk. (4) #SSEF26 besuchen (7. Mai 2026, Basel). Kontakt: info@sens-suisse.ch / impactcatalyst@sens-suisse.ch. CEO: Rahel Pfister. Sitz: Kalkbreitestrasse 10, 8003 Zürich. Ähnliche bestehende Mitglieder: Techtipp AG (digitale Bildung), OFFCUT (Material-Reuse), VEBO (berufliche Inklusion).",
+    "tagline": "Dachverband Sozialunternehmen Schweiz — Social Impact Catalyst 2026 OFFEN",
+    "researchNotes": "SENS ist Ökosystem-Aufbauer und Dachverband, keine klassische Förderstiftung. GF: Rahel Pfister. Aktuell hochrelevant: Social Impact Catalyst 2026 ist JETZT OFFEN (Bewerbung bis Ende März 2026, 12 Finalisten werden ausgewählt). Programm bereitet Startups auf Investment-Readiness vor + Investor-Speed-Dating. Partner: ZKB Philanthropie, Swiss Re Foundation, Mercator, Venturelab. Portal: impactcatalyst.ch oder ic.sens-suisse.ch. Buy Social: verbindet Sozialunternehmen mit Firmen für Beschaffung (Schweizer Partner von Buy Social Europe B2B). Revamp-IT SOLLTE: (1) Social Impact Catalyst 2026 BEWERBEN (Frist Ende März!), (2) SENS-Netzwerk beitreten, (3) Buy Social für Firmen-Gerätebeschaffung nutzen. Nächstes Event: Swiss Social Economy Forum (#SSEF), 7. Mai 2026, Basel.",
     "needsResearch": false,
     "researchDate": "2026-02-19"
   },
@@ -4289,7 +4416,8 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "websiteUrl": "https://www.six-group.com/de/company/sustainability.html",
     "region": "Schweiz",
     "contact": {
-      "address": "Hardturmstrasse 201, 8021 Zürich"
+      "address": "Pfingstweidstrasse 110, 8005 Zürich",
+      "phone": "+41 58 399 21 11"
     },
     "applicationMethod": "contact",
     "status": "rolling",
@@ -4305,10 +4433,15 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
         "source": "website",
         "url": "https://www.six-group.com/de/company/sustainability.html",
         "label": "SIX Nachhaltigkeit"
+      },
+      {
+        "source": "website",
+        "url": "https://www.six-group.com/en/blog/bullish-fabienne-strobel-sustainability.html",
+        "label": "Fabienne Strobel Interview"
       }
     ],
     "source": "website",
-    "purposeSummary": "SIX Group (Betreiberin der Schweizer Börse) engagiert sich für digitale Inklusion, finanzielle Bildung und nachhaltige Innovation. Fördert Projekte an der Schnittstelle von Technologie und Gesellschaft.",
+    "purposeSummary": "SIX Group (Betreiberin der Schweizer Börse, 4'431 Mitarbeitende) engagiert sich unter dem ESG-Pillar «Good Corporate Citizen» für finanzielle Bildung und Gemeinschaftsinitiativen. Betreibt das Finanzmuseum, Swiss Money Week und ist Gründungsmitglied des FinTech-Incubators F10. KEINE separate Stiftung oder formales Förderprogramm für externe Projekte.",
     "fit": 2,
     "priority": 3,
     "type": "D",
@@ -4318,9 +4451,9 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "soziale-integration"
     ],
     "tagline": "Digitale Inklusion und finanzielle Teilhabe",
-    "researchNotes": "SIX betreibt die Schweizer Finanzmarktinfrastruktur und hat starkes Technologie-Know-how. Für Revamp-IT: (1) Digitale Inklusion als gemeinsames Thema, (2) Mögliche GPU/Server-Spenden aus Finanzinfrastruktur, (3) Corporate Placements für IT-Fachkräfte in Umschulung. Genaue CSR-Struktur und Förderkriterien recherchieren.",
-    "needsResearch": true,
-    "researchDate": "2026-02-11"
+    "researchNotes": "KEIN formales Förderprogramm oder externe Stiftung. Community-Engagement läuft über den ESG-Pillar «Good Corporate Citizen» — aktuell fokussiert auf Finanzmuseum und Swiss Money Week (Kinder/Jugend). Lücke im Portfolio: KEINE Programme für digitale Inklusion oder Kreislaufwirtschaft. Beste Einstiegspunkte für Revamp-IT: (1) IT-Hardware-Spenden — SIX hat grosse IT-Infrastruktur, Sachspenden brauchen keine Budget-Freigabe, (2) Corporate Volunteering — SIX-Mitarbeitende in Revamp-IT-Werkstatt, (3) Digitale Inklusion als ESG-Lückenfüller positionieren. Head Sustainability: Fabienne Strobel (LinkedIn). Direktkontakt über Sustainability-Team, nicht über pressoffice@six-group.com.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "sozialdepartement-zh",
@@ -4463,36 +4596,58 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "slug": "stiftung-freie-gemeinschaftsbank",
     "name": "Stiftung Freie Gemeinschaftsbank",
     "uid": "CHE-109.338.115",
-    "websiteUrl": "https://stiftungfgb.ch/",
-    "officialPurpose": "Die Stiftung unterstützt uneigennützig und transparent Projekte, Initiativen, Forschungsvorhaben, Institutionen sowie kleine und mittelgrosse Unternehmen, die der Allgemeinheit dienen und versuchen, neue Wege im Umgang mit Mensch, Umwelt und Kultur zu gehen. Die Unterstützung kann namentlich, aber nicht nur in folgenden Gebieten erfolgen: Bildung, Erziehung, Wissenschaft; Gesundheit, Medizin; Umwelt, Ökologie, regenerative Energien; Soziales; Kunst, Kultur; sozial und ökologisch verantwortbares Wirtschaften. Die Stiftung baut in ihren grundlegenden Impulsen auf der Geisteswissenschaft Rudolf Steiners auf.",
-    "region": "Basel",
+    "websiteUrl": "https://stiftungfgb.ch",
+    "applicationUrl": "https://stiftungfgb.ch/antrag-stellen",
+    "region": "Schweiz (und weltweit)",
     "contact": {
       "address": "Meret Oppenheim-Strasse 10, 4053 Basel",
       "email": "kontakt@stiftungfgb.ch",
       "phone": "+41 61 575 81 60"
     },
+    "acceptsApplications": "yes",
     "applicationMethod": "online",
-    "isOperative": false,
     "status": "rolling",
-    "deadlineText": "Unbekannt",
+    "deadline": null,
+    "deadlineText": "Laufende Anträge (aktuelle Runde bis Ende März). Kleine Grants ≤10K: 6 Wochen. Grosse Grants >10K: 12 Wochen.",
     "amount": {
-      "min": 2000,
-      "max": 30000,
-      "text": "ca. CHF 10’000"
+      "min": null,
+      "max": null,
+      "text": "Zwei Stufen: ≤ CHF 10'000 (einmalig) oder > CHF 10'000 (einmalig/mehrjährig)"
     },
-    "sourceLinks": [],
+    "sourceLinks": [
+      {
+        "source": "website",
+        "url": "https://stiftungfgb.ch",
+        "label": "Stiftung FGB"
+      },
+      {
+        "source": "website",
+        "url": "https://stiftungfgb.ch/antrag-stellen",
+        "label": "Antrag stellen"
+      },
+      {
+        "source": "website",
+        "url": "https://stiftungfgb.ch/foerderstiftung/Bildung",
+        "label": "Förderschwerpunkt Bildung"
+      },
+      {
+        "source": "fundraiso",
+        "url": "https://www.fundraiso.com/en/organisations/stiftung-freie-gemeinschaftsbank",
+        "label": "Fundraiso-Profil"
+      }
+    ],
     "source": "esa",
-    "purposeSummary": "Die Stiftung Freie Gemeinschaftsbank fördert seit über 20 Jahren Projekte und Initiativen, die neue Wege im Umgang mit Mensch, Umwelt und Kultur gehen. Als Dachstiftung verwaltet sie 60+ Unterstiftungen und Fonds in den Bereichen Bildung, Umwelt/Ökologie, Soziales und verantwortbares Wirtschaften. Sitz in Basel, schweizweit tätig. Anthroposophische Grundlage, aber offen für nicht-anthroposophische Projekte.",
+    "purposeSummary": "Dach- und Förderstiftung mit über 20 Unterstiftungen und 80+ Projektfonds. Förderbereiche: Bildung/Erziehung, Gesundheit/Medizin, Umwelt/Ökologie, Soziales, Kunst/Kultur, sozial-ökologisches Wirtschaften. Verbrauchsstiftung ohne festes Kapital — Förderung hängt von zweckgebundenen Spenden ab. Anthroposophischer Hintergrund (Rudolf Steiner), aber NICHT Voraussetzung für Förderung.",
     "fit": 2,
-    "priority": 3,
-    "type": "C",
+    "priority": 2,
+    "type": "B",
     "themes": [
       "soziale-integration",
       "kreislaufwirtschaft",
       "digitale-bildung"
     ],
-    "tagline": "Die Stiftung Freie Gemeinschaftsbank fördert seit über 20 Jahren Projekte und In",
-    "researchNotes": "Mittlerer Fit für Revamp-IT: Die Stiftung FGB fördert 'sozial und ökologisch verantwortbares Wirtschaften' und 'Umwelt, Ökologie' — Kreislaufwirtschaft und IT-Recycling passen thematisch. Der Förderbereich Bildung könnte für die Bildungsprogrammleiter-Positionen relevant sein. Herausforderungen: (1) Basel-zentriert, Revamp-IT ist Zürich-basiert — allerdings schweizweit aktiv. (2) Anthroposophischer Hintergrund bedeutet, dass Projekte in einem ganzheitlichen, menschenzentrierten Rahmen präsentiert werden sollten. (3) Aktuell nur Bildung und Gesundheit als aktive Förderbereiche — Umwelt und Gesellschaft derzeit ohne aktive Förderung. Strategischer Ansatz: Revamp-IT als Bildungsprojekt (Ausbildung von Hardware-Technikern) mit ökologischem Mehrwert positionieren. Antrag bis Ende März einreichen.",
+    "tagline": "Bildung, Soziales, Umwelt — 20+ Unterstiftungen schweizweit",
+    "researchNotes": "Upgrade auf Typ B wegen bestätigtem Online-Bewerbungsportal und aktiver Förderung. GF: Oskar von Homeyer. Förderwesen: Mirka Hurter. Stiftungsrat: Christof Hatebur (Präsident), Max Ruhri, Brigitte Gisler. AKTUELL förderaktiv: Bildung und Gesundheit. AKTUELL KEINE Mittel für: Umwelt, Gesellschaft, ACACIA, Kunst/Kultur. Schweizweit und international. Bewerbung über stiftungfgb.ch/antrag-stellen. Sprechstunden: Di-Do 9-16 Uhr. Auch zinsfreie Ausbildungsdarlehen (anthroposophisch). Für Revamp-IT: Gesuch auf Bildung-Pillar ausrichten (innovative Schul-/Lernkonzepte). Framing: Digitale Bildung als Ergänzung zum öffentlichen Angebot, solidarische Preismodelle. Keine Basel-Beschränkung — fördert schweizweit.",
     "needsResearch": false,
     "researchDate": "2026-02-19"
   },
@@ -4552,23 +4707,25 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   {
     "slug": "stiftung-incontro",
     "name": "Stiftung Incontro",
-    "uid": "CHE-105.740.531",
-    "websiteUrl": "https://www.incontro.ch",
+    "uid": "CHE-165.210.508",
+    "websiteUrl": "https://incontro-verein.ch",
     "region": "Zürich",
     "contact": {
-      "address": "Freiestrasse 155, 8032 Zürich",
-      "email": "info@incontro.ch",
-      "phone": "+41 44 269 57 00"
+      "address": "Müllerstrasse 71, 8004 Zürich",
+      "email": "info@incontro-verein.ch",
+      "phone": "044 241 20 59"
     },
-    "founded": null,
-    "applicationMethod": "contact",
-    "status": "rolling",
+    "founded": 2017,
+    "applicationMethod": "partnership",
+    "isOperative": true,
+    "isNetwork": true,
+    "status": "closed",
     "deadline": null,
-    "deadlineText": "Unbekannt - Kontaktaufnahme erforderlich",
+    "deadlineText": "KEINE Förderstiftung — operative Trägerstiftung für Verein Incontro (Gassenarbeit Langstrasse)",
     "amount": {
       "min": null,
       "max": null,
-      "text": "Unbekannt"
+      "text": "Kein Fördergeld (operativ)"
     },
     "sourceLinks": [
       {
@@ -4578,24 +4735,23 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       },
       {
         "source": "website",
-        "url": "https://www.incontro.ch",
-        "label": "Incontro Website"
+        "url": "https://incontro-verein.ch",
+        "label": "Verein Incontro"
       }
     ],
     "source": "fundraiso",
-    "purposeSummary": "Fördert Projekte in den Bereichen Integration, Bildung und Wohnen. Fokus auf benachteiligte Menschen. Unklar ob aktive Förderung oder primär operative Trägerschaft. Website zeigt eher operative Ausrichtung (Wohnheime, Beratung).",
-    "fit": 2,
-    "priority": 3,
-    "type": "C",
+    "purposeSummary": "Operative Trägerstiftung für Verein Incontro (gegr. 2001 von Schwester Ariane Stöcklin). Gassenarbeit im Langstrasse-Quartier: bis 400 Abendessen täglich, Deutschkurse, ärztliche Sprechstunden, Schreibstube (Bewerbungshilfe), Wohnintegration (begleitete WG-Zimmer). KEINE externe Projektförderung. ACHTUNG: incontro.ch ist eine ANDERE Firma (Personalvermittlung Incontro AG).",
+    "fit": 1,
+    "priority": 4,
+    "type": "network",
     "themes": [
       "soziale-integration",
-      "arbeitsintegration",
-      "digitale-bildung"
+      "arbeitsintegration"
     ],
-    "tagline": "Integration, Bildung, Wohnen",
-    "researchNotes": "Fundraiso listet als Stiftung, aber Website legt nahe, dass Incontro primär als Trägerorganisation agiert (Wohnheime, Beratungsstellen). Kein expliziter Hinweis auf externe Projektförderung auf der Website. Kontaktaufnahme erforderlich zur Klärung: Nehmen sie externe Förderanträge an? Falls ja, könnten IT-Bildungs- und Integrationsprojekte relevant sein. Standort Zürich ist vorteilhaft.",
-    "needsResearch": true,
-    "researchDate": "2026-02-16"
+    "tagline": "Gassenarbeit, Integration, Wohnen — operativ, nicht fördernd",
+    "researchNotes": "WICHTIG: Drei separate «Incontro»-Entitäten in Zürich: (1) Stiftung Incontro (CHE-165.210.508, gegr. 2017) — Trägerstiftung, (2) Verein Incontro (gegr. 2001) — operative Programme, (3) INCONTRO AG (incontro.ch) — UNVERWANDTE Personalvermittlung. Stiftungsrat: Cristina Di Domenico (Präsidentin), Robert Fluder, Margot Hausammann Stalder. Statutarischer Zweck erlaubt Förderung, aber KEIN öffentlicher Bewerbungsprozess, keine Förderrichtlinien, kein Antragsformular. Faktisch: Finanzierungsarm des Vereins. Für Revamp-IT: Kein Förderpotenzial. Allenfalls Netzwerkkontakt im Bereich Arbeitsintegration Langstrasse.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "stiftung-kultur-jugend",
@@ -4634,8 +4790,8 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     ],
     "tagline": "Jugend, Bildung (primär jüdische Gemeinschaft)",
     "researchNotes": "Stiftung mit Sitz bei der Israelitischen Cultusgemeinde Zürich (ICZ). Fundraiso listet als Förderer für Jugend/Bildung. Wahrscheinlich Fokus auf jüdische Gemeinschaft und kulturelle Bildung. Revamp-IT-Relevanz gering, da (1) vermutlich nur ICZ-nahe Projekte, (2) Schwerpunkt Kultur statt IT/Integration. Einstufung als Netzwerk-Kontakt (Typ D), nicht prioritär für aktive Bewerbung. Falls ICZ selbst IT-Bildungsbedarf hätte, könnte direkter Kontakt sinnvoll sein.",
-    "needsResearch": true,
-    "researchDate": "2026-02-16"
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "stiftung-sag",
@@ -4894,36 +5050,56 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   {
     "slug": "swisscom-jetzt-hier",
     "name": "Swisscom Corporate Responsibility",
-    "uid": "CHE-000.000.002",
-    "websiteUrl": "https://www.swisscom.ch/de/about/nachhaltigkeit/soziales-engagement.html",
-    "officialPurpose": "Corporate-Responsibility-Programme: Give & Grow (Corporate Volunteering), Mobile Aid (Gerätesammlung mit SOS-Kinderdorf), Swisscom Campus (Digitale Bildung). Kein 'Jetzt & Hier'-Programm identifiziert.",
-    "region": "Bern",
+    "websiteUrl": "https://www.swisscom.ch/de/ueber-swisscom/nachhaltigkeit/soziales-engagement.html",
+    "applicationUrl": "https://sponsoringrequest.swisscom.com/",
+    "region": "Schweiz",
     "contact": {
-      "address": "Swisscom AG, Bern",
-      "email": "Marius.Schlegel@swisscom.com"
+      "address": "Alte Tiefenaustrasse 6, 3048 Worblaufen"
     },
-    "applicationMethod": "contact",
-    "isOperative": true,
+    "applicationMethod": "online",
     "status": "rolling",
-    "deadlineText": "Unbekannt",
+    "deadline": null,
+    "deadlineText": "Sponsoring-Portal: sponsoringrequest.swisscom.com (15 Min. Formular). CR-Team für Partnerschaften.",
     "amount": {
       "min": null,
-      "max": null,
-      "text": "Unbekannt"
+      "max": 1000,
+      "text": "Kleinsponsoring bis CHF 1'000; grössere Partnerschaften projektabhängig"
     },
-    "sourceLinks": [],
-    "source": "esa",
-    "purposeSummary": "Swisscom betreibt kein offenes Förderprogramm, aber mehrere CR-Programme mit Partnerschaftspotenzial: Give & Grow (Corporate Volunteering — 1 bezahlter Arbeitstag/Jahr pro Mitarbeitende für soziale/ökologische Zwecke), Mobile Aid (Handysammlung und -verwertung mit Partner SOS-Kinderdorf Schweiz), Swisscom Campus (Medienkompetenz-Programm für Schulen, Eltern und Senioren mit ~2 Mio. erreichten Personen/Jahr). Ein Programm namens 'Jetzt & Hier' existiert nicht.",
+    "sourceLinks": [
+      {
+        "source": "website",
+        "url": "https://www.swisscom.ch/de/ueber-swisscom/nachhaltigkeit/soziales-engagement.html",
+        "label": "Swisscom Nachhaltigkeit"
+      },
+      {
+        "source": "website",
+        "url": "https://sponsoringrequest.swisscom.com/",
+        "label": "Sponsoring-Portal"
+      },
+      {
+        "source": "website",
+        "url": "https://www.swisscom.ch/en/about/sustainability/team-und-kontakt.html",
+        "label": "CR Team Kontakt"
+      },
+      {
+        "source": "website",
+        "url": "https://www.swisscom.ch/en/about/sustainability/rethink.html",
+        "label": "Kreislaufwirtschaft"
+      }
+    ],
+    "source": "website",
+    "purposeSummary": "Swisscom engagiert sich über Corporate Responsibility für digitale Inklusion, Kreislaufwirtschaft und Community-Projekte. Sponsoring-Portal für externe Projekte (bis CHF 1'000 Kleinsponsoring, grössere Partnerschaften). Eigene Programme: Swisscom Academy (350'000+ Teilnehmende), Mobile Aid (1 Mio.+ Geräte zurückgenommen), Buyback, Give & Grow Corporate Volunteering.",
     "fit": 2,
     "priority": 2,
     "type": "D",
     "themes": [
       "digitale-bildung",
       "soziale-integration",
+      "digitale-souveraenitaet",
       "kreislaufwirtschaft"
     ],
-    "tagline": "Swisscom betreibt kein offenes Förderprogramm, aber mehrere CR-Programme mit Par",
-    "researchNotes": "Sehr relevanter Partnerschaftskandidat für Revamp-IT, auch wenn kein direkter Fördergeber. Vier realistische Wege: (1) Give & Grow Partner werden — Swisscom-Mitarbeitende könnten in der Werkstatt bei IT-Refurbishing oder digitaler Bildung helfen. (2) Mobile Aid Partnerschaft — aktuell exklusiv mit SOS-Kinderdorf, aber thematisch perfekt für Geräte-Kreislauf. Kontakt: Marius Schlegel (Marius.Schlegel@swisscom.com) — zuständig für klimafreundliche Services und Mobile Aid. (3) Sustainability Partnership à la Impact Hub Zürich. (4) Sponsoring-Anfrage über sponsoringrequest.swisscom.com. Head of Sustainability: Saskia Günther (Saskia.Guenther@swisscom.com). Weitere Kontakte: Res Witschi (nachhaltige Digitalisierung), Andrea Burkhard-Kaufmann (Medienkompetenz/Schulprogramme).",
+    "tagline": "Digitale Inklusion, Kreislaufwirtschaft und Community-Engagement",
+    "researchNotes": "HINWEIS: «Jetzt & Hier» als Programmname online nicht auffindbar — möglicherweise umbenannt oder intern. Swisscom hat ein formelles Sponsoring-Portal (sponsoringrequest.swisscom.com) mit Online-Fragebogen (~15 Min.). Zwei Stufen: Kleinsponsoring (bis CHF 1'000), grössere Partnerschaften. Nur Schweizer Projekte, keine politischen/religiösen Aktivitäten. CR-Team in Worblaufen. Für Revamp-IT hochrelevant: (1) Digitale Inklusion — Swisscom Academy + Revamp-IT Linux-Bildung = komplementär, (2) Kreislaufwirtschaft — Swisscom Buyback/Mobile Aid + Revamp-IT Aufbereitung, (3) Corporate Volunteering (Give & Grow, 2'500+ Tage/Jahr), (4) Hardware-Spenden, (5) Schools on the Net seit 2002 zeigt langfristiges Engagement. Keine eigene «Swisscom Stiftung» — CSR über Unternehmen direkt.",
     "needsResearch": false,
     "researchDate": "2026-02-19"
   },
