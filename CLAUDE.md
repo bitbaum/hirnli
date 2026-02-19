@@ -290,6 +290,64 @@ Before pushing:
 
 ---
 
+## New Org Onboarding
+
+### The Approach
+
+Claude Code IS the onboarding engine. No runtime multi-tenancy. One repo instance
+per organization. Clone repo → drop context documents → Claude rewrites 14 files → deploy.
+
+See `org-context/README.md` for full documentation and `org-context/_template/README.md`
+for the step-by-step checklist.
+
+### Quick Start
+
+```bash
+./scripts/new-org.sh <org-name>
+# Then: drop documents into org-context/<org-name>/
+# Then: ask Claude Code to onboard
+```
+
+### The 14 ORG-SPECIFIC Files
+
+| # | File | What It Contains |
+|---|------|-----------------|
+| 1 | `src/lib/config/org-profile.ts` | Legal identity, contact, mission keywords |
+| 2 | `src/lib/config/stories.ts` | WHY/HOW/WHAT/EVIDENCE narratives per theme |
+| 3 | `src/lib/config/numbers.ts` | Central metrics registry (impact, financial, team) |
+| 4 | `src/lib/config/budget-scenarios.ts` | 3-year funding models and projections |
+| 5 | `src/lib/config/schwerpunkte.ts` | Strategic focus areas and priorities |
+| 6 | `src/lib/config/foundations/metadata.ts` | Theme definitions, NOT_RECOMMENDED list |
+| 7 | `src/lib/config/gesuch-templates.ts` | Gesuch document templates |
+| 8 | `src/lib/schemas/foundation.ts` | ThemeId enum (org's focus area categories) |
+| 9 | `src/app/revamp-2030/page.tsx` | Vision/mission/strategy page |
+| 10 | `src/app/strategie/data.ts` | Strategy page data |
+| 11 | `src/app/strategie/components.tsx` | Strategy page components |
+| 12 | `src/app/team/data.ts` | Team members and roles |
+| 13 | `src/app/finanzen/FinanzenClient.tsx` | Financial dashboard |
+| 14 | `src/app/api/documents/gesuch/[id]/route.tsx` | Gesuch PDF generation |
+
+### Claude Onboarding Workflow
+
+1. Read all docs from `org-context/<org-name>/`
+2. Extract: legal identity, mission, themes, team, financials, stories
+3. Rewrite `org-profile.ts` with new identity
+4. Define themes (ThemeId enum + THEMES object in metadata.ts)
+5. Rewrite `stories.ts`, `schwerpunkte.ts`, `budget-scenarios.ts`, `numbers.ts`
+6. Rewrite `gesuch-templates.ts`
+7. Rewrite page content (team, strategy, vision, finanzen)
+8. Set `org_id` in `scripts/foundation-upsert.ts`
+9. Run screening with new keywords → queue → research → upsert → sync → build
+
+### Input Spec (`org-context/<org-name>/`)
+
+**Required:** Statutes/Satzungen, annual report, website URL
+**Recommended:** Budget/financial plan, strategy document
+**Helpful:** Past grant applications, partner list, team bios
+**Optional:** Photos, branding, logo
+
+---
+
 ## Future Direction
 
 ### Phase 1 (Current): Revamp-IT Specific — COMPLETE
@@ -340,5 +398,5 @@ The architecture supports Phase 2-3 evolution. Config files naturally namespace 
 
 ---
 
-**Last Updated:** 2026-02-09
+**Last Updated:** 2026-02-19
 **Maintainer:** Revamp-IT Team

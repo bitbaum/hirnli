@@ -1,8 +1,8 @@
 // AUTO-GENERATED — DO NOT EDIT MANUALLY
 // Source: Neon DB (fundraising_foundations.config_data)
-// Generated: 2026-02-18T20:39:45.968Z
+// Generated: 2026-02-19T08:08:24.398Z
 // Run `npm run sync` to regenerate from database
-// Foundations: 116
+// Foundations: 119
 
 /* eslint-disable */
 
@@ -318,90 +318,38 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "slug": "asuera-stiftung",
     "name": "Asuera Stiftung",
     "uid": "CHE-452.574.859",
-    "websiteUrl": "https://www.asuerastiftung.ch",
-    "applicationUrl": "https://wf.asuerastiftung.ch/asuera/webforms.nsf/startrequest.xsp",
-    "region": "Zürich-Region (Hurden/Freienbach)",
+    "websiteUrl": "https://www.asuerastiftung.ch/",
+    "officialPurpose": "Die Asuera Stiftung bezweckt die Unterstützung und Förderung von Personen, Institutionen und Projekten im In- und Ausland, welche in gemeinnütziger Weise karitativ, humanitär, gesundheitsfördernd, erzieherisch, wissenschaftlich oder kulturell tätig sind und sich zugunsten einer nachhaltigen Entwicklung engagieren. Die Stiftung verfolgt diesen Zweck mit dem Ziel der Schaffung von Chancen für möglichst viele Menschen, ihre Lebensbedingungen durch eigene Anstrengungen zu verbessern.",
+    "region": "Freienbach",
     "contact": {
       "address": "Hurdnerstrasse 4, CH-8640 Hurden",
       "email": "info@asuerastiftung.ch",
       "phone": "+41 55 415 44 55"
     },
-    "founded": 2019,
-    "boardMembers": [
-      {
-        "name": "Marcel Nauer",
-        "role": "Präsident"
-      },
-      {
-        "name": "Petra Christina Antonella Gössi",
-        "role": "Stiftungsrat"
-      },
-      {
-        "name": "Elisabeth Meyerhans Sarasin",
-        "role": "Stiftungsrat"
-      }
-    ],
-    "acceptsApplications": "yes",
     "applicationMethod": "online",
-    "applicationProcess": [
-      "Online-Formular öffnen: wf.asuerastiftung.ch/asuera/webforms.nsf/startrequest.xsp",
-      "Projektbeschreibung mit Bezug zu einem der 5 Schwerpunkte ausformulieren",
-      "Budget und Finanzplanung inkl. Ko-Finanzierungsnachweis beilegen",
-      "Innovationscharakter und Multiplikationspotenzial herausarbeiten",
-      "Einreichen rechtzeitig vor Projektbeginn (Entscheid dreimal jährlich)",
-      "Bei Fragen: Di 9-12 / 14-17 Uhr unter +41 55 415 44 55 oder info@asuerastiftung.ch"
-    ],
+    "isOperative": false,
     "status": "rolling",
-    "deadline": null,
-    "deadlineText": "Laufende Anträge. Board-Entscheide dreimal jährlich (Frühling, Sommer, Frühwinter). Rechtzeitig vor Projektbeginn einreichen. NUR über Online-Formular — E-Mail/Post-Anträge werden NICHT berücksichtigt.",
+    "deadlineText": "Unbekannt",
     "amount": {
-      "min": null,
-      "max": null,
-      "text": "Nicht öffentlich (Seed-Finanzierung, max. 5 Jahre Unterstützung)"
+      "min": 5000,
+      "max": 50000,
+      "text": "ca. CHF 20’000"
     },
-    "pastGrantees": [
-      "Campus 42 Zürich",
-      "Swiss EdTech Collider",
-      "Schweizer Kinderhilfswerk Kovive",
-      "Stiftung SILVIVA"
-    ],
-    "sourceLinks": [
-      {
-        "source": "website",
-        "url": "https://www.asuerastiftung.ch/foerderung/themen/",
-        "label": "Förderthemen"
-      },
-      {
-        "source": "website",
-        "url": "https://www.asuerastiftung.ch/foerderung/kriterien/",
-        "label": "Förderkriterien"
-      },
-      {
-        "source": "website",
-        "url": "https://www.asuerastiftung.ch/foerderung/ausschluss/",
-        "label": "Ausschlusskriterien"
-      },
-      {
-        "source": "fundraiso",
-        "url": "https://www.fundraiso.com/en/organisations/asuera-stiftung",
-        "label": "Fundraiso-Profil"
-      }
-    ],
-    "source": "website",
-    "purposeSummary": "Fünf Förderpillar: (1) Technologie — moderne Technologie für gesellschaftliche Herausforderungen, digitale Bildung, Naturressourcenschutz; (2) Bewegung & Sport — niederschwelliger Zugang zu Freizeit-Sport und Gesundheitsförderung; (3) Finanzbildung — Finanzkompetenz für alle Altersgruppen; (4) Lokale Projekte — Gemeinschaftsinitiativen im oberen Zürichsee-Raum; (5) Stiftungssektoren-Entwicklung. Innovation und Modellcharakter vorausgesetzt. Max. 5 Jahre Förderdauer, Mitfinanzierung erwartet.",
-    "fit": 3,
+    "sourceLinks": [],
+    "source": "esa",
+    "purposeSummary": "Die Asuera Stiftung fördert Personen, Institutionen und Projekte, die sich für nachhaltige Entwicklung engagieren — mit dem Ziel, Chancen zu schaffen, damit Menschen ihre Lebensbedingungen durch eigene Anstrengungen verbessern können. Schwerpunkte: Technologie, Bewegung & Sport, Finanzbildung sowie regionale Projekte am oberen Zürichsee. Gegründet 2019, Sitz in Hurden/Freienbach (SZ).",
+    "fit": 2,
     "priority": 2,
     "type": "B",
     "themes": [
       "soziale-integration",
       "digitale-bildung",
-      "arbeitsintegration",
       "kreislaufwirtschaft"
     ],
-    "tagline": "Technologie für soziale Herausforderungen, Bildung, nachhaltige Entwicklung",
-    "researchNotes": "Starke Passung mit Revamp-IT: Technologie-Pillar deckt IT-Recycling + digitale Integration explizit ab (\"moderne Technologie für soziale Herausforderungen\", \"Erwachsene können neue Fähigkeiten erlernen und an technologischer Entwicklung teilhaben\"). Revamp-IT ist Innovations-/Modellcharakter: Kombination IT-Recycling + Arbeitsintegration ist einzigartig, gut als Seed-Projekt positionierbar. Kreislaufwirtschaft (E-Waste-Reduktion) passt zu Nachhaltigkeits-Fokus. Ko-Finanzierung vorhanden (Stadt Zürich). WICHTIG: Online-Formular ZWINGEND, kein E-Mail/Post. Kontakt nur Di 9-12 / 14-17 Uhr. Geschäftsführerin: Sibylle Feltrin Ilar. Bewerbung empfohlen für ein neues Programm (nicht für Basisfinanzierung). Vergangene Grantees: Campus 42 Zürich, Swiss EdTech Collider, Kovive. Konkurrenz hoch (\"Nachfrage übersteigt verfügbare Mittel deutlich\").",
+    "tagline": "Die Asuera Stiftung fördert Personen, Institutionen und Projekte, die sich für n",
+    "researchNotes": "Guter Fit für Revamp-IT: Die Asuera Stiftung hat 'Technologie' als expliziten Förderbereich — IT-Recycling und digitale Bildung passen hier direkt. Der Stiftungszweck betont Selbstbefähigung ('Lebensbedingungen durch eigene Anstrengungen verbessern'), was exakt dem Revamp-IT-Modell entspricht (Arbeitsintegration durch Refurbishing-Ausbildung). Die regionale Nähe (oberer Zürichsee → Zürich) ist gegeben. Strategischer Ansatz: Revamp-IT als Technologie-Projekt positionieren, das gleichzeitig soziale Integration und Kreislaufwirtschaft fördert. Bewerbung über formalen Antragsprozess auf der Website.",
     "needsResearch": false,
-    "researchDate": "2026-02-16"
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "bafu-utf",
@@ -774,6 +722,40 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "researchNotes": "Frist 31. März 2026 BESTÄTIGT. Vier Einreichfenster pro Jahr. Neu ausschliesslich elektronische Einreichung — kein Papier mehr. Relevante Bereiche: 'Kinder & Jugend' (Ausbildungs-/Berufsübergänge), 'Gesellschaftlicher Zusammenhalt' (demokratische Teilhabe, kulturelle Vielfalt). Vorgespräch empfohlen für unsichere Projekte: contact@binding-stiftung.ch oder 061 317 40 90.",
     "needsResearch": false,
     "researchDate": "2026-02-09"
+  },
+  {
+    "slug": "blauer-planet",
+    "name": "Blauer Planet - Stiftung zur Bewahrung der Umwelt und Natur",
+    "uid": "CHE-157.513.088",
+    "websiteUrl": "",
+    "officialPurpose": "1. Die gemeinnützige und nicht gewinnorientierte Stiftung bezweckt die Förderung und Unterstützung von einzelnen Projekten als auch bestehenden Institutionen, welche den genannten Zweck verfolgen, in den folgenden Bereichen: Umwelt und Natur: Klimaschutz, Naturschutz und Umweltschutz; Menschen in Armut: Gesundheit und Bildung; Erhalt des Kulturguts im kirchlichen Bereich. Dabei sollen zu 3/4 Projekte und Institutionen im Bereich Umwelt/Natur und zu 1/4 im Bereich Menschen in Armut/Erhalt des Kulturguts im kirchlichen Bereich unterstützt werden. 2. Die Stiftung kann ihre Zwecke durch eigene Projekte oder durch Zuwendungen an steuerbefreite Dritt-Organisationen im Rahmen der vorgenannten Ziele verfolgen. 3. Die Stiftung ist im Rahmen ihrer Zweckbestimmung in der ganzen Schweiz und im Ausland tätig.",
+    "region": "Alpnach",
+    "contact": {
+      "address": "Hostett 1, 6055 Alpnach Dorf"
+    },
+    "applicationMethod": "contact",
+    "isOperative": false,
+    "status": "rolling",
+    "deadlineText": "Unbekannt",
+    "amount": {
+      "min": null,
+      "max": null,
+      "text": "Unbekannt"
+    },
+    "sourceLinks": [],
+    "source": "esa",
+    "purposeSummary": "Die Stiftung Blauer Planet fördert Projekte und Institutionen in den Bereichen Umwelt/Natur (Klimaschutz, Naturschutz, Umweltschutz — 75% der Mittel) sowie Menschen in Armut (Gesundheit, Bildung — 25%). Kann eigene Projekte durchführen oder Zuwendungen an steuerbefreite Organisationen leisten. Schweizweit und international tätig. Gegründet 2021, Sitz in Alpnach Dorf (OW). Keine eigene Website bekannt.",
+    "fit": 3,
+    "priority": 4,
+    "type": "D",
+    "themes": [
+      "klima",
+      "kreislaufwirtschaft"
+    ],
+    "tagline": "Die Stiftung Blauer Planet fördert Projekte und Institutionen in den Bereichen U",
+    "researchNotes": "Geringer Fit für Revamp-IT zum jetzigen Zeitpunkt: Die Stiftung Blauer Planet hat thematisch relevante Förderbereiche (Klimaschutz, Umweltschutz — 75% der Mittel), in die IT-Recycling und Kreislaufwirtschaft gut passen würden. Jedoch akzeptiert die Stiftung gemäss Fundraiso-Eintrag derzeit keine unaufgeforderten Gesuche. Es gibt keine eigene Website und nur minimale öffentliche Informationen. Die Stiftung wurde erst 2021 gegründet und befindet sich möglicherweise noch im Aufbau. Der Sitz in Alpnach (Obwalden) ist geographisch weit von Zürich entfernt, aber der Stiftungszweck umfasst die ganze Schweiz. Empfehlung: Auf Beobachtungsliste setzen. Falls die Stiftung in Zukunft Gesuche akzeptiert, wäre Revamp-IT mit dem Umwelt-Argument (CO2-Einsparung durch Refurbishing, Kreislaufwirtschaft) ein starker Kandidat. Periodisch prüfen.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "ch-open",
@@ -1657,6 +1639,41 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "researchNotes": "Junge Stiftung (gegründet 19.03.2024). Stiftungsrat: Dr. Marc Bernheim (Präsident), Dr. Rolf Halonbrenner, Michael Pesaro. Revisionsstelle: BDO AG. Förderbereiche: Energie, neue Technologien, IT, Infrastruktur, Umweltschutz (In- und Ausland); Beiträge an Schweizer Hochschulen/Fachhochschulen; Symposien, Konferenzen, Professuren; soziale und kulturelle Projekte; Hilfe für Bedürftige. Förderarten: Projektförderung und Individualförderung. Für Revamp-IT HOCHRELEVANT: IT und neue Technologien als expliziter Förderschwerpunkt. Open-Source/Linux als zukunftsweisende Technologie, IT-Refurbishing als Umweltschutz-Infrastruktur. UID: CHE-449.768.771.",
     "needsResearch": false,
     "researchDate": "2026-02-10"
+  },
+  {
+    "slug": "frey-charitable-foundation",
+    "name": "FREY CHARITABLE FOUNDATION",
+    "uid": "CHE-112.160.088",
+    "websiteUrl": "https://www.freycharitablefoundation.org/",
+    "officialPurpose": "Die Stiftung verfolgt ihren ausschliesslich gemeinnützigen Charakter in Der erste Tätigkeitsbereich bezweckt die Unterstützung von gemeinnützigen, kulturellen, wissenschaftlichen oder öffentlichen Institutionen und Einrichtungen, wie z.B. Vereinen, Stiftungen, Gemeinden und Schulen, etc., sowie die Förderung und Unterstützung von schöpferischen, wissenschaftlichen und sportlichen Tätigkeiten bzw. Ausbildungen vor allem von Kindern und Jugendlichen durch die Ausrichtung von einmaligen oder wiederkehrenden Unterstützungsbeiträgen; alles im weiteren jeweiligen örtlichen Umfeld des Stifters. Der zweite Tätigkeitsbereich bezweckt die Förderung und Unterstützung von gemeinnützigen Organisationen im In- und Ausland, insbesondere von Hilfswerken oder Einrichtungen zur Bekämpfung der Armut, des Bildungsmangels, der Unterernährung, der wirtschaftlichen Unterstützung von benachteiligten Regionen oder Bevölkerungsgruppen in der Schweiz und im Ausland, der medizinischen Versorgung, des Schutzes der Umwelt, der Bekämpfung von Suchtmitteln und weitere Entwicklungshilfe in der Schweiz und im Ausland.",
+    "region": "Freienbach",
+    "contact": {
+      "address": "Bächaustrasse 17, 8806 Bäch",
+      "email": "info@fcf.charity"
+    },
+    "applicationMethod": "contact",
+    "isOperative": false,
+    "status": "rolling",
+    "deadlineText": "Unbekannt",
+    "amount": {
+      "min": null,
+      "max": null,
+      "text": "Unbekannt"
+    },
+    "sourceLinks": [],
+    "source": "esa",
+    "purposeSummary": "Die FREY CHARITABLE FOUNDATION unterstützt Social Entrepreneurs mit innovativen, skalierbaren Lösungen für soziale Probleme. Zwei Tätigkeitsbereiche: (1) lokale Förderung von Vereinen, Schulen und Jugend im Umfeld des Stifters, (2) internationale Entwicklungshilfe mit Fokus auf Afrika und Schweiz. Arbeitet ausschliesslich mit vorab ausgewählten Impact Partners (Ashoka, Human Rights Watch, Barefoot College, WeRobotics). Sitz in Bäch/Freienbach (SZ).",
+    "fit": 3,
+    "priority": 4,
+    "type": "D",
+    "themes": [
+      "soziale-integration",
+      "jugend"
+    ],
+    "tagline": "Die FREY CHARITABLE FOUNDATION unterstützt Social Entrepreneurs mit innovativen,",
+    "researchNotes": "Geringer Fit für Revamp-IT: Die FREY CHARITABLE FOUNDATION ist zwar eine aktive Förderstiftung mit thematisch relevanten Bereichen (Armutsbekämpfung, Bildungsmangel, Umweltschutz), jedoch ist der Zugang praktisch verschlossen. Die Stiftung arbeitet ausschliesslich mit vorab evaluierten 'Impact Partners' zusammen und nimmt keine unaufgeforderten Bewerbungen an. Der Fokus auf skalierbare Social Entrepreneurship-Modelle in Afrika passt nicht zum lokalen Fokus von Revamp-IT. Einziger Ansatzpunkt wäre der erste Tätigkeitsbereich (lokale Förderung im Umfeld des Stifters — oberer Zürichsee), aber auch hier nur über persönliche Kontakte. Empfehlung: Nicht aktiv bewerben, aber als Netzwerk-Kontakt beobachten. Falls Revamp-IT in Social Entrepreneurship-Netzwerke (z.B. Ashoka) aufgenommen wird, könnte sich ein Zugang ergeben.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "fuchs-eugster",
@@ -3995,6 +4012,39 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "researchDate": "2026-02-09"
   },
   {
+    "slug": "s-eustachius-stiftung",
+    "name": "S. Eustachius Stiftung",
+    "uid": "CHE-113.616.027",
+    "websiteUrl": "http://eustachius-stiftung.ch/",
+    "officialPurpose": "Die Stiftung bezweckt die Unterstützung und Förderung von Projekten, Werken, Vorhaben und Massnahmen aller Art in den Bereichen Sozial-Humanitäres, Entwicklung und Kultur. I. Sozial-Humanitäres: Sozial-humanitäre Hilfe namentlich für Bedürftige, für Menschen, die aus dem Arbeitsleben ausgeschieden sind, für kranke oder in Not geratene Menschen jeden Alters in der Schweiz und weltweit. Das Schwergewicht soll auf Bereichen liegen, die nicht oder nicht genügend durch die öffentliche Hand abgedeckt sind. II. Entwicklung in der Dritten Welt: Unterstützung und Förderung von Entwicklungsprojekten in der Dritten Welt zur nachhaltigen Verbesserung der Lebenssituation der Bevölkerung. III. Kultur in der Schweiz: Förderung kultureller Projekte in der Schweiz oder von Schweizer Bürgern im Ausland.",
+    "region": "Winterthur",
+    "contact": {
+      "address": "Seidenstrasse 4, 8400 Winterthur"
+    },
+    "applicationMethod": "email",
+    "isOperative": false,
+    "status": "rolling",
+    "deadlineText": "Unbekannt",
+    "amount": {
+      "min": 2000,
+      "max": 20000,
+      "text": "ca. CHF 8’000"
+    },
+    "sourceLinks": [],
+    "source": "esa",
+    "purposeSummary": "Die S. Eustachius Stiftung fördert Projekte in drei Bereichen: (I) Sozial-humanitäre Hilfe für Bedürftige, aus dem Arbeitsleben Ausgeschiedene und in Not Geratene in der Schweiz und weltweit, mit Schwergewicht auf Lücken der öffentlichen Hand; (II) Entwicklungsprojekte in der Dritten Welt zur nachhaltigen Verbesserung der Lebenssituation; (III) Kulturelle Projekte in der Schweiz. Gegründet 2007, Sitz in Winterthur (ZH). Politisch und konfessionell neutral.",
+    "fit": 3,
+    "priority": 3,
+    "type": "C",
+    "themes": [
+      "soziale-integration"
+    ],
+    "tagline": "Die S. Eustachius Stiftung fördert Projekte in drei Bereichen: (I) Sozial-humani",
+    "researchNotes": "Mittlerer Fit für Revamp-IT, aber mit Einschränkungen: Der Bereich I (Sozial-Humanitäres) ist am relevantesten — Revamp-IT arbeitet mit Menschen, die aus dem Arbeitsleben ausgeschieden sind (Burnout-Betroffene, IV-Bezüger) und bietet Reintegration durch Hardware-Ausbildung. Der Stiftungszweck betont explizit 'Bereiche, die nicht oder nicht genügend durch die öffentliche Hand abgedeckt sind' — digitale Arbeitsintegration ist genau so eine Lücke. Herausforderung: (1) Der Hauptfokus liegt auf Entwicklung in der Dritten Welt, was auf einen Schwerpunkt ausserhalb der Schweiz hindeutet. (2) Schriftliche Antragstellung per Post ist umständlich. (3) Sitz in Winterthur — geographisch nah zu Zürich, was ein Vorteil ist. Strategischer Ansatz: Revamp-IT klar als sozial-humanitäres Schweizer Projekt positionieren (Bereich I), das eine Lücke der öffentlichen Hand schliesst. Winterthur-Verbindung betonen falls möglich.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
+  },
+  {
     "slug": "schwab-foundation",
     "name": "Schwab Foundation for Social Entrepreneurship",
     "websiteUrl": "https://www.schwabfound.org",
@@ -4426,26 +4476,26 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "slug": "stiftung-freie-gemeinschaftsbank",
     "name": "Stiftung Freie Gemeinschaftsbank",
     "uid": "CHE-109.338.115",
-    "websiteUrl": "https://stiftungfgb.ch",
-    "region": "Basel (Schweizweit)",
-    "applicationMethod": "contact",
-    "status": "rolling",
-    "deadline": null,
-    "deadlineText": "Unbekannt — Kontakt über stiftungfgb.ch",
-    "amount": {
-      "min": null,
-      "max": null,
-      "text": "Unbekannt"
+    "websiteUrl": "https://stiftungfgb.ch/",
+    "officialPurpose": "Die Stiftung unterstützt uneigennützig und transparent Projekte, Initiativen, Forschungsvorhaben, Institutionen sowie kleine und mittelgrosse Unternehmen, die der Allgemeinheit dienen und versuchen, neue Wege im Umgang mit Mensch, Umwelt und Kultur zu gehen. Die Unterstützung kann namentlich, aber nicht nur in folgenden Gebieten erfolgen: Bildung, Erziehung, Wissenschaft; Gesundheit, Medizin; Umwelt, Ökologie, regenerative Energien; Soziales; Kunst, Kultur; sozial und ökologisch verantwortbares Wirtschaften. Die Stiftung baut in ihren grundlegenden Impulsen auf der Geisteswissenschaft Rudolf Steiners auf.",
+    "region": "Basel",
+    "contact": {
+      "address": "Meret Oppenheim-Strasse 10, 4053 Basel",
+      "email": "kontakt@stiftungfgb.ch",
+      "phone": "+41 61 575 81 60"
     },
-    "sourceLinks": [
-      {
-        "source": "fundraiso",
-        "url": "https://www.fundraiso.com/en/organisations/stiftung-freie-gemeinschaftsbank",
-        "label": "Fundraiso-Profil"
-      }
-    ],
+    "applicationMethod": "online",
+    "isOperative": false,
+    "status": "rolling",
+    "deadlineText": "Unbekannt",
+    "amount": {
+      "min": 2000,
+      "max": 30000,
+      "text": "ca. CHF 10’000"
+    },
+    "sourceLinks": [],
     "source": "esa",
-    "purposeSummary": "Unterstützt uneigennützige Projekte, Initiativen und Institutionen in den Bereichen Bildung/Erziehung, Gesundheit/Medizin, Umwelt/Ökologie/Erneuerbare Energien, Soziales, Kunst/Kultur und sozial-ökologisches Wirtschaften. Verwaltet über 60 Unterstiftungen schweizweit. Baut auf der Geisteswissenschaft Rudolf Steiners auf, setzt aber keine anthroposophische Ausrichtung bei Förderprojekten voraus.",
+    "purposeSummary": "Die Stiftung Freie Gemeinschaftsbank fördert seit über 20 Jahren Projekte und Initiativen, die neue Wege im Umgang mit Mensch, Umwelt und Kultur gehen. Als Dachstiftung verwaltet sie 60+ Unterstiftungen und Fonds in den Bereichen Bildung, Umwelt/Ökologie, Soziales und verantwortbares Wirtschaften. Sitz in Basel, schweizweit tätig. Anthroposophische Grundlage, aber offen für nicht-anthroposophische Projekte.",
     "fit": 2,
     "priority": 3,
     "type": "C",
@@ -4454,10 +4504,10 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
       "kreislaufwirtschaft",
       "digitale-bildung"
     ],
-    "tagline": "Umwelt, Soziales, Bildung — anthroposophisch geprägt",
-    "researchNotes": "Moderate thematische Passung mit Revamp-IT: (1) Soziale Integration — dokumentierte Förderung von Integrationsvorhaben. (2) Umwelt/Ökologie — IT-Recycling als E-Waste-Reduktion passt. (3) Bildung — Kursangebote. Anthroposophische Ausrichtung der Stiftung setzt NICHT voraus, dass Förderprojekte dieselbe Weltanschauung teilen. Basel-Schwerpunkt: Revamp-IT in Zürich ist geografisch distanziert. Framing-Empfehlung: Gesuch auf soziale Integration und Umweltnachhaltigkeit ausrichten, nicht primär auf Technologie. Direktkontakt über Website, Förderkriterien und Beträge vor Bewerbung klären. Aus Screening v3.1 (126 Kandidaten, 5 bestanden).",
-    "needsResearch": true,
-    "researchDate": "2026-02-16"
+    "tagline": "Die Stiftung Freie Gemeinschaftsbank fördert seit über 20 Jahren Projekte und In",
+    "researchNotes": "Mittlerer Fit für Revamp-IT: Die Stiftung FGB fördert 'sozial und ökologisch verantwortbares Wirtschaften' und 'Umwelt, Ökologie' — Kreislaufwirtschaft und IT-Recycling passen thematisch. Der Förderbereich Bildung könnte für die Bildungsprogrammleiter-Positionen relevant sein. Herausforderungen: (1) Basel-zentriert, Revamp-IT ist Zürich-basiert — allerdings schweizweit aktiv. (2) Anthroposophischer Hintergrund bedeutet, dass Projekte in einem ganzheitlichen, menschenzentrierten Rahmen präsentiert werden sollten. (3) Aktuell nur Bildung und Gesundheit als aktive Förderbereiche — Umwelt und Gesellschaft derzeit ohne aktive Förderung. Strategischer Ansatz: Revamp-IT als Bildungsprojekt (Ausbildung von Hardware-Technikern) mit ökologischem Mehrwert positionieren. Antrag bis Ende März einreichen.",
+    "needsResearch": false,
+    "researchDate": "2026-02-19"
   },
   {
     "slug": "stiftung-gruenau",
