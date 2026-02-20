@@ -250,7 +250,7 @@ export const WHY: Record<string, WhySection> = {
   // For Klimaschutz / Nachhaltigkeit foundations
   klima: {
     headline: '62 Millionen Tonnen Elektroschrott. Jedes Jahr.',
-    hook: `Während wir über Klimaziele diskutieren, landen funktionierende Laptops im Müll. Jedes weggeworfene Gerät bedeutet bis zu 330 kg CO₂, die umsonst produziert wurden. Das muss nicht sein.`,
+    hook: `Während wir über Klimaziele diskutieren, landen funktionierende Laptops im Müll. Jedes weggeworfene Gerät bedeutet bis zu 285 kg CO₂, die umsonst produziert wurden. Das muss nicht sein.`,
     problem: `Die IT-Industrie setzt auf geplante Obsoleszenz. Geräte werden nach 3-4 Jahren ersetzt, obwohl sie technisch noch Jahre funktionieren könnten. Die Umweltkosten dieser Wegwerfkultur sind enorm.`,
     solution: `Revamp-IT verlängert die Lebensdauer von IT-Geräten um durchschnittlich 5 Jahre. Durch professionelles Refurbishing und Linux-Installation werden "alte" Laptops zu leistungsfähigen, sicheren Arbeitsgeräten.`,
     evidence: ['circular_computing', 'global_ewaste_monitor', 'bafu_lca'],

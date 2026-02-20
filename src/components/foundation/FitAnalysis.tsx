@@ -25,6 +25,23 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
         </div>
       </div>
 
+      {/* Methodology — how the score is determined */}
+      <details className="mb-4 rounded-lg border border-border">
+        <summary className="cursor-pointer px-4 py-2 text-xs font-medium text-text-muted hover:text-grey-dark">
+          Wie wird der Fit-Score berechnet?
+        </summary>
+        <div className="border-t border-border px-4 py-3 text-xs text-text-light space-y-1">
+          <p>Der Fit-Score (1–3) basiert auf manueller Recherche-Bewertung anhand von:</p>
+          <ul className="list-inside list-disc space-y-0.5 ml-1">
+            <li><strong>Thematische Übereinstimmung</strong> — Wie gut passen unsere Schwerpunkte zu den Förderbereichen?</li>
+            <li><strong>Fördervolumen & -art</strong> — Passt die Grössenordnung zu unserem Bedarf?</li>
+            <li><strong>Bewerbungszugang</strong> — Nimmt die Stiftung externe Gesuche an?</li>
+            <li><strong>Geographischer Fokus</strong> — Fördert die Stiftung in unserem Einzugsgebiet?</li>
+          </ul>
+          <p className="text-text-muted mt-2">Letzte Bewertung: {f.researchDate || 'Unbekannt'}</p>
+        </div>
+      </details>
+
       {/* Fit narrative — explains WHY the fit is good/moderate/limited */}
       {fitNarrative && (
         <div className="mb-4 rounded-lg bg-bg-light p-4">

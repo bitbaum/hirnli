@@ -242,8 +242,27 @@ export default function FoundationListClient() {
           <FoundationCard key={f.slug} foundation={f} inPipeline={pipelineSlugs.has(f.slug)} score={scoreMap.get(f.slug)} />
         ))}
         {filtered.length === 0 && (
-          <div className="rounded-lg border border-border bg-bg-light p-8 text-center text-text-muted">
-            Keine Stiftungen gefunden. Versuche andere Filter.
+          <div className="rounded-lg border border-border bg-bg-light p-8 text-center">
+            <p className="text-text-muted">
+              Keine Stiftungen gefunden für die aktuelle Filterauswahl.
+            </p>
+            <p className="mt-2 text-sm text-text-muted">
+              {filters.themes.length > 0 && filters.fit.length > 0
+                ? `${totalCount} Stiftungen insgesamt, aber keine mit ${filters.themes.length > 1 ? 'allen gewählten Themen' : `Thema «${filters.themes[0]}»`} und Fit ${filters.fit.join('/')}.`
+                : filters.themes.length > 0
+                  ? `Versuche, ein Thema zu entfernen oder die Themen-Logik auf «ODER» zu stellen.`
+                  : filters.fit.length > 0
+                    ? `Versuche, die Fit-Einschränkung zu lockern.`
+                    : 'Versuche, einzelne Filter zu entfernen.'}
+            </p>
+            {hasActiveFilters && (
+              <button
+                onClick={resetFilters}
+                className="mt-3 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+              >
+                Alle Filter zurücksetzen
+              </button>
+            )}
           </div>
         )}
       </div>

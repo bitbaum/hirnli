@@ -220,8 +220,6 @@ Narrative Content       →  lib/config/stories.ts                            �
 ### Remaining
 
 - No actual downloadable documents (Gesuch PDFs, pitch decks) — Phase 2
-- Legacy HTML files still in `_legacy_pages/` and `_legacy_index.html` — safe to delete after verification
-- Marketing page content not migrated (was empty/minimal)
 
 ---
 

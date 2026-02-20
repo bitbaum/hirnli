@@ -1,6 +1,6 @@
 // AUTO-GENERATED — DO NOT EDIT MANUALLY
 // Source: Neon DB (fundraising_foundations.config_data)
-// Generated: 2026-02-19T10:39:44.860Z
+// Generated: 2026-02-20T10:24:14.294Z
 // Run `npm run sync` to regenerate from database
 // Foundations: 119
 
@@ -802,7 +802,7 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "slug": "blauer-planet",
     "name": "Blauer Planet - Stiftung zur Bewahrung der Umwelt und Natur",
     "uid": "CHE-157.513.088",
-    "websiteUrl": "",
+    "websiteUrl": "https://www.zefix.ch/de/search/entity/list/firm/1518180",
     "officialPurpose": "1. Die gemeinnützige und nicht gewinnorientierte Stiftung bezweckt die Förderung und Unterstützung von einzelnen Projekten als auch bestehenden Institutionen, welche den genannten Zweck verfolgen, in den folgenden Bereichen: Umwelt und Natur: Klimaschutz, Naturschutz und Umweltschutz; Menschen in Armut: Gesundheit und Bildung; Erhalt des Kulturguts im kirchlichen Bereich. Dabei sollen zu 3/4 Projekte und Institutionen im Bereich Umwelt/Natur und zu 1/4 im Bereich Menschen in Armut/Erhalt des Kulturguts im kirchlichen Bereich unterstützt werden. 2. Die Stiftung kann ihre Zwecke durch eigene Projekte oder durch Zuwendungen an steuerbefreite Dritt-Organisationen im Rahmen der vorgenannten Ziele verfolgen. 3. Die Stiftung ist im Rahmen ihrer Zweckbestimmung in der ganzen Schweiz und im Ausland tätig.",
     "region": "Alpnach",
     "contact": {
@@ -1318,7 +1318,7 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "slug": "elisabeth-nothmann-stiftung",
     "name": "Elisabeth Nothmann Stiftung",
     "uid": "CHE-110.383.039",
-    "websiteUrl": "",
+    "websiteUrl": "https://www.fundraiso.com/en/organisations/elisabeth-nothmann-stiftung",
     "region": "Zürich",
     "contact": {
       "address": "Stockerstrasse 48, 8002 Zürich"
@@ -1899,6 +1899,9 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "name": "Gemeinnütziger Fonds Bildung (Kanton Zürich)",
     "websiteUrl": "https://www.zh.ch/de/bildungsdirektion/generalsekretariat-der-bildungsdirektion/gemeinnuetziger-fonds-bildung.html",
     "region": "Kanton Zürich",
+    "contact": {
+      "address": "Bildungsdirektion Kanton Zürich, Walcheplatz 2, 8090 Zürich"
+    },
     "applicationMethod": "contact",
     "status": "closed",
     "deadline": null,
@@ -2068,6 +2071,10 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "name": "Google.org (Schweiz)",
     "websiteUrl": "https://www.google.org",
     "region": "Schweiz / International",
+    "contact": {
+      "address": "Google Switzerland GmbH, Brandschenkestrasse 110, 8002 Zürich",
+      "email": "googleorg-support@google.com"
+    },
     "applicationMethod": "contact",
     "status": "closed",
     "deadline": null,
@@ -4757,7 +4764,7 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
     "slug": "stiftung-kultur-jugend",
     "name": "Stiftung für Kultur und Jugend",
     "uid": "CHE-105.895.887",
-    "websiteUrl": "",
+    "websiteUrl": "https://www.fundraiso.com/en/organisations/stiftung-fuer-kultur-und-jugend",
     "region": "Zürich",
     "contact": {
       "address": "c/o Israelitische Cultusgemeinde Zürich, Lavaterstrasse 33, 8002 Zürich"

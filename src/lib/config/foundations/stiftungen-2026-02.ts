@@ -1066,6 +1066,9 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     tagline: 'Kantonaler Bildungsfonds — aufgelöst Ende 2023',
     region: 'Kanton Zürich',
     websiteUrl: 'https://www.zh.ch/de/bildungsdirektion/generalsekretariat-der-bildungsdirektion/gemeinnuetziger-fonds-bildung.html',
+    contact: {
+      address: 'Bildungsdirektion Kanton Zürich, Walcheplatz 2, 8090 Zürich',
+    },
     applicationMethod: 'contact',
     purposeSummary: 'Gemeinnütziger Fonds der Bildungsdirektion Kanton Zürich. Förderte wohltätige Projekte und Kulturangebote im Bildungsbereich und in der Kinder-/Jugendhilfe. Separat vom Swisslos-Fonds. AUFGELÖST Ende 2023.',
     researchNotes: 'Fonds existiert nicht mehr. Betrieb von 2016 bis 2023, aufgelöst per Regierungsratsbeschluss Ende 2023. Bildungsförderung an den Swisslos Gemeinnützigen Fonds (swisslos-zh) richten — dieser existiert weiterhin und akzeptiert Gesuche für einmalige gemeinnützige Projekte mit Kantonsbezug.',
@@ -2078,6 +2081,10 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     tagline: 'Tech for Good — KI, digitale Bildung und Inklusion',
     region: 'Schweiz / International',
     websiteUrl: 'https://www.google.org',
+    contact: {
+      email: 'googleorg-support@google.com',
+      address: 'Google Switzerland GmbH, Brandschenkestrasse 110, 8002 Zürich',
+    },
     applicationMethod: 'contact',
     purposeSummary: 'Google.org unterstützt Nonprofits, die Technologie für gesellschaftliche Herausforderungen einsetzen. Förderschwerpunkte: KI für sozialen Nutzen, digitale Bildung, Klimaschutz und Inklusion.',
     researchNotes: 'KEIN direkter Kontakt oder lokales Community-Relations-Team bei Google Zürich. Google.org nimmt KEINE unaufgeforderten Gesuche an — nur über kompetitive Impact Challenges. Aktuell offen: AI for Government Innovation (Deadline 3.4.2026) und AI for Science (Deadline 17.4.2026) — beide schlechte Passung für IT-Refurbishment. Schweiz oft NICHT förderberechtigt bei EU-Programmen (z.B. AI Opportunity Fund: Europe exkludierte CH). Beste Aktion: Expression of Interest Formular ausfüllen (Google Forms), Google for Nonprofits registrieren (CHF 10K/Monat Ad Grants), nächste «Tech for Social Good»-Challenge abwarten. Accessibility Discovery Center Zürich als lokaler Kontaktpunkt. Netzwerk über Impact Hub Zürich Events aufbauen.',
@@ -2360,7 +2367,7 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     tagline: 'Bildung, Jugend, soziale Unterstützung',
     founded: 1978,
     region: 'Zürich',
-    websiteUrl: '', // No public web presence — managed via Firminvest AG
+    websiteUrl: 'https://www.fundraiso.com/en/organisations/elisabeth-nothmann-stiftung', // No own website — managed via Firminvest AG
     applicationMethod: 'contact',
     contact: {
       address: 'Stockerstrasse 48, 8002 Zürich',
@@ -2389,7 +2396,7 @@ export const STIFTUNGEN_2026_02: Foundation[] = [
     tagline: 'Jugend, Bildung (primär jüdische Gemeinschaft)',
     founded: null,
     region: 'Zürich',
-    websiteUrl: '', // No public web presence — c/o ICZ
+    websiteUrl: 'https://www.fundraiso.com/en/organisations/stiftung-fuer-kultur-und-jugend', // No own website — c/o ICZ
     applicationMethod: 'contact',
     contact: {
       address: 'c/o Israelitische Cultusgemeinde Zürich, Lavaterstrasse 33, 8002 Zürich',
