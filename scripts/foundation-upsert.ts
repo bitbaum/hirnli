@@ -96,7 +96,7 @@ async function main() {
     };
 
     // --- Quality gate: compute needsResearch ---
-    const hasContact = !!(a.contactInfo.email || a.contactInfo.phone);
+    const hasContact = !!(a.contactInfo.email || a.contactInfo.phone || a.contactInfo.address);
     const hasWebsite = !!(draft.queueItem.websiteUrl);
     const hasPurpose = a.purposeSummary.length >= 150;
     const hasNotes = a.researchNotes.length >= 250;
