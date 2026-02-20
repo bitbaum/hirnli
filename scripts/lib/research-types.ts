@@ -88,7 +88,7 @@ export const ResearchDraftSchema = z.object({
   queueItem: ResearchQueueItemSchema,
   websiteContent: z.string().optional(),
   analysis: ResearchAnalysisSchema,
-});
+}).passthrough(); // Allow _meta from batch-generated drafts
 
 export type ResearchDraft = z.infer<typeof ResearchDraftSchema>;
 

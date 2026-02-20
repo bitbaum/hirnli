@@ -95,6 +95,14 @@ async function main() {
       sourceLinks: [],
     };
 
+    // --- Quality gate: compute needsResearch ---
+    const hasContact = !!(a.contactInfo.email || a.contactInfo.phone);
+    const hasWebsite = !!(draft.queueItem.websiteUrl);
+    const hasPurpose = a.purposeSummary.length >= 150;
+    const hasNotes = a.researchNotes.length >= 250;
+    const hasThemes = a.themes.length >= 1;
+    const needsResearch = !(hasContact && hasWebsite && hasPurpose && hasNotes && hasThemes);
+
     // --- Layer 2: Merged configData (backward compat for sync pipeline) ---
     const configData: Partial<Foundation> = {
       ...registryData,
@@ -104,7 +112,7 @@ async function main() {
       tagline: a.purposeSummary.substring(0, 80),
       themes: a.themes,
       researchDate: today,
-      needsResearch: false,
+      needsResearch,
       researchNotes: a.researchNotes,
     };
 
