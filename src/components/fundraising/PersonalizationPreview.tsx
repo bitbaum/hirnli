@@ -13,7 +13,7 @@ interface PersonalizationPreviewProps {
 }
 
 interface PersonalizedGesuch {
-  foundation: any;
+  foundation: Record<string, unknown>;
   appliedRules: Array<{
     ruleId: string;
     type: string;

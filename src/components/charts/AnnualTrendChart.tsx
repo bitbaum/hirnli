@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import type { AnnualPLEntry } from '@/app/finanzen/data';
+import { FINANCIAL_YEAR_LABEL } from '@/app/finanzen/data';
 import { formatCHF } from '@/lib/utils/format';
 import ChartWrapper from './ChartWrapper';
 
@@ -24,7 +25,7 @@ interface AnnualTrendChartProps {
 
 export default function AnnualTrendChart({
   data,
-  title = 'Einnahmen & Aufwand (8 Jahre)',
+  title = `Einnahmen & Aufwand (${FINANCIAL_YEAR_LABEL})`,
   className,
 }: AnnualTrendChartProps) {
   const labels = data.map((d) => String(d.year));

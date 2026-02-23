@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getStatusColor } from '@/lib/config/application-statuses';
+import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import type { Application, Foundation } from '@/lib/db/schema';
 
 interface ApplicationDetailProps {
@@ -111,7 +112,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               {foundation?.name || 'Unknown Foundation'}
             </h1>
           </div>
-          <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status as any)}`}>
+          <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status as ApplicationStatusId)}`}>
             {application.status}
           </span>
         </div>

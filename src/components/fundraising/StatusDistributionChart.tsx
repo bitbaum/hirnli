@@ -79,7 +79,7 @@ export function StatusDistributionChart({ data }: StatusDistributionChartProps) 
       },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
+          label: (context: { label?: string; parsed?: number; dataset: { data: number[] } }) => {
             const label = context.label || '';
             const value = context.parsed || 0;
             const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);

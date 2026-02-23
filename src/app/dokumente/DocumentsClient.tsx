@@ -151,7 +151,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
           {/* How to Use */}
           <Card className="bg-blue-50 border-l-4 border-l-blue-500">
             <div className="flex items-start gap-3">
-              <span className="text-2xl">💡</span>
+              <span className="text-2xl" aria-hidden="true">💡</span>
               <div>
                 <h3 className="font-semibold text-blue-900 mb-2">So verwenden Sie diese Dokumente</h3>
                 <div className="space-y-2 text-sm text-blue-800">
@@ -184,7 +184,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
 
           {filteredGesuche.length === 0 ? (
             <Card className="text-center py-12">
-              <span className="text-4xl mb-4 block">🔍</span>
+              <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
               <p className="text-text-muted">Keine Gesuche gefunden für "{searchQuery}"</p>
             </Card>
           ) : (
@@ -211,7 +211,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
 
           {filteredVorlagen.length === 0 ? (
             <Card className="text-center py-12">
-              <span className="text-4xl mb-4 block">🔍</span>
+              <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
               <p className="text-text-muted">Keine Vorlagen gefunden für "{searchQuery}"</p>
             </Card>
           ) : (

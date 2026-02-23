@@ -304,7 +304,7 @@ export default function FundraisingClient() {
           {/* Hub */}
           <Card className="border-l-4 border-l-blue-500">
             <div className="flex items-start gap-4">
-              <span className="text-4xl">🏢</span>
+              <span className="text-4xl" aria-hidden="true">🏢</span>
               <div className="flex-1">
                 <h3 className="text-lg font-bold text-grey-dark">1. Community Tech Hub (Raum)</h3>
                 <p className="mt-2 text-sm text-text-light">
@@ -326,7 +326,7 @@ export default function FundraisingClient() {
           {/* Menschen */}
           <Card className="border-l-4 border-l-violet-500">
             <div className="flex items-start gap-4">
-              <span className="text-4xl">👥</span>
+              <span className="text-4xl" aria-hidden="true">👥</span>
               <div className="flex-1">
                 <h3 className="text-lg font-bold text-grey-dark">2. Bildungsprogrammleiter (Team)</h3>
                 <p className="mt-2 text-sm text-text-light">
@@ -574,7 +574,7 @@ export default function FundraisingClient() {
             </p>
 
             <p className="text-gray-700 leading-relaxed mb-0">
-              Detaillierte Finanzdaten (2018-2025) sind verfügbar im{' '}
+              Detaillierte Finanzdaten sind verfügbar im{' '}
               <Link href="/finanzen" className="underline">Finanzen-Bereich</Link> — alle Zahlen aus Kivitendo,
               klickbar mit Quellenangabe.
             </p>

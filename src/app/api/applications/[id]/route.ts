@@ -137,7 +137,7 @@ export async function PATCH(
 
     // Prepare update data
     const data = validation.data;
-    const updates: any = {
+    const updates: Record<string, unknown> = {
       ...data,
       updatedAt: new Date().toISOString(),
     };

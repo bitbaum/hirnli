@@ -11,6 +11,7 @@ import { STIFTUNGEN_DATA } from './foundations';
 import { TEMPLATE_TYPES, TEMPLATE_FOUNDATIONS, TEMPLATE_LABELS } from './gesuch-templates';
 import { TYPE_LABELS } from './foundations/metadata';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
+import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/app/finanzen/data';
 
 // ---------------------------------------------------------------------------
 // Document Types
@@ -87,14 +88,14 @@ const TEMPLATE_GESUCHE: Document[] = TEMPLATE_TYPES.map((templateType) => {
 const DATA_EXPORTS: Document[] = [
   {
     id: 'export-financial',
-    title: 'Finanzdaten 2018-2025',
+    title: `Finanzdaten ${FINANCIAL_YEAR_RANGE}`,
     description: 'Komplette Einnahmen & Ausgaben nach Jahr und Kategorie — generiert aus Kivitendo-Quelldaten',
     format: 'CSV',
     category: 'export',
     action: 'download',
     href: '/api/export/financial',
     size: '~200 KB',
-    badge: '8 Jahre',
+    badge: FINANCIAL_YEAR_LABEL,
     lastUpdated: '2026-02-13',
   },
   {
@@ -112,13 +113,13 @@ const DATA_EXPORTS: Document[] = [
   {
     id: 'export-revenue',
     title: 'Einnahmen-Historie',
-    description: 'Jahresumsätze 2018-2025 aufgeschlüsselt nach Einnahmequellen — generiert aus Kivitendo-Quelldaten',
+    description: `Jahresumsätze ${FINANCIAL_YEAR_RANGE} aufgeschlüsselt nach Einnahmequellen — generiert aus Kivitendo-Quelldaten`,
     format: 'CSV',
     category: 'export',
     action: 'download',
     href: '/api/export/revenue',
     size: '~10 KB',
-    badge: '8 Jahre',
+    badge: FINANCIAL_YEAR_LABEL,
     lastUpdated: '2026-02-13',
   },
 ];

@@ -6,6 +6,8 @@ import { STIFTUNGEN_DATA, FIT_CONFIG } from '@/lib/config/foundations';
 import { TEAM_MEMBERS } from '@/app/team/data';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { DEVICES_PER_YEAR_TARGET_DISPLAY, PEOPLE_REACHED_DISPLAY } from '@/lib/config/projections';
+import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/app/finanzen/data';
+import CTABanner from '@/components/ui/CTABanner';
 
 export const metadata: Metadata = {
   title: `${ORG_PROFILE.platform.name} — Transparenz-Hub für ${ORG_PROFILE.name} Fundraising`,
@@ -35,9 +37,9 @@ export default function HomePage() {
               <div className="text-sm opacity-90 mt-2">Jede Zahl nachvollziehbar</div>
             </div>
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur">
-              <div className="text-4xl font-bold mb-2">8 Jahre</div>
+              <div className="text-4xl font-bold mb-2">{FINANCIAL_YEAR_LABEL}</div>
               <div className="text-lg">Finanzdaten</div>
-              <div className="text-sm opacity-90 mt-2">2018-2025, direkt aus Kivitendo</div>
+              <div className="text-sm opacity-90 mt-2">{FINANCIAL_YEAR_RANGE}, direkt aus Kivitendo</div>
             </div>
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur">
               <div className="text-4xl font-bold mb-2">{STIFTUNGEN_DATA.length}</div>
@@ -112,7 +114,7 @@ export default function HomePage() {
               Fundierte Entscheidungsgrundlage: Finanzen, Wirkung, Strategie, Team — alles nachvollziehbar dokumentiert.
             </p>
             <ul className="text-sm text-text-light space-y-2">
-              <li>✓ Finanzhistorie 2018-2025 (inkl. Trendanalyse)</li>
+              <li>✓ Finanzhistorie {FINANCIAL_YEAR_RANGE} (inkl. Trendanalyse)</li>
               <li>✓ Wirkungskennzahlen (CO₂, Geräte, Menschen erreicht)</li>
               <li>✓ Team & Kapazität (Rollen, Bereiche, Planung)</li>
               <li>✓ Strategie 2030 (Organisation, Hub, Bildung)</li>
@@ -143,7 +145,7 @@ export default function HomePage() {
             <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow duration-200">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="text-3xl">🚀</div>
+                  <div className="text-3xl" aria-hidden="true">🚀</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-blue-600">Revamp 2030</h3>
                     <Badge color="blue">Vision</Badge>
@@ -162,7 +164,7 @@ export default function HomePage() {
             <Card className="border-l-4 border-l-emerald-500 hover:shadow-lg transition-shadow duration-200">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="text-3xl">🎯</div>
+                  <div className="text-3xl" aria-hidden="true">🎯</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-emerald-600">Fundraising</h3>
                     <Badge color="emerald">{STIFTUNGEN_DATA.length} Stiftungen</Badge>
@@ -181,15 +183,15 @@ export default function HomePage() {
             <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow duration-200">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="text-3xl">💰</div>
+                  <div className="text-3xl" aria-hidden="true">💰</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-purple-600">Finanzen</h3>
-                    <Badge color="purple">8 Jahre</Badge>
+                    <Badge color="purple">{FINANCIAL_YEAR_LABEL}</Badge>
                   </div>
                 </div>
               </div>
               <p className="text-sm text-text-light mb-3">
-                Einnahmen, Ausgaben, Kategorien: Komplette P&L 2018-2025 aus Kivitendo.
+                Einnahmen, Ausgaben, Kategorien: Komplette P&amp;L {FINANCIAL_YEAR_RANGE} aus Kivitendo.
               </p>
               <div className="text-xs text-purple-600 font-semibold">→ Finanzdaten einsehen</div>
             </Card>
@@ -200,7 +202,7 @@ export default function HomePage() {
             <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow duration-200">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="text-3xl">🌍</div>
+                  <div className="text-3xl" aria-hidden="true">🌍</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-orange-600">Wirkung</h3>
                     <Badge color="orange">Impact</Badge>
@@ -219,7 +221,7 @@ export default function HomePage() {
             <Card className="border-l-4 border-l-pink-500 hover:shadow-lg transition-shadow duration-200">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="text-3xl">👥</div>
+                  <div className="text-3xl" aria-hidden="true">👥</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-pink-600">Team</h3>
                     <Badge color="pink">{TEAM_MEMBERS.length} Teammitglieder</Badge>
@@ -238,7 +240,7 @@ export default function HomePage() {
             <Card className="border-l-4 border-l-teal-500 hover:shadow-lg transition-shadow duration-200">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="text-3xl">📊</div>
+                  <div className="text-3xl" aria-hidden="true">📊</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-teal-600">Methodik</h3>
                     <Badge color="teal">Transparenz</Badge>
@@ -271,32 +273,16 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="mb-12">
-        <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 p-10 text-white text-center">
-          <h2 className="text-3xl font-bold mb-4">Bereit für den Deep Dive?</h2>
-          <p className="text-lg mb-8 leading-relaxed max-w-3xl mx-auto">
-            Erkunde unsere Finanzen, Wirkung, Strategie — oder finde die passende Stiftung für dein Projekt.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/revamp-2030"
-              className="px-8 py-4 bg-white text-emerald-700 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg"
-            >
-              🚀 Vision 2030 ansehen
-            </Link>
-            <Link
-              href="/fundraising/stiftungen"
-              className="px-8 py-4 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors duration-200 border-2 border-white"
-            >
-              🏛️ Stiftungen durchsuchen
-            </Link>
-            <Link
-              href="/finanzen"
-              className="px-8 py-4 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors duration-200 border-2 border-white"
-            >
-              💰 Finanzen deep dive
-            </Link>
-          </div>
-        </div>
+        <CTABanner
+          title="Bereit für den Deep Dive?"
+          description="Erkunde unsere Finanzen, Wirkung, Strategie — oder finde die passende Stiftung für dein Projekt."
+          headingLevel="h2"
+          links={[
+            { href: '/revamp-2030', label: '🚀 Vision 2030 ansehen' },
+            { href: '/fundraising/stiftungen', label: '🏛️ Stiftungen durchsuchen', variant: 'secondary' },
+            { href: '/finanzen', label: '💰 Finanzen deep dive', variant: 'secondary' },
+          ]}
+        />
       </section>
     </>
   );

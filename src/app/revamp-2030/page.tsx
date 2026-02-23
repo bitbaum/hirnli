@@ -5,6 +5,7 @@
  */
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import CTABanner from '@/components/ui/CTABanner';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
@@ -73,7 +74,7 @@ export default function Revamp2030Page() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Das eigentliche Problem: Nicht Raum, sondern Organisation</h2>
         <Card className="border-l-4 border-l-red-500 bg-red-50/50">
           <div className="flex items-start gap-4">
-            <span className="text-4xl flex-shrink-0">⚠️</span>
+            <span className="text-4xl flex-shrink-0" aria-hidden="true">⚠️</span>
             <div className="flex-1">
               <h3 className="text-lg font-bold text-red-900 mb-3">Unsere Kapazitäts-Grenzen (ehrliche Diagnose)</h3>
               <div className="space-y-4 text-sm text-red-800">
@@ -123,7 +124,7 @@ export default function Revamp2030Page() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="border-l-4 border-l-blue-500">
             <div className="flex items-start gap-4">
-              <span className="text-4xl">🏢</span>
+              <span className="text-4xl" aria-hidden="true">🏢</span>
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-grey-dark mb-2">1. Revamp Hub — Infrastruktur & Raum</h3>
                 <p className="text-sm text-text-light mb-3">
@@ -158,7 +159,7 @@ export default function Revamp2030Page() {
 
           <Card className="border-l-4 border-l-violet-500">
             <div className="flex items-start gap-4">
-              <span className="text-4xl">🎓</span>
+              <span className="text-4xl" aria-hidden="true">🎓</span>
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-grey-dark mb-2">2. Bildungsprogrammleiter:innen — Organisation & Multiplikation</h3>
                 <p className="text-sm text-text-light mb-3">
@@ -202,7 +203,7 @@ export default function Revamp2030Page() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Digitale Plattform — unsere eigene Software</h2>
         <Card className="border-l-4 border-l-indigo-500">
           <div className="flex items-start gap-4">
-            <span className="text-4xl">🌐</span>
+            <span className="text-4xl" aria-hidden="true">🌐</span>
             <div className="flex-1">
               <p className="text-sm text-text-light mb-4">
                 Revamp-IT ist nicht nur eine Werkstatt — <strong>wir entwickeln eigene Software</strong>.
@@ -388,7 +389,7 @@ export default function Revamp2030Page() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             <div className="bg-pink-50 rounded-lg p-4">
-              <div className="text-2xl mb-2">🎨</div>
+              <div className="text-2xl mb-2" aria-hidden="true">🎨</div>
               <h3 className="text-sm font-semibold text-pink-900 mb-2">E-Waste-Kunst</h3>
               <p className="text-xs text-pink-800 mb-2">
                 Künstler:innen schaffen aus Platinen, Gehäusen und Komponenten Skulpturen und Installationen.
@@ -401,7 +402,7 @@ export default function Revamp2030Page() {
             </div>
 
             <div className="bg-pink-50 rounded-lg p-4">
-              <div className="text-2xl mb-2">🎹</div>
+              <div className="text-2xl mb-2" aria-hidden="true">🎹</div>
               <h3 className="text-sm font-semibold text-pink-900 mb-2">Elektronische Musik</h3>
               <p className="text-xs text-pink-800 mb-2">
                 Vintage-Synths restaurieren, Circuit-Bending, Modular-Synthese — alte Elektronik wird Musik.
@@ -414,7 +415,7 @@ export default function Revamp2030Page() {
             </div>
 
             <div className="bg-pink-50 rounded-lg p-4">
-              <div className="text-2xl mb-2">🏛️</div>
+              <div className="text-2xl mb-2" aria-hidden="true">🏛️</div>
               <h3 className="text-sm font-semibold text-pink-900 mb-2">Museum & Geschichte</h3>
               <p className="text-xs text-pink-800 mb-2">
                 Computergeschichte zum Anfassen: Von Commodore 64 bis zur ersten Cray.
@@ -537,27 +538,14 @@ export default function Revamp2030Page() {
 
       {/* Call to Action */}
       <section className="mb-8">
-        <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 p-8 text-white text-center">
-          <h3 className="text-2xl font-bold mb-4">Hilf uns, Revamp 2030 zu verwirklichen</h3>
-          <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
-            Es geht nicht nur um Geräte oder Workshops — es geht darum, <strong>wie Menschen über Technologie denken</strong>.
-            Durch Organisation, Bildung, Kunst und Kultur schaffen wir eine Plattform für <strong>digitale Teilhabe und nachhaltige Innovation</strong>.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/fundraising"
-              className="px-8 py-4 bg-white text-emerald-700 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg"
-            >
-              📊 Fundraising-Übersicht
-            </Link>
-            <Link
-              href="/fundraising/stiftungen"
-              className="px-8 py-4 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors duration-200 border-2 border-white"
-            >
-              🏛️ Passende Stiftungen finden
-            </Link>
-          </div>
-        </div>
+        <CTABanner
+          title="Hilf uns, Revamp 2030 zu verwirklichen"
+          description={<>Es geht nicht nur um Geräte oder Workshops — es geht darum, <strong>wie Menschen über Technologie denken</strong>. Durch Organisation, Bildung, Kunst und Kultur schaffen wir eine Plattform für <strong>digitale Teilhabe und nachhaltige Innovation</strong>.</>}
+          links={[
+            { href: '/fundraising', label: '📊 Fundraising-Übersicht' },
+            { href: '/fundraising/stiftungen', label: '🏛️ Passende Stiftungen finden', variant: 'secondary' },
+          ]}
+        />
       </section>
 
       <StoryBridge bridges={STORY_BRIDGES['revamp-2030'] || []} />

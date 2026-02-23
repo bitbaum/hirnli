@@ -3,6 +3,7 @@ import { BRANDING } from './branding';
 import { STIFTUNGEN_DATA } from './foundations';
 import { TEMPLATE_TYPES } from './gesuch-templates';
 import { HUB_SPACE_DISPLAY } from './projections';
+import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/app/finanzen/data';
 
 // ---------------------------------------------------------------------------
 // Nav schemas (SSOT for navigation types)
@@ -62,7 +63,7 @@ export const NAV_STRUCTURE: {
       children: [
         { text: 'Mission & Strategie', href: '/strategie', desc: 'Warum wir existieren & was wir erreichen wollen' },
         { text: 'Team', href: '/team', desc: 'Wer wir sind & wie wir arbeiten' },
-        { text: 'Finanzen 2018-2025', href: '/finanzen', desc: 'Transparente Einnahmen & Ausgaben (8 Jahre)' },
+        { text: `Finanzen ${FINANCIAL_YEAR_RANGE}`, href: '/finanzen', desc: `Transparente Einnahmen & Ausgaben (${FINANCIAL_YEAR_LABEL})` },
         { text: 'Wirkung & Impact', href: '/wirkung', desc: 'CO₂ eingespart, Geräte refurbiert, Menschen erreicht' },
         { text: 'Preismodell', href: '/preismodell', desc: 'Solidarische Preise (4 Stufen nach Einkommen)' },
         { text: 'Methodik', href: '/methodik', desc: 'Wie wir messen & berechnen (Transparenzreport)' },

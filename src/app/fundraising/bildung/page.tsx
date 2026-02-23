@@ -41,7 +41,7 @@ export default function BildungPage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Das Problem: Soziale Reichweite ist begrenzt</h2>
         <Card className="border-l-4 border-l-amber-500 bg-amber-50/50">
           <div className="flex items-start gap-4">
-            <span className="text-4xl flex-shrink-0">⚠️</span>
+            <span className="text-4xl flex-shrink-0" aria-hidden="true">⚠️</span>
             <div className="flex-1">
               <h3 className="text-lg font-bold text-amber-900 mb-2">Aktueller Engpass</h3>
               <div className="space-y-2 text-sm text-amber-800">

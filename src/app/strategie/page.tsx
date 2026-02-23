@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import CTABanner from '@/components/ui/CTABanner';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import Table from '@/components/ui/Table';
@@ -476,26 +477,14 @@ export default function StrategiePage() {
         </div>
 
         {/* Call to Action */}
-        <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 p-8 text-white text-center">
-          <h3 className="text-2xl font-bold mb-4">Hilf uns, diese Vision zu verwirklichen</h3>
-          <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
-            Der Community Tech Space ist mehr als ein Gebäude — es ist eine Plattform für <strong>digitale Teilhabe, nachhaltige Technologie und soziale Innovation</strong>. Mit deiner Unterstützung können wir diesen Ort schaffen.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/fundraising"
-              className="px-8 py-4 bg-white text-emerald-700 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg"
-            >
-              📊 3-Jahres-Fundraising-Plan ansehen
-            </Link>
-            <Link
-              href="/fundraising/stiftungen"
-              className="px-8 py-4 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors duration-200 border-2 border-white"
-            >
-              🏛️ Passende Stiftungen finden
-            </Link>
-          </div>
-        </div>
+        <CTABanner
+          title="Hilf uns, diese Vision zu verwirklichen"
+          description={<>Der Community Tech Space ist mehr als ein Gebäude — es ist eine Plattform für <strong>digitale Teilhabe, nachhaltige Technologie und soziale Innovation</strong>. Mit deiner Unterstützung können wir diesen Ort schaffen.</>}
+          links={[
+            { href: '/fundraising', label: '📊 3-Jahres-Fundraising-Plan ansehen' },
+            { href: '/fundraising/stiftungen', label: '🏛️ Passende Stiftungen finden', variant: 'secondary' },
+          ]}
+        />
       </section>
 
       {/* SDG Alignment */}

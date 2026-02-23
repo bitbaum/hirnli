@@ -113,6 +113,13 @@ export const PEAK_REVENUE = Math.max(...ANNUAL_PL.map(y => y.revenue));
 export const PEAK_YEAR = ANNUAL_PL.find(y => y.revenue === PEAK_REVENUE)!.year;
 export const LATEST_COMPLETE = COMPLETE_YEARS[COMPLETE_YEARS.length - 1];
 export const CUMULATIVE_RESULT = COMPLETE_YEARS.reduce((sum, y) => sum + y.result, 0);
+
+// Financial data year range — derive "8 Jahre" and "2018-2025" from actual data
+export const FINANCIAL_YEAR_START = ANNUAL_PL[0].year; // 2018
+export const FINANCIAL_YEAR_END = ANNUAL_PL[ANNUAL_PL.length - 1].year; // 2025
+export const FINANCIAL_YEAR_COUNT = ANNUAL_PL.length; // 8
+export const FINANCIAL_YEAR_RANGE = `${FINANCIAL_YEAR_START}-${FINANCIAL_YEAR_END}`; // '2018-2025'
+export const FINANCIAL_YEAR_LABEL = `${FINANCIAL_YEAR_COUNT} Jahre`; // '8 Jahre'
 export const AVG_REVENUE = Math.round(
   COMPLETE_YEARS.reduce((sum, y) => sum + y.revenue, 0) / COMPLETE_YEARS.length,
 );

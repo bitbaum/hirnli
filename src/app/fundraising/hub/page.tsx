@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import CTABanner from '@/components/ui/CTABanner';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
@@ -207,7 +208,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-emerald-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🏪</div>
+                <div className="text-3xl" aria-hidden="true">🏪</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Shop & Kundenbereich</h3>
                   <p className="text-sm text-emerald-700 font-medium">80 m² — Verkauf, Beratung, Annahme</p>
@@ -246,7 +247,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-blue-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🔧</div>
+                <div className="text-3xl" aria-hidden="true">🔧</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Refurbishment-Werkstatt</h3>
                   <p className="text-sm text-blue-700 font-medium">~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)</p>
@@ -302,7 +303,7 @@ export default function HubPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="border-l-4 border-l-gray-500">
             <div className="flex items-center gap-3 mb-3">
-              <div className="text-2xl">💼</div>
+              <div className="text-2xl" aria-hidden="true">💼</div>
               <h3 className="text-md font-semibold text-grey-dark">Offices & Sozialräume</h3>
             </div>
             <p className="text-sm text-text-light mb-3">
@@ -324,7 +325,7 @@ export default function HubPage() {
 
           <Card className="border-l-4 border-l-gray-500">
             <div className="flex items-center gap-3 mb-3">
-              <div className="text-2xl">📦</div>
+              <div className="text-2xl" aria-hidden="true">📦</div>
               <h3 className="text-md font-semibold text-grey-dark">Lager & Logistik</h3>
             </div>
             <p className="text-sm text-text-light mb-3">
@@ -346,7 +347,7 @@ export default function HubPage() {
 
           <Card className="border-l-4 border-l-gray-500">
             <div className="flex items-center gap-3 mb-3">
-              <div className="text-2xl">🚚</div>
+              <div className="text-2xl" aria-hidden="true">🚚</div>
               <h3 className="text-md font-semibold text-grey-dark">Lade- & Anlieferzone</h3>
             </div>
             <p className="text-sm text-text-light mb-3">
@@ -379,7 +380,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-purple-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🛠️</div>
+                <div className="text-3xl" aria-hidden="true">🛠️</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Makerspace & Hackerspace</h3>
                   <p className="text-sm text-purple-700 font-medium">80 m² — Prototyping & Tüfteln</p>
@@ -409,7 +410,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-indigo-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🤖</div>
+                <div className="text-3xl" aria-hidden="true">🤖</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Robotik-Labor</h3>
                   <p className="text-sm text-indigo-700 font-medium">60 m² — Arduino, Raspberry Pi, autonome Systeme</p>
@@ -439,7 +440,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-blue-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🎓</div>
+                <div className="text-3xl" aria-hidden="true">🎓</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Schulungs- & Kursräume</h3>
                   <p className="text-sm text-blue-700 font-medium">70 m² — Linux, AI, Coding für alle</p>
@@ -468,7 +469,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-cyan-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🤖</div>
+                <div className="text-3xl" aria-hidden="true">🤖</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">AI Lab — Verschiedene Setups möglich</h3>
                   <p className="text-sm text-cyan-700 font-medium">20-40 m² — Eigene GPUs, digitale Souveränität</p>
@@ -541,7 +542,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-pink-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🏛️</div>
+                <div className="text-3xl" aria-hidden="true">🏛️</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Computer History Museum</h3>
                   <p className="text-sm text-pink-700 font-medium">60 m² — Technik-Geschichte zum Anfassen</p>
@@ -572,7 +573,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-purple-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🎹</div>
+                <div className="text-3xl" aria-hidden="true">🎹</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Elektronische Musik & Synth-Labor</h3>
                   <p className="text-sm text-purple-700 font-medium">50 m² — Alte Elektronik wird Musik</p>
@@ -603,7 +604,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-orange-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🎨</div>
+                <div className="text-3xl" aria-hidden="true">🎨</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">E-Waste-Art Studio</h3>
                   <p className="text-sm text-orange-700 font-medium">40 m² — Elektroschrott wird Kunst</p>
@@ -634,7 +635,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-teal-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🎤</div>
+                <div className="text-3xl" aria-hidden="true">🎤</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Event- & Multifunktionsraum</h3>
                   <p className="text-sm text-teal-700 font-medium">100 m² — Tags Workshops, abends Events</p>
@@ -665,7 +666,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-green-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">☕</div>
+                <div className="text-3xl" aria-hidden="true">☕</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Zero-Waste Community Kitchen</h3>
                   <p className="text-sm text-green-700 font-medium">50 m² — Gemeinsam essen, gemeinsam lernen</p>
@@ -695,7 +696,7 @@ export default function HubPage() {
           <Card className="border-l-4 border-l-yellow-500">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🔧</div>
+                <div className="text-3xl" aria-hidden="true">🔧</div>
                 <div>
                   <h3 className="text-lg font-semibold text-grey-dark">Repair Café</h3>
                   <p className="text-sm text-yellow-700 font-medium">30 m² — Community-Reparatur, 2×/Monat</p>
@@ -740,34 +741,16 @@ export default function HubPage() {
 
       {/* Call to Action */}
       <section className="mb-8">
-        <div className="rounded-lg border-2 border-emerald-200 bg-emerald-50 p-8 text-center">
-          <h3 className="text-2xl font-bold mb-4 text-grey-dark">Hilf uns, diesen Ort zu schaffen</h3>
-          <p className="text-base mb-6 leading-relaxed max-w-3xl mx-auto text-grey-dark">
-            Der Revamp Hub ist mehr als ein Gebäude — es ist eine Plattform für <strong>digitale Teilhabe,
-            kulturelle Transformation und nachhaltige Innovation</strong>. Mit deiner Unterstützung können wir zeigen:
-            Elektroschrott ist nicht Müll — es ist Potenzial.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/fundraising"
-              className="px-6 py-3 bg-white text-emerald-700 font-semibold rounded-lg border-2 border-emerald-700 hover:bg-emerald-700 hover:text-white transition-all duration-200 no-underline"
-            >
-              📊 Fundraising-Übersicht
-            </Link>
-            <Link
-              href="/fundraising/stiftungen"
-              className="px-6 py-3 bg-emerald-700 text-white font-semibold rounded-lg border-2 border-emerald-700 hover:bg-emerald-800 hover:border-emerald-800 transition-all duration-200 no-underline"
-            >
-              🏛️ Passende Stiftungen finden
-            </Link>
-            <Link
-              href="/revamp-2030"
-              className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-lg border-2 border-blue-700 hover:bg-blue-800 hover:border-blue-800 transition-all duration-200 no-underline"
-            >
-              🚀 Gesamtstrategie 2030
-            </Link>
-          </div>
-        </div>
+        <CTABanner
+          title="Hilf uns, diesen Ort zu schaffen"
+          description={<>Der Revamp Hub ist mehr als ein Gebäude — es ist eine Plattform für <strong>digitale Teilhabe, kulturelle Transformation und nachhaltige Innovation</strong>. Mit deiner Unterstützung können wir zeigen: Elektroschrott ist nicht Müll — es ist Potenzial.</>}
+          variant="light"
+          links={[
+            { href: '/fundraising', label: '📊 Fundraising-Übersicht' },
+            { href: '/fundraising/stiftungen', label: '🏛️ Passende Stiftungen finden', variant: 'secondary' },
+            { href: '/revamp-2030', label: '🚀 Gesamtstrategie 2030', variant: 'secondary' },
+          ]}
+        />
       </section>
     </>
   );

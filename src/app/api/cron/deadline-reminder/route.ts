@@ -14,6 +14,7 @@ import { applications, foundations } from '@/lib/db/schema';
 import { eq, and, gte, lte } from 'drizzle-orm';
 import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Application, Foundation } from '@/lib/db/schema';
 
 // Initialize Resend (requires RESEND_API_KEY in env)
 const resend = process.env.RESEND_API_KEY
@@ -36,8 +37,8 @@ export async function GET(request: NextRequest) {
   try {
     const today = new Date();
     const notifications: Array<{
-      application: any;
-      foundation: any;
+      application: Application;
+      foundation: Foundation | null;
       daysUntil: number;
       urgency: 'high' | 'medium' | 'low';
     }> = [];
@@ -114,8 +115,8 @@ export async function GET(request: NextRequest) {
  */
 function formatEmailBody(
   notifications: Array<{
-    application: any;
-    foundation: any;
+    application: Application;
+    foundation: Foundation | null;
     daysUntil: number;
     urgency: 'high' | 'medium' | 'low';
   }>

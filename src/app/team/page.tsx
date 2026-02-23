@@ -107,7 +107,7 @@ export default function TeamPage() {
           {BILDUNGSPROGRAMMLEITER.map((member) => (
             <Card key={member.role} className="border-l-4 border-l-violet-500">
               <div className="flex items-start gap-3">
-                <div className="text-3xl">🎯</div>
+                <div className="text-3xl" aria-hidden="true">🎯</div>
                 <div className="flex-1">
                   <h3 className="font-bold text-grey-dark">{member.name}</h3>
                   <div className="text-sm text-violet-700 mb-2">{member.role}</div>
@@ -150,7 +150,7 @@ export default function TeamPage() {
           {/* Hardware BPL */}
           <Card className="border-l-4 border-l-blue-500">
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">🔧</span>
+              <span className="text-3xl" aria-hidden="true">🔧</span>
               <h3 className="text-lg font-bold text-grey-dark">Hardware-BPL</h3>
             </div>
             <div className="space-y-3 text-sm">
@@ -167,7 +167,7 @@ export default function TeamPage() {
           {/* Software BPL */}
           <Card className="border-l-4 border-l-violet-500">
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">💻</span>
+              <span className="text-3xl" aria-hidden="true">💻</span>
               <h3 className="text-lg font-bold text-grey-dark">Software/AI-BPL</h3>
             </div>
             <div className="space-y-3 text-sm">
