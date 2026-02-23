@@ -108,7 +108,9 @@ export function sortFoundations(
         cmp = a.priority - b.priority;
         break;
       case 'fit':
-        cmp = b.fit - a.fit; // Higher fit first
+        // Higher fit first, but fit=0 (unassessed) sorts last
+        // Remap: 0 → -1 so it sorts below fit=1
+        cmp = (b.fit || -1) - (a.fit || -1);
         break;
       case 'name':
         cmp = a.name.localeCompare(b.name, 'de');

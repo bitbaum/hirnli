@@ -155,9 +155,9 @@ export default function FoundationListClient() {
           <span className="text-xs font-semibold uppercase tracking-wider text-text-muted">
             Fit:
           </span>
-          {[3, 2, 1].map((value) => {
+          {[3, 2, 1, 0].map((value) => {
             const isActive = filters.fit.includes(value);
-            const label = value === 3 ? '★★★' : value === 2 ? '★★☆' : '★☆☆';
+            const label = value === 3 ? '★★★' : value === 2 ? '★★☆' : value === 1 ? '★☆☆' : '○○○ Nicht geprüft';
             return (
               <label key={value} className="flex cursor-pointer items-center gap-1.5 text-sm">
                 <input
@@ -167,7 +167,7 @@ export default function FoundationListClient() {
                   className="rounded border-border"
                 />
                 <span className={isActive ? 'font-medium text-grey-dark' : 'text-text-muted'}>
-                  {label} ({value})
+                  {value > 0 ? `${label} (${value})` : label}
                 </span>
               </label>
             );

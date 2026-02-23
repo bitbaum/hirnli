@@ -54,7 +54,10 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           <div>
             <dt className="text-text-muted">Fit-Score</dt>
             <dd className="font-medium text-grey-dark">
-              {FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? '☆☆☆'} ({f.fit}/3)
+              {f.fit === 0
+                ? <span className="text-text-muted">○○○ Nicht geprüft</span>
+                : <>{FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? '☆☆☆'} ({f.fit}/3)</>
+              }
             </dd>
           </div>
         </dl>

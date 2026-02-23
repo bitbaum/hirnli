@@ -27,6 +27,7 @@ import * as path from 'path';
 import { neon } from '@neondatabase/serverless';
 import { ResearchDraftSchema } from './lib/research-types';
 import type { Foundation, FoundationRegistry } from '../src/lib/schemas/foundation';
+import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 
 // ============================================================================
 // RESEARCH DEPTH — Computed from data completeness
@@ -54,44 +55,7 @@ function isZefixUrl(url: string): boolean {
   return url.includes('zefix.ch') || url.includes('uid.admin.ch');
 }
 
-// ============================================================================
-// FIT SCORE — Composite 0-10 (same logic as batch-research.ts)
-// ============================================================================
-
-function computeFitScore(opts: {
-  themes: string[];
-  canton: string;
-  city: string;
-  applicationMethod: string;
-  isFunder: boolean;
-}): number {
-  const { themes, canton, city, applicationMethod, isFunder } = opts;
-
-  // Thematic fit (0-4)
-  const coreThemes = ['arbeitsintegration', 'kreislaufwirtschaft', 'digitale-bildung', 'digitale-souveraenitaet'];
-  const secondaryThemes = ['soziale-integration', 'klima', 'jugend', 'zuerich'];
-  const coreHits = themes.filter(t => coreThemes.includes(t)).length;
-  const secondaryHits = themes.filter(t => secondaryThemes.includes(t)).length;
-  const thematic = Math.min(Math.round(Math.min(coreHits * 1.5, 3) + Math.min(secondaryHits * 0.5, 1)), 4);
-
-  // Geographic fit (0-3)
-  const zurichCities = ['zürich', 'winterthur', 'uster', 'wetzikon', 'dübendorf', 'dietikon', 'horgen'];
-  const nearbyCantons = ['ZG', 'AG', 'SH', 'TG', 'SZ', 'LU'];
-  const cityLower = city.toLowerCase();
-  let geographic = 0;
-  if (canton === 'ZH' || zurichCities.some(c => cityLower.includes(c))) geographic = 3;
-  else if (nearbyCantons.includes(canton)) geographic = 2;
-  else if (canton) geographic = 1;
-
-  // Access fit (0-3)
-  let access = 0;
-  if (applicationMethod === 'online') access = 3;
-  else if (applicationMethod === 'email') access = 2;
-  else if (applicationMethod === 'invitation') access = 1;
-  else if (isFunder) access = 1;
-
-  return thematic + geographic + access;
-}
+// FIT SCORE — Centralized in src/lib/domain/fit-scoring.ts
 
 async function main() {
   let files = process.argv.slice(2);
@@ -202,15 +166,15 @@ async function main() {
     depthCounts[researchDepth]++;
 
     // --- Compute fitScore 0-10 ---
-    const fitScore = computeFitScore({
+    const { fitScore } = computeFitScore({
       themes: a.themes,
       canton: esa.canton || '',
       city: esa.city || '',
       applicationMethod: a.applicationMethod,
       isFunder: a.isFunder,
     });
-    // Map 0-10 → display 1-3 for backward compat
-    const fitDisplay = fitScore >= 7 ? 3 : fitScore >= 4 ? 2 : 1;
+    // Map 0-10 → display 0-3 (confidence-aware: rapid → fit=0)
+    const fitDisplay = fitScoreToDisplay(fitScore, researchDepth);
     // Priority from fitScore
     const isFunderFlag = a.isFunder;
     const isZurich = (esa.canton === 'ZH');
@@ -224,7 +188,7 @@ async function main() {
     const configData: Partial<Foundation> & { researchDepth: ResearchDepth; fitScore: number } = {
       ...registryData,
       type: a.suggestedType,
-      fit: fitDisplay as 1 | 2 | 3,
+      fit: fitDisplay as 0 | 1 | 2 | 3,
       fitScore,
       priority: computedPriority,
       tagline: a.purposeSummary.substring(0, 80),

@@ -18,6 +18,7 @@ config({ path: '.env.local' });
 
 import { neon } from '@neondatabase/serverless';
 import { foundationSchema } from '../src/lib/schemas/foundation';
+import { computeFitScore as computeFitScoreDomain, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 
 type ResearchDepth = 'rapid' | 'standard' | 'deep';
 
@@ -39,6 +40,7 @@ function computeResearchDepth(opts: {
   return 'rapid';
 }
 
+// FIT SCORE — Centralized in src/lib/domain/fit-scoring.ts
 function computeFitScore(opts: {
   themes: string[];
   canton: string;
@@ -46,29 +48,7 @@ function computeFitScore(opts: {
   applicationMethod: string;
   isFunder: boolean;
 }): number {
-  const { themes, canton, city, applicationMethod, isFunder } = opts;
-
-  const coreThemes = ['arbeitsintegration', 'kreislaufwirtschaft', 'digitale-bildung', 'digitale-souveraenitaet'];
-  const secondaryThemes = ['soziale-integration', 'klima', 'jugend', 'zuerich'];
-  const coreHits = themes.filter(t => coreThemes.includes(t)).length;
-  const secondaryHits = themes.filter(t => secondaryThemes.includes(t)).length;
-  const thematic = Math.min(Math.round(Math.min(coreHits * 1.5, 3) + Math.min(secondaryHits * 0.5, 1)), 4);
-
-  const zurichCities = ['zürich', 'winterthur', 'uster', 'wetzikon', 'dübendorf', 'dietikon', 'horgen'];
-  const nearbyCantons = ['ZG', 'AG', 'SH', 'TG', 'SZ', 'LU'];
-  const cityLower = city.toLowerCase();
-  let geographic = 0;
-  if (canton === 'ZH' || zurichCities.some(c => cityLower.includes(c))) geographic = 3;
-  else if (nearbyCantons.includes(canton)) geographic = 2;
-  else if (canton) geographic = 1;
-
-  let access = 0;
-  if (applicationMethod === 'online') access = 3;
-  else if (applicationMethod === 'email') access = 2;
-  else if (applicationMethod === 'invitation') access = 1;
-  else if (isFunder) access = 1;
-
-  return thematic + geographic + access;
+  return computeFitScoreDomain(opts).fitScore;
 }
 
 // Map free-text or old applicationMethod values to valid enum values
@@ -187,7 +167,7 @@ async function main() {
     const fitScore = computeFitScore({
       themes, canton, city: region, applicationMethod: appMethod, isFunder,
     });
-    const fit = fitScore >= 7 ? 3 : fitScore >= 4 ? 2 : 1;
+    const fit = fitScoreToDisplay(fitScore, researchDepth);
     const isZurich = canton === 'ZH';
     let priority: 1 | 2 | 3 | 4;
     if (fitScore >= 7 && isFunder) priority = 1;

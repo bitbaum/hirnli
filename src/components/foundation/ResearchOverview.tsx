@@ -65,7 +65,9 @@ export default function ResearchOverview({ stats, needsAttention }: ResearchOver
                     className="flex items-center justify-between rounded px-2 py-1.5 text-sm hover:bg-bg-light hover:no-underline"
                   >
                     <span className="text-grey-dark">{f.name}</span>
-                    <span className="text-xs text-warning">Fit {f.fit} — offen</span>
+                    <span className="text-xs text-warning">
+                      {f.fit === 0 ? 'Nicht geprüft — Recherche nötig' : `Fit ${f.fit} — offen`}
+                    </span>
                   </Link>
                 ))}
               </div>

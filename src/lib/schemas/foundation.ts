@@ -166,7 +166,7 @@ export type FoundationRegistry = z.infer<typeof registrySchema>;
 
 export const analysisSchema = z.object({
   // Classification
-  fit: z.number().min(1).max(3),
+  fit: z.number().min(0).max(3),
   fitScore: z.number().min(0).max(10).optional(), // 0-10 composite score (Phase 3)
   priority: z.number().min(1).max(4),
   type: FoundationType,

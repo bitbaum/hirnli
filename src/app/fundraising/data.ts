@@ -25,7 +25,8 @@ export function computePipelineStats() {
   for (const f of STIFTUNGEN_DATA) {
     statusCounts[f.status]++;
 
-    if (f.fit) {
+    // Exclude fit=0 (unassessed) from average — they'd drag it down dishonestly
+    if (f.fit > 0) {
       totalFit += f.fit;
       fitCount++;
     }

@@ -19,6 +19,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import type { ThemeId } from '../src/lib/schemas/foundation';
+import { computeFitScore as computeFitScoreDomain, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 
 // ============================================================================
 // TYPES
@@ -198,73 +199,15 @@ function classifyType(
 }
 
 // ============================================================================
-// FIT SCORING — Composite 0-10 score
+// FIT SCORING — Centralized in src/lib/domain/fit-scoring.ts
 // ============================================================================
 
-/**
- * Calculate thematic fit (0-4).
- * Core themes get higher weight than secondary themes.
- */
-function calculateThematicFit(themes: string[]): number {
-  const coreThemes = ['arbeitsintegration', 'kreislaufwirtschaft', 'digitale-bildung', 'digitale-souveraenitaet'];
-  const secondaryThemes = ['soziale-integration', 'klima', 'jugend', 'zuerich'];
-  const coreHits = themes.filter(t => coreThemes.includes(t)).length;
-  const secondaryHits = themes.filter(t => secondaryThemes.includes(t)).length;
-
-  // 0 themes = 0, 1 core = 2, 2+ core = 3-4, secondary adds 0.5 each (max 1)
-  let score = Math.min(coreHits * 1.5, 3) + Math.min(secondaryHits * 0.5, 1);
-  return Math.min(Math.round(score), 4);
-}
-
-/**
- * Calculate geographic fit (0-3).
- * Zürich = 3, nearby cantons = 2, Swiss-wide = 1, international = 0
- */
-function calculateGeographicFit(canton: string, city: string): number {
-  const zurichCities = ['zürich', 'winterthur', 'uster', 'wetzikon', 'dübendorf', 'dietikon', 'horgen'];
-  const nearbyCantons = ['ZG', 'AG', 'SH', 'TG', 'SZ', 'LU'];
-  const cityLower = city.toLowerCase();
-
-  if (canton === 'ZH' || zurichCities.some(c => cityLower.includes(c))) return 3;
-  if (nearbyCantons.includes(canton)) return 2;
-  if (canton) return 1; // Swiss foundation
-  return 0;
-}
-
-/**
- * Calculate access fit (0-3).
- * Open applications = 3, email/post = 2, invitation-only = 1, unknown = 0
- */
-function calculateAccessFit(applicationMethod: string, flags: string[]): number {
-  if (applicationMethod === 'online') return 3;
-  if (applicationMethod === 'email') return 2;
-  if (applicationMethod === 'invitation') return 1;
-  // If we know it's a funder (even without knowing application method), give partial credit
-  if (flags.includes('likely-funder')) return 1;
-  return 0;
-}
-
-/**
- * Composite fit score 0-10.
- *   thematicFit (0-4) + geographicFit (0-3) + accessFit (0-3) = 0-10
- */
-function calculateFitScore(themes: string[], canton: string, city: string, applicationMethod: string, flags: string[]): number {
-  return calculateThematicFit(themes)
-    + calculateGeographicFit(canton, city)
-    + calculateAccessFit(applicationMethod, flags);
-}
-
-/** Map fitScore 0-10 → display fit 1-3 (backward compat) */
-function fitScoreToFit(fitScore: number): 1 | 2 | 3 {
-  if (fitScore >= 7) return 3;
-  if (fitScore >= 4) return 2;
-  return 1;
-}
-
-// Legacy wrapper — still used by generateDraft
-function calculateFit(themes: string[], score: number, flags: string[], canton: string, city: string, applicationMethod: string): { fitScore: number; fit: 1 | 2 | 3 } {
-  const fitScore = calculateFitScore(themes, canton, city, applicationMethod, flags);
-  return { fitScore, fit: fitScoreToFit(fitScore) };
+function calculateFit(themes: string[], _score: number, flags: string[], canton: string, city: string, applicationMethod: string): { fitScore: number; fit: 0 | 1 | 2 | 3 } {
+  const isFunder = flags.includes('likely-funder');
+  const { fitScore } = computeFitScoreDomain({ themes, canton, city, applicationMethod, isFunder });
+  // batch-research always produces rapid depth → fit=0
+  const fit = fitScoreToDisplay(fitScore, 'rapid');
+  return { fitScore, fit };
 }
 
 function calculatePriority(fitScore: number, flags: string[], tier: number): 1 | 2 | 3 | 4 {

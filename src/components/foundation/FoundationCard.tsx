@@ -36,8 +36,8 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
               P{f.priority}
             </span>
             <h3 className="font-semibold text-grey-dark">{f.name}</h3>
-            <span className={`text-xs font-bold ${FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.color ?? 'text-text-muted'}`}>
-              {FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? '☆☆☆'}
+            <span className={`text-xs font-bold ${FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.color ?? FIT_CONFIG[0].color}`}>
+              {FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? FIT_CONFIG[0].stars}
             </span>
             {score != null && (
               <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">

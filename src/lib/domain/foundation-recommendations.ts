@@ -84,7 +84,8 @@ function countShared<T>(a: T[], b: T[]): number {
 export function computeSimilarity(a: Foundation, b: Foundation): number {
   const themeOverlap = jaccard(a.themes, b.themes);
   const typeMatch = a.type === b.type ? 1 : 0;
-  const fitProximity = 1 - Math.abs(a.fit - b.fit) / 2;
+  // fit=0 means unassessed — can't meaningfully compare
+  const fitProximity = (a.fit === 0 || b.fit === 0) ? 0 : 1 - Math.abs(a.fit - b.fit) / 2;
   const regionOverlap = a.region === b.region ? 1 : 0;
   const sdgOverlap =
     a.sdgs && a.sdgs.length > 0 && b.sdgs && b.sdgs.length > 0

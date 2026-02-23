@@ -182,19 +182,10 @@ export const STATUS_LABELS: Record<FoundationStatus, StatusLabel> = {
 } as const satisfies Record<FoundationStatus, StatusLabel>;
 
 // ============================================================================
-// FIT SCORE CONFIG - Centralized fit score labels, colors, descriptions
+// FIT SCORE CONFIG - Re-exported from SSOT (lib/config/fit-scoring.ts)
 // ============================================================================
 
-export const FIT_CONFIG: Record<1 | 2 | 3, {
-  label: string;
-  color: string;
-  description: string;
-  stars: string;
-}> = {
-  3: { label: 'Exzellent', color: 'text-success', description: 'Hervorragende thematische Übereinstimmung', stars: '★★★' },
-  2: { label: 'Gut', color: 'text-warning', description: 'Gute Übereinstimmung, gezielte Argumentation nötig', stars: '★★☆' },
-  1: { label: 'Gering', color: 'text-text-muted', description: 'Eingeschränkte Übereinstimmung', stars: '★☆☆' },
-};
+export { FIT_DISPLAY as FIT_CONFIG } from '../fit-scoring';
 
 // ============================================================================
 // NOT RECOMMENDED - Foundations that don't fit Revamp-IT

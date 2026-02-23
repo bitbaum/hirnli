@@ -11,24 +11,45 @@ interface FitAnalysisProps {
 }
 
 export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignments }: FitAnalysisProps) {
-  const fit = FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG];
+  const fit = FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG] ?? FIT_CONFIG[0];
+  const isUnassessed = f.fit === 0;
 
   return (
     <Card>
       <h3 className="mb-4 text-lg font-semibold text-grey-dark">Fit-Analyse</h3>
 
-      <div className="mb-4 flex items-center gap-3">
-        <span className={`text-3xl font-bold ${fit.color}`}>{f.fit}/3</span>
-        <div>
-          <span className={`text-lg font-semibold ${fit.color}`}>{fit.label}</span>
-          <p className="text-sm text-text-light">{fit.description}</p>
+      {isUnassessed ? (
+        <div className="mb-4 rounded-lg border border-border bg-bg-light p-4">
+          <div className="flex items-center gap-3">
+            <span className="text-3xl font-bold text-text-muted">○○○</span>
+            <div>
+              <span className="text-lg font-semibold text-text-muted">Noch nicht geprüft</span>
+              <p className="text-sm text-text-light">
+                Diese Stiftung wurde nur automatisch aus dem ESA-Register gescreent.
+                Eine manuelle Bewertung steht noch aus.
+              </p>
+            </div>
+          </div>
           {f.fitScore != null && (
-            <p className="mt-0.5 text-xs text-text-muted">
-              Detailscore: {f.fitScore}/10
+            <p className="mt-3 text-xs text-text-muted">
+              Vorläufiger Score: {f.fitScore}/10 (automatisch berechnet, nicht verifiziert)
             </p>
           )}
         </div>
-      </div>
+      ) : (
+        <div className="mb-4 flex items-center gap-3">
+          <span className={`text-3xl font-bold ${fit.color}`}>{f.fit}/3</span>
+          <div>
+            <span className={`text-lg font-semibold ${fit.color}`}>{fit.label}</span>
+            <p className="text-sm text-text-light">{fit.description}</p>
+            {f.fitScore != null && (
+              <p className="mt-0.5 text-xs text-text-muted">
+                Detailscore: {f.fitScore}/10
+              </p>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Methodology — how the score is determined */}
       <details className="mb-4 rounded-lg border border-border">
@@ -43,6 +64,9 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
             <li><strong>Zugangs-Fit (0–3)</strong> — Offene Bewerbung=3, E-Mail=2, Einladung=1</li>
           </ul>
           <p className="text-text-muted mt-1">Anzeige: 7–10 = Hoch (3/3), 4–6 = Mittel (2/3), 0–3 = Gering (1/3)</p>
+          {isUnassessed && (
+            <p className="text-text-muted mt-1">Stiftungen mit researchDepth «rapid» werden als «Nicht geprüft» angezeigt (fit=0).</p>
+          )}
           <p className="text-text-muted mt-1">Letzte Bewertung: {f.researchDate || 'Unbekannt'}</p>
         </div>
       </details>
