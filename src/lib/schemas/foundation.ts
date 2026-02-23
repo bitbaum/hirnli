@@ -17,6 +17,10 @@ export type ThemeId = z.infer<typeof ThemeId>;
 export const FoundationType = z.enum(['A', 'B', 'C', 'D', 'network']);
 export type FoundationType = z.infer<typeof FoundationType>;
 
+// Research depth — computed from data completeness
+export const ResearchDepth = z.enum(['rapid', 'standard', 'deep']);
+export type ResearchDepth = z.infer<typeof ResearchDepth>;
+
 // Foundation status
 export const FoundationStatus = z.enum(['open', 'closed', 'rolling', 'soon']);
 export type FoundationStatus = z.infer<typeof FoundationStatus>;
@@ -163,6 +167,7 @@ export type FoundationRegistry = z.infer<typeof registrySchema>;
 export const analysisSchema = z.object({
   // Classification
   fit: z.number().min(1).max(3),
+  fitScore: z.number().min(0).max(10).optional(), // 0-10 composite score (Phase 3)
   priority: z.number().min(1).max(4),
   type: FoundationType,
   themes: z.array(ThemeId),
@@ -174,6 +179,7 @@ export const analysisSchema = z.object({
   // Status
   needsResearch: z.boolean(),
   researchDate: z.string(),
+  researchDepth: ResearchDepth.optional(), // rapid | standard | deep
 
   // Relationships
   possiblePartners: z.array(z.string()).optional(),

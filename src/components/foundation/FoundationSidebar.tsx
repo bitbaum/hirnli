@@ -3,6 +3,7 @@ import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
 import { computeCompleteness } from '@/lib/domain/foundation-research-stats';
+import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import AddToPipelineButton from './AddToPipelineButton';
 
 interface FoundationSidebarProps {
@@ -12,6 +13,7 @@ interface FoundationSidebarProps {
 export default function FoundationSidebar({ foundation: f }: FoundationSidebarProps) {
   const source = SOURCES[f.source];
   const { percent, missing } = computeCompleteness(f);
+  const gesuchReady = hasGesuchPage(f);
 
   return (
     <div className="space-y-4">
@@ -83,24 +85,35 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         </div>
       </Card>
 
-      {/* Gesuch */}
+      {/* Gesuch — only show links when a gesuch page actually exists */}
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Gesuch</h3>
-        <div className="space-y-2">
-          <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
-          <Link
-            href={`/fundraising/stiftungen/${f.slug}/gesuch`}
-            className="block rounded-lg bg-primary/10 px-4 py-3 text-center text-sm font-semibold text-primary hover:bg-primary/20"
-          >
-            Interaktive Seite
-          </Link>
-          <Link
-            href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
-            className="block rounded-lg border border-border px-4 py-3 text-center text-sm font-medium text-grey-dark hover:bg-bg-light"
-          >
-            Formelles Dokument (PDF)
-          </Link>
-        </div>
+        {gesuchReady ? (
+          <div className="space-y-2">
+            <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
+            <Link
+              href={`/fundraising/stiftungen/${f.slug}/gesuch`}
+              className="block rounded-lg bg-primary/10 px-4 py-3 text-center text-sm font-semibold text-primary hover:bg-primary/20"
+            >
+              Interaktive Seite
+            </Link>
+            <Link
+              href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
+              className="block rounded-lg border border-border px-4 py-3 text-center text-sm font-medium text-grey-dark hover:bg-bg-light"
+            >
+              Formelles Dokument (PDF)
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
+            <p className="text-xs text-text-muted">
+              {f.needsResearch
+                ? 'Gesuch-Generierung benötigt weitere Recherche.'
+                : 'Gesuch nicht verfügbar für diese Prioritätsstufe.'}
+            </p>
+          </div>
+        )}
       </Card>
 
       {/* Source Links */}

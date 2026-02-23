@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import PageHeader from '@/components/layout/PageHeader';
 import FilterBar from '@/components/ui/FilterBar';
 import FoundationCard from '@/components/foundation/FoundationCard';
@@ -19,6 +19,8 @@ import {
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
+
+const LOAD_MORE_COUNT = 50;
 
 export default function FoundationListClient() {
   const {
@@ -44,6 +46,16 @@ export default function FoundationListClient() {
     toggleOnlyResearched,
     resetFilters,
   } = useFoundationFilters(STIFTUNGEN_DATA);
+
+  // Progressive loading — reset to initial count when filters change
+  const [visibleCount, setVisibleCount] = useState(LOAD_MORE_COUNT);
+  useEffect(() => {
+    setVisibleCount(LOAD_MORE_COUNT);
+  }, [filters, sort]);
+
+  const showMore = useCallback(() => {
+    setVisibleCount((prev) => prev + LOAD_MORE_COUNT);
+  }, []);
 
   // Foundation slugs that already have a pipeline entry
   const [pipelineSlugs, setPipelineSlugs] = useState<Set<string>>(new Set());
@@ -221,7 +233,9 @@ export default function FoundationListClient() {
       {/* Results summary */}
       <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
         <span className="text-text-muted">
-          {filteredCount} von {totalCount} Stiftungen
+          {visibleCount < filteredCount
+            ? `${Math.min(visibleCount, filteredCount)} von ${filteredCount} angezeigt`
+            : `${filteredCount} von ${totalCount} Stiftungen`}
           {highFitCount > 0 && ` | ${highFitCount} mit hohem Fit`}
           {openCount > 0 && ` | ${openCount} offen`}
           {researchedCount > 0 && ` | ${researchedCount} recherchiert`}
@@ -238,9 +252,17 @@ export default function FoundationListClient() {
 
       {/* Foundation list */}
       <div className="space-y-3">
-        {filtered.map((f) => (
+        {filtered.slice(0, visibleCount).map((f) => (
           <FoundationCard key={f.slug} foundation={f} inPipeline={pipelineSlugs.has(f.slug)} score={scoreMap.get(f.slug)} />
         ))}
+        {visibleCount < filteredCount && (
+          <button
+            onClick={showMore}
+            className="w-full rounded-lg border border-border bg-bg-light py-3 text-sm font-medium text-text-muted hover:bg-border/50"
+          >
+            Mehr anzeigen ({Math.min(LOAD_MORE_COUNT, filteredCount - visibleCount)} weitere von {filteredCount})
+          </button>
+        )}
         {filtered.length === 0 && (
           <div className="rounded-lg border border-border bg-bg-light p-8 text-center">
             <p className="text-text-muted">

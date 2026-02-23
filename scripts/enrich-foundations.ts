@@ -134,10 +134,14 @@ function main() {
       changed = true;
     }
 
-    // Add Zefix URL as websiteUrl if none exists
-    if (!hasWebsite && esa.uid) {
-      draft.queueItem.websiteUrl = buildZefixUrl(esa.uid);
-      changed = true;
+    // Add Zefix URL as websiteUrl if none exists (or no real website)
+    const isZefix = draft.queueItem.websiteUrl?.includes('zefix.ch') || draft.queueItem.websiteUrl?.includes('uid.admin.ch');
+    if ((!hasWebsite || isZefix) && esa.uid) {
+      // Only set Zefix URL if there's no URL at all — ZHAW crossref may have set a real one
+      if (!hasWebsite) {
+        draft.queueItem.websiteUrl = buildZefixUrl(esa.uid);
+        changed = true;
+      }
     } else if (!hasWebsite) {
       noUid++;
     }

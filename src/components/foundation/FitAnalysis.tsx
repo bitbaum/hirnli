@@ -22,6 +22,11 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
         <div>
           <span className={`text-lg font-semibold ${fit.color}`}>{fit.label}</span>
           <p className="text-sm text-text-light">{fit.description}</p>
+          {f.fitScore != null && (
+            <p className="mt-0.5 text-xs text-text-muted">
+              Detailscore: {f.fitScore}/10
+            </p>
+          )}
         </div>
       </div>
 
@@ -31,14 +36,14 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
           Wie wird der Fit-Score berechnet?
         </summary>
         <div className="border-t border-border px-4 py-3 text-xs text-text-light space-y-1">
-          <p>Der Fit-Score (1–3) basiert auf manueller Recherche-Bewertung anhand von:</p>
+          <p>Der Fit-Score basiert auf drei Dimensionen (0–10 Punkte):</p>
           <ul className="list-inside list-disc space-y-0.5 ml-1">
-            <li><strong>Thematische Übereinstimmung</strong> — Wie gut passen unsere Schwerpunkte zu den Förderbereichen?</li>
-            <li><strong>Fördervolumen & -art</strong> — Passt die Grössenordnung zu unserem Bedarf?</li>
-            <li><strong>Bewerbungszugang</strong> — Nimmt die Stiftung externe Gesuche an?</li>
-            <li><strong>Geographischer Fokus</strong> — Fördert die Stiftung in unserem Einzugsgebiet?</li>
+            <li><strong>Thematischer Fit (0–4)</strong> — Übereinstimmung unserer Kernthemen mit den Förderbereichen</li>
+            <li><strong>Geographischer Fit (0–3)</strong> — Zürich=3, Nachbarkantone=2, Schweizweit=1</li>
+            <li><strong>Zugangs-Fit (0–3)</strong> — Offene Bewerbung=3, E-Mail=2, Einladung=1</li>
           </ul>
-          <p className="text-text-muted mt-2">Letzte Bewertung: {f.researchDate || 'Unbekannt'}</p>
+          <p className="text-text-muted mt-1">Anzeige: 7–10 = Hoch (3/3), 4–6 = Mittel (2/3), 0–3 = Gering (1/3)</p>
+          <p className="text-text-muted mt-1">Letzte Bewertung: {f.researchDate || 'Unbekannt'}</p>
         </div>
       </details>
 

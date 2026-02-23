@@ -11,9 +11,20 @@ export function generateFoundationParams(): { slug: string }[] {
   return STIFTUNGEN_DATA.map((f) => ({ slug: f.slug }));
 }
 
-/** Generate static params for gesuch-ready foundations only (priority 1-2) */
+/**
+ * Check if a foundation qualifies for a gesuch page.
+ * SSOT for the gesuch gate — used by both generateGesuchParams() and FoundationSidebar.
+ */
+export function hasGesuchPage(f: Foundation): boolean {
+  if (f.needsResearch) return false;
+  if (f.priority && f.priority > 2) return false;
+  if (f.researchDepth === 'rapid') return false;
+  return true;
+}
+
+/** Generate static params for gesuch-ready foundations only */
 export function generateGesuchParams(): { slug: string }[] {
   return STIFTUNGEN_DATA
-    .filter((f) => !f.needsResearch && (!f.priority || f.priority <= 2))
+    .filter(hasGesuchPage)
     .map((f) => ({ slug: f.slug }));
 }

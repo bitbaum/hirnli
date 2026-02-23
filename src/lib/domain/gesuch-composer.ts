@@ -236,7 +236,15 @@ function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: string):
   const purposeCore = foundation.purposeSummary
     ? foundation.purposeSummary.split('.')[0].trim()
     : '';
+  const isDeep = foundation.researchDepth === 'deep';
+  const highFit = foundation.fitScore != null && foundation.fitScore >= 7;
 
+  // Deep research + high fit → lead with specific overlap
+  if (isDeep && highFit && purposeCore) {
+    return `Wir erlauben uns, Ihnen ein Fördergesuch einzureichen. Ihr Engagement für ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} deckt sich eng mit unserer Arbeit im Bereich ${primaryThemeLabel}. Als ${ORG_PROFILE.legalForm.toLowerCase()} mit ${ORG_PROFILE.experienceLabel} in der Verbindung von ${ORG_PROFILE.missionSummary} möchten wir Ihnen eine konkrete Zusammenarbeit vorschlagen.`;
+  }
+
+  // Standard research → broader mission alignment framing
   switch (foundation.type) {
     case 'A':
       return purposeCore
@@ -269,12 +277,20 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     ? mapSchwerpunktThemes(schwerpunktId)
     : mapFoundationThemes(foundation);
 
-  // Quality gate — only generate Gesuchs for Priority 1-2 foundations
-  if (foundation.needsResearch || mapped.all.length === 0 || (foundation.priority && foundation.priority >= 3)) {
+  // Quality gate — tightened: researchDepth + fitScore + priority
+  const isRapid = foundation.researchDepth === 'rapid';
+  const lowFitScore = foundation.fitScore != null && foundation.fitScore < 4;
+  const highPriority = foundation.priority != null && foundation.priority >= 3;
+
+  if (foundation.needsResearch || mapped.all.length === 0 || highPriority || isRapid || lowFitScore) {
     let reason = '';
     if (foundation.needsResearch) {
       reason = 'Diese Stiftung benötigt noch weitere Recherche.';
-    } else if (foundation.priority && foundation.priority >= 3) {
+    } else if (isRapid) {
+      reason = 'Recherche-Tiefe zu gering für eine Gesuch-Generierung. Weitere Recherche empfohlen.';
+    } else if (lowFitScore) {
+      reason = `Fit-Score (${foundation.fitScore}/10) zu niedrig für eine gezielte Bewerbung.`;
+    } else if (highPriority) {
       reason = foundation.priority === 3
         ? 'Priorität 3: Noch nicht bereit für die Bewerbung. Erst weitere Vorarbeiten nötig.'
         : 'Priorität 4: Netzwerk-Stiftung. Keine formelle Bewerbung geplant.';

@@ -198,22 +198,79 @@ function classifyType(
 }
 
 // ============================================================================
-// FIT SCORING
+// FIT SCORING — Composite 0-10 score
 // ============================================================================
 
-function calculateFit(themes: string[], score: number, flags: string[]): 1 | 2 | 3 {
+/**
+ * Calculate thematic fit (0-4).
+ * Core themes get higher weight than secondary themes.
+ */
+function calculateThematicFit(themes: string[]): number {
   const coreThemes = ['arbeitsintegration', 'kreislaufwirtschaft', 'digitale-bildung', 'digitale-souveraenitaet'];
+  const secondaryThemes = ['soziale-integration', 'klima', 'jugend', 'zuerich'];
   const coreHits = themes.filter(t => coreThemes.includes(t)).length;
+  const secondaryHits = themes.filter(t => secondaryThemes.includes(t)).length;
 
-  if (coreHits >= 2 && score >= 14) return 3;
-  if (coreHits >= 1 && score >= 8) return 2;
+  // 0 themes = 0, 1 core = 2, 2+ core = 3-4, secondary adds 0.5 each (max 1)
+  let score = Math.min(coreHits * 1.5, 3) + Math.min(secondaryHits * 0.5, 1);
+  return Math.min(Math.round(score), 4);
+}
+
+/**
+ * Calculate geographic fit (0-3).
+ * Zürich = 3, nearby cantons = 2, Swiss-wide = 1, international = 0
+ */
+function calculateGeographicFit(canton: string, city: string): number {
+  const zurichCities = ['zürich', 'winterthur', 'uster', 'wetzikon', 'dübendorf', 'dietikon', 'horgen'];
+  const nearbyCantons = ['ZG', 'AG', 'SH', 'TG', 'SZ', 'LU'];
+  const cityLower = city.toLowerCase();
+
+  if (canton === 'ZH' || zurichCities.some(c => cityLower.includes(c))) return 3;
+  if (nearbyCantons.includes(canton)) return 2;
+  if (canton) return 1; // Swiss foundation
+  return 0;
+}
+
+/**
+ * Calculate access fit (0-3).
+ * Open applications = 3, email/post = 2, invitation-only = 1, unknown = 0
+ */
+function calculateAccessFit(applicationMethod: string, flags: string[]): number {
+  if (applicationMethod === 'online') return 3;
+  if (applicationMethod === 'email') return 2;
+  if (applicationMethod === 'invitation') return 1;
+  // If we know it's a funder (even without knowing application method), give partial credit
+  if (flags.includes('likely-funder')) return 1;
+  return 0;
+}
+
+/**
+ * Composite fit score 0-10.
+ *   thematicFit (0-4) + geographicFit (0-3) + accessFit (0-3) = 0-10
+ */
+function calculateFitScore(themes: string[], canton: string, city: string, applicationMethod: string, flags: string[]): number {
+  return calculateThematicFit(themes)
+    + calculateGeographicFit(canton, city)
+    + calculateAccessFit(applicationMethod, flags);
+}
+
+/** Map fitScore 0-10 → display fit 1-3 (backward compat) */
+function fitScoreToFit(fitScore: number): 1 | 2 | 3 {
+  if (fitScore >= 7) return 3;
+  if (fitScore >= 4) return 2;
   return 1;
 }
 
-function calculatePriority(fit: number, flags: string[], tier: number): 1 | 2 | 3 | 4 {
-  if (fit === 3 && flags.includes('likely-funder')) return 1;
-  if (fit >= 2 && (flags.includes('likely-funder') || flags.includes('zurich-region'))) return 2;
-  if (fit >= 2 || tier <= 2) return 3;
+// Legacy wrapper — still used by generateDraft
+function calculateFit(themes: string[], score: number, flags: string[], canton: string, city: string, applicationMethod: string): { fitScore: number; fit: 1 | 2 | 3 } {
+  const fitScore = calculateFitScore(themes, canton, city, applicationMethod, flags);
+  return { fitScore, fit: fitScoreToFit(fitScore) };
+}
+
+function calculatePriority(fitScore: number, flags: string[], tier: number): 1 | 2 | 3 | 4 {
+  if (fitScore >= 7 && flags.includes('likely-funder')) return 1;
+  if (fitScore >= 4 && (flags.includes('likely-funder') || flags.includes('zurich-region'))) return 2;
+  if (fitScore >= 4 || tier <= 2) return 3;
   return 4;
 }
 
@@ -419,9 +476,9 @@ function generateDraft(candidate: ScreeningCandidate): object {
   // Use batch-research's own tightened theme classification (not screening's broad keywords)
   const themes = classifyThemes(purposeLower, nameLower) as ThemeId[];
   const type = classifyType(candidate.purpose, candidate.name, funder, operator);
-  const fit = calculateFit(themes, candidate.score, candidate.flags);
-  const priority = calculatePriority(fit, candidate.flags, candidate.tier);
   const applicationMethod = detectApplicationMethod(candidate.purpose);
+  const { fitScore, fit } = calculateFit(themes, candidate.score, candidate.flags, candidate.canton, candidate.city, applicationMethod);
+  const priority = calculatePriority(fitScore, candidate.flags, candidate.tier);
   const isFunder = funder > operator;
   const funderConfidence = funder >= 3 ? 'high' : funder >= 2 ? 'medium' : 'low';
 
@@ -464,7 +521,7 @@ function generateDraft(candidate: ScreeningCandidate): object {
     analysis: {
       isFunder,
       funderConfidence,
-      reasoning: `Mechanische Analyse basierend auf ESA-Stiftungszweck. Funder-Score: ${funder}, Operator-Score: ${operator}. ${candidate.matchedThemes.length} Themen erkannt, ${candidate.matchedSignals.length} Hochsignale.`,
+      reasoning: `Mechanische Analyse basierend auf ESA-Stiftungszweck. Funder-Score: ${funder}, Operator-Score: ${operator}. Fit-Score: ${fitScore}/10. ${candidate.matchedThemes.length} Themen erkannt, ${candidate.matchedSignals.length} Hochsignale.`,
       themes,
       suggestedType: type,
       suggestedFit: fit,

@@ -7,6 +7,11 @@
  *   1. fundraising_foundation_registry — universal facts (org-agnostic)
  *   2. fundraising_foundations — org-specific analysis + merged configData
  *
+ * Computes researchDepth from data completeness:
+ *   'rapid'    = ESA-only (no real website, no email/phone, mechanical summary)
+ *   'standard' = has website + some contact info
+ *   'deep'     = has website + email/phone + application deadline + grant range
+ *
  * Called by Claude Code after analysis — not meant for manual use.
  *
  * Usage:
@@ -23,11 +28,83 @@ import { neon } from '@neondatabase/serverless';
 import { ResearchDraftSchema } from './lib/research-types';
 import type { Foundation, FoundationRegistry } from '../src/lib/schemas/foundation';
 
+// ============================================================================
+// RESEARCH DEPTH — Computed from data completeness
+// ============================================================================
+
+type ResearchDepth = 'rapid' | 'standard' | 'deep';
+
+function computeResearchDepth(opts: {
+  hasRealWebsite: boolean;
+  hasEmail: boolean;
+  hasPhone: boolean;
+  hasDeadline: boolean;
+  hasGrantRange: boolean;
+  hasAddress: boolean;
+}): ResearchDepth {
+  const { hasRealWebsite, hasEmail, hasPhone, hasDeadline, hasGrantRange } = opts;
+  const hasContactDetail = hasEmail || hasPhone;
+
+  if (hasRealWebsite && hasContactDetail && hasDeadline && hasGrantRange) return 'deep';
+  if (hasRealWebsite && hasContactDetail) return 'standard';
+  return 'rapid';
+}
+
+function isZefixUrl(url: string): boolean {
+  return url.includes('zefix.ch') || url.includes('uid.admin.ch');
+}
+
+// ============================================================================
+// FIT SCORE — Composite 0-10 (same logic as batch-research.ts)
+// ============================================================================
+
+function computeFitScore(opts: {
+  themes: string[];
+  canton: string;
+  city: string;
+  applicationMethod: string;
+  isFunder: boolean;
+}): number {
+  const { themes, canton, city, applicationMethod, isFunder } = opts;
+
+  // Thematic fit (0-4)
+  const coreThemes = ['arbeitsintegration', 'kreislaufwirtschaft', 'digitale-bildung', 'digitale-souveraenitaet'];
+  const secondaryThemes = ['soziale-integration', 'klima', 'jugend', 'zuerich'];
+  const coreHits = themes.filter(t => coreThemes.includes(t)).length;
+  const secondaryHits = themes.filter(t => secondaryThemes.includes(t)).length;
+  const thematic = Math.min(Math.round(Math.min(coreHits * 1.5, 3) + Math.min(secondaryHits * 0.5, 1)), 4);
+
+  // Geographic fit (0-3)
+  const zurichCities = ['zürich', 'winterthur', 'uster', 'wetzikon', 'dübendorf', 'dietikon', 'horgen'];
+  const nearbyCantons = ['ZG', 'AG', 'SH', 'TG', 'SZ', 'LU'];
+  const cityLower = city.toLowerCase();
+  let geographic = 0;
+  if (canton === 'ZH' || zurichCities.some(c => cityLower.includes(c))) geographic = 3;
+  else if (nearbyCantons.includes(canton)) geographic = 2;
+  else if (canton) geographic = 1;
+
+  // Access fit (0-3)
+  let access = 0;
+  if (applicationMethod === 'online') access = 3;
+  else if (applicationMethod === 'email') access = 2;
+  else if (applicationMethod === 'invitation') access = 1;
+  else if (isFunder) access = 1;
+
+  return thematic + geographic + access;
+}
+
 async function main() {
-  const files = process.argv.slice(2);
+  let files = process.argv.slice(2);
+
+  // Support directory argument: expand to all .json files in it
+  if (files.length === 1 && fs.existsSync(files[0]) && fs.statSync(files[0]).isDirectory()) {
+    const dir = path.resolve(files[0]);
+    files = fs.readdirSync(dir).filter(f => f.endsWith('.json')).map(f => path.join(dir, f));
+    console.log(`  Expanding directory: ${files.length} JSON files`);
+  }
 
   if (files.length === 0) {
-    console.error('Usage: npx tsx scripts/foundation-upsert.ts <draft-file.json> [more-files...]');
+    console.error('Usage: npx tsx scripts/foundation-upsert.ts <draft-file.json> [dir/] [more-files...]');
     process.exit(1);
   }
 
@@ -39,6 +116,7 @@ async function main() {
   const sql = neon(process.env.DATABASE_URL);
   let success = 0;
   let errors = 0;
+  const depthCounts: Record<ResearchDepth, number> = { rapid: 0, standard: 0, deep: 0 };
 
   for (const file of files) {
     const fullPath = path.resolve(file);
@@ -63,6 +141,15 @@ async function main() {
     const now = new Date().toISOString();
     const today = now.split('T')[0];
 
+    // Read ZHAW metadata if present (from zhaw-crossref.ts)
+    const zhaw = (raw as Record<string, unknown>)._zhaw as {
+      einreichungstermin?: string;
+      zielgruppe?: string;
+    } | undefined;
+
+    // --- Compute deadline text ---
+    const deadlineText = zhaw?.einreichungstermin || 'Unbekannt';
+
     // --- Layer 1: Registry data (universal facts) ---
     const registryData: Partial<FoundationRegistry> = {
       slug: draft.slug,
@@ -82,7 +169,7 @@ async function main() {
         : a.applicationMethod as FoundationRegistry['applicationMethod'],
       isOperative: !a.isFunder,
       status: 'rolling',
-      deadlineText: 'Unbekannt',
+      deadlineText,
       amount: {
         min: a.grantRange.min ?? null,
         max: a.grantRange.max ?? null,
@@ -103,17 +190,49 @@ async function main() {
     const hasThemes = a.themes.length >= 1;
     const needsResearch = !(hasContact && hasWebsite && hasPurpose && hasNotes && hasThemes);
 
+    // --- Compute researchDepth ---
+    const hasRealWebsite = hasWebsite && !isZefixUrl(draft.queueItem.websiteUrl || '');
+    const hasEmail = !!a.contactInfo.email;
+    const hasPhone = !!a.contactInfo.phone;
+    const hasDeadline = !!(zhaw?.einreichungstermin && zhaw.einreichungstermin !== 'Unbekannt');
+    const hasGrantRange = !!(a.grantRange.min || a.grantRange.max);
+    const researchDepth = computeResearchDepth({
+      hasRealWebsite, hasEmail, hasPhone, hasDeadline, hasGrantRange, hasAddress: !!a.contactInfo.address,
+    });
+    depthCounts[researchDepth]++;
+
+    // --- Compute fitScore 0-10 ---
+    const fitScore = computeFitScore({
+      themes: a.themes,
+      canton: esa.canton || '',
+      city: esa.city || '',
+      applicationMethod: a.applicationMethod,
+      isFunder: a.isFunder,
+    });
+    // Map 0-10 → display 1-3 for backward compat
+    const fitDisplay = fitScore >= 7 ? 3 : fitScore >= 4 ? 2 : 1;
+    // Priority from fitScore
+    const isFunderFlag = a.isFunder;
+    const isZurich = (esa.canton === 'ZH');
+    let computedPriority: 1 | 2 | 3 | 4;
+    if (fitScore >= 7 && isFunderFlag) computedPriority = 1;
+    else if (fitScore >= 4 && (isFunderFlag || isZurich)) computedPriority = 2;
+    else if (fitScore >= 4) computedPriority = 3;
+    else computedPriority = 4;
+
     // --- Layer 2: Merged configData (backward compat for sync pipeline) ---
-    const configData: Partial<Foundation> = {
+    const configData: Partial<Foundation> & { researchDepth: ResearchDepth; fitScore: number } = {
       ...registryData,
       type: a.suggestedType,
-      fit: a.suggestedFit as 1 | 2 | 3,
-      priority: a.suggestedPriority as 1 | 2 | 3 | 4,
+      fit: fitDisplay as 1 | 2 | 3,
+      fitScore,
+      priority: computedPriority,
       tagline: a.purposeSummary.substring(0, 80),
       themes: a.themes,
       researchDate: today,
       needsResearch,
       researchNotes: a.researchNotes,
+      researchDepth,
     };
 
     try {
@@ -138,6 +257,9 @@ async function main() {
           name = ${draft.name},
           uid = ${esa.uid || null},
           official_purpose = ${esa.purpose || null},
+          website_url = COALESCE(NULLIF(${draft.queueItem.websiteUrl || null}, ''), fundraising_foundation_registry.website_url),
+          contact_email = COALESCE(${a.contactInfo.email || null}, fundraising_foundation_registry.contact_email),
+          contact_phone = COALESCE(${a.contactInfo.phone || null}, fundraising_foundation_registry.contact_phone),
           updated_at = ${now}
       `;
 
@@ -147,26 +269,36 @@ async function main() {
           id, name, website_url, contact_email, contact_phone,
           fit_score, priority, focus_areas, geographic_scope, organization_type,
           application_method, research_depth, research_date, data_quality,
+          grant_range_min, grant_range_max, application_deadline,
           source, config_data, org_id, created_at, updated_at, archived
         ) VALUES (
           ${draft.slug}, ${draft.name}, ${draft.queueItem.websiteUrl || null},
           ${a.contactInfo.email || null}, ${a.contactInfo.phone || null},
-          ${a.suggestedFit}, ${a.suggestedPriority}, ${JSON.stringify(a.themes)},
+          ${fitScore}, ${computedPriority}, ${JSON.stringify(a.themes)},
           ${esa.city || 'Schweiz'}, ${a.suggestedType === 'network' ? 'network' : 'foundation'},
-          ${a.applicationMethod}, ${'standard'}, ${today}, ${4},
+          ${a.applicationMethod}, ${researchDepth}, ${today}, ${4},
+          ${(a.grantRange.min as number) || null}, ${(a.grantRange.max as number) || null},
+          ${zhaw?.einreichungstermin || null},
           ${'automated-research'}, ${JSON.stringify(configData)},
           ${'revamp-it'}, ${now}, ${now}, false
         )
         ON CONFLICT (id) DO UPDATE SET
           config_data = ${JSON.stringify(configData)},
           name = ${draft.name},
-          fit_score = ${a.suggestedFit},
-          priority = ${a.suggestedPriority},
+          website_url = COALESCE(NULLIF(${draft.queueItem.websiteUrl || null}, ''), fundraising_foundations.website_url),
+          contact_email = COALESCE(${a.contactInfo.email || null}, fundraising_foundations.contact_email),
+          contact_phone = COALESCE(${a.contactInfo.phone || null}, fundraising_foundations.contact_phone),
+          fit_score = ${fitScore},
+          priority = ${computedPriority},
+          research_depth = ${researchDepth},
           research_date = ${today},
+          grant_range_min = COALESCE(${(a.grantRange.min as number) || null}, fundraising_foundations.grant_range_min),
+          grant_range_max = COALESCE(${(a.grantRange.max as number) || null}, fundraising_foundations.grant_range_max),
+          application_deadline = COALESCE(${zhaw?.einreichungstermin || null}, fundraising_foundations.application_deadline),
           updated_at = ${now}
       `;
 
-      console.log(`  ${draft.name} → DB (fit=${a.suggestedFit}, priority=${a.suggestedPriority})`);
+      console.log(`  ${draft.name} → DB (fitScore=${fitScore}, fit=${fitDisplay}, P${computedPriority}, depth=${researchDepth})`);
       success++;
     } catch (err) {
       console.error(`  ${draft.name}: ${err instanceof Error ? err.message : err}`);
@@ -175,6 +307,7 @@ async function main() {
   }
 
   console.log(`\nDone: ${success} upserted, ${errors} errors`);
+  console.log(`  Research depth: rapid=${depthCounts.rapid}, standard=${depthCounts.standard}, deep=${depthCounts.deep}`);
   if (success > 0) {
     console.log('Next: npm run sync && npm run build');
   }
