@@ -80,11 +80,18 @@ export default function GesuchPageClient({
 
         {/* Navigation links */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">
-          <Link
-            href={`/fundraising/stiftungen/${slug}/gesuch/dokument`}
+          <a
+            href={`/api/pdf/gesuch/${slug}`}
+            download
             className="rounded-lg bg-grey-dark px-5 py-3 text-sm font-semibold text-white hover:bg-grey-dark/90"
           >
-            Formelles Gesuch-Dokument (PDF)
+            PDF herunterladen
+          </a>
+          <Link
+            href={`/fundraising/stiftungen/${slug}/gesuch/dokument`}
+            className="py-3 text-sm text-text-muted hover:text-primary hover:underline"
+          >
+            HTML-Vorschau
           </Link>
           <Link
             href={`/fundraising/stiftungen/${slug}`}

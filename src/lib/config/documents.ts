@@ -49,8 +49,8 @@ const FOUNDATION_GESUCHE: Document[] = STIFTUNGEN_DATA
     description: `Personalisiertes Gesuch für ${foundation.name} — ${foundation.themes.join(', ')}`,
     format: 'PDF' as DocumentFormat,
     category: 'gesuch' as DocumentCategory,
-    action: 'print' as DocumentAction,
-    href: `/fundraising/stiftungen/${foundation.slug}/gesuch/dokument`,
+    action: 'download' as DocumentAction,
+    href: `/api/pdf/gesuch/${foundation.slug}`,
     size: '~5 Seiten',
     badge: `Fit ${foundation.fit}/3`,
   }));

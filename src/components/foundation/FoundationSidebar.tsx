@@ -97,11 +97,18 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             >
               Interaktive Seite
             </Link>
-            <Link
-              href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
+            <a
+              href={`/api/pdf/gesuch/${f.slug}`}
+              download
               className="block rounded-lg border border-border px-4 py-3 text-center text-sm font-medium text-grey-dark hover:bg-bg-light"
             >
               Formelles Dokument (PDF)
+            </a>
+            <Link
+              href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
+              className="block text-center text-xs text-text-muted hover:text-primary hover:underline"
+            >
+              HTML-Vorschau
             </Link>
           </div>
         ) : (
