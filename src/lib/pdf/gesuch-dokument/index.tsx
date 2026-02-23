@@ -43,19 +43,19 @@ export default function GesuchDokumentPDF({ dok }: GesuchDokumentPDFProps) {
         <Footer />
       </Page>
 
-      {/* Pages 2-3: Projektbeschrieb (may span multiple pages via wrap) */}
+      {/* Pages 2+: Projektbeschrieb (wraps across pages) */}
       <Page size="A4" style={styles.page} wrap>
         <ProjektbeschriebPDF dok={dok} />
         <Footer />
       </Page>
 
-      {/* Page 4: Budget */}
+      {/* Budget (wraps across pages) */}
       <Page size="A4" style={styles.page} wrap>
         <BudgetPDF dok={dok} />
         <Footer />
       </Page>
 
-      {/* Page 5: Kurzportrait */}
+      {/* Kurzportrait */}
       <Page size="A4" style={styles.page}>
         <KurzportraitPDF dok={dok} />
         <Footer />
