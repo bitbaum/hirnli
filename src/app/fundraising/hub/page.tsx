@@ -58,7 +58,7 @@ export default function HubPage() {
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-lg font-semibold text-grey-dark mb-2">Gesamt-Raumkonzept</h3>
-              <p className="text-2xl font-bold text-blue-900">{SPACE_SUMMARY.total_usable_space} m²</p>
+              <p className="text-2xl font-bold text-blue-900">{SPACE_SUMMARY.total_with_circulation} m²</p>
             </div>
             <Badge color="blue">Realistisch</Badge>
           </div>
@@ -87,7 +87,7 @@ export default function HubPage() {
               Basiert auf Industrie-Standards: Auto-Werkstatt mit 2 Hebebühnen = 140-185m² (Baseline für Werkstatt-Dimensionierung).
               Professionelle Reparatur-Arbeitsplätze benötigen <strong>12-18m²</strong> (Werkbank + Lagerfläche + Bewegungsraum).
               Workshop-Räume optimal bei <strong>2,4-3,6m Deckenhöhe</strong> (Belüftung + Beleuchtung). Unsere Planung:
-              <strong> ~{SPACE_SUMMARY.total_usable_space}m² effizient genutzter Raum</strong>, nicht 1000m² ineffizient.
+              <strong> ~{SPACE_SUMMARY.total_with_circulation}m² effizient genutzter Raum</strong>, nicht 1000m² ineffizient.
             </p>
           </div>
         </Card>
@@ -96,7 +96,7 @@ export default function HubPage() {
         <Card className="mb-6 border-l-4 border-l-green-500">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h3 className="text-lg font-semibold text-grey-dark mb-2">Zürich Marktforschung: Was kostet {SPACE_SUMMARY.total_usable_space}m²?</h3>
+              <h3 className="text-lg font-semibold text-grey-dark mb-2">Zürich Marktforschung: Was kostet {SPACE_SUMMARY.total_with_circulation}m²?</h3>
             </div>
             <Badge color="green">Marktdaten 2026</Badge>
           </div>
@@ -111,12 +111,12 @@ export default function HubPage() {
                 Standorte: {ZURICH_MARKET_DATA.agglomeration.locations.join(', ')}
               </p>
               <div className="pt-3 border-t border-green-200">
-                <p className="text-xs text-green-700 mb-1">Für {SPACE_SUMMARY.total_usable_space}m²:</p>
+                <p className="text-xs text-green-700 mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
                 <p className="text-lg font-bold text-green-900">
-                  CHF {ZURICH_MARKET_DATA.estimate_for_550m2.agglomeration.min.toLocaleString('de-CH')} - {ZURICH_MARKET_DATA.estimate_for_550m2.agglomeration.max.toLocaleString('de-CH')} /Jahr
+                  CHF {ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.min.toLocaleString('de-CH')} - {ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.max.toLocaleString('de-CH')} /Jahr
                 </p>
                 <p className="text-xs text-green-700 mt-1">
-                  (Realistisch: CHF {ZURICH_MARKET_DATA.estimate_for_550m2.agglomeration.realistic.toLocaleString('de-CH')} für gute Lage)
+                  (Realistisch: CHF {ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.realistic.toLocaleString('de-CH')} für gute Lage)
                 </p>
               </div>
             </div>
@@ -130,12 +130,12 @@ export default function HubPage() {
                 Zentrale Lagen (Kreis 4/5, Zürich West)
               </p>
               <div className="pt-3 border-t border-blue-200">
-                <p className="text-xs text-blue-700 mb-1">Für {SPACE_SUMMARY.total_usable_space}m²:</p>
+                <p className="text-xs text-blue-700 mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
                 <p className="text-lg font-bold text-blue-900">
-                  CHF {ZURICH_MARKET_DATA.estimate_for_550m2.city_zurich.min.toLocaleString('de-CH')} - {ZURICH_MARKET_DATA.estimate_for_550m2.city_zurich.max.toLocaleString('de-CH')} /Jahr
+                  CHF {ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.min.toLocaleString('de-CH')} - {ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.max.toLocaleString('de-CH')} /Jahr
                 </p>
                 <p className="text-xs text-blue-700 mt-1">
-                  ({ZURICH_MARKET_DATA.estimate_for_550m2.city_zurich.note})
+                  ({ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.note})
                 </p>
               </div>
             </div>

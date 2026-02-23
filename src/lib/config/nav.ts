@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { BRANDING } from './branding';
 import { STIFTUNGEN_DATA } from './foundations';
 import { TEMPLATE_TYPES } from './gesuch-templates';
+import { HUB_SPACE_DISPLAY } from './projections';
 
 // ---------------------------------------------------------------------------
 // Nav schemas (SSOT for navigation types)
@@ -82,7 +83,7 @@ export const NAV_STRUCTURE: {
         {
           title: 'Konkrete Projekte (2026-2028)',
           items: [
-            { text: 'Hub 550m²', href: '/fundraising/hub', desc: '🏢 Werkstatt + AI Lab + Hackerspace + Kulturraum', highlight: true },
+            { text: `Hub ${HUB_SPACE_DISPLAY}`, href: '/fundraising/hub', desc: '🏢 Werkstatt + AI Lab + Hackerspace + Kulturraum', highlight: true },
             { text: 'Bildungsprogramm', href: '/fundraising/bildung', desc: '🎓 2× Programmleiter für Train-the-Trainer & Workshops' },
           ],
         },

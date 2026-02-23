@@ -34,7 +34,7 @@ export const VISION_TARGETS = [
       methodology: 'Detaillierter Raumplan (fundraising/data.ts SPACE_PLAN) + Mietkalkulation budget-scenarios.ts',
       confidence: 'medium',
       lastVerified: '2026-02-16',
-      notes: 'Mietkosten: 550m² × CHF 200/m²/Jahr = CHF 110k/Jahr (Agglomeration)',
+      notes: 'Mietkosten: ~600m² × CHF 200/m²/Jahr = CHF 120k/Jahr (Agglomeration). Quelle: budget-scenarios.ts',
     },
   },
   {
@@ -54,7 +54,7 @@ export const VISION_TARGETS = [
       methodology: 'Konservative Schätzung: 2× BPL direkte Trainings + Workshop-Teilnehmer',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
-      notes: 'Hardware-BPL 10 + Software-BPL 8 + Workshops 20-40 = 40-60 Menschen/Jahr',
+      notes: 'Hardware-BPL 8-12 + Software-BPL 6-10 + Workshops 20-40 = 40-60 Menschen/Jahr',
     },
   },
   {

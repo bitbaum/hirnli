@@ -34,16 +34,16 @@ export const ZURICH_MARKET_DATA = {
       'Schlieren atelier 40m²: CHF 252/m²/year (small space premium) - Homegate.ch',
     ],
   },
-  estimate_for_550m2: {
+  estimate_for_600m2: {
     city_zurich: {
-      min: 137_500, // 550m² × CHF 250/m²/year
-      max: 192_500, // 550m² × CHF 350/m²/year
+      min: 150_000, // ~600m² × CHF 250/m²/year
+      max: 210_000, // ~600m² × CHF 350/m²/year
       note: 'City locations expensive, not realistic for our budget',
     },
     agglomeration: {
-      min: 82_500,  // 550m² × CHF 150/m²/year
-      max: 137_500, // 550m² × CHF 250/m²/year
-      realistic: 110_000, // Mid-point estimate for decent agglomeration location
+      min: 90_000,  // ~600m² × CHF 150/m²/year
+      max: 150_000, // ~600m² × CHF 250/m²/year
+      realistic: 120_000, // ~600m² × CHF 200/m²/year for decent agglomeration location
       note: 'Volketswil, Schlieren, Dietikon - accessible by public transport',
     },
   },
@@ -379,8 +379,15 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
 // Summary Calculations
 // ---------------------------------------------------------------------------
 
+// Circulation area is infrastructure, not usable program space
+const CIRCULATION_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Circulation, Corridors, Bathrooms');
+const CIRCULATION_SQM = CIRCULATION_AREA?.sqm_recommended ?? 0;
+
 export const SPACE_SUMMARY = {
-  total_usable_space: HUB_SPACE_AREAS.reduce((sum, area) => sum + area.sqm_recommended, 0),
+  /** Total including circulation — the full lease footprint */
+  total_with_circulation: HUB_SPACE_AREAS.reduce((sum, area) => sum + area.sqm_recommended, 0),
+  /** Usable space excluding corridors/bathrooms — the number for program descriptions (~590m²) */
+  total_usable: HUB_SPACE_AREAS.reduce((sum, area) => sum + area.sqm_recommended, 0) - CIRCULATION_SQM,
   total_cost_estimate: HUB_SPACE_AREAS.reduce((sum, area) => sum + area.cost_estimate_chf, 0),
 
   by_category: {
@@ -409,14 +416,14 @@ export const SPACE_SUMMARY = {
 
   rental_cost_estimate_per_year: {
     city_zurich: {
-      min: 137_500, // 550m² × CHF 250/m²/year
-      max: 192_500, // 550m² × CHF 350/m²/year
+      min: 150_000, // ~600m² × CHF 250/m²/year
+      max: 210_000, // ~600m² × CHF 350/m²/year
       note: 'NOT REALISTIC for our budget',
     },
     agglomeration: {
-      min: 82_500,  // 550m² × CHF 150/m²/year
-      realistic: 110_000, // Mid-point for good location with public transport
-      max: 137_500, // 550m² × CHF 250/m²/year
+      min: 90_000,  // ~600m² × CHF 150/m²/year
+      realistic: 120_000, // ~600m² × CHF 200/m²/year — used in budget-scenarios.ts
+      max: 150_000, // ~600m² × CHF 250/m²/year
       locations: ['Volketswil', 'Schlieren', 'Dietikon', 'Regensdorf'],
     },
   },

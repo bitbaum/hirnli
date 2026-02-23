@@ -802,10 +802,10 @@ export default function FundraisingClient() {
 
           <p>
             <strong>Der Hub bringt alles unter ein Dach:</strong> ~{SPACE_TOTAL_WITH_CIRCULATION} m² Gesamtfläche
-            (inkl. Verkehrsfläche) mit {SPACE_PLAN_TOTAL} m² Nutzfläche für 5 Community Spaces.
+            (inkl. Verkehrsfläche) mit {SPACE_PLAN_TOTAL} m² Nutzfläche für {SPACE_PLAN.length} Bereiche.
           </p>
 
-          <h3>Die 5 Community Spaces:</h3>
+          <h3>Die {SPACE_PLAN.length} Bereiche:</h3>
 
           <div className="space-y-3 not-prose">
             {SPACE_PLAN.map((space) => (
@@ -832,7 +832,7 @@ export default function FundraisingClient() {
           </div>
 
           <p className="text-sm text-gray-600">
-            <strong>Gesamtfläche:</strong> {SPACE_PLAN_TOTAL} m² Nutzfläche + ~100 m² Verkehrsfläche (Flure, Treppen, Toiletten)
+            <strong>Gesamtfläche:</strong> {SPACE_PLAN_TOTAL} m² Nutzfläche + ~{SPACE_TOTAL_WITH_CIRCULATION - SPACE_PLAN_TOTAL} m² Verkehrsfläche (Flure, Treppen, Toiletten)
             = ~{SPACE_TOTAL_WITH_CIRCULATION} m² Total.
           </p>
         </Card>

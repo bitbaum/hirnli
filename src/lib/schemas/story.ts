@@ -86,7 +86,6 @@ export const coreFacts = z.object({
     }),
     environmental: z.object({
       co2_per_laptop: z.number(),
-      co2_per_desktop: z.number(),
       device_lifespan_extension: z.number(),
       reuse_rate: z.number(),
       co2_total: z.string(),

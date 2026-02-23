@@ -5,6 +5,7 @@ import Badge from '@/components/ui/Badge';
 import { STIFTUNGEN_DATA, FIT_CONFIG } from '@/lib/config/foundations';
 import { TEAM_MEMBERS } from '@/app/team/data';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { DEVICES_PER_YEAR_TARGET_DISPLAY, PEOPLE_REACHED_DISPLAY } from '@/lib/config/projections';
 
 export const metadata: Metadata = {
   title: `${ORG_PROFILE.platform.name} — Transparenz-Hub für ${ORG_PROFILE.name} Fundraising`,
@@ -150,7 +151,7 @@ export default function HomePage() {
                 </div>
               </div>
               <p className="text-sm text-text-light mb-3">
-                Wohin wir gehen: Organisation + Hub + Bildung. ~480 Geräte/Jahr + 40-60 Menschen trainiert.
+                Wohin wir gehen: Organisation + Hub + Bildung. {DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr + {PEOPLE_REACHED_DISPLAY}.
               </p>
               <div className="text-xs text-blue-600 font-semibold">→ Vision & Strategie ansehen</div>
             </Card>

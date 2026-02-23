@@ -713,13 +713,13 @@ export const NumberSources: Record<string, Metric> = {
     },
     formula: {
       type: 'sum',
-      expression: 'SUM(SPACE_PLAN[].sqm) + 100 (Verkehrsfläche)',
+      expression: 'SPACE_SUMMARY.total_with_circulation (hub-space-plan.ts)',
     },
     validation: {
       rules: [{ type: 'range', min: 500, max: 800 }],
     },
     documentation: {
-      description: 'Gesamte Nutzfläche (11 Bereiche) plus ~100 m² Verkehrsfläche. Raumkonzept für neuen Standort.',
+      description: 'Nutzfläche (~590 m²) plus ~60 m² Verkehrsfläche = ~650 m² Gesamtfläche. Abgeleitet aus hub-space-plan.ts.',
       link: '/fundraising',
     },
   },

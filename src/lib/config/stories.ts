@@ -44,6 +44,8 @@ import type {
 } from '@/lib/schemas/story';
 import { getNumericValue, CO2_PER_LAPTOP } from '@/lib/config/numbers';
 import { formatNumber } from '@/lib/utils/format';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 
 // ============================================================================
 // Types for structures not covered by the story schema
@@ -98,7 +100,7 @@ export const CORE_FACTS: CoreFacts = {
     founded: 2003, // Verein gegründet Dezember 2003; Integrationsprogramm seit 2009
     location: 'Zürich',
     address: 'Badenerstrasse 816, 8048 Zürich',
-    team_size: 3, // Festangestellte (Andreas, Daniel, Veronica)
+    team_size: 3, // 2 angestellt (Daniel, Veronica) + 1 ehrenamtlich (Andreas)
     website: 'https://revamp-it.ch',
   },
 
@@ -110,7 +112,6 @@ export const CORE_FACTS: CoreFacts = {
     },
     environmental: {
       co2_per_laptop: getNumericValue('CO2_SAVED_PER_LAPTOP'),
-      co2_per_desktop: 380, // kg CO2 saved per desktop (only used here — YAGNI)
       device_lifespan_extension: getNumericValue('DEVICE_LIFESPAN_EXTENSION'),
       reuse_rate: getNumericValue('REUSE_RATE'),
       co2_total: 'co2_total_2025',
@@ -137,7 +138,7 @@ export const CORE_FACTS: CoreFacts = {
 
   // Differentiators
   unique: [
-    'Über 20 Jahre Erfahrung',
+    `Über ${ORG_PROFILE.yearsActive} Jahre Erfahrung`,
     'Gemeinnütziger Verein — alle Einnahmen fliessen in die Mission',
     'Kombination: Umwelt + Soziales + Digital',
     'Lokal in Zürich verankert',
@@ -153,7 +154,7 @@ export const CORE_FACTS: CoreFacts = {
 // ============================================================================
 
 export const SOCIAL_DISPLAY = {
-  practitioners_total: '100+',
+  practitioners_total: SHARED_ORG_NUMBERS.PEOPLE_HELPED,
   success_rate: '~40%',
   success_rate_numeric: 40,
   capacity: '8-10',
@@ -169,7 +170,7 @@ export const GESUCH_TEXT = {
   wirkungsmessung: {
     indicators: `Revamp-IT misst die Wirkung seiner Aktivitäten anhand konkreter Indikatoren: CO₂-Einsparung pro Gerät (${CORE_FACTS.metrics.environmental.co2_per_laptop} kg/Laptop), Anzahl betreuter Praktikant:innen, Wiedereingliederungsquote (${SOCIAL_DISPLAY.success_rate}), sowie die Reuse-Rate (${CORE_FACTS.metrics.environmental.reuse_rate}%) der eingegangenen Geräte. Die Ergebnisse werden in unserem transparenten Online-Dashboard publiziert.`,
     sustainability:
-      'Revamp-IT hat über 20 Jahre bewiesen, dass das Kerngeschäft tragfähig ist. Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.',
+      `Revamp-IT hat über ${ORG_PROFILE.yearsActive} Jahre bewiesen, dass das Kerngeschäft tragfähig ist. Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.`,
   },
   kurzportrait_subtitle:
     'Gemeinnütziger Verein seit 2003 — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung',
@@ -309,8 +310,8 @@ export const WHY: Record<string, WhySection> = {
 export const HOW: HowSection = {
   // Core competencies (same for all foundations, different emphasis)
   track_record: {
-    headline: 'Über 20 Jahre Erfahrung',
-    text: `Seit 2003 repariert, refurbished und verkauft Revamp-IT Computer in Zürich. Was als kleine Werkstatt begann, ist heute ein etablierter Betrieb mit 3 Festangestellten, unterstützt durch Freelancer und 8-10 Integrationsteilnehmende — mit einem klaren Auftrag: IT-Geräte länger nutzen, Menschen eine Chance geben.`,
+    headline: `Über ${ORG_PROFILE.yearsActive} Jahre Erfahrung`,
+    text: `Seit ${ORG_PROFILE.founded} repariert, refurbished und verkauft Revamp-IT Computer in Zürich. Was als kleine Werkstatt begann, ist heute ein etablierter Betrieb mit ${CORE_FACTS.organization.team_size} Kernteam-Mitgliedern, unterstützt durch Freelancer und 8-10 Integrationsteilnehmende — mit einem klaren Auftrag: IT-Geräte länger nutzen, Menschen eine Chance geben.`,
     proof_points: [
       { label: 'Gegründet', value: '2003' },
       {
@@ -320,10 +321,10 @@ export const HOW: HowSection = {
       },
       {
         label: 'Praktikant:innen betreut',
-        value: '100+',
+        value: SOCIAL_DISPLAY.practitioners_total,
         metric_id: 'praktikanten_100',
       },
-      { label: 'Kernteam', value: '3 Festangestellte + Freelancer' },
+      { label: 'Kernteam', value: `${CORE_FACTS.organization.team_size} Kernteam + Freelancer` },
     ],
   },
 
@@ -459,7 +460,7 @@ export const PROJECTS: Record<string, Project> = {
   work_integration: {
     title: 'Arbeitsintegration durch IT-Praktika',
     subtitle: 'Echte Arbeit, echte Verantwortung, echte Perspektiven',
-    summary: `Seit über 20 Jahren bietet Revamp-IT Praktikumsplätze für Menschen, die auf dem regulären Arbeitsmarkt keine Chance bekommen: Langzeitarbeitslose, Menschen mit Migrationshintergrund, Personen nach psychischen Krisen. Sie kommen über RAV, IV-Stellen oder die Sozialen Einrichtungen der Stadt Zürich zu uns. Bei Revamp-IT arbeiten sie nicht an Simulationen, sondern an echten Geräten für echte Kunden — von der Hardware-Diagnose über die Reparatur bis zur Linux-Installation. Über 100 Praktikant:innen haben diesen Weg bereits gemacht, rund 40% haben danach eine Festanstellung oder Ausbildung gefunden.`,
+    summary: `Seit über ${ORG_PROFILE.yearsActive} Jahren bietet Revamp-IT Praktikumsplätze für Menschen, die auf dem regulären Arbeitsmarkt keine Chance bekommen: Langzeitarbeitslose, Menschen mit Migrationshintergrund, Personen nach psychischen Krisen. Sie kommen über RAV, IV-Stellen oder die Sozialen Einrichtungen der Stadt Zürich zu uns. Bei Revamp-IT arbeiten sie nicht an Simulationen, sondern an echten Geräten für echte Kunden — von der Hardware-Diagnose über die Reparatur bis zur Linux-Installation. Über ${SOCIAL_DISPLAY.practitioners_total} Praktikant:innen haben diesen Weg bereits gemacht, rund ${SOCIAL_DISPLAY.success_rate_numeric}% haben danach eine Festanstellung oder Ausbildung gefunden.`,
     goals: [
       '8-10 Praktikumsplätze gleichzeitig, betreut durch sozialpädagogische Fachperson',
       'Wiedereingliederungsquote von ~40% in Festanstellung oder Ausbildung halten',
@@ -510,7 +511,7 @@ export const PROJECTS: Record<string, Project> = {
   program_management: {
     title: 'Projektkoordination und Kapazitätsaufbau',
     subtitle: 'Vom Werkstatt-Betrieb zur skalierbaren Organisation',
-    summary: `Revamp-IT wird seit über 20 Jahren von Techniker:innen geführt, die reparieren, betreuen und verkaufen — gleichzeitig. Für den nächsten Schritt braucht es dedizierte Projektkoordination: jemand, der sich um Wirkungsmessung kümmert, der Praktikant:innen systematisch begleitet, der mit Stiftungen und Partnern kommuniziert. Nicht mehr Verwaltung — sondern die Kapazität, das zu tun, was wir gut können, in grösserem Massstab.`,
+    summary: `Revamp-IT wird seit über ${ORG_PROFILE.yearsActive} Jahren von Techniker:innen geführt, die reparieren, betreuen und verkaufen — gleichzeitig. Für den nächsten Schritt braucht es dedizierte Projektkoordination: jemand, der sich um Wirkungsmessung kümmert, der Praktikant:innen systematisch begleitet, der mit Stiftungen und Partnern kommuniziert. Nicht mehr Verwaltung — sondern die Kapazität, das zu tun, was wir gut können, in grösserem Massstab.`,
     goals: [
       'Transparentes Wirkungsmonitoring mit nachvollziehbaren KPIs',
       'Kapazität für 12-15 statt 8-10 gleichzeitige Praktikumsplätze',
@@ -687,11 +688,11 @@ export const BUDGET_TEMPLATES: BudgetTemplates = {
 
 export const ANSCHREIBEN_TEMPLATES: Record<string, { opening: string; closing: string }> = {
   A: {
-    opening: 'Wir erlauben uns, Ihnen ein Fördergesuch für unser Projekt einzureichen. Als gemeinnütziger Verein mit über 20 Jahren Erfahrung in der Verbindung von Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung möchten wir Ihnen eine Zusammenarbeit vorschlagen.',
+    opening: `Wir erlauben uns, Ihnen ein Fördergesuch für unser Projekt einzureichen. Als gemeinnütziger Verein mit ${ORG_PROFILE.experienceLabel} in der Verbindung von Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung möchten wir Ihnen eine Zusammenarbeit vorschlagen.`,
     closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für ein Gespräch jederzeit zur Verfügung. Gerne senden wir Ihnen weitere Unterlagen zu.',
   },
   B: {
-    opening: 'Revamp-IT verbindet seit über 20 Jahren Umweltschutz mit sozialer Integration — ein Anliegen, das uns mit Ihrer Stiftung verbindet. Wir möchten Ihnen zeigen, wie eine Partnerschaft konkret aussehen könnte.',
+    opening: `Revamp-IT verbindet seit über ${ORG_PROFILE.yearsActive} Jahren Umweltschutz mit sozialer Integration — ein Anliegen, das uns mit Ihrer Stiftung verbindet. Wir möchten Ihnen zeigen, wie eine Partnerschaft konkret aussehen könnte.`,
     closing: 'Wir würden uns sehr über ein persönliches Gespräch freuen, um unsere Arbeit und mögliche Synergien vorzustellen.',
   },
   C: {

@@ -23,6 +23,7 @@
  */
 
 import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated'
+import { SPACE_SUMMARY } from './hub-space-plan'
 
 export type NumberConfidence = 'high' | 'medium' | 'estimated' | 'target' | 'unknown';
 
@@ -145,13 +146,13 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 
   // Hub Target (Year 3 - 2028)
   HUB_SPACE_TOTAL: {
-    value: 550,
-    label: 'm² Community Tech Hub (Ziel)',
+    value: SPACE_SUMMARY.total_usable,
+    label: 'm² Community Tech Hub Nutzfläche (Ziel)',
     source: {
-      methodology: 'Detaillierter Raumplan (fundraising/data.ts SPACE_PLAN) + Mietkalkulation budget-scenarios.ts',
-      calculation: 'Lager 120m² + Werkstatt 90m² + Event/Café 80m² + Makerspace 45m² + Museum 45m² + Schulung 40m² + Shop 35m² + Küche 25m² + Büro 20m² + AI Lab 15m² + Nebenräume 35m² = 550m²',
+      methodology: 'Detaillierter Raumplan (hub-space-plan.ts) — Nutzfläche exkl. Verkehrsfläche (Flure, WC, Garderobe)',
+      calculation: `Abgeleitet aus hub-space-plan.ts: ${SPACE_SUMMARY.total_with_circulation}m² Gesamtfläche - ${SPACE_SUMMARY.total_with_circulation - SPACE_SUMMARY.total_usable}m² Verkehrsfläche = ${SPACE_SUMMARY.total_usable}m² Nutzfläche. Miete: CHF 120k/Jahr (~600m² × CHF 200/m²)`,
       confidence: 'medium',
-      lastVerified: '2026-02-16',
+      lastVerified: '2026-02-23',
       documentUrl: '/documents/hub/space-requirements-analysis.pdf',
     },
     category: 'operations',
@@ -172,73 +173,73 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 
   // 3-Year Budget — derived from budget-scenarios.ts moderate scenario
   BUDGET_YEAR1_TOTAL: {
-    value: 553_500,
+    value: 563_500,
     label: 'CHF Budget Jahr 1 (2026)',
     source: {
       methodology: 'budget-scenarios.ts moderate: einmalig + jaehrlich + eigenleistung',
-      calculation: 'Einmalig CHF 119.5k + Jährlich CHF 334k + Eigenleistung CHF 100k = CHF 553.5k',
+      calculation: 'Einmalig CHF 119.5k + Jährlich CHF 344k + Eigenleistung CHF 100k = CHF 563.5k',
       confidence: 'estimated',
-      lastVerified: '2026-02-16',
+      lastVerified: '2026-02-23',
     },
     category: 'financial',
   },
 
   BUDGET_YEAR2_TOTAL: {
-    value: 514_000,
+    value: 484_000,
     label: 'CHF Budget Jahr 2 (2027)',
     source: {
       methodology: 'budget-scenarios.ts moderate: jaehrlich + eigenleistung',
-      calculation: 'Jährlich CHF 334k + Eigenleistung CHF 180k = CHF 514k',
+      calculation: 'Jährlich CHF 344k + Eigenleistung CHF 140k = CHF 484k',
       confidence: 'estimated',
-      lastVerified: '2026-02-16',
+      lastVerified: '2026-02-23',
     },
     category: 'financial',
   },
 
   BUDGET_YEAR3_TOTAL: {
-    value: 614_000,
+    value: 539_000,
     label: 'CHF Budget Jahr 3 (2028)',
     source: {
       methodology: 'budget-scenarios.ts moderate: jaehrlich + eigenleistung',
-      calculation: 'Jährlich CHF 334k + Eigenleistung CHF 280k = CHF 614k',
+      calculation: 'Jährlich CHF 344k + Eigenleistung CHF 195k = CHF 539k',
       confidence: 'estimated',
-      lastVerified: '2026-02-16',
+      lastVerified: '2026-02-23',
     },
     category: 'financial',
   },
 
   BUDGET_3YEAR_TOTAL: {
-    value: 1_681_500,
+    value: 1_586_500,
     label: 'CHF Gesamtbudget 3 Jahre (2026-2028)',
     source: {
       methodology: 'Summe Jahr 1-3 aus budget-scenarios.ts moderate',
-      calculation: 'CHF 553.5k + CHF 514k + CHF 614k = CHF 1\'681.5k',
+      calculation: 'CHF 563.5k + CHF 484k + CHF 539k = CHF 1\'586.5k',
       confidence: 'estimated',
-      lastVerified: '2026-02-16',
+      lastVerified: '2026-02-23',
     },
     category: 'financial',
   },
 
   FUNDING_STIFTUNGEN_3YEAR: {
-    value: 862_000,
+    value: 'derived',
     label: 'CHF Stiftungsgelder (3 Jahre)',
     source: {
-      methodology: 'Abgeleitet aus THREE_YEAR_MODEL (fundraising/data.ts) mit degressiver Finanzierung',
-      calculation: 'Jahr 1: CHF 453.5k (einmalig + jaehrlich) + Jahr 2: CHF 249k (74.5%) + Jahr 3: CHF 160k (47.8%) ≈ CHF 862k',
+      methodology: 'Abgeleitet aus THREE_YEAR_MODEL (fundraising/data.ts) mit degressiver Finanzierung. Exact value computed at runtime.',
+      calculation: 'See STIFTUNGEN_3Y_TOTAL in fundraising/data.ts — derived from DEGRESSIVE_CONFIG percentages applied to Y1 stiftungen.',
       confidence: 'estimated',
-      lastVerified: '2026-02-16',
+      lastVerified: '2026-02-23',
     },
     category: 'financial',
   },
 
   FUNDING_REVENUE_3YEAR: {
-    value: 592_000,
+    value: 435_000,
     label: 'CHF Eigenleistung/Revenue (3 Jahre)',
     source: {
-      methodology: 'Abgeleitet aus THREE_YEAR_MODEL (fundraising/data.ts)',
-      calculation: 'Jahr 1: CHF 100k + Jahr 2: CHF 196k + Jahr 3: CHF 296k = CHF 592k',
+      methodology: 'Bottom-up Revenue-Modell: 8 Einnahmequellen (REVENUE_STREAMS in fundraising/data.ts)',
+      calculation: 'Jahr 1: CHF 100k + Jahr 2: CHF 140k + Jahr 3: CHF 195k = CHF 435k. Aligned to REVENUE_STREAMS bottom-up (honest > optimistic).',
       confidence: 'estimated',
-      lastVerified: '2026-02-16',
+      lastVerified: '2026-02-23',
     },
     category: 'financial',
   },
@@ -272,12 +273,12 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 
   TEAM_CORE_FTE: {
     value: SHARED_ORG_NUMBERS.TEAM_CORE_FTE,
-    label: 'FTE Kernteam (aktuell)',
+    label: 'Kernteam (aktuell)',
     source: {
-      methodology: 'Vero (Geschäftsleitung) + Dani (Operations) + Andreas (Strategie/Entwicklung)',
-      calculation: '3 Vollzeitstellen',
+      methodology: '2 Angestellte (Dani, Veronica) + 1 ehrenamtlich (Andreas). Aspiration: 2→4 Angestellte durch Stiftungsfinanzierung.',
+      calculation: '3 Personen im Kernteam. Weitere ehrenamtliche Mitarbeitende (George, Cem, u.a.) nicht gezählt.',
       confidence: 'high',
-      lastVerified: '2026-02-12',
+      lastVerified: '2026-02-23',
     },
     category: 'operations',
   },
@@ -614,6 +615,30 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
       methodology: 'Next.js App Router route.ts Dateien',
       confidence: 'estimated',
       lastVerified: '2026-02-19',
+    },
+    category: 'operations',
+  },
+
+  // Current state (pre-Hub baseline)
+  PEOPLE_REACHED_CURRENT: {
+    value: '~5',
+    label: 'Menschen/Jahr erreicht (aktuell, vor Hub)',
+    source: {
+      methodology: 'Informelle Schätzung basierend auf gelegentlicher Unterstützung ohne strukturierte Programme',
+      calculation: 'Keine systematische Erfassung. Gelegentliche Hilfe für Praktikanten und Freiwillige.',
+      confidence: 'estimated',
+      lastVerified: '2026-02-23',
+    },
+    category: 'social',
+  },
+
+  REPAIR_TABLES_CURRENT: {
+    value: 4,
+    label: 'Reparaturtische vorhanden (aktuell)',
+    source: {
+      methodology: 'Physische Zählung der vorhandenen Reparatur-Arbeitsplätze am Standort',
+      confidence: 'high',
+      lastVerified: '2026-02-23',
     },
     category: 'operations',
   },

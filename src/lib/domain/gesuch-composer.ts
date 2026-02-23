@@ -198,7 +198,7 @@ function buildFoundationBridge(foundation: Foundation, primaryThemeLabel: string
   if (purposeCore) {
     return `Die ${foundation.name} ${verb} ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} — ${ORG_PROFILE.name} bringt ${ORG_PROFILE.experienceLabel} in ${primaryThemeLabel} ein.`;
   }
-  return `Die ${foundation.name} ${verb} Projekte im Bereich ${primaryThemeLabel} — genau dort, wo ${ORG_PROFILE.name} seit über 20 Jahren wirkt.`;
+  return `Die ${foundation.name} ${verb} Projekte im Bereich ${primaryThemeLabel} — genau dort, wo ${ORG_PROFILE.name} seit über ${ORG_PROFILE.yearsActive} Jahren wirkt.`;
 }
 
 // ============================================================================
@@ -252,7 +252,7 @@ function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: string):
         : ANSCHREIBEN_TEMPLATES['A'].opening;
     case 'B':
       return purposeCore
-        ? `Ihr Engagement für ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} hat uns angesprochen. ${ORG_PROFILE.name} verbindet seit über 20 Jahren Umweltschutz mit sozialer Integration — ein Anliegen, das uns mit Ihrer Stiftung verbindet. Wir möchten Ihnen zeigen, wie eine Partnerschaft im Bereich ${primaryThemeLabel} konkret aussehen könnte.`
+        ? `Ihr Engagement für ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} hat uns angesprochen. ${ORG_PROFILE.name} verbindet seit über ${ORG_PROFILE.yearsActive} Jahren Umweltschutz mit sozialer Integration — ein Anliegen, das uns mit Ihrer Stiftung verbindet. Wir möchten Ihnen zeigen, wie eine Partnerschaft im Bereich ${primaryThemeLabel} konkret aussehen könnte.`
         : ANSCHREIBEN_TEMPLATES['B'].opening;
     case 'C':
       return purposeCore

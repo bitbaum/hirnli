@@ -11,6 +11,10 @@ import {
   TEAM_CAPACITY,
   TEAM_SALARIES,
 } from '@/lib/config/team';
+import {
+  BPL_HARDWARE_PER_YEAR_DISPLAY,
+  BPL_SOFTWARE_PER_YEAR_DISPLAY,
+} from '@/lib/config/projections';
 
 export const metadata: Metadata = {
   title: 'Bildungsprogramm — Train-the-Trainer',
@@ -162,7 +166,7 @@ export default function BildungPage() {
               (z.B. WHO, viele NGOs nutzen diesen Ansatz).
             </p>
             <p className="text-sm text-blue-900">
-              Die spezifischen Zahlen unten (10 Techniker/Jahr, 5 gleichzeitig aktiv, je 10 erreicht = 50 indirekt) sind <strong>Projektionen</strong>
+              Die spezifischen Zahlen unten ({BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr, etc.) sind <strong>Projektionen</strong>
               basierend auf unserer informellen Erfahrung und Schätzungen. <strong>Nicht empirisch gemessen.</strong>
               Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
             </p>
@@ -178,7 +182,7 @@ export default function BildungPage() {
                   Bildungsprogrammleiter:innen trainieren Traineren
                 </h3>
                 <p className="text-sm text-text-light mb-3">
-                  Hardware-BPL bildet <strong>10 Techniker/Jahr</strong> aus. Software/AI-BPL trainiert <strong>8 Entwickler/Jahr</strong>.
+                  Hardware-BPL bildet <strong>{BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr</strong> aus. Software/AI-BPL trainiert <strong>{BPL_SOFTWARE_PER_YEAR_DISPLAY} Entwickler/Jahr</strong>.
                   Total: <strong>18 Menschen/Jahr direkt</strong> (vs. 5 heute).
                 </p>
                 <div className="bg-violet-50 rounded-lg p-3 text-sm text-violet-800">

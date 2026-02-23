@@ -114,7 +114,7 @@ export default function FinanzenClient() {
         <div className="text-sm text-text-light space-y-2">
           <p>
             Unsere Einnahmen sind von <strong>CHF {formatCHF(PEAK_REVENUE)}</strong> ({PEAK_YEAR}) auf <strong>{formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenue)}</strong> ({ANNUAL_PL[ANNUAL_PL.length - 1].year}) gefallen — ein Rückgang von über 50%.
-            Der Haupttreiber: Verlust von B2B-Hosting-Kunden (Dienstleistungen von CHF 80k auf CHF 28k).
+            Der Haupttreiber: Verlust von B2B-Hosting-Kunden (Dienstleistungen von {formatCHF(Math.max(...ANNUAL_PL.filter(y => y.isComplete).map(y => y.revenueDetail.dienstleistungen)))} auf {formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenueDetail.dienstleistungen)}).
           </p>
           <p>
             Das aktuelle Modell — abhängig von wenigen grossen Einzelkunden — ist <strong>fragil</strong>.
@@ -252,28 +252,43 @@ export default function FinanzenClient() {
                   <CardHeader>
                     <CardTitle>Analyse</CardTitle>
                   </CardHeader>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <InsightCard
-                      variant="warning"
-                      title="4 Jahre Verlust (2020–2023)"
-                      text={`Kumulierter Verlust: ${formatCHF(CUMULATIVE_RESULT)}. Hauptursache: Miete verdreifacht von CHF 30k (2018) auf CHF 80k (2021+), während Einnahmen stagnierten.`}
-                    />
-                    <InsightCard
-                      variant="warning"
-                      title="Umsatzrückgang 2024–2025"
-                      text={`Von ${formatCHF(PEAK_REVENUE)} (${PEAK_YEAR}) auf ${formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenue)} (${ANNUAL_PL[ANNUAL_PL.length - 1].year}). Dienstleistungen am stärksten betroffen.`}
-                    />
-                    <InsightCard
-                      variant="info"
-                      title="Kostenstruktur 2023"
-                      text={`Miete & Nebenkosten: ${formatCHF(LATEST_COMPLETE.expenseDetail?.miete ?? 0)} (50% der Kosten). Personal: ${formatCHF(LATEST_COMPLETE.expenseDetail?.personal ?? 0)} (30%).`}
-                    />
-                    <InsightCard
-                      variant="info"
-                      title="Einziges Gewinnjahr: 2018"
-                      text={`${formatCHF(24069)} Gewinn bei niedrigen Kosten (Miete: CHF 30k, Personal: CHF 40k). Seither strukturelle Unterdeckung.`}
-                    />
-                  </div>
+                  {(() => {
+                    // Derive insight values from ANNUAL_PL (SSOT)
+                    const lossYears = COMPLETE_YEARS.filter(y => y.result < 0);
+                    const lossYearRange = lossYears.length > 0
+                      ? `${lossYears[0].year}–${lossYears[lossYears.length - 1].year}`
+                      : '';
+                    const rentFirst = ANNUAL_PL[0].expenseDetail?.miete ?? 0;
+                    const rentPeak = Math.max(...COMPLETE_YEARS.filter(y => y.expenseDetail?.miete).map(y => y.expenseDetail!.miete));
+                    const profitYear = COMPLETE_YEARS.find(y => y.result > 0);
+
+                    return (
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <InsightCard
+                          variant="warning"
+                          title={`${lossYears.length} Jahre Verlust (${lossYearRange})`}
+                          text={`Kumulierter Verlust: ${formatCHF(CUMULATIVE_RESULT)}. Hauptursache: Miete von ${formatCHF(rentFirst)} (${ANNUAL_PL[0].year}) auf ${formatCHF(rentPeak)} (2021+), während Einnahmen stagnierten.`}
+                        />
+                        <InsightCard
+                          variant="warning"
+                          title="Umsatzrückgang 2024–2025"
+                          text={`Von ${formatCHF(PEAK_REVENUE)} (${PEAK_YEAR}) auf ${formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenue)} (${ANNUAL_PL[ANNUAL_PL.length - 1].year}). Dienstleistungen am stärksten betroffen.`}
+                        />
+                        <InsightCard
+                          variant="info"
+                          title={`Kostenstruktur ${LATEST_COMPLETE.year}`}
+                          text={`Miete & Nebenkosten: ${formatCHF(LATEST_COMPLETE.expenseDetail?.miete ?? 0)} (50% der Kosten). Personal: ${formatCHF(LATEST_COMPLETE.expenseDetail?.personal ?? 0)} (30%).`}
+                        />
+                        {profitYear && (
+                          <InsightCard
+                            variant="info"
+                            title={`Einziges Gewinnjahr: ${profitYear.year}`}
+                            text={`${formatCHF(profitYear.result)} Gewinn bei niedrigen Kosten (Miete: ${formatCHF(profitYear.expenseDetail?.miete ?? 0)}, Personal: ${formatCHF(profitYear.expenseDetail?.personal ?? 0)}). Seither strukturelle Unterdeckung.`}
+                          />
+                        )}
+                      </div>
+                    );
+                  })()}
                 </Card>
 
                 {/* Data source */}

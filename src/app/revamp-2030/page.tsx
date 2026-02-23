@@ -18,6 +18,10 @@ import {
   PEOPLE_REACHED_DISPLAY,
   REVENUE_DECLINE_DISPLAY,
   YEARS_EXPERIENCE_DISPLAY,
+  BPL_HARDWARE_PER_YEAR_DISPLAY,
+  BPL_SOFTWARE_PER_YEAR_DISPLAY,
+  PEOPLE_REACHED_CURRENT_DISPLAY,
+  REPAIR_TABLES_CURRENT,
 } from '@/lib/config/projections';
 import { getNumericValue } from '@/lib/config/numbers';
 import { formatNumber } from '@/lib/utils/format';
@@ -76,7 +80,7 @@ export default function Revamp2030Page() {
                 <div>
                   <p className="font-semibold mb-2">Hardware-Refurbishment: Potential nicht ausgeschöpft</p>
                   <ul className="list-disc list-inside space-y-1 ml-4">
-                    <li><strong>4 Reparaturtische vorhanden</strong> — Kapazität für paralleles Arbeiten ist da</li>
+                    <li><strong>{REPAIR_TABLES_CURRENT} Reparaturtische vorhanden</strong> — Kapazität für paralleles Arbeiten ist da</li>
                     <li>Engagiertes Team: Praktikanten, Freiwillige, Reintegrations-Mitarbeiter (GEP-Programm)</li>
                     <li><strong>Fehlende Ressource:</strong> Bezahlte Fachperson für Prozess-Organisation und Koordination</li>
                     <li>Lagerkapazität vorhanden, aber <strong>Optimierungspotential</strong> bei der Organisation</li>
@@ -177,7 +181,7 @@ export default function Revamp2030Page() {
                       <li>Organisiert Workshops: AI Literacy, Coding, Open Source</li>
                       <li>Bildet Entwickler aus, die dann selbst trainieren</li>
                       <li>Strukturierte Curricula für verschiedene Niveaus</li>
-                      <li>Entlastet Kernteam (Andreas, Dani, George) von Bildungsarbeit</li>
+                      <li>Entlastet das Team von Bildungsarbeit</li>
                     </ul>
                   </div>
                 </div>
@@ -249,7 +253,7 @@ export default function Revamp2030Page() {
         <Card>
           <div className="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 mb-6">
             <p className="text-sm text-blue-900">
-              <strong>Transparenz-Hinweis:</strong> Die Zahlen unten (10 Techniker/Jahr, 5 gleichzeitig aktiv, etc.) sind <strong>Projektionen</strong>,
+              <strong>Transparenz-Hinweis:</strong> Die Zahlen unten ({BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr, etc.) sind <strong>Projektionen</strong>,
               basierend auf Train-the-Trainer Konzept (etablierte Bildungsstrategie) und unserer informellen Erfahrung.
               <strong> Nicht empirisch gemessen.</strong> Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
             </p>
@@ -269,7 +273,7 @@ export default function Revamp2030Page() {
                   <div>
                     <p className="text-sm font-semibold text-amber-900 mb-2">Hardware:</p>
                     <ul className="text-xs text-amber-800 space-y-1">
-                      <li>• 4 Tische vorhanden, aber nur 1-2 genutzt (Reza + manchmal Freiwillige)</li>
+                      <li>• {REPAIR_TABLES_CURRENT} Tische vorhanden, aber nur 1-2 genutzt (Reza + manchmal Freiwillige)</li>
                       <li>• Keine strukturierten Trainings, kein Zeitplan</li>
                       <li>• Lange Wartezeiten, Backlog wächst</li>
                       <li>• <strong>{DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat</strong> (geschätzt aus Umsatzdaten)</li>
@@ -281,7 +285,7 @@ export default function Revamp2030Page() {
                       <li>• Kernteam zu beschäftigt für systematische Bildung</li>
                       <li>• Keine Workshops, keine strukturierten Kurse</li>
                       <li>• Gelegentliche Unterstützung, aber nicht systematisch</li>
-                      <li>• <strong>~5 Menschen/Jahr</strong> erreicht (Schätzung)</li>
+                      <li>• <strong>{PEOPLE_REACHED_CURRENT_DISPLAY} Menschen/Jahr</strong> erreicht (Schätzung)</li>
                     </ul>
                   </div>
                 </div>
@@ -301,7 +305,7 @@ export default function Revamp2030Page() {
                     <ul className="text-xs text-emerald-800 space-y-1">
                       <li>• <strong>Hardware-BPL organisiert:</strong> Zeitpläne, Qualität, Prozesse</li>
                       <li>• Alle Tische genutzt (strukturierte Schichten, klare Verantwortlichkeiten)</li>
-                      <li>• <strong>10 Techniker/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
+                      <li>• <strong>{BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
                       <li>• <strong>~{DEVICES_PER_MONTH_TARGET} Geräte/Monat</strong> (durch bessere Prozesse + mehr Kapazität)</li>
                     </ul>
                   </div>
@@ -309,7 +313,7 @@ export default function Revamp2030Page() {
                     <p className="text-sm font-semibold text-emerald-900 mb-2">Software/AI (strukturiert):</p>
                     <ul className="text-xs text-emerald-800 space-y-1">
                       <li>• <strong>Software/AI-BPL organisiert:</strong> Curricula, Workshops, Events</li>
-                      <li>• <strong>8 Entwickler/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
+                      <li>• <strong>{BPL_SOFTWARE_PER_YEAR_DISPLAY} Entwickler/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
                       <li>• Plus Workshops, Events, Repair Cafés</li>
                       <li>• <strong>{PEOPLE_REACHED_DISPLAY}</strong> total erreicht (konservative Schätzung)</li>
                     </ul>

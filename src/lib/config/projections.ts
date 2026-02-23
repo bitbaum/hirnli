@@ -79,6 +79,19 @@ export const PEOPLE_REACHED_DISPLAY = `${PEOPLE_REACHED_PER_YEAR} Menschen/Jahr`
 
 // -- Experience ----------------------------------------------------------------
 
+// -- BPL Reach (ranges from numbers.ts) ----------------------------------------
+
+export const BPL_HARDWARE_PER_YEAR_DISPLAY =
+  String(NUMBERS_REGISTRY.BPL_HARDWARE_TECHNICIANS_PER_YEAR.value); // '8-12'
+export const BPL_SOFTWARE_PER_YEAR_DISPLAY =
+  String(NUMBERS_REGISTRY.BPL_SOFTWARE_DEVELOPERS_PER_YEAR.value); // '6-10'
+export const PEOPLE_REACHED_CURRENT_DISPLAY =
+  String(NUMBERS_REGISTRY.PEOPLE_REACHED_CURRENT.value); // '~5'
+export const REPAIR_TABLES_CURRENT =
+  getNumericValue('REPAIR_TABLES_CURRENT'); // 4
+
+// -- Experience ----------------------------------------------------------------
+
 export const YEARS_EXPERIENCE = getNumericValue('YEARS_EXPERIENCE'); // 23
 export const YEARS_EXPERIENCE_DISPLAY = `${YEARS_EXPERIENCE} Jahre Erfahrung (seit 2003)`;
 

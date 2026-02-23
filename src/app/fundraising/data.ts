@@ -1,6 +1,8 @@
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
-import { CORE_FACTS } from '@/lib/config/stories';
+import { CORE_FACTS, SOCIAL_DISPLAY } from '@/lib/config/stories';
 import { getScenario, getLineItemsForScenario, EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { SPACE_SUMMARY, HUB_SPACE_AREAS } from '@/lib/config/hub-space-plan';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
 
@@ -95,28 +97,44 @@ export const RESOURCES = [
 
 export const HERO_STATS = [
   { label: 'Ökologie', value: `${CORE_FACTS.metrics.environmental.co2_per_laptop} kg`, sub: 'CO2 pro Laptop gespart' },
-  { label: 'Soziales', value: '100+', sub: 'Menschen begleitet' },
-  { label: 'Bildung', value: `${new Date().getFullYear() - CORE_FACTS.organization.founded}+`, sub: 'Jahre Erfahrung' },
+  { label: 'Soziales', value: SOCIAL_DISPLAY.practitioners_total, sub: 'Menschen begleitet' },
+  { label: 'Bildung', value: `${ORG_PROFILE.yearsActive}+`, sub: 'Jahre Erfahrung' },
 ] as const;
 
-// -- Space Plan: 650 sqm breakdown -----------------------------------------------
+// -- Space Plan: derived from hub-space-plan.ts (SSOT) ----------------------------
+// Maps HUB_SPACE_AREAS → display-friendly German names, combining related areas.
+// Excludes circulation (corridors, bathrooms) — shown separately as note.
+
+const SPACE_AREA_MAP: Record<string, { area: string; description: string }> = {
+  'Shop & Customer Area': { area: 'Shop & Empfang', description: 'Verkauf, Geräte-Annahme, Beratung, Wartebereich' },
+  'Refurbishment Workshop': { area: 'Werkstatt & Reparatur', description: '6-8 Arbeitsplätze, Test & Datenlöschung, QA, Ersatzteile' },
+  'Office & Meeting Spaces': { area: 'Büro & Besprechung', description: '5 Arbeitsplätze (Kern + BPL), Sitzungszimmer' },
+  'Makerspace & Hackerspace': { area: 'Makerspace & Hackerspace', description: '3D-Drucker, Lötstationen, Laser Cutter, Tool Library' },
+  'AI Lab (Server Room)': { area: 'AI Lab / Serverraum', description: 'GPU-Cluster, klimatisiert, Netzwerk-Infrastruktur' },
+  'Training & Course Room': { area: 'Schulungsraum', description: '20 Plätze, Beamer, Übungsrechner, Corporate Training' },
+  'Event Space + Community Café (MULTI-PURPOSE)': { area: 'Event-/Kulturraum & Café', description: 'Tags: Café. Abends: Konzerte, Talks, Filmabende. Repair Café 2×/Monat' },
+};
+
+// Storage & Logistics + Loading & Delivery Zone → combined as one display area
+const STORAGE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Storage & Logistics');
+const LOADING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Loading & Delivery Zone');
+const STORAGE_COMBINED_SQM = (STORAGE_AREA?.sqm_recommended ?? 0) + (LOADING_AREA?.sqm_recommended ?? 0);
 
 export const SPACE_PLAN = [
-  { area: 'Lager & Logistik', sqm: 120, description: 'Eingang/Triage, Ersatzteile, Fertigware, Recycling-Staging' },
-  { area: 'Werkstatt & Reparatur', sqm: 90, description: '10 Arbeitsplätze, Diagnose, getrennt vom Büro' },
-  { area: 'Event-/Kulturraum & Café', sqm: 80, description: 'Tags: Café & Treffpunkt. Abends: Konzerte, Talks, Filmabende' },
-  { area: 'Makerspace', sqm: 45, description: '3D-Drucker, Lötstationen, Robotik-Kits' },
-  { area: 'Museum & Ausstellung', sqm: 45, description: 'Hands-on-Ausstellung, E-Waste-Kunst, Vintage-Synthesizer' },
-  { area: 'Schulungsraum', sqm: 40, description: '15-20 Plätze, Beamer, Übungsrechner' },
-  { area: 'Shop & Empfang', sqm: 35, description: 'Verkauf, Geräte-Annahme, Beratung' },
-  { area: 'Küche', sqm: 25, description: 'Mittagessen, Pausenraum, Event-Catering' },
-  { area: 'Büro / Admin', sqm: 20, description: '3-4 Arbeitsplätze, Besprechung' },
-  { area: 'Serverraum / AI Lab', sqm: 15, description: 'GPU-Cluster, klimatisiert, Netzwerk' },
-  { area: 'Nebenräume', sqm: 35, description: 'WC, Flur, Garderobe' },
-] as const;
+  // Combined storage area first (as it was in the original layout)
+  { area: 'Lager & Logistik', sqm: STORAGE_COMBINED_SQM, description: 'Eingang/Triage, Ersatzteile, Fertigware, Laderampe, Recycling-Staging' },
+  // Individual areas from SSOT
+  ...HUB_SPACE_AREAS
+    .filter(a => a.name in SPACE_AREA_MAP)
+    .map(a => ({
+      area: SPACE_AREA_MAP[a.name].area,
+      sqm: a.sqm_recommended,
+      description: SPACE_AREA_MAP[a.name].description,
+    })),
+];
 
-export const SPACE_PLAN_TOTAL = SPACE_PLAN.reduce((sum, s) => sum + s.sqm, 0);
-export const SPACE_TOTAL_WITH_CIRCULATION = SPACE_PLAN_TOTAL + 100; // ~650 m²
+export const SPACE_PLAN_TOTAL = SPACE_SUMMARY.total_usable; // ~590m² — derived from hub-space-plan.ts (excludes circulation)
+export const SPACE_TOTAL_WITH_CIRCULATION = SPACE_SUMMARY.total_with_circulation; // ~650m² — full lease footprint
 
 // -- 3-Year Degressive Funding Model (derived from SSOT) ----------------------
 // Year 1 is fully derived from moderate scenario (budget-scenarios.ts)
@@ -126,9 +144,19 @@ const Y1_EIGEN = MODERATE_SCENARIO.threeYearModel.year1.eigenleistung;
 
 // Year 2-3: degressive assumptions — explicit config with rationale
 // Standard Swiss 3-year model: foundations expect 25-50% reduction/year
+// Eigenleistung aligned to bottom-up revenue model (REVENUE_STREAMS): 100k→140k→195k = 435k/3yr
+//
+// Methodology for percentages:
+//   Eigen grows from 100k → 140k → 195k (aligned to REVENUE_STREAMS bottom-up).
+//   Stiftungen share = (Jährlich - Eigen) / Jährlich for each year:
+//     Year 2: Eigen 140k, remaining stiftungen need = Jährlich × 0.745
+//     Year 3: Eigen 195k, remaining stiftungen need = Jährlich × 0.478
+//   Total budget (stiftungen + eigen) decreases each year as eigen grows,
+//   modelling progressive self-sufficiency. This is the standard Swiss
+//   degressive funding model for 3-year foundation grants.
 export const DEGRESSIVE_CONFIG = {
-  year2: { stiftungenPct: 0.745, eigenGrowth: 96000 },   // 74.5% of Y1 stiftungen; eigen grows by 96k
-  year3: { stiftungenPct: 0.478, eigenGrowth: 196000 },   // 47.8% of Y1 stiftungen; eigen grows by 196k
+  year2: { stiftungenPct: 0.745, eigenGrowth: 40_000 },   // 74.5% of Y1 stiftungen; eigen: 100k + 40k = 140k
+  year3: { stiftungenPct: 0.478, eigenGrowth: 95_000 },   // 47.8% of Y1 stiftungen; eigen: 100k + 95k = 195k
 } as const;
 
 export const THREE_YEAR_MODEL = [

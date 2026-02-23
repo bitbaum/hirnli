@@ -18,7 +18,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   { id: 'PER-0003', name: 'Veronica', fachgebiete: ['Sozialpädagogik', 'HR', 'Fundraising'], bereich: 'Leitung' },
   // Technik
   { id: 'PER-0004', name: 'Cem', fachgebiete: ['Software Engineering', 'Kivitendo'], bereich: 'Technik' },
-  { id: 'PER-0005', name: 'Georgie', fachgebiete: ['Software Engineering', 'Fundraising', 'Betrieb', 'Systementwicklung'], bereich: 'Technik', capacity: '60%' },
+  { id: 'PER-0005', name: 'George', fachgebiete: ['Software Engineering', 'Fundraising', 'Betrieb', 'Systementwicklung'], bereich: 'Technik', capacity: '60%' },
   { id: 'PER-0006', name: 'Michael', fachgebiete: ['Technik'], bereich: 'Technik' }, // Vero ergänzt
   { id: 'PER-0007', name: 'Mike', fachgebiete: ['Open Source', 'Linux'], bereich: 'Technik' },
   { id: 'PER-0008', name: 'Reza', fachgebiete: ['Reparatur', 'Technik'], bereich: 'Technik' },

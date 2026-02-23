@@ -23,17 +23,17 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
   {
     id: 'space_rent_agglomeration',
     label: 'Miete (Agglomeration)',
-    description: '550m² in Volketswil/Schlieren/Dietikon, inkl. Nebenkosten',
+    description: '~600m² in Volketswil/Schlieren/Dietikon, inkl. Nebenkosten',
     category: 'space',
-    amount: 110_000,
+    amount: 120_000,
     type: 'jaehrlich',
     source: {
       methodology: 'Marktforschung Homegate.ch, ImmoScout24 (Januar 2026)',
-      calculation: '550m² × CHF 200/m²/Jahr (Mittelwert Agglomeration Zürich)',
+      calculation: '~600m² × CHF 200/m²/Jahr (Mittelwert Agglomeration Zürich). Basiert auf hub-space-plan.ts: ~590m² Nutzfläche + 60m² Verkehrsfläche = ~650m² Gesamtfläche',
       marketResearch: 'Volketswil: CHF 150/m², Schlieren: CHF 252/m², Dietikon: CHF 180/m² → gewählt: CHF 200/m² als realistischer Durchschnitt',
       confidence: 'medium',
-      lastVerified: '2026-02-13',
-      notes: 'City Zürich würde CHF 137-192k/Jahr kosten (zu teuer für NGO-Budget)',
+      lastVerified: '2026-02-23',
+      notes: 'City Zürich würde CHF 150-210k/Jahr kosten (zu teuer für NGO-Budget)',
     },
     icon: '🏢',
     themeLabels: {
@@ -339,7 +339,7 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     type: 'jaehrlich',
     source: {
       methodology: 'Pauschalschätzung basierend auf Raumgrösse',
-      calculation: 'CHF 15-20/m²/Jahr für 550m² = CHF 10k',
+      calculation: 'CHF 15-20/m²/Jahr für ~600m² ≈ CHF 10k',
       confidence: 'medium',
       lastVerified: '2026-02-13',
     },
@@ -400,9 +400,9 @@ export const BUDGET_SCENARIOS: BudgetScenario[] = [
     targetFoundations: ['C', 'B'],
     spaceRequirement: { min_sqm: 380, max_sqm: 450 },
     threeYearModel: {
-      year1: { einmalig: 55_000, jaehrlich: 307_000, eigenleistung: 80_000 },
-      year2: { jaehrlich: 307_000, eigenleistung: 160_000 },
-      year3: { jaehrlich: 307_000, eigenleistung: 240_000 },
+      year1: { einmalig: 55_000, jaehrlich: 317_000, eigenleistung: 80_000 },
+      year2: { jaehrlich: 317_000, eigenleistung: 140_000 },
+      year3: { jaehrlich: 317_000, eigenleistung: 195_000 },
     },
   },
 
@@ -427,9 +427,9 @@ export const BUDGET_SCENARIOS: BudgetScenario[] = [
     targetFoundations: ['B', 'A'],
     spaceRequirement: { min_sqm: 500, max_sqm: 600 },
     threeYearModel: {
-      year1: { einmalig: 119_500, jaehrlich: 334_000, eigenleistung: 100_000 },
-      year2: { jaehrlich: 334_000, eigenleistung: 180_000 },
-      year3: { jaehrlich: 334_000, eigenleistung: 280_000 },
+      year1: { einmalig: 119_500, jaehrlich: 344_000, eigenleistung: 100_000 },
+      year2: { jaehrlich: 344_000, eigenleistung: 140_000 },
+      year3: { jaehrlich: 344_000, eigenleistung: 195_000 },
     },
   },
 
@@ -456,9 +456,9 @@ export const BUDGET_SCENARIOS: BudgetScenario[] = [
     targetFoundations: ['A'],
     spaceRequirement: { min_sqm: 600, max_sqm: 700 },
     threeYearModel: {
-      year1: { einmalig: 181_500, jaehrlich: 342_000, eigenleistung: 100_000 },
-      year2: { jaehrlich: 342_000, eigenleistung: 196_000 },
-      year3: { jaehrlich: 342_000, eigenleistung: 296_000 },
+      year1: { einmalig: 181_500, jaehrlich: 352_000, eigenleistung: 100_000 },
+      year2: { jaehrlich: 352_000, eigenleistung: 140_000 },
+      year3: { jaehrlich: 352_000, eigenleistung: 195_000 },
     },
   },
 ];
@@ -467,17 +467,17 @@ export const BUDGET_SCENARIOS: BudgetScenario[] = [
  * Eigenleistung (Volunteer Value) Configuration
  */
 export const EIGENLEISTUNG_CONFIG: EigenleistungConfig = {
-  label: 'Eigenleistung (kein Cash — Freiwilligenarbeit bewertet)',
-  description: 'Bewerteter Wert der Freiwilligenarbeit, KEIN Cashflow. Berechnet als Stunden × CHF 35/h (NGO-Standard für Freiwilligenarbeit). Jahr 3 setzt ~3.4 VZÄ unbezahlte Arbeit voraus.',
-  year1: 80_000,
-  year2: 160_000,
-  year3: 240_000,
+  label: 'Freiwilligenarbeit (nicht Cash)',
+  description: 'Bewerteter Wert der Freiwilligenarbeit, KEIN Cashflow. Abgeleitet aus Bottom-up Revenue-Modell (REVENUE_STREAMS in fundraising/data.ts). Jahr 3 = CHF 195k entspricht dem 8-Stream-Revenue-Ziel.',
+  year1: 100_000,
+  year2: 140_000,
+  year3: 195_000,
   source: {
-    methodology: 'Bewertete Freiwilligen-Stunden × CHF 35/h (NGO-Standard). KEIN Cashflow — rein kalkulatorischer Wert.',
-    calculation: 'Jahr 1: 2,286h × CHF 35 (~1.1 VZÄ), Jahr 2: 4,571h × CHF 35 (~2.3 VZÄ), Jahr 3: 6,857h × CHF 35 (~3.4 VZÄ). Wachstum setzt Community-Aufbau und Hub voraus.',
+    methodology: 'Bottom-up Revenue-Modell: 8 Einnahmequellen (Geräteverkauf, Dienstleistungen, Corporate Placements, Kurse, Integration, Repair Café, AI Hosting, Spenden). KEIN Cashflow — kalkulatorischer Wert der Eigenleistung.',
+    calculation: 'Jahr 1: CHF 100k (current revenue ~60k + growth), Jahr 2: CHF 140k (Hub-Effekt + neue Streams), Jahr 3: CHF 195k (matches REVENUE_STREAMS bottom-up). 3-Jahres-Total: CHF 435k.',
     confidence: 'estimated',
-    lastVerified: '2026-02-16',
-    notes: 'Nicht Cash. Setzt voraus, dass Freiwilligen-Stunden durch Hub-Aufbau und Community-Wachstum steigen. Aktuell nicht systematisch erfasst.',
+    lastVerified: '2026-02-23',
+    notes: 'Aligned to REVENUE_STREAMS bottom-up model. Honest > optimistic: previous 592k projection was unsubstantiated.',
   },
 };
 

@@ -7,11 +7,14 @@
  * To swap orgs: change this file + rewrite ORG-SPECIFIC content files.
  */
 
+const _FOUNDED = 2003;
+const _YEARS_ACTIVE = new Date().getFullYear() - _FOUNDED;
+
 export const ORG_PROFILE = {
   // Legal identity
   name: 'Revamp-IT',
   legalForm: 'Gemeinnütziger Verein',
-  founded: 2003,
+  founded: _FOUNDED,
   location: 'Zürich',
   address: 'Badenerstrasse 816, 8048 Zürich',
   website: 'https://revamp-it.ch',
@@ -24,8 +27,9 @@ export const ORG_PROFILE = {
     tagline: 'Fundraising Hub',
   },
 
-  // Narrative helpers (for domain text generation)
-  experienceLabel: 'über 20 Jahre Erfahrung',
+  // Computed from founded year — never hardcode "20 Jahre" etc.
+  yearsActive: _YEARS_ACTIVE,
+  experienceLabel: `über ${_YEARS_ACTIVE} Jahre Erfahrung`,
   missionKeywords: ['Kreislaufwirtschaft', 'Arbeitsintegration', 'digitale Bildung'],
   missionSummary: 'Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung',
 } as const;
