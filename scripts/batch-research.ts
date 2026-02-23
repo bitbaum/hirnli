@@ -66,16 +66,19 @@ const THEME_RULES: Record<string, { keywords: string[]; weight: number }> = {
     weight: 3,
   },
   'soziale-integration': {
-    keywords: ['soziale integration', 'benachteiligt', 'chancengleich',
-      'inklusion', 'armut', 'sozialhilfe', 'migrant', 'migration',
-      'flüchtling', 'asyl', 'niederschwellig', 'teilhabe',
-      'marginalisiert', 'existenzsicher', 'bedürftig'],
+    keywords: ['soziale integration', 'sozial benachteiligt',
+      'migrant', 'migration', 'flüchtling', 'asyl',
+      'marginalisiert', 'randgruppen',
+      'existenzsicher', 'sozialhilfeempfänger',
+      'arbeitsintegration', 'berufliche integration',
+      'soziale teilhabe', 'chancengleichheit'],
     weight: 2,
   },
   'digitale-bildung': {
-    keywords: ['informatik', 'computer', 'medienkompetenz', 'it-kompetenz',
-      'digital literacy', 'digitale kompetenz', 'programmier', 'software',
-      'ict', 'informationstechnologie', 'mint', 'technik'],
+    keywords: ['informatik', 'programmier', 'software',
+      'medienkompetenz', 'it-kompetenz', 'digital literacy',
+      'digitale kompetenz', 'digitale bildung',
+      'ict', 'informationstechnologie', 'mint', 'stem'],
     weight: 2,
   },
   'digitale-souveraenitaet': {
@@ -85,8 +88,10 @@ const THEME_RULES: Record<string, { keywords: string[]; weight: number }> = {
     weight: 3,
   },
   klima: {
-    keywords: ['klima', 'umwelt', 'nachhaltigkeit', 'co2', 'ökologie',
-      'ökologisch', 'umweltschutz', 'klimaschutz', 'emission'],
+    keywords: ['klima', 'klimaschutz', 'klimawandel',
+      'co2', 'kohlendioxid', 'treibhausgas', 'emission',
+      'erneuerbar', 'erneuerbare energie',
+      'dekarbonisier', 'energiewende'],
     weight: 1,
   },
   jugend: {
@@ -107,6 +112,33 @@ function classifyThemes(purposeLower: string, nameLower: string): string[] {
   for (const [theme, rule] of Object.entries(THEME_RULES)) {
     if (rule.keywords.some(kw => fullText.includes(kw))) {
       themes.push(theme);
+    }
+  }
+
+  // Compound rule: "digitale-bildung" also matches when BOTH education AND digital context present
+  if (!themes.includes('digitale-bildung')) {
+    const hasEducation = ['bildung', 'ausbildung', 'weiterbildung', 'berufsbildung', 'schulung'].some(kw => fullText.includes(kw));
+    const hasDigital = ['digital', 'technologie', 'computer', 'medien', 'it-', 'online', 'internet'].some(kw => fullText.includes(kw));
+    if (hasEducation && hasDigital) {
+      themes.push('digitale-bildung');
+    }
+  }
+
+  // Broader "jugend" catch: education foundations mentioning youth/children
+  if (!themes.includes('jugend')) {
+    const hasYouth = ['jugend', 'kinder', 'schüler', 'lernende', 'heranwachsend'].some(kw => fullText.includes(kw));
+    const hasEducation = ['bildung', 'ausbildung', 'erziehung', 'schule', 'lehre'].some(kw => fullText.includes(kw));
+    if (hasYouth && hasEducation) {
+      themes.push('jugend');
+    }
+  }
+
+  // Broader "arbeitsintegration" catch: vocational training foundations
+  if (!themes.includes('arbeitsintegration')) {
+    const hasWork = ['beruf', 'arbeit', 'erwerbstätig', 'beschäftig'].some(kw => fullText.includes(kw));
+    const hasIntegration = ['integration', 'eingliederung', 'wiedereinstieg', 'einstieg'].some(kw => fullText.includes(kw));
+    if (hasWork && hasIntegration) {
+      themes.push('arbeitsintegration');
     }
   }
 
@@ -190,112 +222,139 @@ function calculatePriority(fit: number, flags: string[], tier: number): 1 | 2 | 
 // ============================================================================
 
 function generatePurposeSummary(candidate: ScreeningCandidate): string {
-  const { name, purpose, city, canton, matchedThemes } = candidate;
+  const { name, purpose, city, canton } = candidate;
 
   // Clean up purpose text
   const cleanPurpose = purpose
     .replace(/\s+/g, ' ')
     .trim();
 
-  // Build theme description
-  const themeLabels: Record<string, string> = {
-    arbeitsintegration: 'Arbeitsintegration und berufliche Eingliederung',
-    kreislaufwirtschaft: 'Kreislaufwirtschaft und Ressourcenschonung',
-    'soziale-integration': 'soziale Integration und Chancengleichheit',
-    'digitale-bildung': 'digitale Bildung und Technologiekompetenz',
-    'digitale-souveraenitaet': 'digitale Souveränität und Open Source',
-    klima: 'Klima- und Umweltschutz',
-    jugend: 'Jugendförderung',
-    zuerich: 'Region Zürich',
-  };
-
-  const themeDesc = matchedThemes
-    .filter(t => t !== 'zuerich')
-    .map(t => themeLabels[t] || t)
-    .slice(0, 3)
-    .join(', ');
-
   const location = canton ? `${city}, Kanton ${canton}` : city || 'Schweiz';
 
-  // Build summary from purpose text
-  // Take the first meaningful clause (up to first period or semicolon)
-  const firstClause = cleanPurpose.split(/[.;]/).filter(s => s.trim().length > 20)[0]?.trim() || cleanPurpose.substring(0, 200);
+  // Extract meaningful clauses from purpose text
+  const clauses = cleanPurpose.split(/[.;]/).filter(s => s.trim().length > 20);
+  const firstClause = clauses[0]?.trim() || cleanPurpose.substring(0, 200);
 
   let summary = `${name} (${location}): ${firstClause}.`;
 
-  // Ensure we reach 150 chars by progressively adding context
-  if (summary.length < 150 && themeDesc) {
-    summary += ` Thematische Schwerpunkte: ${themeDesc}.`;
+  // If too short, add more clauses from the actual purpose text (not generic filler)
+  if (summary.length < 150 && clauses.length > 1) {
+    const secondClause = clauses[1]?.trim();
+    if (secondClause && secondClause.length > 15) {
+      summary += ` ${secondClause}.`;
+    }
   }
+  if (summary.length < 150 && clauses.length > 2) {
+    const thirdClause = clauses[2]?.trim();
+    if (thirdClause && thirdClause.length > 15) {
+      summary += ` ${thirdClause}.`;
+    }
+  }
+  // Last resort: append remaining purpose text directly
   if (summary.length < 150 && cleanPurpose.length > firstClause.length) {
     const rest = cleanPurpose.substring(firstClause.length + 1).replace(/^[.;\s]+/, '').trim();
     if (rest.length > 10) {
-      summary += ` ${rest.substring(0, Math.max(150 - summary.length + 50, 100))}`;
+      summary += ` ${rest.substring(0, Math.max(150 - summary.length + 80, 120))}`;
     }
   }
+  // Absolute last resort: note the location and ESA registration
   if (summary.length < 150) {
-    summary += ` Die Stiftung ist im Bereich ${themeDesc || 'gemeinnütziger Tätigkeit'} aktiv und hat Sitz in ${location}. Stiftungszweck gemäss ESA-Register.`;
+    summary += ` Die Stiftung hat Sitz in ${location} und ist im ESA-Stiftungsverzeichnis eingetragen.`;
   }
 
-  return summary.substring(0, 500);
+  return summary.substring(0, 600);
 }
 
 function generateResearchNotes(candidate: ScreeningCandidate, themes: string[], type: string, fit: number): string {
-  const { name, purpose, flags, score, matchedSignals, tier } = candidate;
+  const { name, purpose, flags, score, matchedSignals, tier, city, canton } = candidate;
   const purposeLower = purpose.toLowerCase();
 
   const parts: string[] = [];
 
-  // Fit analysis
-  const fitLabel = fit === 3 ? 'Hohe' : fit === 2 ? 'Mittlere' : 'Geringe';
-  parts.push(`${fitLabel} Übereinstimmung mit Revamp-IT (Fit-Score: ${fit}/3, Screening-Score: ${score}).`);
+  // --- Opening: foundation-specific context from purpose ---
+  // Extract what this foundation actually does from the purpose text
+  const purposeClean = purpose.replace(/\s+/g, ' ').trim();
+  const keyActivities: string[] = [];
+  if (purposeLower.includes('förderung')) keyActivities.push('Förderung');
+  if (purposeLower.includes('forschung')) keyActivities.push('Forschung');
+  if (purposeLower.includes('unterstützung')) keyActivities.push('Unterstützung');
+  if (purposeLower.includes('ausbildung') || purposeLower.includes('bildung')) keyActivities.push('Bildung');
+  if (purposeLower.includes('projekt')) keyActivities.push('Projektarbeit');
+  if (purposeLower.includes('stipend')) keyActivities.push('Stipendien');
+  if (purposeLower.includes('sozial')) keyActivities.push('Sozialarbeit');
 
-  // Theme alignment
-  const coreThemes = ['arbeitsintegration', 'kreislaufwirtschaft', 'digitale-bildung', 'digitale-souveraenitaet'];
-  const coreHits = themes.filter(t => coreThemes.includes(t));
-  if (coreHits.length > 0) {
-    parts.push(`Kernthemen-Überlappung: ${coreHits.join(', ')}.`);
-  }
-
-  // Funder vs operator assessment
-  if (flags.includes('likely-funder')) {
-    parts.push('Zweckbeschreibung deutet auf Fördertätigkeit hin (Funder-Sprache erkannt: fördert/unterstützt/Beiträge).');
-  } else if (flags.includes('likely-operator')) {
-    parts.push('Achtung: Stiftung scheint primär operativ tätig (betreibt/führt/unterhält). Möglicherweise kein externer Förderer.');
+  if (keyActivities.length > 0) {
+    parts.push(`${name}: Tätigkeitsschwerpunkte gemäss Stiftungszweck — ${keyActivities.slice(0, 4).join(', ')}.`);
   } else {
-    parts.push('Funder/Operator-Status unklar — manuelle Überprüfung empfohlen.');
+    parts.push(`${name}: Stiftung mit Sitz in ${city || 'der Schweiz'}.`);
   }
 
-  // Signal highlights
-  if (matchedSignals.length > 0) {
-    parts.push(`Hochrelevante Signale: ${matchedSignals.join(', ')}.`);
+  // --- Fit analysis (varied language) ---
+  if (fit === 3) {
+    parts.push(`Starke thematische Übereinstimmung mit Revamp-IT (Fit ${fit}/3).`);
+  } else if (fit === 2) {
+    parts.push(`Relevante Übereinstimmung mit Revamp-IT-Themen (Fit ${fit}/3).`);
+  } else {
+    parts.push(`Begrenzte thematische Übereinstimmung (Fit ${fit}/3) — gezielte Ansprache nötig.`);
   }
 
-  // Geographic note
-  if (flags.includes('zurich-region')) {
-    parts.push('Sitz in der Region Zürich — geografische Nähe zu Revamp-IT.');
-  }
-
-  // Type assessment
-  const typeLabels: Record<string, string> = {
-    A: 'Professionalisierte Förderstiftung — strukturierte Anträge empfohlen',
-    B: 'Potente Familienstiftung — persönliche Beziehung aufbauen',
-    C: 'Kleine Familienstiftung — direkter Kontakt, emotionaler Appeal',
-    D: 'Corporate Foundation — Alignment mit Unternehmenszielen zeigen',
-    network: 'Netzwerk/Verband — Mitgliedschaft für Sichtbarkeit',
+  // Theme specifics
+  const themeLabels: Record<string, string> = {
+    arbeitsintegration: 'berufliche Integration',
+    kreislaufwirtschaft: 'Kreislaufwirtschaft',
+    'soziale-integration': 'soziale Integration',
+    'digitale-bildung': 'digitale Bildung',
+    'digitale-souveraenitaet': 'digitale Souveränität',
+    klima: 'Klimaschutz',
+    jugend: 'Jugendförderung',
+    zuerich: 'Region Zürich',
   };
-  parts.push(`Typ-Einschätzung: ${type} (${typeLabels[type] || type}).`);
+  const themeNames = themes.map(t => themeLabels[t] || t);
+  if (themeNames.length > 0) {
+    parts.push(`Thematische Anknüpfungspunkte: ${themeNames.join(', ')}.`);
+  }
 
-  // Application strategy
-  if (purposeLower.includes('gesuch') || purposeLower.includes('bewerbung') || purposeLower.includes('antrag')) {
-    parts.push('Stiftungszweck erwähnt Gesuchsprozess — formaler Antrag möglich.');
+  // --- Funder vs operator (varied) ---
+  if (flags.includes('likely-funder')) {
+    parts.push('Stiftungszweck enthält Förderbegriffe — wahrscheinlich Vergabestiftung.');
+  } else if (flags.includes('likely-operator')) {
+    parts.push('Stiftung scheint primär operativ tätig. Prüfen, ob externe Förderung möglich ist.');
+  }
+
+  // --- Signals (only if interesting) ---
+  if (matchedSignals.length > 0) {
+    parts.push(`Relevante Signale: ${matchedSignals.join(', ')}.`);
+  }
+
+  // --- Geography ---
+  if (flags.includes('zurich-region')) {
+    parts.push('Sitz in der Region Zürich — lokale Nähe zu Revamp-IT.');
+  } else if (canton) {
+    parts.push(`Sitz: ${city || ''}, Kanton ${canton}.`);
+  }
+
+  // --- Type + strategy ---
+  const strategies: Record<string, string> = {
+    A: 'Typ A (professionalisiert): Strukturiertes Gesuch mit Impact-Daten empfohlen.',
+    B: 'Typ B (Familienstiftung): Persönlicher Kontakt und Beziehungsaufbau prioritär.',
+    C: 'Typ C (kleine Stiftung): Direkter, emotionaler Ansatz. Kurzes Gesuch.',
+    D: 'Typ D (Corporate): Alignment mit Unternehmenszielen darstellen.',
+    network: 'Netzwerk/Verband: Mitgliedschaft oder Partnerschaft anstreben.',
+  };
+  if (strategies[type]) {
+    parts.push(strategies[type]);
+  }
+
+  // --- Application hints from purpose ---
+  if (purposeLower.includes('gesuch') || purposeLower.includes('antrag')) {
+    parts.push('Zweck erwähnt Gesuchsprozess — Einreichung möglich.');
   }
   if (purposeLower.includes('auf einladung') || purposeLower.includes('nur auf') || purposeLower.includes('kein gesuch')) {
-    parts.push('WARNUNG: Möglicherweise nur auf Einladung — Kontaktaufnahme vor formellem Gesuch empfohlen.');
+    parts.push('Hinweis: Möglicherweise nur auf Einladung. Vorgespräch empfohlen.');
   }
 
-  // Research gaps
-  parts.push('HINWEIS: Diese Analyse basiert ausschliesslich auf dem ESA-Stiftungszweck. Website-Recherche für aktuelle Förderprioritäten, Kontaktdaten und Gesuchsprozess empfohlen.');
+  // --- Next steps ---
+  parts.push('Nächste Schritte: Website identifizieren, Kontaktdaten recherchieren, aktuelle Förderprioritäten prüfen.');
 
   return parts.join(' ');
 }
@@ -357,13 +416,8 @@ function generateDraft(candidate: ScreeningCandidate): object {
   const nameLower = candidate.name.toLowerCase();
   const { funder, operator } = scoreFunderOperator(candidate.purpose);
 
-  // Use screening's theme classification as primary, fall back to reclassification
-  const validThemeIds = ['klima', 'kreislaufwirtschaft', 'soziale-integration', 'digitale-bildung', 'digitale-souveraenitaet', 'jugend', 'zuerich', 'arbeitsintegration'];
-  const screeningThemes = (candidate.matchedThemes || []).filter(t => validThemeIds.includes(t));
-  const reclassifiedThemes = classifyThemes(purposeLower, nameLower);
-  // Merge: screening themes + reclassified, deduplicated
-  const mergedSet = new Set([...screeningThemes, ...reclassifiedThemes]);
-  const themes = [...mergedSet] as ThemeId[];
+  // Use batch-research's own tightened theme classification (not screening's broad keywords)
+  const themes = classifyThemes(purposeLower, nameLower) as ThemeId[];
   const type = classifyType(candidate.purpose, candidate.name, funder, operator);
   const fit = calculateFit(themes, candidate.score, candidate.flags);
   const priority = calculatePriority(fit, candidate.flags, candidate.tier);
@@ -457,11 +511,14 @@ function main() {
   console.log('  Batch Research — Mechanical Draft Generation');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
-  // Find latest v3 screening
+  // Find latest screening (v3 or v4)
   const researchDir = path.join(process.cwd(), 'research');
-  const screeningFiles = fs.readdirSync(researchDir)
-    .filter(f => f.startsWith('esa-screening-v3-'))
-    .sort();
+  const sourceArg = args.find(a => a.startsWith('--source='))?.split('=')[1];
+  const screeningFiles = sourceArg
+    ? [sourceArg].filter(f => fs.existsSync(path.join(researchDir, f)))
+    : fs.readdirSync(researchDir)
+      .filter(f => f.startsWith('esa-screening-v'))
+      .sort();
 
   if (screeningFiles.length === 0) {
     console.error('  No v3 screening file found. Run esa-screen-v3.ts first.');

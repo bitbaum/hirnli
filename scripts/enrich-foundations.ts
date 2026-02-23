@@ -93,8 +93,13 @@ function main() {
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   if (dryRun) console.log('  DRY RUN — no files will be written');
 
-  // Find today's drafts
-  const draftsDir = path.join(process.cwd(), 'research', 'drafts', '2026-02-20');
+  // Find latest drafts directory
+  const allDraftDirs = fs.readdirSync(path.join(process.cwd(), 'research', 'drafts'))
+    .filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d))
+    .sort();
+  const latestDate = allDraftDirs[allDraftDirs.length - 1] || new Date().toISOString().split('T')[0];
+  const draftsDir = path.join(process.cwd(), 'research', 'drafts', latestDate);
+  console.log(`  Using drafts from: ${latestDate}`);
   if (!fs.existsSync(draftsDir)) {
     console.error(`  Drafts directory not found: ${draftsDir}`);
     process.exit(1);
