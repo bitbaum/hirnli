@@ -19,17 +19,21 @@ import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import ShareButton from '@/components/ui/ShareButton';
 
+const ChartSkeleton = () => (
+  <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>
+);
+
 const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
   ssr: false,
-  loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
+  loading: () => <ChartSkeleton />,
 });
 const CategoryBreakdown = dynamic(() => import('@/components/charts/CategoryBreakdown'), {
   ssr: false,
-  loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
+  loading: () => <ChartSkeleton />,
 });
 const AnnualTrendChart = dynamic(() => import('@/components/charts/AnnualTrendChart'), {
   ssr: false,
-  loading: () => <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>,
+  loading: () => <ChartSkeleton />,
 });
 
 import { useFinancialData } from '@/hooks/useFinancialData';

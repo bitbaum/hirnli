@@ -632,6 +632,18 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     category: 'social',
   },
 
+  DEVICES_PER_MONTH_TARGET: {
+    value: 40,
+    label: 'Geräte/Monat verkauft (Ziel mit Hub)',
+    source: {
+      methodology: 'Kapazitätsplanung: 2-3× aktuelle ~15 Geräte/Monat durch bessere Prozesse + mehr Fläche im Hub',
+      calculation: 'Konservativ: ~15 aktuell × 2.7 = 40 (bessere Werkstatt, mehr Lager, mehr Personal)',
+      confidence: 'estimated',
+      lastVerified: '2026-02-23',
+    },
+    category: 'operations',
+  },
+
   REPAIR_TABLES_CURRENT: {
     value: 4,
     label: 'Reparaturtische vorhanden (aktuell)',

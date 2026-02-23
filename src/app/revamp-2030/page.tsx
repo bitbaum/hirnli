@@ -560,7 +560,7 @@ export default function Revamp2030Page() {
         </div>
       </section>
 
-      <StoryBridge bridges={STORY_BRIDGES['revamp-2030'] || STORY_BRIDGES['strategie-2030'] || []} />
+      <StoryBridge bridges={STORY_BRIDGES['revamp-2030'] || []} />
     </>
   );
 }

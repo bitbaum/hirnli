@@ -117,7 +117,7 @@ interface GesuchContent {
   contact: {
     name: string;
     email: string;
-    phone: string;
+    phone?: string;
   };
   emphasizedNarratives?: string[];
   additionalSections?: Array<{ section: string; content: string }>;
@@ -241,9 +241,11 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
           <Text style={styles.paragraph}>
             E-Mail: {content.contact.email}
           </Text>
-          <Text style={styles.paragraph}>
-            Telefon: {content.contact.phone}
-          </Text>
+          {content.contact.phone && (
+            <Text style={styles.paragraph}>
+              Telefon: {content.contact.phone}
+            </Text>
+          )}
         </View>
 
         {/* Footer */}

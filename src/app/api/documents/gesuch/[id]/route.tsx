@@ -15,7 +15,7 @@ import { applications, foundations } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { GesuchPDF } from '@/lib/pdf/GesuchTemplate';
 import { generatePersonalizedGesuch } from '@/lib/domain/personalization-engine';
-import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
+import { CO2_PER_LAPTOP, NUMBERS_REGISTRY } from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 /**
@@ -65,30 +65,33 @@ export async function POST(
       requestedAmount: application.requestedAmount || 50000,
       projectFocus: application.projectFocus || 'Werkstatt Ausbau',
 
-      // Base content (these would ideally come from a content management system)
+      // Content derived from NUMBERS_REGISTRY SSOT
       introduction:
-        'Revamp-IT refurbiert gespendete Laptops und bietet sie zu Solidaritätspreisen an. Parallel schaffen wir Arbeitsplätze für Menschen mit erschwertem Arbeitsmarktzugang, insbesondere Geflüchtete.',
+        `${ORG_PROFILE.name} refurbiert gespendete Laptops und bietet sie zu Solidaritätspreisen an. Parallel schaffen wir Ausbildungsplätze für Menschen mit erschwertem Arbeitsmarktzugang.`,
 
       whyUs:
-        `Wir kombinieren Kreislaufwirtschaft (${CO2_PER_LAPTOP}kg CO2 gespart pro Laptop) mit sozialer Integration (15 Arbeitsplätze geschaffen) und digitaler Inklusion (~1'600+ Laptops verkauft seit 2018).`,
+        `Wir kombinieren Kreislaufwirtschaft (${CO2_PER_LAPTOP}kg CO2 gespart pro Laptop) mit sozialer Integration (${NUMBERS_REGISTRY.PEOPLE_HELPED.value} Menschen begleitet seit ${ORG_PROFILE.founded}) und digitaler Inklusion (${NUMBERS_REGISTRY.LAPTOPS_REFURBISHED_TOTAL.value} Laptops refurbished seit ${ORG_PROFILE.founded}).`,
 
       approach:
         'Unser Geschäftsmodell kombiniert Eigenfinanzierung (Laptop-Verkäufe & Services) mit Stiftungsfinanzierung für Kapazitätsausbau und soziale Programme.',
 
       impact:
-        '2018-2025: ~1\'600 Laptops refurbiert (CHF 238\'309 verifiziert), ~480 Tonnen CO2 eingespart, Arbeitsplätze für Menschen mit erschwertem Arbeitsmarktzugang.',
+        `Seit ${ORG_PROFILE.founded}: ${NUMBERS_REGISTRY.LAPTOPS_REFURBISHED_TOTAL.value} Laptops refurbished, ~${Math.round(1200 * CO2_PER_LAPTOP / 1000)} Tonnen CO2 eingespart, ${NUMBERS_REGISTRY.PEOPLE_HELPED.value} Menschen begleitet.`,
 
-      budget: {
-        modules: personalized.customizations.visibleBudgetModules.map(
-          moduleName => ({
+      budget: (() => {
+        const total = application.requestedAmount || 50000;
+        const modules = personalized.customizations.visibleBudgetModules;
+        const amountPerModule = Math.round(total / Math.max(modules.length, 1));
+        return {
+          modules: modules.map(moduleName => ({
             id: moduleName,
             name: moduleName,
-            amount: 30000, // Simplified - would come from actual module config
+            amount: amountPerModule,
             description: `Budget für ${moduleName}`,
-          })
-        ),
-        total: application.requestedAmount || 50000,
-      },
+          })),
+          total,
+        };
+      })(),
 
       timeline:
         'Q1 2026: Planung und Vorbereitung. Q2-Q3 2026: Umsetzung. Q4 2026: Evaluierung.',
@@ -96,7 +99,6 @@ export async function POST(
       contact: {
         name: 'Andreas Hunkeler',
         email: ORG_PROFILE.email,
-        phone: '+41 76 123 45 67',
       },
 
       // Personalized sections

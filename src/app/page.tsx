@@ -274,7 +274,7 @@ export default function HomePage() {
         <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 p-10 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Bereit für den Deep Dive?</h2>
           <p className="text-lg mb-8 leading-relaxed max-w-3xl mx-auto">
-            Explore unsere Finanzen, Wirkung, Strategie — oder finde die passende Stiftung für dein Projekt.
+            Erkunde unsere Finanzen, Wirkung, Strategie — oder finde die passende Stiftung für dein Projekt.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

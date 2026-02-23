@@ -13,9 +13,11 @@ import {
   TEAM_SUMMARY,
   MULTIPLICATION_EFFECT,
   TEAM_CAPACITY,
+  TEAM_SALARIES,
   DATA_QUALITY_NOTE,
 } from '@/lib/config/team';
 import { TEAM_MEMBERS, DEPARTMENTS } from './data';
+import { PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
 
 export const metadata: Metadata = {
   title: 'Team & Kapazität',
@@ -33,7 +35,7 @@ export default function TeamPage() {
 
       <WhyThisMatters
         purpose={`Zeigt, wer hinter ${ORG_PROFILE.name} steht und wie wir durch Train-the-Trainer skalieren.`}
-        connection="2× Bildungsprogrammleiter ermöglichen 40-60 Menschen/Jahr direkt zu erreichen durch Train-the-Trainer."
+        connection={`2× Bildungsprogrammleiter ermöglichen ${PEOPLE_REACHED_PER_YEAR} Menschen/Jahr direkt zu erreichen durch Train-the-Trainer.`}
       />
 
       {/* Key metrics */}
@@ -52,7 +54,7 @@ export default function TeamPage() {
         />
         <MetricCard
           label="Menschen/Jahr (Ziel)"
-          value="40-60"
+          value={PEOPLE_REACHED_PER_YEAR}
           subtitle="Direkt trainiert + Workshops"
           sourceType="estimated"
         />
@@ -141,7 +143,7 @@ export default function TeamPage() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Train-the-Trainer Multiplikator-Effekt</h2>
         <p className="mb-6 text-sm text-text-muted">
-          Wie 2 geplante Bildungsprogrammleiter (Budget-Ziel: CHF 180k/Jahr) durch Train-the-Trainer 40-60 Menschen/Jahr erreichen sollen.
+          Wie 2 geplante Bildungsprogrammleiter (Budget-Ziel: CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) / 1000).toLocaleString('de-CH')}k/Jahr) durch Train-the-Trainer {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreichen sollen.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -198,8 +200,8 @@ export default function TeamPage() {
             </div>
             <div className="bg-white/70 rounded-lg p-4 text-sm text-left">
               <strong>Das ist der Kern des sozialen Unternehmensmodells:</strong><br />
-              Budget-Ziel: CHF 180k/Jahr für 2× BPL → {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops} Menschen/Jahr erreichen (Prognose).<br />
-              Geplante Kosten pro direkt trainierter Person: CHF {Math.round(180000 / MULTIPLICATION_EFFECT.combined.direct_training)}
+              Budget-Ziel: CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) / 1000).toLocaleString('de-CH')}k/Jahr für 2× BPL → {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops} Menschen/Jahr erreichen (Prognose).<br />
+              Geplante Kosten pro direkt trainierter Person: CHF {Math.round((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) / MULTIPLICATION_EFFECT.combined.direct_training)}
             </div>
           </div>
         </Card>

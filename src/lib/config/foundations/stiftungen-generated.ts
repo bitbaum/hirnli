@@ -1,6 +1,6 @@
 // AUTO-GENERATED — DO NOT EDIT MANUALLY
 // Source: Neon DB (fundraising_foundations.config_data)
-// Generated: 2026-02-23T14:56:51.300Z
+// Generated: 2026-02-23T15:21:19.657Z
 // Run `npm run sync` to regenerate from database
 // Foundations: 3248
 
@@ -6745,8 +6745,8 @@ export const STIFTUNGEN_GENERATED: Foundation[] = [
   {
     "slug": "berset-mueller-stiftung",
     "name": "Berset Müller-Stiftung",
-    "uid": "CHE-XXX.XXX.XXX",
-    "websiteUrl": "https://www.zefix.ch/de/search/entity/list?mainSearch=CHE-XXX.XXX.XXX",
+    "uid": "",
+    "websiteUrl": "",
     "officialPurpose": "Heimstätte für behinderte Menschen, die hauptsächlich aufgrund psychischer Erkrankungen oder Suchtschädigungen auf die Betreuung angewiesen sind. Das Ziel der Rehabilitation besteht in der Wiedereingliederung in die Arbeitswelt.",
     "region": "Bern",
     "contact": {

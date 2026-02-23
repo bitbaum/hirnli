@@ -3,7 +3,8 @@
  * To support a new org, rewrite this file's content.
  * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
  */
-export interface TeamMember {
+/** Display-oriented team member for the team page (distinct from TeamMember in lib/config/team.ts) */
+export interface TeamMemberDisplay {
   id: string;
   name: string;
   fachgebiete: string[];
@@ -11,7 +12,7 @@ export interface TeamMember {
   capacity?: string;
 }
 
-export const TEAM_MEMBERS: TeamMember[] = [
+export const TEAM_MEMBERS: TeamMemberDisplay[] = [
   // Leitung
   { id: 'PER-0001', name: 'Andreas', fachgebiete: ['Geschäftsführung', 'Strategie'], bereich: 'Leitung' },
   { id: 'PER-0002', name: 'Daniel', fachgebiete: ['Elektrotechnik', 'Software Engineering', 'Betrieb'], bereich: 'Leitung' },

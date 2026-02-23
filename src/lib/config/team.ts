@@ -142,7 +142,7 @@ export const TEAM_CAPACITY = {
   current: {
     devices_per_month: 12, // ESTIMATE - derived from Warenverkauf: CHF 22k ÷ CHF 150 ÷ 12
     devices_per_year: 150, // ESTIMATE - derived from Warenverkauf revenue
-    people_trained_per_year: 0, // NOT SYSTEMATICALLY TRACKED - informal training happens but not measured
+    people_trained_per_year: 5, // ESTIMATED ~5 (informal, not systematically tracked) — aligned with NUMBERS_REGISTRY.PEOPLE_REACHED_CURRENT
     team_size_vza: 3,
   },
   year3_with_hub_and_bpl: {

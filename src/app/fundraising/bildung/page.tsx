@@ -14,11 +14,12 @@ import {
 import {
   BPL_HARDWARE_PER_YEAR_DISPLAY,
   BPL_SOFTWARE_PER_YEAR_DISPLAY,
+  PEOPLE_REACHED_PER_YEAR,
 } from '@/lib/config/projections';
 
 export const metadata: Metadata = {
   title: 'Bildungsprogramm — Train-the-Trainer',
-  description: '2× Bildungsprogrammleiter:innen ermöglichen Train-the-Trainer und erreichen 40-60 Menschen/Jahr',
+  description: `2× Bildungsprogrammleiter:innen ermöglichen Train-the-Trainer und erreichen ${PEOPLE_REACHED_PER_YEAR} Menschen/Jahr`,
 };
 
 export default function BildungPage() {
@@ -26,12 +27,12 @@ export default function BildungPage() {
     <>
       <PageHeader
         title="Bildungsprogramm"
-        subtitle="Train-the-Trainer: 2× Bildungsprogrammleiter:innen, 40-60 Menschen/Jahr erreichen"
+        subtitle={`Train-the-Trainer: 2× Bildungsprogrammleiter:innen, ${PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreichen`}
         badge="Bildung"
       />
 
       <WhyThisMatters
-        purpose="Das Bildungsprogramm zeigt, wie wir durch strukturiertes Train-the-Trainer 40-60 Menschen/Jahr erreichen — ohne das ganze Team zu vervielfachen."
+        purpose={`Das Bildungsprogramm zeigt, wie wir durch strukturiertes Train-the-Trainer ${PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreichen — ohne das ganze Team zu vervielfachen.`}
         connection="Kombiniert mit dem Hub (Infrastruktur) skalieren wir sowohl Geräte-Kapazität als auch Bildungswirkung."
       />
 
@@ -55,9 +56,9 @@ export default function BildungPage() {
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>Dedizierte Bildungsprogrammleiter:innen für systematisches Training</li>
-                  <li>Train-the-Trainer Ansatz: Traineren ausbilden statt nur direkt trainieren</li>
+                  <li>Train-the-Trainer Ansatz: Trainer:innen ausbilden statt nur direkt trainieren</li>
                   <li>Strukturierte Curricula für Hardware- und Software-/AI-Bildung</li>
-                  <li>Skalierbare Kapazität: Von informellem Training zu 40-60 Menschen/Jahr</li>
+                  <li>Skalierbare Kapazität: Von informellem Training zu {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr</li>
                 </ul>
               </div>
             </div>
@@ -70,7 +71,7 @@ export default function BildungPage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Lösung: Train-the-Trainer</h2>
         <div className="rounded-xl bg-gradient-to-br from-violet-600 to-purple-600 p-8 text-white mb-6">
           <div className="text-center mb-6">
-            <div className="text-6xl font-bold mb-2">40-60</div>
+            <div className="text-6xl font-bold mb-2">{PEOPLE_REACHED_PER_YEAR}</div>
             <div className="text-xl opacity-90">
               Menschen/Jahr direkt erreicht durch strukturiertes Training + Workshops
             </div>
@@ -89,7 +90,7 @@ export default function BildungPage() {
               <div className="text-sm opacity-90">Direkt trainiert/Jahr</div>
             </div>
             <div className="bg-white/10 rounded-lg p-4 text-center backdrop-blur">
-              <div className="text-3xl font-bold">40-60</div>
+              <div className="text-3xl font-bold">{PEOPLE_REACHED_PER_YEAR}</div>
               <div className="text-sm opacity-90">Mit Workshops erreicht/Jahr</div>
             </div>
           </div>
@@ -179,7 +180,7 @@ export default function BildungPage() {
               </div>
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">
-                  Bildungsprogrammleiter:innen trainieren Traineren
+                  Bildungsprogrammleiter:innen trainieren Trainer:innen
                 </h3>
                 <p className="text-sm text-text-light mb-3">
                   Hardware-BPL bildet <strong>{BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr</strong> aus. Software/AI-BPL trainiert <strong>{BPL_SOFTWARE_PER_YEAR_DISPLAY} Entwickler/Jahr</strong>.
@@ -199,7 +200,7 @@ export default function BildungPage() {
               </div>
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">
-                  Traineren trainieren andere
+                  Trainer:innen trainieren andere
                 </h3>
                 <p className="text-sm text-text-light mb-3">
                   Hardware: <strong>5 gleichzeitig aktive Techniker</strong> → je 10 Menschen/Jahr = <strong>50 indirekt</strong>.
@@ -225,7 +226,7 @@ export default function BildungPage() {
                   Zusätzlich zu direktem und indirektem Training: <strong>Workshops, Events, Repair Cafés</strong> im Hub erreichen weitere 50-80 Menschen/Jahr.
                 </p>
                 <div className="bg-emerald-50 rounded-lg p-3 text-sm text-emerald-800">
-                  <strong>Gesamt-Reichweite (konservativ):</strong> 18 (direkt trainiert) + 20-40 (Workshop-Teilnehmer) = <strong>40-60 Menschen/Jahr</strong>.
+                  <strong>Gesamt-Reichweite (konservativ):</strong> 18 (direkt trainiert) + 20-40 (Workshop-Teilnehmer) = <strong>{PEOPLE_REACHED_PER_YEAR} Menschen/Jahr</strong>.
                 </div>
               </div>
             </div>
@@ -309,7 +310,7 @@ export default function BildungPage() {
                 <h3 className="text-md font-semibold text-grey-dark mb-2">Aufbau & Pilotphase</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                   <li>Hardware-BPL eingestellt, Curricula entwickelt, erste Trainings</li>
-                  <li>Erste trainierte Techniker werden aktiv (2-3 Traineren)</li>
+                  <li>Erste trainierte Techniker werden aktiv (2-3 Trainer:innen)</li>
                   <li>Finanzierung: 100% Stiftungsgelder (1× BPL: CHF {(TEAM_SALARIES.hardware_bpl * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')} inkl. Sozialabgaben)</li>
                   <li>Einnahmen: Workshop-Fees beginnen (CHF 5-10k, nicht ausreichend für Selbsttragung)</li>
                 </ul>
@@ -334,8 +335,8 @@ export default function BildungPage() {
               <div className="flex-1">
                 <h3 className="text-md font-semibold text-grey-dark mb-2">Selbsttragung erreicht</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
-                  <li>Train-the-Trainer voll etabliert, 40-60 Menschen/Jahr erreicht</li>
-                  <li>Traineren trainieren ohne unsere direkte Beteiligung</li>
+                  <li>Train-the-Trainer voll etabliert, {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreicht</li>
+                  <li>Trainer:innen trainieren ohne unsere direkte Beteiligung</li>
                   <li>Finanzierung: 50% Stiftungsgelder, 50% Eigenmittel (Workshop-Fees, Corporate Training)</li>
                   <li>Einnahmen: Corporate Trainings, Workshops, Zuschüsse (CHF 80-100k/Jahr)</li>
                 </ul>
@@ -370,7 +371,7 @@ export default function BildungPage() {
                 <div className="text-xs text-emerald-700">Geräte/Jahr (Hub)</div>
               </div>
               <div className="bg-white rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-emerald-900">40-60</div>
+                <div className="text-2xl font-bold text-emerald-900">{PEOPLE_REACHED_PER_YEAR}</div>
                 <div className="text-xs text-emerald-700">Menschen/Jahr (Bildung)</div>
               </div>
             </div>
@@ -385,7 +386,7 @@ export default function BildungPage() {
           <h3 className="text-2xl font-bold mb-4">Unterstütze das Bildungsprogramm</h3>
           <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
             Mit <strong>CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')}/Jahr über 3 Jahre</strong> (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm,
-            das 40-60 Menschen/Jahr erreicht.
+            das {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreicht.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
