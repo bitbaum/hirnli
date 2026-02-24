@@ -1,21 +1,26 @@
 /**
- * Fit Scoring — Single scoring function (SSOT for all scripts)
+ * Fit Scoring — Generic config-driven scoring engine
  *
- * Previously copy-pasted across foundation-upsert.ts, batch-research.ts,
- * and backfill-depth-fitscore.ts. Now centralized here.
+ * Reads dimension definitions from lib/config/fit-scoring.ts and evaluates
+ * them generically. Adding a new dimension of an existing compute type
+ * requires zero changes here — config only.
  *
- * All config (weights, thresholds, theme lists) imported from
- * lib/config/fit-scoring.ts — this file is pure computation.
+ * COMPUTE TYPE REGISTRY:
+ *   weightedCategoryMatch — count tags in buckets, weight + cap each
+ *   tieredLookup          — ordered tiers, first match wins
+ *   directMap             — key→value map with fallbacks
+ *
+ * To add a genuinely new compute type: add one function here + register it.
  */
 
 import {
-  THEME_CLASSIFICATION,
-  THEME_WEIGHTS,
-  GEOGRAPHIC_CONFIG,
-  ACCESS_SCORES,
-  ACCESS_FUNDER_FALLBACK,
-  FIT_THRESHOLDS,
-  UNASSESSED_DEPTHS,
+  SCORING_ENGINE,
+  type MatchCondition,
+  type MatchExpression,
+  type WeightedCategoryMatchConfig,
+  type TieredLookupConfig,
+  type DirectMapConfig,
+  type ScoringDimensionConfig,
 } from '../config/fit-scoring';
 
 // ============================================================================
@@ -31,103 +36,163 @@ export interface FitScoreInput {
 }
 
 export interface FitResult {
-  /** Composite score 0-10 */
+  /** Composite score (sum of all dimensions) */
   fitScore: number;
-  /** Per-dimension breakdown */
-  thematic: number;
-  geographic: number;
-  access: number;
+  /** Per-dimension scores keyed by dimension id */
+  dimensions: Record<string, number>;
+}
+
+// Input as a generic record for the engine to read fields dynamically
+type InputRecord = Record<string, unknown>;
+
+// ============================================================================
+// Match evaluator (used by tieredLookup)
+// ============================================================================
+
+function evaluateCondition(input: InputRecord, cond: MatchCondition): boolean {
+  const value = input[cond.field];
+
+  switch (cond.op) {
+    case 'eq':
+      return value === cond.value;
+
+    case 'in':
+      return typeof value === 'string' && (cond.values as readonly string[]).includes(value);
+
+    case 'containsAny': {
+      if (typeof value !== 'string') return false;
+      const lower = value.toLowerCase();
+      return cond.values.some(v => lower.includes(v));
+    }
+
+    case 'truthy':
+      return Boolean(value);
+  }
+}
+
+function evaluateMatch(input: InputRecord, match: MatchExpression): boolean {
+  if ('type' in match && match.type === 'or') {
+    return match.conditions.some(c => evaluateCondition(input, c));
+  }
+  return evaluateCondition(input, match as MatchCondition);
 }
 
 // ============================================================================
-// Individual dimensions
+// Compute type registry — one pure function per type
+// ============================================================================
+
+function evaluateWeightedCategoryMatch(input: InputRecord, config: WeightedCategoryMatchConfig): number {
+  // Collect all input arrays from the input fields (the dimension declares which)
+  // For weightedCategoryMatch the first inputField is typically an array field like 'themes'
+  const tags = Object.values(input).find(v => Array.isArray(v)) as string[] | undefined;
+  if (!tags || tags.length === 0) return 0;
+
+  let total = 0;
+  for (const cat of config.categories) {
+    const hits = tags.filter(t => (cat.members as readonly string[]).includes(t)).length;
+    total += Math.min(hits * cat.weight, cat.cap);
+  }
+
+  const score = config.round ? Math.round(total) : total;
+  return Math.min(score, config.totalCap);
+}
+
+function evaluateTieredLookup(input: InputRecord, config: TieredLookupConfig): number {
+  for (const tier of config.tiers) {
+    if (evaluateMatch(input, tier.match)) {
+      return tier.score;
+    }
+  }
+  return config.defaultScore;
+}
+
+function evaluateDirectMap(input: InputRecord, config: DirectMapConfig): number {
+  const fieldValue = input[config.field];
+
+  if (typeof fieldValue === 'string' && fieldValue in config.map) {
+    return config.map[fieldValue];
+  }
+
+  for (const fb of config.fallbacks) {
+    if (evaluateCondition(input, fb.condition)) {
+      return fb.score;
+    }
+  }
+
+  return config.defaultScore;
+}
+
+const COMPUTE_REGISTRY: Record<string, (input: InputRecord, config: never) => number> = {
+  weightedCategoryMatch: evaluateWeightedCategoryMatch as (input: InputRecord, config: never) => number,
+  tieredLookup: evaluateTieredLookup as (input: InputRecord, config: never) => number,
+  directMap: evaluateDirectMap as (input: InputRecord, config: never) => number,
+};
+
+// ============================================================================
+// Generic engine
 // ============================================================================
 
 /**
- * Thematic fit (0-4).
- * Core themes weighted higher than secondary themes.
- * Formula: min(round(min(coreHits × 1.5, 3) + min(secondaryHits × 0.5, 1)), 4)
+ * Pick only the fields a dimension declares it needs from the full input.
  */
-export function computeThematicFit(themes: string[]): number {
-  const coreHits = themes.filter(t => (THEME_CLASSIFICATION.core as readonly string[]).includes(t)).length;
-  const secondaryHits = themes.filter(t => (THEME_CLASSIFICATION.secondary as readonly string[]).includes(t)).length;
-
-  const coreScore = Math.min(coreHits * THEME_WEIGHTS.coreWeight, THEME_WEIGHTS.coreCap);
-  const secondaryScore = Math.min(secondaryHits * THEME_WEIGHTS.secondaryWeight, THEME_WEIGHTS.secondaryCap);
-
-  return Math.min(Math.round(coreScore + secondaryScore), THEME_WEIGHTS.totalCap);
+function pickInputFields(fullInput: InputRecord, dim: ScoringDimensionConfig): InputRecord {
+  const subset: InputRecord = {};
+  for (const field of dim.inputFields) {
+    subset[field] = fullInput[field];
+  }
+  return subset;
 }
 
-/**
- * Geographic fit (0-3).
- * ZH/Zurich cities → 3, nearby cantons → 2, Swiss → 1, unknown → 0.
- */
-export function computeGeographicFit(canton: string, city: string): number {
-  const cityLower = city.toLowerCase();
-
-  if (canton === 'ZH' || GEOGRAPHIC_CONFIG.zurichCities.some(c => cityLower.includes(c))) {
-    return GEOGRAPHIC_CONFIG.scores.zurich;
+function evaluateDimension(dim: ScoringDimensionConfig, fullInput: InputRecord): number {
+  const compute = COMPUTE_REGISTRY[dim.computeType];
+  if (!compute) {
+    throw new Error(`Unknown compute type: ${dim.computeType}`);
   }
-  if ((GEOGRAPHIC_CONFIG.nearbyCantons as readonly string[]).includes(canton)) {
-    return GEOGRAPHIC_CONFIG.scores.nearby;
-  }
-  if (canton) {
-    return GEOGRAPHIC_CONFIG.scores.swiss;
-  }
-  return GEOGRAPHIC_CONFIG.scores.unknown;
-}
-
-/**
- * Access fit (0-3).
- * Online portal → 3, email → 2, invitation → 1, known funder → 1, unknown → 0.
- */
-export function computeAccessFit(applicationMethod: string, isFunder: boolean): number {
-  if (applicationMethod in ACCESS_SCORES) {
-    return ACCESS_SCORES[applicationMethod];
-  }
-  if (isFunder) {
-    return ACCESS_FUNDER_FALLBACK;
-  }
-  return 0;
+  const input = pickInputFields(fullInput, dim);
+  const score = compute(input, dim.config as never);
+  return Math.min(score, dim.maxScore);
 }
 
 // ============================================================================
-// Composite score
+// Public API — identical signatures to before
 // ============================================================================
 
 /**
- * Compute composite fit score 0-10 with per-dimension breakdown.
- * thematic (0-4) + geographic (0-3) + access (0-3) = 0-10
+ * Compute composite fit score with per-dimension breakdown.
+ * Reads all dimensions from SCORING_ENGINE config.
  */
 export function computeFitScore(input: FitScoreInput): FitResult {
-  const thematic = computeThematicFit(input.themes);
-  const geographic = computeGeographicFit(input.canton, input.city);
-  const access = computeAccessFit(input.applicationMethod, input.isFunder);
+  const inputRecord = input as unknown as InputRecord;
+  const dimensions: Record<string, number> = {};
 
-  return {
-    fitScore: thematic + geographic + access,
-    thematic,
-    geographic,
-    access,
-  };
+  for (const dim of SCORING_ENGINE.dimensions) {
+    dimensions[dim.id] = evaluateDimension(dim, inputRecord);
+  }
+
+  // Composite — currently only 'sum'
+  const fitScore = Object.values(dimensions).reduce((a, b) => a + b, 0);
+
+  return { fitScore, dimensions };
 }
 
-// ============================================================================
-// Display mapping (confidence-aware)
-// ============================================================================
-
 /**
- * Map fitScore 0-10 + researchDepth → display fit 0-3.
- *
- * fit=0 "Nicht geprüft" for unassessed research depths (rapid).
- * The fitScore is still stored and useful for prioritizing which
- * foundations to research next, but the display honestly says "not assessed."
+ * Map fitScore + researchDepth → display fit level.
+ * Reads thresholds and confidence gate from SCORING_ENGINE.display config.
  */
 export function fitScoreToDisplay(fitScore: number, researchDepth: string | undefined): 0 | 1 | 2 | 3 {
-  if (researchDepth && UNASSESSED_DEPTHS.includes(researchDepth)) {
-    return 0;
+  const { display } = SCORING_ENGINE;
+
+  // Confidence gate: unassessed depths get gated level
+  if (researchDepth && display.confidenceGate.excludeValues.includes(researchDepth)) {
+    return display.confidenceGate.gateLevel as 0 | 1 | 2 | 3;
   }
-  if (fitScore >= FIT_THRESHOLDS.high) return 3;
-  if (fitScore >= FIT_THRESHOLDS.medium) return 2;
-  return 1;
+
+  // Thresholds are in descending order — first match wins
+  for (const t of display.thresholds) {
+    if (fitScore >= t.minScore) {
+      return t.level as 0 | 1 | 2 | 3;
+    }
+  }
+
+  return display.defaultLevel as 0 | 1 | 2 | 3;
 }

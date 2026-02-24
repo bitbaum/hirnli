@@ -1,107 +1,243 @@
 /**
- * Fit Scoring Configuration — SSOT for all scoring weights, thresholds, and display
+ * Fit Scoring Configuration — Declarative scoring engine config
  *
- * WHY: The scoring formula was copy-pasted across 3 scripts with hardcoded magic
- * numbers. This file centralizes every constant with rationale documentation.
- * Domain logic lives in lib/domain/fit-scoring.ts; this file is config only.
+ * WHY: Adding a new scoring dimension should require only config changes,
+ * not new domain functions. This file declares WHAT to score; the domain
+ * engine (lib/domain/fit-scoring.ts) handles HOW.
+ *
+ * COMPUTE TYPES (extend in domain when genuinely new pattern needed):
+ *   weightedCategoryMatch — count tags in buckets, weight + cap each
+ *   tieredLookup          — ordered tiers, first match wins
+ *   directMap             — key→value map with fallbacks
  *
  * ORG-SPECIFIC: Theme classification and geographic tiers are Revamp-IT specific.
- * To support a new org, rewrite THEME_CLASSIFICATION and GEOGRAPHIC_TIERS.
+ * To support a new org, rewrite the dimension configs below.
  */
 
 import type { ThemeId } from '../schemas/foundation';
 
 // ============================================================================
-// THEME CLASSIFICATION
+// Type definitions — co-located with config so they're always in sync
 // ============================================================================
-// Themes are split into core (direct mission alignment) and secondary (tangential).
-//
-// WHY core weight = 1.5, cap = 3:
-//   2 core matches → 3 points (near cap). Two strong overlaps are almost as
-//   good as four — diminishing returns on additional core matches.
-//
-// WHY secondary weight = 0.5, cap = 1:
-//   Tangential relevance. A climate foundation *might* fund circular economy,
-//   but it's not a primary match. Capped to prevent secondary themes from
-//   inflating scores beyond their actual predictive value.
 
-export const THEME_CLASSIFICATION = {
-  core: ['arbeitsintegration', 'kreislaufwirtschaft', 'digitale-bildung', 'digitale-souveraenitaet'] as ThemeId[],
-  secondary: ['soziale-integration', 'klima', 'jugend', 'zuerich'] as ThemeId[],
-} as const;
+// --- Match conditions (used by tieredLookup) ---
 
-export const THEME_WEIGHTS = {
-  /** Points per core theme match */
-  coreWeight: 1.5,
-  /** Max points from core themes */
-  coreCap: 3,
-  /** Points per secondary theme match */
-  secondaryWeight: 0.5,
-  /** Max points from secondary themes */
-  secondaryCap: 1,
-  /** Max total thematic score */
-  totalCap: 4,
-} as const;
+export interface MatchConditionEq {
+  field: string;
+  op: 'eq';
+  value: string | number | boolean;
+}
+
+export interface MatchConditionIn {
+  field: string;
+  op: 'in';
+  values: readonly string[];
+}
+
+export interface MatchConditionContainsAny {
+  field: string;
+  op: 'containsAny';
+  values: readonly string[];
+}
+
+export interface MatchConditionTruthy {
+  field: string;
+  op: 'truthy';
+}
+
+export type MatchCondition =
+  | MatchConditionEq
+  | MatchConditionIn
+  | MatchConditionContainsAny
+  | MatchConditionTruthy;
+
+export type MatchExpression =
+  | MatchCondition
+  | { type: 'or'; conditions: MatchCondition[] };
+
+// --- Compute type configs ---
+
+export interface WeightedCategoryMatchConfig {
+  categories: readonly {
+    name: string;
+    members: readonly string[];
+    weight: number;
+    cap: number;
+  }[];
+  totalCap: number;
+  round: boolean;
+}
+
+export interface TieredLookupConfig {
+  tiers: readonly {
+    score: number;
+    match: MatchExpression;
+  }[];
+  defaultScore: number;
+}
+
+export interface DirectMapConfig {
+  field: string;
+  map: Record<string, number>;
+  fallbacks: readonly {
+    condition: MatchCondition;
+    score: number;
+  }[];
+  defaultScore: number;
+}
+
+export type ComputeConfig =
+  | WeightedCategoryMatchConfig
+  | TieredLookupConfig
+  | DirectMapConfig;
+
+// --- Dimension + engine ---
+
+export interface ScoringDimensionConfig<T extends ComputeConfig = ComputeConfig> {
+  id: string;
+  label: string;
+  maxScore: number;
+  computeType: 'weightedCategoryMatch' | 'tieredLookup' | 'directMap';
+  inputFields: readonly string[];
+  config: T;
+}
+
+export interface ScoringEngineConfig {
+  dimensions: readonly ScoringDimensionConfig[];
+  composite: { method: 'sum' };
+  display: {
+    thresholds: readonly { level: number; minScore: number }[];
+    defaultLevel: number;
+    confidenceGate: {
+      field: string;
+      excludeValues: readonly string[];
+      gateLevel: number;
+    };
+  };
+}
 
 // ============================================================================
-// GEOGRAPHIC TIERS
+// ENGINE CONFIG
 // ============================================================================
-// Swiss foundations strongly favor local projects. A ZH foundation is ~3x more
-// likely to fund a ZH project than a remote one (based on grant distribution data).
 
-export const GEOGRAPHIC_CONFIG = {
-  /** Zürich cities — seat or common project locations in Kanton ZH */
-  zurichCities: ['zürich', 'winterthur', 'uster', 'wetzikon', 'dübendorf', 'dietikon', 'horgen'],
-  /** Cantons adjacent to ZH — partial geographic overlap */
-  nearbyCantons: ['ZG', 'AG', 'SH', 'TG', 'SZ', 'LU'],
-  /** Score tiers */
-  scores: {
-    zurich: 3,
-    nearby: 2,
-    swiss: 1,
-    unknown: 0,
+export const SCORING_ENGINE: ScoringEngineConfig = {
+  dimensions: [
+    // ------------------------------------------------------------------
+    // Thematic fit (0-4)
+    // Core themes weighted higher than secondary. Two strong core overlaps
+    // are almost as good as four — diminishing returns via cap.
+    // ------------------------------------------------------------------
+    {
+      id: 'thematic',
+      label: 'Thematischer Fit',
+      maxScore: 4,
+      computeType: 'weightedCategoryMatch',
+      inputFields: ['themes'],
+      config: {
+        categories: [
+          {
+            name: 'core',
+            members: [
+              'arbeitsintegration',
+              'kreislaufwirtschaft',
+              'digitale-bildung',
+              'digitale-souveraenitaet',
+            ] satisfies ThemeId[],
+            weight: 1.5,
+            cap: 3,
+          },
+          {
+            name: 'secondary',
+            members: [
+              'soziale-integration',
+              'klima',
+              'jugend',
+              'zuerich',
+            ] satisfies ThemeId[],
+            weight: 0.5,
+            cap: 1,
+          },
+        ],
+        totalCap: 4,
+        round: true,
+      } satisfies WeightedCategoryMatchConfig,
+    },
+    // ------------------------------------------------------------------
+    // Geographic fit (0-3)
+    // Swiss foundations strongly favor local projects. ZH ~3x more likely
+    // to fund a ZH project than a remote one (based on grant distribution).
+    // ------------------------------------------------------------------
+    {
+      id: 'geographic',
+      label: 'Geographischer Fit',
+      maxScore: 3,
+      computeType: 'tieredLookup',
+      inputFields: ['canton', 'city'],
+      config: {
+        tiers: [
+          {
+            score: 3,
+            match: {
+              type: 'or',
+              conditions: [
+                { field: 'canton', op: 'eq', value: 'ZH' },
+                { field: 'city', op: 'containsAny', values: ['zürich', 'winterthur', 'uster', 'wetzikon', 'dübendorf', 'dietikon', 'horgen'] },
+              ],
+            },
+          },
+          {
+            score: 2,
+            match: { field: 'canton', op: 'in', values: ['ZG', 'AG', 'SH', 'TG', 'SZ', 'LU'] },
+          },
+          {
+            score: 1,
+            match: { field: 'canton', op: 'truthy' },
+          },
+        ],
+        defaultScore: 0,
+      } satisfies TieredLookupConfig,
+    },
+    // ------------------------------------------------------------------
+    // Access fit (0-3)
+    // Open online portal = immediately actionable (highest priority).
+    // Invitation-only = requires relationship building first (lower).
+    // ------------------------------------------------------------------
+    {
+      id: 'access',
+      label: 'Zugangs-Fit',
+      maxScore: 3,
+      computeType: 'directMap',
+      inputFields: ['applicationMethod', 'isFunder'],
+      config: {
+        field: 'applicationMethod',
+        map: { online: 3, email: 2, invitation: 1 },
+        fallbacks: [
+          { condition: { field: 'isFunder', op: 'eq', value: true }, score: 1 },
+        ],
+        defaultScore: 0,
+      } satisfies DirectMapConfig,
+    },
+  ],
+  composite: { method: 'sum' },
+  display: {
+    // Descending order — first match wins
+    thresholds: [
+      { level: 3, minScore: 7 },
+      { level: 2, minScore: 4 },
+    ],
+    defaultLevel: 1,
+    confidenceGate: {
+      field: 'researchDepth',
+      excludeValues: ['rapid'],
+      gateLevel: 0,
+    },
   },
-} as const;
-
-// ============================================================================
-// ACCESS SCORING
-// ============================================================================
-// Open online portal = immediately actionable (highest priority for time investment).
-// Invitation-only = requires relationship building first (lower priority activity).
-
-export const ACCESS_SCORES: Record<string, number> = {
-  online: 3,
-  email: 2,
-  invitation: 1,
 };
-
-/** Fallback score when applicationMethod is unknown but foundation is a known funder */
-export const ACCESS_FUNDER_FALLBACK = 1;
-
-// ============================================================================
-// FIT THRESHOLDS
-// ============================================================================
-// Map composite 0-10 score to display categories 0-3.
-// These thresholds should be adjusted if the scoring dimensions change.
-
-export const FIT_THRESHOLDS = {
-  /** fitScore >= high → fit=3 */
-  high: 7,
-  /** fitScore >= medium → fit=2 */
-  medium: 4,
-} as const;
-
-// ============================================================================
-// CONFIDENCE: UNASSESSED RESEARCH DEPTHS
-// ============================================================================
-// researchDepth values where fitScore is unreliable (auto-screened, no human review).
-// Entries with these depths get fit=0 regardless of fitScore.
-
-export const UNASSESSED_DEPTHS: string[] = ['rapid'];
 
 // ============================================================================
 // FIT DISPLAY — Labels, colors, stars for each fit level
 // ============================================================================
+// Not part of engine config — purely presentation, consumed by UI components.
 
 export const FIT_DISPLAY: Record<0 | 1 | 2 | 3, {
   label: string;
