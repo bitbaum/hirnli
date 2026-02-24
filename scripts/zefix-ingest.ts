@@ -314,11 +314,28 @@ async function main() {
   }
   console.log(`  Existing in DB: ${existingSlugs.size} slugs, ${existingUids.size} UIDs`);
 
-  // 5. Cross-reference: skip already in DB
+  // 5. Build normalized-name index for fuzzy dedup
+  // Catches "Stiftung X" vs "Stiftung X, Basel" and case/hyphen variations
+  function normalizeName(name: string): string {
+    let n = name.toLowerCase().trim();
+    n = n.replace(/,\s*[a-zäöüéèà\s-]+$/i, ''); // strip trailing ", City"
+    n = n.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue');
+    n = n.replace(/é/g, 'e').replace(/è/g, 'e').replace(/à/g, 'a');
+    n = n.replace(/[^a-z0-9]/g, '');
+    return n;
+  }
+
+  const existingNormNames = new Set<string>();
+  for (const m of genContent.matchAll(/"name":\s*"([^"]+)"/g)) {
+    existingNormNames.add(normalizeName(m[1]));
+  }
+
+  // 6. Cross-reference: skip already in DB
   const missing: ZefixEntry[] = [];
   const slugsSeen = new Set<string>();
   let skippedBySlug = 0;
   let skippedByUid = 0;
+  let skippedByName = 0;
 
   for (const entry of charitable) {
     const slug = toSlug(entry.name);
@@ -327,6 +344,8 @@ async function main() {
     if (existingSlugs.has(slug)) { skippedBySlug++; continue; }
     // Skip if UID already exists
     if (entry.uid && existingUids.has(entry.uid)) { skippedByUid++; continue; }
+    // Skip if normalized name matches (catches case/hyphen/suffix variations)
+    if (existingNormNames.has(normalizeName(entry.name))) { skippedByName++; continue; }
     // Skip duplicates within this batch
     if (slugsSeen.has(slug)) continue;
 
@@ -336,6 +355,7 @@ async function main() {
 
   console.log(`  Skipped by slug: ${skippedBySlug}`);
   console.log(`  Skipped by UID: ${skippedByUid}`);
+  console.log(`  Skipped by name: ${skippedByName}`);
   console.log(`  New (not in DB): ${missing.length}`);
 
   if (missing.length === 0) {
