@@ -70,7 +70,11 @@ async function syncFoundations() {
   }
 
   // Generate TypeScript file
+  // WHY JSON.parse: With 5,500+ foundations, a raw array literal causes
+  // TS2590 "union type too complex to represent". JSON.parse avoids this
+  // by deferring type inference to runtime.
   const timestamp = new Date().toISOString();
+  const jsonData = JSON.stringify(valid);
   const content = `// AUTO-GENERATED — DO NOT EDIT MANUALLY
 // Source: Neon DB (fundraising_foundations.config_data)
 // Generated: ${timestamp}
@@ -81,7 +85,7 @@ async function syncFoundations() {
 
 import type { Foundation } from '../../schemas/foundation';
 
-export const STIFTUNGEN_GENERATED: Foundation[] = ${JSON.stringify(valid, null, 2)};
+export const STIFTUNGEN_GENERATED: Foundation[] = JSON.parse('${jsonData.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}');
 `;
 
   writeFileSync(OUTPUT_PATH, content, 'utf-8');

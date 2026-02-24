@@ -30,7 +30,10 @@
     "screen:v3.1": "tsx scripts/foundation-screen-v3.1.ts",
     "research:queue": "tsx scripts/foundation-research-queue.ts",
     "registry:migrate": "tsx src/scripts/migrate-registry.ts",
-    "registry:import": "tsx scripts/registry-import.ts"
+    "registry:import": "tsx scripts/registry-import.ts",
+    "rescore": "tsx scripts/rescore.ts",
+    "zhaw:ingest": "tsx scripts/zhaw-ingest.ts",
+    "pipeline:incremental": "tsx scripts/pipeline-incremental.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

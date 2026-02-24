@@ -26,3 +26,6 @@ screenshot-*.png
 # Vercel
 .vercel
 .env*.local
+
+# Research drafts (too large for git, already ingested into DB)
+research/drafts/
