@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
 import { computeCompleteness } from '@/lib/domain/foundation-research-stats';
@@ -21,14 +22,18 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Auf einen Blick</h3>
         <dl className="space-y-2 text-sm">
-          <div>
-            <dt className="text-text-muted">Förderbetrag</dt>
-            <dd className="font-medium text-grey-dark">{f.amount.text}</dd>
-          </div>
-          <div>
-            <dt className="text-text-muted">Bewerbungsfrist</dt>
-            <dd className="font-medium text-grey-dark">{f.deadlineText}</dd>
-          </div>
+          {f.amount.text && f.amount.text !== 'Unbekannt' && (
+            <div>
+              <dt className="text-text-muted">Förderbetrag</dt>
+              <dd className="font-medium text-grey-dark">{f.amount.text}</dd>
+            </div>
+          )}
+          {f.deadlineText && f.deadlineText !== 'Unbekannt' && (
+            <div>
+              <dt className="text-text-muted">Bewerbungsfrist</dt>
+              <dd className="font-medium text-grey-dark">{f.deadlineText}</dd>
+            </div>
+          )}
           {f.capital && (
             <div>
               <dt className="text-text-muted">Vermögen</dt>
@@ -47,10 +52,12 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               <dd className="font-medium text-grey-dark">{f.grantExpenditure}</dd>
             </div>
           )}
-          <div>
-            <dt className="text-text-muted">Bewerbungsweg</dt>
-            <dd className="font-medium text-grey-dark capitalize">{f.applicationMethod}</dd>
-          </div>
+          {f.applicationMethod && f.applicationMethod !== 'unknown' && (
+            <div>
+              <dt className="text-text-muted">Bewerbungsweg</dt>
+              <dd className="font-medium text-grey-dark capitalize">{f.applicationMethod}</dd>
+            </div>
+          )}
           <div>
             <dt className="text-text-muted">Fit-Score</dt>
             <dd className="font-medium text-grey-dark">
@@ -94,19 +101,20 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         {gesuchReady ? (
           <div className="space-y-2">
             <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
-            <Link
+            <Button
               href={`/fundraising/stiftungen/${f.slug}/gesuch`}
-              className="block rounded-lg bg-primary/10 px-4 py-3 text-center text-sm font-semibold text-primary hover:bg-primary/20"
+              variant="soft"
+              fullWidth
             >
               Interaktive Seite
-            </Link>
-            <a
+            </Button>
+            <Button
               href={`/api/pdf/gesuch/${f.slug}`}
-              download
-              className="block rounded-lg border border-border px-4 py-3 text-center text-sm font-medium text-grey-dark hover:bg-bg-light"
+              variant="secondary"
+              fullWidth
             >
               Formelles Dokument (PDF)
-            </a>
+            </Button>
             <Link
               href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
               className="block text-center text-xs text-text-muted hover:text-primary hover:underline"

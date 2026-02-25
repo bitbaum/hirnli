@@ -8,6 +8,7 @@ import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundati
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
 import Card from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 import GesuchPageClient from './GesuchPageClient';
 
 interface Props {
@@ -52,12 +53,9 @@ export default async function GesuchPage({ params }: Props) {
             Gesuch für {autoGesuch.foundation.name}
           </h1>
           <p className="mb-6 text-text-light">{autoGesuch.readyReason}</p>
-          <Link
-            href={`/fundraising/stiftungen/${slug}`}
-            className="inline-block rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white hover:bg-primary-light"
-          >
+          <Button href={`/fundraising/stiftungen/${slug}`} size="lg">
             Zurück zur Stiftungsseite
-          </Link>
+          </Button>
         </Card>
       </div>
     );

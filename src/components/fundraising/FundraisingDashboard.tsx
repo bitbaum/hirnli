@@ -123,13 +123,13 @@ export function FundraisingDashboard() {
           <div className="flex gap-3">
             <a
               href="/fundraising/stiftungen"
-              className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm font-semibold"
+              className="inline-block rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white hover:bg-grey-dark/85"
             >
               Stiftungen durchsuchen →
             </a>
             <a
               href="/fundraising/applications"
-              className="inline-block px-6 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-semibold"
+              className="inline-block rounded-lg border border-border bg-white px-6 py-3 text-sm font-semibold text-grey-dark hover:bg-bg-light"
             >
               Pipeline öffnen
             </a>

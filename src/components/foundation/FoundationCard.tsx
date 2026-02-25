@@ -70,7 +70,9 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
 
       <div className="mt-3 flex items-center justify-between text-xs text-text-muted">
         <div className="flex items-center gap-2">
-          <span>{f.deadlineText}</span>
+          {f.deadlineText && f.deadlineText !== 'Unbekannt' && (
+            <span>{f.deadlineText}</span>
+          )}
           {f.researchDepth === 'deep' && (
             <span className="rounded-full bg-success-bg px-1.5 py-0.5 text-[10px] font-medium text-success">
               Verifiziert
@@ -87,7 +89,9 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
             </span>
           )}
         </div>
-        <span>{f.amount.text}</span>
+        {f.amount.text && f.amount.text !== 'Unbekannt' && (
+          <span>{f.amount.text}</span>
+        )}
       </div>
 
       {f.isOperative && (

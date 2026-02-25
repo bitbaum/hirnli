@@ -388,22 +388,22 @@ export default function BildungPage() {
             Mit <strong>CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')}/Jahr über 3 Jahre</strong> (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm,
             das {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreicht.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/fundraising"
-              className="px-8 py-4 bg-white text-violet-700 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg"
+              className="rounded-lg bg-white px-8 py-4 font-bold text-grey-dark shadow-lg transition-colors hover:bg-bg-light"
             >
               📊 Fundraising-Übersicht
             </Link>
             <Link
               href="/fundraising/stiftungen"
-              className="px-8 py-4 bg-violet-700 text-white font-bold rounded-lg hover:bg-violet-800 transition-colors duration-200 border-2 border-white"
+              className="rounded-lg border-2 border-white bg-grey-dark px-8 py-4 font-bold text-white transition-colors hover:bg-grey-dark/85"
             >
               🏛️ Passende Stiftungen finden
             </Link>
             <Link
               href="/strategie-2030"
-              className="px-8 py-4 bg-violet-700 text-white font-bold rounded-lg hover:bg-violet-800 transition-colors duration-200 border-2 border-white"
+              className="rounded-lg border-2 border-white bg-grey-dark px-8 py-4 font-bold text-white transition-colors hover:bg-grey-dark/85"
             >
               🚀 Gesamtstrategie 2030
             </Link>

@@ -286,22 +286,22 @@ export default function TeamPage() {
         <Card className="bg-gradient-to-br from-violet-50 to-blue-50 border-2 border-violet-200">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-grey-dark mb-4">Mehr erfahren</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <Link
                 href="/fundraising/bildung"
-                className="px-6 py-3 bg-violet-600 text-white rounded-lg font-semibold hover:bg-violet-700 transition-colors inline-block"
+                className="inline-block rounded-lg bg-grey-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-grey-dark/85"
               >
                 Bildung & Skalierung
               </Link>
               <Link
                 href="/fundraising/hub"
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors inline-block"
+                className="inline-block rounded-lg bg-grey-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-grey-dark/85"
               >
                 Community Tech Hub
               </Link>
               <Link
                 href="/strategie"
-                className="px-6 py-3 bg-white text-violet-600 border-2 border-violet-600 rounded-lg font-semibold hover:bg-violet-50 transition-colors inline-block"
+                className="inline-block rounded-lg border-2 border-border bg-white px-6 py-3 font-semibold text-grey-dark transition-colors hover:bg-bg-light"
               >
                 Strategie 2030
               </Link>

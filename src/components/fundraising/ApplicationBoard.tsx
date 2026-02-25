@@ -212,13 +212,13 @@ export function ApplicationBoard() {
         <div className="flex gap-2 shrink-0">
           <a
             href="/fundraising/stiftungen"
-            className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 text-sm font-medium"
+            className="rounded-lg bg-grey-dark px-4 py-2 text-sm font-medium text-white hover:bg-grey-dark/85"
           >
             + Gesuch hinzufügen
           </a>
           <button
             onClick={fetchApplications}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+            className="rounded-lg border border-border bg-white px-4 py-2 text-sm text-grey-dark hover:bg-bg-light"
           >
             Aktualisieren
           </button>
@@ -235,7 +235,7 @@ export function ApplicationBoard() {
           </p>
           <a
             href="/fundraising/stiftungen"
-            className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm font-semibold"
+            className="inline-block rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white hover:bg-grey-dark/85"
           >
             Stiftungen durchsuchen →
           </a>

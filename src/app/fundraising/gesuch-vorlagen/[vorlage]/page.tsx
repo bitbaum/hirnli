@@ -103,7 +103,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">
           <Link
             href={`/fundraising/gesuch-vorlagen/${type}/dokument`}
-            className="rounded-lg bg-grey-dark px-5 py-3 text-sm font-semibold text-white hover:bg-grey-dark/90"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
           >
             Formelles Gesuch-Dokument (PDF)
           </Link>

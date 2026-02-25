@@ -220,7 +220,7 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
       <div className="flex justify-end">
         <button
           onClick={generatePreview}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="rounded-lg bg-grey-dark px-4 py-2 text-sm text-white hover:bg-grey-dark/85"
         >
           Vorschau aktualisieren
         </button>

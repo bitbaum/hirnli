@@ -71,13 +71,13 @@ export function HubImageGenerator() {
           <div className="flex gap-3 flex-wrap">
             <button
               onClick={() => handleCopyPrompt(selectedConfig.space_name, 'midjourney')}
-              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-semibold"
+              className="rounded-lg bg-grey-dark px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
             >
               {copiedPrompt === `${selectedConfig.space_name}-midjourney` ? '✓ Copied!' : '📋 Copy for Midjourney'}
             </button>
             <button
               onClick={() => handleCopyPrompt(selectedConfig.space_name, 'dalle')}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
+              className="rounded-lg bg-grey-dark px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
             >
               {copiedPrompt === `${selectedConfig.space_name}-dalle` ? '✓ Copied!' : '📋 Copy for DALL-E 3'}
             </button>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { TYPE_LABELS } from '@/lib/config/foundations';
 import { TYPE_TEMPLATE_KEYS, TEMPLATE_LABELS, SCHWERPUNKT_TEMPLATE_TYPES } from '@/lib/config/gesuch-templates';
@@ -28,18 +29,12 @@ function TemplateCard({ slug, title, description, subtitle }: {
           )}
         </div>
         <div className="flex shrink-0 gap-2">
-          <Link
-            href={`/fundraising/gesuch-vorlagen/${slug}`}
-            className="rounded-lg bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/20"
-          >
+          <Button href={`/fundraising/gesuch-vorlagen/${slug}`} variant="soft">
             Interaktiv
-          </Link>
-          <Link
-            href={`/fundraising/gesuch-vorlagen/${slug}/dokument`}
-            className="rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-grey-dark hover:bg-bg-light"
-          >
+          </Button>
+          <Button href={`/fundraising/gesuch-vorlagen/${slug}/dokument`} variant="secondary">
             Dokument (PDF)
-          </Link>
+          </Button>
         </div>
       </div>
     </Card>

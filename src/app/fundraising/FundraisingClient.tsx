@@ -179,21 +179,21 @@ export default function FundraisingClient() {
       <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Link
           href="/fundraising/stiftungen"
-          className="flex items-center justify-between rounded-xl border-2 border-primary/20 bg-primary/5 px-5 py-4 font-semibold text-primary transition-colors hover:bg-primary/10"
+          className="flex items-center justify-between rounded-xl border-2 border-border bg-bg-light px-5 py-4 font-semibold text-grey-dark transition-colors hover:bg-grey-light"
         >
           <span>Stiftungen durchsuchen</span>
           <span aria-hidden="true">→</span>
         </Link>
         <Link
           href="/fundraising/applications"
-          className="flex items-center justify-between rounded-xl border-2 border-violet-200 bg-violet-50 px-5 py-4 font-semibold text-violet-700 transition-colors hover:bg-violet-100"
+          className="flex items-center justify-between rounded-xl border-2 border-border bg-bg-light px-5 py-4 font-semibold text-grey-dark transition-colors hover:bg-grey-light"
         >
           <span>Pipeline öffnen</span>
           <span aria-hidden="true">→</span>
         </Link>
         <Link
           href="/fundraising/dashboard"
-          className="flex items-center justify-between rounded-xl border-2 border-gray-200 bg-gray-50 px-5 py-4 font-semibold text-gray-700 transition-colors hover:bg-gray-100"
+          className="flex items-center justify-between rounded-xl border-2 border-border bg-bg-light px-5 py-4 font-semibold text-grey-dark transition-colors hover:bg-grey-light"
         >
           <span>Dashboard</span>
           <span aria-hidden="true">→</span>
@@ -369,7 +369,7 @@ export default function FundraisingClient() {
           <div className="mt-4 pt-4 border-t border-gray-300">
             <Link
               href="/fundraising/hub"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors text-sm"
+              className="inline-flex items-center gap-2 rounded-lg bg-grey-dark px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
             >
               <span>📖</span>
               <span>Detaillierte Hub-Planung ansehen</span>
@@ -1020,7 +1020,7 @@ export default function FundraisingClient() {
         <div className="mt-4 text-center">
           <Link
             href="/fundraising/stiftungen"
-            className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-violet-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-grey-dark px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-grey-dark/85"
           >
             Stiftungen & Förderer Übersicht
             <span aria-hidden="true">&rarr;</span>

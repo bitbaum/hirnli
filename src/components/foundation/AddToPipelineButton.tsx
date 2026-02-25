@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 
 interface Props {
   foundationId: string;
@@ -59,31 +59,32 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
           ))}
         </div>
 
-        <Link
+        <Button
           href={`/fundraising/stiftungen/${foundationId}/gesuch`}
-          className="block w-full rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-primary/90"
+          fullWidth
         >
           Gesuch schreiben →
-        </Link>
-        <Link
+        </Button>
+        <Button
           href="/fundraising/applications"
-          className="block w-full rounded-lg border border-border px-4 py-2 text-center text-sm text-text-muted hover:bg-bg-light"
+          variant="secondary"
+          fullWidth
         >
           Pipeline ansehen
-        </Link>
+        </Button>
       </div>
     );
   }
 
   return (
     <div className="space-y-1">
-      <button
+      <Button
         onClick={handleClick}
         disabled={state === 'loading'}
-        className="block w-full rounded-lg bg-primary px-4 py-3 text-center text-sm font-semibold text-white hover:bg-primary/90 disabled:opacity-60"
+        fullWidth
       >
         {state === 'loading' ? 'Wird hinzugefügt...' : 'Gesuch starten'}
-      </button>
+      </Button>
       {state === 'error' && error && (
         <p className="text-xs text-red-600">{error}</p>
       )}

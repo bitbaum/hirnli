@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { STIFTUNGEN_DATA, FIT_CONFIG } from '@/lib/config/foundations';
 import { TEAM_MEMBERS } from '@/app/team/data';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -71,24 +72,20 @@ export default function HomePage() {
                   <span className="text-xs font-bold text-success">{(FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG])?.stars ?? '☆☆☆'}</span>
                 </div>
                 <p className="font-semibold text-grey-dark text-sm">{f.name}</p>
-                <p className="text-xs text-text-muted mt-1">{f.deadlineText}</p>
-                <p className="text-xs text-text-light mt-1 line-clamp-2">{f.tagline}</p>
+                {f.deadlineText && f.deadlineText !== 'Unbekannt' && (
+                  <p className="text-xs text-text-muted mt-1">{f.deadlineText}</p>
+                )}
+                <p className="text-xs text-text-light mt-1 line-clamp-2">{f.tagline || f.purposeSummary}</p>
               </Link>
             ))}
           </div>
           <div className="flex gap-3">
-            <Link
-              href="/fundraising/applications"
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary/90"
-            >
+            <Button href="/fundraising/applications">
               Pipeline öffnen →
-            </Link>
-            <Link
-              href="/fundraising/stiftungen"
-              className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-5 py-2.5 text-sm font-semibold text-grey-dark hover:bg-bg-light"
-            >
+            </Button>
+            <Button href="/fundraising/stiftungen" variant="secondary">
               Alle {STIFTUNGEN_DATA.length} Stiftungen
-            </Link>
+            </Button>
           </div>
         </section>
       )}

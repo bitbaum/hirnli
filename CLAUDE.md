@@ -219,7 +219,9 @@ Narrative Content       →  lib/config/stories.ts                            �
 
 ### Remaining
 
-- No actual downloadable documents (Gesuch PDFs, pitch decks) — Phase 2
+- ~~No actual downloadable documents~~ — resolved: Gesuch PDF generation implemented via `@react-pdf/renderer` at `/api/pdf/gesuch/[slug]`
+- Pitch deck and impact report formats not yet implemented (Phase 2 remaining items)
+- No test suite (build-time validation only)
 
 ---
 
@@ -356,11 +358,11 @@ for the step-by-step checklist.
 - URL-synced filter state
 - Click-to-inspect metric transparency
 
-### Phase 2: Document Generation
-- Generate PDFs from live data (Gesuch, pitch deck, impact report)
-- Better-designed Gesuch templates (not plain-text)
-- API routes at `app/api/documents/[type]/route.ts`
-- `@react-pdf/renderer` for PDF generation
+### Phase 2: Document Generation — IN PROGRESS
+- ~~Generate Gesuch PDFs~~ — DONE: `@react-pdf/renderer` at `/api/pdf/gesuch/[slug]`
+- ~~Gesuch templates~~ — DONE: 11 template types with HTML preview + PDF download
+- Pitch deck format — planned
+- Impact report from live data — planned
 
 ### Phase 3: Universal Platform
 - Multi-project support (any organization can use this)
