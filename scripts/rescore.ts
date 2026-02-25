@@ -20,6 +20,10 @@ config({ path: '.env.local' });
 
 import { neon } from '@neondatabase/serverless';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
+import { STIFTUNGEN_CORE } from '../src/lib/config/foundations/stiftungen-core';
+
+// Curated slugs whose priority was manually set — rescore must NOT overwrite
+const CURATED_PRIORITY_SLUGS = new Set(STIFTUNGEN_CORE.map((f) => f.slug));
 
 // ============================================================================
 // TYPES
@@ -104,10 +108,14 @@ async function main() {
     const researchDepth = (cd.researchDepth as string) || 'rapid';
     const newFitDisplay = fitScoreToDisplay(newFitScore, researchDepth);
 
-    // Compute new priority
+    // Compute new priority — preserve curated priorities for core foundations
+    const slug = (cd as { slug?: string }).slug || '';
+    const hasCuratedPriority = CURATED_PRIORITY_SLUGS.has(slug);
     const isZurich = canton === 'ZH';
     let newPriority: 1 | 2 | 3 | 4;
-    if (newFitScore >= 7 && isFunder) newPriority = 1;
+    if (hasCuratedPriority) {
+      newPriority = (cd.priority as 1 | 2 | 3 | 4) ?? 4; // Keep existing curated priority
+    } else if (newFitScore >= 7 && isFunder) newPriority = 1;
     else if (newFitScore >= 4 && (isFunder || isZurich)) newPriority = 2;
     else if (newFitScore >= 4) newPriority = 3;
     else newPriority = 4;
