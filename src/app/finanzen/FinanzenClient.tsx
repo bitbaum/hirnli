@@ -58,7 +58,6 @@ import {
 } from './data';
 import {
   InsightCard,
-  DataQualityBanner,
   ProfitLossTable,
   CostStructureCard,
   YearComparison,

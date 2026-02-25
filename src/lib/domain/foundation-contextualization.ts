@@ -14,7 +14,7 @@
 import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
 import type { ThemeKey } from '@/lib/config/stories';
 import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
-import { THEMES, FIT_CONFIG } from '@/lib/config/foundations';
+import { THEMES } from '@/lib/config/foundations';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 // ============================================================================

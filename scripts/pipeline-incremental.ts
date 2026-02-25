@@ -23,7 +23,8 @@ config({ path: '.env.local' });
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { neon } from '@neondatabase/serverless';
+import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
+import { execSync } from 'child_process';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import {
   classifyThemes,
@@ -145,9 +146,8 @@ function generateResearchNotes(entry: EsaEntry, themes: string[], type: string, 
 // DB UPSERT (inline — no draft files needed)
 // ============================================================================
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function upsertEntry(
-  sql: any,
+  sql: NeonQueryFunction<false, false>,
   entry: EsaEntry,
 ): Promise<{ success: boolean; depth: ResearchDepth }> {
   const slug = toSlug(entry.name);
@@ -174,7 +174,7 @@ async function upsertEntry(
 
   const purposeSummary = generatePurposeSummary(entry);
   const researchNotes = generateResearchNotes(entry, themes, type, funder, operator);
-  const suggestedFit: 1 | 2 | 3 = fitScore >= 7 ? 3 : fitScore >= 4 ? 2 : 1;
+  const _suggestedFit: 1 | 2 | 3 = fitScore >= 7 ? 3 : fitScore >= 4 ? 2 : 1;
 
   const now = new Date().toISOString();
   const today = now.split('T')[0];
@@ -337,7 +337,7 @@ async function main() {
       const result = await upsertEntry(sql, entry);
       if (result.success) {
         success++;
-        const slug = toSlug(entry.name);
+        const _slug = toSlug(entry.name);
         const purposeLower = entry.purpose.toLowerCase();
         const nameLower = entry.name.toLowerCase();
         const themes = classifyThemes(purposeLower, nameLower);
@@ -352,7 +352,6 @@ async function main() {
     // 5. Sync
     if (!skipSync && success > 0) {
       console.log('\n  Running sync...');
-      const { execSync } = require('child_process');
       try {
         execSync('npm run sync', { stdio: 'inherit', cwd: process.cwd() });
       } catch {

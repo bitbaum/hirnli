@@ -8,6 +8,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import {
   DndContext,
   DragOverlay,
@@ -210,12 +211,12 @@ export function ApplicationBoard() {
           <div />
         )}
         <div className="flex gap-2 shrink-0">
-          <a
+          <Link
             href="/fundraising/stiftungen"
             className="rounded-lg bg-grey-dark px-4 py-2 text-sm font-medium text-white hover:bg-grey-dark/85"
           >
             + Gesuch hinzufügen
-          </a>
+          </Link>
           <button
             onClick={fetchApplications}
             className="rounded-lg border border-border bg-white px-4 py-2 text-sm text-grey-dark hover:bg-bg-light"
@@ -233,12 +234,12 @@ export function ApplicationBoard() {
             Wähle eine Stiftung aus der Liste und klicke auf &ldquo;Gesuch starten&rdquo;,
             um sie in die Pipeline aufzunehmen.
           </p>
-          <a
+          <Link
             href="/fundraising/stiftungen"
             className="inline-block rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white hover:bg-grey-dark/85"
           >
             Stiftungen durchsuchen →
-          </a>
+          </Link>
         </div>
       ) : (
         /* Kanban board */

@@ -26,14 +26,11 @@ import {
 } from '@/lib/config/stories';
 import { TYPE_LABELS, THEMES } from '@/lib/config/foundations';
 import {
-  BUDGET_SCENARIOS,
-  EIGENLEISTUNG_CONFIG,
   getScenario,
   getLineItemsForScenario,
 } from '@/lib/config/budget-scenarios';
 import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { BudgetLineItem, BudgetScenario } from '@/lib/schemas/budget';
-import { calculate3YearTotals } from '@/lib/domain/budget-calculations';
 import {
   THREE_YEAR_MODEL,
   STIFTUNGEN_3Y_TOTAL,

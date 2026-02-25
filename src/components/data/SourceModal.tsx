@@ -1,7 +1,6 @@
 'use client';
 
 import type { NumberSource } from '@/lib/config/numbers';
-import { formatCHF } from '@/lib/utils/format';
 
 const CONFIDENCE_COLORS: Record<string, string> = {
   high: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',

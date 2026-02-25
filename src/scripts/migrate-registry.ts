@@ -20,7 +20,6 @@ config({ path: '.env.local' });
 
 import { neon } from '@neondatabase/serverless';
 import { registrySchema } from '../lib/schemas/foundation';
-import type { FoundationRegistry } from '../lib/schemas/foundation';
 
 async function main() {
   if (!process.env.DATABASE_URL) {

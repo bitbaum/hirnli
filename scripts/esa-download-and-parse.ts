@@ -89,7 +89,7 @@ function parseExcel(filePath: string): ESAFoundation[] {
   const worksheet = workbook.Sheets[sheetName];
 
   // Convert to JSON (first row is headers)
-  const rawData: any[] = XLSX.utils.sheet_to_json(worksheet);
+  const rawData: Record<string, unknown>[] = XLSX.utils.sheet_to_json(worksheet);
 
   console.log(`   Found ${rawData.length} rows`);
 
@@ -100,12 +100,12 @@ function parseExcel(filePath: string): ESAFoundation[] {
   for (const row of rawData) {
     // Try to identify columns by common headers
     // Note: Exact header names may vary - adjust based on actual file
-    const uid = row['UID'] || row['UID-Nummer'] || row['Unternehmens-Identifikationsnummer'] || '';
-    const name = row['Name'] || row['Stiftungsname'] || row['Stiftung'] || '';
-    const purpose = row['Zweck'] || row['Stiftungszweck'] || row['Purpose'] || '';
-    const canton = row['Kanton'] || row['Canton'] || '';
-    const city = row['Ort'] || row['Stadt'] || row['Sitz'] || '';
-    const status = row['Status'] || 'aktiv';
+    const uid = (row['UID'] || row['UID-Nummer'] || row['Unternehmens-Identifikationsnummer'] || '') as string;
+    const name = (row['Name'] || row['Stiftungsname'] || row['Stiftung'] || '') as string;
+    const purpose = (row['Zweck'] || row['Stiftungszweck'] || row['Purpose'] || '') as string;
+    const canton = (row['Kanton'] || row['Canton'] || '') as string;
+    const city = (row['Ort'] || row['Stadt'] || row['Sitz'] || '') as string;
+    const status = (row['Status'] || 'aktiv') as string;
 
     if (uid && name) {
       foundations.push({

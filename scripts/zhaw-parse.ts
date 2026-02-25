@@ -54,7 +54,7 @@ function extractContact(addressLine: string) {
 
   // Address is everything before the ZIP code
   const zipIdx = addressLine.indexOf(zip);
-  let address = zipIdx > 0 ? addressLine.substring(0, zipIdx).trim().replace(/,\s*$/, '') : '';
+  const address = zipIdx > 0 ? addressLine.substring(0, zipIdx).trim().replace(/,\s*$/, '') : '';
 
   return { address, city, zip, phone, email, website };
 }

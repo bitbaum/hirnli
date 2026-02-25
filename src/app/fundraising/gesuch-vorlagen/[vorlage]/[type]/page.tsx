@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { THEMES, TYPE_LABELS } from '@/lib/config/foundations';
+import { TYPE_LABELS } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
 import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';

@@ -30,7 +30,6 @@ async function seedConfigToDb() {
   // Process in batches to avoid overwhelming the HTTP connection
   const BATCH_SIZE = 10;
   let updated = 0;
-  let inserted = 0;
   let errors = 0;
 
   for (let i = 0; i < STIFTUNGEN_DATA.length; i += BATCH_SIZE) {
@@ -39,7 +38,7 @@ async function seedConfigToDb() {
     const promises = batch.map(async (f) => {
       try {
         // Use ON CONFLICT to upsert: update config_data if exists, insert if not
-        const result = await sql`
+        await sql`
           INSERT INTO fundraising_foundations (
             id, name, website_url, contact_email, contact_phone,
             fit_score, priority, focus_areas, geographic_scope, organization_type,

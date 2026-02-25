@@ -16,6 +16,7 @@ export default function ChartWrapper({ children, title, className = '' }: ChartW
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only mount detection for Chart.js (requires window/document)
     setMounted(true);
   }, []);
 

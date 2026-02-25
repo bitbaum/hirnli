@@ -12,11 +12,8 @@
 
 import { NUMBERS_REGISTRY, getNumericValue } from '@/lib/config/numbers';
 import {
-  REVENUE_CURRENT_TOTAL,
-  REVENUE_YEAR3_TOTAL,
   REVENUE_HISTORY,
   PROJECT_DURATION,
-  FINANCIAL_CONTEXT,
 } from '@/app/fundraising/data';
 import { HUB_SPACE_AREAS } from '@/lib/config/hub-space-plan';
 import { formatCHF } from '@/lib/utils/format';

@@ -1,15 +1,12 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import CTABanner from '@/components/ui/CTABanner';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
-import { CommunitySpaceCard } from '@/app/strategie/components';
 import {
   ZURICH_MARKET_DATA,
   SPACE_SUMMARY,
   MULTI_PURPOSE_STRATEGY,
-  HUB_SPACE_AREAS,
 } from '@/lib/config/hub-space-plan';
 import { HUB_SPACE_DISPLAY } from '@/lib/config/projections';
 import { HubImageGenerator } from '@/components/hub/HubImageGenerator';
@@ -214,7 +211,7 @@ export default function HubPage() {
                   <p className="text-sm text-emerald-700 font-medium">80 m² — Verkauf, Beratung, Annahme</p>
                 </div>
               </div>
-              <Badge color="emerald">CHF 35'000</Badge>
+              <Badge color="emerald">CHF 35’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Erste Anlaufstelle für Kunden: Geräte kaufen, zur Reparatur bringen, beraten lassen.
@@ -253,7 +250,7 @@ export default function HubPage() {
                   <p className="text-sm text-blue-700 font-medium">~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)</p>
                 </div>
               </div>
-              <Badge color="blue">CHF 80'000</Badge>
+              <Badge color="blue">CHF 80’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Das Herzstück: Hier entstehen refurbishte Geräte. <strong>Heute:</strong> 4 Tische, chaotisch, nur 1-2 in Nutzung.
@@ -318,7 +315,7 @@ export default function HubPage() {
             <div className="pt-3 border-t border-gray-200">
               <p className="text-xs text-text-light">
                 <strong>Team:</strong> {TEAM_MEMBERS.length} Personen + 2 geplante BPL<br />
-                <strong>Kosten:</strong> CHF 40'000
+                <strong>Kosten:</strong> CHF 40’000
               </p>
             </div>
           </Card>
@@ -340,7 +337,7 @@ export default function HubPage() {
             <div className="pt-3 border-t border-gray-200">
               <p className="text-xs text-text-light">
                 <strong>Kapazität:</strong> 500+ Geräte gleichzeitig<br />
-                <strong>Kosten:</strong> CHF 35'000
+                <strong>Kosten:</strong> CHF 35’000
               </p>
             </div>
           </Card>
@@ -362,7 +359,7 @@ export default function HubPage() {
             <div className="pt-3 border-t border-gray-200">
               <p className="text-xs text-text-light">
                 <strong>Nutzung:</strong> Täglich (Lieferungen)<br />
-                <strong>Kosten:</strong> CHF 20'000
+                <strong>Kosten:</strong> CHF 20’000
               </p>
             </div>
           </Card>
@@ -386,7 +383,7 @@ export default function HubPage() {
                   <p className="text-sm text-purple-700 font-medium">80 m² — Prototyping & Tüfteln</p>
                 </div>
               </div>
-              <Badge color="purple">CHF 70'000</Badge>
+              <Badge color="purple">CHF 70’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Offene Werkstatt: 3D-Drucker, Laser-Cutter, Lötarbeitsplätze. Vom Prototyp zum Produkt.
@@ -416,7 +413,7 @@ export default function HubPage() {
                   <p className="text-sm text-indigo-700 font-medium">60 m² — Arduino, Raspberry Pi, autonome Systeme</p>
                 </div>
               </div>
-              <Badge color="indigo">CHF 50'000</Badge>
+              <Badge color="indigo">CHF 50’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Robotik-Kits für Schulen, Arduino-Workshops, autonome Roboter bauen. MINT-Bildung hands-on.
@@ -446,7 +443,7 @@ export default function HubPage() {
                   <p className="text-sm text-blue-700 font-medium">70 m² — Linux, AI, Coding für alle</p>
                 </div>
               </div>
-              <Badge color="blue">CHF 45'000</Badge>
+              <Badge color="blue">CHF 45’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Strukturierte Bildung: Linux-Kurse, AI Literacy, Programmieren lernen. Digital Literacy für alle.
@@ -486,7 +483,7 @@ export default function HubPage() {
 
               <div className="space-y-3">
                 <div className="bg-cyan-50 p-3 rounded-lg">
-                  <p className="font-semibold text-cyan-900 mb-1">Setup A — Starter (CHF 15'000-20'000)</p>
+                  <p className="font-semibold text-cyan-900 mb-1">Setup A — Starter (CHF 15’000-20’000)</p>
                   <ul className="text-xs text-cyan-800 space-y-1">
                     <li>• 2-4× Consumer GPUs (NVIDIA RTX 3090/4090, gebraucht oder gespendet)</li>
                     <li>• 1× Server-Rack mit Basis-Kühlung</li>
@@ -495,7 +492,7 @@ export default function HubPage() {
                 </div>
 
                 <div className="bg-cyan-100 p-3 rounded-lg">
-                  <p className="font-semibold text-cyan-900 mb-1">Setup B — Professional (CHF 40'000-60'000)</p>
+                  <p className="font-semibold text-cyan-900 mb-1">Setup B — Professional (CHF 40’000-60’000)</p>
                   <ul className="text-xs text-cyan-800 space-y-1">
                     <li>• 4-6× Professional GPUs (NVIDIA A40, teilweise gespendet von Unternehmen)</li>
                     <li>• 2× Server-Racks mit professioneller Kühlung</li>
@@ -504,7 +501,7 @@ export default function HubPage() {
                 </div>
 
                 <div className="bg-cyan-200 p-3 rounded-lg">
-                  <p className="font-semibold text-cyan-900 mb-1">Setup C — Enterprise (CHF 100'000-150'000)</p>
+                  <p className="font-semibold text-cyan-900 mb-1">Setup C — Enterprise (CHF 100’000-150’000)</p>
                   <ul className="text-xs text-cyan-800 space-y-1">
                     <li>• 8-12× NVIDIA A100 GPUs (Corporate-Spenden + Teilkauf, je CHF 10-15k)</li>
                     <li>• ODER 4-6× NVIDIA H100 GPUs (falls verfügbar, je CHF 25-35k)</li>
@@ -535,7 +532,7 @@ export default function HubPage() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">🎨 Kultur, Kunst & Gemeinschaft</h2>
         <p className="text-sm text-text-light mb-6">
-          <strong>Warum Kultur?</strong> Weil Menschen nicht zu einer "Werkstatt" kommen — aber zu einem Konzert, einer Ausstellung, einem Filmabend.
+          <strong>Warum Kultur?</strong> Weil Menschen nicht zu einer „Werkstatt“ kommen — aber zu einem Konzert, einer Ausstellung, einem Filmabend.
           Kultur ist der Einstiegspunkt. Und dann sehen sie: Alte Synths machen Musik. Computer sind Geschichte. Reparatur ist Kultur, nicht Pflicht.
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -548,7 +545,7 @@ export default function HubPage() {
                   <p className="text-sm text-pink-700 font-medium">60 m² — Technik-Geschichte zum Anfassen</p>
                 </div>
               </div>
-              <Badge color="pink">CHF 50'000</Badge>
+              <Badge color="pink">CHF 50’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Von Commodore 64 bis zur ersten Cray: Computergeschichte als lebendiges Archiv.
@@ -561,7 +558,7 @@ export default function HubPage() {
                 <li>• <strong>20 m² Wechselausstellungen</strong> (E-Waste-Kunst, Tech-Fotografie)</li>
                 <li>• Führungen für Schulklassen (CHF 200/Klasse, 2×/Monat)</li>
                 <li>• Depot für historische Hardware (Schenkungen)</li>
-                <li>• Tech-Nostalgie-Events: "Deine erste Konsole?" (4×/Jahr)</li>
+                <li>• Tech-Nostalgie-Events: „Deine erste Konsole?“ (4×/Jahr)</li>
               </ul>
             </div>
             <div className="text-xs text-text-light pt-3 border-t border-gray-200">
@@ -579,7 +576,7 @@ export default function HubPage() {
                   <p className="text-sm text-purple-700 font-medium">50 m² — Alte Elektronik wird Musik</p>
                 </div>
               </div>
-              <Badge color="purple">CHF 40'000</Badge>
+              <Badge color="purple">CHF 40’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Vintage-Synths restaurieren, Circuit-Bending lernen, Live-Konzerte veranstalten.
@@ -610,7 +607,7 @@ export default function HubPage() {
                   <p className="text-sm text-orange-700 font-medium">40 m² — Elektroschrott wird Kunst</p>
                 </div>
               </div>
-              <Badge color="orange">CHF 30'000</Badge>
+              <Badge color="orange">CHF 30’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Künstler:innen schaffen aus Platinen, Gehäusen, Komponenten Skulpturen & Installationen.
@@ -641,7 +638,7 @@ export default function HubPage() {
                   <p className="text-sm text-teal-700 font-medium">100 m² — Tags Workshops, abends Events</p>
                 </div>
               </div>
-              <Badge color="teal">CHF 60'000</Badge>
+              <Badge color="teal">CHF 60’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Flexibler Raum für 50-80 Personen. Tags: Workshops, Co-Working. Abends: Konzerte, Film, Talks.
@@ -672,7 +669,7 @@ export default function HubPage() {
                   <p className="text-sm text-green-700 font-medium">50 m² — Gemeinsam essen, gemeinsam lernen</p>
                 </div>
               </div>
-              <Badge color="green">CHF 40'000</Badge>
+              <Badge color="green">CHF 40’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Fair-Trade-Café tags, Community-Kitchen abends. Niederschwelliger Treffpunkt — keine Konsumpflicht.
@@ -702,7 +699,7 @@ export default function HubPage() {
                   <p className="text-sm text-yellow-700 font-medium">30 m² — Community-Reparatur, 2×/Monat</p>
                 </div>
               </div>
-              <Badge color="yellow">CHF 20'000</Badge>
+              <Badge color="yellow">CHF 20’000</Badge>
             </div>
             <p className="text-sm text-text-light mb-4">
               Öffentliche Reparatur-Events: Bring dein kaputtes Gerät, wir helfen dir es zu reparieren.

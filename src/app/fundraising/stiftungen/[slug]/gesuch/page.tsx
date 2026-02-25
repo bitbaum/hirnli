@@ -1,9 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
-import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundation-helpers';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';

@@ -7,6 +7,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { KPICard } from './KPICard';
 import { StatusDistributionChart } from './StatusDistributionChart';
 import { UpcomingDeadlines } from './UpcomingDeadlines';
@@ -121,18 +122,18 @@ export function FundraisingDashboard() {
             Fristen und den Überblick über den Fundraising-Fortschritt.
           </p>
           <div className="flex gap-3">
-            <a
+            <Link
               href="/fundraising/stiftungen"
               className="inline-block rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white hover:bg-grey-dark/85"
             >
               Stiftungen durchsuchen →
-            </a>
-            <a
+            </Link>
+            <Link
               href="/fundraising/applications"
               className="inline-block rounded-lg border border-border bg-white px-6 py-3 text-sm font-semibold text-grey-dark hover:bg-bg-light"
             >
               Pipeline öffnen
-            </a>
+            </Link>
           </div>
         </div>
       ) : (

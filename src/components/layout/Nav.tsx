@@ -33,7 +33,7 @@ function MegaMenu({ item, pathname }: { item: NavItem; pathname: string }) {
           {/* Gradient header bar */}
           <div className="h-2 bg-gradient-to-r from-revamp-blue via-revamp-green to-revamp-orange"></div>
           <div className="grid grid-cols-2 gap-8 p-8">
-            {item.sections?.map((section: NavSection, idx: number) => (
+            {item.sections?.map((section: NavSection, _idx: number) => (
               <div key={section.title}>
                 <div className="mb-4 flex items-center gap-2">
                   <div className="h-1 w-8 rounded-full bg-gradient-to-r from-revamp-blue to-revamp-green"></div>

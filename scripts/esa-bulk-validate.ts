@@ -20,7 +20,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
-import type { Foundation } from '../src/lib/schemas/foundation';
 
 interface ESAFoundation {
   uid: string;

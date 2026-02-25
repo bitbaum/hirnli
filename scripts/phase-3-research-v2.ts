@@ -120,7 +120,7 @@ function generateResearchPrompt(
   esaMatch: ScreeningResult['esaMatch'],
   scores: ScreeningResult['scores']
 ): string {
-  const { name, slug, location, foundVia } = candidate;
+  const { name, slug: _slug, location, foundVia } = candidate;
 
   return `# Foundation Research: ${name}
 

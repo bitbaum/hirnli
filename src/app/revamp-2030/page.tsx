@@ -172,7 +172,7 @@ export default function Revamp2030Page() {
                     <ul className="text-xs text-violet-800 space-y-1 list-disc list-inside">
                       <li>Organisiert Reparatur-Tische: Zeitpläne, Qualitätssicherung, Prozesse</li>
                       <li>Bildet Techniker aus (nicht nur reparieren, sondern auch trainieren lernen)</li>
-                      <li>Strukturierte Programme statt "komm, wenn du willst"</li>
+                      <li>Strukturierte Programme statt „komm, wenn du willst“</li>
                       <li>Train-the-Trainer: Trainierte geben ihr Wissen an andere weiter</li>
                     </ul>
                   </div>
@@ -369,7 +369,7 @@ export default function Revamp2030Page() {
                     Online-Kurse skalieren unbegrenzt: 1× produzieren, 100× nutzen.
                   </p>
                   <p className="text-xs text-blue-800">
-                    <strong>Beispiel:</strong> "Wie repariere ich meinen Laptop?" Video → 500 Views/Jahr = 500 Menschen erreicht,
+                    <strong>Beispiel:</strong> „Wie repariere ich meinen Laptop?“ Video → 500 Views/Jahr = 500 Menschen erreicht,
                     für 0 zusätzliche Kosten nach Produktion.
                   </p>
                 </div>
@@ -432,7 +432,7 @@ export default function Revamp2030Page() {
             <p className="text-xs text-purple-800 mb-3">
               Technik allein ändert kein Verhalten. <strong>Kunst macht Elektroschrott sichtbar, berührbar, wertvoll</strong>.
               Konzerte, Ausstellungen und Workshops erreichen Menschen, die nie zu einem Repair-Workshop kämen.
-              Sie beeinflussen Kultur und Wahrnehmung: "Elektroschrott ist nicht Müll — es ist Ressource, Geschichte, Potenzial."
+              Sie beeinflussen Kultur und Wahrnehmung: „Elektroschrott ist nicht Müll — es ist Ressource, Geschichte, Potenzial.“
             </p>
             <p className="text-xs text-purple-800">
               <strong>Das ist Impact auf einer anderen Ebene:</strong> Nicht nur Geräte retten, sondern

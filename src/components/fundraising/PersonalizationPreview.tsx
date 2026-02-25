@@ -6,7 +6,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface PersonalizationPreviewProps {
   foundationId: string;
@@ -37,7 +37,7 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function generatePreview() {
+  const generatePreview = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -61,11 +61,11 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [foundationId]);
 
   useEffect(() => {
     generatePreview();
-  }, [foundationId]);
+  }, [generatePreview]);
 
   if (isLoading) {
     return (
@@ -116,7 +116,7 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
             Angewendete Regeln ({appliedRules.length})
           </h3>
           <div className="space-y-3">
-            {appliedRules.map((rule, index) => (
+            {appliedRules.map((rule, _index) => (
               <div
                 key={rule.ruleId}
                 className="border-l-4 border-blue-400 pl-4 py-2"

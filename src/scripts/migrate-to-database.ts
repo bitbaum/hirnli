@@ -16,7 +16,6 @@ import { resolve } from 'path';
 import { db } from '../lib/db/client';
 import { foundations } from '../lib/db/schema';
 import { STIFTUNGEN_DATA } from '../lib/config/foundations';
-import { nanoid } from 'nanoid';
 
 // Types for JSON imports
 interface JsonFoundation {
@@ -40,10 +39,6 @@ interface JsonFoundation {
   boardMembers?: Array<{ name: string; role: string }>;
   source?: string;
   priority?: number;
-}
-
-interface JsonBatch {
-  foundations?: JsonFoundation[];
 }
 
 /**

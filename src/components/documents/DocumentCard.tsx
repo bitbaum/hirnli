@@ -31,7 +31,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
   const actionLabel = ACTION_LABELS[document.action] || 'Öffnen';
   const actionIcon = ACTION_ICONS[document.action] || '→';
 
-  const CardContent = () => (
+  const cardContent = (
     <>
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
           download
           className="block no-underline"
         >
-          <CardContent />
+          {cardContent}
         </a>
       </Card>
     );
@@ -96,7 +96,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
   return (
     <Link href={document.href} className="block group no-underline">
       <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-all duration-200">
-        <CardContent />
+        {cardContent}
       </Card>
     </Link>
   );

@@ -11,7 +11,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { foundations } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 
 // Validation schema for imported foundations
@@ -108,7 +107,7 @@ export async function POST(request: NextRequest) {
 
     try {
       parsed = JSON.parse(content);
-    } catch (parseError) {
+    } catch {
       return NextResponse.json(
         { success: false, error: 'Invalid JSON format' },
         { status: 400 }

@@ -37,7 +37,6 @@ import type {
   WhySection,
   CompetencySection,
   Project,
-  ProofPoint,
   TrackRecord,
   Anecdote,
   PhotoSlot,

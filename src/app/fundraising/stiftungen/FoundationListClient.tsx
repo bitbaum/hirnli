@@ -36,7 +36,6 @@ export default function FoundationListClient() {
     toggleStatus,
     setSearch,
     setSort,
-    setFit,
     toggleFit,
     toggleThemeLogic,
     setSchwerpunkt,
@@ -50,6 +49,7 @@ export default function FoundationListClient() {
   // Progressive loading — reset to initial count when filters change
   const [visibleCount, setVisibleCount] = useState(LOAD_MORE_COUNT);
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- resets pagination when filters/sort change
     setVisibleCount(LOAD_MORE_COUNT);
   }, [filters, sort]);
 

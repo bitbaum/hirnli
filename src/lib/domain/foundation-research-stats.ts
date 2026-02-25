@@ -1,4 +1,4 @@
-import type { Foundation, ThemeId } from '../schemas/foundation';
+import type { Foundation } from '../schemas/foundation';
 
 // ---------------------------------------------------------------------------
 // Vollstaendigkeit & Recherche-Statistiken

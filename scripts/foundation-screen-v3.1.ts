@@ -235,7 +235,7 @@ function findInESA(register: ESARegister, name: string): ESAFoundation | null {
 /**
  * Filter 4: Geographic filtering (international development)
  */
-function hasInternationalDevelopmentFocus(purpose: string, city: string): boolean {
+function hasInternationalDevelopmentFocus(purpose: string, _city: string): boolean {
   const purposeLower = purpose.toLowerCase();
 
   // Keywords indicating international development focus
@@ -763,15 +763,15 @@ function processBatch(candidates: Candidate[], esaRegister: ESARegister): Screen
 
   console.log(`📈 Exclusion breakdown:`);
   Object.entries(exclusionBreakdown)
-    .filter(([_, count]) => count > 0)
-    .sort(([_, a], [__, b]) => b - a)
+    .filter(([, count]) => count > 0)
+    .sort(([, a], [, b]) => b - a)
     .forEach(([reason, count]) => {
       console.log(`   ${reason}: ${count} (${Math.round(count / candidates.length * 100)}%)`);
     });
 
   console.log(`\n🎯 Tier breakdown:`);
   Object.entries(tierBreakdown)
-    .filter(([_, count]) => count > 0)
+    .filter(([, count]) => count > 0)
     .forEach(([tier, count]) => {
       console.log(`   Tier ${tier}: ${count}`);
     });

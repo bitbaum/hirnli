@@ -11,7 +11,7 @@ import React from 'react';
 import { Document, Page, View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { styles, COLORS } from './styles';
+import { styles } from './styles';
 import AnschreibenPDF from './AnschreibenPDF';
 import ProjektbeschriebPDF from './ProjektbeschriebPDF';
 import BudgetPDF from './BudgetPDF';

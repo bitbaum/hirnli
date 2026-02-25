@@ -34,7 +34,7 @@ export default function UnifiedNumberDisplay({
   showLabel = true,
   className = '',
 }: UnifiedNumberDisplayProps) {
-  const [inspectorData, setInspectorData] = useState<InspectorData | null>(null);
+  const [_inspectorData, setInspectorData] = useState<InspectorData | null>(null);
 
   // 1. Try NUMBERS_REGISTRY first (new system)
   if (numberKey in NUMBERS_REGISTRY) {

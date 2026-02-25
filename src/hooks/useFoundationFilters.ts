@@ -4,11 +4,9 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import type { ThemeId, FoundationType, FoundationStatus } from '@/lib/schemas/foundation';
 import type { FoundationFilters, SortField, ThemeLogic } from '@/lib/domain/foundation-filter';
-import { DEFAULT_FILTERS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
+import { filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
-import { SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
-import Fuse from 'fuse.js';
 import { createSearchIndex, searchFoundations } from '@/lib/domain/foundation-search';
 
 export function useFoundationFilters(foundations: Foundation[]) {

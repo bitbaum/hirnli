@@ -1,5 +1,5 @@
 import { THEMES, TYPE_LABELS, STATUS_LABELS } from '@/lib/config/foundations';
-import type { ThemeId, FoundationStatus, FoundationType } from '@/lib/schemas/foundation';
+import type { FoundationStatus, FoundationType } from '@/lib/schemas/foundation';
 import type { SortField } from '@/lib/domain/foundation-filter';
 
 export const THEME_CHIPS = Object.values(THEMES).map((t) => ({

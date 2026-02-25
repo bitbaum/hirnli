@@ -24,7 +24,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
 import { NOT_RECOMMENDED } from '../src/lib/config/foundations/metadata';
-import type { Foundation } from '../src/lib/schemas/foundation';
 
 interface Candidate {
   name: string;
@@ -232,7 +231,7 @@ function findInESA(register: ESARegister, name: string): ESAFoundation | null {
 /**
  * Filter 4: Geographic filtering (international development)
  */
-function hasInternationalDevelopmentFocus(purpose: string, city: string): boolean {
+function hasInternationalDevelopmentFocus(purpose: string, _city: string): boolean {
   const purposeLower = purpose.toLowerCase();
 
   // Keywords indicating international development focus

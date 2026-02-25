@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { HUB_IMAGE_PROMPTS, getMidjourneyPrompt, getDallEPrompt, type ImagePrompt } from '@/lib/config/hub-image-prompts';
+import { HUB_IMAGE_PROMPTS, getMidjourneyPrompt, getDallEPrompt } from '@/lib/config/hub-image-prompts';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 

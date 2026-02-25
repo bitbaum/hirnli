@@ -8,9 +8,7 @@ import MetricGrid from '@/components/metrics/MetricGrid';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import {
-  KERNTEAM,
   BILDUNGSPROGRAMMLEITER,
-  TEAM_SUMMARY,
   MULTIPLICATION_EFFECT,
   TEAM_CAPACITY,
   TEAM_SALARIES,

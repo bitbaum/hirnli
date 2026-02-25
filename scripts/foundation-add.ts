@@ -18,7 +18,7 @@
 
 import * as readline from 'readline';
 import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
-import type { Foundation } from '../src/lib/schemas/foundation';
+import type { Foundation, FoundationType, FoundationStatus, SourceId, ThemeId, ApplicationMethod } from '../src/lib/schemas/foundation';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -160,17 +160,17 @@ async function promptForEntry(): Promise<Partial<Foundation>> {
       return {
         slug,
         name,
-        type: type as any,
-        status: status as any,
+        type: type as FoundationType,
+        status: status as FoundationStatus,
         region,
         websiteUrl: websiteUrl || undefined,
         uid: uid || undefined,
         tagline,
         fit,
         priority,
-        source: source as any,
-        themes: themes as any,
-        applicationMethod: applicationMethod as any,
+        source: source as SourceId,
+        themes: themes as ThemeId[],
+        applicationMethod: applicationMethod as ApplicationMethod,
         needsResearch: true,
       };
     }
@@ -182,17 +182,17 @@ async function promptForEntry(): Promise<Partial<Foundation>> {
       return {
         slug,
         name,
-        type: type as any,
-        status: status as any,
+        type: type as FoundationType,
+        status: status as FoundationStatus,
         region,
         websiteUrl: websiteUrl || undefined,
         uid: uid || undefined,
         tagline,
         fit,
         priority,
-        source: source as any,
-        themes: themes as any,
-        applicationMethod: applicationMethod as any,
+        source: source as SourceId,
+        themes: themes as ThemeId[],
+        applicationMethod: applicationMethod as ApplicationMethod,
         needsResearch: true,
       };
     }
@@ -207,17 +207,17 @@ async function promptForEntry(): Promise<Partial<Foundation>> {
       return {
         slug,
         name,
-        type: type as any,
-        status: status as any,
+        type: type as FoundationType,
+        status: status as FoundationStatus,
         region,
         websiteUrl: websiteUrl || undefined,
         uid: uid || undefined,
         tagline,
         fit,
         priority,
-        source: source as any,
-        themes: themes as any,
-        applicationMethod: applicationMethod as any,
+        source: source as SourceId,
+        themes: themes as ThemeId[],
+        applicationMethod: applicationMethod as ApplicationMethod,
         needsResearch: true,
       };
     }
@@ -226,17 +226,17 @@ async function promptForEntry(): Promise<Partial<Foundation>> {
   return {
     slug,
     name,
-    type: type as any,
-    status: status as any,
+    type: type as FoundationType,
+    status: status as FoundationStatus,
     region,
     websiteUrl: websiteUrl || undefined,
     uid: uid || undefined,
     tagline,
     fit,
     priority,
-    source: source as any,
-    themes: themes as any,
-    applicationMethod: applicationMethod as any,
+    source: source as SourceId,
+    themes: themes as ThemeId[],
+    applicationMethod: applicationMethod as ApplicationMethod,
     needsResearch,
     purposeSummary: purposeSummary || undefined,
     researchNotes: researchNotes || undefined,

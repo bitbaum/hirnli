@@ -11,7 +11,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
-import { eq, and, gte, lte } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { Application, Foundation } from '@/lib/db/schema';

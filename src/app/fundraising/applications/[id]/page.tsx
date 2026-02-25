@@ -7,7 +7,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getStatusColor } from '@/lib/config/application-statuses';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
@@ -20,7 +19,6 @@ interface ApplicationDetailProps {
 }
 
 export default function ApplicationDetailPage({ params }: ApplicationDetailProps) {
-  const router = useRouter();
   const [data, setData] = useState<{
     application: Application;
     foundation: Foundation | null;
@@ -29,27 +27,26 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    async function fetchApplication() {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`/api/applications/${params.id}`);
+        const result = await response.json();
+
+        if (result.success) {
+          setData(result.data);
+        } else {
+          setError(result.error || 'Application not found');
+        }
+      } catch (err) {
+        setError('Network error');
+        console.error('Failed to fetch application:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
     fetchApplication();
   }, [params.id]);
-
-  async function fetchApplication() {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`/api/applications/${params.id}`);
-      const result = await response.json();
-
-      if (result.success) {
-        setData(result.data);
-      } else {
-        setError(result.error || 'Application not found');
-      }
-    } catch (err) {
-      setError('Network error');
-      console.error('Failed to fetch application:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   const formatCHF = (amount: number | null) => {
     if (!amount) return '—';

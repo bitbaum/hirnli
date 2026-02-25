@@ -8,7 +8,6 @@ import { TEAM_MEMBERS } from '@/app/team/data';
 import {
   BILDUNGSPROGRAMMLEITER,
   MULTIPLICATION_EFFECT,
-  TEAM_CAPACITY,
   TEAM_SALARIES,
 } from '@/lib/config/team';
 import {

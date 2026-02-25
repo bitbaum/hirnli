@@ -15,7 +15,6 @@ import { formatCHF } from '@/lib/utils/format';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import type { InspectorData } from '@/lib/schemas/inspector';
-import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import { TEAM_MEMBERS } from '@/app/team/data';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
@@ -46,8 +45,6 @@ import {
   REVENUE_STREAMS,
   REVENUE_CURRENT_TOTAL,
   REVENUE_YEAR3_TOTAL,
-  PROJECT_DURATION,
-  PROJECT_DURATION_LABEL,
   STIFTUNGEN_3Y_TOTAL,
   EIGEN_3Y_TOTAL,
   PROJECT_3Y_TOTAL,
@@ -55,7 +52,6 @@ import {
   STIFTUNGEN_Y3,
   REDUCTION_PCT,
   FINANCIAL_CONTEXT,
-  REVENUE_HISTORY,
   COST_STRUCTURE_2023,
   TRACK_RECORD,
 } from './data';
@@ -133,7 +129,7 @@ export default function FundraisingClient() {
     ? metricToInspectorData(NumberSources.eigen_3y_total, formatCHF(EIGEN_3Y_TOTAL))
     : { label: 'Eigenleistung 3 Jahre', value: formatCHF(EIGEN_3Y_TOTAL), sourceType: 'derived', source: 'fundraising/data.ts → THREE_YEAR_MODEL', confidence: 'Hoch' };
 
-  const inspectReduction: InspectorData = {
+  const _inspectReduction: InspectorData = {
     label: 'Reduktion Stiftungsgelder',
     value: `-${REDUCTION_PCT}%`,
     sourceType: 'derived',
@@ -558,7 +554,7 @@ export default function FundraisingClient() {
             </p>
 
             <div className="bg-amber-100 border-l-4 border-amber-500 p-4 my-4">
-              <p className="text-amber-900 font-semibold mb-2">Warum wir nicht einfach "mehr verkaufen" können:</p>
+              <p className="text-amber-900 font-semibold mb-2">Warum wir nicht einfach &bdquo;mehr verkaufen&ldquo; können:</p>
               <ul className="text-amber-800 space-y-2 mb-0">
                 <li>Unser Kivitendo-System braucht dringend eine Überarbeitung — aber uns fehlen die Ressourcen</li>
                 <li>Web-Design-Praxis ist aus demselben Grund nicht funktionsfähig</li>
@@ -951,7 +947,7 @@ export default function FundraisingClient() {
               ? Math.round(((stream.year3 - stream.current) / stream.current) * 100)
               : null;
             const isNew = stream.current === 0;
-            const barWidth = Math.round((stream.year3 / REVENUE_YEAR3_TOTAL) * 100);
+            const _barWidth = Math.round((stream.year3 / REVENUE_YEAR3_TOTAL) * 100);
             return (
               <Card key={stream.source} className={`${isNew ? 'border-l-4 border-l-emerald-500' : ''}`}>
                 <div className="flex items-baseline justify-between">

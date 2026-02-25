@@ -129,14 +129,10 @@ function generatePurposeSummary(candidate: ScreeningCandidate): string {
 }
 
 function generateResearchNotes(candidate: ScreeningCandidate, themes: string[], type: string, fit: number): string {
-  const { name, purpose, flags, score, matchedSignals, tier, city, canton } = candidate;
+  const { name, purpose, flags, matchedSignals, city, canton } = candidate;
   const purposeLower = purpose.toLowerCase();
 
   const parts: string[] = [];
-
-  // --- Opening: foundation-specific context from purpose ---
-  // Extract what this foundation actually does from the purpose text
-  const purposeClean = purpose.replace(/\s+/g, ' ').trim();
   const keyActivities: string[] = [];
   if (purposeLower.includes('förderung')) keyActivities.push('Förderung');
   if (purposeLower.includes('forschung')) keyActivities.push('Forschung');

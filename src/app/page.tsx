@@ -262,8 +262,8 @@ export default function HomePage() {
             nicht durch Marketing-Sprech.
           </p>
           <p className="text-sm text-text-light leading-relaxed">
-            Deshalb zeigen wir nicht nur "Was" (Zahlen), sondern auch "Woher" (Quellen), "Wie" (Methodik) und
-            "Wo fehlt noch was" (Data Quality Notes). Jede Metrik ist inspizierbar. Jede Behauptung belegt.
+            Deshalb zeigen wir nicht nur „Was“ (Zahlen), sondern auch „Woher“ (Quellen), „Wie“ (Methodik) und
+            „Wo fehlt noch was“ (Data Quality Notes). Jede Metrik ist inspizierbar. Jede Behauptung belegt.
           </p>
         </Card>
       </section>

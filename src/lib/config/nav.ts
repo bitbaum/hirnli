@@ -31,7 +31,7 @@ const navChildSchema = z.object({
 });
 export type NavChild = z.infer<typeof navChildSchema>;
 
-const navItemSchema = z.object({
+const _navItemSchema = z.object({
   text: z.string(),
   href: z.string().optional(),
   icon: z.string().optional(),
@@ -39,7 +39,7 @@ const navItemSchema = z.object({
   mega: z.boolean().optional(),
   sections: z.array(navSectionSchema).optional(),
 });
-export type NavItem = z.infer<typeof navItemSchema>;
+export type NavItem = z.infer<typeof _navItemSchema>;
 
 // ---------------------------------------------------------------------------
 // Brand name (re-export from branding config for backward compatibility)

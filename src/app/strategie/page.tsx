@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import CTABanner from '@/components/ui/CTABanner';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import Table from '@/components/ui/Table';
-import MetricGrid from '@/components/metrics/MetricGrid';
-import { PILLARS, VISION_TARGETS, HUB_CORE_SPACES, HUB_CULTURAL_SPACES, SDG_DATA, SDG_COLORS } from './data';
+import { VISION_TARGETS, SDG_DATA, SDG_COLORS } from './data';
 import type { SdgRow } from './data';
 import { GeschichteSection, KontaktSection, SovereigntyPillar, VisionMetric, PillarDetail, CommunitySpaceCard } from './components';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -18,7 +16,6 @@ import {
   DEVICES_PER_MONTH_CURRENT_DISPLAY,
   DEVICES_PER_MONTH_TARGET,
   DEVICES_PER_YEAR_TARGET_DISPLAY,
-  PEOPLE_REACHED_DISPLAY,
   getCombinedSpaceCost,
   getSpaceCostDisplay,
 } from '@/lib/config/projections';

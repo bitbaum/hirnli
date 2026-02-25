@@ -25,7 +25,7 @@ import { eq, and, gte, sql } from 'drizzle-orm';
  * GET /api/applications/dashboard
  * Calculate KPI statistics for fundraising dashboard
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     // Fetch all applications (we need them for various calculations)
     const allApplications = await db

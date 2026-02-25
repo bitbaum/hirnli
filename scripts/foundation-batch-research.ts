@@ -66,7 +66,7 @@ function loadCandidatesFromDiscovery(): Candidate[] {
 
   // Filter for Tier 1-2 candidates (Zürich-based or exact theme matches)
   return data.foundations
-    .filter((f: any) =>
+    .filter((f: Candidate) =>
       f.location?.includes('Zürich') ||
       f.location?.includes('Winterthur') ||
       (f.foundVia && f.foundVia.length >= 2) // Multi-match signal
@@ -285,7 +285,7 @@ function main() {
     process.exit(1);
   }
 
-  const job = processBatch(candidates);
+  processBatch(candidates);
 
   console.log('✅ Batch preparation complete!\n');
   console.log('📋 Next steps:');

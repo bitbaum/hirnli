@@ -16,8 +16,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { foundations } from '@/lib/db/schema';
-import { and, desc, eq, gte, like, or, isNull } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
+import { and, desc, eq, gte, like } from 'drizzle-orm';
 import { z } from 'zod';
 
 // Validation schema for creating foundations

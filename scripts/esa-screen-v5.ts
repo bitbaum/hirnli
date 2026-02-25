@@ -328,8 +328,6 @@ function scoreFoundation(esa: ESAFoundation, v3v4Uids: Set<string>): ScoredCandi
     if (purposeLower.includes(kw)) operatorScore++;
   }
 
-  const isFunder = funderScore > operatorScore;
-
   // v5 gate: must have either a theme match OR be a likely funder with gemeinnützig purpose
   if (matchedThemes.length === 0 && funderScore < 2) return null;
   // Heavy operators without themes are not interesting

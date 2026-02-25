@@ -12,7 +12,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Font,
 } from '@react-pdf/renderer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 

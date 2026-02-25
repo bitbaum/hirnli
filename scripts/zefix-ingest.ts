@@ -18,7 +18,8 @@ config({ path: '.env.local' });
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { neon } from '@neondatabase/serverless';
+import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
+import { execSync } from 'child_process';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import {
   classifyThemes,
@@ -158,9 +159,8 @@ function generateNameOnlyResearchNotes(
 // DB UPSERT
 // ============================================================================
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function upsertEntry(
-  sql: any,
+  sql: NeonQueryFunction<false, false>,
   entry: ZefixEntry,
 ): Promise<{ success: boolean }> {
   const slug = toSlug(entry.name);
@@ -423,7 +423,6 @@ async function main() {
   // 8. Sync
   if (!skipSync && success > 0) {
     console.log('\n  Running sync...');
-    const { execSync } = require('child_process');
     try {
       execSync('npm run sync', { stdio: 'inherit', cwd: process.cwd() });
     } catch {

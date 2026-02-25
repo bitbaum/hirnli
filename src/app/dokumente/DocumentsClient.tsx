@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import DocumentCard from '@/components/documents/DocumentCard';
 import Card from '@/components/ui/Card';
 import type { Document } from '@/lib/config/documents';
@@ -46,10 +46,10 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
     );
   };
 
-  const filteredGesuche = useMemo(() => filterDocuments(documents.gesuche), [searchQuery, documents.gesuche]);
-  const filteredVorlagen = useMemo(() => filterDocuments(documents.vorlagen), [searchQuery, documents.vorlagen]);
-  const filteredExports = useMemo(() => filterDocuments(documents.exports), [searchQuery, documents.exports]);
-  const filteredQuellen = useMemo(() => filterDocuments(documents.quellen), [searchQuery, documents.quellen]);
+  const filteredGesuche = filterDocuments(documents.gesuche);
+  const filteredVorlagen = filterDocuments(documents.vorlagen);
+  const filteredExports = filterDocuments(documents.exports);
+  const filteredQuellen = filterDocuments(documents.quellen);
 
   return (
     <div className="space-y-8">
@@ -158,7 +158,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
                   <p>
                     <strong>Gesuche & Vorlagen (PDF):</strong> Klicken Sie auf das Dokument, dann{' '}
                     <kbd className="px-2 py-1 bg-blue-100 rounded text-xs">Cmd+P</kbd> (Mac) oder{' '}
-                    <kbd className="px-2 py-1 bg-blue-100 rounded text-xs">Ctrl+P</kbd> (Windows) → "Als PDF speichern"
+                    <kbd className="px-2 py-1 bg-blue-100 rounded text-xs">Ctrl+P</kbd> (Windows) → &bdquo;Als PDF speichern&ldquo;
                   </p>
                   <p>
                     <strong>CSV/Excel-Dateien:</strong> Direkter Download beim Klick. Öffnen Sie die Dateien in Excel, Google Sheets oder einem Texteditor.
@@ -185,7 +185,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
           {filteredGesuche.length === 0 ? (
             <Card className="text-center py-12">
               <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
-              <p className="text-text-muted">Keine Gesuche gefunden für "{searchQuery}"</p>
+              <p className="text-text-muted">Keine Gesuche gefunden für &bdquo;{searchQuery}&ldquo;</p>
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -212,7 +212,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
           {filteredVorlagen.length === 0 ? (
             <Card className="text-center py-12">
               <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
-              <p className="text-text-muted">Keine Vorlagen gefunden für "{searchQuery}"</p>
+              <p className="text-text-muted">Keine Vorlagen gefunden für &bdquo;{searchQuery}&ldquo;</p>
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -240,7 +240,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
 
             {filteredExports.length === 0 ? (
               <Card className="text-center py-8">
-                <p className="text-text-muted">Keine Exporte gefunden für "{searchQuery}"</p>
+                <p className="text-text-muted">Keine Exporte gefunden für &bdquo;{searchQuery}&ldquo;</p>
               </Card>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -265,7 +265,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
 
             {filteredQuellen.length === 0 ? (
               <Card className="text-center py-8">
-                <p className="text-text-muted">Keine Quelldateien gefunden für "{searchQuery}"</p>
+                <p className="text-text-muted">Keine Quelldateien gefunden für &bdquo;{searchQuery}&ldquo;</p>
               </Card>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

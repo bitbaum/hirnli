@@ -22,7 +22,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
+import { computeFitScore } from '../src/lib/domain/fit-scoring';
 import {
   classifyThemes,
   scoreFunderOperator,

@@ -76,7 +76,7 @@ async function importEsa(filePath: string) {
   const today = now.split('T')[0];
 
   let imported = 0;
-  let updated = 0;
+  const _updated = 0;
   let errors = 0;
   const BATCH_SIZE = 50;
 
@@ -108,7 +108,7 @@ async function importEsa(filePath: string) {
       };
 
       try {
-        const result = await sql`
+        await sql`
           INSERT INTO fundraising_foundation_registry (
             id, name, uid, official_purpose, region,
             source, registry_data, data_quality, last_verified,
@@ -126,7 +126,7 @@ async function importEsa(filePath: string) {
         `;
         // ON CONFLICT means it was an update if the row existed
         imported++;
-      } catch (err) {
+      } catch {
         // Slug collision — add uid suffix and retry
         const slugWithUid = `${slug}-${f.uid.replace(/[^0-9]/g, '').slice(-6)}`;
         try {
@@ -215,7 +215,7 @@ async function importFundraiso(filePath: string) {
   const today = now.split('T')[0];
 
   let imported = 0;
-  let enriched = 0;
+  const _enriched = 0;
   let errors = 0;
 
   for (const f of data.foundations) {
@@ -326,7 +326,7 @@ async function importZhaw(filePath: string) {
   const today = now.split('T')[0];
 
   let imported = 0;
-  let enriched = 0;
+  const _enriched = 0;
   let errors = 0;
 
   for (const f of data.foundations) {
