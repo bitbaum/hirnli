@@ -4,6 +4,7 @@ import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { STIFTUNGEN_DATA, FIT_CONFIG } from '@/lib/config/foundations';
+import { computeTierCounts } from '@/lib/domain/foundation-helpers';
 import { TEAM_MEMBERS } from '@/app/team/data';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { DEVICES_PER_YEAR_TARGET_DISPLAY, PEOPLE_REACHED_DISPLAY } from '@/lib/config/projections';
@@ -16,6 +17,8 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const tierCounts = computeTierCounts(STIFTUNGEN_DATA);
+
   // Top P1/P2 foundations that are open and fully researched — actionable now
   const topActionable = STIFTUNGEN_DATA
     .filter(f => f.priority <= 2 && (f.status === 'open' || f.status === 'rolling') && !f.needsResearch)
@@ -43,9 +46,9 @@ export default function HomePage() {
               <div className="text-sm opacity-90 mt-2">{FINANCIAL_YEAR_RANGE}, direkt aus Kivitendo</div>
             </div>
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur">
-              <div className="text-4xl font-bold mb-2">{STIFTUNGEN_DATA.length}</div>
-              <div className="text-lg">Stiftungen</div>
-              <div className="text-sm opacity-90 mt-2">Mit Fit-Analyse & Deadlines</div>
+              <div className="text-4xl font-bold mb-2">{STIFTUNGEN_DATA.length.toLocaleString('de-CH')}</div>
+              <div className="text-lg">Stiftungen erfasst</div>
+              <div className="text-sm opacity-90 mt-2">{(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')} recherchiert mit Fit-Analyse</div>
             </div>
           </div>
         </div>
@@ -84,7 +87,7 @@ export default function HomePage() {
               Pipeline öffnen →
             </Button>
             <Button href="/fundraising/stiftungen" variant="secondary">
-              Alle {STIFTUNGEN_DATA.length} Stiftungen
+              Alle {STIFTUNGEN_DATA.length.toLocaleString('de-CH')} Stiftungen
             </Button>
           </div>
         </section>
@@ -124,7 +127,7 @@ export default function HomePage() {
               Fundraising-Intelligence: Passende Stiftungen finden, Fit analysieren, professionelle Gesuche generieren.
             </p>
             <ul className="text-sm text-text-light space-y-2">
-              <li>✓ {STIFTUNGEN_DATA.length} Stiftungen mit Fit-Analyse & Deadlines</li>
+              <li>✓ {STIFTUNGEN_DATA.length.toLocaleString('de-CH')} Stiftungen erfasst, {(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')} recherchiert</li>
               <li>✓ Gesuch-Vorlagen nach Stiftungstyp (A/B/C/D)</li>
               <li>✓ Interaktive Foundation Profiles (Präsentations-Modus)</li>
               <li>✓ Daten-Strategie: Was wir wissen, was fehlt</li>
@@ -164,7 +167,7 @@ export default function HomePage() {
                   <div className="text-3xl" aria-hidden="true">🎯</div>
                   <div>
                     <h3 className="text-lg font-semibold text-grey-dark group-hover:text-emerald-600">Fundraising</h3>
-                    <Badge color="emerald">{STIFTUNGEN_DATA.length} Stiftungen</Badge>
+                    <Badge color="emerald">{(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')}+ recherchiert</Badge>
                   </div>
                 </div>
               </div>

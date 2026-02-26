@@ -2,12 +2,24 @@
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
-import type { ThemeId, FoundationType, FoundationStatus } from '@/lib/schemas/foundation';
+import type { ThemeId, FoundationType, FoundationStatus, QualityTier } from '@/lib/schemas/foundation';
 import type { FoundationFilters, SortField, ThemeLogic } from '@/lib/domain/foundation-filter';
-import { filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
+import { DEFAULT_FILTERS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { createSearchIndex, searchFoundations } from '@/lib/domain/foundation-search';
+import { QUALITY_TIERS } from '@/lib/domain/foundation-helpers';
+
+/** Map legacy `researched=0` URL param to new tier system */
+function parseTierParam(searchParams: URLSearchParams): QualityTier {
+  // Backward compat: ?researched=0 → show all (verzeichnet)
+  if (searchParams.get('researched') === '0') return 'verzeichnet';
+  // New param: ?tier=erfasst
+  const tierParam = searchParams.get('tier') as QualityTier | null;
+  if (tierParam && QUALITY_TIERS.includes(tierParam)) return tierParam;
+  // Default
+  return DEFAULT_FILTERS.minTier;
+}
 
 export function useFoundationFilters(foundations: Foundation[]) {
   const searchParams = useSearchParams();
@@ -29,7 +41,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     hideOperative: searchParams.get('hideOp') === '1',
     hideNetworks: searchParams.get('hideNet') === '1',
     hideNoApplication: searchParams.get('hideNoApp') === '1',
-    onlyResearched: searchParams.get('researched') === '1',
+    minTier: parseTierParam(searchParams),
   }), [searchParams]);
 
   const sort: SortField = (searchParams.get('sort') as SortField) || 'priority';
@@ -112,9 +124,14 @@ export function useFoundationFilters(foundations: Foundation[]) {
     updateParams({ hideNet: filters.hideNetworks ? null : '1' });
   }, [filters.hideNetworks, updateParams]);
 
-  const toggleOnlyResearched = useCallback(() => {
-    updateParams({ researched: filters.onlyResearched ? null : '1' });
-  }, [filters.onlyResearched, updateParams]);
+  const setMinTier = useCallback((tier: QualityTier) => {
+    // Default tier is omitted from URL; also remove legacy param
+    const isDefault = tier === DEFAULT_FILTERS.minTier;
+    updateParams({
+      tier: isDefault ? null : tier,
+      researched: null, // clean up legacy param
+    });
+  }, [updateParams]);
 
   const resetFilters = useCallback(() => {
     router.replace(pathname, { scroll: false });
@@ -166,7 +183,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
       filters.hideOperative ||
       filters.hideNetworks ||
       filters.hideNoApplication ||
-      filters.onlyResearched
+      filters.minTier !== DEFAULT_FILTERS.minTier
     );
   }, [filters]);
 
@@ -190,7 +207,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     toggleHideNoApplication,
     toggleHideOperative,
     toggleHideNetworks,
-    toggleOnlyResearched,
+    setMinTier,
     resetFilters,
   };
 }

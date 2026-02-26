@@ -9,6 +9,9 @@ import FoundationSidebar from '@/components/foundation/FoundationSidebar';
 import SimilarFoundations from '@/components/foundation/SimilarFoundations';
 import FoundationDetailTabs from './FoundationDetailTabs';
 
+// Allow directory-tier foundations to be rendered dynamically (not pre-generated)
+export const dynamicParams = true;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }

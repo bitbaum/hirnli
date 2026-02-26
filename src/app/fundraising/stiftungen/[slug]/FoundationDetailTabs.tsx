@@ -6,7 +6,9 @@ import ApproachChecklist from '@/components/foundation/ApproachChecklist';
 import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS } from '@/lib/config/foundations';
+import { getQualityTier, tierAtLeast, TIER_LABELS } from '@/lib/domain/foundation-helpers';
 import type { FitNarrative, ThemeAlignment, ApproachStep, ReadinessItem } from '@/lib/domain/foundation-contextualization';
+import type { QualityTier } from '@/lib/schemas/foundation';
 
 interface Props {
   foundation: Foundation;
@@ -16,27 +18,59 @@ interface Props {
   readiness?: ReadinessItem[];
 }
 
+const TIER_BANNER: Record<QualityTier, { text: string; className: string } | null> = {
+  anwendungsbereit: null,
+  recherchiert: null,
+  profiliert: {
+    text: 'Automatisch profiliert — basiert auf Registerdaten',
+    className: 'border-amber-300 bg-amber-50 text-amber-700',
+  },
+  erfasst: {
+    text: 'Nur Registerdaten verfügbar — Recherche ausstehend',
+    className: 'border-border bg-grey-light text-text-muted',
+  },
+  verzeichnet: {
+    text: 'Nur im Verzeichnis erfasst — keine weiteren Daten',
+    className: 'border-border bg-grey-light text-text-muted',
+  },
+};
+
 export default function FoundationDetailTabs({ foundation: f, fitNarrative, themeAlignments, approachSteps, readiness }: Props) {
   const typeLabel = TYPE_LABELS[f.type];
+  const tier = getQualityTier(f);
+  const banner = TIER_BANNER[tier];
 
-  const tabs = [
-    { id: 'fit', label: 'Fit-Analyse', icon: '🎯' },
-    { id: 'strategy', label: 'Strategie', icon: '📋' },
-    { id: 'details', label: 'Details', icon: '📄' },
-  ];
+  // verzeichnet/erfasst: only show Details tab (fit + strategy are meaningless)
+  // profiliert+: show all tabs
+  const tabs = !tierAtLeast(tier, 'profiliert')
+    ? [{ id: 'details', label: 'Details', icon: '📄' }]
+    : [
+        { id: 'fit', label: 'Fit-Analyse', icon: '🎯' },
+        { id: 'strategy', label: 'Strategie', icon: '📋' },
+        { id: 'details', label: 'Details', icon: '📄' },
+      ];
 
   return (
-    <Tabs tabs={tabs}>
-      {(activeTab) => {
-        switch (activeTab) {
-          case 'fit':
-            return (
-              <FitAnalysis
-                foundation={f}
-                fitNarrative={fitNarrative}
-                themeAlignments={themeAlignments}
-              />
-            );
+    <>
+      {banner && (
+        <div className={`mb-4 rounded-lg border px-4 py-3 text-sm font-medium ${banner.className}`}>
+          {banner.text}
+          <span className="ml-2 rounded-full bg-white/50 px-2 py-0.5 text-[10px] font-bold uppercase">
+            {TIER_LABELS[tier]}
+          </span>
+        </div>
+      )}
+      <Tabs tabs={tabs}>
+        {(activeTab) => {
+          switch (activeTab) {
+            case 'fit':
+              return (
+                <FitAnalysis
+                  foundation={f}
+                  fitNarrative={fitNarrative}
+                  themeAlignments={themeAlignments}
+                />
+              );
 
           case 'strategy':
             return (
@@ -201,5 +235,6 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
         }
       }}
     </Tabs>
+    </>
   );
 }

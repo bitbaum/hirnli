@@ -21,6 +21,16 @@ export type FoundationType = z.infer<typeof FoundationType>;
 export const ResearchDepth = z.enum(['rapid', 'standard', 'deep']);
 export type ResearchDepth = z.infer<typeof ResearchDepth>;
 
+// Quality tier — computed deterministically from data signals (never stored)
+export const QualityTier = z.enum([
+  'verzeichnet',       // Rank 1: Exists in Swiss registry. Name and UID only.
+  'erfasst',           // Rank 2: Registry data available. Needs research.
+  'profiliert',        // Rank 3: Automated profile from registry. Directional.
+  'recherchiert',      // Rank 4: Verified website and direct contact.
+  'anwendungsbereit',  // Rank 5: Apply now — we know how, where, and how much.
+]);
+export type QualityTier = z.infer<typeof QualityTier>;
+
 // Foundation status
 export const FoundationStatus = z.enum(['open', 'closed', 'rolling', 'soon']);
 export type FoundationStatus = z.infer<typeof FoundationStatus>;

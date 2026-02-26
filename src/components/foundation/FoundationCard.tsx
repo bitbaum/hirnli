@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS, STATUS_LABELS, FIT_CONFIG } from '@/lib/config/foundations';
+import { getQualityTier, TIER_LABELS, TIER_COLORS } from '@/lib/domain/foundation-helpers';
 import ThemeBadgeList from './ThemeBadgeList';
 
 interface FoundationCardProps {
@@ -21,6 +22,7 @@ const PRIORITY_BADGE: Record<number, string> = {
 export default function FoundationCard({ foundation: f, inPipeline, score }: FoundationCardProps) {
   const statusLabel = STATUS_LABELS[f.status];
   const typeLabel = TYPE_LABELS[f.type];
+  const tier = getQualityTier(f);
 
   return (
     <Link
@@ -73,21 +75,9 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
           {f.deadlineText && f.deadlineText !== 'Unbekannt' && (
             <span>{f.deadlineText}</span>
           )}
-          {f.researchDepth === 'deep' && (
-            <span className="rounded-full bg-success-bg px-1.5 py-0.5 text-[10px] font-medium text-success">
-              Verifiziert
-            </span>
-          )}
-          {f.researchDepth === 'standard' && (
-            <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">
-              Recherchiert
-            </span>
-          )}
-          {(!f.researchDepth || f.researchDepth === 'rapid') && f.purposeSummary && !f.needsResearch && (
-            <span className="rounded-full bg-grey-light px-1.5 py-0.5 text-[10px] font-medium text-text-muted">
-              Basis
-            </span>
-          )}
+          <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium ${TIER_COLORS[tier]}`}>
+            {TIER_LABELS[tier]}
+          </span>
         </div>
         {f.amount.text && f.amount.text !== 'Unbekannt' && (
           <span>{f.amount.text}</span>

@@ -35,7 +35,9 @@
     "zhaw:ingest": "tsx scripts/zhaw-ingest.ts",
     "pipeline:incremental": "tsx scripts/pipeline-incremental.ts",
     "zefix:download": "tsx scripts/zefix-download.ts",
-    "zefix:ingest": "tsx scripts/zefix-ingest.ts"
+    "zefix:ingest": "tsx scripts/zefix-ingest.ts",
+    "enrich:bulk": "tsx scripts/bulk-enrich.ts",
+    "research:queue-v2": "tsx scripts/foundation-research-queue-v2.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

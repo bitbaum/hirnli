@@ -1,6 +1,7 @@
-import type { Foundation, ThemeId, FoundationType, FoundationStatus } from '../schemas/foundation';
+import type { Foundation, ThemeId, FoundationType, FoundationStatus, QualityTier } from '../schemas/foundation';
 import type { SchwerpunktId } from '../config/schwerpunkte';
 import { SCHWERPUNKTE } from '../config/schwerpunkte';
+import { getQualityTier, tierAtLeast } from './foundation-helpers';
 
 export type ThemeLogic = 'or' | 'and';
 
@@ -15,7 +16,7 @@ export interface FoundationFilters {
   hideOperative: boolean;
   hideNetworks: boolean;
   hideNoApplication: boolean;
-  onlyResearched: boolean;
+  minTier: QualityTier;
 }
 
 export const DEFAULT_FILTERS: FoundationFilters = {
@@ -29,7 +30,7 @@ export const DEFAULT_FILTERS: FoundationFilters = {
   hideOperative: false,
   hideNetworks: false,
   hideNoApplication: false,
-  onlyResearched: false,
+  minTier: 'profiliert',
 };
 
 /** Filter foundations by criteria */
@@ -77,8 +78,8 @@ export function filterFoundations(
     // Hide foundations without application method
     if (filters.hideNoApplication && (f.applicationMethod === 'unknown' || f.applicationMethod === 'none')) return false;
 
-    // Only show deep-researched foundations (have purposeSummary and needsResearch !== true)
-    if (filters.onlyResearched && (!f.purposeSummary || f.needsResearch === true)) return false;
+    // Minimum quality tier filter
+    if (!tierAtLeast(getQualityTier(f), filters.minTier)) return false;
 
     // Text search
     if (filters.search) {

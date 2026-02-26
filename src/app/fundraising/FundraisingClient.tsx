@@ -7,7 +7,8 @@ import Badge from '@/components/ui/Badge';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
-import { STATUS_LABELS } from '@/lib/config/foundations';
+import { STATUS_LABELS, STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { computeTierCounts } from '@/lib/domain/foundation-helpers';
 import { CORE_FACTS } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
@@ -115,6 +116,7 @@ function BudgetLineItemCard({ item, borderColor }: { item: BudgetLineItem; borde
 
 export default function FundraisingClient() {
   const stats = computePipelineStats();
+  const tierCounts = computeTierCounts(STIFTUNGEN_DATA);
   const inspector = useNumberInspector();
 
   // Pre-build inspector data for key metrics
@@ -451,12 +453,24 @@ export default function FundraisingClient() {
         <p className="mt-2 text-right text-xs text-text-muted">Quelle: {TRACK_RECORD.source}</p>
       </section>
 
-      {/* Pipeline Metrics */}
+      {/* Pipeline Metrics — honest tiered numbers */}
       <MetricGrid columns={4} className="mb-8">
         <MetricCard
-          label="Stiftungen total"
-          value={String(stats.total)}
-          subtitle="Recherchierte Förderer"
+          label="Anwendungsbereit"
+          value={(tierCounts.anwendungsbereit).toLocaleString('de-CH')}
+          subtitle="Kontakt, Bewerbungsweg und Fördersumme bekannt"
+          sourceType="live"
+        />
+        <MetricCard
+          label="Recherchiert+"
+          value={(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')}
+          subtitle="Verifizierte Website und direkter Kontakt"
+          sourceType="derived"
+        />
+        <MetricCard
+          label="Im Verzeichnis"
+          value={stats.total.toLocaleString('de-CH')}
+          subtitle="Schweizer Stiftungen erfasst"
           sourceType="live"
         />
         <MetricCard
@@ -464,18 +478,6 @@ export default function FundraisingClient() {
           value={String(stats.highFitCount)}
           subtitle="Beste Übereinstimmung"
           sourceType="derived"
-        />
-        <MetricCard
-          label="Durchschn. Fit"
-          value={stats.avgFit.toFixed(1)}
-          subtitle="von 3.0"
-          sourceType="derived"
-        />
-        <MetricCard
-          label="Deadlines (90 Tage)"
-          value={String(stats.upcomingDeadlines)}
-          subtitle="Anstehende Fristen"
-          sourceType="live"
         />
       </MetricGrid>
 

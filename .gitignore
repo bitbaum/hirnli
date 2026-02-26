@@ -20,8 +20,14 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Screenshots
+# Screenshots & reference images
 screenshot-*.png
+fundraiso-*.png
+spheriq-*.png
+sidebar-*.png
+
+# Playwright MCP
+.playwright-mcp/
 
 # Vercel
 .vercel
@@ -29,3 +35,5 @@ screenshot-*.png
 
 # Research drafts (too large for git, already ingested into DB)
 research/drafts/
+research/bulk-enrichment/
+research/queue-v2-*.json

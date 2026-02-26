@@ -83,12 +83,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a {
+/* :where() gives zero specificity — Tailwind text-* classes always win */
+:where(a) {
   color: var(--color-primary);
   text-decoration: none;
 }
 
-a:hover {
+:where(a):hover {
   text-decoration: underline;
 }
 

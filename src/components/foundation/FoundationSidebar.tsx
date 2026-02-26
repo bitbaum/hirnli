@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
 import { computeCompleteness } from '@/lib/domain/foundation-research-stats';
-import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
+import { hasGesuchPage, getQualityTier, getTierPromotionSteps, TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS } from '@/lib/domain/foundation-helpers';
 import AddToPipelineButton from './AddToPipelineButton';
 
 interface FoundationSidebarProps {
@@ -15,9 +15,32 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
   const source = SOURCES[f.source];
   const { percent, missing } = computeCompleteness(f);
   const gesuchReady = hasGesuchPage(f);
+  const tier = getQualityTier(f);
+  const promotion = getTierPromotionSteps(f);
 
   return (
     <div className="space-y-4">
+      {/* Quality Tier */}
+      <Card>
+        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Datenqualität</h3>
+        <div className={`rounded-lg px-3 py-2 text-sm font-semibold ${TIER_COLORS[tier]}`}>
+          {TIER_LABELS[tier]}
+        </div>
+        <p className="mt-2 text-xs text-text-muted">{TIER_DESCRIPTIONS[tier]}</p>
+        {promotion.nextTier && promotion.missingFields.length > 0 && (
+          <div className="mt-3 border-t border-border pt-3">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">
+              Nächste Stufe: {TIER_LABELS[promotion.nextTier]}
+            </p>
+            <ul className="mt-1 space-y-0.5 text-xs text-text-muted">
+              {promotion.missingFields.map((field) => (
+                <li key={field}>• {field}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </Card>
+
       {/* Key Facts */}
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Auf einen Blick</h3>

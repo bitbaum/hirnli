@@ -22,11 +22,11 @@ export const ResearchAnalysisSchema = z.object({
   reasoning: z.string(),
   themes: z.array(ThemeId),
   suggestedType: FoundationType,
-  suggestedFit: z.number().int().min(1).max(3),
+  suggestedFit: z.number().int().min(0).max(3), // 0 = not assessed (bulk enrichment)
   suggestedPriority: z.number().int().min(1).max(4),
-  purposeSummary: z.string().min(150),
-  researchNotes: z.string().min(250),
-  applicationMethod: z.enum(['online', 'email', 'invitation', 'unknown']),
+  purposeSummary: z.string().min(20), // relaxed for auto-generated summaries
+  researchNotes: z.string().min(20),  // relaxed for auto-generated notes
+  applicationMethod: z.enum(['online', 'email', 'invitation', 'unknown', 'post', 'contact', 'direct', 'personal', 'partnership', 'via_partner', 'membership', 'contract', 'none']),
   contactInfo: z.object({
     email: z.string().optional(),
     phone: z.string().optional(),

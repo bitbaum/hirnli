@@ -19,7 +19,7 @@ const VARIANT_CLASSES: Record<Variant, string> = {
   secondary:
     'border border-border bg-white text-grey-dark hover:bg-bg-light active:bg-grey-light',
   soft:
-    'bg-primary/10 text-primary hover:bg-primary/20 active:bg-primary/25',
+    'bg-primary text-white hover:bg-primary/90 active:bg-primary/80',
   ghost:
     'text-text hover:bg-bg-light active:bg-grey-light',
   danger:
