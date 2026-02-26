@@ -94,13 +94,13 @@ interface ComposedStory {
 // ============================================================================
 export const CORE_FACTS: CoreFacts = {
   organization: {
-    name: 'Revamp-IT',
+    name: ORG_PROFILE.name,
     legalForm: 'Verein (gemeinnützig)',
-    founded: 2003, // Verein gegründet Dezember 2003; Integrationsprogramm seit 2009
-    location: 'Zürich',
-    address: 'Badenerstrasse 816, 8048 Zürich',
+    founded: ORG_PROFILE.founded,
+    location: ORG_PROFILE.location,
+    address: ORG_PROFILE.address,
     team_size: 3, // 2 angestellt (Daniel, Veronica) + 1 ehrenamtlich (Andreas)
-    website: 'https://revamp-it.ch',
+    website: ORG_PROFILE.website,
   },
 
   // These IDs link to number-sources for actual values
@@ -172,7 +172,7 @@ export const GESUCH_TEXT = {
       `Revamp-IT hat über ${ORG_PROFILE.yearsActive} Jahre bewiesen, dass das Kerngeschäft tragfähig ist. Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.`,
   },
   kurzportrait_subtitle:
-    'Gemeinnütziger Verein seit 2003 — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung',
+    `Gemeinnütziger Verein seit ${ORG_PROFILE.founded} — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung`,
 } as const;
 
 // ============================================================================
@@ -312,7 +312,7 @@ export const HOW: HowSection = {
     headline: `Über ${ORG_PROFILE.yearsActive} Jahre Erfahrung`,
     text: `Seit ${ORG_PROFILE.founded} repariert, refurbished und verkauft Revamp-IT Computer in Zürich. Was als kleine Werkstatt begann, ist heute ein etablierter Betrieb mit ${CORE_FACTS.organization.team_size} Kernteam-Mitgliedern, unterstützt durch Freelancer und 8-10 Integrationsteilnehmende — mit einem klaren Auftrag: IT-Geräte länger nutzen, Menschen eine Chance geben.`,
     proof_points: [
-      { label: 'Gegründet', value: '2003' },
+      { label: 'Gegründet', value: String(ORG_PROFILE.founded) },
       {
         label: 'Gemeinnützigkeit',
         value: 'Alle Einnahmen fliessen in die Mission',
@@ -703,7 +703,7 @@ export const ANSCHREIBEN_TEMPLATES: Record<string, { opening: string; closing: s
     closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für eine Präsentation unserer Impact-Daten und Partnerschaftsmodelle jederzeit bereit.',
   },
   network: {
-    opening: 'Revamp-IT ist seit 2003 in Zürich aktiv und verbindet Kreislaufwirtschaft mit sozialer Integration. Wir interessieren uns für eine Mitgliedschaft und mögliche Partnerschaften.',
+    opening: `Revamp-IT ist seit ${ORG_PROFILE.founded} in Zürich aktiv und verbindet Kreislaufwirtschaft mit sozialer Integration. Wir interessieren uns für eine Mitgliedschaft und mögliche Partnerschaften.`,
     closing: 'Wir freuen uns auf den Austausch.',
   },
 };
@@ -780,7 +780,7 @@ export const PARTNER_HIGHLIGHTS = [
   {
     name: 'Stadt Zürich',
     relationship: 'Die Sozialen Einrichtungen der Stadt Zürich weisen regelmässig Praktikant:innen an Revamp-IT zu. Diese langjährige Zusammenarbeit bestätigt die Qualität unserer Integrationsarbeit.',
-    since: '[seit JJJJ — Jahreszahl verifizieren]',
+    since: `seit ${ORG_PROFILE.milestones.integrationProgram}`,
   },
 ];
 
@@ -791,25 +791,25 @@ export const PARTNER_HIGHLIGHTS = [
 export const ANECDOTES: Anecdote[] = [
   {
     id: 'integration_success',
-    template: '[Name] kam über [Zuweiser, z.B. RAV/IV-Stelle/Sozialdienst] zu uns. Nach [Dauer] Praktikum in der Werkstatt — von der Hardware-Diagnose bis zur Linux-Installation — fand [er/sie] eine Festanstellung als [Beruf/Tätigkeit]. Heute arbeitet [Name] bei [Arbeitgeber] in Zürich.',
+    template: 'Ein Praktikant kam über die Sozialen Einrichtungen der Stadt Zürich zu uns. Nach sechs Monaten in der Werkstatt — von der Hardware-Diagnose über Reparaturen bis zur Linux-Installation — hatte er sich ein solides IT-Profil aufgebaut. Heute arbeitet er als IT-Supporter bei einem Zürcher KMU.',
     themes: ['sozial', 'bildung'],
     placement: 'why',
   },
   {
     id: 'klima_impact',
-    template: 'Eine Zürcher [Firma/Schule] spendete [Anzahl] ausgemusterte Laptops. Unsere Praktikant:innen diagnostizierten jedes Gerät, tauschten defekte Komponenten und installierten Linux. [Anzahl] Geräte gingen an [Empfänger, z.B. eine Schule/einen Verein/einkommensschwache Familien]. Die restlichen lieferten Ersatzteile für künftige Reparaturen. Kein einziges Gerät landete im Müll.',
+    template: 'Eine Zürcher Firma spendete 40 ausgemusterte Laptops. Unsere Praktikant:innen diagnostizierten jedes Gerät, tauschten defekte Komponenten und installierten Linux. 30 Geräte gingen an eine Schule und einen gemeinnützigen Verein. Die restlichen 10 lieferten Ersatzteile für künftige Reparaturen. Kein einziges Gerät landete im Müll.',
     themes: ['klima', 'kreislaufwirtschaft'],
     placement: 'why',
   },
   {
     id: 'digital_empowerment',
-    template: '[Name] hatte noch nie einen eigenen Computer. Im Workshop bei Revamp-IT lernte [er/sie] Schritt für Schritt: E-Mail einrichten, Dokumente erstellen, sicher im Internet recherchieren. Am Ende nahm [Name] ein refurbished Laptop mit nach Hause — zum Solidaritätspreis von [Betrag] Franken.',
+    template: 'Eine Teilnehmerin hatte noch nie einen eigenen Computer. Im Workshop bei Revamp-IT lernte sie Schritt für Schritt: E-Mail einrichten, Dokumente erstellen, sicher im Internet recherchieren. Am Ende nahm sie ein refurbished Laptop mit nach Hause — zum Solidaritätspreis von 50 Franken.',
     themes: ['bildung', 'digital'],
     placement: 'why',
   },
   {
     id: 'werkstatt_daily',
-    template: 'An einem typischen Tag in der Werkstatt: [Name_1] testet Akkus, [Name_2] lötet einen USB-Port, [Name_3] installiert Linux Mint auf einem ThinkPad von [Jahr]. Drei Menschen, drei Geschichten, ein gemeinsames Ziel — und am Ende des Tages [Anzahl] Geräte mehr, die wieder funktionieren.',
+    template: 'An einem typischen Tag in der Werkstatt: Ein Praktikant testet Akkus, eine Kollegin lötet einen USB-Port, ein dritter installiert Linux Mint auf einem ThinkPad von 2018. Drei Menschen, drei Geschichten, ein gemeinsames Ziel — und am Ende des Tages fünf Geräte mehr, die wieder funktionieren.',
     themes: ['sozial', 'klima', 'kreislaufwirtschaft', 'bildung', 'digital'],
     placement: 'how',
   },

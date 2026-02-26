@@ -69,7 +69,7 @@ export default function KurzportraitPDF({ dok }: KurzportraitPDFProps) {
         <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>Online-Transparenz</Text>
         <Text style={[styles.small, { color: COLORS.textLight }]}>
           Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar
-          unter revamp-info.vercel.app. Jede Zahl ist bis zur Quelle nachvollziehbar.
+          unter {ORG_PROFILE.platform.url.replace('https://', '')}. Jede Zahl ist bis zur Quelle nachvollziehbar.
         </Text>
         <Text style={[styles.small, { color: COLORS.textLight, marginTop: 4 }]}>
           Personalisierte Projektübersicht: {dok.landingPageUrl}

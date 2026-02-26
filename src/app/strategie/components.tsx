@@ -42,8 +42,8 @@ export function GeschichteSection() {
               <span className="mb-3 text-4xl">🏢</span>
               <h3 className="text-base font-semibold">Heute</h3>
               <p className="mt-2 text-left text-sm text-text-light">
-                <strong>Laden:</strong> Birmensdorferstrasse 379, 8055 Zürich<br />
-                <strong>Lager:</strong> Badenerstrasse 816, 8048 Zürich<br /><br />
+                <strong>Laden:</strong> {ORG_PROFILE.shopAddress}<br />
+                <strong>Lager:</strong> {ORG_PROFILE.address}<br /><br />
                 Werkstatt, Verkauf und Community-Treffpunkt unter einem Dach.
               </p>
             </div>
@@ -60,8 +60,8 @@ export function KontaktSection() {
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Kontakt</h2>
       <Card className="text-center">
         <h3 className="mb-3 text-lg font-semibold">{ORG_PROFILE.name}</h3>
-        <p className="text-sm"><strong>Adresse:</strong> Birmensdorferstrasse 379, 8055 Zürich</p>
-        <p className="text-sm"><strong>Telefon:</strong> +41 (0)43 960 32 64</p>
+        <p className="text-sm"><strong>Adresse:</strong> {ORG_PROFILE.shopAddress}</p>
+        <p className="text-sm"><strong>Telefon:</strong> {ORG_PROFILE.phone}</p>
         <p className="text-sm"><strong>E-Mail:</strong> {ORG_PROFILE.email}</p>
         <p className="text-sm">
           <strong>Web:</strong>{' '}

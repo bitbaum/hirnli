@@ -9,6 +9,7 @@
 import { HUB_SPACE_DISPLAY, PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
 import { getNumericValue } from '@/lib/config/numbers';
 import { formatNumber } from '@/lib/utils/format';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 export const VALUES = [
   { icon: '🌍', title: 'Nachhaltigkeit', description: 'Wir verlängern die Lebensdauer von IT-Geräten und reduzieren aktiv Elektroschrott und CO2-Emissionen.', color: 'border-l-emerald-500' },
@@ -64,7 +65,7 @@ export const VISION_TARGETS = [
       methodology: 'Gemeinnütziger Verein (non-profit): Per Statuten keine Gewinnausschüttung, alle Einnahmen reinvestiert in Mission',
       confidence: 'high',
       lastVerified: '2026-01-15',
-      notes: 'Bereits heute 100% — Dies ist keine Zukunftsvision, sondern unser Grundprinzip seit 2003',
+      notes: `Bereits heute 100% — Dies ist keine Zukunftsvision, sondern unser Grundprinzip seit ${ORG_PROFILE.founded}`,
     },
   },
 ] as const;

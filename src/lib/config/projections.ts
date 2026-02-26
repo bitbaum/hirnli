@@ -11,6 +11,7 @@
  */
 
 import { NUMBERS_REGISTRY, getNumericValue } from '@/lib/config/numbers';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import {
   REVENUE_HISTORY,
   PROJECT_DURATION,
@@ -90,7 +91,7 @@ export const REPAIR_TABLES_CURRENT =
 // -- Experience ----------------------------------------------------------------
 
 export const YEARS_EXPERIENCE = getNumericValue('YEARS_EXPERIENCE'); // 23
-export const YEARS_EXPERIENCE_DISPLAY = `${YEARS_EXPERIENCE} Jahre Erfahrung (seit 2003)`;
+export const YEARS_EXPERIENCE_DISPLAY = `${YEARS_EXPERIENCE} Jahre Erfahrung (seit ${ORG_PROFILE.founded})`;
 
 // -- Space Costs (derived from hub-space-plan.ts) ------------------------------
 

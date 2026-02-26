@@ -38,9 +38,8 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         } else {
           setError(result.error || 'Application not found');
         }
-      } catch (err) {
+      } catch {
         setError('Network error');
-        console.error('Failed to fetch application:', err);
       } finally {
         setIsLoading(false);
       }

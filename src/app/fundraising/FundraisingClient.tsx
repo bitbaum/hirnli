@@ -9,6 +9,7 @@ import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
 import { STATUS_LABELS } from '@/lib/config/foundations';
 import { CORE_FACTS } from '@/lib/config/stories';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import { formatCHF } from '@/lib/utils/format';
@@ -423,7 +424,7 @@ export default function FundraisingClient() {
           {[
             { value: `${TRACK_RECORD.yearsActive}+`, label: 'Jahre aktiv', sub: `Seit ${CORE_FACTS.organization.founded}` },
             { value: TRACK_RECORD.totalCustomers.toLocaleString('de-CH'), label: 'Kunden', sub: 'im Kivitendo ERP' },
-            { value: TRACK_RECORD.totalInvoices.toLocaleString('de-CH'), label: 'Rechnungen', sub: 'seit 2007' },
+            { value: TRACK_RECORD.totalInvoices.toLocaleString('de-CH'), label: 'Rechnungen', sub: `seit ${ORG_PROFILE.milestones.kivitendoStart}` },
             { value: TRACK_RECORD.productsInCatalog.toLocaleString('de-CH'), label: 'Produkte', sub: 'im Katalog' },
             { value: TRACK_RECORD.deliveryNotes.toLocaleString('de-CH'), label: 'Lieferungen', sub: 'ausgeführt' },
             { value: `${TRACK_RECORD.quoteConversion}%`, label: 'Offerten-Konversion', sub: 'Zuverlässigkeit' },

@@ -20,11 +20,21 @@ export const ORG_PROFILE = {
   website: 'https://revamp-it.ch',
   email: 'empfang@revamp-it.ch',
   fundraisingEmail: 'fundraising@revamp-it.ch',
+  phone: '+41 (0)43 960 32 64',
+  shopAddress: 'Birmensdorferstrasse 379, 8055 Zürich',
 
   // Platform identity
   platform: {
     name: 'Revamp-Info',
     tagline: 'Fundraising Hub',
+    url: 'https://revamp-info.vercel.app',
+  },
+
+  // Key program milestones (years)
+  milestones: {
+    integrationProgram: 2009,  // Praktikums-/Integrationsprogramm
+    kivitendoStart: 2007,      // ERP-Buchhaltung
+    deviceTrackingStart: 2018, // Systematische Geräteerfassung
   },
 
   // Computed from founded year — never hardcode "20 Jahre" etc.

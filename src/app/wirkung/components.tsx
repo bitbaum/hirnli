@@ -2,6 +2,7 @@ import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { formatNumber } from '@/lib/utils/format';
 import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 // ---------------------------------------------------------------------------
 // Theory of Change column component
@@ -120,7 +121,7 @@ export function ImpactStoryCards({
             <p className="mb-2 text-sm text-text-muted">Praktikant:innen & Teilnehmende</p>
             <Badge variant="none">Nicht erfasst</Badge>
             <div className="mt-3 rounded-lg bg-red-50 p-3">
-              <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Historisch (seit 2009):</h4>
+              <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">{`Historisch (seit ${ORG_PROFILE.milestones.integrationProgram}):`}</h4>
               <ul className="space-y-1 text-xs text-text-light">
                 <li>👥 <strong>100+</strong> Praktikant:innen</li>
                 <li>✓ <strong>~40%</strong> Erfolgsquote</li>

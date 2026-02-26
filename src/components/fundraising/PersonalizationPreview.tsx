@@ -55,9 +55,8 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
       } else {
         setError(result.error || 'Failed to generate preview');
       }
-    } catch (err) {
+    } catch {
       setError('Network error');
-      console.error('Failed to generate preview:', err);
     } finally {
       setIsLoading(false);
     }

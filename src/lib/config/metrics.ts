@@ -8,6 +8,7 @@
 
 import type { Metric, MetricSourceType, Confidence } from '../schemas/metric';
 import type { InspectorData, InspectorSourceType } from '../schemas/inspector';
+import { ORG_PROFILE } from './org-profile';
 
 // ---------------------------------------------------------------------------
 // SSOT: All metric definitions
@@ -427,7 +428,7 @@ export const NumberSources: Record<string, Metric> = {
 
   praktikanten_100: {
     id: 'praktikanten_100',
-    name: 'Praktikant:innen seit 2009',
+    name: `Praktikant:innen seit ${ORG_PROFILE.milestones.integrationProgram}`,
     category: 'social',
     dimension: 'social_integration',
     format: 'integer',
@@ -446,7 +447,7 @@ export const NumberSources: Record<string, Metric> = {
     },
     documentation: {
       description:
-        'Geschätzte Anzahl Praktikant:innen seit Beginn des Integrationsprogramms 2009. Exakte Zahl nicht systematisch erfasst.',
+        `Geschätzte Anzahl Praktikant:innen seit Beginn des Integrationsprogramms ${ORG_PROFILE.milestones.integrationProgram}. Exakte Zahl nicht systematisch erfasst.`,
       limitations: [
         'Nicht systematisch getrackt',
         'Schätzung basierend auf Erinnerungen',

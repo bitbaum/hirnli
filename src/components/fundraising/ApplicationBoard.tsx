@@ -54,9 +54,8 @@ export function ApplicationBoard() {
       } else {
         setError(result.error || 'Failed to fetch applications');
       }
-    } catch (err) {
+    } catch {
       setError('Network error');
-      console.error('Failed to fetch applications:', err);
     } finally {
       setIsLoading(false);
     }
@@ -128,7 +127,7 @@ export function ApplicationBoard() {
         );
         alert(`Fehler: ${result.error}`);
       }
-    } catch (err) {
+    } catch {
       // Revert on network error
       setApplications(prev =>
         prev.map(item =>
@@ -138,7 +137,6 @@ export function ApplicationBoard() {
         )
       );
       alert('Netzwerkfehler beim Aktualisieren');
-      console.error('Failed to update application:', err);
     }
   }
 

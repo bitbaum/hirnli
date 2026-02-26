@@ -57,7 +57,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
         <p className="mb-1 font-semibold text-grey-dark">Online-Transparenz</p>
         <p className="text-text-light">
           Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar
-          unter <a href="https://revamp-info.vercel.app" className="text-primary">revamp-info.vercel.app</a>.
+          unter <a href={ORG_PROFILE.platform.url} className="text-primary">{ORG_PROFILE.platform.url.replace('https://', '')}</a>.
           Jede Zahl ist bis zur Quelle nachvollziehbar.
         </p>
         <p className="mt-2 text-text-light">

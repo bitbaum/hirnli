@@ -11,6 +11,7 @@
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeKey } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { formatDateDE } from '@/lib/utils/format';
 import type { Evidence, WhySection, CompetencySection, Project, CoreFacts, TrackRecord, Anecdote, PhotoSlot } from '@/lib/schemas/story';
 import {
   composeStory,
@@ -434,9 +435,7 @@ export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: Sc
   const requestedAmount = computeRequestedAmount(foundation, scenario);
 
   const today = new Date();
-  const dateStr = `Zürich, ${today.getDate()}. ${
-    ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'][today.getMonth()]
-  } ${today.getFullYear()}`;
+  const dateStr = formatDateDE(today, ORG_PROFILE.location);
 
   return {
     ...gesuch,
@@ -485,6 +484,6 @@ export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: Sc
       activities: CORE_FACTS.activities,
       unique: CORE_FACTS.unique,
     },
-    landingPageUrl: `https://revamp-info.vercel.app/fundraising/stiftungen/${foundation.slug}/gesuch`,
+    landingPageUrl: `${ORG_PROFILE.platform.url}/fundraising/stiftungen/${foundation.slug}/gesuch`,
   };
 }

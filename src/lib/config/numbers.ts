@@ -24,6 +24,7 @@
 
 import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated'
 import { SPACE_SUMMARY } from './hub-space-plan'
+import { ORG_PROFILE } from './org-profile'
 
 export type NumberConfidence = 'high' | 'medium' | 'estimated' | 'target' | 'unknown';
 
@@ -73,7 +74,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: SHARED_ORG_NUMBERS.DEVICE_LIFESPAN_EXTENSION,
     label: 'Jahre zusätzliche Nutzungsdauer',
     source: {
-      methodology: 'Erfahrungswerte aus 20+ Jahren Refurbishing: Linux verlängert Lebensdauer älterer Hardware signifikant',
+      methodology: `Erfahrungswerte aus ${ORG_PROFILE.yearsActive}+ Jahren Refurbishing: Linux verlängert Lebensdauer älterer Hardware signifikant`,
       calculation: 'Durchschnittliche zusätzliche Nutzungsdauer nach Refurbishing mit Linux-Installation',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
@@ -83,10 +84,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 
   LAPTOPS_REFURBISHED_TOTAL: {
     value: '1\'200+',
-    label: 'Laptops refurbished (2003-2025)',
+    label: `Laptops refurbished (${ORG_PROFILE.founded}-2025)`,
     source: {
-      methodology: 'Interne Aufzeichnungen + Schätzung 2003-2018, systematisch erfasst ab 2019',
-      calculation: '2019-2025: 847 dokumentiert (Kivitendo) + 2003-2018: ~350 geschätzt (15/Jahr Durchschnitt)',
+      methodology: `Interne Aufzeichnungen + Schätzung ${ORG_PROFILE.founded}-2018, systematisch erfasst ab 2019`,
+      calculation: `2019-2025: 847 dokumentiert (Kivitendo) + ${ORG_PROFILE.founded}-2018: ~350 geschätzt (15/Jahr Durchschnitt)`,
       confidence: 'medium',
       lastVerified: '2026-02-12',
       documentUrl: '/documents/sources/laptop-refurbishment-history-2003-2025.pdf',
@@ -96,10 +97,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 
   PEOPLE_HELPED: {
     value: SHARED_ORG_NUMBERS.PEOPLE_HELPED,
-    label: 'Menschen begleitet (2003-2025)',
+    label: `Menschen begleitet (${ORG_PROFILE.founded}-2025)`,
     source: {
       methodology: 'Praktikanten + Volunteers + Workshop-Teilnehmer (nicht systematisch erfasst vor 2024)',
-      calculation: 'Geschätzt basierend auf durchschnittlich 4-5 Personen/Jahr seit 2003',
+      calculation: `Geschätzt basierend auf durchschnittlich 4-5 Personen/Jahr seit ${ORG_PROFILE.founded}`,
       confidence: 'medium',
       lastVerified: '2026-02-01',
     },
