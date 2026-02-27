@@ -1,22 +1,37 @@
 /**
- * Application Card - Draggable card for Kanban board
+ * ApplicationCard — Draggable Kanban card with edit and delete actions
  *
- * Displays application info with drag handle and quick actions.
+ * Drag handle is separated from content so action buttons don't
+ * accidentally trigger drag events.
  */
 
 'use client';
 
+import { useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import Link from 'next/link';
+import { EditApplicationModal } from './EditApplicationModal';
+import { formatCHF } from '@/lib/utils/format';
 import type { Application, Foundation } from '@/lib/db/schema';
 
 interface ApplicationCardProps {
   application: Application;
   foundation: Foundation | null;
+  onDeleted: (id: string) => void;
+  onUpdated: (updated: Application) => void;
 }
 
-export function ApplicationCard({ application, foundation }: ApplicationCardProps) {
+export function ApplicationCard({
+  application,
+  foundation,
+  onDeleted,
+  onUpdated,
+}: ApplicationCardProps) {
+  const [showEdit, setShowEdit] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const {
     attributes,
     listeners,
@@ -29,100 +44,194 @@ export function ApplicationCard({ application, foundation }: ApplicationCardProp
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
+    opacity: isDragging ? 0.4 : 1,
   };
 
-  // Format currency
-  const formatCHF = (amount: number | null) => {
-    if (!amount) return '—';
-    return new Intl.NumberFormat('de-CH', {
-      style: 'currency',
-      currency: 'CHF',
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  // Format date
+  // Format date to DD.MM.YY
   const formatDate = (dateString: string | null) => {
-    if (!dateString) return '—';
-    return new Date(dateString).toLocaleDateString('de-CH', {
+    if (!dateString) return null;
+    const d = new Date(dateString);
+    return d.toLocaleDateString('de-CH', {
       day: '2-digit',
       month: '2-digit',
-      year: 'numeric',
+      year: '2-digit',
     });
   };
 
-  // Priority badge color
   const priorityColor = (level: number | null) => {
     switch (level) {
       case 1: return 'bg-red-100 text-red-700';
       case 2: return 'bg-orange-100 text-orange-700';
       case 3: return 'bg-yellow-100 text-yellow-700';
       case 4: return 'bg-green-100 text-green-700';
-      default: return 'bg-gray-100 text-gray-700';
+      default: return 'bg-gray-100 text-gray-500';
     }
   };
 
+  // Deadline urgency colour
+  const deadlineColor = () => {
+    if (!application.decisionExpected) return 'text-text-muted';
+    const days = Math.ceil(
+      (new Date(application.decisionExpected).getTime() - Date.now()) / 86400000,
+    );
+    if (days <= 7) return 'text-red-600 font-semibold';
+    if (days <= 14) return 'text-orange-600';
+    return 'text-text-muted';
+  };
+
+  async function handleDelete() {
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/applications/${application.id}`, { method: 'DELETE' });
+      const result = await res.json();
+      if (result.success) {
+        onDeleted(application.id);
+      } else {
+        console.error('Delete failed:', result.error);
+        alert(`Fehler: ${result.error}`);
+        setDeleteConfirm(false);
+      }
+    } catch (err) {
+      console.error('Failed to delete application:', err);
+      alert('Netzwerkfehler beim Löschen');
+      setDeleteConfirm(false);
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="bg-white border border-gray-200 rounded-lg p-4 mb-3 shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing"
-      {...attributes}
-      {...listeners}
-    >
-      {/* Foundation name */}
-      <Link
-        href={`/fundraising/applications/${application.id}`}
-        className="block mb-2"
-        onClick={(e) => e.stopPropagation()}
+    <>
+      <div
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        className="group relative mb-3 rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md"
       >
-        <h3 className="font-medium text-gray-900 hover:text-blue-600 transition-colors">
-          {foundation?.name || 'Unknown Foundation'}
-        </h3>
-      </Link>
+        {/* Top bar: drag handle + foundation name + actions */}
+        <div className="flex items-start gap-2 p-3 pb-0">
+          {/* Drag handle — only this element triggers drag */}
+          <div
+            {...listeners}
+            className="mt-0.5 shrink-0 cursor-grab text-gray-300 hover:text-gray-500 active:cursor-grabbing select-none"
+            title="Ziehen"
+          >
+            ⠿
+          </div>
 
-      {/* Amount */}
-      {application.requestedAmount && (
-        <div className="text-lg font-semibold text-gray-700 mb-2">
-          {formatCHF(application.requestedAmount)}
+          {/* Foundation name */}
+          <Link
+            href={`/fundraising/applications/${application.id}`}
+            className="min-w-0 flex-1"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-sm font-semibold leading-snug text-gray-900 hover:text-primary transition-colors line-clamp-2">
+              {foundation?.name ?? 'Unbekannte Stiftung'}
+            </h3>
+          </Link>
+
+          {/* Action buttons — always visible */}
+          <div className="flex shrink-0 items-center gap-1">
+            <button
+              onClick={() => setShowEdit(true)}
+              className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-700"
+              title="Bearbeiten"
+              aria-label="Gesuch bearbeiten"
+            >
+              ✏️
+            </button>
+            <button
+              onClick={() => setDeleteConfirm(!deleteConfirm)}
+              className="rounded p-1 text-gray-400 hover:bg-red-50 hover:text-red-600"
+              title="Löschen"
+              aria-label="Gesuch löschen"
+            >
+              🗑️
+            </button>
+          </div>
         </div>
-      )}
 
-      {/* Project focus */}
-      {application.projectFocus && (
-        <div className="text-sm text-gray-600 mb-2">
-          {application.projectFocus}
+        {/* Card body */}
+        <div className="px-3 pb-3 pt-2">
+          {/* Amount */}
+          {application.requestedAmount && (
+            <div className="mb-1.5 text-base font-semibold text-gray-700">
+              {formatCHF(application.requestedAmount)}
+            </div>
+          )}
+
+          {/* Project focus */}
+          {application.projectFocus && (
+            <div className="mb-2 text-xs text-gray-500 line-clamp-1">
+              {application.projectFocus}
+            </div>
+          )}
+
+          {/* Dates row */}
+          <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs">
+            {application.contactDate && (
+              <span className="text-text-muted" title="Kontaktdatum">
+                📅 {formatDate(application.contactDate)}
+              </span>
+            )}
+            {application.decisionExpected && (
+              <span className={deadlineColor()} title="Entscheidung erwartet">
+                ⏰ {formatDate(application.decisionExpected)}
+              </span>
+            )}
+          </div>
+
+          {/* Footer: priority + assignee */}
+          {(application.priorityLevel || application.assignedTo) && (
+            <div className="mt-2 flex items-center justify-between">
+              {application.priorityLevel && (
+                <span className={`rounded px-1.5 py-0.5 text-[11px] font-semibold ${priorityColor(application.priorityLevel)}`}>
+                  P{application.priorityLevel}
+                </span>
+              )}
+              {application.assignedTo && (
+                <span className="text-xs text-gray-400">{application.assignedTo}</span>
+              )}
+            </div>
+          )}
+
+          {/* Delete confirmation inline */}
+          {deleteConfirm && (
+            <div className="mt-3 flex items-center justify-between rounded-lg bg-red-50 px-3 py-2 text-sm">
+              <span className="font-medium text-red-700">Wirklich löschen?</span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setDeleteConfirm(false)}
+                  className="rounded px-2 py-0.5 text-xs text-gray-600 hover:bg-gray-100"
+                  disabled={isDeleting}
+                >
+                  Nein
+                </button>
+                <button
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  className="rounded bg-red-600 px-2 py-0.5 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-50"
+                >
+                  {isDeleting ? '...' : 'Ja, löschen'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-
-      {/* Metadata */}
-      <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-        {application.contactDate && (
-          <span title="Kontaktdatum">
-            📅 {formatDate(application.contactDate)}
-          </span>
-        )}
-        {application.decisionExpected && (
-          <span title="Entscheidung erwartet">
-            ⏰ {formatDate(application.decisionExpected)}
-          </span>
-        )}
       </div>
 
-      {/* Footer: Priority + Assigned */}
-      <div className="flex items-center justify-between">
-        {application.priorityLevel && (
-          <span className={`px-2 py-1 rounded text-xs font-medium ${priorityColor(application.priorityLevel)}`}>
-            P{application.priorityLevel}
-          </span>
-        )}
-        {application.assignedTo && (
-          <span className="text-xs text-gray-500">
-            {application.assignedTo}
-          </span>
-        )}
-      </div>
-    </div>
+      {/* Edit modal — rendered outside card to avoid z-index issues */}
+      {showEdit && (
+        <EditApplicationModal
+          application={application}
+          foundation={foundation}
+          onClose={() => setShowEdit(false)}
+          onSaved={(updated) => {
+            onUpdated(updated);
+            setShowEdit(false);
+          }}
+        />
+      )}
+    </>
   );
 }

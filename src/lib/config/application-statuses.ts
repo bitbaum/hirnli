@@ -95,7 +95,9 @@ export function getStatusColor(statusId: ApplicationStatusId): string {
  */
 export const KANBAN_COLUMNS = [
   'prospect',
+  'research',
   'draft',
+  'review',
   'submitted',
   'pending',
   'accepted',

@@ -9,6 +9,7 @@
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { ApplicationCard } from './ApplicationCard';
+import { formatCHF } from '@/lib/utils/format';
 import type { Application, Foundation } from '@/lib/db/schema';
 
 interface ColumnProps {
@@ -22,58 +23,49 @@ interface ColumnProps {
     application: Application;
     foundation: Foundation | null;
   }>;
+  onDeleted: (id: string) => void;
+  onUpdated: (updated: Application) => void;
 }
 
-export function Column({ status, applications }: ColumnProps) {
+export function Column({ status, applications, onDeleted, onUpdated }: ColumnProps) {
   const { setNodeRef, isOver } = useDroppable({
     id: status.id,
   });
 
-  // Calculate total requested amount for this column
   const totalAmount = applications.reduce(
     (sum, { application }) => sum + (application.requestedAmount || 0),
-    0
+    0,
   );
 
-  const formatCHF = (amount: number) => {
-    return new Intl.NumberFormat('de-CH', {
-      style: 'currency',
-      currency: 'CHF',
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex min-w-[200px] flex-col">
       {/* Column header */}
-      <div className="mb-4">
-        <div className="flex items-center justify-between mb-1">
-          <h2 className="font-semibold text-gray-900">{status.label}</h2>
-          <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded">
+      <div className="mb-3">
+        <div className="mb-1 flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-gray-900">{status.label}</h2>
+          <span className="rounded bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-600">
             {applications.length}
           </span>
         </div>
         {totalAmount > 0 && (
-          <div className="text-sm text-gray-600">
-            {formatCHF(totalAmount)}
-          </div>
+          <div className="text-xs font-medium text-gray-500">{formatCHF(totalAmount)}</div>
         )}
-        <p className="text-xs text-gray-500 mt-1">{status.description}</p>
+        <p className="mt-0.5 text-[11px] text-gray-400">{status.description}</p>
       </div>
 
       {/* Droppable area */}
       <div
         ref={setNodeRef}
-        className={`flex-1 rounded-lg p-3 transition-colors ${
-          isOver ? 'bg-blue-50 border-2 border-blue-300' : 'bg-gray-50 border-2 border-gray-200'
+        className={`flex-1 rounded-lg p-2 transition-colors ${
+          isOver ? 'bg-blue-50 ring-2 ring-blue-300' : 'bg-gray-50 ring-2 ring-gray-200'
         }`}
       >
         <SortableContext
-          items={applications.map(a => a.application.id)}
+          items={applications.map((a) => a.application.id)}
           strategy={verticalListSortingStrategy}
         >
           {applications.length === 0 ? (
-            <div className="flex items-center justify-center h-16 text-gray-400 text-sm select-none">
+            <div className="flex h-16 items-center justify-center text-xs text-gray-400 select-none">
               Hierher ziehen
             </div>
           ) : (
@@ -82,6 +74,8 @@ export function Column({ status, applications }: ColumnProps) {
                 key={application.id}
                 application={application}
                 foundation={foundation}
+                onDeleted={onDeleted}
+                onUpdated={onUpdated}
               />
             ))
           )}
