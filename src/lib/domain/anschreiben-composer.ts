@@ -25,16 +25,20 @@ export function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: s
   const isDeep = foundation.researchDepth === 'deep';
   const highFit = foundation.fitScore != null && foundation.fitScore >= 7;
 
+  // Lowercase only the first character so adjectives are lowercase but nouns stay capitalized
+  // e.g. "Gemeinnütziger Verein" → "gemeinnütziger Verein" (correct German grammar)
+  const legalFormLower = ORG_PROFILE.legalForm.charAt(0).toLowerCase() + ORG_PROFILE.legalForm.slice(1);
+
   // Deep research + high fit → lead with specific overlap
   if (isDeep && highFit && purposeCore) {
-    return `Wir erlauben uns, Ihnen ein Fördergesuch einzureichen. Ihr Engagement für ${purposeCore} deckt sich eng mit unserer Arbeit im Bereich ${primaryThemeLabel}. Als ${ORG_PROFILE.legalForm.toLowerCase()} mit ${ORG_PROFILE.experienceLabel} in der Verbindung von ${ORG_PROFILE.missionSummary} möchten wir Ihnen eine konkrete Zusammenarbeit vorschlagen.`;
+    return `Wir erlauben uns, Ihnen ein Fördergesuch einzureichen. Ihr Engagement für ${purposeCore} deckt sich eng mit unserer Arbeit im Bereich ${primaryThemeLabel}. Als ${legalFormLower} mit ${ORG_PROFILE.experienceLabel} in der Verbindung von ${ORG_PROFILE.missionSummary} möchten wir Ihnen eine konkrete Zusammenarbeit vorschlagen.`;
   }
 
   // Standard research → broader mission alignment framing
   switch (foundation.type) {
     case 'A':
       return purposeCore
-        ? `Wir erlauben uns, Ihnen ein Fördergesuch einzureichen. Ihr Engagement für ${purposeCore} deckt sich eng mit unserer Arbeit im Bereich ${primaryThemeLabel}. Als ${ORG_PROFILE.legalForm.toLowerCase()} mit ${ORG_PROFILE.experienceLabel} in der Verbindung von ${ORG_PROFILE.missionSummary} möchten wir Ihnen eine Zusammenarbeit vorschlagen.`
+        ? `Wir erlauben uns, Ihnen ein Fördergesuch einzureichen. Ihr Engagement für ${purposeCore} deckt sich eng mit unserer Arbeit im Bereich ${primaryThemeLabel}. Als ${legalFormLower} mit ${ORG_PROFILE.experienceLabel} in der Verbindung von ${ORG_PROFILE.missionSummary} möchten wir Ihnen eine Zusammenarbeit vorschlagen.`
         : ANSCHREIBEN_TEMPLATES['A'].opening;
     case 'B':
       return purposeCore

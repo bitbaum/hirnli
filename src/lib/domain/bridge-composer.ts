@@ -37,7 +37,7 @@ export function extractPurposeCore(purposeSummary: string): string {
 
   // Handle double-prefix: "Zweck der Stiftung ist: - Bullet 1..." or similar statute preambles.
   // If no period appears before a ": - " pattern, the whole prefix is a heading — strip it.
-  const doublePrefixMatch = stripped.match(/^([^.]+):\s*-\s(.+)$/s);
+  const doublePrefixMatch = stripped.match(/^([^.]+):\s*-\s([\s\S]+)/);
   if (doublePrefixMatch) {
     stripped = '- ' + doublePrefixMatch[2];
   }
