@@ -92,7 +92,7 @@ export default function FoundationListClient() {
           setPipelineSlugs(slugs);
         }
       })
-      .catch(() => {}); // non-critical, silently ignore
+      .catch((err) => console.error('Failed to load pipeline data:', err));
   }, []);
 
   // Research stats — computed once from the full dataset (static data)

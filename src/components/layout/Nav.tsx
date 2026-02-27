@@ -49,7 +49,7 @@ function MegaMenu({ item, pathname }: { item: NavItem; pathname: string }) {
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group/link block rounded-lg border-l-3 border-transparent px-3 py-2.5 text-sm transition-all hover:border-l-revamp-green hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50 hover:pl-4"
+                          className="group/link block rounded-lg border-l-3 border-transparent px-3 py-2.5 text-sm transition-all hover:border-l-revamp-green hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50 hover:pl-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         >
                           <span className="font-semibold text-grey-dark group-hover/link:text-revamp-green">
                             {link.text}
@@ -61,7 +61,7 @@ function MegaMenu({ item, pathname }: { item: NavItem; pathname: string }) {
                       ) : (
                         <Link
                           href={link.href}
-                          className={`group/link block rounded-lg border-l-3 px-3 py-2.5 text-sm transition-all hover:border-l-revamp-green hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50 hover:pl-4 ${
+                          className={`group/link block rounded-lg border-l-3 px-3 py-2.5 text-sm transition-all hover:border-l-revamp-green hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50 hover:pl-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                             link.highlight
                               ? 'border-l-revamp-orange bg-gradient-to-r from-orange-50 to-yellow-50'
                               : 'border-transparent'
@@ -111,7 +111,7 @@ function Dropdown({ item, pathname }: { item: NavItem; pathname: string }) {
               <Link
                 key={child.href}
                 href={child.href}
-                className={`group/link mx-2 my-1 block rounded-lg border-l-3 px-4 py-3 text-sm transition-all hover:border-l-revamp-green hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50 hover:pl-5 ${
+                className={`group/link mx-2 my-1 block rounded-lg border-l-3 px-4 py-3 text-sm transition-all hover:border-l-revamp-green hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50 hover:pl-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   isActive(child.href, pathname)
                     ? 'border-l-revamp-blue bg-gradient-to-r from-blue-50 to-emerald-50'
                     : 'border-transparent'
@@ -167,9 +167,10 @@ export default function Nav() {
 
         {/* Mobile toggle */}
         <button
-          className="rounded text-2xl lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded text-2xl lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Menu"
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? '✕' : '☰'}
         </button>
@@ -204,14 +205,14 @@ export default function Nav() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="border-t border-border bg-white px-4 py-4 lg:hidden">
+        <div className="max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-border bg-white px-4 py-4 lg:hidden">
           <ul className="space-y-2">
             {NAV_STRUCTURE.items.map((item) => (
               <li key={item.text}>
                 {item.href ? (
                   <Link
                     href={item.href}
-                    className="block py-2 text-sm font-medium text-grey-dark"
+                    className="block min-h-11 py-2 text-sm font-medium text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.icon && <span className="mr-1">{item.icon}</span>}
@@ -229,7 +230,7 @@ export default function Nav() {
                       <li key={child.href}>
                         <Link
                           href={child.href}
-                          className="block py-1 text-sm text-text-light"
+                          className="block min-h-11 py-1 text-sm text-text-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                           onClick={() => setMobileOpen(false)}
                         >
                           {child.text}
@@ -244,7 +245,7 @@ export default function Nav() {
                             <li key={link.href}>
                               <Link
                                 href={link.href}
-                                className="block py-1 text-sm text-text-light"
+                                className="block min-h-11 py-1 text-sm text-text-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                                 onClick={() => setMobileOpen(false)}
                               >
                                 {link.text}

@@ -127,8 +127,8 @@ export function ApplicationBoard() {
         );
         alert(`Fehler: ${result.error}`);
       }
-    } catch {
-      // Revert on network error
+    } catch (err) {
+      console.error('Failed to update application status:', err);
       setApplications(prev =>
         prev.map(item =>
           item.application.id === applicationId

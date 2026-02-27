@@ -8,7 +8,7 @@ import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
 import { STATUS_LABELS, STIFTUNGEN_DATA } from '@/lib/config/foundations';
-import { computeTierCounts } from '@/lib/domain/foundation-helpers';
+import { computeTierCounts, TIER_LABELS, TIER_DESCRIPTIONS } from '@/lib/domain/foundation-helpers';
 import { CORE_FACTS } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
@@ -456,15 +456,15 @@ export default function FundraisingClient() {
       {/* Pipeline Metrics — honest tiered numbers */}
       <MetricGrid columns={4} className="mb-8">
         <MetricCard
-          label="Anwendungsbereit"
+          label={TIER_LABELS.anwendungsbereit}
           value={(tierCounts.anwendungsbereit).toLocaleString('de-CH')}
-          subtitle="Kontakt, Bewerbungsweg und Fördersumme bekannt"
+          subtitle={TIER_DESCRIPTIONS.anwendungsbereit}
           sourceType="live"
         />
         <MetricCard
-          label="Recherchiert+"
+          label={`${TIER_LABELS.recherchiert}+`}
           value={(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')}
-          subtitle="Verifizierte Website und direkter Kontakt"
+          subtitle={TIER_DESCRIPTIONS.recherchiert}
           sourceType="derived"
         />
         <MetricCard

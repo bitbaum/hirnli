@@ -35,7 +35,7 @@ config({ path: '.env.local' });
 import * as fs from 'fs';
 import * as path from 'path';
 import { neon } from '@neondatabase/serverless';
-import { classifyThemes, scoreFunderOperator, classifyType, toSlug } from './lib/theme-classifier';
+import { classifyThemes, scoreFunderOperator, classifyType } from './lib/theme-classifier';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import type { Foundation } from '../src/lib/schemas/foundation';
 
