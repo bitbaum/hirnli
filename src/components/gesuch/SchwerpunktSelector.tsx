@@ -10,17 +10,23 @@ interface SchwerpunktSelectorProps {
   /** Foundation's theme IDs — matching Schwerpunkte get a highlight */
   foundationThemes: ThemeId[];
   onSelect: (id: SchwerpunktId | null) => void;
+  /** When true, pills are visually dimmed and non-interactive (e.g. during edit mode) */
+  disabled?: boolean;
 }
 
 export default function SchwerpunktSelector({
   active,
   foundationThemes,
   onSelect,
+  disabled = false,
 }: SchwerpunktSelectorProps) {
   const themeSet = new Set(foundationThemes);
 
   return (
-    <div className="mb-8 flex flex-wrap items-center justify-center gap-2 print:hidden">
+    <div
+      className={`mb-8 flex flex-wrap items-center justify-center gap-2 print:hidden transition-opacity ${disabled ? 'pointer-events-none opacity-40' : ''}`}
+      title={disabled ? 'Schwerpunkt-Auswahl während der Bearbeitung gesperrt — erst speichern, dann wechseln' : undefined}
+    >
       {/* Auto pill */}
       <button
         onClick={() => onSelect(null)}

@@ -16,6 +16,7 @@ interface GesuchEditPanelProps {
   dirty: boolean;
   onUpdate: (patch: GesuchOverridesData) => void;
   onSave: () => Promise<void>;
+  onSaveIfDirty?: () => Promise<void>;
   onReset: () => Promise<void>;
   onAiRewrite: (params: {
     instruction: string;
@@ -44,6 +45,7 @@ interface FieldRowProps {
   multiline?: boolean;
   onAiRewrite: GesuchEditPanelProps['onAiRewrite'];
   onChange: (val: string) => void;
+  onBlur?: () => void;
 }
 
 function FieldRow({
@@ -56,6 +58,7 @@ function FieldRow({
   multiline = false,
   onAiRewrite,
   onChange,
+  onBlur,
 }: FieldRowProps) {
   const [aiInstruction, setAiInstruction] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
@@ -115,6 +118,7 @@ function FieldRow({
         <textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
           placeholder={placeholder}
           rows={4}
           className="block w-full resize-y rounded-md border border-border bg-bg-light px-3 py-2 text-sm text-text-light outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
@@ -124,10 +128,13 @@ function FieldRow({
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
           placeholder={placeholder}
           className="block w-full rounded-md border border-border bg-bg-light px-3 py-2 text-sm text-text-light outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
         />
       )}
+      {/* Field location hint */}
+      <p className="text-xs text-text-muted">{fieldDescription}</p>
 
       {/* AI panel */}
       {showAi && (
@@ -195,6 +202,7 @@ export default function GesuchEditPanel({
   dirty,
   onUpdate,
   onSave,
+  onSaveIfDirty,
   onReset,
   onAiRewrite,
 }: GesuchEditPanelProps) {
@@ -257,7 +265,7 @@ export default function GesuchEditPanel({
         {/* 1. Foundation bridge */}
         <FieldRow
           label="Verbindungssatz (Hero)"
-          fieldDescription="Kurzer Brückentext im Hero-Bereich, der erklärt warum diese Stiftung und Revamp-IT zusammenpassen."
+          fieldDescription="Erscheint im Hero-Bereich des Gesuchs — erklärt, warum Stiftung und Revamp-IT zusammenpassen."
           value={bridge}
           originalValue={generated.foundationBridge ?? ''}
           placeholder={generated.foundationBridge ?? 'Verbindungssatz zwischen Stiftungszweck und unserer Mission'}
@@ -265,6 +273,7 @@ export default function GesuchEditPanel({
           multiline
           onAiRewrite={onAiRewrite}
           onChange={(v) => { setBridge(v); patch({ foundationBridge: v }); }}
+          onBlur={onSaveIfDirty}
         />
 
         {/* 2. Why section */}
@@ -277,17 +286,18 @@ export default function GesuchEditPanel({
               <div className="space-y-4">
                 <FieldRow
                   label="Überschrift"
-                  fieldDescription="Hauptüberschrift des 'Warum'-Abschnitts — sollte das Kernproblem als Hook formulieren."
+                  fieldDescription="Erscheint als Hauptüberschrift im «Warum»-Abschnitt — formuliert das Kernproblem als Hook."
                   value={whyHeadline}
                   originalValue={generated.why.headline}
                   placeholder={generated.why.headline}
                   fieldPath="why.headline"
                   onAiRewrite={onAiRewrite}
                   onChange={(v) => { setWhyHeadline(v); patch({ why: { headline: v } }); }}
+                  onBlur={onSaveIfDirty}
                 />
                 <FieldRow
                   label="Einleitung"
-                  fieldDescription="Einleitungssatz, der das Problem aus der Perspektive der Stiftung einrahmt."
+                  fieldDescription="Erscheint als erster Absatz im «Warum»-Abschnitt — rahmt das Problem aus Stiftungsperspektive ein."
                   value={whyHook}
                   originalValue={generated.why.hook}
                   placeholder={generated.why.hook}
@@ -295,11 +305,12 @@ export default function GesuchEditPanel({
                   multiline
                   onAiRewrite={onAiRewrite}
                   onChange={(v) => { setWhyHook(v); patch({ why: { hook: v } }); }}
+                  onBlur={onSaveIfDirty}
                 />
                 <div className="grid gap-4 sm:grid-cols-2">
                   <FieldRow
                     label="Problem"
-                    fieldDescription="Beschreibung des gesellschaftlichen Problems, das Revamp-IT adressiert."
+                    fieldDescription="Erscheint in der linken Spalte im «Warum»-Abschnitt — beschreibt das gesellschaftliche Problem."
                     value={whyProblem}
                     originalValue={generated.why.problem}
                     placeholder={generated.why.problem}
@@ -307,10 +318,11 @@ export default function GesuchEditPanel({
                     multiline
                     onAiRewrite={onAiRewrite}
                     onChange={(v) => { setWhyProblem(v); patch({ why: { problem: v } }); }}
+                    onBlur={onSaveIfDirty}
                   />
                   <FieldRow
                     label="Lösung"
-                    fieldDescription="Wie Revamp-IT das Problem löst — konkret, messbar, überzeugend."
+                    fieldDescription="Erscheint in der rechten Spalte im «Warum»-Abschnitt — zeigt wie Revamp-IT das Problem löst."
                     value={whySolution}
                     originalValue={generated.why.solution}
                     placeholder={generated.why.solution}
@@ -318,6 +330,7 @@ export default function GesuchEditPanel({
                     multiline
                     onAiRewrite={onAiRewrite}
                     onChange={(v) => { setWhySolution(v); patch({ why: { solution: v } }); }}
+                    onBlur={onSaveIfDirty}
                   />
                 </div>
               </div>
@@ -333,17 +346,18 @@ export default function GesuchEditPanel({
           <div className="space-y-4">
             <FieldRow
               label="Überschrift"
-              fieldDescription="Überschrift des Track-Record-Abschnitts — zeigt Erfahrung und Kompetenz."
+              fieldDescription="Erscheint als Überschrift im «Wie»-Abschnitt — benennt Erfahrung und Kompetenz."
               value={howHeadline}
               originalValue={generated.trackRecord.headline}
               placeholder={generated.trackRecord.headline}
               fieldPath="how.trackRecord.headline"
               onAiRewrite={onAiRewrite}
               onChange={(v) => { setHowHeadline(v); patch({ how: { trackRecord: { headline: v } } }); }}
+              onBlur={onSaveIfDirty}
             />
             <FieldRow
               label="Text"
-              fieldDescription="Haupttext des Track Records — belegt Erfahrung mit konkreten Fakten und Zahlen."
+              fieldDescription="Erscheint als Haupttext im «Wie»-Abschnitt — belegt Erfahrung mit konkreten Fakten und Zahlen."
               value={howText}
               originalValue={generated.trackRecord.text}
               placeholder={generated.trackRecord.text}
@@ -351,6 +365,7 @@ export default function GesuchEditPanel({
               multiline
               onAiRewrite={onAiRewrite}
               onChange={(v) => { setHowText(v); patch({ how: { trackRecord: { text: v } } }); }}
+              onBlur={onSaveIfDirty}
             />
           </div>
         </div>

@@ -71,12 +71,23 @@ export default async function GesuchPage({ params }: Props) {
     }
   }
 
+  const submissionInfo = {
+    foundationName: foundation.name,
+    email: foundation.contact?.email,
+    applicationUrl: foundation.applicationUrl,
+    applicationMethod: foundation.applicationMethod,
+    deadline: foundation.deadline,
+    deadlineText: foundation.deadlineText,
+    websiteUrl: foundation.websiteUrl,
+  };
+
   return (
     <GesuchPageClient
       slug={slug}
       foundationThemes={foundation.themes}
       variants={variants}
       primaryColors={primaryColors}
+      submissionInfo={submissionInfo}
     />
   );
 }

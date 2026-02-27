@@ -17,9 +17,15 @@ export default function AnschreibenSection({ dok }: AnschreibenSectionProps) {
       </div>
 
       {/* Recipient */}
-      <div className="mb-6 text-sm leading-relaxed whitespace-pre-line">
-        {dok.anschreiben.foundationAddress}
-      </div>
+      {dok.anschreiben.foundationAddress && dok.anschreiben.foundationAddress.length > 10 ? (
+        <div className="mb-6 text-sm leading-relaxed whitespace-pre-line">
+          {dok.anschreiben.foundationAddress}
+        </div>
+      ) : (
+        <div className="mb-6 rounded border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
+          ⚠ Adresse der Stiftung fehlt — bitte vor dem Versand in den Stiftungsdaten ergänzen.
+        </div>
+      )}
 
       {/* Date */}
       <p className="mb-8 text-sm text-text-muted">{dok.anschreiben.date}</p>

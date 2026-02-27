@@ -19,6 +19,7 @@ interface UseGesuchOverridesReturn {
   toggleEditMode: () => void;
   updateField: (patch: GesuchOverridesData) => void;
   save: () => Promise<void>;
+  saveIfDirty: () => Promise<void>;
   reset: () => Promise<void>;
   aiRewrite: (params: {
     instruction: string;
@@ -91,6 +92,10 @@ export function useGesuchOverrides(
     }
   }, [slug, overrides]);
 
+  const saveIfDirty = useCallback(async () => {
+    if (dirty) await save();
+  }, [dirty, save]);
+
   const reset = useCallback(async () => {
     setSaving(true);
     try {
@@ -149,6 +154,7 @@ export function useGesuchOverrides(
     toggleEditMode,
     updateField,
     save,
+    saveIfDirty,
     reset,
     aiRewrite,
   };

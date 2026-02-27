@@ -15,12 +15,15 @@ import GesuchProjectsSection from '@/components/gesuch/GesuchProjectsSection';
 import GesuchEvidenceSection from '@/components/gesuch/GesuchEvidenceSection';
 import GesuchContactSection from '@/components/gesuch/GesuchContactSection';
 import GesuchEditPanel from '@/components/gesuch/GesuchEditPanel';
+import GesuchSubmitSection from '@/components/gesuch/GesuchSubmitSection';
+import type { SubmissionInfo } from '@/components/gesuch/GesuchSubmitSection';
 
 interface GesuchPageClientProps {
   slug: string;
   foundationThemes: ThemeId[];
   variants: Record<string, ComposedGesuch>;
   primaryColors: Record<string, string>;
+  submissionInfo: SubmissionInfo;
 }
 
 export default function GesuchPageClient({
@@ -28,6 +31,7 @@ export default function GesuchPageClient({
   foundationThemes,
   variants,
   primaryColors,
+  submissionInfo,
 }: GesuchPageClientProps) {
   const [activeSchwerpunkt, setActiveSchwerpunkt] = useState<SchwerpunktId | null>(null);
   const editPanelRef = useRef<HTMLDivElement>(null);
@@ -58,6 +62,7 @@ export default function GesuchPageClient({
     toggleEditMode,
     updateField,
     save,
+    saveIfDirty,
     reset,
     aiRewrite,
   } = useGesuchOverrides(slug, foundationContext);
@@ -145,10 +150,13 @@ export default function GesuchPageClient({
           </div>
         </div>
 
+        <GesuchSubmitSection info={submissionInfo} />
+
         <SchwerpunktSelector
           active={activeSchwerpunkt}
           foundationThemes={foundationThemes}
           onSelect={setActiveSchwerpunkt}
+          disabled={editMode}
         />
 
         {/* Edit panel */}
@@ -166,6 +174,7 @@ export default function GesuchPageClient({
               dirty={dirty}
               onUpdate={updateField}
               onSave={save}
+              onSaveIfDirty={saveIfDirty}
               onReset={reset}
               onAiRewrite={aiRewrite}
             />
