@@ -103,6 +103,21 @@ export default function GesuchPageClient({
 
   const hasOverrides = Object.keys(overrides).length > 0;
 
+  // Single source for the edit toggle button — rendered in toolbar and bottom nav
+  const editToggleButton = (
+    <button
+      type="button"
+      onClick={handleToggleEdit}
+      className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
+        editMode
+          ? 'bg-primary/10 text-primary ring-1 ring-primary/30'
+          : 'border border-border text-text-muted hover:border-primary/40 hover:text-primary'
+      }`}
+    >
+      {editMode ? '✓ Bearbeitung beenden' : '✏️ Anpassen'}
+    </button>
+  );
+
   return (
     <div className="gesuch-page">
       <GesuchHeroSection
@@ -134,19 +149,11 @@ export default function GesuchPageClient({
           </div>
           <div className="flex items-center gap-2">
             {hasOverrides && (
-              <span className="text-xs text-primary">✏️ Angepasste Version</span>
+              <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                Angepasst
+              </span>
             )}
-            <button
-              type="button"
-              onClick={handleToggleEdit}
-              className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                editMode
-                  ? 'bg-primary/10 text-primary ring-1 ring-primary/30'
-                  : 'border border-border text-text-muted hover:border-primary/40 hover:text-primary'
-              }`}
-            >
-              {editMode ? '✓ Bearbeitung beenden' : '✏️ Anpassen'}
-            </button>
+            {editToggleButton}
           </div>
         </div>
 
@@ -203,17 +210,7 @@ export default function GesuchPageClient({
 
         {/* Bottom nav */}
         <div className="flex flex-wrap items-center justify-center gap-4 border-t border-border pt-6 print:hidden">
-          <button
-            type="button"
-            onClick={handleToggleEdit}
-            className={`rounded-lg px-5 py-2.5 text-sm font-semibold transition ${
-              editMode
-                ? 'bg-primary/10 text-primary'
-                : 'bg-bg-light text-text-muted hover:text-primary'
-            }`}
-          >
-            {editMode ? 'Bearbeitung beenden' : '✏️ Anpassen'}
-          </button>
+          {editToggleButton}
           <Link
             href={`/fundraising/stiftungen/${slug}`}
             className="text-sm text-primary hover:underline"

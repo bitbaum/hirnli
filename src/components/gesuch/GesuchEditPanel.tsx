@@ -206,13 +206,16 @@ export default function GesuchEditPanel({
   onReset,
   onAiRewrite,
 }: GesuchEditPanelProps) {
-  const [bridge, setBridge] = useState(overrides.foundationBridge ?? generated.foundationBridge ?? '');
-  const [whyHeadline, setWhyHeadline] = useState(overrides.why?.headline ?? generated.why?.headline ?? '');
-  const [whyHook, setWhyHook] = useState(overrides.why?.hook ?? generated.why?.hook ?? '');
-  const [whyProblem, setWhyProblem] = useState(overrides.why?.problem ?? generated.why?.problem ?? '');
-  const [whySolution, setWhySolution] = useState(overrides.why?.solution ?? generated.why?.solution ?? '');
-  const [howHeadline, setHowHeadline] = useState(overrides.how?.trackRecord?.headline ?? generated.trackRecord.headline ?? '');
-  const [howText, setHowText] = useState(overrides.how?.trackRecord?.text ?? generated.trackRecord.text ?? '');
+  // Derive all field values from props — no local state duplication.
+  // The hook manages overrides (including async load from DB); local useState
+  // would freeze at mount time and miss data that loads after render.
+  const bridge = overrides.foundationBridge ?? generated.foundationBridge ?? '';
+  const whyHeadline = overrides.why?.headline ?? generated.why?.headline ?? '';
+  const whyHook = overrides.why?.hook ?? generated.why?.hook ?? '';
+  const whyProblem = overrides.why?.problem ?? generated.why?.problem ?? '';
+  const whySolution = overrides.why?.solution ?? generated.why?.solution ?? '';
+  const howHeadline = overrides.how?.trackRecord?.headline ?? generated.trackRecord.headline ?? '';
+  const howText = overrides.how?.trackRecord?.text ?? generated.trackRecord.text ?? '';
   const [saved, setSaved] = useState(false);
 
   const handleSave = async () => {
@@ -272,7 +275,7 @@ export default function GesuchEditPanel({
           fieldPath="foundationBridge"
           multiline
           onAiRewrite={onAiRewrite}
-          onChange={(v) => { setBridge(v); patch({ foundationBridge: v }); }}
+          onChange={(v) => patch({ foundationBridge: v })}
           onBlur={onSaveIfDirty}
         />
 
@@ -292,7 +295,7 @@ export default function GesuchEditPanel({
                   placeholder={generated.why.headline}
                   fieldPath="why.headline"
                   onAiRewrite={onAiRewrite}
-                  onChange={(v) => { setWhyHeadline(v); patch({ why: { headline: v } }); }}
+                  onChange={(v) => patch({ why: { headline: v } })}
                   onBlur={onSaveIfDirty}
                 />
                 <FieldRow
@@ -304,7 +307,7 @@ export default function GesuchEditPanel({
                   fieldPath="why.hook"
                   multiline
                   onAiRewrite={onAiRewrite}
-                  onChange={(v) => { setWhyHook(v); patch({ why: { hook: v } }); }}
+                  onChange={(v) => patch({ why: { hook: v } })}
                   onBlur={onSaveIfDirty}
                 />
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -317,7 +320,7 @@ export default function GesuchEditPanel({
                     fieldPath="why.problem"
                     multiline
                     onAiRewrite={onAiRewrite}
-                    onChange={(v) => { setWhyProblem(v); patch({ why: { problem: v } }); }}
+                    onChange={(v) => patch({ why: { problem: v } })}
                     onBlur={onSaveIfDirty}
                   />
                   <FieldRow
@@ -329,7 +332,7 @@ export default function GesuchEditPanel({
                     fieldPath="why.solution"
                     multiline
                     onAiRewrite={onAiRewrite}
-                    onChange={(v) => { setWhySolution(v); patch({ why: { solution: v } }); }}
+                    onChange={(v) => patch({ why: { solution: v } })}
                     onBlur={onSaveIfDirty}
                   />
                 </div>
@@ -352,7 +355,7 @@ export default function GesuchEditPanel({
               placeholder={generated.trackRecord.headline}
               fieldPath="how.trackRecord.headline"
               onAiRewrite={onAiRewrite}
-              onChange={(v) => { setHowHeadline(v); patch({ how: { trackRecord: { headline: v } } }); }}
+              onChange={(v) => patch({ how: { trackRecord: { headline: v } } })}
               onBlur={onSaveIfDirty}
             />
             <FieldRow
@@ -364,7 +367,7 @@ export default function GesuchEditPanel({
               fieldPath="how.trackRecord.text"
               multiline
               onAiRewrite={onAiRewrite}
-              onChange={(v) => { setHowText(v); patch({ how: { trackRecord: { text: v } } }); }}
+              onChange={(v) => patch({ how: { trackRecord: { text: v } } })}
               onBlur={onSaveIfDirty}
             />
           </div>

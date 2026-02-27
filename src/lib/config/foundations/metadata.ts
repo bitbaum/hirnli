@@ -22,7 +22,25 @@ import type {
   FoundationStatus,
   TypeLabel,
   StatusLabel,
+  ApplicationMethod,
 } from '../../schemas/foundation';
+
+// Human-readable labels for ApplicationMethod enum values.
+// Hide when value is 'unknown' or 'none' (no useful info to show).
+export const APPLICATION_METHOD_LABELS: Record<ApplicationMethod, string | null> = {
+  email:       'Per E-Mail',
+  online:      'Online-Formular',
+  post:        'Per Post',
+  contact:     'Auf Anfrage',
+  direct:      'Direkte Kontaktaufnahme',
+  personal:    'Persönliches Gespräch',
+  partnership: 'Partnerschaft',
+  via_partner: 'Über Partner',
+  membership:  'Mitgliedschaft',
+  contract:    'Vertrag',
+  none:        null,   // no open applications — shown as warning elsewhere
+  unknown:     null,   // no data — hide rather than display "unknown"
+};
 
 // ============================================================================
 // THEME DEFINITIONS - Revamp-IT relevant categories

@@ -66,10 +66,10 @@ export function buildFoundationBridge(foundation: Foundation, primaryThemeLabel:
     : '';
 
   if (purposeCore) {
-    // "hat sich dem Thema X verschrieben" avoids verb+noun clash and keeps German capitalization
-    return `Die ${foundation.name} hat sich dem Thema ${purposeCore} verschrieben — ${ORG_PROFILE.name} adressiert genau dieses Anliegen mit ${ORG_PROFILE.experienceLabel} in ${primaryThemeLabel}.`;
+    // Purpose is already shown as the hero description above — bridge only states the connection
+    return `${ORG_PROFILE.name} adressiert genau dieses Anliegen: mit ${ORG_PROFILE.experienceLabel} in ${primaryThemeLabel}.`;
   }
-  return `Die ${foundation.name} fördert Projekte im Bereich ${primaryThemeLabel} — genau dort, wo ${ORG_PROFILE.name} seit über ${ORG_PROFILE.yearsActive} Jahren wirkt.`;
+  return `${ORG_PROFILE.name} ist seit über ${ORG_PROFILE.yearsActive} Jahren aktiv in ${primaryThemeLabel} — genau dem Bereich, den ${foundation.name} fördert.`;
 }
 
 /** Build one-sentence connection per non-primary theme */

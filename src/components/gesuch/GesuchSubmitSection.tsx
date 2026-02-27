@@ -1,4 +1,5 @@
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations/metadata';
 
 export interface SubmissionInfo {
   foundationName: string;
@@ -10,21 +11,6 @@ export interface SubmissionInfo {
   websiteUrl?: string;
 }
 
-const METHOD_LABELS: Record<string, string> = {
-  email: 'Per E-Mail',
-  online: 'Online-Formular',
-  post: 'Per Post',
-  contact: 'Auf Anfrage',
-  direct: 'Direkte Kontaktaufnahme',
-  personal: 'Persönliches Gespräch',
-  partnership: 'Partnerschaft',
-  via_partner: 'Über Partner',
-  membership: 'Mitgliedschaft',
-  contract: 'Vertrag',
-  none: 'Keine offenen Bewerbungen',
-  unknown: 'Einreichungsweg unbekannt',
-};
-
 function daysUntil(dateStr: string): number | null {
   const d = new Date(dateStr);
   if (isNaN(d.getTime())) return null;
@@ -34,7 +20,9 @@ function daysUntil(dateStr: string): number | null {
 }
 
 export default function GesuchSubmitSection({ info }: { info: SubmissionInfo }) {
-  const methodLabel = info.applicationMethod ? (METHOD_LABELS[info.applicationMethod] ?? info.applicationMethod) : null;
+  const methodLabel = info.applicationMethod
+    ? APPLICATION_METHOD_LABELS[info.applicationMethod as keyof typeof APPLICATION_METHOD_LABELS] ?? null
+    : null;
   const days = info.deadline ? daysUntil(info.deadline) : null;
   const deadlineUrgent = days !== null && days <= 30;
 
@@ -43,7 +31,7 @@ export default function GesuchSubmitSection({ info }: { info: SubmissionInfo }) 
       <h2 className="mb-4 text-base font-semibold text-grey-dark">Wie einreichen?</h2>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {/* Left: Submission method */}
+        {/* Left: submission method */}
         <div className="space-y-3">
           {methodLabel && (
             <div>
@@ -93,16 +81,16 @@ export default function GesuchSubmitSection({ info }: { info: SubmissionInfo }) 
           )}
         </div>
 
-        {/* Right: Deadline */}
+        {/* Right: deadline + our contact */}
         <div className="space-y-3">
-          {(info.deadline || info.deadlineText) && (
+          {(info.deadlineText || days !== null) && (
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">Eingabeschluss</p>
               {info.deadlineText && (
                 <p className="mt-1 text-sm text-text">{info.deadlineText}</p>
               )}
               {days !== null && (
-                <p className={`mt-1 text-sm font-semibold ${deadlineUrgent ? 'text-red-600' : 'text-text-muted'}`}>
+                <p className={`mt-0.5 text-sm font-semibold ${deadlineUrgent ? 'text-red-600' : 'text-text-muted'}`}>
                   {days > 0
                     ? `Noch ${days} Tag${days === 1 ? '' : 'e'}`
                     : days === 0
@@ -113,7 +101,6 @@ export default function GesuchSubmitSection({ info }: { info: SubmissionInfo }) 
             </div>
           )}
 
-          {/* Our contact */}
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">Absender</p>
             <p className="mt-1 text-sm text-text">{ORG_PROFILE.name}</p>
