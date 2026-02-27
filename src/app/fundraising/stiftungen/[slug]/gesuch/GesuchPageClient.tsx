@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId } from '@/lib/schemas/foundation';
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
+import { useGesuchOverrides } from '@/hooks/useGesuchOverrides';
 import SchwerpunktSelector from '@/components/gesuch/SchwerpunktSelector';
 import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
 import GesuchWhySection from '@/components/gesuch/GesuchWhySection';
@@ -12,6 +13,7 @@ import GesuchHowSection from '@/components/gesuch/GesuchHowSection';
 import GesuchProjectsSection from '@/components/gesuch/GesuchProjectsSection';
 import GesuchEvidenceSection from '@/components/gesuch/GesuchEvidenceSection';
 import GesuchContactSection from '@/components/gesuch/GesuchContactSection';
+import GesuchEditPanel from '@/components/gesuch/GesuchEditPanel';
 
 interface GesuchPageClientProps {
   slug: string;
@@ -28,6 +30,17 @@ export default function GesuchPageClient({
   primaryColors,
 }: GesuchPageClientProps) {
   const [activeSchwerpunkt, setActiveSchwerpunkt] = useState<SchwerpunktId | null>(null);
+  const {
+    overrides,
+    editMode,
+    saving,
+    dirty,
+    toggleEditMode,
+    updateField,
+    save,
+    reset,
+    aiRewrite,
+  } = useGesuchOverrides(slug);
 
   const variantKey = activeSchwerpunkt ?? 'auto';
   const gesuch = variants[variantKey];
@@ -39,13 +52,32 @@ export default function GesuchPageClient({
 
   if (!activeGesuch || !activeGesuch.ready) return null;
 
+  // Merge overrides on top of generated content
+  const foundationBridge = overrides.foundationBridge ?? activeGesuch.foundationBridge;
+  const why = activeGesuch.story.why
+    ? {
+        ...activeGesuch.story.why,
+        headline: overrides.why?.headline ?? activeGesuch.story.why.headline,
+        hook: overrides.why?.hook ?? activeGesuch.story.why.hook,
+        problem: overrides.why?.problem ?? activeGesuch.story.why.problem,
+        solution: overrides.why?.solution ?? activeGesuch.story.why.solution,
+      }
+    : activeGesuch.story.why;
+
+  const trackRecord = {
+    ...activeGesuch.story.how.track_record,
+    headline:
+      overrides.how?.trackRecord?.headline ?? activeGesuch.story.how.track_record.headline,
+    text: overrides.how?.trackRecord?.text ?? activeGesuch.story.how.track_record.text,
+  };
+
   return (
     <div className="gesuch-page">
       <GesuchHeroSection
         subtitle="Partnerschaftsvorschlag"
         foundationName={activeGesuch.foundation.name}
         description={activeGesuch.foundation.purposeSummary ?? ''}
-        foundationBridge={activeGesuch.foundationBridge}
+        foundationBridge={foundationBridge}
         themes={activeGesuch.themes.all}
         primaryColor={activeColor}
       />
@@ -57,15 +89,34 @@ export default function GesuchPageClient({
           onSelect={setActiveSchwerpunkt}
         />
 
-        {activeGesuch.story.why && (
+        {/* Edit mode: show edit panel first so user sees it immediately */}
+        {editMode && why && (
+          <GesuchEditPanel
+            slug={slug}
+            overrides={overrides}
+            generated={{
+              foundationBridge: activeGesuch.foundationBridge,
+              why: activeGesuch.story.why ?? undefined,
+              trackRecord: activeGesuch.story.how.track_record,
+            }}
+            saving={saving}
+            dirty={dirty}
+            onUpdate={updateField}
+            onSave={save}
+            onReset={reset}
+            onAiRewrite={aiRewrite}
+          />
+        )}
+
+        {why && (
           <GesuchWhySection
-            why={activeGesuch.story.why}
+            why={why}
             secondaryThemeRelevance={activeGesuch.secondaryThemeRelevance}
           />
         )}
 
         <GesuchHowSection
-          trackRecord={activeGesuch.story.how.track_record}
+          trackRecord={trackRecord}
           competencies={activeGesuch.story.how.competencies}
         />
 
@@ -78,7 +129,7 @@ export default function GesuchPageClient({
           organization={activeGesuch.organization}
         />
 
-        {/* Navigation links */}
+        {/* Navigation + Edit toolbar */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">
           <a
             href={`/api/pdf/gesuch/${slug}`}
@@ -93,6 +144,17 @@ export default function GesuchPageClient({
           >
             HTML-Vorschau
           </Link>
+          <button
+            type="button"
+            onClick={toggleEditMode}
+            className={`rounded-lg px-5 py-3 text-sm font-semibold transition ${
+              editMode
+                ? 'bg-primary/10 text-primary ring-1 ring-primary/30'
+                : 'bg-bg-light text-text-muted hover:bg-primary/5 hover:text-primary'
+            }`}
+          >
+            {editMode ? 'Bearbeitung beenden' : 'Anpassen'}
+          </button>
           <Link
             href={`/fundraising/stiftungen/${slug}`}
             className="py-3 text-sm text-primary hover:underline"

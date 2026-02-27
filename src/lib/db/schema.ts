@@ -194,6 +194,42 @@ export const activityLog = pgTable('fundraising_activity_log', {
 });
 
 /**
+ * Gesuch Overrides Table - Per-foundation content customizations
+ *
+ * Stores manual edits and AI-assisted rewrites of gesuch sections.
+ * Overrides are merged on top of composed gesuch content at render time.
+ * JSONB structure: { foundationBridge?, why?, how? }
+ */
+export const gesuchOverrides = pgTable('fundraising_gesuch_overrides', {
+  id: text('id').primaryKey(),
+  foundationId: text('foundation_id').notNull().references(() => foundations.id),
+  orgId: text('org_id').notNull().default('revamp-it'),
+  overrides: jsonb('overrides').notNull().default({}),
+  createdAt: text('created_at').default(sql`now()`),
+  updatedAt: text('updated_at').default(sql`now()`),
+});
+
+export type GesuchOverride = typeof gesuchOverrides.$inferSelect;
+export type NewGesuchOverride = typeof gesuchOverrides.$inferInsert;
+
+/** Typed shape of the overrides JSONB */
+export interface GesuchOverridesData {
+  foundationBridge?: string;
+  why?: {
+    headline?: string;
+    hook?: string;
+    problem?: string;
+    solution?: string;
+  };
+  how?: {
+    trackRecord?: {
+      headline?: string;
+      text?: string;
+    };
+  };
+}
+
+/**
  * Contacts Table - Email/phone validation + communication history
  *
  * Manages contact information for foundations with validation status.
