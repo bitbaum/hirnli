@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import type { BudgetCategory } from '@/lib/schemas/budget';
 import { BUDGET_CATEGORY_LABELS } from '@/lib/schemas/budget';
-import { getLineItemsForScenario } from '@/lib/config/budget-scenarios';
+import { getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { groupLineItemsByCategory } from '@/lib/domain/budget-calculations';
 import { formatCHF } from '@/lib/utils/format';
 import LineItemDetail from './LineItemDetail';

@@ -28,7 +28,7 @@ import {
   getPhotoSlots,
 } from '@/lib/config/stories';
 import { TYPE_LABELS, THEMES } from '@/lib/config/foundations';
-import { getLineItemsForScenario } from '@/lib/config/budget-scenarios';
+import { getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { BudgetLineItem, BudgetScenario } from '@/lib/schemas/budget';
 import {

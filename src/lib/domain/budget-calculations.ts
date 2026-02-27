@@ -1,12 +1,39 @@
 import type { BudgetLineItem, BudgetScenario, BudgetCategory } from '@/lib/schemas/budget';
-import { getScenario, getLineItemsForScenario } from '@/lib/config/budget-scenarios';
+import { BUDGET_SCENARIOS, BUDGET_LINE_ITEMS } from '@/lib/config/budget-scenarios';
+import type { ThemeKey } from '@/lib/config/stories';
 
 /**
- * Budget Calculation Functions (Pure, Testable)
+ * Budget Domain Functions (Pure, Testable)
  *
- * No side effects, no I/O, just data transformation.
+ * No side effects, no I/O, just data transformation and lookup.
  * Reusable in components, server actions, and PDF generation.
  */
+
+// -- Lookup helpers -----------------------------------------------------------
+
+export function getScenario(id: string): BudgetScenario | undefined {
+  return BUDGET_SCENARIOS.find((s) => s.id === id);
+}
+
+export function getLineItem(id: string): BudgetLineItem | undefined {
+  return BUDGET_LINE_ITEMS.find((item) => item.id === id);
+}
+
+export function getLineItemsForScenario(scenarioId: string): BudgetLineItem[] {
+  const scenario = getScenario(scenarioId);
+  if (!scenario) return [];
+  return scenario.lineItemIds
+    .map((id) => getLineItem(id))
+    .filter((item): item is BudgetLineItem => item !== undefined);
+}
+
+/** Get themed label for a budget line item (Robert Rule III: same cost, different framing) */
+export function getThemedLabel(item: BudgetLineItem, themeKey?: ThemeKey): { label: string; description: string } {
+  if (themeKey && item.themeLabels?.[themeKey]) {
+    return item.themeLabels[themeKey];
+  }
+  return { label: item.label, description: item.description };
+}
 
 /**
  * Calculate total einmalig and jaehrlich costs for a scenario

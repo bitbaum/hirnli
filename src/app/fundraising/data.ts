@@ -1,6 +1,6 @@
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { CORE_FACTS, SOCIAL_DISPLAY } from '@/lib/config/stories';
-import { getScenario, getLineItemsForScenario } from '@/lib/config/budget-scenarios';
+import { getScenario, getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SPACE_SUMMARY, HUB_SPACE_AREAS } from '@/lib/config/hub-space-plan';
 import type { BudgetLineItem } from '@/lib/schemas/budget';

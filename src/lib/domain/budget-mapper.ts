@@ -6,7 +6,7 @@
  */
 
 import type { Foundation } from '@/lib/schemas/foundation';
-import { getScenario } from '@/lib/config/budget-scenarios';
+import { getScenario } from '@/lib/domain/budget-calculations';
 import type { BudgetScenario } from '@/lib/schemas/budget';
 
 /**

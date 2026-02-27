@@ -1,5 +1,4 @@
 import type { BudgetLineItem, BudgetScenario, EigenleistungConfig } from '@/lib/schemas/budget';
-import type { ThemeKey } from '@/lib/config/stories';
 
 /**
  * Budget Scenarios Configuration - SSOT
@@ -481,30 +480,3 @@ export const EIGENLEISTUNG_CONFIG: EigenleistungConfig = {
   },
 };
 
-/**
- * Helper Functions
- */
-
-export function getScenario(id: string): BudgetScenario | undefined {
-  return BUDGET_SCENARIOS.find((s) => s.id === id);
-}
-
-export function getLineItem(id: string): BudgetLineItem | undefined {
-  return BUDGET_LINE_ITEMS.find((item) => item.id === id);
-}
-
-export function getLineItemsForScenario(scenarioId: string): BudgetLineItem[] {
-  const scenario = getScenario(scenarioId);
-  if (!scenario) return [];
-  return scenario.lineItemIds
-    .map((id) => getLineItem(id))
-    .filter((item): item is BudgetLineItem => item !== undefined);
-}
-
-/** Get themed label for a budget line item (Robert Rule III: same cost, different framing) */
-export function getThemedLabel(item: BudgetLineItem, themeKey?: ThemeKey): { label: string; description: string } {
-  if (themeKey && item.themeLabels?.[themeKey]) {
-    return item.themeLabels[themeKey];
-  }
-  return { label: item.label, description: item.description };
-}

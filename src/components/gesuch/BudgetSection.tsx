@@ -1,7 +1,7 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { ThemeKey } from '@/lib/config/stories';
-import { getThemedLabel } from '@/lib/config/budget-scenarios';
+import { getThemedLabel } from '@/lib/domain/budget-calculations';
 import { formatCHF } from '@/lib/utils/format';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 

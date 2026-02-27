@@ -10,7 +10,7 @@ import { View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { ThemeKey } from '@/lib/config/stories';
-import { getThemedLabel } from '@/lib/config/budget-scenarios';
+import { getThemedLabel } from '@/lib/domain/budget-calculations';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { styles, COLORS, pdfFormatCHF } from './styles';
 

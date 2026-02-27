@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Card from '@/components/ui/Card';
 import { ScenarioSelector, BudgetTable, BudgetSummary } from '@/components/budget';
-import { getScenario } from '@/lib/config/budget-scenarios';
+import { getScenario } from '@/lib/domain/budget-calculations';
 
 /**
  * Interactive Budget Section for Hub Page
