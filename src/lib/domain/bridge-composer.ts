@@ -25,14 +25,22 @@ const TYPE_VERBS: Record<string, string> = {
  * Handles:
  *   - ESA format: "Foundation Name (City, Canton): , Description..."
  *   - Statute format: "Zweck der Stiftung ist: - Bullet 1 - Bullet 2"
+ *   - Double-prefix: "Name (City): Zweck der Stiftung ist: - Bullet 1 - Bullet 2"
  * Returns the first sentence (by period) or first bullet point (by " - " separator).
  */
 export function extractPurposeCore(purposeSummary: string): string {
-  // Strip "FoundationName (Location): " or "Zweck der Stiftung ist: " prefix if present
+  // Strip "FoundationName (Location): " prefix if present (ESA format)
   const colonIdx = purposeSummary.indexOf(': ');
   let stripped = colonIdx > -1
     ? purposeSummary.slice(colonIdx + 2).replace(/^,\s*/, '').trim()
     : purposeSummary;
+
+  // Handle double-prefix: "Zweck der Stiftung ist: - Bullet 1..." or similar statute preambles.
+  // If no period appears before a ": - " pattern, the whole prefix is a heading — strip it.
+  const doublePrefixMatch = stripped.match(/^([^.]+):\s*-\s(.+)$/s);
+  if (doublePrefixMatch) {
+    stripped = '- ' + doublePrefixMatch[2];
+  }
 
   // Strip leading bullet/dash marker (statute-style bullet lists)
   stripped = stripped.replace(/^[-•]\s*/, '').trim();
