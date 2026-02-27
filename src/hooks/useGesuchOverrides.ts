@@ -3,6 +3,14 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 
+export interface FoundationContext {
+  name: string;
+  purpose?: string;
+  type?: string;
+  themes?: string[];
+  fitScore?: number;
+}
+
 interface UseGesuchOverridesReturn {
   overrides: GesuchOverridesData;
   editMode: boolean;
@@ -16,26 +24,14 @@ interface UseGesuchOverridesReturn {
     instruction: string;
     currentText: string;
     fieldPath: string;
+    fieldDescription?: string;
   }) => Promise<string | null>;
 }
 
-function setNestedPath(obj: GesuchOverridesData, path: string, value: string): GesuchOverridesData {
-  const parts = path.split('.');
-  if (parts.length === 1) return { ...obj, [parts[0]]: value };
-  if (parts.length === 2) {
-    const [key, subkey] = parts as [keyof GesuchOverridesData, string];
-    return { ...obj, [key]: { ...(obj[key] as Record<string, unknown> ?? {}), [subkey]: value } };
-  }
-  if (parts.length === 3) {
-    const [key, mid, subkey] = parts;
-    const topVal = (obj[key as keyof GesuchOverridesData] ?? {}) as Record<string, unknown>;
-    const midVal = (topVal[mid] ?? {}) as Record<string, unknown>;
-    return { ...obj, [key]: { ...topVal, [mid]: { ...midVal, [subkey]: value } } };
-  }
-  return obj;
-}
-
-export function useGesuchOverrides(slug: string): UseGesuchOverridesReturn {
+export function useGesuchOverrides(
+  slug: string,
+  foundationContext?: FoundationContext,
+): UseGesuchOverridesReturn {
   const [overrides, setOverrides] = useState<GesuchOverridesData>({});
   const [savedOverrides, setSavedOverrides] = useState<GesuchOverridesData>({});
   const [editMode, setEditMode] = useState(false);
@@ -112,24 +108,37 @@ export function useGesuchOverrides(slug: string): UseGesuchOverridesReturn {
       instruction,
       currentText,
       fieldPath,
+      fieldDescription,
     }: {
       instruction: string;
       currentText: string;
       fieldPath: string;
+      fieldDescription?: string;
     }): Promise<string | null> => {
       try {
         const res = await fetch('/api/ai/gesuch-section', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ instruction, currentText, context: `Feld: ${fieldPath}` }),
+          body: JSON.stringify({
+            instruction,
+            currentText,
+            fieldPath,
+            fieldDescription,
+            foundationName: foundationContext?.name,
+            foundationPurpose: foundationContext?.purpose,
+            foundationType: foundationContext?.type,
+            foundationThemes: foundationContext?.themes,
+            foundationFitScore: foundationContext?.fitScore,
+          }),
         });
         const result = await res.json();
-        return result.success ? result.data.rewritten : null;
+        if (!result.success) return null;
+        return result.data.rewritten;
       } catch {
         return null;
       }
     },
-    []
+    [foundationContext],
   );
 
   return {

@@ -5,7 +5,7 @@ import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { WhySection, TrackRecord } from '@/lib/schemas/story';
 
 interface GesuchEditPanelProps {
-  slug: string;
+  foundationName: string;
   overrides: GesuchOverridesData;
   generated: {
     foundationBridge?: string;
@@ -21,11 +21,22 @@ interface GesuchEditPanelProps {
     instruction: string;
     currentText: string;
     fieldPath: string;
+    fieldDescription?: string;
   }) => Promise<string | null>;
 }
 
+// Most common AI editing tasks — one click sends directly
+const AI_PRESETS = [
+  { label: 'Kürzer', instruction: 'Kürze auf maximal 2 Sätze, behalte den Kern' },
+  { label: 'Auf Stiftung fokussieren', instruction: 'Passe den Text noch besser auf den Stiftungszweck und die Förderbereiche dieser Stiftung an' },
+  { label: 'Überzeugender', instruction: 'Mache den Text überzeugender — stärker, handlungsorientierter, mit klarem Nutzen für die Stiftung' },
+  { label: 'Mehr Zahlen', instruction: 'Integriere konkrete Zahlen und messbare Fakten aus dem Kontext (z.B. 150 Geräte, 285 kg CO₂, 75% Reuse-Rate)' },
+  { label: 'Formeller', instruction: 'Schreibe formeller — für ein offizielles Schweizer Fördergesuch' },
+];
+
 interface FieldRowProps {
   label: string;
+  fieldDescription: string;
   value: string;
   originalValue: string;
   placeholder: string;
@@ -37,6 +48,7 @@ interface FieldRowProps {
 
 function FieldRow({
   label,
+  fieldDescription,
   value,
   originalValue,
   placeholder,
@@ -48,23 +60,28 @@ function FieldRow({
   const [aiInstruction, setAiInstruction] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [showAi, setShowAi] = useState(false);
+  const [aiError, setAiError] = useState('');
 
   const isModified = value !== originalValue;
 
-  const handleAi = async () => {
-    if (!aiInstruction.trim()) return;
+  const runAi = async (instruction: string) => {
+    if (!instruction.trim() || !value.trim()) return;
     setAiLoading(true);
-    const result = await onAiRewrite({ instruction: aiInstruction, currentText: value, fieldPath });
+    setAiError('');
+    const result = await onAiRewrite({ instruction, currentText: value, fieldPath, fieldDescription });
     if (result) {
       onChange(result);
       setAiInstruction('');
       setShowAi(false);
+    } else {
+      setAiError('KI nicht verfügbar — bitte manuell bearbeiten.');
     }
     setAiLoading(false);
   };
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1.5">
+      {/* Label row */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <label className="text-xs font-semibold uppercase tracking-wider text-text-muted">
@@ -77,13 +94,13 @@ function FieldRow({
               className="text-xs text-text-muted hover:text-red-500"
               title="Auf Original zurücksetzen"
             >
-              ↩
+              ↩ zurücksetzen
             </button>
           )}
         </div>
         <button
           type="button"
-          onClick={() => setShowAi((v) => !v)}
+          onClick={() => { setShowAi((v) => !v); setAiError(''); }}
           className={`flex items-center gap-1 rounded px-2 py-0.5 text-xs transition ${
             showAi ? 'bg-primary/10 text-primary' : 'text-text-muted hover:text-primary'
           }`}
@@ -93,6 +110,7 @@ function FieldRow({
         </button>
       </div>
 
+      {/* Text input */}
       {multiline ? (
         <textarea
           value={value}
@@ -111,28 +129,58 @@ function FieldRow({
         />
       )}
 
+      {/* AI panel */}
       {showAi && (
-        <div className="flex gap-2 rounded-md border border-primary/20 bg-primary/5 p-2">
-          <input
-            type="text"
-            value={aiInstruction}
-            onChange={(e) => setAiInstruction(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleAi();
-              if (e.key === 'Escape') setShowAi(false);
-            }}
-            placeholder="z.B. «Kürzer», «Mehr Zahlen», «Auf Klimaschutz fokussieren»"
-            className="min-w-0 flex-1 rounded bg-transparent px-2 py-1 text-xs text-text-light outline-none placeholder:text-text-muted"
-            autoFocus
-          />
-          <button
-            type="button"
-            onClick={handleAi}
-            disabled={aiLoading || !aiInstruction.trim()}
-            className="shrink-0 rounded bg-primary px-3 py-1 text-xs font-medium text-white transition hover:bg-primary/80 disabled:opacity-50"
-          >
-            {aiLoading ? '...' : 'Umschreiben'}
-          </button>
+        <div className="rounded-md border border-primary/20 bg-primary/5 p-3 space-y-2">
+          {/* Quick presets */}
+          <div className="flex flex-wrap gap-1.5">
+            {AI_PRESETS.map((preset) => (
+              <button
+                key={preset.label}
+                type="button"
+                disabled={aiLoading}
+                onClick={() => runAi(preset.instruction)}
+                className="rounded-full border border-primary/30 bg-white px-2.5 py-0.5 text-xs text-primary transition hover:bg-primary hover:text-white disabled:opacity-50"
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Custom instruction */}
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={aiInstruction}
+              onChange={(e) => setAiInstruction(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') runAi(aiInstruction);
+                if (e.key === 'Escape') setShowAi(false);
+              }}
+              placeholder="Eigene Anweisung, z.B. «Auf Winterthur-Fokus anpassen»"
+              className="min-w-0 flex-1 rounded bg-white px-2.5 py-1.5 text-xs text-text-light outline-none ring-1 ring-border focus:ring-primary"
+              autoFocus
+            />
+            <button
+              type="button"
+              onClick={() => runAi(aiInstruction)}
+              disabled={aiLoading || !aiInstruction.trim()}
+              className="shrink-0 rounded bg-primary px-3 py-1.5 text-xs font-medium text-white transition hover:bg-primary/80 disabled:opacity-50"
+            >
+              {aiLoading ? (
+                <span className="flex items-center gap-1">
+                  <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  Wird überarbeitet…
+                </span>
+              ) : (
+                'Umschreiben'
+              )}
+            </button>
+          </div>
+
+          {aiError && (
+            <p className="text-xs text-red-500">{aiError}</p>
+          )}
         </div>
       )}
     </div>
@@ -140,6 +188,7 @@ function FieldRow({
 }
 
 export default function GesuchEditPanel({
+  foundationName,
   overrides,
   generated,
   saving,
@@ -149,7 +198,6 @@ export default function GesuchEditPanel({
   onReset,
   onAiRewrite,
 }: GesuchEditPanelProps) {
-  // Local state for fields — initialized from overrides, fall back to generated
   const [bridge, setBridge] = useState(overrides.foundationBridge ?? generated.foundationBridge ?? '');
   const [whyHeadline, setWhyHeadline] = useState(overrides.why?.headline ?? generated.why?.headline ?? '');
   const [whyHook, setWhyHook] = useState(overrides.why?.hook ?? generated.why?.hook ?? '');
@@ -159,160 +207,153 @@ export default function GesuchEditPanel({
   const [howText, setHowText] = useState(overrides.how?.trackRecord?.text ?? generated.trackRecord.text ?? '');
   const [saved, setSaved] = useState(false);
 
+  const handleSave = async () => {
+    await onSave();
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
+
   function patch(updates: GesuchOverridesData) {
     onUpdate(updates);
   }
 
-  const handleSave = async () => {
-    await onSave();
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  };
-
   return (
     <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 print:hidden">
-      <div className="mb-6 flex items-center justify-between">
+      {/* Header */}
+      <div className="mb-5 flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-grey-dark">Gesuch anpassen</h2>
-          <p className="mt-0.5 text-sm text-text-muted">
-            Änderungen werden gespeichert und beim nächsten Laden angezeigt.
+          <h2 className="text-base font-semibold text-grey-dark">
+            ✏️ Gesuch anpassen
+            <span className="ml-2 text-sm font-normal text-text-muted">→ {foundationName}</span>
+          </h2>
+          <p className="mt-1 text-xs text-text-muted">
+            Änderungen überschreiben den generierten Text. PDF und HTML-Vorschau verwenden die gespeicherte Version.
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          {dirty && !saved && (
-            <span className="text-xs text-text-muted">Ungespeicherte Änderungen</span>
-          )}
-          {saved && (
-            <span className="text-xs font-medium text-green-600">Gespeichert ✓</span>
-          )}
+        <div className="flex shrink-0 items-center gap-2">
+          {saved && <span className="text-xs font-medium text-green-600">Gespeichert ✓</span>}
+          {dirty && !saved && <span className="text-xs text-text-muted">Ungespeichert</span>}
           <button
             type="button"
             onClick={onReset}
             disabled={saving}
-            className="rounded-lg px-4 py-2 text-sm text-text-muted transition hover:bg-bg-light hover:text-red-500 disabled:opacity-50"
+            className="rounded-lg px-3 py-1.5 text-xs text-text-muted transition hover:bg-bg-light hover:text-red-500 disabled:opacity-50"
+            title="Alle Änderungen verwerfen und auf generierten Text zurücksetzen"
           >
-            Zurücksetzen
+            Alles zurücksetzen
           </button>
           <button
             type="button"
             onClick={handleSave}
             disabled={saving || !dirty}
-            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary/80 disabled:opacity-50"
+            className="rounded-lg bg-primary px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-primary/80 disabled:opacity-50"
           >
-            {saving ? 'Speichern...' : 'Speichern'}
+            {saving ? 'Speichern…' : 'Speichern'}
           </button>
         </div>
       </div>
 
       <div className="space-y-6">
-        {/* Foundation bridge */}
+        {/* 1. Foundation bridge */}
         <FieldRow
-          label="Verbindungstext (Hero)"
+          label="Verbindungssatz (Hero)"
+          fieldDescription="Kurzer Brückentext im Hero-Bereich, der erklärt warum diese Stiftung und Revamp-IT zusammenpassen."
           value={bridge}
           originalValue={generated.foundationBridge ?? ''}
-          placeholder={generated.foundationBridge ?? 'Kurzer Brückentext zwischen unserer Mission und der Stiftung'}
+          placeholder={generated.foundationBridge ?? 'Verbindungssatz zwischen Stiftungszweck und unserer Mission'}
           fieldPath="foundationBridge"
           multiline
           onAiRewrite={onAiRewrite}
-          onChange={(v) => {
-            setBridge(v);
-            patch({ foundationBridge: v });
-          }}
+          onChange={(v) => { setBridge(v); patch({ foundationBridge: v }); }}
         />
 
+        {/* 2. Why section */}
         {generated.why && (
           <>
-            <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wider text-text-muted">
-              Warum-Abschnitt
-            </p>
-
-            <FieldRow
-              label="Überschrift"
-              value={whyHeadline}
-              originalValue={generated.why.headline}
-              placeholder={generated.why.headline}
-              fieldPath="why.headline"
-              onAiRewrite={onAiRewrite}
-              onChange={(v) => {
-                setWhyHeadline(v);
-                patch({ why: { headline: v } });
-              }}
-            />
-            <FieldRow
-              label="Einleitung"
-              value={whyHook}
-              originalValue={generated.why.hook}
-              placeholder={generated.why.hook}
-              fieldPath="why.hook"
-              multiline
-              onAiRewrite={onAiRewrite}
-              onChange={(v) => {
-                setWhyHook(v);
-                patch({ why: { hook: v } });
-              }}
-            />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <FieldRow
-                label="Problem"
-                value={whyProblem}
-                originalValue={generated.why.problem}
-                placeholder={generated.why.problem}
-                fieldPath="why.problem"
-                multiline
-                onAiRewrite={onAiRewrite}
-                onChange={(v) => {
-                  setWhyProblem(v);
-                  patch({ why: { problem: v } });
-                }}
-              />
-              <FieldRow
-                label="Lösung"
-                value={whySolution}
-                originalValue={generated.why.solution}
-                placeholder={generated.why.solution}
-                fieldPath="why.solution"
-                multiline
-                onAiRewrite={onAiRewrite}
-                onChange={(v) => {
-                  setWhySolution(v);
-                  patch({ why: { solution: v } });
-                }}
-              />
+            <div className="border-t border-border pt-4">
+              <p className="mb-4 text-xs font-bold uppercase tracking-wider text-text-muted">
+                Warum-Abschnitt
+              </p>
+              <div className="space-y-4">
+                <FieldRow
+                  label="Überschrift"
+                  fieldDescription="Hauptüberschrift des 'Warum'-Abschnitts — sollte das Kernproblem als Hook formulieren."
+                  value={whyHeadline}
+                  originalValue={generated.why.headline}
+                  placeholder={generated.why.headline}
+                  fieldPath="why.headline"
+                  onAiRewrite={onAiRewrite}
+                  onChange={(v) => { setWhyHeadline(v); patch({ why: { headline: v } }); }}
+                />
+                <FieldRow
+                  label="Einleitung"
+                  fieldDescription="Einleitungssatz, der das Problem aus der Perspektive der Stiftung einrahmt."
+                  value={whyHook}
+                  originalValue={generated.why.hook}
+                  placeholder={generated.why.hook}
+                  fieldPath="why.hook"
+                  multiline
+                  onAiRewrite={onAiRewrite}
+                  onChange={(v) => { setWhyHook(v); patch({ why: { hook: v } }); }}
+                />
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <FieldRow
+                    label="Problem"
+                    fieldDescription="Beschreibung des gesellschaftlichen Problems, das Revamp-IT adressiert."
+                    value={whyProblem}
+                    originalValue={generated.why.problem}
+                    placeholder={generated.why.problem}
+                    fieldPath="why.problem"
+                    multiline
+                    onAiRewrite={onAiRewrite}
+                    onChange={(v) => { setWhyProblem(v); patch({ why: { problem: v } }); }}
+                  />
+                  <FieldRow
+                    label="Lösung"
+                    fieldDescription="Wie Revamp-IT das Problem löst — konkret, messbar, überzeugend."
+                    value={whySolution}
+                    originalValue={generated.why.solution}
+                    placeholder={generated.why.solution}
+                    fieldPath="why.solution"
+                    multiline
+                    onAiRewrite={onAiRewrite}
+                    onChange={(v) => { setWhySolution(v); patch({ why: { solution: v } }); }}
+                  />
+                </div>
+              </div>
             </div>
           </>
         )}
 
-        <hr className="border-border" />
-        <p className="text-xs font-bold uppercase tracking-wider text-text-muted">
-          Wie-Abschnitt (Track Record)
-        </p>
-
-        <FieldRow
-          label="Überschrift"
-          value={howHeadline}
-          originalValue={generated.trackRecord.headline}
-          placeholder={generated.trackRecord.headline}
-          fieldPath="how.trackRecord.headline"
-          onAiRewrite={onAiRewrite}
-          onChange={(v) => {
-            setHowHeadline(v);
-            patch({ how: { trackRecord: { headline: v } } });
-          }}
-        />
-        <FieldRow
-          label="Text"
-          value={howText}
-          originalValue={generated.trackRecord.text}
-          placeholder={generated.trackRecord.text}
-          fieldPath="how.trackRecord.text"
-          multiline
-          onAiRewrite={onAiRewrite}
-          onChange={(v) => {
-            setHowText(v);
-            patch({ how: { trackRecord: { text: v } } });
-          }}
-        />
+        {/* 3. How / Track Record */}
+        <div className="border-t border-border pt-4">
+          <p className="mb-4 text-xs font-bold uppercase tracking-wider text-text-muted">
+            Wie-Abschnitt (Track Record)
+          </p>
+          <div className="space-y-4">
+            <FieldRow
+              label="Überschrift"
+              fieldDescription="Überschrift des Track-Record-Abschnitts — zeigt Erfahrung und Kompetenz."
+              value={howHeadline}
+              originalValue={generated.trackRecord.headline}
+              placeholder={generated.trackRecord.headline}
+              fieldPath="how.trackRecord.headline"
+              onAiRewrite={onAiRewrite}
+              onChange={(v) => { setHowHeadline(v); patch({ how: { trackRecord: { headline: v } } }); }}
+            />
+            <FieldRow
+              label="Text"
+              fieldDescription="Haupttext des Track Records — belegt Erfahrung mit konkreten Fakten und Zahlen."
+              value={howText}
+              originalValue={generated.trackRecord.text}
+              placeholder={generated.trackRecord.text}
+              fieldPath="how.trackRecord.text"
+              multiline
+              onAiRewrite={onAiRewrite}
+              onChange={(v) => { setHowText(v); patch({ how: { trackRecord: { text: v } } }); }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

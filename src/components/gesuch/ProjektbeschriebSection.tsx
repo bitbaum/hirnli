@@ -1,6 +1,7 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { GESUCH_TEXT, findEvidence } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
 interface ProjektbeschriebSectionProps {
@@ -22,7 +23,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         <h3 className="mb-2 text-lg font-semibold text-grey-dark">1. Zusammenfassung</h3>
         {dok.foundation.purposeSummary && (
           <p className="mb-3 text-sm leading-relaxed text-text">
-            Die {dok.foundation.name} fördert {dok.foundation.purposeSummary.split('.')[0].toLowerCase()}.
+            Die {dok.foundation.name} hat sich dem Thema {extractPurposeCore(dok.foundation.purposeSummary)} verschrieben.
             {' '}{ORG_PROFILE.name} adressiert dieses Anliegen direkt:
           </p>
         )}

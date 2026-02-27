@@ -162,13 +162,9 @@ function collectThemeMetadata(foundation: Foundation): ThemeMetadata[] {
   // excluded if a richer thematic match exists for the same story key.
   const seenStoryKeys = new Set<string>();
   // Sort: proper thematic themes before geographic tags
-  const sorted = [...foundation.themes].sort((a, b) => {
-    const aIsGeo = a === 'zuerich';
-    const bIsGeo = b === 'zuerich';
-    return Number(aIsGeo) - Number(bIsGeo);
-  });
-  return sorted
+  return foundation.themes
     .filter((id) => {
+      if (id === 'zuerich') return false; // geographic qualifier, not a capability badge
       const storyKey = THEME_ID_TO_STORY_KEY[id];
       if (!storyKey) return false;
       if (seenStoryKeys.has(storyKey)) return false;

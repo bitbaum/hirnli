@@ -36,15 +36,15 @@ export function extractPurposeCore(purposeSummary: string): string {
 
 /** Build a bridge sentence connecting foundation purpose to Revamp-IT */
 export function buildFoundationBridge(foundation: Foundation, primaryThemeLabel: string): string {
-  const verb = TYPE_VERBS[foundation.type] || 'fördert';
   const purposeCore = foundation.purposeSummary
     ? extractPurposeCore(foundation.purposeSummary)
     : '';
 
   if (purposeCore) {
-    return `Die ${foundation.name} ${verb} ${purposeCore.charAt(0).toLowerCase()}${purposeCore.slice(1)} — ${ORG_PROFILE.name} bringt ${ORG_PROFILE.experienceLabel} in ${primaryThemeLabel} ein.`;
+    // "hat sich dem Thema X verschrieben" avoids verb+noun clash and keeps German capitalization
+    return `Die ${foundation.name} hat sich dem Thema ${purposeCore} verschrieben — ${ORG_PROFILE.name} adressiert genau dieses Anliegen mit ${ORG_PROFILE.experienceLabel} in ${primaryThemeLabel}.`;
   }
-  return `Die ${foundation.name} ${verb} Projekte im Bereich ${primaryThemeLabel} — genau dort, wo ${ORG_PROFILE.name} seit über ${ORG_PROFILE.yearsActive} Jahren wirkt.`;
+  return `Die ${foundation.name} fördert Projekte im Bereich ${primaryThemeLabel} — genau dort, wo ${ORG_PROFILE.name} seit über ${ORG_PROFILE.yearsActive} Jahren wirkt.`;
 }
 
 /** Build one-sentence connection per non-primary theme */
