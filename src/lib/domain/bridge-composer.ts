@@ -21,17 +21,34 @@ const TYPE_VERBS: Record<string, string> = {
 };
 
 /**
- * Strip ESA register prefix from purposeSummary.
- * ESA format: "Foundation Name (City, Canton): , Description..." or ": Description..."
- * Returns the first sentence of the actual purpose description.
+ * Strip prefix and return the first meaningful sentence from a purposeSummary.
+ * Handles:
+ *   - ESA format: "Foundation Name (City, Canton): , Description..."
+ *   - Statute format: "Zweck der Stiftung ist: - Bullet 1 - Bullet 2"
+ * Returns the first sentence (by period) or first bullet point (by " - " separator).
  */
 export function extractPurposeCore(purposeSummary: string): string {
-  // Strip "FoundationName (Location): " prefix if present
+  // Strip "FoundationName (Location): " or "Zweck der Stiftung ist: " prefix if present
   const colonIdx = purposeSummary.indexOf(': ');
-  const stripped = colonIdx > -1 ? purposeSummary.slice(colonIdx + 2).replace(/^,\s*/, '').trim() : purposeSummary;
-  // Take first sentence only
+  let stripped = colonIdx > -1
+    ? purposeSummary.slice(colonIdx + 2).replace(/^,\s*/, '').trim()
+    : purposeSummary;
+
+  // Strip leading bullet/dash marker (statute-style bullet lists)
+  stripped = stripped.replace(/^[-•]\s*/, '').trim();
+
+  // Take first sentence (period) — prefer this over bullet split
   const dotIdx = stripped.indexOf('.');
-  return (dotIdx > -1 ? stripped.slice(0, dotIdx) : stripped).trim();
+  // Take first bullet item if no period or period comes after the bullet split
+  const bulletIdx = stripped.indexOf(' - ');
+
+  if (dotIdx > -1 && (bulletIdx === -1 || dotIdx < bulletIdx)) {
+    return stripped.slice(0, dotIdx).trim();
+  }
+  if (bulletIdx > -1) {
+    return stripped.slice(0, bulletIdx).trim();
+  }
+  return stripped.trim();
 }
 
 /** Build a bridge sentence connecting foundation purpose to Revamp-IT */
