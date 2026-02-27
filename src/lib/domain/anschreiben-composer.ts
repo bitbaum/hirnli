@@ -8,6 +8,7 @@
 import type { Foundation } from '@/lib/schemas/foundation';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { ANSCHREIBEN_TEMPLATES } from '@/lib/config/stories';
+import { extractPurposeCore } from './bridge-composer';
 
 interface ThemeMetadata {
   id: string;
@@ -19,7 +20,7 @@ interface ThemeMetadata {
 /** Build a type-specific opening paragraph that references foundation purpose */
 export function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: string): string {
   const purposeCore = foundation.purposeSummary
-    ? foundation.purposeSummary.split('.')[0].trim()
+    ? extractPurposeCore(foundation.purposeSummary)
     : '';
   const isDeep = foundation.researchDepth === 'deep';
   const highFit = foundation.fitScore != null && foundation.fitScore >= 7;
@@ -57,7 +58,7 @@ export function buildThemeAlignment(foundation: Foundation, themeMetadata: Theme
   const themeLabels = themeMetadata.map((t) => t.label).join(', ');
   return `Unser Projekt adressiert direkt Ihre Förderbereiche: ${themeLabels}. ${
     foundation.purposeSummary
-      ? `Ihr Stiftungszweck — ${foundation.purposeSummary.split('.')[0]} — deckt sich eng mit unserer Mission.`
+      ? `Ihr Stiftungszweck — ${extractPurposeCore(foundation.purposeSummary)} — deckt sich eng mit unserer Mission.`
       : 'Wir sehen eine starke inhaltliche Übereinstimmung mit Ihrem Stiftungszweck.'
   }`;
 }

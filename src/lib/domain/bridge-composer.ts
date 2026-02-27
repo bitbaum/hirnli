@@ -20,11 +20,25 @@ const TYPE_VERBS: Record<string, string> = {
   network: 'vernetzt Akteure im Bereich',
 };
 
+/**
+ * Strip ESA register prefix from purposeSummary.
+ * ESA format: "Foundation Name (City, Canton): , Description..." or ": Description..."
+ * Returns the first sentence of the actual purpose description.
+ */
+export function extractPurposeCore(purposeSummary: string): string {
+  // Strip "FoundationName (Location): " prefix if present
+  const colonIdx = purposeSummary.indexOf(': ');
+  const stripped = colonIdx > -1 ? purposeSummary.slice(colonIdx + 2).replace(/^,\s*/, '').trim() : purposeSummary;
+  // Take first sentence only
+  const dotIdx = stripped.indexOf('.');
+  return (dotIdx > -1 ? stripped.slice(0, dotIdx) : stripped).trim();
+}
+
 /** Build a bridge sentence connecting foundation purpose to Revamp-IT */
 export function buildFoundationBridge(foundation: Foundation, primaryThemeLabel: string): string {
   const verb = TYPE_VERBS[foundation.type] || 'fördert';
   const purposeCore = foundation.purposeSummary
-    ? foundation.purposeSummary.split('.')[0].trim()
+    ? extractPurposeCore(foundation.purposeSummary)
     : '';
 
   if (purposeCore) {

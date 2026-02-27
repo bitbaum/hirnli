@@ -27,6 +27,7 @@ interface GesuchEditPanelProps {
 interface FieldRowProps {
   label: string;
   value: string;
+  originalValue: string;
   placeholder: string;
   fieldPath: string;
   multiline?: boolean;
@@ -37,6 +38,7 @@ interface FieldRowProps {
 function FieldRow({
   label,
   value,
+  originalValue,
   placeholder,
   fieldPath,
   multiline = false,
@@ -46,6 +48,8 @@ function FieldRow({
   const [aiInstruction, setAiInstruction] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [showAi, setShowAi] = useState(false);
+
+  const isModified = value !== originalValue;
 
   const handleAi = async () => {
     if (!aiInstruction.trim()) return;
@@ -62,9 +66,21 @@ function FieldRow({
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-semibold uppercase tracking-wider text-text-muted">
-          {label}
-        </label>
+        <div className="flex items-center gap-2">
+          <label className="text-xs font-semibold uppercase tracking-wider text-text-muted">
+            {label}
+          </label>
+          {isModified && (
+            <button
+              type="button"
+              onClick={() => onChange(originalValue)}
+              className="text-xs text-text-muted hover:text-red-500"
+              title="Auf Original zurücksetzen"
+            >
+              ↩
+            </button>
+          )}
+        </div>
         <button
           type="button"
           onClick={() => setShowAi((v) => !v)}
@@ -141,10 +157,17 @@ export default function GesuchEditPanel({
   const [whySolution, setWhySolution] = useState(overrides.why?.solution ?? generated.why?.solution ?? '');
   const [howHeadline, setHowHeadline] = useState(overrides.how?.trackRecord?.headline ?? generated.trackRecord.headline ?? '');
   const [howText, setHowText] = useState(overrides.how?.trackRecord?.text ?? generated.trackRecord.text ?? '');
+  const [saved, setSaved] = useState(false);
 
   function patch(updates: GesuchOverridesData) {
     onUpdate(updates);
   }
+
+  const handleSave = async () => {
+    await onSave();
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
 
   return (
     <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 print:hidden">
@@ -156,20 +179,23 @@ export default function GesuchEditPanel({
           </p>
         </div>
         <div className="flex items-center gap-3">
-          {dirty && (
+          {dirty && !saved && (
             <span className="text-xs text-text-muted">Ungespeicherte Änderungen</span>
+          )}
+          {saved && (
+            <span className="text-xs font-medium text-green-600">Gespeichert ✓</span>
           )}
           <button
             type="button"
             onClick={onReset}
             disabled={saving}
-            className="rounded-lg px-4 py-2 text-sm text-text-muted transition hover:bg-bg-light hover:text-danger disabled:opacity-50"
+            className="rounded-lg px-4 py-2 text-sm text-text-muted transition hover:bg-bg-light hover:text-red-500 disabled:opacity-50"
           >
             Zurücksetzen
           </button>
           <button
             type="button"
-            onClick={onSave}
+            onClick={handleSave}
             disabled={saving || !dirty}
             className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary/80 disabled:opacity-50"
           >
@@ -183,6 +209,7 @@ export default function GesuchEditPanel({
         <FieldRow
           label="Verbindungstext (Hero)"
           value={bridge}
+          originalValue={generated.foundationBridge ?? ''}
           placeholder={generated.foundationBridge ?? 'Kurzer Brückentext zwischen unserer Mission und der Stiftung'}
           fieldPath="foundationBridge"
           multiline
@@ -203,6 +230,7 @@ export default function GesuchEditPanel({
             <FieldRow
               label="Überschrift"
               value={whyHeadline}
+              originalValue={generated.why.headline}
               placeholder={generated.why.headline}
               fieldPath="why.headline"
               onAiRewrite={onAiRewrite}
@@ -214,6 +242,7 @@ export default function GesuchEditPanel({
             <FieldRow
               label="Einleitung"
               value={whyHook}
+              originalValue={generated.why.hook}
               placeholder={generated.why.hook}
               fieldPath="why.hook"
               multiline
@@ -227,6 +256,7 @@ export default function GesuchEditPanel({
               <FieldRow
                 label="Problem"
                 value={whyProblem}
+                originalValue={generated.why.problem}
                 placeholder={generated.why.problem}
                 fieldPath="why.problem"
                 multiline
@@ -239,6 +269,7 @@ export default function GesuchEditPanel({
               <FieldRow
                 label="Lösung"
                 value={whySolution}
+                originalValue={generated.why.solution}
                 placeholder={generated.why.solution}
                 fieldPath="why.solution"
                 multiline
@@ -260,6 +291,7 @@ export default function GesuchEditPanel({
         <FieldRow
           label="Überschrift"
           value={howHeadline}
+          originalValue={generated.trackRecord.headline}
           placeholder={generated.trackRecord.headline}
           fieldPath="how.trackRecord.headline"
           onAiRewrite={onAiRewrite}
@@ -271,6 +303,7 @@ export default function GesuchEditPanel({
         <FieldRow
           label="Text"
           value={howText}
+          originalValue={generated.trackRecord.text}
           placeholder={generated.trackRecord.text}
           fieldPath="how.trackRecord.text"
           multiline

@@ -11,13 +11,14 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
 const SYSTEM_PROMPT = `Du bist ein Experte für Stiftungsgesuche in der Schweiz. Du hilfst dabei, professionelle, überzeugende Texte für Fördermittelanträge zu verfassen.
 
-Organisation: Revamp-IT — gemeinnütziger Verein für nachhaltige IT, Reparatur und Kreislaufwirtschaft, Zürich.
+Organisation: ${ORG_PROFILE.name} — ${ORG_PROFILE.legalForm}, ${ORG_PROFILE.missionSummary}, ${ORG_PROFILE.location}.
 
 Stil: Professionell, präzise, überzeugend — Schweizer Schriftdeutsch (ss statt ß, echte Umlaute ä ö ü).
 

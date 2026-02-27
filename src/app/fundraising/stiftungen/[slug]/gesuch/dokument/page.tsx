@@ -2,19 +2,18 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundation-helpers';
+import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
+import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
 import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
 import ProjektbeschriebSection from '@/components/gesuch/ProjektbeschriebSection';
 import BudgetSection from '@/components/gesuch/BudgetSection';
 import KurzportraitSection from '@/components/gesuch/KurzportraitSection';
 
+export const dynamic = 'force-dynamic';
+
 interface Props {
   params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  return generateGesuchParams();
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -35,7 +34,9 @@ export default async function GesuchDokumentPage({ params }: Props) {
     notFound();
   }
 
-  const dok = composeGesuchDokument(foundation);
+  const baseDok = composeGesuchDokument(foundation);
+  const overrides = await loadGesuchOverrides(slug);
+  const dok = applyGesuchOverrides(baseDok, overrides);
 
   if (!dok.ready) {
     return (

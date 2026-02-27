@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId } from '@/lib/schemas/foundation';
@@ -30,6 +30,7 @@ export default function GesuchPageClient({
   primaryColors,
 }: GesuchPageClientProps) {
   const [activeSchwerpunkt, setActiveSchwerpunkt] = useState<SchwerpunktId | null>(null);
+  const editPanelRef = useRef<HTMLDivElement>(null);
   const {
     overrides,
     editMode,
@@ -91,21 +92,23 @@ export default function GesuchPageClient({
 
         {/* Edit mode: show edit panel first so user sees it immediately */}
         {editMode && why && (
-          <GesuchEditPanel
-            slug={slug}
-            overrides={overrides}
-            generated={{
-              foundationBridge: activeGesuch.foundationBridge,
-              why: activeGesuch.story.why ?? undefined,
-              trackRecord: activeGesuch.story.how.track_record,
-            }}
-            saving={saving}
-            dirty={dirty}
-            onUpdate={updateField}
-            onSave={save}
-            onReset={reset}
-            onAiRewrite={aiRewrite}
-          />
+          <div ref={editPanelRef}>
+            <GesuchEditPanel
+              slug={slug}
+              overrides={overrides}
+              generated={{
+                foundationBridge: activeGesuch.foundationBridge,
+                why: activeGesuch.story.why ?? undefined,
+                trackRecord: activeGesuch.story.how.track_record,
+              }}
+              saving={saving}
+              dirty={dirty}
+              onUpdate={updateField}
+              onSave={save}
+              onReset={reset}
+              onAiRewrite={aiRewrite}
+            />
+          </div>
         )}
 
         {why && (
@@ -146,7 +149,15 @@ export default function GesuchPageClient({
           </Link>
           <button
             type="button"
-            onClick={toggleEditMode}
+            onClick={() => {
+              const wasOff = !editMode;
+              toggleEditMode();
+              if (wasOff) {
+                setTimeout(() => {
+                  editPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+              }
+            }}
             className={`rounded-lg px-5 py-3 text-sm font-semibold transition ${
               editMode
                 ? 'bg-primary/10 text-primary ring-1 ring-primary/30'

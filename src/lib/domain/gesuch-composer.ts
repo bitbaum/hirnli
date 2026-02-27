@@ -157,7 +157,24 @@ function mapSchwerpunktThemes(schwerpunktId: SchwerpunktId) {
 }
 
 function collectThemeMetadata(foundation: Foundation): ThemeMetadata[] {
-  return foundation.themes
+  // Deduplicate by story key so geographic aliases (e.g. 'zuerich' → 'klima')
+  // don't show alongside a proper klima theme. Pure geographic tags are
+  // excluded if a richer thematic match exists for the same story key.
+  const seenStoryKeys = new Set<string>();
+  // Sort: proper thematic themes before geographic tags
+  const sorted = [...foundation.themes].sort((a, b) => {
+    const aIsGeo = a === 'zuerich';
+    const bIsGeo = b === 'zuerich';
+    return Number(aIsGeo) - Number(bIsGeo);
+  });
+  return sorted
+    .filter((id) => {
+      const storyKey = THEME_ID_TO_STORY_KEY[id];
+      if (!storyKey) return false;
+      if (seenStoryKeys.has(storyKey)) return false;
+      seenStoryKeys.add(storyKey);
+      return true;
+    })
     .map((id) => THEMES[id])
     .filter((t) => t !== undefined)
     .map((t) => ({ id: t.id, label: t.label, icon: t.icon, color: t.color }));

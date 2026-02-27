@@ -16,6 +16,7 @@ import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchDokumentPDF from '@/lib/pdf/gesuch-dokument';
+import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
 
 export async function GET(
   request: NextRequest,
@@ -48,7 +49,9 @@ export async function GET(
       : undefined;
 
     // Compose document data (same SSOT as HTML page)
-    const dok = composeGesuchDokument(foundation, schwerpunktId);
+    const baseDok = composeGesuchDokument(foundation, schwerpunktId);
+    const overrides = await loadGesuchOverrides(slug);
+    const dok = applyGesuchOverrides(baseDok, overrides);
 
     if (!dok.ready) {
       return NextResponse.json(

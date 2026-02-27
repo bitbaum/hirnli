@@ -10,6 +10,7 @@ import { View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { GESUCH_TEXT, findEvidence } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import { styles, COLORS } from './styles';
 
 interface ProjektbeschriebPDFProps {
@@ -30,7 +31,7 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
         <Text style={styles.h3}>1. Zusammenfassung</Text>
         {dok.foundation.purposeSummary && (
           <Text style={styles.paragraph}>
-            Die {dok.foundation.name} fördert {dok.foundation.purposeSummary.split('.')[0].toLowerCase()}.
+            Die {dok.foundation.name} fördert {extractPurposeCore(dok.foundation.purposeSummary!).toLowerCase()}.
             {' '}{ORG_PROFILE.name} adressiert dieses Anliegen direkt:
           </Text>
         )}
