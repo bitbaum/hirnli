@@ -28,15 +28,19 @@ async function syncFoundations() {
 
   console.log('\nSyncing foundations from DB...\n');
 
-  // Read all foundations with config_data
+  // Read only human-researched foundations (exclude rapid/auto-scraped Zefix imports).
+  // 'rapid' research_depth = auto-imported from Zefix with minimal data — not useful
+  // in the app's display layer. These stay in DB for the screening pipeline only.
+  // This keeps the generated TS file at ~500KB instead of 24MB.
   const rows = await sql`
     SELECT id, config_data
     FROM fundraising_foundations
     WHERE config_data IS NOT NULL
+      AND (research_depth IS NULL OR research_depth != 'rapid')
     ORDER BY id
   `;
 
-  console.log(`  Found ${rows.length} foundations with config_data`);
+  console.log(`  Found ${rows.length} human-researched foundations (rapid auto-imports excluded)`);
 
   // Validate each against Zod schema
   const valid: unknown[] = [];

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId } from '@/lib/schemas/foundation';
@@ -35,6 +35,38 @@ export default function GesuchPageClient({
 }: GesuchPageClientProps) {
   const [activeSchwerpunkt, setActiveSchwerpunkt] = useState<SchwerpunktId | null>(null);
   const editPanelRef = useRef<HTMLDivElement>(null);
+
+  // Pipeline state: undefined = loading, null = no application, string = applicationId
+  const [pipelineAppId, setPipelineAppId] = useState<string | null | undefined>(undefined);
+  const [pipelineAdding, setPipelineAdding] = useState(false);
+
+  useEffect(() => {
+    fetch(`/api/applications?foundationId=${slug}`)
+      .then((r) => r.json())
+      .then((d) => {
+        const active = (d.data ?? []).find(
+          (row: { application: { status: string; id: string } }) =>
+            !['rejected', 'withdrawn'].includes(row.application.status),
+        );
+        setPipelineAppId(active?.application.id ?? null);
+      })
+      .catch(() => setPipelineAppId(null));
+  }, [slug]);
+
+  async function addToPipeline() {
+    setPipelineAdding(true);
+    try {
+      const r = await fetch('/api/applications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ foundationId: slug, status: 'draft' }),
+      });
+      const d = await r.json();
+      if (d.success) setPipelineAppId(d.data.id);
+    } finally {
+      setPipelineAdding(false);
+    }
+  }
 
   const variantKey = activeSchwerpunkt ?? 'auto';
   const gesuch = variants[variantKey];
@@ -146,6 +178,23 @@ export default function GesuchPageClient({
             >
               👁 HTML-Vorschau
             </Link>
+            {pipelineAppId === undefined ? null : pipelineAppId ? (
+              <Link
+                href={`/fundraising/applications/${pipelineAppId}`}
+                className="flex items-center gap-1.5 rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-100"
+              >
+                ✓ In Pipeline
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={addToPipeline}
+                disabled={pipelineAdding}
+                className="flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50"
+              >
+                {pipelineAdding ? '…' : '+ Pipeline'}
+              </button>
+            )}
           </div>
           <div className="flex items-center gap-2">
             {hasOverrides && (
