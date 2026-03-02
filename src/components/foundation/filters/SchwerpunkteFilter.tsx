@@ -18,7 +18,7 @@ export default function SchwerpunkteFilter({
 }: SchwerpunkteFilterProps) {
   return (
     <CollapsibleSection title="Schwerpunkte" defaultOpen>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="space-y-1">
         {SCHWERPUNKT_IDS.map((id) => {
           const sp = SCHWERPUNKTE[id];
           const themeIdSet = new Set(sp.themeIds);
@@ -31,19 +31,22 @@ export default function SchwerpunkteFilter({
             <button
               key={id}
               onClick={() => onSelect(isActive ? null : id)}
-              className={`min-h-11 rounded-lg border p-2.5 text-left transition-all ${
+              className={`flex min-h-11 w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm transition-all ${
                 isActive
-                  ? 'border-primary bg-primary/5 ring-1 ring-primary'
-                  : 'border-border hover:border-primary/30'
+                  ? 'bg-primary/10 font-semibold text-primary ring-1 ring-primary/30'
+                  : 'text-text-muted hover:bg-bg-light'
               }`}
             >
-              <div className="flex items-center gap-1.5">
-                <span className="text-base">{sp.icon}</span>
-                <span className="text-xs font-semibold text-grey-dark">{sp.shortLabel}</span>
-              </div>
-              <div className="mt-1 text-sm font-bold" style={{ color: sp.color }}>
+              <span className="flex items-center gap-2 min-w-0">
+                <span className="shrink-0 text-base">{sp.icon}</span>
+                <span className="truncate">{sp.shortLabel}</span>
+              </span>
+              <span
+                className="ml-2 shrink-0 tabular-nums text-xs font-bold"
+                style={{ color: isActive ? undefined : sp.color }}
+              >
                 {matchingCount}
-              </div>
+              </span>
             </button>
           );
         })}

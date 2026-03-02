@@ -286,16 +286,16 @@ export default function TeamPage() {
             <h2 className="text-2xl font-bold text-grey-dark mb-4">Mehr erfahren</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <Link
-                href="/fundraising/bildung"
+                href="/wirkung"
                 className="inline-block rounded-lg bg-grey-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-grey-dark/85"
               >
-                Bildung & Skalierung
+                Wirkung & Impact
               </Link>
               <Link
-                href="/fundraising/hub"
+                href="/revamp-2030"
                 className="inline-block rounded-lg bg-grey-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-grey-dark/85"
               >
-                Community Tech Hub
+                Revamp 2030
               </Link>
               <Link
                 href="/strategie"

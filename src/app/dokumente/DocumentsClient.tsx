@@ -21,14 +21,13 @@ interface DocumentsClientProps {
   };
 }
 
-type TabId = 'overview' | 'gesuche' | 'vorlagen' | 'daten';
+type TabId = 'gesuche' | 'vorlagen' | 'daten';
 
 export default function DocumentsClient({ documents, stats }: DocumentsClientProps) {
-  const [activeTab, setActiveTab] = useState<TabId>('overview');
+  const [activeTab, setActiveTab] = useState<TabId>('gesuche');
   const [searchQuery, setSearchQuery] = useState('');
 
   const tabs = [
-    { id: 'overview' as TabId, label: 'Übersicht', icon: '📋' },
     { id: 'gesuche' as TabId, label: `Gesuche (${stats.gesucheCount})`, icon: '📄' },
     { id: 'vorlagen' as TabId, label: `Vorlagen (${stats.vorlagenCount})`, icon: '📝' },
     { id: 'daten' as TabId, label: `Daten (${stats.exportsCount + stats.quellenCount})`, icon: '📊' },
@@ -53,6 +52,12 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
 
   return (
     <div className="space-y-8">
+      {/* Usage tip */}
+      <p className="text-sm text-text-muted">
+        <strong>PDF-Gesuche</strong> öffnen im Browser.{' '}
+        <strong>CSV/Excel</strong> werden direkt heruntergeladen.
+      </p>
+
       {/* Tabs */}
       <div className="flex gap-1 border-b border-border">
         {tabs.map((tab) => (
@@ -71,104 +76,16 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
         ))}
       </div>
 
-      {/* Search (only show when not on overview) */}
-      {activeTab !== 'overview' && (
-        <div className="max-w-md">
-          <input
-            type="text"
-            placeholder="Dokumente durchsuchen..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-          />
-        </div>
-      )}
-
-      {/* Overview Tab */}
-      {activeTab === 'overview' && (
-        <div className="space-y-6">
-          {/* Quick Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="text-center bg-blue-50 border-l-4 border-l-blue-500">
-              <div className="text-3xl font-bold text-blue-900">{stats.gesucheCount}</div>
-              <div className="text-sm text-blue-700 mt-1">Stiftungsgesuche</div>
-              <div className="text-xs text-blue-600 mt-1">Personalisiert für jede Stiftung</div>
-            </Card>
-            <Card className="text-center bg-violet-50 border-l-4 border-l-violet-500">
-              <div className="text-3xl font-bold text-violet-900">{stats.vorlagenCount}</div>
-              <div className="text-sm text-violet-700 mt-1">Gesuch-Vorlagen</div>
-              <div className="text-xs text-violet-600 mt-1">Nach Stiftungstyp (A/B/C/D)</div>
-            </Card>
-            <Card className="text-center bg-emerald-50 border-l-4 border-l-emerald-500">
-              <div className="text-3xl font-bold text-emerald-900">{stats.exportsCount}</div>
-              <div className="text-sm text-emerald-700 mt-1">Generierte Exporte</div>
-              <div className="text-xs text-emerald-600 mt-1">Live CSV-Daten</div>
-            </Card>
-            <Card className="text-center bg-amber-50 border-l-4 border-l-amber-500">
-              <div className="text-3xl font-bold text-amber-900">{stats.quellenCount}</div>
-              <div className="text-sm text-amber-700 mt-1">Quelldateien</div>
-              <div className="text-xs text-amber-600 mt-1">Original-Kivitendo-Daten</div>
-            </Card>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="border-l-4 border-l-blue-500">
-              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                <span>📄</span>
-                Stiftungsgesuche
-              </h3>
-              <p className="text-sm text-text-light mb-4">
-                <strong>{stats.gesucheCount} personalisierte Gesuche</strong> für recherchierte Stiftungen.
-                Jedes folgt dem WHY/HOW/WHAT-Aufbau nach Robert Schmuki.
-              </p>
-              <button
-                onClick={() => setActiveTab('gesuche')}
-                className="text-sm font-semibold text-primary hover:text-primary-dark"
-              >
-                Gesuche ansehen →
-              </button>
-            </Card>
-
-            <Card className="border-l-4 border-l-emerald-500">
-              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                <span>📊</span>
-                Daten-Exporte
-              </h3>
-              <p className="text-sm text-text-light mb-4">
-                <strong>{stats.exportsCount + stats.quellenCount} CSV/Excel-Dateien</strong> mit Finanzdaten,
-                Stiftungsliste und Original-Quellen aus Kivitendo.
-              </p>
-              <button
-                onClick={() => setActiveTab('daten')}
-                className="text-sm font-semibold text-primary hover:text-primary-dark"
-              >
-                Daten herunterladen →
-              </button>
-            </Card>
-          </div>
-
-          {/* How to Use */}
-          <Card className="bg-blue-50 border-l-4 border-l-blue-500">
-            <div className="flex items-start gap-3">
-              <span className="text-2xl" aria-hidden="true">💡</span>
-              <div>
-                <h3 className="font-semibold text-blue-900 mb-2">So verwenden Sie diese Dokumente</h3>
-                <div className="space-y-2 text-sm text-blue-800">
-                  <p>
-                    <strong>Gesuche & Vorlagen (PDF):</strong> Klicken Sie auf das Dokument, dann{' '}
-                    <kbd className="px-2 py-1 bg-blue-100 rounded text-xs">Cmd+P</kbd> (Mac) oder{' '}
-                    <kbd className="px-2 py-1 bg-blue-100 rounded text-xs">Ctrl+P</kbd> (Windows) → &bdquo;Als PDF speichern&ldquo;
-                  </p>
-                  <p>
-                    <strong>CSV/Excel-Dateien:</strong> Direkter Download beim Klick. Öffnen Sie die Dateien in Excel, Google Sheets oder einem Texteditor.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-      )}
+      {/* Search */}
+      <div className="max-w-md">
+        <input
+          type="text"
+          placeholder="Dokumente durchsuchen..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+        />
+      </div>
 
       {/* Gesuche Tab */}
       {activeTab === 'gesuche' && (

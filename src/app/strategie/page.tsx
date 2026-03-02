@@ -456,8 +456,8 @@ export default function StrategiePage() {
           title="Hilf uns, diese Vision zu verwirklichen"
           description={<>Der Community Tech Space ist mehr als ein Gebäude — es ist eine Plattform für <strong>digitale Teilhabe, nachhaltige Technologie und soziale Innovation</strong>. Mit deiner Unterstützung können wir diesen Ort schaffen.</>}
           links={[
-            { href: '/fundraising', label: '📊 3-Jahres-Fundraising-Plan ansehen' },
-            { href: '/fundraising/stiftungen', label: '🏛️ Passende Stiftungen finden', variant: 'secondary' },
+            { href: '/revamp-2030', label: '🚀 Revamp 2030 ansehen' },
+            { href: '/wirkung', label: '🌱 Unsere Wirkung in Zahlen', variant: 'secondary' },
           ]}
         />
       </section>

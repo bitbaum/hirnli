@@ -17,19 +17,24 @@ const FORMAT_ICONS: Record<string, string> = {
 const ACTION_LABELS: Record<string, string> = {
   print: 'Öffnen & Cmd/Ctrl+P',
   download: 'Download',
+  view: 'PDF ansehen',
   external: 'Öffnen',
 };
 
 const ACTION_ICONS: Record<string, string> = {
   print: '🖨️',
   download: '⬇️',
+  view: '📄',
   external: '🔗',
 };
 
 export default function DocumentCard({ document }: DocumentCardProps) {
   const icon = FORMAT_ICONS[document.format] || '📄';
-  const actionLabel = ACTION_LABELS[document.action] || 'Öffnen';
-  const actionIcon = ACTION_ICONS[document.action] || '→';
+  // PDFs with download action should open in-browser instead of downloading
+  const isPdfView = document.format === 'PDF' && document.action === 'download';
+  const effectiveAction = isPdfView ? 'view' : document.action;
+  const actionLabel = ACTION_LABELS[effectiveAction] || 'Öffnen';
+  const actionIcon = ACTION_ICONS[effectiveAction] || '→';
 
   const cardContent = (
     <>
@@ -72,13 +77,30 @@ export default function DocumentCard({ document }: DocumentCardProps) {
           <span>{actionIcon}</span>
           <span>{actionLabel}</span>
         </span>
-        {document.action === 'download' && (
+        {!isPdfView && document.action === 'download' && (
           <span className="text-xs text-emerald-600 font-semibold">Direkt-Download</span>
         )}
       </div>
     </>
   );
 
+  // PDFs: open in new tab (browser PDF viewer)
+  if (isPdfView) {
+    return (
+      <a
+        href={document.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block group no-underline"
+      >
+        <Card className="border-l-4 border-l-primary hover:shadow-lg transition-all duration-200">
+          {cardContent}
+        </Card>
+      </a>
+    );
+  }
+
+  // Data files (CSV, Excel): direct download
   if (document.action === 'download') {
     return (
       <Card className="group border-l-4 border-l-emerald-500 hover:shadow-lg transition-all duration-200">
@@ -93,6 +115,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
     );
   }
 
+  // Print/external: open in same tab
   return (
     <Link href={document.href} className="block group no-underline">
       <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-all duration-200">

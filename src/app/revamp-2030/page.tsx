@@ -148,10 +148,10 @@ export default function Revamp2030Page() {
                   </p>
                 </div>
                 <Link
-                  href="/fundraising/hub"
+                  href="/wie-wir-arbeiten"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900 transition-colors"
                 >
-                  📊 Hub-Details & Budget →
+                  🔧 Wie wir arbeiten →
                 </Link>
               </div>
             </div>
@@ -187,10 +187,10 @@ export default function Revamp2030Page() {
                   </div>
                 </div>
                 <Link
-                  href="/fundraising/bildung"
+                  href="/wirkung"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-900 transition-colors"
                 >
-                  📊 Bildung-Details & Reach-Strategie →
+                  🌱 Wirkung & Impact ansehen →
                 </Link>
               </div>
             </div>
@@ -542,8 +542,8 @@ export default function Revamp2030Page() {
           title="Hilf uns, Revamp 2030 zu verwirklichen"
           description={<>Es geht nicht nur um Geräte oder Workshops — es geht darum, <strong>wie Menschen über Technologie denken</strong>. Durch Organisation, Bildung, Kunst und Kultur schaffen wir eine Plattform für <strong>digitale Teilhabe und nachhaltige Innovation</strong>.</>}
           links={[
-            { href: '/fundraising', label: '📊 Fundraising-Übersicht' },
-            { href: '/fundraising/stiftungen', label: '🏛️ Passende Stiftungen finden', variant: 'secondary' },
+            { href: '/wirkung', label: '🌱 Unsere Wirkung ansehen' },
+            { href: '/finanzen', label: '💰 Finanzen im Detail', variant: 'secondary' },
           ]}
         />
       </section>

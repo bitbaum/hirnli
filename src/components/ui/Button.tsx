@@ -76,13 +76,14 @@ export function Button({
 
   if (href) {
     const isExternal = href.startsWith('http');
-    if (isExternal) {
+    // Use plain <a> for external links OR when target is specified (e.g. PDF in new tab)
+    if (isExternal || target) {
       return (
         <a
           href={href}
           className={classes}
-          target={target || '_blank'}
-          rel={rel || 'noopener noreferrer'}
+          target={target || (isExternal ? '_blank' : undefined)}
+          rel={rel || ((isExternal || target) ? 'noopener noreferrer' : undefined)}
           onClick={onClick}
         >
           {children}

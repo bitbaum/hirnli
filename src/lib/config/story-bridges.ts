@@ -29,10 +29,10 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       icon: '💰',
     },
     {
-      title: 'Fundraising',
-      href: '/fundraising',
-      reason: 'Stiftungsgesuche & 3-Jahres-Plan',
-      icon: '🏛️',
+      title: 'Wirkung',
+      href: '/wirkung',
+      reason: 'Unsere Wirkung in Zahlen',
+      icon: '🌱',
     },
   ],
 
@@ -44,10 +44,10 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       icon: '⚙️',
     },
     {
-      title: 'Fundraising',
-      href: '/fundraising',
-      reason: 'Welche Ressourcen wir brauchen',
-      icon: '💰',
+      title: 'Revamp 2030',
+      href: '/revamp-2030',
+      reason: 'Unsere Roadmap und was wir brauchen',
+      icon: '🚀',
     },
     {
       title: 'Wirkung',
@@ -107,10 +107,10 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       icon: '⚙️',
     },
     {
-      title: 'Fundraising',
-      href: '/fundraising',
-      reason: 'Hub + Menschen: Was wir brauchen',
-      icon: '💰',
+      title: 'Revamp 2030',
+      href: '/revamp-2030',
+      reason: 'Unsere Zukunftsvision',
+      icon: '🚀',
     },
     {
       title: 'Strategie',
@@ -134,10 +134,10 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       icon: '🌱',
     },
     {
-      title: 'Fundraising',
-      href: '/fundraising',
+      title: 'Revamp 2030',
+      href: '/revamp-2030',
       reason: 'Was Förderung zusätzlich ermöglicht',
-      icon: '🏛️',
+      icon: '🚀',
     },
   ],
 
@@ -149,10 +149,10 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       icon: '🌱',
     },
     {
-      title: 'Fundraising',
-      href: '/fundraising',
-      reason: 'Warum wir Stiftungen brauchen',
-      icon: '🏛️',
+      title: 'Revamp 2030',
+      href: '/revamp-2030',
+      reason: 'Warum wir Förderung brauchen',
+      icon: '🚀',
     },
     {
       title: 'Methodik',
@@ -206,10 +206,10 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
 
   dokumente: [
     {
-      title: 'Fundraising',
-      href: '/fundraising',
-      reason: 'Gesuche & Vorlagen ansehen',
-      icon: '🏛️',
+      title: 'Finanzen',
+      href: '/finanzen',
+      reason: 'Finanzübersicht ansehen',
+      icon: '💰',
     },
     {
       title: 'Methodik',
@@ -263,22 +263,22 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
 
   'revamp-2030': [
     {
-      title: 'Hub Fundraising',
-      href: '/fundraising/hub',
-      reason: 'Detailliertes Hub-Budget & Umsetzung',
-      icon: '🏢',
+      title: 'Wie wir arbeiten',
+      href: '/wie-wir-arbeiten',
+      reason: 'Unsere Wertschöpfungskaskade im Detail',
+      icon: '🔧',
     },
     {
-      title: 'Bildung Fundraising',
-      href: '/fundraising/bildung',
-      reason: 'Train-the-Trainer Programm Details',
-      icon: '🎓',
+      title: 'Wirkung',
+      href: '/wirkung',
+      reason: 'Unser Impact in Zahlen',
+      icon: '🌱',
     },
     {
-      title: 'Stiftungen',
-      href: '/fundraising/stiftungen',
-      reason: 'Passende Förderstiftungen finden',
-      icon: '🏛️',
+      title: 'Finanzen',
+      href: '/finanzen',
+      reason: 'Finanzübersicht & 8-Jahres-Analyse',
+      icon: '💰',
     },
   ],
 };

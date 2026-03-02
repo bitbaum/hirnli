@@ -60,14 +60,15 @@ export default async function GesuchDokumentPage({ params }: Props) {
       {/* Print instructions bar */}
       <div className="mb-8 rounded-lg border border-primary/20 bg-primary/5 p-4 text-center text-sm text-text-light print:hidden">
         <strong>Tipp:</strong> Drücken Sie Cmd+P (Mac) oder Ctrl+P (Windows/Linux) für eine saubere A4-PDF-Ausgabe,
-        oder laden Sie direkt das PDF herunter.
+        oder öffnen Sie das PDF direkt.
         <div className="mt-2 flex justify-center gap-4">
           <a
             href={`/api/pdf/gesuch/${slug}`}
-            download
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-semibold text-primary hover:underline"
           >
-            PDF herunterladen
+            PDF öffnen
           </a>
           <Link href={`/fundraising/stiftungen/${slug}/gesuch`} className="text-primary hover:underline">
             Interaktive Seite

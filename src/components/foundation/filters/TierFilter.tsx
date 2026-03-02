@@ -1,7 +1,7 @@
 'use client';
 
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
-import { QUALITY_TIERS, TIER_LABELS, TIER_COLORS } from '@/lib/domain/foundation-helpers';
+import { QUALITY_TIERS, TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS } from '@/lib/domain/foundation-helpers';
 import type { QualityTier } from '@/lib/schemas/foundation';
 
 interface TierFilterProps {
@@ -21,17 +21,24 @@ export default function TierFilter({ activeTier, tierCounts, onSelect }: TierFil
             <button
               key={tier}
               onClick={() => onSelect(tier)}
-              className={`flex min-h-11 w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-sm transition-all ${
+              className={`flex min-h-11 w-full flex-col rounded-lg px-2.5 py-2 text-left transition-all ${
                 isActive
-                  ? 'bg-primary/10 font-semibold text-primary ring-1 ring-primary/30'
-                  : 'text-text-muted hover:bg-bg-light'
+                  ? 'bg-primary/10 ring-1 ring-primary/30'
+                  : 'hover:bg-bg-light'
               }`}
             >
-              <span className="flex items-center gap-2">
-                <span className={`inline-block h-2 w-2 rounded-full ${TIER_COLORS[tier].split(' ')[0]}`} />
-                {TIER_LABELS[tier]}
+              <span className="flex w-full items-center justify-between">
+                <span className={`flex items-center gap-2 text-sm ${isActive ? 'font-semibold text-primary' : 'text-text-muted'}`}>
+                  <span className={`inline-block h-2 w-2 shrink-0 rounded-full ${TIER_COLORS[tier].split(' ')[0]}`} />
+                  {TIER_LABELS[tier]}
+                </span>
+                <span className="text-xs tabular-nums text-text-muted">{count.toLocaleString('de-CH')}</span>
               </span>
-              <span className="text-xs tabular-nums">{count.toLocaleString('de-CH')}</span>
+              {isActive && (
+                <span className="mt-0.5 pl-4 text-xs text-text-muted">
+                  {TIER_DESCRIPTIONS[tier]}
+                </span>
+              )}
             </button>
           );
         })}

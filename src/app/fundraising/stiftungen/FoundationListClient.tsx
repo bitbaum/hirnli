@@ -9,15 +9,17 @@ import FilterDrawer from '@/components/foundation/FilterDrawer';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
 import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
-import { computeTierCounts, countAtLeast } from '@/lib/domain/foundation-helpers';
+import { computeTierCounts } from '@/lib/domain/foundation-helpers';
 import type { SortField } from '@/lib/domain/foundation-filter';
 import {
   THEME_CHIPS,
   STATUS_CHIPS,
   TYPE_CHIPS,
   SORT_OPTIONS,
+  SWISS_FOUNDATION_UNIVERSE,
+  REGISTRY_COUNT,
+  FUNNEL_STAGES,
 } from './data';
-import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
@@ -105,6 +107,27 @@ export default function FoundationListClient() {
     (f) => f.status === 'open' || f.status === 'rolling',
   ).length;
 
+  // Gesuch-ready count (priority ≤ 2, tier >= recherchiert)
+  const gesuchReadyCount = useMemo(
+    () =>
+      STIFTUNGEN_DATA.filter(
+        (f) => f.priority <= 2 && !f.needsResearch,
+      ).length,
+    [],
+  );
+
+  // Funnel numbers — mix of static approximations and computed values
+  const funnelNumbers: Record<string, number> = useMemo(
+    () => ({
+      universe: SWISS_FOUNDATION_UNIVERSE,
+      registry: REGISTRY_COUNT,
+      pipeline: totalCount,
+      recherchiert: tierCounts.recherchiert + tierCounts.anwendungsbereit,
+      gesuchReady: gesuchReadyCount,
+    }),
+    [totalCount, tierCounts, gesuchReadyCount],
+  );
+
   const activeFilterCount = countActiveFilters(filters);
 
   // Shared sidebar props
@@ -139,14 +162,38 @@ export default function FoundationListClient() {
       {/* Full-width header */}
       <PageHeader
         title="Stiftungen-Übersicht"
-        subtitle={`${(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')} recherchiert · ${countAtLeast(STIFTUNGEN_DATA, 'profiliert').toLocaleString('de-CH')} profiliert+ · ${totalCount.toLocaleString('de-CH')} im Verzeichnis`}
+        subtitle={`${filteredCount.toLocaleString('de-CH')} von ${totalCount.toLocaleString('de-CH')} in Pipeline · ${(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')} recherchiert · ${gesuchReadyCount} gesuch-bereit`}
         badge={`${filteredCount}/${totalCount}`}
       />
 
-      <WhyThisMatters
-        purpose={`${totalCount.toLocaleString('de-CH')} Schweizer Stiftungen erfasst. ${(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')} manuell recherchiert mit verifiziertem Kontakt.`}
-        connection="Jede Stiftung hat eine eigene Detailseite mit massgeschneidertem Gesuch (siehe einzelne Stiftung)."
-      />
+      {/* Research Funnel */}
+      <div className="mb-6 rounded-lg border border-border bg-white p-4">
+        <h2 className="mb-3 text-sm font-semibold text-grey-dark">Recherche-Pipeline</h2>
+        <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-0">
+          {FUNNEL_STAGES.map((stage, i) => {
+            const count = funnelNumbers[stage.key];
+            return (
+              <div key={stage.key} className="flex items-center gap-1.5 sm:flex-1">
+                {i > 0 && (
+                  <span className="hidden text-text-muted sm:inline" aria-hidden="true">→</span>
+                )}
+                <div className={`flex-1 rounded-lg px-3 py-2 text-center ${stage.color}`}>
+                  <div className="text-lg font-bold tabular-nums">
+                    {count >= 1000
+                      ? `~${(count / 1000).toFixed(count >= 10000 ? 0 : 1)}k`
+                      : count.toLocaleString('de-CH')}
+                  </div>
+                  <div className="text-xs leading-tight">{stage.label}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p className="mt-2 text-xs text-text-muted">
+          Stufen werden automatisch aus Datensignalen berechnet (Website, Kontakt, Bewerbungsweg, Fördersumme).
+          Jede Stiftung hat eine eigene Detailseite mit Fit-Analyse und massgeschneidertem Gesuch.
+        </p>
+      </div>
 
       {/* Mobile: search row + sort/filter row */}
       <div className="mb-4 space-y-2 md:hidden">

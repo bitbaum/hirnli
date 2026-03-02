@@ -138,8 +138,9 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                 href={`/api/pdf/gesuch/${f.slug}`}
                 variant="secondary"
                 fullWidth
+                target="_blank"
               >
-                PDF herunterladen
+                PDF ansehen
               </Button>
               <Link
                 href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
