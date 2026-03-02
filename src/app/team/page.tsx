@@ -210,7 +210,7 @@ export default function TeamPage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Kapazitäts-Wachstum</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Current */}
-          <Card className="border-l-4 border-l-gray-400">
+          <Card className="border-l-4 border-l-border">
             <h3 className="text-lg font-bold text-grey-dark mb-4">Heute (2025, geschätzt)</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
@@ -259,7 +259,7 @@ export default function TeamPage() {
 
       {/* ========== DATENQUALITÄT ========== */}
       <section className="mb-8">
-        <Card className="bg-gray-50 border-l-4 border-l-gray-400">
+        <Card className="bg-bg-light border-l-4 border-l-border">
           <h3 className="font-semibold text-grey-dark mb-3">Hinweis zur Datenqualität</h3>
           <div className="space-y-2 text-sm text-text-muted">
             <div>
@@ -271,7 +271,7 @@ export default function TeamPage() {
             <div>
               <strong>Warum das OK ist:</strong> {DATA_QUALITY_NOTE.why_this_is_ok}
             </div>
-            <div className="pt-2 border-t border-gray-200 text-xs">
+            <div className="pt-2 border-t border-border text-xs">
               <strong>Frühere Datenquelle:</strong> {DATA_QUALITY_NOTE.previous_source}<br />
               <strong>Aktuelle Datenquelle:</strong> {DATA_QUALITY_NOTE.current_source}
             </div>

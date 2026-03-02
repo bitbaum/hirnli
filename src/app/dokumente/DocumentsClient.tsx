@@ -54,7 +54,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
   return (
     <div className="space-y-8">
       {/* Tabs */}
-      <div className="flex gap-1 border-b border-gray-200">
+      <div className="flex gap-1 border-b border-border">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -79,7 +79,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
             placeholder="Dokumente durchsuchen..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
           />
         </div>
       )}

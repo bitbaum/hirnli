@@ -2,14 +2,8 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import type { GesuchOverridesData } from '@/lib/db/schema';
-
-export interface FoundationContext {
-  name: string;
-  purpose?: string;
-  type?: string;
-  themes?: string[];
-  fitScore?: number;
-}
+import type { Foundation } from '@/lib/schemas/foundation';
+import { buildAIContext, type FoundationAIContext } from '@/lib/domain/ai-context';
 
 interface UseGesuchOverridesReturn {
   overrides: GesuchOverridesData;
@@ -31,10 +25,10 @@ interface UseGesuchOverridesReturn {
 
 export function useGesuchOverrides(
   slug: string,
-  foundationContext?: FoundationContext,
+  foundation?: Foundation,
 ): UseGesuchOverridesReturn {
   const [overrides, setOverrides] = useState<GesuchOverridesData>({});
-  const [savedOverrides, setSavedOverrides] = useState<GesuchOverridesData>({});
+  const [, setSavedOverrides] = useState<GesuchOverridesData>({});
   const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
@@ -120,6 +114,11 @@ export function useGesuchOverrides(
       fieldPath: string;
       fieldDescription?: string;
     }): Promise<string | null> => {
+      // Build richer AI context from full foundation object when available
+      const foundationContext: FoundationAIContext | undefined = foundation
+        ? buildAIContext(foundation)
+        : undefined;
+
       try {
         const res = await fetch('/api/ai/gesuch-section', {
           method: 'POST',
@@ -129,11 +128,7 @@ export function useGesuchOverrides(
             currentText,
             fieldPath,
             fieldDescription,
-            foundationName: foundationContext?.name,
-            foundationPurpose: foundationContext?.purpose,
-            foundationType: foundationContext?.type,
-            foundationThemes: foundationContext?.themes,
-            foundationFitScore: foundationContext?.fitScore,
+            foundationContext,
           }),
         });
         const result = await res.json();
@@ -143,7 +138,7 @@ export function useGesuchOverrides(
         return null;
       }
     },
-    [foundationContext],
+    [foundation],
   );
 
   return {

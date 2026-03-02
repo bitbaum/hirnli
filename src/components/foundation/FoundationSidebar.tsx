@@ -122,28 +122,32 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Gesuch</h3>
         {gesuchReady ? (
-          <div className="space-y-2">
+          <div className="space-y-4">
             <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
-            <Button
-              href={`/fundraising/stiftungen/${f.slug}/gesuch`}
-              variant="soft"
-              fullWidth
-            >
-              Interaktive Seite
-            </Button>
-            <Button
-              href={`/api/pdf/gesuch/${f.slug}`}
-              variant="secondary"
-              fullWidth
-            >
-              Formelles Dokument (PDF)
-            </Button>
-            <Link
-              href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
-              className="block text-center text-xs text-text-muted hover:text-primary hover:underline"
-            >
-              HTML-Vorschau
-            </Link>
+
+            {/* Document outputs */}
+            <div className="space-y-2 border-t border-border pt-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">Dokumente</p>
+              <Button
+                href={`/fundraising/stiftungen/${f.slug}/gesuch`}
+                fullWidth
+              >
+                Gesuch öffnen
+              </Button>
+              <Button
+                href={`/api/pdf/gesuch/${f.slug}`}
+                variant="secondary"
+                fullWidth
+              >
+                PDF herunterladen
+              </Button>
+              <Link
+                href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
+                className="block text-center text-xs text-text-muted hover:text-primary hover:underline"
+              >
+                HTML-Vorschau
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="space-y-2">

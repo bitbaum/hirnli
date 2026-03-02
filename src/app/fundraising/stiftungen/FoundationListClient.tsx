@@ -178,7 +178,7 @@ export default function FoundationListClient() {
             </svg>
             Filter
             {activeFilterCount > 0 && (
-              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
+              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-bold text-white">
                 {activeFilterCount}
               </span>
             )}

@@ -134,7 +134,7 @@ export default function FilterSidebar({
           {filters.themes.length > 1 && (
             <button
               onClick={toggleThemeLogic}
-              className="mt-1 min-h-11 rounded-full bg-grey-light px-2.5 py-1 text-[11px] font-medium text-grey-dark hover:bg-border"
+              className="mt-1 min-h-11 rounded-full bg-grey-light px-2.5 py-1 text-xs font-medium text-grey-dark hover:bg-border"
             >
               {filters.themeLogic === 'or' ? 'ODER (mind. eines)' : 'UND (alle)'}
             </button>

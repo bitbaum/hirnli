@@ -25,11 +25,11 @@ import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
 import { APPLICATION_STATUSES, KANBAN_COLUMNS } from '@/lib/config/application-statuses';
 import { formatCHF } from '@/lib/utils/format';
-import type { Application, Foundation } from '@/lib/db/schema';
+import type { Application, FoundationRow } from '@/lib/db/schema';
 
 interface ApplicationWithFoundation {
   application: Application;
-  foundation: Foundation | null;
+  foundation: FoundationRow | null;
 }
 
 export function ApplicationBoard() {

@@ -40,5 +40,5 @@ export const PRIORITY_COLORS: Record<number, string> = {
   1: 'bg-red-100 text-red-700',
   2: 'bg-amber-100 text-amber-700',
   3: 'bg-blue-100 text-blue-700',
-  4: 'bg-gray-100 text-gray-500',
+  4: 'bg-bg-light text-text-muted',
 };

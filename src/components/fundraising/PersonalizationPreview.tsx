@@ -164,7 +164,7 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             💰 Budget Module
           </h3>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {customizations.visibleBudgetModules.length > 0 && (
               <div>
                 <h4 className="text-sm font-medium text-green-700 mb-2">

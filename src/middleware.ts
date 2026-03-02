@@ -15,6 +15,7 @@
  *   - /api/foundations/**       — foundation CRUD (fit scores, research notes)
  *   - /api/customizations/**    — gesuch personalization rules
  *   - /api/cron/**              — scheduled tasks (data quality, reminders)
+ *   - /api/documents/**         — document generation (Gesuch PDFs with internal context)
  *
  * Auth method: HTTP Basic Auth — browser handles the prompt.
  * Set INTERNAL_PASSWORD in Vercel environment variables.
@@ -68,5 +69,6 @@ export const config = {
     '/api/foundations/:path*',
     '/api/customizations/:path*',
     '/api/cron/:path*',
+    '/api/documents/:path*',
   ],
 };

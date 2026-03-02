@@ -195,7 +195,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                     </div>
                   )}
                   {(f.supervisoryAuthority || (f.memberships && f.memberships.length > 0)) && (
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       {f.supervisoryAuthority && (
                         <div>
                           <h4 className="font-semibold text-grey-dark">Aufsichtsbehörde</h4>

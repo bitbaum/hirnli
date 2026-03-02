@@ -163,7 +163,7 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
                 <Badge variant="warning">Unvollständig</Badge>
               )}
             </div>
-            <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+            <div className="mt-2 grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
               <div>
                 <span className="text-text-muted">Einnahmen</span>
                 <div className="font-medium">{formatCHF(row.revenue)}</div>

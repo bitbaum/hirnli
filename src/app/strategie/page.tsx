@@ -259,12 +259,12 @@ export default function StrategiePage() {
 
       {/* Community Tech Space Vision */}
       <section id="community-tech-space" className="mb-8">
-        <div className="mb-6 rounded-2xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 p-8 text-white">
-          <h2 className="text-3xl font-bold mb-4">Community Tech Space</h2>
-          <p className="text-lg mb-3 leading-relaxed">
+        <div className="mb-6 rounded-2xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 p-6 text-white md:p-8">
+          <h2 className="text-2xl font-bold mb-4 md:text-3xl">Community Tech Space</h2>
+          <p className="text-base mb-3 leading-relaxed md:text-lg">
             <strong className="text-yellow-300">⏰ Deadline: Ende 2026</strong> — Wir müssen unser aktuelles Lokal verlassen.
           </p>
-          <p className="text-lg mb-4 leading-relaxed">
+          <p className="text-base mb-4 leading-relaxed md:text-lg">
             Das ist unsere Chance, etwas Grösseres zu schaffen: Ein Ort, an dem <strong>Nachhaltigkeit, Technologie und Gemeinschaft</strong> zusammenkommen.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
@@ -285,10 +285,9 @@ export default function StrategiePage() {
 
         {/* Core Spaces */}
         <div className="mb-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">🎯 Kernbereiche (Essential)</h3>
-          <p className="text-sm text-gray-600 mb-6">
-            Diese Bereiche wachsen direkt aus unserer heutigen Arbeit und sind essenziell für die Vision 2030.
-            Klicke auf «Mehr Details», um Aktivitäten, Kapazität und SDG-Beitrag zu sehen.
+          <h3 className="text-2xl font-bold text-grey-dark mb-4">Kernbereiche</h3>
+          <p className="text-sm text-text-light mb-6">
+            Fünf Bereiche, die direkt aus unserer heutigen Arbeit wachsen. Zusammen bilden sie den Kern des Community Tech Space.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <CommunitySpaceCard
@@ -311,6 +310,25 @@ export default function StrategiePage() {
             />
 
             <CommunitySpaceCard
+              icon="🎓"
+              title="Schulungs- & Hackerspace"
+              tagline="Digitale Kompetenzen für alle"
+              description="60 m² Schulungsraum mit 20 Arbeitsplätzen für Kurse, Workshops und offenes Tüfteln."
+              type="core"
+              activities={[
+                'Linux-Einführungskurse (Deutsch, Englisch, Ukrainisch)',
+                'Repair-Skills: Laptop-Reparatur von Grund auf',
+                'Programmieren lernen (Python, JavaScript für Anfänger)',
+                'Digital Literacy für Geflüchtete (Asylorganisationen)',
+                'Hackathons & Community-Events',
+              ]}
+              capacity="20 Kursplätze, 500+ Teilnehmer/Jahr"
+              targetAudience="Geflüchtete, Arbeitslose, Quereinsteiger, Schüler"
+              sdgs={['SDG 4', 'SDG 8', 'SDG 10']}
+              estimatedCost={`${getSpaceCostDisplay('Training & Course Room')} (20× Computer, Möbel, AV-Equipment)`}
+            />
+
+            <CommunitySpaceCard
               icon="🖥️"
               title="Sovereign AI Lab"
               tagline="Lokale KI-Modelle hosten, trainieren, vermitteln"
@@ -330,100 +348,61 @@ export default function StrategiePage() {
             />
 
             <CommunitySpaceCard
-              icon="🎓"
-              title="Schulungs- & Hackerspace"
-              tagline="Digitale Kompetenzen für alle"
-              description="60 m² Schulungsraum mit 20 Arbeitsplätzen für Kurse, Workshops und offenes Tüfteln."
+              icon="☕"
+              title="Begegnungsraum & Café"
+              tagline="Tags Treffpunkt, abends Veranstaltungen"
+              description="130 m² flexibler Raum für 50-80 Personen. Tags offener Treffpunkt mit Café und Co-Working, abends Tech-Talks, Panels und Community-Events."
               type="core"
               activities={[
-                'Linux-Einführungskurse (Deutsch, Englisch, Ukrainisch)',
-                'Repair-Skills: Laptop-Reparatur von Grund auf',
-                'Programmieren lernen (Python, JavaScript für Anfänger)',
-                'Digital Literacy für Geflüchtete (Asylorganisationen)',
-                'Hackathons, Tech-Talks, Community-Events',
-              ]}
-              capacity="20 Kursplätze, 500+ Teilnehmer/Jahr"
-              targetAudience="Geflüchtete, Arbeitslose, Quereinsteiger, Schüler"
-              sdgs={['SDG 4', 'SDG 8', 'SDG 10']}
-              estimatedCost={`${getSpaceCostDisplay('Training & Course Room')} (20× Computer, Möbel, AV-Equipment)`}
-            />
-
-            <CommunitySpaceCard
-              icon="🎤"
-              title="Event- & Kulturraum"
-              tagline="Tags Café, abends Konzerte & Talks"
-              description="100 m² flexibler Raum für 50-80 Personen. Tags Co-Working & Café, abends Events, Konzerte, Filmabende."
-              type="core"
-              activities={[
-                'Tagsüber: Community Café & Co-Working (CHF 5/Tag)',
-                'Tech-Talks & Panels zu Nachhaltigkeit, KI, Open Source',
-                'Konzerte (elektronische Musik, Vintage-Synths)',
-                'Filmabende: Dokumentarfilme zu Tech & Gesellschaft',
+                'Tagsüber: Café, Co-Working & Tech-Support-Sprechstunde',
+                'Abends: Tech-Talks & Panels zu Nachhaltigkeit, KI, Open Source',
                 'Repair-Partys: Social + Reparatur + Musik',
+                'Community-Board für Projekte, Jobs, Gesuche',
+                'Offener Treffpunkt: Keine Konsumpflicht, WiFi, Steckdosen',
               ]}
               capacity="50-80 Personen, 2-3 Events/Woche"
-              targetAudience="Tech-Community, Nachbarschaft, Kulturinteressierte"
+              targetAudience="Alle — Tech-Community, Nachbarschaft, Kulturinteressierte"
               sdgs={['SDG 11', 'SDG 17']}
-              estimatedCost={`${getSpaceCostDisplay('Event Space + Community Café (MULTI-PURPOSE)')} (PA-Anlage, Möbel, Küche, Bar)`}
+              estimatedCost={`${getSpaceCostDisplay('Event Space + Community Café (MULTI-PURPOSE)')} (Möbel, Küche, PA-Anlage)`}
             />
 
             <CommunitySpaceCard
               icon="🏛️"
-              title="Museum & Kulturraum"
+              title="Technik-Museum"
               tagline="Computergeschichte zum Anfassen"
-              description="80 m² für Ausstellungen, E-Waste-Kunst und Vintage-Tech. Von Commodore 64 bis zur ersten Cray."
+              description="80 m² für eine permanente Ausstellung historischer Computer und Führungen für Schulklassen."
               type="core"
               activities={[
-                'Permanent: Computergeschichte-Ausstellung (Commodore, Amiga, NeXT)',
-                'Wechselausstellungen: E-Waste-Kunst, Tech-Fotografie',
-                'Vintage-Synth-Restaurierung & Konzerte',
+                'Permanente Ausstellung: Von Commodore 64 über Amiga bis NeXT',
                 'Führungen für Schulklassen (CHF 200/Klasse)',
                 'Depot für historische Hardware (Schenkungen)',
+                'Interaktive Stationen: Alte Systeme ausprobieren',
               ]}
               capacity="30-40 Besucher gleichzeitig"
-              targetAudience="Schulklassen, Tech-Nostalgiker, Kulturinteressierte"
-              sdgs={['SDG 11', 'SDG 4']}
+              targetAudience="Schulklassen, Tech-Nostalgiker, Familien"
+              sdgs={['SDG 4', 'SDG 11']}
               estimatedCost="CHF 50'000 (Vitrinen, Ausstellungskonzept, Objekte)"
-            />
-
-            <CommunitySpaceCard
-              icon="☕"
-              title="Community Café"
-              tagline="Niederschwelliger Treffpunkt"
-              description="30 m² Café-Bereich für Austausch, Networking und informelles Lernen."
-              type="core"
-              activities={[
-                'Fair-Trade-Kaffee & Snacks (kostendeckend)',
-                'Offener Treffpunkt: Keine Konsumpflicht',
-                'Tech-Support-Sprechstunde (Di + Do 14-17 Uhr)',
-                'Community-Board für Projekte, Jobs, Gesuche',
-                'WiFi, Steckdosen, informelles Coworking',
-              ]}
-              capacity="15-20 Sitzplätze"
-              targetAudience="Alle — niederschwelliger Zugang"
-              sdgs={['SDG 11']}
-              estimatedCost="CHF 30'000 (Café-Ausstattung, Möbel)"
             />
           </div>
         </div>
 
         {/* Expansion Spaces */}
         <div className="mb-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">✨ Mögliche Erweiterungen</h3>
-          <p className="text-sm text-gray-600 mb-6">
-            Diese Bereiche könnten den Hub einzigartig machen — abhängig von Funding, Partnerschaften und Community-Interesse.
+          <h3 className="text-2xl font-bold text-grey-dark mb-4">Mögliche Erweiterungen</h3>
+          <p className="text-sm text-text-light mb-6">
+            Vier Programmbereiche, die den Hub einzigartig machen könnten. Sie nutzen die Kernbereiche (Werkstatt, Begegnungsraum, Museum) als Infrastruktur — abhängig von Funding und Community-Interesse.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <CommunitySpaceCard
               icon="🎨"
               title="Kunst aus Elektroschrott"
               tagline="Skulpturen & Installationen"
-              description="Künstler:innen erschaffen aus ausrangierten Platinen, Gehäusen und Komponenten neue Kunstwerke."
+              description="Künstler:innen erschaffen aus ausrangierten Platinen, Gehäusen und Komponenten neue Kunstwerke — ausgestellt im Museum."
               type="expansion"
               activities={[
                 'Resident Artists: 3-6 Monate Atelierplatz',
                 'E-Waste-Art-Workshops für Schulen',
-                'Ausstellungen & Verkauf (50% für Künstler)',
+                'Wechselausstellungen & Verkauf',
               ]}
               targetAudience="Künstler, Schulen, Kunstinteressierte"
             />
@@ -432,13 +411,12 @@ export default function StrategiePage() {
               icon="🎹"
               title="Elektronische Musik"
               tagline="Synthesizer, Drum Machines"
-              description="Vintage-Synths restaurieren, Circuit-Bending, Modular-Synthese lernen und Live-Konzerte veranstalten."
+              description="Vintage-Synths restaurieren, Circuit-Bending lernen und Live-Konzerte im Begegnungsraum veranstalten."
               type="expansion"
               activities={[
                 'Synth-Restaurierung (Roland, Korg, Moog)',
-                'Circuit-Bending-Workshops',
-                'Modular-Synthese für Anfänger',
-                'Live-Konzerte & DJ-Sets',
+                'Circuit-Bending-Workshops in der Werkstatt',
+                'Live-Konzerte & DJ-Sets im Begegnungsraum',
               ]}
               targetAudience="Musiker, Elektronik-Fans"
             />
@@ -447,7 +425,7 @@ export default function StrategiePage() {
               icon="📖"
               title="Tech-Bibliothek"
               tagline="Bücher, Zines, Magazine"
-              description="Leseecke mit kuratierter Sammlung zu Technologie, Nachhaltigkeit, Maker-Kultur und digitaler Gesellschaft."
+              description="Kuratierte Sammlung zu Technologie, Nachhaltigkeit und Maker-Kultur — im Café-Bereich zugänglich."
               type="expansion"
               activities={[
                 'Bücher-Tausch & Spenden',
@@ -461,7 +439,7 @@ export default function StrategiePage() {
               icon="🎬"
               title="Filmabende & Diskussionen"
               tagline="Dokumentarfilme zu Tech & Gesellschaft"
-              description="Monatliche Filmabende mit anschliessender Diskussion zu Themen wie Überwachung, KI-Ethik, Klimakrise."
+              description="Monatliche Screenings mit anschliessender Diskussion im Begegnungsraum."
               type="expansion"
               activities={[
                 'Dokumentarfilm-Screenings (1×/Monat)',

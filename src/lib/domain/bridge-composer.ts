@@ -12,13 +12,8 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
 import { THEMES } from '@/lib/config/foundations';
 
-const TYPE_VERBS: Record<string, string> = {
-  A: 'fördert',
-  B: 'unterstützt',
-  C: 'engagiert sich für',
-  D: 'investiert in',
-  network: 'vernetzt Akteure im Bereich',
-};
+// NOTE: TYPE_VERBS removed (was unused). If needed for future bridge text variants,
+// rebuild from foundation type A/B/C/D → verb mapping.
 
 /**
  * Strip prefix and return the first meaningful sentence from a purposeSummary.

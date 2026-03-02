@@ -55,22 +55,22 @@ export default function CountdownTimer({ deadline, label, className = '' }: Coun
       <div className={`flex items-center justify-center gap-2 font-mono text-lg font-bold ${urgentClass}`}>
         <div className="flex flex-col items-center">
           <span>{timeLeft.days}</span>
-          <span className="text-[10px] font-normal text-text-muted">Tage</span>
+          <span className="text-xs font-normal text-text-muted">Tage</span>
         </div>
         <span>:</span>
         <div className="flex flex-col items-center">
           <span>{String(timeLeft.hours).padStart(2, '0')}</span>
-          <span className="text-[10px] font-normal text-text-muted">Std</span>
+          <span className="text-xs font-normal text-text-muted">Std</span>
         </div>
         <span>:</span>
         <div className="flex flex-col items-center">
           <span>{String(timeLeft.minutes).padStart(2, '0')}</span>
-          <span className="text-[10px] font-normal text-text-muted">Min</span>
+          <span className="text-xs font-normal text-text-muted">Min</span>
         </div>
         <span>:</span>
         <div className="flex flex-col items-center">
           <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
-          <span className="text-[10px] font-normal text-text-muted">Sek</span>
+          <span className="text-xs font-normal text-text-muted">Sek</span>
         </div>
       </div>
     </div>

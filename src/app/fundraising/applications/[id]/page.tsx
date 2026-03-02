@@ -12,8 +12,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { APPLICATION_STATUSES, getStatusConfig } from '@/lib/config/application-statuses';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
-import type { Application, Foundation } from '@/lib/db/schema';
-import { formatCHF } from '@/lib/utils/format';
+import type { Application, FoundationRow } from '@/lib/db/schema';
+
 
 interface ApplicationDetailProps {
   params: {
@@ -25,7 +25,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   const router = useRouter();
   const [data, setData] = useState<{
     application: Application;
-    foundation: Foundation | null;
+    foundation: FoundationRow | null;
   } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -56,7 +56,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         const response = await fetch(`/api/applications/${params.id}`);
         const result = await response.json();
         if (result.success) {
-          const { application, foundation } = result.data;
+          const { application } = result.data;
           setData(result.data);
           // Init edit state
           setStatus(application.status);
@@ -217,7 +217,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         <div className="rounded-xl border border-border bg-white p-6 space-y-5">
           <h2 className="font-semibold text-grey-dark">Gesuchsinformationen</h2>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className={labelClass}>Status</label>
               <select value={status} onChange={(e) => setStatus(e.target.value)} className={inputClass}>
@@ -238,7 +238,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className={labelClass}>Beantragt (CHF)</label>
               <input
@@ -261,7 +261,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className={labelClass}>Zuständig</label>
               <input
@@ -299,7 +299,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         {/* Timeline */}
         <div className="rounded-xl border border-border bg-white p-6 space-y-5">
           <h2 className="font-semibold text-grey-dark">Timeline</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className={labelClass}>Kontaktdatum</label>
               <input type="date" value={contactDate} onChange={(e) => setContactDate(e.target.value)} className={inputClass} />
@@ -354,7 +354,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         {foundation && (
           <div className="rounded-xl border border-border bg-white p-6 space-y-3">
             <h2 className="font-semibold text-grey-dark">Stiftung</h2>
-            <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">Website</p>
                 {foundation.websiteUrl ? (

@@ -18,7 +18,7 @@ export interface ToCItem {
 const STATUS_INDICATOR: Record<ToCItemStatus, string> = {
   measured: 'bg-success',
   estimated: 'bg-warning',
-  missing: 'bg-gray-400',
+  missing: 'bg-grey-medium',
 };
 
 export function ToCColumn({
@@ -117,7 +117,7 @@ export function ImpactStoryCards({
             <h3 className="font-semibold">Soziale Integration</h3>
           </div>
           <div className="p-4">
-            <div className="mb-2 text-3xl font-bold text-gray-400">?</div>
+            <div className="mb-2 text-3xl font-bold text-text-muted">?</div>
             <p className="mb-2 text-sm text-text-muted">Praktikant:innen & Teilnehmende</p>
             <Badge variant="none">Nicht erfasst</Badge>
             <div className="mt-3 rounded-lg bg-red-50 p-3">

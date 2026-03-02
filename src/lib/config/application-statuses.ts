@@ -10,7 +10,7 @@ export const APPLICATION_STATUSES = [
     id: 'prospect',
     label: 'Interessant',
     description: 'Potenzielle Stiftungen, die wir ansprechen wollen',
-    color: 'bg-gray-100 text-gray-700 border-gray-300',
+    color: 'bg-bg-light text-grey-dark border-border',
   },
   {
     id: 'research',
@@ -64,7 +64,7 @@ export const APPLICATION_STATUSES = [
     id: 'withdrawn',
     label: 'Zurückgezogen',
     description: 'Gesuch von uns zurückgezogen',
-    color: 'bg-gray-100 text-gray-600 border-gray-300',
+    color: 'bg-bg-light text-text-light border-border',
   },
   {
     id: 'onhold',
@@ -86,7 +86,7 @@ export const PRIORITY_COLORS: Record<number, string> = {
   4: 'bg-green-100 text-green-700',
 };
 
-export const PRIORITY_COLOR_DEFAULT = 'bg-gray-100 text-gray-500';
+export const PRIORITY_COLOR_DEFAULT = 'bg-bg-light text-text-muted';
 
 export function getPriorityColor(level: number | null): string {
   if (level === null) return PRIORITY_COLOR_DEFAULT;
@@ -104,7 +104,7 @@ export function getStatusConfig(statusId: ApplicationStatusId) {
  * Get color classes for status badge
  */
 export function getStatusColor(statusId: ApplicationStatusId): string {
-  return getStatusConfig(statusId)?.color || 'bg-gray-100 text-gray-700';
+  return getStatusConfig(statusId)?.color || 'bg-bg-light text-grey-dark';
 }
 
 /**

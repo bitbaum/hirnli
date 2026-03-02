@@ -72,7 +72,7 @@ export const TIER_COLORS: Record<QualityTier, string> = {
   recherchiert: 'bg-blue-100 text-blue-800',
   profiliert: 'bg-amber-100 text-amber-700',
   erfasst: 'bg-grey-light text-text-muted',
-  verzeichnet: 'bg-gray-100 text-gray-400',
+  verzeichnet: 'bg-bg-light text-text-muted',
 };
 
 export const TIER_DESCRIPTIONS: Record<QualityTier, string> = {

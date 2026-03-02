@@ -195,7 +195,7 @@ export default function WirkungClient() {
           <CardTitle>Datenabdeckung</CardTitle>
           <p className="text-sm text-text-muted">Wie viel unserer Wirkung können wir messen?</p>
         </CardHeader>
-        <div className="mb-2 h-3 w-full overflow-hidden rounded-full bg-gray-200">
+        <div className="mb-2 h-3 w-full overflow-hidden rounded-full bg-grey-light">
           <div className="h-full rounded-full bg-gradient-to-r from-warning to-amber-400" style={{ width: '25%' }} />
         </div>
         <div className="flex justify-between text-xs text-text-muted">
@@ -235,7 +235,7 @@ export default function WirkungClient() {
                   ? 'border-l-4 border-l-danger'
                   : step.priority === 'medium'
                     ? 'border-l-4 border-l-warning'
-                    : 'border-l-4 border-l-gray-300'
+                    : 'border-l-4 border-l-border'
               }`}
             >
               <h4 className="mb-1 text-sm font-semibold text-grey-dark">{step.label}</h4>

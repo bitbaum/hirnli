@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { customizationRules } from '@/lib/db/schema';
-import { eq, desc } from 'drizzle-orm';
+import { eq, desc, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
     const rules = await db
       .select()
       .from(customizationRules)
-      .where(conditions.length > 0 ? conditions[0] : undefined)
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
       .orderBy(desc(customizationRules.priority));
 
     return NextResponse.json({
@@ -103,11 +103,10 @@ export async function POST(request: NextRequest) {
 
     const data = validation.data;
 
-    // Create rule
+    // Create rule — omit createdAt (DB defaultNow())
     const newRule = {
       id: nanoid(),
       ...data,
-      createdAt: new Date().toISOString(),
     };
 
     await db.insert(customizationRules).values(newRule);

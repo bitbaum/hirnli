@@ -33,11 +33,13 @@ interface DataQualityIssue {
  */
 export async function GET(request: NextRequest) {
   // Security: Verify cron secret
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) {
+    return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+  }
   const authHeader = request.headers.get('authorization');
-  const expectedAuth = `Bearer ${process.env.CRON_SECRET}`;
-
-  if (authHeader !== expectedAuth) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (authHeader !== `Bearer ${cronSecret}`) {
+    return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -95,6 +97,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check 3: Outdated research (>6 months for high-fit foundations)
+    // researchDate is text (ISO date string) — text comparison works for ISO dates
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
     const sixMonthsAgoStr = sixMonthsAgo.toISOString().split('T')[0];
@@ -127,7 +130,6 @@ export async function GET(request: NextRequest) {
     // Check 4: Stuck applications (no status change in 30 days)
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const thirtyDaysAgoStr = thirtyDaysAgo.toISOString();
 
     const stuckApplications = await db
       .select({
@@ -138,7 +140,7 @@ export async function GET(request: NextRequest) {
       .leftJoin(foundations, eq(applications.foundationId, foundations.id))
       .where(
         and(
-          lt(applications.updatedAt, thirtyDaysAgoStr),
+          lt(applications.updatedAt, thirtyDaysAgo),
           eq(applications.status, 'draft')
         )
       );

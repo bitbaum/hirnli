@@ -10,7 +10,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { ApplicationCard } from './ApplicationCard';
 import { formatCHF } from '@/lib/utils/format';
-import type { Application, Foundation } from '@/lib/db/schema';
+import type { Application, FoundationRow } from '@/lib/db/schema';
 
 interface ColumnProps {
   status: {
@@ -21,7 +21,7 @@ interface ColumnProps {
   };
   applications: Array<{
     application: Application;
-    foundation: Foundation | null;
+    foundation: FoundationRow | null;
   }>;
   onDeleted: (id: string) => void;
   onUpdated: (updated: Application) => void;
@@ -50,7 +50,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
         {totalAmount > 0 && (
           <div className="text-xs font-medium text-gray-500">{formatCHF(totalAmount)}</div>
         )}
-        <p className="mt-0.5 text-[11px] text-gray-400">{status.description}</p>
+        <p className="mt-0.5 text-xs text-text-muted">{status.description}</p>
       </div>
 
       {/* Droppable area */}

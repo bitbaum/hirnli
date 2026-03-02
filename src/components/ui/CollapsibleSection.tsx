@@ -26,12 +26,12 @@ export default function CollapsibleSection({
         <span className="flex items-center gap-1.5">
           {title}
           {count !== undefined && (
-            <span className="rounded-full bg-grey-light px-1.5 py-0.5 text-[10px] font-medium normal-case tracking-normal text-text-muted">
+            <span className="rounded-full bg-grey-light px-1.5 py-0.5 text-xs font-medium normal-case tracking-normal text-text-muted">
               {count}
             </span>
           )}
         </span>
-        <span className="text-[10px]">{open ? '▾' : '▸'}</span>
+        <span className="text-xs">{open ? '▾' : '▸'}</span>
       </button>
       {open && <div className="pb-1 pt-1">{children}</div>}
     </div>

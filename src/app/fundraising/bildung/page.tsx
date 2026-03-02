@@ -364,7 +364,7 @@ export default function BildungPage() {
               Hub bietet <strong>Infrastruktur</strong> (Werkstatt, Schulungsräume, Equipment).
               Bildungsprogrammleiter:innen bieten <strong>Know-how-Multiplikation</strong> (Train-the-Trainer).
             </p>
-            <div className="grid grid-cols-2 gap-3 mb-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <div className="bg-white rounded-lg p-3 text-center">
                 <div className="text-2xl font-bold text-emerald-900">480</div>
                 <div className="text-xs text-emerald-700">Geräte/Jahr (Hub)</div>

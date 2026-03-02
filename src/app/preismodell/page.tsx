@@ -36,7 +36,7 @@ export default function PreismodellPage() {
           <strong>Unser Grundsatz:</strong> IT-Zugang ist ein Grundrecht. Niemand soll wegen Geld
           keinen funktionierenden Computer haben.
         </p>
-        <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-3 text-sm text-text-light">
           <strong>Wichtig:</strong> Wir bieten <strong>kostenlose Laptops</strong> an soziale Organisationen
           wie AOZ, Caritas, Solinetz für deren Klient:innen. Dies wird durch Stiftungsgelder finanziert.
           Zahlende Kund:innen finanzieren unsere Betriebskosten (Operations).
@@ -159,7 +159,7 @@ export default function PreismodellPage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Werde Supporter</h2>
         <Card className="border-2 border-violet-500 bg-gradient-to-br from-violet-50 to-white">
           <div className="flex flex-wrap items-center gap-8">
-            <div className="min-w-[280px] flex-1">
+            <div className="min-w-0 flex-1 sm:min-w-[280px]">
               <h3 className="mb-3 text-lg font-semibold text-violet-600">
                 Mehr zahlen, mehr ermöglichen
               </h3>

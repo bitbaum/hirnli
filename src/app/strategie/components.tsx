@@ -17,7 +17,7 @@ export function GeschichteSection() {
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unsere Geschichte</h2>
       <Card>
         <div className="flex flex-wrap gap-8">
-          <div className="min-w-[300px] flex-[2]">
+          <div className="min-w-0 flex-[2] sm:min-w-[300px]">
             <h3 className="mt-0 text-lg font-semibold text-primary">Gegründet Dezember 2003</h3>
             <p className="mt-2 text-sm text-text-light">
               Revamp-IT wurde im Dezember 2003 in Zürich gegründet – geboren aus einer einfachen Beobachtung:

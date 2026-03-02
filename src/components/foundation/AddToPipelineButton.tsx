@@ -45,16 +45,16 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
         </p>
 
         {/* Step trail — shows where the fundraiser is in the process */}
-        <div className="flex flex-wrap items-center gap-1 text-[11px]">
+        <div className="flex flex-wrap items-center gap-1 text-xs">
           {STEPS.map((step, i) => (
             <span key={step} className="flex items-center gap-1">
               <span className={i === 0
-                ? 'rounded bg-green-100 px-2 py-0.5 font-semibold text-green-700'
-                : 'rounded bg-gray-100 px-2 py-0.5 text-gray-500'
+                ? 'rounded bg-success-bg px-2 py-0.5 font-semibold text-green-700'
+                : 'rounded bg-bg-light px-2 py-0.5 text-text-muted'
               }>
                 {i === 0 ? `✓ ${step}` : step}
               </span>
-              {i < STEPS.length - 1 && <span className="text-gray-400">→</span>}
+              {i < STEPS.length - 1 && <span className="text-text-muted">→</span>}
             </span>
           ))}
         </div>

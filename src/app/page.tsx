@@ -29,9 +29,9 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <section className="mb-12">
-        <div className="rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-12 text-white">
-          <h1 className="text-5xl font-bold mb-6">Willkommen bei {ORG_PROFILE.platform.name}</h1>
-          <p className="text-2xl mb-8 leading-relaxed">
+        <div className="rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-6 text-white md:p-12">
+          <h1 className="text-3xl font-bold mb-6 md:text-5xl">Willkommen bei {ORG_PROFILE.platform.name}</h1>
+          <p className="text-lg mb-8 leading-relaxed md:text-2xl">
             <strong>Transparenz-Hub für {ORG_PROFILE.name}:</strong> Alle Daten, alle Quellen, komplett transparent.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">

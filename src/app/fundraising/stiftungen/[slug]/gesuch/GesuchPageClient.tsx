@@ -156,7 +156,7 @@ export default function GesuchPageClient({
           <p className="text-sm text-text-muted leading-relaxed line-clamp-3">{heroDescription}</p>
         )}
         {foundationData.tagline && (
-          <p className="mt-2 text-sm italic text-text-muted">„{foundationData.tagline}"</p>
+          <p className="mt-2 text-sm italic text-text-muted">&bdquo;{foundationData.tagline}&ldquo;</p>
         )}
       </div>
 

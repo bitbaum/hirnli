@@ -21,7 +21,7 @@ const COLORS: Record<string, string> = {
   orange: 'bg-orange-100 text-orange-700',
   pink: 'bg-pink-100 text-pink-700',
   teal: 'bg-teal-100 text-teal-700',
-  gray: 'bg-gray-100 text-gray-700',
+  gray: 'bg-bg-light text-grey-dark',
   indigo: 'bg-indigo-100 text-indigo-700',
   yellow: 'bg-yellow-100 text-yellow-700',
   red: 'bg-red-100 text-red-700',
