@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { AI_PRESETS } from '@/lib/config/ai-presets';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { WhySection, TrackRecord } from '@/lib/schemas/story';
 
@@ -25,15 +26,6 @@ interface GesuchEditPanelProps {
     fieldDescription?: string;
   }) => Promise<string | null>;
 }
-
-// Most common AI editing tasks — one click sends directly
-const AI_PRESETS = [
-  { label: 'Kürzer', instruction: 'Kürze auf maximal 2 Sätze, behalte den Kern' },
-  { label: 'Auf Stiftung fokussieren', instruction: 'Passe den Text noch besser auf den Stiftungszweck und die Förderbereiche dieser Stiftung an' },
-  { label: 'Überzeugender', instruction: 'Mache den Text überzeugender — stärker, handlungsorientierter, mit klarem Nutzen für die Stiftung' },
-  { label: 'Mehr Zahlen', instruction: 'Integriere konkrete Zahlen und messbare Fakten aus dem Kontext (z.B. 150 Geräte, 285 kg CO₂, 75% Reuse-Rate)' },
-  { label: 'Formeller', instruction: 'Schreibe formeller — für ein offizielles Schweizer Fördergesuch' },
-];
 
 interface FieldRowProps {
   label: string;

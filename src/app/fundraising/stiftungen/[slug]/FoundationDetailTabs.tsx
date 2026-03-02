@@ -55,7 +55,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
       {banner && (
         <div className={`mb-4 rounded-lg border px-4 py-3 text-sm font-medium ${banner.className}`}>
           {banner.text}
-          <span className="ml-2 rounded-full bg-white/50 px-2 py-0.5 text-[10px] font-bold uppercase">
+          <span className="ml-2 rounded-full bg-white/50 px-2 py-0.5 text-xs font-bold uppercase">
             {TIER_LABELS[tier]}
           </span>
         </div>

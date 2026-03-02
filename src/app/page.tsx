@@ -71,7 +71,7 @@ export default function HomePage() {
                 className="block rounded-xl border border-border bg-white p-4 hover:border-primary/30 hover:shadow-md transition-all"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-bold bg-danger-bg text-danger rounded px-1.5 py-0.5">P{f.priority}</span>
+                  <span className="text-xs font-bold bg-danger-bg text-danger rounded px-1.5 py-0.5">P{f.priority}</span>
                   <span className="text-xs font-bold text-success">{(FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG])?.stars ?? '☆☆☆'}</span>
                 </div>
                 <p className="font-semibold text-grey-dark text-sm">{f.name}</p>
@@ -232,6 +232,25 @@ export default function HomePage() {
                 {TEAM_MEMBERS.length} Menschen arbeiten bei uns: Leitung, Techniker, Betrieb — plus geplante Bildungsprogrammleiter.
               </p>
               <div className="text-xs text-pink-600 font-semibold">→ Team kennenlernen</div>
+            </Card>
+          </Link>
+
+          {/* Wie wir arbeiten */}
+          <Link href="/wie-wir-arbeiten" className="block group">
+            <Card className="border-l-4 border-l-cyan-500 hover:shadow-lg transition-shadow duration-200">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <div className="text-3xl" aria-hidden="true">🔧</div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-grey-dark group-hover:text-cyan-600">Wie wir arbeiten</h3>
+                    <Badge color="cyan">Kaskade</Badge>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-text-light mb-3">
+                Die Wertschöpfungskaskade: Refurbishing → Ersatzteile → Recycling. Maximale Wertschöpfung pro Gerät.
+              </p>
+              <div className="text-xs text-cyan-600 font-semibold">→ Methode verstehen</div>
             </Card>
           </Link>
 

@@ -41,7 +41,7 @@ export default function ApproachChecklist({ steps, readiness }: ApproachChecklis
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium text-grey-dark">{step.action}</span>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_STYLES[step.status]}`}
+                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${STATUS_STYLES[step.status]}`}
                   >
                     {STATUS_LABELS[step.status]}
                   </span>

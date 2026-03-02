@@ -1,5 +1,6 @@
 'use client';
 
+import { FORM_INPUT_CLASS } from '@/lib/utils/form-classes';
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { FoundationFilters, SortField } from '@/lib/domain/foundation-filter';
@@ -85,7 +86,7 @@ export default function FilterSidebar({
           placeholder="Stiftung suchen..."
           value={filters.search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className={FORM_INPUT_CLASS}
         />
       </div>
 
@@ -94,7 +95,7 @@ export default function FilterSidebar({
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value as SortField)}
-          className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className={FORM_INPUT_CLASS}
         >
           {sortOptions.map((opt) => (
             <option key={opt.value} value={opt.value}>

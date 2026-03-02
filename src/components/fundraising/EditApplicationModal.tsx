@@ -9,11 +9,12 @@
 
 import { useState } from 'react';
 import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
-import type { Application, Foundation } from '@/lib/db/schema';
+import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
+import type { Application, FoundationRow } from '@/lib/db/schema';
 
 interface EditApplicationModalProps {
   application: Application;
-  foundation: Foundation | null;
+  foundation: FoundationRow | null;
   onClose: () => void;
   onSaved: (updated: Application) => void;
 }
@@ -131,15 +132,15 @@ export function EditApplicationModal({
           )}
 
           {/* Status + Priority row */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Status
               </label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               >
                 {APPLICATION_STATUSES.map((s) => (
                   <option key={s.id} value={s.id}>
@@ -149,13 +150,13 @@ export function EditApplicationModal({
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Priorität
               </label>
               <select
                 value={priorityLevel}
                 onChange={(e) => setPriorityLevel(e.target.value)}
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               >
                 <option value="">—</option>
                 <option value="1">P1 — Jetzt</option>
@@ -167,9 +168,9 @@ export function EditApplicationModal({
           </div>
 
           {/* Amounts row */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Beantragt (CHF)
               </label>
               <input
@@ -177,11 +178,11 @@ export function EditApplicationModal({
                 value={requestedAmount}
                 onChange={(e) => setRequestedAmount(e.target.value)}
                 placeholder="z.B. 50000"
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Zugesagt (CHF)
               </label>
               <input
@@ -189,15 +190,15 @@ export function EditApplicationModal({
                 value={awardedAmount}
                 onChange={(e) => setAwardedAmount(e.target.value)}
                 placeholder="—"
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               />
             </div>
           </div>
 
           {/* Assigned + Focus row */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Zuständig
               </label>
               <input
@@ -205,11 +206,11 @@ export function EditApplicationModal({
                 value={assignedTo}
                 onChange={(e) => setAssignedTo(e.target.value)}
                 placeholder="Name"
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Projektfokus
               </label>
               <input
@@ -217,62 +218,62 @@ export function EditApplicationModal({
                 value={projectFocus}
                 onChange={(e) => setProjectFocus(e.target.value)}
                 placeholder="z.B. Hub-Einrichtung"
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               />
             </div>
           </div>
 
           {/* Dates */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Kontaktdatum
               </label>
               <input
                 type="date"
                 value={contactDate}
                 onChange={(e) => setContactDate(e.target.value)}
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Eingereicht am
               </label>
               <input
                 type="date"
                 value={submissionDate}
                 onChange={(e) => setSubmissionDate(e.target.value)}
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Entscheidung erwartet
               </label>
               <input
                 type="date"
                 value={decisionExpected}
                 onChange={(e) => setDecisionExpected(e.target.value)}
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 Entscheidung erhalten
               </label>
               <input
                 type="date"
                 value={decisionDate}
                 onChange={(e) => setDecisionDate(e.target.value)}
-                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
               />
             </div>
           </div>
 
           {/* Notes */}
           <div>
-            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+            <label className={FORM_LABEL_CLASS}>
               Notizen
             </label>
             <textarea
@@ -280,7 +281,7 @@ export function EditApplicationModal({
               onChange={(e) => setCustomizationNotes(e.target.value)}
               rows={3}
               placeholder="Interne Notizen, Anpassungen, Besonderheiten..."
-              className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className={FORM_INPUT_CLASS}
             />
           </div>
 
@@ -300,7 +301,7 @@ export function EditApplicationModal({
                     onChange={(e) => setSuccessFactors(e.target.value)}
                     rows={2}
                     placeholder="Was hat zum Erfolg beigetragen?"
-                    className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                    className={FORM_INPUT_CLASS}
                   />
                 </div>
               )}
@@ -314,7 +315,7 @@ export function EditApplicationModal({
                     onChange={(e) => setRejectionReason(e.target.value)}
                     rows={2}
                     placeholder="Warum wurde das Gesuch abgelehnt?"
-                    className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                    className={FORM_INPUT_CLASS}
                   />
                 </div>
               )}

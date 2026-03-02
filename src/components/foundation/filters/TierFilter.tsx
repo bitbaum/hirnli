@@ -35,7 +35,7 @@ export default function TierFilter({ activeTier, tierCounts, onSelect }: TierFil
             </button>
           );
         })}
-        <p className="mt-1 text-[10px] text-text-muted">
+        <p className="mt-1 text-xs text-text-muted">
           Zeigt alle Stiftungen ab gewählter Stufe.
         </p>
       </div>

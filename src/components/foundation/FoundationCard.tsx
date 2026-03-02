@@ -33,7 +33,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-bold leading-none ${PRIORITY_BADGE[f.priority] || PRIORITY_BADGE[4]}`}
+              className={`inline-flex items-center rounded px-1.5 py-0.5 text-xs font-bold leading-none ${PRIORITY_BADGE[f.priority] || PRIORITY_BADGE[4]}`}
             >
               P{f.priority}
             </span>
@@ -42,12 +42,12 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
               {FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? FIT_CONFIG[0].stars}
             </span>
             {score != null && (
-              <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">
+              <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
                 {Math.round(score * 100)}% Relevanz
               </span>
             )}
             {inPipeline && (
-              <span className="rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-semibold text-violet-700">
+              <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-semibold text-violet-700">
                 In Pipeline
               </span>
             )}
@@ -75,7 +75,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
           {f.deadlineText && f.deadlineText !== 'Unbekannt' && (
             <span>{f.deadlineText}</span>
           )}
-          <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium ${TIER_COLORS[tier]}`}>
+          <span className={`rounded-full px-1.5 py-0.5 text-xs font-medium ${TIER_COLORS[tier]}`}>
             {TIER_LABELS[tier]}
           </span>
         </div>

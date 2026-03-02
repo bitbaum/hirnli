@@ -29,7 +29,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         <p className="mt-2 text-xs text-text-muted">{TIER_DESCRIPTIONS[tier]}</p>
         {promotion.nextTier && promotion.missingFields.length > 0 && (
           <div className="mt-3 border-t border-border pt-3">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">
+            <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">
               Nächste Stufe: {TIER_LABELS[promotion.nextTier]}
             </p>
             <ul className="mt-1 space-y-0.5 text-xs text-text-muted">

@@ -51,7 +51,7 @@ export default function SchwerpunktDiscovery({
             </div>
             <div className="space-y-0.5">
               {topNames.map((name) => (
-                <p key={name} className="truncate text-[10px] text-text-light">
+                <p key={name} className="truncate text-xs text-text-light">
                   {name}
                 </p>
               ))}

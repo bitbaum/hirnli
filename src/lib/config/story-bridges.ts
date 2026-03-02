@@ -86,10 +86,10 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       icon: '👥',
     },
     {
-      title: 'Wirkung',
-      href: '/wirkung',
-      reason: 'Welchen Impact wir schaffen',
-      icon: '🌱',
+      title: 'Wie wir arbeiten',
+      href: '/wie-wir-arbeiten',
+      reason: 'Die Wertschöpfungskaskade im Detail',
+      icon: '🔧',
     },
     {
       title: 'Preismodell',
@@ -117,6 +117,27 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       href: '/strategie',
       reason: 'Unsere Vision & Mission',
       icon: '🎯',
+    },
+  ],
+
+  'wie-wir-arbeiten': [
+    {
+      title: 'Operations',
+      href: '/operations',
+      reason: 'SOPs und Prozesse im Detail',
+      icon: '⚙️',
+    },
+    {
+      title: 'Wirkung',
+      href: '/wirkung',
+      reason: 'Der Impact unserer Kaskade in Zahlen',
+      icon: '🌱',
+    },
+    {
+      title: 'Fundraising',
+      href: '/fundraising',
+      reason: 'Was Förderung zusätzlich ermöglicht',
+      icon: '🏛️',
     },
   ],
 
@@ -149,10 +170,10 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
       icon: '💰',
     },
     {
-      title: 'Preismodell',
-      href: '/preismodell',
-      reason: 'Wie wir Zugang ermöglichen',
-      icon: '🏷️',
+      title: 'Wie wir arbeiten',
+      href: '/wie-wir-arbeiten',
+      reason: 'Warum unsere Impact-Zahlen so hoch sind',
+      icon: '🔧',
     },
     {
       title: 'Methodik',

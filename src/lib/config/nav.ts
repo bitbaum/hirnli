@@ -63,6 +63,7 @@ export const NAV_STRUCTURE: {
       children: [
         { text: 'Mission & Strategie', href: '/strategie', desc: 'Warum wir existieren & was wir erreichen wollen' },
         { text: 'Team', href: '/team', desc: 'Wer wir sind & wie wir arbeiten' },
+        { text: 'Wie wir arbeiten', href: '/wie-wir-arbeiten', desc: 'Die Wertschöpfungskaskade — maximale Wertschöpfung pro Gerät' },
         { text: `Finanzen ${FINANCIAL_YEAR_RANGE}`, href: '/finanzen', desc: `Transparente Einnahmen & Ausgaben (${FINANCIAL_YEAR_LABEL})` },
         { text: 'Wirkung & Impact', href: '/wirkung', desc: 'CO₂ eingespart, Geräte refurbiert, Menschen erreicht' },
         { text: 'Preismodell', href: '/preismodell', desc: 'Solidarische Preise (4 Stufen nach Einkommen)' },

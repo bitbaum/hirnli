@@ -30,7 +30,7 @@ export default function SimilarFoundations({ similar }: SimilarFoundationsProps)
             </div>
             <div className="mt-1 flex flex-wrap gap-1">
               {reasons.slice(0, 2).map((reason) => (
-                <span key={reason} className="text-[10px] text-text-muted">
+                <span key={reason} className="text-xs text-text-muted">
                   {reason}
                 </span>
               ))}

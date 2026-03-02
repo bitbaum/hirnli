@@ -12,12 +12,13 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import Link from 'next/link';
 import { EditApplicationModal } from './EditApplicationModal';
+import { getPriorityColor } from '@/lib/config/application-statuses';
 import { formatCHF } from '@/lib/utils/format';
-import type { Application, Foundation } from '@/lib/db/schema';
+import type { Application, FoundationRow } from '@/lib/db/schema';
 
 interface ApplicationCardProps {
   application: Application;
-  foundation: Foundation | null;
+  foundation: FoundationRow | null;
   onDeleted: (id: string) => void;
   onUpdated: (updated: Application) => void;
 }
@@ -56,16 +57,6 @@ export function ApplicationCard({
       month: '2-digit',
       year: '2-digit',
     });
-  };
-
-  const priorityColor = (level: number | null) => {
-    switch (level) {
-      case 1: return 'bg-red-100 text-red-700';
-      case 2: return 'bg-orange-100 text-orange-700';
-      case 3: return 'bg-yellow-100 text-yellow-700';
-      case 4: return 'bg-green-100 text-green-700';
-      default: return 'bg-gray-100 text-gray-500';
-    }
   };
 
   // Deadline urgency colour
@@ -185,7 +176,7 @@ export function ApplicationCard({
           {(application.priorityLevel || application.assignedTo) && (
             <div className="mt-2 flex items-center justify-between">
               {application.priorityLevel && (
-                <span className={`rounded px-1.5 py-0.5 text-[11px] font-semibold ${priorityColor(application.priorityLevel)}`}>
+                <span className={`rounded px-1.5 py-0.5 text-xs font-semibold ${getPriorityColor(application.priorityLevel)}`}>
                   P{application.priorityLevel}
                 </span>
               )}

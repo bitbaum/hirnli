@@ -8,73 +8,90 @@
 export const APPLICATION_STATUSES = [
   {
     id: 'prospect',
-    label: 'Prospects',
-    description: 'Potential foundations to approach',
+    label: 'Interessant',
+    description: 'Potenzielle Stiftungen, die wir ansprechen wollen',
     color: 'bg-gray-100 text-gray-700 border-gray-300',
   },
   {
     id: 'research',
-    label: 'Recherche',
-    description: 'Researching foundation fit and requirements',
+    label: 'In Recherche',
+    description: 'Stiftungs-Fit und Anforderungen werden geprüft',
     color: 'bg-blue-100 text-blue-700 border-blue-300',
   },
   {
     id: 'draft',
     label: 'Entwurf',
-    description: 'Drafting application materials',
+    description: 'Gesuch wird erarbeitet',
     color: 'bg-purple-100 text-purple-700 border-purple-300',
   },
   {
     id: 'review',
-    label: 'Prüfung',
-    description: 'Internal review before submission',
+    label: 'In Prüfung',
+    description: 'Interne Prüfung vor der Einreichung',
     color: 'bg-yellow-100 text-yellow-700 border-yellow-300',
   },
   {
     id: 'submitted',
-    label: 'Eingereicht',
-    description: 'Application submitted to foundation',
+    label: 'Eingereicht (extern)',
+    description: 'Gesuch wurde an die Stiftung gesendet',
     color: 'bg-indigo-100 text-indigo-700 border-indigo-300',
   },
   {
     id: 'pending',
-    label: 'Ausstehend',
-    description: 'Awaiting decision from foundation',
+    label: 'Entscheidung ausstehend',
+    description: 'Wir warten auf die Entscheidung der Stiftung',
     color: 'bg-orange-100 text-orange-700 border-orange-300',
   },
   {
     id: 'followup',
     label: 'Nachfassen',
-    description: 'Follow-up needed',
+    description: 'Nachfassen erforderlich',
     color: 'bg-pink-100 text-pink-700 border-pink-300',
   },
   {
     id: 'accepted',
-    label: 'Angenommen',
-    description: 'Application accepted - funding secured',
+    label: 'Zugesagt ✓',
+    description: 'Förderung zugesagt',
     color: 'bg-green-100 text-green-700 border-green-300',
   },
   {
     id: 'rejected',
     label: 'Abgelehnt',
-    description: 'Application rejected',
+    description: 'Gesuch wurde abgelehnt',
     color: 'bg-red-100 text-red-700 border-red-300',
   },
   {
     id: 'withdrawn',
     label: 'Zurückgezogen',
-    description: 'Application withdrawn by us',
+    description: 'Gesuch von uns zurückgezogen',
     color: 'bg-gray-100 text-gray-600 border-gray-300',
   },
   {
     id: 'onhold',
     label: 'Pausiert',
-    description: 'Application on hold',
+    description: 'Gesuch pausiert — wird später weiterverfolgt',
     color: 'bg-slate-100 text-slate-600 border-slate-300',
   },
 ] as const;
 
 export type ApplicationStatusId = typeof APPLICATION_STATUSES[number]['id'];
+
+/**
+ * Priority level colors — SSOT for P1-P4 badge styling
+ */
+export const PRIORITY_COLORS: Record<number, string> = {
+  1: 'bg-red-100 text-red-700',
+  2: 'bg-orange-100 text-orange-700',
+  3: 'bg-yellow-100 text-yellow-700',
+  4: 'bg-green-100 text-green-700',
+};
+
+export const PRIORITY_COLOR_DEFAULT = 'bg-gray-100 text-gray-500';
+
+export function getPriorityColor(level: number | null): string {
+  if (level === null) return PRIORITY_COLOR_DEFAULT;
+  return PRIORITY_COLORS[level] ?? PRIORITY_COLOR_DEFAULT;
+}
 
 /**
  * Get status configuration by ID

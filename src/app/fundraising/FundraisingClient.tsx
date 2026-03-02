@@ -446,7 +446,7 @@ export default function FundraisingClient() {
             >
               <div className="text-xl font-bold tabular-nums text-grey-dark">{item.value}</div>
               <div className="text-xs font-medium text-text-muted">{item.label}</div>
-              <div className="text-[10px] text-text-muted">{item.sub}</div>
+              <div className="text-xs text-text-muted">{item.sub}</div>
             </Inspectable>
           ))}
         </div>

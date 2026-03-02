@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { FORM_INPUT_CLASS } from '@/lib/utils/form-classes';
 import PageHeader from '@/components/layout/PageHeader';
 import FoundationCard from '@/components/foundation/FoundationCard';
 import FilterSidebar from '@/components/foundation/FilterSidebar';
@@ -154,7 +155,7 @@ export default function FoundationListClient() {
           placeholder="Stiftung suchen..."
           value={filters.search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className={FORM_INPUT_CLASS}
         />
         <div className="flex items-center gap-2">
           <select
