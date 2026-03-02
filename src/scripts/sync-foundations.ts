@@ -16,6 +16,12 @@
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 
+// CI builds don't have DB access — skip sync and use committed generated file
+if (process.env.SKIP_SYNC === 'true') {
+  console.log('SKIP_SYNC=true — using committed stiftungen-generated.ts');
+  process.exit(0);
+}
+
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { neon } from '@neondatabase/serverless';
