@@ -298,7 +298,7 @@ export default function HubPage() {
           Was im Hintergrund läuft: Büros, Lager, Logistik. Nicht glamourös, aber essentiell.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="border-l-4 border-l-gray-500">
+          <Card className="border-l-4 border-l-grey-medium">
             <div className="flex items-center gap-3 mb-3">
               <div className="text-2xl" aria-hidden="true">💼</div>
               <h3 className="text-md font-semibold text-grey-dark">Offices & Sozialräume</h3>
@@ -320,7 +320,7 @@ export default function HubPage() {
             </div>
           </Card>
 
-          <Card className="border-l-4 border-l-gray-500">
+          <Card className="border-l-4 border-l-grey-medium">
             <div className="flex items-center gap-3 mb-3">
               <div className="text-2xl" aria-hidden="true">📦</div>
               <h3 className="text-md font-semibold text-grey-dark">Lager & Logistik</h3>
@@ -342,7 +342,7 @@ export default function HubPage() {
             </div>
           </Card>
 
-          <Card className="border-l-4 border-l-gray-500">
+          <Card className="border-l-4 border-l-grey-medium">
             <div className="flex items-center gap-3 mb-3">
               <div className="text-2xl" aria-hidden="true">🚚</div>
               <h3 className="text-md font-semibold text-grey-dark">Lade- & Anlieferzone</h3>

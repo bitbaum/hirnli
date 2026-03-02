@@ -277,7 +277,7 @@ export default function HomePage() {
 
       {/* Philosophy */}
       <section className="mb-12">
-        <Card className="bg-gradient-to-br from-gray-50 to-gray-100 border-l-4 border-l-gray-500">
+        <Card className="bg-gradient-to-br from-bg-light to-bg-light border-l-4 border-l-grey-medium">
           <h2 className="text-2xl font-bold mb-4 text-grey-dark">Warum Transparenz?</h2>
           <p className="text-base text-text-light mb-4 leading-relaxed">
             Stiftungen müssen fundierte Entscheidungen treffen. <strong>Vertrauen entsteht durch Nachvollziehbarkeit</strong>,
