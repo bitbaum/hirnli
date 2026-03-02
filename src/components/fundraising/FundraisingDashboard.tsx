@@ -79,7 +79,7 @@ export function FundraisingDashboard() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="text-gray-500">Lade Dashboard...</div>
+        <div className="text-text-muted">Lade Dashboard...</div>
       </div>
     );
   }
@@ -104,10 +104,10 @@ export function FundraisingDashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Fundraising Dashboard</h1>
+        <h1 className="text-2xl font-bold text-grey-dark">Fundraising Dashboard</h1>
         <button
           onClick={fetchDashboardData}
-          className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+          className="px-4 py-2 bg-bg-light text-grey-dark rounded hover:bg-grey-light text-sm"
         >
           Aktualisieren
         </button>
@@ -115,9 +115,9 @@ export function FundraisingDashboard() {
 
       {isEmpty ? (
         /* Empty state — pipeline has no applications yet */
-        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 py-24 text-center">
-          <p className="text-lg font-semibold text-gray-700 mb-1">Pipeline ist leer</p>
-          <p className="text-sm text-gray-500 mb-6 max-w-sm">
+        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-24 text-center">
+          <p className="text-lg font-semibold text-grey-dark mb-1">Pipeline ist leer</p>
+          <p className="text-sm text-text-muted mb-6 max-w-sm">
             Sobald du Stiftungsgesuche startest, siehst du hier Kennzahlen,
             Fristen und den Überblick über den Fundraising-Fortschritt.
           </p>
@@ -170,15 +170,15 @@ export function FundraisingDashboard() {
 
           {/* Charts and Deadlines */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="bg-white border border-border rounded-lg p-6">
+              <h2 className="text-lg font-semibold text-grey-dark mb-4">
                 Verteilung nach Status
               </h2>
               <StatusDistributionChart data={data.byStatus} />
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="bg-white border border-border rounded-lg p-6">
+              <h2 className="text-lg font-semibold text-grey-dark mb-4">
                 Anstehende Fristen (30 Tage)
               </h2>
               <div className="max-h-80 overflow-y-auto">
@@ -188,34 +188,34 @@ export function FundraisingDashboard() {
           </div>
 
           {/* Summary Stats */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="bg-white border border-border rounded-lg p-6">
+            <h2 className="text-lg font-semibold text-grey-dark mb-4">
               Zusammenfassung
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">
+                <div className="text-3xl font-bold text-grey-dark">
                   {data.totals.totalApplications}
                 </div>
-                <div className="text-sm text-gray-600">Gesamt Gesuche</div>
+                <div className="text-sm text-text-light">Gesamt Gesuche</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-blue-600">
                   {data.totals.submitted}
                 </div>
-                <div className="text-sm text-gray-600">Eingereicht</div>
+                <div className="text-sm text-text-light">Eingereicht</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600">
                   {data.totals.accepted}
                 </div>
-                <div className="text-sm text-gray-600">Angenommen</div>
+                <div className="text-sm text-text-light">Angenommen</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-orange-600">
                   {data.totals.pending}
                 </div>
-                <div className="text-sm text-gray-600">Ausstehend</div>
+                <div className="text-sm text-text-light">Ausstehend</div>
               </div>
             </div>
           </div>

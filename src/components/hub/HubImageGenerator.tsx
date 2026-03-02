@@ -29,7 +29,7 @@ export function HubImageGenerator() {
             className={`p-3 rounded-lg border-2 text-left transition-all ${
               selectedSpace === space.space_name
                 ? 'border-emerald-500 bg-emerald-50'
-                : 'border-gray-200 hover:border-emerald-300 bg-white'
+                : 'border-border hover:border-emerald-300 bg-white'
             }`}
           >
             <p className="text-sm font-semibold text-grey-dark">{space.space_name}</p>
@@ -54,7 +54,7 @@ export function HubImageGenerator() {
           </div>
 
           {/* Full Prompt */}
-          <div className="bg-gray-50 p-4 rounded-lg mb-4">
+          <div className="bg-bg-light p-4 rounded-lg mb-4">
             <p className="text-xs font-semibold text-grey-dark mb-2">AI Generation Prompt:</p>
             <p className="text-sm text-text-light leading-relaxed whitespace-pre-wrap">{selectedConfig.prompt}</p>
           </div>
@@ -84,11 +84,11 @@ export function HubImageGenerator() {
           </div>
 
           {/* Suggested Tools */}
-          <div className="mt-4 pt-4 border-t border-gray-200">
+          <div className="mt-4 pt-4 border-t border-border">
             <p className="text-xs font-semibold text-grey-dark mb-2">Recommended AI Tools:</p>
             <div className="flex gap-2 flex-wrap">
               {selectedConfig.suggested_tools.map((tool) => (
-                <span key={tool} className="text-xs px-2 py-1 bg-gray-100 text-grey-dark rounded">
+                <span key={tool} className="text-xs px-2 py-1 bg-bg-light text-grey-dark rounded">
                   {tool}
                 </span>
               ))}

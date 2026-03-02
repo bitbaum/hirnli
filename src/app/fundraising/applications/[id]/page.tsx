@@ -148,7 +148,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="flex min-h-screen items-center justify-center bg-bg-light">
         <div className="text-text-muted">Lade Gesuch...</div>
       </div>
     );
@@ -156,7 +156,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-bg-light p-6">
         <div className="mx-auto max-w-3xl">
           <div className="rounded-lg border border-red-200 bg-red-50 p-4">
             <p className="text-red-700">Fehler: {error}</p>
@@ -173,7 +173,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   const statusConfig = getStatusConfig(status as ApplicationStatusId);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+    <div className="min-h-screen bg-bg-light p-4 md:p-6">
       <div className="mx-auto max-w-3xl space-y-5">
 
         {/* Header */}
@@ -200,7 +200,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
           {/* Status badge */}
           <span
-            className={`shrink-0 rounded-lg border px-3 py-1 text-sm font-semibold ${statusConfig?.color ?? 'bg-gray-100 text-gray-700 border-gray-300'}`}
+            className={`shrink-0 rounded-lg border px-3 py-1 text-sm font-semibold ${statusConfig?.color ?? 'bg-bg-light text-grey-dark border-border'}`}
           >
             {statusConfig?.label ?? status}
           </span>
@@ -390,7 +390,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
                 <span className="text-sm font-medium text-red-700">Wirklich löschen?</span>
                 <button
                   onClick={() => setDeleteConfirm(false)}
-                  className="rounded px-3 py-1 text-sm text-gray-600 hover:bg-gray-100"
+                  className="rounded px-3 py-1 text-sm text-text-light hover:bg-bg-light"
                   disabled={isDeleting}
                 >
                   Nein

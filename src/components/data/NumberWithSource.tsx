@@ -61,19 +61,19 @@ export function NumberWithSource({
         aria-label={`Quelle anzeigen für ${data.label}`}
       >
         <div className="relative">
-          <div className={`${SIZE_CLASSES[size]} text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300`}>
+          <div className={`${SIZE_CLASSES[size]} text-primary group-hover:text-primary-light`}>
             {formattedValue}
           </div>
           {showLabel && (
-            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <div className="text-sm text-text-light mt-1">
               {data.label}
             </div>
           )}
           {/* Underline indicator */}
-          <div className="h-0.5 bg-blue-600 dark:bg-blue-400 opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
+          <div className="h-0.5 bg-primary opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
           {/* Info icon */}
-          <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="text-xs text-blue-600 dark:text-blue-400">i</span>
+          <div className="absolute -top-1 -right-1 w-5 h-5 bg-primary/10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="text-xs text-primary">i</span>
           </div>
         </div>
       </button>
@@ -107,7 +107,7 @@ export function NumberGrid({ numbers, columns = 3, size = 'md' }: NumberGridProp
   return (
     <div className={`grid ${gridCols[columns]} gap-6`}>
       {numbers.map((key) => (
-        <div key={key} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div key={key} className="bg-white rounded-lg p-6 shadow-sm border border-border">
           <NumberWithSource numberKey={key} size={size} showLabel={true} />
         </div>
       ))}
@@ -139,7 +139,7 @@ export function InlineNumber({ numberKey }: InlineNumberProps) {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="font-semibold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+        className="font-semibold text-primary hover:underline cursor-pointer"
         aria-label={`Quelle anzeigen für ${data.label}`}
       >
         {formattedValue}

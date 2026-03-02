@@ -193,15 +193,15 @@ export function ApplicationBoard() {
       {/* Header row: stats + actions */}
       <div className="flex items-center justify-between gap-4">
         {applications.length > 0 ? (
-          <div className="flex flex-wrap gap-6 text-sm text-gray-700">
+          <div className="flex flex-wrap gap-6 text-sm text-grey-dark">
             <span>
-              <span className="font-semibold text-gray-900">{applications.length}</span> Gesuche
+              <span className="font-semibold text-grey-dark">{applications.length}</span> Gesuche
             </span>
             <span>
-              <span className="font-semibold text-gray-900">{formatCHF(totalRequested)}</span> beantragt
+              <span className="font-semibold text-grey-dark">{formatCHF(totalRequested)}</span> beantragt
             </span>
             <span>
-              <span className="font-semibold text-gray-900">{submittedCount}</span> eingereicht
+              <span className="font-semibold text-grey-dark">{submittedCount}</span> eingereicht
             </span>
           </div>
         ) : (
@@ -225,9 +225,9 @@ export function ApplicationBoard() {
 
       {/* Empty state */}
       {applications.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 py-20 text-center">
-          <p className="mb-1 text-lg font-semibold text-gray-700">Noch keine Gesuche</p>
-          <p className="mb-6 max-w-xs text-sm text-gray-500">
+        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-20 text-center">
+          <p className="mb-1 text-lg font-semibold text-grey-dark">Noch keine Gesuche</p>
+          <p className="mb-6 max-w-xs text-sm text-text-muted">
             Wähle eine Stiftung aus der Liste und klicke auf &ldquo;Gesuch starten&rdquo;, um sie
             in die Pipeline aufzunehmen.
           </p>

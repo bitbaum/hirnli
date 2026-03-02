@@ -37,7 +37,7 @@ export default function ScenarioSelector({
   return (
     <div className={className}>
       {/* Tab buttons */}
-      <div className="flex gap-2 border-b border-gray-200">
+      <div className="flex gap-2 border-b border-border">
         {BUDGET_SCENARIOS.map((scenario) => (
           <button
             key={scenario.id}
@@ -45,7 +45,7 @@ export default function ScenarioSelector({
             className={`px-4 py-3 font-medium text-sm transition-colors relative ${
               activeScenario === scenario.id
                 ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-600 hover:text-gray-900'
+                : 'text-text-light hover:text-grey-dark'
             }`}
           >
             <span className="flex items-center gap-2">
@@ -58,7 +58,7 @@ export default function ScenarioSelector({
 
       {/* Active scenario tagline */}
       <div className="mt-3 px-1">
-        <p className="text-sm text-gray-600 italic">
+        <p className="text-sm text-text-light italic">
           {BUDGET_SCENARIOS.find((s) => s.id === activeScenario)?.tagline}
         </p>
       </div>

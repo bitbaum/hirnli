@@ -240,19 +240,19 @@ export default function BildungPage() {
           <Card className="border-l-4 border-l-blue-500">
             <h3 className="text-lg font-semibold text-grey-dark mb-4">Personalkosten (pro Jahr)</h3>
             <div className="space-y-3">
-              <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+              <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Hardware-BPL (1 VZÄ)</span>
                 <span className="text-md font-semibold text-grey-dark">
                   CHF {TEAM_SALARIES.hardware_bpl.toLocaleString('de-CH')}
                 </span>
               </div>
-              <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+              <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Software/AI-BPL (1 VZÄ)</span>
                 <span className="text-md font-semibold text-grey-dark">
                   CHF {TEAM_SALARIES.software_bpl.toLocaleString('de-CH')}
                 </span>
               </div>
-              <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+              <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Sozialabgaben (20%)</span>
                 <span className="text-md font-semibold text-grey-dark">
                   CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * 0.2).toLocaleString('de-CH')}

@@ -5,6 +5,7 @@ import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundation-helpers';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
+import { computeShareToken } from '@/lib/utils/share-token';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import GesuchPageClient from './GesuchPageClient';
@@ -79,7 +80,11 @@ export default async function GesuchPage({ params }: Props) {
     deadline: foundation.deadline,
     deadlineText: foundation.deadlineText,
     websiteUrl: foundation.websiteUrl,
+    responseTime: foundation.responseTime,
+    contactAddress: foundation.contact?.address,
   };
+
+  const shareToken = computeShareToken(slug) ?? undefined;
 
   return (
     <GesuchPageClient
@@ -88,6 +93,8 @@ export default async function GesuchPage({ params }: Props) {
       variants={variants}
       primaryColors={primaryColors}
       submissionInfo={submissionInfo}
+      foundationData={foundation}
+      shareToken={shareToken}
     />
   );
 }

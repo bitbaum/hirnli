@@ -207,16 +207,16 @@ export default function FundraisingClient() {
           <div className="prose prose-sm max-w-none">
             <h2 className="text-xl font-bold text-blue-900 mt-0">Die Situation: Warum wir Stiftungen brauchen</h2>
 
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-grey-dark leading-relaxed">
               Seit 2003 reparieren und verkaufen wir refurbished Computer. <strong>Aber unser aktuelles Geschäftsmodell ist nicht nachhaltig.</strong>
             </p>
 
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-grey-dark leading-relaxed">
               <strong>Die Herausforderung:</strong> Unsere Einnahmen sind von {REVENUE_PEAK_DISPLAY} ({REVENUE_PEAK_YEAR.year}) auf {REVENUE_CURRENT_DISPLAY} (2025) gefallen — B2B-Hosting-Kunden verloren,
               Dienstleistungen von CHF 80k auf CHF 28k geschrumpft. Das aktuelle Modell — abhängig von wenigen Einzelkunden — ist fragil.
             </p>
 
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-grey-dark leading-relaxed">
               <strong>Das eigentliche Problem:</strong> Nicht fehlende Refurbishment-Kapazität, sondern <strong>fehlende Organisation
               für Verkauf und Ausführung</strong>. Wir haben bereits zu viel Inventar in 2 Lagern. Viele Organisationen in Zürich
               entsorgen alte Technologie — aber wir brauchen keine zusätzlichen Geräte, sondern bessere Prozesse.
@@ -233,11 +233,11 @@ export default function FundraisingClient() {
 
             <h3 className="text-lg font-bold text-blue-900 mt-6">Die Lösung: Professionalisierung + Bildung + Community</h3>
 
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-grey-dark leading-relaxed">
               Statt nur Refurbishment zu skalieren, wollen wir unser Modell <strong>transformieren</strong>:
             </p>
 
-            <ul className="text-gray-700 space-y-2">
+            <ul className="text-grey-dark space-y-2">
               <li>
                 <strong>Professionelle Prozesse:</strong> 2 Bildungsprogrammleiter organisieren Refurbishment-Workflows,
                 bilden Techniker aus (mit sozialpädagogischer Begleitung durch Veronica)
@@ -252,7 +252,7 @@ export default function FundraisingClient() {
               </li>
             </ul>
 
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-grey-dark leading-relaxed">
               <strong>Warum Stiftungen?</strong> Weil wir eine soziale Mission haben, keine Silicon-Valley-Startup-Mentalität.
               Wir arbeiten mit Reintegrations-Programmen (z.B. GEP), Freiwilligen, Praktikanten. Professionalisierung braucht
               Ressourcen — und die kommen nicht aus Verkaufserlösen allein.
@@ -260,7 +260,7 @@ export default function FundraisingClient() {
 
             <h3 className="text-lg font-bold text-blue-900 mt-6">Was wir von Stiftungen brauchen</h3>
 
-            <p className="text-gray-700 leading-relaxed mb-0">
+            <p className="text-grey-dark leading-relaxed mb-0">
               Wir brauchen <strong>Anschubfinanzierung für 3 Jahre</strong>, um Hub + Team aufzubauen.
               Danach sind wir selbsttragend (Operations durch Revenue finanziert).
             </p>
@@ -279,13 +279,13 @@ export default function FundraisingClient() {
                   <div key={year.year} className={`bg-white rounded-lg p-4 border-2 ${colors[i].border}`}>
                     <div className={`text-sm ${colors[i].text} font-semibold`}>{year.year} ({2026 + i})</div>
                     <div className={`text-2xl font-bold ${colors[i].bold} my-2`}>{formatCHF(stiftungenAmt)}</div>
-                    <div className="text-xs text-gray-600">{stiftungenPct}% von Stiftungen<br/>{labels[i]}</div>
+                    <div className="text-xs text-text-light">{stiftungenPct}% von Stiftungen<br/>{labels[i]}</div>
                   </div>
                 );
               })}
             </div>
 
-            <p className="text-gray-700 leading-relaxed mt-4 mb-0">
+            <p className="text-grey-dark leading-relaxed mt-4 mb-0">
               <strong>Degressives Modell:</strong> Je mehr wir wachsen, desto weniger Stiftungsgelder brauchen wir.
               Jahr 1 → Jahr 3: <strong>-{REDUCTION_PCT}% weniger Stiftungsgelder</strong>. Ab Jahr 4: Nur noch Impact-Finanzierung
               (kostenlose Geräte, Stipendien), keine Betriebskosten mehr.
@@ -349,23 +349,23 @@ export default function FundraisingClient() {
         </div>
 
         {/* Combined Effect */}
-        <div className="mt-6 rounded-lg border-2 border-dashed border-gray-300 bg-white/50 p-6 text-center">
-          <div className="text-sm font-medium uppercase tracking-wider text-gray-500">
+        <div className="mt-6 rounded-lg border-2 border-dashed border-border bg-white/50 p-6 text-center">
+          <div className="text-sm font-medium uppercase tracking-wider text-text-muted">
             Kombinierter Effekt: Hub + Menschen
           </div>
-          <div className="mt-2 text-lg text-gray-700">
+          <div className="mt-2 text-lg text-grey-dark">
             Bessere Prozesse + strukturierte Bildung + diversifizierte Einnahmen
           </div>
           <div className="mt-2 text-3xl font-bold text-blue-600">
             {DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr + {PEOPLE_REACHED_DISPLAY} trainiert
           </div>
-          <div className="mt-3 text-sm text-gray-600">
+          <div className="mt-3 text-sm text-text-light">
             {REVENUE_GROWTH_DISPLAY}
           </div>
           <div className="mt-1 text-sm font-semibold text-violet-600">
             + {PEOPLE_REACHED_DISPLAY} in Tech-Bildung & Integration
           </div>
-          <div className="mt-4 pt-4 border-t border-gray-300">
+          <div className="mt-4 pt-4 border-t border-border">
             <Link
               href="/fundraising/hub"
               className="inline-flex items-center gap-2 rounded-lg bg-grey-dark px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
@@ -442,7 +442,7 @@ export default function FundraisingClient() {
                 description: item.sub,
               }}
               inspector={inspector}
-              className="block rounded-xl border border-gray-200 bg-white p-3 text-center transition-shadow hover:shadow-sm"
+              className="block rounded-xl border border-border bg-white p-3 text-center transition-shadow hover:shadow-sm"
             >
               <div className="text-xl font-bold tabular-nums text-grey-dark">{item.value}</div>
               <div className="text-xs font-medium text-text-muted">{item.label}</div>
@@ -551,7 +551,7 @@ export default function FundraisingClient() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Geschäftsmodell-Herausforderung</h2>
         <Card>
           <div className="prose prose-sm max-w-none">
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-grey-dark leading-relaxed">
               <strong>Unsere aktuelle Situation:</strong> Wir haben 2 grosse Kivitendo-Kunden verloren. Das hat
               unsere B2B-Einnahmen stark reduziert.
             </p>
@@ -566,13 +566,13 @@ export default function FundraisingClient() {
               </ul>
             </div>
 
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-grey-dark leading-relaxed">
               <strong>Was wir brauchen:</strong> Nicht mehr Verkauf, sondern <strong>bessere Prozesse</strong> und
               <strong> diversifizierte Einnahmen</strong> (Tech-Bildung, Workshops, AI Lab Services, Corporate Training,
               Community Events).
             </p>
 
-            <p className="text-gray-700 leading-relaxed mb-0">
+            <p className="text-grey-dark leading-relaxed mb-0">
               Detaillierte Finanzdaten sind verfügbar im{' '}
               <Link href="/finanzen" className="underline">Finanzen-Bereich</Link> — alle Zahlen aus Kivitendo,
               klickbar mit Quellenangabe.
@@ -626,7 +626,7 @@ export default function FundraisingClient() {
             einen nachhaltigen Betrieb aufbauen.
           </p>
 
-          <div className="mt-4 pt-4 border-t border-gray-200 text-xs text-gray-500 not-prose">
+          <div className="mt-4 pt-4 border-t border-border text-xs text-text-muted not-prose">
             <strong>Datenquelle:</strong> {COST_STRUCTURE_2023.source}. Alle Zahlen verifiziert 11.02.2026.
           </div>
         </Card>
@@ -649,7 +649,7 @@ export default function FundraisingClient() {
             const stiftungenPct = Math.round((stiftungenAmt / year.total) * 100);
             const eigenPct = Math.round((year.eigen / year.total) * 100);
             return (
-              <div key={year.year} className={`rounded-2xl border p-5 ${i === 0 ? 'border-violet-300 bg-violet-50/50' : i === 2 ? 'border-emerald-300 bg-emerald-50/50' : 'border-gray-200 bg-white'}`}>
+              <div key={year.year} className={`rounded-2xl border p-5 ${i === 0 ? 'border-violet-300 bg-violet-50/50' : i === 2 ? 'border-emerald-300 bg-emerald-50/50' : 'border-border bg-white'}`}>
                 <div className="mb-1 flex items-baseline justify-between">
                   <span className="text-sm font-bold text-text-muted">{year.year}</span>
                   <Badge variant={i === 0 ? 'primary' : i === 2 ? 'success' : 'warning'}>{year.label}</Badge>
@@ -715,10 +715,10 @@ export default function FundraisingClient() {
         </div>
 
         {/* 3-year summary table */}
-        <div className="mt-4 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-4 overflow-x-auto rounded-xl border border-border">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-200 bg-gray-50 text-left">
+              <tr className="border-b border-border bg-bg-light text-left">
                 <th className="px-4 py-2.5 font-semibold text-grey-dark" />
                 {THREE_YEAR_MODEL.map((y) => (
                   <th key={y.year} className="px-4 py-2.5 text-right font-semibold text-grey-dark">{y.year}</th>
@@ -727,7 +727,7 @@ export default function FundraisingClient() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-gray-100">
+              <tr className="border-b border-border">
                 <td className="px-4 py-2 text-text-muted">Einmalige Investitionen</td>
                 {THREE_YEAR_MODEL.map((y) => (
                   <td key={y.year} className="px-4 py-2 text-right tabular-nums">{y.einmalig > 0 ? formatCHF(y.einmalig) : '—'}</td>
@@ -738,7 +738,7 @@ export default function FundraisingClient() {
                   </Inspectable>
                 </td>
               </tr>
-              <tr className="border-b border-gray-100">
+              <tr className="border-b border-border">
                 <td className="px-4 py-2">
                   <span className="flex items-center gap-1.5">
                     <span className="inline-block h-2 w-2 rounded-full bg-violet-500" />
@@ -750,7 +750,7 @@ export default function FundraisingClient() {
                 ))}
                 <td className="px-4 py-2 text-right tabular-nums font-medium text-violet-700">{formatCHF(THREE_YEAR_MODEL.reduce((s, y) => s + y.stiftungen, 0))}</td>
               </tr>
-              <tr className="border-b border-gray-100 bg-emerald-50/50">
+              <tr className="border-b border-border bg-emerald-50/50">
                 <td className="px-4 py-2">
                   <span className="flex items-center gap-1.5">
                     <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
@@ -830,7 +830,7 @@ export default function FundraisingClient() {
             </p>
           </div>
 
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-text-light">
             <strong>Gesamtfläche:</strong> {SPACE_PLAN_TOTAL} m² Nutzfläche + ~{SPACE_TOTAL_WITH_CIRCULATION - SPACE_PLAN_TOTAL} m² Verkehrsfläche (Flure, Treppen, Toiletten)
             = ~{SPACE_TOTAL_WITH_CIRCULATION} m² Total.
           </p>
@@ -1005,7 +1005,7 @@ export default function FundraisingClient() {
               <Link
                 key={status}
                 href={`/fundraising/stiftungen?status=${status}`}
-                className="block rounded-lg bg-gray-50 p-4 text-center transition-shadow hover:shadow-md"
+                className="block rounded-lg bg-bg-light p-4 text-center transition-shadow hover:shadow-md"
               >
                 <Badge variant={STATUS_BADGE_VARIANT[status]} className="mb-2">
                   {STATUS_LABELS[status].text}
@@ -1052,7 +1052,7 @@ export default function FundraisingClient() {
         </CardHeader>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {NEXT_STEPS.map((step) => (
-            <div key={step.step} className="rounded-lg border border-gray-100 p-4">
+            <div key={step.step} className="rounded-lg border border-border p-4">
               <h3 className="mb-2 font-semibold text-grey-dark">{step.step}</h3>
               <p className="mb-3 text-sm text-text-muted">{step.description}</p>
               <Link href={step.href} className="text-sm font-medium text-primary hover:underline">

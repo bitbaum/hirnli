@@ -242,10 +242,10 @@ export const COST_STRUCTURE_2023 = {
   categories: [
     { label: 'Miete', amount: 76934, color: 'bg-red-500', pctOfExpenses: 48.2 },
     { label: 'Personal (Löhne, Sozial, Bildung)', amount: 48075, color: 'bg-blue-500', pctOfExpenses: 30.1 },
-    { label: 'Abschreibungen', amount: 10000, color: 'bg-gray-400', pctOfExpenses: 6.3 },
+    { label: 'Abschreibungen', amount: 10000, color: 'bg-grey-medium', pctOfExpenses: 6.3 },
     { label: 'IT & Kommunikation', amount: 8584, color: 'bg-violet-500', pctOfExpenses: 5.4 },
     { label: 'Material & Dienstleistungen', amount: 8857, color: 'bg-amber-500', pctOfExpenses: 5.5 },
-    { label: 'Übriger Betriebsaufwand', amount: 7217, color: 'bg-gray-300', pctOfExpenses: 4.5 },
+    { label: 'Übriger Betriebsaufwand', amount: 7217, color: 'bg-grey-light', pctOfExpenses: 4.5 },
   ],
   source: 'Kivitendo Erfolgsrechnung 2023 (letztes vollständiges Geschäftsjahr)',
 } as const;

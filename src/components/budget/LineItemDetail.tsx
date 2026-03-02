@@ -30,15 +30,15 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
   return (
     <div className="ml-8 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500 space-y-3">
       {/* Description */}
-      <p className="text-sm text-gray-700">{item.description}</p>
+      <p className="text-sm text-grey-dark">{item.description}</p>
 
       {/* Sub-items breakdown */}
       {item.subItems && item.subItems.length > 0 && (
         <div>
-          <p className="text-xs font-semibold text-gray-600 mb-2">Zusammensetzung:</p>
+          <p className="text-xs font-semibold text-text-light mb-2">Zusammensetzung:</p>
           <div className="space-y-1">
             {item.subItems.map((sub, idx) => (
-              <div key={idx} className="flex justify-between text-xs text-gray-600">
+              <div key={idx} className="flex justify-between text-xs text-text-light">
                 <span className="flex-1">• {sub.label}</span>
                 <span className="font-medium ml-2">{formatCHF(sub.amount)}</span>
               </div>
@@ -49,7 +49,7 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
               {item.subItems
                 .filter((sub) => sub.note)
                 .map((sub, idx) => (
-                  <p key={idx} className="text-xs text-gray-500 italic">
+                  <p key={idx} className="text-xs text-text-muted italic">
                     → {sub.label}: {sub.note}
                   </p>
                 ))}
@@ -61,26 +61,26 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
       {/* Source metadata */}
       <div className="text-xs space-y-1.5 pt-2 border-t border-blue-200">
         <div>
-          <strong className="text-gray-700">Quelle:</strong>{' '}
-          <span className="text-gray-600">{item.source.methodology}</span>
+          <strong className="text-grey-dark">Quelle:</strong>{' '}
+          <span className="text-text-light">{item.source.methodology}</span>
         </div>
 
         {item.source.calculation && (
           <div>
-            <strong className="text-gray-700">Kalkulation:</strong>{' '}
-            <span className="text-gray-600">{item.source.calculation}</span>
+            <strong className="text-grey-dark">Kalkulation:</strong>{' '}
+            <span className="text-text-light">{item.source.calculation}</span>
           </div>
         )}
 
         {item.source.marketResearch && (
           <div>
-            <strong className="text-gray-700">Marktforschung:</strong>{' '}
-            <span className="text-gray-600">{item.source.marketResearch}</span>
+            <strong className="text-grey-dark">Marktforschung:</strong>{' '}
+            <span className="text-text-light">{item.source.marketResearch}</span>
           </div>
         )}
 
         <div className="flex items-center gap-2">
-          <strong className="text-gray-700">Konfidenz:</strong>
+          <strong className="text-grey-dark">Konfidenz:</strong>
           <span
             className={`px-2 py-0.5 rounded text-xs font-medium ${confidenceColors[item.source.confidence]}`}
           >
@@ -89,15 +89,15 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
         </div>
 
         <div>
-          <strong className="text-gray-700">Verifiziert:</strong>{' '}
-          <span className="text-gray-600">
+          <strong className="text-grey-dark">Verifiziert:</strong>{' '}
+          <span className="text-text-light">
             {new Date(item.source.lastVerified).toLocaleDateString('de-CH')}
           </span>
         </div>
 
         {item.source.notes && (
           <div className="pt-1">
-            <p className="text-gray-500 italic">💡 {item.source.notes}</p>
+            <p className="text-text-muted italic">💡 {item.source.notes}</p>
           </div>
         )}
       </div>

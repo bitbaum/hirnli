@@ -42,13 +42,13 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
       {/* Column header */}
       <div className="mb-3">
         <div className="mb-1 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-gray-900">{status.label}</h2>
-          <span className="rounded bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-600">
+          <h2 className="text-sm font-semibold text-grey-dark">{status.label}</h2>
+          <span className="rounded bg-bg-light px-1.5 py-0.5 text-xs font-medium text-text-light">
             {applications.length}
           </span>
         </div>
         {totalAmount > 0 && (
-          <div className="text-xs font-medium text-gray-500">{formatCHF(totalAmount)}</div>
+          <div className="text-xs font-medium text-text-muted">{formatCHF(totalAmount)}</div>
         )}
         <p className="mt-0.5 text-xs text-text-muted">{status.description}</p>
       </div>
@@ -57,7 +57,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
       <div
         ref={setNodeRef}
         className={`flex-1 rounded-lg p-2 transition-colors ${
-          isOver ? 'bg-blue-50 ring-2 ring-blue-300' : 'bg-gray-50 ring-2 ring-gray-200'
+          isOver ? 'bg-blue-50 ring-2 ring-blue-300' : 'bg-bg-light ring-2 ring-border'
         }`}
       >
         <SortableContext
@@ -65,7 +65,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
           strategy={verticalListSortingStrategy}
         >
           {applications.length === 0 ? (
-            <div className="flex h-16 items-center justify-center text-xs text-gray-400 select-none">
+            <div className="flex h-16 items-center justify-center text-xs text-text-muted select-none">
               Hierher ziehen
             </div>
           ) : (

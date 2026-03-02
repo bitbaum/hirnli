@@ -25,12 +25,12 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
     : 'md:grid-cols-2 lg:grid-cols-3';
 
   return (
-    <div className="mt-12 border-t border-gray-200 dark:border-gray-700 pt-8">
+    <div className="mt-12 border-t border-border pt-8">
       <div className="mb-6 text-center">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h2 className="text-lg font-semibold text-grey-dark">
           Weitere Zusammenhänge erkunden
         </h2>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-1 text-sm text-text-light">
           Verbinde alle Punkte – folge der Geschichte
         </p>
       </div>
@@ -40,7 +40,7 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
           <Link
             key={bridge.href}
             href={bridge.href}
-            className="group block rounded-lg border border-gray-200 bg-white p-5 transition-all hover:border-blue-500 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-500"
+            className="group block rounded-lg border border-border bg-white p-5 transition-all hover:border-primary hover:shadow-md"
           >
             <div className="flex items-start gap-3">
               {bridge.icon && (
@@ -52,14 +52,14 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
                 </div>
               )}
               <div className="flex-1">
-                <div className="mb-1 font-semibold text-gray-900 group-hover:text-blue-600 dark:text-gray-100 dark:group-hover:text-blue-400">
+                <div className="mb-1 font-semibold text-grey-dark group-hover:text-primary">
                   {bridge.title}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-sm text-text-light">
                   {bridge.reason}
                 </div>
               </div>
-              <div className="flex-shrink-0 text-blue-500 opacity-0 transition-opacity group-hover:opacity-100">
+              <div className="flex-shrink-0 text-primary opacity-0 transition-opacity group-hover:opacity-100">
                 →
               </div>
             </div>

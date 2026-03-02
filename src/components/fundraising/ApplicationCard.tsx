@@ -97,14 +97,14 @@ export function ApplicationCard({
         ref={setNodeRef}
         style={style}
         {...attributes}
-        className="group relative mb-3 rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+        className="group relative mb-3 rounded-lg border border-border bg-white shadow-sm transition-shadow hover:shadow-md"
       >
         {/* Top bar: drag handle + foundation name + actions */}
         <div className="flex items-start gap-2 p-3 pb-0">
           {/* Drag handle — only this element triggers drag */}
           <div
             {...listeners}
-            className="mt-0.5 shrink-0 cursor-grab text-gray-300 hover:text-gray-500 active:cursor-grabbing select-none"
+            className="mt-0.5 shrink-0 cursor-grab text-text-muted hover:text-text-muted active:cursor-grabbing select-none"
             title="Ziehen"
           >
             ⠿
@@ -116,7 +116,7 @@ export function ApplicationCard({
             className="min-w-0 flex-1"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-sm font-semibold leading-snug text-gray-900 hover:text-primary transition-colors line-clamp-2">
+            <h3 className="text-sm font-semibold leading-snug text-grey-dark hover:text-primary transition-colors line-clamp-2">
               {foundation?.name ?? 'Unbekannte Stiftung'}
             </h3>
           </Link>
@@ -125,7 +125,7 @@ export function ApplicationCard({
           <div className="flex shrink-0 items-center gap-1">
             <button
               onClick={() => setShowEdit(true)}
-              className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-700"
+              className="rounded p-1 text-text-muted hover:bg-bg-light hover:text-grey-dark"
               title="Bearbeiten"
               aria-label="Gesuch bearbeiten"
             >
@@ -133,7 +133,7 @@ export function ApplicationCard({
             </button>
             <button
               onClick={() => setDeleteConfirm(!deleteConfirm)}
-              className="rounded p-1 text-gray-400 hover:bg-red-50 hover:text-red-600"
+              className="rounded p-1 text-text-muted hover:bg-red-50 hover:text-red-600"
               title="Löschen"
               aria-label="Gesuch löschen"
             >
@@ -146,14 +146,14 @@ export function ApplicationCard({
         <div className="px-3 pb-3 pt-2">
           {/* Amount */}
           {application.requestedAmount && (
-            <div className="mb-1.5 text-base font-semibold text-gray-700">
+            <div className="mb-1.5 text-base font-semibold text-grey-dark">
               {formatCHF(application.requestedAmount)}
             </div>
           )}
 
           {/* Project focus */}
           {application.projectFocus && (
-            <div className="mb-2 text-xs text-gray-500 line-clamp-1">
+            <div className="mb-2 text-xs text-text-muted line-clamp-1">
               {application.projectFocus}
             </div>
           )}
@@ -181,7 +181,7 @@ export function ApplicationCard({
                 </span>
               )}
               {application.assignedTo && (
-                <span className="text-xs text-gray-400">{application.assignedTo}</span>
+                <span className="text-xs text-text-muted">{application.assignedTo}</span>
               )}
             </div>
           )}
@@ -193,7 +193,7 @@ export function ApplicationCard({
               <div className="flex gap-2">
                 <button
                   onClick={() => setDeleteConfirm(false)}
-                  className="rounded px-2 py-0.5 text-xs text-gray-600 hover:bg-gray-100"
+                  className="rounded px-2 py-0.5 text-xs text-text-light hover:bg-bg-light"
                   disabled={isDeleting}
                 >
                   Nein

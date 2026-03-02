@@ -65,16 +65,16 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
             <div className="flex items-start gap-2">
               <span className="text-lg">📊</span>
               <div className="flex-1">
-                <div className="font-medium text-gray-900 dark:text-gray-100">Datenquelle</div>
-                <div className="text-gray-600 dark:text-gray-400">{friendlySource}</div>
+                <div className="font-medium text-grey-dark">Datenquelle</div>
+                <div className="text-text-light">{friendlySource}</div>
               </div>
             </div>
             {data.account && (
               <div className="flex items-start gap-2">
                 <span className="text-lg">🏦</span>
                 <div className="flex-1">
-                  <div className="font-medium text-gray-900 dark:text-gray-100">Buchungskonto</div>
-                  <div className="text-gray-600 dark:text-gray-400">{data.account}</div>
+                  <div className="font-medium text-grey-dark">Buchungskonto</div>
+                  <div className="text-text-light">{data.account}</div>
                 </div>
               </div>
             )}
@@ -82,8 +82,8 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
               <div className="flex items-start gap-2">
                 <span className="text-lg">📅</span>
                 <div className="flex-1">
-                  <div className="font-medium text-gray-900 dark:text-gray-100">Zuletzt aktualisiert</div>
-                  <div className="text-gray-600 dark:text-gray-400">{data.updated}</div>
+                  <div className="font-medium text-grey-dark">Zuletzt aktualisiert</div>
+                  <div className="text-text-light">{data.updated}</div>
                 </div>
               </div>
             )}
@@ -91,8 +91,8 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
               <div className="flex items-start gap-2">
                 <span className="text-lg">🎯</span>
                 <div className="flex-1">
-                  <div className="font-medium text-gray-900 dark:text-gray-100">Verlässlichkeit</div>
-                  <div className="text-gray-600 dark:text-gray-400">
+                  <div className="font-medium text-grey-dark">Verlässlichkeit</div>
+                  <div className="text-text-light">
                     {data.confidence === 'high' && 'Hoch (verifizierte Buchhaltungsdaten)'}
                     {data.confidence === 'medium' && 'Mittel (Schätzung mit dokumentierter Basis)'}
                     {data.confidence === 'estimated' && 'Geschätzt (Prognose basierend auf Trends)'}
@@ -109,8 +109,8 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
         {data.formula && (
           <div>
             <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Wie wird das berechnet?</h4>
-            <div className="rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 px-4 py-3">
-              <code className="block text-sm font-mono text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{data.formula}</code>
+            <div className="rounded-lg bg-blue-50 border border-blue-200 px-4 py-3">
+              <code className="block text-sm font-mono text-grey-dark whitespace-pre-wrap">{data.formula}</code>
             </div>
           </div>
         )}
@@ -118,18 +118,18 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
         {data.description && (
           <div>
             <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Was bedeutet das?</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{data.description}</p>
+            <p className="text-sm text-text-light leading-relaxed">{data.description}</p>
           </div>
         )}
 
         {/* Transparency Footer */}
-        <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-start gap-2 text-xs text-gray-500 dark:text-gray-400">
+        <div className="pt-4 border-t border-border">
+          <div className="flex items-start gap-2 text-xs text-text-muted">
             <span className="text-sm">✓</span>
             <p>
               Alle Zahlen auf dieser Seite sind klickbar und vollständig nachvollziehbar.
               Bei Fragen zur Datenherkunft kontaktieren Sie uns unter{' '}
-              <a href={`mailto:${ORG_PROFILE.email}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+              <a href={`mailto:${ORG_PROFILE.email}`} className="text-primary hover:underline">
                 {ORG_PROFILE.email}
               </a>
             </p>

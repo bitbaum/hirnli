@@ -236,7 +236,7 @@ export default function HubPage() {
                 </ul>
               </div>
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-200 text-xs text-text-light">
+            <div className="mt-4 pt-4 border-t border-border text-xs text-text-light">
               <strong>Zielgruppe:</strong> Privatkunden, KulturLegi, NGOs, Schulen
             </div>
           </Card>
@@ -284,7 +284,7 @@ export default function HubPage() {
                 Plus: Sozialpädagogische Begleitung (Veronica) für nachhaltige Arbeitsintegration.
               </p>
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-200 text-xs text-text-light">
+            <div className="mt-4 pt-4 border-t border-border text-xs text-text-light">
               <strong>Zielgruppe:</strong> Techniker (fest & Praktikanten), Reintegrations-Programme, Freiwillige, Schulungs-Teilnehmer
             </div>
           </Card>
@@ -312,7 +312,7 @@ export default function HubPage() {
               <li>• Pausenraum & Küche</li>
               <li>• Sanitäranlagen</li>
             </ul>
-            <div className="pt-3 border-t border-gray-200">
+            <div className="pt-3 border-t border-border">
               <p className="text-xs text-text-light">
                 <strong>Team:</strong> {TEAM_MEMBERS.length} Personen + 2 geplante BPL<br />
                 <strong>Kosten:</strong> CHF 40’000
@@ -334,7 +334,7 @@ export default function HubPage() {
               <li>• 30 m² Recycling-Staging (Elektroschrott)</li>
               <li>• 20 m² Versand & Verpackung</li>
             </ul>
-            <div className="pt-3 border-t border-gray-200">
+            <div className="pt-3 border-t border-border">
               <p className="text-xs text-text-light">
                 <strong>Kapazität:</strong> 500+ Geräte gleichzeitig<br />
                 <strong>Kosten:</strong> CHF 35’000
@@ -356,7 +356,7 @@ export default function HubPage() {
               <li>• Temporäre Lagerung (24-48h)</li>
               <li>• Recycling-Abholung</li>
             </ul>
-            <div className="pt-3 border-t border-gray-200">
+            <div className="pt-3 border-t border-border">
               <p className="text-xs text-text-light">
                 <strong>Nutzung:</strong> Täglich (Lieferungen)<br />
                 <strong>Kosten:</strong> CHF 20’000
@@ -398,7 +398,7 @@ export default function HubPage() {
                 <li>• Tool Library: Werkzeugverleih (CHF 20/Tag)</li>
               </ul>
             </div>
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Kapazität:</strong> 20-30 Menschen gleichzeitig, 100+ Menschen/Monat<br />
               <strong>Zielgruppe:</strong> Maker, Hobbyisten, Startups, Schüler
             </div>
@@ -428,7 +428,7 @@ export default function HubPage() {
                 <li>• Testfläche für autonome Navigation (20m²)</li>
               </ul>
             </div>
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Kapazität:</strong> 20 Kursplätze, 200+ Schüler/Jahr<br />
               <strong>Zielgruppe:</strong> Schulklassen, Jugendliche, MINT-Interessierte
             </div>
@@ -457,7 +457,7 @@ export default function HubPage() {
                 <li>• Netzwerk-Infrastruktur (Gigabit, VPN-Zugang)</li>
               </ul>
             </div>
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Kapazität:</strong> 20 Kursplätze, 500+ Teilnehmer/Jahr<br />
               <strong>Zielgruppe:</strong> Geflüchtete, Arbeitslose, Quereinsteiger, Unternehmen (Corporate Training)
             </div>
@@ -520,7 +520,7 @@ export default function HubPage() {
               Setup C erfordert massive Corporate-Spenden oder schrittweisen Aufbau über mehrere Jahre.
             </div>
 
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Potenzielle Wirkung (je nach Setup):</strong> 20-60 Workshop-Teilnehmer/Monat, AI Hosting für 5-20 NGOs/KMUs, Hardware-Diagnostik-Automatisierung<br />
               <strong>Zielgruppe:</strong> NGOs, KMUs, Entwickler, AI-Interessierte, Studierende
             </div>
@@ -561,7 +561,7 @@ export default function HubPage() {
                 <li>• Tech-Nostalgie-Events: „Deine erste Konsole?“ (4×/Jahr)</li>
               </ul>
             </div>
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Kapazität:</strong> 30-40 Besucher gleichzeitig<br />
               <strong>Zielgruppe:</strong> Schulklassen, Tech-Nostalgiker, Kulturinteressierte
             </div>
@@ -592,7 +592,7 @@ export default function HubPage() {
                 <li>• Circuit-Bending-Workshops (Spielzeug-Elektronik zu Instrumenten)</li>
               </ul>
             </div>
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Kapazität:</strong> 20-30 Konzertbesucher, 10 Workshop-Teilnehmer<br />
               <strong>Zielgruppe:</strong> Musiker, Elektronik-Fans, Experimentelle Szene
             </div>
@@ -623,7 +623,7 @@ export default function HubPage() {
                 <li>• Verkauf: 50% Künstler, 50% Hub (Revenue-Modell)</li>
               </ul>
             </div>
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Kapazität:</strong> 3 Resident Artists, 20 Workshop-Teilnehmer<br />
               <strong>Zielgruppe:</strong> Künstler, Schulen, Kunstinteressierte
             </div>
@@ -654,7 +654,7 @@ export default function HubPage() {
                 <li>• Corporate Events & Team-Buildings (Revenue)</li>
               </ul>
             </div>
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Kapazität:</strong> 50-80 Personen (Events), 20 Personen (Workshops)<br />
               <strong>Zielgruppe:</strong> Tech-Community, Nachbarschaft, Unternehmen
             </div>
@@ -684,7 +684,7 @@ export default function HubPage() {
                 <li>• Tech-Support-Sprechstunde (Di + Do 14-17 Uhr, kostenlos)</li>
               </ul>
             </div>
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Kapazität:</strong> 15-20 Sitzplätze (Café), 30 (Community-Dinner)<br />
               <strong>Zielgruppe:</strong> Alle — niederschwelliger Zugang
             </div>
@@ -715,7 +715,7 @@ export default function HubPage() {
                 <li>• Lernen durch Tun: Du reparierst, wir unterstützen</li>
               </ul>
             </div>
-            <div className="text-xs text-text-light pt-3 border-t border-gray-200">
+            <div className="text-xs text-text-light pt-3 border-t border-border">
               <strong>Kapazität:</strong> 30-40 Besucher/Event, 60-80 Menschen/Monat<br />
               <strong>Zielgruppe:</strong> Jede:r mit kaputtem Gerät
             </div>

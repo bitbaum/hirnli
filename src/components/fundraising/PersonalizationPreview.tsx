@@ -69,8 +69,8 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
 
   if (isLoading) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <div className="text-gray-500">Generiere Vorschau...</div>
+      <div className="bg-white border border-border rounded-lg p-6">
+        <div className="text-text-muted">Generiere Vorschau...</div>
       </div>
     );
   }
@@ -91,8 +91,8 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
 
   if (!data) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <p className="text-gray-500">Keine Personalisierung verfügbar</p>
+      <div className="bg-white border border-border rounded-lg p-6">
+        <p className="text-text-muted">Keine Personalisierung verfügbar</p>
       </div>
     );
   }
@@ -111,8 +111,8 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
 
       {/* Applied Rules */}
       {appliedRules.length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-white border border-border rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-grey-dark mb-4">
             Angewendete Regeln ({appliedRules.length})
           </h3>
           <div className="space-y-3">
@@ -122,16 +122,16 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
                 className="border-l-4 border-blue-400 pl-4 py-2"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-medium text-gray-500">
+                  <span className="text-xs font-medium text-text-muted">
                     P{rule.priority}
                   </span>
-                  <span className="text-sm font-medium text-gray-900">
+                  <span className="text-sm font-medium text-grey-dark">
                     {rule.type}
                   </span>
                 </div>
-                <div className="text-sm text-gray-700 mb-1">{rule.value}</div>
+                <div className="text-sm text-grey-dark mb-1">{rule.value}</div>
                 {rule.rationale && (
-                  <div className="text-xs text-gray-500 italic">
+                  <div className="text-xs text-text-muted italic">
                     → {rule.rationale}
                   </div>
                 )}
@@ -160,8 +160,8 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
       {/* Budget Modules */}
       {(customizations.visibleBudgetModules.length > 0 ||
         customizations.hiddenBudgetModules.length > 0) && (
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-white border border-border rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-grey-dark mb-4">
             💰 Budget Module
           </h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -172,7 +172,7 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
                 </h4>
                 <ul className="space-y-1">
                   {customizations.visibleBudgetModules.map((module, index) => (
-                    <li key={index} className="text-sm text-gray-700">
+                    <li key={index} className="text-sm text-grey-dark">
                       ✓ {module}
                     </li>
                   ))}
@@ -186,7 +186,7 @@ export function PersonalizationPreview({ foundationId }: PersonalizationPreviewP
                 </h4>
                 <ul className="space-y-1">
                   {customizations.hiddenBudgetModules.map((module, index) => (
-                    <li key={index} className="text-sm text-gray-500">
+                    <li key={index} className="text-sm text-text-muted">
                       ✗ {module}
                     </li>
                   ))}

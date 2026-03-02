@@ -3,11 +3,11 @@
 import type { NumberSource } from '@/lib/config/numbers';
 
 const CONFIDENCE_COLORS: Record<string, string> = {
-  high: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-  medium: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-  estimated: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
-  target: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-  unknown: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+  high: 'bg-green-100 text-green-800',
+  medium: 'bg-yellow-100 text-yellow-800',
+  estimated: 'bg-orange-100 text-orange-800',
+  target: 'bg-blue-100 text-blue-800',
+  unknown: 'bg-red-100 text-red-800',
 };
 
 const CONFIDENCE_LABELS: Record<string, string> = {
@@ -35,23 +35,23 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-auto"
+        className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6">
+        <div className="sticky top-0 bg-white border-b border-border p-6">
           <div className="flex items-start justify-between">
             <div>
-              <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+              <div className="text-4xl font-bold text-primary mb-2">
                 {formattedValue}
               </div>
-              <div className="text-lg font-medium text-gray-900 dark:text-gray-100">
+              <div className="text-lg font-medium text-grey-dark">
                 {data.label}
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-2xl leading-none"
+              className="text-text-muted hover:text-text text-2xl leading-none"
               aria-label="Schliessen"
             >
               ×
@@ -63,7 +63,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
         <div className="p-6 space-y-6">
           {/* Confidence Badge */}
           <div>
-            <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <div className="text-sm font-medium text-grey-dark mb-2">
               Verlässlichkeit
             </div>
             <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${CONFIDENCE_COLORS[data.source.confidence] ?? CONFIDENCE_COLORS.unknown}`}>
@@ -73,10 +73,10 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
 
           {/* Methodology */}
           <div>
-            <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <div className="text-sm font-medium text-grey-dark mb-2">
               Methodik
             </div>
-            <div className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+            <div className="text-text-light text-sm leading-relaxed">
               {data.source.methodology}
             </div>
           </div>
@@ -84,10 +84,10 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
           {/* Calculation (if exists) */}
           {data.source.calculation && (
             <div>
-              <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <div className="text-sm font-medium text-grey-dark mb-2">
                 Berechnung
               </div>
-              <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4 font-mono text-sm text-gray-700 dark:text-gray-300">
+              <div className="bg-bg-light rounded-lg p-4 font-mono text-sm text-grey-dark">
                 {data.source.calculation}
               </div>
             </div>
@@ -95,10 +95,10 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
 
           {/* Last Verified */}
           <div>
-            <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <div className="text-sm font-medium text-grey-dark mb-2">
               Zuletzt verifiziert
             </div>
-            <div className="text-gray-600 dark:text-gray-400 text-sm">
+            <div className="text-text-light text-sm">
               {new Date(data.source.lastVerified).toLocaleDateString('de-CH', {
                 year: 'numeric',
                 month: 'long',
@@ -130,7 +130,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
                 href={data.source.externalLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                className="inline-flex items-center gap-2 text-primary hover:underline text-sm"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -142,8 +142,8 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-200 dark:border-gray-700 p-4 text-center">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+        <div className="sticky bottom-0 bg-bg-light border-t border-border p-4 text-center">
+          <p className="text-xs text-text-muted">
             Alle Zahlen auf dieser Seite sind klickbar und vollständig nachvollziehbar.
           </p>
         </div>

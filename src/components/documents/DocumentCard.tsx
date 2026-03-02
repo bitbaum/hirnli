@@ -67,7 +67,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
         )}
       </div>
 
-      <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+      <div className="flex items-center justify-between pt-3 border-t border-border">
         <span className="text-sm font-medium text-primary group-hover:text-primary-light transition-colors flex items-center gap-2">
           <span>{actionIcon}</span>
           <span>{actionLabel}</span>

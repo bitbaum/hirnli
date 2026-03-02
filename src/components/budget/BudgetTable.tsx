@@ -52,13 +52,13 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
         const categoryTotal = categoryItems.reduce((sum, item) => sum + item.amount, 0);
 
         return (
-          <div key={category} className="bg-white rounded-lg border border-gray-200 p-5">
+          <div key={category} className="bg-white rounded-lg border border-border p-5">
             {/* Category header */}
-            <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <div className="flex justify-between items-center mb-4 pb-3 border-b border-border">
+              <h3 className="text-lg font-semibold text-grey-dark">
                 {BUDGET_CATEGORY_LABELS[category]}
               </h3>
-              <span className="text-sm font-medium text-gray-600">
+              <span className="text-sm font-medium text-text-light">
                 Total: {formatCHF(categoryTotal)}
               </span>
             </div>
@@ -69,20 +69,20 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
                 <div key={item.id}>
                   {/* Line item row (clickable) */}
                   <div
-                    className="flex justify-between items-center p-3 hover:bg-gray-50 rounded-md cursor-pointer transition-colors"
+                    className="flex justify-between items-center p-3 hover:bg-bg-light rounded-md cursor-pointer transition-colors"
                     onClick={() => toggleItem(item.id)}
                   >
                     <div className="flex items-center gap-3">
                       {item.icon && <span className="text-xl">{item.icon}</span>}
                       <div>
-                        <span className="font-medium text-gray-900">{item.label}</span>
+                        <span className="font-medium text-grey-dark">{item.label}</span>
                         {item.isOptional && (
-                          <span className="ml-2 text-xs text-gray-500 italic">(optional)</span>
+                          <span className="ml-2 text-xs text-text-muted italic">(optional)</span>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="font-semibold text-gray-900">{formatCHF(item.amount)}</span>
+                      <span className="font-semibold text-grey-dark">{formatCHF(item.amount)}</span>
                       <span
                         className={`text-xs px-2 py-1 rounded ${
                           item.type === 'einmalig'
@@ -93,7 +93,7 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
                         {item.type}
                       </span>
                       <svg
-                        className={`w-5 h-5 text-gray-400 transition-transform ${
+                        className={`w-5 h-5 text-text-muted transition-transform ${
                           expandedItem === item.id ? 'rotate-180' : ''
                         }`}
                         fill="none"

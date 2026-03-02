@@ -22,18 +22,18 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
   const { year1, year2, year3 } = scenario.threeYearModel;
 
   return (
-    <div className={`bg-white rounded-lg border border-gray-200 p-6 ${className}`}>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">3-Jahres-Finanzplan</h3>
+    <div className={`bg-white rounded-lg border border-border p-6 ${className}`}>
+      <h3 className="text-lg font-semibold text-grey-dark mb-4">3-Jahres-Finanzplan</h3>
 
       {/* Year-by-year breakdown */}
       <div className="space-y-4 mb-6">
         {/* Year 1 */}
         <div className="p-4 bg-blue-50 rounded-lg">
           <div className="flex justify-between items-start mb-2">
-            <h4 className="font-semibold text-gray-900">Jahr 1</h4>
+            <h4 className="font-semibold text-grey-dark">Jahr 1</h4>
             <span className="text-lg font-bold text-blue-700">{formatCHF(totals.y1Total)}</span>
           </div>
-          <div className="text-sm space-y-1 text-gray-600">
+          <div className="text-sm space-y-1 text-text-light">
             <div className="flex justify-between">
               <span>Einmalige Kosten:</span>
               <span className="font-medium">{formatCHF(year1.einmalig)}</span>
@@ -50,17 +50,17 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
         </div>
 
         {/* Year 2 */}
-        <div className="p-4 bg-gray-50 rounded-lg">
+        <div className="p-4 bg-bg-light rounded-lg">
           <div className="flex justify-between items-start mb-2">
-            <h4 className="font-semibold text-gray-900">Jahr 2</h4>
-            <span className="text-lg font-bold text-gray-700">{formatCHF(totals.y2Total)}</span>
+            <h4 className="font-semibold text-grey-dark">Jahr 2</h4>
+            <span className="text-lg font-bold text-grey-dark">{formatCHF(totals.y2Total)}</span>
           </div>
-          <div className="text-sm space-y-1 text-gray-600">
+          <div className="text-sm space-y-1 text-text-light">
             <div className="flex justify-between">
               <span>Jährliche Kosten:</span>
               <span className="font-medium">{formatCHF(year2.jaehrlich)}</span>
             </div>
-            <div className="flex justify-between text-green-700 pt-1 border-t border-gray-200">
+            <div className="flex justify-between text-green-700 pt-1 border-t border-border">
               <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year2.eigenleistung)}</span>
             </div>
@@ -68,17 +68,17 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
         </div>
 
         {/* Year 3 */}
-        <div className="p-4 bg-gray-50 rounded-lg">
+        <div className="p-4 bg-bg-light rounded-lg">
           <div className="flex justify-between items-start mb-2">
-            <h4 className="font-semibold text-gray-900">Jahr 3</h4>
-            <span className="text-lg font-bold text-gray-700">{formatCHF(totals.y3Total)}</span>
+            <h4 className="font-semibold text-grey-dark">Jahr 3</h4>
+            <span className="text-lg font-bold text-grey-dark">{formatCHF(totals.y3Total)}</span>
           </div>
-          <div className="text-sm space-y-1 text-gray-600">
+          <div className="text-sm space-y-1 text-text-light">
             <div className="flex justify-between">
               <span>Jährliche Kosten:</span>
               <span className="font-medium">{formatCHF(year3.jaehrlich)}</span>
             </div>
-            <div className="flex justify-between text-green-700 pt-1 border-t border-gray-200">
+            <div className="flex justify-between text-green-700 pt-1 border-t border-border">
               <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year3.eigenleistung)}</span>
             </div>
@@ -87,23 +87,23 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
       </div>
 
       {/* Grand totals */}
-      <div className="pt-4 border-t-2 border-gray-300 space-y-2">
+      <div className="pt-4 border-t-2 border-border space-y-2">
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Stiftungen Total (3 Jahre):</span>
+          <span className="text-text-light">Stiftungen Total (3 Jahre):</span>
           <span className="font-bold text-blue-700">{formatCHF(totals.stiftungenTotal)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Eigenleistung Total (bewertete Freiwilligenarbeit):</span>
+          <span className="text-text-light">Eigenleistung Total (bewertete Freiwilligenarbeit):</span>
           <span className="font-bold text-green-700">{formatCHF(totals.eigenTotal)}</span>
         </div>
-        <div className="flex justify-between pt-2 border-t border-gray-200">
-          <span className="font-semibold text-gray-900">Projektwert Total:</span>
-          <span className="text-xl font-bold text-gray-900">{formatCHF(totals.projectTotal)}</span>
+        <div className="flex justify-between pt-2 border-t border-border">
+          <span className="font-semibold text-grey-dark">Projektwert Total:</span>
+          <span className="text-xl font-bold text-grey-dark">{formatCHF(totals.projectTotal)}</span>
         </div>
       </div>
 
       {/* Space requirement */}
-      <div className="mt-4 pt-4 border-t border-gray-200 text-sm text-gray-600">
+      <div className="mt-4 pt-4 border-t border-border text-sm text-text-light">
         <div className="flex justify-between">
           <span>Raumbedarf:</span>
           <span className="font-medium">

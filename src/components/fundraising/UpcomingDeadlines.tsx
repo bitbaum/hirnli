@@ -52,7 +52,7 @@ export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
 
   if (deadlines.length === 0) {
     return (
-      <div className="text-center text-gray-500 py-8">
+      <div className="text-center text-text-muted py-8">
         Keine anstehenden Fristen in den nächsten 30 Tagen
       </div>
     );
