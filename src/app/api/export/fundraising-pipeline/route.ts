@@ -74,8 +74,8 @@ export async function GET() {
         r.decisionExpected,
         daysToDecision,
         r.decisionDate,
-        r.createdAt,
-        r.updatedAt,
+        r.createdAt?.toISOString() ?? null,
+        r.updatedAt?.toISOString() ?? null,
       ];
     });
 

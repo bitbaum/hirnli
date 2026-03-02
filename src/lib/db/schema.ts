@@ -10,8 +10,7 @@
  * Schema serves Ground Truth #2: State defines behavior, one source of truth.
  */
 
-import { sql } from 'drizzle-orm';
-import { text, integer, boolean, jsonb, pgTable } from 'drizzle-orm/pg-core';
+import { text, integer, boolean, jsonb, pgTable, timestamp } from 'drizzle-orm/pg-core';
 
 /**
  * Foundation Registry Table - Universal facts (org-agnostic)
@@ -36,8 +35,8 @@ export const foundationRegistry = pgTable('fundraising_foundation_registry', {
   registryData: jsonb('registry_data'),                // Full FoundationRegistry object
   dataQuality: integer('data_quality'),                // 1-5 scale
   lastVerified: text('last_verified'),                 // ISO date
-  createdAt: text('created_at').default(sql`now()`),
-  updatedAt: text('updated_at').default(sql`now()`),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
 /**
@@ -60,7 +59,7 @@ export const foundations = pgTable('fundraising_foundations', {
   // Classification
   fitScore: integer('fit_score'), // 0-10 scale
   priority: integer('priority'), // 1-4 (1 = highest)
-  focusAreas: text('focus_areas'), // JSON array of strings
+  focusAreas: jsonb('focus_areas').$type<string[]>(),
   geographicScope: text('geographic_scope'), // e.g., 'Switzerland', 'Zurich', 'International'
   organizationType: text('organization_type'), // foundation, fund, program, network
 
@@ -76,8 +75,8 @@ export const foundations = pgTable('fundraising_foundations', {
   // Strategic data
   strategicFit: text('strategic_fit'), // Markdown explanation
   applicationNotes: text('application_notes'), // Markdown
-  pastGrantees: text('past_grantees'), // JSON array
-  boardMembers: text('board_members'), // JSON array
+  pastGrantees: jsonb('past_grantees').$type<string[]>(),
+  boardMembers: jsonb('board_members').$type<{ name: string; role: string }[]>(),
 
   // Research metadata
   researchDepth: text('research_depth'), // 'rapid' | 'standard' | 'deep'
@@ -94,8 +93,8 @@ export const foundations = pgTable('fundraising_foundations', {
 
   // Admin
   source: text('source'), // swissfoundations, spheriq, zhaw, typescript-legacy, rapid-assessment, etc.
-  createdAt: text('created_at').default(sql`now()`),
-  updatedAt: text('updated_at').default(sql`now()`),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
   archived: boolean('archived').default(false),
 });
 
@@ -138,8 +137,8 @@ export const applications = pgTable('fundraising_applications', {
   priorityLevel: integer('priority_level'), // 1-4 (1 = highest)
 
   // Admin
-  createdAt: text('created_at').default(sql`now()`),
-  updatedAt: text('updated_at').default(sql`now()`),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
 /**
@@ -166,7 +165,7 @@ export const customizationRules = pgTable('fundraising_customization_rules', {
   active: boolean('active').default(true),
 
   // Admin
-  createdAt: text('created_at').default(sql`now()`),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 });
 
 /**
@@ -190,7 +189,7 @@ export const activityLog = pgTable('fundraising_activity_log', {
   performedBy: text('performed_by'), // User/system identifier
 
   // When
-  timestamp: text('timestamp').default(sql`now()`),
+  timestamp: timestamp('timestamp', { withTimezone: true }).defaultNow(),
 });
 
 /**
@@ -205,8 +204,8 @@ export const gesuchOverrides = pgTable('fundraising_gesuch_overrides', {
   foundationId: text('foundation_id').notNull().references(() => foundations.id),
   orgId: text('org_id').notNull().default('revamp-it'),
   overrides: jsonb('overrides').notNull().default({}),
-  createdAt: text('created_at').default(sql`now()`),
-  updatedAt: text('updated_at').default(sql`now()`),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
 export type GesuchOverride = typeof gesuchOverrides.$inferSelect;
@@ -254,7 +253,7 @@ export const contacts = pgTable('fundraising_contacts', {
   notes: text('notes'), // Communication history, preferences, etc.
 
   // Admin
-  createdAt: text('created_at').default(sql`now()`),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 });
 
 /**
@@ -265,8 +264,8 @@ export const contacts = pgTable('fundraising_contacts', {
 export type FoundationRegistryRow = typeof foundationRegistry.$inferSelect;
 export type NewFoundationRegistryRow = typeof foundationRegistry.$inferInsert;
 
-export type Foundation = typeof foundations.$inferSelect;
-export type NewFoundation = typeof foundations.$inferInsert;
+export type FoundationRow = typeof foundations.$inferSelect;
+export type NewFoundationRow = typeof foundations.$inferInsert;
 
 export type Application = typeof applications.$inferSelect;
 export type NewApplication = typeof applications.$inferInsert;

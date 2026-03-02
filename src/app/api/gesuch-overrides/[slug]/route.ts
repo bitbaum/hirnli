@@ -115,7 +115,7 @@ export async function PUT(
     if (existing.length > 0) {
       await db
         .update(gesuchOverrides)
-        .set({ overrides: parsed.data, updatedAt: new Date().toISOString() })
+        .set({ overrides: parsed.data, updatedAt: new Date() })
         .where(eq(gesuchOverrides.id, existing[0].id));
     } else {
       await db.insert(gesuchOverrides).values({
@@ -170,7 +170,7 @@ export async function PATCH(
     if (existing.length > 0) {
       await db
         .update(gesuchOverrides)
-        .set({ overrides: merged, updatedAt: new Date().toISOString() })
+        .set({ overrides: merged, updatedAt: new Date() })
         .where(eq(gesuchOverrides.id, existing[0].id));
     } else {
       await db.insert(gesuchOverrides).values({

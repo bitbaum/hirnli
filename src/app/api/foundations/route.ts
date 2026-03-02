@@ -164,14 +164,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create foundation
+    // Create foundation — omit createdAt/updatedAt (DB defaultNow())
+    // focusAreas is now jsonb string[] — pass array directly
     const newFoundation = {
       id: slug,
       ...data,
-      focusAreas: data.focusAreas ? JSON.stringify(data.focusAreas) : null,
       researchDate: new Date().toISOString().split('T')[0],
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
       archived: false,
     };
 

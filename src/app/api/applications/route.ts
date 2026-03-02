@@ -163,12 +163,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create application
+    // Create application — omit createdAt/updatedAt (DB defaultNow())
     const newApplication = {
       id: nanoid(),
       ...data,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     };
 
     await db.insert(applications).values(newApplication);
@@ -185,7 +183,6 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
       }),
       performedBy: data.assignedTo || 'system',
-      timestamp: new Date().toISOString(),
     });
 
     return NextResponse.json(

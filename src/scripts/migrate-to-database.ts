@@ -90,6 +90,8 @@ function parseGrantRange(text?: string): { min: number | null; max: number | nul
 async function migrateTypescriptFoundations() {
   console.log('\n📦 Migrating TypeScript foundations...\n');
 
+  // focusAreas, pastGrantees, boardMembers are now jsonb — pass arrays directly
+  // omit createdAt/updatedAt (DB defaultNow())
   const transformed = STIFTUNGEN_DATA.map((f) => {
     const { min, max } = parseGrantRange(f.amount.text);
 
@@ -103,7 +105,7 @@ async function migrateTypescriptFoundations() {
       // Classification
       fitScore: f.fit, // 1-3 scale in TypeScript → will be 0-10 in database
       priority: f.priority,
-      focusAreas: JSON.stringify(f.themes), // Convert ThemeId[] to JSON
+      focusAreas: f.themes as string[],
       geographicScope: f.region,
       organizationType: f.type === 'network' ? 'network' : 'foundation',
 
@@ -119,8 +121,8 @@ async function migrateTypescriptFoundations() {
       // Strategic data
       strategicFit: f.researchNotes || null,
       applicationNotes: f.applicationProcess ? f.applicationProcess.join('\n\n') : null,
-      pastGrantees: f.pastGrantees ? JSON.stringify(f.pastGrantees) : null,
-      boardMembers: f.boardMembers ? JSON.stringify(f.boardMembers) : null,
+      pastGrantees: f.pastGrantees ?? null,
+      boardMembers: f.boardMembers ?? null,
 
       // Research metadata
       researchDepth: f.needsResearch ? 'rapid' : 'standard',
@@ -130,8 +132,6 @@ async function migrateTypescriptFoundations() {
 
       // Admin
       source: f.source || 'typescript-legacy',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
       archived: false,
     };
   });
@@ -176,6 +176,8 @@ async function migrateJsonFoundations(existingNames: string[]) {
         continue;
       }
 
+      // focusAreas, pastGrantees, boardMembers are now jsonb — pass arrays directly
+      // omit createdAt/updatedAt (DB defaultNow())
       const transformed = newFoundations.map(f => {
         const { min, max } = parseGrantRange(f.grantRange);
 
@@ -189,7 +191,7 @@ async function migrateJsonFoundations(existingNames: string[]) {
           // Classification
           fitScore: f.fitScore || null,
           priority: f.priority || null,
-          focusAreas: f.focusAreas ? JSON.stringify(f.focusAreas) : null,
+          focusAreas: f.focusAreas ?? null,
           geographicScope: f.location || null,
           organizationType: 'foundation',
 
@@ -205,8 +207,8 @@ async function migrateJsonFoundations(existingNames: string[]) {
           // Strategic data
           strategicFit: f.strategicFit || f.fitRationale || null,
           applicationNotes: f.notes || null,
-          pastGrantees: f.pastGrantees ? JSON.stringify(f.pastGrantees) : null,
-          boardMembers: f.boardMembers ? JSON.stringify(f.boardMembers) : null,
+          pastGrantees: f.pastGrantees ?? null,
+          boardMembers: f.boardMembers ?? null,
 
           // Research metadata
           researchDepth: filePath.includes('rapid') ? 'rapid' : 'deep',
@@ -216,8 +218,6 @@ async function migrateJsonFoundations(existingNames: string[]) {
 
           // Admin
           source: f.source || (filePath.includes('rapid') ? 'rapid-assessment' : 'targeted-research'),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
           archived: false,
         };
       });

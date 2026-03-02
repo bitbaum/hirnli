@@ -3,12 +3,8 @@
  *
  * All imports from '@/lib/config/foundations' resolve here.
  * Foundation data is generated from DB via `npm run sync`.
- *
- * Legacy batch files (stiftungen-core.ts, stiftungen-2026-02.ts) are kept
- * as seed data reference but are no longer the runtime source.
+ * DB is write SSOT; stiftungen-generated.ts is read-only build cache.
  */
-
-import type { Foundation } from '../../schemas/foundation';
 
 export {
   THEMES,
@@ -21,55 +17,12 @@ export {
 } from './metadata';
 
 import { STIFTUNGEN_GENERATED } from './stiftungen-generated';
+import type { Foundation } from '../../schemas/foundation';
+import { validateFoundationQuality } from '../../domain/foundation-quality';
 
 export const STIFTUNGEN_DATA: Foundation[] = STIFTUNGEN_GENERATED;
 
-// ---------------------------------------------------------------------------
-// Quality Gate Validation (enforced at build time)
-// ---------------------------------------------------------------------------
-// Ground Truth #2: Schema defines behavior. The quality gate for
-// needsResearch: false is documented in foundation.ts but was never enforced.
-// This validation runs at import time — if it fails, the build fails.
-// ---------------------------------------------------------------------------
-
-interface QualityViolation {
-  slug: string;
-  issues: string[];
-}
-
-function validateFoundationQuality(data: Foundation[]): QualityViolation[] {
-  const violations: QualityViolation[] = [];
-
-  for (const f of data) {
-    if (f.needsResearch) continue; // Only validate "ready" entries
-
-    const issues: string[] = [];
-
-    if (!f.purposeSummary || f.purposeSummary.length < 150) {
-      issues.push(`purposeSummary missing or too short (${f.purposeSummary?.length ?? 0} chars, min 150)`);
-    }
-    if (!f.researchNotes || f.researchNotes.length < 250) {
-      issues.push(`researchNotes missing or too short (${f.researchNotes?.length ?? 0} chars, min 250)`);
-    }
-    if (!f.contact || (!f.contact.email && !f.contact.phone && !f.contact.address)) {
-      issues.push('contact missing (need at least email, phone, or address)');
-    }
-    if (!f.themes || f.themes.length === 0) {
-      issues.push('no themes assigned');
-    }
-    if (!f.websiteUrl) {
-      issues.push('websiteUrl missing');
-    }
-
-    if (issues.length > 0) {
-      violations.push({ slug: f.slug, issues });
-    }
-  }
-
-  return violations;
-}
-
-// Run validation — warn in dev, log in prod (don't break prod builds for data issues)
+// Run quality gate at import time — warns on violations without breaking prod builds
 const violations = validateFoundationQuality(STIFTUNGEN_DATA);
 if (violations.length > 0) {
   const msg = violations

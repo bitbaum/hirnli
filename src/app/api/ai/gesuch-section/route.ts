@@ -41,40 +41,72 @@ Standort: Badenerstrasse 816, 8048 Zürich (Werkstatt + Laden) & Birmensdorferst
 ## Aufgabe
 Du erhältst einen Textabschnitt und eine Überarbeitungsanweisung. Gib NUR den überarbeiteten Text zurück — kein Kommentar, keine Erklärung, keine Präambel, kein "Hier ist der überarbeitete Text:".`;
 
+interface FoundationAIContext {
+  name: string;
+  purpose?: string;
+  type?: string;
+  themes: string[];
+  fitScore?: number;
+  tagline?: string;
+  researchNotes?: string;
+  pastGrantees?: string[];
+  grantRange?: { min?: number; max?: number };
+  applicationProcess?: string;
+  deadline?: string;
+  deadlineText?: string;
+}
+
 type RequestBody = {
   instruction: string;
   currentText: string;
   fieldPath?: string;
   fieldDescription?: string;
-  foundationName?: string;
-  foundationPurpose?: string;
-  foundationType?: string;
-  foundationThemes?: string[];
-  foundationFitScore?: number;
+  foundationContext?: FoundationAIContext;
 };
 
 function buildUserMessage(body: RequestBody): string {
   const lines: string[] = [];
 
   // Foundation context block
-  if (body.foundationName) {
-    lines.push(`## Stiftung: ${body.foundationName}`);
-    if (body.foundationPurpose) lines.push(`Stiftungszweck: ${body.foundationPurpose}`);
-    if (body.foundationType) {
+  const fc = body.foundationContext;
+  if (fc?.name) {
+    lines.push(`## Stiftung: ${fc.name}`);
+    if (fc.purpose) lines.push(`Stiftungszweck: ${fc.purpose}`);
+    if (fc.type) {
       const typeLabels: Record<string, string> = {
         A: 'Typ A — thematisch passend, hohe Priorität',
         B: 'Typ B — guter Fit, aktiv bewerben',
         C: 'Typ C — möglicher Fit, Timing wichtig',
         D: 'Typ D — Netzwerk-Stiftung',
       };
-      lines.push(`Stiftungstyp: ${typeLabels[body.foundationType] ?? body.foundationType}`);
+      lines.push(`Stiftungstyp: ${typeLabels[fc.type] ?? fc.type}`);
     }
-    if (body.foundationThemes?.length) {
-      lines.push(`Förderbereiche: ${body.foundationThemes.join(', ')}`);
+    if (fc.themes?.length) {
+      lines.push(`Förderbereiche: ${fc.themes.join(', ')}`);
     }
-    if (body.foundationFitScore != null) {
-      lines.push(`Fit-Score: ${body.foundationFitScore}/10`);
+    if (fc.fitScore != null) {
+      lines.push(`Fit-Score: ${fc.fitScore}/10`);
     }
+    if (fc.tagline) lines.push(`Tagline: ${fc.tagline}`);
+    if (fc.grantRange?.min != null || fc.grantRange?.max != null) {
+      const rangeStr = [
+        fc.grantRange.min != null ? `ab CHF ${fc.grantRange.min.toLocaleString('de-CH')}` : null,
+        fc.grantRange.max != null ? `bis CHF ${fc.grantRange.max.toLocaleString('de-CH')}` : null,
+      ]
+        .filter(Boolean)
+        .join(', ');
+      lines.push(`Förderbereich Budget: ${rangeStr}`);
+    }
+    if (fc.pastGrantees?.length) {
+      lines.push(`Bisherige Empfänger: ${fc.pastGrantees.slice(0, 5).join(', ')}`);
+    }
+    if (fc.applicationProcess) {
+      lines.push(`Bewerbungsprozess: ${fc.applicationProcess}`);
+    }
+    if (fc.researchNotes) {
+      lines.push(`\nStrategische Einschätzung:\n${fc.researchNotes}`);
+    }
+    if (fc.deadlineText) lines.push(`Eingabeschluss: ${fc.deadlineText}`);
     lines.push('');
   }
 

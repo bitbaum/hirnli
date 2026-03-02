@@ -139,7 +139,7 @@ export async function PATCH(
     const data = validation.data;
     const updates: Record<string, unknown> = {
       ...data,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date(),
     };
 
     // Handle documentsSent array → JSON string
@@ -167,7 +167,6 @@ export async function PATCH(
         timestamp: new Date().toISOString(),
       }),
       performedBy: data.assignedTo || 'api',
-      timestamp: new Date().toISOString(),
     });
 
     // Fetch updated application
@@ -232,7 +231,6 @@ export async function DELETE(
         timestamp: new Date().toISOString(),
       }),
       performedBy: 'api',
-      timestamp: new Date().toISOString(),
     });
 
     // Hard delete

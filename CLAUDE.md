@@ -4,14 +4,22 @@
 
 ---
 
-## Product Vision
+## Platform Identity
+
+### Internal Codename: Hirnli
+
+This platform will eventually be released as a standalone SaaS product. Internal codename: **Hirnli**. This name is not public and must not appear anywhere in the UI, docs, or external-facing content. The only branding deployed is Revamp-IT's.
+
+**Why Hirnli stays hidden for now:** We are proving the concept with Revamp-IT as the first and only tenant. Once we've shown it works end-to-end — quality Gesuch generation, foundation pipeline management, measurable fundraising outcomes — we open it to other orgs. Premature branding creates premature expectations.
+
+**When the name becomes relevant:** When we implement multi-tenancy (Phase 3). At that point, orgs sign up, add context documents, and get their own deployed instance. The platform name matters then, not before.
 
 ### What This Is
 
-A **fundraising intelligence platform** that helps organizations present themselves compellingly to potential funders, find the right foundations, and generate professional application documents.
+A **fundraising intelligence platform** that helps mission-driven organizations present themselves compellingly to potential funders, find the right foundations, and generate professional application documents.
 
-**Currently:** Built for Revamp-IT as the first use case.
-**Future:** A universal platform any project can use to fundraise effectively.
+**Currently:** Built for and used exclusively by Revamp-IT.
+**Future:** Any purpose-driven organization can use this by providing their own context.
 
 ### The Core Value Chain
 
@@ -95,6 +103,133 @@ lib/data/financial.ts      → Financial data + FinanceDataSet class
 ```
 
 Adding a new foundation requires: **1 data entry** in `foundations.ts` (1-file rule — dynamic route handles rendering).
+
+---
+
+## Access Control Model
+
+**The boundary:** Internal tools are separated from external-facing content.
+
+```
+PUBLIC (anyone)                          INTERNAL (Revamp-IT team, password)
+───────────────────────────────────      ──────────────────────────────────────
+/ (dashboard)                            /fundraising/**
+/finanzen, /wirkung, /methodik, etc.     /api/pdf/**
+/gesuch/share/[token]  ← by design      /api/applications/**
+                                         /api/gesuch-overrides/**
+                                         /api/ai/**
+```
+
+**How auth works:** `src/middleware.ts` checks HTTP Basic Auth on protected routes.
+Set `INTERNAL_PASSWORD` in Vercel environment variables. If unset, all routes are open
+(local dev). The browser handles the prompt — no login page, no sessions, no accounts.
+
+**The share-page contract:** `/gesuch/share/[token]` is intentionally public. It's the
+controlled channel for sending foundation-specific content to program officers. Tokens
+are HMAC-SHA256 derived from `SHARE_SECRET` — unguessable without the secret.
+See `src/lib/utils/share-token.ts`.
+
+**Why this split:** A foundation officer following a share link should see a clean,
+read-only presentation. They should not be able to navigate to our internal pipeline,
+see our research on other foundations, or discover that content is generated from
+shared templates. The `GesuchShareView` component enforces this — no toolbar, no edit
+controls, no internal badges.
+
+**Multi-tenancy implication:** When Hirnli goes multi-tenant, this middleware gets
+replaced by proper per-org auth (Clerk or similar). The internal/external boundary
+stays the same; auth becomes per-org rather than a single shared password.
+
+---
+
+## Foundation Database Model
+
+### Two Layers, One Schema
+
+The foundation schema has two explicit layers (`src/lib/schemas/foundation.ts`):
+
+```
+registrySchema    — Universal, org-agnostic facts
+                    (name, purpose, contact, grant range, application process)
+                    Survives org swaps. Can be bulk-imported from ESA/Zefix/Fundraiso.
+                    Valid for ANY org using this platform.
+
+analysisSchema    — Per-org assessment
+                    (fit score, priority, type A/B/C/D, themes, researchNotes)
+                    Specific to how THIS org relates to the foundation.
+                    Must be rewritten when a new org onboards.
+```
+
+This split is intentional and load-bearing for multi-tenancy. Never put org-specific
+judgments into the registry layer.
+
+### Foundation Data Pipeline (Write SSOT = DB)
+
+```
+ESA / Zefix / Research scripts
+        ↓ write via scripts/foundation-upsert.ts
+  PostgreSQL (Neon) — fundraising_foundations table — WRITE SSOT
+  config_data JSONB column holds all Foundation domain fields
+        ↓ npm run sync  (prebuild, also runs before dev server)
+  src/lib/config/foundations/stiftungen-generated.ts — READ-ONLY build cache
+  (Never edit this file manually — it is always overwritten by sync)
+        ↓ import STIFTUNGEN_DATA
+  All UI pages (in-memory filtering, static generation at build time)
+```
+
+**Foundation funnel (approximate):**
+
+| Tier | Count | Table/File | What it means |
+|------|-------|------------|---------------|
+| Swiss universe | ~14k | External (Fundraiso/Spheriq) | All registered Swiss foundations |
+| Registry | ~5,400 | `fundraising_foundation_registry` | Free ESA import, org-agnostic facts |
+| Pipeline | ~300 | `fundraising_foundations` | Entered Revamp-IT analysis pipeline |
+| Generated | ~210 | `stiftungen-generated.ts` | Have config_data, non-rapid research |
+| Gesuch-ready | ~65 | (filtered at runtime) | priority ≤ 2, needsResearch: false |
+
+**Adding a foundation to the pipeline:**
+1. Research the foundation and prepare its data
+2. Run `npx tsx scripts/foundation-upsert.ts` (or direct DB insert) with config_data
+3. Run `npm run sync` to regenerate `stiftungen-generated.ts`
+4. `npm run build` picks up the new entry — dynamic route handles rendering automatically
+
+**Never** add entries by hand-editing `stiftungen-generated.ts`. It is overwritten on every sync.
+
+### Two Foundation Types (do not confuse)
+
+| Type | File | Shape | Who uses it |
+|------|------|-------|-------------|
+| `Foundation` | `src/lib/schemas/foundation.ts` | Zod domain type, ~56 rich fields | UI, Gesuch generation, ~30 consumers |
+| `FoundationRow` | `src/lib/db/schema.ts` | Drizzle `$inferSelect`, flat DB row | API routes, DB queries, ~15 consumers |
+
+`Foundation` is derived from `FoundationRow.config_data` JSONB during `npm run sync`.
+When importing, check which layer you're in: DB API routes use `FoundationRow`; UI/domain code uses `Foundation`.
+
+### Research Priority
+
+The foundation DB grows independently of which orgs use it, but in **priority order**:
+
+1. Foundations whose mission overlaps with Revamp-IT's core areas
+   (Kreislaufwirtschaft, Arbeitsintegration, Digitale Bildung, Zürich/regional)
+2. Broader Swiss foundations with general social/environmental scope
+3. European/international foundations with Swiss presence
+4. Everything else (Alzheimer research foundations, medical, etc. — eventually, not now)
+
+**Why this order matters:** Researching 15,000+ foundations is years of work. Research
+effort should produce fundable applications, not an exhaustive index. Add context where
+it unlocks a real application.
+
+**Quality gate for `needsResearch: false`** (required before `analysisSchema` is meaningful):
+- `purposeSummary` — 150+ chars, specific focus areas, not just tagline
+- `researchNotes` — 250+ chars, strategic fit analysis for the current org
+- `contact` — at least email or phone
+- `themes` — properly assigned from the org's ThemeId enum
+- `websiteUrl` — resolves
+
+Until these are met, keep `needsResearch: true`. A half-researched entry generates
+misleading Gesuch content and erodes trust in the AI-generated output.
+
+Quality gate is enforced at import time by `src/lib/domain/foundation-quality.ts`
+(called from `src/lib/config/foundations/index.ts`). Violations warn but don't break builds.
 
 ---
 
@@ -186,10 +321,10 @@ revamp-info/
 ### Data Flow
 
 ```
-Kivitendo (Accounting)  →  CSV Export  →  lib/data/financial.ts (embedded)  →  Dashboard
-Foundation Research     →  lib/config/foundations.ts                         →  [slug] route
-Impact Methodology      →  lib/config/metrics.ts                            →  Inspectable metrics
-Narrative Content       →  lib/config/stories.ts                            →  Foundation stories
+Kivitendo (Accounting)  →  CSV Export       →  lib/data/financial.ts (embedded)        →  Dashboard
+Research scripts        →  DB (Neon/Drizzle) →  npm run sync  →  stiftungen-generated.ts →  [slug] route
+Impact Methodology      →  lib/config/metrics.ts                                        →  Inspectable metrics
+Narrative Content       →  lib/config/stories.ts                                        →  Foundation stories
 ```
 
 ### SSOT Components
@@ -199,7 +334,7 @@ Narrative Content       →  lib/config/stories.ts                            �
 | Navigation | `components/layout/Nav.tsx` | App-wide nav via layout.tsx |
 | Footer | `components/layout/Footer.tsx` | Footer via layout.tsx |
 | Formatting | `lib/utils/format.ts` | CHF, %, number, date formatting |
-| Foundation Data | `lib/config/foundations/` | STIFTUNGEN_DATA (batches in stiftungen-*.ts) |
+| Foundation Data | `lib/config/foundations/` | STIFTUNGEN_DATA (generated from DB via `npm run sync`) |
 | Story Blocks | `lib/config/stories.ts` | WHY/HOW/WHAT/EVIDENCE narratives |
 | Number Metadata | `lib/config/metrics.ts` | Source, formula, confidence per metric |
 | Schemas | `lib/schemas/*.ts` | Zod schemas → TypeScript types |
@@ -220,8 +355,11 @@ Narrative Content       →  lib/config/stories.ts                            �
 ### Remaining
 
 - ~~No actual downloadable documents~~ — resolved: Gesuch PDF generation implemented via `@react-pdf/renderer` at `/api/pdf/gesuch/[slug]`
+- ~~Foundation type name collision (`Foundation` Zod vs `Foundation` Drizzle)~~ — resolved: Drizzle type renamed to `FoundationRow` in `db/schema.ts`
+- ~~Batch TS files as foundation source~~ — resolved: DB is write SSOT; `stiftungen-generated.ts` is build cache; batch files deleted
+- ~~No Drizzle migration history~~ — resolved: `src/lib/db/migrations/0000_*.sql` baseline created
 - Pitch deck and impact report formats not yet implemented (Phase 2 remaining items)
-- No test suite (build-time validation only)
+- No test suite (build-time validation + quality gate only)
 
 ---
 
@@ -242,11 +380,12 @@ npm run build
 
 ### Adding a Foundation
 
-1. Add entry to a `stiftungen-*.ts` file in `src/lib/config/foundations/`
-2. Include in `STIFTUNGEN_DATA` array in `foundations/index.ts`
-3. Done. `generateStaticParams()` automatically includes the new slug.
+**DB is write SSOT. Never hand-edit `stiftungen-generated.ts`.**
 
-**Foundation data lives in batches:** `stiftungen-core.ts` (original 37), `stiftungen-2026-02.ts` (70 from Feb 2026 research). New research batches get their own file (`stiftungen-YYYY-MM.ts`) and are spread into `STIFTUNGEN_DATA`.
+1. Research the foundation; prepare config_data with all required fields
+2. Run `npx tsx scripts/foundation-upsert.ts --slug=<slug>` (or use the API: `POST /api/foundations`)
+3. Run `npm run sync` → regenerates `stiftungen-generated.ts`
+4. Run `npm run build` → `generateStaticParams()` picks up the new slug automatically
 
 **Quality gate for `needsResearch: false`:** An entry must have:
 - `purposeSummary` (150+ chars, specific focus areas — not just tagline-level)
@@ -255,11 +394,35 @@ npm run build
 - `themes` properly assigned
 - `websiteUrl` that resolves
 
-If any of these are missing, the entry must keep `needsResearch: true`.
+If any are missing, keep `needsResearch: true`. The quality gate in
+`src/lib/domain/foundation-quality.ts` warns at build time about violations.
 
-**Gesuch pages are only generated** for entries with `needsResearch: false` AND `priority <= 2` (see `generateGesuchParams()` in `foundation-helpers.ts`).
+**Gesuch pages are only generated** for entries with `needsResearch: false` AND `priority <= 2`
+(see `generateGesuchParams()` in `foundation-helpers.ts`).
 
-**NEVER hardcode foundation/template counts** in UI text or documentation. Always derive from `STIFTUNGEN_DATA.length` or equivalent. Counts go stale the moment a new batch is added.
+**NEVER hardcode foundation/template counts** in UI text or documentation. Always derive from
+`STIFTUNGEN_DATA.length` or equivalent. Counts go stale the moment a new foundation is added.
+
+### Schema Changes (Migrations)
+
+Schema lives in `src/lib/db/schema.ts`. After editing:
+
+```bash
+# 1. Export DATABASE_URL first (drizzle-kit doesn't auto-load .env.local)
+export DATABASE_URL=$(grep DATABASE_URL .env.local | cut -d= -f2-)
+
+# 2. Generate SQL migration file
+npx drizzle-kit generate   # creates src/lib/db/migrations/<timestamp>_<name>.sql
+
+# 3. Apply to DB
+npx drizzle-kit push       # pushes schema diff to Neon DB
+```
+
+**Rules:**
+- Migration files in `src/lib/db/migrations/` are source of truth for DB history — commit them
+- `drizzle-kit push --dry-run` is NOT supported (v0.31.9) — review the push output for DROP statements before confirming
+- Only ALTER statements should appear for existing tables; DROPs require explicit confirmation
+- `setup-db.ts` has been deleted — migrations replace it entirely
 
 ### Adding a Section Page
 
@@ -350,27 +513,42 @@ for the step-by-step checklist.
 
 ## Future Direction
 
-### Phase 1 (Current): Revamp-IT Specific — COMPLETE
+### Phase 1 (Current): Revamp-IT — COMPLETE
 - Next.js 15 app with TypeScript, Tailwind, Zod
-- 17 page routes + dynamic foundation pages (STIFTUNGEN_DATA.length) + 18 gesuch templates
-- Config-driven data architecture
-- Shared component library (20+ components)
-- URL-synced filter state
-- Click-to-inspect metric transparency
+- Dynamic foundation pages + gesuch workflow + 3-step wizard
+- Config-driven data architecture, shared component library
+- Foundation pipeline (kanban, applications, status tracking)
+- Gesuch PDF (full 4-page) + one-pager + shareable landing page
+- HMAC share tokens, middleware auth for internal section
 
 ### Phase 2: Document Generation — IN PROGRESS
-- ~~Generate Gesuch PDFs~~ — DONE: `@react-pdf/renderer` at `/api/pdf/gesuch/[slug]`
-- ~~Gesuch templates~~ — DONE: 11 template types with HTML preview + PDF download
+- ~~Generate Gesuch PDFs~~ — DONE
+- ~~One-pager concept note~~ — DONE
+- ~~Shareable foundation landing page~~ — DONE
 - Pitch deck format — planned
 - Impact report from live data — planned
 
-### Phase 3: Universal Platform
-- Multi-project support (any organization can use this)
-- Data ingestion API (upload financials, impact data, team info)
-- Dynamic foundation matching based on project profile
-- User accounts, saved searches, application tracking
+### Phase 3: Hirnli — Multi-Tenant Platform
 
-The architecture supports Phase 2-3 evolution. Config files naturally namespace into `config/projects/revamp-it/`. Schemas and components are project-agnostic. Add database + auth when actual multi-project need arises (YAGNI).
+**The model:** Claude Code is the onboarding engine. An org provides context documents
+(statutes, annual report, strategy, financials). Claude rewrites the 14 ORG-SPECIFIC files
+and deploys a branded instance. No runtime multi-tenancy — each org runs their own deployment.
+
+**What changes per org:**
+- The 14 ORG-SPECIFIC files (org-profile, stories, themes, budget, etc.)
+- The analysis layer of the foundation DB (fit scores, priorities, researchNotes)
+- Branding (logo, colors)
+
+**What stays shared across orgs:**
+- The registry layer of the foundation DB (universal foundation facts)
+- All platform code, components, schemas
+- The Hirnli platform itself (not yet public — Revamp-IT branding only until launch)
+
+**When Phase 3 starts:** After Revamp-IT demonstrates measurable fundraising outcomes
+from this tooling. The proof of concept has to work before we scale it.
+
+**Auth in Phase 3:** The middleware password gets replaced by per-org auth (Clerk or
+similar). The internal/external page boundary stays the same — only the auth mechanism changes.
 
 ---
 
@@ -398,5 +576,5 @@ The architecture supports Phase 2-3 evolution. Config files naturally namespace 
 
 ---
 
-**Last Updated:** 2026-02-19
+**Last Updated:** 2026-03-01 (tech debt phase complete)
 **Maintainer:** Revamp-IT Team

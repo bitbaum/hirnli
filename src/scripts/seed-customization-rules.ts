@@ -155,11 +155,10 @@ async function seedRules() {
   console.log('🌱 Seeding customization rules...\n');
 
   try {
-    // Insert all rules
+    // Insert all rules — omit createdAt (DB defaultNow())
     for (const rule of EXAMPLE_RULES) {
       await db.insert(customizationRules).values({
         ...rule,
-        createdAt: new Date().toISOString(),
       });
     }
 

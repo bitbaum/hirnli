@@ -7,9 +7,9 @@
  * This script restores the 21 foundations whose curated priorities were
  * corrupted by re-scoring.
  *
- * Reads the CURATED priority from stiftungen-core.ts (the human-reviewed
- * source of truth) and writes it to both the `priority` column and
- * `config_data->priority` in the DB.
+ * Reads the CURATED priority from stiftungen-generated.ts (derived from DB)
+ * and writes it to both the `priority` column and `config_data->priority`
+ * in the DB, restoring any algorithmic overwrites.
  *
  * Usage:
  *   npx tsx scripts/fix-priorities.ts [--dry-run]
@@ -19,7 +19,7 @@ import { config } from 'dotenv';
 config({ path: '.env.local' });
 
 import { neon } from '@neondatabase/serverless';
-import { STIFTUNGEN_CORE } from '../src/lib/config/foundations/stiftungen-core';
+import { STIFTUNGEN_DATA } from '../src/lib/config/foundations';
 
 // ============================================================================
 // The 21 foundations with corrupted priorities
@@ -69,19 +69,18 @@ async function main() {
 
   const sql = neon(process.env.DATABASE_URL);
 
-  // Build lookup: slug → curated priority from stiftungen-core.ts
+  // Build lookup: slug → curated priority from generated data (DB source)
   const curatedPriorities = new Map<string, number>();
-  for (const f of STIFTUNGEN_CORE) {
+  for (const f of STIFTUNGEN_DATA) {
     if (CORRUPTED_SLUGS.has(f.slug)) {
       curatedPriorities.set(f.slug, f.priority);
     }
   }
 
-  // Validate we found all 21 in the source data
+  // Warn about any slugs no longer in the pipeline (removed from DB)
   const missing = [...CORRUPTED_SLUGS].filter(s => !curatedPriorities.has(s));
   if (missing.length > 0) {
-    console.error(`  Missing from stiftungen-core.ts: ${missing.join(', ')}`);
-    process.exit(1);
+    console.warn(`  Not in generated data (may have been removed): ${missing.join(', ')}`);
   }
 
   console.log(`  Foundations to fix: ${curatedPriorities.size}\n`);

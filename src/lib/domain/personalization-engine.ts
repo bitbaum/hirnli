@@ -8,7 +8,7 @@
 import { db } from '../db/client';
 import { customizationRules, foundations } from '../db/schema';
 import { eq, and, or, isNull } from 'drizzle-orm';
-import type { Foundation, CustomizationRule } from '../db/schema';
+import type { FoundationRow, CustomizationRule } from '../db/schema';
 
 /**
  * Customization action to apply to Gesuch
@@ -25,7 +25,7 @@ export interface CustomizationAction {
  * Personalized Gesuch result
  */
 export interface PersonalizedGesuch {
-  foundation: Foundation;
+  foundation: FoundationRow;
   appliedRules: CustomizationAction[];
   customizations: {
     emphasizedNarratives: string[];
@@ -42,15 +42,15 @@ export interface PersonalizedGesuch {
  */
 function evaluateCondition(
   rule: CustomizationRule,
-  foundation: Foundation
+  foundation: FoundationRow
 ): boolean {
   const { conditionType, conditionValue } = rule;
 
   switch (conditionType) {
     case 'focus_match': {
-      // Check if foundation's focus areas include this value
+      // focusAreas is now a string[] from jsonb — no JSON.parse needed
       if (!foundation.focusAreas) return false;
-      const focusArray = JSON.parse(foundation.focusAreas) as string[];
+      const focusArray = foundation.focusAreas ?? [];
       return focusArray.some(area =>
         area.toLowerCase().includes(conditionValue.toLowerCase())
       );

@@ -159,7 +159,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Transform and insert
+    // Transform and insert — omit createdAt/updatedAt (DB defaultNow())
+    // focusAreas, pastGrantees, boardMembers are now jsonb — pass arrays directly
     const transformed = newFoundations.map(f => {
       const { min, max } = parseGrantRange(f.grantRange || '');
 
@@ -172,7 +173,7 @@ export async function POST(request: NextRequest) {
 
         fitScore: f.fitScore || null,
         priority: f.priority || null,
-        focusAreas: f.focusAreas ? JSON.stringify(f.focusAreas) : null,
+        focusAreas: f.focusAreas ?? null,
         geographicScope: f.location || null,
         organizationType: 'foundation' as const,
 
@@ -186,8 +187,8 @@ export async function POST(request: NextRequest) {
 
         strategicFit: f.strategicFit || f.fitRationale || null,
         applicationNotes: f.notes || null,
-        pastGrantees: f.pastGrantees ? JSON.stringify(f.pastGrantees) : null,
-        boardMembers: f.boardMembers ? JSON.stringify(f.boardMembers) : null,
+        pastGrantees: f.pastGrantees ?? null,
+        boardMembers: f.boardMembers ?? null,
 
         researchDepth: 'rapid' as const,
         researchDate: new Date().toISOString().split('T')[0],
@@ -195,8 +196,6 @@ export async function POST(request: NextRequest) {
         dataQuality: 3,
 
         source: f.source || 'api-import',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
         archived: false,
       };
     });

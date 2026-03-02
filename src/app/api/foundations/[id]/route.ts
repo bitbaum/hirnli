@@ -125,7 +125,6 @@ export async function PUT(
     }
 
     const data = validation.data;
-    const now = new Date().toISOString();
 
     // Update config_data (full object) + relevant flat columns
     await db
@@ -138,12 +137,12 @@ export async function PUT(
         contactPhone: data.contact?.phone || null,
         fitScore: data.fit,
         priority: data.priority,
-        focusAreas: JSON.stringify(data.themes),
+        focusAreas: data.themes,
         geographicScope: data.region,
         organizationType: data.type === 'network' ? 'network' : 'foundation',
         applicationMethod: data.applicationMethod,
         applicationDeadline: data.deadline || null,
-        updatedAt: now,
+        updatedAt: new Date(),
       })
       .where(eq(foundations.id, id));
 
@@ -158,7 +157,6 @@ export async function PUT(
         fields: Object.keys(data),
       }),
       performedBy: 'api',
-      timestamp: now,
     });
 
     // Fetch updated row
@@ -220,17 +218,12 @@ export async function PATCH(
       );
     }
 
-    // Prepare update data
+    // Prepare update data — focusAreas is now jsonb string[], pass array directly
     const data = validation.data;
     const updates: Record<string, unknown> = {
       ...data,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date(),
     };
-
-    // Handle focusAreas array → JSON string
-    if (data.focusAreas) {
-      updates.focusAreas = JSON.stringify(data.focusAreas);
-    }
 
     // Update foundation
     await db
@@ -249,7 +242,6 @@ export async function PATCH(
         timestamp: new Date().toISOString(),
       }),
       performedBy: 'api',
-      timestamp: new Date().toISOString(),
     });
 
     // Fetch updated foundation
@@ -303,7 +295,7 @@ export async function DELETE(
       .update(foundations)
       .set({
         archived: true,
-        updatedAt: new Date().toISOString(),
+        updatedAt: new Date(),
       })
       .where(eq(foundations.id, id));
 
@@ -317,7 +309,6 @@ export async function DELETE(
         timestamp: new Date().toISOString(),
       }),
       performedBy: 'api',
-      timestamp: new Date().toISOString(),
     });
 
     return NextResponse.json({
