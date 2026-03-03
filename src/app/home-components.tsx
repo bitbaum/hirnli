@@ -7,20 +7,13 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 import {
   HERO,
   IMPACT_HEADING,
   IMPACT_METRICS,
   PILLARS_HEADING,
-  PILLAR_BORDER_COLORS,
-  GROWTH_HEADING,
-  GROWTH_SUBHEADING,
-  GROWTH_TRAJECTORIES,
   TRANSPARENCY,
-  NAV_HEADING,
-  NAV_CARDS,
 } from './home-data';
 import type { NumberConfidence } from '@/lib/config/numbers';
 
@@ -32,6 +25,14 @@ const CONFIDENCE_BADGE: Record<NumberConfidence, { color: string; label: string 
   estimated: { color: 'orange', label: 'Geschätzt' },
   target: { color: 'purple', label: 'Ziel' },
   unknown: { color: 'gray', label: 'Unbekannt' },
+};
+
+/** Border color map — full literal strings for Tailwind JIT scanner */
+const PILLAR_BORDER_COLORS: Record<string, string> = {
+  nachhaltigkeit: 'border-l-theme-klima',
+  'soziale-integration': 'border-l-theme-sozial',
+  'digitale-bildung': 'border-l-theme-bildung',
+  'digitale-souveraenitaet': 'border-l-theme-digital',
 };
 
 // -- Section 1: Hero ---------------------------------------------------------
@@ -50,10 +51,27 @@ export function HeroSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {HERO.metrics.map((m) => (
             <div key={m.label} className="rounded-lg bg-white/10 p-6 backdrop-blur">
-              <div className="text-4xl font-bold mb-2">{m.value}</div>
+              <div className="text-2xl sm:text-4xl font-bold mb-2">{m.value}</div>
               <div className="text-lg">{m.label}</div>
               <div className="text-sm opacity-80 mt-1">{m.sublabel}</div>
             </div>
+          ))}
+        </div>
+
+        {/* CTA buttons */}
+        <div className="mt-8 flex flex-wrap gap-3">
+          {HERO.ctas.map((cta) => (
+            <Link
+              key={cta.href}
+              href={cta.href}
+              className={`inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors ${
+                cta.variant === 'primary'
+                  ? 'bg-white text-grey-dark hover:bg-white/90'
+                  : 'bg-white/20 text-white backdrop-blur-sm hover:bg-white/30'
+              }`}
+            >
+              {cta.label} &rarr;
+            </Link>
           ))}
         </div>
       </div>
@@ -116,40 +134,6 @@ export function PillarGrid() {
   );
 }
 
-// -- Section 4: Growth -------------------------------------------------------
-
-export function GrowthVision() {
-  return (
-    <section className="mb-12">
-      <h2 className="text-3xl font-bold mb-6 text-grey-dark">{GROWTH_HEADING}</h2>
-      <div className="rounded-xl border-2 border-dashed border-primary/40 p-6">
-        <div className="mb-4 flex items-center gap-2">
-          <Badge color="blue">{GROWTH_SUBHEADING}</Badge>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {GROWTH_TRAJECTORIES.map((t) => (
-            <div
-              key={t.label}
-              className="rounded-lg border border-border bg-white p-4 text-center"
-            >
-              <div className="text-xl mb-1" aria-hidden="true">{t.icon}</div>
-              <div className="text-xs font-medium text-text-muted mb-2">{t.label}</div>
-              <div className="text-sm text-text-light">{t.current}</div>
-              <div className="text-primary font-bold my-1">→</div>
-              <div className="text-lg font-bold text-grey-dark">{t.target}</div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 text-center">
-          <Button href="/revamp-2030" variant="secondary" size="sm">
-            Vision 2030 ansehen →
-          </Button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // -- Section 5: Transparency -------------------------------------------------
 
 export function TransparencyBlock() {
@@ -164,46 +148,11 @@ export function TransparencyBlock() {
               key={point}
               className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
             >
-              <span aria-hidden="true">✓</span> {point}
+              <span aria-hidden="true">&#x2713;</span> {point}
             </span>
           ))}
         </div>
       </Card>
-    </section>
-  );
-}
-
-// -- Section 6: Navigation ---------------------------------------------------
-
-export function NavCardGrid() {
-  return (
-    <section className="mb-12">
-      <h2 className="text-3xl font-bold mb-6 text-grey-dark">{NAV_HEADING}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {NAV_CARDS.map((card) => (
-          <Link key={card.href} href={card.href} className="block group">
-            <Card
-              className={`border-l-4 ${card.borderColor} hover:shadow-lg transition-shadow duration-200`}
-            >
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="text-3xl" aria-hidden="true">{card.icon}</div>
-                  <div>
-                    <h3 className={`text-lg font-semibold text-grey-dark ${card.hoverColor}`}>
-                      {card.title}
-                    </h3>
-                    <Badge color={card.badgeColor}>{card.badge}</Badge>
-                  </div>
-                </div>
-              </div>
-              <p className="text-sm text-text-light mb-3">{card.description}</p>
-              <div className={`text-xs font-semibold ${card.hoverColor}`}>
-                → {card.linkLabel}
-              </div>
-            </Card>
-          </Link>
-        ))}
-      </div>
     </section>
   );
 }

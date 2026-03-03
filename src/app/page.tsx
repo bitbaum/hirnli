@@ -7,9 +7,7 @@ import {
   HeroSection,
   ImpactGrid,
   PillarGrid,
-  GrowthVision,
   TransparencyBlock,
-  NavCardGrid,
 } from './home-components';
 
 export const metadata: Metadata = {
@@ -23,9 +21,7 @@ export default function HomePage() {
       <HeroSection />
       <ImpactGrid />
       <PillarGrid />
-      <GrowthVision />
       <TransparencyBlock />
-      <NavCardGrid />
 
       <section className="mb-12">
         <CTABanner
