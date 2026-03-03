@@ -5,7 +5,7 @@ import { getStoryBridges } from '@/lib/config/story-bridges';
 import { PAGE_META, CTA_CONFIG } from './home-data';
 import {
   HeroSection,
-  ImpactGrid,
+  PlatformGuide,
   PillarGrid,
   TransparencyBlock,
 } from './home-components';
@@ -19,7 +19,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <ImpactGrid />
+      <PlatformGuide />
       <PillarGrid />
       <TransparencyBlock />
 

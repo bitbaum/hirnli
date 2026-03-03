@@ -10,22 +10,11 @@ import Badge from '@/components/ui/Badge';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 import {
   HERO,
-  IMPACT_HEADING,
-  IMPACT_METRICS,
+  GUIDE_HEADING,
+  GUIDE_SECTIONS,
   PILLARS_HEADING,
   TRANSPARENCY,
 } from './home-data';
-import type { NumberConfidence } from '@/lib/config/numbers';
-
-// -- Helpers -----------------------------------------------------------------
-
-const CONFIDENCE_BADGE: Record<NumberConfidence, { color: string; label: string }> = {
-  high: { color: 'green', label: 'Verifiziert' },
-  medium: { color: 'blue', label: 'Dokumentiert' },
-  estimated: { color: 'orange', label: 'Geschätzt' },
-  target: { color: 'purple', label: 'Ziel' },
-  unknown: { color: 'gray', label: 'Unbekannt' },
-};
 
 /** Border color map — full literal strings for Tailwind JIT scanner */
 const PILLAR_BORDER_COLORS: Record<string, string> = {
@@ -41,25 +30,14 @@ export function HeroSection() {
   return (
     <section className="mb-12">
       <div className="gradient-hero-transparency rounded-2xl p-6 text-white md:p-12">
-        <h1 className="text-3xl font-bold mb-2 md:text-5xl">{HERO.name}</h1>
-        <p className="text-lg mb-2 md:text-2xl font-medium opacity-95">
-          {HERO.subtitle}
+        <h1 className="text-3xl font-bold mb-3 md:text-5xl">{HERO.name}</h1>
+        <p className="text-lg mb-4 md:text-xl leading-relaxed opacity-95 max-w-2xl">
+          {HERO.story}
         </p>
         <p className="text-base mb-1 opacity-80">{HERO.context}</p>
         <p className="text-sm mb-8 opacity-70">{HERO.platformNote}</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {HERO.metrics.map((m) => (
-            <div key={m.label} className="rounded-lg bg-white/10 p-6 backdrop-blur">
-              <div className="text-2xl sm:text-4xl font-bold mb-2">{m.value}</div>
-              <div className="text-lg">{m.label}</div>
-              <div className="text-sm opacity-80 mt-1">{m.sublabel}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA buttons */}
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3">
           {HERO.ctas.map((cta) => (
             <Link
               key={cta.href}
@@ -79,26 +57,30 @@ export function HeroSection() {
   );
 }
 
-// -- Section 2: Impact -------------------------------------------------------
+// -- Section 2: Platform guide -----------------------------------------------
 
-export function ImpactGrid() {
+export function PlatformGuide() {
   return (
     <section className="mb-12">
-      <h2 className="text-3xl font-bold mb-6 text-grey-dark">{IMPACT_HEADING}</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {IMPACT_METRICS.map((m) => {
-          const badge = CONFIDENCE_BADGE[m.confidence];
-          return (
-            <Card key={m.label} className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-grey-dark mb-1">
-                {m.value}
+      <h2 className="text-3xl font-bold mb-6 text-grey-dark">{GUIDE_HEADING}</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {GUIDE_SECTIONS.map((s) => (
+          <Link key={s.href} href={s.href} className="group block">
+            <Card className="transition-shadow hover:shadow-md">
+              <div className="flex items-start gap-3">
+                <div className="text-2xl flex-shrink-0" aria-hidden="true">
+                  {s.icon}
+                </div>
+                <div>
+                  <div className="font-semibold text-grey-dark group-hover:text-primary mb-1">
+                    {s.title}
+                  </div>
+                  <p className="text-sm text-text-light">{s.description}</p>
+                </div>
               </div>
-              <div className="text-sm font-medium text-text-light mb-2">{m.label}</div>
-              <Badge color={badge.color} className="mb-1">{badge.label}</Badge>
-              <div className="text-xs text-text-muted mt-1">{m.source}</div>
             </Card>
-          );
-        })}
+          </Link>
+        ))}
       </div>
     </section>
   );
@@ -134,7 +116,7 @@ export function PillarGrid() {
   );
 }
 
-// -- Section 5: Transparency -------------------------------------------------
+// -- Section 4: Transparency -------------------------------------------------
 
 export function TransparencyBlock() {
   return (
