@@ -81,7 +81,7 @@ interface ReadinessResult {
   topImprovements: { label: string; points: number; dimension: string }[];
 }
 
-const TIER_FROM_LEVEL: Record<number, QualityTier> = {
+export const TIER_FROM_LEVEL: Record<number, QualityTier> = {
   5: 'anwendungsbereit',
   4: 'recherchiert',
   3: 'profiliert',

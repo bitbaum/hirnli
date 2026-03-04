@@ -11,6 +11,7 @@ import { useFoundationFilters } from '@/hooks/useFoundationFilters';
 import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
 import { computeTierCounts, hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { computePriorityScore } from '@/lib/domain/foundation-scores';
+import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import type { SortField } from '@/lib/domain/foundation-filter';
 import {
   THEME_CHIPS,
@@ -216,7 +217,7 @@ export default function FoundationListClient() {
             <div className="text-2xl font-bold tabular-nums text-success">{tierCounts.anwendungsbereit}</div>
             <div className="text-sm font-medium text-grey-dark">Bewerbungsbereit</div>
             <p className="mt-0.5 text-xs text-text-muted">
-              Höchste Datenvollständigkeit (Bereitschafts-Score ≥70)
+              Höchste Datenvollständigkeit (Bereitschafts-Score ≥{READINESS_ENGINE.display.thresholds[0].minScore})
             </p>
           </div>
         </div>

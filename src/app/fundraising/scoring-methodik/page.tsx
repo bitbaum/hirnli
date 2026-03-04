@@ -4,7 +4,7 @@ import Card from '@/components/ui/Card';
 import { READINESS_ENGINE, PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS, computeTierCounts } from '@/lib/domain/foundation-helpers';
-import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
+import { computeReadinessScore, computePriorityScore, TIER_FROM_LEVEL } from '@/lib/domain/foundation-scores';
 import type { QualityTier } from '@/lib/schemas/foundation';
 import type { AdditiveChecksConfig } from '@/lib/config/fit-scoring';
 
@@ -188,15 +188,13 @@ export default function ScoringMethodikPage() {
             Aktueller Durchschnitt: <strong>{readinessDist.avg}/100</strong> über {total} Stiftungen.
           </p>
           <div className="space-y-2">
-            {(
-              [
-                ['anwendungsbereit', 70],
-                ['recherchiert', 45],
-                ['profiliert', 25],
-                ['erfasst', 10],
-                ['verzeichnet', 0],
-              ] as [QualityTier, number][]
-            ).map(([tier, minScore]) => (
+            {[
+              ...READINESS_ENGINE.display.thresholds.map((t) => [
+                TIER_FROM_LEVEL[t.level] ?? ('verzeichnet' as QualityTier),
+                t.minScore,
+              ] as [QualityTier, number]),
+              ['verzeichnet' as QualityTier, 0] as [QualityTier, number],
+            ].map(([tier, minScore]) => (
               <div key={tier} className="flex items-center justify-between rounded-lg border border-border/50 p-3">
                 <div className="flex items-center gap-3">
                   <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${TIER_COLORS[tier]}`}>
@@ -354,7 +352,7 @@ export default function ScoringMethodikPage() {
             Eine Gesuch-Seite wird nur generiert, wenn beide Bedingungen erfüllt sind:
           </p>
           <ol className="mb-3 list-inside list-decimal space-y-1 text-sm text-text-light">
-            <li>Bereitschafts-Stufe ≥ <strong>Recherchiert</strong> (Score ≥45)</li>
+            <li>Bereitschafts-Stufe ≥ <strong>Recherchiert</strong> (Score ≥{READINESS_ENGINE.display.thresholds.find(t => TIER_FROM_LEVEL[t.level] === 'recherchiert')?.minScore})</li>
             <li>Prioritätsstufe <strong>P1, P2 oder P3</strong> (Score ≥{PRIORITY_FORMULA.display[PRIORITY_FORMULA.display.length - 1].minScore})</li>
           </ol>
           <p className="text-sm text-text-light">

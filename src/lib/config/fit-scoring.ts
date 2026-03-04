@@ -315,9 +315,9 @@ export const FIT_DISPLAY: Record<0 | 1 | 2 | 3, {
 // Input: flat boolean record from foundationToReadinessInput() mapper.
 // Engine: generic additiveChecks — sum points for each true condition.
 //
-// ORG-SPECIFIC: Weights are calibrated against Revamp-IT's 210-foundation
-// dataset. New orgs may adjust weights (e.g. financial calibration matters
-// more for large-grant seekers). The checks themselves are mostly universal.
+// ORG-SPECIFIC: Weights are calibrated for Revamp-IT. New orgs may adjust
+// weights (e.g. financial calibration matters more for large-grant seekers).
+// The checks themselves are mostly universal.
 
 export const READINESS_ENGINE: ScoringEngineConfig = {
   dimensions: [
@@ -420,9 +420,7 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
   ],
   composite: { method: 'sum' },
   display: {
-    // Readiness → 5-tier labels (calibrated against 210-foundation dataset)
-    // Avg readiness ~47, median ~46. Thresholds set so:
-    //   ~10% anwendungsbereit, ~40% recherchiert, ~35% profiliert, ~15% erfasst
+    // Readiness → 5-tier labels. Descending order — first match wins.
     thresholds: [
       { level: 5, minScore: 70 },  // anwendungsbereit
       { level: 4, minScore: 45 },  // recherchiert
@@ -472,9 +470,7 @@ export const PRIORITY_FORMULA = {
     smallBonus: 3,           // some amount known but small
   },
 
-  // Priority → P-label thresholds (recalibrated after fit→fitScore scale fix)
-  // Post-fix: avg ~27, median ~23. Natural breaks at ~55 and ~35.
-  //   ~8% P1, ~16% P2, ~53% P3, ~24% P4
+  // Priority → P-label thresholds. Descending order — first match wins.
   display: [
     { level: 1 as const, label: 'P1', minScore: 60, description: 'Erstpriorität — Gesuch aktiv vorbereiten' },
     { level: 2 as const, label: 'P2', minScore: 35, description: 'Hohe Priorität — gezielt bewerben' },
