@@ -12,6 +12,7 @@ export interface FoundationFilters {
   types: FoundationType[];
   statuses: FoundationStatus[];
   fit: number[];
+  priorityLevels: number[];
   search: string;
   schwerpunkt: SchwerpunktId | null;
   hideOperative: boolean;
@@ -26,6 +27,7 @@ export const DEFAULT_FILTERS: FoundationFilters = {
   types: [],
   statuses: [],
   fit: [],
+  priorityLevels: [],
   search: '',
   schwerpunkt: null,
   hideOperative: false,
@@ -33,6 +35,41 @@ export const DEFAULT_FILTERS: FoundationFilters = {
   hideNoApplication: false,
   minTier: 'profiliert',
 };
+
+// ============================================================================
+// Quick-view presets — preset filter combos for common sidebar actions
+// ============================================================================
+
+export type FilterPresetId = 'bewerbungsbereit' | 'hoher-fit' | 'alle';
+
+export interface FilterPreset {
+  id: FilterPresetId;
+  label: string;
+  description: string;
+  /** Partial filter state to apply (unset fields use DEFAULT_FILTERS) */
+  filters: Partial<FoundationFilters>;
+}
+
+export const FILTER_PRESETS: FilterPreset[] = [
+  {
+    id: 'bewerbungsbereit',
+    label: 'Bewerbungsbereit',
+    description: 'Höchste Datenvollständigkeit',
+    filters: { minTier: 'anwendungsbereit' },
+  },
+  {
+    id: 'hoher-fit',
+    label: 'Hoher Fit',
+    description: 'Fit ★★★ oder ★★☆',
+    filters: { fit: [3, 2] },
+  },
+  {
+    id: 'alle',
+    label: 'Alle anzeigen',
+    description: 'Keine Einschränkungen',
+    filters: { minTier: 'verzeichnet' },
+  },
+];
 
 /** Filter foundations by criteria */
 export function filterFoundations(
@@ -68,6 +105,12 @@ export function filterFoundations(
     // Fit filter — multi-select: foundation must match one of the selected fit values
     if (filters.fit.length > 0) {
       if (!filters.fit.includes(f.fit)) return false;
+    }
+
+    // Priority level filter — computed priority P1-P4
+    if (filters.priorityLevels.length > 0) {
+      const p = computePriorityScore(f);
+      if (!filters.priorityLevels.includes(p.level)) return false;
     }
 
     // Hide operative foundations

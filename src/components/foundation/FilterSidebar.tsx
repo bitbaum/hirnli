@@ -3,7 +3,8 @@
 import { FORM_INPUT_CLASS } from '@/lib/utils/form-classes';
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
-import type { FoundationFilters, SortField } from '@/lib/domain/foundation-filter';
+import type { FoundationFilters, SortField, FilterPresetId } from '@/lib/domain/foundation-filter';
+import { DEFAULT_FILTERS, FILTER_PRESETS } from '@/lib/domain/foundation-filter';
 import type { ResearchStats } from '@/lib/domain/foundation-research-stats';
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import type { FilterChip } from '@/lib/types/filter';
@@ -43,6 +44,8 @@ interface FilterSidebarProps {
   toggleHideOperative: () => void;
   toggleHideNetworks: () => void;
   setMinTier: (tier: QualityTier) => void;
+  togglePriorityLevel: (level: number) => void;
+  applyPreset: (presetId: FilterPresetId) => void;
   resetFilters: () => void;
 }
 
@@ -69,10 +72,53 @@ export default function FilterSidebar({
   toggleHideOperative,
   toggleHideNetworks,
   setMinTier,
+  togglePriorityLevel,
+  applyPreset,
   resetFilters,
 }: FilterSidebarProps) {
+  // Check if current filters match a preset
+  const activePreset = FILTER_PRESETS.find((preset) => {
+    const pf = preset.filters;
+    const matchesTier = pf.minTier ? filters.minTier === pf.minTier : filters.minTier === DEFAULT_FILTERS.minTier;
+    const matchesFit = pf.fit ? JSON.stringify(filters.fit) === JSON.stringify(pf.fit) : filters.fit.length === 0;
+    const matchesPriority = pf.priorityLevels
+      ? JSON.stringify(filters.priorityLevels) === JSON.stringify(pf.priorityLevels)
+      : filters.priorityLevels.length === 0;
+    const noOtherFilters =
+      filters.themes.length === 0 &&
+      filters.types.length === 0 &&
+      filters.statuses.length === 0 &&
+      !filters.schwerpunkt &&
+      !filters.hideOperative &&
+      !filters.hideNetworks &&
+      !filters.hideNoApplication &&
+      !filters.search;
+    return matchesTier && matchesFit && matchesPriority && noOtherFilters;
+  });
+
   return (
     <div className="space-y-1">
+      {/* Quick-view presets */}
+      <div className="flex flex-wrap gap-1.5 border-b border-border pb-3">
+        {FILTER_PRESETS.map((preset) => {
+          const isActive = activePreset?.id === preset.id;
+          return (
+            <button
+              key={preset.id}
+              onClick={() => applyPreset(preset.id)}
+              className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                isActive
+                  ? 'bg-primary text-white'
+                  : 'bg-grey-light text-grey-dark hover:bg-border'
+              }`}
+              title={preset.description}
+            >
+              {preset.label}
+            </button>
+          );
+        })}
+      </div>
+
       {/* Search */}
       <div className="pb-3">
         <input
@@ -173,6 +219,33 @@ export default function FilterSidebar({
                 />
                 <span className={isActive ? 'font-medium text-grey-dark' : 'text-text-muted'}>
                   {value > 0 ? `${label} (${value})` : label}
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      </CollapsibleSection>
+
+      {/* Priority level */}
+      <CollapsibleSection title="Priorität" count={filters.priorityLevels.length || undefined}>
+        <div className="space-y-1.5">
+          {([
+            { level: 1, label: 'P1 — Erstpriorität', color: 'text-danger' },
+            { level: 2, label: 'P2 — Hohe Priorität', color: 'text-warning' },
+            { level: 3, label: 'P3 — Beobachten', color: 'text-primary' },
+            { level: 4, label: 'P4 — Niedrig', color: 'text-text-muted' },
+          ] as const).map(({ level, label, color }) => {
+            const isActive = filters.priorityLevels.includes(level);
+            return (
+              <label key={level} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={isActive}
+                  onChange={() => togglePriorityLevel(level)}
+                  className="rounded border-border"
+                />
+                <span className={isActive ? `font-medium ${color}` : 'text-text-muted'}>
+                  {label}
                 </span>
               </label>
             );

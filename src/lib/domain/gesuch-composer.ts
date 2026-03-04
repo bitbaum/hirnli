@@ -13,6 +13,7 @@
 
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeMetadata } from '@/lib/schemas/theme';
+import { computePriorityScore } from './foundation-scores';
 import type { ThemeKey } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatDateDE } from '@/lib/utils/format';
@@ -192,23 +193,19 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     ? mapSchwerpunktThemes(schwerpunktId)
     : mapFoundationThemes(foundation);
 
-  // Quality gate — tightened: researchDepth + fitScore + priority
+  // Quality gate: computed priority (fit × readiness), research depth, themes
   const isRapid = foundation.researchDepth === 'rapid';
-  const lowFitScore = foundation.fitScore != null && foundation.fitScore < 4;
-  const highPriority = foundation.priority != null && foundation.priority >= 3;
+  const computed = computePriorityScore(foundation);
+  const lowPriority = computed.level >= 4;
 
-  if (foundation.needsResearch || mapped.all.length === 0 || highPriority || isRapid || lowFitScore) {
+  if (foundation.needsResearch || mapped.all.length === 0 || lowPriority || isRapid) {
     let reason = '';
     if (foundation.needsResearch) {
       reason = 'Diese Stiftung benötigt noch weitere Recherche.';
     } else if (isRapid) {
       reason = 'Recherche-Tiefe zu gering für eine Gesuch-Generierung. Weitere Recherche empfohlen.';
-    } else if (lowFitScore) {
-      reason = `Fit-Score (${foundation.fitScore}/10) zu niedrig für eine gezielte Bewerbung.`;
-    } else if (highPriority) {
-      reason = foundation.priority === 3
-        ? 'Priorität 3: Noch nicht bereit für die Bewerbung. Erst weitere Vorarbeiten nötig.'
-        : 'Priorität 4: Netzwerk-Stiftung. Keine formelle Bewerbung geplant.';
+    } else if (lowPriority) {
+      reason = `Priorität ${computed.label}: ${computed.description}`;
     } else {
       reason = 'Keine passenden Themen für die Gesuch-Generierung gefunden.';
     }

@@ -472,13 +472,13 @@ export const PRIORITY_FORMULA = {
     smallBonus: 3,           // some amount known but small
   },
 
-  // Priority → P-label thresholds (calibrated against 210-foundation dataset)
-  // Formula produces avg ~27, median ~23. Thresholds set so:
-  //   ~10% P1, ~25% P2, ~40% P3, ~25% P4
+  // Priority → P-label thresholds (recalibrated after fit→fitScore scale fix)
+  // Post-fix: avg ~27, median ~23. Natural breaks at ~55 and ~35.
+  //   ~8% P1, ~16% P2, ~53% P3, ~24% P4
   display: [
-    { level: 1 as const, label: 'P1', minScore: 65, description: 'Erstpriorität — Gesuch aktiv vorbereiten' },
+    { level: 1 as const, label: 'P1', minScore: 60, description: 'Erstpriorität — Gesuch aktiv vorbereiten' },
     { level: 2 as const, label: 'P2', minScore: 35, description: 'Hohe Priorität — gezielt bewerben' },
-    { level: 3 as const, label: 'P3', minScore: 15, description: 'Beobachten — bei passendem Timing bewerben' },
+    { level: 3 as const, label: 'P3', minScore: 12, description: 'Beobachten — bei passendem Timing bewerben' },
   ],
   defaultLevel: 4 as const,
   defaultLabel: 'P4',

@@ -3,8 +3,8 @@
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import type { ThemeId, FoundationType, FoundationStatus, QualityTier } from '@/lib/schemas/foundation';
-import type { FoundationFilters, SortField, ThemeLogic } from '@/lib/domain/foundation-filter';
-import { DEFAULT_FILTERS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
+import type { FoundationFilters, SortField, ThemeLogic, FilterPresetId } from '@/lib/domain/foundation-filter';
+import { DEFAULT_FILTERS, FILTER_PRESETS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { createSearchIndex, searchFoundations } from '@/lib/domain/foundation-search';
@@ -36,6 +36,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     types: (searchParams.get('types')?.split(',').filter(Boolean) || []) as FoundationType[],
     statuses: (searchParams.get('statuses')?.split(',').filter(Boolean) || []) as FoundationStatus[],
     fit: searchParams.get('fit')?.split(',').map(Number).filter((n) => !isNaN(n)) || [],
+    priorityLevels: searchParams.get('pl')?.split(',').map(Number).filter((n) => !isNaN(n) && n >= 1 && n <= 4) || [],
     search: searchParams.get('q') || '',
     schwerpunkt: (searchParams.get('sp') as SchwerpunktId) || null,
     hideOperative: searchParams.get('hideOp') === '1',
@@ -133,6 +134,30 @@ export function useFoundationFilters(foundations: Foundation[]) {
     });
   }, [updateParams]);
 
+  const togglePriorityLevel = useCallback((level: number) => {
+    const current = filters.priorityLevels;
+    const next = current.includes(level)
+      ? current.filter((l) => l !== level)
+      : [...current, level];
+    updateParams({ pl: next.length > 0 ? next.join(',') : null });
+  }, [filters.priorityLevels, updateParams]);
+
+  const applyPreset = useCallback((presetId: FilterPresetId) => {
+    const preset = FILTER_PRESETS.find((p) => p.id === presetId);
+    if (!preset) return;
+
+    // Reset to defaults, then apply preset overrides
+    const params = new URLSearchParams();
+    const pf = preset.filters;
+    if (pf.minTier && pf.minTier !== DEFAULT_FILTERS.minTier) params.set('tier', pf.minTier);
+    if (pf.fit && pf.fit.length > 0) params.set('fit', pf.fit.join(','));
+    if (pf.priorityLevels && pf.priorityLevels.length > 0) params.set('pl', pf.priorityLevels.join(','));
+    if (pf.themes && pf.themes.length > 0) params.set('themes', pf.themes.join(','));
+
+    const qs = params.toString();
+    router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
+  }, [router, pathname]);
+
   const resetFilters = useCallback(() => {
     router.replace(pathname, { scroll: false });
   }, [router, pathname]);
@@ -178,6 +203,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
       filters.types.length > 0 ||
       filters.statuses.length > 0 ||
       filters.fit.length > 0 ||
+      filters.priorityLevels.length > 0 ||
       filters.search !== '' ||
       filters.schwerpunkt !== null ||
       filters.hideOperative ||
@@ -208,6 +234,8 @@ export function useFoundationFilters(foundations: Foundation[]) {
     toggleHideOperative,
     toggleHideNetworks,
     setMinTier,
+    togglePriorityLevel,
+    applyPreset,
     resetFilters,
   };
 }

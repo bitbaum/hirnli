@@ -32,6 +32,7 @@ function countActiveFilters(
   if (filters.types.length > 0) count++;
   if (filters.statuses.length > 0) count++;
   if (filters.fit.length > 0) count++;
+  if (filters.priorityLevels.length > 0) count++;
   if (filters.schwerpunkt) count++;
   if (filters.hideNoApplication) count++;
   if (filters.hideOperative) count++;
@@ -61,6 +62,8 @@ export default function FoundationListClient() {
     toggleHideOperative,
     toggleHideNetworks,
     setMinTier,
+    togglePriorityLevel,
+    applyPreset,
     resetFilters,
   } = useFoundationFilters(STIFTUNGEN_DATA);
 
@@ -147,6 +150,8 @@ export default function FoundationListClient() {
     toggleHideOperative,
     toggleHideNetworks,
     setMinTier,
+    togglePriorityLevel,
+    applyPreset,
     resetFilters,
   };
 
@@ -301,6 +306,13 @@ export default function FoundationListClient() {
                   key={f}
                   label={`Fit ${f}`}
                   onRemove={() => toggleFit(f)}
+                />
+              ))}
+              {filters.priorityLevels.map((pl) => (
+                <FilterPill
+                  key={`pl-${pl}`}
+                  label={`P${pl}`}
+                  onRemove={() => togglePriorityLevel(pl)}
                 />
               ))}
               {filters.hideNoApplication && (

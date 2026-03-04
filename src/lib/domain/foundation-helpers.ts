@@ -148,13 +148,3 @@ export function generateGesuchParams(): { slug: string }[] {
     .filter(hasGesuchPage)
     .map((f) => ({ slug: f.slug }));
 }
-
-// -- Backward compat (deprecated) ---------------------------------------------
-
-/** @deprecated Use QualityTier instead */
-export type FoundationTier = QualityTier;
-
-/** @deprecated Use getQualityTier instead */
-export function getFoundationTier(f: Foundation): QualityTier {
-  return getQualityTier(f);
-}

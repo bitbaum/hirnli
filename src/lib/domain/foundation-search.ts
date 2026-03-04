@@ -1,5 +1,6 @@
 import Fuse, { type IFuseOptions } from 'fuse.js';
 import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
+import { computePriorityScore } from './foundation-scores';
 
 // ---------------------------------------------------------------------------
 // Gewichtung fuer die zusammengesetzte Relevanzbewertung
@@ -63,8 +64,8 @@ function computeRelevanceScore(
   // Fit-Score: 1-3 Skala, normalisiert auf 0-1
   const fitScore = (foundation.fit / 3) * SEARCH_WEIGHTS.fitScore;
 
-  // Prioritaet: 1 = hoechste, 4 = niedrigste — invertieren und normalisieren
-  const priority = ((5 - foundation.priority) / 4) * SEARCH_WEIGHTS.priority;
+  // Prioritaet: computed score 0-100, normalize to 0-1
+  const priority = (computePriorityScore(foundation).score / 100) * SEARCH_WEIGHTS.priority;
 
   // Recherche-Vollstaendigkeit: binaer — hat purposeSummary und braucht keine Recherche mehr
   const researchCompleteness =
