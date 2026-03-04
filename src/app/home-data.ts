@@ -11,8 +11,8 @@ import { FINANCIAL_YEAR_LABEL } from '@/app/finanzen/data';
 // -- Page Metadata -----------------------------------------------------------
 
 export const PAGE_META = {
-  title: `${ORG_PROFILE.name} — ${ORG_PROFILE.missionSummary}`,
-  description: `${ORG_PROFILE.legalForm} seit ${ORG_PROFILE.founded} in ${ORG_PROFILE.location}. Alle Daten transparent & inspizierbar.`,
+  title: `${ORG_PROFILE.name} — Fundraising-Werkzeuge`,
+  description: `Stiftungsrecherche, Gesuch-Vorlagen und belegbare Wirkungsdaten für ${ORG_PROFILE.name}.`,
 };
 
 // -- Section 1: Hero ---------------------------------------------------------
@@ -22,41 +22,41 @@ export const HERO = {
   story:
     'Wir geben IT-Geräten ein zweites Leben, schaffen Arbeitsplätze für Menschen in der Reintegration und machen digitale Bildung zugänglich.',
   context: `${ORG_PROFILE.legalForm} seit ${ORG_PROFILE.founded} in ${ORG_PROFILE.location}`,
-  platformNote: 'Alle Daten transparent & inspizierbar',
+  platformNote: 'Fundraising-Werkzeuge für gemeinnützige Organisationen',
   ctas: [
-    { href: '/revamp-2030', label: 'Vision 2030', variant: 'primary' as const },
-    { href: '/wirkung', label: 'Wirkung erkunden', variant: 'ghost' as const },
+    { href: '/fundraising/stiftungen', label: 'Stiftungen durchsuchen', variant: 'primary' as const },
+    { href: '/fundraising/gesuch-vorlagen', label: 'Gesuch erstellen', variant: 'ghost' as const },
   ],
 };
 
 // -- Section 2: Platform guide -----------------------------------------------
 
-export const GUIDE_HEADING = 'Was Sie hier finden';
+export const GUIDE_HEADING = 'Ihre Werkzeuge';
 
 export const GUIDE_SECTIONS = [
   {
-    href: '/finanzen',
-    icon: '💰',
-    title: 'Finanzen',
-    description: `${FINANCIAL_YEAR_LABEL} Einnahmen & Ausgaben — direkt aus der Buchhaltung.`,
+    href: '/fundraising/stiftungen',
+    icon: '🔍',
+    title: 'Stiftungsrecherche',
+    description: 'Passende Stiftungen finden, Fit-Analyse einsehen, Prioritäten setzen.',
+  },
+  {
+    href: '/fundraising/gesuch-vorlagen',
+    icon: '📝',
+    title: 'Gesuch-Vorlagen',
+    description: 'Professionelle Anträge erstellen — angepasst an jede Stiftung.',
   },
   {
     href: '/wirkung',
     icon: '🌍',
-    title: 'Wirkung',
-    description: 'CO₂-Einsparungen, Geräte, soziale Integration — mit Quellen und Methodik.',
+    title: 'Wirkungsdaten',
+    description: 'CO₂-Einsparungen, Geräte, soziale Integration — belegbar für Anträge.',
   },
   {
-    href: '/revamp-2030',
-    icon: '🚀',
-    title: 'Vision 2030',
-    description: 'Hub, Bildungsprogramm, Skalierung — wohin wir gehen und was wir brauchen.',
-  },
-  {
-    href: '/methodik',
-    icon: '📊',
-    title: 'Methodik',
-    description: 'Wie wir messen und berechnen. Was wir wissen, was wir schätzen.',
+    href: '/finanzen',
+    icon: '💰',
+    title: 'Finanzdaten',
+    description: `${FINANCIAL_YEAR_LABEL} Einnahmen & Ausgaben — direkt referenzierbar.`,
   },
 ];
 
@@ -64,11 +64,11 @@ export const GUIDE_SECTIONS = [
 
 export const PILLARS_HEADING = 'Unsere Schwerpunkte';
 
-// -- Section 4: Transparency -------------------------------------------------
+// -- Section 4: Data quality -------------------------------------------------
 
 export const TRANSPARENCY = {
-  heading: 'Transparenz-Plattform',
-  lead: 'Jede Zahl ist inspizierbar. Jede Behauptung belegt.',
+  heading: 'Datenqualität',
+  lead: 'Alle Zahlen in Ihren Anträgen sind belegbar und nachvollziehbar.',
   points: [
     'Quellenangaben bei jeder Metrik',
     `${FINANCIAL_YEAR_LABEL} Finanzdaten`,
@@ -79,12 +79,12 @@ export const TRANSPARENCY = {
 // -- Section 5: CTA ----------------------------------------------------------
 
 export const CTA_CONFIG = {
-  title: 'Bereit für den Einblick?',
+  title: 'Bereit für den nächsten Antrag?',
   description:
-    'Erkunde unsere Vision, Wirkung und Finanzen — alles transparent und inspizierbar.',
+    'Finden Sie die passende Stiftung und erstellen Sie ein professionelles Gesuch.',
   links: [
-    { href: '/revamp-2030', label: 'Vision 2030 ansehen' },
-    { href: '/wirkung', label: 'Wirkung erkunden', variant: 'secondary' as const },
-    { href: '/finanzen', label: 'Finanzen einsehen', variant: 'secondary' as const },
+    { href: '/fundraising/stiftungen', label: 'Stiftungen durchsuchen' },
+    { href: '/fundraising/gesuch-vorlagen', label: 'Gesuch erstellen', variant: 'secondary' as const },
+    { href: '/fundraising', label: 'Fundraising-Hub', variant: 'secondary' as const },
   ],
 };
