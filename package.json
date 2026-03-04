@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "npm run sync",
     "build": "next build",
     "prebuild": "npm run sync",
+    "lint:umlauts": "! grep -rn 'ß' src/ --include='*.ts' --include='*.tsx' | grep -v 'ss statt ß' | grep -v node_modules && echo 'No ß found' || (echo 'ERROR: Found ß (should be ss in Swiss German)' && exit 1)",
     "sync": "tsx src/scripts/sync-foundations.ts",
     "start": "next start",
     "lint": "eslint",

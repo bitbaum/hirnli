@@ -2,8 +2,17 @@ import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS, STATUS_LABELS, FIT_CONFIG } from '@/lib/config/foundations';
-import { getQualityTier, TIER_LABELS, TIER_COLORS } from '@/lib/domain/foundation-helpers';
+import { TIER_LABELS, TIER_COLORS } from '@/lib/domain/foundation-helpers';
+import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
 import ThemeBadgeList from './ThemeBadgeList';
+
+/** Priority level → card badge color */
+const PRIORITY_BADGE_COLORS: Record<number, string> = {
+  1: 'bg-danger-bg text-danger',
+  2: 'bg-warning-bg text-warning',
+  3: 'bg-primary/10 text-primary',
+  4: 'bg-grey-light text-text-muted',
+};
 
 interface FoundationCardProps {
   foundation: Foundation;
@@ -12,17 +21,12 @@ interface FoundationCardProps {
   score?: number;
 }
 
-const PRIORITY_BADGE: Record<number, string> = {
-  1: 'bg-danger-bg text-danger',
-  2: 'bg-warning-bg text-warning',
-  3: 'bg-primary/10 text-primary',
-  4: 'bg-grey-light text-text-muted',
-};
-
 export default function FoundationCard({ foundation: f, inPipeline, score }: FoundationCardProps) {
   const statusLabel = STATUS_LABELS[f.status];
   const typeLabel = TYPE_LABELS[f.type];
-  const tier = getQualityTier(f);
+  const readiness = computeReadinessScore(f);
+  const tier = readiness.tier;
+  const priority = computePriorityScore(f, readiness.score);
 
   return (
     <Link
@@ -33,14 +37,18 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className={`inline-flex items-center rounded px-1.5 py-0.5 text-xs font-bold leading-none ${PRIORITY_BADGE[f.priority] || PRIORITY_BADGE[4]}`}
+              className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-bold leading-none ${PRIORITY_BADGE_COLORS[priority.level] ?? PRIORITY_BADGE_COLORS[4]}`}
             >
-              P{f.priority}
+              {priority.label}
+              {priority.isOverride && (
+                <span className="rounded bg-amber-100 px-0.5 text-xs font-medium text-amber-700">M</span>
+              )}
             </span>
             <h3 className="font-semibold text-grey-dark">{f.name}</h3>
-            <span className={`text-xs font-bold ${FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.color ?? FIT_CONFIG[0].color}`}>
+            <span className={`text-xs font-bold ${FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.color ?? FIT_CONFIG[0].color}`} aria-hidden="true">
               {FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? FIT_CONFIG[0].stars}
             </span>
+            <span className="sr-only">Fit: {f.fit} von 3</span>
             {score != null && (
               <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
                 {Math.round(score * 100)}% Relevanz

@@ -34,7 +34,7 @@ export default function ResearchOverview({ stats, needsAttention }: ResearchOver
             </Card>
             <Card className="text-center">
               <p className="text-2xl font-bold text-success">{stats.researchedPercent}%</p>
-              <p className="text-xs text-text-muted">Recherchiert</p>
+              <p className="text-xs text-text-muted">Analysiert</p>
             </Card>
             <Card className="text-center">
               <p className={`text-2xl font-bold ${stats.stale > 10 ? 'text-warning' : 'text-text-light'}`}>
@@ -55,7 +55,7 @@ export default function ResearchOverview({ stats, needsAttention }: ResearchOver
                 Braucht Aufmerksamkeit
               </h4>
               <p className="mb-3 text-xs text-text-muted">
-                Stiftungen mit hohem Fit aber unvollstaendiger Recherche
+                Stiftungen mit hohem Fit aber unvollständiger Analyse
               </p>
               <div className="space-y-1">
                 {needsAttention.slice(0, 5).map((f) => (

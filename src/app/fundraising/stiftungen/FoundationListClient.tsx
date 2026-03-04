@@ -9,16 +9,14 @@ import FilterDrawer from '@/components/foundation/FilterDrawer';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
 import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
-import { computeTierCounts } from '@/lib/domain/foundation-helpers';
+import { computeTierCounts, hasGesuchPage } from '@/lib/domain/foundation-helpers';
+import { computePriorityScore } from '@/lib/domain/foundation-scores';
 import type { SortField } from '@/lib/domain/foundation-filter';
 import {
   THEME_CHIPS,
   STATUS_CHIPS,
   TYPE_CHIPS,
   SORT_OPTIONS,
-  SWISS_FOUNDATION_UNIVERSE,
-  REGISTRY_COUNT,
-  FUNNEL_STAGES,
 } from './data';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
@@ -107,26 +105,21 @@ export default function FoundationListClient() {
     (f) => f.status === 'open' || f.status === 'rolling',
   ).length;
 
-  // Gesuch-ready count (priority ≤ 2, tier >= recherchiert)
-  const gesuchReadyCount = useMemo(
-    () =>
-      STIFTUNGEN_DATA.filter(
-        (f) => f.priority <= 2 && !f.needsResearch,
-      ).length,
+  // Pipeline stats — computed once from full dataset (SSOT: hasGesuchPage)
+  const gesuchCount = useMemo(
+    () => STIFTUNGEN_DATA.filter(hasGesuchPage).length,
     [],
   );
 
-  // Funnel numbers — mix of static approximations and computed values
-  const funnelNumbers: Record<string, number> = useMemo(
-    () => ({
-      universe: SWISS_FOUNDATION_UNIVERSE,
-      registry: REGISTRY_COUNT,
-      pipeline: totalCount,
-      recherchiert: tierCounts.recherchiert + tierCounts.anwendungsbereit,
-      gesuchReady: gesuchReadyCount,
-    }),
-    [totalCount, tierCounts, gesuchReadyCount],
-  );
+  // Priority distribution — computed from full dataset
+  const priorityDist = useMemo(() => {
+    const counts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    for (const f of STIFTUNGEN_DATA) {
+      const p = computePriorityScore(f);
+      counts[p.level]++;
+    }
+    return counts;
+  }, []);
 
   const activeFilterCount = countActiveFilters(filters);
 
@@ -162,36 +155,70 @@ export default function FoundationListClient() {
       {/* Full-width header */}
       <PageHeader
         title="Stiftungen-Übersicht"
-        subtitle={`${filteredCount.toLocaleString('de-CH')} von ${totalCount.toLocaleString('de-CH')} in Pipeline · ${(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')} recherchiert · ${gesuchReadyCount} gesuch-bereit`}
+        subtitle={`${totalCount} Stiftungen · ${tierCounts.anwendungsbereit} bewerbungsbereit`}
         badge={`${filteredCount}/${totalCount}`}
       />
 
-      {/* Research Funnel */}
-      <div className="mb-6 rounded-lg border border-border bg-white p-4">
-        <h2 className="mb-3 text-sm font-semibold text-grey-dark">Recherche-Pipeline</h2>
-        <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-0">
-          {FUNNEL_STAGES.map((stage, i) => {
-            const count = funnelNumbers[stage.key];
-            return (
-              <div key={stage.key} className="flex items-center gap-1.5 sm:flex-1">
-                {i > 0 && (
-                  <span className="hidden text-text-muted sm:inline" aria-hidden="true">→</span>
-                )}
-                <div className={`flex-1 rounded-lg px-3 py-2 text-center ${stage.color}`}>
-                  <div className="text-lg font-bold tabular-nums">
-                    {count >= 1000
-                      ? `~${(count / 1000).toFixed(count >= 10000 ? 0 : 1)}k`
-                      : count.toLocaleString('de-CH')}
-                  </div>
-                  <div className="text-xs leading-tight">{stage.label}</div>
-                </div>
-              </div>
-            );
-          })}
+      {/* Pipeline Overview — independent metrics, NOT sequential stages */}
+      <div className="mb-6 space-y-4 rounded-lg border border-border bg-white p-4">
+        <h2 className="text-sm font-semibold text-grey-dark">Pipeline-Übersicht</h2>
+
+        {/* Research progress — the one true completion metric */}
+        <div>
+          <div className="mb-1.5 flex items-baseline justify-between">
+            <span className="text-sm font-medium text-grey-dark">Analyse-Fortschritt</span>
+            <span className="text-sm tabular-nums text-grey-dark">
+              <span className="font-semibold">{researchStats.researched}</span>
+              <span className="text-text-muted"> / {totalCount}</span>
+            </span>
+          </div>
+          <div className="h-2.5 w-full overflow-hidden rounded-full bg-bg-light" role="progressbar" aria-valuenow={researchStats.researchedPercent} aria-valuemin={0} aria-valuemax={100} aria-label={`Analyse-Fortschritt: ${researchStats.researchedPercent}% abgeschlossen`}>
+            <div
+              className="h-full rounded-full bg-primary transition-all"
+              style={{ width: `${researchStats.researchedPercent}%` }}
+            />
+          </div>
+          <p className="mt-1.5 text-xs text-text-muted">
+            Stiftungszweck und Fit manuell bewertet — {researchStats.researchedPercent}% abgeschlossen
+          </p>
         </div>
-        <p className="mt-2 text-xs text-text-muted">
-          Stufen werden automatisch aus Datensignalen berechnet (Website, Kontakt, Bewerbungsweg, Fördersumme).
-          Jede Stiftung hat eine eigene Detailseite mit Fit-Analyse und massgeschneidertem Gesuch.
+
+        {/* Priority distribution — computed from fit × readiness */}
+        <div className="grid grid-cols-4 gap-2">
+          {([
+            { level: 1, label: 'P1', color: 'border-danger/20 bg-danger-bg', text: 'text-danger' },
+            { level: 2, label: 'P2', color: 'border-warning/20 bg-warning-bg', text: 'text-warning' },
+            { level: 3, label: 'P3', color: 'border-primary/20 bg-primary/5', text: 'text-primary' },
+            { level: 4, label: 'P4', color: 'border-border bg-bg-light', text: 'text-text-muted' },
+          ] as const).map(({ level, label, color, text }) => (
+            <div key={level} className={`rounded-lg border ${color} px-3 py-2 text-center`}>
+              <div className={`text-lg font-bold tabular-nums ${text}`}>{priorityDist[level]}</div>
+              <div className="text-xs font-semibold text-grey-dark">{label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Actionability metrics */}
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
+            <div className="text-2xl font-bold tabular-nums text-primary">{gesuchCount}</div>
+            <div className="text-sm font-medium text-grey-dark">Mit Gesuch</div>
+            <p className="mt-0.5 text-xs text-text-muted">
+              Gesuch-Seite generiert (P1–P3)
+            </p>
+          </div>
+          <div className="rounded-lg border border-success/20 bg-success-bg px-4 py-3">
+            <div className="text-2xl font-bold tabular-nums text-success">{tierCounts.anwendungsbereit}</div>
+            <div className="text-sm font-medium text-grey-dark">Bewerbungsbereit</div>
+            <p className="mt-0.5 text-xs text-text-muted">
+              Höchste Datenvollständigkeit (Bereitschafts-Score ≥70)
+            </p>
+          </div>
+        </div>
+
+        <p className="text-xs text-text-muted">
+          Priorität = Fit × Bereitschaft. Scores algorithmisch berechnet.{' '}
+          <a href="/fundraising/scoring-methodik" className="text-primary hover:underline">Methodik</a>
         </p>
       </div>
 
@@ -305,7 +332,6 @@ export default function FoundationListClient() {
                 : `${filteredCount} von ${totalCount} Stiftungen`}
               {highFitCount > 0 && ` | ${highFitCount} mit hohem Fit`}
               {openCount > 0 && ` | ${openCount} offen`}
-              {filters.minTier !== 'profiliert' && ` | ${tierCounts.recherchiert + tierCounts.anwendungsbereit} recherchiert+`}
             </span>
           </div>
 
@@ -362,7 +388,7 @@ function FilterPill({ label, onRemove }: { label: string; onRemove: () => void }
       {label}
       <button
         onClick={onRemove}
-        className="ml-0.5 rounded-full p-0.5 hover:bg-border"
+        className="ml-0.5 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full hover:bg-border"
         aria-label={`Filter ${label} entfernen`}
       >
         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

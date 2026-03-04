@@ -76,21 +76,13 @@ export const APPLICATION_STATUSES = [
 
 export type ApplicationStatusId = typeof APPLICATION_STATUSES[number]['id'];
 
-/**
- * Priority level colors — SSOT for P1-P4 badge styling
- */
-export const PRIORITY_COLORS: Record<number, string> = {
-  1: 'bg-red-100 text-red-700',
-  2: 'bg-orange-100 text-orange-700',
-  3: 'bg-yellow-100 text-yellow-700',
-  4: 'bg-green-100 text-green-700',
-};
+import { PRIORITY_CONFIG } from './foundations';
 
-export const PRIORITY_COLOR_DEFAULT = 'bg-bg-light text-text-muted';
+const PRIORITY_COLOR_DEFAULT = 'bg-bg-light text-text-muted';
 
 export function getPriorityColor(level: number | null): string {
   if (level === null) return PRIORITY_COLOR_DEFAULT;
-  return PRIORITY_COLORS[level] ?? PRIORITY_COLOR_DEFAULT;
+  return PRIORITY_CONFIG[level]?.color ?? PRIORITY_COLOR_DEFAULT;
 }
 
 /**

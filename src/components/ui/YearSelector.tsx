@@ -13,7 +13,7 @@ export default function YearSelector({ years, selected, onChange, className = ''
         <button
           key={year}
           onClick={() => onChange(year)}
-          className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+          className={`min-h-11 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
             selected === year
               ? 'bg-primary text-white'
               : 'bg-grey-light text-grey-dark hover:bg-border'

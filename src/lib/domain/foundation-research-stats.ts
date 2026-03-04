@@ -18,7 +18,7 @@ const COMPLETENESS_CHECKS: ((f: Foundation) => [label: string, filled: boolean])
   (f) => ['Stiftungszweck', !!f.purposeSummary],
   (f) => ['Jahresbudget', !!f.annualBudget],
   (f) => ['Gründungsjahr', !!f.founded],
-  (f) => ['Kontakt', !!(f.contact?.email || f.contact?.address)],
+  (f) => ['Kontakt', !!(f.contact?.email || f.contact?.phone || f.contact?.address)],
   (f) => ['UID', !!f.uid],
   (f) => ['Region', !!f.region],
   (f) => ['Stiftungsrat', !!(f.boardMembers && f.boardMembers.length > 0)],
@@ -26,16 +26,10 @@ const COMPLETENESS_CHECKS: ((f: Foundation) => [label: string, filled: boolean])
 ];
 
 // ---------------------------------------------------------------------------
-// computeCompleteness
+// computeCompleteness (internal — used by computeResearchStats)
 // ---------------------------------------------------------------------------
 
-/**
- * Berechnet die Datenvollstaendigkeit einer einzelnen Stiftung.
- * Gibt den Prozentsatz und die Liste fehlender Felder zurueck.
- *
- * Extrahiert aus FoundationSidebar — dort nur noch importieren.
- */
-export function computeCompleteness(f: Foundation): { percent: number; missing: string[] } {
+function computeCompleteness(f: Foundation): { percent: number; missing: string[] } {
   const results = COMPLETENESS_CHECKS.map((check) => check(f));
   const filled = results.filter(([, ok]) => ok).length;
   const missing = results.filter(([, ok]) => !ok).map(([label]) => label);
@@ -69,8 +63,12 @@ export interface ResearchStats {
   byTheme: Record<string, { total: number; researched: number }>;
 }
 
-/** Ob eine Stiftung als "recherchiert" gilt */
-function isResearched(f: Foundation): boolean {
+/**
+ * "Analysiert" = Stiftungszweck manuell analysiert und Fit bewertet.
+ * Kriterien: purposeSummary vorhanden UND needsResearch === false.
+ * NICHT zu verwechseln mit QualityTier "Recherchiert" (= Website + Direktkontakt).
+ */
+function isAnalyzed(f: Foundation): boolean {
   return !!f.purposeSummary && !f.needsResearch;
 }
 
@@ -120,7 +118,7 @@ export function computeResearchStats(
   const byTheme: Record<string, { total: number; researched: number }> = {};
 
   for (const f of foundations) {
-    const fResearched = isResearched(f);
+    const fResearched = isAnalyzed(f);
     if (fResearched) researched++;
     if (isStale(f, now, staleDays)) stale++;
 
@@ -169,49 +167,4 @@ export function computeResearchStats(
     byFit,
     byTheme,
   };
-}
-
-// ---------------------------------------------------------------------------
-// Hilfs-Selektoren
-// ---------------------------------------------------------------------------
-
-/**
- * Gibt Stiftungen zurueck, deren researchDate aelter als daysThreshold ist.
- * Sortiert nach aeltestem zuerst.
- */
-export function getStaleFoundations(
-  foundations: readonly Foundation[],
-  daysThreshold = 90,
-): Foundation[] {
-  const now = new Date();
-  return foundations
-    .filter((f) => isStale(f, now, daysThreshold))
-    .sort((a, b) => {
-      // Aelteste zuerst — fehlende Daten ganz nach vorne
-      const dateA = a.researchDate ? new Date(a.researchDate).getTime() : 0;
-      const dateB = b.researchDate ? new Date(b.researchDate).getTime() : 0;
-      return dateA - dateB;
-    });
-}
-
-/**
- * Gibt Stiftungen zurueck, die Aufmerksamkeit brauchen:
- * Fit >= 2 UND (needsResearch ODER researchDate veraltet).
- *
- * Das sind die hochwertigen Stiftungen, bei denen wir Datenluecken haben.
- * Sortiert nach Fit (absteigend), dann Prioritaet (aufsteigend).
- */
-export function getNeedsAttention(
-  foundations: readonly Foundation[],
-  staleDays = 90,
-): Foundation[] {
-  const now = new Date();
-  return foundations
-    .filter((f) => f.fit >= 2 && (f.needsResearch || isStale(f, now, staleDays)))
-    .sort((a, b) => {
-      // Hoechster Fit zuerst
-      if (b.fit !== a.fit) return b.fit - a.fit;
-      // Dann niedrigste Prioritaet (= wichtigste) zuerst
-      return a.priority - b.priority;
-    });
 }

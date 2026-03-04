@@ -1,12 +1,7 @@
 'use client';
 
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
-
-interface FilterChip {
-  id: string;
-  label: string;
-  icon?: string;
-}
+import type { FilterChip } from '@/lib/types/filter';
 
 interface CheckboxFilterGroupProps {
   title: string;

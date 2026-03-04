@@ -191,6 +191,9 @@ export const analysisSchema = z.object({
   researchDate: z.string(),
   researchDepth: ResearchDepth.optional(), // rapid | standard | deep
 
+  // Override: when true, stored priority (1-4) takes precedence over computed
+  priorityOverride: z.boolean().optional(),
+
   // Relationships
   possiblePartners: z.array(z.string()).optional(),
 

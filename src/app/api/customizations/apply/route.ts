@@ -59,8 +59,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        error:
-          error instanceof Error ? error.message : 'Failed to apply customizations',
+        error: 'Verarbeitung fehlgeschlagen',
       },
       { status: 500 }
     );

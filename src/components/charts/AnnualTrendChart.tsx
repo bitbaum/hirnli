@@ -11,7 +11,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import type { AnnualPLEntry } from '@/app/finanzen/data';
-import { FINANCIAL_YEAR_LABEL } from '@/app/finanzen/data';
+import { FINANCIAL_YEAR_LABEL } from '@/lib/config/financial-constants';
 import { formatCHF } from '@/lib/utils/format';
 import ChartWrapper from './ChartWrapper';
 

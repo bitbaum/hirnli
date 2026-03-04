@@ -95,7 +95,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
               Stiftungsgesuche {searchQuery && `(${filteredGesuche.length} Ergebnisse)`}
             </h2>
             <p className="text-sm text-text-light">
-              Personalisierte Gesuche für recherchierte Stiftungen. Klicken Sie auf ein Gesuch, dann Cmd/Ctrl+P um als PDF zu speichern.
+              Personalisierte Gesuche für analysierte Stiftungen. Klicken Sie auf ein Gesuch, dann Cmd/Ctrl+P um als PDF zu speichern.
             </p>
           </div>
 

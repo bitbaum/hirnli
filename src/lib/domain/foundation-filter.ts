@@ -2,6 +2,7 @@ import type { Foundation, ThemeId, FoundationType, FoundationStatus, QualityTier
 import type { SchwerpunktId } from '../config/schwerpunkte';
 import { SCHWERPUNKTE } from '../config/schwerpunkte';
 import { getQualityTier, tierAtLeast } from './foundation-helpers';
+import { computePriorityScore } from './foundation-scores';
 
 export type ThemeLogic = 'or' | 'and';
 
@@ -106,7 +107,8 @@ export function sortFoundations(
     let cmp = 0;
     switch (field) {
       case 'priority':
-        cmp = a.priority - b.priority;
+        // Higher computed priority score = higher priority → sort descending by score
+        cmp = computePriorityScore(b).score - computePriorityScore(a).score;
         break;
       case 'fit':
         // Higher fit first, but fit=0 (unassessed) sorts last

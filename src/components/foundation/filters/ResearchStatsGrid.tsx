@@ -9,25 +9,21 @@ interface ResearchStatsGridProps {
 
 export default function ResearchStatsGrid({ stats }: ResearchStatsGridProps) {
   return (
-    <CollapsibleSection title="Recherche-Status">
-      <div className="grid grid-cols-2 gap-2">
-        <div className="rounded-lg border border-border bg-white p-2.5 text-center">
-          <p className="text-lg font-bold text-grey-dark">{stats.total.toLocaleString('de-CH')}</p>
-          <p className="text-xs text-text-muted">Total</p>
+    <CollapsibleSection title="Recherche-Stand">
+      <div className="space-y-2">
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-text-muted">Zweck analysiert</span>
+          <span className="font-semibold text-grey-dark">{stats.researched}/{stats.total}</span>
         </div>
-        <div className="rounded-lg border border-border bg-white p-2.5 text-center">
-          <p className="text-lg font-bold text-success">{stats.researchedPercent}%</p>
-          <p className="text-xs text-text-muted">Recherchiert</p>
+        <div className="h-2 w-full overflow-hidden rounded-full bg-bg-light" role="progressbar" aria-valuenow={stats.researchedPercent} aria-valuemin={0} aria-valuemax={100} aria-label={`Recherche-Fortschritt: ${stats.researchedPercent}% analysiert`}>
+          <div
+            className="h-full rounded-full bg-primary"
+            style={{ width: `${stats.researchedPercent}%` }}
+          />
         </div>
-        <div className="rounded-lg border border-border bg-white p-2.5 text-center">
-          <p className={`text-lg font-bold ${stats.stale > 10 ? 'text-warning' : 'text-text-light'}`}>
-            {stats.stale}
-          </p>
-          <p className="text-xs text-text-muted">Veraltet</p>
-        </div>
-        <div className="rounded-lg border border-border bg-white p-2.5 text-center">
-          <p className="text-lg font-bold text-primary">{stats.avgCompleteness}%</p>
-          <p className="text-xs text-text-muted">Vollst.</p>
+        <div className="flex items-center justify-between text-xs text-text-muted">
+          <span>{stats.researchedPercent}% analysiert</span>
+          <span>Ø {stats.avgCompleteness}% vollständig</span>
         </div>
       </div>
     </CollapsibleSection>

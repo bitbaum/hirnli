@@ -11,10 +11,15 @@ interface TierFilterProps {
 }
 
 export default function TierFilter({ activeTier, tierCounts, onSelect }: TierFilterProps) {
+  // Only show tiers that have entries — avoids confusing empty rows
+  const visibleTiers = [...QUALITY_TIERS].reverse().filter((tier) => tierCounts[tier] > 0);
+
+  if (visibleTiers.length <= 1) return null;
+
   return (
     <CollapsibleSection title="Datenqualität" defaultOpen>
       <div className="space-y-1">
-        {([...QUALITY_TIERS].reverse()).map((tier) => {
+        {visibleTiers.map((tier) => {
           const isActive = activeTier === tier;
           const count = tierCounts[tier];
           return (

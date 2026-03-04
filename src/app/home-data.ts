@@ -6,7 +6,7 @@
  */
 
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { FINANCIAL_YEAR_LABEL } from '@/app/finanzen/data';
+import { FINANCIAL_YEAR_LABEL } from '@/lib/config/financial-constants';
 
 // -- Page Metadata -----------------------------------------------------------
 

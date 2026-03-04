@@ -11,7 +11,7 @@ import { STIFTUNGEN_DATA } from './foundations';
 import { TEMPLATE_TYPES, TEMPLATE_FOUNDATIONS, TEMPLATE_LABELS } from './gesuch-templates';
 import { TYPE_LABELS } from './foundations/metadata';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
-import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/app/finanzen/data';
+import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
 
 // ---------------------------------------------------------------------------
 // Document Types

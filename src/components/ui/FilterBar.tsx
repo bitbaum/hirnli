@@ -1,13 +1,7 @@
 'use client';
 
 import { themeStyleSolid } from '@/lib/utils/theme';
-
-interface FilterChip {
-  id: string;
-  label: string;
-  icon?: string;
-  color?: string;
-}
+import type { FilterChip } from '@/lib/types/filter';
 
 interface FilterBarProps {
   label: string;
@@ -27,7 +21,7 @@ export default function FilterBar({ label, chips, selected, onToggle, className 
           <button
             key={chip.id}
             onClick={() => onToggle(chip.id)}
-            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+            className={`inline-flex min-h-11 items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               isSelected
                 ? 'bg-primary text-white'
                 : 'bg-grey-light text-grey-dark hover:bg-border'

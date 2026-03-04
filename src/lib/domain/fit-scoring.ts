@@ -1,5 +1,5 @@
 /**
- * Fit Scoring — Generic config-driven scoring engine
+ * Scoring Engine — Generic config-driven scoring for all layers
  *
  * Reads dimension definitions from lib/config/fit-scoring.ts and evaluates
  * them generically. Adding a new dimension of an existing compute type
@@ -9,6 +9,7 @@
  *   weightedCategoryMatch — count tags in buckets, weight + cap each
  *   tieredLookup          — ordered tiers, first match wins
  *   directMap             — key→value map with fallbacks
+ *   additiveChecks        — independent boolean checks, sum points
  *
  * To add a genuinely new compute type: add one function here + register it.
  */
@@ -20,7 +21,9 @@ import {
   type WeightedCategoryMatchConfig,
   type TieredLookupConfig,
   type DirectMapConfig,
+  type AdditiveChecksConfig,
   type ScoringDimensionConfig,
+  type ScoringEngineConfig,
 } from '../config/fit-scoring';
 
 // ============================================================================
@@ -42,11 +45,28 @@ export interface FitResult {
   dimensions: Record<string, number>;
 }
 
+/** Per-check detail returned by additiveChecks evaluation */
+export interface CheckDetail {
+  label: string;
+  passed: boolean;
+  points: number;
+}
+
+/** Result from evaluating any engine (fit, readiness, etc.) */
+export interface EngineResult {
+  score: number;
+  dimensions: Record<string, number>;
+  /** Per-check details (only populated for additiveChecks dimensions) */
+  checks: (CheckDetail & { dimension: string })[];
+  /** Display level from thresholds */
+  displayLevel: number;
+}
+
 // Input as a generic record for the engine to read fields dynamically
 type InputRecord = Record<string, unknown>;
 
 // ============================================================================
-// Match evaluator (used by tieredLookup)
+// Match evaluator
 // ============================================================================
 
 function evaluateCondition(input: InputRecord, cond: MatchCondition): boolean {
@@ -82,8 +102,6 @@ function evaluateMatch(input: InputRecord, match: MatchExpression): boolean {
 // ============================================================================
 
 function evaluateWeightedCategoryMatch(input: InputRecord, config: WeightedCategoryMatchConfig): number {
-  // Collect all input arrays from the input fields (the dimension declares which)
-  // For weightedCategoryMatch the first inputField is typically an array field like 'themes'
   const tags = Object.values(input).find(v => Array.isArray(v)) as string[] | undefined;
   if (!tags || tags.length === 0) return 0;
 
@@ -122,19 +140,35 @@ function evaluateDirectMap(input: InputRecord, config: DirectMapConfig): number 
   return config.defaultScore;
 }
 
+/** Evaluate independent boolean checks, sum points for each true condition */
+function evaluateAdditiveChecks(input: InputRecord, config: AdditiveChecksConfig): number {
+  let total = 0;
+  for (const check of config.checks) {
+    if (evaluateMatch(input, check.match)) total += check.score;
+  }
+  return total;
+}
+
+/** Get per-check details for additiveChecks (for UI inspection) */
+function getAdditiveCheckDetails(input: InputRecord, config: AdditiveChecksConfig): CheckDetail[] {
+  return config.checks.map(check => ({
+    label: check.label,
+    passed: evaluateMatch(input, check.match),
+    points: check.score,
+  }));
+}
+
 const COMPUTE_REGISTRY: Record<string, (input: InputRecord, config: never) => number> = {
   weightedCategoryMatch: evaluateWeightedCategoryMatch as (input: InputRecord, config: never) => number,
   tieredLookup: evaluateTieredLookup as (input: InputRecord, config: never) => number,
   directMap: evaluateDirectMap as (input: InputRecord, config: never) => number,
+  additiveChecks: evaluateAdditiveChecks as (input: InputRecord, config: never) => number,
 };
 
 // ============================================================================
 // Generic engine
 // ============================================================================
 
-/**
- * Pick only the fields a dimension declares it needs from the full input.
- */
 function pickInputFields(fullInput: InputRecord, dim: ScoringDimensionConfig): InputRecord {
   const subset: InputRecord = {};
   for (const field of dim.inputFields) {
@@ -153,8 +187,56 @@ function evaluateDimension(dim: ScoringDimensionConfig, fullInput: InputRecord):
   return Math.min(score, dim.maxScore);
 }
 
+/**
+ * Evaluate any ScoringEngineConfig against an input record.
+ * Returns composite score, per-dimension breakdown, per-check details,
+ * and the display level from thresholds.
+ */
+export function evaluateEngine(engine: ScoringEngineConfig, input: InputRecord): EngineResult {
+  const dimensions: Record<string, number> = {};
+  const checks: (CheckDetail & { dimension: string })[] = [];
+
+  for (const dim of engine.dimensions) {
+    const dimInput = pickInputFields(input, dim);
+    dimensions[dim.id] = evaluateDimension(dim, input);
+
+    // Collect per-check details for additiveChecks dimensions
+    if (dim.computeType === 'additiveChecks') {
+      const details = getAdditiveCheckDetails(dimInput, dim.config as AdditiveChecksConfig);
+      for (const detail of details) {
+        checks.push({ ...detail, dimension: dim.id });
+      }
+    }
+  }
+
+  // Composite score (sum)
+  let score = Object.values(dimensions).reduce((a, b) => a + b, 0);
+
+  // Apply dimension floors (dealbreakers)
+  const floors = engine.composite.dimensionFloors;
+  if (floors) {
+    for (const floor of floors) {
+      const dimScore = dimensions[floor.dimensionId];
+      if (dimScore !== undefined && dimScore < floor.ifBelow) {
+        score = Math.min(score, floor.capTotal);
+      }
+    }
+  }
+
+  // Display level from thresholds (descending — first match wins)
+  let displayLevel = engine.display.defaultLevel;
+  for (const t of engine.display.thresholds) {
+    if (score >= t.minScore) {
+      displayLevel = t.level;
+      break;
+    }
+  }
+
+  return { score, dimensions, checks, displayLevel };
+}
+
 // ============================================================================
-// Public API — identical signatures to before
+// Public API — Fit scoring (backward compatible)
 // ============================================================================
 
 /**
@@ -162,17 +244,8 @@ function evaluateDimension(dim: ScoringDimensionConfig, fullInput: InputRecord):
  * Reads all dimensions from SCORING_ENGINE config.
  */
 export function computeFitScore(input: FitScoreInput): FitResult {
-  const inputRecord = input as unknown as InputRecord;
-  const dimensions: Record<string, number> = {};
-
-  for (const dim of SCORING_ENGINE.dimensions) {
-    dimensions[dim.id] = evaluateDimension(dim, inputRecord);
-  }
-
-  // Composite — currently only 'sum'
-  const fitScore = Object.values(dimensions).reduce((a, b) => a + b, 0);
-
-  return { fitScore, dimensions };
+  const result = evaluateEngine(SCORING_ENGINE, input as unknown as InputRecord);
+  return { fitScore: result.score, dimensions: result.dimensions };
 }
 
 /**
@@ -183,7 +256,7 @@ export function fitScoreToDisplay(fitScore: number, researchDepth: string | unde
   const { display } = SCORING_ENGINE;
 
   // Confidence gate: unassessed depths get gated level
-  if (researchDepth && display.confidenceGate.excludeValues.includes(researchDepth)) {
+  if (researchDepth && display.confidenceGate?.excludeValues.includes(researchDepth)) {
     return display.confidenceGate.gateLevel as 0 | 1 | 2 | 3;
   }
 

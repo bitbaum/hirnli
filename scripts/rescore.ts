@@ -107,7 +107,6 @@ async function main() {
     const newFitDisplay = fitScoreToDisplay(newFitScore, researchDepth);
 
     // Compute new priority — preserve curated priorities for core foundations
-    const slug = (cd as { slug?: string }).slug || '';
     const hasCuratedPriority = cd.priority !== undefined && cd.priority !== null;
     const isZurich = canton === 'ZH';
     let newPriority: 1 | 2 | 3 | 4;

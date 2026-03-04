@@ -1,7 +1,7 @@
 /**
- * German month names — SSOT used by formatMonth, formatMonthShort, formatDateDE
+ * German month names — SSOT used by formatMonthShort, formatDateDE
  */
-export const MONTH_NAMES_DE = [
+const MONTH_NAMES_DE = [
   'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
   'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
 ] as const;
@@ -49,17 +49,6 @@ export function formatPercent(value: number | null | undefined, decimals = 1): s
 }
 
 /**
- * Format month string "YYYY-MM" to German name
- */
-export function formatMonth(monthStr: string | null | undefined): string {
-  if (!monthStr) return '--';
-  const [year, month] = monthStr.split('-');
-  const idx = parseInt(month, 10) - 1;
-  if (idx < 0 || idx > 11) return monthStr;
-  return `${MONTH_NAMES_DE[idx]} ${year}`;
-}
-
-/**
  * Format month string short
  */
 export function formatMonthShort(monthStr: string | null | undefined): string {
@@ -76,39 +65,4 @@ export function formatMonthShort(monthStr: string | null | undefined): string {
 export function calcGrowth(oldVal: number, newVal: number): number {
   if (!oldVal || oldVal === 0) return newVal > 0 ? 1 : 0;
   return (newVal - oldVal) / Math.abs(oldVal);
-}
-
-/**
- * Calculate average of numeric values
- */
-export function calcAverage(values: (number | null)[]): number {
-  if (!values || values.length === 0) return 0;
-  const valid = values.filter((v): v is number => v !== null && !isNaN(v));
-  if (valid.length === 0) return 0;
-  return valid.reduce((s, v) => s + v, 0) / valid.length;
-}
-
-/**
- * Calculate sum of numeric values
- */
-export function calcSum(values: (number | null)[]): number {
-  if (!values || values.length === 0) return 0;
-  return values.filter((v): v is number => v !== null && !isNaN(v)).reduce((s, v) => s + v, 0);
-}
-
-/**
- * Get trend CSS class
- */
-export function getTrendClass(growth: number, positiveIsGood = true): string {
-  if (Math.abs(growth) < 0.01) return 'trend-neutral';
-  if (positiveIsGood) return growth > 0 ? 'trend-up' : 'trend-down';
-  return growth < 0 ? 'trend-up' : 'trend-down';
-}
-
-/**
- * Get trend arrow character
- */
-export function getTrendArrow(growth: number): string {
-  if (Math.abs(growth) < 0.01) return '→';
-  return growth > 0 ? '↑' : '↓';
 }

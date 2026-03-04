@@ -6,17 +6,11 @@ import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { FoundationFilters, SortField } from '@/lib/domain/foundation-filter';
 import type { ResearchStats } from '@/lib/domain/foundation-research-stats';
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
+import type { FilterChip } from '@/lib/types/filter';
 import CheckboxFilterGroup from './filters/CheckboxFilterGroup';
 import SchwerpunkteFilter from './filters/SchwerpunkteFilter';
 import TierFilter from './filters/TierFilter';
 import ResearchStatsGrid from './filters/ResearchStatsGrid';
-
-interface FilterChip {
-  id: string;
-  label: string;
-  icon?: string;
-  color?: string;
-}
 
 interface SortOption {
   value: SortField;

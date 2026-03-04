@@ -13,7 +13,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
@@ -41,28 +43,29 @@ Standort: Badenerstrasse 816, 8048 Zürich (Werkstatt + Laden) & Birmensdorferst
 ## Aufgabe
 Du erhältst einen Textabschnitt und eine Überarbeitungsanweisung. Gib NUR den überarbeiteten Text zurück — kein Kommentar, keine Erklärung, keine Präambel, kein "Hier ist der überarbeitete Text:".`;
 
-interface FoundationAIContext {
-  name: string;
-  purpose?: string;
-  type?: string;
-  themes: string[];
-  fitScore?: number;
-  tagline?: string;
-  researchNotes?: string;
-  pastGrantees?: string[];
-  grantRange?: { min?: number; max?: number };
-  applicationProcess?: string;
-  deadline?: string;
-  deadlineText?: string;
-}
+const requestSchema = z.object({
+  instruction: z.string().min(1),
+  currentText: z.string().min(1),
+  fieldPath: z.string().optional(),
+  fieldDescription: z.string().optional(),
+  foundationContext: z.object({
+    name: z.string(),
+    purpose: z.string().optional(),
+    type: z.string().optional(),
+    themes: z.array(z.string()).optional(),
+    fitScore: z.number().optional(),
+    tagline: z.string().optional(),
+    researchNotes: z.string().optional(),
+    pastGrantees: z.array(z.string()).optional(),
+    grantRange: z.object({ min: z.number().optional(), max: z.number().optional() }).optional(),
+    applicationProcess: z.string().optional(),
+    deadline: z.string().optional(),
+    deadlineText: z.string().optional(),
+    priority: z.number().optional(),
+  }).optional(),
+});
 
-type RequestBody = {
-  instruction: string;
-  currentText: string;
-  fieldPath?: string;
-  fieldDescription?: string;
-  foundationContext?: FoundationAIContext;
-};
+type RequestBody = z.infer<typeof requestSchema>;
 
 function buildUserMessage(body: RequestBody): string {
   const lines: string[] = [];
@@ -73,13 +76,8 @@ function buildUserMessage(body: RequestBody): string {
     lines.push(`## Stiftung: ${fc.name}`);
     if (fc.purpose) lines.push(`Stiftungszweck: ${fc.purpose}`);
     if (fc.type) {
-      const typeLabels: Record<string, string> = {
-        A: 'Typ A — thematisch passend, hohe Priorität',
-        B: 'Typ B — guter Fit, aktiv bewerben',
-        C: 'Typ C — möglicher Fit, Timing wichtig',
-        D: 'Typ D — Netzwerk-Stiftung',
-      };
-      lines.push(`Stiftungstyp: ${typeLabels[fc.type] ?? fc.type}`);
+      const label = TYPE_LABELS[fc.type as keyof typeof TYPE_LABELS];
+      lines.push(`Stiftungstyp: ${label ? `Typ ${label.short} — ${label.long}` : fc.type}`);
     }
     if (fc.themes?.length) {
       lines.push(`Förderbereiche: ${fc.themes.join(', ')}`);
@@ -136,20 +134,21 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: RequestBody;
+  let rawBody: unknown;
   try {
-    body = await request.json();
+    rawBody = await request.json();
   } catch {
     return NextResponse.json({ success: false, error: 'Ungültige Anfrage' }, { status: 400 });
   }
 
-  const { instruction, currentText } = body;
-  if (!instruction?.trim() || !currentText?.trim()) {
+  const parsed = requestSchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json(
-      { success: false, error: 'instruction und currentText sind erforderlich' },
+      { success: false, error: 'Ungültige Anfrage' },
       { status: 400 },
     );
   }
+  const body = parsed.data;
 
   const userMessage = buildUserMessage(body);
 

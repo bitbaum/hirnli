@@ -20,11 +20,8 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Screenshots & reference images
-screenshot-*.png
-fundraiso-*.png
-spheriq-*.png
-sidebar-*.png
+# Screenshots & reference images (root-level only — public/ PNGs are tracked)
+/*.png
 
 # Playwright MCP
 .playwright-mcp/

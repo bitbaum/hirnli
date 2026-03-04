@@ -6,16 +6,10 @@
  */
 
 import type { Foundation } from '@/lib/schemas/foundation';
+import type { ThemeMetadata } from '@/lib/schemas/theme';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { ANSCHREIBEN_TEMPLATES } from '@/lib/config/stories';
 import { extractPurposeCore } from './bridge-composer';
-
-interface ThemeMetadata {
-  id: string;
-  label: string;
-  icon: string;
-  color: string;
-}
 
 /** Build a type-specific opening paragraph that references foundation purpose */
 export function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: string): string {

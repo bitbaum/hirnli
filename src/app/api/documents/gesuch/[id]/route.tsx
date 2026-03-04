@@ -133,7 +133,7 @@ export async function POST(
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : 'PDF generation failed',
+        error: 'Verarbeitung fehlgeschlagen',
       },
       { status: 500 }
     );

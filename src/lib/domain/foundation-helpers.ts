@@ -1,9 +1,11 @@
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { computeReadinessScore, computePriorityScore } from './foundation-scores';
 
 // -- Quality Tiers (SSOT) -----------------------------------------------------
-// 5-tier system computed deterministically from data signals — never manually assigned.
-// See plan: verzeichnet < erfasst < profiliert < recherchiert < anwendungsbereit
+// 5-tier system computed from readiness score (0-100 → tier label).
+// Readiness measures "can we produce a great, tailored document?"
+// All weights and thresholds live in config (lib/config/fit-scoring.ts).
 
 /** Ordered tier ranks for comparisons */
 const TIER_RANK: Record<QualityTier, number> = {
@@ -28,33 +30,9 @@ export function tierAtLeast(tier: QualityTier, minimum: QualityTier): boolean {
   return TIER_RANK[tier] >= TIER_RANK[minimum];
 }
 
-/** URLs pointing to registry sites, not the foundation's own website */
-const REGISTRY_DOMAINS = ['zefix.ch', 'uid.admin.ch'];
-
-function isRegistryUrl(url: string): boolean {
-  try {
-    const hostname = new URL(url).hostname.toLowerCase();
-    return REGISTRY_DOMAINS.some((d) => hostname === d || hostname.endsWith(`.${d}`));
-  } catch {
-    return false;
-  }
-}
-
-/** Determine the quality tier for a foundation from its data signals */
+/** Determine the quality tier for a foundation from its readiness score */
 export function getQualityTier(f: Foundation): QualityTier {
-  const realWeb = !!f.websiteUrl && !isRegistryUrl(f.websiteUrl);
-  const directContact = !!(f.contact?.email || f.contact?.phone);
-  const hasAppUrl = !!f.applicationUrl;
-  const hasGrantRange = !!(f.amount?.min || f.amount?.max);
-  const hasThemes = f.themes.length > 0;
-  const hasContactInfo = directContact || !!f.contact?.address;
-  const hasRegistryData = !!f.officialPurpose || hasThemes || f.fit > 0;
-
-  if (realWeb && directContact && hasAppUrl && hasGrantRange) return 'anwendungsbereit';
-  if (realWeb && directContact) return 'recherchiert';
-  if (hasThemes && hasContactInfo) return 'profiliert';
-  if (hasRegistryData) return 'erfasst';
-  return 'verzeichnet';
+  return computeReadinessScore(f).tier;
 }
 
 // -- Tier display config -------------------------------------------------------
@@ -76,11 +54,11 @@ export const TIER_COLORS: Record<QualityTier, string> = {
 };
 
 export const TIER_DESCRIPTIONS: Record<QualityTier, string> = {
-  anwendungsbereit: 'Jetzt bewerben — Kontakt, Bewerbungsweg und Fördersumme bekannt.',
-  recherchiert: 'Verifizierte Website und direkter Kontakt.',
-  profiliert: 'Automatisch profiliert anhand von Registerdaten.',
-  erfasst: 'Registerdaten verfügbar. Recherche ausstehend.',
-  verzeichnet: 'Im Schweizer Register erfasst. Nur Name und UID.',
+  anwendungsbereit: 'Umfassende Daten für massgeschneidertes Gesuch vorhanden.',
+  recherchiert: 'Stiftungszweck, Kontakt und Themenzuordnung vorhanden.',
+  profiliert: 'Grundlegende Informationen und einige Kontaktdaten vorhanden.',
+  erfasst: 'Minimale Daten — weitere Recherche nötig.',
+  verzeichnet: 'Nur Name im System. Keine weiteren Daten.',
 };
 
 // -- Tier counts ---------------------------------------------------------------
@@ -110,49 +88,24 @@ export function countAtLeast(foundations: Foundation[], minimum: QualityTier): n
 export interface TierPromotion {
   currentTier: QualityTier;
   nextTier: QualityTier | null;
-  missingFields: string[];
+  /** Top improvements from readiness score — sorted by impact */
+  improvements: { label: string; points: number; dimension: string }[];
 }
 
 /** Returns what fields are missing to reach the next tier */
 export function getTierPromotionSteps(f: Foundation): TierPromotion {
-  const currentTier = getQualityTier(f);
-  const missing: string[] = [];
+  const result = computeReadinessScore(f);
+  const currentTier = result.tier;
 
-  const realWeb = !!f.websiteUrl && !isRegistryUrl(f.websiteUrl);
-  const directContact = !!(f.contact?.email || f.contact?.phone);
-  const hasAppUrl = !!f.applicationUrl;
-  const hasGrantRange = !!(f.amount?.min || f.amount?.max);
-  const hasThemes = f.themes.length > 0;
-  const hasContactInfo = directContact || !!f.contact?.address;
+  // Find next tier
+  const currentRank = TIER_RANK[currentTier];
+  const nextTier = QUALITY_TIERS.find(t => TIER_RANK[t] === currentRank + 1) ?? null;
 
-  switch (currentTier) {
-    case 'verzeichnet':
-      // Need: officialPurpose OR themes OR fit > 0
-      if (!f.officialPurpose) missing.push('Stiftungszweck (officialPurpose)');
-      if (!hasThemes) missing.push('Themen zuweisen');
-      return { currentTier, nextTier: 'erfasst', missingFields: missing };
-
-    case 'erfasst':
-      // Need: themes + some contact/address
-      if (!hasThemes) missing.push('Themen zuweisen');
-      if (!hasContactInfo) missing.push('Kontaktdaten (E-Mail, Telefon oder Adresse)');
-      return { currentTier, nextTier: 'profiliert', missingFields: missing };
-
-    case 'profiliert':
-      // Need: real website + email/phone
-      if (!realWeb) missing.push('Eigene Website (nicht Zefix/UID)');
-      if (!directContact) missing.push('Direkte Kontaktdaten (E-Mail oder Telefon)');
-      return { currentTier, nextTier: 'recherchiert', missingFields: missing };
-
-    case 'recherchiert':
-      // Need: applicationUrl + grant range
-      if (!hasAppUrl) missing.push('Bewerbungs-URL');
-      if (!hasGrantRange) missing.push('Förderbetrag (min/max)');
-      return { currentTier, nextTier: 'anwendungsbereit', missingFields: missing };
-
-    case 'anwendungsbereit':
-      return { currentTier, nextTier: null, missingFields: [] };
-  }
+  return {
+    currentTier,
+    nextTier,
+    improvements: result.topImprovements,
+  };
 }
 
 // -- Foundation lookup ---------------------------------------------------------
@@ -178,11 +131,14 @@ export function generateFoundationParams(): { slug: string }[] {
 /**
  * Check if a foundation qualifies for a gesuch page.
  * SSOT for the gesuch gate — used by both generateGesuchParams() and FoundationSidebar.
- * Requires tier >= recherchiert AND priority <= 2.
+ * Requires tier >= recherchiert AND computed priority P1-P3.
+ * P3 ("watch for timing") still gets a Gesuch for when the timing is right.
+ * P4 ("maintain relationship") does not.
  */
 export function hasGesuchPage(f: Foundation): boolean {
   if (!tierAtLeast(getQualityTier(f), 'recherchiert')) return false;
-  if (f.priority && f.priority > 2) return false;
+  const priority = computePriorityScore(f);
+  if (priority.level > 3) return false;
   return true;
 }
 
@@ -194,8 +150,6 @@ export function generateGesuchParams(): { slug: string }[] {
 }
 
 // -- Backward compat (deprecated) ---------------------------------------------
-// Keep the old FoundationTier type temporarily so any missed consumers get a compile error
-// rather than silently breaking. Remove once all consumers are updated.
 
 /** @deprecated Use QualityTier instead */
 export type FoundationTier = QualityTier;

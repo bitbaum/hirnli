@@ -19,26 +19,15 @@ import { applications, foundations, activityLog } from '@/lib/db/schema';
 import { and, desc, eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
+import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
 
-// Application status values
-const APPLICATION_STATUSES = [
-  'prospect',
-  'research',
-  'draft',
-  'review',
-  'submitted',
-  'pending',
-  'followup',
-  'accepted',
-  'rejected',
-  'withdrawn',
-  'onhold',
-] as const;
+// Derive status ID tuple from config SSOT
+const STATUS_IDS = APPLICATION_STATUSES.map(s => s.id) as [string, ...string[]];
 
 // Validation schema for creating applications
 const createApplicationSchema = z.object({
   foundationId: z.string().min(1),
-  status: z.enum(APPLICATION_STATUSES).default('prospect'),
+  status: z.enum(STATUS_IDS).default('prospect'),
 
   requestedAmount: z.number().positive().optional().nullable(),
   projectFocus: z.string().optional().nullable(),

@@ -3,9 +3,16 @@ import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
-import { computeCompleteness } from '@/lib/domain/foundation-research-stats';
-import { hasGesuchPage, getQualityTier, getTierPromotionSteps, TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS } from '@/lib/domain/foundation-helpers';
+import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
+import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
+import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS, TIER_COLORS } from '@/lib/domain/foundation-helpers';
 import AddToPipelineButton from './AddToPipelineButton';
+
+/** Dimension labels keyed by id for readiness bar display */
+const DIM_LABELS: Record<string, string> = {};
+for (const dim of READINESS_ENGINE.dimensions) {
+  DIM_LABELS[dim.id] = dim.label;
+}
 
 interface FoundationSidebarProps {
   foundation: Foundation;
@@ -13,28 +20,84 @@ interface FoundationSidebarProps {
 
 export default function FoundationSidebar({ foundation: f }: FoundationSidebarProps) {
   const source = SOURCES[f.source];
-  const { percent, missing } = computeCompleteness(f);
+  const readiness = computeReadinessScore(f);
+  const priority = computePriorityScore(f, readiness.score);
   const gesuchReady = hasGesuchPage(f);
-  const tier = getQualityTier(f);
+  const tier = readiness.tier;
   const promotion = getTierPromotionSteps(f);
 
   return (
     <div className="space-y-4">
-      {/* Quality Tier */}
+      {/* Scores Card — replaces old Datenqualität */}
       <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Datenqualität</h3>
-        <div className={`rounded-lg px-3 py-2 text-sm font-semibold ${TIER_COLORS[tier]}`}>
-          {TIER_LABELS[tier]}
+        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Scores</h3>
+
+        {/* Priority */}
+        <div className="mb-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-text-muted">Priorität</span>
+            <span className="text-xs font-bold tabular-nums">
+              {priority.label}
+              {priority.isOverride && (
+                <span className="ml-1 rounded bg-amber-100 px-1 py-0.5 text-xs font-medium text-amber-700">manuell</span>
+              )}
+            </span>
+          </div>
+          <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-bg-light" role="progressbar" aria-valuenow={priority.score} aria-valuemin={0} aria-valuemax={100} aria-label={`Priorität: ${priority.score}%`}>
+            <div
+              className="h-full rounded-full bg-primary transition-all"
+              style={{ width: `${priority.score}%` }}
+            />
+          </div>
+          <p className="mt-1 text-xs text-text-muted">{priority.description}</p>
+          {priority.components.penaltyReason && (
+            <p className="mt-0.5 text-xs text-warning">{priority.components.penaltyReason}</p>
+          )}
         </div>
-        <p className="mt-2 text-xs text-text-muted">{TIER_DESCRIPTIONS[tier]}</p>
-        {promotion.nextTier && promotion.missingFields.length > 0 && (
-          <div className="mt-3 border-t border-border pt-3">
+
+        {/* Readiness */}
+        <div className="mb-3 border-t border-border pt-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-text-muted">Bereitschaft</span>
+            <div className="flex items-center gap-1.5">
+              <span className={`rounded-full px-1.5 py-0.5 text-xs font-semibold ${TIER_COLORS[tier]}`}>
+                {TIER_LABELS[tier]}
+              </span>
+              <span className="text-xs tabular-nums text-text-muted">{readiness.score}/100</span>
+            </div>
+          </div>
+
+          {/* Per-dimension bars */}
+          <div className="mt-2 space-y-1.5">
+            {Object.entries(readiness.dimensions).map(([id, { score, max }]) => (
+              <div key={id}>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-text-muted">{DIM_LABELS[id] ?? id}</span>
+                  <span className="tabular-nums text-text-muted">{score}/{max}</span>
+                </div>
+                <div className="mt-0.5 h-1.5 w-full overflow-hidden rounded-full bg-bg-light" role="progressbar" aria-valuenow={score} aria-valuemin={0} aria-valuemax={max} aria-label={`${DIM_LABELS[id] ?? id}: ${score} von ${max}`}>
+                  <div
+                    className="h-full rounded-full bg-primary/60 transition-all"
+                    style={{ width: `${max > 0 ? (score / max) * 100 : 0}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Top improvements */}
+        {promotion.improvements.length > 0 && (
+          <div className="border-t border-border pt-3">
             <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">
-              Nächste Stufe: {TIER_LABELS[promotion.nextTier]}
+              {promotion.nextTier ? `Nächste Stufe: ${TIER_LABELS[promotion.nextTier]}` : 'Nächste Verbesserungen'}
             </p>
-            <ul className="mt-1 space-y-0.5 text-xs text-text-muted">
-              {promotion.missingFields.map((field) => (
-                <li key={field}>• {field}</li>
+            <ul className="mt-1 space-y-0.5">
+              {promotion.improvements.slice(0, 3).map((imp) => (
+                <li key={imp.label} className="flex items-center justify-between text-xs text-text-muted">
+                  <span>{imp.label}</span>
+                  <span className="tabular-nums text-primary">+{imp.points}</span>
+                </li>
               ))}
             </ul>
           </div>
@@ -103,7 +166,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             rel="noopener noreferrer"
             className="block text-primary hover:underline"
           >
-            🌐 Website
+            Website
           </a>
           {f.applicationUrl && (
             <a
@@ -112,20 +175,19 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               rel="noopener noreferrer"
               className="block font-semibold text-primary hover:underline"
             >
-              📝 Gesuch einreichen
+              Gesuch einreichen
             </a>
           )}
         </div>
       </Card>
 
-      {/* Gesuch — only show links when a gesuch page actually exists */}
+      {/* Gesuch */}
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Gesuch</h3>
         {gesuchReady ? (
           <div className="space-y-4">
             <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
 
-            {/* Document outputs */}
             <div className="space-y-2 border-t border-border pt-3">
               <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">Dokumente</p>
               <Button
@@ -154,9 +216,9 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           <div className="space-y-2">
             <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
             <p className="text-xs text-text-muted">
-              {f.needsResearch
-                ? 'Gesuch-Generierung benötigt weitere Recherche.'
-                : 'Gesuch nicht verfügbar für diese Prioritätsstufe.'}
+              {!tierAtLeast(tier, 'recherchiert')
+                ? 'Gesuch benötigt höhere Datenqualität (min. Recherchiert).'
+                : `Gesuch nur für Priorität 1–3 (aktuell: ${priority.label}).`}
             </p>
           </div>
         )}
@@ -175,7 +237,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                 rel="noopener noreferrer"
                 className="block text-primary hover:underline"
               >
-                🔗 {link.label || SOURCES[link.source]?.label || link.source}
+                {link.label || SOURCES[link.source]?.label || link.source}
               </a>
             ))}
           </div>
@@ -201,27 +263,6 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           </div>
         </Card>
       )}
-
-      {/* Data Completeness */}
-      <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Datenvollständigkeit</h3>
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-sm">
-            <div className="h-2 flex-1 rounded-full bg-bg-light">
-              <div
-                className="h-2 rounded-full bg-primary"
-                style={{ width: `${percent}%` }}
-              />
-            </div>
-            <span className="text-xs font-medium text-text-muted">{percent}%</span>
-          </div>
-          {missing.length > 0 && (
-            <p className="text-xs text-text-muted">
-              Fehlend: {missing.join(', ')}
-            </p>
-          )}
-        </div>
-      </Card>
 
       {/* Research Info */}
       <Card>

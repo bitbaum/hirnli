@@ -200,6 +200,42 @@ export const STATUS_LABELS: Record<FoundationStatus, StatusLabel> = {
 } as const satisfies Record<FoundationStatus, StatusLabel>;
 
 // ============================================================================
+// PRIORITY CONFIG
+// ============================================================================
+// Priority is a manual strategic assessment: how important is this foundation
+// for our fundraising strategy? Lower number = higher priority.
+// Determines resource allocation and whether a Gesuch page is generated (≤ 2).
+
+export interface PriorityConfig {
+  label: string;
+  description: string;
+  color: string;
+}
+
+export const PRIORITY_CONFIG: Record<number, PriorityConfig> = {
+  1: {
+    label: 'P1',
+    description: 'Erstpriorität — Gesuch aktiv vorbereiten',
+    color: 'bg-danger-bg text-danger',
+  },
+  2: {
+    label: 'P2',
+    description: 'Hohe Priorität — gezielt bewerben',
+    color: 'bg-warning-bg text-warning',
+  },
+  3: {
+    label: 'P3',
+    description: 'Beobachten — bei passendem Timing bewerben',
+    color: 'bg-primary/10 text-primary',
+  },
+  4: {
+    label: 'P4',
+    description: 'Niedrige Priorität — Beziehung pflegen',
+    color: 'bg-grey-light text-text-muted',
+  },
+};
+
+// ============================================================================
 // FIT SCORE CONFIG - Re-exported from SSOT (lib/config/fit-scoring.ts)
 // ============================================================================
 

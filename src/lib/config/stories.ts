@@ -50,24 +50,6 @@ import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 // Types for structures not covered by the story schema
 // ============================================================================
 
-interface BudgetLineItemTemplate {
-  label: string;
-  description: string;
-}
-
-interface BudgetTemplates {
-  line_items: {
-    personnel: BudgetLineItemTemplate[];
-    operations: BudgetLineItemTemplate[];
-    program: BudgetLineItemTemplate[];
-  };
-  framing: {
-    do: string[];
-    dont: string[];
-    rule: string;
-  };
-}
-
 interface HowSection {
   track_record: TrackRecord;
   technical: CompetencySection;
@@ -404,7 +386,7 @@ export const HOW: HowSection = {
 // ============================================================================
 // WHAT - Project templates (Pages 3-4 of Gesuch)
 // ============================================================================
-export const PROJECTS: Record<string, Project> = {
+const PROJECTS: Record<string, Project> = {
   // Project 1: Device repair and refurbishment
   device_repair: {
     title: 'Ressourcenschonung durch Reparatur und Refurbishing',
@@ -613,74 +595,6 @@ export const PROJECTS: Record<string, Project> = {
 };
 
 // ============================================================================
-// BUDGET TEMPLATES - Line items for Page 5
-// ============================================================================
-export const BUDGET_TEMPLATES: BudgetTemplates = {
-  // Budget line item templates (not amounts - those vary per project)
-  line_items: {
-    personnel: [
-      {
-        label: 'Projektkoordination',
-        description: 'Koordination, Monitoring, Berichterstattung',
-      },
-      {
-        label: 'Fachliche Betreuung',
-        description: 'Technische Anleitung und Qualitätssicherung',
-      },
-      {
-        label: 'Sozialpädagogische Begleitung',
-        description: 'Betreuung von Praktikant:innen',
-      },
-    ],
-    operations: [
-      {
-        label: 'Material und Werkzeug',
-        description: 'Ersatzteile, Verbrauchsmaterial',
-      },
-      {
-        label: 'Infrastruktur',
-        description: 'Anteilige Raumkosten, IT-Infrastruktur',
-      },
-      {
-        label: 'Lizenzen und Software',
-        description: 'Falls benötigt (meist Open Source)',
-      },
-    ],
-    program: [
-      {
-        label: 'Workshop-Durchführung',
-        description: 'Vorbereitung, Material, Räume',
-      },
-      {
-        label: 'Teilnehmer-Support',
-        description: 'Geräte für Übungen, Unterlagen',
-      },
-    ],
-  },
-
-  // Framing advice (from Robert Schmuki)
-  framing: {
-    do: [
-      'Projektkoordination statt Verwaltungskosten',
-      'Fachliche Betreuung statt Lohnkosten',
-      'Konkrete Aktivitäten statt vage Posten',
-      'Budget erzählt die gleiche Geschichte wie der Text',
-    ],
-    dont: [
-      'Verwaltungskosten als grossen Posten',
-      'Unspezifische "Diverses"',
-      'Übertriebene Beträge ohne Begründung',
-    ],
-    rule: 'Max. 20% für Administration/Overhead',
-  },
-};
-
-// ============================================================================
-// ============================================================================
-// NOTE: Budget data has been migrated to lib/config/budget-scenarios.ts
-// Import from there for Gesuch generation and fundraising pages.
-// ============================================================================
-
 // ============================================================================
 // ANSCHREIBEN - Cover letter building blocks per foundation type
 // ============================================================================
@@ -706,45 +620,6 @@ export const ANSCHREIBEN_TEMPLATES: Record<string, { opening: string; closing: s
     opening: `Revamp-IT ist seit ${ORG_PROFILE.founded} in Zürich aktiv und verbindet Kreislaufwirtschaft mit sozialer Integration. Wir interessieren uns für eine Mitgliedschaft und mögliche Partnerschaften.`,
     closing: 'Wir freuen uns auf den Austausch.',
   },
-};
-
-// ============================================================================
-// THEME SYNONYMS - For foundation matching (from meeting transcript)
-// ============================================================================
-export const THEME_SYNONYMS: Record<string, string[]> = {
-  klima: ['Klimaschutz', 'Nachhaltigkeit', 'Umweltschutz', 'CO₂-Reduktion'],
-  kreislaufwirtschaft: [
-    'Kreislaufwirtschaft',
-    'Circular Economy',
-    'Ressourcenschonung',
-    'Upcycling',
-    'Refurbishing',
-    'Reparatur',
-  ],
-  sozial: [
-    'Soziale Integration',
-    'Soziale Inklusion',
-    'Arbeitsintegration',
-    'Wiedereingliederung',
-    'Second Chance',
-  ],
-  bildung: [
-    'Bildung',
-    'Digitale Teilhabe',
-    'Digitale Bildung',
-    'Medienkompetenz',
-    'IT-Bildung',
-  ],
-  digital: [
-    'Digitale Souveränität',
-    'Open Source',
-    'Freie Software',
-    'Linux',
-    'Digitale Unabhängigkeit',
-    'Community-Plattform',
-    'Webentwicklung',
-    'Digitale Infrastruktur',
-  ],
 };
 
 // ============================================================================
@@ -788,7 +663,7 @@ export const PARTNER_HIGHLIGHTS = [
 // ANECDOTES — Human stories with [placeholder] markers (Robert: "Anektoden mit Menschen sind cool")
 // ============================================================================
 
-export const ANECDOTES: Anecdote[] = [
+const ANECDOTES: Anecdote[] = [
   {
     id: 'integration_success',
     template: 'Ein Praktikant kam über die Sozialen Einrichtungen der Stadt Zürich zu uns. Nach sechs Monaten in der Werkstatt — von der Hardware-Diagnose über Reparaturen bis zur Linux-Installation — hatte er sich ein solides IT-Profil aufgebaut. Heute arbeitet er als IT-Supporter bei einem Zürcher KMU.',
@@ -819,7 +694,7 @@ export const ANECDOTES: Anecdote[] = [
 // PHOTO SLOTS — Placeholder descriptions (Robert: "+ Bilder", team: Bruno/Mohannad)
 // ============================================================================
 
-export const PHOTO_SLOTS: PhotoSlot[] = [
+const PHOTO_SLOTS: PhotoSlot[] = [
   {
     id: 'werkstatt_overview',
     description: '[Foto: Werkstatt-Übersicht — Praktikant:innen bei der Arbeit an Geräten, Badenerstrasse 816]',
@@ -853,25 +728,9 @@ export const PHOTO_SLOTS: PhotoSlot[] = [
 // HELPER FUNCTIONS
 // ============================================================================
 
-/**
- * Get WHY section for a specific theme
- */
-export function getWhy(theme: string): WhySection | null {
-  return WHY[theme] ?? null;
-}
-
-/**
- * Get projects matching specific themes
- */
-export function getProjectsByTheme(theme: string): Project[] {
+/** Get projects matching specific themes (internal — used by composeStory) */
+function getProjectsByTheme(theme: string): Project[] {
   return Object.values(PROJECTS).filter((p) => p.themes.includes(theme));
-}
-
-/**
- * Get evidence by key
- */
-export function getEvidence(category: string, key: string): Evidence | null {
-  return EVIDENCE[category]?.[key] ?? null;
 }
 
 /**

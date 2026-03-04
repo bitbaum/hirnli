@@ -4,7 +4,7 @@ import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
 // ---------------------------------------------------------------------------
 // Gewichtung fuer die zusammengesetzte Relevanzbewertung
 // ---------------------------------------------------------------------------
-export const SEARCH_WEIGHTS = {
+const SEARCH_WEIGHTS = {
   textRelevance: 0.40,
   fitScore: 0.25,
   priority: 0.15,
@@ -15,7 +15,7 @@ export const SEARCH_WEIGHTS = {
 // ---------------------------------------------------------------------------
 // Fuse.js Konfiguration — welche Felder durchsucht werden und wie scharf
 // ---------------------------------------------------------------------------
-export const FUSE_CONFIG: IFuseOptions<Foundation> = {
+const FUSE_CONFIG: IFuseOptions<Foundation> = {
   keys: [
     { name: 'name', weight: 0.35 },
     { name: 'tagline', weight: 0.20 },
@@ -32,7 +32,7 @@ export const FUSE_CONFIG: IFuseOptions<Foundation> = {
 // ---------------------------------------------------------------------------
 // Typen
 // ---------------------------------------------------------------------------
-export interface ScoredFoundation {
+interface ScoredFoundation {
   foundation: Foundation;
   /** Zusammengesetzter Score 0-1, hoeher = besser */
   score: number;
@@ -52,7 +52,7 @@ export interface ScoredFoundation {
  * Kombiniert Textrelevanz, Fit-Bewertung, Prioritaet, Recherche-Vollstaendigkeit
  * und Themen-Ueberlappung (Jaccard-Index) zu einem einzelnen Wert.
  */
-export function computeRelevanceScore(
+function computeRelevanceScore(
   foundation: Foundation,
   fuseScore: number,
   activeThemes?: ThemeId[],

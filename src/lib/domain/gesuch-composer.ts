@@ -12,6 +12,7 @@
  */
 
 import type { Foundation } from '@/lib/schemas/foundation';
+import type { ThemeMetadata } from '@/lib/schemas/theme';
 import type { ThemeKey } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatDateDE } from '@/lib/utils/format';
@@ -43,13 +44,6 @@ import {
 import { buildFoundationBridge, buildSecondaryRelevance } from './bridge-composer';
 import { buildDynamicOpening, buildThemeAlignment } from './anschreiben-composer';
 import { getScenarioForFoundation, computeRequestedAmount } from './budget-mapper';
-
-interface ThemeMetadata {
-  id: string;
-  label: string;
-  icon: string;
-  color: string;
-}
 
 export interface ComposedGesuch {
   ready: boolean;

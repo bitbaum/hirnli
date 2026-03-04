@@ -3,7 +3,7 @@ import { BRANDING } from './branding';
 import { STIFTUNGEN_DATA } from './foundations';
 import { TEMPLATE_TYPES } from './gesuch-templates';
 import { HUB_SPACE_DISPLAY } from './projections';
-import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/app/finanzen/data';
+import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
 
 // ---------------------------------------------------------------------------
 // Nav schemas (SSOT for navigation types)
@@ -109,6 +109,7 @@ export const NAV_STRUCTURE: {
             { text: `${STIFTUNGEN_DATA.length} Stiftungen`, href: '/fundraising/stiftungen', desc: '🔍 Mit Fit-Score, Themen, Deadlines, Beträgen' },
             { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: `📝 ${TEMPLATE_TYPES.length} Referenz-Vorlagen nach Typ (A/B/C/D)` },
             { text: 'Gesuch-Pipeline', href: '/fundraising/applications', desc: '📋 Stiftungsgesuche verwalten und nachverfolgen' },
+            { text: 'Scoring-Methodik', href: '/fundraising/scoring-methodik', desc: '⚙️ Wie Fit, Bereitschaft und Priorität berechnet werden' },
           ],
         },
       ],

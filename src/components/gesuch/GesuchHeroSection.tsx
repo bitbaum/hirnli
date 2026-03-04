@@ -1,11 +1,5 @@
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-
-interface ThemeMetadata {
-  id: string;
-  label: string;
-  icon: string;
-  color: string;
-}
+import type { ThemeMetadata } from '@/lib/schemas/theme';
 
 interface GesuchHeroSectionProps {
   subtitle: string;

@@ -3,7 +3,7 @@
  *
  * This is a thin convenience layer. ALL values are DERIVED from:
  * - numbers.ts (HUB_SPACE_TOTAL, YEARS_EXPERIENCE, DEVICES_PER_MONTH_CURRENT, etc.)
- * - fundraising/data.ts (REVENUE_CURRENT_TOTAL, REVENUE_YEAR3_TOTAL, REVENUE_HISTORY, etc.)
+ * - fundraising/data.ts (REVENUE_HISTORY)
  * - hub-space-plan.ts (HUB_SPACE_AREAS, SPACE_SUMMARY)
  *
  * Pages import from here instead of hardcoding display values.
@@ -12,10 +12,7 @@
 
 import { NUMBERS_REGISTRY, getNumericValue } from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import {
-  REVENUE_HISTORY,
-  PROJECT_DURATION,
-} from '@/app/fundraising/data';
+import { REVENUE_HISTORY } from '@/app/fundraising/data';
 import { HUB_SPACE_AREAS } from '@/lib/config/hub-space-plan';
 import { formatCHF } from '@/lib/utils/format';
 
@@ -32,19 +29,18 @@ function formatCHFk(amount: number): string {
 
 // -- Hub -----------------------------------------------------------------------
 
-export const HUB_SPACE_SQM = getNumericValue('HUB_SPACE_TOTAL');
+const HUB_SPACE_SQM = getNumericValue('HUB_SPACE_TOTAL');
 export const HUB_SPACE_DISPLAY = `~${HUB_SPACE_SQM} m²`;
-export const HUB_SETUP_PHASE = PROJECT_DURATION; // '3 Jahre (2026–2028)'
 
 // -- Revenue -------------------------------------------------------------------
 // REVENUE_CURRENT uses the Erfolgsrechnung total (60k), not the 8-stream model sum (50.8k).
 // The Erfolgsrechnung is the authoritative financial source (Kivitendo).
 
-export const REVENUE_CURRENT = getNumericValue('CURRENT_BUDGET'); // 60_000
-export const REVENUE_YEAR3 = getNumericValue('YEAR3_REVENUE_TOTAL'); // 195_000
+const REVENUE_CURRENT = getNumericValue('CURRENT_BUDGET'); // 60_000
+const REVENUE_YEAR3 = getNumericValue('YEAR3_REVENUE_TOTAL'); // 195_000
 
 export const REVENUE_CURRENT_DISPLAY = formatCHFk(REVENUE_CURRENT); // 'CHF 60k'
-export const REVENUE_YEAR3_DISPLAY = formatCHFk(REVENUE_YEAR3); // 'CHF 195k'
+const REVENUE_YEAR3_DISPLAY = formatCHFk(REVENUE_YEAR3); // 'CHF 195k'
 
 export const REVENUE_GROWTH_DISPLAY =
   `Von ${REVENUE_CURRENT_DISPLAY} (aktuell, 2025) → ${REVENUE_YEAR3_DISPLAY} Revenue (Ziel Jahr 3, 2028)`;
@@ -66,7 +62,7 @@ export const DEVICES_PER_MONTH_CURRENT_DISPLAY =
   String(NUMBERS_REGISTRY.DEVICES_PER_MONTH_CURRENT.value); // '~12-15'
 
 export const DEVICES_PER_MONTH_TARGET = getNumericValue('DEVICES_PER_MONTH_TARGET');
-export const DEVICES_PER_YEAR_TARGET = DEVICES_PER_MONTH_TARGET * 12; // 480
+const DEVICES_PER_YEAR_TARGET = DEVICES_PER_MONTH_TARGET * 12; // 480
 export const DEVICES_PER_YEAR_TARGET_DISPLAY = `~${DEVICES_PER_YEAR_TARGET}`; // '~480'
 
 // -- People --------------------------------------------------------------------
@@ -74,8 +70,6 @@ export const DEVICES_PER_YEAR_TARGET_DISPLAY = `~${DEVICES_PER_YEAR_TARGET}`; //
 export const PEOPLE_REACHED_PER_YEAR =
   String(NUMBERS_REGISTRY.PEOPLE_REACHED_PER_YEAR_WITH_2BPL.value); // '40-60'
 export const PEOPLE_REACHED_DISPLAY = `${PEOPLE_REACHED_PER_YEAR} Menschen/Jahr`;
-
-// -- Experience ----------------------------------------------------------------
 
 // -- BPL Reach (ranges from numbers.ts) ----------------------------------------
 
@@ -90,7 +84,7 @@ export const REPAIR_TABLES_CURRENT =
 
 // -- Experience ----------------------------------------------------------------
 
-export const YEARS_EXPERIENCE = getNumericValue('YEARS_EXPERIENCE'); // 23
+const YEARS_EXPERIENCE = getNumericValue('YEARS_EXPERIENCE'); // 23
 export const YEARS_EXPERIENCE_DISPLAY = `${YEARS_EXPERIENCE} Jahre Erfahrung (seit ${ORG_PROFILE.founded})`;
 
 // -- Space Costs (derived from hub-space-plan.ts) ------------------------------
@@ -99,7 +93,7 @@ export const YEARS_EXPERIENCE_DISPLAY = `${YEARS_EXPERIENCE} Jahre Erfahrung (se
  * Look up the equipment/setup cost for a space by name.
  * Returns the numeric cost, or null if not found or not numeric.
  */
-export function getSpaceCost(spaceName: string): number | null {
+function getSpaceCost(spaceName: string): number | null {
   const area = HUB_SPACE_AREAS.find((a) => a.name === spaceName);
   if (!area) return null;
   return typeof area.cost_estimate_chf === 'number' ? area.cost_estimate_chf : null;
