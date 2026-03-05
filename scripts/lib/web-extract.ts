@@ -3,6 +3,8 @@
  *
  * Reuses the redirect-following pattern from foundation-research-assistant.ts
  * but adds timeout handling, HTML stripping, and content truncation.
+ *
+ * Also provides HEAD request support for URL verification (used by url-discover.ts).
  */
 
 import * as https from 'https';
@@ -10,6 +12,7 @@ import * as http from 'http';
 
 const MAX_CONTENT_LENGTH = 4000;
 const TIMEOUT_MS = 10_000;
+const HEAD_TIMEOUT_MS = 5_000;
 
 interface ExtractResult {
   ok: boolean;
@@ -17,10 +20,17 @@ interface ExtractResult {
   error?: string;
 }
 
+export interface HeadResult {
+  ok: boolean;
+  statusCode: number;
+  finalUrl: string;
+  error?: string;
+}
+
 /**
  * Fetch a URL with redirect support and timeout.
  */
-function fetchRaw(url: string, redirectCount = 0): Promise<string> {
+export function fetchRaw(url: string, redirectCount = 0): Promise<string> {
   if (redirectCount > 5) {
     return Promise.reject(new Error('Too many redirects'));
   }
@@ -61,7 +71,7 @@ function fetchRaw(url: string, redirectCount = 0): Promise<string> {
 /**
  * Strip HTML tags, scripts, styles, and normalize whitespace.
  */
-function stripHtml(html: string): string {
+export function stripHtml(html: string): string {
   return html
     // Remove script/style blocks entirely
     .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
@@ -80,6 +90,50 @@ function stripHtml(html: string): string {
     // Collapse whitespace
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+/**
+ * HTTP HEAD with redirect following. Used by url-discover.ts to verify
+ * candidate URLs cheaply (no body downloaded).
+ */
+export function headRequest(url: string, redirectCount = 0): Promise<HeadResult> {
+  if (redirectCount > 5) {
+    return Promise.resolve({ ok: false, statusCode: 0, finalUrl: url, error: 'Too many redirects' });
+  }
+
+  const client = url.startsWith('https') ? https : http;
+
+  return new Promise((resolve) => {
+    const req = client.request(url, { method: 'HEAD', timeout: HEAD_TIMEOUT_MS }, (response) => {
+      const status = response.statusCode || 0;
+
+      if (status === 301 || status === 302 || status === 303 || status === 307 || status === 308) {
+        const redirectUrl = response.headers.location;
+        if (redirectUrl) {
+          const absolute = redirectUrl.startsWith('http')
+            ? redirectUrl
+            : new URL(redirectUrl, url).href;
+          headRequest(absolute, redirectCount + 1).then(resolve);
+          return;
+        }
+      }
+
+      resolve({
+        ok: status >= 200 && status < 400,
+        statusCode: status,
+        finalUrl: url,
+      });
+    });
+
+    req.on('error', (err) => {
+      resolve({ ok: false, statusCode: 0, finalUrl: url, error: err.message });
+    });
+    req.on('timeout', () => {
+      req.destroy();
+      resolve({ ok: false, statusCode: 0, finalUrl: url, error: `Timeout after ${HEAD_TIMEOUT_MS}ms` });
+    });
+    req.end();
+  });
 }
 
 /**
