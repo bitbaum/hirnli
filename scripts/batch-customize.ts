@@ -253,9 +253,7 @@ async function main() {
   }
 }
 
-function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+import { sleep } from './lib/utilities';
 
 main().catch(err => {
   console.error('Batch customize failed:', err);

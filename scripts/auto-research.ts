@@ -346,9 +346,7 @@ async function main() {
 // Helpers
 // ============================================================================
 
-function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+import { sleep } from './lib/utilities';
 
 /** Recursively strip null values from an object (Groq sends null, Zod expects undefined) */
 function stripNulls(obj: Record<string, unknown>): Record<string, unknown> {
