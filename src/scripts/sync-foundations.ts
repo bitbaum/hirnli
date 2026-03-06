@@ -34,19 +34,25 @@ async function syncFoundations() {
 
   console.log('\nSyncing foundations from DB...\n');
 
-  // Read only human-researched foundations (exclude rapid/auto-scraped Zefix imports).
-  // 'rapid' research_depth = auto-imported from Zefix with minimal data — not useful
-  // in the app's display layer. These stay in DB for the screening pipeline only.
-  // This keeps the generated TS file at ~500KB instead of 24MB.
+  // Include foundations that are either:
+  //   1. Non-rapid (standard/deep) — manually or substantively researched
+  //   2. Rapid BUT pass quality gate (needsResearch=false) — have ESA purpose text,
+  //      themes, fit analysis, and contact info from automated screening
+  // This excludes the ~15k rapid name-only entries (which would bloat TS to 24MB)
+  // while surfacing ~900 rapid entries that have substantive analysis data.
   const rows = await sql`
     SELECT id, config_data
     FROM fundraising_foundations
     WHERE config_data IS NOT NULL
-      AND (research_depth IS NULL OR research_depth != 'rapid')
+      AND (
+        research_depth IS NULL
+        OR research_depth != 'rapid'
+        OR (config_data->>'needsResearch')::boolean = false
+      )
     ORDER BY id
   `;
 
-  console.log(`  Found ${rows.length} human-researched foundations (rapid auto-imports excluded)`);
+  console.log(`  Found ${rows.length} foundations (rapid name-only excluded)`);
 
   // Validate each against Zod schema
   const valid: unknown[] = [];

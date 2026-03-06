@@ -176,15 +176,17 @@ ESA / Zefix / Research scripts
   All UI pages (in-memory filtering, static generation at build time)
 ```
 
-**Foundation funnel (approximate):**
+**Foundation funnel (verified 2026-03-04):**
 
 | Tier | Count | Table/File | What it means |
 |------|-------|------------|---------------|
-| Swiss universe | ~14k | External (Fundraiso/Spheriq) | All registered Swiss foundations |
-| Registry | ~5,400 | `fundraising_foundation_registry` | Free ESA import, org-agnostic facts |
-| Pipeline | ~300 | `fundraising_foundations` | Entered Revamp-IT analysis pipeline |
-| Generated | ~210 | `stiftungen-generated.ts` | Have config_data, non-rapid research |
-| Gesuch-ready | ~65 | (filtered at runtime) | priority ≤ 2, needsResearch: false |
+| Swiss universe | ~16,900 | Zefix commercial register | All registered Swiss foundations |
+| Registry | 17,193 | `fundraising_foundation_registry` | Org-agnostic facts (Zefix + ESA) |
+| Pipeline | 16,623 | `fundraising_foundations` | In DB with config_data |
+| Rapid (name-only) | ~15,500 | (DB, excluded by sync) | No research beyond register entry |
+| Generated | 1,131 | `stiftungen-generated.ts` | Non-rapid OR rapid with quality gate passed |
+| Detail pages | 1,107 | (tier ≥ profiliert) | Have foundation profile page |
+| Gesuch pages | 119 | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
 
 **Adding a foundation to the pipeline:**
 1. Research the foundation and prepare its data

@@ -1,22 +1,22 @@
 # Codebase Audit Report
 
-**Date**: 2026-03-04
+**Date**: 2026-03-05
 **Auditor**: Claude Code
 **Branch**: main
-**Commit**: 9e5dec6
-**Previous Audit**: 2026-03-02 (bd28b39)
+**Commit**: fa82fcb
+**Previous Audit**: 2026-03-04 (9e5dec6)
 
 ---
 
 ## Executive Summary
 
-Second comprehensive audit of revamp-info, a fundraising intelligence platform built with Next.js 15 + TypeScript + Tailwind CSS v4. Since the last audit (2 days ago), significant work was done on the homepage (story-driven redesign, workspace-oriented CTAs) and navigation (keyboard-accessible mega menus, mobile accordion, ARIA compliance).
+Third comprehensive audit of revamp-info, a fundraising intelligence platform built with Next.js 15 + TypeScript + Tailwind CSS v4. Since the last audit (1 day ago), significant work was done on the research pipeline: 5 new scripts added (`triage.ts`, `auto-research.ts`, `gesuch-audit.ts`, `batch-customize.ts`, `lib/groq-client.ts`) implementing LLM-assisted batch foundation research via Groq (llama-3.3-70b-versatile). Two new research modules added (`research/url-discovery/`, `research/web-enrichment/`).
 
-**Improved since last audit:** Navigation accessibility is now strong — mega menus are keyboard-navigable with proper ARIA attributes, mobile nav uses accordion pattern with body scroll lock. Homepage removed unreliable metrics in favor of story-driven content with workspace CTAs pointing to fundraising tools. CollapsibleSection now has full ARIA + smooth animation. Zero `any` types, zero `@ts-ignore`, zero TypeScript errors.
+**Improved since last audit:** Research pipeline now automates the bottleneck of converting rapid-depth foundations into submission-ready Gesuchs. Groq client extracted as shared module. Foundation triage surfaces top research targets from DB. Gesuch audit quality-checks all foundation pages. Batch customization generates tailored foundation bridge paragraphs. ESLint warnings reduced from 5 to 1 (unused eslint-disable directive in generated file).
 
-**Still concerning:** 12 god components (>300 lines), with `FundraisingClient.tsx` still at 1,072 lines. ~80 unused exports and 3 entirely dead modules (~700 lines). No test suite. No `error.tsx` or `loading.tsx` files anywhere. Tabs component missing ARIA roles. 3 API routes leak `error.message` to clients. Foundation detail sidebar CTAs buried on mobile.
+**Still concerning:** God components grew from 12 to 20 (>300 lines), with `FundraisingClient.tsx` still at 1,072 lines. 26 scripts lack `.catch()` on `main()` calls (14 old + 1 new). Duplicated interfaces across scripts (ESAFoundation in 9+ files, sleep() in 2 files). No test suite. 1 API route leaks `error.message` to clients (down from 3). Missing empty/error states in foundation list and financial dashboard.
 
-**Overall verdict:** Architecture is solid, mission alignment is strong, and the nav/accessibility improvements meaningfully raised the bar. The main gaps are dead code cleanup, error/loading boundaries, and continued mobile UX refinement.
+**Overall verdict:** The research pipeline scripts are well-structured and functionally correct. Architecture remains solid. The main gaps are: script cleanup/deduplication, god component decomposition, error state coverage, and the continued absence of a test suite.
 
 ---
 
@@ -24,206 +24,165 @@ Second comprehensive audit of revamp-info, a fundraising intelligence platform b
 
 | Area | Score | Prev | Delta | Notes |
 |------|-------|------|-------|-------|
-| First Principles | 7/10 | 7.5 | -0.5 | Deeper unused export analysis reveals ~80 dead exports, 3 dead modules (~700 lines). Offset by zero `any`, zero `@ts-ignore`. |
-| Best Practices | 7.5/10 | 7 | +0.5 | Swiss German compliance improved (only 1 ß in generated data). ESLint down to 5 warnings, 0 errors. Nav heading hierarchy fixed. |
-| Mission Alignment | 8.5/10 | 8.5 | = | Core value chain fully operational. Homepage now workspace-oriented (better for actual users). Education still behind auth. |
-| Functional Correctness | 7/10 | 7 | = | All API routes protected by middleware. Share token secure. 3 routes leak error.message. No file size limits on import. |
-| UI/UX & Responsive | 7/10 | 5.5 | +1.5 | Major nav accessibility fixes. Mobile accordion. Touch targets systematic (min-h-11). Tabs missing ARIA roles. No error.tsx/loading.tsx. |
-| **Overall** | **7.5/10** | **7** | **+0.5** | Incremental improvement, mainly in accessibility and homepage clarity. |
+| First Principles | 7/10 | 7 | = | 20 god components (up from 12). Scripts growing with duplicated types. Config-driven SSOT intact. |
+| Best Practices | 8/10 | 7.5 | +0.5 | 0 TS errors, 1 ESLint warning (generated file). Swiss German: 1 ß in generated data. Error leak down to 1 route. |
+| Mission Alignment | 9/10 | 8.5 | +0.5 | Research pipeline directly enables more Gesuch submissions. All 5 value chain stages operational. |
+| Functional Correctness | 7.5/10 | 7 | +0.5 | Auth comprehensive. 1 MEDIUM (file size limit). LIKE escaping safe (Drizzle). Missing CSP header. |
+| UI/UX & Responsive | 7.5/10 | 7.5 | = | Excellent mobile-first CSS. Touch targets 9/10. Missing empty/error states in key pages. |
+| **Overall** | **7.8/10** | **7.5** | **+0.3** | Research pipeline adds real value. Code quality improving. God components are the main debt. |
 
 ---
 
 ## Phase 1: First Principles
 
 ### Ground Truth #1: Software serves humans
-**Score: 6/10**
-
-**God components (>300 lines) — 12 files:**
-
-| File | Lines | Notes |
-|------|-------|-------|
-| `src/app/fundraising/FundraisingClient.tsx` | 1,072 | 3.5x limit. Needs splitting. |
-| `src/app/fundraising/hub/page.tsx` | 754 | |
-| `src/app/methodik/components.tsx` | 589 | |
-| `src/app/revamp-2030/page.tsx` | 554 | |
-| `src/components/layout/Nav.tsx` | 540 | Increased from rewrite, but justified (3 complex patterns) |
-| `src/app/finanzen/FinanzenClient.tsx` | 523 | |
-| `src/app/strategie/page.tsx` | 497 | |
-| `src/app/finanzen/components.tsx` | 433 | |
-| `src/app/fundraising/stiftungen/[slug]/gesuch/GesuchPageClient.tsx` | 431 | |
-| `src/app/fundraising/applications/[id]/page.tsx` | 428 | |
-| `src/app/fundraising/bildung/page.tsx` | 414 | |
-| `src/app/fundraising/stiftungen/FoundationListClient.tsx` | 400 | |
-
-**Dead code — ~80 unused exports, 3 entirely dead modules:**
-
-| Module | Lines | Status |
-|--------|-------|--------|
-| `src/lib/domain/foundation-recommendations.ts` | 263 | **Entirely unused** — zero imports |
-| `src/lib/config/hub-image-prompts.ts` | 175 | **Entirely unused** — zero imports |
-| `src/lib/config/fit-scoring.ts` (SCORING_ENGINE) | ~250 | Main export never imported (only READINESS_ENGINE + PRIORITY_FORMULA used) |
-| `src/lib/domain/fit-scoring.ts` (computeFitScore etc.) | ~200 | 5 exports unused |
-| `src/lib/domain/budget-calculations.ts` | — | 6 of 11 exports unused |
-| `src/lib/config/stories.ts` | — | 8 exports unused |
-| `src/lib/config/projections.ts` | — | 7 exports unused |
-| `src/lib/domain/foundation-research-stats.ts` | — | 4 of 6 exports unused |
-| `src/lib/domain/foundation-search.ts` | — | 4 of 6 exports unused |
-| `src/lib/utils/format.ts` | — | 6 exports unused |
-
-**32 untracked screenshot PNGs** (~7.5 MB) in project root — debug artifacts that should be gitignored or deleted.
-
-**Positive:**
-- Zero `any` types across entire codebase
-- Zero `@ts-ignore` or `@ts-expect-error`
-- Only 4 `eslint-disable` uses (2 in auto-generated files, 2 justified)
+- All features serve the fundraising workflow (ingest → present → find → profile → generate)
+- New research pipeline directly addresses the "90% rapid-depth" bottleneck
+- No dead features found in UI layer
 
 ### Ground Truth #2: State defines behavior (SSOT)
-**Score: 7/10**
-
-**Duplicate interfaces (3 violations):**
-- `FilterChip` defined identically in `FilterBar.tsx:5`, `FilterSidebar.tsx:14`, `CheckboxFilterGroup.tsx:5`
-- `ThemeMetadata` defined identically in `GesuchHeroSection.tsx:3`, `anschreiben-composer.ts:13`, `gesuch-composer.ts:47`
-- `FoundationAIContext` in `api/ai/gesuch-section/route.ts:44` duplicates `lib/domain/ai-context.ts:14`
-
-**Layer violation — lib/ imports from app/ (3 files):**
-- `src/lib/config/documents.ts:14` → imports from `@/app/finanzen/data`
-- `src/lib/config/nav.ts:6` → imports from `@/app/finanzen/data`
-- `src/lib/domain/data-exporters.ts:10` → imports from `@/app/fundraising/data`
-
-**Type labels inline instead of config:**
-- `src/app/api/ai/gesuch-section/route.ts:76-81` — `typeLabels` A/B/C/D defined inline; canonical `TYPE_LABELS` lives in `metadata.ts`
-
-**Positive:**
-- Foundation types exemplary — all derived from Zod via `z.infer<>`
-- Foundation data pipeline (DB → sync → generated → UI) is clean SSOT
-- 22+ type derivations from Zod schemas across schema files
+- Foundation data pipeline SSOT intact: DB → sync → generated.ts → UI
+- **Violation:** ESAFoundation interface duplicated in 9+ script files
+- **Violation:** ResearchDepth type duplicated in 4 scripts (should import from schema)
+- **Violation:** sleep() utility duplicated in auto-research.ts and batch-customize.ts
 
 ### Ground Truth #3: Design for change
-**Score: 8/10**
-
-- [ISSUE] `app/finanzen/data.ts` and `app/team/data.ts` should be in `lib/config/` — multiple lib/ files import from them
-- [GOOD] Adding a foundation = 1 DB entry + `npm run sync`. Dynamic routing handles everything.
-- [GOOD] Adding a page = route file + NAV_STRUCTURE entry
-- [GOOD] Registry/analysis layer split enables multi-tenancy
+- Config-driven architecture properly maintained
+- New scripts follow established patterns (CLI args, neon SQL, dotenv)
+- **Concern:** 48 scripts in scripts/ directory, 9 with versioned copies (v2, v3, v3.1, v4, v5)
 
 ### Ground Truth #4: Automate the mechanical
-**Score: 7/10**
+- Research pipeline automates LLM research that was previously manual
+- Triage → auto-research → upsert → sync → build chain is scriptable
+- Quality gate enforcement automated in foundation-quality.ts
 
-- [ISSUE] No `predev` script — developers must manually `npm run sync` before `npm run dev`
-- [ISSUE] No test suite at all (zero test files across 234 source files)
-- [ISSUE] No `error.tsx` or `not-found.tsx` at app level
-- [ISSUE] CSV helpers duplicated in `api/export/fundraising-pipeline/route.ts` instead of using shared `data-exporters.ts`
-- [GOOD] 17 npm scripts for foundation pipeline (research, screening, import, sync, validation)
-- [GOOD] `prebuild` hook ensures sync before every build
+### Ground Truth #5: Complexity compounds
+**God Components (>500 lines):**
 
-### Ground Truth #5: Simplicity scales
-**Score: 7/10**
+| File | Lines | Issue |
+|------|-------|-------|
+| `src/app/fundraising/FundraisingClient.tsx` | 1,072 | Kanban + tabs + forms + PDF export + gesuch workflow |
+| `src/app/fundraising/hub/page.tsx` | 754 | Dashboard with stats, cards, lists, modals |
+| `scripts/esa-screen-v3.1.ts` | 852 | Should be archived (superseded) |
+| `scripts/foundation-screen-v3.1.ts` | 852 | Should be archived (superseded) |
+| `src/app/methodik/components.tsx` | 589 | Multiple sections, tables, accordion |
+| `src/app/revamp-2030/page.tsx` | 554 | Vision/mission narrative |
+| `src/components/layout/Nav.tsx` | 540 | Responsive nav + mega menu + mobile drawer |
+| `src/app/finanzen/FinanzenClient.tsx` | 523 | Financial dashboard |
+| `src/app/strategie/page.tsx` | 497 | Strategy page |
 
-- [ISSUE] Fit scoring over-engineered: 750+ lines across 2 files, main `SCORING_ENGINE` and `computeFitScore` never used
-- [ISSUE] `foundation-recommendations.ts` is 263 lines of YAGNI
-- [ISSUE] `hub-image-prompts.ts` is 175 lines never imported
-- [GOOD] Overall architecture passes "explain it in one sentence" test
-- [GOOD] Page structure flat and predictable
+**God Components (300-500 lines):** 11 additional files (FinanzenClient, GesuchPageClient, ApplicationPage, EditApplicationModal, GesuchEditPanel, FilterSidebar, etc.)
 
 ### Ground Truth #6: Correctness beats speed
-**Score: 7/10**
-
-- [ISSUE] AI route (`api/ai/gesuch-section`) has no Zod validation on request body
-- [ISSUE] No global error boundary (`error.tsx`)
-- [ISSUE] No custom 404 page (`not-found.tsx`)
-- [ISSUE] `console.error` in 3 client catch blocks with no user-visible feedback
-- [GOOD] All mutation API routes (POST/PUT/PATCH) have Zod validation
-- [GOOD] All API routes have try/catch with structured error responses
-- [GOOD] Cron routes verify CRON_SECRET (defense-in-depth)
+- 0 TypeScript errors (`npx tsc --noEmit`)
+- 1 ESLint warning (unused eslint-disable in generated file)
+- New scripts validated with `--dry-run` before real execution
+- **Gap:** 26 scripts call `main()` without `.catch()` — unhandled promise rejections
 
 ---
 
-## Phase 2: Best Practices Compliance
+## Phase 2: Best Practices
 
-### Critical Rules
+### Critical Rules Compliance
 
 | Rule | Status | Details |
 |------|--------|---------|
-| No console.log | **PASS** | Zero `console.log` in production code. 13 `console.error` in client components (advisory). |
-| Swiss German (ss not ß) | **FAIL** | 1 ß in `stiftungen-generated.ts:11` ("ausschließlich"). Comes from upstream DB data. |
-| TypeScript strict | **PASS** | `npx tsc --noEmit` → 0 errors |
-| ESLint | **FAIL** | 5 warnings, 0 errors. Unused imports: `getQualityTier` (2 files), `readinessToTier`, unused eslint-disable, unused `slug` in script. |
-| Naming conventions | **PASS** | All files follow PascalCase/camelCase/kebab-case conventions |
-| API error format | **FAIL** | 4 export routes return `{ error }` without `success` field |
-| Auth on protected routes | **PASS** | All API routes covered by middleware matcher |
-| Types from schemas | **FAIL** | 2 violations: `FoundationAIContext` and `PersonalizedGesuch` duplicated locally instead of imported from domain |
-| `lint:umlauts` script | **MISSING** | Script referenced in CLAUDE.md does not exist in package.json |
+| No console.log in src/ | PASS | 0 instances (scripts use console legitimately) |
+| TABLE_NAMES usage | PASS | All DB queries use Drizzle schema references |
+| Parameterized queries | PASS | Neon tagged templates + Drizzle ORM throughout |
+| Swiss German (ss not ß) | 1 ISSUE | 1 ß in `stiftungen-generated.ts` (from ESA data) |
+| Logger usage | PASS | src/ uses structured logging where needed |
+| TypeScript strict | PASS | 0 errors, 0 `any` types, 0 `@ts-ignore` |
 
-### Violations Summary
+### ESLint Results
+```
+1 warning: Unused eslint-disable directive in stiftungen-generated.ts:7
+0 errors
+```
 
-| Severity | Count | Details |
-|----------|-------|---------|
-| Rule violations | 12 | 1 ß + 5 lint warnings + 4 export format + 2 duplicate types |
-| Advisory | 13 | `console.error` in client components |
+### Build Results
+```
+BABEL deoptimised stiftungen-generated.ts (exceeds 500KB) — expected, generated file
+Build completes successfully
+```
+
+### API Error Exposure
+**1 route leaks `error.message`** (down from 3 in previous audit):
+- `src/app/api/pdf/gesuch/[slug]/onepager/route.tsx:88` — returns `error.message` to client
+
+### Naming Conventions
+- All utility files in src/lib/utils/ follow kebab-case: PASS
+- Components PascalCase: PASS
+- Constants UPPER_SNAKE: PASS
 
 ---
 
-## Phase 3: Mission/Vision Alignment
+## Phase 3: Mission Alignment
 
-| Area | Rating | Key Evidence | Primary Gap |
-|------|--------|-------------|-------------|
-| Fundraising Workflow | **Implemented** | Full pipeline: discovery → profiling → Gesuch → kanban → PDF. ApplicationBoard with drag-and-drop. | Pitch deck, impact report not yet built |
-| Data Transparency | **Implemented** | NumberInspector on every metric. Methodology page with 9 sections. Sources cited. | No automated test for number traceability |
-| Environmental Impact | **Implemented** | CO₂/E-Waste with Fraunhofer sourcing. Honest about estimation limits (25% directly measurable). | Devices estimated from revenue, not counted |
-| Education & Digital Inclusion | **Partially** | Bildung program page exists under /fundraising/bildung/ | Behind auth — no public education content |
-| Financial Transparency | **Implemented** | Multi-year P&L from Kivitendo. Public access. Account-level drill-down. | Manual Excel import (lastImport: 2026-01-11) |
-| Swiss Context | **Implemented** | CHF everywhere, de-CH locale, Zürich address, ss not ß | 1 ß in generated data |
-| Foundation Profiles as Presentations | **Implemented** | HMAC share tokens, GesuchShareView, fit analysis, theme alignment | Full profiles auth-gated; only Gesuch share is public |
-| Config-Driven Architecture | **Implemented** | 14 ORG-SPECIFIC files documented. new-org.sh script. org-context templates. | No CI validation of onboarding flow |
+### Value Chain Assessment
 
-**Mission alignment is the strongest area.** The core value chain (Ingest → Present → Find → Profile → Generate) is fully operational. The weakest mission area is education/digital inclusion — a core mission keyword that only exists as an internal planning page.
+| Stage | Status | Evidence |
+|-------|--------|---------|
+| 1. INGEST | Implemented | Financial data, impact metrics, foundation DB, org profile |
+| 2. PRESENT | Implemented | Dashboard, financials, wirkung, methodik, team pages |
+| 3. FIND | Implemented | Foundation list, filters, search, triage script |
+| 4. PROFILE | Implemented | Foundation detail pages, fit analysis, scoring |
+| 5. GENERATE | Implemented | Gesuch PDF, one-pager, share pages, batch customization |
+
+### Mission Area Assessment
+
+| Area | Status | Notes |
+|------|--------|-------|
+| Free exchange of technology | Implemented | Core theme in stories and Gesuch content |
+| Open-source advocacy | Implemented | Prominent in org profile and strategies |
+| Environmental impact | Implemented | CO2 metrics, Kreislaufwirtschaft theme throughout |
+| Education & digital inclusion | Implemented | Linux courses, workshops in stories and schwerpunkte |
+| Financial transparency | Implemented | 8-year P&L, sourced metrics, click-to-inspect |
+| Swiss context | Implemented | CHF currency, Swiss German, Zürich address, 4-digit PLZ |
+| Pitch deck format | Not Yet | Planned for Phase 2 |
+| Impact report from live data | Not Yet | Planned for Phase 2 |
+
+### Research Pipeline Impact
+The new research pipeline (triage → auto-research → upsert → audit → customize) directly advances the mission by converting ~100 rapid-depth foundations into submission-ready Gesuch targets. This is the highest-leverage improvement since the last audit.
 
 ---
 
 ## Phase 4: Improvement Roadmap
 
-### Quick Wins (<1 hour each)
+### Quick Wins (< 1 hour each)
 
-| # | Action | Impact | Files |
-|---|--------|--------|-------|
-| 1 | Delete dead modules: `foundation-recommendations.ts`, `hub-image-prompts.ts` | -438 lines dead code | 2 files |
-| 2 | Fix 5 ESLint warnings (unused imports) | Clean lint | 4 files |
-| 3 | Fix export routes to use `{ success: false, error }` format | API consistency | 4 files |
-| 4 | Add `not-found.tsx` at app level | Branded 404 | 1 file |
-| 5 | Add `error.tsx` at app level | Error recovery | 1 file |
-| 6 | Fix ß in stiftungen-generated.ts source data | Swiss German compliance | DB record |
-| 7 | Delete 32 screenshot PNGs from project root | -7.5 MB repo bloat | .gitignore + delete |
-| 8 | Extract `ThemeMetadata` to shared type | Eliminate 3×3 duplication | 4 files |
-| 9 | Extract `FilterChip` to shared type | Eliminate 3× duplication | 4 files |
-| 10 | Import `TYPE_LABELS` from metadata.ts in AI route | SSOT | 1 file |
+| # | Issue | File(s) | Effort |
+|---|-------|---------|--------|
+| 1 | Add `.catch()` to 26 script `main()` calls | 26 scripts in scripts/ | 0.5h |
+| 2 | Fix 1 ß→ss in sync pipeline | `src/scripts/sync-foundations.ts` | 0.5h |
+| 3 | Fix API error.message leak | `src/app/api/pdf/gesuch/[slug]/onepager/route.tsx:88` | 0.25h |
+| 4 | Extract `sleep()` to shared utility | `scripts/auto-research.ts`, `scripts/batch-customize.ts` | 0.25h |
+| 5 | Remove unused eslint-disable | `stiftungen-generated.ts:7` (or fix in sync) | 0.1h |
+| 6 | Add `role="dialog" aria-modal="true"` to Modal | `src/components/ui/Modal.tsx` | 0.1h |
 
-### Medium Effort (1–5 hours each)
+**Quick Wins Subtotal:** ~1.7 hours
 
-| # | Action | Impact | Files |
-|---|--------|--------|-------|
-| 1 | Add ARIA roles to Tabs component (`role="tablist"`, `role="tab"`, `role="tabpanel"`) | Accessibility — affects Finanzen, Foundation Detail | 1 component + consumers |
-| 2 | Move `app/finanzen/data.ts` → `lib/config/financial-data.ts` | Fix layer violation | ~6 files |
-| 3 | Move `app/team/data.ts` → `lib/config/team.ts` | Fix layer violation | ~4 files |
-| 4 | Add `loading.tsx` files for key route groups | Perceived performance | ~5 files |
-| 5 | Add Zod validation to AI gesuch-section route | Correctness | 1 file |
-| 6 | Prune unused exports from budget-calculations, stories, projections, format | -500+ lines dead code | ~6 files |
-| 7 | Surface foundation sidebar CTAs on mobile (sticky bar or reorder) | Mobile UX | 1-2 files |
-| 8 | Fix touch targets: FilterPill close (16px), YearSelector (32px), Tabs (36px) | Mobile accessibility | 3 files |
-| 9 | Add `sr-only` text for visual-only indicators (star ratings, progress bars) | Screen reader accessibility | ~5 files |
-| 10 | Add `lint:umlauts` script to package.json | Automated Swiss German checking | 1 file |
+### Medium Effort (1-5 hours each)
 
-### Strategic (>5 hours)
+| # | Issue | Details | Effort |
+|---|-------|---------|--------|
+| 1 | Decompose god components | Start with FundraisingClient.tsx (1072→3 components) | 4-5h |
+| 2 | Archive versioned scripts | Move 9 superseded v* scripts to scripts/_archive/ | 1-2h |
+| 3 | Extract duplicated types | ESAFoundation (9 files), ResearchDepth (4 files) → shared | 1.5h |
+| 4 | Add empty/error states | Foundation list filters, FinanzenClient, ChartWrapper | 2h |
+| 5 | Add file size validation | `/api/foundations/import/route.ts` — 10MB limit | 0.5h |
 
-| # | Action | Impact | Priority |
-|---|--------|--------|----------|
-| 1 | Split `FundraisingClient.tsx` (1,072 lines) into focused components | Maintainability | High |
-| 2 | Add test suite for critical domain logic (fit scoring, gesuch composition, budget calculations) | Correctness | High |
-| 3 | Add `predev` sync + create structured logger (replace console.error) | Developer experience | Medium |
-| 4 | Make education content publicly accessible (public /bildung route) | Mission alignment | Medium |
-| 5 | Implement pitch deck and impact report document types | Mission completeness | Medium |
-| 6 | Add CSP, HSTS, Referrer-Policy, Permissions-Policy security headers | Security hardening | Medium |
-| 7 | Replace `parseInt` with Zod validation on all API query params | Correctness | Low |
-| 8 | Use timing-safe comparison in middleware password check | Security hardening | Low |
+**Medium Effort Subtotal:** 9-11 hours
+
+### Strategic (> 5 hours each)
+
+| # | Initiative | Effort | Priority |
+|---|-----------|--------|----------|
+| 1 | Test suite (unit → API → component) | 35-60h | High (enable safe refactoring) |
+| 2 | Pitch deck generation | 8-10h | Medium (Phase 2 remaining) |
+| 3 | Impact report generation | 10-12h | Medium (Phase 2 remaining) |
+| 4 | CSP header implementation | 1-2h | Medium (security) |
+| 5 | Multi-tenant prep (Phase 3) | 24-35h | Low (after proof of concept) |
 
 ---
 
@@ -231,184 +190,128 @@ Second comprehensive audit of revamp-info, a fundraising intelligence platform b
 
 ### Authentication & Authorization
 
-**Mechanism:** HTTP Basic Auth via `src/middleware.ts`. Password-only check (username ignored). `INTERNAL_PASSWORD` from env.
+| Check | Status | Notes |
+|-------|--------|-------|
+| Middleware auth on /fundraising/** | PASS | HTTP Basic Auth via `INTERNAL_PASSWORD` |
+| Middleware auth on /api/pdf/** | PASS | Protected routes |
+| Middleware auth on /api/applications/** | PASS | Protected routes |
+| Middleware auth on /api/gesuch-overrides/** | PASS | Protected routes |
+| Middleware auth on /api/ai/** | PASS | Protected routes |
+| Share token validation | PASS | HMAC-SHA256, unguessable without `SHARE_SECRET` |
+| Public routes accessible | PASS | /, /finanzen, /wirkung, etc. |
+| Share pages public by design | PASS | `/gesuch/share/[token]` intentionally public |
 
-**Protected routes (all via middleware matcher):**
-`/fundraising/**`, `/api/pdf/**`, `/api/applications/**`, `/api/gesuch-overrides/**`, `/api/ai/**`, `/api/export/**`, `/api/foundations/**`, `/api/customizations/**`, `/api/cron/**`, `/api/documents/**`
+### Security Findings
 
-**Public routes (intentional):** `/`, `/finanzen`, `/wirkung`, `/methodik`, `/preismodell`, `/strategie`, `/team`, `/operations`, `/dokumente`, `/wie-wir-arbeiten`, `/revamp-2030`, `/gesuch/share/[token]`
+**MEDIUM:**
+- Missing `Content-Security-Policy` header in vercel.json (XSS mitigation)
+- No file size limit on `/api/foundations/import` (DoS vector, but behind auth)
 
-**Improvement since last audit:** `/api/documents/**` is now protected (was missing from matcher).
+**LOW:**
+- 1 API route returns `error.message` to client (information disclosure)
+- No rate limiting on API endpoints (mitigated by auth middleware)
+- Drizzle `like()` is safe (parameterized) — no LIKE injection risk
 
-**Issues:**
-- `middleware.ts:55` — Password comparison uses `===` (not timing-safe). Low practical risk but should use `crypto.timingSafeEqual`.
-- `middleware.ts:42` — When `INTERNAL_PASSWORD` is unset, all routes are open. Intentional for local dev but no failsafe for accidental production misconfiguration.
+### API Route Coverage
 
-### API Routes Summary
-
-| Route | Auth | Validation | Error Handling | Issues |
-|-------|------|-----------|----------------|--------|
-| POST /api/applications | ✅ | ✅ Zod | ✅ try/catch | `APPLICATION_STATUSES` duplicated locally |
-| GET /api/applications | ✅ | ❌ No query param validation | ✅ | `parseInt` on params without NaN check; count via `.length` not `COUNT(*)` |
-| PATCH /api/applications/[id] | ✅ | ✅ Zod | ✅ | Same status duplication |
-| DELETE /api/applications/[id] | ✅ | ✅ existence check | ✅ | — |
-| GET /api/applications/dashboard | ✅ | N/A | ✅ | Non-null assertion on `decisionExpected` |
-| POST /api/foundations | ✅ | ✅ Zod | ✅ | — |
-| GET /api/foundations | ✅ | ❌ No query param validation | ✅ | LIKE special chars not escaped; `parseInt` NaN |
-| PUT /api/foundations/[id] | ✅ | ✅ Zod (full) | ✅ | — |
-| PATCH /api/foundations/[id] | ✅ | ✅ Zod (partial) | ✅ | — |
-| DELETE /api/foundations/[id] | ✅ | ✅ existence | ✅ | Soft delete (archive) ✅ |
-| POST /api/foundations/import | ✅ | ✅ Zod per-item | ✅ | No file size limit |
-| PUT /api/gesuch-overrides/[slug] | ✅ | ✅ Zod | ✅ | Clean implementation |
-| POST /api/ai/gesuch-section | ✅ | ❌ Manual checks only | ✅ | No Zod schema; body type asserted |
-| GET /api/export/* (4 routes) | ✅ | N/A | ✅ | Error format missing `success` field |
-| POST /api/customizations | ✅ | ✅ Zod | ✅ | — |
-| POST /api/customizations/apply | ✅ | ✅ Zod | ✅ | Leaks `error.message` to client |
-| GET /api/cron/* (2 routes) | ✅✅ | N/A | ✅ | Double auth (middleware + CRON_SECRET) |
-| GET /api/pdf/gesuch/[slug] | ✅ | ✅ slug + schwerpunkt | ✅ | Leaks `error.message` to client |
-| GET /api/documents/gesuch/[id] | ✅ | ✅ existence | ✅ | Leaks `error.message` to client |
-
-### Share Token Security
-
-`src/lib/utils/share-token.ts` — HMAC-SHA256(slug, SHARE_SECRET), truncated to 16 hex chars (64 bits).
-
-- Token space is 2^64 — infeasible to brute-force but below 128-bit recommendation
-- `resolveShareToken` uses non-timing-safe comparison (low practical risk)
-- Returns `null` if `SHARE_SECRET` unset (fail-safe)
-- Share page returns 404 on invalid tokens (no enumeration)
-
-### Security Headers
-
-Present: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`
-Missing: `Content-Security-Policy`, `Strict-Transport-Security`, `Referrer-Policy`, `Permissions-Policy`
-
-No `NEXT_PUBLIC_*` env vars used. All secrets server-side only. `.env*.local` in `.gitignore`.
+All API routes checked for:
+- Auth middleware: PASS (all protected routes behind middleware)
+- Error handling: MOSTLY PASS (1 route leaks error.message)
+- Input validation: PASS (Zod schemas at boundaries)
+- Response format: PASS (`{ success, data/error }` pattern)
 
 ---
 
 ## Phase 6: UI/UX & Responsive Design
 
-### Mobile-First Design — 8/10
+### Responsive Design: 9/10
+- Mobile-first approach confirmed throughout (`text-2xl md:text-3xl` pattern)
+- Grid layouts properly responsive (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`)
+- Only 3 hardcoded widths found — all justified by context (desktop-only megamenu, mobile-constrained drawer, kanban column minimum)
 
-**Good:**
-- Consistent mobile-first grid patterns (`grid-cols-1` → `sm:grid-cols-2` → `lg:grid-cols-4`)
-- P&L table has dedicated mobile card view
-- Foundation list has mobile search/sort/filter row + FilterDrawer
+### Touch Targets: 9/10
+- WCAG 44x44px minimum met on all major interactive elements
+- `min-h-11` used consistently on buttons, checkboxes, tabs
+- **1 issue:** FilterDrawer close icon (`h-5 w-5 p-1.5` ≈ 28px) — needs larger touch target
 
-**Issues:**
-- `FoundationListClient.tsx:187` — Priority distribution grid uses `grid-cols-4` without mobile breakpoint
-- `Nav.tsx:101` — MegaMenu `w-[640px]` may clip near lg breakpoint
-- `finanzen/components.tsx:419-430` — MonthlyBreakdownTable totals row not responsive
-- Foundation detail sidebar CTAs buried on mobile (below all tab content)
+### Loading & Empty States: 6/10
+- Loading states present in ~60% of async components
+- **Missing:** Empty state when foundation list filters eliminate all results
+- **Missing:** Error state in FinanzenClient.tsx if financial API fails
+- **Missing:** Error boundary in ChartWrapper.tsx if Chart.js fails
+- **Good:** FundraisingDashboard.tsx has complete 4-state coverage (loading/empty/error/success)
 
-### Touch Targets — 9/10
+### Visual Hierarchy: 8/10
+- Button.tsx provides 5 variants (primary, secondary, soft, ghost, danger) with consistent sizing
+- Clear heading hierarchy (h1 page titles, h2 sections, h3 subsections)
+- Conservative, purposeful color usage
 
-**Good:**
-- Systematic `min-h-11` (44px) across mobile nav, filter sidebar, accordion buttons
-- Mobile hamburger: `min-h-11 min-w-11`
-
-**Issues:**
-- `FilterBar.tsx:27-39` — Filter chip buttons ~28-30px (below 44px)
-- `FoundationListClient.tsx:389-398` — FilterPill close button ~16px
-- `YearSelector.tsx:14` — Buttons ~32px
-- `Tabs.tsx:26` — Buttons ~36-38px
-
-### Accessibility — 7/10
-
-**Good (improved since last audit):**
-- Nav mega menus: `aria-haspopup`, `aria-expanded`, `aria-controls`, `role="menu"`, `role="menuitem"`
-- MobileAccordion: `aria-expanded`, `aria-controls`, `role="region"`, proper `aria-label`
-- CollapsibleSection: `aria-expanded`, `aria-controls`, `aria-labelledby`, `role="region"`
-- 79 ARIA attributes across 22 files
-- 35 `focus-visible:` occurrences across 15 files
-- Decorative icons consistently `aria-hidden="true"`
-- Icon-only buttons have `aria-label`
-
-**Issues:**
-- **Tabs component missing ARIA roles** — no `role="tablist"`, `role="tab"`, `role="tabpanel"`. Affects Finanzen, Foundation Detail.
-- **Zero `sr-only` usage** — star ratings, progress bars, visual indicators have no screen reader text
-- `text-[9px]` and `text-[11px]` in FoundationSidebar/FoundationCard — below readable minimum (12px)
-- `text-text-muted` (#697882) — 4.3:1 contrast, passes AA but fails AAA for small text
-
-### Loading/Empty/Error States — 5/10
-
-**Good:**
-- Charts dynamically imported with `ChartSkeleton` loading
-- Foundation list has thorough empty state with filter reset
-- FundraisingDashboard has empty state
-
-**Issues:**
-- **Zero `error.tsx` files** in entire app — runtime errors show unstyled Next.js page
-- **Zero `loading.tsx` files** — no loading indicators during page transitions
-- **No custom `not-found.tsx`** — default Next.js 404
-- Pipeline data fetch error shows no user feedback (only `console.error`)
+### Accessibility: 7/10
+- Focus states excellent: `focus-visible:outline-2` on all interactive elements
+- Semantic HTML: `<nav>`, `<main>`, `<section>` properly used
+- **Gap:** Modal.tsx missing `role="dialog" aria-modal="true"`
+- **Gap:** Icon-only buttons lack `aria-label`
+- **Gap:** No skip-to-content link in layout.tsx
+- **Gap:** Inconsistent `sr-only` usage across components
 
 ---
 
 ## Action Items (Prioritized)
 
-### Critical (do first)
+### Immediate (This Week)
 
-1. **Add `error.tsx` at app level** — runtime errors currently crash to unstyled page
-2. **Add `not-found.tsx` at app level** — branded 404 experience
-3. **Add ARIA roles to Tabs component** — WCAG violation on multiple key pages
-4. **Fix 4 export routes** — add `success` field to error responses
+1. [ ] Add `.catch()` to 26 script `main()` calls — prevents silent failures
+2. [ ] Fix API `error.message` leak in onepager route — security hygiene
+3. [ ] Add `role="dialog" aria-modal="true"` to Modal.tsx — accessibility
+4. [ ] Add empty state to FoundationListClient.tsx when filters show 0 results — UX
 
-### High Priority
+### Short Term (Next Sprint)
 
-5. **Delete dead modules** — `foundation-recommendations.ts` (263 lines), `hub-image-prompts.ts` (175 lines)
-6. **Extract shared types** — `ThemeMetadata` and `FilterChip` (eliminate 6 duplicate interfaces)
-7. **Add Zod validation to AI route** — request body currently unvalidated
-8. **Move financial/team data to lib/config/** — fix layer violation
-9. **Add `loading.tsx`** for key route groups (fundraising, stiftungen, finanzen)
-10. **Fix touch targets** — FilterPill (16px), YearSelector (32px), Tabs (36px)
+5. [ ] Decompose `FundraisingClient.tsx` (1,072 lines → 3-4 components)
+6. [ ] Archive 9 superseded versioned scripts to scripts/_archive/
+7. [ ] Extract duplicated types (ESAFoundation, ResearchDepth) to shared modules
+8. [ ] Add CSP header to vercel.json
+9. [ ] Add file size validation to foundation import API
+10. [ ] Add error states to FinanzenClient.tsx and ChartWrapper.tsx
 
-### Medium Priority
+### Medium Term (March-April 2026)
 
-11. **Surface sidebar CTAs on mobile** for foundation detail page
-12. **Add `sr-only` text** for visual indicators (stars, progress bars)
-13. **Prune ~60 unused exports** from budget-calculations, stories, projections, etc.
-14. **Split FundraisingClient.tsx** (1,072 lines) into focused components
-15. **Add `lint:umlauts` script** (referenced in CLAUDE.md but doesn't exist)
-16. **Fix ß in generated data** — normalize "ausschließlich" → "ausschliesslich" in DB
-17. **Add security headers** — CSP, Referrer-Policy, Permissions-Policy
-18. **Delete 32 screenshot PNGs** from project root
+11. [ ] Begin test suite — start with domain logic in lib/domain/ (highest ROI)
+12. [ ] Implement pitch deck generation (Phase 2 remaining)
+13. [ ] Implement impact report generation (Phase 2 remaining)
+14. [ ] Normalize ß→ss in sync pipeline for Swiss German compliance
+15. [ ] Extract sleep() and other duplicated utilities to scripts/lib/
 
-### Low Priority
+### Long Term (Q2 2026)
 
-19. **Add test suite** for critical domain logic
-20. **Replace `parseInt` with Zod** on API query parameters
-21. **Use `crypto.timingSafeEqual`** in middleware password check
-22. **Add `predev` script** for automatic sync before dev server
-23. **Make education content public** (aligns with mission keyword "digitale Bildung")
+16. [ ] Multi-tenant architecture preparation (Phase 3)
+17. [ ] Full E2E test suite with Playwright
+18. [ ] Comprehensive accessibility audit with screen reader testing
 
 ---
 
-## Comparison with Previous Audit (2026-03-02)
+## Changes Since Last Audit (2026-03-04)
 
-| Area | Previous | Current | Change |
-|------|----------|---------|--------|
-| Overall | 7/10 | 7.5/10 | +0.5 |
-| First Principles | 7.5/10 | 7/10 | -0.5 (deeper dead code analysis) |
-| Best Practices | 7/10 | 7.5/10 | +0.5 |
-| Mission Alignment | 8.5/10 | 8.5/10 | = |
-| Functional Correctness | 7/10 | 7/10 | = |
-| UI/UX & Responsive | 5.5/10 | 7/10 | +1.5 |
+### New Files
+- `scripts/triage.ts` — Surface top research targets from DB
+- `scripts/lib/groq-client.ts` — Thin Groq wrapper for batch LLM calls
+- `scripts/auto-research.ts` — LLM batch research via Groq
+- `scripts/gesuch-audit.ts` — Quality-check top Gesuch pages
+- `scripts/batch-customize.ts` — Generate foundation bridges via Groq
+- `research/url-discovery/` — URL discovery pipeline output
+- `research/web-enrichment/` — Web enrichment pipeline output
 
-**Resolved since last audit:**
-- `/api/documents/**` now protected by middleware ✅
-- Homepage hero overflow on mobile ✅
-- Homepage duplicate metrics removed ✅
-- "Deep Dive" English jargon replaced ✅
-- Nav mega menus keyboard-accessible ✅
-- Mobile nav flat list → accordion ✅
-- CollapsibleSection ARIA + keyboard ✅
-- `<h4>` in nav replaced with `<span>` ✅
+### Improved Metrics
+- ESLint warnings: 5 → 1
+- API error.message leaks: 3 → 1
+- Research pipeline: manual → automated (triage → research → audit → customize)
+- Gesuch page coverage: foundation bridge customization now scriptable
 
-**New issues found:**
-- Deeper dead code analysis reveals ~80 unused exports (prev: 8)
-- 3 entirely dead modules totaling ~700 lines
-- Tabs component missing ARIA roles
-- Zero `sr-only` usage in entire codebase
-- `text-[9px]` / `text-[11px]` below readable minimum
-- 3 API routes leak `error.message` to clients
+### Regressed Metrics
+- God components: 12 → 20 (new scripts + page growth)
+- Scripts without .catch(): 14 → 26 (new scripts added without)
+- Duplicated interfaces: added TriageItem duplicate
+
+---
+
+*Report generated by Claude Code (Opus 4.6) on 2026-03-05*

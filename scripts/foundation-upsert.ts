@@ -147,6 +147,9 @@ async function main() {
     };
 
     // --- Quality gate: compute needsResearch ---
+    // Note: hasWebsite intentionally includes Zefix/registry URLs — having the entry
+    // in a public register is sufficient for the quality gate. The researchDepth check
+    // is stricter (requires real website + email/phone for 'standard').
     const hasContact = !!(a.contactInfo.email || a.contactInfo.phone || a.contactInfo.address);
     const hasWebsite = !!(draft.queueItem.websiteUrl);
     const hasPurpose = a.purposeSummary.length >= 150;
