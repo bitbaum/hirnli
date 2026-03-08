@@ -188,6 +188,7 @@ async function main() {
     else computedPriority = 4;
 
     // --- Layer 2: Merged configData (backward compat for sync pipeline) ---
+    // Full config for INSERT (new entries)
     const configData: Partial<Foundation> & { researchDepth: ResearchDepth; fitScore: number } = {
       ...registryData,
       type: a.suggestedType,
@@ -201,6 +202,11 @@ async function main() {
       researchNotes: a.researchNotes,
       researchDepth,
     };
+
+    // Merge-safe config for UPDATE (existing entries) — omit fitScore/priority
+    // so existing (potentially better) values in config_data are preserved.
+    // SQL columns use GREATEST/LEAST separately.
+    const { fitScore: _fs, priority: _p, fit: _f, ...mergeConfigData } = configData;
 
     try {
       // Upsert registry (Layer 1)
@@ -250,14 +256,21 @@ async function main() {
           ${'revamp-it'}, ${now}, ${now}, false
         )
         ON CONFLICT (id) DO UPDATE SET
-          config_data = ${JSON.stringify(configData)},
+          config_data = fundraising_foundations.config_data || ${JSON.stringify(mergeConfigData)}::jsonb,
           name = ${draft.name},
           website_url = COALESCE(NULLIF(${draft.queueItem.websiteUrl || null}, ''), fundraising_foundations.website_url),
           contact_email = COALESCE(${a.contactInfo.email || null}, fundraising_foundations.contact_email),
           contact_phone = COALESCE(${a.contactInfo.phone || null}, fundraising_foundations.contact_phone),
-          fit_score = ${fitScore},
-          priority = ${computedPriority},
-          research_depth = ${researchDepth},
+          fit_score = GREATEST(fundraising_foundations.fit_score, ${fitScore}),
+          priority = LEAST(fundraising_foundations.priority, ${computedPriority}),
+          focus_areas = ${JSON.stringify(a.themes)},
+          research_depth = CASE
+            WHEN fundraising_foundations.research_depth = 'deep' THEN 'deep'
+            WHEN ${researchDepth} = 'deep' THEN 'deep'
+            WHEN fundraising_foundations.research_depth = 'standard' THEN 'standard'
+            WHEN ${researchDepth} = 'standard' THEN 'standard'
+            ELSE ${researchDepth}
+          END,
           research_date = ${today},
           grant_range_min = COALESCE(${(a.grantRange.min as number) || null}, fundraising_foundations.grant_range_min),
           grant_range_max = COALESCE(${(a.grantRange.max as number) || null}, fundraising_foundations.grant_range_max),
@@ -265,7 +278,7 @@ async function main() {
           updated_at = ${now}
       `;
 
-      console.log(`  ${draft.name} → DB (fitScore=${fitScore}, fit=${fitDisplay}, P${computedPriority}, depth=${researchDepth})`);
+      console.log(`  ${draft.name} → DB (newFit=${fitScore}, newP=${computedPriority}, depth=${researchDepth}, needsResearch=${needsResearch})`);
       success++;
     } catch (err) {
       console.error(`  ${draft.name}: ${err instanceof Error ? err.message : err}`);
