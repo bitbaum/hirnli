@@ -8,7 +8,7 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 
 **What:** Fundraising intelligence platform (currently Revamp-IT specific, future: universal)
 **Core:** Ingest project data → Present beautifully → Find funders → Profile fit → Generate documents
-**Stack:** Next.js 15 + TypeScript + Tailwind CSS v4 + Chart.js + Zod
+**Stack:** Next.js 16 + TypeScript + Tailwind CSS v4 + Chart.js + Zod 4
 **Deploy:** Push to main → Vercel auto-deploys
 **URL:** https://revamp-info.vercel.app
 
@@ -34,7 +34,7 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 
 ```
 src/
-├── app/                           # Next.js App Router (17 page routes)
+├── app/                           # Next.js App Router (28 page routes)
 │   ├── layout.tsx                 # Root layout (Nav + Footer)
 │   ├── page.tsx                   # Dashboard
 │   ├── globals.css                # Design tokens + Tailwind v4
@@ -46,24 +46,39 @@ src/
 │   ├── team/                      # Team & capacity
 │   ├── operations/                # SOPs & processes
 │   ├── dokumente/                 # Document library
+│   ├── wie-wir-arbeiten/          # How we work (impact methodology)
+│   ├── revamp-2030/              # Vision 2030 strategy
+│   ├── gesuch/share/[token]/     # Public share pages (HMAC-protected)
 │   └── fundraising/
 │       ├── page.tsx               # Fundraising hub
-│       ├── stiftungen/            # Foundation list + [slug] detail (dynamic from STIFTUNGEN_DATA)
-│       └── gesuch-vorlagen/       # Template list + [type] detail (11)
+│       ├── stiftungen/            # Foundation list + [slug] detail + [slug]/gesuch
+│       ├── applications/          # Pipeline management + [id] detail
+│       ├── hub/                   # Hub/space planning
+│       ├── bildung/               # Education program funding
+│       ├── scoring-methodik/      # Scoring methodology
+│       └── gesuch-vorlagen/       # Template list + [type] detail
 ├── components/
-│   ├── layout/                    # Nav, Footer, PageHeader
-│   ├── ui/                        # Badge, Card, FilterBar, Tabs, Modal, Table, CountdownTimer
+│   ├── layout/                    # Nav, Footer, PageHeader, StoryBridge, WhyThisMatters
+│   ├── ui/                        # Badge, Button, Card, CTABanner, Tabs, Modal, Table, etc.
 │   ├── charts/                    # RevenueChart, CategoryBreakdown, AnnualTrendChart, ChartWrapper
-│   ├── foundation/                # FoundationCard, FoundationHeader, FoundationSidebar, FitAnalysis
-│   ├── gesuch/                    # Gesuch section components (Hero, Why, How, Projects, Evidence, Contact)
-│   └── metrics/                   # MetricCard, MetricGrid, NumberInspector, DataSourceBadge
+│   ├── foundation/               # FoundationCard, Header, Sidebar, FitAnalysis
+│   ├── gesuch/                    # GesuchEditPanel, GesuchSubmitSection, section components
+│   ├── fundraising/              # Pipeline, application tracking components
+│   ├── budget/                    # Budget visualization components
+│   ├── hub/                       # Hub image generator
+│   ├── data/                      # Data display components
+│   ├── documents/                 # Document management components
+│   └── metrics/                   # MetricCard, MetricGrid, NumberInspector
 ├── lib/
 │   ├── schemas/                   # Zod schemas (SSOT for all types)
-│   ├── config/                    # Data (foundations, stories, metrics, nav, gesuch-templates)
+│   ├── config/                    # foundations/, stories, metrics, nav, gesuch-templates, etc.
 │   ├── data/                      # FinanceDataSet + fallback financial data
-│   ├── domain/                    # Pure business logic (calculations, filters, gesuch-composer)
-│   └── utils/                     # Formatting (formatCHF, formatPercent, etc.)
-└── hooks/                         # useFinancialData, useFoundationFilters, useNumberInspector
+│   ├── db/                        # Drizzle schema, migrations, queries
+│   ├── domain/                    # gesuch-composer, bridge-composer, foundation-filter, etc.
+│   ├── pdf/                       # PDF templates (GesuchTemplate, etc.)
+│   ├── types/                     # Shared TypeScript types
+│   └── utils/                     # formatCHF, formatPercent, share-token, etc.
+└── hooks/                         # useFinancialData, useFoundationFilters, useGesuchOverrides, useNumberInspector
 ```
 
 ## Common Commands
@@ -81,5 +96,8 @@ git push
 
 ## Adding a Foundation
 
-1. Add entry to `src/lib/config/foundations.ts` (data)
-2. Done. Dynamic route `[slug]/page.tsx` handles rendering via `generateStaticParams()`.
+**DB is write SSOT. Never hand-edit `stiftungen-generated.ts`.**
+
+1. Run `npx tsx scripts/foundation-upsert.ts --slug=<slug>` with config_data
+2. Run `npm run sync` → regenerates `stiftungen-generated.ts`
+3. Run `npm run build` → dynamic route picks up the new slug automatically

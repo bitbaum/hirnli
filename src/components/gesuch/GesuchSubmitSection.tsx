@@ -154,7 +154,7 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
     { label: 'Adresse', value: ORG_PROFILE.address },
     { label: 'E-Mail', value: ORG_PROFILE.email },
     { label: 'Website', value: ORG_PROFILE.website },
-    { label: 'Projektname / Titel', value: 'Revamp-IT — Werkstatt, Arbeitsintegration, Bildung' },
+    { label: 'Projektname / Titel', value: `${ORG_PROFILE.name} — ${ORG_PROFILE.missionSummary}` },
     { label: 'Beantragte Fördersumme', value: 'Siehe Gesuch-PDF (Budgetseite)' },
     { label: 'Projektbeschrieb', value: 'Aus Gesuch-PDF (Projektbeschrieb)' },
     { label: 'Gemeinnützigkeit', value: 'Ja — steuerbefreit gemäss Kanton Zürich' },

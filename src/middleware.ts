@@ -23,8 +23,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
-const REALM = 'Revamp-IT Intern';
+const REALM = `${ORG_PROFILE.name} Intern`;
 
 function unauthorized() {
   return new NextResponse('Zugang verweigert', {

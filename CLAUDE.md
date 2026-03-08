@@ -85,10 +85,10 @@ Each foundation detail page is not just research for us — it's a **presentatio
 | Document Type | Status | Description |
 |---------------|--------|-------------|
 | Foundation profile page | Working | Interactive web-based fit analysis |
-| Presentation mode | Working (3 pages) | Clean view for sharing with foundations |
-| Traditional Gesuch (PDF) | Planned | Well-designed PDF from same data |
+| Gesuch PDF (full 4-page) | Working | Professional PDF via `@react-pdf/renderer` |
+| One-pager concept note | Working | Single-page summary document |
+| Shareable landing page | Working | Public share URL with HMAC token |
 | Pitch Deck | Planned | Visual presentation format |
-| Reader-friendly Gesuch | Planned | Better-designed than plain-text standard |
 | Impact Report | Planned | Annual report from live data |
 
 ### 5. Config-Driven Data
@@ -111,13 +111,18 @@ Adding a new foundation requires: **1 data entry** in `foundations.ts` (1-file r
 **The boundary:** Internal tools are separated from external-facing content.
 
 ```
-PUBLIC (anyone)                          INTERNAL (Revamp-IT team, password)
+PUBLIC (anyone)                          INTERNAL (org team, password)
 ───────────────────────────────────      ──────────────────────────────────────
 / (dashboard)                            /fundraising/**
 /finanzen, /wirkung, /methodik, etc.     /api/pdf/**
 /gesuch/share/[token]  ← by design      /api/applications/**
                                          /api/gesuch-overrides/**
                                          /api/ai/**
+                                         /api/export/**
+                                         /api/foundations/**
+                                         /api/customizations/**
+                                         /api/cron/**
+                                         /api/documents/**
 ```
 
 **How auth works:** `src/middleware.ts` checks HTTP Basic Auth on protected routes.
@@ -176,7 +181,7 @@ ESA / Zefix / Research scripts
   All UI pages (in-memory filtering, static generation at build time)
 ```
 
-**Foundation funnel (verified 2026-03-04):**
+**Foundation funnel (verified 2026-03-08):**
 
 | Tier | Count | Table/File | What it means |
 |------|-------|------------|---------------|
@@ -184,9 +189,9 @@ ESA / Zefix / Research scripts
 | Registry | 17,193 | `fundraising_foundation_registry` | Org-agnostic facts (Zefix + ESA) |
 | Pipeline | 16,623 | `fundraising_foundations` | In DB with config_data |
 | Rapid (name-only) | ~15,500 | (DB, excluded by sync) | No research beyond register entry |
-| Generated | 1,131 | `stiftungen-generated.ts` | Non-rapid OR rapid with quality gate passed |
-| Detail pages | 1,107 | (tier ≥ profiliert) | Have foundation profile page |
-| Gesuch pages | 119 | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
+| Generated | 1,377 | `stiftungen-generated.ts` | Non-rapid OR rapid with quality gate passed |
+| Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
+| Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
 
 **Adding a foundation to the pipeline:**
 1. Research the foundation and prepare its data
@@ -265,11 +270,11 @@ search-replace). See file headers for details.
 ### Tech Stack
 
 ```
-Next.js 15 + TypeScript + Tailwind CSS v4
+Next.js 16 + TypeScript + Tailwind CSS v4
 ├── Next.js App Router    → Layouts, dynamic routes, static generation
 ├── TypeScript (strict)   → Type safety throughout
 ├── Tailwind CSS v4       → Utility-first styling with design tokens
-├── Zod                   → Schema validation, SSOT for types
+├── Zod 4                 → Schema validation, SSOT for types
 ├── Chart.js + react-chartjs-2 → Financial visualizations
 └── Vercel                → Hosting (auto-deploy from git push)
 ```
@@ -281,7 +286,7 @@ revamp-info/
 ├── CLAUDE.md                          # THIS FILE — product vision + engineering guide
 ├── vercel.json                        # Deployment config (headers, redirects)
 ├── src/
-│   ├── app/                           # Next.js App Router (17 page routes)
+│   ├── app/                           # Next.js App Router (28 page routes)
 │   │   ├── layout.tsx                 # Root layout (Nav + Footer)
 │   │   ├── page.tsx                   # Dashboard
 │   │   ├── globals.css                # Design tokens + Tailwind v4
@@ -293,31 +298,39 @@ revamp-info/
 │   │   ├── team/                      # Team & capacity
 │   │   ├── operations/                # SOPs & processes
 │   │   ├── dokumente/                 # Document library
+│   │   ├── wie-wir-arbeiten/          # How we work (impact methodology)
+│   │   ├── revamp-2030/              # Vision 2030 strategy
+│   │   ├── gesuch/share/[token]/     # Public share pages (HMAC-protected)
 │   │   └── fundraising/
 │   │       ├── page.tsx               # Fundraising hub
-│   │       ├── stiftungen/
-│   │       │   ├── page.tsx           # Foundation list (filterable)
-│   │       │   └── [slug]/            # Dynamic detail (all STIFTUNGEN_DATA entries)
-│   │       │       ├── page.tsx       # Foundation profile
-│   │       │       └── gesuch/        # Interactive + PDF gesuch
-│   │       └── gesuch-vorlagen/
-│   │           ├── page.tsx           # Template list
-│   │           └── [type]/            # Template detail (11 types)
+│   │       ├── stiftungen/            # Foundation list + [slug] detail + [slug]/gesuch
+│   │       ├── applications/          # Pipeline management + [id] detail
+│   │       ├── hub/                   # Hub/space planning
+│   │       ├── bildung/               # Education program funding
+│   │       ├── scoring-methodik/      # Scoring methodology
+│   │       └── gesuch-vorlagen/       # Template list + [type] detail
 │   ├── components/
-│   │   ├── layout/                    # Nav, Footer, PageHeader
-│   │   ├── ui/                        # Badge, Card, FilterBar, Tabs, Modal, Table, CountdownTimer
-│   │   ├── charts/                    # RevenueChart, CategoryBreakdown, ChartWrapper
+│   │   ├── layout/                    # Nav, Footer, PageHeader, StoryBridge, WhyThisMatters
+│   │   ├── ui/                        # Badge, Button, Card, CTABanner, Tabs, Modal, Table, etc.
+│   │   ├── charts/                    # RevenueChart, CategoryBreakdown, AnnualTrendChart, ChartWrapper
 │   │   ├── foundation/               # FoundationCard, Header, Sidebar, FitAnalysis
-│   │   └── metrics/                   # MetricCard, MetricGrid, NumberInspector, DataSourceBadge
+│   │   ├── gesuch/                    # GesuchEditPanel, GesuchSubmitSection, section components
+│   │   ├── fundraising/              # Pipeline, application tracking components
+│   │   ├── budget/                    # Budget visualization components
+│   │   ├── hub/                       # Hub image generator
+│   │   ├── data/                      # Data display components
+│   │   ├── documents/                 # Document management components
+│   │   └── metrics/                   # MetricCard, MetricGrid, NumberInspector
 │   ├── lib/
-│   │   ├── schemas/                   # Zod schemas (foundation, financial, metric, story)
-│   │   ├── config/                    # foundations.ts, stories.ts, metrics.ts, nav.ts
+│   │   ├── schemas/                   # Zod schemas (foundation, financial, metric, story, etc.)
+│   │   ├── config/                    # foundations/, stories, metrics, nav, gesuch-templates, etc.
 │   │   ├── data/                      # FinanceDataSet class + fallback data (2022-2025)
-│   │   ├── domain/                    # calculations.ts, foundation-filter.ts, story-composer.ts
-│   │   └── utils/format.ts           # formatCHF, formatPercent, etc.
-│   └── hooks/                         # useFinancialData, useFoundationFilters, useNumberInspector
-├── _legacy_pages/                     # Old HTML pages (archived)
-└── _legacy_index.html                 # Old dashboard (archived)
+│   │   ├── db/                        # Drizzle schema, migrations, queries
+│   │   ├── domain/                    # gesuch-composer, bridge-composer, foundation-filter, etc.
+│   │   ├── pdf/                       # PDF templates (GesuchTemplate, etc.)
+│   │   ├── types/                     # Shared TypeScript types
+│   │   └── utils/                     # formatCHF, formatPercent, share-token, etc.
+│   └── hooks/                         # useFinancialData, useFoundationFilters, useGesuchOverrides, useNumberInspector
 ```
 
 ### Data Flow
@@ -339,6 +352,9 @@ Narrative Content       →  lib/config/stories.ts                              
 | Foundation Data | `lib/config/foundations/` | STIFTUNGEN_DATA (generated from DB via `npm run sync`) |
 | Story Blocks | `lib/config/stories.ts` | WHY/HOW/WHAT/EVIDENCE narratives |
 | Number Metadata | `lib/config/metrics.ts` | Source, formula, confidence per metric |
+| Org Identity | `lib/config/org-profile.ts` | ORG_PROFILE — all programmatic org references |
+| Gesuch Composer | `lib/domain/gesuch-composer.ts` | Composes Gesuch document from config |
+| Bridge Composer | `lib/domain/bridge-composer.ts` | Foundation↔org connection narratives |
 | Schemas | `lib/schemas/*.ts` | Zod schemas → TypeScript types |
 
 ---
@@ -460,7 +476,7 @@ Before pushing:
 ### The Approach
 
 Claude Code IS the onboarding engine. No runtime multi-tenancy. One repo instance
-per organization. Clone repo → drop context documents → Claude rewrites 14 files → deploy.
+per organization. Clone repo → drop context documents → Claude rewrites 17 files → deploy.
 
 See `org-context/README.md` for full documentation and `org-context/_template/README.md`
 for the step-by-step checklist.
@@ -473,7 +489,7 @@ for the step-by-step checklist.
 # Then: ask Claude Code to onboard
 ```
 
-### The 14 ORG-SPECIFIC Files
+### The 17 ORG-SPECIFIC Files
 
 | # | File | What It Contains |
 |---|------|-----------------|
@@ -484,13 +500,16 @@ for the step-by-step checklist.
 | 5 | `src/lib/config/schwerpunkte.ts` | Strategic focus areas and priorities |
 | 6 | `src/lib/config/foundations/metadata.ts` | Theme definitions, NOT_RECOMMENDED list |
 | 7 | `src/lib/config/gesuch-templates.ts` | Gesuch document templates |
-| 8 | `src/lib/schemas/foundation.ts` | ThemeId enum (org's focus area categories) |
-| 9 | `src/app/revamp-2030/page.tsx` | Vision/mission/strategy page |
-| 10 | `src/app/strategie/data.ts` | Strategy page data |
-| 11 | `src/app/strategie/components.tsx` | Strategy page components |
-| 12 | `src/app/team/data.ts` | Team members and roles |
-| 13 | `src/app/finanzen/FinanzenClient.tsx` | Financial dashboard |
-| 14 | `src/app/api/documents/gesuch/[id]/route.tsx` | Gesuch PDF generation |
+| 8 | `src/lib/config/fit-scoring.ts` | Priority formula and scoring weights |
+| 9 | `src/lib/config/value-cascade.ts` | Value chain specific to org's process |
+| 10 | `src/lib/schemas/foundation.ts` | ThemeId enum (org's focus area categories) |
+| 11 | `src/app/revamp-2030/page.tsx` | Vision/mission/strategy page |
+| 12 | `src/app/strategie/data.ts` | Strategy page data |
+| 13 | `src/app/strategie/components.tsx` | Strategy page components |
+| 14 | `src/app/team/data.ts` | Team members and roles |
+| 15 | `src/app/wie-wir-arbeiten/data.ts` | How we work page data |
+| 16 | `src/app/finanzen/FinanzenClient.tsx` | Financial dashboard |
+| 17 | `src/app/api/documents/gesuch/[id]/route.tsx` | Gesuch PDF generation |
 
 ### Claude Onboarding Workflow
 
@@ -516,7 +535,7 @@ for the step-by-step checklist.
 ## Future Direction
 
 ### Phase 1 (Current): Revamp-IT — COMPLETE
-- Next.js 15 app with TypeScript, Tailwind, Zod
+- Next.js 16 app with TypeScript, Tailwind CSS v4, Zod 4
 - Dynamic foundation pages + gesuch workflow + 3-step wizard
 - Config-driven data architecture, shared component library
 - Foundation pipeline (kanban, applications, status tracking)
@@ -537,7 +556,7 @@ for the step-by-step checklist.
 and deploys a branded instance. No runtime multi-tenancy — each org runs their own deployment.
 
 **What changes per org:**
-- The 14 ORG-SPECIFIC files (org-profile, stories, themes, budget, etc.)
+- The 17 ORG-SPECIFIC files (org-profile, stories, themes, budget, etc.)
 - The analysis layer of the foundation DB (fit scores, priorities, researchNotes)
 - Branding (logo, colors)
 
@@ -578,5 +597,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-03-01 (tech debt phase complete)
+**Last Updated:** 2026-03-08 (codebase audit — versions, routes, file tree, ORG-SPECIFIC count)
 **Maintainer:** Revamp-IT Team
