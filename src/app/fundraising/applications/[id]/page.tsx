@@ -7,13 +7,10 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { APPLICATION_STATUSES, getStatusConfig } from '@/lib/config/application-statuses';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
-import type { Application, FoundationRow } from '@/lib/db/schema';
-
+import { useApplicationForm } from '@/hooks/useApplicationForm';
 
 interface ApplicationDetailProps {
   params: {
@@ -21,130 +18,26 @@ interface ApplicationDetailProps {
   };
 }
 
+const inputClass =
+  'w-full rounded-lg border border-border bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
+const labelClass = 'mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted';
+
 export default function ApplicationDetailPage({ params }: ApplicationDetailProps) {
-  const router = useRouter();
-  const [data, setData] = useState<{
-    application: Application;
-    foundation: FoundationRow | null;
-  } | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [deleteConfirm, setDeleteConfirm] = useState(false);
-
-  // Edit state
-  const [status, setStatus] = useState('');
-  const [requestedAmount, setRequestedAmount] = useState('');
-  const [awardedAmount, setAwardedAmount] = useState('');
-  const [priorityLevel, setPriorityLevel] = useState('');
-  const [assignedTo, setAssignedTo] = useState('');
-  const [projectFocus, setProjectFocus] = useState('');
-  const [customizationNotes, setCustomizationNotes] = useState('');
-  const [contactDate, setContactDate] = useState('');
-  const [submissionDate, setSubmissionDate] = useState('');
-  const [decisionExpected, setDecisionExpected] = useState('');
-  const [decisionDate, setDecisionDate] = useState('');
-  const [rejectionReason, setRejectionReason] = useState('');
-  const [successFactors, setSuccessFactors] = useState('');
-
-  useEffect(() => {
-    async function fetchApplication() {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`/api/applications/${params.id}`);
-        const result = await response.json();
-        if (result.success) {
-          const { application } = result.data;
-          setData(result.data);
-          // Init edit state
-          setStatus(application.status);
-          setRequestedAmount(application.requestedAmount?.toString() ?? '');
-          setAwardedAmount(application.awardedAmount?.toString() ?? '');
-          setPriorityLevel(application.priorityLevel?.toString() ?? '');
-          setAssignedTo(application.assignedTo ?? '');
-          setProjectFocus(application.projectFocus ?? '');
-          setCustomizationNotes(application.customizationNotes ?? '');
-          setContactDate(application.contactDate ? application.contactDate.split('T')[0] : '');
-          setSubmissionDate(application.submissionDate ? application.submissionDate.split('T')[0] : '');
-          setDecisionExpected(application.decisionExpected ? application.decisionExpected.split('T')[0] : '');
-          setDecisionDate(application.decisionDate ? application.decisionDate.split('T')[0] : '');
-          setRejectionReason(application.rejectionReason ?? '');
-          setSuccessFactors(application.successFactors ?? '');
-        } else {
-          setError(result.error || 'Nicht gefunden');
-        }
-      } catch (err) {
-        console.error('Failed to fetch application:', err);
-        setError('Netzwerkfehler beim Laden');
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchApplication();
-  }, [params.id]);
-
-  async function handleSave() {
-    setIsSaving(true);
-    setSaveError(null);
-    try {
-      const response = await fetch(`/api/applications/${params.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status,
-          requestedAmount: requestedAmount ? Number(requestedAmount) : null,
-          awardedAmount: awardedAmount ? Number(awardedAmount) : null,
-          priorityLevel: priorityLevel ? Number(priorityLevel) : null,
-          assignedTo: assignedTo || null,
-          projectFocus: projectFocus || null,
-          customizationNotes: customizationNotes || null,
-          contactDate: contactDate || null,
-          submissionDate: submissionDate || null,
-          decisionExpected: decisionExpected || null,
-          decisionDate: decisionDate || null,
-          rejectionReason: rejectionReason || null,
-          successFactors: successFactors || null,
-        }),
-      });
-      const result = await response.json();
-      if (result.success) {
-        setData(result.data);
-      } else {
-        setSaveError(result.error || 'Speichern fehlgeschlagen');
-      }
-    } catch (err) {
-      console.error('Failed to save application:', err);
-      setSaveError('Netzwerkfehler beim Speichern');
-    } finally {
-      setIsSaving(false);
-    }
-  }
-
-  async function handleDelete() {
-    setIsDeleting(true);
-    try {
-      const response = await fetch(`/api/applications/${params.id}`, { method: 'DELETE' });
-      const result = await response.json();
-      if (result.success) {
-        router.push('/fundraising/applications');
-      } else {
-        alert(`Fehler: ${result.error}`);
-        setIsDeleting(false);
-        setDeleteConfirm(false);
-      }
-    } catch (err) {
-      console.error('Failed to delete application:', err);
-      alert('Netzwerkfehler beim Löschen');
-      setIsDeleting(false);
-      setDeleteConfirm(false);
-    }
-  }
-
-  const inputClass =
-    'w-full rounded-lg border border-border bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
-  const labelClass = 'mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted';
+  const {
+    foundation,
+    fields,
+    updateField,
+    isLoading,
+    error,
+    isSaving,
+    saveError,
+    save,
+    isDeleting,
+    deleteConfirm,
+    confirmDelete,
+    cancelDelete,
+    executeDelete,
+  } = useApplicationForm(params.id);
 
   if (isLoading) {
     return (
@@ -154,7 +47,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
     );
   }
 
-  if (error || !data) {
+  if (error) {
     return (
       <div className="min-h-screen bg-bg-light p-6">
         <div className="mx-auto max-w-3xl">
@@ -169,8 +62,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
     );
   }
 
-  const { foundation } = data;
-  const statusConfig = getStatusConfig(status as ApplicationStatusId);
+  const statusConfig = getStatusConfig(fields.status as ApplicationStatusId);
 
   return (
     <div className="min-h-screen bg-bg-light p-4 md:p-6">
@@ -202,7 +94,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           <span
             className={`shrink-0 rounded-lg border px-3 py-1 text-sm font-semibold ${statusConfig?.color ?? 'bg-bg-light text-grey-dark border-border'}`}
           >
-            {statusConfig?.label ?? status}
+            {statusConfig?.label ?? fields.status}
           </span>
         </div>
 
@@ -220,7 +112,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className={labelClass}>Status</label>
-              <select value={status} onChange={(e) => setStatus(e.target.value)} className={inputClass}>
+              <select value={fields.status} onChange={(e) => updateField('status', e.target.value)} className={inputClass}>
                 {APPLICATION_STATUSES.map((s) => (
                   <option key={s.id} value={s.id}>{s.label}</option>
                 ))}
@@ -228,7 +120,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             </div>
             <div>
               <label className={labelClass}>Priorität</label>
-              <select value={priorityLevel} onChange={(e) => setPriorityLevel(e.target.value)} className={inputClass}>
+              <select value={fields.priorityLevel} onChange={(e) => updateField('priorityLevel', e.target.value)} className={inputClass}>
                 <option value="">—</option>
                 <option value="1">P1 — Jetzt</option>
                 <option value="2">P2 — Bald</option>
@@ -243,8 +135,8 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               <label className={labelClass}>Beantragt (CHF)</label>
               <input
                 type="number"
-                value={requestedAmount}
-                onChange={(e) => setRequestedAmount(e.target.value)}
+                value={fields.requestedAmount}
+                onChange={(e) => updateField('requestedAmount', e.target.value)}
                 placeholder="z.B. 50000"
                 className={inputClass}
               />
@@ -253,8 +145,8 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               <label className={labelClass}>Zugesagt (CHF)</label>
               <input
                 type="number"
-                value={awardedAmount}
-                onChange={(e) => setAwardedAmount(e.target.value)}
+                value={fields.awardedAmount}
+                onChange={(e) => updateField('awardedAmount', e.target.value)}
                 placeholder="—"
                 className={inputClass}
               />
@@ -266,8 +158,8 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               <label className={labelClass}>Zuständig</label>
               <input
                 type="text"
-                value={assignedTo}
-                onChange={(e) => setAssignedTo(e.target.value)}
+                value={fields.assignedTo}
+                onChange={(e) => updateField('assignedTo', e.target.value)}
                 placeholder="Name"
                 className={inputClass}
               />
@@ -276,8 +168,8 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               <label className={labelClass}>Projektfokus</label>
               <input
                 type="text"
-                value={projectFocus}
-                onChange={(e) => setProjectFocus(e.target.value)}
+                value={fields.projectFocus}
+                onChange={(e) => updateField('projectFocus', e.target.value)}
                 placeholder="z.B. Hub-Einrichtung"
                 className={inputClass}
               />
@@ -287,8 +179,8 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           <div>
             <label className={labelClass}>Notizen</label>
             <textarea
-              value={customizationNotes}
-              onChange={(e) => setCustomizationNotes(e.target.value)}
+              value={fields.customizationNotes}
+              onChange={(e) => updateField('customizationNotes', e.target.value)}
               rows={4}
               placeholder="Interne Notizen, Anpassungen, Besonderheiten..."
               className={inputClass}
@@ -302,45 +194,45 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className={labelClass}>Kontaktdatum</label>
-              <input type="date" value={contactDate} onChange={(e) => setContactDate(e.target.value)} className={inputClass} />
+              <input type="date" value={fields.contactDate} onChange={(e) => updateField('contactDate', e.target.value)} className={inputClass} />
             </div>
             <div>
               <label className={labelClass}>Eingereicht am</label>
-              <input type="date" value={submissionDate} onChange={(e) => setSubmissionDate(e.target.value)} className={inputClass} />
+              <input type="date" value={fields.submissionDate} onChange={(e) => updateField('submissionDate', e.target.value)} className={inputClass} />
             </div>
             <div>
               <label className={labelClass}>Entscheidung erwartet</label>
-              <input type="date" value={decisionExpected} onChange={(e) => setDecisionExpected(e.target.value)} className={inputClass} />
+              <input type="date" value={fields.decisionExpected} onChange={(e) => updateField('decisionExpected', e.target.value)} className={inputClass} />
             </div>
             <div>
               <label className={labelClass}>Entscheidung erhalten</label>
-              <input type="date" value={decisionDate} onChange={(e) => setDecisionDate(e.target.value)} className={inputClass} />
+              <input type="date" value={fields.decisionDate} onChange={(e) => updateField('decisionDate', e.target.value)} className={inputClass} />
             </div>
           </div>
         </div>
 
         {/* Outcome fields — only when relevant */}
-        {(status === 'accepted' || status === 'rejected') && (
+        {(fields.status === 'accepted' || fields.status === 'rejected') && (
           <div className="rounded-xl border border-border bg-white p-6 space-y-4">
             <h2 className="font-semibold text-grey-dark">Ergebnis</h2>
-            {status === 'accepted' && (
+            {fields.status === 'accepted' && (
               <div>
                 <label className={labelClass}>Erfolgsfaktoren</label>
                 <textarea
-                  value={successFactors}
-                  onChange={(e) => setSuccessFactors(e.target.value)}
+                  value={fields.successFactors}
+                  onChange={(e) => updateField('successFactors', e.target.value)}
                   rows={3}
                   placeholder="Was hat zum Erfolg beigetragen?"
                   className={inputClass}
                 />
               </div>
             )}
-            {status === 'rejected' && (
+            {fields.status === 'rejected' && (
               <div>
                 <label className={labelClass}>Ablehnungsgrund</label>
                 <textarea
-                  value={rejectionReason}
-                  onChange={(e) => setRejectionReason(e.target.value)}
+                  value={fields.rejectionReason}
+                  onChange={(e) => updateField('rejectionReason', e.target.value)}
                   rows={3}
                   placeholder="Warum wurde das Gesuch abgelehnt?"
                   className={inputClass}
@@ -389,14 +281,14 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-2">
                 <span className="text-sm font-medium text-red-700">Wirklich löschen?</span>
                 <button
-                  onClick={() => setDeleteConfirm(false)}
+                  onClick={cancelDelete}
                   className="rounded px-3 py-1 text-sm text-text-light hover:bg-bg-light"
                   disabled={isDeleting}
                 >
                   Nein
                 </button>
                 <button
-                  onClick={handleDelete}
+                  onClick={executeDelete}
                   disabled={isDeleting}
                   className="rounded bg-red-600 px-3 py-1 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-50"
                 >
@@ -405,7 +297,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               </div>
             ) : (
               <button
-                onClick={() => setDeleteConfirm(true)}
+                onClick={confirmDelete}
                 className="rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
               >
                 Gesuch löschen
@@ -415,7 +307,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
           {/* Save */}
           <button
-            onClick={handleSave}
+            onClick={save}
             disabled={isSaving}
             className="rounded-lg bg-grey-dark px-6 py-2 text-sm font-semibold text-white hover:bg-grey-dark/85 disabled:opacity-50"
           >
