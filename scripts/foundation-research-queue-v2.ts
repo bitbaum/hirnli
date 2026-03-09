@@ -142,7 +142,7 @@ function getQualityTier(f: Foundation): string {
   const hasGrantRange = !!(f.amount?.min || f.amount?.max);
   const hasThemes = f.themes.length > 0;
   const hasContactInfo = directContact || !!f.contact?.address;
-  const hasRegistryData = !!f.officialPurpose || hasThemes || f.fit > 0;
+  const hasRegistryData = !!f.officialPurpose || hasThemes || (f.fitScore ?? 0) > 0;
 
   if (realWeb && directContact && hasAppUrl && hasGrantRange) return 'anwendungsbereit';
   if (realWeb && directContact) return 'recherchiert';

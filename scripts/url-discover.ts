@@ -76,7 +76,7 @@ function nameToUrlCandidates(name: string): string[] {
   const candidates: string[] = [];
 
   // 1. Clean name → domain-friendly string
-  let clean = name.toLowerCase();
+  const clean = name.toLowerCase();
 
   // Strip common prefixes/suffixes
   let stripped = clean;

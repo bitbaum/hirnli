@@ -68,8 +68,8 @@ interface ScreeningReport {
 function calculateFit(themes: string[], _score: number, flags: string[], canton: string, city: string, applicationMethod: string): { fitScore: number; fit: 0 | 1 | 2 | 3 } {
   const isFunder = flags.includes('likely-funder');
   const { fitScore } = computeFitScoreDomain({ themes, canton, city, applicationMethod, isFunder });
-  // batch-research always produces rapid depth → fit=0
-  const fit = fitScoreToDisplay(fitScore, 'rapid');
+  // batch-research always rapid → gated to fit=0
+  const fit = fitScoreToDisplay(fitScore, true);
   return { fitScore, fit };
 }
 

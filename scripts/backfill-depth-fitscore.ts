@@ -167,7 +167,7 @@ async function main() {
     const fitScore = computeFitScore({
       themes, canton, city: region, applicationMethod: appMethod, isFunder,
     });
-    const fit = fitScoreToDisplay(fitScore, researchDepth);
+    const fit = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
     const isZurich = canton === 'ZH';
     let priority: 1 | 2 | 3 | 4;
     if (fitScore >= 7 && isFunder) priority = 1;

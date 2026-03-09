@@ -153,7 +153,7 @@ function getQualityTier(f: Foundation): string {
   const hasGrantRange = !!(f.amount?.min || f.amount?.max);
   const hasThemes = f.themes.length > 0;
   const hasContactInfo = directContact || !!f.contact?.address;
-  const hasRegistryData = !!f.officialPurpose || hasThemes || f.fit > 0;
+  const hasRegistryData = !!f.officialPurpose || hasThemes || (f.fitScore ?? 0) > 0;
 
   if (realWeb && directContact && hasAppUrl && hasGrantRange) return 'anwendungsbereit';
   if (realWeb && directContact) return 'recherchiert';
@@ -352,11 +352,11 @@ function enrichFoundation(
       isFunder: enriched.isOperative === false || enriched.isOperative === undefined,
     });
     const depth = enriched.researchDepth || 'rapid';
-    const fitDisplay = fitScoreToDisplay(fitScore, depth);
+    const fitDisplay = fitScoreToDisplay(fitScore, depth === 'rapid');
 
     if (fitScore !== (enriched.fitScore || 0)) {
       enriched.fitScore = fitScore;
-      enriched.fit = fitDisplay;
+      enriched.fit = fitDisplay; // DEPRECATED: kept for DB backward compat
     }
   }
 

@@ -175,7 +175,7 @@ async function upsertEntry(
     applicationMethod, isFunder,
   });
   const researchDepth: ResearchDepth = 'rapid';
-  const fitDisplay = fitScoreToDisplay(fitScore, researchDepth);
+  const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
 
   // Priority: conservative since we have minimal data
   let priority: 1 | 2 | 3 | 4;

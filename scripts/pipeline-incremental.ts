@@ -164,7 +164,7 @@ async function upsertEntry(
     applicationMethod, isFunder,
   });
   const researchDepth: ResearchDepth = 'rapid';
-  const fitDisplay = fitScoreToDisplay(fitScore, researchDepth);
+  const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
   const isZurich = entry.canton === 'ZH';
   let priority: 1 | 2 | 3 | 4;
   if (fitScore >= 7 && isFunder) priority = 1;

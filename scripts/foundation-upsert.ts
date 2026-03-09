@@ -176,8 +176,8 @@ async function main() {
       applicationMethod: a.applicationMethod,
       isFunder: a.isFunder,
     });
-    // Map 0-10 → display 0-3 (confidence-aware: rapid → fit=0)
-    const fitDisplay = fitScoreToDisplay(fitScore, researchDepth);
+    // Map 0-10 → display 0-3 (gated: rapid tier → fit=0)
+    const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
     // Priority from fitScore
     const isFunderFlag = a.isFunder;
     const isZurich = (esa.canton === 'ZH');

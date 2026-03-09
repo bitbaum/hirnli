@@ -286,15 +286,15 @@ function validateSchema(foundation: Foundation) {
     });
   }
 
-  // Fit must be 1-3
-  if (foundation.fit < 1 || foundation.fit > 3) {
+  // fitScore must be 0-10
+  if (foundation.fitScore < 0 || foundation.fitScore > 10) {
     addIssue({
       slug: foundation.slug,
       name: foundation.name,
       severity: 'error',
       category: 'schema',
-      message: `Invalid fit: ${foundation.fit} (must be 1-3)`,
-      fix: 'Set fit score: 3 (excellent), 2 (good), 1 (limited)',
+      message: `Invalid fitScore: ${foundation.fitScore} (must be 0-10)`,
+      fix: 'Set fitScore: 7-10 (excellent), 4-6 (good), 1-3 (limited), 0 (unassessed)',
     });
   }
 

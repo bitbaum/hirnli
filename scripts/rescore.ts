@@ -104,7 +104,7 @@ async function main() {
     });
 
     const researchDepth = (cd.researchDepth as string) || 'rapid';
-    const newFitDisplay = fitScoreToDisplay(newFitScore, researchDepth);
+    const newFitDisplay = fitScoreToDisplay(newFitScore, researchDepth === 'rapid');
 
     // Compute new priority — preserve curated priorities for core foundations
     const hasCuratedPriority = cd.priority !== undefined && cd.priority !== null;
