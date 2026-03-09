@@ -1,6 +1,10 @@
+// Foundation Recommendations — Similarity, schwerpunkt matching, action lists
+// Uses fitScore for comparison and isResearched() for quality gates.
+
 import type { Foundation } from '@/lib/schemas/foundation';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
+import { isResearched } from './foundation-helpers';
 
 // ---------------------------------------------------------------------------
 // Similarity weights — how much each factor contributes to the overall score
@@ -25,13 +29,13 @@ export interface SimilarFoundation {
 }
 
 export interface FoundationRecommendations {
-  /** fit=3, status open/rolling, not needsResearch — highest-value targets */
+  /** fitScore>=7 (high fit), status open/rolling, researched — highest-value targets */
   highFitActionable: Foundation[];
   /** status=soon, sorted by deadline ascending */
   upcomingDeadlines: Foundation[];
   /** Sorted by researchDate descending — most recently updated */
   recentlyResearched: Foundation[];
-  /** fit>=2 and needsResearch=true — foundations worth deeper investigation */
+  /** fitScore>=4 and not yet researched — foundations worth deeper investigation */
   needsAttention: Foundation[];
   /** Top foundations per Schwerpunkt */
   bySchwerpunkt: Record<SchwerpunktId, Foundation[]>;
@@ -77,15 +81,15 @@ function countShared<T>(a: T[], b: T[]): number {
  * Weighted sum of:
  * - themeOverlap: Jaccard index of themes
  * - typeMatch: 1 if same type, 0 otherwise
- * - fitProximity: 1 - |a.fit - b.fit| / 2
+ * - fitProximity: 1 - |a.fitScore - b.fitScore| / 10
  * - regionOverlap: 1 if same region, 0 otherwise
  * - sdgOverlap: Jaccard index of SDGs (0 if either has none)
  */
 export function computeSimilarity(a: Foundation, b: Foundation): number {
   const themeOverlap = jaccard(a.themes, b.themes);
   const typeMatch = a.type === b.type ? 1 : 0;
-  // fit=0 means unassessed — can't meaningfully compare
-  const fitProximity = (a.fit === 0 || b.fit === 0) ? 0 : 1 - Math.abs(a.fit - b.fit) / 2;
+  // fitScore=0 means unassessed — can't meaningfully compare
+  const fitProximity = (a.fitScore === 0 || b.fitScore === 0) ? 0 : 1 - Math.abs(a.fitScore - b.fitScore) / 10;
   const regionOverlap = a.region === b.region ? 1 : 0;
   const sdgOverlap =
     a.sdgs && a.sdgs.length > 0 && b.sdgs && b.sdgs.length > 0
@@ -141,8 +145,8 @@ function buildReasons(target: Foundation, candidate: Foundation): string[] {
     }
   }
 
-  if (target.fit === candidate.fit) {
-    reasons.push(`Gleicher Fit (${candidate.fit})`);
+  if (target.fitScore > 0 && target.fitScore === candidate.fitScore) {
+    reasons.push(`Gleicher Fit-Score (${candidate.fitScore}/10)`);
   }
 
   return reasons;
@@ -179,7 +183,7 @@ export function findSimilarFoundations(
 
 /**
  * Filter foundations whose themes overlap with a Schwerpunkt's themeIds.
- * Sorted by fit descending, then priority ascending.
+ * Sorted by fitScore descending, then priority ascending.
  */
 export function findBySchwerpunkt(
   schwerpunktId: SchwerpunktId,
@@ -192,8 +196,8 @@ export function findBySchwerpunkt(
   return foundations
     .filter((f) => f.themes.some((t) => themeIdSet.has(t)))
     .sort((a, b) => {
-      // fit descending (higher fit first)
-      const fitDiff = b.fit - a.fit;
+      // fitScore descending (higher fit first)
+      const fitDiff = b.fitScore - a.fitScore;
       if (fitDiff !== 0) return fitDiff;
       // priority ascending (lower priority number = higher priority)
       return a.priority - b.priority;
@@ -212,13 +216,13 @@ export function findBySchwerpunkt(
 export function getRecommendations(
   foundations: Foundation[],
 ): FoundationRecommendations {
-  // High fit, actionable (fit=3, open/rolling, already researched)
+  // High fit, actionable (fitScore>=7, open/rolling, already researched)
   const highFitActionable = foundations
     .filter(
       (f) =>
-        f.fit === 3 &&
+        f.fitScore >= 7 &&
         (f.status === 'open' || f.status === 'rolling') &&
-        !f.needsResearch,
+        isResearched(f),
     )
     .sort((a, b) => a.priority - b.priority)
     .slice(0, 5);
@@ -239,9 +243,9 @@ export function getRecommendations(
 
   // Needs attention (good fit but needs more research)
   const needsAttention = foundations
-    .filter((f) => f.fit >= 2 && f.needsResearch)
+    .filter((f) => f.fitScore >= 4 && !isResearched(f))
     .sort((a, b) => {
-      const fitDiff = b.fit - a.fit;
+      const fitDiff = b.fitScore - a.fitScore;
       if (fitDiff !== 0) return fitDiff;
       return a.priority - b.priority;
     })

@@ -1,4 +1,5 @@
 import type { Foundation } from '../schemas/foundation';
+import { isResearched } from './foundation-helpers';
 
 export interface QualityViolation {
   slug: string;
@@ -6,7 +7,7 @@ export interface QualityViolation {
 }
 
 /**
- * Validates that foundations marked needsResearch:false meet the quality bar.
+ * Validates that researched foundations (tier >= profiliert) meet the quality bar.
  * Called at import time in foundations/index.ts — violations warn in dev, log in prod.
  *
  * Quality bar (see CLAUDE.md — Foundation Database Model):
@@ -20,7 +21,7 @@ export function validateFoundationQuality(data: Foundation[]): QualityViolation[
   const violations: QualityViolation[] = [];
 
   for (const f of data) {
-    if (f.needsResearch) continue; // Only validate "ready" entries
+    if (!isResearched(f)) continue; // Only validate researched entries (tier >= profiliert)
 
     const issues: string[] = [];
 

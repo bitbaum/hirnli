@@ -17,7 +17,7 @@ export function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: s
     ? extractPurposeCore(foundation.purposeSummary)
     : '';
   const isDeep = foundation.researchDepth === 'deep';
-  const highFit = foundation.fit >= 3;
+  const highFit = foundation.fitScore >= 7;
 
   // Lowercase only the first character so adjectives are lowercase but nouns stay capitalized
   // e.g. "Gemeinnütziger Verein" → "gemeinnütziger Verein" (correct German grammar)

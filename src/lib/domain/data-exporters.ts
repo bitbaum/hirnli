@@ -76,7 +76,7 @@ export function exportFoundationList(): string {
     foundation.status,
     foundation.deadlineText || 'Rolling',
     foundation.amount.text || 'Variabel',
-    `${foundation.fit}/3`,
+    `${foundation.fitScore}/10`,
     foundation.region || 'CH',
     foundation.websiteUrl || '',
   ]);

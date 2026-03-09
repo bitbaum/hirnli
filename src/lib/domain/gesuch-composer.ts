@@ -1,5 +1,7 @@
 /**
- * Gesuch Composer — Domain functions for composing personalized Gesuch content
+ * Gesuch Composer — Generates personalized Gesuch content from foundation data
+ * Quality gate: isResearched(f) AND priority P1-P3 AND themes mapped.
+ * See CLAUDE.md § Scoring Model for gate definitions.
  *
  * Two outputs from the same data:
  * 1. composeGesuch()    → Landing page content (marketing-oriented)
@@ -14,6 +16,7 @@
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeMetadata } from '@/lib/schemas/theme';
 import { computePriorityScore } from './foundation-scores';
+import { isResearched } from './foundation-helpers';
 import type { ThemeKey } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatDateDE } from '@/lib/utils/format';
@@ -193,17 +196,14 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     ? mapSchwerpunktThemes(schwerpunktId)
     : mapFoundationThemes(foundation);
 
-  // Quality gate: computed priority (fit × readiness), research depth, themes
-  const isRapid = foundation.researchDepth === 'rapid';
+  // Quality gate: tier (data completeness), priority (fit × readiness), themes
   const computed = computePriorityScore(foundation);
   const lowPriority = computed.level >= 4;
 
-  if (foundation.needsResearch || mapped.all.length === 0 || lowPriority || isRapid) {
+  if (!isResearched(foundation) || mapped.all.length === 0 || lowPriority) {
     let reason = '';
-    if (foundation.needsResearch) {
+    if (!isResearched(foundation)) {
       reason = 'Diese Stiftung benötigt noch weitere Recherche.';
-    } else if (isRapid) {
-      reason = 'Recherche-Tiefe zu gering für eine Gesuch-Generierung. Weitere Recherche empfohlen.';
     } else if (lowPriority) {
       reason = `Priorität ${computed.label}: ${computed.description}`;
     } else {

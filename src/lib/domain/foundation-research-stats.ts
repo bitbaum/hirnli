@@ -1,4 +1,5 @@
 import type { Foundation } from '../schemas/foundation';
+import { isResearched } from './foundation-helpers';
 
 // ---------------------------------------------------------------------------
 // Vollstaendigkeit & Recherche-Statistiken
@@ -43,7 +44,7 @@ function computeCompleteness(f: Foundation): { percent: number; missing: string[
 export interface ResearchStats {
   /** Gesamtzahl der Stiftungen */
   total: number;
-  /** Anzahl recherchierter Stiftungen (purposeSummary vorhanden UND needsResearch !== true) */
+  /** Anzahl recherchierter Stiftungen (tier >= profiliert) */
   researched: number;
   /** Recherchiert in Prozent */
   researchedPercent: number;
@@ -64,12 +65,11 @@ export interface ResearchStats {
 }
 
 /**
- * "Analysiert" = Stiftungszweck manuell analysiert und Fit bewertet.
- * Kriterien: purposeSummary vorhanden UND needsResearch === false.
- * NICHT zu verwechseln mit QualityTier "Recherchiert" (= Website + Direktkontakt).
+ * "Analysiert" = tier >= profiliert (sufficient data for directional assessment).
+ * Derived from readiness score, not a stored boolean.
  */
 function isAnalyzed(f: Foundation): boolean {
-  return !!f.purposeSummary && !f.needsResearch;
+  return isResearched(f);
 }
 
 /** Ob das researchDate aelter als daysThreshold Tage ist */
@@ -143,9 +143,11 @@ export function computeResearchStats(
     if (fResearched) byType[typeKey].researched++;
 
     // Nach Fit
-    if (!byFit[f.fit]) byFit[f.fit] = { total: 0, researched: 0 };
-    byFit[f.fit].total++;
-    if (fResearched) byFit[f.fit].researched++;
+    // Group by fitScore bucket: 0, 1-3, 4-6, 7-10
+    const fitBucket = f.fitScore >= 7 ? 3 : f.fitScore >= 4 ? 2 : f.fitScore >= 1 ? 1 : 0;
+    if (!byFit[fitBucket]) byFit[fitBucket] = { total: 0, researched: 0 };
+    byFit[fitBucket].total++;
+    if (fResearched) byFit[fitBucket].researched++;
 
     // Nach Thema (eine Stiftung kann mehrere Themen haben)
     for (const theme of f.themes) {

@@ -1,6 +1,10 @@
+// Foundation Search — Fuzzy search with weighted relevance scoring
+// Uses fitScore (stored) and tier (computed) in relevance weighting.
+
 import Fuse, { type IFuseOptions } from 'fuse.js';
 import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
 import { computePriorityScore } from './foundation-scores';
+import { isResearched } from './foundation-helpers';
 
 // ---------------------------------------------------------------------------
 // Gewichtung fuer die zusammengesetzte Relevanzbewertung
@@ -61,15 +65,15 @@ function computeRelevanceScore(
   // Textrelevanz: Fuse liefert 0 = perfekt, 1 = schlechtester — invertieren
   const textRelevance = (1 - fuseScore) * SEARCH_WEIGHTS.textRelevance;
 
-  // Fit-Score: 1-3 Skala, normalisiert auf 0-1
-  const fitScore = (foundation.fit / 3) * SEARCH_WEIGHTS.fitScore;
+  // Fit-Score: 0-10 Skala, normalisiert auf 0-1
+  const fitScore = (foundation.fitScore / 10) * SEARCH_WEIGHTS.fitScore;
 
   // Prioritaet: computed score 0-100, normalize to 0-1
   const priority = (computePriorityScore(foundation).score / 100) * SEARCH_WEIGHTS.priority;
 
   // Recherche-Vollstaendigkeit: binaer — hat purposeSummary und braucht keine Recherche mehr
   const researchCompleteness =
-    (foundation.purposeSummary && !foundation.needsResearch ? 1 : 0) *
+    (foundation.purposeSummary && isResearched(foundation) ? 1 : 0) *
     SEARCH_WEIGHTS.researchCompleteness;
 
   // Themen-Ueberlappung: Jaccard-Index zwischen aktiven Themen und Stiftungsthemen

@@ -1,7 +1,11 @@
+// Foundation Filtering — Sort and filter using computed scores
+// Fit display: getFitLevel(f) from foundation-helpers.ts
+// Priority: computePriorityScore(f) from foundation-scores.ts
+
 import type { Foundation, ThemeId, FoundationType, FoundationStatus, QualityTier } from '../schemas/foundation';
 import type { SchwerpunktId } from '../config/schwerpunkte';
 import { SCHWERPUNKTE } from '../config/schwerpunkte';
-import { getQualityTier, tierAtLeast } from './foundation-helpers';
+import { getQualityTier, tierAtLeast, getFitLevel } from './foundation-helpers';
 import { computePriorityScore } from './foundation-scores';
 
 export type ThemeLogic = 'or' | 'and';
@@ -102,9 +106,9 @@ export function filterFoundations(
       if (!filters.statuses.includes(f.status)) return false;
     }
 
-    // Fit filter — multi-select: foundation must match one of the selected fit values
+    // Fit filter — multi-select: foundation must match one of the selected fit display levels (0-3)
     if (filters.fit.length > 0) {
-      if (!filters.fit.includes(f.fit)) return false;
+      if (!filters.fit.includes(getFitLevel(f))) return false;
     }
 
     // Priority level filter — computed priority P1-P4
@@ -154,9 +158,8 @@ export function sortFoundations(
         cmp = computePriorityScore(b).score - computePriorityScore(a).score;
         break;
       case 'fit':
-        // Higher fit first, but fit=0 (unassessed) sorts last
-        // Remap: 0 → -1 so it sorts below fit=1
-        cmp = (b.fit || -1) - (a.fit || -1);
+        // Higher fitScore first, but fitScore=0 (unassessed) sorts last
+        cmp = (b.fitScore || -1) - (a.fitScore || -1);
         break;
       case 'name':
         cmp = a.name.localeCompare(b.name, 'de');

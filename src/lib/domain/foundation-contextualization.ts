@@ -13,6 +13,7 @@
 
 import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
 import type { ThemeKey } from '@/lib/config/stories';
+import { isResearched } from './foundation-helpers';
 import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
 import { THEMES } from '@/lib/config/foundations';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -74,10 +75,10 @@ function getOverlappingThemeLabels(themes: ThemeId[]): string[] {
     .filter((label): label is string => label !== undefined);
 }
 
-/** Determine strength level from fit score */
-function fitToStrength(fit: number): 'strong' | 'moderate' | 'limited' {
-  if (fit >= 3) return 'strong';
-  if (fit >= 2) return 'moderate';
+/** Determine strength level from fitScore (0-10) */
+function fitToStrength(fitScore: number): 'strong' | 'moderate' | 'limited' {
+  if (fitScore >= 7) return 'strong';
+  if (fitScore >= 4) return 'moderate';
   return 'limited';
 }
 
@@ -87,7 +88,7 @@ function fitToStrength(fit: number): 'strong' | 'moderate' | 'limited' {
 
 export function generateFitNarrative(foundation: Foundation): FitNarrative {
   const overlaps = countThemeOverlaps(foundation.themes);
-  const strengthLevel = fitToStrength(foundation.fit);
+  const strengthLevel = fitToStrength(foundation.fitScore);
   const purposeFirst = firstSentence(foundation.purposeSummary) || 'Ihr Stiftungszweck';
   const overlappingLabels = getOverlappingThemeLabels(foundation.themes);
 
@@ -123,7 +124,7 @@ export function generateApproachSteps(foundation: Foundation): ApproachStep[] {
   let order = 1;
 
   // Step 1: Prepare application
-  const canPrepare = foundation.fit >= 2 && foundation.themes.length > 0;
+  const canPrepare = foundation.fitScore >= 4 && foundation.themes.length > 0;
   steps.push({
     order: order++,
     action: 'Gesuch vorbereiten',
@@ -244,7 +245,7 @@ export function getApplicationReadiness(foundation: Foundation): ReadinessItem[]
     foundation.themes.length > 0 &&
     foundation.themes.some((id) => THEME_ID_TO_STORY_KEY[id] !== undefined);
   const hasFrist = !!foundation.deadline || foundation.status === 'rolling';
-  const isResearched = !foundation.needsResearch;
+  const researched = isResearched(foundation);
   const hasMethod = foundation.applicationMethod !== 'unknown';
 
   return [
@@ -285,8 +286,8 @@ export function getApplicationReadiness(foundation: Foundation): ReadinessItem[]
     },
     {
       label: 'Recherche abgeschlossen',
-      ready: isResearched,
-      detail: isResearched
+      ready: researched,
+      detail: researched
         ? 'Stiftung vollständig recherchiert'
         : 'Weitere Recherche empfohlen (Zweck, Kontakt, Strategie)',
     },
