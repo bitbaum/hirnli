@@ -370,21 +370,18 @@ async function importZhaw(filePath: string) {
       beilagen: f.beilagen,
     };
 
-    // ZHAW data is quite rich (purpose, contact, deadlines) → quality 3
-    const dataQuality = (f.purpose && f.einreichungstermin) ? 3 : 2;
-
     try {
       await sql`
         INSERT INTO fundraising_foundation_registry (
           id, name, official_purpose, website_url, region,
           contact_email, contact_phone, source, registry_data,
-          data_quality, last_verified, created_at, updated_at
+          last_verified, created_at, updated_at
         ) VALUES (
           ${slug}, ${f.name}, ${f.purpose || null},
           ${registryData.websiteUrl || null}, ${region || null},
           ${f.email || null}, ${f.phone || null},
           ${'zhaw'}, ${JSON.stringify(registryData)},
-          ${dataQuality}, ${today}, ${now}, ${now}
+          ${today}, ${now}, ${now}
         )
         ON CONFLICT (id) DO UPDATE SET
           official_purpose = COALESCE(fundraising_foundation_registry.official_purpose, ${f.purpose || null}),
@@ -395,7 +392,6 @@ async function importZhaw(filePath: string) {
             WHEN fundraising_foundation_registry.source = 'zhaw' THEN ${JSON.stringify(registryData)}::jsonb
             ELSE fundraising_foundation_registry.registry_data
           END,
-          data_quality = GREATEST(fundraising_foundation_registry.data_quality, ${dataQuality}),
           updated_at = ${now}
       `;
       imported++;

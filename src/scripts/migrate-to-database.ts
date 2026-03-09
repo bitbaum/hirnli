@@ -128,8 +128,6 @@ async function migrateTypescriptFoundations() {
       researchDepth: f.needsResearch ? 'rapid' : 'standard',
       researchDate: f.researchDate,
       researchFilePath: null,
-      dataQuality: f.needsResearch ? 3 : 4, // 1-5 scale
-
       // Admin
       source: f.source || 'typescript-legacy',
       archived: false,
@@ -214,8 +212,6 @@ async function migrateJsonFoundations(existingNames: string[]) {
           researchDepth: filePath.includes('rapid') ? 'rapid' : 'deep',
           researchDate: new Date().toISOString().split('T')[0],
           researchFilePath: filePath,
-          dataQuality: filePath.includes('rapid') ? 3 : 4,
-
           // Admin
           source: f.source || (filePath.includes('rapid') ? 'rapid-assessment' : 'targeted-research'),
           archived: false,

@@ -40,7 +40,6 @@ const updateFoundationSchema = z.object({
   applicationNotes: z.string().optional().nullable(),
 
   researchDepth: z.enum(['rapid', 'standard', 'deep']).optional().nullable(),
-  dataQuality: z.number().min(1).max(5).optional().nullable(),
 });
 
 /**
@@ -135,7 +134,7 @@ export async function PUT(
         websiteUrl: data.websiteUrl,
         contactEmail: data.contact?.email || null,
         contactPhone: data.contact?.phone || null,
-        fitScore: data.fit,
+        fitScore: data.fitScore,
         priority: data.priority,
         focusAreas: data.themes,
         geographicScope: data.region,

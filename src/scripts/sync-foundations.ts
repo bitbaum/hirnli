@@ -36,7 +36,7 @@ async function syncFoundations() {
 
   // Include foundations that are either:
   //   1. Non-rapid (standard/deep) — manually or substantively researched
-  //   2. Rapid BUT pass quality gate (needsResearch=false) — have ESA purpose text,
+  //   2. Rapid BUT pipeline-flagged as researched — have ESA purpose text,
   //      themes, fit analysis, and contact info from automated screening
   // This excludes the ~15k rapid name-only entries (which would bloat TS to 24MB)
   // while surfacing ~900 rapid entries that have substantive analysis data.

@@ -193,8 +193,6 @@ export async function POST(request: NextRequest) {
         researchDepth: 'rapid' as const,
         researchDate: new Date().toISOString().split('T')[0],
         researchFilePath: file.name,
-        dataQuality: 3,
-
         source: f.source || 'api-import',
         archived: false,
       };

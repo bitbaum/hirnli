@@ -33,7 +33,6 @@ export const foundationRegistry = pgTable('fundraising_foundation_registry', {
   isOperative: boolean('is_operative'),
   source: text('source'),                              // Primary discovery source
   registryData: jsonb('registry_data'),                // Full FoundationRegistry object
-  dataQuality: integer('data_quality'),                // 1-5 scale
   lastVerified: text('last_verified'),                 // ISO date
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
@@ -82,7 +81,6 @@ export const foundations = pgTable('fundraising_foundations', {
   researchDepth: text('research_depth'), // 'rapid' | 'standard' | 'deep'
   researchDate: text('research_date'), // ISO date
   researchFilePath: text('research_file_path'), // Path to original /research/*.md file
-  dataQuality: integer('data_quality'), // 1-5 scale
 
   // Full config object (Zod Foundation schema shape) — used by sync script
   // to generate TypeScript config. DB is write SSOT, generated TS is build cache.
