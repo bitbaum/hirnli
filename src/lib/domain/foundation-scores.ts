@@ -1,16 +1,13 @@
 /**
- * Foundation Scoring — Readiness + Priority computation
+ * Readiness + Priority computation
+ * See CLAUDE.md § Scoring Model for the 3-layer architecture.
+ * Config: lib/config/fit-scoring.ts | Helpers: lib/domain/foundation-helpers.ts
  *
- * Three scoring layers, each answering a different question:
- *   Fit (0-10)       — "Does this foundation match our mission?" (existing, in fit-scoring.ts)
- *   Readiness (0-100) — "Can we produce a great, tailored document?" (this file)
- *   Priority (0-100)  — "Should we invest effort right now?" (this file)
+ * Readiness (0-100) — "Can we produce a great, tailored document?"
+ * Priority (0-100)  — "Should we invest effort right now?" (Fit × Readiness)
  *
- * Fit and Readiness are independent — computed from different foundation fields.
- * Priority depends on both: fit is the gate, readiness scales within the gate.
- *
- * All weights, thresholds, and penalties live in config (lib/config/fit-scoring.ts).
- * This file is pure computation — no magic numbers.
+ * This file is pure computation — all weights, thresholds, and penalties
+ * live in config. No magic numbers.
  */
 
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
@@ -138,7 +135,7 @@ interface PriorityResult {
   score: number;
   /** Component breakdown for inspection */
   components: {
-    fitNorm: number;     // 0-1 (fitScore/10 or fit*10/3/10)
+    fitNorm: number;     // 0-1 (fitScore/10)
     readiness: number;   // 0-100
     base: number;        // before penalties
     multiplier: number;  // worst applicable penalty
@@ -166,7 +163,7 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
     return {
       score: level === 1 ? 85 : level === 2 ? 57 : level === 3 ? 30 : 10,
       components: {
-        fitNorm: (f.fitScore ?? (f.fit * 10 / 3)) / 10,
+        fitNorm: f.fitScore / 10,
         readiness: readinessScore ?? 0,
         base: 0,
         multiplier: 1,
@@ -180,9 +177,8 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
     };
   }
 
-  // Computed priority — use fitScore (0-10) when available, fall back to fit (0-3) scaled
-  const fitScoreValue = f.fitScore ?? (f.fit * 10 / 3);
-  const fitNorm = Math.min(fitScoreValue / 10, 1);
+  // Computed priority — fitScore (0-10) is the canonical fit field
+  const fitNorm = Math.min(f.fitScore / 10, 1);
   const readiness = readinessScore ?? computeReadinessScore(f).score;
 
   // Base: fit gates, readiness scales within the gate

@@ -1,11 +1,11 @@
+// Foundation Helpers — Tier system, research status, fit display, access gates
+// See CLAUDE.md § Scoring Model for the 3-layer architecture.
+// All computed from scoring engines — no stored booleans.
+
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { computeReadinessScore, computePriorityScore } from './foundation-scores';
-
-// -- Quality Tiers (SSOT) -----------------------------------------------------
-// 5-tier system computed from readiness score (0-100 → tier label).
-// Readiness measures "can we produce a great, tailored document?"
-// All weights and thresholds live in config (lib/config/fit-scoring.ts).
+import { fitScoreToDisplay } from './fit-scoring';
 
 /** Ordered tier ranks for comparisons */
 const TIER_RANK: Record<QualityTier, number> = {
@@ -106,6 +106,29 @@ export function getTierPromotionSteps(f: Foundation): TierPromotion {
     nextTier,
     improvements: result.topImprovements,
   };
+}
+
+// -- Research status -----------------------------------------------------------
+
+/**
+ * Whether a foundation has been sufficiently researched.
+ * Derived from readiness tier: profiliert or above means researched.
+ * Replaces the stored `needsResearch` boolean with a computed check.
+ */
+export function isResearched(f: Foundation): boolean {
+  return tierAtLeast(getQualityTier(f), 'profiliert');
+}
+
+// -- Fit display level --------------------------------------------------------
+
+/**
+ * Map fitScore (0-10) → display level (0-3) for stars and labels.
+ * 7-10 → 3 (★★★), 4-6 → 2 (★★☆), 1-3 → 1 (★☆☆), 0 → 0 (unassessed).
+ * Foundations below profiliert tier are gated to 0 (insufficient data for display).
+ */
+export function getFitLevel(f: Foundation): 0 | 1 | 2 | 3 {
+  const isGated = !tierAtLeast(getQualityTier(f), 'profiliert');
+  return fitScoreToDisplay(f.fitScore, isGated);
 }
 
 // -- Foundation lookup ---------------------------------------------------------

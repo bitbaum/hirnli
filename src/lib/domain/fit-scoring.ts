@@ -1,9 +1,7 @@
 /**
- * Scoring Engine — Generic config-driven scoring for all layers
- *
- * Reads dimension definitions from lib/config/fit-scoring.ts and evaluates
- * them generically. Adding a new dimension of an existing compute type
- * requires zero changes here — config only.
+ * Scoring Engine — Generic config-driven evaluator for all scoring layers
+ * See CLAUDE.md § Scoring Model for the 3-layer architecture.
+ * Config lives in lib/config/fit-scoring.ts. This file is pure computation.
  *
  * COMPUTE TYPE REGISTRY:
  *   weightedCategoryMatch — count tags in buckets, weight + cap each
@@ -249,14 +247,15 @@ export function computeFitScore(input: FitScoreInput): FitResult {
 }
 
 /**
- * Map fitScore + researchDepth → display fit level.
- * Reads thresholds and confidence gate from SCORING_ENGINE.display config.
+ * Map fitScore → display fit level (0-3 stars).
+ * When isGated=true (tier < profiliert), returns the configured gateLevel (0 = unassessed).
+ * Reads thresholds from SCORING_ENGINE.display config.
  */
-export function fitScoreToDisplay(fitScore: number, researchDepth: string | undefined): 0 | 1 | 2 | 3 {
+export function fitScoreToDisplay(fitScore: number, isGated: boolean): 0 | 1 | 2 | 3 {
   const { display } = SCORING_ENGINE;
 
-  // Confidence gate: unassessed depths get gated level
-  if (researchDepth && display.confidenceGate?.excludeValues.includes(researchDepth)) {
+  // Confidence gate: insufficient data → gated level
+  if (isGated && display.confidenceGate) {
     return display.confidenceGate.gateLevel as 0 | 1 | 2 | 3;
   }
 

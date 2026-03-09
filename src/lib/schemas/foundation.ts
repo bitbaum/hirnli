@@ -175,29 +175,32 @@ export type FoundationRegistry = z.infer<typeof registrySchema>;
 // Fields that differ per organization analyzing the same foundation.
 
 export const analysisSchema = z.object({
-  // Classification
-  fit: z.number().min(0).max(3),
-  fitScore: z.number().min(0).max(10).optional(), // 0-10 composite score (Phase 3)
+  // -- Scoring (see CLAUDE.md § Scoring Model) --------------------------------
+  // fitScore is the ONLY stored fit metric. Display stars computed via getFitLevel().
+  fitScore: z.number().min(0).max(10).default(0),
+  fit: z.number().min(0).max(3).optional(), // DEPRECATED → getFitLevel(f)
+  // priority is stored (1-4) or computed from Fit × Readiness.
+  // priorityOverride=true means stored value takes precedence.
   priority: z.number().min(1).max(4),
-  type: FoundationType,
-  themes: z.array(ThemeId),
+  priorityOverride: z.boolean().optional(),
 
-  // Content
+  // -- Classification ---------------------------------------------------------
+  type: FoundationType,           // A/B/C/D/network — approach strategy
+  themes: z.array(ThemeId),       // Input to fit scoring + Gesuch theming
+
+  // -- Content ----------------------------------------------------------------
   tagline: z.string(),
   researchNotes: z.string().optional(),
 
-  // Status
-  needsResearch: z.boolean(),
+  // -- Pipeline metadata (not used in domain scoring) -------------------------
+  needsResearch: z.boolean().default(true),   // DEPRECATED → isResearched(f)
   researchDate: z.string(),
-  researchDepth: ResearchDepth.optional(), // rapid | standard | deep
+  researchDepth: ResearchDepth.optional(),     // Pipeline bookkeeping only
 
-  // Override: when true, stored priority (1-4) takes precedence over computed
-  priorityOverride: z.boolean().optional(),
-
-  // Relationships
+  // -- Relationships ----------------------------------------------------------
   possiblePartners: z.array(z.string()).optional(),
 
-  // Identity (for multi-org support)
+  // -- Identity (for multi-org support) ---------------------------------------
   orgId: z.string().default('revamp-it'),
 });
 export type FoundationAnalysis = z.infer<typeof analysisSchema>;
@@ -208,18 +211,26 @@ export type FoundationAnalysis = z.infer<typeof analysisSchema>;
 // Identical shape to the pre-split foundationSchema.
 // All ~56 consumer files see the same Foundation type — zero breaking changes.
 //
-// Research Quality Gate (needsResearch: false requires ALL of):
-//   1. purposeSummary — what the foundation funds and why
-//   2. researchNotes  — strategic fit analysis for Revamp-IT
-//   3. contact        — how to reach them (address/email/phone)
-// Optional but recommended:
-//   4. applicationProcess — step-by-step how to apply
-//   5. sourceLinks        — where we found this info
+// Research quality is derived from readiness tier (computed, not stored).
+// isResearched(f) = tier >= profiliert, computed from data completeness signals.
+// Key signals: purposeSummary, researchNotes, contact, themes, websiteUrl.
 
-export const foundationSchema = registrySchema.extend(
+// Raw composed schema before migration transform
+const _foundationRaw = registrySchema.extend(
   analysisSchema.omit({ orgId: true }).shape
 );
-export type Foundation = z.infer<typeof foundationSchema>;
+
+// Migration transform: derive fitScore from legacy fit field if missing.
+// This allows DB entries that only have fit (0-3) to validate during migration.
+// Once all DB entries have fitScore, this transform can be removed.
+export const foundationSchema = _foundationRaw.transform((data) => {
+  // If fitScore is 0 and legacy fit exists, derive fitScore from fit
+  if (data.fitScore === 0 && data.fit != null && data.fit > 0) {
+    return { ...data, fitScore: Math.round(data.fit * 10 / 3) };
+  }
+  return data;
+});
+export type Foundation = z.output<typeof foundationSchema>;
 
 // Type labels
 export const typeLabelSchema = z.object({

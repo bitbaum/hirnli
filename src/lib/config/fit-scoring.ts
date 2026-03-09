@@ -1,14 +1,15 @@
 /**
  * Scoring Configuration — Declarative config for all scoring engines
+ * See CLAUDE.md § Scoring Model for the 3-layer architecture overview.
  *
- * THREE SCORING LAYERS (each computed independently from foundation data):
- *   Fit (0-10)       — "Does this foundation match our mission?"
- *   Readiness (0-100) — "Can we produce a great, tailored document?"
- *   Priority (0-100)  — "Should we invest effort right now?"
+ * Data flow:
+ *   Foundation data ──→ SCORING_ENGINE    ──→ fitScore (0-10)    [stored]
+ *   Foundation data ──→ READINESS_ENGINE  ──→ score (0-100) → Tier [computed]
+ *   fitScore × Readiness ──→ PRIORITY_FORMULA ──→ P1-P4         [stored or computed]
  *
- * Fit and Readiness are independent inputs. Priority depends on both.
  * All weights, thresholds, and penalties live HERE (config). The domain
- * engine (lib/domain/fit-scoring.ts) handles HOW to evaluate them.
+ * engines (lib/domain/fit-scoring.ts, foundation-scores.ts) are pure
+ * computation — zero magic numbers.
  *
  * COMPUTE TYPES (extend in domain when genuinely new pattern needed):
  *   weightedCategoryMatch — count tags in buckets, weight + cap each
@@ -135,9 +136,7 @@ export interface ScoringEngineConfig {
     thresholds: readonly { level: number; minScore: number }[];
     defaultLevel: number;
     confidenceGate?: {
-      field: string;
-      excludeValues: readonly string[];
-      gateLevel: number;
+      gateLevel: number;  // Display level when foundation data is insufficient (tier < profiliert)
     };
   };
 }
@@ -262,9 +261,7 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
     ],
     defaultLevel: 1,
     confidenceGate: {
-      field: 'researchDepth',
-      excludeValues: ['rapid'],
-      gateLevel: 0,
+      gateLevel: 0,  // Foundations below profiliert tier → unassessed (insufficient data)
     },
   },
 };
