@@ -132,8 +132,12 @@ export default function ScoringMethodikPage() {
             ein guter Zugang einen fundamentalen Mismatch kompensiert.
           </div>
           <p className="mt-3 text-xs text-text-muted">
-            Anzeige: 0-3 Sterne (≥7 → 3 Sterne, ≥4 → 2 Sterne, sonst 1 Stern, Schnell-Recherche → 0).
+            Anzeige: 0-3 Sterne (≥7 → 3 Sterne, ≥4 → 2 Sterne, sonst 1 Stern). Stiftungen unter Tier «Profiliert» → 0 Sterne (ungenügende Datengrundlage).
           </p>
+          <div className="mt-3 rounded bg-bg-light p-3 text-xs text-text-muted">
+            <strong>Vertrauensgate:</strong> Stiftungen mit Bereitschafts-Tier unter «Profiliert» zeigen keine
+            Sterne-Bewertung, da die Datengrundlage für eine belastbare Einschätzung nicht ausreicht.
+          </div>
         </Card>
       </section>
 

@@ -104,7 +104,7 @@ export default function FoundationListClient() {
   const researchStats = useMemo(() => computeResearchStats(STIFTUNGEN_DATA), []);
   const tierCounts = useMemo(() => computeTierCounts(STIFTUNGEN_DATA), []);
 
-  const highFitCount = filtered.filter((f) => f.fit === 3).length;
+  const highFitCount = filtered.filter((f) => f.fitScore >= 7).length;
   const openCount = filtered.filter(
     (f) => f.status === 'open' || f.status === 'rolling',
   ).length;

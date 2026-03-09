@@ -12,7 +12,6 @@ import { computeTierCounts, TIER_LABELS, TIER_DESCRIPTIONS } from '@/lib/domain/
 import { CORE_FACTS } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
-import { formatCHF } from '@/lib/utils/format';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import StoryBridge from '@/components/layout/StoryBridge';

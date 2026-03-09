@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS, STATUS_LABELS, FIT_CONFIG } from '@/lib/config/foundations';
-import { TIER_LABELS, TIER_COLORS } from '@/lib/domain/foundation-helpers';
+import { TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
 import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
 import ThemeBadgeList from './ThemeBadgeList';
 
@@ -45,10 +45,10 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
               )}
             </span>
             <h3 className="font-semibold text-grey-dark">{f.name}</h3>
-            <span className={`text-xs font-bold ${FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.color ?? FIT_CONFIG[0].color}`} aria-hidden="true">
-              {FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? FIT_CONFIG[0].stars}
+            <span className={`text-xs font-bold ${FIT_CONFIG[getFitLevel(f)]?.color ?? FIT_CONFIG[0].color}`} aria-hidden="true">
+              {FIT_CONFIG[getFitLevel(f)]?.stars ?? FIT_CONFIG[0].stars}
             </span>
-            <span className="sr-only">Fit: {f.fit} von 3</span>
+            <span className="sr-only">Fit: {f.fitScore}/10</span>
             {score != null && (
               <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
                 {Math.round(score * 100)}% Relevanz

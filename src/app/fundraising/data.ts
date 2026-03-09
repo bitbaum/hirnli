@@ -25,9 +25,9 @@ export function computePipelineStats() {
   for (const f of STIFTUNGEN_DATA) {
     statusCounts[f.status]++;
 
-    // Exclude fit=0 (unassessed) from average — they'd drag it down dishonestly
-    if (f.fit > 0) {
-      totalFit += f.fit;
+    // Exclude fitScore=0 (unassessed) from average
+    if (f.fitScore > 0) {
+      totalFit += f.fitScore;
       fitCount++;
     }
 
@@ -40,7 +40,7 @@ export function computePipelineStats() {
   }
 
   const avgFit = fitCount > 0 ? totalFit / fitCount : 0;
-  const highFitCount = STIFTUNGEN_DATA.filter((f) => f.fit >= 3).length;
+  const highFitCount = STIFTUNGEN_DATA.filter((f) => f.fitScore >= 7).length;
 
   return {
     total: STIFTUNGEN_DATA.length,

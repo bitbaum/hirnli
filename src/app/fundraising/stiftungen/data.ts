@@ -25,7 +25,7 @@ export const TYPE_CHIPS = (
 
 export const SORT_OPTIONS: { value: SortField; label: string }[] = [
   { value: 'priority', label: 'Priorität' },
-  { value: 'fit', label: 'Fit (beste zuerst)' },
+  { value: 'fit', label: 'Fit-Score (beste zuerst)' },
   { value: 'name', label: 'Name (A-Z)' },
   { value: 'deadline', label: 'Deadline (nächste zuerst)' },
 ];

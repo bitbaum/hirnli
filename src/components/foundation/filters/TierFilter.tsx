@@ -17,7 +17,7 @@ export default function TierFilter({ activeTier, tierCounts, onSelect }: TierFil
   if (visibleTiers.length <= 1) return null;
 
   return (
-    <CollapsibleSection title="Datenqualität" defaultOpen>
+    <CollapsibleSection title="Bereitschaft" defaultOpen>
       <div className="space-y-1">
         {visibleTiers.map((tier) => {
           const isActive = activeTier === tier;

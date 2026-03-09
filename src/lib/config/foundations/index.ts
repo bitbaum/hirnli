@@ -30,6 +30,6 @@ if (violations.length > 0) {
     .map((v) => `  ${v.slug}: ${v.issues.join('; ')}`)
     .join('\n');
   console.warn(
-    `[Foundation Quality Gate] ${violations.length} entries marked needsResearch:false but have quality issues:\n${msg}`
+    `[Foundation Quality Gate] ${violations.length} researched entries (tier >= profiliert) have quality issues:\n${msg}`
   );
 }

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { formatCHF } from '@/lib/utils/format';
 import { COST_STRUCTURE_2023, FINANCIAL_CONTEXT } from '../data';

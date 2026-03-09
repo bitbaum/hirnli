@@ -52,7 +52,7 @@ const FOUNDATION_GESUCHE: Document[] = STIFTUNGEN_DATA
     action: 'download' as DocumentAction,
     href: `/api/pdf/gesuch/${foundation.slug}`,
     size: '~5 Seiten',
-    badge: `Fit ${foundation.fit}/3`,
+    badge: `Fit ${foundation.fitScore}/10`,
   }));
 
 // ---------------------------------------------------------------------------

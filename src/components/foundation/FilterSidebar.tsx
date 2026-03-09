@@ -203,11 +203,11 @@ export default function FilterSidebar({
             const isActive = filters.fit.includes(value);
             const label =
               value === 3
-                ? '★★★'
+                ? '★★★ Exzellent (7-10)'
                 : value === 2
-                  ? '★★☆'
+                  ? '★★☆ Gut (4-6)'
                   : value === 1
-                    ? '★☆☆'
+                    ? '★☆☆ Gering (1-3)'
                     : '○○○ Nicht geprüft';
             return (
               <label key={value} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
@@ -218,7 +218,7 @@ export default function FilterSidebar({
                   className="rounded border-border"
                 />
                 <span className={isActive ? 'font-medium text-grey-dark' : 'text-text-muted'}>
-                  {value > 0 ? `${label} (${value})` : label}
+                  {label}
                 </span>
               </label>
             );

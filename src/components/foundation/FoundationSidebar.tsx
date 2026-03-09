@@ -5,7 +5,7 @@ import type { Foundation } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
-import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS, TIER_COLORS } from '@/lib/domain/foundation-helpers';
+import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
 import AddToPipelineButton from './AddToPipelineButton';
 
 /** Dimension labels keyed by id for readiness bar display */
@@ -28,7 +28,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
 
   return (
     <div className="space-y-4">
-      {/* Scores Card — replaces old Datenqualität */}
+      {/* Scores Card — Fit, Bereitschaft, Priorität */}
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Scores</h3>
 
@@ -147,9 +147,9 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           <div>
             <dt className="text-text-muted">Fit-Score</dt>
             <dd className="font-medium text-grey-dark">
-              {f.fit === 0
+              {getFitLevel(f) === 0
                 ? <span className="text-text-muted">○○○ Nicht geprüft</span>
-                : <>{FIT_CONFIG[f.fit as keyof typeof FIT_CONFIG]?.stars ?? '☆☆☆'} ({f.fit}/3)</>
+                : <>{FIT_CONFIG[getFitLevel(f)]?.stars ?? '☆☆☆'} ({f.fitScore}/10)</>
               }
             </dd>
           </div>
@@ -217,7 +217,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
             <p className="text-xs text-text-muted">
               {!tierAtLeast(tier, 'recherchiert')
-                ? 'Gesuch benötigt höhere Datenqualität (min. Recherchiert).'
+                ? 'Gesuch benötigt höhere Bereitschaft (min. Tier Recherchiert).'
                 : `Gesuch nur für Priorität 1–3 (aktuell: ${priority.label}).`}
             </p>
           </div>
