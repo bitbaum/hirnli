@@ -110,6 +110,7 @@ export const NAV_STRUCTURE: {
             { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: `📝 ${TEMPLATE_TYPES.length} Referenz-Vorlagen nach Typ (A/B/C/D)` },
             { text: 'Gesuch-Pipeline', href: '/fundraising/applications', desc: '📋 Stiftungsgesuche verwalten und nachverfolgen' },
             { text: 'Scoring-Methodik', href: '/fundraising/scoring-methodik', desc: '⚙️ Wie Fit, Bereitschaft und Priorität berechnet werden' },
+            { text: 'Pipeline-Methodik', href: '/fundraising/pipeline-methodik', desc: '🔬 Wie wir aus 16\'000 Stiftungen die richtigen finden' },
           ],
         },
       ],
