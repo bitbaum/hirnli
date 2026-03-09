@@ -211,6 +211,39 @@ ESA / Zefix / Research scripts
 `Foundation` is derived from `FoundationRow.config_data` JSONB during `npm run sync`.
 When importing, check which layer you're in: DB API routes use `FoundationRow`; UI/domain code uses `Foundation`.
 
+### Scoring Model
+
+Three independent scores, each answering one question:
+
+| Score | Range | Question | Stored? | SSOT |
+|-------|-------|----------|---------|------|
+| **Fit** | 0-10 | Does this foundation match our mission? | Yes (`fitScore`) | `lib/config/fit-scoring.ts` (SCORING_ENGINE) |
+| **Readiness** | 0-100 → 5 Tiers | Can we write a great Gesuch? | Computed | `lib/config/fit-scoring.ts` (READINESS_ENGINE) |
+| **Priority** | 0-100 → P1-P4 | Should we invest effort now? | Stored (1-4) | `lib/config/fit-scoring.ts` (PRIORITY_FORMULA) |
+
+**How they connect:**
+```
+Foundation data ──→ Fit Engine ──→ fitScore (0-10)  [stored]
+Foundation data ──→ Readiness Engine ──→ score (0-100) → Tier  [computed]
+fitScore × Readiness ──→ Priority Engine ──→ P1-P4  [stored or computed]
+Tier + Priority ──→ Access Gates (detail page ≥ profiliert, gesuch ≥ recherchiert + P1-P3)
+```
+
+**Key helpers** (all in `lib/domain/foundation-helpers.ts`):
+- `getFitLevel(f)` — fitScore → display stars (0-3), gated by tier < profiliert → 0
+- `isResearched(f)` — tier ≥ profiliert (replaces stored `needsResearch`)
+- `getQualityTier(f)` — readiness score → tier label
+- `hasGesuchPage(f)` — tier ≥ recherchiert AND P1-P3
+
+**Deprecated fields** (in schema for DB backward compat, never read by domain logic):
+- `fit` (0-3) — replaced by `fitScore` (0-10) + `getFitLevel()`
+- `needsResearch` (boolean) — replaced by `isResearched()`
+- `researchDepth` — pipeline metadata only, not used in domain scoring
+
+**All config in one file:** `src/lib/config/fit-scoring.ts` holds every weight, threshold,
+penalty, and tier boundary. The domain engines (`fit-scoring.ts`, `foundation-scores.ts`)
+are pure computation — zero magic numbers.
+
 ### Research Priority
 
 The foundation DB grows independently of which orgs use it, but in **priority order**:
@@ -225,15 +258,10 @@ The foundation DB grows independently of which orgs use it, but in **priority or
 effort should produce fundable applications, not an exhaustive index. Add context where
 it unlocks a real application.
 
-**Quality gate for `needsResearch: false`** (required before `analysisSchema` is meaningful):
-- `purposeSummary` — 150+ chars, specific focus areas, not just tagline
-- `researchNotes` — 250+ chars, strategic fit analysis for the current org
-- `contact` — at least email or phone
-- `themes` — properly assigned from the org's ThemeId enum
-- `websiteUrl` — resolves
-
-Until these are met, keep `needsResearch: true`. A half-researched entry generates
-misleading Gesuch content and erodes trust in the AI-generated output.
+**Research quality is derived from readiness tier** (computed, not stored):
+- `isResearched(f)` checks `tier >= profiliert` (from `foundation-helpers.ts`)
+- Tier is computed from data completeness signals in `computeReadinessScore()`
+- Key signals: purposeSummary, researchNotes, contact, themes, websiteUrl
 
 Quality gate is enforced at import time by `src/lib/domain/foundation-quality.ts`
 (called from `src/lib/config/foundations/index.ts`). Violations warn but don't break builds.
@@ -405,17 +433,12 @@ npm run build
 3. Run `npm run sync` → regenerates `stiftungen-generated.ts`
 4. Run `npm run build` → `generateStaticParams()` picks up the new slug automatically
 
-**Quality gate for `needsResearch: false`:** An entry must have:
-- `purposeSummary` (150+ chars, specific focus areas — not just tagline-level)
-- `researchNotes` (250+ chars, strategic fit analysis for Revamp-IT)
-- `contact` with at least email or phone
-- `themes` properly assigned
-- `websiteUrl` that resolves
+**Research quality** is derived from readiness tier (computed at runtime from data completeness).
+`isResearched(f)` returns true when tier >= profiliert. Key data signals:
+purposeSummary (150+ chars), researchNotes (250+ chars), contact, themes, websiteUrl.
+Quality gate in `foundation-quality.ts` warns at build time about violations.
 
-If any are missing, keep `needsResearch: true`. The quality gate in
-`src/lib/domain/foundation-quality.ts` warns at build time about violations.
-
-**Gesuch pages are only generated** for entries with `needsResearch: false` AND `priority <= 2`
+**Gesuch pages are only generated** for entries with tier >= recherchiert AND priority P1-P3
 (see `generateGesuchParams()` in `foundation-helpers.ts`).
 
 **NEVER hardcode foundation/template counts** in UI text or documentation. Always derive from
