@@ -61,9 +61,6 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
               {a.template}
             </p>
           ))}
-          <p className="mt-2 text-xs text-text-muted">
-            [Hinweis: Platzhalter in eckigen Klammern vor Versand mit echten Angaben ersetzen]
-          </p>
         </div>
       )}
 
@@ -114,9 +111,6 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
                 {a.template}
               </p>
             ))}
-            <p className="mt-2 text-xs text-text-muted">
-              [Hinweis: Platzhalter in eckigen Klammern vor Versand mit echten Angaben ersetzen]
-            </p>
           </div>
         )}
 

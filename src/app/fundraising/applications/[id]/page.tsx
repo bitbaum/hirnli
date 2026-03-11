@@ -8,6 +8,8 @@
 'use client';
 
 import Link from 'next/link';
+import { LoadingState } from '@/components/ui/LoadingState';
+import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { APPLICATION_STATUSES, getStatusConfig } from '@/lib/config/application-statuses';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
@@ -40,23 +42,17 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   } = useApplicationForm(params.id);
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-bg-light">
-        <div className="text-text-muted">Lade Gesuch...</div>
-      </div>
-    );
+    return <LoadingState label="Lade Gesuch..." className="min-h-screen bg-bg-light" />;
   }
 
   if (error) {
     return (
       <div className="min-h-screen bg-bg-light p-6">
         <div className="mx-auto max-w-3xl">
-          <div className="rounded-lg border border-red-200 bg-red-50 p-4">
-            <p className="text-red-700">Fehler: {error}</p>
-            <Link href="/fundraising/applications" className="text-primary hover:underline">
-              ← Zurück zur Übersicht
-            </Link>
-          </div>
+          <ErrorAlert
+            error={error}
+            backLink={{ href: '/fundraising/applications', label: '← Zurück zur Übersicht' }}
+          />
         </div>
       </div>
     );

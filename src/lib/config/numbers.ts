@@ -657,13 +657,6 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 };
 
-/**
- * Helper function to get a number by key
- */
-export function getNumber(key: keyof typeof NUMBERS_REGISTRY): NumberSource {
-  return NUMBERS_REGISTRY[key];
-}
-
 /** Extract numeric value from a registry entry. Throws if not numeric. */
 export function getNumericValue(key: keyof typeof NUMBERS_REGISTRY): number {
   const entry = NUMBERS_REGISTRY[key];

@@ -8,6 +8,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { LoadingState } from '@/components/ui/LoadingState';
+import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { KPICard } from './KPICard';
 import { StatusDistributionChart } from './StatusDistributionChart';
 import { UpcomingDeadlines } from './UpcomingDeadlines';
@@ -77,25 +79,11 @@ export function FundraisingDashboard() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <div className="text-text-muted">Lade Dashboard...</div>
-      </div>
-    );
+    return <LoadingState label="Lade Dashboard..." />;
   }
 
   if (error || !data) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-        <p className="text-red-700">Fehler: {error}</p>
-        <button
-          onClick={fetchDashboardData}
-          className="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-        >
-          Erneut versuchen
-        </button>
-      </div>
-    );
+    return <ErrorAlert error={error} onRetry={fetchDashboardData} />;
   }
 
   const isEmpty = data.totals.totalApplications === 0;

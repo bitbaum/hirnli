@@ -106,16 +106,10 @@ async function main() {
     const researchDepth = (cd.researchDepth as string) || 'rapid';
     const newFitDisplay = fitScoreToDisplay(newFitScore, researchDepth === 'rapid');
 
-    // Compute new priority — preserve curated priorities for core foundations
-    const hasCuratedPriority = cd.priority !== undefined && cd.priority !== null;
-    const isZurich = canton === 'ZH';
-    let newPriority: 1 | 2 | 3 | 4;
-    if (hasCuratedPriority) {
-      newPriority = (cd.priority as 1 | 2 | 3 | 4) ?? 4; // Keep existing curated priority
-    } else if (newFitScore >= 7 && isFunder) newPriority = 1;
-    else if (newFitScore >= 4 && (isFunder || isZurich)) newPriority = 2;
-    else if (newFitScore >= 4) newPriority = 3;
-    else newPriority = 4;
+    // Priority is NOT recomputed here. The simplified heuristic (fitScore thresholds)
+    // diverges from production computePriorityScore() which uses readiness, penalties,
+    // and grant bonus. Existing priorities (curated or pipeline-set) are preserved.
+    // To recompute priorities accurately, use the UI or a script that builds full Foundation objects.
 
     const oldFitScore = cd.fitScore ?? 0;
     const oldFit = cd.fit ?? 0;
@@ -135,12 +129,11 @@ async function main() {
     });
 
     if (!dryRun) {
-      // Update config_data
+      // Update config_data — only fitScore + fit display, not priority (see comment above)
       const updatedConfigData = {
         ...cd,
         fitScore: newFitScore,
         fit: newFitDisplay,
-        priority: newPriority,
       };
 
       try {
@@ -149,7 +142,6 @@ async function main() {
           SET
             config_data = ${JSON.stringify(updatedConfigData)},
             fit_score = ${newFitScore},
-            priority = ${newPriority},
             updated_at = ${new Date().toISOString()}
           WHERE id = ${row.id}
         `;

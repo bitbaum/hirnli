@@ -235,7 +235,7 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
       inputFields: ['applicationMethod', 'isFunder'],
       config: {
         field: 'applicationMethod',
-        map: { online: 3, email: 2, invitation: 1 },
+        map: { online: 3, email: 2, contact: 1, direct: 2, post: 2, personal: 1 },
         fallbacks: [
           { condition: { field: 'isFunder', op: 'eq', value: true }, score: 1 },
         ],
@@ -258,8 +258,9 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
     thresholds: [
       { level: 3, minScore: 7 },
       { level: 2, minScore: 4 },
+      { level: 1, minScore: 1 },
     ],
-    defaultLevel: 1,
+    defaultLevel: 0,
     confidenceGate: {
       gateLevel: 0,  // Foundations below profiliert tier → unassessed (insufficient data)
     },

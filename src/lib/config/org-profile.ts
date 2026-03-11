@@ -11,6 +11,9 @@ const _FOUNDED = 2003;
 const _YEARS_ACTIVE = new Date().getFullYear() - _FOUNDED;
 
 export const ORG_PROFILE = {
+  // DB/pipeline identifier (must match org_id column in fundraising_foundations)
+  orgId: 'revamp-it',
+
   // Legal identity
   name: 'Revamp-IT',
   legalForm: 'Gemeinnütziger Verein',
@@ -20,6 +23,7 @@ export const ORG_PROFILE = {
   website: 'https://revamp-it.ch',
   email: 'empfang@revamp-it.ch',
   fundraisingEmail: 'fundraising@revamp-it.ch',
+  contactName: 'Andreas Hunkeler',
   phone: '+41 (0)43 960 32 64',
   shopAddress: 'Birmensdorferstrasse 379, 8055 Zürich',
 

@@ -41,7 +41,13 @@ export default function AnschreibenPDF({ dok }: AnschreibenPDFProps) {
 
       {/* Recipient */}
       <View style={{ marginBottom: 12 }}>
-        <Text style={styles.paragraph}>{dok.anschreiben.foundationAddress}</Text>
+        {dok.anschreiben.foundationAddress && dok.anschreiben.foundationAddress.length > 10 ? (
+          <Text style={styles.paragraph}>{dok.anschreiben.foundationAddress}</Text>
+        ) : (
+          <Text style={[styles.paragraph, { color: COLORS.textMuted, fontStyle: 'italic' }]}>
+            [Adresse der Stiftung vor Versand ergänzen]
+          </Text>
+        )}
       </View>
 
       {/* Date */}

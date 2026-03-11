@@ -16,7 +16,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations, activityLog } from '@/lib/db/schema';
-import { and, desc, eq } from 'drizzle-orm';
+import { and, count, desc, eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
@@ -54,8 +54,8 @@ export async function GET(request: NextRequest) {
     const foundationId = searchParams.get('foundationId');
     const assignedTo = searchParams.get('assignedTo');
     const priority = searchParams.get('priority');
-    const limit = Math.min(parseInt(searchParams.get('limit') || '50'), 100);
-    const offset = parseInt(searchParams.get('offset') || '0');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10) || 50, 100);
+    const offset = parseInt(searchParams.get('offset') || '0', 10) || 0;
 
     // Build filter conditions
     const conditions = [];
@@ -73,7 +73,8 @@ export async function GET(request: NextRequest) {
     }
 
     if (priority) {
-      conditions.push(eq(applications.priorityLevel, parseInt(priority)));
+      const p = parseInt(priority, 10);
+      if (!isNaN(p)) conditions.push(eq(applications.priorityLevel, p));
     }
 
     // Execute query with foundation join
@@ -89,9 +90,9 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .offset(offset);
 
-    // Get total count for pagination
-    const totalResults = await db
-      .select()
+    // Get total count for pagination (COUNT query, not full row fetch)
+    const [{ total }] = await db
+      .select({ total: count() })
       .from(applications)
       .where(conditions.length > 0 ? and(...conditions) : undefined);
 
@@ -99,10 +100,10 @@ export async function GET(request: NextRequest) {
       success: true,
       data: results,
       meta: {
-        total: totalResults.length,
+        total,
         limit,
         offset,
-        hasMore: offset + limit < totalResults.length,
+        hasMore: offset + limit < total,
       },
     });
 

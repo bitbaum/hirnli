@@ -19,17 +19,30 @@ export {
 
 import { STIFTUNGEN_GENERATED } from './stiftungen-generated';
 import type { Foundation } from '../../schemas/foundation';
-import { validateFoundationQuality } from '../../domain/foundation-quality';
 
 export const STIFTUNGEN_DATA: Foundation[] = STIFTUNGEN_GENERATED;
 
-// Run quality gate at import time — warns on violations without breaking prod builds
-const violations = validateFoundationQuality(STIFTUNGEN_DATA);
-if (violations.length > 0) {
-  const msg = violations
-    .map((v) => `  ${v.slug}: ${v.issues.join('; ')}`)
-    .join('\n');
-  console.warn(
-    `[Foundation Quality Gate] ${violations.length} researched entries (tier >= profiliert) have quality issues:\n${msg}`
-  );
+// Run quality gate lazily to avoid circular dependency:
+// foundations/index → foundation-quality → foundation-helpers → foundations/index
+let _qualityGateRan = false;
+export async function runQualityGate(): Promise<void> {
+  if (_qualityGateRan) return;
+  _qualityGateRan = true;
+  // Dynamic import() breaks the cycle — module is fully initialized by the time this runs
+  const { validateFoundationQuality } = await import('../../domain/foundation-quality');
+  const violations = validateFoundationQuality(STIFTUNGEN_DATA);
+  if (violations.length > 0) {
+    const msg = violations
+      .map((v: { slug: string; issues: string[] }) => `  ${v.slug}: ${v.issues.join('; ')}`)
+      .join('\n');
+    console.warn(
+      `[Foundation Quality Gate] ${violations.length} researched entries (tier >= profiliert) have quality issues:\n${msg}`
+    );
+  }
+}
+
+// Trigger on first access in non-edge environments (build time, dev server)
+if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'test') {
+  // Use queueMicrotask to run after all module initialization completes
+  queueMicrotask(() => void runQualityGate());
 }

@@ -85,7 +85,7 @@ export async function GET(
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : 'PDF-Generierung fehlgeschlagen',
+        error: 'PDF-Generierung fehlgeschlagen',
       },
       { status: 500 }
     );

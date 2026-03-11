@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundation-helpers';
-import { composeGesuch } from '@/lib/domain/gesuch-composer';
+import { composeGesuch, composeAnschreibenText } from '@/lib/domain/gesuch-composer';
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
 import { computeShareToken } from '@/lib/utils/share-token';
 import Card from '@/components/ui/Card';
@@ -85,6 +85,7 @@ export default async function GesuchPage({ params }: Props) {
   };
 
   const shareToken = computeShareToken(slug) ?? undefined;
+  const anschreibenText = composeAnschreibenText(foundation);
 
   return (
     <GesuchPageClient
@@ -95,6 +96,7 @@ export default async function GesuchPage({ params }: Props) {
       submissionInfo={submissionInfo}
       foundationData={foundation}
       shareToken={shareToken}
+      generatedAnschreiben={anschreibenText}
     />
   );
 }

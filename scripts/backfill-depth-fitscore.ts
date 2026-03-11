@@ -20,24 +20,10 @@ import { neon } from '@neondatabase/serverless';
 import { foundationSchema } from '../src/lib/schemas/foundation';
 import { computeFitScore as computeFitScoreDomain, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 
-type ResearchDepth = 'rapid' | 'standard' | 'deep';
+import { computeResearchDepth, type ResearchDepth } from './lib/utilities';
 
 function isZefixUrl(url: string): boolean {
   return url.includes('zefix.ch') || url.includes('uid.admin.ch');
-}
-
-function computeResearchDepth(opts: {
-  hasRealWebsite: boolean;
-  hasEmail: boolean;
-  hasPhone: boolean;
-  hasDeadline: boolean;
-  hasGrantRange: boolean;
-}): ResearchDepth {
-  const { hasRealWebsite, hasEmail, hasPhone, hasDeadline, hasGrantRange } = opts;
-  const hasContactDetail = hasEmail || hasPhone;
-  if (hasRealWebsite && hasContactDetail && hasDeadline && hasGrantRange) return 'deep';
-  if (hasRealWebsite && hasContactDetail) return 'standard';
-  return 'rapid';
 }
 
 // FIT SCORE — Centralized in src/lib/domain/fit-scoring.ts
@@ -287,4 +273,7 @@ function normalizeSource(s: string): string {
   return 'manual';
 }
 
-main();
+main().catch((err) => {
+  console.error('Backfill failed:', err);
+  process.exit(1);
+});

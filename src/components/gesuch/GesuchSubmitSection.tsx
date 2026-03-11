@@ -196,8 +196,9 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
 
 /** post method */
 function PostBlock({ info }: { info: SubmissionInfo }) {
-  const addressText = info.contactAddress ?? info.foundationName;
-  const fullAddress = `${info.foundationName}\n${addressText}`;
+  const fullAddress = info.contactAddress
+    ? `${info.foundationName}\n${info.contactAddress}`
+    : info.foundationName;
 
   return (
     <div className="space-y-4">

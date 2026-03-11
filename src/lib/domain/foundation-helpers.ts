@@ -78,11 +78,6 @@ export function computeTierCounts(foundations: Foundation[]): Record<QualityTier
   return counts;
 }
 
-/** Count foundations at or above a minimum tier */
-export function countAtLeast(foundations: Foundation[], minimum: QualityTier): number {
-  return foundations.filter((f) => tierAtLeast(getQualityTier(f), minimum)).length;
-}
-
 // -- Promotion steps -----------------------------------------------------------
 
 export interface TierPromotion {

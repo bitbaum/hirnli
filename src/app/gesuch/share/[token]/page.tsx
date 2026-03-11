@@ -90,30 +90,12 @@ export default async function GesuchSharePage({ params }: Props) {
   const overrides = await loadGesuchOverrides(slug);
   const merged = applyGesuchOverrides(gesuch, overrides);
 
-  const foundationBridge = overrides.foundationBridge ?? merged.foundationBridge;
-
-  const why = merged.story.why
-    ? {
-        ...merged.story.why,
-        headline: overrides.why?.headline ?? merged.story.why.headline,
-        hook: overrides.why?.hook ?? merged.story.why.hook,
-        problem: overrides.why?.problem ?? merged.story.why.problem,
-        solution: overrides.why?.solution ?? merged.story.why.solution,
-      }
-    : merged.story.why;
-
-  const trackRecord = {
-    ...merged.story.how.track_record,
-    headline: overrides.how?.trackRecord?.headline ?? merged.story.how.track_record.headline,
-    text: overrides.how?.trackRecord?.text ?? merged.story.how.track_record.text,
-  };
-
   return (
     <GesuchShareView
       gesuch={merged}
-      foundationBridge={foundationBridge}
-      trackRecord={trackRecord}
-      why={why}
+      foundationBridge={merged.foundationBridge}
+      trackRecord={merged.story.how.track_record}
+      why={merged.story.why}
       primaryColor={primaryColor}
     />
   );

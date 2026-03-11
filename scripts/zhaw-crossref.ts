@@ -12,6 +12,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { slugify } from './lib/utilities';
 
 // ============================================================================
 // TYPES
@@ -93,14 +94,6 @@ interface DraftFile {
 // ============================================================================
 // SLUG HELPERS
 // ============================================================================
-
-function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
 
 /** Normalize a name for fuzzy comparison — strips common prefixes/suffixes */
 function normalizeName(name: string): string {

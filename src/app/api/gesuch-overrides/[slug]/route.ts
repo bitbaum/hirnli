@@ -13,8 +13,9 @@ import { gesuchOverrides, type GesuchOverridesData } from '@/lib/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
-const ORG_ID = 'revamp-it';
+const ORG_ID = ORG_PROFILE.orgId;
 
 const overridesSchema = z.object({
   foundationBridge: z.string().optional(),
@@ -36,6 +37,14 @@ const overridesSchema = z.object({
         .optional(),
     })
     .optional(),
+  anschreiben: z
+    .object({
+      subject: z.string().optional(),
+      opening: z.string().optional(),
+      themeAlignment: z.string().optional(),
+      closing: z.string().optional(),
+    })
+    .optional(),
 });
 
 function deepMerge(base: GesuchOverridesData, patch: GesuchOverridesData): GesuchOverridesData {
@@ -51,6 +60,7 @@ function deepMerge(base: GesuchOverridesData, patch: GesuchOverridesData): Gesuc
           : base.how?.trackRecord,
     };
   }
+  if (patch.anschreiben) result.anschreiben = { ...base.anschreiben, ...patch.anschreiben };
   return result;
 }
 

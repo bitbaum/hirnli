@@ -121,4 +121,7 @@ async function main() {
   else if (updated > 0) console.log('Next: npm run sync && npm run build');
 }
 
-main();
+main().catch((err) => {
+  console.error('Backfill themes failed:', err);
+  process.exit(1);
+});

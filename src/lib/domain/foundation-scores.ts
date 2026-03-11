@@ -116,16 +116,6 @@ export function computeReadinessScore(f: Foundation): ReadinessResult {
   };
 }
 
-/** Convert a readiness score to a quality tier label */
-export function readinessToTier(score: number): QualityTier {
-  for (const t of READINESS_ENGINE.display.thresholds) {
-    if (score >= t.minScore) {
-      return TIER_FROM_LEVEL[t.level] ?? 'verzeichnet';
-    }
-  }
-  return 'verzeichnet';
-}
-
 // ============================================================================
 // Priority
 // ============================================================================

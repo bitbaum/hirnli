@@ -53,5 +53,5 @@ export function computeRequestedAmount(foundation: Foundation, scenario: BudgetS
   if (max && max <= gap) return max;
   if (max && min) return Math.min(Math.round((min + max) / 2), gap);
   if (min) return Math.min(min * 2, gap);
-  return Math.round(gap * 0.2 / 5000) * 5000;
+  return Math.max(5000, Math.round(gap * 0.2 / 5000) * 5000);
 }

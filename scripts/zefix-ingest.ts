@@ -51,7 +51,7 @@ interface ZefixRegister {
   foundations: ZefixEntry[];
 }
 
-type ResearchDepth = 'rapid' | 'standard' | 'deep';
+import type { ResearchDepth } from './lib/utilities';
 
 // ============================================================================
 // EXCLUSION FILTER — Non-charitable foundation patterns

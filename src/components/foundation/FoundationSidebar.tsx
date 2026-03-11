@@ -148,8 +148,8 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             <dt className="text-text-muted">Fit-Score</dt>
             <dd className="font-medium text-grey-dark">
               {getFitLevel(f) === 0
-                ? <span className="text-text-muted">○○○ Nicht geprüft</span>
-                : <>{FIT_CONFIG[getFitLevel(f)]?.stars ?? '☆☆☆'} ({f.fitScore}/10)</>
+                ? <span className="text-text-muted">○○○ <span className="sr-only">Fit-Score:</span> Nicht geprüft</span>
+                : <><span aria-label={`Fit-Score: ${f.fitScore} von 10, ${getFitLevel(f)} von 3 Sternen`}>{FIT_CONFIG[getFitLevel(f)]?.stars ?? '☆☆☆'}</span> ({f.fitScore}/10)</>
               }
             </dd>
           </div>

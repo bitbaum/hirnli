@@ -141,12 +141,18 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Get existing foundation names for deduplication
-    const existingFoundations = await db.select({ name: foundations.name }).from(foundations);
-    const existingNames = new Set(existingFoundations.map(f => f.name));
+    // Get existing foundation IDs (slugs) for deduplication
+    const existingFoundations = await db.select({ id: foundations.id }).from(foundations);
+    const existingSlugs = new Set(existingFoundations.map(f => f.id));
 
-    // Filter out duplicates
-    const newFoundations = validated.filter(f => !existingNames.has(f.name));
+    // Filter out duplicates by slug and handle within-batch collisions
+    const seenSlugs = new Set<string>();
+    const newFoundations = validated.filter(f => {
+      const slug = generateSlug(f.name);
+      if (existingSlugs.has(slug) || seenSlugs.has(slug)) return false;
+      seenSlugs.add(slug);
+      return true;
+    });
 
     if (newFoundations.length === 0) {
       return NextResponse.json({
@@ -171,14 +177,14 @@ export async function POST(request: NextRequest) {
         contactEmail: f.contactEmail || null,
         contactPhone: f.contactPhone || null,
 
-        fitScore: f.fitScore || null,
-        priority: f.priority || null,
+        fitScore: f.fitScore ?? null,
+        priority: f.priority ?? null,
         focusAreas: f.focusAreas ?? null,
         geographicScope: f.location || null,
         organizationType: 'foundation' as const,
 
-        grantRangeMin: f.grantRangeMin || min,
-        grantRangeMax: f.grantRangeMax || max,
+        grantRangeMin: f.grantRangeMin ?? min,
+        grantRangeMax: f.grantRangeMax ?? max,
         typicalAmount: null,
         fundingModel: null,
         applicationMethod: f.applicationMethod || null,

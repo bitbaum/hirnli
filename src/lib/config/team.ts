@@ -77,16 +77,6 @@ export const BILDUNGSPROGRAMMLEITER: TeamMember[] = [
   },
 ];
 
-export const TEAM_SUMMARY = {
-  kernteam_vza: KERNTEAM.reduce((sum, m) => sum + m.vza, 0),
-  bpl_vza: BILDUNGSPROGRAMMLEITER.reduce((sum, m) => sum + m.vza, 0),
-  total_current_vza: KERNTEAM.filter(m => m.status === 'aktiv').reduce((sum, m) => sum + m.vza, 0),
-  total_planned_vza: KERNTEAM.reduce((sum, m) => sum + m.vza, 0) + BILDUNGSPROGRAMMLEITER.reduce((sum, m) => sum + m.vza, 0),
-  kernteam_count: KERNTEAM.length,
-  bpl_count: BILDUNGSPROGRAMMLEITER.length,
-  total_count: KERNTEAM.length + BILDUNGSPROGRAMMLEITER.length,
-} as const;
-
 /**
  * Train-the-Trainer Effect (Direct Training Only)
  *

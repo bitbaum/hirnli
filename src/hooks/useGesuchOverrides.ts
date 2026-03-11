@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { buildAIContext, type FoundationAIContext } from '@/lib/domain/ai-context';
@@ -32,6 +32,8 @@ export function useGesuchOverrides(
   const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
+  const overridesRef = useRef(overrides);
+  overridesRef.current = overrides;
 
   // Load existing overrides on mount
   useEffect(() => {
@@ -63,31 +65,37 @@ export function useGesuchOverrides(
               : prev.how?.trackRecord,
         };
       }
+      if (patch.anschreiben) next.anschreiben = { ...prev.anschreiben, ...patch.anschreiben };
       return next;
     });
     setDirty(true);
   }, []);
 
   const save = useCallback(async () => {
+    const current = overridesRef.current;
     setSaving(true);
     try {
       const res = await fetch(`/api/gesuch-overrides/${slug}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(overrides),
+        body: JSON.stringify(current),
       });
       const result = await res.json();
       if (result.success) {
-        setSavedOverrides(overrides);
+        setSavedOverrides(current);
         setDirty(false);
+      } else {
+        throw new Error('save-failed');
       }
     } finally {
       setSaving(false);
     }
-  }, [slug, overrides]);
+  }, [slug]);
 
   const saveIfDirty = useCallback(async () => {
-    if (dirty) await save();
+    if (dirty) {
+      try { await save(); } catch { /* silent — used by blur and navigation */ }
+    }
   }, [dirty, save]);
 
   const reset = useCallback(async () => {

@@ -394,4 +394,7 @@ async function main() {
   console.log('   3. Use the data to create a foundation entry\n');
 }
 
-main();
+main().catch((err) => {
+  console.error('Research assistant failed:', err);
+  process.exit(1);
+});

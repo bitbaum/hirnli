@@ -84,6 +84,7 @@ export default function FoundationListClient() {
 
   // Foundation slugs that already have a pipeline entry
   const [pipelineSlugs, setPipelineSlugs] = useState<Set<string>>(new Set());
+  const [pipelineLoading, setPipelineLoading] = useState(true);
   useEffect(() => {
     fetch('/api/applications')
       .then((r) => r.json())
@@ -97,7 +98,8 @@ export default function FoundationListClient() {
           setPipelineSlugs(slugs);
         }
       })
-      .catch((err) => console.error('Failed to load pipeline data:', err));
+      .catch((err) => console.error('Failed to load pipeline data:', err))
+      .finally(() => setPipelineLoading(false));
   }, []);
 
   // Research stats — computed once from the full dataset (static data)
@@ -351,7 +353,7 @@ export default function FoundationListClient() {
           {/* Foundation list */}
           <div className="space-y-3">
             {filtered.slice(0, visibleCount).map((f) => (
-              <FoundationCard key={f.slug} foundation={f} inPipeline={pipelineSlugs.has(f.slug)} score={scoreMap.get(f.slug)} />
+              <FoundationCard key={f.slug} foundation={f} inPipeline={!pipelineLoading && pipelineSlugs.has(f.slug)} score={scoreMap.get(f.slug)} />
             ))}
             {visibleCount < filteredCount && (
               <button

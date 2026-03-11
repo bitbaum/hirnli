@@ -14,7 +14,7 @@
  *   - /api/export/**           — financial & pipeline data exports
  *   - /api/foundations/**       — foundation CRUD (fit scores, research notes)
  *   - /api/customizations/**    — gesuch personalization rules
- *   - /api/cron/**              — scheduled tasks (data quality, reminders)
+ *   - /api/cron/**              — own Bearer token auth (CRON_SECRET), not in middleware
  *   - /api/documents/**         — document generation (Gesuch PDFs with internal context)
  *
  * Auth method: HTTP Basic Auth — browser handles the prompt.
@@ -24,6 +24,16 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+
+/** Constant-time string comparison (Edge Runtime compatible) */
+function safeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return result === 0;
+}
 
 const REALM = `${ORG_PROFILE.name} Intern`;
 
@@ -53,7 +63,7 @@ export function middleware(request: NextRequest) {
     const decoded = Buffer.from(auth.slice(6), 'base64').toString('utf-8');
     // Format is "username:password" — we only care about the password
     const pwd = decoded.includes(':') ? decoded.split(':').slice(1).join(':') : decoded;
-    if (pwd === password) return NextResponse.next();
+    if (safeEqual(pwd, password)) return NextResponse.next();
   }
 
   return unauthorized();
@@ -69,7 +79,7 @@ export const config = {
     '/api/export/:path*',
     '/api/foundations/:path*',
     '/api/customizations/:path*',
-    '/api/cron/:path*',
+    // /api/cron/** excluded — routes have own Bearer token auth (CRON_SECRET)
     '/api/documents/:path*',
   ],
 };

@@ -50,42 +50,6 @@ export const ZURICH_MARKET_DATA = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// Workshop Best Practices (Industry Research)
-// ---------------------------------------------------------------------------
-
-export const WORKSHOP_BEST_PRACTICES = {
-  typical_workshop_size: {
-    min_sqm: 46, // 500 sq ft - small hobby workshop
-    typical_sqm: 93, // 1000 sq ft - standard workshop
-    professional_sqm: 140, // 1500 sq ft - professional multi-person workshop
-    sources: [
-      'BuiltMor Buildings: Workshop Size Requirements by Purpose',
-      'Dimensions.com: Workshop Layouts Collection',
-    ],
-  },
-  auto_repair_baseline: {
-    two_lift_shop_sqm: 140-185, // 1500-2000 sq ft
-    note: 'Baseline for refurbishment workshop - we do electronics, not cars, so less space per unit',
-    source: 'BusinessDojo: Auto Repair Shop Size Requirements',
-  },
-  ceiling_height: {
-    min_meters: 2.4, // 8 ft - minimum for safety
-    ideal_meters: 3.0, // 10 ft - allows standing on benches, overhead storage
-    max_meters: 3.6, // 12 ft - industrial standard
-    source: 'ArchitectureLab: Workshop Design Requirements',
-  },
-  layout_efficiency: {
-    best_layout: 'U-shape or C-shape',
-    rationale: 'Maximizes wall space for tools/storage, keeps central area open for work',
-    workstation_size: '12-18 m² per person (includes personal space + circulation)',
-    sources: [
-      'ROI Metal Buildings: Metal Workshop Layout Design',
-      'Tend Industrial Supplies: Workshop Layout Efficiency Guide',
-    ],
-  },
-} as const;
-
-// ---------------------------------------------------------------------------
 // Detailed Space Requirements with Justifications
 // ---------------------------------------------------------------------------
 
@@ -474,27 +438,3 @@ export const MULTI_PURPOSE_STRATEGY = {
   efficiency_gain: '11% space reduction through smart time-sharing',
 } as const;
 
-// ---------------------------------------------------------------------------
-// Sources & Research Links
-// ---------------------------------------------------------------------------
-
-export const RESEARCH_SOURCES = {
-  zurich_real_estate: [
-    'Homegate.ch - Commercial property listings Zürich',
-    'ImmoScout24.ch - Gewerberäume Kanton Zürich',
-    'Neho.ch - Quadratmeterpreis Zürich 2026',
-  ],
-  workshop_best_practices: [
-    'BuiltMor Buildings - Workshop Size Requirements by Purpose',
-    'Dimensions.com - Workshop Layouts Collection',
-    'ROI Metal Buildings - Metal Workshop Layout Design',
-    'Tend Industrial Supplies - Workshop Layout Efficiency Guide',
-    'ArchitectureLab - Workshop Design Requirements',
-    'BusinessDojo - Auto Repair Shop Size Requirements',
-  ],
-  swiss_building_codes: [
-    'Swiss accessibility standards (wheelchair access, bathroom requirements)',
-    'Fire safety codes for commercial spaces',
-    'Ventilation requirements for workshops (fume extraction)',
-  ],
-} as const;

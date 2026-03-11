@@ -32,6 +32,9 @@ export default function FilterDrawer({ open, onClose, ...sidebarProps }: FilterD
 
       {/* Drawer panel */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Filter"
         className={`fixed inset-y-0 left-0 z-50 w-[300px] max-w-[85vw] overflow-y-auto bg-white px-4 py-4 shadow-xl transition-transform duration-300 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}

@@ -31,7 +31,7 @@ function LineItemRows({ items, total, themeKey }: { items: BudgetLineItem[]; tot
           </td>
           <td className="py-1.5 text-right align-top">{formatCHF(item.amount)}</td>
           <td className="py-1.5 text-right align-top text-text-muted">
-            {Math.round((item.amount / total) * 100)}%
+            {total > 0 ? Math.round((item.amount / total) * 100) : 0}%
           </td>
         </tr>
         );
@@ -61,6 +61,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
 
       {/* 3-Year Trajectory — the headline story */}
       <h3 className="mb-3 text-lg font-semibold text-grey-dark">3-Jahres-Finanzmodell (degressiv)</h3>
+      <div className="overflow-x-auto">
       <table className="mb-6 w-full text-sm">
         <thead>
           <tr className="border-b-2 border-grey-dark text-left">
@@ -107,8 +108,10 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
         </tbody>
       </table>
 
+      </div>
+
       <p className="mb-8 text-xs text-text-muted">
-        Stiftungsanteil sinkt von {Math.round((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) / dok.budget.threeYearModel[0].total * 100)}% (Jahr 1) auf {Math.round(dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total * 100)}% (Jahr 3).
+        Stiftungsanteil sinkt von {dok.budget.threeYearModel[0].total > 0 ? Math.round((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) / dok.budget.threeYearModel[0].total * 100) : 0}% (Jahr 1) auf {dok.budget.threeYearModel[2].total > 0 ? Math.round(dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total * 100) : 0}% (Jahr 3).
         Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF 35/h), kein Cashflow. Wächst durch Community-Aufbau und Hub-Betrieb.
       </p>
 
@@ -117,6 +120,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
       <div className="mb-4 text-xs text-text-muted bg-blue-50 p-3 rounded">
         <strong>Szenario:</strong> {dok.budget.scenario.label} — {dok.budget.scenario.description}
       </div>
+      <div className="overflow-x-auto">
       <table className="mb-6 w-full text-sm">
         <thead>
           <tr className="border-b-2 border-grey-dark text-left">
@@ -148,8 +152,11 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
         </tbody>
       </table>
 
+      </div>
+
       {/* Financing plan */}
       <h3 className="mb-3 text-lg font-semibold text-grey-dark">Finanzierungsplan</h3>
+      <div className="overflow-x-auto">
       <table className="mb-6 w-full text-sm">
         <tbody>
           <tr className="border-b border-border">
@@ -187,6 +194,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
           </tr>
         </tbody>
       </table>
+      </div>
     </section>
   );
 }

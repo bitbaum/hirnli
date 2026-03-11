@@ -16,7 +16,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { foundations } from '@/lib/db/schema';
-import { and, desc, eq, gte, like } from 'drizzle-orm';
+import { and, count, desc, eq, gte, ilike } from 'drizzle-orm';
 import { z } from 'zod';
 
 // Validation schema for creating foundations
@@ -60,23 +60,24 @@ export async function GET(request: NextRequest) {
     const fitMin = searchParams.get('fitMin');
     const priority = searchParams.get('priority');
     const includeArchived = searchParams.get('archived') === 'true';
-    const limit = Math.min(parseInt(searchParams.get('limit') || '50'), 100);
-    const offset = parseInt(searchParams.get('offset') || '0');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10) || 50, 100);
+    const offset = parseInt(searchParams.get('offset') || '0', 10) || 0;
 
     // Build filter conditions
     const conditions = [];
 
     if (search) {
-      conditions.push(like(foundations.name, `%${search}%`));
+      conditions.push(ilike(foundations.name, `%${search}%`));
     }
 
     if (fitMin) {
-      const minScore = parseInt(fitMin);
-      conditions.push(gte(foundations.fitScore, minScore));
+      const minScore = parseInt(fitMin, 10);
+      if (!isNaN(minScore)) conditions.push(gte(foundations.fitScore, minScore));
     }
 
     if (priority) {
-      conditions.push(eq(foundations.priority, parseInt(priority)));
+      const p = parseInt(priority, 10);
+      if (!isNaN(p)) conditions.push(eq(foundations.priority, p));
     }
 
     if (!includeArchived) {
@@ -92,9 +93,9 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .offset(offset);
 
-    // Get total count for pagination
-    const totalResults = await db
-      .select()
+    // Get total count for pagination (COUNT query, not full row fetch)
+    const [{ total }] = await db
+      .select({ total: count() })
       .from(foundations)
       .where(conditions.length > 0 ? and(...conditions) : undefined);
 
@@ -102,10 +103,10 @@ export async function GET(request: NextRequest) {
       success: true,
       data: results,
       meta: {
-        total: totalResults.length,
+        total,
         limit,
         offset,
-        hasMore: offset + limit < totalResults.length,
+        hasMore: offset + limit < total,
       },
     });
 

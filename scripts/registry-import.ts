@@ -24,6 +24,7 @@ config({ path: '.env.local' });
 import * as fs from 'fs';
 import * as path from 'path';
 import { neon } from '@neondatabase/serverless';
+import { slugify } from './lib/utilities';
 
 interface EsaFoundation {
   uid: string;
@@ -39,16 +40,6 @@ interface EsaRegister {
   source: string;
   count: number;
   foundations: EsaFoundation[];
-}
-
-function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
-    .replace(/[àáâã]/g, 'a').replace(/[èéêë]/g, 'e').replace(/[ìíîï]/g, 'i')
-    .replace(/[òóôõ]/g, 'o').replace(/[ùúûü]/g, 'u').replace(/ñ/g, 'n')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
 }
 
 async function importEsa(filePath: string) {

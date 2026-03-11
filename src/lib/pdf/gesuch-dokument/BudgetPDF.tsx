@@ -44,7 +44,7 @@ function LineItemRows({ items, total, themeKey }: { items: BudgetLineItem[]; tot
               {pdfFormatCHF(item.amount)}
             </Text>
             <Text style={[styles.muted, { width: 30, textAlign: 'right' }]}>
-              {Math.round((item.amount / total) * 100)}%
+              {total > 0 ? Math.round((item.amount / total) * 100) : 0}%
             </Text>
           </View>
         );

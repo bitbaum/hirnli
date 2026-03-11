@@ -37,8 +37,11 @@ export async function GET(request: NextRequest) {
   if (!cronSecret) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
-  const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${cronSecret}`) {
+  const authHeader = request.headers.get('authorization') ?? '';
+  const expected = `Bearer ${cronSecret}`;
+  // Constant-time comparison to prevent timing side-channel attacks
+  if (authHeader.length !== expected.length ||
+      !require('crypto').timingSafeEqual(Buffer.from(authHeader), Buffer.from(expected))) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -303,7 +306,7 @@ function formatQualityReport(issues: DataQualityIssue[]): string {
   html += `
   <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
     <p style="font-size: 14px; color: #6B7280;">
-      <a href="https://revamp-info.vercel.app/fundraising/dashboard" style="color: #3B82F6; text-decoration: none;">
+      <a href="${ORG_PROFILE.platform.url}/fundraising/dashboard" style="color: #3B82F6; text-decoration: none;">
         Dashboard öffnen →
       </a>
     </p>

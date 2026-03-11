@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { AI_PRESETS } from '@/lib/config/ai-presets';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { WhySection, TrackRecord } from '@/lib/schemas/story';
+import type { AnschreibenText } from '@/app/fundraising/stiftungen/[slug]/gesuch/GesuchPageClient';
+import FieldRow from './FieldRow';
 
 interface GesuchEditPanelProps {
   foundationName: string;
@@ -13,6 +14,7 @@ interface GesuchEditPanelProps {
     foundationBridge?: string;
     why?: WhySection;
     trackRecord: TrackRecord;
+    anschreiben: AnschreibenText;
   };
   saving: boolean;
   dirty: boolean;
@@ -26,165 +28,6 @@ interface GesuchEditPanelProps {
     fieldPath: string;
     fieldDescription?: string;
   }) => Promise<string | null>;
-}
-
-interface FieldRowProps {
-  label: string;
-  fieldDescription: string;
-  value: string;
-  originalValue: string;
-  placeholder: string;
-  fieldPath: string;
-  multiline?: boolean;
-  onAiRewrite: GesuchEditPanelProps['onAiRewrite'];
-  onChange: (val: string) => void;
-  onBlur?: () => void;
-}
-
-function FieldRow({
-  label,
-  fieldDescription,
-  value,
-  originalValue,
-  placeholder,
-  fieldPath,
-  multiline = false,
-  onAiRewrite,
-  onChange,
-  onBlur,
-}: FieldRowProps) {
-  const [aiInstruction, setAiInstruction] = useState('');
-  const [aiLoading, setAiLoading] = useState(false);
-  const [showAi, setShowAi] = useState(false);
-  const [aiError, setAiError] = useState('');
-
-  const isModified = value !== originalValue;
-
-  const runAi = async (instruction: string) => {
-    if (!instruction.trim() || !value.trim()) return;
-    setAiLoading(true);
-    setAiError('');
-    const result = await onAiRewrite({ instruction, currentText: value, fieldPath, fieldDescription });
-    if (result) {
-      onChange(result);
-      setAiInstruction('');
-      setShowAi(false);
-    } else {
-      setAiError('KI nicht verfügbar — bitte manuell bearbeiten.');
-    }
-    setAiLoading(false);
-  };
-
-  return (
-    <div className="space-y-1.5">
-      {/* Label row */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <label className="text-xs font-semibold uppercase tracking-wider text-text-muted">
-            {label}
-          </label>
-          {isModified && (
-            <button
-              type="button"
-              onClick={() => onChange(originalValue)}
-              className="text-xs text-text-muted hover:text-red-500"
-              title="Auf Original zurücksetzen"
-            >
-              ↩ zurücksetzen
-            </button>
-          )}
-        </div>
-        <button
-          type="button"
-          onClick={() => { setShowAi((v) => !v); setAiError(''); }}
-          className={`flex items-center gap-1 rounded px-2 py-0.5 text-xs transition ${
-            showAi ? 'bg-primary/10 text-primary' : 'text-text-muted hover:text-primary'
-          }`}
-          title="KI-Überarbeitung"
-        >
-          <span>✦</span> KI
-        </button>
-      </div>
-
-      {/* Text input */}
-      {multiline ? (
-        <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onBlur={onBlur}
-          placeholder={placeholder}
-          rows={4}
-          className="block w-full resize-y rounded-md border border-border bg-bg-light px-3 py-2 text-sm text-text-light outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
-        />
-      ) : (
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onBlur={onBlur}
-          placeholder={placeholder}
-          className="block w-full rounded-md border border-border bg-bg-light px-3 py-2 text-sm text-text-light outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
-        />
-      )}
-      {/* Field location hint */}
-      <p className="text-xs text-text-muted">{fieldDescription}</p>
-
-      {/* AI panel */}
-      {showAi && (
-        <div className="rounded-md border border-primary/20 bg-primary/5 p-3 space-y-2">
-          {/* Quick presets */}
-          <div className="flex flex-wrap gap-1.5">
-            {AI_PRESETS.map((preset) => (
-              <button
-                key={preset.label}
-                type="button"
-                disabled={aiLoading}
-                onClick={() => runAi(preset.instruction)}
-                className="rounded-full border border-primary/30 bg-white px-2.5 py-0.5 text-xs text-primary transition hover:bg-primary hover:text-white disabled:opacity-50"
-              >
-                {preset.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Custom instruction */}
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={aiInstruction}
-              onChange={(e) => setAiInstruction(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') runAi(aiInstruction);
-                if (e.key === 'Escape') setShowAi(false);
-              }}
-              placeholder="Eigene Anweisung, z.B. «Auf Winterthur-Fokus anpassen»"
-              className="min-w-0 flex-1 rounded bg-white px-2.5 py-1.5 text-xs text-text-light outline-none ring-1 ring-border focus:ring-primary"
-              autoFocus
-            />
-            <button
-              type="button"
-              onClick={() => runAi(aiInstruction)}
-              disabled={aiLoading || !aiInstruction.trim()}
-              className="shrink-0 rounded bg-primary px-3 py-1.5 text-xs font-medium text-white transition hover:bg-primary/80 disabled:opacity-50"
-            >
-              {aiLoading ? (
-                <span className="flex items-center gap-1">
-                  <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                  Wird überarbeitet…
-                </span>
-              ) : (
-                'Umschreiben'
-              )}
-            </button>
-          </div>
-
-          {aiError && (
-            <p className="text-xs text-red-500">{aiError}</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
 }
 
 export default function GesuchEditPanel({
@@ -209,12 +52,27 @@ export default function GesuchEditPanel({
   const whySolution = overrides.why?.solution ?? generated.why?.solution ?? '';
   const howHeadline = overrides.how?.trackRecord?.headline ?? generated.trackRecord.headline ?? '';
   const howText = overrides.how?.trackRecord?.text ?? generated.trackRecord.text ?? '';
+  const anschreibenSubject = overrides.anschreiben?.subject ?? generated.anschreiben.subject;
+  const anschreibenOpening = overrides.anschreiben?.opening ?? generated.anschreiben.opening;
+  const anschreibenThemeAlignment = overrides.anschreiben?.themeAlignment ?? generated.anschreiben.themeAlignment;
+  const anschreibenClosing = overrides.anschreiben?.closing ?? generated.anschreiben.closing;
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState('');
 
   const handleSave = async () => {
-    await onSave();
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2500);
+    setSaveError('');
+    try {
+      await onSave();
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    } catch {
+      setSaveError('Speichern fehlgeschlagen — bitte erneut versuchen.');
+    }
+  };
+
+  const handleReset = async () => {
+    if (!window.confirm('Alle manuellen Änderungen verwerfen und auf den generierten Text zurücksetzen?')) return;
+    await onReset();
   };
 
   function patch(updates: GesuchOverridesData) {
@@ -223,8 +81,8 @@ export default function GesuchEditPanel({
 
   return (
     <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 print:hidden">
-      {/* Header */}
-      <div className="mb-5 flex items-start justify-between gap-4">
+      {/* Header — stacks vertically on mobile */}
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div>
           <h2 className="text-base font-semibold text-grey-dark">
             ✏️ Gesuch anpassen
@@ -236,10 +94,11 @@ export default function GesuchEditPanel({
         </div>
         <div className="flex shrink-0 items-center gap-2">
           {saved && <span className="text-xs font-medium text-green-600">Gespeichert ✓</span>}
-          {dirty && !saved && <span className="text-xs text-text-muted">Ungespeichert</span>}
+          {saveError && <span className="text-xs font-medium text-red-500">{saveError}</span>}
+          {dirty && !saved && !saveError && <span className="text-xs text-text-muted">Ungespeichert</span>}
           <button
             type="button"
-            onClick={onReset}
+            onClick={handleReset}
             disabled={saving}
             className="rounded-lg px-3 py-1.5 text-xs text-text-muted transition hover:bg-bg-light hover:text-red-500 disabled:opacity-50"
             title="Alle Änderungen verwerfen und auf generierten Text zurücksetzen"
@@ -361,6 +220,62 @@ export default function GesuchEditPanel({
               multiline
               onAiRewrite={onAiRewrite}
               onChange={(v) => patch({ how: { trackRecord: { text: v } } })}
+              onBlur={onSaveIfDirty}
+            />
+          </div>
+        </div>
+
+        {/* 4. Anschreiben (Cover Letter) */}
+        <div className="border-t border-border pt-4">
+          <p className="mb-4 text-xs font-bold uppercase tracking-wider text-text-muted">
+            Anschreiben (Begleitbrief)
+          </p>
+          <div className="space-y-4">
+            <FieldRow
+              label="Betreff"
+              fieldDescription="Betreffzeile des Anschreibens — erscheint als Titel im Begleitbrief."
+              value={anschreibenSubject}
+              originalValue={generated.anschreiben.subject}
+              placeholder={generated.anschreiben.subject}
+              fieldPath="anschreiben.subject"
+              onAiRewrite={onAiRewrite}
+              onChange={(v) => patch({ anschreiben: { subject: v } })}
+              onBlur={onSaveIfDirty}
+            />
+            <FieldRow
+              label="Einstieg"
+              fieldDescription="Erster Absatz des Anschreibens — erklärt, warum wir diese Stiftung kontaktieren."
+              value={anschreibenOpening}
+              originalValue={generated.anschreiben.opening}
+              placeholder={generated.anschreiben.opening}
+              fieldPath="anschreiben.opening"
+              multiline
+              onAiRewrite={onAiRewrite}
+              onChange={(v) => patch({ anschreiben: { opening: v } })}
+              onBlur={onSaveIfDirty}
+            />
+            <FieldRow
+              label="Thematische Passung"
+              fieldDescription="Absatz im Anschreiben, der die inhaltliche Übereinstimmung mit dem Stiftungszweck aufzeigt."
+              value={anschreibenThemeAlignment}
+              originalValue={generated.anschreiben.themeAlignment}
+              placeholder={generated.anschreiben.themeAlignment}
+              fieldPath="anschreiben.themeAlignment"
+              multiline
+              onAiRewrite={onAiRewrite}
+              onChange={(v) => patch({ anschreiben: { themeAlignment: v } })}
+              onBlur={onSaveIfDirty}
+            />
+            <FieldRow
+              label="Schluss"
+              fieldDescription="Abschlussabsatz des Anschreibens — Dank und Ausblick."
+              value={anschreibenClosing}
+              originalValue={generated.anschreiben.closing}
+              placeholder={generated.anschreiben.closing}
+              fieldPath="anschreiben.closing"
+              multiline
+              onAiRewrite={onAiRewrite}
+              onChange={(v) => patch({ anschreiben: { closing: v } })}
               onBlur={onSaveIfDirty}
             />
           </div>

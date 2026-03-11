@@ -8,7 +8,7 @@
  * e.g.       /gesuch/share/a3f8c2d91e4b7605
  */
 
-import { createHmac } from 'crypto';
+import { createHmac, timingSafeEqual } from 'crypto';
 
 /** Length of the hex token (first N chars of HMAC-SHA256) */
 const TOKEN_LENGTH = 16;
@@ -36,7 +36,11 @@ export function resolveShareToken(
 
   for (const slug of allSlugs) {
     const expected = createHmac('sha256', secret).update(slug).digest('hex').slice(0, TOKEN_LENGTH);
-    if (expected === token) return slug;
+    // Constant-time comparison to prevent timing side-channel attacks
+    if (expected.length === token.length &&
+        timingSafeEqual(Buffer.from(expected), Buffer.from(token))) {
+      return slug;
+    }
   }
   return null;
 }

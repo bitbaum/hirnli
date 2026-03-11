@@ -63,9 +63,6 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
               {a.template}
             </Text>
           ))}
-          <Text style={styles.muted}>
-            [Hinweis: Platzhalter in eckigen Klammern vor Versand mit echten Angaben ersetzen]
-          </Text>
         </View>
       )}
 
@@ -129,9 +126,6 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
                 {a.template}
               </Text>
             ))}
-            <Text style={styles.muted}>
-              [Hinweis: Platzhalter in eckigen Klammern vor Versand mit echten Angaben ersetzen]
-            </Text>
           </View>
         )}
 

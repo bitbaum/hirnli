@@ -18,6 +18,7 @@
 
 import * as readline from 'readline';
 import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
+import { slugify } from './lib/utilities';
 import type { Foundation, FoundationType, FoundationStatus, SourceId, ThemeId, ApplicationMethod } from '../src/lib/schemas/foundation';
 
 const rl = readline.createInterface({
@@ -34,22 +35,6 @@ function question(prompt: string): Promise<string> {
 // ============================================================================
 // VALIDATION HELPERS
 // ============================================================================
-
-function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[àáâãäå]/g, 'a')
-    .replace(/[èéêë]/g, 'e')
-    .replace(/[ìíîï]/g, 'i')
-    .replace(/[òóôõöø]/g, 'o')
-    .replace(/[ùúûü]/g, 'u')
-    .replace(/ä/g, 'ae')
-    .replace(/ö/g, 'oe')
-    .replace(/ü/g, 'ue')
-    .replace(/ß/g, 'ss')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
 
 function checkDuplicates(slug: string, name: string, uid?: string) {
   const issues: string[] = [];
@@ -320,4 +305,7 @@ async function main() {
   rl.close();
 }
 
-main();
+main().catch((err) => {
+  console.error('Foundation add failed:', err);
+  process.exit(1);
+});

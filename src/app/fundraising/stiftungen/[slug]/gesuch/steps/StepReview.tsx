@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { WhySection, TrackRecord, CompetencySection, Project, Evidence, CoreFacts } from '@/lib/schemas/story';
 import type { ThemeKey } from '@/lib/config/stories';
 import type { GesuchOverridesData } from '@/lib/db/schema';
+import type { AnschreibenText } from '../GesuchPageClient';
 import GesuchEditPanel from '@/components/gesuch/GesuchEditPanel';
 import GesuchWhySection from '@/components/gesuch/GesuchWhySection';
 import GesuchHowSection from '@/components/gesuch/GesuchHowSection';
@@ -31,6 +32,7 @@ interface StepReviewProps {
     foundationBridge?: string;
     why?: WhySection;
     trackRecord: TrackRecord;
+    anschreiben: AnschreibenText;
   };
   editPanelRef: RefObject<HTMLDivElement | null>;
   onToggleEdit: () => void;

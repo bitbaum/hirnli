@@ -8,12 +8,20 @@ import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import { buildDynamicOpening } from '@/lib/domain/anschreiben-composer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { useGesuchOverrides } from '@/hooks/useGesuchOverrides';
+import { LoadingState } from '@/components/ui/LoadingState';
 import StepIndicator from '@/components/gesuch/StepIndicator';
 import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
 import type { SubmissionInfo } from '@/components/gesuch/GesuchSubmitSection';
 import StepFocus from './steps/StepFocus';
 import StepReview from './steps/StepReview';
 import StepSubmit from './steps/StepSubmit';
+
+export interface AnschreibenText {
+  subject: string;
+  opening: string;
+  closing: string;
+  themeAlignment: string;
+}
 
 interface GesuchPageClientProps {
   slug: string;
@@ -23,6 +31,7 @@ interface GesuchPageClientProps {
   submissionInfo: SubmissionInfo;
   foundationData: Foundation;
   shareToken?: string;
+  generatedAnschreiben: AnschreibenText;
 }
 
 function initStep(): 1 | 2 | 3 {
@@ -40,18 +49,11 @@ export default function GesuchPageClient({
   submissionInfo,
   foundationData,
   shareToken,
+  generatedAnschreiben,
 }: GesuchPageClientProps) {
   const [step, setStep] = useState<1 | 2 | 3>(initStep);
   const [activeSchwerpunkt, setActiveSchwerpunkt] = useState<SchwerpunktId | null>(null);
   const editPanelRef = useRef<HTMLDivElement>(null);
-
-  const navigateStep = useCallback((n: 1 | 2 | 3) => {
-    setStep(n);
-    const url = new URL(window.location.href);
-    url.searchParams.set('step', String(n));
-    window.history.replaceState(null, '', url.toString());
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
 
   const variantKey = activeSchwerpunkt ?? 'auto';
   const gesuch = variants[variantKey];
@@ -72,7 +74,19 @@ export default function GesuchPageClient({
     aiRewrite,
   } = useGesuchOverrides(slug, foundationData);
 
-  if (!activeGesuch || !activeGesuch.ready) return null;
+  // Auto-save dirty changes before navigating away from the edit step
+  const navigateStep = useCallback(async (n: 1 | 2 | 3) => {
+    await saveIfDirty();
+    setStep(n);
+    const url = new URL(window.location.href);
+    url.searchParams.set('step', String(n));
+    window.history.replaceState(null, '', url.toString());
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [saveIfDirty]);
+
+  if (!activeGesuch || !activeGesuch.ready) {
+    return <LoadingState label="Gesuch wird geladen..." className="py-20" />;
+  }
 
   // Merge overrides on top of generated content
   const foundationBridge = overrides.foundationBridge ?? activeGesuch.foundationBridge;
@@ -166,6 +180,7 @@ export default function GesuchPageClient({
               foundationBridge: activeGesuch.foundationBridge,
               why: activeGesuch.story.why ?? undefined,
               trackRecord: activeGesuch.story.how.track_record,
+              anschreiben: generatedAnschreiben,
             }}
             editPanelRef={editPanelRef}
             onToggleEdit={handleToggleEdit}

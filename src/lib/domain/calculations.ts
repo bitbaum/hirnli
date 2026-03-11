@@ -26,13 +26,4 @@ export function estimateEWastePrevented(deviceCount: number, avgWeightKg = 5): n
   return Math.round(deviceCount * avgWeightKg);
 }
 
-/** Calculate self-financing rate */
-export function calcSelfFinancingRate(
-  warenverkauf: number,
-  dienstleistungen: number,
-  total: number,
-): number {
-  if (!total || total === 0) return 0;
-  return (warenverkauf + dienstleistungen) / total;
-}
 

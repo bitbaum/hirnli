@@ -97,7 +97,7 @@ export async function POST(
         'Q1 2026: Planung und Vorbereitung. Q2-Q3 2026: Umsetzung. Q4 2026: Evaluierung.',
 
       contact: {
-        name: 'Andreas Hunkeler',
+        name: ORG_PROFILE.contactName,
         email: ORG_PROFILE.email,
       },
 

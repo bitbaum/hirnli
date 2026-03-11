@@ -224,6 +224,12 @@ export interface GesuchOverridesData {
       text?: string;
     };
   };
+  anschreiben?: {
+    subject?: string;
+    opening?: string;
+    themeAlignment?: string;
+    closing?: string;
+  };
 }
 
 /**

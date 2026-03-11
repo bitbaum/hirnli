@@ -190,4 +190,7 @@ async function main() {
   console.log('✅ Done!\n');
 }
 
-main();
+main().catch((err) => {
+  console.error('ESA download failed:', err);
+  process.exit(1);
+});

@@ -1,10 +1,7 @@
-// Foundation Recommendations — Similarity, schwerpunkt matching, action lists
-// Uses fitScore for comparison and isResearched() for quality gates.
+// Foundation Recommendations — Similarity scoring between foundations
+// Uses fitScore for comparison, themes/type/region/SDGs for similarity.
 
 import type { Foundation } from '@/lib/schemas/foundation';
-import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
-import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
-import { isResearched } from './foundation-helpers';
 
 // ---------------------------------------------------------------------------
 // Similarity weights — how much each factor contributes to the overall score
@@ -26,19 +23,6 @@ export interface SimilarFoundation {
   similarity: number;
   /** Human-readable reasons in Swiss German (e.g. "3 gemeinsame Themen") */
   reasons: string[];
-}
-
-export interface FoundationRecommendations {
-  /** fitScore>=7 (high fit), status open/rolling, researched — highest-value targets */
-  highFitActionable: Foundation[];
-  /** status=soon, sorted by deadline ascending */
-  upcomingDeadlines: Foundation[];
-  /** Sorted by researchDate descending — most recently updated */
-  recentlyResearched: Foundation[];
-  /** fitScore>=4 and not yet researched — foundations worth deeper investigation */
-  needsAttention: Foundation[];
-  /** Top foundations per Schwerpunkt */
-  bySchwerpunkt: Record<SchwerpunktId, Foundation[]>;
 }
 
 // ---------------------------------------------------------------------------
@@ -177,91 +161,3 @@ export function findSimilarFoundations(
     .slice(0, limit);
 }
 
-// ---------------------------------------------------------------------------
-// Find by Schwerpunkt
-// ---------------------------------------------------------------------------
-
-/**
- * Filter foundations whose themes overlap with a Schwerpunkt's themeIds.
- * Sorted by fitScore descending, then priority ascending.
- */
-export function findBySchwerpunkt(
-  schwerpunktId: SchwerpunktId,
-  foundations: Foundation[],
-  limit = 10,
-): Foundation[] {
-  const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
-  const themeIdSet = new Set(schwerpunkt.themeIds);
-
-  return foundations
-    .filter((f) => f.themes.some((t) => themeIdSet.has(t)))
-    .sort((a, b) => {
-      // fitScore descending (higher fit first)
-      const fitDiff = b.fitScore - a.fitScore;
-      if (fitDiff !== 0) return fitDiff;
-      // priority ascending (lower priority number = higher priority)
-      return a.priority - b.priority;
-    })
-    .slice(0, limit);
-}
-
-// ---------------------------------------------------------------------------
-// Aggregate recommendations
-// ---------------------------------------------------------------------------
-
-/**
- * Build a complete recommendation set from a foundation pool.
- * Pure function — no side effects, no data fetching.
- */
-export function getRecommendations(
-  foundations: Foundation[],
-): FoundationRecommendations {
-  // High fit, actionable (fitScore>=7, open/rolling, already researched)
-  const highFitActionable = foundations
-    .filter(
-      (f) =>
-        f.fitScore >= 7 &&
-        (f.status === 'open' || f.status === 'rolling') &&
-        isResearched(f),
-    )
-    .sort((a, b) => a.priority - b.priority)
-    .slice(0, 5);
-
-  // Upcoming deadlines (status=soon, sorted by deadline ascending)
-  const upcomingDeadlines = foundations
-    .filter((f) => f.status === 'soon')
-    .sort((a, b) => {
-      const aDeadline = a.deadline ?? a.nextDeadline ?? '';
-      const bDeadline = b.deadline ?? b.nextDeadline ?? '';
-      return aDeadline.localeCompare(bDeadline);
-    });
-
-  // Recently researched (sorted by researchDate descending)
-  const recentlyResearched = [...foundations]
-    .sort((a, b) => b.researchDate.localeCompare(a.researchDate))
-    .slice(0, 5);
-
-  // Needs attention (good fit but needs more research)
-  const needsAttention = foundations
-    .filter((f) => f.fitScore >= 4 && !isResearched(f))
-    .sort((a, b) => {
-      const fitDiff = b.fitScore - a.fitScore;
-      if (fitDiff !== 0) return fitDiff;
-      return a.priority - b.priority;
-    })
-    .slice(0, 5);
-
-  // Top foundations per Schwerpunkt
-  const bySchwerpunkt = {} as Record<SchwerpunktId, Foundation[]>;
-  for (const id of SCHWERPUNKT_IDS) {
-    bySchwerpunkt[id] = findBySchwerpunkt(id, foundations, 5);
-  }
-
-  return {
-    highFitActionable,
-    upcomingDeadlines,
-    recentlyResearched,
-    needsAttention,
-    bySchwerpunkt,
-  };
-}

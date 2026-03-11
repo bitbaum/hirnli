@@ -613,4 +613,7 @@ async function main() {
   console.log(`💾 Report saved: ${outputPath}\n`);
 }
 
-main();
+main().catch((err) => {
+  console.error('Foundation screen failed:', err);
+  process.exit(1);
+});

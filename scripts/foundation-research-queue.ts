@@ -18,6 +18,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import type { ResearchQueueItem, ResearchQueue } from './lib/research-types';
+import { slugify } from './lib/utilities';
 
 // ============================================================================
 // TYPES (screening v3.1 output shape)
@@ -100,22 +101,6 @@ function computeEV(tier: number, purpose: string, city: string): number {
   const themeOverlap = computeThemeOverlap(purpose);
   const geoBonus = computeGeoBonus(city);
   return tierWeight * themeOverlap * geoBonus;
-}
-
-function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[àáâãäå]/g, 'a')
-    .replace(/[èéêë]/g, 'e')
-    .replace(/[ìíîï]/g, 'i')
-    .replace(/[òóôõöø]/g, 'o')
-    .replace(/[ùúûü]/g, 'u')
-    .replace(/ä/g, 'ae')
-    .replace(/ö/g, 'oe')
-    .replace(/ü/g, 'ue')
-    .replace(/ß/g, 'ss')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
 }
 
 // ============================================================================

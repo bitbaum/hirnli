@@ -272,6 +272,24 @@ function buildFoundationAddress(foundation: Foundation): string {
   return parts.join('\n');
 }
 
+/** Compute just the Anschreiben text fields (for the edit panel in step 2) */
+export function composeAnschreibenText(foundation: Foundation): {
+  subject: string;
+  opening: string;
+  closing: string;
+  themeAlignment: string;
+} {
+  const template = ANSCHREIBEN_TEMPLATES[foundation.type] ?? ANSCHREIBEN_TEMPLATES['A'];
+  const themeMetadata = collectThemeMetadata(foundation);
+  const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
+  return {
+    subject: `Fördergesuch: ${primaryLabel} — ${ORG_PROFILE.name}`,
+    opening: buildDynamicOpening(foundation, primaryLabel),
+    closing: template.closing,
+    themeAlignment: buildThemeAlignment(foundation, themeMetadata),
+  };
+}
+
 export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: SchwerpunktId): ComposedGesuchDokument {
   const gesuch = composeGesuch(foundation, schwerpunktId);
   const template = ANSCHREIBEN_TEMPLATES[foundation.type] ?? ANSCHREIBEN_TEMPLATES['A'];

@@ -9,6 +9,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { LoadingState } from '@/components/ui/LoadingState';
+import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import {
   DndContext,
   DragOverlay,
@@ -167,25 +169,11 @@ export function ApplicationBoard() {
   ).length;
 
   if (isLoading) {
-    return (
-      <div className="flex h-64 items-center justify-center text-text-muted">
-        Lade Gesuche...
-      </div>
-    );
+    return <LoadingState label="Lade Gesuche..." className="h-64" />;
   }
 
   if (error) {
-    return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4">
-        <p className="text-red-700">Fehler: {error}</p>
-        <button
-          onClick={fetchApplications}
-          className="mt-2 rounded-lg bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700"
-        >
-          Erneut versuchen
-        </button>
-      </div>
-    );
+    return <ErrorAlert error={error} onRetry={fetchApplications} />;
   }
 
   return (

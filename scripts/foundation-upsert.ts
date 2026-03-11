@@ -33,23 +33,7 @@ import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scorin
 // RESEARCH DEPTH — Computed from data completeness
 // ============================================================================
 
-type ResearchDepth = 'rapid' | 'standard' | 'deep';
-
-function computeResearchDepth(opts: {
-  hasRealWebsite: boolean;
-  hasEmail: boolean;
-  hasPhone: boolean;
-  hasDeadline: boolean;
-  hasGrantRange: boolean;
-  hasAddress: boolean;
-}): ResearchDepth {
-  const { hasRealWebsite, hasEmail, hasPhone, hasDeadline, hasGrantRange } = opts;
-  const hasContactDetail = hasEmail || hasPhone;
-
-  if (hasRealWebsite && hasContactDetail && hasDeadline && hasGrantRange) return 'deep';
-  if (hasRealWebsite && hasContactDetail) return 'standard';
-  return 'rapid';
-}
+import { computeResearchDepth, type ResearchDepth } from './lib/utilities';
 
 function isZefixUrl(url: string): boolean {
   return url.includes('zefix.ch') || url.includes('uid.admin.ch');
@@ -164,7 +148,7 @@ async function main() {
     const hasDeadline = !!(zhaw?.einreichungstermin && zhaw.einreichungstermin !== 'Unbekannt');
     const hasGrantRange = !!(a.grantRange.min || a.grantRange.max);
     const researchDepth = computeResearchDepth({
-      hasRealWebsite, hasEmail, hasPhone, hasDeadline, hasGrantRange, hasAddress: !!a.contactInfo.address,
+      hasRealWebsite, hasEmail, hasPhone, hasDeadline, hasGrantRange,
     });
     depthCounts[researchDepth]++;
 
@@ -206,6 +190,10 @@ async function main() {
     // Merge-safe config for UPDATE (existing entries) — omit fitScore/priority
     // so existing (potentially better) values in config_data are preserved.
     // SQL columns use GREATEST/LEAST separately.
+    // NOTE: PostgreSQL || does shallow merge — nested objects (contact, amount)
+    // are replaced, not deep-merged. This is acceptable because new research data
+    // is typically more complete than existing. If a nested field was previously
+    // set but not found in new research, it will be overwritten.
     const { fitScore: _fs, priority: _p, fit: _f, ...mergeConfigData } = configData;
 
     try {
@@ -293,4 +281,7 @@ async function main() {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error('Upsert failed:', err);
+  process.exit(1);
+});

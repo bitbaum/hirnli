@@ -55,7 +55,7 @@ interface EsaRegister {
   foundations: EsaEntry[];
 }
 
-type ResearchDepth = 'rapid' | 'standard' | 'deep';
+import type { ResearchDepth } from './lib/utilities';
 
 // ============================================================================
 // DRAFT GENERATION (same logic as esa-bulk-ingest.ts)

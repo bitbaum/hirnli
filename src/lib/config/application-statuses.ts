@@ -93,13 +93,6 @@ export function getStatusConfig(statusId: ApplicationStatusId) {
 }
 
 /**
- * Get color classes for status badge
- */
-export function getStatusColor(statusId: ApplicationStatusId): string {
-  return getStatusConfig(statusId)?.color || 'bg-bg-light text-grey-dark';
-}
-
-/**
  * Kanban board columns (subset of all statuses)
  */
 export const KANBAN_COLUMNS = [

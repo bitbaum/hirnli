@@ -51,6 +51,18 @@ export function applyGesuchOverrides<T extends ComposedGesuch>(
     };
   }
 
+  // Anschreiben overrides (only applies to ComposedGesuchDokument)
+  if (overrides.anschreiben && 'anschreiben' in result) {
+    const anschreiben = (result as Record<string, unknown>).anschreiben as Record<string, string>;
+    (result as Record<string, unknown>).anschreiben = {
+      ...anschreiben,
+      ...(overrides.anschreiben.subject ? { subject: overrides.anschreiben.subject } : {}),
+      ...(overrides.anschreiben.opening ? { opening: overrides.anschreiben.opening } : {}),
+      ...(overrides.anschreiben.themeAlignment ? { themeAlignment: overrides.anschreiben.themeAlignment } : {}),
+      ...(overrides.anschreiben.closing ? { closing: overrides.anschreiben.closing } : {}),
+    };
+  }
+
   return result;
 }
 
@@ -61,10 +73,11 @@ export async function loadGesuchOverrides(slug: string): Promise<GesuchOverrides
     const { gesuchOverrides } = await import('@/lib/db/schema');
     const { eq, and } = await import('drizzle-orm');
 
+    const { ORG_PROFILE } = await import('@/lib/config/org-profile');
     const rows = await db
       .select({ overrides: gesuchOverrides.overrides })
       .from(gesuchOverrides)
-      .where(and(eq(gesuchOverrides.foundationId, slug), eq(gesuchOverrides.orgId, 'revamp-it')))
+      .where(and(eq(gesuchOverrides.foundationId, slug), eq(gesuchOverrides.orgId, ORG_PROFILE.orgId)))
       .limit(1);
 
     return (rows[0]?.overrides as GesuchOverridesData) ?? {};
