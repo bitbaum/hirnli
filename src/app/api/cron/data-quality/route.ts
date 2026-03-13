@@ -40,8 +40,9 @@ export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization') ?? '';
   const expected = `Bearer ${cronSecret}`;
   // Constant-time comparison to prevent timing side-channel attacks
+  const crypto = await import('crypto');
   if (authHeader.length !== expected.length ||
-      !require('crypto').timingSafeEqual(Buffer.from(authHeader), Buffer.from(expected))) {
+      !crypto.timingSafeEqual(Buffer.from(authHeader), Buffer.from(expected))) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 
