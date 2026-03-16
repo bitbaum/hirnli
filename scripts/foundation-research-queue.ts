@@ -69,7 +69,6 @@ const CORE_THEME_KEYWORDS = [
   'digitale bildung', 'digitale kompetenz', 'informatik',
   'bildung', 'ausbildung', 'erziehung',
   'benachteiligt', 'chancengleichheit',
-  'jugend',
 ];
 
 // Zürich-area cities for geographic bonus

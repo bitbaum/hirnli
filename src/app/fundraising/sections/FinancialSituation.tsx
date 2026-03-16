@@ -1,5 +1,5 @@
 import Card from '@/components/ui/Card';
-import { formatCHF } from '@/lib/utils/format';
+import { formatCHF, formatNumber } from '@/lib/utils/format';
 import { FINANCIAL_CONTEXT, TRACK_RECORD } from '../data';
 import Inspectable, { type InspectorHandle } from './Inspectable';
 
@@ -19,7 +19,7 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
               source: 'Kivitendo Erfolgsrechnung 3400 (2022-2025)',
               formula: `(${formatCHF(FINANCIAL_CONTEXT.services_avg_2022_23)} - ${formatCHF(FINANCIAL_CONTEXT.services_2025)}) / ${formatCHF(FINANCIAL_CONTEXT.services_avg_2022_23)} × 100`,
               confidence: 'Hoch',
-              description: `Dienstleistungen (3400): CHF ${FINANCIAL_CONTEXT.services_2022.toLocaleString('de-CH')} (2022), CHF ${FINANCIAL_CONTEXT.services_2023.toLocaleString('de-CH')} (2023), CHF ${FINANCIAL_CONTEXT.services_2024.toLocaleString('de-CH')} (2024), CHF ${FINANCIAL_CONTEXT.services_2025.toLocaleString('de-CH')} (2025). Quelle: Kivitendo Erfolgsrechnung, verifiziert 11.02.2026.`,
+              description: `Dienstleistungen (3400): CHF ${formatNumber(FINANCIAL_CONTEXT.services_2022)} (2022), CHF ${formatNumber(FINANCIAL_CONTEXT.services_2023)} (2023), CHF ${formatNumber(FINANCIAL_CONTEXT.services_2024)} (2024), CHF ${formatNumber(FINANCIAL_CONTEXT.services_2025)} (2025). Quelle: Kivitendo Erfolgsrechnung, verifiziert 11.02.2026.`,
             }}
             inspector={inspector}
             className="text-amber-900"
@@ -63,8 +63,8 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
         </p>
         <p className="font-medium text-emerald-800">
           <strong>Das Positive:</strong> Geräteverkauf ({formatCHF(FINANCIAL_CONTEXT.warenverkauf_2025)} in 2025) bleibt
-          stabil. {TRACK_RECORD.yearsActive} Jahre Erfahrung, {TRACK_RECORD.totalInvoices.toLocaleString('de-CH')} Rechnungen,{' '}
-          {TRACK_RECORD.totalCustomers.toLocaleString('de-CH')} Kunden — die Kompetenz ist da. Der Hub ist unsere Turnaround-Strategie.
+          stabil. {TRACK_RECORD.yearsActive} Jahre Erfahrung, {formatNumber(TRACK_RECORD.totalInvoices)} Rechnungen,{' '}
+          {formatNumber(TRACK_RECORD.totalCustomers)} Kunden — die Kompetenz ist da. Der Hub ist unsere Turnaround-Strategie.
         </p>
       </div>
     </Card>

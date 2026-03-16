@@ -16,13 +16,6 @@ import {
   TRANSPARENCY,
 } from './home-data';
 
-/** Border color map — full literal strings for Tailwind JIT scanner */
-const PILLAR_BORDER_COLORS: Record<string, string> = {
-  nachhaltigkeit: 'border-l-theme-klima',
-  'soziale-integration': 'border-l-theme-sozial',
-  'digitale-bildung': 'border-l-theme-bildung',
-  'digitale-souveraenitaet': 'border-l-theme-digital',
-};
 
 // -- Section 1: Hero ---------------------------------------------------------
 
@@ -95,7 +88,7 @@ export function PillarGrid() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {SCHWERPUNKT_IDS.map((id) => {
           const s = SCHWERPUNKTE[id];
-          const border = PILLAR_BORDER_COLORS[id] ?? 'border-l-grey-medium';
+          const border = s.borderClass ?? 'border-l-grey-medium';
           return (
             <Card key={id} className={`border-l-4 ${border}`}>
               <div className="flex items-start gap-3">

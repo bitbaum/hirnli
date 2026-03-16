@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import { READINESS_ENGINE, PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { STIFTUNGEN_DATA, PRIORITY_CONFIG } from '@/lib/config/foundations';
+import { formatNumber } from '@/lib/utils/format';
 import { TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS, computeTierCounts } from '@/lib/domain/foundation-helpers';
 import { computeReadinessScore, computePriorityScore, TIER_FROM_LEVEL } from '@/lib/domain/foundation-scores';
 import type { QualityTier } from '@/lib/schemas/foundation';
@@ -283,7 +284,7 @@ export default function ScoringMethodikPage() {
             <h4 className="mb-2 text-sm font-semibold text-grey-dark">Förder-Bonus</h4>
             <p className="mb-2 text-sm text-text-light">
               Wenn der Förderbereich der Stiftung mit unserem Zielbetrag
-              (CHF {PRIORITY_FORMULA.grantMatch.targetMin.toLocaleString('de-CH')}–{PRIORITY_FORMULA.grantMatch.targetMax.toLocaleString('de-CH')}) übereinstimmt:
+              (CHF {formatNumber(PRIORITY_FORMULA.grantMatch.targetMin)}–{formatNumber(PRIORITY_FORMULA.grantMatch.targetMax)}) übereinstimmt:
             </p>
             <div className="space-y-1 text-sm text-text-light">
               <p>Perfekte Überlappung: <span className="font-medium text-primary">+{PRIORITY_FORMULA.grantMatch.perfectBonus}</span></p>
@@ -299,17 +300,14 @@ export default function ScoringMethodikPage() {
             </h4>
             <div className="space-y-2">
               {PRIORITY_FORMULA.display.map((d) => {
-                const color = d.level === 1 ? 'bg-danger-bg text-danger'
-                  : d.level === 2 ? 'bg-warning-bg text-warning'
-                  : d.level === 3 ? 'bg-primary/10 text-primary'
-                  : 'bg-grey-light text-text-muted';
+                const pc = PRIORITY_CONFIG[d.level];
                 return (
                   <div key={d.level} className="flex items-center justify-between rounded-lg border border-border/50 p-3">
                     <div className="flex items-center gap-3">
-                      <span className={`rounded px-1.5 py-0.5 text-xs font-bold ${color}`}>
-                        {d.label}
+                      <span className={`rounded px-1.5 py-0.5 text-xs font-bold ${pc.color}`}>
+                        {pc.label}
                       </span>
-                      <span className="text-sm text-text-light">{d.description}</span>
+                      <span className="text-sm text-text-light">{pc.description}</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs tabular-nums text-text-muted">
@@ -325,10 +323,10 @@ export default function ScoringMethodikPage() {
               {/* P4 — default level (below all thresholds) */}
               <div className="flex items-center justify-between rounded-lg border border-border/50 p-3">
                 <div className="flex items-center gap-3">
-                  <span className="rounded bg-grey-light px-1.5 py-0.5 text-xs font-bold text-text-muted">
-                    {PRIORITY_FORMULA.defaultLabel}
+                  <span className={`rounded px-1.5 py-0.5 text-xs font-bold ${PRIORITY_CONFIG[4].color}`}>
+                    {PRIORITY_CONFIG[4].label}
                   </span>
-                  <span className="text-sm text-text-light">{PRIORITY_FORMULA.defaultDescription}</span>
+                  <span className="text-sm text-text-light">{PRIORITY_CONFIG[4].description}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-xs tabular-nums text-text-muted">

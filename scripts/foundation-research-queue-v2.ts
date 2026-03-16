@@ -48,7 +48,6 @@ const THEME_WEIGHTS: Record<string, number> = {
   'digitale-bildung': 2.5,
   'digitale-souveraenitaet': 3,
   klima: 1.5,
-  jugend: 1.5,
   zuerich: 1, // geographic, not thematic
 };
 

@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
+import { formatCHF } from '@/lib/utils/format';
 import { KPICard } from './KPICard';
 import { StatusDistributionChart } from './StatusDistributionChart';
 import { UpcomingDeadlines } from './UpcomingDeadlines';
@@ -69,14 +70,6 @@ export function FundraisingDashboard() {
       setIsLoading(false);
     }
   }
-
-  const formatCHF = (amount: number) => {
-    return new Intl.NumberFormat('de-CH', {
-      style: 'currency',
-      currency: 'CHF',
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
   if (isLoading) {
     return <LoadingState label="Lade Dashboard..." />;

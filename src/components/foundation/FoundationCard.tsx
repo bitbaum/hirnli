@@ -1,18 +1,10 @@
 import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import type { Foundation } from '@/lib/schemas/foundation';
-import { TYPE_LABELS, STATUS_LABELS, FIT_CONFIG } from '@/lib/config/foundations';
+import { TYPE_LABELS, STATUS_LABELS, FIT_CONFIG, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
 import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
 import ThemeBadgeList from './ThemeBadgeList';
-
-/** Priority level → card badge color */
-const PRIORITY_BADGE_COLORS: Record<number, string> = {
-  1: 'bg-danger-bg text-danger',
-  2: 'bg-warning-bg text-warning',
-  3: 'bg-primary/10 text-primary',
-  4: 'bg-grey-light text-text-muted',
-};
 
 interface FoundationCardProps {
   foundation: Foundation;
@@ -37,7 +29,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-bold leading-none ${PRIORITY_BADGE_COLORS[priority.level] ?? PRIORITY_BADGE_COLORS[4]}`}
+              className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-bold leading-none ${PRIORITY_CONFIG[priority.level]?.color ?? PRIORITY_CONFIG[4].color}`}
             >
               {priority.label}
               {priority.isOverride && (

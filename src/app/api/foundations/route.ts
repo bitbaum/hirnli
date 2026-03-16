@@ -18,6 +18,7 @@ import { db } from '@/lib/db/client';
 import { foundations } from '@/lib/db/schema';
 import { and, count, desc, eq, gte, ilike } from 'drizzle-orm';
 import { z } from 'zod';
+import { toSlug } from '@/lib/utils/slug';
 
 // Validation schema for creating foundations
 const createFoundationSchema = z.object({
@@ -142,14 +143,7 @@ export async function POST(request: NextRequest) {
 
     const data = validation.data;
 
-    // Generate slug from name
-    const slug = data.name
-      .toLowerCase()
-      .replace(/ä/g, 'ae')
-      .replace(/ö/g, 'oe')
-      .replace(/ü/g, 'ue')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+    const slug = toSlug(data.name);
 
     // Check if slug already exists
     const existing = await db

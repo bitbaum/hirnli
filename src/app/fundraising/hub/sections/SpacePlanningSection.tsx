@@ -5,6 +5,7 @@ import {
   SPACE_SUMMARY,
   MULTI_PURPOSE_STRATEGY,
 } from '@/lib/config/hub-space-plan';
+import { formatNumber } from '@/lib/utils/format';
 
 export default function SpacePlanningSection() {
   return (
@@ -74,10 +75,10 @@ export default function SpacePlanningSection() {
             <div className="pt-3 border-t border-green-200">
               <p className="text-xs text-green-700 mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
               <p className="text-lg font-bold text-green-900">
-                CHF {ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.min.toLocaleString('de-CH')} - {ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.max.toLocaleString('de-CH')} /Jahr
+                CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.min)} - {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.max)} /Jahr
               </p>
               <p className="text-xs text-green-700 mt-1">
-                (Realistisch: CHF {ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.realistic.toLocaleString('de-CH')} für gute Lage)
+                (Realistisch: CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.realistic)} für gute Lage)
               </p>
             </div>
           </div>
@@ -93,7 +94,7 @@ export default function SpacePlanningSection() {
             <div className="pt-3 border-t border-blue-200">
               <p className="text-xs text-blue-700 mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
               <p className="text-lg font-bold text-blue-900">
-                CHF {ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.min.toLocaleString('de-CH')} - {ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.max.toLocaleString('de-CH')} /Jahr
+                CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.min)} - {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.max)} /Jahr
               </p>
               <p className="text-xs text-blue-700 mt-1">
                 ({ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.note})
@@ -143,7 +144,7 @@ export default function SpacePlanningSection() {
           </div>
           <p className="text-xs text-purple-700 mt-3">
             <strong>Ersparnis:</strong> Statt 140m² (60m² Café + 80m² Event-Raum separat) nutzen wir 100m² kombiniert.
-            Das spart <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong> und damit CHF {(MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved * 200).toLocaleString('de-CH')}/Jahr Miete.
+            Das spart <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong> und damit CHF {formatNumber(MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved * 200)}/Jahr Miete.
           </p>
         </div>
 

@@ -1,4 +1,5 @@
 import Badge from '@/components/ui/Badge';
+import { formatPercent } from '@/lib/utils/format';
 
 interface MetricCardProps {
   label: string;
@@ -51,7 +52,7 @@ export default function MetricCard({
           }`}
         >
           {trend.value > 0 ? '↑' : trend.value < 0 ? '↓' : '→'}{' '}
-          {Math.abs(trend.value * 100).toFixed(1)}%
+          {formatPercent(Math.abs(trend.value))}
           {trend.label && <span className="ml-1 text-xs text-text-muted">{trend.label}</span>}
         </div>
       )}

@@ -82,13 +82,6 @@ export const THEMES: Record<ThemeId, Theme> = {
     description: 'Open Source, Linux, Unabh\u00E4ngigkeit',
     color: '#6366f1',
   },
-  jugend: {
-    id: 'jugend',
-    label: 'Jugend',
-    icon: '\u{1F465}',
-    description: 'Jugendliche und junge Erwachsene (15-30)',
-    color: '#f59e0b',
-  },
   zuerich: {
     id: 'zuerich',
     label: 'Region Z\u00FCrich',
@@ -209,7 +202,12 @@ export const STATUS_LABELS: Record<FoundationStatus, StatusLabel> = {
 export interface PriorityConfig {
   label: string;
   description: string;
+  /** Badge style: background + text color (e.g. 'bg-danger-bg text-danger') */
   color: string;
+  /** Text-only color for inline labels (e.g. 'text-danger') */
+  textColor: string;
+  /** Card style: border + background for stat cards (e.g. 'border-danger/20 bg-danger-bg') */
+  cardColor: string;
 }
 
 export const PRIORITY_CONFIG: Record<number, PriorityConfig> = {
@@ -217,21 +215,29 @@ export const PRIORITY_CONFIG: Record<number, PriorityConfig> = {
     label: 'P1',
     description: 'Erstpriorität — Gesuch aktiv vorbereiten',
     color: 'bg-danger-bg text-danger',
+    textColor: 'text-danger',
+    cardColor: 'border-danger/20 bg-danger-bg',
   },
   2: {
     label: 'P2',
     description: 'Hohe Priorität — gezielt bewerben',
     color: 'bg-warning-bg text-warning',
+    textColor: 'text-warning',
+    cardColor: 'border-warning/20 bg-warning-bg',
   },
   3: {
     label: 'P3',
     description: 'Beobachten — bei passendem Timing bewerben',
     color: 'bg-primary/10 text-primary',
+    textColor: 'text-primary',
+    cardColor: 'border-primary/20 bg-primary/5',
   },
   4: {
     label: 'P4',
     description: 'Niedrige Priorität — Beziehung pflegen',
     color: 'bg-grey-light text-text-muted',
+    textColor: 'text-text-muted',
+    cardColor: 'border-border bg-bg-light',
   },
 };
 

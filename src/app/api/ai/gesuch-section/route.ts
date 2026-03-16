@@ -13,6 +13,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { formatNumber } from '@/lib/utils/format';
 import { z } from 'zod';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
@@ -88,8 +89,8 @@ function buildUserMessage(body: RequestBody): string {
     if (fc.tagline) lines.push(`Tagline: ${fc.tagline}`);
     if (fc.grantRange?.min != null || fc.grantRange?.max != null) {
       const rangeStr = [
-        fc.grantRange.min != null ? `ab CHF ${fc.grantRange.min.toLocaleString('de-CH')}` : null,
-        fc.grantRange.max != null ? `bis CHF ${fc.grantRange.max.toLocaleString('de-CH')}` : null,
+        fc.grantRange.min != null ? `ab CHF ${formatNumber(fc.grantRange.min)}` : null,
+        fc.grantRange.max != null ? `bis CHF ${formatNumber(fc.grantRange.max)}` : null,
       ]
         .filter(Boolean)
         .join(', ');

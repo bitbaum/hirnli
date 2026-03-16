@@ -8,6 +8,7 @@ import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
 import { STATUS_LABELS, STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { formatNumber } from '@/lib/utils/format';
 import { computeTierCounts, TIER_LABELS, TIER_DESCRIPTIONS } from '@/lib/domain/foundation-helpers';
 import { CORE_FACTS } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -129,10 +130,10 @@ export default function FundraisingClient() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {[
             { value: `${TRACK_RECORD.yearsActive}+`, label: 'Jahre aktiv', sub: `Seit ${CORE_FACTS.organization.founded}` },
-            { value: TRACK_RECORD.totalCustomers.toLocaleString('de-CH'), label: 'Kunden', sub: 'im Kivitendo ERP' },
-            { value: TRACK_RECORD.totalInvoices.toLocaleString('de-CH'), label: 'Rechnungen', sub: `seit ${ORG_PROFILE.milestones.kivitendoStart}` },
-            { value: TRACK_RECORD.productsInCatalog.toLocaleString('de-CH'), label: 'Produkte', sub: 'im Katalog' },
-            { value: TRACK_RECORD.deliveryNotes.toLocaleString('de-CH'), label: 'Lieferungen', sub: 'ausgeführt' },
+            { value: formatNumber(TRACK_RECORD.totalCustomers), label: 'Kunden', sub: 'im Kivitendo ERP' },
+            { value: formatNumber(TRACK_RECORD.totalInvoices), label: 'Rechnungen', sub: `seit ${ORG_PROFILE.milestones.kivitendoStart}` },
+            { value: formatNumber(TRACK_RECORD.productsInCatalog), label: 'Produkte', sub: 'im Katalog' },
+            { value: formatNumber(TRACK_RECORD.deliveryNotes), label: 'Lieferungen', sub: 'ausgeführt' },
             { value: `${TRACK_RECORD.quoteConversion}%`, label: 'Offerten-Konversion', sub: 'Zuverlässigkeit' },
           ].map((item) => (
             <Inspectable
@@ -161,19 +162,19 @@ export default function FundraisingClient() {
       <MetricGrid columns={4} className="mb-8">
         <MetricCard
           label={TIER_LABELS.anwendungsbereit}
-          value={(tierCounts.anwendungsbereit).toLocaleString('de-CH')}
+          value={formatNumber(tierCounts.anwendungsbereit)}
           subtitle={TIER_DESCRIPTIONS.anwendungsbereit}
           sourceType="live"
         />
         <MetricCard
           label={`${TIER_LABELS.recherchiert}+`}
-          value={(tierCounts.anwendungsbereit + tierCounts.recherchiert).toLocaleString('de-CH')}
+          value={formatNumber(tierCounts.anwendungsbereit + tierCounts.recherchiert)}
           subtitle={TIER_DESCRIPTIONS.recherchiert}
           sourceType="derived"
         />
         <MetricCard
           label="Im Verzeichnis"
-          value={stats.total.toLocaleString('de-CH')}
+          value={formatNumber(stats.total)}
           subtitle="Schweizer Stiftungen erfasst"
           sourceType="live"
         />

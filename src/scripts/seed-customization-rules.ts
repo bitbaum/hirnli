@@ -64,18 +64,6 @@ const EXAMPLE_RULES = [
     active: true,
   },
 
-  // Global rule: Youth/education focus
-  {
-    id: nanoid(),
-    foundationId: null,
-    conditionType: 'focus_match',
-    conditionValue: 'jugend',
-    actionType: 'emphasize_narrative',
-    actionValue: 'youth_digital_skills',
-    rationale: 'Emphasize digital skills training for young people',
-    priority: 95,
-    active: true,
-  },
 
   // Global rule: Zurich geographic focus
   {

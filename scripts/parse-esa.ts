@@ -66,7 +66,6 @@ const THEME_KEYWORDS: Record<string, string[]> = {
   'soziale-integration': ['sozial', 'integration', 'benachteiligt', 'chancengleich', 'inklusion', 'bedürftig', 'armut'],
   'digitale-bildung': ['digital', 'bildung', 'informatik', 'technologie', 'computer', 'ausbildung', 'weiterbildung', 'erziehung'],
   'digitale-souveraenitaet': ['open source', 'souverän', 'quelloffen', 'linux', 'open-source'],
-  jugend: ['jugend', 'jugendlich', 'junge erwachsen', 'junge menschen', 'kinder und jugend'],
   zuerich: ['zürich', 'zürch'],
   arbeitsintegration: ['arbeit', 'beruf', 'beschäftigung', 'arbeitsmarkt', 'erwerbstätigkeit', 'arbeitsintegration', 'berufsbildung'],
 };

@@ -7,6 +7,7 @@
 'use client';
 
 import Link from 'next/link';
+import { formatCHF } from '@/lib/utils/format';
 
 interface Deadline {
   id: string;
@@ -21,15 +22,6 @@ interface UpcomingDeadlinesProps {
 }
 
 export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
-  const formatCHF = (amount: number | null) => {
-    if (!amount) return '—';
-    return new Intl.NumberFormat('de-CH', {
-      style: 'currency',
-      currency: 'CHF',
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('de-CH', {
       day: '2-digit',

@@ -14,6 +14,7 @@ import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { foundationSchema } from '@/lib/schemas/foundation';
+import { mergeConfigPatch } from '@/lib/domain/foundation-config-patch';
 
 // Validation schema for updates
 const updateFoundationSchema = z.object({
@@ -222,33 +223,7 @@ export async function PATCH(
     const existingConfig = (existing[0].configData ?? {}) as Record<string, unknown>;
 
     // Merge patched fields into config_data so sync doesn't revert them
-    const configPatch: Record<string, unknown> = {};
-    if (data.fitScore !== undefined) configPatch.fitScore = data.fitScore;
-    if (data.priority !== undefined) configPatch.priority = data.priority;
-    if (data.applicationMethod !== undefined) configPatch.applicationMethod = data.applicationMethod;
-    if (data.focusAreas !== undefined) configPatch.themes = data.focusAreas;
-    if (data.name !== undefined) configPatch.name = data.name;
-    if (data.websiteUrl !== undefined) configPatch.websiteUrl = data.websiteUrl;
-    if (data.geographicScope !== undefined) configPatch.region = data.geographicScope;
-    if (data.applicationDeadline !== undefined) configPatch.deadline = data.applicationDeadline;
-    if (data.grantRangeMin !== undefined || data.grantRangeMax !== undefined) {
-      const existingAmount = (existingConfig.amount ?? { min: null, max: null }) as Record<string, unknown>;
-      configPatch.amount = {
-        ...existingAmount,
-        ...(data.grantRangeMin !== undefined ? { min: data.grantRangeMin } : {}),
-        ...(data.grantRangeMax !== undefined ? { max: data.grantRangeMax } : {}),
-      };
-    }
-    if (data.contactEmail !== undefined || data.contactPhone !== undefined) {
-      const existingContact = (existingConfig.contact ?? {}) as Record<string, unknown>;
-      configPatch.contact = {
-        ...existingContact,
-        ...(data.contactEmail !== undefined ? { email: data.contactEmail } : {}),
-        ...(data.contactPhone !== undefined ? { phone: data.contactPhone } : {}),
-      };
-    }
-
-    const mergedConfig = { ...existingConfig, ...configPatch };
+    const mergedConfig = mergeConfigPatch(data, existingConfig);
 
     const updates: Record<string, unknown> = {
       ...data,

@@ -19,7 +19,10 @@ export const THEME_RULES: Record<string, { keywords: string[]; weight: number }>
     keywords: ['arbeitsintegration', 'berufliche integration', 'arbeitsmarkt',
       'wiedereingliederung', 'beschäftigungsprogramm', 'arbeitstraining',
       'langzeitarbeitslos', 'sozialfirma', 'sozialer betrieb',
-      'berufseinstieg', 'lehrstelle', 'berufsbildung', 'berufsausbildung'],
+      'berufseinstieg', 'lehrstelle', 'berufsbildung', 'berufsausbildung',
+      'umschulung', 'weiterbildung', 'qualifizierung',
+      'sozialer arbeitsmarkt', 'beschäftigungsmassnahme',
+      'sozialunternehmen', 'werkstätte'],
     weight: 3,
   },
   kreislaufwirtschaft: {
@@ -35,14 +38,17 @@ export const THEME_RULES: Record<string, { keywords: string[]; weight: number }>
       'marginalisiert', 'randgruppen',
       'existenzsicher', 'sozialhilfeempfänger',
       'arbeitsintegration', 'berufliche integration',
-      'soziale teilhabe', 'chancengleichheit'],
+      'soziale teilhabe', 'chancengleichheit',
+      'inklusion', 'teilhabe', 'benachteiligt',
+      'armut', 'existenzsicherung'],
     weight: 2,
   },
   'digitale-bildung': {
     keywords: ['informatik', 'programmier', 'software',
       'medienkompetenz', 'it-kompetenz', 'digital literacy',
       'digitale kompetenz', 'digitale bildung',
-      'ict', 'informationstechnologie', 'mint', 'stem'],
+      'ict', 'informationstechnologie', 'mint', 'stem',
+      'digitale teilhabe', 'it-bildung', 'it-ausbildung'],
     weight: 2,
   },
   'digitale-souveraenitaet': {
@@ -56,11 +62,6 @@ export const THEME_RULES: Record<string, { keywords: string[]; weight: number }>
       'co2', 'kohlendioxid', 'treibhausgas', 'emission',
       'erneuerbar', 'erneuerbare energie',
       'dekarbonisier', 'energiewende'],
-    weight: 1,
-  },
-  jugend: {
-    keywords: ['jugend', 'jugendlich', 'junge erwachsen', 'junge menschen',
-      'kinder und jugend', 'übergang schule beruf', 'lernende'],
     weight: 1,
   },
   zuerich: {
@@ -90,18 +91,32 @@ export function classifyThemes(purposeLower: string, nameLower: string): ThemeId
     if (hasEdu && hasDig) themes.push('digitale-bildung');
   }
 
-  // Compound: youth + education → jugend
-  if (!themes.includes('jugend')) {
-    const hasYouth = ['jugend', 'kinder', 'schüler', 'lernende', 'heranwachsend'].some(kw => fullText.includes(kw));
-    const hasEdu = ['bildung', 'ausbildung', 'erziehung', 'schule', 'lehre'].some(kw => fullText.includes(kw));
-    if (hasYouth && hasEdu) themes.push('jugend');
-  }
-
   // Compound: work + integration → arbeitsintegration
   if (!themes.includes('arbeitsintegration')) {
     const hasWork = ['beruf', 'arbeit', 'erwerbstätig', 'beschäftig'].some(kw => fullText.includes(kw));
     const hasInt = ['integration', 'eingliederung', 'wiedereinstieg', 'einstieg'].some(kw => fullText.includes(kw));
     if (hasWork && hasInt) themes.push('arbeitsintegration');
+  }
+
+  // Compound: beschäftigung + integration/massnahme/sozial → arbeitsintegration
+  if (!themes.includes('arbeitsintegration')) {
+    const hasBeschaeftigung = fullText.includes('beschäftigung');
+    const hasSignal = ['integration', 'massnahme', 'sozial'].some(kw => fullText.includes(kw));
+    if (hasBeschaeftigung && hasSignal) themes.push('arbeitsintegration');
+  }
+
+  // Compound: nachhaltigkeit + consumption/resource signal → kreislaufwirtschaft
+  if (!themes.includes('kreislaufwirtschaft')) {
+    const hasNachhaltigkeit = fullText.includes('nachhaltigkeit');
+    const hasResourceSignal = ['konsum', 'ressource', 'produkt', 'kreislauf'].some(kw => fullText.includes(kw));
+    if (hasNachhaltigkeit && hasResourceSignal) themes.push('kreislaufwirtschaft');
+  }
+
+  // Compound: innovation + sozial/gesellschaft → soziale-integration
+  if (!themes.includes('soziale-integration')) {
+    const hasInnovation = fullText.includes('innovation');
+    const hasSocialSignal = ['sozial', 'gesellschaft'].some(kw => fullText.includes(kw));
+    if (hasInnovation && hasSocialSignal) themes.push('soziale-integration');
   }
 
   return themes as ThemeId[];
@@ -202,6 +217,5 @@ export const THEME_LABELS: Record<string, string> = {
   'digitale-bildung': 'digitale Bildung',
   'digitale-souveraenitaet': 'digitale Souveränität',
   klima: 'Klimaschutz',
-  jugend: 'Jugendförderung',
   zuerich: 'Region Zürich',
 };

@@ -8,6 +8,7 @@ import { DEFAULT_FILTERS, FILTER_PRESETS } from '@/lib/domain/foundation-filter'
 import type { ResearchStats } from '@/lib/domain/foundation-research-stats';
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import type { FilterChip } from '@/lib/types/filter';
+import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import CheckboxFilterGroup from './filters/CheckboxFilterGroup';
 import SchwerpunkteFilter from './filters/SchwerpunkteFilter';
 import TierFilter from './filters/TierFilter';
@@ -229,12 +230,9 @@ export default function FilterSidebar({
       {/* Priority level */}
       <CollapsibleSection title="Priorität" count={filters.priorityLevels.length || undefined}>
         <div className="space-y-1.5">
-          {([
-            { level: 1, label: 'P1 — Erstpriorität', color: 'text-danger' },
-            { level: 2, label: 'P2 — Hohe Priorität', color: 'text-warning' },
-            { level: 3, label: 'P3 — Beobachten', color: 'text-primary' },
-            { level: 4, label: 'P4 — Niedrig', color: 'text-text-muted' },
-          ] as const).map(({ level, label, color }) => {
+          {([1, 2, 3, 4] as const).map((level) => {
+            const pc = PRIORITY_CONFIG[level];
+            const filterLabel = `${pc.label} — ${pc.description.split(' — ')[0]}`;
             const isActive = filters.priorityLevels.includes(level);
             return (
               <label key={level} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
@@ -244,8 +242,8 @@ export default function FilterSidebar({
                   onChange={() => togglePriorityLevel(level)}
                   className="rounded border-border"
                 />
-                <span className={isActive ? `font-medium ${color}` : 'text-text-muted'}>
-                  {label}
+                <span className={isActive ? `font-medium ${pc.textColor}` : 'text-text-muted'}>
+                  {filterLabel}
                 </span>
               </label>
             );

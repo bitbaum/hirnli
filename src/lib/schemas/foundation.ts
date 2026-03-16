@@ -7,7 +7,6 @@ export const ThemeId = z.enum([
   'soziale-integration',
   'digitale-bildung',
   'digitale-souveraenitaet',
-  'jugend',
   'zuerich',
   'arbeitsintegration',
 ]);

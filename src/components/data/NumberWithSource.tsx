@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { NUMBERS_REGISTRY } from '@/lib/config/numbers';
-import { formatCHF } from '@/lib/utils/format';
+import { formatCHF, formatNumber } from '@/lib/utils/format';
 import SourceModal from './SourceModal';
 
 interface NumberWithSourceProps {
@@ -46,7 +46,9 @@ export function NumberWithSource({
 
   const formattedValue = typeof data.value === 'number' && data.category === 'financial'
     ? formatCHF(data.value)
-    : data.value.toLocaleString('de-CH');
+    : typeof data.value === 'number'
+      ? formatNumber(data.value)
+      : String(data.value);
 
   return (
     <>
@@ -133,7 +135,9 @@ export function InlineNumber({ numberKey }: InlineNumberProps) {
 
   const formattedValue = typeof data.value === 'number' && data.category === 'financial'
     ? formatCHF(data.value)
-    : data.value.toLocaleString('de-CH');
+    : typeof data.value === 'number'
+      ? formatNumber(data.value)
+      : String(data.value);
 
   return (
     <>

@@ -633,7 +633,6 @@ export const THEME_ID_TO_STORY_KEY: Record<string, ThemeKey> = {
   'soziale-integration': 'sozial',
   'digitale-bildung': 'bildung',
   'digitale-souveraenitaet': 'digital',
-  'jugend': 'sozial',
   'zuerich': 'klima',            // Geographic — use foundation's other themes first
   'arbeitsintegration': 'sozial',
 };

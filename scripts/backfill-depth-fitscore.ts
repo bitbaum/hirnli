@@ -67,7 +67,7 @@ function normalizeAppMethod(m: string | undefined | null): string {
 // Valid ThemeId values
 const VALID_THEMES = new Set([
   'klima', 'kreislaufwirtschaft', 'soziale-integration', 'digitale-bildung',
-  'digitale-souveraenitaet', 'jugend', 'zuerich', 'arbeitsintegration',
+  'digitale-souveraenitaet', 'zuerich', 'arbeitsintegration',
 ]);
 
 function filterValidThemes(themes: unknown[]): string[] {

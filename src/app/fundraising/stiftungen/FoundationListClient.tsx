@@ -6,7 +6,7 @@ import PageHeader from '@/components/layout/PageHeader';
 import FoundationCard from '@/components/foundation/FoundationCard';
 import FilterSidebar from '@/components/foundation/FilterSidebar';
 import FilterDrawer from '@/components/foundation/FilterDrawer';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { STIFTUNGEN_DATA, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
 import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
 import { computeTierCounts, hasGesuchPage } from '@/lib/domain/foundation-helpers';
@@ -193,17 +193,15 @@ export default function FoundationListClient() {
 
         {/* Priority distribution — computed from fit × readiness */}
         <div className="grid grid-cols-4 gap-2">
-          {([
-            { level: 1, label: 'P1', color: 'border-danger/20 bg-danger-bg', text: 'text-danger' },
-            { level: 2, label: 'P2', color: 'border-warning/20 bg-warning-bg', text: 'text-warning' },
-            { level: 3, label: 'P3', color: 'border-primary/20 bg-primary/5', text: 'text-primary' },
-            { level: 4, label: 'P4', color: 'border-border bg-bg-light', text: 'text-text-muted' },
-          ] as const).map(({ level, label, color, text }) => (
-            <div key={level} className={`rounded-lg border ${color} px-3 py-2 text-center`}>
-              <div className={`text-lg font-bold tabular-nums ${text}`}>{priorityDist[level]}</div>
-              <div className="text-xs font-semibold text-grey-dark">{label}</div>
-            </div>
-          ))}
+          {([1, 2, 3, 4] as const).map((level) => {
+            const pc = PRIORITY_CONFIG[level];
+            return (
+              <div key={level} className={`rounded-lg border ${pc.cardColor} px-3 py-2 text-center`}>
+                <div className={`text-lg font-bold tabular-nums ${pc.textColor}`}>{priorityDist[level]}</div>
+                <div className="text-xs font-semibold text-grey-dark">{pc.label}</div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Actionability metrics */}

@@ -334,7 +334,6 @@ function scoreFunderOperator(purpose: string): {
     'arbeitsintegration',
     'bildung', 'éducation', 'educazione',
     'armut', 'pauvreté', 'povertà',
-    'jugend', 'jeunesse', 'gioventù',
     'benachteiligt', 'défavorisé',
     'vulnerable', 'vulnerabile',
     'chancengleichheit',

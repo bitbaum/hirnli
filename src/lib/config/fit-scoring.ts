@@ -23,6 +23,7 @@
  */
 
 import type { ThemeId } from '../schemas/foundation';
+import { THEME_HIERARCHY } from './schwerpunkte';
 
 // ============================================================================
 // Type definitions — co-located with config so they're always in sync
@@ -162,23 +163,13 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
         categories: [
           {
             name: 'core',
-            members: [
-              'arbeitsintegration',
-              'kreislaufwirtschaft',
-              'digitale-bildung',
-              'digitale-souveraenitaet',
-            ] satisfies ThemeId[],
+            members: [...THEME_HIERARCHY.core] satisfies ThemeId[],
             weight: 1.5,
             cap: 3,
           },
           {
             name: 'secondary',
-            members: [
-              'soziale-integration',
-              'klima',
-              'jugend',
-              'zuerich',
-            ] satisfies ThemeId[],
+            members: [...THEME_HIERARCHY.secondary] satisfies ThemeId[],
             weight: 0.5,
             cap: 1,
           },
@@ -468,13 +459,25 @@ export const PRIORITY_FORMULA = {
     smallBonus: 3,           // some amount known but small
   },
 
-  // Priority → P-label thresholds. Descending order — first match wins.
+  // Priority → P-level thresholds. Descending order — first match wins.
+  // Labels, descriptions, and colors live in PRIORITY_CONFIG (metadata.ts) — the SSOT for display.
   display: [
-    { level: 1 as const, label: 'P1', minScore: 60, description: 'Erstpriorität — Gesuch aktiv vorbereiten' },
-    { level: 2 as const, label: 'P2', minScore: 35, description: 'Hohe Priorität — gezielt bewerben' },
-    { level: 3 as const, label: 'P3', minScore: 12, description: 'Beobachten — bei passendem Timing bewerben' },
+    { level: 1 as const, minScore: 60 },
+    { level: 2 as const, minScore: 35 },
+    { level: 3 as const, minScore: 12 },
   ],
   defaultLevel: 4 as const,
-  defaultLabel: 'P4',
-  defaultDescription: 'Niedrige Priorität — Beziehung pflegen',
+} as const;
+
+// ============================================================================
+// Quality Gate Thresholds
+// ============================================================================
+// Minimum data quality for researched foundations (tier >= profiliert).
+// Enforced by foundation-quality.ts at import time.
+// These are VALIDATION minimums — distinct from readiness scoring signals
+// (which use lower thresholds to detect "any content present").
+
+export const QUALITY_THRESHOLDS = {
+  purposeSummaryMinChars: 150,
+  researchNotesMinChars: 250,
 } as const;

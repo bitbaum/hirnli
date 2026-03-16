@@ -15,6 +15,7 @@ import {
   BPL_SOFTWARE_PER_YEAR_DISPLAY,
   PEOPLE_REACHED_PER_YEAR,
 } from '@/lib/config/projections';
+import { formatNumber } from '@/lib/utils/format';
 
 export const metadata: Metadata = {
   title: 'Bildungsprogramm — Train-the-Trainer',
@@ -243,25 +244,25 @@ export default function BildungPage() {
               <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Hardware-BPL (1 VZÄ)</span>
                 <span className="text-md font-semibold text-grey-dark">
-                  CHF {TEAM_SALARIES.hardware_bpl.toLocaleString('de-CH')}
+                  CHF {formatNumber(TEAM_SALARIES.hardware_bpl)}
                 </span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Software/AI-BPL (1 VZÄ)</span>
                 <span className="text-md font-semibold text-grey-dark">
-                  CHF {TEAM_SALARIES.software_bpl.toLocaleString('de-CH')}
+                  CHF {formatNumber(TEAM_SALARIES.software_bpl)}
                 </span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Sozialabgaben (20%)</span>
                 <span className="text-md font-semibold text-grey-dark">
-                  CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * 0.2).toLocaleString('de-CH')}
+                  CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * 0.2)}
                 </span>
               </div>
               <div className="flex justify-between items-center pt-2 bg-blue-50 rounded-lg p-3">
                 <span className="text-md font-bold text-blue-900">Total pro Jahr</span>
                 <span className="text-xl font-bold text-blue-900">
-                  CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')}
+                  CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}
                 </span>
               </div>
             </div>
@@ -273,7 +274,7 @@ export default function BildungPage() {
               <div className="bg-white rounded-lg p-3">
                 <div className="text-sm text-emerald-700 mb-1">Investition pro direkt Trainierter</div>
                 <div className="text-2xl font-bold text-emerald-900">
-                  CHF {Math.round(((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier) / MULTIPLICATION_EFFECT.combined.direct_training).toLocaleString('de-CH')}
+                  CHF {formatNumber(Math.round(((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier) / MULTIPLICATION_EFFECT.combined.direct_training))}
                 </div>
                 <div className="text-xs text-emerald-700">pro direkt trainierter Person/Jahr</div>
               </div>
@@ -287,7 +288,7 @@ export default function BildungPage() {
               <div className="bg-white rounded-lg p-3">
                 <div className="text-sm text-emerald-700 mb-1">Finanzierungsziel</div>
                 <div className="text-2xl font-bold text-emerald-900">3 Jahre</div>
-                <div className="text-xs text-emerald-700">CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')}/Jahr bis Selbsttragung</div>
+                <div className="text-xs text-emerald-700">CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr bis Selbsttragung</div>
               </div>
             </div>
           </Card>
@@ -299,7 +300,7 @@ export default function BildungPage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Finanzierungsstrategie: 3 Jahre bis Selbsttragung</h2>
         <Card>
           <p className="text-sm text-text-light mb-6">
-            Wir suchen <strong>Stiftungsfinanzierung über 3 Jahre</strong> (CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')}/Jahr, degressiv),
+            Wir suchen <strong>Stiftungsfinanzierung über 3 Jahre</strong> (CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr, degressiv),
             um die Bildungsprogrammleiter:innen-Stellen zu finanzieren, während wir parallel Einnahmequellen aufbauen.
           </p>
           <div className="space-y-4">
@@ -310,7 +311,7 @@ export default function BildungPage() {
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                   <li>Hardware-BPL eingestellt, Curricula entwickelt, erste Trainings</li>
                   <li>Erste trainierte Techniker werden aktiv (2-3 Trainer:innen)</li>
-                  <li>Finanzierung: 100% Stiftungsgelder (1× BPL: CHF {(TEAM_SALARIES.hardware_bpl * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')} inkl. Sozialabgaben)</li>
+                  <li>Finanzierung: 100% Stiftungsgelder (1× BPL: CHF {formatNumber(TEAM_SALARIES.hardware_bpl * TEAM_SALARIES.social_charges_multiplier)} inkl. Sozialabgaben)</li>
                   <li>Einnahmen: Workshop-Fees beginnen (CHF 5-10k, nicht ausreichend für Selbsttragung)</li>
                 </ul>
               </div>
@@ -384,7 +385,7 @@ export default function BildungPage() {
         <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-8 text-white text-center">
           <h3 className="text-2xl font-bold mb-4">Unterstütze das Bildungsprogramm</h3>
           <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
-            Mit <strong>CHF {((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier).toLocaleString('de-CH')}/Jahr über 3 Jahre</strong> (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm,
+            Mit <strong>CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr über 3 Jahre</strong> (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm,
             das {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreicht.
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">

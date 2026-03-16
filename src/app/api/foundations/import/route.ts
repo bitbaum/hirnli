@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { foundations } from '@/lib/db/schema';
 import { z } from 'zod';
+import { toSlug } from '@/lib/utils/slug';
 
 // Validation schema for imported foundations
 const importedFoundationSchema = z.object({
@@ -45,21 +46,6 @@ const importedFoundationSchema = z.object({
   })).optional(),
 });
 
-/**
- * Generate slug from foundation name
- */
-function generateSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/ä/g, 'ae')
-    .replace(/ö/g, 'oe')
-    .replace(/ü/g, 'ue')
-    .replace(/à/g, 'a')
-    .replace(/é/g, 'e')
-    .replace(/è/g, 'e')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
 
 /**
  * Parse grant range text to extract min/max
@@ -101,7 +87,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Read file content
+    // Validate file size (max 10 MB)
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        { success: false, error: 'File too large (max 10 MB)' },
+        { status: 413 }
+      );
+    }
+
+    // Validate file type
+    if (file.type && !['application/json', 'text/plain', ''].includes(file.type)) {
+      return NextResponse.json(
+        { success: false, error: 'File must be JSON' },
+        { status: 400 }
+      );
+    }
+
     const content = await file.text();
     let parsed;
 
@@ -148,7 +150,7 @@ export async function POST(request: NextRequest) {
     // Filter out duplicates by slug and handle within-batch collisions
     const seenSlugs = new Set<string>();
     const newFoundations = validated.filter(f => {
-      const slug = generateSlug(f.name);
+      const slug = toSlug(f.name);
       if (existingSlugs.has(slug) || seenSlugs.has(slug)) return false;
       seenSlugs.add(slug);
       return true;
@@ -171,7 +173,7 @@ export async function POST(request: NextRequest) {
       const { min, max } = parseGrantRange(f.grantRange || '');
 
       return {
-        id: generateSlug(f.name),
+        id: toSlug(f.name),
         name: f.name,
         websiteUrl: f.websiteUrl || null,
         contactEmail: f.contactEmail || null,

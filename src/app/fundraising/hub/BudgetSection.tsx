@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Card from '@/components/ui/Card';
 import { ScenarioSelector, BudgetTable, BudgetSummary } from '@/components/budget';
 import { getScenario } from '@/lib/domain/budget-calculations';
+import { formatNumber } from '@/lib/utils/format';
 
 /**
  * Interactive Budget Section for Hub Page
@@ -56,9 +57,9 @@ export default function BudgetSection() {
           <div className="bg-green-50 p-3 rounded-lg">
             <p className="text-xs font-semibold text-green-900 mb-1">Jahr 1 Total</p>
             <p className="text-lg font-bold text-green-900">
-              CHF {(
+              CHF {formatNumber(
                 scenario.threeYearModel.year1.einmalig + scenario.threeYearModel.year1.jaehrlich
-              ).toLocaleString('de-CH')}
+              )}
             </p>
           </div>
         </div>

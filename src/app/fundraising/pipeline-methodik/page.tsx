@@ -9,6 +9,7 @@ import {
 import { computePriorityScore } from '@/lib/domain/foundation-scores';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import type { QualityTier } from '@/lib/schemas/foundation';
+import { formatNumber } from '@/lib/utils/format';
 
 export const metadata: Metadata = {
   title: 'Pipeline-Methodik',
@@ -119,12 +120,12 @@ export default function PipelineMethodikPage() {
             number={1}
             title="In unserer Datenbank"
             question="Haben wir Daten über sie?"
-            count={s.total.toLocaleString('de-CH')}
+            count={formatNumber(s.total)}
             countLabel="mit Basisdaten importiert"
             method="Automatischer Import aus Zefix und ESA"
             cost="Gratis"
             color="bg-bg-light"
-            detail={`${s.withPurpose.toLocaleString('de-CH')} haben einen Stiftungszweck (ESA). ${(s.total - s.withPurpose).toLocaleString('de-CH')} haben nur einen Namen (Zefix).`}
+            detail={`${formatNumber(s.withPurpose)} haben einen Stiftungszweck (ESA). ${formatNumber(s.total - s.withPurpose)} haben nur einen Namen (Zefix).`}
           />
 
           {/* Stage 2: Keyword screen */}
@@ -132,7 +133,7 @@ export default function PipelineMethodikPage() {
             number={2}
             title="Thematisch relevant"
             question="Hat der Stiftungszweck etwas mit unserer Mission zu tun?"
-            count={s.withThemes.toLocaleString('de-CH')}
+            count={formatNumber(s.withThemes)}
             countLabel="mit mindestens einem passenden Thema"
             method="Keyword-Matching auf dem offiziellen Stiftungszweck (ESA)"
             cost="Gratis"
@@ -145,7 +146,7 @@ export default function PipelineMethodikPage() {
             number={3}
             title="Fit bewertet"
             question="Passt diese Stiftung wirklich zu uns?"
-            count={s.withFitScore.toLocaleString('de-CH')}
+            count={formatNumber(s.withFitScore)}
             countLabel="mit berechnetem Fit-Score"
             method="Algorithmisch (Themen × Geografie × Zugang) oder KI-gestützte Analyse"
             cost="Gering (KI) bis gratis (Algorithmus)"
@@ -158,7 +159,7 @@ export default function PipelineMethodikPage() {
             number={4}
             title="Recherchiert"
             question="Können wir ein massgeschneidertes Gesuch schreiben?"
-            count={s.recherchiert.toLocaleString('de-CH')}
+            count={formatNumber(s.recherchiert)}
             countLabel={`Bereitschafts-Tier ≥ Recherchiert`}
             method="Website-Recherche, Kontaktdaten, Förderbereich, Fristen"
             cost="Mittel (Web-Scraping + KI-Analyse)"
@@ -171,7 +172,7 @@ export default function PipelineMethodikPage() {
             number={5}
             title="Gesuch-bereit"
             question="Lohnt sich der Aufwand jetzt?"
-            count={s.gesuchReady.toLocaleString('de-CH')}
+            count={formatNumber(s.gesuchReady)}
             countLabel="mit generierter Gesuch-Seite"
             method="Prioritäts-Gate: Fit × Bereitschaft → P1-P3"
             cost="Gratis (berechnet)"
@@ -240,7 +241,7 @@ export default function PipelineMethodikPage() {
                   <div className="flex items-center gap-3">
                     <span className="text-xs tabular-nums text-text-muted">{pct}%</span>
                     <span className="w-16 text-right text-sm font-bold tabular-nums text-grey-dark">
-                      {count.toLocaleString('de-CH')}
+                      {formatNumber(count)}
                     </span>
                   </div>
                 </div>
@@ -317,8 +318,8 @@ export default function PipelineMethodikPage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die verbleibende Lücke</h2>
         <Card>
           <p className="mb-3 text-sm text-text-light">
-            Von den {s.total.toLocaleString('de-CH')} Stiftungen in unserer Datenbank
-            haben {(s.total - s.withPurpose).toLocaleString('de-CH')} keinen bekannten Stiftungszweck — sie stammen
+            Von den {formatNumber(s.total)} Stiftungen in unserer Datenbank
+            haben {formatNumber(s.total - s.withPurpose)} keinen bekannten Stiftungszweck — sie stammen
             ausschliesslich aus dem Handelsregister (Zefix) und bestehen nur aus einem Namen und einer UID.
           </p>
           <p className="mb-3 text-sm text-text-light">

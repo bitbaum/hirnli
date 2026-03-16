@@ -12,6 +12,7 @@
 
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import { READINESS_ENGINE, PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
+import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { evaluateEngine, type CheckDetail } from './fit-scoring';
 
 // ============================================================================
@@ -149,7 +150,7 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
   // Check for manual override first
   if (f.priorityOverride && f.priority >= 1 && f.priority <= 4) {
     const level = f.priority as 1 | 2 | 3 | 4;
-    const display = cfg.display.find(d => d.level === level);
+    const pc = PRIORITY_CONFIG[level];
     return {
       score: level === 1 ? 85 : level === 2 ? 57 : level === 3 ? 30 : 10,
       components: {
@@ -161,8 +162,8 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
         penaltyReason: null,
       },
       level,
-      label: display?.label ?? `P${level}`,
-      description: display?.description ?? cfg.defaultDescription,
+      label: pc?.label ?? `P${level}`,
+      description: pc?.description ?? '',
       isOverride: true,
     };
   }
@@ -197,18 +198,17 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
 
   const score = Math.min(100, Math.max(0, base * multiplier + grantBonus));
 
-  // Map to P-level
+  // Map to P-level (thresholds from fit-scoring config, display from PRIORITY_CONFIG SSOT)
   let level: 1 | 2 | 3 | 4 = cfg.defaultLevel;
-  let label: string = cfg.defaultLabel;
-  let description: string = cfg.defaultDescription;
   for (const d of cfg.display) {
     if (score >= d.minScore) {
       level = d.level;
-      label = d.label;
-      description = d.description;
       break;
     }
   }
+  const pc = PRIORITY_CONFIG[level];
+  const label = pc?.label ?? `P${level}`;
+  const description = pc?.description ?? '';
 
   return {
     score: Math.round(score),

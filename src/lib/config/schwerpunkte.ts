@@ -22,6 +22,8 @@ export interface Schwerpunkt {
   shortLabel: string;
   icon: string;
   color: string;
+  /** Tailwind border class for pillar cards (full literal for JIT scanner) */
+  borderClass: string;
   description: string;
   storyThemes: ThemeKey[];
   themeIds: ThemeId[];
@@ -35,6 +37,7 @@ export const SCHWERPUNKTE = {
     shortLabel: 'Nachhaltigkeit',
     icon: '\u267B\uFE0F',
     color: '#10b981',
+    borderClass: 'border-l-theme-klima',
     description: 'Klimaschutz, CO\u2082-Reduktion, Kreislaufwirtschaft, E-Waste-Vermeidung',
     storyThemes: ['klima', 'kreislaufwirtschaft'] as ThemeKey[],
     themeIds: ['klima', 'kreislaufwirtschaft'] as ThemeId[],
@@ -46,9 +49,10 @@ export const SCHWERPUNKTE = {
     shortLabel: 'Soziale Integration',
     icon: '\u{1F91D}',
     color: '#8b5cf6',
+    borderClass: 'border-l-theme-sozial',
     description: 'Arbeitsintegration, Second Chance, Reintegration, Inklusion',
     storyThemes: ['sozial'] as ThemeKey[],
-    themeIds: ['soziale-integration', 'arbeitsintegration', 'jugend'] as ThemeId[],
+    themeIds: ['soziale-integration', 'arbeitsintegration'] as ThemeId[],
     pillar: 'Soziale Integration',
   },
   'digitale-bildung': {
@@ -57,6 +61,7 @@ export const SCHWERPUNKTE = {
     shortLabel: 'Digitale Bildung',
     icon: '\u{1F4BB}',
     color: '#3b82f6',
+    borderClass: 'border-l-theme-bildung',
     description: 'Digital Literacy, IT-Kompetenzen, Medienkompetenz, AI-Literacy, Wissensplattform',
     storyThemes: ['bildung'] as ThemeKey[],
     themeIds: ['digitale-bildung'] as ThemeId[],
@@ -68,6 +73,7 @@ export const SCHWERPUNKTE = {
     shortLabel: 'Digitale Souveränität',
     icon: '\u{1F510}',
     color: '#6366f1',
+    borderClass: 'border-l-theme-digital',
     description: 'Open Source, Linux, Datenhoheit, souveräne IT-Infrastruktur, eigene Community-Plattform',
     storyThemes: ['digital'] as ThemeKey[],
     themeIds: ['digitale-souveraenitaet'] as ThemeId[],
@@ -77,3 +83,26 @@ export const SCHWERPUNKTE = {
 
 export type SchwerpunktId = keyof typeof SCHWERPUNKTE;
 export const SCHWERPUNKT_IDS = Object.keys(SCHWERPUNKTE) as SchwerpunktId[];
+
+/**
+ * Theme Hierarchy — SSOT for core vs secondary theme classification
+ *
+ * Core = direct org capabilities (each maps 1:1 to a Schwerpunkt's primary theme)
+ * Secondary = broader contexts + geographic signal (umbrella themes, not distinct capabilities)
+ *
+ * Consumed by fit-scoring.ts to weight theme matches.
+ * If you add/remove a Schwerpunkt, update this accordingly.
+ */
+export const THEME_HIERARCHY = {
+  core: [
+    'arbeitsintegration',
+    'kreislaufwirtschaft',
+    'digitale-bildung',
+    'digitale-souveraenitaet',
+  ],
+  secondary: [
+    'soziale-integration',
+    'klima',
+    'zuerich',
+  ],
+} as const satisfies Record<string, readonly ThemeId[]>;
