@@ -566,56 +566,56 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 
   // Community Platform (revampit.vercel.app)
   PLATFORM_CODEBASE_FILES: {
-    value: 1165,
+    value: 1302,
     label: 'TypeScript-Dateien in der Community-Plattform',
     source: {
       methodology: 'Codebase-Analyse (find src -name "*.ts" -o -name "*.tsx" | wc -l)',
       confidence: 'high',
-      lastVerified: '2026-02-19',
+      lastVerified: '2026-03-17',
     },
     category: 'operations',
   },
 
   PLATFORM_COMPONENTS: {
-    value: 294,
+    value: 636,
     label: 'React-Komponenten (eigenentwickelt)',
     source: {
-      methodology: 'Codebase-Analyse der components/ Verzeichnisse',
+      methodology: 'Codebase-Analyse (find src -name "*.tsx" | wc -l)',
       confidence: 'high',
-      lastVerified: '2026-02-19',
+      lastVerified: '2026-03-17',
     },
     category: 'operations',
   },
 
   PLATFORM_PAGES: {
-    value: 165,
+    value: 106,
     label: 'Seiten auf der Community-Plattform',
     source: {
       methodology: 'Next.js App Router page.tsx Dateien',
       confidence: 'high',
-      lastVerified: '2026-02-19',
+      lastVerified: '2026-03-17',
     },
     category: 'operations',
   },
 
   PLATFORM_DB_MIGRATIONS: {
-    value: 46,
+    value: 67,
     label: 'Datenbank-Migrationen (PostgreSQL)',
     source: {
       methodology: 'Drizzle ORM Migration-Dateien',
       confidence: 'high',
-      lastVerified: '2026-02-19',
+      lastVerified: '2026-03-17',
     },
     category: 'operations',
   },
 
   PLATFORM_API_ROUTES: {
-    value: 40,
+    value: 235,
     label: 'API-Endpunkte',
     source: {
       methodology: 'Next.js App Router route.ts Dateien',
-      confidence: 'estimated',
-      lastVerified: '2026-02-19',
+      confidence: 'high',
+      lastVerified: '2026-03-17',
     },
     category: 'operations',
   },

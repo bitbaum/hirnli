@@ -364,7 +364,7 @@ export const HOW: HowSection = {
       'Eigene IT-Infrastruktur auf Open-Source-Basis',
       'Wissenstransfer und Schulungen',
       'Full-Stack-Webentwicklung: Next.js, TypeScript, PostgreSQL, Redis, Meilisearch',
-      `Eigenentwicklung einer Community-Plattform mit ${formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, E-Commerce, Authentifizierung und Suchfunktion`,
+      `Eigenentwicklung einer Community-Plattform mit ${formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, Marktplatz, Authentifizierung und Suchfunktion`,
     ],
     evidence: ['digitalswitzerland', 'open_source_platform'],
   },
@@ -552,7 +552,7 @@ const PROJECTS: Record<string, Project> = {
     ],
     activities: [
       'Full-Stack-Entwicklung mit Next.js, TypeScript, PostgreSQL, Redis und Meilisearch',
-      'Community-Marktplatz mit Produktkatalog, Suche und E-Commerce-Integration (Stripe)',
+      'Community-Marktplatz mit Produktkatalog, Suche und Zahlungsintegration (Payrexx)',
       'IT-Hilfe-System: Anfragen stellen, Community antwortet, Wissen wird archiviert',
       'Knowhow-Blog mit Reparaturanleitungen, Workshop-Dokumentation und Best Practices',
       'Geräte-Erfassungssystem: Vom Eingang über Refurbishing bis zum Verkauf — lückenlos dokumentiert',

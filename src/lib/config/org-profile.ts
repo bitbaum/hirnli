@@ -19,13 +19,13 @@ export const ORG_PROFILE = {
   legalForm: 'Gemeinnütziger Verein',
   founded: _FOUNDED,
   location: 'Zürich',
-  address: 'Badenerstrasse 816, 8048 Zürich',
+  address: 'Birmensdorferstrasse 379, 8055 Zürich',
   website: 'https://revamp-it.ch',
   email: 'empfang@revamp-it.ch',
   fundraisingEmail: 'fundraising@revamp-it.ch',
   contactName: 'Andreas Hunkeler',
   phone: '+41 (0)43 960 32 64',
-  shopAddress: 'Birmensdorferstrasse 379, 8055 Zürich',
+  warehouseAddress: 'Badenerstrasse 816, 8048 Zürich',
 
   // Platform identity
   platform: {

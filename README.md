@@ -42,5 +42,5 @@ npx serve .
 ## Related
 
 - **revampit.vercel.app** - Public website + admin
-- **revampit.vercel.app/admin/hirn** - AI assistant
+- **revampit.vercel.app/admin/hirn** - HIRN knowledge management system
 - **This site** - Internal dashboards and research

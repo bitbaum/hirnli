@@ -42,8 +42,8 @@ export function GeschichteSection() {
               <span className="mb-3 text-4xl">🏢</span>
               <h3 className="text-base font-semibold">Heute</h3>
               <p className="mt-2 text-left text-sm text-text-light">
-                <strong>Laden:</strong> {ORG_PROFILE.shopAddress}<br />
-                <strong>Lager:</strong> {ORG_PROFILE.address}<br /><br />
+                <strong>Laden:</strong> {ORG_PROFILE.address}<br />
+                <strong>Lager:</strong> {ORG_PROFILE.warehouseAddress}<br /><br />
                 Werkstatt, Verkauf und Community-Treffpunkt unter einem Dach.
               </p>
             </div>
@@ -60,7 +60,7 @@ export function KontaktSection() {
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Kontakt</h2>
       <Card className="text-center">
         <h3 className="mb-3 text-lg font-semibold">{ORG_PROFILE.name}</h3>
-        <p className="text-sm"><strong>Adresse:</strong> {ORG_PROFILE.shopAddress}</p>
+        <p className="text-sm"><strong>Adresse:</strong> {ORG_PROFILE.address}</p>
         <p className="text-sm"><strong>Telefon:</strong> {ORG_PROFILE.phone}</p>
         <p className="text-sm"><strong>E-Mail:</strong> {ORG_PROFILE.email}</p>
         <p className="text-sm">

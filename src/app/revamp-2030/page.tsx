@@ -105,8 +105,8 @@ export default function Revamp2030Page() {
               <div className="bg-gradient-to-br from-indigo-100 to-blue-100 rounded-lg p-4">
                 <p className="text-sm font-bold text-indigo-900 mb-2">Tech-Stack (produktionsreif):</p>
                 <p className="text-xs text-indigo-800 mb-2">
-                  Next.js, TypeScript, PostgreSQL, Redis, Meilisearch, Auth.js, Stripe, Medusa E-Commerce —
-                  professionelle Architektur mit 46 Datenbank-Migrationen und 40+ API-Endpunkten.
+                  Next.js, TypeScript, PostgreSQL, Redis, Meilisearch, Auth.js, Payrexx —
+                  professionelle Architektur mit {formatNumber(getNumericValue('PLATFORM_DB_MIGRATIONS'))} Datenbank-Migrationen und {formatNumber(getNumericValue('PLATFORM_API_ROUTES'))}+ API-Endpunkten.
                 </p>
                 <p className="text-xs text-indigo-800">
                   <strong>Das beweist:</strong> Wir haben nicht nur die handwerkliche Kompetenz, Geräte zu reparieren —

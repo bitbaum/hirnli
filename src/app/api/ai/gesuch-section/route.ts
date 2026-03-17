@@ -30,8 +30,8 @@ ${ORG_PROFILE.name} ist ein ${ORG_PROFILE.legalForm.toLowerCase()} in ${ORG_PROF
 2. **Arbeitsintegration** — 8–10 Praktikumsplätze für benachteiligte Menschen (Sozialhilfe, RAV, IV). 100+ Praktikant:innen seit Programmbeginn 2009. Begleitung durch erfahrene Techniker.
 3. **Digitale Bildung** — Linux-Kurse, IT-Grundlagen, Reparatur-Workshops. Eigene Open-Source-Plattform (Marktplatz, IT-Hilfe, Community). Partnerschaften mit Schulen und Sozialdiensten.
 
-Finanzen: Gemeinnützig, alle Einnahmen fliessen in die Mission. Haupteinnahmen: Gerätverkauf (Laden Badenerstrasse + Online-Shop), Dienstleistungen, Stiftungsförderung.
-Standort: Badenerstrasse 816, 8048 Zürich (Werkstatt + Laden) & Birmensdorferstrasse 379 (Shop).
+Finanzen: Gemeinnützig, alle Einnahmen fliessen in die Mission. Haupteinnahmen: Gerätverkauf (Laden + Online-Shop), Dienstleistungen, Stiftungsförderung.
+Standort: Birmensdorferstrasse 379, 8055 Zürich (Verkaufsstelle) & Badenerstrasse 816, 8048 Zürich (Lager, nur nach Terminvereinbarung).
 
 ## Schreibregeln
 - Schweizer Schriftdeutsch (ss statt ß, echte Umlaute ä ö ü — nie ae/oe/ue)
