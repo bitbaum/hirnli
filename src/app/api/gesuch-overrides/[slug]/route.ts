@@ -9,7 +9,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
-import { gesuchOverrides, type GesuchOverridesData } from '@/lib/db/schema';
+import { gesuchOverrides, activityLog, type GesuchOverridesData } from '@/lib/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
@@ -46,6 +46,25 @@ const overridesSchema = z.object({
     })
     .optional(),
 });
+
+/** Fire-and-forget activity log entry for override saves */
+async function logOverrideSave(slug: string, overrides: GesuchOverridesData) {
+  try {
+    await db.insert(activityLog).values({
+      id: nanoid(),
+      entityType: 'gesuch_override',
+      entityId: slug,
+      actionType: 'override_saved',
+      actionDetails: JSON.stringify({
+        overrides,
+        timestamp: new Date().toISOString(),
+      }),
+      performedBy: 'api',
+    });
+  } catch {
+    // Non-critical — don't fail the save if logging fails
+  }
+}
 
 function deepMerge(base: GesuchOverridesData, patch: GesuchOverridesData): GesuchOverridesData {
   const result: GesuchOverridesData = { ...base };
@@ -136,6 +155,9 @@ export async function PUT(
       });
     }
 
+    // Log save activity (fire-and-forget)
+    logOverrideSave(slug, parsed.data);
+
     return NextResponse.json({ success: true, data: { overrides: parsed.data } });
   } catch (err) {
     console.error('PUT gesuch-overrides error:', err);
@@ -190,6 +212,9 @@ export async function PATCH(
         overrides: merged,
       });
     }
+
+    // Log save activity (fire-and-forget)
+    logOverrideSave(slug, merged);
 
     return NextResponse.json({ success: true, data: { overrides: merged } });
   } catch (err) {
