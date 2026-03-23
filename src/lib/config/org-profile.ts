@@ -46,6 +46,25 @@ export const ORG_PROFILE = {
   experienceLabel: `über ${_YEARS_ACTIVE} Jahre Erfahrung`,
   missionKeywords: ['Kreislaufwirtschaft', 'Arbeitsintegration', 'digitale Bildung'],
   missionSummary: 'Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung',
+
+  // ORG-SPECIFIC: Mission areas with concrete metrics for AI prompt assembly
+  missionAreas: [
+    {
+      name: 'Kreislaufwirtschaft',
+      description: 'IT-Geräte reparieren, refurbishen, weitergeben',
+      metrics: ['~150 Geräte/Jahr', '~285 kg CO₂ pro Gerät gespart (Fraunhofer IZM 2023)', '75% Reuse-Rate'],
+    },
+    {
+      name: 'Arbeitsintegration',
+      description: '8–10 Praktikumsplätze für benachteiligte Menschen (Sozialhilfe, RAV, IV)',
+      metrics: ['100+ Praktikant:innen seit 2009', 'Begleitung durch erfahrene Techniker'],
+    },
+    {
+      name: 'Digitale Bildung',
+      description: 'Linux-Kurse, IT-Grundlagen, Reparatur-Workshops',
+      metrics: ['Eigene Open-Source-Plattform', 'Partnerschaften mit Schulen und Sozialdiensten'],
+    },
+  ],
 } as const;
 
 export type OrgProfile = typeof ORG_PROFILE;

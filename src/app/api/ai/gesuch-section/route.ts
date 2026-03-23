@@ -21,17 +21,23 @@ import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
-// Static org-level context — never changes per request
-const SYSTEM_PROMPT = `Du bist Spezialist für Stiftungsgesuche im deutschsprachigen Raum (Schweiz). Du hilfst ${ORG_PROFILE.name}, professionelle Förderanträge zu schreiben.
+/** Build system prompt from ORG_PROFILE config (no hardcoded metrics) */
+function buildSystemPrompt(): string {
+  const areas = ORG_PROFILE.missionAreas
+    .map((a, i) => {
+      const metricsStr = a.metrics.join('. ');
+      return `${i + 1}. **${a.name}** — ${a.description}. ${metricsStr}.`;
+    })
+    .join('\n');
+
+  return `Du bist Spezialist für Stiftungsgesuche im deutschsprachigen Raum (Schweiz). Du hilfst ${ORG_PROFILE.name}, professionelle Förderanträge zu schreiben.
 
 ## Über ${ORG_PROFILE.name}
-${ORG_PROFILE.name} ist ein ${ORG_PROFILE.legalForm.toLowerCase()} in ${ORG_PROFILE.location} (gegründet ${ORG_PROFILE.founded}). Drei Kernbereiche:
-1. **Kreislaufwirtschaft** — IT-Geräte reparieren, refurbishen, weitergeben. ~150 Geräte/Jahr. Jedes spart ~285 kg CO₂ vs. Neukauf (Fraunhofer IZM 2023). 75% Reuse-Rate.
-2. **Arbeitsintegration** — 8–10 Praktikumsplätze für benachteiligte Menschen (Sozialhilfe, RAV, IV). 100+ Praktikant:innen seit Programmbeginn 2009. Begleitung durch erfahrene Techniker.
-3. **Digitale Bildung** — Linux-Kurse, IT-Grundlagen, Reparatur-Workshops. Eigene Open-Source-Plattform (Marktplatz, IT-Hilfe, Community). Partnerschaften mit Schulen und Sozialdiensten.
+${ORG_PROFILE.name} ist ein ${ORG_PROFILE.legalForm.toLowerCase()} in ${ORG_PROFILE.location} (gegründet ${ORG_PROFILE.founded}). ${ORG_PROFILE.missionAreas.length} Kernbereiche:
+${areas}
 
 Finanzen: Gemeinnützig, alle Einnahmen fliessen in die Mission. Haupteinnahmen: Gerätverkauf (Laden + Online-Shop), Dienstleistungen, Stiftungsförderung.
-Standort: Birmensdorferstrasse 379, 8055 Zürich (Verkaufsstelle) & Badenerstrasse 816, 8048 Zürich (Lager, nur nach Terminvereinbarung).
+Standort: ${ORG_PROFILE.address} (Verkaufsstelle) & ${ORG_PROFILE.warehouseAddress} (Lager, nur nach Terminvereinbarung).
 
 ## Schreibregeln
 - Schweizer Schriftdeutsch (ss statt ß, echte Umlaute ä ö ü — nie ae/oe/ue)
@@ -43,6 +49,9 @@ Standort: Birmensdorferstrasse 379, 8055 Zürich (Verkaufsstelle) & Badenerstras
 
 ## Aufgabe
 Du erhältst einen Textabschnitt und eine Überarbeitungsanweisung. Gib NUR den überarbeiteten Text zurück — kein Kommentar, keine Erklärung, keine Präambel, kein "Hier ist der überarbeitete Text:".`;
+}
+
+const SYSTEM_PROMPT = buildSystemPrompt();
 
 const requestSchema = z.object({
   instruction: z.string().min(1),
