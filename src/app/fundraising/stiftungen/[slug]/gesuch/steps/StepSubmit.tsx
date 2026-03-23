@@ -4,6 +4,8 @@ import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchStatusWidget from '@/components/gesuch/GesuchStatusWidget';
 import GesuchSubmitSection from '@/components/gesuch/GesuchSubmitSection';
 import type { SubmissionInfo } from '@/components/gesuch/GesuchSubmitSection';
+import ActivityTimeline from '@/components/ui/ActivityTimeline';
+import SubmissionChecklist from '@/components/gesuch/SubmissionChecklist';
 
 interface StepSubmitProps {
   slug: string;
@@ -28,7 +30,8 @@ export default function StepSubmit({
 
   async function copyShareLink() {
     if (!shareToken) return;
-    const url = `${window.location.origin}/gesuch/share/${shareToken}`;
+    const schwerpunktQuery = activeSchwerpunkt ? `?s=${activeSchwerpunkt}` : '';
+    const url = `${window.location.origin}/gesuch/share/${shareToken}${schwerpunktQuery}`;
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -116,16 +119,25 @@ export default function StepSubmit({
 
         {/* Right: Pipeline + Submission */}
         <div className="space-y-6">
+          {/* Pre-submit checklist */}
+          <SubmissionChecklist />
+
           {/* Pipeline widget */}
           <div>
             <h3 className="mb-3 text-base font-semibold text-grey-dark">Pipeline-Status</h3>
-            <GesuchStatusWidget slug={slug} responseTime={responseTime} />
+            <GesuchStatusWidget slug={slug} responseTime={responseTime} shareToken={shareToken} />
           </div>
 
           {/* Submit info */}
           <div>
             <h3 className="mb-3 text-base font-semibold text-grey-dark">Einreichung</h3>
             <GesuchSubmitSection info={{ ...submissionInfo, emailBody }} />
+          </div>
+
+          {/* Activity timeline */}
+          <div>
+            <h3 className="mb-3 text-base font-semibold text-grey-dark">Verlauf</h3>
+            <ActivityTimeline entityId={slug} entityType="gesuch_override" limit={5} />
           </div>
         </div>
       </div>

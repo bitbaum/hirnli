@@ -8,6 +8,7 @@ import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import { buildDynamicOpening } from '@/lib/domain/anschreiben-composer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { useGesuchOverrides } from '@/hooks/useGesuchOverrides';
+import { computeGesuchReadiness } from '@/lib/domain/gesuch-readiness';
 import { LoadingState } from '@/components/ui/LoadingState';
 import StepIndicator from '@/components/gesuch/StepIndicator';
 import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
@@ -72,6 +73,9 @@ export default function GesuchPageClient({
     saveIfDirty,
     reset,
     aiRewrite,
+    restoreOverrides,
+    autoDraft,
+    autoDraftLoading,
   } = useGesuchOverrides(slug, foundationData);
 
   // Auto-save dirty changes before navigating away from the edit step
@@ -189,6 +193,10 @@ export default function GesuchPageClient({
             onSaveIfDirty={saveIfDirty}
             onReset={reset}
             onAiRewrite={aiRewrite}
+            onRestoreOverrides={restoreOverrides}
+            onAutoDraft={autoDraft}
+            autoDraftLoading={autoDraftLoading}
+            readiness={computeGesuchReadiness(activeGesuch, overrides, foundationData)}
             onPrev={() => navigateStep(1)}
             onNext={() => navigateStep(3)}
           />

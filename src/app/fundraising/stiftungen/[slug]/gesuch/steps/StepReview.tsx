@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import type { RefObject } from 'react';
 import Link from 'next/link';
 import type { WhySection, TrackRecord, CompetencySection, Project, Evidence, CoreFacts } from '@/lib/schemas/story';
@@ -5,6 +8,9 @@ import type { ThemeKey } from '@/lib/config/stories';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { AnschreibenText } from '../GesuchPageClient';
 import GesuchEditPanel from '@/components/gesuch/GesuchEditPanel';
+import OverrideHistory from '@/components/gesuch/OverrideHistory';
+import GesuchReadinessChecklist from '@/components/gesuch/GesuchReadinessChecklist';
+import type { GesuchReadiness } from '@/lib/domain/gesuch-readiness';
 import GesuchWhySection from '@/components/gesuch/GesuchWhySection';
 import GesuchHowSection from '@/components/gesuch/GesuchHowSection';
 import GesuchProjectsSection from '@/components/gesuch/GesuchProjectsSection';
@@ -46,6 +52,10 @@ interface StepReviewProps {
     fieldPath: string;
     fieldDescription?: string;
   }) => Promise<string | null>;
+  onRestoreOverrides: (overrides: GesuchOverridesData) => void;
+  onAutoDraft: () => Promise<void>;
+  autoDraftLoading: boolean;
+  readiness: GesuchReadiness;
   // Navigation
   onPrev: () => void;
   onNext: () => void;
@@ -74,11 +84,44 @@ export default function StepReview({
   onSaveIfDirty,
   onReset,
   onAiRewrite,
+  onRestoreOverrides,
+  onAutoDraft,
+  autoDraftLoading,
+  readiness,
   onPrev,
   onNext,
 }: StepReviewProps) {
+  const [historyOpen, setHistoryOpen] = useState(false);
+
   return (
     <div className="space-y-12">
+      {/* Auto-draft CTA — shown when no overrides exist yet */}
+      {!hasOverrides && !autoDraftLoading && (
+        <div className="rounded-xl border border-primary/20 bg-primary/5 p-5 print:hidden">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-grey-dark">Automatischer KI-Entwurf</p>
+              <p className="mt-0.5 text-xs text-text-muted">
+                Verbindungssatz und Anschreiben werden auf {foundationName} massgeschneidert.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onAutoDraft}
+              className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
+            >
+              KI-Entwurf erstellen
+            </button>
+          </div>
+        </div>
+      )}
+      {autoDraftLoading && (
+        <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 p-5 print:hidden">
+          <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          <span className="text-sm text-grey-dark">KI-Entwurf wird erstellt…</span>
+        </div>
+      )}
+
       {/* Edit toggle toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-bg-light px-4 py-3 print:hidden">
         <div className="flex items-center gap-2">
@@ -91,8 +134,15 @@ export default function StepReview({
             href={`/fundraising/stiftungen/${slug}/gesuch/dokument`}
             className="rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary"
           >
-            👁 HTML-Vorschau
+            HTML-Vorschau
           </Link>
+          <button
+            type="button"
+            onClick={() => setHistoryOpen(true)}
+            className="rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary"
+          >
+            Versionshistorie
+          </button>
         </div>
         <button
           type="button"
@@ -148,6 +198,9 @@ export default function StepReview({
         organization={organization}
       />
 
+      {/* Readiness checklist */}
+      <GesuchReadinessChecklist readiness={readiness} />
+
       {/* Navigation */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 print:hidden">
         <button
@@ -165,6 +218,14 @@ export default function StepReview({
           Weiter — Einreichen →
         </button>
       </div>
+
+      {/* Override version history drawer */}
+      <OverrideHistory
+        slug={slug}
+        open={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        onRestore={onRestoreOverrides}
+      />
     </div>
   );
 }
