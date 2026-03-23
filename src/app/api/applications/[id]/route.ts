@@ -124,8 +124,34 @@ export async function PATCH(
       );
     }
 
-    // Prepare update data
     const data = validation.data;
+
+    // Check required fields for status transitions
+    if (data.status) {
+      const targetStatus = APPLICATION_STATUSES.find(s => s.id === data.status);
+      if (targetStatus && targetStatus.requiredFields.length > 0) {
+        const missingFields = targetStatus.requiredFields.filter(rf => {
+          const val = data[rf.field as keyof typeof data];
+          return val === undefined || val === null || val === '';
+        });
+        if (missingFields.length > 0) {
+          return NextResponse.json(
+            {
+              success: false,
+              error: 'Pflichtfelder fehlen',
+              missingFields: missingFields.map(f => ({
+                field: f.field,
+                label: f.label,
+                type: f.type,
+              })),
+            },
+            { status: 422 },
+          );
+        }
+      }
+    }
+
+    // Prepare update data
     const updates: Record<string, unknown> = {
       ...data,
       updatedAt: new Date(),

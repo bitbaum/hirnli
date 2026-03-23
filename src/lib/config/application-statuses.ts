@@ -5,72 +5,95 @@
  * Used in Kanban board, filters, and status badges.
  */
 
+export interface RequiredField {
+  field: string;
+  label: string;
+  type: 'date' | 'number' | 'text';
+}
+
 export const APPLICATION_STATUSES = [
   {
     id: 'prospect',
     label: 'Interessant',
     description: 'Potenzielle Stiftungen, die wir ansprechen wollen',
     color: 'bg-bg-light text-grey-dark border-border',
+    requiredFields: [] as RequiredField[],
   },
   {
     id: 'research',
     label: 'In Recherche',
     description: 'Stiftungs-Fit und Anforderungen werden geprüft',
     color: 'bg-blue-100 text-blue-700 border-blue-300',
+    requiredFields: [] as RequiredField[],
   },
   {
     id: 'draft',
     label: 'Entwurf',
     description: 'Gesuch wird erarbeitet',
     color: 'bg-purple-100 text-purple-700 border-purple-300',
+    requiredFields: [] as RequiredField[],
   },
   {
     id: 'review',
     label: 'In Prüfung',
     description: 'Interne Prüfung vor der Einreichung',
     color: 'bg-yellow-100 text-yellow-700 border-yellow-300',
+    requiredFields: [] as RequiredField[],
   },
   {
     id: 'submitted',
     label: 'Eingereicht (extern)',
     description: 'Gesuch wurde an die Stiftung gesendet',
     color: 'bg-indigo-100 text-indigo-700 border-indigo-300',
+    requiredFields: [
+      { field: 'submissionDate', label: 'Einreichungsdatum', type: 'date' },
+    ] as RequiredField[],
   },
   {
     id: 'pending',
     label: 'Entscheidung ausstehend',
     description: 'Wir warten auf die Entscheidung der Stiftung',
     color: 'bg-orange-100 text-orange-700 border-orange-300',
+    requiredFields: [] as RequiredField[],
   },
   {
     id: 'followup',
     label: 'Nachfassen',
     description: 'Nachfassen erforderlich',
     color: 'bg-pink-100 text-pink-700 border-pink-300',
+    requiredFields: [] as RequiredField[],
   },
   {
     id: 'accepted',
     label: 'Zugesagt ✓',
     description: 'Förderung zugesagt',
     color: 'bg-green-100 text-green-700 border-green-300',
+    requiredFields: [
+      { field: 'awardedAmount', label: 'Bewilligter Betrag (CHF)', type: 'number' },
+    ] as RequiredField[],
   },
   {
     id: 'rejected',
     label: 'Abgelehnt',
     description: 'Gesuch wurde abgelehnt',
     color: 'bg-red-100 text-red-700 border-red-300',
+    requiredFields: [
+      { field: 'rejectionReason', label: 'Ablehnungsgrund', type: 'text' },
+    ] as RequiredField[],
   },
   {
     id: 'withdrawn',
     label: 'Zurückgezogen',
     description: 'Gesuch von uns zurückgezogen',
     color: 'bg-bg-light text-text-light border-border',
+    requiredFields: [] as RequiredField[],
   },
   {
     id: 'onhold',
     label: 'Pausiert',
     description: 'Gesuch pausiert — wird später weiterverfolgt',
     color: 'bg-slate-100 text-slate-600 border-slate-300',
+    requiredFields: [] as RequiredField[],
   },
 ] as const;
 

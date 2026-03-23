@@ -26,8 +26,10 @@ import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
 import { APPLICATION_STATUSES, KANBAN_COLUMNS } from '@/lib/config/application-statuses';
+import type { RequiredField } from '@/lib/config/application-statuses';
 import { formatCHF } from '@/lib/utils/format';
 import type { Application, FoundationRow } from '@/lib/db/schema';
+import RequiredFieldsModal from './RequiredFieldsModal';
 
 interface ApplicationWithFoundation {
   application: Application;
@@ -39,6 +41,11 @@ export function ApplicationBoard() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [requiredFieldsModal, setRequiredFieldsModal] = useState<{
+    applicationId: string;
+    targetStatus: string;
+    missingFields: RequiredField[];
+  } | null>(null);
 
   const fetchApplications = useCallback(async () => {
     try {
@@ -125,7 +132,7 @@ export function ApplicationBoard() {
       });
       const result = await response.json();
       if (!result.success) {
-        // Revert
+        // Revert optimistic update
         setApplications((prev) =>
           prev.map((item) =>
             item.application.id === applicationId
@@ -133,7 +140,14 @@ export function ApplicationBoard() {
               : item,
           ),
         );
-        alert(`Fehler: ${result.error}`);
+        // Show required fields modal on 422
+        if (response.status === 422 && result.missingFields) {
+          setRequiredFieldsModal({
+            applicationId,
+            targetStatus: newStatus,
+            missingFields: result.missingFields,
+          });
+        }
       }
     } catch (err) {
       console.error('Failed to update application status:', err);
@@ -144,7 +158,6 @@ export function ApplicationBoard() {
             : item,
         ),
       );
-      alert('Netzwerkfehler beim Aktualisieren');
     }
   }
 
@@ -264,6 +277,20 @@ export function ApplicationBoard() {
             ) : null}
           </DragOverlay>
         </DndContext>
+      )}
+
+      {/* Required fields modal for status transitions */}
+      {requiredFieldsModal && (
+        <RequiredFieldsModal
+          applicationId={requiredFieldsModal.applicationId}
+          targetStatus={requiredFieldsModal.targetStatus}
+          missingFields={requiredFieldsModal.missingFields}
+          onSuccess={() => {
+            setRequiredFieldsModal(null);
+            fetchApplications();
+          }}
+          onCancel={() => setRequiredFieldsModal(null)}
+        />
       )}
     </div>
   );

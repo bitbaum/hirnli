@@ -13,6 +13,7 @@ import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { APPLICATION_STATUSES, getStatusConfig } from '@/lib/config/application-statuses';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
+import ActivityTimeline from '@/components/ui/ActivityTimeline';
 
 interface ApplicationDetailProps {
   params: {
@@ -268,6 +269,12 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             </div>
           </div>
         )}
+
+        {/* Activity log */}
+        <div className="rounded-xl border border-border bg-white p-6 space-y-3">
+          <h2 className="font-semibold text-grey-dark">Aktivitäten</h2>
+          <ActivityTimeline entityId={params.id} entityType="application" />
+        </div>
 
         {/* Actions */}
         <div className="flex items-center justify-between gap-4 pb-8">
