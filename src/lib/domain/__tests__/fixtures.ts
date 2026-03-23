@@ -36,8 +36,6 @@ export function makeFoundation(overrides: Partial<Foundation> = {}): Foundation 
     needsResearch: false,
     researchDate: '2026-01-15',
     researchDepth: 'deep',
-    orgId: 'revamp-it',
-
     ...overrides,
   };
 }
