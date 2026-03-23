@@ -48,7 +48,7 @@ import {
   detectApplicationMethod,
   THEME_LABELS,
 } from './lib/theme-classifier';
-import { callGroqJSON } from './lib/groq-client';
+import { callGroqJSON, GROQ_MODELS } from './lib/groq-client';
 import { sleep } from './lib/utilities';
 import { THEMES } from '../src/lib/config/foundations/metadata';
 import { ThemeId } from '../src/lib/schemas/foundation';
@@ -64,6 +64,8 @@ const INGEST_ONLY = args.includes('--ingest-only');
 const PHASE_ARG = parseInt(args.find(a => a.startsWith('--phase='))?.split('=')[1] || '0', 10);
 const LIMIT = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10) || Infinity;
 const DELAY_MS = parseInt(args.find(a => a.startsWith('--delay='))?.split('=')[1] || '2000', 10);
+const MODEL_ARG = args.find(a => a.startsWith('--model='))?.split('=')[1] || '';
+const GROQ_MODEL_OVERRIDE = MODEL_ARG === '8b' ? GROQ_MODELS['8b'] : MODEL_ARG === '70b' ? GROQ_MODELS['70b'] : undefined;
 
 // ============================================================================
 // TYPES
@@ -256,6 +258,23 @@ async function phase1KeywordScreen(sql: NeonQueryFunction<false, false>): Promis
 
 const VALID_THEME_IDS: Set<string> = new Set(ThemeId.options);
 
+/** Save triage results to disk, merging with any existing file for today. */
+function saveResults(outDir: string, today: string, results: TriageResult[]): void {
+  const resultsFile = path.join(outDir, `phase2-results-${today}.json`);
+  let allResults = results;
+  if (fs.existsSync(resultsFile)) {
+    const existing = JSON.parse(fs.readFileSync(resultsFile, 'utf-8')) as { items: TriageResult[] };
+    const existingSlugs = new Set(existing.items.map((r: TriageResult) => r.slug));
+    const newResults = results.filter(r => !existingSlugs.has(r.slug));
+    allResults = [...existing.items, ...newResults];
+  }
+  fs.writeFileSync(resultsFile, JSON.stringify({
+    date: today,
+    total: allResults.length,
+    items: allResults,
+  }, null, 2));
+}
+
 const AVAILABLE_THEMES = Object.values(THEMES)
   .map(t => `  "${t.id}": ${t.label} — ${t.description}`)
   .join('\n');
@@ -348,6 +367,7 @@ async function phase2LlmTriage(
   let success = 0;
   let errors = 0;
   let tokensUsed = 0;
+  let rateLimitHits = 0;
 
   for (let i = 0; i < toProcess.length; i++) {
     const candidate = toProcess[i];
@@ -363,16 +383,28 @@ async function phase2LlmTriage(
     console.log(`  ${progress} ${candidate.name}...`);
     const groqResult = await callGroqJSON<Record<string, unknown>>(
       TRIAGE_SYSTEM_PROMPT, prompt,
-      { maxTokens: 1024, temperature: 0.2, timeoutMs: 30_000 },
+      { maxTokens: 512, temperature: 0.2, timeoutMs: 30_000, model: GROQ_MODEL_OVERRIDE },
     );
 
     if (!groqResult.ok) {
       console.error(`    ERROR: ${groqResult.error}`);
       errors++;
-      // On rate limit, stop entirely rather than burning retries
+      // On rate limit, distinguish daily (TPD) vs per-minute (TPM)
       if (groqResult.error?.includes('429') || groqResult.error?.includes('Rate limit')) {
-        console.error('  Rate limit hit. Stopping Phase 2. Re-run later to continue.');
-        break;
+        const isDaily = groqResult.error?.includes('per day') || groqResult.error?.includes('TPD');
+        if (isDaily) {
+          console.error('  Daily token limit reached. Stopping Phase 2. Try --model=8b or wait until tomorrow.');
+          break;
+        }
+        rateLimitHits++;
+        if (rateLimitHits >= 5) {
+          console.error('  Too many rate limits. Stopping Phase 2.');
+          break;
+        }
+        console.log(`    Rate limit #${rateLimitHits} — waiting 65s for TPM window reset...`);
+        await sleep(65_000);
+        i--; // Retry this candidate
+        continue;
       }
       await sleep(DELAY_MS * 2);
       continue;
@@ -390,16 +422,25 @@ async function phase2LlmTriage(
       typeof t === 'string' && VALID_THEME_IDS.has(t)
     ) as string[];
 
-    // Compute real fitScore from LLM themes
+    // Compute real fitScore from LLM themes (algorithmic)
     const applicationMethod = (raw.applicationMethod as string) || 'unknown';
     const isFunder = typeof raw.isFunder === 'boolean' ? raw.isFunder : candidate.isFunder;
-    const { fitScore } = computeFitScore({
+    const { fitScore: algoScore } = computeFitScore({
       themes: validThemes,
       canton: candidate.canton,
       city: candidate.city,
       applicationMethod,
       isFunder,
     });
+
+    // LLM's contextual assessment (0-3 scale → map to 0-10)
+    // 0→0, 1→4, 2→6, 3→8  (conservative: LLM "3" doesn't auto-become 10)
+    const LLM_FIT_MAP = [0, 4, 6, 8] as const;
+    const suggestedFit = typeof raw.suggestedFit === 'number' ? Math.min(3, Math.max(0, Math.round(raw.suggestedFit))) : 0;
+    const llmScore = LLM_FIT_MAP[suggestedFit] ?? 0;
+
+    // Use best of algorithmic and LLM-assessed score
+    const fitScore = Math.max(algoScore, llmScore);
 
     // Priority from fitScore
     const isZurich = candidate.canton === 'ZH';
@@ -426,9 +467,16 @@ async function phase2LlmTriage(
     results.push(result);
     processedSlugs.add(candidate.slug);
     success++;
+    rateLimitHits = 0; // Reset after successful call
 
     const fitLabel = fitScore >= 7 ? '★★★' : fitScore >= 4 ? '★★☆' : '★☆☆';
     console.log(`    → fit=${fitScore} ${fitLabel}, P${priority}, themes=[${validThemes.join(',')}], funder=${isFunder}`);
+
+    // Save progress every 25 results (avoid losing work on interrupts)
+    if (!DRY_RUN && success % 25 === 0) {
+      fs.writeFileSync(processedFile, JSON.stringify([...processedSlugs], null, 2));
+      saveResults(outDir, today, results);
+    }
 
     // Rate limit protection
     if (i < toProcess.length - 1) {
@@ -438,26 +486,10 @@ async function phase2LlmTriage(
 
   console.log(`\n  Phase 2 complete: ${success} triaged, ${errors} errors, ${tokensUsed} tokens used`);
 
-  // Save processed list (for idempotency)
+  // Final save
   if (!DRY_RUN) {
     fs.writeFileSync(processedFile, JSON.stringify([...processedSlugs], null, 2));
-
-    // Write results
-    const resultsFile = path.join(outDir, `phase2-results-${today}.json`);
-    // Append to existing results if re-running
-    let allResults = results;
-    if (fs.existsSync(resultsFile)) {
-      const existing = JSON.parse(fs.readFileSync(resultsFile, 'utf-8')) as { items: TriageResult[] };
-      const existingSlugs = new Set(existing.items.map((r: TriageResult) => r.slug));
-      const newResults = results.filter(r => !existingSlugs.has(r.slug));
-      allResults = [...existing.items, ...newResults];
-    }
-    fs.writeFileSync(resultsFile, JSON.stringify({
-      date: today,
-      total: allResults.length,
-      items: allResults,
-    }, null, 2));
-    console.log(`  Results written to: ${resultsFile}`);
+    saveResults(outDir, today, results);
   }
 
   return results;
@@ -500,6 +532,9 @@ async function phase3Upsert(
         tagline: r.purposeSummary.substring(0, 80),
       };
 
+      // Upgrade from rapid when we have substantial analysis data
+      const hasSubstantialData = r.purposeSummary.length >= 100 && r.themes.length > 0;
+
       try {
         await sql`
           UPDATE fundraising_foundations
@@ -509,6 +544,10 @@ async function phase3Upsert(
             priority = LEAST(priority, ${r.priority}),
             focus_areas = ${JSON.stringify(r.themes)},
             research_date = ${today},
+            research_depth = CASE
+              WHEN ${hasSubstantialData} AND research_depth = 'rapid' THEN 'standard'
+              ELSE research_depth
+            END,
             updated_at = ${now}
           WHERE id = ${r.slug}
         `;
@@ -604,6 +643,7 @@ async function main() {
   console.log('  Pipeline Graduate — Cheap funnel for rapid foundations');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   if (DRY_RUN) console.log('  DRY RUN — no DB writes, no sync');
+  if (GROQ_MODEL_OVERRIDE) console.log(`  Model: ${GROQ_MODEL_OVERRIDE}`);
 
   if (!process.env.DATABASE_URL) {
     console.error('  DATABASE_URL not set. Check .env.local');

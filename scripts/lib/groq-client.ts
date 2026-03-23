@@ -15,6 +15,12 @@ const DEFAULT_TIMEOUT_MS = 60_000;
 const DEFAULT_MAX_TOKENS = 2048;
 const DEFAULT_TEMPERATURE = 0.3;
 
+/** Available models with different rate limits */
+export const GROQ_MODELS = {
+  '70b': 'llama-3.3-70b-versatile',     // 12k TPM, best quality
+  '8b': 'llama-3.1-8b-instant',          // 20k TPM, faster, good for triage
+} as const;
+
 export interface GroqMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
@@ -26,6 +32,8 @@ export interface GroqOptions {
   timeoutMs?: number;
   /** If true, attempt to parse response as JSON */
   json?: boolean;
+  /** Override model (default: llama-3.3-70b-versatile) */
+  model?: string;
 }
 
 export interface GroqResult {
@@ -54,6 +62,7 @@ export async function callGroq(
     temperature = DEFAULT_TEMPERATURE,
     timeoutMs = DEFAULT_TIMEOUT_MS,
     json = false,
+    model = GROQ_MODEL,
   } = options;
 
   const controller = new AbortController();
@@ -61,7 +70,7 @@ export async function callGroq(
 
   try {
     const body: Record<string, unknown> = {
-      model: GROQ_MODEL,
+      model,
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
