@@ -100,7 +100,7 @@ function TimingBlock({ info }: { info: SubmissionInfo }) {
 function EmailBlock({ info }: { info: SubmissionInfo }) {
   const subject = `Fördergesuch ${ORG_PROFILE.name}`;
   const mailtoHref = info.email
-    ? `mailto:${info.email}?subject=${encodeURIComponent(subject)}`
+    ? `mailto:${info.email}?subject=${encodeURIComponent(subject)}${info.emailBody ? `&body=${encodeURIComponent(info.emailBody)}` : ''}`
     : undefined;
 
   return (

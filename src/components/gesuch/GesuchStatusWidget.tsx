@@ -17,6 +17,7 @@ import { computeFollowUpDate, formatFollowUpDate } from '@/lib/utils/parse-respo
 interface GesuchStatusWidgetProps {
   slug: string;
   responseTime?: string;
+  shareToken?: string;
 }
 
 interface ApplicationRow {
@@ -27,7 +28,7 @@ interface ApplicationRow {
   };
 }
 
-export default function GesuchStatusWidget({ slug, responseTime }: GesuchStatusWidgetProps) {
+export default function GesuchStatusWidget({ slug, responseTime, shareToken }: GesuchStatusWidgetProps) {
   const [appId, setAppId] = useState<string | null | undefined>(undefined);
   const [status, setStatus] = useState<ApplicationStatusId | null>(null);
   const [followUpDate, setFollowUpDate] = useState<string | null>(null);
@@ -83,6 +84,7 @@ export default function GesuchStatusWidget({ slug, responseTime }: GesuchStatusW
           status: 'submitted',
           submissionDate: today,
           decisionExpected,
+          documentsSent: ['gesuch-pdf', shareToken ? 'share-link' : null].filter(Boolean),
         }),
       });
       const d = await r.json();

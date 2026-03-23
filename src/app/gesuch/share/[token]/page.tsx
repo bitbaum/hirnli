@@ -25,6 +25,7 @@ import GesuchShareView from '@/components/gesuch/GesuchShareView';
 
 interface Props {
   params: Promise<{ token: string }>;
+  searchParams: Promise<{ s?: string }>;
 }
 
 /** All gesuch-eligible foundation slugs — used for token resolution */
@@ -59,8 +60,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function GesuchSharePage({ params }: Props) {
+export default async function GesuchSharePage({ params, searchParams }: Props) {
   const { token } = await params;
+  const { s: schwerpunktParam } = await searchParams;
 
   // Resolve token → slug (404 on invalid token)
   const slug = resolveShareToken(token, gesuchSlugs());
@@ -69,17 +71,28 @@ export default async function GesuchSharePage({ params }: Props) {
   const foundation = getFoundationBySlug(slug);
   if (!foundation || !hasGesuchPage(foundation)) notFound();
 
-  // Use auto-composed gesuch (best schwerpunkt chosen automatically)
-  // Try each schwerpunkt variant; fall back to auto
+  // If a specific schwerpunkt is requested via ?s= param, try it first
   let gesuch = composeGesuch(foundation);
   let primaryColor = gesuch.themes.all[0]?.color ?? '#3498DB';
 
-  for (const spId of SCHWERPUNKT_IDS) {
+  if (schwerpunktParam && SCHWERPUNKT_IDS.includes(schwerpunktParam as typeof SCHWERPUNKT_IDS[number])) {
+    const spId = schwerpunktParam as typeof SCHWERPUNKT_IDS[number];
     const variant = composeGesuch(foundation, spId);
     if (variant.ready) {
       gesuch = variant;
       primaryColor = SCHWERPUNKTE[spId].color;
-      break;
+    }
+  }
+
+  // If no specific schwerpunkt matched, fall back to auto-selection
+  if (!gesuch.ready || !schwerpunktParam) {
+    for (const spId of SCHWERPUNKT_IDS) {
+      const variant = composeGesuch(foundation, spId);
+      if (variant.ready) {
+        gesuch = variant;
+        primaryColor = SCHWERPUNKTE[spId].color;
+        break;
+      }
     }
   }
 
