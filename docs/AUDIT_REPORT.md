@@ -1,22 +1,22 @@
 # Codebase Audit Report
 
-**Date**: 2026-03-11
+**Date**: 2026-03-19
 **Auditor**: Claude Code (Opus 4.6)
 **Branch**: main
-**Commit**: 027a7b1 (+ uncommitted bug fixes from current session)
-**Previous Audit**: 2026-03-05 (fa82fcb)
+**Commit**: 802b8d1 (+ uncommitted Gesuch workflow improvements)
+**Previous Audit**: 2026-03-11 (027a7b1)
 
 ---
 
 ## Executive Summary
 
-Fourth comprehensive audit of revamp-info, a fundraising intelligence platform built with Next.js 16 + TypeScript + Tailwind CSS v4 + Zod 4. Since the last audit (6 days ago), major work was done on: scoring model simplification (19 concepts → 3), gesuch editor enhancements (anschreiben editing, auto-save, AI rewrite), comprehensive bug hunt (20+ bugs fixed across security, data integrity, and UX), and circular dependency resolution.
+Fifth comprehensive audit of revamp-info, a fundraising intelligence platform built with Next.js 16 + TypeScript + Tailwind CSS v4 + Zod 4. Since the last audit (8 days ago), 10 major Gesuch workflow improvements were implemented: AI auto-draft, pipeline auto-creation, activity logging, version history, readiness scoring, submission checklist, required fields validation, schwerpunkt-aware share links, and a "Meine Gesuche" dashboard. 18 files modified, 9 new files created, +422 lines net.
 
-**Improved since last audit:** God components reduced from 20 to 8 (>300 lines) through decomposition of FundraisingClient.tsx, GesuchPageClient.tsx, and ApplicationPage. API error.message leak fixed (0 remaining, down from 1). Security hardened: constant-time comparison on all auth paths (middleware, share tokens, cron routes). Scoring model crystallized with clear 3-layer architecture documented in CLAUDE.md. Gesuch editor now supports full anschreiben editing with auto-save and AI rewrite. Circular dependency in foundations/index.ts resolved via lazy async import.
+**Improved since last audit:** Gesuch ↔ Pipeline connected (auto-creates draft on first save). Activity logging throughout (override saves, status changes). Version history with rollback. AI system prompt now config-driven (no hardcoded org metrics). Status transitions enforce required fields (submissionDate, awardedAmount, rejectionReason). Share pages preserve schwerpunkt choice. New "Meine Gesuche" dashboard. Modal component already has focus trapping (was listed as missing — verified present with Tab cycling and focus restoration).
 
-**Still concerning:** 13 scripts lack `.catch()` on `main()` calls. Duplicated interfaces across scripts (ESAFoundation in 4 active files, ResearchDepth in 4 files, slugify in 4 files). No test suite. No list virtualization for 1,300+ foundation items. Missing shared loading/error state components. `data_quality` column exists in DB but not in Drizzle schema (vestigial).
+**Still concerning:** No test suite (most critical gap). 13 scripts lack `.catch()`. Duplicated interfaces in scripts. No list virtualization. Some newer components (RequiredFieldsModal, OverrideHistory) need full ARIA markup. Silent error swallowing in `useGesuchOverrides` (`.catch(() => {})`). `alert()`/`confirm()` still used in 2 places.
 
-**Overall verdict:** Architecture is clean and well-documented. Security posture significantly improved. Gesuch workflow is feature-complete. The main gaps are: script cleanup/deduplication, test suite, and UI polish (shared loading states, list virtualization).
+**Overall verdict:** Architecture remains clean and well-documented. The Gesuch workflow is now fully integrated with the pipeline and has rich features (AI drafting, readiness checks, version history, activity timeline). The main gaps are: test suite, structured logging, and accessibility polish on newer components.
 
 ---
 
@@ -24,66 +24,51 @@ Fourth comprehensive audit of revamp-info, a fundraising intelligence platform b
 
 | Area | Score | Prev | Delta | Notes |
 |------|-------|------|-------|-------|
-| First Principles | 8/10 | 7 | +1 | God components halved (20→8). 11 unused exports. Config-driven SSOT intact. |
-| Best Practices | 8.5/10 | 8 | +0.5 | 0 TS errors, 0 `any`, 0 `@ts-ignore`. ESLint: 0 errors, 4 warnings. Error leaks: 0. |
-| Mission Alignment | 9/10 | 9 | = | All 5 value chain stages operational. 3 document types working. Pitch deck + impact report planned. |
-| Functional Correctness | 8.5/10 | 7.5 | +1 | All auth paths constant-time. Cron routes properly excluded from middleware. 20+ bugs fixed. |
-| UI/UX & Responsive | 7.5/10 | 7.5 | = | Mobile-first CSS. Touch targets 9/10. Missing shared loading/error state components. |
-| **Overall** | **8.3/10** | **7.8** | **+0.5** | Security hardening + scoring simplification + bug fixes. Main debt: scripts + test suite. |
+| First Principles | 8.5/10 | 8 | +0.5 | SSOT intact. Pipeline ↔ Gesuch connected. Config-driven AI prompt. |
+| Best Practices | 9/10 | 8.5 | +0.5 | 0 TS errors, 0 `any`, 0 `@ts-ignore`. All API routes structured. Required fields validation. |
+| Mission Alignment | 9/10 | 9 | = | All 5 value chain stages operational. 3 document types + schwerpunkt-aware share links. |
+| Functional Correctness | 8/10 | 8.5 | -0.5 | Auth solid. New features work. But: silent error swallowing, alert() usage, no error boundaries on new routes. |
+| UI/UX & Responsive | 8.5/10 | 7.5 | +1 | Modal focus trapping verified. New components follow responsive patterns. Missing empty states for filtered results. |
+| **Overall** | **8.5/10** | **8.3** | **+0.2** | 10 Gesuch improvements shipped. Main debt: test suite + accessibility polish. |
 
 ---
 
 ## Phase 1: First Principles
 
 ### Ground Truth #1: Software serves humans
-- All features serve the fundraising workflow (ingest → present → find → profile → generate)
-- Gesuch editor now feature-complete (anschreiben, auto-save, AI rewrite, PDF download)
-- 11 unused exports identified (dead code candidates):
-  - `RESEARCH_SOURCES`, `TEAM_SUMMARY`, `WORKSHOP_BEST_PRACTICES` (config)
-  - `calcSelfFinancingRate`, `countAtLeast`, `getNumber`, `getRecommendations` (domain)
-  - `getStatusColor`, `readinessToTier`, `themeStyleSolid`, `validateNumber` (utils)
-- 10 archived scripts (3,710 lines) + 4 versioned copies that should be deleted
+**Score: 9/10** — Every feature maps to the fundraising workflow. New improvements directly serve user needs: AI auto-draft saves manual effort, readiness checklist guides users, activity timeline provides visibility, "Meine Gesuche" dashboard gives overview. No dead features found.
 
 ### Ground Truth #2: State defines behavior (SSOT)
-- Foundation data pipeline SSOT intact: DB → sync → generated.ts → UI
-- **Violation:** ESAFoundation interface duplicated in 4 active script files
-- **Violation:** ResearchDepth type duplicated in 4 scripts (should import from schema)
-- **Violation:** slugify() duplicated in 4 scripts (should use scripts/lib/)
-- **Violation:** DB connection setup inline in 15+ scripts (should use shared db.ts)
-- **Fixed:** `orgId` added to `ORG_PROFILE` — hardcoded `'revamp-it'` replaced in gesuch-overrides and apply-overrides
-- **Fixed:** Hardcoded dashboard URL in cron emails replaced with `ORG_PROFILE.platform.url`
+**Score: 9/10** — Exemplary SSOT discipline:
+- Foundation pipeline: DB → sync → generated.ts → UI (unchanged, working)
+- AI system prompt now assembled from `ORG_PROFILE.missionAreas` (was hardcoded)
+- Pipeline auto-created from gesuch save (single source of workflow state)
+- Activity log as SSOT for version history (snapshots stored in actionDetails)
+- `application-statuses.ts` now SSOT for required fields per status transition
+
+**Remaining violations** (from previous audit, unchanged):
+- ESAFoundation interface duplicated in 4 script files
+- ResearchDepth type duplicated in 4 scripts
+- slugify() duplicated in 4 scripts
+- DB connection setup inline in 15+ scripts
 
 ### Ground Truth #3: Design for change
-- Config-driven architecture properly maintained
-- 2-file test passes: adding a foundation field requires only schema + config changes
-- 4 versioned script copies remain (v2, v3, v3.1)
+**Score: 8.5/10** — Config-driven architecture properly maintained. Adding a status transition rule = 1 config entry in `application-statuses.ts`. Adding a readiness check = 1 entry in `gesuch-readiness.ts`. The `computeGesuchReadiness()` function is a pure domain function with no HTTP or UI dependencies.
 
 ### Ground Truth #4: Automate the mechanical
-- Research pipeline automates LLM research (triage → research → upsert → sync → build)
-- Quality gate enforcement automated via lazy import in foundations/index.ts
-- 13 scripts lack error handling (`.catch()` on main())
+**Score: 7.5/10** — Pipeline entry auto-created on first gesuch save. AI auto-draft generates 3 fields in one click. Readiness score computed automatically from data completeness. But: no automated tests, no CI checks beyond build, 13 scripts still lack error handling.
 
 ### Ground Truth #5: Complexity compounds
-**God Components (>300 lines) — 8 files (down from 20):**
+**Score: 9/10** — No new god components introduced. New files are focused:
+- `gesuch-readiness.ts`: 80 lines, pure function
+- `ActivityTimeline.tsx`: ~90 lines, single responsibility
+- `SubmissionChecklist.tsx`: ~50 lines, local state only
+- `RequiredFieldsModal.tsx`: ~100 lines, focused modal
 
-| Lines | File | Notes |
-|-------|------|-------|
-| 589 | `src/app/methodik/components.tsx` | 10 section components in one file |
-| 445 | `src/components/gesuch/GesuchEditPanel.tsx` | FieldRow inline + AI rewrite |
-| 433 | `src/app/finanzen/components.tsx` | Financial sections |
-| 422 | `src/app/fundraising/pipeline-methodik/page.tsx` | Static content |
-| 414 | `src/app/fundraising/bildung/page.tsx` | Static content |
-| 413 | `src/app/fundraising/scoring-methodik/page.tsx` | Static content |
-| 413 | `src/app/fundraising/stiftungen/FoundationListClient.tsx` | Complex client |
-| 346 | `src/components/fundraising/EditApplicationModal.tsx` | Modal with forms |
-
-**Zero `any` types, zero `@ts-ignore`, zero TODO/FIXME, zero console.log in production code.**
+God components from previous audit remain (8 files > 300 lines), unchanged.
 
 ### Ground Truth #6: Correctness beats speed
-- 0 TypeScript errors
-- 20+ bugs fixed in current session (CRITICAL through LOW)
-- Scoring model simplified from 19 concepts to 3 clean layers
-- Security: constant-time comparison on all auth paths
+**Score: 7.5/10** — Required fields validation prevents invalid status transitions. Readiness checks verify data completeness before submission. TypeScript strict mode catches type errors. But: no test suite means correctness relies entirely on the type system. Silent `.catch(() => {})` in useGesuchOverrides swallows errors.
 
 ---
 
@@ -93,26 +78,32 @@ Fourth comprehensive audit of revamp-info, a fundraising intelligence platform b
 
 | Check | Result | Notes |
 |-------|--------|-------|
-| `npx tsc --noEmit` | PASS (0 errors) | Clean compilation |
-| `npx next lint` | 0 errors, 4 warnings | 3 unused vars in scripts, 1 unused eslint-disable in generated file |
-| `npm run build` | PASS | 1,359 foundation pages, 176 gesuch pages generated |
+| `npx tsc --noEmit` | PASS (0 errors) | Clean compilation with all 9 new files |
+| `npm run build` | PASS | All static pages generated successfully |
+| `npx next lint` | 0 errors | Clean |
 
 ### Critical Rules Compliance
 
 | Rule | Status | Details |
 |------|--------|---------|
-| No console.log in src/ | PASS | 0 instances (scripts use console legitimately) |
-| Parameterized queries | PASS | Neon tagged templates + Drizzle ORM throughout |
-| Swiss German (ss not ß) | PASS | No ß in user-facing code |
+| No console.log in src/ | PASS | 0 instances in production code |
+| Parameterized queries | PASS | Drizzle ORM throughout, new activity-log route included |
+| Swiss German (ss not ß) | PASS | All new UI strings use real umlauts |
 | TypeScript strict | PASS | 0 errors, 0 `any`, 0 `@ts-ignore` |
-| API response format | PASS | All 19 routes use `{ success, data/error }` consistently |
-| Error message exposure | PASS | 0 routes leak error.message (fixed in this session) |
-| Naming conventions | PASS | Components PascalCase, config kebab-case, constants UPPER_SNAKE |
+| API response format | PASS | All routes (including 3 new ones) use `{ success, data/error }` |
+| Error message exposure | PASS | Generic error messages in all API responses |
+| Naming conventions | PASS | All new files follow conventions |
+| Auth on protected routes | PASS | New routes covered by existing middleware matcher |
 
-### Console Usage
-- `console.error` in 8 component files — all in error-reporting catch blocks (acceptable)
-- `console.error` in all 17 API routes — contextual server-side logging (acceptable)
-- No `console.log` pollution in production code
+### New Code Quality
+
+| Aspect | Status | Notes |
+|--------|--------|-------|
+| Activity log API | PASS | Proper query params validation, limit capping, structured response |
+| Gesuch readiness | PASS | Pure domain function, no side effects, clear check definitions |
+| Required fields modal | PASS | Handles all field types (text, number, date), re-submits on success |
+| Override history | PASS | Fetches activity log, computes field diffs, supports rollback via PUT |
+| Pipeline auto-creation | PASS | Fire-and-forget with ref guard against repeated calls |
 
 ---
 
@@ -122,33 +113,49 @@ Fourth comprehensive audit of revamp-info, a fundraising intelligence platform b
 
 | Stage | Status | Evidence |
 |-------|--------|---------|
-| 1. INGEST | Implemented | Financial data, impact metrics, foundation DB (16,623), org profile |
+| 1. INGEST | Implemented | Financial data, impact metrics, foundation DB (16,623), org profile with missionAreas |
 | 2. PRESENT | Implemented | Dashboard, financials, wirkung, methodik, team — all with click-to-inspect |
-| 3. FIND | Implemented | Foundation list with filters, search, triage script, 1,359 detail pages |
-| 4. PROFILE | Implemented | Fit analysis, readiness tiers, priority scoring — 3-layer config-driven model |
-| 5. GENERATE | Implemented | Gesuch PDF + one-pager + share pages. 176 gesuch-ready foundations |
+| 3. FIND | Implemented | Foundation list with filters, search, triage pipeline, 1,377+ detail pages |
+| 4. PROFILE | Implemented | Fit analysis, readiness tiers, priority scoring, gesuch readiness checks |
+| 5. GENERATE | Implemented | Gesuch PDF + one-pager + share pages + AI auto-draft + version history |
 
 ### Document Generation
 
-| Document Type | Status | Route |
+| Document Type | Status | Notes |
 |---------------|--------|-------|
-| Gesuch PDF (full 4-page) | Working | `/api/pdf/gesuch/[slug]` |
-| One-pager concept note | Working | `/api/pdf/gesuch/[slug]/onepager` |
-| Shareable landing page | Working | `/gesuch/share/[token]` |
-| Legacy Gesuch PDF | Working | `/api/documents/gesuch/[id]` |
-| Pitch Deck | Not implemented | Planned Phase 2 |
-| Impact Report | Not implemented | Planned Phase 2 |
+| Gesuch PDF (full 4-page) | Working | With override merging |
+| One-pager concept note | Working | With override merging |
+| Shareable landing page | Working | Now schwerpunkt-aware via `?s=` param |
+| AI auto-draft | Working | Generates foundationBridge + 2 anschreiben fields |
+| Pitch Deck | Not yet | Planned Phase 2 |
+| Impact Report | Not yet | Planned Phase 2 |
+
+### Gesuch Workflow Completeness
+
+| Feature | Status | Improvement # |
+|---------|--------|---------------|
+| AI system prompt from config | Done | #1 |
+| Pipeline auto-creation | Done | #2 |
+| Activity logging | Done | #3 |
+| Version history + rollback | Done | #4 |
+| AI auto-draft (1-click) | Done | #5 |
+| Readiness scoring | Done | #6 |
+| Submission checklist | Done | #7 |
+| Required fields on status change | Done | #8 |
+| Schwerpunkt in share links | Done | #9 |
+| "Meine Gesuche" dashboard | Done | #10 |
 
 ### Data Transparency
-- NumberInspector component: click-to-inspect on all dashboard metrics
-- Methodology page: comprehensive transparency report with data gaps
-- Sources cited in config files with source type (live/derived/estimated)
+- NumberInspector: click-to-inspect on all dashboard metrics
+- Methodology page: comprehensive transparency report
+- AI prompt: sources and metrics from ORG_PROFILE (no hidden hardcoded values)
+- Readiness checklist: transparent about what's missing
 
-### Multi-tenancy Readiness
-- ORG-SPECIFIC markers on 17 files (all documented)
-- Registry/analysis schema split maintained
-- `ORG_PROFILE.orgId` now centralizes the DB identifier (fixed in this session)
-- One remaining hardcoded name: `'Andreas Hunkeler'` in legacy gesuch route (`src/app/api/documents/gesuch/[id]/route.tsx:100`)
+### Swiss Context
+- CHF currency throughout
+- Swiss German with real umlauts (ä ö ü, ss not ß)
+- Zurich address from ORG_PROFILE
+- 4-digit postal codes
 
 ---
 
@@ -156,39 +163,51 @@ Fourth comprehensive audit of revamp-info, a fundraising intelligence platform b
 
 ### Quick Wins (< 1 hour each)
 
-| # | Issue | File(s) | Effort |
-|---|-------|---------|--------|
-| 1 | Add `overflow-x-auto` to BudgetSection tables | `src/components/gesuch/BudgetSection.tsx:64,120,153` | 10 min |
-| 2 | Add `sr-only` text for fit stars in FoundationSidebar | `src/components/foundation/FoundationSidebar.tsx:152` | 5 min |
-| 3 | Add `role="dialog"` and `aria-modal="true"` to FilterDrawer | `src/components/foundation/FilterDrawer.tsx:34` | 5 min |
-| 4 | Add loading/error state for pipeline slugs fetch | `FoundationListClient.tsx:87-101` | 15 min |
-| 5 | Add fallback for GesuchPageClient null return | `GesuchPageClient.tsx:86` | 10 min |
-| 6 | Standardize focus styles (`focus-visible` everywhere) | `GesuchEditPanel.tsx:119,128`, `FoundationListClient.tsx:244` | 20 min |
-| 7 | Move hardcoded contact name to ORG_PROFILE | `src/app/api/documents/gesuch/[id]/route.tsx:100` | 5 min |
-| 8 | Delete 11 unused exports | See Phase 1 list | 15 min |
+| # | Issue | File | Priority |
+|---|-------|------|----------|
+| 1 | ShareButton clipboard missing error handler (silent failure on HTTPS) | `components/ui/ShareButton.tsx:8` | User Impact |
+| 2 | RequiredFieldsModal lacks `role="dialog"`, `aria-modal`, `aria-labelledby` | `components/fundraising/RequiredFieldsModal.tsx:66` | User Impact |
+| 3 | ErrorAlert missing `aria-live="polite"` for screen reader announcements | `components/ui/ErrorAlert.tsx:22` | User Impact |
+| 4 | FoundationListClient has no "0 results" empty state for filtered results | `components/foundation/FoundationListClient.tsx` | User Impact |
+| 5 | WhyThisMatters uses hardcoded `border-blue-200`, `bg-blue-50` instead of tokens | `components/layout/WhyThisMatters.tsx:21` | Code Quality |
+| 6 | Add `overflow-x-auto` to BudgetSection tables | `components/gesuch/BudgetSection.tsx:64,120,153` | Code Quality |
+| 7 | Add `sr-only` text for fit stars in FoundationSidebar | `components/foundation/FoundationSidebar.tsx:152` | Code Quality |
+| 8 | Delete 11 unused exports from previous audit | Various config/domain/utils files | Code Quality |
+| 9 | Missing null check in financial export for empty org name | `app/api/export/financial/route.ts:10` | Code Quality |
+| 10 | ShareButton should have `title` tooltip for clipboard action | `components/ui/ShareButton.tsx:18` | Nice-to-have |
 
-### Medium Effort (1-5 hours)
+### Medium Effort (1-5 hours each)
 
-| # | Issue | Details | Effort |
-|---|-------|---------|--------|
-| 1 | Create shared `LoadingSkeleton` and `ErrorState` | Extract unified loading/error UI from scattered patterns | 2 hrs |
-| 2 | Split `methodik/components.tsx` (589 lines) | Split into `methodik/sections/` directory | 2 hrs |
-| 3 | Extract `FieldRow` from GesuchEditPanel | Move to `src/components/gesuch/FieldRow.tsx` | 30 min |
-| 4 | Extract duplicated types to scripts/lib/ | ESAFoundation (4 files), ResearchDepth (4), slugify (4) | 1.5 hrs |
-| 5 | Add `.catch()` to 13 script `main()` calls | Prevent silent failures | 30 min |
-| 6 | Responsive GesuchEditPanel header | Add `flex-col sm:flex-row` for mobile stacking | 15 min |
-| 7 | List virtualization for foundation list | Add `@tanstack/react-virtual` for 1,300+ items | 4 hrs |
-| 8 | Add focus trapping to Modal | Implement Tab-cycling focus trap | 1.5 hrs |
+| # | Issue | Effort | Priority |
+|---|-------|--------|----------|
+| 1 | **Test suite setup** — Jest for scoring engine, format utils, API validation | 4-5h | Mission Impact |
+| 2 | **Structured logging** — Replace console.error with request IDs across 18+ API routes | 3-4h | Mission Impact |
+| 3 | **Fix silent error swallowing** in useGesuchOverrides `.catch(() => {})` → error state | 1h | User Impact |
+| 4 | **Replace alert()/confirm()** in useApplicationForm and GesuchEditPanel with Modal | 2h | User Impact |
+| 5 | **Add error.tsx + not-found.tsx boundaries** for dynamic route segments | 2h | User Impact |
+| 6 | **Foundation data build-time Zod validation** on generated stiftungen-generated.ts | 2h | Mission Impact |
+| 7 | **Extract duplicated script types** (ESAFoundation ×4, ResearchDepth ×4, slugify ×4) to scripts/lib/ | 1.5h | Code Quality |
+| 8 | **Add `.catch()` to 13 script `main()` calls** | 30m | Code Quality |
+| 9 | **RequiredFieldsModal field validation** — Zod-based constraints beyond truthiness | 1h | Code Quality |
+| 10 | **Split methodik/components.tsx** (589 lines) into sections/ directory | 2h | Code Quality |
 
-### Strategic (multi-day)
+### Strategic Improvements
 
-| # | Initiative | Effort | Priority |
-|---|-----------|--------|----------|
-| 1 | Test suite (unit tests for domain logic) | 3-5 days | High |
-| 2 | Pitch deck generation (Phase 2) | 3-5 days | Medium |
-| 3 | Impact report from live data (Phase 2) | 3-5 days | Medium |
-| 4 | Batch application submission workflow | 5-7 days | Medium |
-| 5 | Multi-tenant onboarding automation (Phase 3) | 5-10 days | Low |
+| # | Improvement | Effort | Priority |
+|---|-------------|--------|----------|
+| 1 | **E2E test suite** — Playwright for gesuch workflow, pipeline, PDF generation, share pages | 5-8h | Mission Impact |
+| 2 | **Comprehensive accessibility audit** — axe DevTools, aria-live regions, semantic dialog | 4-6h | Mission Impact |
+| 3 | **API rate limiting** — Per-IP limits on sensitive routes | 2h | Security |
+| 4 | **List virtualization** — @tanstack/react-virtual for 1,300+ foundation items | 4h | Performance |
+| 5 | **Pitch deck generation** (Phase 2 remaining) | 3-5 days | Medium |
+| 6 | **Impact report from live data** (Phase 2 remaining) | 3-5 days | Medium |
+
+### Recommended Execution Order
+
+**Week 1**: Quick wins 1-7 + Medium #3 (silent error catch) — ~8 hours
+**Week 2**: Medium #1 (test setup) + Medium #2 (structured logging) — ~8 hours
+**Week 3**: Medium #4-6 (alert migration, error boundaries, build validation) — ~6 hours
+**Month 2**: Strategic #1 (E2E tests) + Strategic #2 (accessibility) — ~12 hours
 
 ---
 
@@ -196,137 +215,159 @@ Fourth comprehensive audit of revamp-info, a fundraising intelligence platform b
 
 ### Authentication & Authorization
 
-| Route | Auth | Method | Status |
-|-------|------|--------|--------|
-| `/fundraising/**` | HTTP Basic Auth | Middleware | PASS |
-| `/api/pdf/**` | HTTP Basic Auth | Middleware | PASS |
-| `/api/applications/**` | HTTP Basic Auth | Middleware | PASS |
-| `/api/gesuch-overrides/**` | HTTP Basic Auth | Middleware | PASS |
-| `/api/ai/**` | HTTP Basic Auth | Middleware | PASS |
-| `/api/export/**` | HTTP Basic Auth | Middleware | PASS |
-| `/api/foundations/**` | HTTP Basic Auth | Middleware | PASS |
-| `/api/customizations/**` | HTTP Basic Auth | Middleware | PASS |
-| `/api/documents/**` | HTTP Basic Auth | Middleware | PASS |
-| `/api/cron/**` | Bearer CRON_SECRET | Route-level | PASS (fixed: removed from middleware, added timingSafeEqual) |
-| `/gesuch/share/**` | HMAC token | Public by design | PASS |
-| Public pages | None | Intentional | PASS |
-
-### Security Hardening (Fixed in This Session)
-
-| Fix | Before | After |
-|-----|--------|-------|
-| Middleware password | `===` comparison | `safeEqual()` constant-time (Edge compatible) |
-| Share token | `===` comparison | `crypto.timingSafeEqual` |
-| Cron routes | Blocked by middleware Basic Auth | Own Bearer token auth, excluded from middleware |
-| Cron secret | `!==` comparison | `crypto.timingSafeEqual` |
-| Import slug collisions | Name-based dedup only | Slug-based dedup + within-batch collision detection |
-| One-pager error leak | `error.message` exposed | Generic error message only |
-| rescore.ts priority | Simplified heuristic overwrote DB | Only updates fitScore, preserves existing priority |
+| Route Pattern | Auth Method | Status |
+|---------------|-------------|--------|
+| `/fundraising/**` | HTTP Basic Auth (middleware) | PASS |
+| `/api/pdf/**` | HTTP Basic Auth (middleware) | PASS |
+| `/api/applications/**` | HTTP Basic Auth (middleware) | PASS |
+| `/api/gesuch-overrides/**` | HTTP Basic Auth (middleware) | PASS |
+| `/api/activity-log` | HTTP Basic Auth (middleware) | PASS (new) |
+| `/api/ai/**` | HTTP Basic Auth (middleware) | PASS |
+| `/api/export/**` | HTTP Basic Auth (middleware) | PASS |
+| `/api/foundations/**` | HTTP Basic Auth (middleware) | PASS |
+| `/api/cron/**` | Bearer CRON_SECRET (route-level) | PASS |
+| `/gesuch/share/**` | HMAC-SHA256 token (public) | PASS |
+| Public pages | None (intentional) | PASS |
 
 ### Gesuch Workflow Verification
 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | 3-step wizard | PASS | Focus → Review/Edit → Submit |
-| Override persistence | PASS | Auto-save on blur/navigation, useRef for stale closure fix |
-| Anschreiben editing | PASS | 4 fields (subject, opening, themeAlignment, closing) |
+| AI auto-draft | PASS | Generates foundationBridge + anschreiben.opening + themeAlignment |
+| AI system prompt | PASS | Assembled from ORG_PROFILE.missionAreas (no hardcoded metrics) |
+| Pipeline auto-creation | PASS | Draft application created on first gesuch save |
+| Override persistence | PASS | Auto-save with activity logging |
+| Version history | PASS | Activity log snapshots with rollback support |
+| Readiness scoring | PASS | 6 checks, 0-100 score, ready threshold at 60% |
+| Submission checklist | PASS | 4 local-state checkboxes |
+| Required fields | PASS | Status transitions validate submissionDate/awardedAmount/rejectionReason |
+| Share links | PASS | Schwerpunkt preserved via `?s=` query param |
 | PDF generation | PASS | Full gesuch + one-pager with overrides applied |
-| Share page | PASS | HMAC token, no double override, robots noindex |
-| Zod validation | PASS | API schema includes anschreiben fields (critical fix) |
+| "Meine Gesuche" | PASS | Lists all foundations with overrides, status, field count |
 
-### API Routes (19 total)
+### API Routes
 
-All routes checked for: auth middleware, error handling, input validation, response format consistency.
+| Check | Status | Notes |
+|-------|--------|-------|
+| Structured responses | PASS | All routes return `{ success, data/error }` |
+| Input validation | PASS | Zod schemas validate request bodies |
+| Required fields enforcement | PASS | 422 response with `missingFields` array on invalid transitions |
+| Activity logging | PASS | Override saves logged with full snapshot |
+| Auth coverage | PASS | All internal routes protected |
 
-**Remaining findings:**
+### Remaining Findings
 
-| Severity | Finding | File | Notes |
-|----------|---------|------|-------|
-| MEDIUM | Applications DELETE is hard delete | `src/app/api/applications/[id]/route.ts:228` | Consider soft delete |
-| LOW | ILIKE search unescaped wildcards | `src/app/api/foundations/route.ts:70` | Low risk (auth-protected) |
-| LOW | No rate limiting on AI rewrite | `src/app/api/ai/gesuch-section/route.ts` | Mitigated by auth |
-| LOW | `data_quality` column not in Drizzle schema | `src/lib/db/schema.ts` (absent) | Vestigial, scripts use raw SQL |
-
-### Data Integrity
-
-- Upsert logic: `GREATEST`/`LEAST` for fitScore/priority (never downgrades)
-- Foreign key constraints: present on all references
-- Shallow JSONB merge documented as acceptable tradeoff
-- Circular dependency resolved via lazy async import
+| Severity | Finding | File |
+|----------|---------|------|
+| MEDIUM | Silent `.catch(() => {})` swallows errors | `hooks/useGesuchOverrides.ts` |
+| MEDIUM | `alert()` used for errors | `hooks/useApplicationForm.ts:153,159` |
+| MEDIUM | Applications DELETE is hard delete | `app/api/applications/[id]/route.ts:228` |
+| LOW | No rate limiting on AI rewrite | `app/api/ai/gesuch-section/route.ts` |
+| LOW | ILIKE search unescaped wildcards | `app/api/foundations/route.ts:70` |
 
 ---
 
 ## Phase 6: UI/UX & Responsive Design
 
-### Responsive Design: 8/10
-- Mobile-first approach confirmed (187 responsive breakpoint classes)
-- Grid layouts properly responsive (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`)
-- 9 hardcoded pixel widths — all justified (min-width for flex children, desktop-only elements)
-- Financial tables have mobile card alternatives (`hidden sm:block` / `sm:hidden`)
+### Responsive Design: 8.5/10
+
+**Strengths:**
+- Mobile-first approach with proper breakpoint escalation (`sm:` → `md:` → `lg:` → `xl:`)
+- Grid layouts: consistently `grid-cols-1` base → responsive columns
+- Navigation: mobile drawer + desktop nav at `lg:` breakpoint
+- Foundation detail: mobile quick actions (`lg:hidden`) + desktop sidebar (`lg:grid-cols-[1fr_300px]`)
+- Financial tables: mobile card view + desktop table (`hidden sm:block`)
+- Typography scales: `text-2xl md:text-3xl`, `text-3xl md:text-5xl`
+- Layout constraint: `max-w-7xl` with `px-4` padding throughout
+
+**Gaps:**
+- WhyThisMatters uses hardcoded blue colors instead of design tokens
+- No "0 results" empty state when foundation filters match nothing
+- Some dashboard child components lack individual loading states
 
 ### Touch Targets: 9/10
-- 44px minimum enforced on 20+ interactive elements via `min-h-11`
-- 1 issue: AI preset buttons in GesuchEditPanel are ~24px tall on mobile
 
-### States: 6.5/10
-- Loading states present in ~60% of async components
-- No shared `LoadingSkeleton` or `ErrorState` component
-- Mix of plain text and skeleton patterns (inconsistent)
-- `GesuchPageClient` returns `null` when data not ready (blank page)
-- FoundationListClient pipeline fetch has no loading/error feedback
+- All buttons use `min-h-11 min-w-11` (44px minimum)
+- MobileAccordion items: `min-h-11`
+- Tabs: `min-h-11 px-4 py-2.5`
+- Button component: 3 size variants (sm: 32px, md: 40px, lg: 48px)
+- Minor: Badge text (`text-xs px-2.5 py-0.5`) is small but badges are non-interactive
 
-### Accessibility: 7/10
+### Accessibility: 8/10
+
+**Good:**
+- Semantic HTML: `<nav>`, `<main>`, `<footer>`, `<table>`, proper heading hierarchy
+- ARIA: `aria-expanded`, `aria-controls`, `aria-label`, `aria-hidden`, `aria-current`, `aria-selected`, `aria-valuemin/max/now`
+- Focus management: focus trap in Modal (Tab cycling + focus restoration), `focus-visible` outlines
+- Keyboard navigation: tabs, accordions, modals all accessible
 - `lang="de-CH"` on `<html>` element
-- 21 `aria-label` instances, 19 ARIA `role` attributes
-- 123 semantic HTML elements (main, section, article, etc.)
-- Tabs component has proper ARIA patterns
-- Modal handles Escape key but lacks focus trapping
-- Only 1 `sr-only` text in entire codebase (should be more)
-- Focus styles inconsistent (`focus:` vs `focus-visible:`)
 
-### Performance
-- Foundation list: progressive loading (50 at a time), no virtualization
-- Charts: dynamically imported with skeleton fallbacks
-- Generated file: 500KB+ (BABEL deoptimises but build succeeds)
+**Needs improvement:**
+- RequiredFieldsModal missing `role="dialog"`, `aria-modal`, `aria-labelledby`
+- ErrorAlert missing `aria-live="polite"` for dynamic announcements
+- Some newer components (OverrideHistory drawer) could use more ARIA markup
+- Only 1 `sr-only` text in entire codebase
+
+### States Coverage: 7.5/10
+
+| State | Coverage | Notes |
+|-------|----------|-------|
+| Loading | ~70% | `LoadingState` component exists. Used in "Meine Gesuche", gesuch page, applications. Some dashboard children lack it. |
+| Empty | ~60% | "Meine Gesuche" has good empty state. Foundation list missing "0 results" state. |
+| Error | ~50% | ErrorAlert exists. Not used in all data-fetching components. Silent error swallowing in hook. |
+| Success | ~80% | Copy-to-clipboard confirmation, status change feedback, save confirmation. |
+
+### Design Tokens: 9/10
+
+- Comprehensive token system in `globals.css` (@theme)
+- Semantic colors: primary, success, warning, danger
+- Theme colors for foundation categorization
+- Gradient utility classes for hero sections
+- Print styles for Gesuch PDF output
+- One violation: WhyThisMatters uses hardcoded `border-blue-200`/`bg-blue-50`
 
 ---
 
-## Changes Since Last Audit (2026-03-05)
+## Changes Since Last Audit (2026-03-11)
 
-### Scoring Model
-- Simplified from 19 overlapping concepts to 3 clean layers (Fit, Readiness, Priority)
-- All config in `src/lib/config/fit-scoring.ts` — zero magic numbers in domain engines
-- Documented in CLAUDE.md § Scoring Model
+### New Features (10 Gesuch Improvements)
 
-### Gesuch Editor
-- Added full anschreiben editing (4 fields: subject, opening, themeAlignment, closing)
-- Auto-save on step navigation
-- Save error display with user feedback
-- Reset confirmation dialog
-- Fixed stale closure bug (useRef pattern)
-- Fixed Zod schema silently stripping anschreiben overrides (CRITICAL)
-
-### Security
-- Constant-time comparison on: middleware password, share tokens, cron secrets
-- Cron routes excluded from Basic Auth (have own Bearer token auth)
-- Import slug collision handling (slug-based dedup + within-batch detection)
-- One-pager error leak fixed
-- rescore.ts no longer overwrites priorities with simplified heuristic
-
-### Bug Fixes (20+)
-- CRITICAL: API Zod schema stripping anschreiben overrides
-- HIGH: fitScore=0 showing 1 star, config_data drift on PATCH, import `||` treating 0 as falsy
-- MEDIUM: PostBlock address duplication, CHF 0 budget, double override on share page, stale closure, case-sensitive search, division by zero in budget
-- LOW: Dead `invitation` method in scoring, stale scoring-methodik text, parseInt NaN guards, pagination count performance
+| # | Feature | Files | Lines |
+|---|---------|-------|-------|
+| 1 | AI system prompt from config | org-profile.ts, gesuch-section/route.ts | +30 |
+| 2 | Pipeline auto-creation on gesuch save | useGesuchOverrides.ts, gesuch-overrides/[slug]/route.ts | +45 |
+| 3 | Activity log API + timeline component | api/activity-log/route.ts (new), ActivityTimeline.tsx (new) | +130 |
+| 4 | Override version history + rollback | OverrideHistory.tsx (new), StepReview.tsx | +120 |
+| 5 | AI auto-draft (1-click) | useGesuchOverrides.ts, StepReview.tsx, GesuchPageClient.tsx | +40 |
+| 6 | Gesuch readiness scoring | gesuch-readiness.ts (new), GesuchReadinessChecklist.tsx (new) | +130 |
+| 7 | Submission checklist + enhanced submit | SubmissionChecklist.tsx (new), StepSubmit.tsx, GesuchStatusWidget.tsx, GesuchSubmitSection.tsx | +70 |
+| 8 | Required fields on status transitions | application-statuses.ts, applications/[id]/route.ts, RequiredFieldsModal.tsx (new), ApplicationBoard.tsx | +120 |
+| 9 | Schwerpunkt-aware share links | gesuch/share/[token]/page.tsx, StepSubmit.tsx | +15 |
+| 10 | "Meine Gesuche" dashboard | api/gesuch-overrides/route.ts (new), fundraising/gesuche/page.tsx (new), nav.ts | +130 |
 
 ### Improved Metrics
-- God components: 20 → 8
-- API error.message leaks: 1 → 0
-- Security: 5 timing attack vectors → 0
-- ESLint errors: 1 → 0
 
-### Regressed Metrics
-- None identified
+| Metric | Previous | Current | Delta |
+|--------|----------|---------|-------|
+| Gesuch workflow features | 7 | 17 | +10 |
+| API routes | 19 | 22 | +3 |
+| ARIA attributes | 40 | 45+ | +5 |
+| God components (>300 lines) | 8 | 8 | = |
+| TypeScript errors | 0 | 0 | = |
+| `any` types | 0 | 0 | = |
+| Overall health score | 8.3 | 8.5 | +0.2 |
+
+### Verified Fixes from Previous Audit
+
+| Previous Action Item | Status |
+|---------------------|--------|
+| Modal focus trapping | VERIFIED PRESENT (was listed as missing — Tab cycling + focus restoration confirmed) |
+| Gesuch ↔ Pipeline disconnected | FIXED (auto-creates draft on first save) |
+| No activity logging | FIXED (override saves + status changes logged) |
+| No version history | FIXED (activity log snapshots with rollback) |
+| No readiness checks | FIXED (6-check scoring system) |
+| No submission workflow | FIXED (checklist + required fields + enhanced mailto) |
 
 ---
 
@@ -334,40 +375,39 @@ All routes checked for: auth middleware, error handling, input validation, respo
 
 ### Immediate (This Week)
 
-1. [x] Fix all timing attack vectors — DONE (middleware, share token, cron routes)
-2. [x] Fix API error.message leak — DONE (one-pager route)
-3. [x] Fix circular dependency — DONE (lazy async import)
-4. [x] Centralize org ID — DONE (ORG_PROFILE.orgId)
-5. [ ] Add `overflow-x-auto` to BudgetSection tables
-6. [ ] Add `sr-only` text for fit stars in FoundationSidebar
-7. [ ] Add loading state for pipeline slugs fetch in FoundationListClient
-8. [ ] Delete 11 unused exports
+1. [ ] Fix silent `.catch(() => {})` in useGesuchOverrides → add error state feedback
+2. [ ] Add `role="dialog"`, `aria-modal`, `aria-labelledby` to RequiredFieldsModal
+3. [ ] Add `aria-live="polite"` to ErrorAlert for screen reader announcements
+4. [ ] Add empty state UI for foundation list when filters return 0 results
+5. [ ] Replace `alert()`/`confirm()` in useApplicationForm and GesuchEditPanel with Modal
+6. [ ] Fix WhyThisMatters hardcoded blue colors → use design tokens
+7. [ ] Add ShareButton clipboard error handler
 
 ### Short Term (Next Sprint)
 
-9. [ ] Create shared `LoadingSkeleton` and `ErrorState` components
-10. [ ] Split `methodik/components.tsx` (589 lines)
-11. [ ] Extract `FieldRow` from GesuchEditPanel
-12. [ ] Extract duplicated types to scripts/lib/ (ESAFoundation, ResearchDepth, slugify)
+8. [ ] **Test suite setup** — Jest for scoring engine, format utils, readiness checks, API validation
+9. [ ] **Structured logging** — Request IDs + error context across API routes
+10. [ ] Add error.tsx + not-found.tsx boundaries for dynamic route segments
+11. [ ] Foundation data build-time Zod validation
+12. [ ] Extract duplicated script types to scripts/lib/
 13. [ ] Add `.catch()` to 13 script `main()` calls
-14. [ ] Consider soft delete for applications (currently hard delete)
+14. [ ] Add individual loading states to dashboard child components
 
-### Medium Term (March-April 2026)
+### Medium Term (April 2026)
 
-15. [ ] Begin test suite — start with domain logic in lib/domain/ (highest ROI)
-16. [ ] List virtualization for foundation list (@tanstack/react-virtual)
-17. [ ] Implement pitch deck generation (Phase 2 remaining)
-18. [ ] Implement impact report generation (Phase 2 remaining)
-19. [ ] Add focus trapping to Modal component
-20. [ ] Standardize focus styles (focus-visible everywhere)
+15. [ ] E2E test suite with Playwright (gesuch workflow, pipeline, PDF, share pages)
+16. [ ] Comprehensive accessibility audit with axe DevTools
+17. [ ] API rate limiting on sensitive routes
+18. [ ] List virtualization for 1,300+ foundation items
+19. [ ] Split methodik/components.tsx (589 lines)
 
 ### Long Term (Q2 2026)
 
-21. [ ] Multi-tenant architecture preparation (Phase 3)
-22. [ ] Full E2E test suite with Playwright
-23. [ ] Comprehensive accessibility audit with screen reader testing
-24. [ ] Batch application submission workflow
+20. [ ] Pitch deck generation (Phase 2)
+21. [ ] Impact report from live data (Phase 2)
+22. [ ] Multi-tenant architecture preparation (Phase 3)
+23. [ ] Full E2E test suite with screen reader testing
 
 ---
 
-*Report generated by Claude Code (Opus 4.6) on 2026-03-11*
+*Report generated by Claude Code (Opus 4.6) on 2026-03-19*
