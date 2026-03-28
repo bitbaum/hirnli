@@ -84,25 +84,25 @@ export function classifyThemes(purposeLower: string, nameLower: string): ThemeId
     }
   }
 
-  // Compound: education + digital → digitale-bildung
+  // Compound: education + digital → digitale-bildung (STRICT: must be IT/tech education)
   if (!themes.includes('digitale-bildung')) {
     const hasEdu = ['bildung', 'ausbildung', 'weiterbildung', 'berufsbildung', 'schulung'].some(kw => fullText.includes(kw));
-    const hasDig = ['digital', 'technologie', 'computer', 'medien', 'it-', 'online', 'internet'].some(kw => fullText.includes(kw));
+    const hasDig = ['informatik', 'computer', 'it-', 'software', 'programmier', 'coding'].some(kw => fullText.includes(kw));
     if (hasEdu && hasDig) themes.push('digitale-bildung');
   }
 
-  // Compound: work + integration → arbeitsintegration
+  // Compound: work + integration → arbeitsintegration (STRICT: must mention integration/reintegration)
   if (!themes.includes('arbeitsintegration')) {
     const hasWork = ['beruf', 'arbeit', 'erwerbstätig', 'beschäftig'].some(kw => fullText.includes(kw));
-    const hasInt = ['integration', 'eingliederung', 'wiedereinstieg', 'einstieg'].some(kw => fullText.includes(kw));
+    const hasInt = ['arbeitsintegration', 'berufliche integration', 'eingliederung', 'wiedereingliederung'].some(kw => fullText.includes(kw));
     if (hasWork && hasInt) themes.push('arbeitsintegration');
   }
 
-  // Compound: beschäftigung + integration/massnahme/sozial → arbeitsintegration
+  // Compound: beschäftigung + integration → arbeitsintegration (STRICT)
   if (!themes.includes('arbeitsintegration')) {
     const hasBeschaeftigung = fullText.includes('beschäftigung');
-    const hasSignal = ['integration', 'massnahme', 'sozial'].some(kw => fullText.includes(kw));
-    if (hasBeschaeftigung && hasSignal) themes.push('arbeitsintegration');
+    const hasInt = ['integration', 'eingliederung', 'massnahme'].some(kw => fullText.includes(kw));
+    if (hasBeschaeftigung && hasInt) themes.push('arbeitsintegration');
   }
 
   // Compound: nachhaltigkeit + consumption/resource signal → kreislaufwirtschaft
@@ -112,12 +112,9 @@ export function classifyThemes(purposeLower: string, nameLower: string): ThemeId
     if (hasNachhaltigkeit && hasResourceSignal) themes.push('kreislaufwirtschaft');
   }
 
-  // Compound: innovation + sozial/gesellschaft → soziale-integration
-  if (!themes.includes('soziale-integration')) {
-    const hasInnovation = fullText.includes('innovation');
-    const hasSocialSignal = ['sozial', 'gesellschaft'].some(kw => fullText.includes(kw));
-    if (hasInnovation && hasSocialSignal) themes.push('soziale-integration');
-  }
+  // Removed overly broad "innovation + sozial → soziale-integration" rule
+  // This was causing false positives on foundations that mention "social innovation"
+  // but have nothing to do with RevampIT's mission (e.g., medical research, sports)
 
   return themes as ThemeId[];
 }
