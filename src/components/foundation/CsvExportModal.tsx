@@ -93,6 +93,14 @@ interface ColumnGroup {
   columns: CsvColumn[];
 }
 
+// Generate binary theme columns from THEMES config (SSOT)
+const THEME_COLUMNS: CsvColumn[] = Object.values(THEMES).map((t) => ({
+  id: `theme_${t.id}`,
+  label: t.label,
+  defaultOn: true,
+  getValue: (f: Foundation) => (f.themes ?? []).includes(t.id) ? 'X' : '',
+}));
+
 const COLUMN_GROUPS: ColumnGroup[] = [
   {
     label: 'Basisdaten',
@@ -116,9 +124,12 @@ const COLUMN_GROUPS: ColumnGroup[] = [
     ],
   },
   {
+    label: 'Schwerpunkte',
+    columns: THEME_COLUMNS,
+  },
+  {
     label: 'Bewertung',
     columns: [
-      { id: 'themes', label: 'Schwerpunkte', defaultOn: true, getValue: (f) => (f.themes ?? []).map((t) => THEMES[t]?.label ?? t).join(', ') },
       { id: 'fitScore', label: 'Fit-Score (0–10)', defaultOn: true, getValue: (f) => String(f.fitScore ?? 0) },
       { id: 'priority', label: 'Priorität (P1–P4)', defaultOn: true, getValue: (f) => `P${computePriorityScore(f).level}` },
       { id: 'tier', label: 'Qualitäts-Tier', defaultOn: false, getValue: (f) => getQualityTier(f) },
