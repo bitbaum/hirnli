@@ -22,11 +22,13 @@
  * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
  */
 
+import { z } from 'zod';
 import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated'
 import { SPACE_SUMMARY } from './hub-space-plan'
 import { ORG_PROFILE } from './org-profile'
 
-export type NumberConfidence = 'high' | 'medium' | 'estimated' | 'target' | 'unknown';
+export const NumberConfidence = z.enum(['high', 'medium', 'estimated', 'target', 'unknown']);
+export type NumberConfidence = z.infer<typeof NumberConfidence>;
 
 export interface NumberSource {
   value: string | number;

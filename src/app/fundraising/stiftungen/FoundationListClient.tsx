@@ -7,6 +7,7 @@ import FoundationCard from '@/components/foundation/FoundationCard';
 import FilterSidebar from '@/components/foundation/FilterSidebar';
 import FilterDrawer from '@/components/foundation/FilterDrawer';
 import { STIFTUNGEN_DATA, PRIORITY_CONFIG } from '@/lib/config/foundations';
+import CsvExportModal from '@/components/foundation/CsvExportModal';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
 import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
 import { computeTierCounts, hasGesuchPage } from '@/lib/domain/foundation-helpers';
@@ -81,6 +82,7 @@ export default function FoundationListClient() {
 
   // Mobile drawer state
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [csvModalOpen, setCsvModalOpen] = useState(false);
 
   // Foundation slugs that already have a pipeline entry
   const [pipelineSlugs, setPipelineSlugs] = useState<Set<string>>(new Set());
@@ -337,8 +339,8 @@ export default function FoundationListClient() {
             </div>
           )}
 
-          {/* Results summary */}
-          <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
+          {/* Results summary + CSV export */}
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 text-sm">
             <span className="text-text-muted">
               {visibleCount < filteredCount
                 ? `${Math.min(visibleCount, filteredCount)} von ${filteredCount} angezeigt`
@@ -346,6 +348,17 @@ export default function FoundationListClient() {
               {highFitCount > 0 && ` | ${highFitCount} mit hohem Fit`}
               {openCount > 0 && ` | ${openCount} offen`}
             </span>
+            <button
+              onClick={() => setCsvModalOpen(true)}
+              disabled={filtered.length === 0}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-grey-dark hover:bg-bg-light disabled:cursor-not-allowed disabled:opacity-40"
+              title={`${filteredCount} Stiftungen als CSV exportieren`}
+            >
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              CSV Export
+            </button>
           </div>
 
           {/* Foundation list */}
@@ -390,6 +403,12 @@ export default function FoundationListClient() {
           <StoryBridge bridges={STORY_BRIDGES.stiftungen || []} />
         </div>
       </div>
+
+      <CsvExportModal
+        isOpen={csvModalOpen}
+        onClose={() => setCsvModalOpen(false)}
+        foundations={filtered}
+      />
     </div>
   );
 }

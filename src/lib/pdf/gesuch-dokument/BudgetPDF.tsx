@@ -12,6 +12,7 @@ import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { ThemeKey } from '@/lib/config/stories';
 import { getThemedLabel } from '@/lib/domain/budget-calculations';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
 import { styles, COLORS, pdfFormatCHF } from './styles';
 
 interface BudgetPDFProps {
@@ -142,7 +143,7 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
 
       <Text style={[styles.muted, styles.mb12, { marginTop: 4 }]}>
         Stiftungsanteil sinkt von {Math.round((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) / dok.budget.threeYearModel[0].total * 100)}% (Jahr 1) auf {Math.round(dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total * 100)}% (Jahr 3).
-        Eigenleistung = bewertete Freiwilligenarbeit (Stunden x CHF 35/h), kein Cashflow. Wächst durch Community-Aufbau und Hub-Betrieb.
+        Eigenleistung = bewertete Freiwilligenarbeit (Stunden x CHF {EIGENLEISTUNG_CONFIG.ratePerHour}/h), kein Cashflow. Wächst durch Community-Aufbau und Hub-Betrieb.
       </Text>
 
       {/* Year 1 detail */}

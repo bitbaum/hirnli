@@ -26,6 +26,7 @@ export const ORG_PROFILE = {
   contactName: 'Andreas Hunkeler',
   phone: '+41 (0)43 960 32 64',
   warehouseAddress: 'Badenerstrasse 816, 8048 Zürich',
+  taxExemption: 'Steuerbefreit gemäss Kanton Zürich',
 
   // Platform identity
   platform: {

@@ -1,5 +1,6 @@
 import Badge from '@/components/ui/Badge';
 import { formatCHF } from '@/lib/utils/format';
+import { EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import {
   THREE_YEAR_MODEL,
@@ -170,7 +171,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
       </div>
 
       <p className="mt-3 text-xs text-text-muted italic">
-        * Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF 35/h, NGO-Standard), kein Cashflow.
+        * Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF {EIGENLEISTUNG_CONFIG.ratePerHour}/h, NGO-Standard), kein Cashflow.
         Jahr 3 setzt ~6.857 Freiwilligen-Stunden voraus (~3.4 Vollzeit-Äquivalente).
       </p>
     </section>

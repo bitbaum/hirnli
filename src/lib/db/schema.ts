@@ -209,28 +209,8 @@ export const gesuchOverrides = pgTable('fundraising_gesuch_overrides', {
 export type GesuchOverride = typeof gesuchOverrides.$inferSelect;
 export type NewGesuchOverride = typeof gesuchOverrides.$inferInsert;
 
-/** Typed shape of the overrides JSONB */
-export interface GesuchOverridesData {
-  foundationBridge?: string;
-  why?: {
-    headline?: string;
-    hook?: string;
-    problem?: string;
-    solution?: string;
-  };
-  how?: {
-    trackRecord?: {
-      headline?: string;
-      text?: string;
-    };
-  };
-  anschreiben?: {
-    subject?: string;
-    opening?: string;
-    themeAlignment?: string;
-    closing?: string;
-  };
-}
+/** Typed shape of the overrides JSONB — Zod schema is SSOT */
+export type { GesuchOverridesData } from '../schemas/gesuch-overrides';
 
 /**
  * Contacts Table - Email/phone validation + communication history

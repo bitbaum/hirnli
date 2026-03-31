@@ -81,5 +81,6 @@ export const config = {
     '/api/customizations/:path*',
     // /api/cron/** excluded — routes have own Bearer token auth (CRON_SECRET)
     '/api/documents/:path*',
+    '/api/activity-log/:path*',
   ],
 };

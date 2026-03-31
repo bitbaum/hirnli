@@ -157,7 +157,7 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
     { label: 'Projektname / Titel', value: `${ORG_PROFILE.name} — ${ORG_PROFILE.missionSummary}` },
     { label: 'Beantragte Fördersumme', value: 'Siehe Gesuch-PDF (Budgetseite)' },
     { label: 'Projektbeschrieb', value: 'Aus Gesuch-PDF (Projektbeschrieb)' },
-    { label: 'Gemeinnützigkeit', value: 'Ja — steuerbefreit gemäss Kanton Zürich' },
+    { label: 'Gemeinnützigkeit', value: `Ja — ${ORG_PROFILE.taxExemption}` },
   ];
 
   return (

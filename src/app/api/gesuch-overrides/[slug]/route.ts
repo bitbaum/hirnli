@@ -9,43 +9,13 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
-import { gesuchOverrides, activityLog, type GesuchOverridesData } from '@/lib/db/schema';
+import { gesuchOverrides, activityLog } from '@/lib/db/schema';
+import { gesuchOverridesSchema, type GesuchOverridesData } from '@/lib/schemas/gesuch-overrides';
 import { eq, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
-import { z } from 'zod';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 const ORG_ID = ORG_PROFILE.orgId;
-
-const overridesSchema = z.object({
-  foundationBridge: z.string().optional(),
-  why: z
-    .object({
-      headline: z.string().optional(),
-      hook: z.string().optional(),
-      problem: z.string().optional(),
-      solution: z.string().optional(),
-    })
-    .optional(),
-  how: z
-    .object({
-      trackRecord: z
-        .object({
-          headline: z.string().optional(),
-          text: z.string().optional(),
-        })
-        .optional(),
-    })
-    .optional(),
-  anschreiben: z
-    .object({
-      subject: z.string().optional(),
-      opening: z.string().optional(),
-      themeAlignment: z.string().optional(),
-      closing: z.string().optional(),
-    })
-    .optional(),
-});
 
 /** Fire-and-forget activity log entry for override saves */
 async function logOverrideSave(slug: string, overrides: GesuchOverridesData) {
@@ -126,7 +96,7 @@ export async function PUT(
     return NextResponse.json({ success: false, error: 'Ungültige Anfrage' }, { status: 400 });
   }
 
-  const parsed = overridesSchema.safeParse(body);
+  const parsed = gesuchOverridesSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
       { success: false, error: 'Validierungsfehler', details: parsed.error.flatten() },
@@ -181,7 +151,7 @@ export async function PATCH(
     return NextResponse.json({ success: false, error: 'Ungültige Anfrage' }, { status: 400 });
   }
 
-  const parsed = overridesSchema.safeParse(body);
+  const parsed = gesuchOverridesSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
       { success: false, error: 'Validierungsfehler', details: parsed.error.flatten() },
@@ -196,7 +166,8 @@ export async function PATCH(
       .where(and(eq(gesuchOverrides.foundationId, slug), eq(gesuchOverrides.orgId, ORG_ID)))
       .limit(1);
 
-    const currentOverrides = (existing[0]?.overrides ?? {}) as GesuchOverridesData;
+    const existingParsed = gesuchOverridesSchema.safeParse(existing[0]?.overrides ?? {});
+    const currentOverrides: GesuchOverridesData = existingParsed.success ? existingParsed.data : {};
     const merged = deepMerge(currentOverrides, parsed.data);
 
     if (existing.length > 0) {

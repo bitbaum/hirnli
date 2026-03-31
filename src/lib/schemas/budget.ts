@@ -77,6 +77,7 @@ export const BudgetScenarioSchema = z.object({
 export const EigenleistungConfigSchema = z.object({
   label: z.string(),
   description: z.string(),
+  ratePerHour: z.number().min(0),
   year1: z.number().min(0),
   year2: z.number().min(0),
   year3: z.number().min(0),

@@ -468,6 +468,7 @@ export const BUDGET_SCENARIOS: BudgetScenario[] = [
 export const EIGENLEISTUNG_CONFIG: EigenleistungConfig = {
   label: 'Freiwilligenarbeit (nicht Cash)',
   description: 'Bewerteter Wert der Freiwilligenarbeit, KEIN Cashflow. Abgeleitet aus Bottom-up Revenue-Modell (REVENUE_STREAMS in fundraising/data.ts). Jahr 3 = CHF 195k entspricht dem 8-Stream-Revenue-Ziel.',
+  ratePerHour: 35,
   year1: 100_000,
   year2: 140_000,
   year3: 195_000,
