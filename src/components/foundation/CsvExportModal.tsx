@@ -81,6 +81,12 @@ function getOwnWebsite(f: Foundation): string {
   return url;
 }
 
+/** Google search link as fallback when data is missing */
+function googleSearch(name: string, ...terms: string[]): string {
+  const q = encodeURIComponent([name, 'Stiftung Schweiz', ...terms].join(' '));
+  return `https://www.google.com/search?q=${q}`;
+}
+
 interface CsvColumn {
   id: string;
   label: string;
@@ -107,7 +113,7 @@ const COLUMN_GROUPS: ColumnGroup[] = [
     columns: [
       { id: 'name', label: 'Name', defaultOn: true, getValue: (f) => f.name },
       { id: 'type', label: 'Typ (A/B/C/D)', defaultOn: true, getValue: (f) => f.type ?? '' },
-      { id: 'websiteUrl', label: 'Website', defaultOn: true, getValue: (f) => getOwnWebsite(f) },
+      { id: 'websiteUrl', label: 'Website', defaultOn: true, getValue: (f) => getOwnWebsite(f) || googleSearch(f.name, 'website') },
       { id: 'purposeSummary', label: 'Zweckbeschreibung', defaultOn: false, getValue: (f) => f.purposeSummary ?? '' },
       { id: 'tagline', label: 'Kurzbeschreibung', defaultOn: false, getValue: (f) => f.tagline ?? '' },
     ],
@@ -115,11 +121,14 @@ const COLUMN_GROUPS: ColumnGroup[] = [
   {
     label: 'Adresse',
     columns: [
-      { id: 'street', label: 'Strasse', defaultOn: true, getValue: (f) => addressCache(f).street },
+      { id: 'street', label: 'Strasse', defaultOn: true, getValue: (f) => {
+        const a = addressCache(f);
+        return a.street || (a.zip ? '' : googleSearch(f.name, 'adresse'));
+      }},
       { id: 'zip', label: 'PLZ', defaultOn: true, getValue: (f) => addressCache(f).zip },
       { id: 'city', label: 'Ort', defaultOn: true, getValue: (f) => addressCache(f).city },
       { id: 'region', label: 'Region / Kanton', defaultOn: true, getValue: (f) => f.region ?? '' },
-      { id: 'email', label: 'E-Mail', defaultOn: true, getValue: (f) => f.contact?.email ?? '' },
+      { id: 'email', label: 'E-Mail', defaultOn: true, getValue: (f) => f.contact?.email || googleSearch(f.name, 'kontakt email') },
       { id: 'phone', label: 'Telefon', defaultOn: false, getValue: (f) => f.contact?.phone ?? '' },
     ],
   },
