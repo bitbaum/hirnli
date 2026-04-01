@@ -82,6 +82,11 @@ export const foundations = pgTable('fundraising_foundations', {
   researchDate: text('research_date'), // ISO date
   researchFilePath: text('research_file_path'), // Path to original /research/*.md file
 
+  // Data confidence tracking
+  dataConfidence: text('data_confidence'), // 'unverified' | 'ai-assessed' | 'human-verified'
+  verifiedAt: timestamp('verified_at', { withTimezone: true }),
+  verifiedBy: text('verified_by'), // Who verified the data
+
   // Full config object (Zod Foundation schema shape) — used by sync script
   // to generate TypeScript config. DB is write SSOT, generated TS is build cache.
   configData: jsonb('config_data'),

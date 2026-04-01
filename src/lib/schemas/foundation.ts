@@ -177,6 +177,7 @@ export const analysisSchema = z.object({
   // -- Scoring (see CLAUDE.md § Scoring Model) --------------------------------
   // fitScore is the ONLY stored fit metric. Display stars computed via getFitLevel().
   fitScore: z.number().min(0).max(10).default(0),
+  fitExplanation: z.string().optional(), // Human-readable score breakdown
   fit: z.number().min(0).max(3).optional(), // DEPRECATED → getFitLevel(f)
   // priority is stored (1-4) or computed from Fit × Readiness.
   // priorityOverride=true means stored value takes precedence.

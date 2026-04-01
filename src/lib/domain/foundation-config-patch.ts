@@ -20,6 +20,7 @@ interface PatchInput {
   grantRangeMax?: number | null;
   contactEmail?: string | null;
   contactPhone?: string | null;
+  contactAddress?: string | null;
   strategicFit?: string | null;
   applicationNotes?: string | null;
   researchDepth?: string | null;
@@ -70,13 +71,14 @@ export function mergeConfigPatch(
     };
   }
 
-  // Nested merge: contact (preserve existing email/phone when only one changes)
-  if (data.contactEmail !== undefined || data.contactPhone !== undefined) {
+  // Nested merge: contact (preserve existing email/phone/address when only one changes)
+  if (data.contactEmail !== undefined || data.contactPhone !== undefined || data.contactAddress !== undefined) {
     const existingContact = (existingConfig.contact ?? {}) as Record<string, unknown>;
     patch.contact = {
       ...existingContact,
       ...(data.contactEmail !== undefined ? { email: data.contactEmail } : {}),
       ...(data.contactPhone !== undefined ? { phone: data.contactPhone } : {}),
+      ...(data.contactAddress !== undefined ? { address: data.contactAddress } : {}),
     };
   }
 

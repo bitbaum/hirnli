@@ -34,21 +34,18 @@ async function syncFoundations() {
 
   console.log('\nSyncing foundations from DB...\n');
 
-  // Include foundations that are either:
-  //   1. Non-rapid (standard/deep) — manually or substantively researched
-  //   2. Rapid BUT pipeline-flagged as researched — have ESA purpose text,
-  //      themes, fit analysis, and contact info from automated screening
-  // This excludes the ~15k rapid name-only entries (which would bloat TS to 24MB)
-  // while surfacing ~900 rapid entries that have substantive analysis data.
+  // Quality gate: only include foundations with verified or AI-assessed data.
+  // Excludes ~15k 'unverified' bulk imports (AI-guessed themes, no contact data).
+  // Keeps ~1,200 foundations that have substantive research (standard/deep depth).
+  //
+  // Previous filter used needsResearch flag — replaced with data_confidence
+  // column (set by set-confidence.ts migration) for clearer semantics.
   const rows = await sql`
     SELECT id, config_data
     FROM fundraising_foundations
     WHERE config_data IS NOT NULL
-      AND (
-        research_depth IS NULL
-        OR research_depth != 'rapid'
-        OR (config_data->>'needsResearch')::boolean = false
-      )
+      AND (archived = false OR archived IS NULL)
+      AND (data_confidence IS NULL OR data_confidence != 'unverified')
     ORDER BY id
   `;
 

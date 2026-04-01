@@ -22,6 +22,7 @@ const updateFoundationSchema = z.object({
   websiteUrl: z.string().url().optional().nullable(),
   contactEmail: z.string().email().optional().nullable(),
   contactPhone: z.string().optional().nullable(),
+  contactAddress: z.string().optional().nullable(),
 
   fitScore: z.number().min(0).max(10).optional().nullable(),
   priority: z.number().min(1).max(4).optional().nullable(),
