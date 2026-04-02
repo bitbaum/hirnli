@@ -22,6 +22,9 @@ export interface FoundationFilters {
   hideOperative: boolean;
   hideNetworks: boolean;
   hideNoApplication: boolean;
+  requireEmail: boolean;
+  requirePhone: boolean;
+  requireAddress: boolean;
   minTier: QualityTier;
 }
 
@@ -37,6 +40,9 @@ export const DEFAULT_FILTERS: FoundationFilters = {
   hideOperative: false,
   hideNetworks: false,
   hideNoApplication: false,
+  requireEmail: false,
+  requirePhone: false,
+  requireAddress: false,
   minTier: 'profiliert',
 };
 
@@ -44,7 +50,7 @@ export const DEFAULT_FILTERS: FoundationFilters = {
 // Quick-view presets — preset filter combos for common sidebar actions
 // ============================================================================
 
-export type FilterPresetId = 'bewerbungsbereit' | 'hoher-fit' | 'alle';
+export type FilterPresetId = 'bewerbungsbereit' | 'hoher-fit' | 'mit-email' | 'alle';
 
 export interface FilterPreset {
   id: FilterPresetId;
@@ -66,6 +72,12 @@ export const FILTER_PRESETS: FilterPreset[] = [
     label: 'Hoher Fit',
     description: 'Fit ★★★ oder ★★☆',
     filters: { fit: [3, 2] },
+  },
+  {
+    id: 'mit-email',
+    label: 'Mit E-Mail',
+    description: 'Nur Stiftungen mit E-Mail-Adresse',
+    filters: { requireEmail: true },
   },
   {
     id: 'alle',
@@ -125,6 +137,11 @@ export function filterFoundations(
 
     // Hide foundations without application method
     if (filters.hideNoApplication && (f.applicationMethod === 'unknown' || f.applicationMethod === 'none')) return false;
+
+    // Contact availability filters
+    if (filters.requireEmail && !f.contact?.email) return false;
+    if (filters.requirePhone && !f.contact?.phone) return false;
+    if (filters.requireAddress && !f.contact?.address) return false;
 
     // Minimum quality tier filter
     if (!tierAtLeast(getQualityTier(f), filters.minTier)) return false;

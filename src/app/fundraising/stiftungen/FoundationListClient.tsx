@@ -39,6 +39,9 @@ function countActiveFilters(
   if (filters.hideNoApplication) count++;
   if (filters.hideOperative) count++;
   if (filters.hideNetworks) count++;
+  if (filters.requireEmail) count++;
+  if (filters.requirePhone) count++;
+  if (filters.requireAddress) count++;
   if (filters.minTier !== 'profiliert') count++;
   return count;
 }
@@ -63,6 +66,9 @@ export default function FoundationListClient() {
     toggleHideNoApplication,
     toggleHideOperative,
     toggleHideNetworks,
+    toggleRequireEmail,
+    toggleRequirePhone,
+    toggleRequireAddress,
     setMinTier,
     togglePriorityLevel,
     applyPreset,
@@ -154,6 +160,9 @@ export default function FoundationListClient() {
     toggleHideNoApplication,
     toggleHideOperative,
     toggleHideNetworks,
+    toggleRequireEmail,
+    toggleRequirePhone,
+    toggleRequireAddress,
     setMinTier,
     togglePriorityLevel,
     applyPreset,
@@ -326,6 +335,15 @@ export default function FoundationListClient() {
               )}
               {filters.hideNetworks && (
                 <FilterPill label="Ohne Netzwerke" onRemove={toggleHideNetworks} />
+              )}
+              {filters.requireEmail && (
+                <FilterPill label="E-Mail" onRemove={toggleRequireEmail} />
+              )}
+              {filters.requirePhone && (
+                <FilterPill label="Telefon" onRemove={toggleRequirePhone} />
+              )}
+              {filters.requireAddress && (
+                <FilterPill label="Adresse" onRemove={toggleRequireAddress} />
               )}
               {filters.minTier !== 'profiliert' && (
                 <FilterPill label={`Min: ${filters.minTier}`} onRemove={() => setMinTier('profiliert')} />

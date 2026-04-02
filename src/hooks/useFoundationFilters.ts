@@ -42,6 +42,9 @@ export function useFoundationFilters(foundations: Foundation[]) {
     hideOperative: searchParams.get('hideOp') === '1',
     hideNetworks: searchParams.get('hideNet') === '1',
     hideNoApplication: searchParams.get('hideNoApp') === '1',
+    requireEmail: searchParams.get('email') === '1',
+    requirePhone: searchParams.get('phone') === '1',
+    requireAddress: searchParams.get('addr') === '1',
     minTier: parseTierParam(searchParams),
   }), [searchParams]);
 
@@ -125,6 +128,18 @@ export function useFoundationFilters(foundations: Foundation[]) {
     updateParams({ hideNet: filters.hideNetworks ? null : '1' });
   }, [filters.hideNetworks, updateParams]);
 
+  const toggleRequireEmail = useCallback(() => {
+    updateParams({ email: filters.requireEmail ? null : '1' });
+  }, [filters.requireEmail, updateParams]);
+
+  const toggleRequirePhone = useCallback(() => {
+    updateParams({ phone: filters.requirePhone ? null : '1' });
+  }, [filters.requirePhone, updateParams]);
+
+  const toggleRequireAddress = useCallback(() => {
+    updateParams({ addr: filters.requireAddress ? null : '1' });
+  }, [filters.requireAddress, updateParams]);
+
   const setMinTier = useCallback((tier: QualityTier) => {
     // Default tier is omitted from URL; also remove legacy param
     const isDefault = tier === DEFAULT_FILTERS.minTier;
@@ -153,6 +168,9 @@ export function useFoundationFilters(foundations: Foundation[]) {
     if (pf.fit && pf.fit.length > 0) params.set('fit', pf.fit.join(','));
     if (pf.priorityLevels && pf.priorityLevels.length > 0) params.set('pl', pf.priorityLevels.join(','));
     if (pf.themes && pf.themes.length > 0) params.set('themes', pf.themes.join(','));
+    if (pf.requireEmail) params.set('email', '1');
+    if (pf.requirePhone) params.set('phone', '1');
+    if (pf.requireAddress) params.set('addr', '1');
 
     const qs = params.toString();
     router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
@@ -209,6 +227,9 @@ export function useFoundationFilters(foundations: Foundation[]) {
       filters.hideOperative ||
       filters.hideNetworks ||
       filters.hideNoApplication ||
+      filters.requireEmail ||
+      filters.requirePhone ||
+      filters.requireAddress ||
       filters.minTier !== DEFAULT_FILTERS.minTier
     );
   }, [filters]);
@@ -233,6 +254,9 @@ export function useFoundationFilters(foundations: Foundation[]) {
     toggleHideNoApplication,
     toggleHideOperative,
     toggleHideNetworks,
+    toggleRequireEmail,
+    toggleRequirePhone,
+    toggleRequireAddress,
     setMinTier,
     togglePriorityLevel,
     applyPreset,

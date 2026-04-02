@@ -44,6 +44,9 @@ interface FilterSidebarProps {
   toggleHideNoApplication: () => void;
   toggleHideOperative: () => void;
   toggleHideNetworks: () => void;
+  toggleRequireEmail: () => void;
+  toggleRequirePhone: () => void;
+  toggleRequireAddress: () => void;
   setMinTier: (tier: QualityTier) => void;
   togglePriorityLevel: (level: number) => void;
   applyPreset: (presetId: FilterPresetId) => void;
@@ -72,6 +75,9 @@ export default function FilterSidebar({
   toggleHideNoApplication,
   toggleHideOperative,
   toggleHideNetworks,
+  toggleRequireEmail,
+  toggleRequirePhone,
+  toggleRequireAddress,
   setMinTier,
   togglePriorityLevel,
   applyPreset,
@@ -85,6 +91,9 @@ export default function FilterSidebar({
     const matchesPriority = pf.priorityLevels
       ? JSON.stringify(filters.priorityLevels) === JSON.stringify(pf.priorityLevels)
       : filters.priorityLevels.length === 0;
+    const matchesEmail = pf.requireEmail ? filters.requireEmail === pf.requireEmail : !filters.requireEmail;
+    const matchesPhone = pf.requirePhone ? filters.requirePhone === pf.requirePhone : !filters.requirePhone;
+    const matchesAddress = pf.requireAddress ? filters.requireAddress === pf.requireAddress : !filters.requireAddress;
     const noOtherFilters =
       filters.themes.length === 0 &&
       filters.types.length === 0 &&
@@ -94,7 +103,7 @@ export default function FilterSidebar({
       !filters.hideNetworks &&
       !filters.hideNoApplication &&
       !filters.search;
-    return matchesTier && matchesFit && matchesPriority && noOtherFilters;
+    return matchesTier && matchesFit && matchesPriority && matchesEmail && matchesPhone && matchesAddress && noOtherFilters;
   });
 
   return (
@@ -251,6 +260,31 @@ export default function FilterSidebar({
         </div>
       </CollapsibleSection>
 
+      {/* Erreichbarkeit — compact toggle pills */}
+      <CollapsibleSection title="Erreichbarkeit" count={
+        (filters.requireEmail ? 1 : 0) + (filters.requirePhone ? 1 : 0) + (filters.requireAddress ? 1 : 0) || undefined
+      }>
+        <div className="flex flex-wrap gap-1.5">
+          {([
+            { active: filters.requireEmail, toggle: toggleRequireEmail, label: 'E-Mail' },
+            { active: filters.requirePhone, toggle: toggleRequirePhone, label: 'Telefon' },
+            { active: filters.requireAddress, toggle: toggleRequireAddress, label: 'Adresse' },
+          ] as const).map(({ active, toggle, label }) => (
+            <button
+              key={label}
+              onClick={toggle}
+              className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                active
+                  ? 'bg-primary text-white'
+                  : 'bg-grey-light text-grey-dark hover:bg-border'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </CollapsibleSection>
+
       {/* Boolean toggles */}
       <div className="border-b border-border py-3">
         <div className="space-y-2">
@@ -261,7 +295,7 @@ export default function FilterSidebar({
               onChange={toggleHideNoApplication}
               className="rounded border-border"
             />
-            Nur mit Bewerbungsweg
+            Mit Bewerbungsweg
           </label>
           <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-text-muted">
             <input
