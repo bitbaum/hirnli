@@ -36,6 +36,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { neon } from '@neondatabase/serverless';
 import { classifyThemes, scoreFunderOperator, classifyType } from './lib/theme-classifier';
+import { isRegistryUrl } from '../src/lib/config/registry-domains';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import type { Foundation } from '../src/lib/schemas/foundation';
 
@@ -126,10 +127,7 @@ function buildAddress(city: string, canton: string): string {
   return 'Schweiz';
 }
 
-function isRegistryUrl(url: string): boolean {
-  if (!url) return true;
-  return url.includes('zefix.ch') || url.includes('uid.admin.ch');
-}
+// isRegistryUrl imported from src/lib/config/registry-domains
 
 /** Normalize name for fuzzy matching */
 function normalizeName(name: string): string {

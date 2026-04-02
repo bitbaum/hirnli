@@ -1,6 +1,7 @@
 import type { Foundation } from '../schemas/foundation';
 import { isResearched } from './foundation-helpers';
 import { QUALITY_THRESHOLDS } from '../config/fit-scoring';
+import { isRegistryUrl } from '../config/registry-domains';
 
 export interface QualityViolation {
   slug: string;
@@ -37,6 +38,8 @@ export function validateFoundationQuality(data: Foundation[]): QualityViolation[
     }
     if (!f.websiteUrl) {
       issues.push('websiteUrl missing');
+    } else if (isRegistryUrl(f.websiteUrl)) {
+      issues.push('websiteUrl is a registry/directory link, not foundation website');
     }
 
     if (issues.length > 0) {

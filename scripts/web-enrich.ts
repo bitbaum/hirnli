@@ -33,6 +33,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { neon } from '@neondatabase/serverless';
 import { fetchRaw, stripHtml } from './lib/web-extract';
+import { isRegistryUrl } from '../src/lib/config/registry-domains';
 import { extractContactData, type ExtractedContact } from './lib/contact-extractor';
 import type { Foundation } from '../src/lib/schemas/foundation';
 
@@ -279,9 +280,6 @@ async function main() {
   // Filter to foundations that:
   // 1. Have a real website (or discovered URL) AND
   // 2. Are missing email or phone
-  const isRegistryUrl = (url: string) =>
-    !url || url.includes('zefix') || url.includes('uid.admin') || url.includes('stiftungschweiz.ch') || url.includes('fundraiso.ch');
-
   const enrichable = rows.filter(row => {
     const url = discoveredUrls.get(row.id) || row.website_url;
     if (!url || isRegistryUrl(url)) return false;

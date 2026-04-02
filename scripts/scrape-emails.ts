@@ -10,6 +10,7 @@
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 import { neon } from '@neondatabase/serverless';
+import { isRegistryUrl } from '../src/lib/config/registry-domains';
 
 const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -173,8 +174,8 @@ async function main() {
   console.log(`Minimum fit: ${FIT_MIN}`);
   console.log('');
 
-  // Get foundations with real website but no email
-  const foundations = await sql`
+  // Get foundations with a URL but no email, then filter out registry URLs in JS (SSOT)
+  const allWithUrl = await sql`
     SELECT id, name, COALESCE(website_url, config_data->>'websiteUrl') as website,
            COALESCE(fit_score,0) as fit
     FROM fundraising_foundations
@@ -183,17 +184,12 @@ async function main() {
       AND (contact_email IS NULL OR contact_email = '')
       AND COALESCE(website_url, config_data->>'websiteUrl') IS NOT NULL
       AND COALESCE(website_url, config_data->>'websiteUrl') != ''
-      AND COALESCE(website_url, config_data->>'websiteUrl') NOT LIKE '%stiftungschweiz%'
-      AND COALESCE(website_url, config_data->>'websiteUrl') NOT LIKE '%zefix%'
-      AND COALESCE(website_url, config_data->>'websiteUrl') NOT LIKE '%fundraiso%'
-      AND COALESCE(website_url, config_data->>'websiteUrl') NOT LIKE '%spheriq%'
-      AND COALESCE(website_url, config_data->>'websiteUrl') NOT LIKE '%esa.admin%'
-      AND COALESCE(website_url, config_data->>'websiteUrl') NOT LIKE '%edi.admin%'
-      AND COALESCE(website_url, config_data->>'websiteUrl') NOT LIKE '%wikipedia%'
-      AND COALESCE(website_url, config_data->>'websiteUrl') NOT LIKE '%linkedin%'
       AND COALESCE(fit_score,0) >= ${FIT_MIN}
     ORDER BY COALESCE(fit_score,0) DESC, name
   ` as { id: string; name: string; website: string; fit: number }[];
+
+  // Filter out registry/directory URLs using SSOT
+  const foundations = allWithUrl.filter(f => !isRegistryUrl(f.website));
 
   console.log(`Found ${foundations.length} foundations to scrape\n`);
 

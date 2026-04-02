@@ -14,22 +14,11 @@ import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import { READINESS_ENGINE, PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { evaluateEngine, type CheckDetail } from './fit-scoring';
+import { isRegistryUrl } from '@/lib/config/registry-domains';
 
 // ============================================================================
 // Readiness
 // ============================================================================
-
-/** URLs pointing to registry sites, not the foundation's own website */
-const REGISTRY_DOMAINS = ['zefix.ch', 'uid.admin.ch'];
-
-function isRegistryUrl(url: string): boolean {
-  try {
-    const hostname = new URL(url).hostname.toLowerCase();
-    return REGISTRY_DOMAINS.some((d) => hostname === d || hostname.endsWith(`.${d}`));
-  } catch {
-    return false;
-  }
-}
 
 /**
  * Flatten nested Foundation fields into a boolean record for the generic engine.

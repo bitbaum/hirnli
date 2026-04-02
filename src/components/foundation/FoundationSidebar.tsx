@@ -7,6 +7,7 @@ import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
 import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
 import AddToPipelineButton from './AddToPipelineButton';
+import { isRegistryUrl } from '@/lib/config/registry-domains';
 
 /** Dimension labels keyed by id for readiness bar display */
 const DIM_LABELS: Record<string, string> = {};
@@ -160,14 +161,25 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Links</h3>
         <div className="space-y-2 text-sm">
-          <a
-            href={f.websiteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block text-primary hover:underline"
-          >
-            Website
-          </a>
+          {f.websiteUrl && !isRegistryUrl(f.websiteUrl) ? (
+            <a
+              href={f.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-primary hover:underline"
+            >
+              Website
+            </a>
+          ) : f.websiteUrl && isRegistryUrl(f.websiteUrl) ? (
+            <a
+              href={f.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-text-muted hover:underline"
+            >
+              Verzeichnis
+            </a>
+          ) : null}
           {f.applicationUrl && (
             <a
               href={f.applicationUrl}

@@ -7,6 +7,7 @@ import { THEMES } from '@/lib/config/foundations';
 import { computePriorityScore } from '@/lib/domain/foundation-scores';
 import { getQualityTier } from '@/lib/domain/foundation-helpers';
 import type { Foundation } from '@/lib/schemas/foundation';
+import { isRegistryUrl } from '@/lib/config/registry-domains';
 
 // ---------------------------------------------------------------------------
 // CSV utilities
@@ -74,10 +75,10 @@ function addressCache(f: Foundation): ParsedAddress {
   return cached;
 }
 
-/** True website (not a Zefix/registry lookup link) */
+/** True website (not a registry/directory lookup link) */
 function getOwnWebsite(f: Foundation): string {
   const url = f.websiteUrl ?? '';
-  if (url.includes('zefix.ch') || url.includes('stiftungschweiz.ch')) return '';
+  if (isRegistryUrl(url)) return '';
   return url;
 }
 
