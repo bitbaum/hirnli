@@ -122,7 +122,7 @@ async function auditThemes() {
   console.log('\n📊 Auditing theme assignments for P1+P2 foundations...\n');
 
   // Fetch P1 and P2 foundations with themes
-  const rows = await sql<FoundationRow[]>`
+  const rows = await sql`
     SELECT 
       id,
       name,

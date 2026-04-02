@@ -43,7 +43,7 @@ async function setConfidence() {
       AND research_depth = 'rapid'
       AND (data_confidence IS NULL OR data_confidence != 'unverified')
   `;
-  stats.unverified = unverifiedResult.count ?? 0;
+  stats.unverified = Number((unverifiedResult[0] as any).count) ?? 0;
   console.log(`✅ Set ${stats.unverified} foundations to 'unverified' (automated-research + rapid)`);
 
   // Rule 2: research_depth='standard' → 'ai-assessed'
@@ -55,7 +55,7 @@ async function setConfidence() {
     WHERE research_depth = 'standard'
       AND (data_confidence IS NULL OR data_confidence != 'ai-assessed')
   `;
-  stats.aiAssessed = aiAssessedResult.count ?? 0;
+  stats.aiAssessed = Number((aiAssessedResult[0] as any).count) ?? 0;
   console.log(`✅ Set ${stats.aiAssessed} foundations to 'ai-assessed' (research_depth=standard)`);
 
   // Rule 3: research_depth='deep' → 'human-verified'
@@ -68,7 +68,7 @@ async function setConfidence() {
     WHERE research_depth = 'deep'
       AND (data_confidence IS NULL OR data_confidence != 'human-verified')
   `;
-  stats.humanVerified = humanVerifiedResult.count ?? 0;
+  stats.humanVerified = Number((humanVerifiedResult[0] as any).count) ?? 0;
   console.log(`✅ Set ${stats.humanVerified} foundations to 'human-verified' (research_depth=deep)`);
 
   // Count foundations that didn't match any rule
@@ -77,7 +77,7 @@ async function setConfidence() {
     FROM fundraising_foundations
     WHERE data_confidence IS NULL
   `;
-  stats.unchanged = Number(totalResult[0]?.count ?? 0);
+  stats.unchanged = Number((totalResult[0] as any)?.count ?? 0);
 
   console.log(`\n📈 Summary:`);
   console.log(`   Unverified:      ${stats.unverified}`);
@@ -105,7 +105,7 @@ async function setConfidence() {
   console.log('📊 Current confidence distribution:\n');
   for (const row of distribution) {
     const level = row.data_confidence ?? '(null)';
-    const count = row.count;
+    const count = Number((row[0] as any).count);
     console.log(`   ${level.padEnd(20)} ${count}`);
   }
   console.log('');

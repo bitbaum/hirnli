@@ -38,7 +38,7 @@ async function fixDivergence() {
   console.log('\n📊 Scanning for flat↔configData divergences...\n');
 
   // Fetch all foundations
-  const rows = await sql<FoundationRow[]>`
+  const rows = await sql`
     SELECT 
       id, 
       name,
