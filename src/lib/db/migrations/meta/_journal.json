@@ -8,6 +8,13 @@
       "when": 1772391481049,
       "tag": "0000_zippy_malice",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1743552000000,
+      "tag": "0001_add_contact_address",
+      "breakpoints": true
     }
   ]
 }

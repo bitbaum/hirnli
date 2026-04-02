@@ -1,0 +1,1 @@
+ALTER TABLE "fundraising_foundations" ADD COLUMN "contact_address" text;

@@ -9,6 +9,7 @@
  * - fitMin: number      — Filter by minimum fit score
  * - priority: number    — Filter by priority (1-4)
  * - archived: boolean   — Include archived foundations
+ * - includeAll: boolean — Include unverified bulk imports (default: false)
  * - limit: number       — Results per page (default: 50)
  * - offset: number      — Pagination offset (default: 0)
  */
@@ -16,7 +17,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { foundations } from '@/lib/db/schema';
-import { and, count, desc, eq, gte, ilike } from 'drizzle-orm';
+import { and, count, desc, eq, gte, ilike, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { toSlug } from '@/lib/utils/slug';
 
@@ -61,6 +62,7 @@ export async function GET(request: NextRequest) {
     const fitMin = searchParams.get('fitMin');
     const priority = searchParams.get('priority');
     const includeArchived = searchParams.get('archived') === 'true';
+    const includeAll = searchParams.get('includeAll') === 'true';
     const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10) || 50, 100);
     const offset = parseInt(searchParams.get('offset') || '0', 10) || 0;
 
@@ -83,6 +85,10 @@ export async function GET(request: NextRequest) {
 
     if (!includeArchived) {
       conditions.push(eq(foundations.archived, false));
+    }
+
+    if (!includeAll) {
+      conditions.push(sql`(data_confidence IS NULL OR data_confidence != 'unverified')`);
     }
 
     // Execute query

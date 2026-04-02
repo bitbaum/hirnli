@@ -54,6 +54,7 @@ export const foundations = pgTable('fundraising_foundations', {
   websiteUrl: text('website_url'),
   contactEmail: text('contact_email'),
   contactPhone: text('contact_phone'),
+  contactAddress: text('contact_address'),
 
   // Classification
   fitScore: integer('fit_score'), // 0-10 scale
