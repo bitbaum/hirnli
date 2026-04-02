@@ -157,39 +157,43 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         </dl>
       </Card>
 
-      {/* Links */}
+      {/* Links — cross-platform references */}
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Links</h3>
         <div className="space-y-2 text-sm">
           {f.websiteUrl && !isRegistryUrl(f.websiteUrl) ? (
-            <a
-              href={f.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block text-primary hover:underline"
-            >
+            <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="block text-primary hover:underline">
               Website
             </a>
-          ) : f.websiteUrl && isRegistryUrl(f.websiteUrl) ? (
-            <a
-              href={f.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block text-text-muted hover:underline"
-            >
-              Verzeichnis
-            </a>
-          ) : null}
+          ) : (
+            <span className="block text-text-muted">
+              Website —{' '}
+              <a href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung Website')}`} target="_blank" rel="noopener noreferrer" className="text-primary/60 hover:text-primary hover:underline">
+                suchen
+              </a>
+            </span>
+          )}
           {f.applicationUrl && (
-            <a
-              href={f.applicationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block font-semibold text-primary hover:underline"
-            >
+            <a href={f.applicationUrl} target="_blank" rel="noopener noreferrer" className="block font-semibold text-primary hover:underline">
               Gesuch einreichen
             </a>
           )}
+          {/* Platform cross-references */}
+          <div className="flex flex-wrap gap-x-3 gap-y-1 border-t border-border pt-2 text-xs">
+            {f.uid && (
+              <a href={`https://www.zefix.ch/de/search/entity/list?mainSearch=${f.uid}`} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-primary">
+                Zefix
+              </a>
+            )}
+            {f.uid && (
+              <a href={`https://stiftungen.stiftungschweiz.ch/organisation/${f.slug}`} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-primary">
+                Spheriq
+              </a>
+            )}
+            <a href={`https://www.fundraiso.ch/sponsor/${f.slug}`} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-primary">
+              Fundraiso
+            </a>
+          </div>
         </div>
       </Card>
 
@@ -257,24 +261,67 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       )}
 
       {/* Contact */}
-      {f.contact && (
-        <Card>
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Kontakt</h3>
-          <div className="space-y-1 text-sm text-text-light">
-            {f.contact.address && <p>{f.contact.address}</p>}
-            {f.contact.email && (
-              <p>
-                <a href={`mailto:${f.contact.email}`} className="text-primary">
-                  {f.contact.email}
+      {/* Contact — always show all channels, mark missing with search link */}
+      <Card>
+        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Kontakt</h3>
+        <div className="space-y-2 text-sm">
+          {/* Email */}
+          {f.contact?.email ? (
+            <div className="flex items-start gap-2">
+              <span className="mt-0.5 text-text-muted">@</span>
+              <a href={`mailto:${f.contact.email}`} className="text-primary hover:underline break-all">
+                {f.contact.email}
+              </a>
+            </div>
+          ) : (
+            <div className="flex items-start gap-2 text-text-muted">
+              <span className="mt-0.5">@</span>
+              <span>
+                E-Mail —{' '}
+                <a href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung email Kontakt')}`} target="_blank" rel="noopener noreferrer" className="text-primary/60 hover:text-primary hover:underline">
+                  suchen
                 </a>
-              </p>
-            )}
-            {f.contact.phone && (
-              <p>{f.contact.phone}</p>
-            )}
-          </div>
-        </Card>
-      )}
+              </span>
+            </div>
+          )}
+          {/* Phone */}
+          {f.contact?.phone ? (
+            <div className="flex items-start gap-2">
+              <span className="mt-0.5 text-text-muted">T</span>
+              <a href={`tel:${f.contact.phone.replace(/\s/g, '')}`} className="text-grey-dark hover:underline">
+                {f.contact.phone}
+              </a>
+            </div>
+          ) : (
+            <div className="flex items-start gap-2 text-text-muted">
+              <span className="mt-0.5">T</span>
+              <span>
+                Telefon —{' '}
+                <a href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung Telefon')}`} target="_blank" rel="noopener noreferrer" className="text-primary/60 hover:text-primary hover:underline">
+                  suchen
+                </a>
+              </span>
+            </div>
+          )}
+          {/* Address */}
+          {f.contact?.address ? (
+            <div className="flex items-start gap-2">
+              <span className="mt-0.5 text-text-muted">A</span>
+              <span className="text-grey-dark">{f.contact.address}</span>
+            </div>
+          ) : (
+            <div className="flex items-start gap-2 text-text-muted">
+              <span className="mt-0.5">A</span>
+              <span>
+                Adresse —{' '}
+                <a href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung Adresse')}`} target="_blank" rel="noopener noreferrer" className="text-primary/60 hover:text-primary hover:underline">
+                  suchen
+                </a>
+              </span>
+            </div>
+          )}
+        </div>
+      </Card>
 
       {/* Research Info */}
       <Card>
