@@ -4,6 +4,7 @@ import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS, STATUS_LABELS, FIT_CONFIG, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
 import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
+import { getTrustLevel, TRUST_CONFIG } from '@/lib/config/trust-levels';
 import ThemeBadgeList from './ThemeBadgeList';
 
 interface FoundationCardProps {
@@ -19,6 +20,8 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
   const readiness = computeReadinessScore(f);
   const tier = readiness.tier;
   const priority = computePriorityScore(f, readiness.score);
+  const trust = getTrustLevel(f);
+  const trustDisplay = TRUST_CONFIG[trust];
 
   return (
     <Link
@@ -28,13 +31,16 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-bold leading-none ${PRIORITY_CONFIG[priority.level]?.color ?? PRIORITY_CONFIG[4].color}`}
-            >
-              {priority.label}
-              {priority.isOverride && (
-                <span className="rounded bg-amber-100 px-0.5 text-xs font-medium text-amber-700">M</span>
-              )}
+            <span className="inline-flex items-center gap-1">
+              <span className={`text-xs ${trustDisplay.dotColor}`} title={trustDisplay.label}>●</span>
+              <span
+                className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-bold leading-none ${PRIORITY_CONFIG[priority.level]?.color ?? PRIORITY_CONFIG[4].color}`}
+              >
+                {priority.label}
+                {priority.isOverride && (
+                  <span className="rounded bg-warning/10 px-0.5 text-xs font-medium text-warning">M</span>
+                )}
+              </span>
             </span>
             <h3 className="font-semibold text-grey-dark">{f.name}</h3>
             <span className={`text-xs font-bold ${FIT_CONFIG[getFitLevel(f)]?.color ?? FIT_CONFIG[0].color}`} aria-hidden="true">
@@ -42,12 +48,12 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
             </span>
             <span className="sr-only">Fit: {f.fitScore}/10</span>
             {score != null && (
-              <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+              <Badge variant="primary" className="font-semibold">
                 {Math.round(score * 100)}% Relevanz
-              </span>
+              </Badge>
             )}
             {inPipeline && (
-              <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-semibold text-violet-700">
+              <span className="rounded-full bg-pillar-vision/15 px-2 py-0.5 text-xs font-semibold text-pillar-vision">
                 In Pipeline
               </span>
             )}

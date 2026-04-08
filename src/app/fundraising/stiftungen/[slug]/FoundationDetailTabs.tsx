@@ -7,6 +7,7 @@ import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS } from '@/lib/config/foundations';
 import { getQualityTier, tierAtLeast, TIER_LABELS } from '@/lib/domain/foundation-helpers';
+import { getTrustLevel } from '@/lib/config/trust-levels';
 import type { FitNarrative, ThemeAlignment, ApproachStep, ReadinessItem } from '@/lib/domain/foundation-contextualization';
 import type { QualityTier } from '@/lib/schemas/foundation';
 
@@ -23,7 +24,7 @@ const TIER_BANNER: Record<QualityTier, { text: string; className: string } | nul
   recherchiert: null,
   profiliert: {
     text: 'Automatisch profiliert — basiert auf Registerdaten',
-    className: 'border-amber-300 bg-amber-50 text-amber-700',
+    className: 'border-warning/30 bg-warning/10 text-warning',
   },
   erfasst: {
     text: 'Nur Registerdaten verfügbar — Recherche ausstehend',
@@ -39,6 +40,9 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
   const typeLabel = TYPE_LABELS[f.type];
   const tier = getQualityTier(f);
   const banner = TIER_BANNER[tier];
+  const trust = getTrustLevel(f);
+  const isActionable = f.priority !== undefined && f.priority >= 1 && f.priority <= 3;
+  const showTrustWarning = trust === 'unverified' && isActionable;
 
   // verzeichnet/erfasst: only show Details tab (fit + strategy are meaningless)
   // profiliert+: show all tabs
@@ -52,6 +56,11 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
 
   return (
     <>
+      {showTrustWarning && (
+        <div className="mb-4 rounded-lg border border-warning/30 bg-warning/10 px-4 py-3 text-sm font-medium text-warning">
+          Automatisch eingestuft — Fit-Score und Priorität basieren auf KI-Analyse, nicht auf manueller Recherche. Vor einer Bewerbung bitte über die Recherche-Links verifizieren.
+        </div>
+      )}
       {banner && (
         <div className={`mb-4 rounded-lg border px-4 py-3 text-sm font-medium ${banner.className}`}>
           {banner.text}

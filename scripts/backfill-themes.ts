@@ -28,13 +28,11 @@ async function main() {
   const rows = await sql`
     SELECT
       f.id, f.name, f.config_data, f.fit_score, f.priority,
-      r.official_purpose, r.region
+      f.config_data->>'officialPurpose' as official_purpose,
+      f.config_data->>'region' as region
     FROM fundraising_foundations f
-    LEFT JOIN fundraising_foundation_registry r ON r.id = f.id
     WHERE (
-      f.focus_areas IS NULL
-      OR f.focus_areas::text = '[]'
-      OR (f.config_data->>'themes') IS NULL
+      (f.config_data->>'themes') IS NULL
       OR (f.config_data->>'themes') = '[]'
     )
     AND (f.research_depth IS NULL OR f.research_depth != 'rapid')
@@ -94,6 +92,8 @@ async function main() {
 
     const existingFit = (row.fit_score as number) || 0;
     const existingPriority = (row.priority as number) || 4;
+    const newFit = Math.max(fitScore, existingFit);
+    const newPriority = Math.min(priority, existingPriority);
 
     console.log(`  ${name} → ${themes.join(', ')} (fit=${fitScore}${fitScore > existingFit ? '↑' : ''}, P${priority})`);
 
@@ -102,12 +102,14 @@ async function main() {
         UPDATE fundraising_foundations
         SET
           config_data = jsonb_set(
-            jsonb_set(config_data, '{themes}', ${JSON.stringify(themes)}::jsonb),
-            '{fitScore}', ${JSON.stringify(Math.max(fitScore, existingFit))}::jsonb
+            jsonb_set(
+              jsonb_set(config_data, '{themes}', ${JSON.stringify(themes)}::jsonb),
+              '{fitScore}', ${JSON.stringify(newFit)}::jsonb
+            ),
+            '{priority}', ${JSON.stringify(newPriority)}::jsonb
           ),
-          focus_areas = ${JSON.stringify(themes)},
-          fit_score = GREATEST(fit_score, ${fitScore}),
-          priority = LEAST(priority, ${priority}),
+          fit_score = ${newFit},
+          priority = ${newPriority},
           updated_at = ${now}
         WHERE id = ${row.id}
       `;

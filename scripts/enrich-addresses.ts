@@ -1,5 +1,10 @@
 #!/usr/bin/env tsx
 /**
+ * ⚠️  CAUTION: Direct DB writer — no provenance tracking.
+ * Data written by this script has no source/confidence metadata.
+ * ALWAYS run with --dry-run first and verify output manually.
+ * See: memory/feedback_data_integrity.md for context.
+ *
  * Address Enrichment — Scrape foundation websites for Swiss postal addresses
  *
  * Targets high-priority foundations (fit>=5, P1/P2) that have a website

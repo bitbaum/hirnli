@@ -83,6 +83,7 @@ async function main() {
     else if (fitScore >= 4 && entry.isFunder) priority = 2;
     else if (fitScore >= 4) priority = 3;
     else priority = 4;
+    // Note: rapid gate applied below based on hasSubstantialData
 
     const fitLabel = fitScore >= 7 ? '★★★' : fitScore >= 4 ? '★★☆' : '★☆☆';
     console.log(`  ${entry.name}: fit=${fitScore} ${fitLabel}, P${priority}, themes=[${validThemes.join(',')}]`);
@@ -105,28 +106,29 @@ async function main() {
       // Upgrade from rapid when we have substantial analysis data
       const hasSubstantialData = entry.purposeSummary.length >= 100 && validThemes.length > 0;
 
+      // Gate: foundations staying at rapid depth are never actionable (P4)
+      const writePriority = hasSubstantialData ? priority : 4;
+
       try {
         await sql`
           UPDATE fundraising_foundations
           SET
-            config_data = config_data || ${JSON.stringify(mergeConfig)}::jsonb,
-            fit_score = GREATEST(fit_score, ${fitScore}),
-            priority = LEAST(priority, ${priority}),
-            focus_areas = ${JSON.stringify(validThemes)},
+            config_data = jsonb_set(
+              jsonb_set(
+                config_data || ${JSON.stringify(mergeConfig)}::jsonb,
+                '{fitScore}',
+                to_jsonb(${fitScore})
+              ),
+              '{priority}',
+              to_jsonb(${writePriority})
+            ),
+            fit_score = ${fitScore},
+            priority = ${writePriority},
             research_date = ${today},
             research_depth = CASE
               WHEN ${hasSubstantialData} AND research_depth = 'rapid' THEN 'standard'
               ELSE research_depth
             END,
-            updated_at = ${now}
-          WHERE id = ${entry.slug}
-        `;
-
-        await sql`
-          UPDATE fundraising_foundation_registry
-          SET
-            is_operative = ${!entry.isFunder},
-            application_method = COALESCE(NULLIF(${entry.applicationMethod || 'unknown'}, 'unknown'), application_method),
             updated_at = ${now}
           WHERE id = ${entry.slug}
         `;

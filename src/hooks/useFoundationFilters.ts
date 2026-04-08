@@ -4,6 +4,7 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import type { ThemeId, FoundationType, FoundationStatus, QualityTier } from '@/lib/schemas/foundation';
 import type { FoundationFilters, SortField, ThemeLogic, FilterPresetId } from '@/lib/domain/foundation-filter';
+import type { TrustLevel } from '@/lib/config/trust-levels';
 import { DEFAULT_FILTERS, FILTER_PRESETS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
@@ -45,6 +46,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     requireEmail: searchParams.get('email') === '1',
     requirePhone: searchParams.get('phone') === '1',
     requireAddress: searchParams.get('addr') === '1',
+    trustLevels: (searchParams.get('trust')?.split(',').filter(Boolean) || []) as TrustLevel[],
     minTier: parseTierParam(searchParams),
   }), [searchParams]);
 
@@ -139,6 +141,14 @@ export function useFoundationFilters(foundations: Foundation[]) {
   const toggleRequireAddress = useCallback(() => {
     updateParams({ addr: filters.requireAddress ? null : '1' });
   }, [filters.requireAddress, updateParams]);
+
+  const toggleTrustLevel = useCallback((level: TrustLevel) => {
+    const current = filters.trustLevels;
+    const next = current.includes(level)
+      ? current.filter(l => l !== level)
+      : [...current, level];
+    updateParams({ trust: next.length > 0 ? next.join(',') : null });
+  }, [filters.trustLevels, updateParams]);
 
   const setMinTier = useCallback((tier: QualityTier) => {
     // Default tier is omitted from URL; also remove legacy param
@@ -257,6 +267,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     toggleRequireEmail,
     toggleRequirePhone,
     toggleRequireAddress,
+    toggleTrustLevel,
     setMinTier,
     togglePriorityLevel,
     applyPreset,

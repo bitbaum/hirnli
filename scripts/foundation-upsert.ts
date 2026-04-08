@@ -3,9 +3,7 @@
  * Foundation Upsert — Non-interactive DB write from draft JSON files
  *
  * Reads one or more draft JSON files (ResearchDraft shape) and upserts
- * them into both tables:
- *   1. fundraising_foundation_registry — universal facts (org-agnostic)
- *   2. fundraising_foundations — org-specific analysis + merged configData
+ * them into fundraising_foundations (configData JSONB is SSOT).
  *
  * Computes researchDepth from data completeness:
  *   'rapid'    = ESA-only (no real website, no email/phone, mechanical summary)
@@ -162,14 +160,21 @@ async function main() {
     });
     // Map 0-10 → display 0-3 (gated: rapid tier → fit=0)
     const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
-    // Priority from fitScore
+    // Priority from fitScore — rapid depth → always P4
     const isFunderFlag = a.isFunder;
     const isZurich = (esa.canton === 'ZH');
     let computedPriority: 1 | 2 | 3 | 4;
-    if (fitScore >= 7 && isFunderFlag) computedPriority = 1;
-    else if (fitScore >= 4 && (isFunderFlag || isZurich)) computedPriority = 2;
-    else if (fitScore >= 4) computedPriority = 3;
-    else computedPriority = 4;
+    if (researchDepth === 'rapid') {
+      computedPriority = 4;
+    } else if (fitScore >= 7 && isFunderFlag) {
+      computedPriority = 1;
+    } else if (fitScore >= 4 && (isFunderFlag || isZurich)) {
+      computedPriority = 2;
+    } else if (fitScore >= 4) {
+      computedPriority = 3;
+    } else {
+      computedPriority = 4;
+    }
 
     // --- Layer 2: Merged configData (backward compat for sync pipeline) ---
     // Full config for INSERT (new entries)
@@ -187,71 +192,42 @@ async function main() {
       researchDepth,
     };
 
-    // Merge-safe config for UPDATE (existing entries) — omit fitScore/priority
-    // so existing (potentially better) values in config_data are preserved.
-    // SQL columns use GREATEST/LEAST separately.
     // NOTE: PostgreSQL || does shallow merge — nested objects (contact, amount)
     // are replaced, not deep-merged. This is acceptable because new research data
     // is typically more complete than existing. If a nested field was previously
     // set but not found in new research, it will be overwritten.
-    const { fitScore: _fs, priority: _p, fit: _f, ...mergeConfigData } = configData;
 
     try {
-      // Upsert registry (Layer 1)
-      await sql`
-        INSERT INTO fundraising_foundation_registry (
-          id, name, uid, official_purpose, website_url, region,
-          contact_email, contact_phone, application_method, is_operative,
-          source, registry_data, data_quality, last_verified,
-          created_at, updated_at
-        ) VALUES (
-          ${draft.slug}, ${draft.name}, ${esa.uid || null},
-          ${esa.purpose || null}, ${draft.queueItem.websiteUrl || null},
-          ${esa.city || 'Schweiz'},
-          ${a.contactInfo.email || null}, ${a.contactInfo.phone || null},
-          ${a.applicationMethod}, ${!a.isFunder},
-          ${'esa'}, ${JSON.stringify(registryData)}, ${4}, ${today},
-          ${now}, ${now}
-        )
-        ON CONFLICT (id) DO UPDATE SET
-          registry_data = ${JSON.stringify(registryData)},
-          name = ${draft.name},
-          uid = ${esa.uid || null},
-          official_purpose = ${esa.purpose || null},
-          website_url = COALESCE(NULLIF(${draft.queueItem.websiteUrl || null}, ''), fundraising_foundation_registry.website_url),
-          contact_email = COALESCE(${a.contactInfo.email || null}, fundraising_foundation_registry.contact_email),
-          contact_phone = COALESCE(${a.contactInfo.phone || null}, fundraising_foundation_registry.contact_phone),
-          updated_at = ${now}
-      `;
-
-      // Upsert foundations (Layer 2 — merged view)
+      // Upsert foundations (configData JSONB is SSOT)
+      // configData is SSOT: on UPDATE, merge all fields into JSONB first,
+      // then apply GREATEST/LEAST for fitScore/priority within JSONB,
+      // and derive flat columns from the resulting JSONB values.
       await sql`
         INSERT INTO fundraising_foundations (
-          id, name, website_url, contact_email, contact_phone,
-          fit_score, priority, focus_areas, geographic_scope, organization_type,
-          application_method, research_depth, research_date, data_quality,
-          grant_range_min, grant_range_max, application_deadline,
+          id, name,
+          fit_score, priority,
+          research_depth, research_date,
           source, config_data, org_id, created_at, updated_at, archived
         ) VALUES (
-          ${draft.slug}, ${draft.name}, ${draft.queueItem.websiteUrl || null},
-          ${a.contactInfo.email || null}, ${a.contactInfo.phone || null},
-          ${fitScore}, ${computedPriority}, ${JSON.stringify(a.themes)},
-          ${esa.city || 'Schweiz'}, ${a.suggestedType === 'network' ? 'network' : 'foundation'},
-          ${a.applicationMethod}, ${researchDepth}, ${today}, ${4},
-          ${(a.grantRange.min as number) || null}, ${(a.grantRange.max as number) || null},
-          ${zhaw?.einreichungstermin || null},
+          ${draft.slug}, ${draft.name},
+          ${fitScore}, ${computedPriority},
+          ${researchDepth}, ${today},
           ${'automated-research'}, ${JSON.stringify(configData)},
           ${'revamp-it'}, ${now}, ${now}, false
         )
         ON CONFLICT (id) DO UPDATE SET
-          config_data = fundraising_foundations.config_data || ${JSON.stringify(mergeConfigData)}::jsonb,
+          config_data = jsonb_set(
+            jsonb_set(
+              fundraising_foundations.config_data || ${JSON.stringify(configData)}::jsonb,
+              '{fitScore}',
+              to_jsonb(${fitScore})
+            ),
+            '{priority}',
+            to_jsonb(${computedPriority})
+          ),
           name = ${draft.name},
-          website_url = COALESCE(NULLIF(${draft.queueItem.websiteUrl || null}, ''), fundraising_foundations.website_url),
-          contact_email = COALESCE(${a.contactInfo.email || null}, fundraising_foundations.contact_email),
-          contact_phone = COALESCE(${a.contactInfo.phone || null}, fundraising_foundations.contact_phone),
-          fit_score = GREATEST(fundraising_foundations.fit_score, ${fitScore}),
-          priority = LEAST(fundraising_foundations.priority, ${computedPriority}),
-          focus_areas = ${JSON.stringify(a.themes)},
+          fit_score = ${fitScore},
+          priority = ${computedPriority},
           research_depth = CASE
             WHEN fundraising_foundations.research_depth = 'deep' THEN 'deep'
             WHEN ${researchDepth} = 'deep' THEN 'deep'
@@ -260,9 +236,6 @@ async function main() {
             ELSE ${researchDepth}
           END,
           research_date = ${today},
-          grant_range_min = COALESCE(${(a.grantRange.min as number) || null}, fundraising_foundations.grant_range_min),
-          grant_range_max = COALESCE(${(a.grantRange.max as number) || null}, fundraising_foundations.grant_range_max),
-          application_deadline = COALESCE(${zhaw?.einreichungstermin || null}, fundraising_foundations.application_deadline),
           updated_at = ${now}
       `;
 

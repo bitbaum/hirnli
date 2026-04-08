@@ -1,5 +1,9 @@
 #!/usr/bin/env tsx
 /**
+ * ⚠️  CAUTION: Direct DB writer — no provenance tracking.
+ * Data written by this script has no source/confidence metadata.
+ * ALWAYS run with --dry-run first and verify output manually.
+ *
  * Contact Enrichment via LLM — Find website, email, phone, address for foundations
  *
  * For each foundation: fetches website content (homepage + /kontakt + /impressum),

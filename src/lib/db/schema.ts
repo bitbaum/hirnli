@@ -13,32 +13,6 @@
 import { text, integer, boolean, jsonb, pgTable, timestamp } from 'drizzle-orm/pg-core';
 
 /**
- * Foundation Registry Table - Universal facts (org-agnostic)
- *
- * Layer 1: Stores universal data about foundations that survives org swaps.
- * Can grow to 14k+ entries (ESA, Zefix, Fundraiso) independent of analysis.
- * The registryData JSONB holds the full FoundationRegistry Zod object.
- */
-export const foundationRegistry = pgTable('fundraising_foundation_registry', {
-  id: text('id').primaryKey(),                        // slug (matches foundations.id)
-  name: text('name').notNull(),
-  uid: text('uid'),                                   // CHE-xxx.xxx.xxx
-  officialPurpose: text('official_purpose'),           // From ESA/Zefix register
-  websiteUrl: text('website_url'),
-  region: text('region'),                              // Canton/city
-  contactEmail: text('contact_email'),
-  contactPhone: text('contact_phone'),
-  acceptsApplications: text('accepts_applications'),   // yes/no/invitation_only/unknown
-  applicationMethod: text('application_method'),
-  isOperative: boolean('is_operative'),
-  source: text('source'),                              // Primary discovery source
-  registryData: jsonb('registry_data'),                // Full FoundationRegistry object
-  lastVerified: text('last_verified'),                 // ISO date
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
-});
-
-/**
  * Foundations Table - Org-specific analysis (Layer 2)
  *
  * Stores per-org assessments of foundations (fit, priority, themes, etc.).
@@ -51,42 +25,17 @@ export const foundations = pgTable('fundraising_foundations', {
 
   // Basic information
   name: text('name').notNull(),
-  websiteUrl: text('website_url'),
-  contactEmail: text('contact_email'),
-  contactPhone: text('contact_phone'),
-  contactAddress: text('contact_address'),
 
-  // Classification
+  // Classification (indexed/queried columns only — all other data lives in configData JSONB)
   fitScore: integer('fit_score'), // 0-10 scale
   priority: integer('priority'), // 1-4 (1 = highest)
-  focusAreas: jsonb('focus_areas').$type<string[]>(),
-  geographicScope: text('geographic_scope'), // e.g., 'Switzerland', 'Zurich', 'International'
-  organizationType: text('organization_type'), // foundation, fund, program, network
-
-  // Funding details
-  grantRangeMin: integer('grant_range_min'), // CHF
-  grantRangeMax: integer('grant_range_max'), // CHF
-  typicalAmount: integer('typical_amount'), // CHF
-  fundingModel: text('funding_model'), // project, institutional, multi-year
-  applicationMethod: text('application_method'), // online, email, invitation-only
-  applicationDeadline: text('application_deadline'), // ISO date or 'rolling'
-  decisionTimeline: text('decision_timeline'), // e.g., '3-6 months'
-
-  // Strategic data
-  strategicFit: text('strategic_fit'), // Markdown explanation
-  applicationNotes: text('application_notes'), // Markdown
-  pastGrantees: jsonb('past_grantees').$type<string[]>(),
-  boardMembers: jsonb('board_members').$type<{ name: string; role: string }[]>(),
 
   // Research metadata
   researchDepth: text('research_depth'), // 'rapid' | 'standard' | 'deep'
   researchDate: text('research_date'), // ISO date
-  researchFilePath: text('research_file_path'), // Path to original /research/*.md file
 
   // Data confidence tracking
   dataConfidence: text('data_confidence'), // 'unverified' | 'ai-assessed' | 'human-verified'
-  verifiedAt: timestamp('verified_at', { withTimezone: true }),
-  verifiedBy: text('verified_by'), // Who verified the data
 
   // Full config object (Zod Foundation schema shape) — used by sync script
   // to generate TypeScript config. DB is write SSOT, generated TS is build cache.
@@ -197,16 +146,18 @@ export const activityLog = pgTable('fundraising_activity_log', {
 });
 
 /**
- * Gesuch Overrides Table - Per-foundation content customizations
+ * Gesuch Overrides Table - Per-foundation × per-variant content customizations
  *
  * Stores manual edits and AI-assisted rewrites of gesuch sections.
  * Overrides are merged on top of composed gesuch content at render time.
- * JSONB structure: { foundationBridge?, why?, how? }
+ * Each (foundationId, orgId, variantKey) triple has its own set of overrides.
+ * JSONB structure: { foundationBridge?, why?, how?, anschreiben? }
  */
 export const gesuchOverrides = pgTable('fundraising_gesuch_overrides', {
   id: text('id').primaryKey(),
   foundationId: text('foundation_id').notNull().references(() => foundations.id),
   orgId: text('org_id').notNull().default('revamp-it'),
+  variantKey: text('variant_key').notNull().default('auto'), // 'auto' | schwerpunkt ID
   overrides: jsonb('overrides').notNull().default({}),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
@@ -218,42 +169,12 @@ export type NewGesuchOverride = typeof gesuchOverrides.$inferInsert;
 /** Typed shape of the overrides JSONB — Zod schema is SSOT */
 export type { GesuchOverridesData } from '../schemas/gesuch-overrides';
 
-/**
- * Contacts Table - Email/phone validation + communication history
- *
- * Manages contact information for foundations with validation status.
- * Supports multiple contacts per foundation.
- */
-export const contacts = pgTable('fundraising_contacts', {
-  id: text('id').primaryKey(),
-  foundationId: text('foundation_id').notNull().references(() => foundations.id),
-
-  // Contact information
-  contactType: text('contact_type'), // email | phone | linkedin | meeting
-  contactValue: text('contact_value').notNull(), // Actual email/phone/URL
-  contactName: text('contact_name'), // Person's name
-  contactRole: text('contact_role'), // Their role at foundation
-
-  // Validation
-  validated: boolean('validated').default(false),
-  validationDate: text('validation_date'), // ISO date
-  isPrimary: boolean('is_primary').default(false), // Primary contact for foundation
-
-  // Notes
-  notes: text('notes'), // Communication history, preferences, etc.
-
-  // Admin
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-});
 
 /**
  * Type Exports - Derived from schema (never define separately)
  *
  * Following Ground Truth #2: Schema is SSOT, types are derived.
  */
-export type FoundationRegistryRow = typeof foundationRegistry.$inferSelect;
-export type NewFoundationRegistryRow = typeof foundationRegistry.$inferInsert;
-
 export type FoundationRow = typeof foundations.$inferSelect;
 export type NewFoundationRow = typeof foundations.$inferInsert;
 
@@ -266,5 +187,3 @@ export type NewCustomizationRule = typeof customizationRules.$inferInsert;
 export type ActivityLogEntry = typeof activityLog.$inferSelect;
 export type NewActivityLogEntry = typeof activityLog.$inferInsert;
 
-export type Contact = typeof contacts.$inferSelect;
-export type NewContact = typeof contacts.$inferInsert;

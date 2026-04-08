@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import Card from '@/components/ui/Card';
 import { FORM_INPUT_CLASS } from '@/lib/utils/form-classes';
 import PageHeader from '@/components/layout/PageHeader';
 import FoundationCard from '@/components/foundation/FoundationCard';
@@ -21,6 +22,7 @@ import {
 } from './data';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
+import ProgressBar from '@/components/ui/ProgressBar';
 
 const LOAD_MORE_COUNT = 50;
 
@@ -67,6 +69,7 @@ export default function FoundationListClient() {
     toggleRequireEmail,
     toggleRequirePhone,
     toggleRequireAddress,
+    toggleTrustLevel,
     setMinTier,
     togglePriorityLevel,
     applyPreset,
@@ -157,6 +160,7 @@ export default function FoundationListClient() {
     toggleRequireEmail,
     toggleRequirePhone,
     toggleRequireAddress,
+    toggleTrustLevel,
     setMinTier,
     togglePriorityLevel,
     applyPreset,
@@ -173,7 +177,7 @@ export default function FoundationListClient() {
       />
 
       {/* Pipeline Overview — independent metrics, NOT sequential stages */}
-      <div className="mb-6 space-y-4 rounded-lg border border-border bg-white p-4">
+      <Card padding={false} className="mb-6 space-y-4 p-4">
         <h2 className="text-sm font-semibold text-grey-dark">Pipeline-Übersicht</h2>
 
         {/* Research progress — the one true completion metric */}
@@ -185,12 +189,7 @@ export default function FoundationListClient() {
               <span className="text-text-muted"> / {totalCount}</span>
             </span>
           </div>
-          <div className="h-2.5 w-full overflow-hidden rounded-full bg-bg-light" role="progressbar" aria-valuenow={researchStats.researchedPercent} aria-valuemin={0} aria-valuemax={100} aria-label={`Analyse-Fortschritt: ${researchStats.researchedPercent}% abgeschlossen`}>
-            <div
-              className="h-full rounded-full bg-primary transition-all"
-              style={{ width: `${researchStats.researchedPercent}%` }}
-            />
-          </div>
+          <ProgressBar percent={researchStats.researchedPercent} size="md" color="bg-primary" label={`Analyse-Fortschritt: ${researchStats.researchedPercent}% abgeschlossen`} />
           <p className="mt-1.5 text-xs text-text-muted">
             Stiftungszweck und Fit manuell bewertet — {researchStats.researchedPercent}% abgeschlossen
           </p>
@@ -231,7 +230,7 @@ export default function FoundationListClient() {
           Priorität = Fit × Bereitschaft. Scores algorithmisch berechnet.{' '}
           <a href="/fundraising/scoring-methodik" className="text-primary hover:underline">Methodik</a>
         </p>
-      </div>
+      </Card>
 
       {/* Mobile: search row + sort/filter row */}
       <div className="mb-4 space-y-2 md:hidden">
@@ -282,9 +281,9 @@ export default function FoundationListClient() {
       <div className="md:grid md:grid-cols-[280px_1fr] md:gap-6">
         {/* Desktop sidebar */}
         <aside className="hidden md:block">
-          <div className="sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto rounded-lg border border-border bg-white p-4 shadow-sm">
+          <Card padding={false} className="sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto p-4">
             <FilterSidebar {...sidebarProps} />
-          </div>
+          </Card>
         </aside>
 
         {/* Results column */}

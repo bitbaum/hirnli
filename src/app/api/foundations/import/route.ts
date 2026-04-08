@@ -18,8 +18,6 @@ import { toSlug } from '@/lib/utils/slug';
 const importedFoundationSchema = z.object({
   name: z.string().min(1),
   websiteUrl: z.string().url().optional().nullable(),
-  contactEmail: z.string().email().optional().nullable(),
-  contactPhone: z.string().optional().nullable(),
   location: z.string().optional().nullable(),
 
   fitScore: z.number().min(0).max(10).optional().nullable(),
@@ -167,40 +165,40 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Transform and insert — omit createdAt/updatedAt (DB defaultNow())
-    // focusAreas, pastGrantees, boardMembers are now jsonb — pass arrays directly
+    // Transform and insert — all domain data goes into configData JSONB
     const transformed = newFoundations.map(f => {
       const { min, max } = parseGrantRange(f.grantRange || '');
+      const slug = toSlug(f.name);
 
-      return {
-        id: toSlug(f.name),
+      // Build configData (SSOT for all foundation domain data)
+      const configData = {
+        slug,
         name: f.name,
-        websiteUrl: f.websiteUrl || null,
-        contactEmail: f.contactEmail || null,
-        contactPhone: f.contactPhone || null,
-
-        fitScore: f.fitScore ?? null,
-        priority: f.priority ?? null,
-        focusAreas: f.focusAreas ?? null,
-        geographicScope: f.location || null,
-        organizationType: 'foundation' as const,
-
-        grantRangeMin: f.grantRangeMin ?? min,
-        grantRangeMax: f.grantRangeMax ?? max,
-        typicalAmount: null,
-        fundingModel: null,
-        applicationMethod: f.applicationMethod || null,
-        applicationDeadline: f.deadline || null,
+        websiteUrl: f.websiteUrl || '',
+        region: f.location || 'Schweiz',
+        type: 'foundation' as const,
+        fitScore: f.fitScore ?? 0,
+        priority: f.priority ?? 4,
+        themes: f.focusAreas ?? [],
+        amount: { min: f.grantRangeMin ?? min, max: f.grantRangeMax ?? max },
+        applicationMethod: f.applicationMethod || 'unknown',
+        deadline: f.deadline || null,
         decisionTimeline: f.decisionTimeline || null,
-
         strategicFit: f.strategicFit || f.fitRationale || null,
         applicationNotes: f.notes || null,
-        pastGrantees: f.pastGrantees ?? null,
-        boardMembers: f.boardMembers ?? null,
+        pastGrantees: f.pastGrantees ?? [],
+        boardMembers: f.boardMembers ?? [],
+        source: f.source || 'api-import',
+      };
 
+      return {
+        id: slug,
+        name: f.name,
+        fitScore: f.fitScore ?? null,
+        priority: f.priority ?? null,
+        configData,
         researchDepth: 'rapid' as const,
         researchDate: new Date().toISOString().split('T')[0],
-        researchFilePath: file.name,
         source: f.source || 'api-import',
         archived: false,
       };

@@ -165,12 +165,8 @@ async function upsertEntry(
   });
   const researchDepth: ResearchDepth = 'rapid';
   const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
-  const isZurich = entry.canton === 'ZH';
-  let priority: 1 | 2 | 3 | 4;
-  if (fitScore >= 7 && isFunder) priority = 1;
-  else if (fitScore >= 4 && (isFunder || isZurich)) priority = 2;
-  else if (fitScore >= 4) priority = 3;
-  else priority = 4;
+  // Rapid foundations are always P4 — not enough data to be actionable
+  const priority: 1 | 2 | 3 | 4 = 4;
 
   const purposeSummary = generatePurposeSummary(entry);
   const researchNotes = generateResearchNotes(entry, themes, type, funder, operator);
@@ -213,33 +209,16 @@ async function upsertEntry(
 
   try {
     await sql`
-      INSERT INTO fundraising_foundation_registry (
-        id, name, uid, official_purpose, website_url, region,
-        application_method, is_operative, source, registry_data,
-        data_quality, last_verified, created_at, updated_at
-      ) VALUES (
-        ${slug}, ${entry.name}, ${entry.uid || null},
-        ${entry.purpose || null}, ${null}, ${entry.city || 'Schweiz'},
-        ${applicationMethod}, ${!isFunder}, ${'esa'},
-        ${JSON.stringify(registryData)}, ${4}, ${today}, ${now}, ${now}
-      )
-      ON CONFLICT (id) DO NOTHING
-    `;
-
-    await sql`
       INSERT INTO fundraising_foundations (
-        id, name, website_url, fit_score, priority,
-        focus_areas, geographic_scope, organization_type,
-        application_method, research_depth, research_date,
-        data_quality, source, config_data, org_id,
+        id, name, fit_score, priority,
+        research_depth, research_date,
+        source, config_data, org_id,
         created_at, updated_at, archived
       ) VALUES (
-        ${slug}, ${entry.name}, ${null},
+        ${slug}, ${entry.name},
         ${fitScore}, ${priority},
-        ${JSON.stringify(themes)}, ${entry.city || 'Schweiz'},
-        ${type === 'network' ? 'network' : 'foundation'},
-        ${applicationMethod}, ${researchDepth}, ${today},
-        ${4}, ${'automated-research'}, ${JSON.stringify(configData)},
+        ${researchDepth}, ${today},
+        ${'automated-research'}, ${JSON.stringify(configData)},
         ${'revamp-it'}, ${now}, ${now}, false
       )
       ON CONFLICT (id) DO NOTHING

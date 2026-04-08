@@ -8,6 +8,9 @@ import { computeReadinessScore, computePriorityScore } from '@/lib/domain/founda
 import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
 import AddToPipelineButton from './AddToPipelineButton';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
+import { getResearchLinks } from '@/lib/config/research-links';
+import { getTrustLevel, TRUST_CONFIG } from '@/lib/config/trust-levels';
+import ProgressBar from '@/components/ui/ProgressBar';
 
 /** Dimension labels keyed by id for readiness bar display */
 const DIM_LABELS: Record<string, string> = {};
@@ -40,16 +43,11 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             <span className="text-xs font-bold tabular-nums">
               {priority.label}
               {priority.isOverride && (
-                <span className="ml-1 rounded bg-amber-100 px-1 py-0.5 text-xs font-medium text-amber-700">manuell</span>
+                <span className="ml-1 rounded bg-warning/10 px-1 py-0.5 text-xs font-medium text-warning">manuell</span>
               )}
             </span>
           </div>
-          <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-bg-light" role="progressbar" aria-valuenow={priority.score} aria-valuemin={0} aria-valuemax={100} aria-label={`Priorität: ${priority.score}%`}>
-            <div
-              className="h-full rounded-full bg-primary transition-all"
-              style={{ width: `${priority.score}%` }}
-            />
-          </div>
+          <ProgressBar percent={priority.score} size="sm" color="bg-primary" label={`Priorität: ${priority.score}%`} />
           <p className="mt-1 text-xs text-text-muted">{priority.description}</p>
           {priority.components.penaltyReason && (
             <p className="mt-0.5 text-xs text-warning">{priority.components.penaltyReason}</p>
@@ -76,12 +74,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                   <span className="text-text-muted">{DIM_LABELS[id] ?? id}</span>
                   <span className="tabular-nums text-text-muted">{score}/{max}</span>
                 </div>
-                <div className="mt-0.5 h-1.5 w-full overflow-hidden rounded-full bg-bg-light" role="progressbar" aria-valuenow={score} aria-valuemin={0} aria-valuemax={max} aria-label={`${DIM_LABELS[id] ?? id}: ${score} von ${max}`}>
-                  <div
-                    className="h-full rounded-full bg-primary/60 transition-all"
-                    style={{ width: `${max > 0 ? (score / max) * 100 : 0}%` }}
-                  />
-                </div>
+                <ProgressBar percent={max > 0 ? (score / max) * 100 : 0} size="xs" color="bg-primary/60" label={`${DIM_LABELS[id] ?? id}: ${score} von ${max}`} />
               </div>
             ))}
           </div>
@@ -157,42 +150,46 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         </dl>
       </Card>
 
-      {/* Links — cross-platform references */}
+      {/* Research Links — cross-platform references for verification */}
       <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Links</h3>
-        <div className="space-y-2 text-sm">
+        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Recherche-Links</h3>
+        <div className="space-y-1.5 text-sm">
+          {/* Foundation website (if verified) */}
           {f.websiteUrl && !isRegistryUrl(f.websiteUrl) ? (
-            <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="block text-primary hover:underline">
-              Website
+            <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded px-2 py-1.5 text-primary hover:bg-bg-light hover:underline">
+              <span className="font-medium">Website</span>
+              <span className="text-xs text-text-muted">↗</span>
             </a>
           ) : (
-            <span className="block text-text-muted">
-              Website —{' '}
-              <a href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung Website')}`} target="_blank" rel="noopener noreferrer" className="text-primary/60 hover:text-primary hover:underline">
-                suchen
-              </a>
-            </span>
+            <div className="flex items-center justify-between rounded px-2 py-1.5 text-text-muted">
+              <span>Website</span>
+              <span className="text-xs italic">nicht bekannt</span>
+            </div>
           )}
           {f.applicationUrl && (
-            <a href={f.applicationUrl} target="_blank" rel="noopener noreferrer" className="block font-semibold text-primary hover:underline">
-              Gesuch einreichen
+            <a href={f.applicationUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded bg-primary/5 px-2 py-1.5 font-semibold text-primary hover:bg-primary/10 hover:underline">
+              <span>Gesuch einreichen</span>
+              <span className="text-xs">↗</span>
             </a>
           )}
-          {/* Platform cross-references */}
-          <div className="flex flex-wrap gap-x-3 gap-y-1 border-t border-border pt-2 text-xs">
-            {f.uid && (
-              <a href={`https://www.zefix.ch/de/search/entity/list?mainSearch=${f.uid}`} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-primary">
-                Zefix
+          {/* All research platforms */}
+          <div className="border-t border-border pt-2">
+            <p className="mb-1.5 px-2 text-xs font-medium text-text-muted">Datenbanken & Register</p>
+            {getResearchLinks(f).map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between rounded px-2 py-1 text-text-muted hover:bg-bg-light hover:text-primary"
+              >
+                <span className="flex items-center gap-1.5">
+                  {link.official && <span className="text-xs text-primary/60" title="Offizielles Register">●</span>}
+                  <span>{link.label}</span>
+                </span>
+                <span className="text-xs">↗</span>
               </a>
-            )}
-            {f.uid && (
-              <a href={`https://stiftungen.stiftungschweiz.ch/organisation/${f.slug}`} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-primary">
-                Spheriq
-              </a>
-            )}
-            <a href={`https://www.fundraiso.ch/sponsor/${f.slug}`} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-primary">
-              Fundraiso
-            </a>
+            ))}
           </div>
         </div>
       </Card>
@@ -240,20 +237,21 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         )}
       </Card>
 
-      {/* Source Links */}
+      {/* Source Links — additional references beyond standard platforms */}
       {f.sourceLinks && f.sourceLinks.length > 0 && (
         <Card>
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Quellen</h3>
-          <div className="space-y-2 text-sm">
+          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Weitere Quellen</h3>
+          <div className="space-y-1.5 text-sm">
             {f.sourceLinks.map((link, i) => (
               <a
                 key={i}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-primary hover:underline"
+                className="flex items-center justify-between rounded px-2 py-1 text-text-muted hover:bg-bg-light hover:text-primary"
               >
-                {link.label || SOURCES[link.source]?.label || link.source}
+                <span>{link.label || SOURCES[link.source]?.label || link.source}</span>
+                <span className="text-xs">↗</span>
               </a>
             ))}
           </div>
@@ -323,14 +321,30 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         </div>
       </Card>
 
-      {/* Research Info */}
+      {/* Research Info + Trust Level */}
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Recherche</h3>
-        <div className="space-y-1 text-sm text-text-light">
-          <p>Quelle: {source?.label || f.source}</p>
-          <p>Recherchiert: {f.researchDate}</p>
+        <div className="space-y-2 text-sm">
+          {(() => {
+            const trust = getTrustLevel(f);
+            const trustDisplay = TRUST_CONFIG[trust];
+            return (
+              <div className={`flex items-center gap-2 rounded px-2 py-1.5 ${trustDisplay.badgeClass}`}>
+                <span>●</span>
+                <div>
+                  <p className="font-semibold">{trustDisplay.label}</p>
+                  <p className="text-xs opacity-80">{trustDisplay.description}</p>
+                </div>
+              </div>
+            );
+          })()}
+          <div className="space-y-1 text-text-light">
+            <p>Quelle: {source?.label || f.source}</p>
+            <p>Tiefe: {f.researchDepth === 'deep' ? 'Tiefenrecherche' : f.researchDepth === 'standard' ? 'Standard' : 'Schnellanalyse'}</p>
+            <p>Recherchiert: {f.researchDate}</p>
+          </div>
           {f.researchNotes && (
-            <p className="mt-2 rounded bg-bg-light p-2 text-xs">{f.researchNotes}</p>
+            <p className="rounded bg-bg-light p-2 text-xs text-text-light">{f.researchNotes}</p>
           )}
         </div>
       </Card>

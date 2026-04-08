@@ -225,33 +225,16 @@ async function upsertEntry(
 
   try {
     await sql`
-      INSERT INTO fundraising_foundation_registry (
-        id, name, uid, official_purpose, website_url, region,
-        application_method, is_operative, source, registry_data,
-        data_quality, last_verified, created_at, updated_at
-      ) VALUES (
-        ${slug}, ${entry.name}, ${entry.uid || null},
-        ${null}, ${entry.cantonalExcerptWeb || null}, ${entry.city || 'Schweiz'},
-        ${applicationMethod}, ${false}, ${'zefix'},
-        ${JSON.stringify(registryData)}, ${2}, ${today}, ${now}, ${now}
-      )
-      ON CONFLICT (id) DO NOTHING
-    `;
-
-    await sql`
       INSERT INTO fundraising_foundations (
-        id, name, website_url, fit_score, priority,
-        focus_areas, geographic_scope, organization_type,
-        application_method, research_depth, research_date,
-        data_quality, source, config_data, org_id,
+        id, name, fit_score, priority,
+        research_depth, research_date,
+        source, config_data, org_id,
         created_at, updated_at, archived
       ) VALUES (
-        ${slug}, ${entry.name}, ${entry.cantonalExcerptWeb || null},
+        ${slug}, ${entry.name},
         ${fitScore}, ${priority},
-        ${JSON.stringify(themes)}, ${entry.city || 'Schweiz'},
-        ${'foundation'},
-        ${applicationMethod}, ${researchDepth}, ${today},
-        ${2}, ${'automated-research'}, ${JSON.stringify(configData)},
+        ${researchDepth}, ${today},
+        ${'automated-research'}, ${JSON.stringify(configData)},
         ${'revamp-it'}, ${now}, ${now}, false
       )
       ON CONFLICT (id) DO NOTHING

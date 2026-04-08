@@ -46,7 +46,6 @@ async function main() {
 
   for (const slug of DUPLICATES_TO_REMOVE) {
     await sql`DELETE FROM fundraising_foundations WHERE id = ${slug}`;
-    await sql`DELETE FROM fundraising_foundation_registry WHERE id = ${slug}`;
   }
 
   const count = await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations`;

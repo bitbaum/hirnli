@@ -116,19 +116,16 @@ async function phase1KeywordScreen(sql: NeonQueryFunction<false, false>): Promis
   console.log('\n━━━ Phase 1: Keyword Screen (0 tokens) ━━━━━━━━━━━━━━━━━━━━━━━');
 
   // Read rapid foundations that have officialPurpose
-  // Join with registry to get officialPurpose (may not be in config_data)
   const rows = await sql`
     SELECT
       f.id,
       f.name,
       f.config_data,
       COALESCE(
-        r.official_purpose,
         f.config_data->>'officialPurpose',
         f.config_data->>'purposeSummary'
       ) as official_purpose
     FROM fundraising_foundations f
-    LEFT JOIN fundraising_foundation_registry r ON r.id = f.id
     WHERE f.research_depth = 'rapid'
       AND f.archived = false
     ORDER BY f.id
@@ -459,10 +456,11 @@ async function phase2LlmTriage(
     const suggestedFit = typeof raw.suggestedFit === 'number' ? Math.min(3, Math.max(0, Math.round(raw.suggestedFit))) : 0;
     const llmScore = LLM_FIT_MAP[suggestedFit] ?? 0;
 
-    // Use best of algorithmic and LLM-assessed score
-    const fitScore = Math.max(algoScore, llmScore);
+    // Use algorithmic score — LLM themes already feed into algo via computeFitScore.
+    // Don't double-count LLM's suggestedFit (it can only inflate, never correct).
+    const fitScore = algoScore;
 
-    // Priority from fitScore
+    // Priority from fitScore — rapid foundations are always P4 (not enough data to act on)
     const isZurich = candidate.canton === 'ZH';
     let priority: 1 | 2 | 3 | 4;
     if (fitScore >= 7 && isFunder) priority = 1;
@@ -555,29 +553,29 @@ async function phase3Upsert(
       // Upgrade from rapid when we have substantial analysis data
       const hasSubstantialData = r.purposeSummary.length >= 100 && r.themes.length > 0;
 
+      // Gate: foundations staying at rapid depth are never actionable (P4)
+      const writePriority = hasSubstantialData ? r.priority : 4;
+
       try {
         await sql`
           UPDATE fundraising_foundations
           SET
-            config_data = config_data || ${JSON.stringify(mergeConfig)}::jsonb,
-            fit_score = GREATEST(fit_score, ${r.fitScore}),
-            priority = LEAST(priority, ${r.priority}),
-            focus_areas = ${JSON.stringify(r.themes)},
+            config_data = jsonb_set(
+              jsonb_set(
+                config_data || ${JSON.stringify(mergeConfig)}::jsonb,
+                '{fitScore}',
+                to_jsonb(${r.fitScore})
+              ),
+              '{priority}',
+              to_jsonb(${writePriority})
+            ),
+            fit_score = ${r.fitScore},
+            priority = ${writePriority},
             research_date = ${today},
             research_depth = CASE
               WHEN ${hasSubstantialData} AND research_depth = 'rapid' THEN 'standard'
               ELSE research_depth
             END,
-            updated_at = ${now}
-          WHERE id = ${r.slug}
-        `;
-
-        // Also update registry if we have new data
-        await sql`
-          UPDATE fundraising_foundation_registry
-          SET
-            is_operative = ${!r.isFunder},
-            application_method = COALESCE(NULLIF(${r.applicationMethod}, 'unknown'), application_method),
             updated_at = ${now}
           WHERE id = ${r.slug}
         `;

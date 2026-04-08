@@ -4,6 +4,7 @@ import { FORM_INPUT_CLASS } from '@/lib/utils/form-classes';
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { FoundationFilters, SortField, FilterPresetId } from '@/lib/domain/foundation-filter';
+import { TRUST_CONFIG, type TrustLevel } from '@/lib/config/trust-levels';
 import { DEFAULT_FILTERS, FILTER_PRESETS } from '@/lib/domain/foundation-filter';
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import type { FilterChip } from '@/lib/types/filter';
@@ -41,6 +42,7 @@ export interface FilterSidebarProps {
   toggleRequireEmail: () => void;
   toggleRequirePhone: () => void;
   toggleRequireAddress: () => void;
+  toggleTrustLevel: (level: TrustLevel) => void;
   setMinTier: (tier: QualityTier) => void;
   togglePriorityLevel: (level: number) => void;
   applyPreset: (presetId: FilterPresetId) => void;
@@ -81,6 +83,7 @@ export default function FilterSidebar({
   toggleRequireEmail,
   toggleRequirePhone,
   toggleRequireAddress,
+  toggleTrustLevel,
   setMinTier,
   togglePriorityLevel,
   applyPreset,
@@ -214,6 +217,26 @@ export default function FilterSidebar({
               }`}
             >
               {label}
+            </button>
+          ))}
+        </div>
+      </CollapsibleSection>
+
+      {/* Datenqualität — trust level filter */}
+      <CollapsibleSection title="Datenqualität" count={filters.trustLevels.length || undefined}>
+        <div className="flex flex-wrap gap-1.5">
+          {(['verified', 'assessed', 'unverified'] as const).map((level) => (
+            <button
+              key={level}
+              onClick={() => toggleTrustLevel(level)}
+              className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                filters.trustLevels.includes(level)
+                  ? 'bg-primary text-white'
+                  : 'bg-grey-light text-grey-dark hover:bg-border'
+              }`}
+            >
+              <span className={filters.trustLevels.includes(level) ? 'text-white' : TRUST_CONFIG[level].dotColor}>●</span>
+              {TRUST_CONFIG[level].label}
             </button>
           ))}
         </div>

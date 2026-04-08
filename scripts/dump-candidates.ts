@@ -50,9 +50,8 @@ async function main() {
     SELECT
       f.id as slug,
       f.name,
-      COALESCE(r.official_purpose, f.config_data->>'officialPurpose', f.config_data->>'purposeSummary') as purpose
+      COALESCE(f.config_data->>'officialPurpose', f.config_data->>'purposeSummary') as purpose
     FROM fundraising_foundations f
-    LEFT JOIN fundraising_foundation_registry r ON r.id = f.id
     WHERE f.id = ANY(${slugs})
   ` as { slug: string; name: string; purpose: string | null }[];
 

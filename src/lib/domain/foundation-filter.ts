@@ -7,6 +7,7 @@ import type { SchwerpunktId } from '../config/schwerpunkte';
 import { SCHWERPUNKTE } from '../config/schwerpunkte';
 import { getQualityTier, tierAtLeast, getFitLevel } from './foundation-helpers';
 import { computePriorityScore } from './foundation-scores';
+import { getTrustLevel, type TrustLevel } from '../config/trust-levels';
 
 export type ThemeLogic = 'or' | 'and';
 
@@ -25,6 +26,7 @@ export interface FoundationFilters {
   requireEmail: boolean;
   requirePhone: boolean;
   requireAddress: boolean;
+  trustLevels: TrustLevel[];
   minTier: QualityTier;
 }
 
@@ -43,6 +45,7 @@ export const DEFAULT_FILTERS: FoundationFilters = {
   requireEmail: false,
   requirePhone: false,
   requireAddress: false,
+  trustLevels: [],
   minTier: 'profiliert',
 };
 
@@ -142,6 +145,11 @@ export function filterFoundations(
     if (filters.requireEmail && !f.contact?.email) return false;
     if (filters.requirePhone && !f.contact?.phone) return false;
     if (filters.requireAddress && !f.contact?.address) return false;
+
+    // Trust level filter
+    if (filters.trustLevels.length > 0) {
+      if (!filters.trustLevels.includes(getTrustLevel(f))) return false;
+    }
 
     // Minimum quality tier filter
     if (!tierAtLeast(getQualityTier(f), filters.minTier)) return false;
