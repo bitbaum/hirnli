@@ -181,17 +181,20 @@ ESA / Zefix / Research scripts
   All UI pages (in-memory filtering, static generation at build time)
 ```
 
-**Foundation funnel (verified 2026-03-08):**
+**Foundation funnel (verified 2026-04-08):**
 
 | Tier | Count | Table/File | What it means |
 |------|-------|------------|---------------|
 | Swiss universe | ~16,900 | Zefix commercial register | All registered Swiss foundations |
-| Registry | 17,193 | `fundraising_foundation_registry` | Org-agnostic facts (Zefix + ESA) |
 | Pipeline | 16,623 | `fundraising_foundations` | In DB with config_data |
-| Rapid (name-only) | ~15,500 | (DB, excluded by sync) | No research beyond register entry |
-| Generated | 1,377 | `stiftungen-generated.ts` | Non-rapid OR rapid with quality gate passed |
+| Rapid (name-only) | ~15,400 | (DB, excluded by sync) | No research beyond register entry, always P4 |
+| Generated | ~1,239 | `stiftungen-generated.ts` | Non-rapid, quality gate passed |
+| P1-P3 (actionable) | ~293 | (standard/deep depth only) | Researched + scored, never rapid |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
+
+**Note:** `fundraising_foundation_registry` was dropped (2026-04-08) — it duplicated
+config_data and was never read by the app. All foundation data lives in config_data JSONB.
 
 **Adding a foundation to the pipeline:**
 1. Research the foundation and prepare its data
@@ -206,10 +209,17 @@ ESA / Zefix / Research scripts
 | Type | File | Shape | Who uses it |
 |------|------|-------|-------------|
 | `Foundation` | `src/lib/schemas/foundation.ts` | Zod domain type, ~56 rich fields | UI, Gesuch generation, ~30 consumers |
-| `FoundationRow` | `src/lib/db/schema.ts` | Drizzle `$inferSelect`, flat DB row | API routes, DB queries, ~15 consumers |
+| `FoundationRow` | `src/lib/db/schema.ts` | Drizzle `$inferSelect`, 13 columns | API routes, DB queries, ~15 consumers |
 
 `Foundation` is derived from `FoundationRow.config_data` JSONB during `npm run sync`.
 When importing, check which layer you're in: DB API routes use `FoundationRow`; UI/domain code uses `Foundation`.
+
+**DB columns (13 total, after SSOT cleanup 2026-04-08):**
+`id`, `name`, `fit_score`, `priority`, `research_depth`, `research_date`,
+`data_confidence`, `config_data`, `org_id`, `source`, `created_at`, `updated_at`, `archived`
+
+The flat `fit_score`/`priority` columns are intentional denormalization (indexed for queries).
+All other domain fields live exclusively in `config_data` JSONB.
 
 ### Scoring Model
 
@@ -235,10 +245,24 @@ Tier + Priority ──→ Access Gates (detail page ≥ profiliert, gesuch ≥ r
 - `getQualityTier(f)` — readiness score → tier label
 - `hasGesuchPage(f)` — tier ≥ recherchiert AND P1-P3
 
-**Deprecated fields** (in schema for DB backward compat, never read by domain logic):
-- `fit` (0-3) — replaced by `fitScore` (0-10) + `getFitLevel()`
-- `needsResearch` (boolean) — replaced by `isResearched()`
-- `researchDepth` — pipeline metadata only, not used in domain scoring
+**Priority gate (added 2026-04-08):**
+- `researchDepth = 'rapid'` → always P4. Rapid foundations have only LLM-triaged register
+  text. They cannot be P1-P3 regardless of fitScore.
+- Pipeline scripts enforce this at write time; backfill applied to existing data.
+- No GREATEST/LEAST ratcheting — new writes are authoritative for fitScore and priority.
+
+**Trust levels** (computed at render time, not stored):
+- `getTrustLevel(f)` in `lib/config/trust-levels.ts` derives from `source` + `researchDepth`
+- `verified` = manual/cantonal source or deep depth
+- `assessed` = website/ESA/Fundraiso/StiftungSchweiz source or standard depth
+- `unverified` = automated-research at rapid depth
+- Shown as colored dot on cards, badge in sidebar, warning banner on unverified P1-P3 pages
+
+**Research links** (`lib/config/research-links.ts`):
+- 7 external platforms per foundation (Zefix, UID-Register, StiftungSchweiz, Fundraiso,
+  Moneyhouse, North Data, Google)
+- Config-driven, URL-constructed from UID/name — no scraping, no guessing
+- Displayed in foundation sidebar under "Recherche-Links"
 
 **All config in one file:** `src/lib/config/fit-scoring.ts` holds every weight, threshold,
 penalty, and tier boundary. The domain engines (`fit-scoring.ts`, `foundation-scores.ts`)
@@ -383,29 +407,43 @@ Narrative Content       →  lib/config/stories.ts                              
 | Org Identity | `lib/config/org-profile.ts` | ORG_PROFILE — all programmatic org references |
 | Gesuch Composer | `lib/domain/gesuch-composer.ts` | Composes Gesuch document from config |
 | Bridge Composer | `lib/domain/bridge-composer.ts` | Foundation↔org connection narratives |
+| Trust Levels | `lib/config/trust-levels.ts` | Derives verified/assessed/unverified from source + depth |
+| Research Links | `lib/config/research-links.ts` | 7 external platform URLs per foundation |
 | Schemas | `lib/schemas/*.ts` | Zod schemas → TypeScript types |
+
+---
+
+## Data Integrity Rules
+
+**NEVER auto-write unverified data to the DB.** Scripts that scrape websites or guess URLs
+without verification are forbidden. See the 2026-04-07 incident where `discover-websites.ts`
+guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
+
+**Rules for enrichment scripts:**
+1. Never write scraped data to DB without human review or verified provenance
+2. Every contact data point needs a source (where it came from)
+3. Website discovery must verify the site belongs to the foundation
+4. Scripts should have `--dry-run` and output candidates for review
+5. The 4 remaining direct-DB-write scripts have caution headers
+
+**Deleted dangerous scripts (2026-04-08):**
+- `discover-websites.ts` — guessed URLs from slugs, 54% wrong
+- `scrape-emails.ts` — scraped emails from unverified websites
+- `registry-import.ts` — wrote to dropped registry table
 
 ---
 
 ## Known Issues & Technical Debt
 
-### Resolved (from previous vanilla JS version)
-
-- ~~Missing minerva page~~ — resolved: dynamic route handles all slugs
-- ~~Orphan marketing page~~ — resolved: not migrated (was empty)
-- ~~DRY violations (inline scripts, duplicated tabs/timers/charts)~~ — resolved: shared component library
-- ~~Dead code (first-principles-analyzer.js)~~ — resolved: not migrated
-- ~~No URL state persistence~~ — resolved: `useFoundationFilters` syncs to URL params
-- ~~No text search~~ — resolved: search input on foundation list
-
 ### Remaining
 
-- ~~No actual downloadable documents~~ — resolved: Gesuch PDF generation implemented via `@react-pdf/renderer` at `/api/pdf/gesuch/[slug]`
-- ~~Foundation type name collision (`Foundation` Zod vs `Foundation` Drizzle)~~ — resolved: Drizzle type renamed to `FoundationRow` in `db/schema.ts`
-- ~~Batch TS files as foundation source~~ — resolved: DB is write SSOT; `stiftungen-generated.ts` is build cache; batch files deleted
-- ~~No Drizzle migration history~~ — resolved: `src/lib/db/migrations/0000_*.sql` baseline created
 - Pitch deck and impact report formats not yet implemented (Phase 2 remaining items)
 - No test suite (build-time validation + quality gate only)
+- Generated TS file (`stiftungen-generated.ts`) is a second copy of DB data — moving to
+  server components would eliminate the sync layer (not urgent, but architecturally cleaner)
+- 84 P1-P3 foundations missing email — manual research via research links needed
+- Enrichment scripts (`enrich-addresses.ts`, `enrich-contacts-llm.ts`, `enrich-contacts-spheriq.ts`,
+  `deep-enrich.ts`) write directly to DB without provenance tracking — need staging/review workflow
 
 ---
 
@@ -620,5 +658,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-03-08 (codebase audit — versions, routes, file tree, ORG-SPECIFIC count)
+**Last Updated:** 2026-04-08 (SSOT cleanup, trust visibility, priority deflation, data integrity rules)
 **Maintainer:** Revamp-IT Team
