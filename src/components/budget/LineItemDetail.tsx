@@ -20,15 +20,15 @@ interface LineItemDetailProps {
 
 export default function LineItemDetail({ item }: LineItemDetailProps) {
   const confidenceColors: Record<string, string> = {
-    high: 'bg-green-100 text-green-800',
-    medium: 'bg-yellow-100 text-yellow-800',
-    estimated: 'bg-orange-100 text-orange-800',
-    target: 'bg-blue-100 text-blue-800',
-    unknown: 'bg-red-100 text-red-800',
+    high: 'bg-success/10 text-success',
+    medium: 'bg-warning/10 text-warning',
+    estimated: 'bg-warning/10 text-warning',
+    target: 'bg-primary/10 text-primary',
+    unknown: 'bg-danger/10 text-danger',
   };
 
   return (
-    <div className="ml-8 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500 space-y-3">
+    <div className="ml-8 p-4 bg-primary/10 rounded-lg border-l-4 border-primary space-y-3">
       {/* Description */}
       <p className="text-sm text-grey-dark">{item.description}</p>
 
@@ -59,7 +59,7 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
       )}
 
       {/* Source metadata */}
-      <div className="text-xs space-y-1.5 pt-2 border-t border-blue-200">
+      <div className="text-xs space-y-1.5 pt-2 border-t border-primary/20">
         <div>
           <strong className="text-grey-dark">Quelle:</strong>{' '}
           <span className="text-text-light">{item.source.methodology}</span>

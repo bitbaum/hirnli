@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/Button';
+
 interface YearSelectorProps {
   years: readonly number[];
   selected: number;
@@ -10,17 +12,15 @@ export default function YearSelector({ years, selected, onChange, className = ''
     <div className={`flex items-center gap-2 ${className}`}>
       <span className="text-sm text-text-muted">Jahr:</span>
       {years.map((year) => (
-        <button
+        <Button
           key={year}
           onClick={() => onChange(year)}
-          className={`min-h-11 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-            selected === year
-              ? 'bg-primary text-white'
-              : 'bg-grey-light text-grey-dark hover:bg-border'
-          }`}
+          variant={selected === year ? 'soft' : 'ghost'}
+          size="sm"
+          className={selected === year ? '' : 'bg-grey-light text-grey-dark hover:bg-border'}
         >
           {year}
-        </button>
+        </Button>
       ))}
     </div>
   );

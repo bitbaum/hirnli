@@ -33,7 +33,7 @@ export const TEAM_MEMBERS: TeamMemberDisplay[] = [
 ];
 
 export const DEPARTMENTS = [
-  { name: 'Leitung', icon: '👔', color: 'from-violet-500 to-purple-500', borderColor: 'border-l-violet-500' },
-  { name: 'Technik', icon: '🔧', color: 'from-blue-500 to-indigo-500', borderColor: 'border-l-blue-500' },
+  { name: 'Leitung', icon: '👔', color: 'from-pillar-vision to-chart-5', borderColor: 'border-l-pillar-vision' },
+  { name: 'Technik', icon: '🔧', color: 'from-primary to-pillar-digital', borderColor: 'border-l-blue-500' },
   { name: 'Betrieb', icon: '📦', color: 'from-emerald-500 to-green-600', borderColor: 'border-l-emerald-500' },
 ] as const;

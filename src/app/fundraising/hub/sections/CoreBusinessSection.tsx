@@ -9,13 +9,13 @@ export default function CoreBusinessSection() {
         Wo alles beginnt: Kunden bringen Geräte, wir reparieren & verkaufen sie. Das ist unser Fundament.
       </p>
       <div className="grid grid-cols-1 gap-6">
-        <Card className="border-l-4 border-l-emerald-500">
+        <Card className="border-l-4 border-l-success">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🏪</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Shop & Kundenbereich</h3>
-                <p className="text-sm text-emerald-700 font-medium">80 m² — Verkauf, Beratung, Annahme</p>
+                <p className="text-sm text-success font-medium">80 m² — Verkauf, Beratung, Annahme</p>
               </div>
             </div>
             <Badge color="emerald">CHF 35&apos;000</Badge>
@@ -48,13 +48,13 @@ export default function CoreBusinessSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-blue-500">
+        <Card className="border-l-4 border-l-primary">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🔧</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Refurbishment-Werkstatt</h3>
-                <p className="text-sm text-blue-700 font-medium">~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)</p>
+                <p className="text-sm text-primary font-medium">~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)</p>
               </div>
             </div>
             <Badge color="blue">CHF 80&apos;000</Badge>
@@ -83,9 +83,9 @@ export default function CoreBusinessSection() {
               </ul>
             </div>
           </div>
-          <div className="bg-blue-50 rounded-lg p-4 text-sm">
-            <p className="font-semibold text-blue-900 mb-2">Effizienz durch Prozesse, nicht durch Platz</p>
-            <p className="text-blue-800 text-xs">
+          <div className="bg-primary/10 rounded-lg p-4 text-sm">
+            <p className="font-semibold text-primary mb-2">Effizienz durch Prozesse, nicht durch Platz</p>
+            <p className="text-primary text-xs">
               Nicht 600m² Werkstatt, sondern <strong>klare Prozesse</strong> mit 2× Bildungsprogrammleitern.
               Sie organisieren Workflows, bilden Techniker aus, koordinieren Freiwillige & Reintegrations-Teilnehmer.
               Plus: Sozialpädagogische Begleitung (Veronica) für nachhaltige Arbeitsintegration.

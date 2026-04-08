@@ -35,10 +35,10 @@ export function HeroSection() {
             <Link
               key={cta.href}
               href={cta.href}
-              className={`inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors ${
+              className={`inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors shadow-sm ${
                 cta.variant === 'primary'
                   ? 'bg-white text-grey-dark hover:bg-white/90'
-                  : 'bg-white/20 text-white backdrop-blur-sm hover:bg-white/30'
+                  : 'border border-white/80 bg-grey-dark/40 text-white backdrop-blur-sm hover:bg-grey-dark/60'
               }`}
             >
               {cta.label} &rarr;
@@ -119,12 +119,9 @@ export function TransparencyBlock() {
         <p className="text-base text-text-light mb-4">{TRANSPARENCY.lead}</p>
         <div className="flex flex-wrap gap-3">
           {TRANSPARENCY.points.map((point) => (
-            <span
-              key={point}
-              className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
-            >
+            <Badge key={point} variant="primary" className="gap-1.5 px-3 py-1 text-sm">
               <span aria-hidden="true">&#x2713;</span> {point}
-            </span>
+            </Badge>
           ))}
         </div>
       </Card>

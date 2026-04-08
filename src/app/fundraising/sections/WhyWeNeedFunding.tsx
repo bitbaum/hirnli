@@ -15,9 +15,9 @@ import {
 export default function WhyWeNeedFunding() {
   return (
     <section className="mb-8">
-      <Card className="border-l-4 border-l-blue-500 bg-blue-50/30">
+      <Card className="border-l-4 border-l-primary bg-primary/10">
         <div className="prose prose-sm max-w-none">
-          <h2 className="text-xl font-bold text-blue-900 mt-0">Die Situation: Warum wir Stiftungen brauchen</h2>
+          <h2 className="text-xl font-bold text-primary mt-0">Die Situation: Warum wir Stiftungen brauchen</h2>
 
           <p className="text-grey-dark leading-relaxed">
             Seit 2003 reparieren und verkaufen wir refurbished Computer. <strong>Aber unser aktuelles Geschäftsmodell ist nicht nachhaltig.</strong>
@@ -34,16 +34,16 @@ export default function WhyWeNeedFunding() {
             entsorgen alte Technologie — aber wir brauchen keine zusätzlichen Geräte, sondern bessere Prozesse.
           </p>
 
-          <div className="bg-amber-100 border-l-4 border-amber-500 p-4 my-4">
-            <p className="text-amber-900 font-semibold mb-2">Das Problem in einem Satz:</p>
-            <p className="text-amber-800 mb-0">
+          <div className="bg-warning/10 border-l-4 border-warning p-4 my-4">
+            <p className="text-warning font-semibold mb-2">Das Problem in einem Satz:</p>
+            <p className="text-warning mb-0">
               Wir haben {TEAM_MEMBERS.length} Menschen im Team (Techniker, Betrieb, Leitung) — aber zu wenig bezahlte Kapazität und keine
               dedizierte Bildungsstruktur, um Prozesse zu professionalisieren und das volle Potenzial auszuschöpfen.
               <br /><span className="text-xs mt-1 block">Leitung: Andreas, Veronica (Sozialpädagogin), Dani. Technik & Betrieb: Freiwillige, Praktikanten, Reintegrations-Teilnehmer.</span>
             </p>
           </div>
 
-          <h3 className="text-lg font-bold text-blue-900 mt-6">Die Lösung: Professionalisierung + Bildung + Community</h3>
+          <h3 className="text-lg font-bold text-primary mt-6">Die Lösung: Professionalisierung + Bildung + Community</h3>
 
           <p className="text-grey-dark leading-relaxed">
             Statt nur Refurbishment zu skalieren, wollen wir unser Modell <strong>transformieren</strong>:
@@ -70,7 +70,7 @@ export default function WhyWeNeedFunding() {
             Ressourcen — und die kommen nicht aus Verkaufserlösen allein.
           </p>
 
-          <h3 className="text-lg font-bold text-blue-900 mt-6">Was wir von Stiftungen brauchen</h3>
+          <h3 className="text-lg font-bold text-primary mt-6">Was wir von Stiftungen brauchen</h3>
 
           <p className="text-grey-dark leading-relaxed mb-0">
             Wir brauchen <strong>Anschubfinanzierung für 3 Jahre</strong>, um Hub + Team aufzubauen.
@@ -82,9 +82,9 @@ export default function WhyWeNeedFunding() {
               const stiftungenAmt = year.stiftungen + year.einmalig;
               const stiftungenPct = Math.round((stiftungenAmt / year.total) * 100);
               const colors = [
-                { border: 'border-blue-200', text: 'text-blue-600', bold: 'text-blue-900' },
-                { border: 'border-violet-200', text: 'text-violet-600', bold: 'text-violet-900' },
-                { border: 'border-emerald-200', text: 'text-emerald-600', bold: 'text-emerald-900' },
+                { border: 'border-primary/20', text: 'text-primary', bold: 'text-primary' },
+                { border: 'border-pillar-vision/20', text: 'text-pillar-vision', bold: 'text-pillar-vision' },
+                { border: 'border-success/20', text: 'text-success', bold: 'text-success' },
               ];
               const labels = ['Aufbau: Hub-Einrichtung + Team-Rekrutierung', 'Wachstum: Revenue steigt, Stiftungen sinken', `Verselbständigung: Revenue ${formatCHF(REVENUE_YEAR3_TOTAL)}, Operations zunehmend selbsttragend`];
               return (

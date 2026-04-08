@@ -26,7 +26,7 @@ export default function SpaceConcept() {
 
         <div className="space-y-3 not-prose">
           {SPACE_PLAN.map((space) => (
-            <div key={space.area} className="border-l-4 border-blue-400 pl-4 py-2">
+            <div key={space.area} className="border-l-4 border-primary/20 pl-4 py-2">
               <div className="flex items-baseline justify-between mb-1">
                 <strong className="text-base text-grey-dark">{space.area}</strong>
                 <span className="text-sm font-semibold text-grey-dark tabular-nums">{space.sqm} m²</span>
@@ -36,13 +36,13 @@ export default function SpaceConcept() {
           ))}
         </div>
 
-        <div className="bg-emerald-50 border-l-4 border-emerald-400 p-4 my-4">
-          <p className="font-semibold text-emerald-800 mb-2">Warum so viel Raum?</p>
-          <p className="text-emerald-700">
+        <div className="bg-success/10 border-l-4 border-success p-4 my-4">
+          <p className="font-semibold text-success mb-2">Warum so viel Raum?</p>
+          <p className="text-success">
             Unser Ziel ist <strong>{DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell ~150/Jahr geschätzt).
             Dafür brauchen wir effizientere Infrastruktur und strukturierte Prozesse.
           </p>
-          <p className="text-emerald-700 mt-2">
+          <p className="text-success mt-2">
             Plus: Workshops, Trainings, Events, und Community-Treffpunkt generieren neue Einnahmequellen,
             die langfristig unsere Unabhängigkeit sichern.
           </p>

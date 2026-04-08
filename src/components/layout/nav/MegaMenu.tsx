@@ -77,7 +77,7 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
             : 'invisible opacity-0 -translate-y-1'
         }`}
       >
-        <div className="overflow-hidden rounded-xl border-2 border-emerald-200 bg-white shadow-2xl">
+        <div className="overflow-hidden rounded-xl border-2 border-success/20 bg-white shadow-2xl">
           <div className="h-2 bg-gradient-to-r from-revamp-blue via-revamp-green to-revamp-orange"></div>
           <div className="grid grid-cols-2 gap-8 p-8">
             {item.sections?.map((section: NavSection) => (

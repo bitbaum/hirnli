@@ -25,7 +25,7 @@ export function Checklist({ items }: { items: readonly string[] }) {
 
 export function TimeBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block rounded bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
+    <span className="inline-block rounded bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
       {children}
     </span>
   );
@@ -143,7 +143,7 @@ export function RefurbishmentStepsSection() {
         </Card>
 
         {/* Linux-Installation */}
-        <Card className="border-l-4 border-l-emerald-500">
+        <Card className="border-l-4 border-l-success">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>6. Linux-Installation</CardTitle>
@@ -184,15 +184,15 @@ export function WarehouseSection() {
           <div className="space-y-3">
             <div className="flex items-center justify-between rounded bg-bg-light px-4 py-3 text-sm">
               <strong>&lt; 30 Tage</strong>
-              <span className="text-emerald-600">Ziel: Normaler Umschlag</span>
+              <span className="text-success">Ziel: Normaler Umschlag</span>
             </div>
             <div className="flex items-center justify-between rounded bg-bg-light px-4 py-3 text-sm">
               <strong>&gt; 3 Monate</strong>
-              <span className="text-amber-600">Preis reduzieren</span>
+              <span className="text-warning">Preis reduzieren</span>
             </div>
             <div className="flex items-center justify-between rounded bg-bg-light px-4 py-3 text-sm">
               <strong>&gt; 6 Monate</strong>
-              <span className="text-red-600">Spenden oder Recyclen</span>
+              <span className="text-danger">Spenden oder Recyclen</span>
             </div>
           </div>
         </Card>
@@ -201,7 +201,7 @@ export function WarehouseSection() {
           <CardHeader>
             <CardTitle>Kapazitäts-Regeln</CardTitle>
           </CardHeader>
-          <div className="mb-4 rounded-lg border-l-4 border-l-amber-400 bg-amber-50 p-3">
+          <div className="mb-4 rounded-lg border-l-4 border-l-warning bg-warning/10 p-3">
             <strong className="text-sm">Wenn Lager &gt; 200 Geräte:</strong>
           </div>
           <ul className="list-disc space-y-2 pl-5 text-sm text-text-light">

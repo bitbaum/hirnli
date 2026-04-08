@@ -13,6 +13,7 @@ import { Bar } from 'react-chartjs-2';
 import type { AnnualPLEntry } from '@/app/finanzen/data';
 import { FINANCIAL_YEAR_LABEL } from '@/lib/config/financial-constants';
 import { formatCHF } from '@/lib/utils/format';
+import { CHART_COLORS } from '@/lib/config/chart-colors';
 import ChartWrapper from './ChartWrapper';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -37,14 +38,14 @@ export default function AnnualTrendChart({
         label: 'Einnahmen',
         data: data.map((d) => d.revenue),
         backgroundColor: data.map((d) =>
-          d.isComplete ? '#2ECC71' : '#2ECC71AA',
+          d.isComplete ? CHART_COLORS.green : `${CHART_COLORS.green}AA`,
         ),
         borderRadius: 3,
       },
       {
         label: 'Aufwand',
         data: data.map((d) => (d.isComplete ? d.expenses : null)),
-        backgroundColor: '#E74C3C',
+        backgroundColor: CHART_COLORS.red,
         borderRadius: 3,
       },
     ],

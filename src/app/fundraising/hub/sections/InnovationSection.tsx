@@ -16,7 +16,7 @@ export default function InnovationSection() {
               <div className="text-3xl" aria-hidden="true">🛠️</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Makerspace & Hackerspace</h3>
-                <p className="text-sm text-purple-700 font-medium">80 m² — Prototyping & Tüfteln</p>
+                <p className="text-sm text-chart-5 font-medium">80 m² — Prototyping & Tüfteln</p>
               </div>
             </div>
             <Badge color="purple">CHF 70&apos;000</Badge>
@@ -46,7 +46,7 @@ export default function InnovationSection() {
               <div className="text-3xl" aria-hidden="true">🤖</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Robotik-Labor</h3>
-                <p className="text-sm text-indigo-700 font-medium">60 m² — Arduino, Raspberry Pi, autonome Systeme</p>
+                <p className="text-sm text-pillar-digital font-medium">60 m² — Arduino, Raspberry Pi, autonome Systeme</p>
               </div>
             </div>
             <Badge color="indigo">CHF 50&apos;000</Badge>
@@ -70,13 +70,13 @@ export default function InnovationSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-blue-500">
+        <Card className="border-l-4 border-l-primary">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🎓</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Schulungs- & Kursräume</h3>
-                <p className="text-sm text-blue-700 font-medium">70 m² — Linux, AI, Coding für alle</p>
+                <p className="text-sm text-primary font-medium">70 m² — Linux, AI, Coding für alle</p>
               </div>
             </div>
             <Badge color="blue">CHF 45&apos;000</Badge>
@@ -105,7 +105,7 @@ export default function InnovationSection() {
               <div className="text-3xl" aria-hidden="true">🤖</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">AI Lab — Verschiedene Setups möglich</h3>
-                <p className="text-sm text-cyan-700 font-medium">20-40 m² — Eigene GPUs, digitale Souveränität</p>
+                <p className="text-sm text-chart-6 font-medium">20-40 m² — Eigene GPUs, digitale Souveränität</p>
               </div>
             </div>
           </div>
@@ -118,27 +118,27 @@ export default function InnovationSection() {
             <p className="font-semibold text-grey-dark mb-3">Mögliche Setups (aufsteigend):</p>
 
             <div className="space-y-3">
-              <div className="bg-cyan-50 p-3 rounded-lg">
-                <p className="font-semibold text-cyan-900 mb-1">Setup A — Starter (CHF 15&apos;000-20&apos;000)</p>
-                <ul className="text-xs text-cyan-800 space-y-1">
+              <div className="bg-chart-6/10 p-3 rounded-lg">
+                <p className="font-semibold text-chart-6 mb-1">Setup A — Starter (CHF 15&apos;000-20&apos;000)</p>
+                <ul className="text-xs text-chart-6 space-y-1">
                   <li>• 2-4× Consumer GPUs (NVIDIA RTX 3090/4090, gebraucht oder gespendet)</li>
                   <li>• 1× Server-Rack mit Basis-Kühlung</li>
                   <li>• <strong>Wirkung:</strong> AI Literacy Workshops (20-30 Teilnehmer/Monat), kleine Modelle fine-tunen</li>
                 </ul>
               </div>
 
-              <div className="bg-cyan-100 p-3 rounded-lg">
-                <p className="font-semibold text-cyan-900 mb-1">Setup B — Professional (CHF 40&apos;000-60&apos;000)</p>
-                <ul className="text-xs text-cyan-800 space-y-1">
+              <div className="bg-chart-6/15 p-3 rounded-lg">
+                <p className="font-semibold text-chart-6 mb-1">Setup B — Professional (CHF 40&apos;000-60&apos;000)</p>
+                <ul className="text-xs text-chart-6 space-y-1">
                   <li>• 4-6× Professional GPUs (NVIDIA A40, teilweise gespendet von Unternehmen)</li>
                   <li>• 2× Server-Racks mit professioneller Kühlung</li>
                   <li>• <strong>Wirkung:</strong> AI-gestützte Hardware-Diagnostik, AI Hosting für NGOs/KMUs, grössere Modelle trainieren</li>
                 </ul>
               </div>
 
-              <div className="bg-cyan-200 p-3 rounded-lg">
-                <p className="font-semibold text-cyan-900 mb-1">Setup C — Enterprise (CHF 100&apos;000-150&apos;000)</p>
-                <ul className="text-xs text-cyan-800 space-y-1">
+              <div className="bg-chart-6/20 p-3 rounded-lg">
+                <p className="font-semibold text-chart-6 mb-1">Setup C — Enterprise (CHF 100&apos;000-150&apos;000)</p>
+                <ul className="text-xs text-chart-6 space-y-1">
                   <li>• 8-12× NVIDIA A100 GPUs (Corporate-Spenden + Teilkauf, je CHF 10-15k)</li>
                   <li>• ODER 4-6× NVIDIA H100 GPUs (falls verfügbar, je CHF 25-35k)</li>
                   <li>• 2-3× Server-Racks mit Klimatisierung & Redundanz</li>
@@ -148,7 +148,7 @@ export default function InnovationSection() {
             </div>
           </div>
 
-          <div className="bg-amber-50 border-l-4 border-amber-500 p-3 text-xs text-amber-900 mb-3">
+          <div className="bg-warning/10 border-l-4 border-warning p-3 text-xs text-warning mb-3">
             <strong>Wichtig:</strong> Wir starten nicht mit Setup C. Wir bauen modular auf, basierend auf Spenden + verfügbarem Budget.
             Jedes Setup ist nützlich — auch Setup A ermöglicht AI Literacy Workshops und kleine Modelle.
             <br /><br />

@@ -86,8 +86,8 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
                       <span
                         className={`text-xs px-2 py-1 rounded ${
                           item.type === 'einmalig'
-                            ? 'bg-purple-100 text-purple-700'
-                            : 'bg-blue-100 text-blue-700'
+                            ? 'bg-chart-5/10 text-chart-5'
+                            : 'bg-primary/10 text-primary'
                         }`}
                       >
                         {item.type}

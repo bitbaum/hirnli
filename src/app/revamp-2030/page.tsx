@@ -72,29 +72,29 @@ export default function Revamp2030Page() {
       {/* Digitale Plattform */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Digitale Plattform — unsere eigene Software</h2>
-        <Card className="border-l-4 border-l-indigo-500">
+        <Card className="border-l-4 border-l-pillar-digital">
           <div className="flex items-start gap-4">
             <span className="text-4xl" aria-hidden="true">🌐</span>
             <div className="flex-1">
               <p className="text-sm text-text-light mb-4">
                 Revamp-IT ist nicht nur eine Werkstatt — <strong>wir entwickeln eigene Software</strong>.
-                Unsere Community-Plattform (<a href="https://revampit.vercel.app" target="_blank" rel="noopener noreferrer" className="text-indigo-700 hover:text-indigo-900 underline">revampit.vercel.app</a>)
+                Unsere Community-Plattform (<a href="https://revampit.vercel.app" target="_blank" rel="noopener noreferrer" className="text-pillar-digital hover:text-pillar-digital underline">revampit.vercel.app</a>)
                 ist eine produktionsreife Full-Stack-Anwendung mit {formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, {formatNumber(getNumericValue('PLATFORM_COMPONENTS'))} Komponenten und
                 {' '}{formatNumber(getNumericValue('PLATFORM_PAGES'))} Seiten — eigenentwickelt, Open Source.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="bg-indigo-50 rounded-lg p-3">
-                  <p className="text-sm font-semibold text-indigo-900 mb-2">Was die Plattform bietet:</p>
-                  <ul className="text-xs text-indigo-800 space-y-1 list-disc list-inside">
+                <div className="bg-pillar-digital/10 rounded-lg p-3">
+                  <p className="text-sm font-semibold text-pillar-digital mb-2">Was die Plattform bietet:</p>
+                  <ul className="text-xs text-pillar-digital space-y-1 list-disc list-inside">
                     <li><strong>Community-Marktplatz:</strong> Gebrauchte IT transparent kaufen und verkaufen</li>
                     <li><strong>IT-Hilfe-Portal:</strong> Community-basierter Tech-Support</li>
                     <li><strong>Knowhow-Plattform:</strong> Reparaturanleitungen, Workshops, Blog</li>
                     <li><strong>Geräte-Erfassung:</strong> Lückenlose Dokumentation vom Eingang bis zum Verkauf</li>
                   </ul>
                 </div>
-                <div className="bg-indigo-50 rounded-lg p-3">
-                  <p className="text-sm font-semibold text-indigo-900 mb-2">Warum das unsere Wirkung erhöht:</p>
-                  <ul className="text-xs text-indigo-800 space-y-1 list-disc list-inside">
+                <div className="bg-pillar-digital/10 rounded-lg p-3">
+                  <p className="text-sm font-semibold text-pillar-digital mb-2">Warum das unsere Wirkung erhöht:</p>
+                  <ul className="text-xs text-pillar-digital space-y-1 list-disc list-inside">
                     <li><strong>Messbarkeit:</strong> Systematische Erfassung statt Schätzungen — jedes Gerät, jeder Service-Kontakt wird dokumentiert</li>
                     <li><strong>Skalierung:</strong> Online-Marktplatz und Wissensportal erreichen Menschen weit über Zürich hinaus</li>
                     <li><strong>Effizienz:</strong> Ein IT-Hilfe-Portal bedient 100 Anfragen so effizient wie 10</li>
@@ -102,13 +102,13 @@ export default function Revamp2030Page() {
                   </ul>
                 </div>
               </div>
-              <div className="bg-gradient-to-br from-indigo-100 to-blue-100 rounded-lg p-4">
-                <p className="text-sm font-bold text-indigo-900 mb-2">Tech-Stack (produktionsreif):</p>
-                <p className="text-xs text-indigo-800 mb-2">
+              <div className="bg-gradient-to-br from-pillar-digital/10 to-primary/10 rounded-lg p-4">
+                <p className="text-sm font-bold text-pillar-digital mb-2">Tech-Stack (produktionsreif):</p>
+                <p className="text-xs text-pillar-digital mb-2">
                   Next.js, TypeScript, PostgreSQL, Redis, Meilisearch, Auth.js, Payrexx —
                   professionelle Architektur mit {formatNumber(getNumericValue('PLATFORM_DB_MIGRATIONS'))} Datenbank-Migrationen und {formatNumber(getNumericValue('PLATFORM_API_ROUTES'))}+ API-Endpunkten.
                 </p>
-                <p className="text-xs text-indigo-800">
+                <p className="text-xs text-pillar-digital">
                   <strong>Das beweist:</strong> Wir haben nicht nur die handwerkliche Kompetenz, Geräte zu reparieren —
                   wir haben auch die technische Kompetenz, die digitale Infrastruktur dafür selbst zu bauen.
                   Stiftungen investieren nicht in eine Werkstatt. Sie investieren in eine Organisation, die Technologie versteht und einsetzt.
@@ -141,7 +141,7 @@ export default function Revamp2030Page() {
               Sie organisieren Workflows, bilden Techniker aus, koordinieren Freiwillige & Reintegrations-Teilnehmer.
             </p>
           </Card>
-          <Card className="border-l-4 border-l-emerald-500">
+          <Card className="border-l-4 border-l-success">
             <h3 className="text-md font-semibold text-grey-dark mb-2">💪 Wir sind bereit</h3>
             <p className="text-sm text-text-light">
               {YEARS_EXPERIENCE_DISPLAY}. Soziale Mission mit sozialpädagogischem Fokus (Veronica).

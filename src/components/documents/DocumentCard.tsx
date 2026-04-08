@@ -78,7 +78,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
           <span>{actionLabel}</span>
         </span>
         {!isPdfView && document.action === 'download' && (
-          <span className="text-xs text-emerald-600 font-semibold">Direkt-Download</span>
+          <span className="text-xs text-success font-semibold">Direkt-Download</span>
         )}
       </div>
     </>
@@ -103,7 +103,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
   // Data files (CSV, Excel): direct download
   if (document.action === 'download') {
     return (
-      <Card className="group border-l-4 border-l-emerald-500 hover:shadow-lg transition-all duration-200">
+      <Card className="group border-l-4 border-l-success hover:shadow-lg transition-all duration-200">
         <a
           href={document.href}
           download
@@ -118,7 +118,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
   // Print/external: open in same tab
   return (
     <Link href={document.href} className="block group no-underline">
-      <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-all duration-200">
+      <Card className="border-l-4 border-l-primary hover:shadow-lg transition-all duration-200">
         {cardContent}
       </Card>
     </Link>

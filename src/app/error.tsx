@@ -1,5 +1,7 @@
 'use client';
 
+import { Button } from '@/components/ui/Button';
+
 export default function GlobalError({
   reset,
 }: {
@@ -14,12 +16,9 @@ export default function GlobalError({
       <p className="text-text-light mb-6 max-w-md">
         Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
       </p>
-      <button
-        onClick={reset}
-        className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-      >
+      <Button variant="soft" onClick={reset}>
         Erneut versuchen
-      </button>
+      </Button>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { formatCHF } from '@/lib/utils/format';
+import { CHART_PALETTE } from '@/lib/config/chart-colors';
 import ChartWrapper from './ChartWrapper';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -34,7 +35,7 @@ export default function CategoryBreakdown({
     datasets: [
       {
         data: [warenverkauf, dienstleistungen, integration, spenden],
-        backgroundColor: ['#3498DB', '#2ECC71', '#9B59B6', '#E67E22'],
+        backgroundColor: [CHART_PALETTE[0], CHART_PALETTE[1], CHART_PALETTE[4], CHART_PALETTE[2]],
         borderWidth: 2,
         borderColor: '#fff',
       },

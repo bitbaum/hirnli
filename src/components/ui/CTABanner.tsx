@@ -63,13 +63,13 @@ export default function CTABanner({
             <Button
               key={link.href}
               href={link.href}
-              variant={isGradient ? (isPrimary ? 'secondary' : 'ghost') : (isPrimary ? 'primary' : 'secondary')}
+              variant={isGradient ? 'secondary' : (isPrimary ? 'primary' : 'secondary')}
               size="lg"
               className={
                 isGradient
                   ? isPrimary
                     ? 'bg-white text-grey-dark hover:bg-white/90 border-0'
-                    : 'text-white/90 hover:bg-white/10 hover:text-white'
+                    : 'border-white/30 bg-white/10 text-white hover:bg-white/20'
                   : ''
               }
             >

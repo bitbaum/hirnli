@@ -5,12 +5,12 @@ export default function ProblemDiagnosis() {
   return (
     <section className="mb-8">
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Das eigentliche Problem: Nicht Raum, sondern Organisation</h2>
-      <Card className="border-l-4 border-l-red-500 bg-red-50/50">
+      <Card className="border-l-4 border-l-danger bg-danger/10">
         <div className="flex items-start gap-4">
           <span className="text-4xl flex-shrink-0" aria-hidden="true">⚠️</span>
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-red-900 mb-3">Unsere Kapazitäts-Grenzen (ehrliche Diagnose)</h3>
-            <div className="space-y-4 text-sm text-red-800">
+            <h3 className="text-lg font-bold text-danger mb-3">Unsere Kapazitäts-Grenzen (ehrliche Diagnose)</h3>
+            <div className="space-y-4 text-sm text-danger">
               <div>
                 <p className="font-semibold mb-2">Hardware-Refurbishment: Potential nicht ausgeschöpft</p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
@@ -36,9 +36,9 @@ export default function ProblemDiagnosis() {
                 </ul>
               </div>
 
-              <div className="bg-red-100 border-l-4 border-red-600 p-3 my-3">
-                <p className="font-bold text-red-900 mb-1">Die Kernherausforderung:</p>
-                <p className="text-red-800">
+              <div className="bg-danger/10 border-l-4 border-danger p-3 my-3">
+                <p className="font-bold text-danger mb-1">Die Kernherausforderung:</p>
+                <p className="text-danger">
                   Unser Team leistet <strong>hervorragende Arbeit</strong>, aber die Kapazität ist begrenzt.
                   Wir haben <strong>ungenutzte Infrastruktur</strong> (Tische, Raum, Tools),
                   aber <strong>keine bezahlten Fachleute, die ausschliesslich Programme entwickeln, organisieren und skalieren</strong>.

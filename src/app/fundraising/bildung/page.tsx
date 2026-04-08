@@ -39,12 +39,12 @@ export default function BildungPage() {
       {/* Problem: Current Bottleneck */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Das Problem: Soziale Reichweite ist begrenzt</h2>
-        <Card className="border-l-4 border-l-amber-500 bg-amber-50/50">
+        <Card className="border-l-4 border-l-warning bg-warning/10">
           <div className="flex items-start gap-4">
             <span className="text-4xl flex-shrink-0" aria-hidden="true">⚠️</span>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-amber-900 mb-2">Aktueller Engpass</h3>
-              <div className="space-y-2 text-sm text-amber-800">
+              <h3 className="text-lg font-bold text-warning mb-2">Aktueller Engpass</h3>
+              <div className="space-y-2 text-sm text-warning">
                 <p>
                   <strong>{TEAM_MEMBERS.length} Personen im Team</strong> (Leitung, Techniker, Betrieb) — aber nur 3 in der Leitung (Vero, Dani, Andreas), keine dedizierte Bildungskapazität
                 </p>
@@ -69,7 +69,7 @@ export default function BildungPage() {
       {/* Vision: Train-the-Trainer */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Lösung: Train-the-Trainer</h2>
-        <div className="rounded-xl bg-gradient-to-br from-violet-600 to-purple-600 p-8 text-white mb-6">
+        <div className="rounded-xl bg-gradient-to-br from-pillar-vision to-chart-5 p-8 text-white mb-6">
           <div className="text-center mb-6">
             <div className="text-6xl font-bold mb-2">{PEOPLE_REACHED_PER_YEAR}</div>
             <div className="text-xl opacity-90">
@@ -102,7 +102,7 @@ export default function BildungPage() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Zwei Bildungsprogrammleiter:innen — Zwei Fokusgebiete</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {BILDUNGSPROGRAMMLEITER.map((bpl) => (
-            <Card key={bpl.name} className="border-l-4 border-l-violet-500">
+            <Card key={bpl.name} className="border-l-4 border-l-pillar-vision">
               <div className="flex items-start gap-4 mb-4">
                 <span className="text-4xl flex-shrink-0">
                   {bpl.name.includes('Hardware') ? '🔧' : '💻'}
@@ -128,12 +128,12 @@ export default function BildungPage() {
                   ))}
                 </div>
               </div>
-              <div className="bg-violet-50 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-violet-900 mb-2">
+              <div className="bg-pillar-vision/10 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-pillar-vision mb-2">
                   Multiplikationseffekt:
                 </h4>
                 {bpl.name.includes('Hardware') ? (
-                  <div className="text-sm text-violet-800 space-y-1">
+                  <div className="text-sm text-pillar-vision space-y-1">
                     <p>
                       <strong>{MULTIPLICATION_EFFECT.hardware_bpl.direct_training} Techniker/Jahr</strong> direkt trainiert
                     </p>
@@ -142,7 +142,7 @@ export default function BildungPage() {
                     </p>
                   </div>
                 ) : (
-                  <div className="text-sm text-violet-800 space-y-1">
+                  <div className="text-sm text-pillar-vision space-y-1">
                     <p>
                       <strong>{MULTIPLICATION_EFFECT.software_bpl.direct_training} Menschen/Jahr</strong> direkt trainiert
                     </p>
@@ -161,12 +161,12 @@ export default function BildungPage() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie funktioniert Train-the-Trainer?</h2>
         <Card>
-          <div className="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 mb-6">
-            <p className="text-sm text-blue-900 mb-2">
+          <div className="bg-primary/10 border-l-4 border-primary rounded-lg p-4 mb-6">
+            <p className="text-sm text-primary mb-2">
               <strong>Transparenz-Hinweis:</strong> Train-the-Trainer ist ein etabliertes Konzept in Bildung und Capacity Building
               (z.B. WHO, viele NGOs nutzen diesen Ansatz).
             </p>
-            <p className="text-sm text-blue-900">
+            <p className="text-sm text-primary">
               Die spezifischen Zahlen unten ({BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr, etc.) sind <strong>Projektionen</strong>
               basierend auf unserer informellen Erfahrung und Schätzungen. <strong>Nicht empirisch gemessen.</strong>
               Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
@@ -175,7 +175,7 @@ export default function BildungPage() {
           <div className="space-y-6">
             {/* Stufe 1 */}
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center text-violet-900 font-bold">
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-pillar-vision/15 flex items-center justify-center text-pillar-vision font-bold">
                 1
               </div>
               <div className="flex-1">
@@ -186,7 +186,7 @@ export default function BildungPage() {
                   Hardware-BPL bildet <strong>{BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr</strong> aus. Software/AI-BPL trainiert <strong>{BPL_SOFTWARE_PER_YEAR_DISPLAY} Entwickler/Jahr</strong>.
                   Total: <strong>18 Menschen/Jahr direkt</strong> (vs. 5 heute).
                 </p>
-                <div className="bg-violet-50 rounded-lg p-3 text-sm text-violet-800">
+                <div className="bg-pillar-vision/10 rounded-lg p-3 text-sm text-pillar-vision">
                   <strong>Beispiel Hardware:</strong> Ein:e Teilnehmer:in lernt nicht nur Laptop-Reparatur, sondern auch,
                   wie man dieses Wissen weitervermittelt (Didaktik, Curricula, Praxisanleitung).
                 </div>
@@ -195,7 +195,7 @@ export default function BildungPage() {
 
             {/* Stufe 2 */}
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-violet-200 flex items-center justify-center text-violet-900 font-bold">
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-pillar-vision/20 flex items-center justify-center text-pillar-vision font-bold">
                 2
               </div>
               <div className="flex-1">
@@ -206,7 +206,7 @@ export default function BildungPage() {
                   Hardware: <strong>5 gleichzeitig aktive Techniker</strong> → je 10 Menschen/Jahr = <strong>50 indirekt</strong>.
                   Software/AI: <strong>3 AI-Literacy-Trainer</strong> → je ~13 Menschen/Jahr = <strong>40 indirekt</strong>.
                 </p>
-                <div className="bg-violet-50 rounded-lg p-3 text-sm text-violet-800">
+                <div className="bg-pillar-vision/10 rounded-lg p-3 text-sm text-pillar-vision">
                   <strong>Beispiel Software:</strong> Ein:e trainierte Entwickler:in gibt AI-Literacy-Workshops in Asylorganisationen,
                   Bibliotheken oder Schulen → erreicht 40+ Menschen/Jahr ohne dass wir direkt involviert sind.
                 </div>
@@ -215,7 +215,7 @@ export default function BildungPage() {
 
             {/* Stufe 3 */}
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-violet-300 flex items-center justify-center text-violet-900 font-bold">
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-pillar-vision/30 flex items-center justify-center text-pillar-vision font-bold">
                 3
               </div>
               <div className="flex-1">
@@ -225,7 +225,7 @@ export default function BildungPage() {
                 <p className="text-sm text-text-light mb-3">
                   Zusätzlich zu direktem und indirektem Training: <strong>Workshops, Events, Repair Cafés</strong> im Hub erreichen weitere 50-80 Menschen/Jahr.
                 </p>
-                <div className="bg-emerald-50 rounded-lg p-3 text-sm text-emerald-800">
+                <div className="bg-success/10 rounded-lg p-3 text-sm text-success">
                   <strong>Gesamt-Reichweite (konservativ):</strong> 18 (direkt trainiert) + 20-40 (Workshop-Teilnehmer) = <strong>{PEOPLE_REACHED_PER_YEAR} Menschen/Jahr</strong>.
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function BildungPage() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Budget: Was kostet das?</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="border-l-4 border-l-blue-500">
+          <Card className="border-l-4 border-l-primary">
             <h3 className="text-lg font-semibold text-grey-dark mb-4">Personalkosten (pro Jahr)</h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center pb-2 border-b border-border">
@@ -259,36 +259,36 @@ export default function BildungPage() {
                   CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * 0.2)}
                 </span>
               </div>
-              <div className="flex justify-between items-center pt-2 bg-blue-50 rounded-lg p-3">
-                <span className="text-md font-bold text-blue-900">Total pro Jahr</span>
-                <span className="text-xl font-bold text-blue-900">
+              <div className="flex justify-between items-center pt-2 bg-primary/10 rounded-lg p-3">
+                <span className="text-md font-bold text-primary">Total pro Jahr</span>
+                <span className="text-xl font-bold text-primary">
                   CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}
                 </span>
               </div>
             </div>
           </Card>
 
-          <Card className="border-l-4 border-l-emerald-500 bg-gradient-to-br from-emerald-50 to-emerald-100">
-            <h3 className="text-lg font-semibold text-emerald-800 mb-4">Return on Investment</h3>
+          <Card className="border-l-4 border-l-success bg-gradient-to-br from-success/10 to-success/15">
+            <h3 className="text-lg font-semibold text-success mb-4">Return on Investment</h3>
             <div className="space-y-3">
               <div className="bg-white rounded-lg p-3">
-                <div className="text-sm text-emerald-700 mb-1">Investition pro direkt Trainierter</div>
-                <div className="text-2xl font-bold text-emerald-900">
+                <div className="text-sm text-success mb-1">Investition pro direkt Trainierter</div>
+                <div className="text-2xl font-bold text-success">
                   CHF {formatNumber(Math.round(((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier) / MULTIPLICATION_EFFECT.combined.direct_training))}
                 </div>
-                <div className="text-xs text-emerald-700">pro direkt trainierter Person/Jahr</div>
+                <div className="text-xs text-success">pro direkt trainierter Person/Jahr</div>
               </div>
               <div className="bg-white rounded-lg p-3">
-                <div className="text-sm text-emerald-700 mb-1">Menschen erreicht (konservativ)</div>
-                <div className="text-2xl font-bold text-emerald-900">
+                <div className="text-sm text-success mb-1">Menschen erreicht (konservativ)</div>
+                <div className="text-2xl font-bold text-success">
                   {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops}
                 </div>
-                <div className="text-xs text-emerald-700">Menschen/Jahr (direkt + Workshops)</div>
+                <div className="text-xs text-success">Menschen/Jahr (direkt + Workshops)</div>
               </div>
               <div className="bg-white rounded-lg p-3">
-                <div className="text-sm text-emerald-700 mb-1">Finanzierungsziel</div>
-                <div className="text-2xl font-bold text-emerald-900">3 Jahre</div>
-                <div className="text-xs text-emerald-700">CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr bis Selbsttragung</div>
+                <div className="text-sm text-success mb-1">Finanzierungsziel</div>
+                <div className="text-2xl font-bold text-success">3 Jahre</div>
+                <div className="text-xs text-success">CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr bis Selbsttragung</div>
               </div>
             </div>
           </Card>
@@ -350,7 +350,7 @@ export default function BildungPage() {
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Warum Hub + Bildung zusammen?</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="border-l-4 border-l-amber-500">
+          <Card className="border-l-4 border-l-warning">
             <h3 className="text-lg font-semibold text-grey-dark mb-3">❌ Bildung ohne Hub = Begrenzte Kapazität</h3>
             <p className="text-sm text-text-light mb-4">
               Ohne grösseren Raum fehlen Werkstattplätze, Schulungsräume und Equipment für mehr Teilnehmende.
@@ -359,20 +359,20 @@ export default function BildungPage() {
             <Badge variant="warning">Limitiert durch Raumkapazität</Badge>
           </Card>
 
-          <Card className="border-l-4 border-l-emerald-500 bg-gradient-to-br from-emerald-50 to-emerald-100">
-            <h3 className="text-lg font-semibold text-emerald-800 mb-3">✅ Hub + Bildung = Exponentielles Wachstum</h3>
-            <p className="text-sm text-emerald-900 mb-4">
+          <Card className="border-l-4 border-l-success bg-gradient-to-br from-success/10 to-success/15">
+            <h3 className="text-lg font-semibold text-success mb-3">✅ Hub + Bildung = Exponentielles Wachstum</h3>
+            <p className="text-sm text-success mb-4">
               Hub bietet <strong>Infrastruktur</strong> (Werkstatt, Schulungsräume, Equipment).
               Bildungsprogrammleiter:innen bieten <strong>Know-how-Multiplikation</strong> (Train-the-Trainer).
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <div className="bg-white rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-emerald-900">480</div>
-                <div className="text-xs text-emerald-700">Geräte/Jahr (Hub)</div>
+                <div className="text-2xl font-bold text-success">480</div>
+                <div className="text-xs text-success">Geräte/Jahr (Hub)</div>
               </div>
               <div className="bg-white rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-emerald-900">{PEOPLE_REACHED_PER_YEAR}</div>
-                <div className="text-xs text-emerald-700">Menschen/Jahr (Bildung)</div>
+                <div className="text-2xl font-bold text-success">{PEOPLE_REACHED_PER_YEAR}</div>
+                <div className="text-xs text-success">Menschen/Jahr (Bildung)</div>
               </div>
             </div>
             <Badge variant="success">Beide Dimensionen skalieren</Badge>
@@ -382,7 +382,7 @@ export default function BildungPage() {
 
       {/* Call to Action */}
       <section className="mb-8">
-        <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-8 text-white text-center">
+        <div className="rounded-2xl bg-gradient-to-br from-pillar-vision to-chart-5 p-8 text-white text-center">
           <h3 className="text-2xl font-bold mb-4">Unterstütze das Bildungsprogramm</h3>
           <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
             Mit <strong>CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr über 3 Jahre</strong> (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm,

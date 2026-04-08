@@ -14,6 +14,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import type { MonthlyAggregate } from '@/lib/schemas/financial';
 import { formatCHF, formatMonthShort } from '@/lib/utils/format';
+import { CHART_COLORS } from '@/lib/config/chart-colors';
 import ChartWrapper from './ChartWrapper';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
@@ -33,17 +34,17 @@ export default function RevenueChart({ data, title = 'Einnahmen nach Monat', cla
       {
         label: 'Warenverkauf',
         data: data.map((d) => d.warenverkauf),
-        backgroundColor: '#3498DB',
+        backgroundColor: CHART_COLORS.blue,
       },
       {
         label: 'Dienstleistungen',
         data: data.map((d) => d.dienstleistungen),
-        backgroundColor: '#2ECC71',
+        backgroundColor: CHART_COLORS.green,
       },
       {
         label: 'Spenden',
         data: data.map((d) => d.spenden + d.aufstockung),
-        backgroundColor: '#E67E22',
+        backgroundColor: CHART_COLORS.orange,
       },
     ],
   };

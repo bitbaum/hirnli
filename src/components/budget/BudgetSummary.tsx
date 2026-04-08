@@ -28,10 +28,10 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
       {/* Year-by-year breakdown */}
       <div className="space-y-4 mb-6">
         {/* Year 1 */}
-        <div className="p-4 bg-blue-50 rounded-lg">
+        <div className="p-4 bg-primary/10 rounded-lg">
           <div className="flex justify-between items-start mb-2">
             <h4 className="font-semibold text-grey-dark">Jahr 1</h4>
-            <span className="text-lg font-bold text-blue-700">{formatCHF(totals.y1Total)}</span>
+            <span className="text-lg font-bold text-primary">{formatCHF(totals.y1Total)}</span>
           </div>
           <div className="text-sm space-y-1 text-text-light">
             <div className="flex justify-between">
@@ -42,7 +42,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
               <span>Jährliche Kosten:</span>
               <span className="font-medium">{formatCHF(year1.jaehrlich)}</span>
             </div>
-            <div className="flex justify-between text-green-700 pt-1 border-t border-blue-200">
+            <div className="flex justify-between text-success pt-1 border-t border-primary/20">
               <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year1.eigenleistung)}</span>
             </div>
@@ -60,7 +60,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
               <span>Jährliche Kosten:</span>
               <span className="font-medium">{formatCHF(year2.jaehrlich)}</span>
             </div>
-            <div className="flex justify-between text-green-700 pt-1 border-t border-border">
+            <div className="flex justify-between text-success pt-1 border-t border-border">
               <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year2.eigenleistung)}</span>
             </div>
@@ -78,7 +78,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
               <span>Jährliche Kosten:</span>
               <span className="font-medium">{formatCHF(year3.jaehrlich)}</span>
             </div>
-            <div className="flex justify-between text-green-700 pt-1 border-t border-border">
+            <div className="flex justify-between text-success pt-1 border-t border-border">
               <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year3.eigenleistung)}</span>
             </div>
@@ -90,11 +90,11 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
       <div className="pt-4 border-t-2 border-border space-y-2">
         <div className="flex justify-between text-sm">
           <span className="text-text-light">Stiftungen Total (3 Jahre):</span>
-          <span className="font-bold text-blue-700">{formatCHF(totals.stiftungenTotal)}</span>
+          <span className="font-bold text-primary">{formatCHF(totals.stiftungenTotal)}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-text-light">Eigenleistung Total (bewertete Freiwilligenarbeit):</span>
-          <span className="font-bold text-green-700">{formatCHF(totals.eigenTotal)}</span>
+          <span className="font-bold text-success">{formatCHF(totals.eigenTotal)}</span>
         </div>
         <div className="flex justify-between pt-2 border-t border-border">
           <span className="font-semibold text-grey-dark">Projektwert Total:</span>

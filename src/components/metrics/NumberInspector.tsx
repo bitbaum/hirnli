@@ -109,7 +109,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
         {data.formula && (
           <div>
             <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Wie wird das berechnet?</h4>
-            <div className="rounded-lg bg-blue-50 border border-blue-200 px-4 py-3">
+            <div className="rounded-lg bg-primary/10 border border-primary/20 px-4 py-3">
               <code className="block text-sm font-mono text-grey-dark whitespace-pre-wrap">{data.formula}</code>
             </div>
           </div>

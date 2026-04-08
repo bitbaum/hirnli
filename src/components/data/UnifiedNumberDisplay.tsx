@@ -90,8 +90,8 @@ export default function UnifiedNumberDisplay({
   console.error(`UnifiedNumberDisplay: Unknown key "${numberKey}"`);
 
   return (
-    <div className={`rounded-lg border border-red-200 bg-red-50 p-4 ${className}`}>
-      <div className="text-sm text-red-700">
+    <div className={`rounded-lg border border-danger/20 bg-danger/10 p-4 ${className}`}>
+      <div className="text-sm text-danger">
         <div className="font-medium">Zahl nicht gefunden</div>
         <div className="mt-1 text-xs">Key: <code>{numberKey}</code></div>
       </div>

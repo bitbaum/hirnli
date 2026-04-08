@@ -71,7 +71,7 @@ export default function Dropdown({ item, pathname }: { item: NavItem; pathname: 
             : 'invisible opacity-0 -translate-y-1'
         }`}
       >
-        <div className="overflow-hidden rounded-xl border-2 border-blue-200 bg-white shadow-2xl">
+        <div className="overflow-hidden rounded-xl border-2 border-primary/20 bg-white shadow-2xl">
           <div className="h-2 bg-gradient-to-r from-revamp-blue to-revamp-green"></div>
           <div className="py-3">
             {item.children?.map((child) => (

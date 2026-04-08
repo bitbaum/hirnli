@@ -8,6 +8,7 @@
  */
 
 import { ORG_PROFILE } from './org-profile';
+import { CHART_COLORS } from './chart-colors';
 
 export const BRANDING = {
   // Logo assets
@@ -24,13 +25,13 @@ export const BRANDING = {
 
   // Brand colors (inherited from Revamp-IT)
   colors: {
-    primary: '#2ECC71',      // Revamp Green
-    secondary: '#3498DB',    // Revamp Blue
-    accent: '#E67E22',       // Revamp Orange
+    primary: CHART_COLORS.green,      // Revamp Green
+    secondary: CHART_COLORS.blue,     // Revamp Blue
+    accent: CHART_COLORS.orange,      // Revamp Orange
 
     // Chip logo colors for reference
-    chipOrange: '#FF9933',   // Orange chip body
-    chipGreen: '#2ECC71',    // Green smile/eyes
+    chipOrange: '#FF9933',            // Orange chip body
+    chipGreen: CHART_COLORS.green,    // Green smile/eyes
   },
 
   // Typography

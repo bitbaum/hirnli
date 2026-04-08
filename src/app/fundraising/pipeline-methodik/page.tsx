@@ -163,7 +163,7 @@ export default function PipelineMethodikPage() {
             countLabel={`Bereitschafts-Tier ≥ Recherchiert`}
             method="Website-Recherche, Kontaktdaten, Förderbereich, Fristen"
             cost="Mittel (Web-Scraping + KI-Analyse)"
-            color="bg-blue-50"
+            color="bg-primary/10"
             detail={`Voraussetzung: Stiftungszweck dokumentiert, Kontaktdaten vorhanden, Themen zugeordnet, Website verifiziert. Aktuell ${s.withContact} mit Kontaktdaten, ${s.withWebsite} mit eigener Website.`}
           />
 

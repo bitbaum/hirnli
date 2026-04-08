@@ -70,16 +70,16 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
       <div className="mb-6">
         <div className="mb-3 flex items-baseline justify-between">
           <h3 className="text-lg font-semibold text-grey-dark">
-            <span className="mr-2 inline-block h-3 w-3 rounded-sm bg-blue-500" />
+            <span className="mr-2 inline-block h-3 w-3 rounded-sm bg-primary" />
             Einmalige Investitionen
           </h3>
-          <Inspectable data={inspectEinmalig} inspector={inspector} className="text-lg font-bold tabular-nums text-blue-600">
+          <Inspectable data={inspectEinmalig} inspector={inspector} className="text-lg font-bold tabular-nums text-primary">
             {formatCHF(BUDGET_EINMALIG_TOTAL)}
           </Inspectable>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {BUDGET_EINMALIG.map((item) => (
-            <BudgetLineItemCard key={item.id} item={item} borderColor="border-l-blue-500" />
+            <BudgetLineItemCard key={item.id} item={item} borderColor="border-l-primary" />
           ))}
         </div>
       </div>
@@ -88,23 +88,23 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
       <div className="mb-6">
         <div className="mb-3 flex items-baseline justify-between">
           <h3 className="text-lg font-semibold text-grey-dark">
-            <span className="mr-2 inline-block h-3 w-3 rounded-sm bg-violet-500" />
+            <span className="mr-2 inline-block h-3 w-3 rounded-sm bg-pillar-vision" />
             Jährliche Kosten
             <span className="ml-2 text-sm font-normal text-text-muted">(degressiv finanziert über 3 Jahre)</span>
           </h3>
-          <Inspectable data={inspectJaehrlich} inspector={inspector} className="text-lg font-bold tabular-nums text-violet-600">
+          <Inspectable data={inspectJaehrlich} inspector={inspector} className="text-lg font-bold tabular-nums text-pillar-vision">
             {formatCHF(BUDGET_JAEHRLICH_TOTAL)}<span className="text-sm font-normal text-text-muted">/Jahr</span>
           </Inspectable>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {BUDGET_JAEHRLICH.map((item) => (
-            <BudgetLineItemCard key={item.id} item={item} borderColor="border-l-violet-500" />
+            <BudgetLineItemCard key={item.id} item={item} borderColor="border-l-pillar-vision" />
           ))}
         </div>
       </div>
 
       {/* Budget Summary */}
-      <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-emerald-100/50">
+      <Card className="border-success/20 bg-gradient-to-r from-success/10 to-success/15">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="text-2xl font-bold text-grey-dark">
@@ -118,8 +118,8 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
             </p>
           </div>
           <div className="text-right">
-            <div className="text-sm font-medium text-violet-700">Stiftungs-Förderbedarf</div>
-            <Inspectable data={inspectStiftungen3Y} inspector={inspector} className="text-xl font-bold tabular-nums text-violet-700">
+            <div className="text-sm font-medium text-pillar-vision">Stiftungs-Förderbedarf</div>
+            <Inspectable data={inspectStiftungen3Y} inspector={inspector} className="text-xl font-bold tabular-nums text-pillar-vision">
               {formatCHF(STIFTUNGEN_3Y_TOTAL)}
             </Inspectable>
             <div className="text-xs text-text-muted">über 3 Jahre (degressiv)</div>

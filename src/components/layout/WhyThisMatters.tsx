@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 
 interface WhyThisMattersProps {
   purpose: string;
@@ -18,39 +19,38 @@ export default function WhyThisMatters({ purpose, connection }: WhyThisMattersPr
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
-    <div className="mb-8 rounded-lg border border-blue-200 bg-blue-50">
-      <button
+    <div className="mb-8 rounded-lg border border-primary/20 bg-primary/10">
+      <Button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex w-full items-start gap-3 p-4 text-left transition-colors hover:bg-blue-100"
-        aria-expanded={isExpanded}
-        aria-label={isExpanded ? 'Zweck verbergen' : 'Zweck anzeigen'}
+        variant="ghost"
+        className="w-full items-start gap-3 p-4 text-left hover:bg-primary/15 font-normal"
       >
         <div className="flex-shrink-0 text-2xl" aria-hidden="true">
           💡
         </div>
         <div className="flex-1">
-          <div className="mb-1 text-sm font-medium uppercase tracking-wider text-blue-700">
+          <div className="mb-1 text-sm font-medium uppercase tracking-wider text-primary">
             Warum diese Seite?
           </div>
           {isExpanded ? (
             <div className="space-y-2">
-              <p className="text-base text-blue-900">
+              <p className="text-base text-grey-dark">
                 {purpose}
               </p>
-              <p className="text-sm text-blue-700">
+              <p className="text-sm text-primary">
                 <span className="font-medium">Zusammenhang:</span> {connection}
               </p>
             </div>
           ) : (
-            <p className="text-sm text-blue-700">
+            <p className="text-sm text-primary">
               Klicken um zu sehen, warum diese Seite existiert
             </p>
           )}
         </div>
-        <div className="flex-shrink-0 text-blue-600">
+        <div className="flex-shrink-0 text-primary">
           {isExpanded ? '−' : '+'}
         </div>
-      </button>
+      </Button>
     </div>
   );
 }

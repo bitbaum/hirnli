@@ -53,6 +53,12 @@
   --color-theme-zuerich: #ef4444;
   --color-theme-arbeit: #14b8a6;
 
+  /* Pillar Colors (strategic pillars — used on vision/strategy pages) */
+  --color-pillar-vision: #8b5cf6;    /* violet — aligns with theme-sozial */
+  --color-pillar-digital: #6366f1;   /* indigo — aligns with theme-digital */
+  --color-pillar-social: #14b8a6;    /* teal — aligns with theme-arbeit */
+  --color-pillar-eco: #10b981;       /* green — aligns with theme-klima */
+
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
   --shadow-md: 0 4px 6px rgba(0,0,0,0.1);

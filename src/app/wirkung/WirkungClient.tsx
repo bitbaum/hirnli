@@ -20,6 +20,7 @@ import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import ShareButton from '@/components/ui/ShareButton';
+import ProgressBar from '@/components/ui/ProgressBar';
 
 export default function WirkungClient() {
   const {
@@ -59,10 +60,10 @@ export default function WirkungClient() {
         connection="Wirkung = finanziert durch Solidarisches Preismodell + Stiftungsgelder (siehe Finanzen)."
       />
 
-      <Card className="mb-6 bg-green-50 border-l-4 border-green-500">
+      <Card className="mb-6 bg-success/10 border-l-4 border-success">
         <p className="text-sm">
           <strong>Diese Seite zeigt:</strong> Impact-Kennzahlen (was bewirken wir?)<br />
-          <strong>Finanzierung ansehen:</strong> <Link href="/finanzen" className="text-green-600 hover:underline font-medium">Finanzseite</Link>
+          <strong>Finanzierung ansehen:</strong> <Link href="/finanzen" className="text-success hover:underline font-medium">Finanzseite</Link>
           {' '}zeigt, woher das Budget kommt.
         </p>
       </Card>
@@ -195,9 +196,7 @@ export default function WirkungClient() {
           <CardTitle>Datenabdeckung</CardTitle>
           <p className="text-sm text-text-muted">Wie viel unserer Wirkung können wir messen?</p>
         </CardHeader>
-        <div className="mb-2 h-3 w-full overflow-hidden rounded-full bg-grey-light">
-          <div className="h-full rounded-full bg-gradient-to-r from-warning to-amber-400" style={{ width: '25%' }} />
-        </div>
+        <ProgressBar percent={25} size="lg" color="bg-gradient-to-r from-warning to-warning" trackColor="bg-grey-light" label="Datenabdeckung: 25% der Wirkungsindikatoren messbar" />
         <div className="flex justify-between text-xs text-text-muted">
           <span>25% der Wirkungsindikatoren messbar</span>
           <span>Ziel: 75%</span>

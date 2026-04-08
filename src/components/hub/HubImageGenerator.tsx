@@ -28,8 +28,8 @@ export function HubImageGenerator() {
             onClick={() => setSelectedSpace(space.space_name)}
             className={`p-3 rounded-lg border-2 text-left transition-all ${
               selectedSpace === space.space_name
-                ? 'border-emerald-500 bg-emerald-50'
-                : 'border-border hover:border-emerald-300 bg-white'
+                ? 'border-success bg-success/10'
+                : 'border-border hover:border-success/20 bg-white'
             }`}
           >
             <p className="text-sm font-semibold text-grey-dark">{space.space_name}</p>
@@ -61,9 +61,9 @@ export function HubImageGenerator() {
 
           {/* Negative Prompt */}
           {selectedConfig.negative_prompt && (
-            <div className="bg-red-50 p-3 rounded-lg mb-4">
-              <p className="text-xs font-semibold text-red-900 mb-1">Negative Prompt (what to avoid):</p>
-              <p className="text-xs text-red-800">{selectedConfig.negative_prompt}</p>
+            <div className="bg-danger/10 p-3 rounded-lg mb-4">
+              <p className="text-xs font-semibold text-danger mb-1">Negative Prompt (what to avoid):</p>
+              <p className="text-xs text-danger">{selectedConfig.negative_prompt}</p>
             </div>
           )}
 
@@ -99,16 +99,16 @@ export function HubImageGenerator() {
 
       {/* Instructions */}
       {!selectedSpace && (
-        <Card className="bg-blue-50 border-l-4 border-l-blue-500">
-          <h3 className="text-md font-semibold text-blue-900 mb-2">How to Generate Hub Visualizations</h3>
-          <ol className="text-sm text-blue-800 space-y-2 list-decimal list-inside">
+        <Card className="bg-primary/10 border-l-4 border-l-primary">
+          <h3 className="text-md font-semibold text-primary mb-2">How to Generate Hub Visualizations</h3>
+          <ol className="text-sm text-primary space-y-2 list-decimal list-inside">
             <li><strong>Select a space</strong> from the grid above</li>
             <li><strong>Copy the prompt</strong> for your preferred AI tool (Midjourney or DALL-E 3)</li>
             <li><strong>Paste into the AI tool</strong> and generate the image</li>
             <li><strong>Download the result</strong> and add to your presentations/documents</li>
           </ol>
-          <div className="mt-4 pt-4 border-t border-blue-300">
-            <p className="text-xs text-blue-700">
+          <div className="mt-4 pt-4 border-t border-primary/20">
+            <p className="text-xs text-primary">
               <strong>Free options:</strong> Use Midjourney free trial, DALL-E 3 via ChatGPT Plus, or Stable Diffusion (free, open-source).
               <br />
               <strong>Coming soon:</strong> Direct API integration for one-click generation.

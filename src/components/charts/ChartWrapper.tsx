@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Card from '@/components/ui/Card';
 
 interface ChartWrapperProps {
   children: React.ReactNode;
@@ -21,7 +22,7 @@ export default function ChartWrapper({ children, title, className = '' }: ChartW
   }, []);
 
   return (
-    <div className={`rounded-lg border border-border bg-white p-4 ${className}`}>
+    <Card padding={false} className={`p-4 ${className}`}>
       {title && <h2 className="mb-3 text-sm font-semibold text-grey-dark">{title}</h2>}
       <div className="h-72">
         {mounted ? (
@@ -32,6 +33,6 @@ export default function ChartWrapper({ children, title, className = '' }: ChartW
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

@@ -181,19 +181,19 @@ export function FundraisingDashboard() {
                 <div className="text-sm text-text-light">Gesamt Gesuche</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600">
+                <div className="text-3xl font-bold text-primary">
                   {data.totals.submitted}
                 </div>
                 <div className="text-sm text-text-light">Eingereicht</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-green-600">
+                <div className="text-3xl font-bold text-success">
                   {data.totals.accepted}
                 </div>
                 <div className="text-sm text-text-light">Angenommen</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-orange-600">
+                <div className="text-3xl font-bold text-warning">
                   {data.totals.pending}
                 </div>
                 <div className="text-sm text-text-light">Ausstehend</div>

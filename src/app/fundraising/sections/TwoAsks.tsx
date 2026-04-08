@@ -13,7 +13,7 @@ export default function TwoAsks() {
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wir sammeln für 2 Dinge: Hub + Menschen</h2>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Hub */}
-        <Card className="border-l-4 border-l-blue-500">
+        <Card className="border-l-4 border-l-primary">
           <div className="flex items-start gap-4">
             <span className="text-4xl" aria-hidden="true">🏢</span>
             <div className="flex-1">
@@ -26,7 +26,7 @@ export default function TwoAsks() {
               </p>
               <Link
                 href="/fundraising/hub"
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900 transition-colors"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
               >
                 📊 Hub-Details & Budget ansehen →
               </Link>
@@ -35,7 +35,7 @@ export default function TwoAsks() {
         </Card>
 
         {/* Menschen */}
-        <Card className="border-l-4 border-l-violet-500">
+        <Card className="border-l-4 border-l-pillar-vision">
           <div className="flex items-start gap-4">
             <span className="text-4xl" aria-hidden="true">👥</span>
             <div className="flex-1">
@@ -51,7 +51,7 @@ export default function TwoAsks() {
               </p>
               <Link
                 href="/fundraising/bildung"
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-900 transition-colors"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-pillar-vision hover:text-pillar-vision transition-colors"
               >
                 📊 Bildung-Details & Multiplikationseffekt →
               </Link>
@@ -68,13 +68,13 @@ export default function TwoAsks() {
         <div className="mt-2 text-lg text-grey-dark">
           Bessere Prozesse + strukturierte Bildung + diversifizierte Einnahmen
         </div>
-        <div className="mt-2 text-3xl font-bold text-blue-600">
+        <div className="mt-2 text-3xl font-bold text-primary">
           {DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr + {PEOPLE_REACHED_DISPLAY} trainiert
         </div>
         <div className="mt-3 text-sm text-text-light">
           {REVENUE_GROWTH_DISPLAY}
         </div>
-        <div className="mt-1 text-sm font-semibold text-violet-600">
+        <div className="mt-1 text-sm font-semibold text-pillar-vision">
           + {PEOPLE_REACHED_DISPLAY} in Tech-Bildung & Integration
         </div>
         <div className="mt-4 pt-4 border-t border-border">

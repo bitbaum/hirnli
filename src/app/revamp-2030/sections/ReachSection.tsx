@@ -15,8 +15,8 @@ export default function ReachSection() {
     <section className="mb-8">
       <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie wir mehr Menschen erreichen</h2>
       <Card>
-        <div className="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 mb-6">
-          <p className="text-sm text-blue-900">
+        <div className="bg-primary/10 border-l-4 border-primary rounded-lg p-4 mb-6">
+          <p className="text-sm text-primary">
             <strong>Transparenz-Hinweis:</strong> Die Zahlen unten ({BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr, etc.) sind <strong>Projektionen</strong>,
             basierend auf Train-the-Trainer Konzept (etablierte Bildungsstrategie) und unserer informellen Erfahrung.
             <strong> Nicht empirisch gemessen.</strong> Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
@@ -32,11 +32,11 @@ export default function ReachSection() {
               <Badge variant="warning">Heute</Badge>
               Unstrukturiert, ineffizient
             </h3>
-            <div className="bg-amber-50 rounded-lg p-4">
+            <div className="bg-warning/10 rounded-lg p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm font-semibold text-amber-900 mb-2">Hardware:</p>
-                  <ul className="text-xs text-amber-800 space-y-1">
+                  <p className="text-sm font-semibold text-warning mb-2">Hardware:</p>
+                  <ul className="text-xs text-warning space-y-1">
                     <li>• {REPAIR_TABLES_CURRENT} Tische vorhanden, aber nur 1-2 genutzt (Reza + manchmal Freiwillige)</li>
                     <li>• Keine strukturierten Trainings, kein Zeitplan</li>
                     <li>• Lange Wartezeiten, Backlog wächst</li>
@@ -44,8 +44,8 @@ export default function ReachSection() {
                   </ul>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-amber-900 mb-2">Software/AI:</p>
-                  <ul className="text-xs text-amber-800 space-y-1">
+                  <p className="text-sm font-semibold text-warning mb-2">Software/AI:</p>
+                  <ul className="text-xs text-warning space-y-1">
                     <li>• Kernteam zu beschäftigt für systematische Bildung</li>
                     <li>• Keine Workshops, keine strukturierten Kurse</li>
                     <li>• Gelegentliche Unterstützung, aber nicht systematisch</li>
@@ -62,11 +62,11 @@ export default function ReachSection() {
               <Badge variant="success">Mit Hub + Bildungsprogrammleiter:innen</Badge>
               Strukturiert, organisiert, skalierbar
             </h3>
-            <div className="bg-emerald-50 rounded-lg p-4">
+            <div className="bg-success/10 rounded-lg p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <p className="text-sm font-semibold text-emerald-900 mb-2">Hardware (organisiert):</p>
-                  <ul className="text-xs text-emerald-800 space-y-1">
+                  <p className="text-sm font-semibold text-success mb-2">Hardware (organisiert):</p>
+                  <ul className="text-xs text-success space-y-1">
                     <li>• <strong>Hardware-BPL organisiert:</strong> Zeitpläne, Qualität, Prozesse</li>
                     <li>• Alle Tische genutzt (strukturierte Schichten, klare Verantwortlichkeiten)</li>
                     <li>• <strong>{BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
@@ -74,8 +74,8 @@ export default function ReachSection() {
                   </ul>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-emerald-900 mb-2">Software/AI (strukturiert):</p>
-                  <ul className="text-xs text-emerald-800 space-y-1">
+                  <p className="text-sm font-semibold text-success mb-2">Software/AI (strukturiert):</p>
+                  <ul className="text-xs text-success space-y-1">
                     <li>• <strong>Software/AI-BPL organisiert:</strong> Curricula, Workshops, Events</li>
                     <li>• <strong>{BPL_SOFTWARE_PER_YEAR_DISPLAY} Entwickler/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
                     <li>• Plus Workshops, Events, Repair Cafés</li>
@@ -83,9 +83,9 @@ export default function ReachSection() {
                   </ul>
                 </div>
               </div>
-              <div className="bg-white rounded-lg p-4 border-2 border-emerald-300">
-                <p className="text-sm font-bold text-emerald-900 mb-2">Warum das funktioniert:</p>
-                <p className="text-xs text-emerald-800">
+              <div className="bg-white rounded-lg p-4 border-2 border-success/20">
+                <p className="text-sm font-bold text-success mb-2">Warum das funktioniert:</p>
+                <p className="text-xs text-success">
                   <strong>Organisation + bezahlte Fachleute</strong> bedeuten: verlässliche Zeitpläne, strukturierte Programme,
                   systematisches Training. Freiwillige können kommen und gehen — aber die Struktur bleibt stabil.
                   Trainierte geben ihr Wissen weiter — jede:r kann 10+ Menschen/Jahr erreichen. <strong>Das ist der eigentliche Game-Changer</strong>,
@@ -101,14 +101,14 @@ export default function ReachSection() {
               <Badge variant="info">Bonus: Online Content</Badge>
               Noch mehr Reichweite ohne zusätzliche Personalkosten
             </h3>
-            <div className="bg-blue-50 rounded-lg p-4">
-              <p className="text-sm text-blue-900 mb-3">
+            <div className="bg-primary/10 rounded-lg p-4">
+              <p className="text-sm text-primary mb-3">
                 <strong>Hub + Bildungsprogrammleiter:innen ermöglichen auch Online-Content-Produktion:</strong>
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                 <div>
-                  <p className="text-sm font-semibold text-blue-900 mb-2">Hub bietet Infrastruktur:</p>
-                  <ul className="text-xs text-blue-800 space-y-1">
+                  <p className="text-sm font-semibold text-primary mb-2">Hub bietet Infrastruktur:</p>
+                  <ul className="text-xs text-primary space-y-1">
                     <li>• Professioneller Schulungsraum = Video-Studio</li>
                     <li>• Werkstatt = Praxis-Aufnahmen für Tutorials</li>
                     <li>• Event-Raum = Live-Streaming von Workshops</li>
@@ -116,8 +116,8 @@ export default function ReachSection() {
                   </ul>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-blue-900 mb-2">BPL produzieren Content:</p>
-                  <ul className="text-xs text-blue-800 space-y-1">
+                  <p className="text-sm font-semibold text-primary mb-2">BPL produzieren Content:</p>
+                  <ul className="text-xs text-primary space-y-1">
                     <li>• Video-Tutorials (Laptop-Reparatur Schritt-für-Schritt)</li>
                     <li>• Online-Kurse (AI Literacy, Linux-Grundlagen)</li>
                     <li>• Dokumentation & Guides (Open-Source-Wissen)</li>
@@ -126,12 +126,12 @@ export default function ReachSection() {
                 </div>
               </div>
               <div className="bg-white rounded-lg p-3">
-                <p className="text-sm font-bold text-blue-900 mb-2">Zusätzliche Reichweite:</p>
-                <p className="text-xs text-blue-800 mb-2">
+                <p className="text-sm font-bold text-primary mb-2">Zusätzliche Reichweite:</p>
+                <p className="text-xs text-primary mb-2">
                   Ein gut produziertes Tutorial-Video kann <strong>100-1000+ Menschen erreichen</strong> — ohne zusätzlichen Zeitaufwand.
                   Online-Kurse skalieren unbegrenzt: 1× produzieren, 100× nutzen.
                 </p>
-                <p className="text-xs text-blue-800">
+                <p className="text-xs text-primary">
                   <strong>Beispiel:</strong> &bdquo;Wie repariere ich meinen Laptop?&ldquo; Video → 500 Views/Jahr = 500 Menschen erreicht,
                   für 0 zusätzliche Kosten nach Produktion.
                 </p>

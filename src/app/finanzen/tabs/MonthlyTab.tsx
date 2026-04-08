@@ -19,7 +19,7 @@ import type { InspectorHandle } from '@/app/fundraising/sections/Inspectable';
 import type { useFinancialData } from '@/hooks/useFinancialData';
 
 const ChartSkeleton = () => (
-  <div className="flex h-80 items-center justify-center rounded-lg border border-border bg-white text-text-muted">Laden...</div>
+  <Card padding={false} className="flex h-80 items-center justify-center text-text-muted">Laden...</Card>
 );
 
 const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {

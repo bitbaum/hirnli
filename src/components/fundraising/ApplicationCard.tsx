@@ -65,8 +65,8 @@ export function ApplicationCard({
     const days = Math.ceil(
       (new Date(application.decisionExpected).getTime() - Date.now()) / 86400000,
     );
-    if (days <= 7) return 'text-red-600 font-semibold';
-    if (days <= 14) return 'text-orange-600';
+    if (days <= 7) return 'text-danger font-semibold';
+    if (days <= 14) return 'text-warning';
     return 'text-text-muted';
   };
 
@@ -133,7 +133,7 @@ export function ApplicationCard({
             </button>
             <button
               onClick={() => setDeleteConfirm(!deleteConfirm)}
-              className="rounded p-1 text-text-muted hover:bg-red-50 hover:text-red-600"
+              className="rounded p-1 text-text-muted hover:bg-danger/10 hover:text-danger"
               title="Löschen"
               aria-label="Gesuch löschen"
             >
@@ -188,8 +188,8 @@ export function ApplicationCard({
 
           {/* Delete confirmation inline */}
           {deleteConfirm && (
-            <div className="mt-3 flex items-center justify-between rounded-lg bg-red-50 px-3 py-2 text-sm">
-              <span className="font-medium text-red-700">Wirklich löschen?</span>
+            <div className="mt-3 flex items-center justify-between rounded-lg bg-danger/10 px-3 py-2 text-sm">
+              <span className="font-medium text-danger">Wirklich löschen?</span>
               <div className="flex gap-2">
                 <button
                   onClick={() => setDeleteConfirm(false)}
@@ -201,7 +201,7 @@ export function ApplicationCard({
                 <button
                   onClick={handleDelete}
                   disabled={isDeleting}
-                  className="rounded bg-red-600 px-2 py-0.5 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-50"
+                  className="rounded bg-danger px-2 py-0.5 text-xs font-semibold text-white hover:bg-danger/80 disabled:opacity-50"
                 >
                   {isDeleting ? '...' : 'Ja, löschen'}
                 </button>

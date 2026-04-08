@@ -68,7 +68,7 @@ export function ImpactStoryCards({
       <div className="grid gap-6 md:grid-cols-3">
         {/* Ecological impact */}
         <Card padding={false}>
-          <div className="rounded-t-lg bg-gradient-to-r from-emerald-500 to-emerald-700 p-4 text-white">
+          <div className="rounded-t-lg bg-gradient-to-r from-success to-success p-4 text-white">
             <h3 className="font-semibold">Ökologische Wirkung</h3>
           </div>
           <div className="p-4">
@@ -90,7 +90,7 @@ export function ImpactStoryCards({
 
         {/* Resource conservation */}
         <Card padding={false}>
-          <div className="rounded-t-lg bg-gradient-to-r from-emerald-500 to-emerald-700 p-4 text-white">
+          <div className="rounded-t-lg bg-gradient-to-r from-success to-success p-4 text-white">
             <h3 className="font-semibold">Ressourcenschonung</h3>
           </div>
           <div className="p-4">
@@ -113,14 +113,14 @@ export function ImpactStoryCards({
 
         {/* Social impact */}
         <Card padding={false}>
-          <div className="rounded-t-lg bg-gradient-to-r from-purple-500 to-purple-700 p-4 text-white">
+          <div className="rounded-t-lg bg-gradient-to-r from-chart-5 to-chart-5 p-4 text-white">
             <h3 className="font-semibold">Soziale Integration</h3>
           </div>
           <div className="p-4">
             <div className="mb-2 text-3xl font-bold text-text-muted">?</div>
             <p className="mb-2 text-sm text-text-muted">Praktikant:innen & Teilnehmende</p>
             <Badge variant="none">Nicht erfasst</Badge>
-            <div className="mt-3 rounded-lg bg-red-50 p-3">
+            <div className="mt-3 rounded-lg bg-danger/10 p-3">
               <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">{`Historisch (seit ${ORG_PROFILE.milestones.integrationProgram}):`}</h4>
               <ul className="space-y-1 text-xs text-text-light">
                 <li>👥 <strong>100+</strong> Praktikant:innen</li>

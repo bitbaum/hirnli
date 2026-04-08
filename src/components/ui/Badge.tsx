@@ -4,7 +4,7 @@ const VARIANTS = {
   success: 'bg-success-bg text-success',
   warning: 'bg-warning-bg text-warning',
   danger: 'bg-danger-bg text-danger',
-  info: 'bg-blue-100 text-blue-700',
+  info: 'bg-primary/10 text-primary',
   outline: 'border border-border bg-transparent text-text-muted',
   // Data source badges
   live: 'bg-success-bg text-success',

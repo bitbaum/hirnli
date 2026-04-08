@@ -18,10 +18,10 @@ interface KPICardProps {
 
 export function KPICard({ label, value, icon, color = 'blue', trend, subtitle }: KPICardProps) {
   const colorClasses = {
-    blue: 'bg-blue-50 border-blue-200 text-blue-700',
-    green: 'bg-green-50 border-green-200 text-green-700',
-    orange: 'bg-orange-50 border-orange-200 text-orange-700',
-    red: 'bg-red-50 border-red-200 text-red-700',
+    blue: 'bg-primary/10 border-primary/20 text-primary',
+    green: 'bg-success/10 border-success/20 text-success',
+    orange: 'bg-warning/10 border-warning/20 text-warning',
+    red: 'bg-danger/10 border-danger/20 text-danger',
     gray: 'bg-bg-light border-border text-grey-dark',
   };
 
@@ -40,7 +40,7 @@ export function KPICard({ label, value, icon, color = 'blue', trend, subtitle }:
 
       {trend && (
         <div className={`flex items-center text-sm mt-2 ${
-          trend.direction === 'up' ? 'text-green-600' : 'text-red-600'
+          trend.direction === 'up' ? 'text-success' : 'text-danger'
         }`}>
           <span className="mr-1">
             {trend.direction === 'up' ? '↑' : '↓'}

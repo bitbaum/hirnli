@@ -1,4 +1,5 @@
 import Badge from '@/components/ui/Badge';
+import Card from '@/components/ui/Card';
 import { formatPercent } from '@/lib/utils/format';
 
 interface MetricCardProps {
@@ -27,14 +28,8 @@ export default function MetricCard({
   onClick,
   className = '',
 }: MetricCardProps) {
-  return (
-    <div
-      className={`rounded-lg border border-border bg-white p-4 ${
-        onClick ? 'cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2' : ''
-      } ${className}`}
-      onClick={onClick}
-      {...(onClick ? { tabIndex: 0, role: 'button', onKeyDown: (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } } : {})}
-    >
+  const content = (
+    <>
       <div className="mb-1 flex items-center justify-between">
         <span className="text-xs font-medium uppercase tracking-wider text-text-muted">{label}</span>
         {sourceType && (
@@ -56,6 +51,26 @@ export default function MetricCard({
           {trend.label && <span className="ml-1 text-xs text-text-muted">{trend.label}</span>}
         </div>
       )}
-    </div>
+    </>
+  );
+
+  if (onClick) {
+    return (
+      <div
+        className={`rounded-lg border border-border bg-white shadow-sm p-4 cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
+        onClick={onClick}
+        tabIndex={0}
+        role="button"
+        onKeyDown={(e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <Card padding={false} className={`p-4 ${className}`}>
+      {content}
+    </Card>
   );
 }

@@ -74,10 +74,10 @@ export const PRICING_TIERS: PricingTier[] = [
       'Finanziert Gratis-Geräte',
       'Ermöglicht KulturLegi-Rabatte',
     ],
-    borderColor: 'border-violet-500',
-    bgGradient: 'from-violet-50 to-white',
-    priceColor: 'text-violet-500',
-    badgeColor: 'bg-violet-500 text-white',
+    borderColor: 'border-pillar-vision',
+    bgGradient: 'from-pillar-vision/10 to-white',
+    priceColor: 'text-pillar-vision',
+    badgeColor: 'bg-pillar-vision text-white',
   },
 ];
 

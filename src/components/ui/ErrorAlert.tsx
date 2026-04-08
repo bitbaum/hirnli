@@ -5,7 +5,7 @@
  * Use fullPage=true to center within a min-h-screen container.
  */
 
-import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 
 export function ErrorAlert({
   error,
@@ -19,23 +19,27 @@ export function ErrorAlert({
   if (!error) return null;
 
   return (
-    <div className="rounded-lg border border-red-200 bg-red-50 p-4">
-      <p className="text-red-700">Fehler: {error}</p>
+    <div className="rounded-lg border border-danger/20 bg-danger/10 p-4">
+      <p className="text-danger">Fehler: {error}</p>
       {onRetry && (
-        <button
+        <Button
           onClick={onRetry}
-          className="mt-2 rounded bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700"
+          variant="danger"
+          size="sm"
+          className="mt-2"
         >
           Erneut versuchen
-        </button>
+        </Button>
       )}
       {backLink && (
-        <Link
+        <Button
           href={backLink.href}
-          className="mt-2 block text-sm text-primary hover:underline"
+          variant="ghost"
+          size="sm"
+          className="mt-2 text-primary"
         >
           {backLink.label}
-        </Link>
+        </Button>
       )}
     </div>
   );

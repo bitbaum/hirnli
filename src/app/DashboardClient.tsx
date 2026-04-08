@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Card from '@/components/ui/Card';
 import PageHeader from '@/components/layout/PageHeader';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
@@ -114,13 +115,15 @@ export default function DashboardClient() {
           <Link
             key={link.href}
             href={link.href}
-            className="flex items-start gap-3 rounded-lg border border-border bg-white p-4 transition-all hover:border-primary/30 hover:shadow-md hover:no-underline"
+            className="block transition-all hover:no-underline"
           >
-            <span className="text-2xl">{link.icon}</span>
-            <div>
-              <span className="font-semibold text-grey-dark">{link.title}</span>
-              <span className="block text-sm text-text-light">{link.desc}</span>
-            </div>
+            <Card padding={false} className="flex items-start gap-3 p-4 transition-all hover:border-primary/30 hover:shadow-md">
+              <span className="text-2xl">{link.icon}</span>
+              <div>
+                <span className="font-semibold text-grey-dark">{link.title}</span>
+                <span className="block text-sm text-text-light">{link.desc}</span>
+              </div>
+            </Card>
           </Link>
         ))}
       </div>

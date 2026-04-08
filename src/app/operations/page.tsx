@@ -115,7 +115,7 @@ export default function OperationsPage() {
       {/* Step 3: Datenlöschung */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">3. Datenlöschung</h2>
-        <div className="mb-4 rounded-lg border-l-4 border-l-red-500 bg-red-50 p-4">
+        <div className="mb-4 rounded-lg border-l-4 border-l-danger bg-danger/10 p-4">
           <strong>WICHTIG:</strong> Dieser Schritt ist OBLIGATORISCH für alle Geräte mit Festplatten!
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -132,7 +132,7 @@ export default function OperationsPage() {
             </Card>
           ))}
         </div>
-        <Card className="mt-4 bg-emerald-50">
+        <Card className="mt-4 bg-success/10">
           <h4 className="text-sm font-semibold">Dokumentation:</h4>
           <p className="mt-1 text-sm text-text-light">
             Lösch-Zertifikat ausdrucken und bei Gerät archivieren. Wichtig für Corporate Spender!
@@ -170,7 +170,7 @@ export default function OperationsPage() {
                 </div>
               ))}
             </div>
-            <p className="mt-3 text-sm font-medium text-red-600">
+            <p className="mt-3 text-sm font-medium text-danger">
               Bei FAIL: Zurück zu entsprechendem Schritt, Problem beheben, erneut testen.
             </p>
           </Card>

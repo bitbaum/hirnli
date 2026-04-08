@@ -8,8 +8,10 @@
 'use client';
 
 import Link from 'next/link';
+import Card from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
+import { Button } from '@/components/ui/Button';
 import { APPLICATION_STATUSES, getStatusConfig } from '@/lib/config/application-statuses';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
@@ -21,9 +23,7 @@ interface ApplicationDetailProps {
   };
 }
 
-const inputClass =
-  'w-full rounded-lg border border-border bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
-const labelClass = 'mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted';
+import { FORM_INPUT_CLASS as inputClass, FORM_LABEL_CLASS as labelClass } from '@/lib/utils/form-classes';
 
 export default function ApplicationDetailPage({ params }: ApplicationDetailProps) {
   const {
@@ -97,13 +97,13 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
         {/* Save error */}
         {saveError && (
-          <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div className="rounded-lg border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
             {saveError}
           </div>
         )}
 
         {/* Main edit form */}
-        <div className="rounded-xl border border-border bg-white p-6 space-y-5">
+        <Card className="space-y-5">
           <h2 className="font-semibold text-grey-dark">Gesuchsinformationen</h2>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -183,10 +183,10 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               className={inputClass}
             />
           </div>
-        </div>
+        </Card>
 
         {/* Timeline */}
-        <div className="rounded-xl border border-border bg-white p-6 space-y-5">
+        <Card className="space-y-5">
           <h2 className="font-semibold text-grey-dark">Timeline</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
@@ -206,11 +206,11 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               <input type="date" value={fields.decisionDate} onChange={(e) => updateField('decisionDate', e.target.value)} className={inputClass} />
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Outcome fields — only when relevant */}
         {(fields.status === 'accepted' || fields.status === 'rejected') && (
-          <div className="rounded-xl border border-border bg-white p-6 space-y-4">
+          <Card className="space-y-4">
             <h2 className="font-semibold text-grey-dark">Ergebnis</h2>
             {fields.status === 'accepted' && (
               <div>
@@ -236,25 +236,29 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
                 />
               </div>
             )}
-          </div>
+          </Card>
         )}
 
         {/* Foundation info (read-only) */}
-        {foundation && (
-          <div className="rounded-xl border border-border bg-white p-6 space-y-3">
+        {foundation && (() => {
+          const cd = foundation.configData as Record<string, unknown> | null;
+          const contact = (cd?.contact ?? {}) as Record<string, string | undefined>;
+          const websiteUrl = cd?.websiteUrl as string | undefined;
+          return (
+          <Card className="space-y-3">
             <h2 className="font-semibold text-grey-dark">Stiftung</h2>
             <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">Website</p>
-                {foundation.websiteUrl ? (
-                  <a href={foundation.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
-                    {foundation.websiteUrl}
+                {websiteUrl ? (
+                  <a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
+                    {websiteUrl}
                   </a>
                 ) : '—'}
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">E-Mail</p>
-                <p className="text-grey-dark">{foundation.contactEmail ?? '—'}</p>
+                <p className="text-grey-dark">{contact.email ?? '—'}</p>
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">Fit Score</p>
@@ -267,55 +271,60 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
                 </Link>
               </div>
             </div>
-          </div>
-        )}
+          </Card>
+          );
+        })()}
 
         {/* Activity log */}
-        <div className="rounded-xl border border-border bg-white p-6 space-y-3">
+        <Card className="space-y-3">
           <h2 className="font-semibold text-grey-dark">Aktivitäten</h2>
           <ActivityTimeline entityId={params.id} entityType="application" />
-        </div>
+        </Card>
 
         {/* Actions */}
         <div className="flex items-center justify-between gap-4 pb-8">
           {/* Delete */}
           <div>
             {deleteConfirm ? (
-              <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-2">
-                <span className="text-sm font-medium text-red-700">Wirklich löschen?</span>
-                <button
+              <div className="flex items-center gap-3 rounded-lg border border-danger/20 bg-danger/10 px-4 py-2">
+                <span className="text-sm font-medium text-danger">Wirklich löschen?</span>
+                <Button
                   onClick={cancelDelete}
-                  className="rounded px-3 py-1 text-sm text-text-light hover:bg-bg-light"
+                  variant="ghost"
+                  size="sm"
                   disabled={isDeleting}
                 >
                   Nein
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={executeDelete}
                   disabled={isDeleting}
-                  className="rounded bg-red-600 px-3 py-1 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-50"
+                  variant="danger"
+                  size="sm"
                 >
                   {isDeleting ? '...' : 'Ja, löschen'}
-                </button>
+                </Button>
               </div>
             ) : (
-              <button
+              <Button
                 onClick={confirmDelete}
-                className="rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+                variant="secondary"
+                className="border-danger/20 text-danger hover:bg-danger/10"
               >
                 Gesuch löschen
-              </button>
+              </Button>
             )}
           </div>
 
           {/* Save */}
-          <button
+          <Button
             onClick={save}
             disabled={isSaving}
-            className="rounded-lg bg-grey-dark px-6 py-2 text-sm font-semibold text-white hover:bg-grey-dark/85 disabled:opacity-50"
+            variant="primary"
+            size="lg"
           >
             {isSaving ? 'Speichern...' : 'Speichern'}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

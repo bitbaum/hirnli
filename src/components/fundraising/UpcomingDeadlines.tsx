@@ -31,9 +31,9 @@ export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
   };
 
   const getUrgencyColor = (days: number) => {
-    if (days <= 7) return 'bg-red-100 border-red-300 text-red-700';
-    if (days <= 14) return 'bg-orange-100 border-orange-300 text-orange-700';
-    return 'bg-yellow-100 border-yellow-300 text-yellow-700';
+    if (days <= 7) return 'bg-danger/10 border-danger/20 text-danger';
+    if (days <= 14) return 'bg-warning/10 border-warning/20 text-warning';
+    return 'bg-warning/10 border-warning/20 text-warning';
   };
 
   const getUrgencyIcon = (days: number) => {

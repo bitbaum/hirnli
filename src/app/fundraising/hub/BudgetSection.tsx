@@ -36,27 +36,27 @@ export default function BudgetSection() {
       </div>
 
       {/* Active Scenario Description */}
-      <Card className="mb-6 border-l-4 border-l-blue-500">
+      <Card className="mb-6 border-l-4 border-l-primary">
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-grey-dark mb-2">{scenario.label}</h3>
           <p className="text-sm text-text-light">{scenario.description}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div className="bg-blue-50 p-3 rounded-lg">
-            <p className="text-xs font-semibold text-blue-900 mb-1">Raumbedarf</p>
-            <p className="text-lg font-bold text-blue-900">
+          <div className="bg-primary/10 p-3 rounded-lg">
+            <p className="text-xs font-semibold text-primary mb-1">Raumbedarf</p>
+            <p className="text-lg font-bold text-primary">
               {scenario.spaceRequirement.min_sqm}–{scenario.spaceRequirement.max_sqm} m²
             </p>
           </div>
-          <div className="bg-purple-50 p-3 rounded-lg">
-            <p className="text-xs font-semibold text-purple-900 mb-1">Zielstiftungen</p>
-            <p className="text-lg font-bold text-purple-900">
+          <div className="bg-chart-5/10 p-3 rounded-lg">
+            <p className="text-xs font-semibold text-chart-5 mb-1">Zielstiftungen</p>
+            <p className="text-lg font-bold text-chart-5">
               Typ {scenario.targetFoundations.join(', ')}
             </p>
           </div>
-          <div className="bg-green-50 p-3 rounded-lg">
-            <p className="text-xs font-semibold text-green-900 mb-1">Jahr 1 Total</p>
-            <p className="text-lg font-bold text-green-900">
+          <div className="bg-success/10 p-3 rounded-lg">
+            <p className="text-xs font-semibold text-success mb-1">Jahr 1 Total</p>
+            <p className="text-lg font-bold text-success">
               CHF {formatNumber(
                 scenario.threeYearModel.year1.einmalig + scenario.threeYearModel.year1.jaehrlich
               )}
@@ -82,12 +82,12 @@ export default function BudgetSection() {
       </div>
 
       {/* Transparency Note */}
-      <Card className="bg-blue-50 border-l-4 border-l-blue-500">
-        <p className="text-sm text-blue-900 mb-2">
+      <Card className="bg-primary/10 border-l-4 border-l-primary">
+        <p className="text-sm text-primary mb-2">
           <strong>💡 Transparenz:</strong> Jede Zahl ist klickbar und zeigt Quelle, Methodik und
           Konfidenz-Level.
         </p>
-        <p className="text-xs text-blue-800">
+        <p className="text-xs text-primary">
           Alle Beträge basieren auf Marktforschung (Homegate, ImmoScout24, Industriepreise) und
           wurden am letzten Verifizierungsdatum überprüft. Klicken Sie auf eine Budget-Zeile, um
           Details zu sehen.

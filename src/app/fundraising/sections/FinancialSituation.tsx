@@ -5,9 +5,9 @@ import Inspectable, { type InspectorHandle } from './Inspectable';
 
 export default function FinancialSituation({ inspector }: { inspector: InspectorHandle }) {
   return (
-    <Card className="mb-8 border-amber-300 bg-gradient-to-r from-amber-50 to-amber-100">
-      <h3 className="mb-3 font-semibold text-amber-800">Die ehrliche Finanzlage</h3>
-      <div className="space-y-2 text-sm text-amber-900">
+    <Card className="mb-8 border-warning bg-gradient-to-r from-warning/10 to-warning/10">
+      <h3 className="mb-3 font-semibold text-warning">Die ehrliche Finanzlage</h3>
+      <div className="space-y-2 text-sm text-warning">
         <p>
           <strong>Was passiert ist:</strong> Der Verlust von B2B-Grosskunden hat unsere
           Dienstleistungs-Einnahmen um{' '}
@@ -22,7 +22,7 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
               description: `Dienstleistungen (3400): CHF ${formatNumber(FINANCIAL_CONTEXT.services_2022)} (2022), CHF ${formatNumber(FINANCIAL_CONTEXT.services_2023)} (2023), CHF ${formatNumber(FINANCIAL_CONTEXT.services_2024)} (2024), CHF ${formatNumber(FINANCIAL_CONTEXT.services_2025)} (2025). Quelle: Kivitendo Erfolgsrechnung, verifiziert 11.02.2026.`,
             }}
             inspector={inspector}
-            className="text-amber-900"
+            className="text-warning"
           >
             {FINANCIAL_CONTEXT.decline_pct}%
           </Inspectable>
@@ -37,7 +37,7 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
               confidence: 'Hoch',
             }}
             inspector={inspector}
-            className="text-amber-900"
+            className="text-warning"
           >
             {formatCHF(FINANCIAL_CONTEXT.services_avg_2022_23)}
           </Inspectable>
@@ -51,7 +51,7 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
               confidence: 'Hoch',
             }}
             inspector={inspector}
-            className="text-amber-900"
+            className="text-warning"
           >
             {formatCHF(FINANCIAL_CONTEXT.services_2025)}
           </Inspectable>
@@ -61,7 +61,7 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
           <strong>Der Grund:</strong> Abhängigkeit von wenigen B2B-Hosting-Kunden. Keine
           diversifizierten Einnahmequellen. Keine aktive Akquise.
         </p>
-        <p className="font-medium text-emerald-800">
+        <p className="font-medium text-success">
           <strong>Das Positive:</strong> Geräteverkauf ({formatCHF(FINANCIAL_CONTEXT.warenverkauf_2025)} in 2025) bleibt
           stabil. {TRACK_RECORD.yearsActive} Jahre Erfahrung, {formatNumber(TRACK_RECORD.totalInvoices)} Rechnungen,{' '}
           {formatNumber(TRACK_RECORD.totalCustomers)} Kunden — die Kompetenz ist da. Der Hub ist unsere Turnaround-Strategie.

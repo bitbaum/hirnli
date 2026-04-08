@@ -58,7 +58,7 @@ export default function FinanzenClient() {
       />
 
       {/* Revenue decline narrative */}
-      <Card className="mb-6 border-l-4 border-l-orange-500 bg-orange-50">
+      <Card className="mb-6 border-l-4 border-l-warning bg-warning/10">
         <h3 className="font-semibold text-grey-dark mb-2">Warum jetzt? Die Ausgangslage ehrlich</h3>
         <div className="text-sm text-text-light space-y-2">
           <p>
@@ -77,10 +77,10 @@ export default function FinanzenClient() {
         </div>
       </Card>
 
-      <Card className="mb-6 bg-blue-50 border-l-4 border-blue-500">
+      <Card className="mb-6 bg-primary/10 border-l-4 border-primary">
         <p className="text-sm">
           <strong>Diese Seite zeigt:</strong> Einnahmen & Ausgaben (woher kommt das Geld?)<br />
-          <strong>Impact ansehen:</strong> <Link href="/wirkung" className="text-blue-600 hover:underline font-medium">Wirkungsseite</Link>
+          <strong>Impact ansehen:</strong> <Link href="/wirkung" className="text-primary hover:underline font-medium">Wirkungsseite</Link>
           {' '}zeigt, was wir mit dem Geld bewirken.
         </p>
       </Card>

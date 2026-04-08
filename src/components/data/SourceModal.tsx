@@ -3,11 +3,11 @@
 import type { NumberSource } from '@/lib/config/numbers';
 
 const CONFIDENCE_COLORS: Record<string, string> = {
-  high: 'bg-green-100 text-green-800',
-  medium: 'bg-yellow-100 text-yellow-800',
-  estimated: 'bg-orange-100 text-orange-800',
-  target: 'bg-blue-100 text-blue-800',
-  unknown: 'bg-red-100 text-red-800',
+  high: 'bg-success/10 text-success',
+  medium: 'bg-warning/10 text-warning',
+  estimated: 'bg-warning/10 text-warning',
+  target: 'bg-primary/10 text-primary',
+  unknown: 'bg-danger/10 text-danger',
 };
 
 const CONFIDENCE_LABELS: Record<string, string> = {

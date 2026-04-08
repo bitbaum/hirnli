@@ -10,13 +10,13 @@ export default function CultureSection() {
         Kultur ist der Einstiegspunkt. Und dann sehen sie: Alte Synths machen Musik. Computer sind Geschichte. Reparatur ist Kultur, nicht Pflicht.
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-l-4 border-l-pink-500">
+        <Card className="border-l-4 border-l-danger">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🏛️</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Computer History Museum</h3>
-                <p className="text-sm text-pink-700 font-medium">60 m² — Technik-Geschichte zum Anfassen</p>
+                <p className="text-sm text-danger font-medium">60 m² — Technik-Geschichte zum Anfassen</p>
               </div>
             </div>
             <Badge color="pink">CHF 50&apos;000</Badge>
@@ -41,13 +41,13 @@ export default function CultureSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-purple-500">
+        <Card className="border-l-4 border-l-chart-5">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🎹</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Elektronische Musik & Synth-Labor</h3>
-                <p className="text-sm text-purple-700 font-medium">50 m² — Alte Elektronik wird Musik</p>
+                <p className="text-sm text-chart-5 font-medium">50 m² — Alte Elektronik wird Musik</p>
               </div>
             </div>
             <Badge color="purple">CHF 40&apos;000</Badge>
@@ -72,13 +72,13 @@ export default function CultureSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-orange-500">
+        <Card className="border-l-4 border-l-warning">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🎨</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">E-Waste-Art Studio</h3>
-                <p className="text-sm text-orange-700 font-medium">40 m² — Elektroschrott wird Kunst</p>
+                <p className="text-sm text-warning font-medium">40 m² — Elektroschrott wird Kunst</p>
               </div>
             </div>
             <Badge color="orange">CHF 30&apos;000</Badge>
@@ -134,13 +134,13 @@ export default function CultureSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-green-500">
+        <Card className="border-l-4 border-l-success">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">☕</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Zero-Waste Community Kitchen</h3>
-                <p className="text-sm text-green-700 font-medium">50 m² — Gemeinsam essen, gemeinsam lernen</p>
+                <p className="text-sm text-success font-medium">50 m² — Gemeinsam essen, gemeinsam lernen</p>
               </div>
             </div>
             <Badge color="green">CHF 40&apos;000</Badge>
@@ -164,13 +164,13 @@ export default function CultureSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-yellow-500">
+        <Card className="border-l-4 border-l-warning">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🔧</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Repair Café</h3>
-                <p className="text-sm text-yellow-700 font-medium">30 m² — Community-Reparatur, 2×/Monat</p>
+                <p className="text-sm text-warning font-medium">30 m² — Community-Reparatur, 2×/Monat</p>
               </div>
             </div>
             <Badge color="yellow">CHF 20&apos;000</Badge>

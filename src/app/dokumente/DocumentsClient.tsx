@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import DocumentCard from '@/components/documents/DocumentCard';
 import Card from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 import type { Document } from '@/lib/config/documents';
 
 interface DocumentsClientProps {
@@ -61,18 +62,20 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
       {/* Tabs */}
       <div className="flex gap-1 border-b border-border">
         {tabs.map((tab) => (
-          <button
+          <Button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2.5 text-sm font-medium transition-colors ${
+            variant="ghost"
+            size="sm"
+            className={`rounded-none ${
               activeTab === tab.id
                 ? 'border-b-2 border-primary text-primary'
-                : 'text-text-light hover:text-grey-dark'
+                : 'text-text-light'
             }`}
           >
             {tab.icon && <span className="mr-1.5">{tab.icon}</span>}
             {tab.label}
-          </button>
+          </Button>
         ))}
       </div>
 

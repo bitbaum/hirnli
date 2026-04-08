@@ -8,6 +8,7 @@ import { TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS, computeTierCounts } from '
 import { computeReadinessScore, computePriorityScore, TIER_FROM_LEVEL } from '@/lib/domain/foundation-scores';
 import type { QualityTier } from '@/lib/schemas/foundation';
 import type { AdditiveChecksConfig } from '@/lib/config/fit-scoring';
+import Badge from '@/components/ui/Badge';
 
 export const metadata: Metadata = {
   title: 'Scoring-Methodik',
@@ -157,9 +158,7 @@ export default function ScoringMethodikPage() {
             <Card key={dim.id} className="mb-4">
               <div className="flex items-center justify-between">
                 <h3 className="font-semibold text-grey-dark">{dim.label}</h3>
-                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-bold tabular-nums text-primary">
-                  max {dim.maxScore}
-                </span>
+                <Badge variant="primary" className="font-bold tabular-nums">max {dim.maxScore}</Badge>
               </div>
               <div className="mt-3 overflow-x-auto">
                 <table className="w-full text-sm">

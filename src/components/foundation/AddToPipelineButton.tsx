@@ -40,7 +40,7 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
   if (state === 'success') {
     return (
       <div className="space-y-3">
-        <p className="text-sm font-semibold text-green-700">
+        <p className="text-sm font-semibold text-success">
           ✓ {foundationName} zur Pipeline hinzugefügt
         </p>
 
@@ -49,7 +49,7 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
           {STEPS.map((step, i) => (
             <span key={step} className="flex items-center gap-1">
               <span className={i === 0
-                ? 'rounded bg-success-bg px-2 py-0.5 font-semibold text-green-700'
+                ? 'rounded bg-success-bg px-2 py-0.5 font-semibold text-success'
                 : 'rounded bg-bg-light px-2 py-0.5 text-text-muted'
               }>
                 {i === 0 ? `✓ ${step}` : step}
@@ -86,7 +86,7 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
         {state === 'loading' ? 'Wird hinzugefügt...' : 'Gesuch starten'}
       </Button>
       {state === 'error' && error && (
-        <p className="text-xs text-red-600">{error}</p>
+        <p className="text-xs text-danger">{error}</p>
       )}
     </div>
   );

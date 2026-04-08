@@ -95,8 +95,8 @@ interface FutureVisionBlockProps {
 
 export function FutureVisionBlock({ children }: FutureVisionBlockProps) {
   return (
-    <div className="relative rounded-xl border-2 border-dashed border-purple-300 bg-purple-50/50 p-6 md:p-8">
-      <div className="absolute -top-3 left-4 rounded-full bg-purple-100 px-3 py-0.5 text-xs font-semibold text-purple-700">
+    <div className="relative rounded-xl border-2 border-dashed border-chart-5/20 bg-chart-5/10 p-6 md:p-8">
+      <div className="absolute -top-3 left-4 rounded-full bg-chart-5/10 px-3 py-0.5 text-xs font-semibold text-chart-5">
         Mit Förderung
       </div>
       {children}

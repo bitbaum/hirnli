@@ -36,8 +36,8 @@ export default function StrategiePage() {
       {/* Mission Statement */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Mission</h2>
-        <Card className="border-l-4 border-l-emerald-500 bg-gradient-to-br from-emerald-50 to-emerald-100">
-          <p className="text-lg font-semibold text-emerald-800">
+        <Card className="border-l-4 border-l-success bg-gradient-to-br from-success/10 to-success/10">
+          <p className="text-lg font-semibold text-success">
             {ORG_PROFILE.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und Lebensdauerverlängerung.
           </p>
           <p className="mt-3 text-sm text-text-light">

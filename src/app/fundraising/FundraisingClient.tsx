@@ -118,7 +118,7 @@ export default function FundraisingClient() {
           ))}
         </div>
         <div className="mt-4 text-center">
-          <Link href="/strategie#community-tech-space" className="text-sm font-medium text-cyan-300 hover:underline">
+          <Link href="/strategie#community-tech-space" className="text-sm font-medium text-chart-6 hover:underline">
             Vollständige Vision & Strategie &rarr;
           </Link>
         </div>
@@ -199,9 +199,9 @@ export default function FundraisingClient() {
               unsere B2B-Einnahmen stark reduziert.
             </p>
 
-            <div className="bg-amber-100 border-l-4 border-amber-500 p-4 my-4">
-              <p className="text-amber-900 font-semibold mb-2">Warum wir nicht einfach &bdquo;mehr verkaufen&ldquo; können:</p>
-              <ul className="text-amber-800 space-y-2 mb-0">
+            <div className="bg-warning/10 border-l-4 border-warning p-4 my-4">
+              <p className="text-warning font-semibold mb-2">Warum wir nicht einfach &bdquo;mehr verkaufen&ldquo; können:</p>
+              <ul className="text-warning space-y-2 mb-0">
                 <li>Unser Kivitendo-System braucht dringend eine Überarbeitung — aber uns fehlen die Ressourcen</li>
                 <li>Web-Design-Praxis ist aus demselben Grund nicht funktionsfähig</li>
                 <li>Problem ist nicht fehlende Geräte, sondern fehlende Organisation für Verkauf & Ausführung</li>

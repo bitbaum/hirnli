@@ -99,7 +99,7 @@ export default function PreismodellPage() {
       {/* KulturLegi Info */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Was ist KulturLegi?</h2>
-        <Card className="border border-amber-300 bg-amber-50">
+        <Card className="border border-warning/30 bg-warning/10">
           <h3 className="mb-3 text-lg font-semibold">Der Ausweis für Menschen mit wenig Geld</h3>
           <p className="mb-4 text-sm">
             Die <strong>KulturLegi</strong> ist ein schweizweiter Ausweis der Caritas. Er berechtigt
@@ -146,7 +146,7 @@ export default function PreismodellPage() {
             </Card>
           ))}
         </div>
-        <Card className="border-l-4 border-l-blue-400 bg-blue-50">
+        <Card className="border-l-4 border-l-primary bg-primary/10">
           <p className="text-sm">
             <strong>Kein Papierkram:</strong> Wir setzen auf Vertrauen. Die meisten Menschen sind ehrlich.
             Die wenigen, die das System ausnutzen könnten, sind der Preis für ein unbürokratisches System.
@@ -157,10 +157,10 @@ export default function PreismodellPage() {
       {/* Supporter CTA */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Werde Supporter</h2>
-        <Card className="border-2 border-violet-500 bg-gradient-to-br from-violet-50 to-white">
+        <Card className="border-2 border-pillar-vision bg-gradient-to-br from-pillar-vision/10 to-white">
           <div className="flex flex-wrap items-center gap-8">
             <div className="min-w-0 flex-1 sm:min-w-[280px]">
-              <h3 className="mb-3 text-lg font-semibold text-violet-600">
+              <h3 className="mb-3 text-lg font-semibold text-pillar-vision">
                 Mehr zahlen, mehr ermöglichen
               </h3>
               <p className="mb-3 text-sm">
@@ -216,7 +216,7 @@ export default function PreismodellPage() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-amber-400 bg-amber-50">
+        <Card className="border-l-4 border-l-warning bg-warning/10">
           <p className="text-sm">
             <strong>Daten-Limitierung:</strong> Aktuell erfassen wir nur die Aufstockungen (Konto 3510 in Kivitendo).
             Die Gratis-, KulturLegi- und Supporter-Quoten sind noch nicht systematisch messbar.

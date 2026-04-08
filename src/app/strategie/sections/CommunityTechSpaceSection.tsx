@@ -15,10 +15,10 @@ import {
 export default function CommunityTechSpaceSection() {
   return (
     <section id="community-tech-space" className="mb-8">
-      <div className="mb-6 rounded-2xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 p-6 text-white md:p-8">
+      <div className="mb-6 rounded-2xl bg-gradient-to-br from-pillar-digital via-chart-5 to-danger p-6 text-white md:p-8">
         <h2 className="text-2xl font-bold mb-4 md:text-3xl">Community Tech Space</h2>
         <p className="text-base mb-3 leading-relaxed md:text-lg">
-          <strong className="text-yellow-300">⏰ Deadline: Ende 2026</strong> — Wir müssen unser aktuelles Lokal verlassen.
+          <strong className="text-warning">⏰ Deadline: Ende 2026</strong> — Wir müssen unser aktuelles Lokal verlassen.
         </p>
         <p className="text-base mb-4 leading-relaxed md:text-lg">
           Das ist unsere Chance, etwas Grösseres zu schaffen: Ein Ort, an dem <strong>Nachhaltigkeit, Technologie und Gemeinschaft</strong> zusammenkommen.

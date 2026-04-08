@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 
 interface PillarDetailProps {
   icon: string;
@@ -20,44 +21,44 @@ interface PillarDetailProps {
 
 const colorConfig = {
   emerald: {
-    border: 'border-emerald-200',
-    borderHover: 'hover:border-emerald-400',
-    bg: 'bg-emerald-50',
-    bgHover: 'hover:bg-emerald-100',
-    text: 'text-emerald-800',
-    textLight: 'text-emerald-700',
-    accent: 'bg-emerald-500',
-    ring: 'focus:ring-emerald-500',
+    border: 'border-success/20',
+    borderHover: 'hover:border-success',
+    bg: 'bg-success/10',
+    bgHover: 'hover:bg-success/15',
+    text: 'text-success',
+    textLight: 'text-success',
+    accent: 'bg-success',
+    ring: 'focus:ring-success',
   },
   blue: {
-    border: 'border-blue-200',
-    borderHover: 'hover:border-blue-400',
-    bg: 'bg-blue-50',
-    bgHover: 'hover:bg-blue-100',
-    text: 'text-blue-800',
-    textLight: 'text-blue-700',
-    accent: 'bg-blue-500',
-    ring: 'focus:ring-blue-500',
+    border: 'border-primary/20',
+    borderHover: 'hover:border-primary',
+    bg: 'bg-primary/10',
+    bgHover: 'hover:bg-primary/15',
+    text: 'text-primary',
+    textLight: 'text-primary',
+    accent: 'bg-primary',
+    ring: 'focus:ring-primary',
   },
   violet: {
-    border: 'border-violet-200',
-    borderHover: 'hover:border-violet-400',
-    bg: 'bg-violet-50',
-    bgHover: 'hover:bg-violet-100',
-    text: 'text-violet-800',
-    textLight: 'text-violet-700',
-    accent: 'bg-violet-500',
-    ring: 'focus:ring-violet-500',
+    border: 'border-pillar-vision/20',
+    borderHover: 'hover:border-pillar-vision/60',
+    bg: 'bg-pillar-vision/10',
+    bgHover: 'hover:bg-pillar-vision/15',
+    text: 'text-pillar-vision',
+    textLight: 'text-pillar-vision',
+    accent: 'bg-pillar-vision',
+    ring: 'focus:ring-pillar-vision',
   },
   amber: {
-    border: 'border-amber-200',
-    borderHover: 'hover:border-amber-400',
-    bg: 'bg-amber-50',
-    bgHover: 'hover:bg-amber-100',
-    text: 'text-amber-800',
-    textLight: 'text-amber-700',
-    accent: 'bg-amber-500',
-    ring: 'focus:ring-amber-500',
+    border: 'border-warning/20',
+    borderHover: 'hover:border-warning',
+    bg: 'bg-warning/10',
+    bgHover: 'hover:bg-warning/15',
+    text: 'text-warning',
+    textLight: 'text-warning',
+    accent: 'bg-warning',
+    ring: 'focus:ring-warning',
   },
 };
 
@@ -94,19 +95,14 @@ export default function PillarDetail({
       </div>
 
       {/* Expand/Collapse Button */}
-      <button
+      <Button
+        variant="ghost"
+        fullWidth
         onClick={() => setIsExpanded(!isExpanded)}
-        className={`
-          mt-4 w-full py-2 px-4 rounded-lg
-          text-sm font-semibold
-          transition-all duration-200
-          ${colors.text} bg-white
-          hover:shadow-md
-          ${colors.ring} focus:outline-none focus:ring-2
-        `}
+        className={`mt-4 bg-white hover:shadow-md ${colors.text}`}
       >
         {isExpanded ? '▲ Weniger anzeigen' : '▼ Mehr erfahren'}
-      </button>
+      </Button>
 
       {/* Expanded Content */}
       {isExpanded && (

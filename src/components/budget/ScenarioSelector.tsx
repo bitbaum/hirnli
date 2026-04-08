@@ -44,7 +44,7 @@ export default function ScenarioSelector({
             onClick={() => handleChange(scenario.id)}
             className={`px-4 py-3 font-medium text-sm transition-colors relative ${
               activeScenario === scenario.id
-                ? 'text-blue-600 border-b-2 border-blue-600'
+                ? 'text-primary border-b-2 border-primary'
                 : 'text-text-light hover:text-grey-dark'
             }`}
           >

@@ -38,7 +38,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
           const stiftungenPct = Math.round((stiftungenAmt / year.total) * 100);
           const eigenPct = Math.round((year.eigen / year.total) * 100);
           return (
-            <div key={year.year} className={`rounded-2xl border p-5 ${i === 0 ? 'border-violet-300 bg-violet-50/50' : i === 2 ? 'border-emerald-300 bg-emerald-50/50' : 'border-border bg-white'}`}>
+            <div key={year.year} className={`rounded-2xl border p-5 ${i === 0 ? 'border-pillar-vision/30 bg-pillar-vision/5' : i === 2 ? 'border-success/20 bg-success/10' : 'border-border bg-white'}`}>
               <div className="mb-1 flex items-baseline justify-between">
                 <span className="text-sm font-bold text-text-muted">{year.year}</span>
                 <Badge variant={i === 0 ? 'primary' : i === 2 ? 'success' : 'warning'}>{year.label}</Badge>
@@ -68,7 +68,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
                 {year.einmalig > 0 && (
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
-                      <span className="inline-block h-2.5 w-2.5 rounded-sm bg-blue-500" />
+                      <span className="inline-block h-2.5 w-2.5 rounded-sm bg-primary" />
                       Einmalig
                     </span>
                     <span className="tabular-nums font-medium">{formatCHF(year.einmalig)}</span>
@@ -76,14 +76,14 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
                 )}
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
-                    <span className="inline-block h-2.5 w-2.5 rounded-sm bg-violet-500" />
+                    <span className="inline-block h-2.5 w-2.5 rounded-sm bg-pillar-vision" />
                     Stiftungen
                   </span>
                   <span className="tabular-nums font-medium">{formatCHF(year.stiftungen)}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
-                    <span className="inline-block h-2.5 w-2.5 rounded-sm bg-emerald-500" />
+                    <span className="inline-block h-2.5 w-2.5 rounded-sm bg-success" />
                     Eigenleistung*
                   </span>
                   <span className="tabular-nums font-medium">{formatCHF(year.eigen)}</span>
@@ -92,10 +92,10 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
 
               {/* Percentage callout */}
               <div className="mt-3 rounded-lg bg-white/80 px-3 py-2 text-center text-xs">
-                <span className="font-semibold text-violet-700">{stiftungenPct}%</span>
+                <span className="font-semibold text-pillar-vision">{stiftungenPct}%</span>
                 <span className="text-text-muted"> Stiftungen</span>
                 <span className="mx-1.5 text-text-muted">/</span>
-                <span className="font-semibold text-emerald-700">{eigenPct}%</span>
+                <span className="font-semibold text-success">{eigenPct}%</span>
                 <span className="text-text-muted"> Eigen</span>
               </div>
             </div>
@@ -130,26 +130,26 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
             <tr className="border-b border-border">
               <td className="px-4 py-2">
                 <span className="flex items-center gap-1.5">
-                  <span className="inline-block h-2 w-2 rounded-full bg-violet-500" />
+                  <span className="inline-block h-2 w-2 rounded-full bg-pillar-vision" />
                   Stiftungsfinanzierung
                 </span>
               </td>
               {THREE_YEAR_MODEL.map((y) => (
-                <td key={y.year} className="px-4 py-2 text-right tabular-nums text-violet-700">{formatCHF(y.stiftungen)}</td>
+                <td key={y.year} className="px-4 py-2 text-right tabular-nums text-pillar-vision">{formatCHF(y.stiftungen)}</td>
               ))}
-              <td className="px-4 py-2 text-right tabular-nums font-medium text-violet-700">{formatCHF(THREE_YEAR_MODEL.reduce((s, y) => s + y.stiftungen, 0))}</td>
+              <td className="px-4 py-2 text-right tabular-nums font-medium text-pillar-vision">{formatCHF(THREE_YEAR_MODEL.reduce((s, y) => s + y.stiftungen, 0))}</td>
             </tr>
-            <tr className="border-b border-border bg-emerald-50/50">
+            <tr className="border-b border-border bg-success/10">
               <td className="px-4 py-2">
                 <span className="flex items-center gap-1.5">
-                  <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
+                  <span className="inline-block h-2 w-2 rounded-full bg-success" />
                   Eigenleistung*
                 </span>
               </td>
               {THREE_YEAR_MODEL.map((y) => (
-                <td key={y.year} className="px-4 py-2 text-right tabular-nums text-emerald-700">{formatCHF(y.eigen)}</td>
+                <td key={y.year} className="px-4 py-2 text-right tabular-nums text-success">{formatCHF(y.eigen)}</td>
               ))}
-              <td className="px-4 py-2 text-right tabular-nums font-medium text-emerald-700">
+              <td className="px-4 py-2 text-right tabular-nums font-medium text-success">
                 <Inspectable data={inspectEigen3Y} inspector={inspector}>
                   {formatCHF(EIGEN_3Y_TOTAL)}
                 </Inspectable>

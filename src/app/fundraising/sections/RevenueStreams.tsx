@@ -34,16 +34,16 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
       </p>
 
       {/* Revenue narrative */}
-      <div className="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+      <div className="mb-6 rounded-xl border border-success/20 bg-success/10 p-4">
         <p className="text-sm text-grey-dark mb-2">
           <strong>Aktuell:</strong> {formatCHF(REVENUE_CURRENT_TOTAL)}/Jahr
           (B2B Services + Geräteverkauf + Integration + Spenden)
         </p>
-        <p className="text-base font-semibold text-emerald-700 mb-1">
+        <p className="text-base font-semibold text-success mb-1">
           <strong>Ziel Jahr 3:</strong> {formatCHF(REVENUE_YEAR3_TOTAL)}/Jahr (Prognose)
           — das wäre +{Math.round(((REVENUE_YEAR3_TOTAL - REVENUE_CURRENT_TOTAL) / REVENUE_CURRENT_TOTAL) * 100)}% Wachstum
         </p>
-        <p className="text-xs text-emerald-600">
+        <p className="text-xs text-success">
           Durch neue Einnahmequellen (Workshops, Corporate Training, Events, erhöhter Geräteverkauf)
           decken wir immer mehr unserer laufenden Kosten selbst.
         </p>
@@ -56,7 +56,7 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
             : null;
           const isNew = stream.current === 0;
           return (
-            <Card key={stream.source} className={`${isNew ? 'border-l-4 border-l-emerald-500' : ''}`}>
+            <Card key={stream.source} className={`${isNew ? 'border-l-4 border-l-success' : ''}`}>
               <div className="flex items-baseline justify-between">
                 <h4 className="font-semibold text-grey-dark">{stream.source}</h4>
                 {isNew && <Badge variant="success">Neu</Badge>}
@@ -79,14 +79,14 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
                       description: stream.rationale,
                     }}
                     inspector={inspector}
-                    className="text-lg font-bold tabular-nums text-emerald-700"
+                    className="text-lg font-bold tabular-nums text-success"
                   >
                     {formatCHF(stream.year3)}
                   </Inspectable>
                 </div>
               </div>
               {growth !== null && (
-                <div className="mt-2 text-xs font-medium text-emerald-600">
+                <div className="mt-2 text-xs font-medium text-success">
                   Wachstum: +{growth}%
                 </div>
               )}
