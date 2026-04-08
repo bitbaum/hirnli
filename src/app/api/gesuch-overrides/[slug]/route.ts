@@ -17,16 +17,22 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 const ORG_ID = ORG_PROFILE.orgId;
 
+/** Extract variant key from query string (default: 'auto') */
+function getVariant(request: NextRequest): string {
+  return request.nextUrl.searchParams.get('variant') ?? 'auto';
+}
+
 /** Fire-and-forget activity log entry for override saves */
-async function logOverrideSave(slug: string, overrides: GesuchOverridesData) {
+async function logOverrideSave(slug: string, variant: string, overrides: GesuchOverridesData) {
   try {
     await db.insert(activityLog).values({
       id: nanoid(),
       entityType: 'gesuch_override',
-      entityId: slug,
+      entityId: `${slug}::${variant}`,
       actionType: 'override_saved',
       actionDetails: JSON.stringify({
         overrides,
+        variant,
         timestamp: new Date().toISOString(),
       }),
       performedBy: 'api',
@@ -58,15 +64,20 @@ function deepMerge(base: GesuchOverridesData, patch: GesuchOverridesData): Gesuc
  * Returns { success, data: { overrides } } or { success, data: null } if none
  */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
+  const variant = getVariant(request);
   try {
     const rows = await db
       .select()
       .from(gesuchOverrides)
-      .where(and(eq(gesuchOverrides.foundationId, slug), eq(gesuchOverrides.orgId, ORG_ID)))
+      .where(and(
+        eq(gesuchOverrides.foundationId, slug),
+        eq(gesuchOverrides.orgId, ORG_ID),
+        eq(gesuchOverrides.variantKey, variant),
+      ))
       .limit(1);
 
     if (rows.length === 0) {
@@ -89,6 +100,7 @@ export async function PUT(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
+  const variant = getVariant(request);
   let body: unknown;
   try {
     body = await request.json();
@@ -108,7 +120,11 @@ export async function PUT(
     const existing = await db
       .select({ id: gesuchOverrides.id })
       .from(gesuchOverrides)
-      .where(and(eq(gesuchOverrides.foundationId, slug), eq(gesuchOverrides.orgId, ORG_ID)))
+      .where(and(
+        eq(gesuchOverrides.foundationId, slug),
+        eq(gesuchOverrides.orgId, ORG_ID),
+        eq(gesuchOverrides.variantKey, variant),
+      ))
       .limit(1);
 
     if (existing.length > 0) {
@@ -121,12 +137,12 @@ export async function PUT(
         id: nanoid(),
         foundationId: slug,
         orgId: ORG_ID,
+        variantKey: variant,
         overrides: parsed.data,
       });
     }
 
-    // Log save activity (fire-and-forget)
-    logOverrideSave(slug, parsed.data);
+    logOverrideSave(slug, variant, parsed.data);
 
     return NextResponse.json({ success: true, data: { overrides: parsed.data } });
   } catch (err) {
@@ -144,6 +160,7 @@ export async function PATCH(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
+  const variant = getVariant(request);
   let body: unknown;
   try {
     body = await request.json();
@@ -163,7 +180,11 @@ export async function PATCH(
     const existing = await db
       .select()
       .from(gesuchOverrides)
-      .where(and(eq(gesuchOverrides.foundationId, slug), eq(gesuchOverrides.orgId, ORG_ID)))
+      .where(and(
+        eq(gesuchOverrides.foundationId, slug),
+        eq(gesuchOverrides.orgId, ORG_ID),
+        eq(gesuchOverrides.variantKey, variant),
+      ))
       .limit(1);
 
     const existingParsed = gesuchOverridesSchema.safeParse(existing[0]?.overrides ?? {});
@@ -180,12 +201,12 @@ export async function PATCH(
         id: nanoid(),
         foundationId: slug,
         orgId: ORG_ID,
+        variantKey: variant,
         overrides: merged,
       });
     }
 
-    // Log save activity (fire-and-forget)
-    logOverrideSave(slug, merged);
+    logOverrideSave(slug, variant, merged);
 
     return NextResponse.json({ success: true, data: { overrides: merged } });
   } catch (err) {
@@ -199,14 +220,19 @@ export async function PATCH(
  * Remove all overrides (resets gesuch to generated content)
  */
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
+  const variant = getVariant(request);
   try {
     await db
       .delete(gesuchOverrides)
-      .where(and(eq(gesuchOverrides.foundationId, slug), eq(gesuchOverrides.orgId, ORG_ID)));
+      .where(and(
+        eq(gesuchOverrides.foundationId, slug),
+        eq(gesuchOverrides.orgId, ORG_ID),
+        eq(gesuchOverrides.variantKey, variant),
+      ));
 
     return NextResponse.json({ success: true, data: null });
   } catch (err) {

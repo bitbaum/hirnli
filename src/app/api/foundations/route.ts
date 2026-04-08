@@ -18,36 +18,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { foundations } from '@/lib/db/schema';
 import { and, count, desc, eq, gte, ilike, sql } from 'drizzle-orm';
-import { z } from 'zod';
 import { toSlug } from '@/lib/utils/slug';
-
-// Validation schema for creating foundations
-const createFoundationSchema = z.object({
-  name: z.string().min(1),
-  websiteUrl: z.string().url().optional().nullable(),
-  contactEmail: z.string().email().optional().nullable(),
-  contactPhone: z.string().optional().nullable(),
-
-  fitScore: z.number().min(0).max(10).optional().nullable(),
-  priority: z.number().min(1).max(4).optional().nullable(),
-  focusAreas: z.array(z.string()).optional(),
-  geographicScope: z.string().optional().nullable(),
-  organizationType: z.string().optional().nullable(),
-
-  grantRangeMin: z.number().optional().nullable(),
-  grantRangeMax: z.number().optional().nullable(),
-  typicalAmount: z.number().optional().nullable(),
-  fundingModel: z.string().optional().nullable(),
-  applicationMethod: z.string().optional().nullable(),
-  applicationDeadline: z.string().optional().nullable(),
-  decisionTimeline: z.string().optional().nullable(),
-
-  strategicFit: z.string().optional().nullable(),
-  applicationNotes: z.string().optional().nullable(),
-
-  researchDepth: z.enum(['rapid', 'standard', 'deep']).optional().nullable(),
-  source: z.string().optional().nullable(),
-});
+import { createFoundationSchema } from '@/lib/schemas/foundation-api';
 
 /**
  * GET /api/foundations
@@ -165,12 +137,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create foundation — omit createdAt/updatedAt (DB defaultNow())
-    // focusAreas is now jsonb string[] — pass array directly
+    // Create foundation — only indexed flat columns + configData JSONB
     const newFoundation = {
       id: slug,
-      ...data,
+      name: data.name,
+      fitScore: data.fitScore ?? null,
+      priority: data.priority ?? null,
+      researchDepth: data.researchDepth ?? 'rapid',
       researchDate: new Date().toISOString().split('T')[0],
+      source: data.source ?? null,
+      configData: data.configData ?? { slug, name: data.name },
       archived: false,
     };
 

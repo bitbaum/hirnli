@@ -17,6 +17,7 @@ export interface FoundationAIContext {
   type?: string;
   themes: string[];
   fitScore?: number;
+  priority?: number;
   tagline?: string;
   researchNotes?: string;
   pastGrantees?: string[];
@@ -24,6 +25,9 @@ export interface FoundationAIContext {
   applicationProcess?: string;
   deadline?: string;
   deadlineText?: string;
+  criteria?: { nature?: string; education?: string };
+  partners?: string[];
+  sdgs?: number[];
 }
 
 export function buildAIContext(foundation: Foundation): FoundationAIContext {
@@ -45,6 +49,7 @@ export function buildAIContext(foundation: Foundation): FoundationAIContext {
     type: foundation.type,
     themes,
     fitScore: foundation.fitScore,
+    priority: foundation.priority,
     tagline: foundation.tagline,
     researchNotes: foundation.researchNotes,
     pastGrantees: foundation.pastGrantees,
@@ -52,5 +57,8 @@ export function buildAIContext(foundation: Foundation): FoundationAIContext {
     applicationProcess: foundation.applicationProcess?.join(' → '),
     deadline: foundation.deadline ?? undefined,
     deadlineText: foundation.deadlineText,
+    criteria: foundation.criteria,
+    partners: foundation.partners,
+    sdgs: foundation.sdgs,
   };
 }

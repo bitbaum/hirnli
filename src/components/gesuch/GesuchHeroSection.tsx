@@ -1,4 +1,5 @@
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { GREY_DARK_HEX } from '@/lib/config/chart-colors';
 import type { ThemeMetadata } from '@/lib/schemas/theme';
 
 interface GesuchHeroSectionProps {
@@ -15,7 +16,7 @@ export default function GesuchHeroSection({ subtitle, foundationName, descriptio
     <section
       className="rounded-2xl px-4 py-12 text-white md:px-8 md:py-16"
       style={{
-        background: `linear-gradient(135deg, ${primaryColor}dd, ${primaryColor}88, #2C3E50)`,
+        background: `linear-gradient(135deg, ${primaryColor}dd, ${primaryColor}88, ${GREY_DARK_HEX})`,
       }}
     >
       <div className="mx-auto max-w-4xl">

@@ -16,7 +16,6 @@ interface FoundationRow {
   id: string;
   name: string;
   priority: number | null;
-  focus_areas: string[] | null;
   config_data: {
     officialPurpose?: string;
     themes?: string[];
@@ -123,19 +122,15 @@ async function auditThemes() {
 
   // Fetch P1 and P2 foundations with themes
   const rows = await sql`
-    SELECT 
+    SELECT
       id,
       name,
       priority,
-      focus_areas,
       config_data
     FROM fundraising_foundations
     WHERE priority IN (1, 2)
       AND config_data IS NOT NULL
-      AND (
-        focus_areas IS NOT NULL 
-        OR (config_data->>'themes') IS NOT NULL
-      )
+      AND (config_data->>'themes') IS NOT NULL
     ORDER BY priority ASC, name ASC
   `;
 
@@ -146,8 +141,8 @@ async function auditThemes() {
   let totalSuspicious = 0;
 
   for (const row of rows) {
-    // Get themes from either focus_areas or config_data.themes
-    const themes = row.focus_areas ?? row.config_data?.themes ?? [];
+    // Get themes from config_data.themes (SSOT)
+    const themes = row.config_data?.themes ?? [];
     if (themes.length === 0) continue;
 
     const officialPurpose = row.config_data?.officialPurpose ?? '';

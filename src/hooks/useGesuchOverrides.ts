@@ -31,6 +31,7 @@ interface UseGesuchOverridesReturn {
   editMode: boolean;
   saving: boolean;
   dirty: boolean;
+  draftedVariants: string[];
   toggleEditMode: () => void;
   updateField: (patch: GesuchOverridesData) => void;
   save: () => Promise<void>;
@@ -50,28 +51,53 @@ interface UseGesuchOverridesReturn {
 export function useGesuchOverrides(
   slug: string,
   foundation?: Foundation,
+  variantKey: string = 'auto',
+  schwerpunktLabel?: string,
 ): UseGesuchOverridesReturn {
   const [overrides, setOverrides] = useState<GesuchOverridesData>({});
   const [, setSavedOverrides] = useState<GesuchOverridesData>({});
   const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
+  const [draftedVariants, setDraftedVariants] = useState<string[]>([]);
   const overridesRef = useRef(overrides);
   overridesRef.current = overrides;
   const pipelineChecked = useRef(false);
 
-  // Load existing overrides on mount
+  const [needsAutoDraft, setNeedsAutoDraft] = useState(false);
+  const autoTriggeredVariants = useRef(new Set<string>());
+
+  // Fetch drafted variants list on mount
   useEffect(() => {
-    fetch(`/api/gesuch-overrides/${slug}`)
+    fetch(`/api/gesuch-overrides/${slug}/variants`)
       .then((r) => r.json())
       .then((result) => {
-        if (result.success && result.data) {
-          setOverrides(result.data.overrides);
-          setSavedOverrides(result.data.overrides);
-        }
+        if (result.success) setDraftedVariants(result.data ?? []);
       })
       .catch(() => {});
   }, [slug]);
+
+  // Load overrides for current variant — auto-draft if none exist
+  useEffect(() => {
+    setOverrides({});
+    setSavedOverrides({});
+    setDirty(false);
+
+    const url = `/api/gesuch-overrides/${slug}?variant=${encodeURIComponent(variantKey)}`;
+    fetch(url)
+      .then((r) => r.json())
+      .then((result) => {
+        if (result.success && result.data) {
+          const saved = result.data.overrides as GesuchOverridesData;
+          setOverrides(saved);
+          setSavedOverrides(saved);
+        } else if (foundation && !autoTriggeredVariants.current.has(variantKey)) {
+          autoTriggeredVariants.current.add(variantKey);
+          setNeedsAutoDraft(true);
+        }
+      })
+      .catch(() => {});
+  }, [slug, variantKey, foundation]);
 
   const toggleEditMode = useCallback(() => {
     setEditMode((prev) => !prev);
@@ -98,9 +124,10 @@ export function useGesuchOverrides(
 
   const save = useCallback(async () => {
     const current = overridesRef.current;
+    const url = `/api/gesuch-overrides/${slug}?variant=${encodeURIComponent(variantKey)}`;
     setSaving(true);
     try {
-      const res = await fetch(`/api/gesuch-overrides/${slug}`, {
+      const res = await fetch(url, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(current),
@@ -109,7 +136,10 @@ export function useGesuchOverrides(
       if (result.success) {
         setSavedOverrides(current);
         setDirty(false);
-        // Auto-create pipeline entry on first successful save
+        // Update drafted variants list
+        setDraftedVariants((prev) =>
+          prev.includes(variantKey) ? prev : [...prev, variantKey]
+        );
         if (!pipelineChecked.current) {
           pipelineChecked.current = true;
           ensurePipelineEntry(slug);
@@ -120,25 +150,27 @@ export function useGesuchOverrides(
     } finally {
       setSaving(false);
     }
-  }, [slug]);
+  }, [slug, variantKey]);
 
   const saveIfDirty = useCallback(async () => {
     if (dirty) {
-      try { await save(); } catch { /* silent — used by blur and navigation */ }
+      try { await save(); } catch { /* silent */ }
     }
   }, [dirty, save]);
 
   const reset = useCallback(async () => {
+    const url = `/api/gesuch-overrides/${slug}?variant=${encodeURIComponent(variantKey)}`;
     setSaving(true);
     try {
-      await fetch(`/api/gesuch-overrides/${slug}`, { method: 'DELETE' });
+      await fetch(url, { method: 'DELETE' });
       setOverrides({});
       setSavedOverrides({});
       setDirty(false);
+      setDraftedVariants((prev) => prev.filter((v) => v !== variantKey));
     } finally {
       setSaving(false);
     }
-  }, [slug]);
+  }, [slug, variantKey]);
 
   const aiRewrite = useCallback(
     async ({
@@ -152,7 +184,6 @@ export function useGesuchOverrides(
       fieldPath: string;
       fieldDescription?: string;
     }): Promise<string | null> => {
-      // Build richer AI context from full foundation object when available
       const foundationContext: FoundationAIContext | undefined = foundation
         ? buildAIContext(foundation)
         : undefined;
@@ -185,49 +216,74 @@ export function useGesuchOverrides(
     if (!foundation) return;
     setAutoDraftLoading(true);
     try {
+      const name = foundation.name;
       const purposeHint = foundation.purposeSummary
         ? `Stiftungszweck: ${foundation.purposeSummary}`
         : '';
+      const granteesHint = foundation.pastGrantees?.length
+        ? `Bisherige Empfänger: ${foundation.pastGrantees.slice(0, 5).join(', ')}.`
+        : '';
+      const notesHint = foundation.researchNotes
+        ? `Strategische Einschätzung: ${foundation.researchNotes}`
+        : '';
+      const angleHint = schwerpunktLabel
+        ? `Schwerpunkt dieses Gesuchs: ${schwerpunktLabel}. Fokussiere auf diesen Aspekt unserer Arbeit.`
+        : '';
+      const context = [purposeHint, granteesHint, notesHint, angleHint].filter(Boolean).join('\n');
 
-      // 1. Foundation bridge
-      const bridgeResult = await aiRewrite({
-        instruction: `Schreibe einen prägnanten Verbindungssatz (2-3 Sätze), der erklärt, warum ${foundation.name} und unsere Organisation zusammenpassen. ${purposeHint}`,
-        currentText: 'Verbindungssatz wird erstellt...',
-        fieldPath: 'foundationBridge',
-        fieldDescription: 'Verbindungssatz zwischen Stiftung und Organisation',
-      });
-      if (bridgeResult) {
-        updateField({ foundationBridge: bridgeResult });
-      }
+      const [bridgeResult, openingResult, alignResult, whyResult, howResult] =
+        await Promise.all([
+          aiRewrite({
+            instruction: `Schreibe einen prägnanten Verbindungssatz (2-3 Sätze), der erklärt, warum ${name} und unsere Organisation zusammenpassen. Beziehe dich konkret auf den Stiftungszweck und unsere Fähigkeiten — kein generisches "wir passen gut zusammen".\n${context}`,
+            currentText: 'Verbindungssatz wird erstellt...',
+            fieldPath: 'foundationBridge',
+            fieldDescription: 'Verbindungssatz zwischen Stiftung und Organisation — erklärt die spezifische Passung',
+          }),
+          aiRewrite({
+            instruction: `Schreibe eine professionelle Anschreiben-Eröffnung (2-3 Sätze) für ein Fördergesuch an ${name}. Zeige, dass wir die Stiftung kennen — referenziere ihren Zweck oder ihre bisherigen Förderungen.\n${context}`,
+            currentText: 'Eröffnung wird erstellt...',
+            fieldPath: 'anschreiben.opening',
+            fieldDescription: 'Eröffnungsabsatz des Anschreibens — erster Eindruck, zeigt Recherche',
+          }),
+          aiRewrite({
+            instruction: `Beschreibe in 2-4 Sätzen, wie unsere Arbeitsbereiche mit den Förderzielen von ${name} übereinstimmen. Nenne konkrete Überschneidungen, nicht abstrakte Gemeinsamkeiten.\n${context}`,
+            currentText: 'Thematische Übereinstimmung wird erstellt...',
+            fieldPath: 'anschreiben.themeAlignment',
+            fieldDescription: 'Thematische Übereinstimmung im Anschreiben — zeigt konkrete Schnittmengen',
+          }),
+          aiRewrite({
+            instruction: `Schreibe einen "Warum"-Absatz (3-5 Sätze) für ein Fördergesuch an ${name}. Beschreibe das Problem, das wir lösen, aus der Perspektive dessen, was dieser Stiftung wichtig ist. Nicht generisch — formuliere so, dass ${name} sich angesprochen fühlt.\n${context}`,
+            currentText: 'Problem-Lösung wird erstellt...',
+            fieldPath: 'why.problem',
+            fieldDescription: 'Problemdarstellung — warum unsere Arbeit nötig ist, aus Sicht der Stiftung',
+          }),
+          aiRewrite({
+            instruction: `Schreibe einen "Wie wir arbeiten"-Absatz (3-5 Sätze) für ein Fördergesuch an ${name}. Hebe die Kompetenzen und Erfahrungen hervor, die für diese Stiftung besonders relevant sind. Konkrete Zahlen und Beispiele.\n${context}`,
+            currentText: 'Track Record wird erstellt...',
+            fieldPath: 'how.trackRecord.text',
+            fieldDescription: 'Track Record — unsere relevante Erfahrung für diese spezifische Stiftung',
+          }),
+        ]);
 
-      // 2. Anschreiben opening
-      const openingResult = await aiRewrite({
-        instruction: `Schreibe eine professionelle Anschreiben-Eröffnung (2-3 Sätze) für ein Fördergesuch an ${foundation.name}. ${purposeHint}`,
-        currentText: 'Eröffnung wird erstellt...',
-        fieldPath: 'anschreiben.opening',
-        fieldDescription: 'Eröffnungsabsatz des Anschreibens',
-      });
-      if (openingResult) {
-        updateField({ anschreiben: { opening: openingResult } });
-      }
+      if (bridgeResult) updateField({ foundationBridge: bridgeResult });
+      if (openingResult) updateField({ anschreiben: { opening: openingResult } });
+      if (alignResult) updateField({ anschreiben: { themeAlignment: alignResult } });
+      if (whyResult) updateField({ why: { problem: whyResult } });
+      if (howResult) updateField({ how: { trackRecord: { text: howResult } } });
 
-      // 3. Theme alignment
-      const alignResult = await aiRewrite({
-        instruction: `Beschreibe in 2-4 Sätzen, wie unsere Arbeitsbereiche mit den Förderzielen von ${foundation.name} übereinstimmen. ${purposeHint}`,
-        currentText: 'Thematische Übereinstimmung wird erstellt...',
-        fieldPath: 'anschreiben.themeAlignment',
-        fieldDescription: 'Thematische Übereinstimmung im Anschreiben',
-      });
-      if (alignResult) {
-        updateField({ anschreiben: { themeAlignment: alignResult } });
-      }
-
-      // Save accumulated overrides
       await save();
     } finally {
       setAutoDraftLoading(false);
     }
-  }, [foundation, aiRewrite, updateField, save]);
+  }, [foundation, schwerpunktLabel, aiRewrite, updateField, save]);
+
+  // Auto-trigger AI personalization on first visit to each variant
+  useEffect(() => {
+    if (needsAutoDraft) {
+      setNeedsAutoDraft(false);
+      autoDraft();
+    }
+  }, [needsAutoDraft, autoDraft]);
 
   const restoreOverrides = useCallback((restored: GesuchOverridesData) => {
     setOverrides(restored);
@@ -240,6 +296,7 @@ export function useGesuchOverrides(
     editMode,
     saving,
     dirty,
+    draftedVariants,
     toggleEditMode,
     updateField,
     save,

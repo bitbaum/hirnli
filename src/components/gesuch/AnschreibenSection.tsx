@@ -22,7 +22,7 @@ export default function AnschreibenSection({ dok }: AnschreibenSectionProps) {
           {dok.anschreiben.foundationAddress}
         </div>
       ) : (
-        <div className="mb-6 rounded border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
+        <div className="mb-6 rounded border border-warning/30 bg-warning/10 px-4 py-3 text-sm text-warning">
           ⚠ Adresse der Stiftung fehlt — bitte vor dem Versand in den Stiftungsdaten ergänzen.
         </div>
       )}

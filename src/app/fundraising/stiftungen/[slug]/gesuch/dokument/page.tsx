@@ -5,6 +5,7 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
+import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
 import ProjektbeschriebSection from '@/components/gesuch/ProjektbeschriebSection';
 import BudgetSection from '@/components/gesuch/BudgetSection';
@@ -14,6 +15,7 @@ export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ schwerpunkt?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -26,16 +28,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function GesuchDokumentPage({ params }: Props) {
+export default async function GesuchDokumentPage({ params, searchParams }: Props) {
   const { slug } = await params;
+  const { schwerpunkt: schwerpunktParam } = await searchParams;
   const foundation = getFoundationBySlug(slug);
 
   if (!foundation) {
     notFound();
   }
 
-  const baseDok = composeGesuchDokument(foundation);
-  const overrides = await loadGesuchOverrides(slug);
+  const schwerpunktId = schwerpunktParam && schwerpunktParam in SCHWERPUNKTE
+    ? (schwerpunktParam as SchwerpunktId)
+    : undefined;
+
+  const baseDok = composeGesuchDokument(foundation, schwerpunktId);
+  const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
   const dok = applyGesuchOverrides(baseDok, overrides);
 
   if (!dok.ready) {
@@ -63,7 +70,7 @@ export default async function GesuchDokumentPage({ params }: Props) {
         oder öffnen Sie das PDF direkt.
         <div className="mt-2 flex justify-center gap-4">
           <a
-            href={`/api/pdf/gesuch/${slug}`}
+            href={`/api/pdf/gesuch/${slug}${schwerpunktId ? `?schwerpunkt=${schwerpunktId}` : ''}`}
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold text-primary hover:underline"

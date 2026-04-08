@@ -111,9 +111,6 @@ interface DBRow {
   id: string;
   name: string;
   config_data: Foundation;
-  website_url: string | null;
-  contact_email: string | null;
-  contact_phone: string | null;
 }
 
 // ============================================================================
@@ -213,7 +210,7 @@ async function loadFoundationsFromDB(): Promise<DBRow[]> {
   }
   const sql = neon(process.env.DATABASE_URL);
   const rows = await sql`
-    SELECT id, name, config_data, website_url, contact_email, contact_phone
+    SELECT id, name, config_data
     FROM fundraising_foundations
     WHERE config_data IS NOT NULL
     ORDER BY id

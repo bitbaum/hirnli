@@ -17,6 +17,11 @@ import GesuchProjectsSection from '@/components/gesuch/GesuchProjectsSection';
 import GesuchEvidenceSection from '@/components/gesuch/GesuchEvidenceSection';
 import GesuchContactSection from '@/components/gesuch/GesuchContactSection';
 import GesuchProcessSection from '@/components/gesuch/GesuchProcessSection';
+import SchwerpunktSelector from '@/components/gesuch/SchwerpunktSelector';
+import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
+import type { ThemeId } from '@/lib/schemas/foundation';
+import type { FoundationAIContext } from '@/lib/domain/ai-context';
+import Badge from '@/components/ui/Badge';
 
 interface StepReviewProps {
   slug: string;
@@ -56,6 +61,14 @@ interface StepReviewProps {
   onAutoDraft: () => Promise<void>;
   autoDraftLoading: boolean;
   readiness: GesuchReadiness;
+  // Variant switching
+  activeSchwerpunkt: SchwerpunktId | null;
+  foundationThemes: ThemeId[];
+  draftedVariants: string[];
+  onSelectSchwerpunkt: (id: SchwerpunktId | null) => void;
+  // AI prompt context
+  foundationContext?: FoundationAIContext;
+  schwerpunktLabel?: string;
   // Navigation
   onPrev: () => void;
   onNext: () => void;
@@ -88,6 +101,12 @@ export default function StepReview({
   onAutoDraft,
   autoDraftLoading,
   readiness,
+  activeSchwerpunkt,
+  foundationThemes,
+  draftedVariants,
+  onSelectSchwerpunkt,
+  foundationContext,
+  schwerpunktLabel,
   onPrev,
   onNext,
 }: StepReviewProps) {
@@ -95,6 +114,19 @@ export default function StepReview({
 
   return (
     <div className="space-y-12">
+      {/* Compact variant tabs */}
+      <SchwerpunktSelector
+        active={activeSchwerpunkt}
+        foundationThemes={foundationThemes}
+        onSelect={async (id) => {
+          await onSaveIfDirty();
+          onSelectSchwerpunkt(id);
+        }}
+        disabled={editMode}
+        compact
+        draftedVariants={draftedVariants}
+      />
+
       {/* Auto-draft CTA — shown when no overrides exist yet */}
       {!hasOverrides && !autoDraftLoading && (
         <div className="rounded-xl border border-primary/20 bg-primary/5 p-5 print:hidden">
@@ -126,9 +158,7 @@ export default function StepReview({
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-bg-light px-4 py-3 print:hidden">
         <div className="flex items-center gap-2">
           {hasOverrides && (
-            <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-              Angepasst
-            </span>
+            <Badge variant="primary" className="py-1">Angepasst</Badge>
           )}
           <Link
             href={`/fundraising/stiftungen/${slug}/gesuch/dokument`}
@@ -163,6 +193,8 @@ export default function StepReview({
           <GesuchEditPanel
             foundationName={foundationName}
             overrides={overrides}
+            foundationContext={foundationContext}
+            schwerpunktLabel={schwerpunktLabel}
             generated={generated}
             saving={saving}
             dirty={dirty}
@@ -222,6 +254,7 @@ export default function StepReview({
       {/* Override version history drawer */}
       <OverrideHistory
         slug={slug}
+        variantKey={activeSchwerpunkt ?? 'auto'}
         open={historyOpen}
         onClose={() => setHistoryOpen(false)}
         onRestore={onRestoreOverrides}

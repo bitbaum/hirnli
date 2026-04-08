@@ -6,6 +6,7 @@ import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundati
 import { composeGesuch, composeAnschreibenText } from '@/lib/domain/gesuch-composer';
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
 import { computeShareToken } from '@/lib/utils/share-token';
+import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import GesuchPageClient from './GesuchPageClient';
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /** Get primary color from a composed gesuch's first theme */
 function getPrimaryColor(gesuch: ComposedGesuch): string {
-  return gesuch.themes.all[0]?.color ?? '#3498DB';
+  return gesuch.themes.all[0]?.color ?? DEFAULT_THEME_COLOR;
 }
 
 export default async function GesuchPage({ params }: Props) {

@@ -38,32 +38,39 @@ export interface PersonalizedGesuch {
 }
 
 /**
- * Evaluate a single condition against foundation data
+ * Extract typed fields from configData JSONB
+ */
+function getConfigData(foundation: FoundationRow): Record<string, unknown> {
+  return (foundation.configData ?? {}) as Record<string, unknown>;
+}
+
+/**
+ * Evaluate a single condition against foundation data (reads from configData JSONB)
  */
 function evaluateCondition(
   rule: CustomizationRule,
   foundation: FoundationRow
 ): boolean {
   const { conditionType, conditionValue } = rule;
+  const cd = getConfigData(foundation);
 
   switch (conditionType) {
     case 'focus_match': {
-      // focusAreas is now a string[] from jsonb — no JSON.parse needed
-      if (!foundation.focusAreas) return false;
-      const focusArray = foundation.focusAreas ?? [];
-      return focusArray.some(area =>
-        area.toLowerCase().includes(conditionValue.toLowerCase())
+      const themes = (cd.themes ?? []) as string[];
+      if (themes.length === 0) return false;
+      return themes.some((t: string) =>
+        t.toLowerCase().includes(conditionValue.toLowerCase())
       );
     }
 
     case 'grant_size': {
-      // Parse condition like "<50000" or ">100000"
       const match = conditionValue.match(/([<>]=?)(\d+)/);
       if (!match) return false;
 
       const operator = match[1];
       const threshold = parseInt(match[2]);
-      const maxGrant = foundation.grantRangeMax || 0;
+      const amount = (cd.amount ?? {}) as Record<string, number | null>;
+      const maxGrant = amount.max || 0;
 
       switch (operator) {
         case '<':
@@ -80,21 +87,16 @@ function evaluateCondition(
     }
 
     case 'geographic': {
-      // Check if geographic scope matches
-      if (!foundation.geographicScope) return false;
-      return foundation.geographicScope
-        .toLowerCase()
-        .includes(conditionValue.toLowerCase());
+      const region = cd.region as string | undefined;
+      if (!region) return false;
+      return region.toLowerCase().includes(conditionValue.toLowerCase());
     }
 
     case 'organization_type': {
-      // Check organization type
-      return foundation.organizationType === conditionValue;
+      return cd.type === conditionValue;
     }
 
     case 'custom': {
-      // Custom conditions require manual implementation
-      // For now, always return false
       return false;
     }
 

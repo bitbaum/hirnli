@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { THEMES, TYPE_LABELS } from '@/lib/config/foundations';
 import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
@@ -51,7 +52,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
   const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
   const tplLabel = TEMPLATE_LABELS[type];
   const primaryThemeId = foundation.themes[0];
-  const primaryColor = primaryThemeId ? THEMES[primaryThemeId]?.color ?? '#3498DB' : '#3498DB';
+  const primaryColor = primaryThemeId ? THEMES[primaryThemeId]?.color ?? DEFAULT_THEME_COLOR : DEFAULT_THEME_COLOR;
 
   const bannerTitle = typeLabel
     ? `VORLAGE — Typ ${typeLabel.short}: ${typeLabel.long}`

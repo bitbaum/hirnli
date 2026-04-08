@@ -64,6 +64,7 @@ const requestSchema = z.object({
     type: z.string().optional(),
     themes: z.array(z.string()).optional(),
     fitScore: z.number().optional(),
+    priority: z.number().optional(),
     tagline: z.string().optional(),
     researchNotes: z.string().optional(),
     pastGrantees: z.array(z.string()).optional(),
@@ -71,7 +72,9 @@ const requestSchema = z.object({
     applicationProcess: z.string().optional(),
     deadline: z.string().optional(),
     deadlineText: z.string().optional(),
-    priority: z.number().optional(),
+    criteria: z.object({ nature: z.string().optional(), education: z.string().optional() }).optional(),
+    partners: z.array(z.string()).optional(),
+    sdgs: z.array(z.number()).optional(),
   }).optional(),
 });
 
@@ -113,6 +116,19 @@ function buildUserMessage(body: RequestBody): string {
     }
     if (fc.researchNotes) {
       lines.push(`\nStrategische Einschätzung:\n${fc.researchNotes}`);
+    }
+    if (fc.criteria) {
+      const parts = [fc.criteria.nature, fc.criteria.education].filter(Boolean);
+      if (parts.length) lines.push(`Förderkriterien: ${parts.join('; ')}`);
+    }
+    if (fc.partners?.length) {
+      lines.push(`Partner: ${fc.partners.slice(0, 5).join(', ')}`);
+    }
+    if (fc.sdgs?.length) {
+      lines.push(`SDGs: ${fc.sdgs.join(', ')}`);
+    }
+    if (fc.priority != null) {
+      lines.push(`Priorität: P${fc.priority}`);
     }
     if (fc.deadlineText) lines.push(`Eingabeschluss: ${fc.deadlineText}`);
     lines.push('');

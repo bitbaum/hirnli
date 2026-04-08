@@ -47,7 +47,7 @@ export async function GET(
 
     // Same data pipeline as full PDF
     const baseDok = composeGesuchDokument(foundation, schwerpunktId);
-    const overrides = await loadGesuchOverrides(slug);
+    const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
     const dok = applyGesuchOverrides(baseDok, overrides);
 
     if (!dok.ready) {

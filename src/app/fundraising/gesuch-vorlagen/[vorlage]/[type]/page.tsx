@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { TYPE_LABELS } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
+import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
@@ -44,7 +45,7 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
   const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
   const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
   const gesuch = composeGesuch(foundation, schwerpunkt as SchwerpunktId);
-  const primaryColor = sp?.color ?? '#3498DB';
+  const primaryColor = sp?.color ?? DEFAULT_THEME_COLOR;
 
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;
 

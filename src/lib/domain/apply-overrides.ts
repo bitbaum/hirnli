@@ -67,7 +67,7 @@ export function applyGesuchOverrides<T extends ComposedGesuch>(
 }
 
 /** Load overrides from DB — returns empty object if none saved */
-export async function loadGesuchOverrides(slug: string): Promise<GesuchOverridesData> {
+export async function loadGesuchOverrides(slug: string, variantKey: string = 'auto'): Promise<GesuchOverridesData> {
   try {
     const { db } = await import('@/lib/db/client');
     const { gesuchOverrides } = await import('@/lib/db/schema');
@@ -77,7 +77,11 @@ export async function loadGesuchOverrides(slug: string): Promise<GesuchOverrides
     const rows = await db
       .select({ overrides: gesuchOverrides.overrides })
       .from(gesuchOverrides)
-      .where(and(eq(gesuchOverrides.foundationId, slug), eq(gesuchOverrides.orgId, ORG_PROFILE.orgId)))
+      .where(and(
+        eq(gesuchOverrides.foundationId, slug),
+        eq(gesuchOverrides.orgId, ORG_PROFILE.orgId),
+        eq(gesuchOverrides.variantKey, variantKey),
+      ))
       .limit(1);
 
     return (rows[0]?.overrides as GesuchOverridesData) ?? {};

@@ -12,6 +12,10 @@ interface SchwerpunktSelectorProps {
   onSelect: (id: SchwerpunktId | null) => void;
   /** When true, pills are visually dimmed and non-interactive (e.g. during edit mode) */
   disabled?: boolean;
+  /** Compact mode for Steps 2/3 — smaller pills, inline */
+  compact?: boolean;
+  /** Variant keys that have been drafted — show green dot badge */
+  draftedVariants?: string[];
 }
 
 export default function SchwerpunktSelector({
@@ -19,24 +23,31 @@ export default function SchwerpunktSelector({
   foundationThemes,
   onSelect,
   disabled = false,
+  compact = false,
+  draftedVariants = [],
 }: SchwerpunktSelectorProps) {
   const themeSet = new Set(foundationThemes);
+  const draftedSet = new Set(draftedVariants);
+
+  const pillSize = compact ? 'px-2.5 py-1 text-xs' : 'px-4 py-2 text-sm';
+  const gapClass = compact ? 'gap-1.5' : 'gap-2';
+  const marginClass = compact ? 'mb-4' : 'mb-8';
 
   return (
     <div
-      className={`mb-8 flex flex-wrap items-center justify-center gap-2 print:hidden transition-opacity ${disabled ? 'pointer-events-none opacity-40' : ''}`}
+      className={`${marginClass} flex flex-wrap items-center justify-center ${gapClass} print:hidden transition-opacity ${disabled ? 'pointer-events-none opacity-40' : ''}`}
       title={disabled ? 'Schwerpunkt-Auswahl während der Bearbeitung gesperrt — erst speichern, dann wechseln' : undefined}
     >
       {/* Auto pill */}
       <button
         onClick={() => onSelect(null)}
-        className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+        className={`rounded-full ${pillSize} font-medium transition-all ${
           active === null
             ? 'bg-grey-dark text-white shadow-sm'
             : 'border border-border text-text-muted hover:border-grey-dark hover:text-grey-dark'
         }`}
       >
-        Auto
+        Auto{draftedSet.has('auto') && <span className="ml-1 text-success">●</span>}
       </button>
 
       {/* Schwerpunkt pills */}
@@ -44,12 +55,13 @@ export default function SchwerpunktSelector({
         const sp = SCHWERPUNKTE[id];
         const hasOverlap = sp.themeIds.some((t) => themeSet.has(t));
         const isActive = active === id;
+        const isDrafted = draftedSet.has(id);
 
         return (
           <button
             key={id}
             onClick={() => onSelect(isActive ? null : id)}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+            className={`rounded-full ${pillSize} font-medium transition-all ${
               isActive
                 ? 'text-white shadow-sm'
                 : hasOverlap
@@ -64,7 +76,8 @@ export default function SchwerpunktSelector({
                   : undefined
             }
           >
-            {sp.icon} {sp.shortLabel}
+            {compact ? sp.shortLabel : `${sp.icon} ${sp.shortLabel}`}
+            {isDrafted && <span className="ml-1 text-success">●</span>}
           </button>
         );
       })}

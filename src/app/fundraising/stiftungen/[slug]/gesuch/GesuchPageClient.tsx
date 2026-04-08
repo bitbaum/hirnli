@@ -8,6 +8,10 @@ import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import { buildDynamicOpening } from '@/lib/domain/anschreiben-composer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { useGesuchOverrides } from '@/hooks/useGesuchOverrides';
+import { SCHWERPUNKTE } from '@/lib/config/schwerpunkte';
+import { buildAIContext } from '@/lib/domain/ai-context';
+import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
+import { useMemo } from 'react';
 import { computeGesuchReadiness } from '@/lib/domain/gesuch-readiness';
 import { LoadingState } from '@/components/ui/LoadingState';
 import StepIndicator from '@/components/gesuch/StepIndicator';
@@ -57,16 +61,18 @@ export default function GesuchPageClient({
   const editPanelRef = useRef<HTMLDivElement>(null);
 
   const variantKey = activeSchwerpunkt ?? 'auto';
+  const schwerpunktLabel = activeSchwerpunkt ? SCHWERPUNKTE[activeSchwerpunkt]?.label : undefined;
   const gesuch = variants[variantKey];
-  const primaryColor = primaryColors[variantKey] ?? '#3498DB';
+  const primaryColor = primaryColors[variantKey] ?? DEFAULT_THEME_COLOR;
   const activeGesuch = gesuch ?? variants['auto'];
-  const activeColor = gesuch ? primaryColor : primaryColors['auto'] ?? '#3498DB';
+  const activeColor = gesuch ? primaryColor : primaryColors['auto'] ?? DEFAULT_THEME_COLOR;
 
   const {
     overrides,
     editMode,
     saving,
     dirty,
+    draftedVariants,
     toggleEditMode,
     updateField,
     save,
@@ -76,7 +82,12 @@ export default function GesuchPageClient({
     restoreOverrides,
     autoDraft,
     autoDraftLoading,
-  } = useGesuchOverrides(slug, foundationData);
+  } = useGesuchOverrides(slug, foundationData, variantKey, schwerpunktLabel);
+
+  const foundationContext = useMemo(
+    () => foundationData ? buildAIContext(foundationData) : undefined,
+    [foundationData],
+  );
 
   // Auto-save dirty changes before navigating away from the edit step
   const navigateStep = useCallback(async (n: 1 | 2 | 3) => {
@@ -197,6 +208,12 @@ export default function GesuchPageClient({
             onAutoDraft={autoDraft}
             autoDraftLoading={autoDraftLoading}
             readiness={computeGesuchReadiness(activeGesuch, overrides, foundationData)}
+            activeSchwerpunkt={activeSchwerpunkt}
+            foundationThemes={foundationThemes}
+            draftedVariants={draftedVariants}
+            onSelectSchwerpunkt={setActiveSchwerpunkt}
+            foundationContext={foundationContext}
+            schwerpunktLabel={schwerpunktLabel}
             onPrev={() => navigateStep(1)}
             onNext={() => navigateStep(3)}
           />

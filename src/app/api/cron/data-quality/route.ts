@@ -11,7 +11,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { foundations, applications } from '@/lib/db/schema';
-import { and, eq, isNull, lt, gte } from 'drizzle-orm';
+import { and, eq, isNull, lt, gte, sql } from 'drizzle-orm';
 import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 
@@ -49,13 +49,13 @@ export async function GET(request: NextRequest) {
   try {
     const issues: DataQualityIssue[] = [];
 
-    // Check 1: High-fit foundations missing contact email
+    // Check 1: High-fit foundations missing contact email (query config_data JSONB)
     const missingEmail = await db
       .select()
       .from(foundations)
       .where(
         and(
-          isNull(foundations.contactEmail),
+          sql`(config_data->'contact'->>'email' IS NULL OR config_data->'contact'->>'email' = '')`,
           gte(foundations.fitScore, 7),
           eq(foundations.archived, false)
         )
@@ -75,13 +75,13 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Check 2: Foundations missing website
+    // Check 2: Foundations missing website (query config_data JSONB)
     const missingWebsite = await db
       .select()
       .from(foundations)
       .where(
         and(
-          isNull(foundations.websiteUrl),
+          sql`(config_data->>'websiteUrl' IS NULL OR config_data->>'websiteUrl' = '')`,
           gte(foundations.fitScore, 5),
           eq(foundations.archived, false)
         )

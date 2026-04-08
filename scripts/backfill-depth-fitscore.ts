@@ -84,11 +84,9 @@ async function main() {
 
   // Read ALL foundations and find those that fail Zod validation
   const rows = await sql`
-    SELECT id, name, config_data, website_url, contact_email, contact_phone,
-           grant_range_min, grant_range_max, application_deadline,
-           geographic_scope, fit_score, priority, research_depth,
-           application_method, source, focus_areas, research_date,
-           organization_type, data_quality
+    SELECT id, name, config_data,
+           fit_score, priority, research_depth,
+           source, research_date
     FROM fundraising_foundations
   `;
 
@@ -109,24 +107,24 @@ async function main() {
     needsRepair++;
 
     // Rebuild complete config_data from DB columns + existing partial data
-    const websiteUrl = (row.website_url || cd.websiteUrl || '') as string;
-    const email = (row.contact_email || (cd.contact as Record<string, string>)?.email || '') as string;
-    const phone = (row.contact_phone || (cd.contact as Record<string, string>)?.phone || '') as string;
+    const websiteUrl = (cd.websiteUrl || '') as string;
+    const email = ((cd.contact as Record<string, string>)?.email || '') as string;
+    const phone = ((cd.contact as Record<string, string>)?.phone || '') as string;
     const address = ((cd.contact as Record<string, string>)?.address || '') as string;
-    const deadline = row.application_deadline as string | null;
-    const grantMin = row.grant_range_min as number | null;
-    const grantMax = row.grant_range_max as number | null;
-    const region = (row.geographic_scope || cd.region || 'Schweiz') as string;
+    const deadline = (cd.deadlineText || cd.deadline || null) as string | null;
+    const grantMin = (cd.amount as Record<string, unknown>)?.min as number | null ?? null;
+    const grantMax = (cd.amount as Record<string, unknown>)?.max as number | null ?? null;
+    const region = (cd.region || 'Schweiz') as string;
     const appMethod = normalizeAppMethod(
-      (cd.applicationMethod || row.application_method || 'unknown') as string
+      (cd.applicationMethod || 'unknown') as string
     );
     const source = (row.source || cd.source || 'manual') as string;
-    const rawThemes = (cd.themes || (row.focus_areas ? JSON.parse(row.focus_areas as string) : [])) as unknown[];
+    const rawThemes = (cd.themes || []) as unknown[];
     const themes = filterValidThemes(rawThemes);
     const researchDate = (row.research_date || cd.researchDate || new Date().toISOString().split('T')[0]) as string;
     const isOperative = cd.isOperative as boolean | undefined;
     const isFunder = isOperative === false || cd.isFunder === true;
-    const type = (cd.type || (row.organization_type === 'network' ? 'network' : 'C')) as string;
+    const type = (cd.type || 'C') as string;
     const needsResearch = cd.needsResearch !== undefined ? cd.needsResearch as boolean : true;
     const purposeSummary = (cd.purposeSummary || cd.tagline || '') as string;
     const tagline = (cd.tagline || (purposeSummary ? purposeSummary.substring(0, 80) : row.name)) as string;

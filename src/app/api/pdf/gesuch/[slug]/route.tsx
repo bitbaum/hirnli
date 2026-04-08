@@ -50,7 +50,7 @@ export async function GET(
 
     // Compose document data (same SSOT as HTML page)
     const baseDok = composeGesuchDokument(foundation, schwerpunktId);
-    const overrides = await loadGesuchOverrides(slug);
+    const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
     const dok = applyGesuchOverrides(baseDok, overrides);
 
     if (!dok.ready) {

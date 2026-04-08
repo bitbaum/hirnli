@@ -12,37 +12,8 @@ import { db } from '@/lib/db/client';
 import { foundations, activityLog } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
-import { z } from 'zod';
 import { foundationSchema } from '@/lib/schemas/foundation';
-import { mergeConfigPatch } from '@/lib/domain/foundation-config-patch';
-
-// Validation schema for updates
-const updateFoundationSchema = z.object({
-  name: z.string().min(1).optional(),
-  websiteUrl: z.string().url().optional().nullable(),
-  contactEmail: z.string().email().optional().nullable(),
-  contactPhone: z.string().optional().nullable(),
-  contactAddress: z.string().optional().nullable(),
-
-  fitScore: z.number().min(0).max(10).optional().nullable(),
-  priority: z.number().min(1).max(4).optional().nullable(),
-  focusAreas: z.array(z.string()).optional(),
-  geographicScope: z.string().optional().nullable(),
-  organizationType: z.string().optional().nullable(),
-
-  grantRangeMin: z.number().optional().nullable(),
-  grantRangeMax: z.number().optional().nullable(),
-  typicalAmount: z.number().optional().nullable(),
-  fundingModel: z.string().optional().nullable(),
-  applicationMethod: z.string().optional().nullable(),
-  applicationDeadline: z.string().optional().nullable(),
-  decisionTimeline: z.string().optional().nullable(),
-
-  strategicFit: z.string().optional().nullable(),
-  applicationNotes: z.string().optional().nullable(),
-
-  researchDepth: z.enum(['rapid', 'standard', 'deep']).optional().nullable(),
-});
+import { updateFoundationSchema } from '@/lib/schemas/foundation-api';
 
 /**
  * GET /api/foundations/[id]
@@ -127,22 +98,14 @@ export async function PUT(
 
     const data = validation.data;
 
-    // Update config_data (full object) + relevant flat columns
+    // Update config_data (SSOT) + indexed flat columns only
     await db
       .update(foundations)
       .set({
         configData: data,
         name: data.name,
-        websiteUrl: data.websiteUrl,
-        contactEmail: data.contact?.email || null,
-        contactPhone: data.contact?.phone || null,
         fitScore: data.fitScore,
         priority: data.priority,
-        focusAreas: data.themes,
-        geographicScope: data.region,
-        organizationType: data.type === 'network' ? 'network' : 'foundation',
-        applicationMethod: data.applicationMethod,
-        applicationDeadline: data.deadline || null,
         updatedAt: new Date(),
       })
       .where(eq(foundations.id, id));
@@ -219,16 +182,20 @@ export async function PATCH(
       );
     }
 
-    // Prepare update data — sync flat columns AND config_data
+    // Merge config_data patch into existing (SSOT for all foundation data)
     const data = validation.data;
     const existingConfig = (existing[0].configData ?? {}) as Record<string, unknown>;
+    const mergedConfig = data.configData
+      ? { ...existingConfig, ...data.configData }
+      : existingConfig;
 
-    // Merge patched fields into config_data so sync doesn't revert them
-    const mergedConfig = mergeConfigPatch(data, existingConfig);
-
+    // Sync indexed flat columns from merged config if present
     const updates: Record<string, unknown> = {
-      ...data,
       configData: mergedConfig,
+      ...(data.name !== undefined && { name: data.name }),
+      ...(data.fitScore !== undefined && { fitScore: data.fitScore }),
+      ...(data.priority !== undefined && { priority: data.priority }),
+      ...(data.researchDepth !== undefined && { researchDepth: data.researchDepth }),
       updatedAt: new Date(),
     };
 

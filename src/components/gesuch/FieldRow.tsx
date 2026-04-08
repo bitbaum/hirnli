@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { AI_PRESETS } from '@/lib/config/ai-presets';
+import { buildExternalPrompt } from '@/lib/domain/prompt-builder';
+import type { FoundationAIContext } from '@/lib/domain/ai-context';
 
 export interface FieldRowProps {
   label: string;
@@ -11,6 +13,8 @@ export interface FieldRowProps {
   placeholder: string;
   fieldPath: string;
   multiline?: boolean;
+  foundationContext?: FoundationAIContext;
+  schwerpunktLabel?: string;
   onAiRewrite: (params: {
     instruction: string;
     currentText: string;
@@ -29,6 +33,8 @@ export default function FieldRow({
   placeholder,
   fieldPath,
   multiline = false,
+  foundationContext,
+  schwerpunktLabel,
   onAiRewrite,
   onChange,
   onBlur,
@@ -37,8 +43,23 @@ export default function FieldRow({
   const [aiLoading, setAiLoading] = useState(false);
   const [showAi, setShowAi] = useState(false);
   const [aiError, setAiError] = useState('');
+  const [copied, setCopied] = useState(false);
 
   const isModified = value !== originalValue;
+
+  const copyPrompt = () => {
+    if (!foundationContext || !value.trim()) return;
+    const prompt = buildExternalPrompt({
+      foundation: foundationContext,
+      schwerpunktLabel,
+      fieldDescription,
+      currentText: value,
+    });
+    navigator.clipboard.writeText(prompt).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  };
 
   const runAi = async (instruction: string) => {
     if (!instruction.trim() || !value.trim()) return;
@@ -67,23 +88,35 @@ export default function FieldRow({
             <button
               type="button"
               onClick={() => onChange(originalValue)}
-              className="text-xs text-text-muted hover:text-red-500"
+              className="text-xs text-text-muted hover:text-danger"
               title="Auf Original zurücksetzen"
             >
               ↩ zurücksetzen
             </button>
           )}
         </div>
-        <button
-          type="button"
-          onClick={() => { setShowAi((v) => !v); setAiError(''); }}
-          className={`flex items-center gap-1 rounded px-2 py-0.5 text-xs transition ${
-            showAi ? 'bg-primary/10 text-primary' : 'text-text-muted hover:text-primary'
-          }`}
-          title="KI-Überarbeitung"
-        >
-          <span>✦</span> KI
-        </button>
+        <div className="flex items-center gap-1">
+          {foundationContext && (
+            <button
+              type="button"
+              onClick={copyPrompt}
+              className="flex items-center gap-1 rounded px-2 py-0.5 text-xs text-text-muted transition hover:text-primary"
+              title="Prompt für externes KI-Tool kopieren"
+            >
+              {copied ? '✓ Kopiert' : '📋 Prompt'}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => { setShowAi((v) => !v); setAiError(''); }}
+            className={`flex items-center gap-1 rounded px-2 py-0.5 text-xs transition ${
+              showAi ? 'bg-primary/10 text-primary' : 'text-text-muted hover:text-primary'
+            }`}
+            title="KI-Überarbeitung"
+          >
+            <span>✦</span> KI
+          </button>
+        </div>
       </div>
 
       {/* Text input */}
@@ -159,7 +192,7 @@ export default function FieldRow({
           </div>
 
           {aiError && (
-            <p className="text-xs text-red-500">{aiError}</p>
+            <p className="text-xs text-danger">{aiError}</p>
           )}
         </div>
       )}

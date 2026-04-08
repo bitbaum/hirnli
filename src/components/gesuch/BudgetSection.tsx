@@ -92,12 +92,12 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
               {formatCHF(dok.budget.threeYearModel.reduce((s, y) => s + y.stiftungen, 0))}
             </td>
           </tr>
-          <tr className="border-b border-border bg-emerald-50">
-            <td className="py-1.5 font-medium text-emerald-800">Eigenleistung {ORG_PROFILE.name}</td>
+          <tr className="border-b border-border bg-success/10">
+            <td className="py-1.5 font-medium text-success">Eigenleistung {ORG_PROFILE.name}</td>
             {dok.budget.threeYearModel.map((y) => (
-              <td key={y.year} className="py-1.5 text-right text-emerald-800">{formatCHF(y.eigen)}</td>
+              <td key={y.year} className="py-1.5 text-right text-success">{formatCHF(y.eigen)}</td>
             ))}
-            <td className="py-1.5 text-right font-medium text-emerald-800">{formatCHF(dok.budget.eigen3yTotal)}</td>
+            <td className="py-1.5 text-right font-medium text-success">{formatCHF(dok.budget.eigen3yTotal)}</td>
           </tr>
           <tr className="border-b-2 border-grey-dark font-bold">
             <td className="py-2">Total pro Jahr</td>
@@ -118,7 +118,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
 
       {/* Budget detail by line item (Jahr 1) */}
       <h3 className="mb-3 text-lg font-semibold text-grey-dark">Budgetdetail Jahr 1 ({formatCHF(year1Total)})</h3>
-      <div className="mb-4 text-xs text-text-muted bg-blue-50 p-3 rounded">
+      <div className="mb-4 text-xs text-text-muted bg-primary/10 p-3 rounded">
         <strong>Szenario:</strong> {dok.budget.scenario.label} — {dok.budget.scenario.description}
       </div>
       <div className="overflow-x-auto">

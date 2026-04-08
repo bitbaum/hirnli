@@ -55,9 +55,6 @@ interface DBRow {
   id: string;
   name: string;
   config_data: Foundation;
-  website_url: string | null;
-  contact_email: string | null;
-  contact_phone: string | null;
 }
 
 interface UrlDiscoveryFile {
@@ -270,7 +267,7 @@ async function main() {
   // - Missing direct contact (email/phone)
   console.log('\nQuerying foundations for web enrichment...');
   const rows = await sql`
-    SELECT id, name, config_data, website_url, contact_email, contact_phone
+    SELECT id, name, config_data
     FROM fundraising_foundations
     WHERE config_data IS NOT NULL
       AND archived = false
@@ -281,12 +278,12 @@ async function main() {
   // 1. Have a real website (or discovered URL) AND
   // 2. Are missing email or phone
   const enrichable = rows.filter(row => {
-    const url = discoveredUrls.get(row.id) || row.website_url;
+    const url = discoveredUrls.get(row.id) || row.config_data?.websiteUrl;
     if (!url || isRegistryUrl(url)) return false;
 
     // Only enrich if missing contact data
-    const hasEmail = !!(row.contact_email || row.config_data?.contact?.email);
-    const hasPhone = !!(row.contact_phone || row.config_data?.contact?.phone);
+    const hasEmail = !!row.config_data?.contact?.email;
+    const hasPhone = !!row.config_data?.contact?.phone;
     return !hasEmail || !hasPhone;
   });
 
@@ -305,15 +302,15 @@ async function main() {
     const batch = toProcess.slice(i, i + CONCURRENCY);
 
     const batchPromises = batch.map(async (row) => {
-      const url = discoveredUrls.get(row.id) || row.website_url!;
+      const url = discoveredUrls.get(row.id) || row.config_data?.websiteUrl!;
       scraped++;
 
       try {
         const { contact, pagesScraped } = await scrapeFoundation(url);
 
         if (hasUsefulData(contact)) {
-          const hasEmailBefore = !!(row.contact_email || row.config_data?.contact?.email);
-          const hasPhoneBefore = !!(row.contact_phone || row.config_data?.contact?.phone);
+          const hasEmailBefore = !!row.config_data?.contact?.email;
+          const hasPhoneBefore = !!row.config_data?.contact?.phone;
 
           // Only count as enriched if we found something new
           const foundNewEmail = contact.emails.length > 0 && !hasEmailBefore;

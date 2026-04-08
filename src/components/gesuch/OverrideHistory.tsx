@@ -12,6 +12,7 @@ import type { GesuchOverridesData } from '@/lib/db/schema';
 
 interface OverrideHistoryProps {
   slug: string;
+  variantKey?: string;
   open: boolean;
   onClose: () => void;
   onRestore: (overrides: GesuchOverridesData) => void;
@@ -49,7 +50,7 @@ function getFieldKeys(overrides: GesuchOverridesData): string[] {
   return keys;
 }
 
-export default function OverrideHistory({ slug, open, onClose, onRestore }: OverrideHistoryProps) {
+export default function OverrideHistory({ slug, variantKey, open, onClose, onRestore }: OverrideHistoryProps) {
   const [entries, setEntries] = useState<ActivityEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [restoring, setRestoring] = useState<string | null>(null);
@@ -57,7 +58,8 @@ export default function OverrideHistory({ slug, open, onClose, onRestore }: Over
   useEffect(() => {
     if (!open) return;
     setLoading(true);
-    fetch(`/api/activity-log?entityId=${slug}&entityType=gesuch_override&limit=50`)
+    const entityId = variantKey && variantKey !== 'auto' ? `${slug}::${variantKey}` : slug;
+    fetch(`/api/activity-log?entityId=${entityId}&entityType=gesuch_override&limit=50`)
       .then((r) => r.json())
       .then((d) => {
         if (d.success) setEntries(d.data);

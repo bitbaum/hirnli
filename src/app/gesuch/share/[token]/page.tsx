@@ -19,6 +19,7 @@ import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { getFoundationBySlug, hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import { SCHWERPUNKT_IDS, SCHWERPUNKTE } from '@/lib/config/schwerpunkte';
+import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { resolveShareToken } from '@/lib/utils/share-token';
 
 import GesuchShareView from '@/components/gesuch/GesuchShareView';
@@ -73,7 +74,8 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
 
   // If a specific schwerpunkt is requested via ?s= param, try it first
   let gesuch = composeGesuch(foundation);
-  let primaryColor = gesuch.themes.all[0]?.color ?? '#3498DB';
+  let primaryColor = gesuch.themes.all[0]?.color ?? DEFAULT_THEME_COLOR;
+  let selectedSchwerpunkt: string = 'auto';
 
   if (schwerpunktParam && SCHWERPUNKT_IDS.includes(schwerpunktParam as typeof SCHWERPUNKT_IDS[number])) {
     const spId = schwerpunktParam as typeof SCHWERPUNKT_IDS[number];
@@ -81,6 +83,7 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
     if (variant.ready) {
       gesuch = variant;
       primaryColor = SCHWERPUNKTE[spId].color;
+      selectedSchwerpunkt = spId;
     }
   }
 
@@ -91,6 +94,7 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
       if (variant.ready) {
         gesuch = variant;
         primaryColor = SCHWERPUNKTE[spId].color;
+        selectedSchwerpunkt = spId;
         break;
       }
     }
@@ -100,7 +104,7 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
 
   // Merge any saved overrides (same pipeline as the full gesuch page)
   const { loadGesuchOverrides, applyGesuchOverrides } = await import('@/lib/domain/apply-overrides');
-  const overrides = await loadGesuchOverrides(slug);
+  const overrides = await loadGesuchOverrides(slug, selectedSchwerpunkt);
   const merged = applyGesuchOverrides(gesuch, overrides);
 
   return (

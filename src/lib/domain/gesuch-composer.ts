@@ -154,15 +154,27 @@ function mapSchwerpunktThemes(schwerpunktId: SchwerpunktId) {
   return { primary, secondary, all: schwerpunkt.storyThemes };
 }
 
-function collectThemeMetadata(foundation: Foundation): ThemeMetadata[] {
-  // Deduplicate by story key so geographic aliases (e.g. 'zuerich' → 'klima')
-  // don't show alongside a proper klima theme. Pure geographic tags are
-  // excluded if a richer thematic match exists for the same story key.
+function collectThemeMetadata(foundation: Foundation, schwerpunktId?: SchwerpunktId): ThemeMetadata[] {
+  // When a Schwerpunkt is selected, prefer themes matching the Schwerpunkt's focus.
+  if (schwerpunktId) {
+    const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
+    const spThemeIds = new Set(schwerpunkt.themeIds);
+    // Intersect foundation themes with Schwerpunkt themes, preserving Schwerpunkt order
+    const orderedIds = schwerpunkt.themeIds.filter((id) => foundation.themes.includes(id));
+    // If foundation has any matching themes, use those. Otherwise use Schwerpunkt themes directly.
+    const ids = orderedIds.length > 0 ? orderedIds : schwerpunkt.themeIds;
+    return ids
+      .map((id) => THEMES[id])
+      .filter((t): t is NonNullable<typeof t> => t !== undefined)
+      .map((t) => ({ id: t.id, label: t.label, icon: t.icon, color: t.color }));
+  }
+
+  // Default: deduplicate by story key so geographic aliases (e.g. 'zuerich' → 'klima')
+  // don't show alongside a proper klima theme.
   const seenStoryKeys = new Set<string>();
-  // Sort: proper thematic themes before geographic tags
   return foundation.themes
     .filter((id) => {
-      if (id === 'zuerich') return false; // geographic qualifier, not a capability badge
+      if (id === 'zuerich') return false;
       const storyKey = THEME_ID_TO_STORY_KEY[id];
       if (!storyKey) return false;
       if (seenStoryKeys.has(storyKey)) return false;
@@ -245,7 +257,7 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     themes: {
       primary: mapped.primary,
       secondary: mapped.secondary,
-      all: collectThemeMetadata(foundation),
+      all: collectThemeMetadata(foundation, schwerpunktId),
     },
     secondaryThemeRelevance: buildSecondaryRelevance(mapped.secondary),
     story,
@@ -273,14 +285,14 @@ function buildFoundationAddress(foundation: Foundation): string {
 }
 
 /** Compute just the Anschreiben text fields (for the edit panel in step 2) */
-export function composeAnschreibenText(foundation: Foundation): {
+export function composeAnschreibenText(foundation: Foundation, schwerpunktId?: SchwerpunktId): {
   subject: string;
   opening: string;
   closing: string;
   themeAlignment: string;
 } {
   const template = ANSCHREIBEN_TEMPLATES[foundation.type] ?? ANSCHREIBEN_TEMPLATES['A'];
-  const themeMetadata = collectThemeMetadata(foundation);
+  const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
   return {
     subject: `Fördergesuch: ${primaryLabel} — ${ORG_PROFILE.name}`,
@@ -293,7 +305,7 @@ export function composeAnschreibenText(foundation: Foundation): {
 export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: SchwerpunktId): ComposedGesuchDokument {
   const gesuch = composeGesuch(foundation, schwerpunktId);
   const template = ANSCHREIBEN_TEMPLATES[foundation.type] ?? ANSCHREIBEN_TEMPLATES['A'];
-  const themeMetadata = collectThemeMetadata(foundation);
+  const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
 
   const scenario = getScenarioForFoundation(foundation);

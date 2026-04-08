@@ -153,7 +153,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
           type="button"
           onClick={markAsSubmitted}
           disabled={marking}
-          className="flex items-center gap-2 self-start rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+          className="flex items-center gap-2 self-start rounded-lg bg-pillar-digital px-4 py-2 text-sm font-semibold text-white hover:bg-pillar-digital/85 disabled:opacity-50 transition-colors"
         >
           {marking ? (
             <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -166,7 +166,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
 
       {status === 'submitted' && (
         <div className="space-y-1">
-          <p className="text-xs text-indigo-700">Gesuch wurde als eingereicht markiert.</p>
+          <p className="text-xs text-pillar-digital">Gesuch wurde als eingereicht markiert.</p>
           {followUpDate && (
             <p className="text-xs text-text-muted">
               Antwort erwartet: ~<span className="font-medium">{formatFollowUpDate(followUpDate)}</span>

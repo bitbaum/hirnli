@@ -6,14 +6,15 @@
  */
 
 import { StyleSheet } from '@react-pdf/renderer';
+import { CHART_COLORS } from '@/lib/config/chart-colors';
 
 // Design tokens matching the HTML dokument page
 export const COLORS = {
   text: '#1F2937',
   textMuted: '#6B7280',
   textLight: '#4B5563',
-  primary: '#3498DB',
-  accent: '#E67E22',
+  primary: CHART_COLORS.blue,
+  accent: CHART_COLORS.orange,
   secondary: '#27AE60',
   border: '#E5E7EB',
   borderDark: '#1F2937',

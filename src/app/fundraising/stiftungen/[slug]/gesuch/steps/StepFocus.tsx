@@ -1,6 +1,7 @@
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId } from '@/lib/schemas/foundation';
 import SchwerpunktSelector from '@/components/gesuch/SchwerpunktSelector';
+import Badge from '@/components/ui/Badge';
 
 interface StepFocusProps {
   foundationName: string;
@@ -41,9 +42,7 @@ export default function StepFocus({
               Typ {foundationType}
             </span>
             {fitScore != null && (
-              <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-                Fit {fitScore}/10
-              </span>
+              <Badge variant="primary" className="font-semibold">Fit {fitScore}/10</Badge>
             )}
           </div>
         </div>

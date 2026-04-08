@@ -70,7 +70,7 @@ export default function GesuchVorlagenPage() {
           {SCHWERPUNKT_IDS.map((id) => {
             const sp = SCHWERPUNKTE[id];
             return (
-              <div key={id} className="rounded-xl border border-border bg-white p-5">
+              <Card key={id} padding={false} className="p-5">
                 <div className="mb-3 flex items-center gap-2">
                   <span className="text-2xl">{sp.icon}</span>
                   <div>
@@ -104,7 +104,7 @@ export default function GesuchVorlagenPage() {
                 <p className="mt-2 text-xs text-text-muted">
                   A = Professionell · B = Familienstiftung · C = Klein
                 </p>
-              </div>
+              </Card>
             );
           })}
         </div>

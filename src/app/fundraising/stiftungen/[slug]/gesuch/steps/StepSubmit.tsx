@@ -6,6 +6,7 @@ import GesuchSubmitSection from '@/components/gesuch/GesuchSubmitSection';
 import type { SubmissionInfo } from '@/components/gesuch/GesuchSubmitSection';
 import ActivityTimeline from '@/components/ui/ActivityTimeline';
 import SubmissionChecklist from '@/components/gesuch/SubmissionChecklist';
+import { Button } from '@/components/ui/Button';
 
 interface StepSubmitProps {
   slug: string;
@@ -55,14 +56,15 @@ export default function StepSubmit({
               </div>
               <span className="text-xl">📄</span>
             </div>
-            <a
+            <Button
               href={`/api/pdf/gesuch/${slug}${schwerpunktParam}`}
               target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-grey-dark px-4 py-2.5 text-sm font-semibold text-white hover:bg-grey-dark/90 transition-colors"
+              variant="primary"
+              fullWidth
+              className="mt-3"
             >
               PDF öffnen
-            </a>
+            </Button>
           </div>
 
           {/* One-pager PDF */}
@@ -74,14 +76,15 @@ export default function StepSubmit({
               </div>
               <span className="text-xl">📋</span>
             </div>
-            <a
+            <Button
               href={`/api/pdf/gesuch/${slug}/onepager${schwerpunktParam}`}
               target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold text-text hover:border-primary/40 hover:text-primary transition-colors"
+              variant="secondary"
+              fullWidth
+              className="mt-3"
             >
               PDF öffnen
-            </a>
+            </Button>
           </div>
 
           {/* Shareable link */}
@@ -94,13 +97,14 @@ export default function StepSubmit({
               <span className="text-xl">🔗</span>
             </div>
             {shareToken ? (
-              <button
-                type="button"
+              <Button
                 onClick={copyShareLink}
-                className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold text-text hover:border-primary/40 hover:text-primary transition-colors"
+                variant="secondary"
+                fullWidth
+                className="mt-3"
               >
                 {copied ? '✓ Link kopiert!' : 'Link kopieren'}
-              </button>
+              </Button>
             ) : (
               <p className="mt-3 text-xs text-text-muted">
                 Setze <code className="rounded bg-bg px-1 py-0.5 font-mono">SHARE_SECRET</code> in den Umgebungsvariablen, um Links zu aktivieren.
@@ -144,19 +148,21 @@ export default function StepSubmit({
 
       {/* Navigation */}
       <div className="flex items-center gap-4 border-t border-border pt-6 print:hidden">
-        <button
-          type="button"
+        <Button
           onClick={onPrev}
-          className="text-sm text-text-muted hover:text-primary"
+          variant="ghost"
+          size="sm"
         >
           ← Entwurf bearbeiten
-        </button>
-        <Link
+        </Button>
+        <Button
           href={`/fundraising/stiftungen/${slug}`}
-          className="ml-auto text-sm text-primary hover:underline"
+          variant="ghost"
+          size="sm"
+          className="ml-auto text-primary"
         >
           ← Zurück zur Stiftungsseite
-        </Link>
+        </Button>
       </div>
     </div>
   );

@@ -6,10 +6,13 @@ import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { WhySection, TrackRecord } from '@/lib/schemas/story';
 import type { AnschreibenText } from '@/app/fundraising/stiftungen/[slug]/gesuch/GesuchPageClient';
 import FieldRow from './FieldRow';
+import type { FoundationAIContext } from '@/lib/domain/ai-context';
 
 interface GesuchEditPanelProps {
   foundationName: string;
   overrides: GesuchOverridesData;
+  foundationContext?: FoundationAIContext;
+  schwerpunktLabel?: string;
   generated: {
     foundationBridge?: string;
     why?: WhySection;
@@ -33,6 +36,8 @@ interface GesuchEditPanelProps {
 export default function GesuchEditPanel({
   foundationName,
   overrides,
+  foundationContext,
+  schwerpunktLabel,
   generated,
   saving,
   dirty,
@@ -56,6 +61,9 @@ export default function GesuchEditPanel({
   const anschreibenOpening = overrides.anschreiben?.opening ?? generated.anschreiben.opening;
   const anschreibenThemeAlignment = overrides.anschreiben?.themeAlignment ?? generated.anschreiben.themeAlignment;
   const anschreibenClosing = overrides.anschreiben?.closing ?? generated.anschreiben.closing;
+  // Shared props for all FieldRow instances (copy prompt support)
+  const fieldShared = { foundationContext, schwerpunktLabel };
+
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState('');
 
@@ -93,14 +101,14 @@ export default function GesuchEditPanel({
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
-          {saved && <span className="text-xs font-medium text-green-600">Gespeichert ✓</span>}
-          {saveError && <span className="text-xs font-medium text-red-500">{saveError}</span>}
+          {saved && <span className="text-xs font-medium text-success">Gespeichert ✓</span>}
+          {saveError && <span className="text-xs font-medium text-danger">{saveError}</span>}
           {dirty && !saved && !saveError && <span className="text-xs text-text-muted">Ungespeichert</span>}
           <button
             type="button"
             onClick={handleReset}
             disabled={saving}
-            className="rounded-lg px-3 py-1.5 text-xs text-text-muted transition hover:bg-bg-light hover:text-red-500 disabled:opacity-50"
+            className="rounded-lg px-3 py-1.5 text-xs text-text-muted transition hover:bg-bg-light hover:text-danger disabled:opacity-50"
             title="Alle Änderungen verwerfen und auf generierten Text zurücksetzen"
           >
             Alles zurücksetzen
@@ -119,6 +127,7 @@ export default function GesuchEditPanel({
       <div className="space-y-6">
         {/* 1. Foundation bridge */}
         <FieldRow
+          {...fieldShared}
           label="Verbindungssatz (Hero)"
           fieldDescription={`Erscheint im Hero-Bereich des Gesuchs — erklärt, warum Stiftung und ${ORG_PROFILE.name} zusammenpassen.`}
           value={bridge}
@@ -140,6 +149,7 @@ export default function GesuchEditPanel({
               </p>
               <div className="space-y-4">
                 <FieldRow
+                  {...fieldShared}
                   label="Überschrift"
                   fieldDescription="Erscheint als Hauptüberschrift im «Warum»-Abschnitt — formuliert das Kernproblem als Hook."
                   value={whyHeadline}
@@ -151,6 +161,7 @@ export default function GesuchEditPanel({
                   onBlur={onSaveIfDirty}
                 />
                 <FieldRow
+                  {...fieldShared}
                   label="Einleitung"
                   fieldDescription="Erscheint als erster Absatz im «Warum»-Abschnitt — rahmt das Problem aus Stiftungsperspektive ein."
                   value={whyHook}
@@ -164,6 +175,7 @@ export default function GesuchEditPanel({
                 />
                 <div className="grid gap-4 sm:grid-cols-2">
                   <FieldRow
+                    {...fieldShared}
                     label="Problem"
                     fieldDescription="Erscheint in der linken Spalte im «Warum»-Abschnitt — beschreibt das gesellschaftliche Problem."
                     value={whyProblem}
@@ -176,6 +188,7 @@ export default function GesuchEditPanel({
                     onBlur={onSaveIfDirty}
                   />
                   <FieldRow
+                    {...fieldShared}
                     label="Lösung"
                     fieldDescription={`Erscheint in der rechten Spalte im «Warum»-Abschnitt — zeigt wie ${ORG_PROFILE.name} das Problem löst.`}
                     value={whySolution}
@@ -200,6 +213,7 @@ export default function GesuchEditPanel({
           </p>
           <div className="space-y-4">
             <FieldRow
+              {...fieldShared}
               label="Überschrift"
               fieldDescription="Erscheint als Überschrift im «Wie»-Abschnitt — benennt Erfahrung und Kompetenz."
               value={howHeadline}
@@ -211,6 +225,7 @@ export default function GesuchEditPanel({
               onBlur={onSaveIfDirty}
             />
             <FieldRow
+              {...fieldShared}
               label="Text"
               fieldDescription="Erscheint als Haupttext im «Wie»-Abschnitt — belegt Erfahrung mit konkreten Fakten und Zahlen."
               value={howText}
@@ -232,6 +247,7 @@ export default function GesuchEditPanel({
           </p>
           <div className="space-y-4">
             <FieldRow
+              {...fieldShared}
               label="Betreff"
               fieldDescription="Betreffzeile des Anschreibens — erscheint als Titel im Begleitbrief."
               value={anschreibenSubject}
@@ -243,6 +259,7 @@ export default function GesuchEditPanel({
               onBlur={onSaveIfDirty}
             />
             <FieldRow
+              {...fieldShared}
               label="Einstieg"
               fieldDescription="Erster Absatz des Anschreibens — erklärt, warum wir diese Stiftung kontaktieren."
               value={anschreibenOpening}
@@ -255,6 +272,7 @@ export default function GesuchEditPanel({
               onBlur={onSaveIfDirty}
             />
             <FieldRow
+              {...fieldShared}
               label="Thematische Passung"
               fieldDescription="Absatz im Anschreiben, der die inhaltliche Übereinstimmung mit dem Stiftungszweck aufzeigt."
               value={anschreibenThemeAlignment}
@@ -267,6 +285,7 @@ export default function GesuchEditPanel({
               onBlur={onSaveIfDirty}
             />
             <FieldRow
+              {...fieldShared}
               label="Schluss"
               fieldDescription="Abschlussabsatz des Anschreibens — Dank und Ausblick."
               value={anschreibenClosing}

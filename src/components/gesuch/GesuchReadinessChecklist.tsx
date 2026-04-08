@@ -20,10 +20,10 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
         <span
           className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
             ready
-              ? 'bg-green-100 text-green-700'
+              ? 'bg-success/10 text-success'
               : score >= 40
-                ? 'bg-yellow-100 text-yellow-700'
-                : 'bg-red-100 text-red-700'
+                ? 'bg-warning/10 text-warning'
+                : 'bg-danger/10 text-danger'
           }`}
         >
           {score}%
@@ -33,7 +33,7 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
       <div className="space-y-1.5">
         {checks.map((check) => (
           <div key={check.id} className="flex items-start gap-2">
-            <span className={`mt-0.5 text-xs ${check.passed ? 'text-green-600' : 'text-text-light'}`}>
+            <span className={`mt-0.5 text-xs ${check.passed ? 'text-success' : 'text-text-light'}`}>
               {check.passed ? '✓' : '○'}
             </span>
             <div className="min-w-0">
