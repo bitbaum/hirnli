@@ -556,26 +556,24 @@ async function phase3Upsert(
       // Gate: foundations staying at rapid depth are never actionable (P4)
       const writePriority = hasSubstantialData ? r.priority : 4;
 
+      // Set researchDepth in mergeConfig so the trigger picks it up
+      const writeDepth = hasSubstantialData ? 'standard' : 'rapid';
+      const fullMerge = { ...mergeConfig, researchDepth: writeDepth, researchDate: today };
+
       try {
+        // config_data is SSOT — trigger auto-syncs flat columns
         await sql`
           UPDATE fundraising_foundations
           SET
             config_data = jsonb_set(
               jsonb_set(
-                config_data || ${JSON.stringify(mergeConfig)}::jsonb,
+                config_data || ${JSON.stringify(fullMerge)}::jsonb,
                 '{fitScore}',
                 to_jsonb(${r.fitScore})
               ),
               '{priority}',
               to_jsonb(${writePriority})
             ),
-            fit_score = ${r.fitScore},
-            priority = ${writePriority},
-            research_date = ${today},
-            research_depth = CASE
-              WHEN ${hasSubstantialData} AND research_depth = 'rapid' THEN 'standard'
-              ELSE research_depth
-            END,
             updated_at = ${now}
           WHERE id = ${r.slug}
         `;

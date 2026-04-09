@@ -198,20 +198,15 @@ async function main() {
     // set but not found in new research, it will be overwritten.
 
     try {
-      // Upsert foundations (configData JSONB is SSOT)
-      // configData is SSOT: on UPDATE, merge all fields into JSONB first,
-      // then apply GREATEST/LEAST for fitScore/priority within JSONB,
-      // and derive flat columns from the resulting JSONB values.
+      // Upsert foundations — config_data JSONB is SSOT.
+      // DB trigger (0003_flat_column_sync_trigger) auto-syncs flat columns
+      // (name, fit_score, priority, research_depth, research_date) from config_data.
       await sql`
         INSERT INTO fundraising_foundations (
           id, name,
-          fit_score, priority,
-          research_depth, research_date,
           source, config_data, org_id, created_at, updated_at, archived
         ) VALUES (
           ${draft.slug}, ${draft.name},
-          ${fitScore}, ${computedPriority},
-          ${researchDepth}, ${today},
           ${'automated-research'}, ${JSON.stringify(configData)},
           ${'revamp-it'}, ${now}, ${now}, false
         )
@@ -225,17 +220,6 @@ async function main() {
             '{priority}',
             to_jsonb(${computedPriority})
           ),
-          name = ${draft.name},
-          fit_score = ${fitScore},
-          priority = ${computedPriority},
-          research_depth = CASE
-            WHEN fundraising_foundations.research_depth = 'deep' THEN 'deep'
-            WHEN ${researchDepth} = 'deep' THEN 'deep'
-            WHEN fundraising_foundations.research_depth = 'standard' THEN 'standard'
-            WHEN ${researchDepth} = 'standard' THEN 'standard'
-            ELSE ${researchDepth}
-          END,
-          research_date = ${today},
           updated_at = ${now}
       `;
 
