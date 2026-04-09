@@ -1,22 +1,10 @@
 #!/usr/bin/env tsx
 /**
- * Import Research Results — Apply contact data from external research (ChatGPT, manual, etc.)
+ * Import Research Results — Apply complete foundation profiles from external research
  *
- * Reads a JSON file of research results and writes to DB via config_data.
- * Records provenance (source, date) for every field.
- *
- * Input format (JSON array):
- * [
- *   {
- *     "slug": "foundation-slug",
- *     "email": "found@email.ch",
- *     "emailSource": "where it was found",
- *     "phone": "+41 44 123 45 67",
- *     "phoneSource": "where it was found",
- *     "website": "https://verified-website.ch",
- *     "websiteVerified": true
- *   }
- * ]
+ * Reads a JSON file of research results (from ChatGPT, manual research, etc.)
+ * and merges into config_data. Only writes new data — never overwrites existing
+ * non-empty fields. Records provenance via sourceLinks.
  *
  * Usage:
  *   npx tsx scripts/import-research-results.ts research/results.json --dry-run
@@ -28,6 +16,7 @@ config({ path: '.env.local' });
 
 import { readFileSync } from 'fs';
 import { neon } from '@neondatabase/serverless';
+import { isRegistryUrl } from '../src/lib/config/registry-domains';
 
 const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -40,16 +29,42 @@ if (!inputFile) {
 
 interface ResearchResult {
   slug: string;
+  // Contact
   email?: string | null;
-  emailSource?: string;
   phone?: string | null;
-  phoneSource?: string;
+  address?: string | null;
+  // Website
   website?: string | null;
-  websiteVerified?: boolean;
-  notes?: string;
+  // About
+  purposeSummary?: string | null;
+  researchNotes?: string | null;
+  founded?: number | null;
+  boardMembers?: string[] | null;
+  capital?: string | null;
+  annualBudget?: string | null;
+  grantExpenditure?: string | null;
+  // Application
+  applicationMethod?: string | null;
+  applicationUrl?: string | null;
+  applicationProcess?: string | null;
+  acceptsApplications?: string | null;
+  deadlineText?: string | null;
+  // Grant info
+  amountMin?: number | null;
+  amountMax?: number | null;
+  amountText?: string | null;
+  pastGrantees?: string[] | null;
+  smallProjects?: boolean | null;
+  // Themes
+  themes?: string[] | null;
+  // Meta
+  isOperative?: boolean | null;
+  sources?: string | string[];
 }
 
-// Validate email format
+const VALID_APP_METHODS = ['online', 'email', 'post', 'contact', 'personal', 'partnership', 'via_partner', 'membership', 'contract', 'invitation', 'none', 'unknown'];
+const VALID_ACCEPTS = ['yes', 'no', 'invitation_only', 'unknown'];
+
 function isValidEmail(email: string): boolean {
   if (!email || email.length < 5 || email.length > 60) return false;
   if (!email.includes('@') || !email.includes('.')) return false;
@@ -57,9 +72,111 @@ function isValidEmail(email: string): boolean {
   return true;
 }
 
+/** Merge research data into existing config_data. Only fills gaps — never overwrites existing non-empty values. */
+function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { changed: boolean; fields: string[] } {
+  const fields: string[] = [];
+
+  // Helper: set if target is empty/missing
+  function setIfEmpty(path: string, value: unknown) {
+    if (value === null || value === undefined) return;
+    if (typeof value === 'string' && value.trim() === '') return;
+    if (Array.isArray(value) && value.length === 0) return;
+
+    // Navigate to parent
+    const parts = path.split('.');
+    let target = cd;
+    for (let i = 0; i < parts.length - 1; i++) {
+      if (!target[parts[i]]) target[parts[i]] = {};
+      target = target[parts[i]] as Record<string, unknown>;
+    }
+
+    const key = parts[parts.length - 1];
+    const existing = target[key];
+    // Only set if existing is empty
+    if (existing === null || existing === undefined || existing === '' ||
+        (Array.isArray(existing) && existing.length === 0)) {
+      target[key] = value;
+      fields.push(path);
+    }
+  }
+
+  // Contact
+  if (r.email && isValidEmail(r.email)) setIfEmpty('contact.email', r.email.toLowerCase());
+  if (r.phone) setIfEmpty('contact.phone', r.phone);
+  if (r.address) setIfEmpty('contact.address', r.address);
+
+  // Website (only upgrade from registry URL)
+  if (r.website) {
+    const current = cd.websiteUrl as string || '';
+    if (!current || isRegistryUrl(current)) {
+      cd.websiteUrl = r.website;
+      fields.push('websiteUrl');
+    }
+  }
+
+  // About
+  if (r.purposeSummary) setIfEmpty('purposeSummary', r.purposeSummary);
+  if (r.researchNotes) setIfEmpty('researchNotes', r.researchNotes);
+  if (r.founded) setIfEmpty('founded', r.founded);
+  if (r.boardMembers?.length) setIfEmpty('boardMembers', r.boardMembers);
+  if (r.capital) setIfEmpty('capital', r.capital);
+  if (r.annualBudget) setIfEmpty('annualBudget', r.annualBudget);
+  if (r.grantExpenditure) setIfEmpty('grantExpenditure', r.grantExpenditure);
+
+  // Application process
+  if (r.applicationMethod && VALID_APP_METHODS.includes(r.applicationMethod)) {
+    setIfEmpty('applicationMethod', r.applicationMethod);
+  }
+  if (r.applicationUrl) setIfEmpty('applicationUrl', r.applicationUrl);
+  if (r.applicationProcess) setIfEmpty('applicationProcess', r.applicationProcess);
+  if (r.acceptsApplications && VALID_ACCEPTS.includes(r.acceptsApplications)) {
+    setIfEmpty('acceptsApplications', r.acceptsApplications);
+  }
+  if (r.deadlineText) setIfEmpty('deadlineText', r.deadlineText);
+
+  // Grant info
+  if (r.amountMin != null || r.amountMax != null || r.amountText) {
+    if (!cd.amount) cd.amount = {};
+    const amount = cd.amount as Record<string, unknown>;
+    if (r.amountMin != null && !amount.min) { amount.min = r.amountMin; fields.push('amount.min'); }
+    if (r.amountMax != null && !amount.max) { amount.max = r.amountMax; fields.push('amount.max'); }
+    if (r.amountText && !amount.text) { amount.text = r.amountText; fields.push('amount.text'); }
+  }
+  if (r.pastGrantees?.length) setIfEmpty('pastGrantees', r.pastGrantees);
+  if (r.smallProjects != null) setIfEmpty('smallProjects', r.smallProjects);
+
+  // Themes (merge, don't replace)
+  if (r.themes?.length) {
+    const existing = (cd.themes || []) as string[];
+    const merged = [...new Set([...existing, ...r.themes])];
+    if (merged.length > existing.length) {
+      cd.themes = merged;
+      fields.push('themes');
+    }
+  }
+
+  // Operative status
+  if (r.isOperative != null && cd.isOperative === undefined) {
+    cd.isOperative = r.isOperative;
+    fields.push('isOperative');
+  }
+
+  return { changed: fields.length > 0, fields };
+}
+
 async function main() {
   const raw = readFileSync(inputFile!, 'utf-8');
-  const results: ResearchResult[] = JSON.parse(raw);
+  // Handle both array and object with array
+  let results: ResearchResult[];
+  const parsed = JSON.parse(raw);
+  if (Array.isArray(parsed)) {
+    results = parsed;
+  } else if (parsed.results && Array.isArray(parsed.results)) {
+    results = parsed.results;
+  } else {
+    console.error('Expected a JSON array or { results: [...] }');
+    process.exit(1);
+  }
 
   console.log(`=== Import Research Results ===`);
   console.log(`Input: ${inputFile} (${results.length} entries)`);
@@ -67,76 +184,41 @@ async function main() {
 
   let updated = 0;
   let skipped = 0;
-  let invalid = 0;
+  let notFound = 0;
+  let totalFields = 0;
 
   for (const r of results) {
-    if (!r.slug) { invalid++; continue; }
-    if (!r.email && !r.phone && !r.website) { skipped++; continue; }
+    if (!r.slug) { skipped++; continue; }
 
-    // Validate email if provided
-    if (r.email && !isValidEmail(r.email)) {
-      console.log(`  ⚠️  ${r.slug}: invalid email "${r.email}" — skipping`);
-      invalid++;
-      continue;
-    }
-
-    // Fetch current config_data
     const [row] = await sql`SELECT config_data FROM fundraising_foundations WHERE id = ${r.slug}`;
     if (!row?.config_data) {
       console.log(`  ❌ ${r.slug}: not found in DB`);
-      skipped++;
+      notFound++;
       continue;
     }
 
     const cd = row.config_data as Record<string, unknown>;
-    let changed = false;
-
-    // Update contact
-    if (r.email || r.phone) {
-      if (!cd.contact) cd.contact = {};
-      const contact = cd.contact as Record<string, string>;
-
-      if (r.email && !contact.email) {
-        contact.email = r.email.toLowerCase();
-        changed = true;
-      }
-      if (r.phone && !contact.phone) {
-        contact.phone = r.phone;
-        changed = true;
-      }
-    }
-
-    // Update website (only if verified and current is missing/registry)
-    if (r.website && r.websiteVerified) {
-      const currentWeb = cd.websiteUrl as string || '';
-      const isRegistry = !currentWeb || currentWeb.includes('zefix') || currentWeb.includes('fundraiso') || currentWeb.includes('stiftungschweiz');
-      if (isRegistry) {
-        cd.websiteUrl = r.website;
-        changed = true;
-      }
-    }
-
-    // Add sourceLink for provenance
-    if (changed) {
-      if (!cd.sourceLinks) cd.sourceLinks = [];
-      const links = cd.sourceLinks as { source: string; url: string; label?: string }[];
-      const sourceNote = [r.emailSource, r.phoneSource].filter(Boolean).join(', ');
-      if (sourceNote && !links.some(l => l.label?.includes('Research'))) {
-        links.push({
-          source: 'manual',
-          url: r.website || '',
-          label: `Research: ${sourceNote}`,
-        });
-      }
-    }
+    const { changed, fields } = mergeIntoConfig(cd, r);
 
     if (!changed) {
       skipped++;
       continue;
     }
 
-    const emoji = r.email ? '✅' : '📞';
-    console.log(`  ${emoji} ${r.slug}: email=${r.email || '-'} phone=${r.phone || '-'} web=${r.website || '-'}`);
+    // Add provenance sourceLink
+    if (!cd.sourceLinks) cd.sourceLinks = [];
+    const links = cd.sourceLinks as { source: string; url: string; label?: string }[];
+    const sources = Array.isArray(r.sources) ? r.sources.join(', ') : (r.sources || 'external research');
+    if (!links.some(l => l.label?.includes('Research 2026'))) {
+      links.push({
+        source: 'manual',
+        url: r.website || '',
+        label: `Research 2026-04: ${sources}`,
+      });
+    }
+
+    console.log(`  ✅ ${r.slug}: +${fields.length} fields (${fields.join(', ')})`);
+    totalFields += fields.length;
 
     if (!DRY_RUN) {
       await sql`
@@ -150,9 +232,10 @@ async function main() {
   }
 
   console.log(`\n=== SUMMARY ===`);
-  console.log(`Updated: ${updated}`);
-  console.log(`Skipped: ${skipped} (no new data or already has email)`);
-  console.log(`Invalid: ${invalid}`);
+  console.log(`Updated: ${updated} foundations`);
+  console.log(`New fields: ${totalFields} total`);
+  console.log(`Skipped: ${skipped} (no new data)`);
+  console.log(`Not found: ${notFound}`);
   if (!DRY_RUN && updated > 0) {
     console.log('\nNext: npm run sync && npm run build');
   }
