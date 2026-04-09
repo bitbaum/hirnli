@@ -160,21 +160,10 @@ async function main() {
     });
     // Map 0-10 → display 0-3 (gated: rapid tier → fit=0)
     const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
-    // Priority from fitScore — rapid depth → always P4
-    const isFunderFlag = a.isFunder;
-    const isZurich = (esa.canton === 'ZH');
-    let computedPriority: 1 | 2 | 3 | 4;
-    if (researchDepth === 'rapid') {
-      computedPriority = 4;
-    } else if (fitScore >= 7 && isFunderFlag) {
-      computedPriority = 1;
-    } else if (fitScore >= 4 && (isFunderFlag || isZurich)) {
-      computedPriority = 2;
-    } else if (fitScore >= 4) {
-      computedPriority = 3;
-    } else {
-      computedPriority = 4;
-    }
+    // Priority is NOT computed here — it's derived by sync script via
+    // computePriorityScore() which uses fitScore + readiness + penalties.
+    // Pipeline sets P4 as default; sync corrects to the real value.
+    const computedPriority = 4;
 
     // --- Layer 2: Merged configData (backward compat for sync pipeline) ---
     // Full config for INSERT (new entries)

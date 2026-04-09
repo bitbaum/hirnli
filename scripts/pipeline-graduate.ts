@@ -460,13 +460,10 @@ async function phase2LlmTriage(
     // Don't double-count LLM's suggestedFit (it can only inflate, never correct).
     const fitScore = algoScore;
 
-    // Priority from fitScore — rapid foundations are always P4 (not enough data to act on)
-    const isZurich = candidate.canton === 'ZH';
-    let priority: 1 | 2 | 3 | 4;
-    if (fitScore >= 7 && isFunder) priority = 1;
-    else if (fitScore >= 4 && (isFunder || isZurich)) priority = 2;
-    else if (fitScore >= 4) priority = 3;
-    else priority = 4;
+    // Priority is NOT computed here — sync script derives it via
+    // computePriorityScore() which uses fitScore + readiness + penalties.
+    // Pipeline sets P4 as default; sync corrects to the real value.
+    const priority = 4;
 
     const result: TriageResult = {
       slug: candidate.slug,
@@ -553,8 +550,8 @@ async function phase3Upsert(
       // Upgrade from rapid when we have substantial analysis data
       const hasSubstantialData = r.purposeSummary.length >= 100 && r.themes.length > 0;
 
-      // Gate: foundations staying at rapid depth are never actionable (P4)
-      const writePriority = hasSubstantialData ? r.priority : 4;
+      // Priority is always P4 at write time — sync computes the real value
+      const writePriority = 4;
 
       // Set researchDepth in mergeConfig so the trigger picks it up
       const writeDepth = hasSubstantialData ? 'standard' : 'rapid';

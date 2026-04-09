@@ -26,6 +26,8 @@ import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { neon } from '@neondatabase/serverless';
 import { foundationSchema } from '../lib/schemas/foundation';
+import type { Foundation } from '../lib/schemas/foundation';
+import { computePriorityScore } from '../lib/domain/foundation-scores';
 
 const OUTPUT_PATH = resolve(__dirname, '../lib/config/foundations/stiftungen-generated.ts');
 
@@ -80,6 +82,29 @@ async function syncFoundations() {
   if (valid.length === 0) {
     console.error('\n  No valid foundations found. Aborting sync.\n');
     process.exit(1);
+  }
+
+  // Recompute priority from the authoritative computePriorityScore()
+  // Pipeline scripts set fitScore; priority is DERIVED from fit + readiness + penalties.
+  // This ensures stored priority always matches what the UI displays.
+  let priorityUpdates = 0;
+  for (const f of valid as Foundation[]) {
+    const computed = computePriorityScore(f);
+    if (f.priority !== computed.level) {
+      (f as Record<string, unknown>).priority = computed.level;
+      priorityUpdates++;
+    }
+  }
+  if (priorityUpdates > 0) {
+    console.log(`  Recomputed priority for ${priorityUpdates} foundations`);
+    // Write corrected priorities back to DB (trigger syncs flat column)
+    for (const f of valid as Foundation[]) {
+      await sql`
+        UPDATE fundraising_foundations
+        SET config_data = jsonb_set(config_data, '{priority}', ${JSON.stringify(f.priority)}::jsonb)
+        WHERE id = ${f.slug} AND (config_data->>'priority')::int != ${f.priority}
+      `;
+    }
   }
 
   // Generate TypeScript file

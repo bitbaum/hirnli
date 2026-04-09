@@ -77,16 +77,12 @@ async function main() {
     // Use best of algorithmic and LLM-assessed score (LLM has context we lack: canton, purpose nuance)
     const fitScore = Math.max(algoScore, (entry as any).fitScore ?? 0);
 
-    // Priority from fitScore
-    let priority: 1 | 2 | 3 | 4;
-    if (fitScore >= 7 && entry.isFunder) priority = 1;
-    else if (fitScore >= 4 && entry.isFunder) priority = 2;
-    else if (fitScore >= 4) priority = 3;
-    else priority = 4;
-    // Note: rapid gate applied below based on hasSubstantialData
+    // Priority is NOT computed here — sync script derives it via
+    // computePriorityScore() which uses fitScore + readiness + penalties.
+    const priority = 4;
 
     const fitLabel = fitScore >= 7 ? '★★★' : fitScore >= 4 ? '★★☆' : '★☆☆';
-    console.log(`  ${entry.name}: fit=${fitScore} ${fitLabel}, P${priority}, themes=[${validThemes.join(',')}]`);
+    console.log(`  ${entry.name}: fit=${fitScore} ${fitLabel}, themes=[${validThemes.join(',')}]`);
 
     if (!DRY_RUN) {
       const mergeConfig: Record<string, unknown> = {
@@ -106,8 +102,8 @@ async function main() {
       // Upgrade from rapid when we have substantial analysis data
       const hasSubstantialData = entry.purposeSummary.length >= 100 && validThemes.length > 0;
 
-      // Gate: foundations staying at rapid depth are never actionable (P4)
-      const writePriority = hasSubstantialData ? priority : 4;
+      // Priority is always P4 at write time — sync computes the real value
+      const writePriority = 4;
 
       // Set researchDepth in mergeConfig so the trigger picks it up
       const writeDepth = hasSubstantialData ? 'standard' : 'rapid';
