@@ -64,6 +64,7 @@ interface ResearchResult {
 
 const VALID_APP_METHODS = ['online', 'email', 'post', 'contact', 'personal', 'partnership', 'via_partner', 'membership', 'contract', 'invitation', 'none', 'unknown'];
 const VALID_ACCEPTS = ['yes', 'no', 'invitation_only', 'unknown'];
+const VALID_THEMES = ['klima', 'kreislaufwirtschaft', 'soziale-integration', 'digitale-bildung', 'digitale-souveraenitaet', 'zuerich', 'arbeitsintegration'];
 
 function isValidEmail(email: string): boolean {
   if (!email || email.length < 5 || email.length > 60) return false;
@@ -118,7 +119,13 @@ function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { chan
   if (r.purposeSummary) setIfEmpty('purposeSummary', r.purposeSummary);
   if (r.researchNotes) setIfEmpty('researchNotes', r.researchNotes);
   if (r.founded) setIfEmpty('founded', r.founded);
-  if (r.boardMembers?.length) setIfEmpty('boardMembers', r.boardMembers);
+  // boardMembers: schema expects [{name, role}], accept string[] and wrap
+  if (r.boardMembers?.length) {
+    const normalized = r.boardMembers.map(m =>
+      typeof m === 'string' ? { name: m, role: 'Stiftungsrat' } : m
+    );
+    setIfEmpty('boardMembers', normalized);
+  }
   if (r.capital) setIfEmpty('capital', r.capital);
   if (r.annualBudget) setIfEmpty('annualBudget', r.annualBudget);
   if (r.grantExpenditure) setIfEmpty('grantExpenditure', r.grantExpenditure);
@@ -128,7 +135,11 @@ function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { chan
     setIfEmpty('applicationMethod', r.applicationMethod);
   }
   if (r.applicationUrl) setIfEmpty('applicationUrl', r.applicationUrl);
-  if (r.applicationProcess) setIfEmpty('applicationProcess', r.applicationProcess);
+  // applicationProcess: schema expects string[], accept string and wrap
+  if (r.applicationProcess) {
+    const asArray = typeof r.applicationProcess === 'string' ? [r.applicationProcess] : r.applicationProcess;
+    setIfEmpty('applicationProcess', asArray);
+  }
   if (r.acceptsApplications && VALID_ACCEPTS.includes(r.acceptsApplications)) {
     setIfEmpty('acceptsApplications', r.acceptsApplications);
   }
@@ -143,15 +154,21 @@ function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { chan
     if (r.amountText && !amount.text) { amount.text = r.amountText; fields.push('amount.text'); }
   }
   if (r.pastGrantees?.length) setIfEmpty('pastGrantees', r.pastGrantees);
-  if (r.smallProjects != null) setIfEmpty('smallProjects', r.smallProjects);
+  // smallProjects: schema expects {max, text}, accept boolean and skip (can't infer amount)
+  if (r.smallProjects != null && typeof r.smallProjects === 'object') {
+    setIfEmpty('smallProjects', r.smallProjects);
+  }
 
-  // Themes (merge, don't replace)
+  // Themes (merge, don't replace, filter against enum)
   if (r.themes?.length) {
-    const existing = (cd.themes || []) as string[];
-    const merged = [...new Set([...existing, ...r.themes])];
-    if (merged.length > existing.length) {
-      cd.themes = merged;
-      fields.push('themes');
+    const validThemes = r.themes.filter(t => VALID_THEMES.includes(t));
+    if (validThemes.length > 0) {
+      const existing = (cd.themes || []) as string[];
+      const merged = [...new Set([...existing, ...validThemes])];
+      if (merged.length > existing.length) {
+        cd.themes = merged;
+        fields.push('themes');
+      }
     }
   }
 
