@@ -130,9 +130,13 @@ function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { chan
   if (r.annualBudget) setIfEmpty('annualBudget', r.annualBudget);
   if (r.grantExpenditure) setIfEmpty('grantExpenditure', r.grantExpenditure);
 
-  // Application process
+  // Application process — override 'unknown' since that's the default we want to replace
   if (r.applicationMethod && VALID_APP_METHODS.includes(r.applicationMethod)) {
-    setIfEmpty('applicationMethod', r.applicationMethod);
+    const current = cd.applicationMethod as string | undefined;
+    if (!current || current === 'unknown') {
+      cd.applicationMethod = r.applicationMethod;
+      fields.push('applicationMethod');
+    }
   }
   if (r.applicationUrl) setIfEmpty('applicationUrl', r.applicationUrl);
   // applicationProcess: schema expects string[], accept string and wrap
