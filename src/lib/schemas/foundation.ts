@@ -45,6 +45,17 @@ export const ApplicationMethod = z.enum([
 ]);
 export type ApplicationMethod = z.infer<typeof ApplicationMethod>;
 
+// Research method — tracks HOW application info was verified
+// Used to assess data quality and prioritize re-research
+export const ApplicationResearchMethod = z.enum([
+  'chatgpt-agent',   // ChatGPT actually visited the foundation's website (highest quality)
+  'chatgpt-search',  // ChatGPT used search/training data (may not reflect current state)
+  'groq-pipeline',   // Automated Groq LLM inference from registry text (lowest quality)
+  'manual',          // Human-verified directly
+  'unknown',         // Provenance not tracked (legacy data)
+]);
+export type ApplicationResearchMethod = z.infer<typeof ApplicationResearchMethod>;
+
 // Theme definition
 export const themeSchema = z.object({
   id: ThemeId,
@@ -131,6 +142,7 @@ export const registrySchema = z.object({
   // Applications
   acceptsApplications: z.enum(['yes', 'no', 'invitation_only', 'unknown']).optional(),
   applicationMethod: ApplicationMethod,
+  applicationResearchMethod: ApplicationResearchMethod.optional(),
   applicationProcess: z.array(z.string()).optional(),
   isOperative: z.boolean().optional(),
   isPartnership: z.boolean().optional(),

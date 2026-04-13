@@ -21,9 +21,11 @@ import { isRegistryUrl } from '../src/lib/config/registry-domains';
 const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
 const inputFile = process.argv.find(a => a.endsWith('.json'));
+const methodArg = process.argv.find(a => a.startsWith('--research-method='));
+const FORCED_METHOD = methodArg ? methodArg.split('=')[1] : null;
 
 if (!inputFile) {
-  console.error('Usage: npx tsx scripts/import-research-results.ts <file.json> [--dry-run]');
+  console.error('Usage: npx tsx scripts/import-research-results.ts <file.json> [--research-method=chatgpt-agent] [--dry-run]');
   process.exit(1);
 }
 
@@ -60,7 +62,18 @@ interface ResearchResult {
   // Meta
   isOperative?: boolean | null;
   sources?: string | string[];
+  // Research quality provenance
+  applicationResearchMethod?: string | null;
 }
+
+// Research method quality ranking (higher = better)
+const RESEARCH_METHOD_RANK: Record<string, number> = {
+  'manual': 4,
+  'chatgpt-agent': 3,
+  'chatgpt-search': 2,
+  'groq-pipeline': 1,
+  'unknown': 0,
+};
 
 const VALID_APP_METHODS = ['online', 'email', 'post', 'contact', 'personal', 'partnership', 'via_partner', 'membership', 'contract', 'invitation', 'none', 'unknown'];
 const VALID_ACCEPTS = ['yes', 'no', 'invitation_only', 'unknown'];
@@ -73,9 +86,17 @@ function isValidEmail(email: string): boolean {
   return true;
 }
 
-/** Merge research data into existing config_data. Only fills gaps — never overwrites existing non-empty values. */
+/** Merge research data into existing config_data. Only fills gaps — never overwrites existing non-empty values.
+ *  Exception: when incoming research method outranks existing, application fields are overwritten. */
 function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { changed: boolean; fields: string[] } {
   const fields: string[] = [];
+
+  // Determine if incoming research method outranks existing
+  const incomingMethod = r.applicationResearchMethod || 'unknown';
+  const existingMethod = (cd.applicationResearchMethod as string) || 'unknown';
+  const incomingRank = RESEARCH_METHOD_RANK[incomingMethod] ?? 0;
+  const existingRank = RESEARCH_METHOD_RANK[existingMethod] ?? 0;
+  const isUpgrade = incomingRank > existingRank;
 
   // Helper: set if target is empty/missing
   function setIfEmpty(path: string, value: unknown) {
@@ -130,24 +151,47 @@ function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { chan
   if (r.annualBudget) setIfEmpty('annualBudget', r.annualBudget);
   if (r.grantExpenditure) setIfEmpty('grantExpenditure', r.grantExpenditure);
 
-  // Application process — override 'unknown' since that's the default we want to replace
+  // Application process — override 'unknown' OR when incoming method outranks existing
   if (r.applicationMethod && VALID_APP_METHODS.includes(r.applicationMethod)) {
     const current = cd.applicationMethod as string | undefined;
-    if (!current || current === 'unknown') {
+    if (!current || current === 'unknown' || isUpgrade) {
       cd.applicationMethod = r.applicationMethod;
       fields.push('applicationMethod');
     }
   }
-  if (r.applicationUrl) setIfEmpty('applicationUrl', r.applicationUrl);
-  // applicationProcess: schema expects string[], accept string and wrap
-  if (r.applicationProcess) {
-    const asArray = typeof r.applicationProcess === 'string' ? [r.applicationProcess] : r.applicationProcess;
-    setIfEmpty('applicationProcess', asArray);
+  // Application URL, process, accepts, deadline — overwrite when upgrading quality
+  if (isUpgrade) {
+    if (r.applicationUrl) { cd.applicationUrl = r.applicationUrl; fields.push('applicationUrl'); }
+    if (r.applicationProcess) {
+      const asArray = typeof r.applicationProcess === 'string' ? [r.applicationProcess] : r.applicationProcess;
+      cd.applicationProcess = asArray; fields.push('applicationProcess');
+    }
+    if (r.acceptsApplications && VALID_ACCEPTS.includes(r.acceptsApplications)) {
+      cd.acceptsApplications = r.acceptsApplications; fields.push('acceptsApplications');
+    }
+    if (r.deadlineText) { cd.deadlineText = r.deadlineText; fields.push('deadlineText'); }
+  } else {
+    if (r.applicationUrl) setIfEmpty('applicationUrl', r.applicationUrl);
+    // applicationProcess: schema expects string[], accept string and wrap
+    if (r.applicationProcess) {
+      const asArray = typeof r.applicationProcess === 'string' ? [r.applicationProcess] : r.applicationProcess;
+      setIfEmpty('applicationProcess', asArray);
+    }
+    if (r.acceptsApplications && VALID_ACCEPTS.includes(r.acceptsApplications)) {
+      setIfEmpty('acceptsApplications', r.acceptsApplications);
+    }
+    if (r.deadlineText) setIfEmpty('deadlineText', r.deadlineText);
   }
-  if (r.acceptsApplications && VALID_ACCEPTS.includes(r.acceptsApplications)) {
-    setIfEmpty('acceptsApplications', r.acceptsApplications);
+
+  // Track research method (always upgrade, never downgrade)
+  const VALID_RESEARCH_METHODS = Object.keys(RESEARCH_METHOD_RANK);
+  if (VALID_RESEARCH_METHODS.includes(incomingMethod) && isUpgrade) {
+    cd.applicationResearchMethod = incomingMethod;
+    fields.push('applicationResearchMethod');
+  } else if (!cd.applicationResearchMethod && incomingMethod !== 'unknown') {
+    cd.applicationResearchMethod = incomingMethod;
+    fields.push('applicationResearchMethod');
   }
-  if (r.deadlineText) setIfEmpty('deadlineText', r.deadlineText);
 
   // Grant info
   if (r.amountMin != null || r.amountMax != null || r.amountText) {
@@ -199,8 +243,14 @@ async function main() {
     process.exit(1);
   }
 
+  // Apply forced research method override (e.g. --research-method=chatgpt-agent)
+  if (FORCED_METHOD) {
+    results = results.map(r => ({ ...r, applicationResearchMethod: FORCED_METHOD }));
+  }
+
   console.log(`=== Import Research Results ===`);
   console.log(`Input: ${inputFile} (${results.length} entries)`);
+  console.log(`Research method: ${FORCED_METHOD || 'from data or unknown'}`);
   console.log(`Mode: ${DRY_RUN ? 'DRY RUN' : 'LIVE'}\n`);
 
   let updated = 0;
