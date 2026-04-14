@@ -20,6 +20,7 @@ import { isRegistryUrl } from '../src/lib/config/registry-domains';
 
 const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
+const OVERWRITE_ABOUT = process.argv.includes('--overwrite-about'); // Force-write purposeSummary + researchNotes
 const inputFile = process.argv.find(a => a.endsWith('.json'));
 const methodArg = process.argv.find(a => a.startsWith('--research-method='));
 
@@ -151,9 +152,16 @@ function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { chan
     }
   }
 
-  // About
-  if (r.purposeSummary) setIfEmpty('purposeSummary', r.purposeSummary);
-  if (r.researchNotes) setIfEmpty('researchNotes', r.researchNotes);
+  // About — overwrite with agent data when upgrading (agent > groq-pipeline quality)
+  // --overwrite-about forces overwrite even if same method (for backfills)
+  if (r.purposeSummary) {
+    if (isUpgrade || OVERWRITE_ABOUT) { cd.purposeSummary = r.purposeSummary; fields.push('purposeSummary'); }
+    else setIfEmpty('purposeSummary', r.purposeSummary);
+  }
+  if (r.researchNotes) {
+    if (isUpgrade || OVERWRITE_ABOUT) { cd.researchNotes = r.researchNotes; fields.push('researchNotes'); }
+    else setIfEmpty('researchNotes', r.researchNotes);
+  }
   if (r.founded) setIfEmpty('founded', r.founded);
   // boardMembers: schema expects [{name, role}], accept string[] and wrap
   if (r.boardMembers?.length) {
