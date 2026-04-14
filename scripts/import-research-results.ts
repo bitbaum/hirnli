@@ -22,10 +22,25 @@ const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
 const inputFile = process.argv.find(a => a.endsWith('.json'));
 const methodArg = process.argv.find(a => a.startsWith('--research-method='));
-const FORCED_METHOD = methodArg ? methodArg.split('=')[1] : null;
+
+// Auto-detect research method from filename if not explicitly provided:
+//   *-agent-*.json  → chatgpt-agent
+//   *-search-*.json → chatgpt-search
+//   anything else   → unknown (requires explicit flag)
+function detectMethodFromFilename(file: string): string | null {
+  const base = file.split('/').pop() || '';
+  if (base.includes('-agent-') || base.includes('-agent.')) return 'chatgpt-agent';
+  if (base.includes('-search-') || base.includes('-search.')) return 'chatgpt-search';
+  return null;
+}
+
+const FORCED_METHOD = methodArg
+  ? methodArg.split('=')[1]
+  : (inputFile ? detectMethodFromFilename(inputFile) : null);
 
 if (!inputFile) {
   console.error('Usage: npx tsx scripts/import-research-results.ts <file.json> [--research-method=chatgpt-agent] [--dry-run]');
+  console.error('  Method auto-detected from filename: *-agent-* → chatgpt-agent, *-search-* → chatgpt-search');
   process.exit(1);
 }
 
