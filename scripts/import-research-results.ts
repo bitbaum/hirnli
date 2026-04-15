@@ -25,12 +25,16 @@ const inputFile = process.argv.find(a => a.endsWith('.json'));
 const methodArg = process.argv.find(a => a.startsWith('--research-method='));
 
 // Auto-detect research method from filename if not explicitly provided:
-//   *-agent-*.json  → chatgpt-agent
-//   *-search-*.json → chatgpt-search
-//   anything else   → unknown (requires explicit flag)
+//   *-chatgpt-agent-*.json → chatgpt-agent  (real ChatGPT VM/browser agent)
+//   *-claude-agent-*.json  → claude-agent   (Claude internal Agent with web tools)
+//   *-agent-*.json         → chatgpt-agent  (legacy: assumed ChatGPT agent)
+//   *-search-*.json        → chatgpt-search
+//   anything else          → unknown (requires explicit flag)
 function detectMethodFromFilename(file: string): string | null {
   const base = file.split('/').pop() || '';
-  if (base.includes('-agent-') || base.includes('-agent.')) return 'chatgpt-agent';
+  if (base.includes('-chatgpt-agent-') || base.includes('-chatgpt-agent.')) return 'chatgpt-agent';
+  if (base.includes('-claude-agent-') || base.includes('-claude-agent.')) return 'claude-agent';
+  if (base.includes('-agent-') || base.includes('-agent.')) return 'chatgpt-agent'; // legacy
   if (base.includes('-search-') || base.includes('-search.')) return 'chatgpt-search';
   return null;
 }
@@ -83,9 +87,14 @@ interface ResearchResult {
 }
 
 // Research method quality ranking (higher = better)
+// chatgpt-agent = real ChatGPT VM/browser agent (gold standard automated)
+// claude-agent  = Claude internal Agent with WebSearch/WebFetch (good but no JS rendering)
+// chatgpt-search = ChatGPT web search without full agent browsing
+// groq-pipeline = automated LLM triage from register text only
 const RESEARCH_METHOD_RANK: Record<string, number> = {
   'manual': 4,
   'chatgpt-agent': 3,
+  'claude-agent': 2,
   'chatgpt-search': 2,
   'groq-pipeline': 1,
   'unknown': 0,
