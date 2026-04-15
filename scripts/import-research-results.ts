@@ -17,6 +17,9 @@ config({ path: '.env.local' });
 import { readFileSync } from 'fs';
 import { neon } from '@neondatabase/serverless';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
+import { RESEARCH_METHOD_RANK as _RESEARCH_METHOD_RANK, RESEARCHED_METHODS } from '../src/lib/schemas/foundation';
+// Cast to Record<string,number> so scripts can index with arbitrary string values safely
+const RESEARCH_METHOD_RANK = _RESEARCH_METHOD_RANK as Record<string, number>;
 
 const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -86,19 +89,7 @@ interface ResearchResult {
   applicationResearchMethod?: string | null;
 }
 
-// Research method quality ranking (higher = better)
-// chatgpt-agent = real ChatGPT VM/browser agent (gold standard automated)
-// claude-agent  = Claude internal Agent with WebSearch/WebFetch (good but no JS rendering)
-// chatgpt-search = ChatGPT web search without full agent browsing
-// groq-pipeline = automated LLM triage from register text only
-const RESEARCH_METHOD_RANK: Record<string, number> = {
-  'manual': 4,
-  'chatgpt-agent': 3,
-  'claude-agent': 2,
-  'chatgpt-search': 2,
-  'groq-pipeline': 1,
-  'unknown': 0,
-};
+// RESEARCH_METHOD_RANK and RESEARCHED_METHODS imported from schema (SSOT)
 
 const VALID_APP_METHODS = ['online', 'email', 'post', 'contact', 'personal', 'partnership', 'via_partner', 'membership', 'contract', 'invitation', 'none', 'unknown'];
 const VALID_ACCEPTS = ['yes', 'no', 'invitation_only', 'unknown'];
@@ -216,8 +207,8 @@ function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { chan
   }
 
   // Track research method (always upgrade, never downgrade)
-  const VALID_RESEARCH_METHODS = Object.keys(RESEARCH_METHOD_RANK);
-  if (VALID_RESEARCH_METHODS.includes(incomingMethod) && isUpgrade) {
+  const validMethods = Object.keys(RESEARCH_METHOD_RANK) as string[];
+  if (validMethods.includes(incomingMethod) && isUpgrade) {
     cd.applicationResearchMethod = incomingMethod;
     fields.push('applicationResearchMethod');
   } else if (!cd.applicationResearchMethod && incomingMethod !== 'unknown') {

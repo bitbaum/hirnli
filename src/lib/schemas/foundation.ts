@@ -57,6 +57,20 @@ export const ApplicationResearchMethod = z.enum([
 ]);
 export type ApplicationResearchMethod = z.infer<typeof ApplicationResearchMethod>;
 
+// Quality rank for each research method — higher = more trustworthy data
+// SSOT: import this wherever upgrade logic or queue filtering is needed
+export const RESEARCH_METHOD_RANK: Record<ApplicationResearchMethod, number> = {
+  'manual':          4,  // Human-verified (gold standard)
+  'chatgpt-agent':   3,  // ChatGPT with full browser (JS rendering, real navigation)
+  'claude-agent':    2,  // Claude Agent (WebFetch/WebSearch, no JS rendering)
+  'chatgpt-search':  2,  // ChatGPT search/training data (may be stale)
+  'groq-pipeline':   1,  // Automated LLM triage from register text only
+  'unknown':         0,  // Legacy, provenance unknown
+};
+
+// Methods considered "researched" — won't appear in the research queue
+export const RESEARCHED_METHODS: ApplicationResearchMethod[] = ['chatgpt-agent', 'claude-agent', 'manual'];
+
 // Theme definition
 export const themeSchema = z.object({
   id: ThemeId,

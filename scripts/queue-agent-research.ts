@@ -16,6 +16,7 @@ import { config } from 'dotenv';
 config({ path: '.env.local' });
 
 import { neon } from '@neondatabase/serverless';
+import { RESEARCHED_METHODS } from '../src/lib/schemas/foundation';
 
 const sql = neon(process.env.DATABASE_URL!);
 const SHOW_ALL = process.argv.includes('--all');
@@ -44,8 +45,8 @@ async function main() {
   `;
 
   const needsAgent = rows.filter(r => {
-    const method = r.research_method || 'unknown';
-    return method !== 'chatgpt-agent' && method !== 'manual';
+    const method = (r.research_method || 'unknown') as string;
+    return !(RESEARCHED_METHODS as string[]).includes(method);
   });
 
   const alreadyDone = rows.length - needsAgent.length;

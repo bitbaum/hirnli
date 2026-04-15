@@ -6,6 +6,7 @@
  */
 import { config } from 'dotenv';
 import { neon } from '@neondatabase/serverless';
+import { RESEARCHED_METHODS } from '../src/lib/schemas/foundation';
 config({ path: '.env.local' });
 const sql = neon(process.env.DATABASE_URL!);
 
@@ -33,15 +34,20 @@ async function main() {
   }
   console.log(`\n  Total needing upgrade: ${incomplete.length}`);
 
-  // Not yet researched at all
-  const remaining = await sql`
+  // Not yet researched at all — filter in JS using RESEARCHED_METHODS as SSOT
+  const all = await sql`
     SELECT COUNT(*) as count
     FROM fundraising_foundations
     WHERE priority IN (1,2,3) AND research_depth != 'rapid' AND archived = false
-      AND (config_data->>'applicationResearchMethod' IS NULL
-        OR config_data->>'applicationResearchMethod' NOT IN ('chatgpt-agent','claude-agent','manual'))
       AND id NOT IN ('seif','stiftung-raphael','jugendhilfeverein-des-bezirkes-dielsdorf','z43-netzero','responsability')
   `;
-  console.log(`\n=== Not yet researched (P1-P3, non-rapid): ${remaining[0].count} foundations ===`);
+  const remaining = await sql`
+    SELECT config_data->>'applicationResearchMethod' as method
+    FROM fundraising_foundations
+    WHERE priority IN (1,2,3) AND research_depth != 'rapid' AND archived = false
+      AND id NOT IN ('seif','stiftung-raphael','jugendhilfeverein-des-bezirkes-dielsdorf','z43-netzero','responsability')
+  `;
+  const notResearched = remaining.filter(r => !RESEARCHED_METHODS.includes((r.method || 'unknown') as any));
+  console.log(`\n=== Not yet researched (P1-P3, non-rapid): ${notResearched.length} foundations ===`);
 }
 main().catch(console.error);

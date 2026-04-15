@@ -16,6 +16,8 @@ config({ path: '.env.local' });
 
 import { readFileSync, readdirSync } from 'fs';
 import { neon } from '@neondatabase/serverless';
+import { RESEARCH_METHOD_RANK as _METHOD_RANK } from '../src/lib/schemas/foundation';
+const METHOD_RANK = _METHOD_RANK as Record<string, number>;
 
 const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -43,15 +45,6 @@ const BATCH_METHODS: Record<string, 'chatgpt-agent' | 'chatgpt-search'> = {
   'batch19-agent-2026-04-13.json': 'chatgpt-agent',
   'batch20-agent-2026-04-13.json': 'chatgpt-agent',
   'batch21-agent-2026-04-13.json': 'chatgpt-agent',
-};
-
-// Research method quality ranking (higher = better)
-const METHOD_RANK: Record<string, number> = {
-  'manual': 4,
-  'chatgpt-agent': 3,
-  'chatgpt-search': 2,
-  'groq-pipeline': 1,
-  'unknown': 0,
 };
 
 async function main() {
