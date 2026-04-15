@@ -49,6 +49,7 @@ export type ApplicationMethod = z.infer<typeof ApplicationMethod>;
 // Used to assess data quality and prioritize re-research
 export const ApplicationResearchMethod = z.enum([
   'chatgpt-agent',   // ChatGPT actually visited the foundation's website (highest quality)
+  'claude-agent',    // Claude internal Agent with WebSearch/WebFetch tools (good, no JS rendering)
   'chatgpt-search',  // ChatGPT used search/training data (may not reflect current state)
   'groq-pipeline',   // Automated Groq LLM inference from registry text (lowest quality)
   'manual',          // Human-verified directly
