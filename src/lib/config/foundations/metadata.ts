@@ -40,6 +40,7 @@ export const APPLICATION_METHOD_LABELS: Record<ApplicationMethod, string | null>
   contract:    'Vertrag',
   none:        null,   // no open applications — shown as warning elsewhere
   unknown:     null,   // no data — hide rather than display "unknown"
+  invitation:  'Nur auf Einladung',
 };
 
 // ============================================================================

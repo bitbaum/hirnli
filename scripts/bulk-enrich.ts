@@ -322,7 +322,7 @@ function enrichFoundation(
   }
 
   // --- 4. Fundraiso Website URL Matching ---
-  if (isRegistryUrl(enriched.websiteUrl)) {
+  if (isRegistryUrl(enriched.websiteUrl ?? '')) {
     const normalizedName = normalizeName(enriched.name);
     const fundraisoMatch = fundraisoBySlug.get(enriched.slug) || fundraisoByName.get(normalizedName);
     if (fundraisoMatch?.url) {

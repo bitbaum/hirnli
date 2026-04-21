@@ -42,6 +42,7 @@ export type SourceId = z.infer<typeof SourceId>;
 export const ApplicationMethod = z.enum([
   'online', 'post', 'email', 'contact', 'direct', 'personal',
   'partnership', 'via_partner', 'membership', 'contract', 'none', 'unknown',
+  'invitation',
 ]);
 export type ApplicationMethod = z.infer<typeof ApplicationMethod>;
 
@@ -133,7 +134,7 @@ export const registrySchema = z.object({
   slug: z.string(),
   name: z.string(),
   uid: z.string().optional(),
-  websiteUrl: z.string(),
+  websiteUrl: z.string().optional(),
   applicationUrl: z.string().optional(),
   officialPurpose: z.string().optional(), // Legal Zweckbeschreibung from ESA/Zefix register
 
