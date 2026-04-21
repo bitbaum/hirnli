@@ -112,7 +112,12 @@ function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { chan
   const existingMethod = (cd.applicationResearchMethod as string) || 'unknown';
   const incomingRank = RESEARCH_METHOD_RANK[incomingMethod] ?? 0;
   const existingRank = RESEARCH_METHOD_RANK[existingMethod] ?? 0;
-  const isUpgrade = incomingRank > existingRank;
+  const incomingIsResearched = (RESEARCHED_METHODS as string[]).includes(incomingMethod);
+  const existingIsResearched = (RESEARCHED_METHODS as string[]).includes(existingMethod);
+  // Upgrade when strictly higher rank OR when moving from unresearched → researched.
+  // This handles the equal-rank case: claude-agent(2) vs chatgpt-search(2) — both rank 2
+  // but only claude-agent is in RESEARCHED_METHODS, so it should win.
+  const isUpgrade = incomingRank > existingRank || (incomingIsResearched && !existingIsResearched);
 
   // Helper: set if target is empty/missing
   function setIfEmpty(path: string, value: unknown) {
