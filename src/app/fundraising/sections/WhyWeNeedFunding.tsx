@@ -10,6 +10,7 @@ import {
   THREE_YEAR_MODEL,
   REVENUE_YEAR3_TOTAL,
   REDUCTION_PCT,
+  PROJECT_START,
 } from '../data';
 
 export default function WhyWeNeedFunding() {
@@ -89,7 +90,7 @@ export default function WhyWeNeedFunding() {
               const labels = ['Aufbau: Hub-Einrichtung + Team-Rekrutierung', 'Wachstum: Revenue steigt, Stiftungen sinken', `Verselbständigung: Revenue ${formatCHF(REVENUE_YEAR3_TOTAL)}, Operations zunehmend selbsttragend`];
               return (
                 <div key={year.year} className={`bg-white rounded-lg p-4 border-2 ${colors[i].border}`}>
-                  <div className={`text-sm ${colors[i].text} font-semibold`}>{year.year} ({2026 + i})</div>
+                  <div className={`text-sm ${colors[i].text} font-semibold`}>{year.year} ({PROJECT_START + i})</div>
                   <div className={`text-2xl font-bold ${colors[i].bold} my-2`}>{formatCHF(stiftungenAmt)}</div>
                   <div className="text-xs text-text-light">{stiftungenPct}% von Stiftungen<br/>{labels[i]}</div>
                 </div>

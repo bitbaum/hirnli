@@ -1,9 +1,10 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import FundraisingClient from './FundraisingClient';
+import { PROJECT_YEAR_RANGE } from './data';
 
 export const metadata: Metadata = {
-  title: 'Fundraising Plan 2026–2028',
+  title: `Fundraising Plan ${PROJECT_YEAR_RANGE}`,
   description: '3-Jahres-Fundraising-Plan zur Realisierung der Vision 2030',
 };
 

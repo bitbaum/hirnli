@@ -85,9 +85,10 @@ export const BUDGET_SUMMARY = {
 // Stiftungen-ask = einmalig + stiftungen across all 3 years
 // Eigen-total = eigenleistung across all 3 years
 
-const PROJECT_START = 2026;
-const PROJECT_END = 2028;
-export const PROJECT_DURATION = `${PROJECT_END - PROJECT_START + 1} Jahre (${PROJECT_START}–${PROJECT_END})`;
+export const PROJECT_START = 2026;
+export const PROJECT_END = 2028;
+export const PROJECT_YEAR_RANGE = `${PROJECT_START}–${PROJECT_END}`;
+export const PROJECT_DURATION = `${PROJECT_END - PROJECT_START + 1} Jahre (${PROJECT_YEAR_RANGE})`;
 export const PROJECT_DURATION_LABEL = 'Aufbau → Wachstum → Verselbständigung';
 
 export const RESOURCES = [

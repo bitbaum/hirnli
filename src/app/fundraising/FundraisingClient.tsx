@@ -25,6 +25,7 @@ import {
   NEXT_STEPS,
   TRACK_RECORD,
   SPACE_TOTAL_WITH_CIRCULATION,
+  PROJECT_YEAR_RANGE,
 } from './data';
 
 // Extracted sections
@@ -50,7 +51,7 @@ export default function FundraisingClient() {
   return (
     <>
       <PageHeader
-        title="Fundraising 2026–2028"
+        title={`Fundraising ${PROJECT_YEAR_RANGE}`}
         subtitle="3-Jahres-Plan: Was wir brauchen, warum, und wie wir unabhängig werden"
         badge="Fundraising"
       />
@@ -88,7 +89,7 @@ export default function FundraisingClient() {
 
       {/* VISION HERO */}
       <section className="gradient-hero-fundraising mb-8 rounded-2xl p-4 text-white md:p-8">
-        <h2 className="mb-2 text-xl font-bold md:text-2xl">Community Tech Hub 2026–2028</h2>
+        <h2 className="mb-2 text-xl font-bold md:text-2xl">Community Tech Hub {PROJECT_YEAR_RANGE}</h2>
         <p className="mb-2 text-lg italic opacity-90">
           &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
         </p>
