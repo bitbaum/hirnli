@@ -157,6 +157,20 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
     };
   }
 
+  // Rapid foundations are always P4 — only register text, no real research.
+  // This rule is enforced here so sync can never overwrite a manual P4 fix back to P3.
+  if (f.researchDepth === 'rapid') {
+    const pc = PRIORITY_CONFIG[4];
+    return {
+      score: 10,
+      components: { fitNorm: f.fitScore / 10, readiness: 0, base: 0, multiplier: 1, grantBonus: 0, penaltyReason: 'Rapid (name-only)' },
+      level: 4,
+      label: pc?.label ?? 'P4',
+      description: pc?.description ?? '',
+      isOverride: false,
+    };
+  }
+
   // Computed priority — fitScore (0-10) is the canonical fit field
   const fitNorm = Math.min(f.fitScore / 10, 1);
   const readiness = readinessScore ?? computeReadinessScore(f).score;
