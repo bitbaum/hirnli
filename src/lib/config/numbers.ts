@@ -671,4 +671,7 @@ export function getNumericValue(key: keyof typeof NUMBERS_REGISTRY): number {
 // Convenience exports for the most commonly referenced constants
 export const CO2_PER_LAPTOP = getNumericValue('CO2_SAVED_PER_LAPTOP');
 export const AVG_DEVICE_PRICE = getNumericValue('AVG_DEVICE_PRICE');
+// Numeric total for calculations (NUMBERS_REGISTRY.LAPTOPS_REFURBISHED_TOTAL.value is a
+// display string '1\'200+' — this export provides the numeric equivalent for arithmetic)
+export const LAPTOPS_REFURBISHED_COUNT = 1200;
 

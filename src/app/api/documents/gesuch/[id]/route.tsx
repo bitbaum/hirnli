@@ -15,7 +15,7 @@ import { applications, foundations } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { GesuchPDF } from '@/lib/pdf/GesuchTemplate';
 import { generatePersonalizedGesuch } from '@/lib/domain/personalization-engine';
-import { CO2_PER_LAPTOP, NUMBERS_REGISTRY } from '@/lib/config/numbers';
+import { CO2_PER_LAPTOP, LAPTOPS_REFURBISHED_COUNT, NUMBERS_REGISTRY } from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 /**
@@ -76,7 +76,7 @@ export async function POST(
         'Unser Geschäftsmodell kombiniert Eigenfinanzierung (Laptop-Verkäufe & Services) mit Stiftungsfinanzierung für Kapazitätsausbau und soziale Programme.',
 
       impact:
-        `Seit ${ORG_PROFILE.founded}: ${NUMBERS_REGISTRY.LAPTOPS_REFURBISHED_TOTAL.value} Laptops refurbished, ~${Math.round(1200 * CO2_PER_LAPTOP / 1000)} Tonnen CO2 eingespart, ${NUMBERS_REGISTRY.PEOPLE_HELPED.value} Menschen begleitet.`,
+        `Seit ${ORG_PROFILE.founded}: ${NUMBERS_REGISTRY.LAPTOPS_REFURBISHED_TOTAL.value} Laptops refurbished, ~${Math.round(LAPTOPS_REFURBISHED_COUNT * CO2_PER_LAPTOP / 1000)} Tonnen CO2 eingespart, ${NUMBERS_REGISTRY.PEOPLE_HELPED.value} Menschen begleitet.`,
 
       budget: (() => {
         const total = application.requestedAmount || 50000;
