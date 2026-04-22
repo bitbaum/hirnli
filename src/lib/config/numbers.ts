@@ -674,4 +674,7 @@ export const AVG_DEVICE_PRICE = getNumericValue('AVG_DEVICE_PRICE');
 // Numeric total for calculations (NUMBERS_REGISTRY.LAPTOPS_REFURBISHED_TOTAL.value is a
 // display string '1\'200+' — this export provides the numeric equivalent for arithmetic)
 export const LAPTOPS_REFURBISHED_COUNT = 1200;
+// Average CO2 footprint of one economy flight Zürich–Berlin (~1 hour), in kg
+// Source: myclimate.org flight calculator (2024). Used to contextualize CO2 savings.
+export const CO2_PER_FLIGHT_ZRH_BER = 1500;
 
