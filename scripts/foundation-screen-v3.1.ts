@@ -126,6 +126,9 @@ function loadCandidates(filePath: string): Candidate[] {
 function normalizeName(name: string): string {
   return name
     .toLowerCase()
+    // Convert umlauts to ae/oe/ue BEFORE stripping non-ASCII, so both
+    // 'Unterstützungs' and 'Unterstuetzungs' normalize identically.
+    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
     .replace(/stiftung|foundation|fondation|fondazione/gi, '')
     .replace(/[^a-z0-9]/g, '')
     .trim();
