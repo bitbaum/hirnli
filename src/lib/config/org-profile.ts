@@ -7,6 +7,10 @@
  * To swap orgs: change this file + rewrite ORG-SPECIFIC content files.
  */
 
+// Import from shared-org-numbers (auto-generated from DB) — not from numbers.ts
+// to avoid a circular dependency (numbers.ts imports ORG_PROFILE).
+import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';
+
 const _FOUNDED = 2003;
 const _YEARS_ACTIVE = new Date().getFullYear() - _FOUNDED;
 
@@ -53,7 +57,11 @@ export const ORG_PROFILE = {
     {
       name: 'Kreislaufwirtschaft',
       description: 'IT-Geräte reparieren, refurbishen, weitergeben',
-      metrics: ['~150 Geräte/Jahr', '~285 kg CO₂ pro Gerät gespart (Fraunhofer IZM 2023)', '75% Reuse-Rate'],
+      metrics: [
+        `~${SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT} Geräte/Jahr`,
+        `~${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} kg CO₂ pro Gerät gespart (Fraunhofer IZM 2023)`,
+        `${SHARED_ORG_NUMBERS.REUSE_RATE}% Reuse-Rate`,
+      ],
     },
     {
       name: 'Arbeitsintegration',
