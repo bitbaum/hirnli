@@ -12,7 +12,6 @@ import CsvExportModal from '@/components/foundation/CsvExportModal';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
 import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
 import { computeTierCounts, hasGesuchPage } from '@/lib/domain/foundation-helpers';
-import { computePriorityScore } from '@/lib/domain/foundation-scores';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import type { SortField } from '@/lib/domain/foundation-filter';
 import {
@@ -126,12 +125,12 @@ export default function FoundationListClient() {
     [],
   );
 
-  // Priority distribution — computed from full dataset
+  // Priority distribution — use stored priority (SSOT: DB → sync → generated file)
+  // computePriorityScore is not re-run here; sync script already recomputes and persists.
   const priorityDist = useMemo(() => {
     const counts = { 1: 0, 2: 0, 3: 0, 4: 0 };
     for (const f of STIFTUNGEN_DATA) {
-      const p = computePriorityScore(f);
-      counts[p.level]++;
+      counts[f.priority as 1 | 2 | 3 | 4]++;
     }
     return counts;
   }, []);
