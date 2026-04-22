@@ -232,7 +232,7 @@ export const WHY: Record<string, WhySection> = {
   // For Klimaschutz / Nachhaltigkeit foundations
   klima: {
     headline: '62 Millionen Tonnen Elektroschrott. Jedes Jahr.',
-    hook: `Während wir über Klimaziele diskutieren, landen funktionierende Laptops im Müll. Jedes weggeworfene Gerät bedeutet bis zu 285 kg CO₂, die umsonst produziert wurden. Das muss nicht sein.`,
+    hook: `Während wir über Klimaziele diskutieren, landen funktionierende Laptops im Müll. Jedes weggeworfene Gerät bedeutet bis zu ${CO2_PER_LAPTOP} kg CO₂, die umsonst produziert wurden. Das muss nicht sein.`,
     problem: `Die IT-Industrie setzt auf geplante Obsoleszenz. Geräte werden nach 3-4 Jahren ersetzt, obwohl sie technisch noch Jahre funktionieren könnten. Die Umweltkosten dieser Wegwerfkultur sind enorm.`,
     solution: `Revamp-IT verlängert die Lebensdauer von IT-Geräten um durchschnittlich 5 Jahre. Durch professionelles Refurbishing und Linux-Installation werden "alte" Laptops zu leistungsfähigen, sicheren Arbeitsgeräten.`,
     evidence: ['circular_computing', 'global_ewaste_monitor', 'bafu_lca'],
@@ -347,7 +347,7 @@ export const HOW: HowSection = {
     capabilities: [
       'Lifecycle Assessment und CO₂-Berechnung',
       'Optimierte Prozesse für maximale Wiederverwendung',
-      '75% Reuse-Rate bei eingegangenen Geräten',
+      `${getNumericValue('REUSE_RATE')}% Reuse-Rate bei eingegangenen Geräten`,
       'Transparente Wirkungsmessung',
       'Partnerschaft mit SWICO für fachgerechtes Recycling',
     ],
@@ -393,7 +393,7 @@ const PROJECTS: Record<string, Project> = {
     subtitle: 'Verlängerung der Lebensdauer von IT-Geräten um 5+ Jahre',
     summary: `Jedes Jahr landen in der Schweiz Tausende funktionsfähige Laptops und PCs im Elektroschrott — oft nur, weil ein Windows-Update sie „zu langsam" macht. Revamp-IT gibt diesen Geräten ein zweites Leben: Wir diagnostizieren auf Komponentenebene, tauschen defekte Teile, installieren Linux Mint oder Ubuntu und liefern vollwertige Arbeitsgeräte. Ein ThinkPad von 2017 läuft mit Linux einwandfrei als Office-Rechner, Schulcomputer oder Heimarbeitsplatz — noch mindestens 5 Jahre lang.`,
     goals: [
-      'Mindestens 150 Geräte pro Jahr aufbereiten und in Umlauf bringen',
+      `Mindestens ${getNumericValue('DEVICES_YEAR_CURRENT')} Geräte pro Jahr aufbereiten und in Umlauf bringen`,
       'CO₂-Einsparung von über 40 Tonnen pro Jahr durch verlängerte Gerätenutzung',
       'Solidarisches Preismodell: bezahlbare IT für alle Einkommensschichten',
     ],
