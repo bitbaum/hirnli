@@ -6,6 +6,7 @@
  */
 
 import { loadFinancialData } from '@/lib/data/financial';
+import { FINANCIAL_YEAR_START, FINANCIAL_YEAR_END } from '@/lib/config/financial-constants';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { REVENUE_HISTORY } from '@/app/fundraising/data';
 
@@ -33,7 +34,7 @@ function arrayToCSV(headers: string[], rows: (string | number | null | undefined
 // ---------------------------------------------------------------------------
 
 export function exportFinancialData(): string {
-  const years = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+  const years = Array.from({ length: FINANCIAL_YEAR_END - FINANCIAL_YEAR_START + 1 }, (_, i) => FINANCIAL_YEAR_START + i);
   const headers = ['Jahr', 'Kategorie', 'Betrag (CHF)', 'Quelle'];
 
   const rows: (string | number)[][] = [];
