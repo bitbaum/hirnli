@@ -203,6 +203,8 @@ export const STATUS_LABELS: Record<FoundationStatus, StatusLabel> = {
 export interface PriorityConfig {
   label: string;
   description: string;
+  /** Short action label for dropdowns (e.g. 'Jetzt', 'Bald') */
+  shortLabel: string;
   /** Badge style: background + text color (e.g. 'bg-danger-bg text-danger') */
   color: string;
   /** Text-only color for inline labels (e.g. 'text-danger') */
@@ -214,6 +216,7 @@ export interface PriorityConfig {
 export const PRIORITY_CONFIG: Record<number, PriorityConfig> = {
   1: {
     label: 'P1',
+    shortLabel: 'Jetzt',
     description: 'Erstpriorität — Gesuch aktiv vorbereiten',
     color: 'bg-danger-bg text-danger',
     textColor: 'text-danger',
@@ -221,6 +224,7 @@ export const PRIORITY_CONFIG: Record<number, PriorityConfig> = {
   },
   2: {
     label: 'P2',
+    shortLabel: 'Bald',
     description: 'Hohe Priorität — gezielt bewerben',
     color: 'bg-warning-bg text-warning',
     textColor: 'text-warning',
@@ -228,6 +232,7 @@ export const PRIORITY_CONFIG: Record<number, PriorityConfig> = {
   },
   3: {
     label: 'P3',
+    shortLabel: 'Später',
     description: 'Beobachten — bei passendem Timing bewerben',
     color: 'bg-primary/10 text-primary',
     textColor: 'text-primary',
@@ -235,6 +240,7 @@ export const PRIORITY_CONFIG: Record<number, PriorityConfig> = {
   },
   4: {
     label: 'P4',
+    shortLabel: 'Netzwerk',
     description: 'Niedrige Priorität — Beziehung pflegen',
     color: 'bg-grey-light text-text-muted',
     textColor: 'text-text-muted',

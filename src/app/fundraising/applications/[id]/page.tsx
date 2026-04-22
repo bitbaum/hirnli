@@ -13,6 +13,7 @@ import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { Button } from '@/components/ui/Button';
 import { APPLICATION_STATUSES, getStatusConfig } from '@/lib/config/application-statuses';
+import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
 import ActivityTimeline from '@/components/ui/ActivityTimeline';
@@ -119,10 +120,9 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               <label className={labelClass}>Priorität</label>
               <select value={fields.priorityLevel} onChange={(e) => updateField('priorityLevel', e.target.value)} className={inputClass}>
                 <option value="">—</option>
-                <option value="1">P1 — Jetzt</option>
-                <option value="2">P2 — Bald</option>
-                <option value="3">P3 — Später</option>
-                <option value="4">P4 — Netzwerk</option>
+                {Object.entries(PRIORITY_CONFIG).map(([value, cfg]) => (
+                  <option key={value} value={value}>{cfg.label} — {cfg.shortLabel}</option>
+                ))}
               </select>
             </div>
           </div>

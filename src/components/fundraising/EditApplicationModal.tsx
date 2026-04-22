@@ -9,6 +9,7 @@
 
 import { useState } from 'react';
 import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
+import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 
@@ -159,10 +160,9 @@ export function EditApplicationModal({
                 className={FORM_INPUT_CLASS}
               >
                 <option value="">—</option>
-                <option value="1">P1 — Jetzt</option>
-                <option value="2">P2 — Bald</option>
-                <option value="3">P3 — Später</option>
-                <option value="4">P4 — Netzwerk</option>
+                {Object.entries(PRIORITY_CONFIG).map(([value, cfg]) => (
+                  <option key={value} value={value}>{cfg.label} — {cfg.shortLabel}</option>
+                ))}
               </select>
             </div>
           </div>
