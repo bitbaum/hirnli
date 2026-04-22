@@ -9,6 +9,7 @@
 import type { Metric, MetricSourceType, Confidence } from '../schemas/metric';
 import type { InspectorData, InspectorSourceType } from '../schemas/inspector';
 import { ORG_PROFILE } from './org-profile';
+import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';
 
 // ---------------------------------------------------------------------------
 // SSOT: All metric definitions
@@ -281,11 +282,11 @@ export const NumberSources: Record<string, Metric> = {
       type: 'estimated',
       confidence: 'low',
       path: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
-      assumption: 'Durchschnittspreis CHF 150/Gerät',
+      assumption: `Durchschnittspreis CHF ${SHARED_ORG_NUMBERS.AVG_DEVICE_PRICE}/Gerät`,
     },
     formula: {
       type: 'custom',
-      expression: 'warenverkauf / 150',
+      expression: `warenverkauf / ${SHARED_ORG_NUMBERS.AVG_DEVICE_PRICE}`,
       dependencies: ['financial_warenverkauf_2025'],
     },
     validation: {
@@ -320,11 +321,11 @@ export const NumberSources: Record<string, Metric> = {
       type: 'calculated',
       confidence: 'medium',
       path: '01_Management/C_Kennzahlen_und_Reporting/KPI_Framework/CO2_und_Gewichtstabelle.csv',
-      assumption: '285 kg CO2 Netto-Einsparung pro Gerät (350 kg Neuproduktion − 65 kg Refurbishment)',
+      assumption: `${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} kg CO2 Netto-Einsparung pro Gerät (350 kg Neuproduktion − 65 kg Refurbishment)`,
     },
     formula: {
       type: 'custom',
-      expression: 'devices * 285 / 1000',
+      expression: `devices * ${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} / 1000`,
       dependencies: ['devices_estimated_2025'],
     },
     validation: {
