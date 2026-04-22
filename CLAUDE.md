@@ -181,15 +181,15 @@ ESA / Zefix / Research scripts
   All UI pages (in-memory filtering, static generation at build time)
 ```
 
-**Foundation funnel (verified 2026-04-08):**
+**Foundation funnel (verified 2026-04-22):**
 
 | Tier | Count | Table/File | What it means |
 |------|-------|------------|---------------|
 | Swiss universe | ~16,900 | Zefix commercial register | All registered Swiss foundations |
-| Pipeline | 16,623 | `fundraising_foundations` | In DB with config_data |
-| Rapid (name-only) | ~15,400 | (DB, excluded by sync) | No research beyond register entry, always P4 |
-| Generated | ~1,239 | `stiftungen-generated.ts` | Non-rapid, quality gate passed |
-| P1-P3 (actionable) | ~293 | (standard/deep depth only) | Researched + scored, never rapid |
+| Pipeline | 16,572 | `fundraising_foundations` | In DB with config_data |
+| Rapid (name-only) | ~16,103 | (DB, excluded if data_confidence='unverified') | LLM-triaged register text only, always P4 |
+| Generated | 1,238 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', quality gate passed |
+| P1-P3 (actionable) | 212 | (standard/deep depth only) | Researched + scored, never rapid (P1=18, P2=61, P3=103) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
 
@@ -245,10 +245,10 @@ Tier + Priority ──→ Access Gates (detail page ≥ profiliert, gesuch ≥ r
 - `getQualityTier(f)` — readiness score → tier label
 - `hasGesuchPage(f)` — tier ≥ recherchiert AND P1-P3
 
-**Priority gate (added 2026-04-08):**
+**Priority gate:**
 - `researchDepth = 'rapid'` → always P4. Rapid foundations have only LLM-triaged register
   text. They cannot be P1-P3 regardless of fitScore.
-- Pipeline scripts enforce this at write time; backfill applied to existing data.
+- Pipeline scripts enforce this at write time; DB backfill confirmed 2026-04-22 (30 misclassified foundations corrected).
 - No GREATEST/LEAST ratcheting — new writes are authoritative for fitScore and priority.
 
 **Trust levels** (computed at render time, not stored):
@@ -441,7 +441,7 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 - No test suite (build-time validation + quality gate only)
 - Generated TS file (`stiftungen-generated.ts`) is a second copy of DB data — moving to
   server components would eliminate the sync layer (not urgent, but architecturally cleaner)
-- 84 P1-P3 foundations missing email — manual research via research links needed
+- ~9 P1-P3 foundations missing email — most already researched with chatgpt-agent, likely not publicly published
 - Enrichment scripts (`enrich-addresses.ts`, `enrich-contacts-llm.ts`, `enrich-contacts-spheriq.ts`,
   `deep-enrich.ts`) write directly to DB without provenance tracking — need staging/review workflow
 
@@ -658,5 +658,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-08 (SSOT cleanup, trust visibility, priority deflation, data integrity rules)
+**Last Updated:** 2026-04-22 (pipeline complete — all 469 non-rapid foundations researched; rapid→P4 rule enforced on 30 misclassified foundations; funnel stats updated)
 **Maintainer:** Revamp-IT Team
