@@ -189,7 +189,7 @@ ESA / Zefix / Research scripts
 | Pipeline | 16,572 | `fundraising_foundations` | In DB with config_data |
 | Rapid (name-only) | ~16,103 | (DB, excluded if data_confidence='unverified') | LLM-triaged register text only, always P4 |
 | Generated | 1,237 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', quality gate passed |
-| P1-P3 (actionable) | 150 | (standard/deep depth only) | Researched + scored, never rapid (P1=18, P2=53, P3=79) |
+| P1-P3 (actionable) | 154 | (standard/deep depth only) | Researched + scored, never rapid (P1=18, P2=54, P3=82) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
 
@@ -658,5 +658,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-23 (funnel stats corrected to P1=18/P2=53/P3=79=150 total; domain test coverage complete — 422 tests across 24 files; SSOT sweep fixed 10+ hardcoded values)
+**Last Updated:** 2026-04-23 (funnel stats updated to P1=18/P2=54/P3=82=154 total; SSOT sweep complete — CO2_NEW_LAPTOP_MANUFACTURE/CO2_REFURBISH_COST extracted, 285/75/150 hardcoded values eliminated across 7 files)
 **Maintainer:** Revamp-IT Team
