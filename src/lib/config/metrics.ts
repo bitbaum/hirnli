@@ -10,6 +10,7 @@ import type { Metric, MetricSourceType, Confidence } from '../schemas/metric';
 import type { InspectorData, InspectorSourceType } from '../schemas/inspector';
 import { ORG_PROFILE } from './org-profile';
 import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';
+import { CO2_NEW_LAPTOP_MANUFACTURE, CO2_REFURBISH_COST } from './numbers';
 
 // ---------------------------------------------------------------------------
 // SSOT: All metric definitions
@@ -321,7 +322,7 @@ export const NumberSources: Record<string, Metric> = {
       type: 'calculated',
       confidence: 'medium',
       path: '01_Management/C_Kennzahlen_und_Reporting/KPI_Framework/CO2_und_Gewichtstabelle.csv',
-      assumption: `${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} kg CO2 Netto-Einsparung pro Gerät (350 kg Neuproduktion − 65 kg Refurbishment)`,
+      assumption: `${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} kg CO2 Netto-Einsparung pro Gerät (${CO2_NEW_LAPTOP_MANUFACTURE} kg Neuproduktion − ${CO2_REFURBISH_COST} kg Refurbishment)`,
     },
     formula: {
       type: 'custom',

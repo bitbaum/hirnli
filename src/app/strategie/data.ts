@@ -7,7 +7,7 @@
    ──────────────────────────────────────────── */
 
 import { HUB_SPACE_DISPLAY, PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
-import { getNumericValue } from '@/lib/config/numbers';
+import { getNumericValue, CO2_NEW_LAPTOP_MANUFACTURE } from '@/lib/config/numbers';
 import { formatNumber } from '@/lib/utils/format';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 
@@ -131,7 +131,7 @@ export const EWASTE_FACTS: EwasteRow[] = [
   { stat: '62 Mio. Tonnen', description: 'Elektroschrott jährlich weltweit' },
   { stat: '22.3%', description: 'werden korrekt recycelt' },
   { stat: '~23 kg', description: 'E-Waste pro Person/Jahr in der Schweiz' },
-  { stat: '~350 kg CO2', description: 'Herstellung eines neuen Laptops (Fraunhofer IZM)' },
+  { stat: `~${CO2_NEW_LAPTOP_MANUFACTURE} kg CO2`, description: 'Herstellung eines neuen Laptops (Fraunhofer IZM)' },
 ];
 
 export const UNIQUE_POINTS = [
