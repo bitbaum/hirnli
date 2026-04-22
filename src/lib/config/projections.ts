@@ -64,6 +64,8 @@ export const DEVICES_PER_MONTH_CURRENT_DISPLAY =
 export const DEVICES_PER_MONTH_TARGET = getNumericValue('DEVICES_PER_MONTH_TARGET');
 export const DEVICES_PER_YEAR_TARGET = DEVICES_PER_MONTH_TARGET * 12; // 480
 export const DEVICES_PER_YEAR_TARGET_DISPLAY = `~${DEVICES_PER_YEAR_TARGET}`; // '~480'
+export const DEVICES_PER_YEAR_CURRENT = getNumericValue('DEVICES_YEAR_CURRENT'); // 150
+export const DEVICES_PER_YEAR_CURRENT_DISPLAY = `~${DEVICES_PER_YEAR_CURRENT}`; // '~150'
 
 // -- People --------------------------------------------------------------------
 

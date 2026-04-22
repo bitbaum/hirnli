@@ -16,6 +16,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { formatNumber } from '@/lib/utils/format';
 import { z } from 'zod';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
@@ -42,7 +43,7 @@ Standort: ${ORG_PROFILE.address} (Verkaufsstelle) & ${ORG_PROFILE.warehouseAddre
 ## Schreibregeln
 - Schweizer Schriftdeutsch (ss statt ß, echte Umlaute ä ö ü — nie ae/oe/ue)
 - Professionell und präzise — nicht blumig oder pathetisch
-- Konkrete Zahlen und Fakten bevorzugen: "150 Geräte" statt "viele Geräte"
+- Konkrete Zahlen und Fakten bevorzugen: "${SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT} Geräte" statt "viele Geräte"
 - Stiftungsgesuche sind Partnerschaftsangebote, nicht Bittschriften
 - Aktive Sprache, handlungsorientiert
 - Länge: 2–4 Sätze pro Absatz, maximal prägnant

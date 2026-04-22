@@ -8,6 +8,7 @@ import { AVG_DEVICE_PRICE, CO2_PER_LAPTOP, getNumericValue } from '@/lib/config/
 import {
   DEVICES_PER_MONTH_CURRENT_DISPLAY,
   DEVICES_PER_MONTH_TARGET,
+  DEVICES_PER_YEAR_CURRENT_DISPLAY,
 } from '@/lib/config/projections';
 
 export default function FourPillarsSection() {
@@ -33,7 +34,7 @@ export default function FourPillarsSection() {
           whyItMatters={`Jeder neue Laptop verursacht ~350 kg CO₂ bei der Herstellung, Refurbishment nur ~65 kg. Netto-Einsparung: ${CO2_PER_LAPTOP} kg CO₂ pro Gerät (Fraunhofer IZM 2023). Elektroschrott ist einer der am schnellsten wachsenden Abfallströme weltweit (62 Mio. Tonnen/Jahr). Gleichzeitig schonen wir wertvolle Rohstoffe wie Kupfer, Gold und seltene Erden.`}
           achievements={[
             `~1'600+ Geräte seit ${ORG_PROFILE.milestones.deviceTrackingStart} (geschätzt aus Kivitendo-Warenverkauf: CHF 238'309 / ~CHF ${AVG_DEVICE_PRICE} Durchschnittspreis)`,
-            `Aktuelle Kapazität: ${DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat, ~150/Jahr (geschätzt aus Umsatzdaten)`,
+            `Aktuelle Kapazität: ${DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat, ${DEVICES_PER_YEAR_CURRENT_DISPLAY}/Jahr (geschätzt aus Umsatzdaten)`,
             `Durchschnittliche Lebensdauerverlängerung: ~${getNumericValue('DEVICE_LIFESPAN_EXTENSION')} Jahre pro Gerät (alte Hardware mit Linux)`,
             'Fachgerechtes Recycling für nicht reparierbare Teile (Quote nicht systematisch erfasst)',
           ]}

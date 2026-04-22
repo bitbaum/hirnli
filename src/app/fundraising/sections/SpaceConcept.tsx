@@ -1,5 +1,5 @@
 import Card from '@/components/ui/Card';
-import { DEVICES_PER_YEAR_TARGET_DISPLAY } from '@/lib/config/projections';
+import { DEVICES_PER_YEAR_TARGET_DISPLAY, DEVICES_PER_YEAR_CURRENT_DISPLAY } from '@/lib/config/projections';
 import {
   SPACE_PLAN,
   SPACE_PLAN_TOTAL,
@@ -39,7 +39,7 @@ export default function SpaceConcept() {
         <div className="bg-success/10 border-l-4 border-success p-4 my-4">
           <p className="font-semibold text-success mb-2">Warum so viel Raum?</p>
           <p className="text-success">
-            Unser Ziel ist <strong>{DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell ~150/Jahr geschätzt).
+            Unser Ziel ist <strong>{DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell {DEVICES_PER_YEAR_CURRENT_DISPLAY}/Jahr geschätzt).
             Dafür brauchen wir effizientere Infrastruktur und strukturierte Prozesse.
           </p>
           <p className="text-success mt-2">
