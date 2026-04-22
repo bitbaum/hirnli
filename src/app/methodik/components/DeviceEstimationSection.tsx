@@ -2,6 +2,7 @@
 // Methodik: 3. Geräteanzahl-Schätzung section
 // ---------------------------------------------------------------------------
 
+import { AVG_DEVICE_PRICE } from '@/lib/config/numbers';
 import { FormulaBox, MethodologySection } from './MethodologyHelpers';
 
 export function DeviceEstimationSection() {
@@ -20,12 +21,12 @@ export function DeviceEstimationSection() {
 
       <FormulaBox>
         <strong>Formel:</strong><br />
-        Geschätzte Geräte = Warenverkauf (CHF) / Durchschnittspreis (CHF 150)
+        Geschätzte Geräte = Warenverkauf (CHF) / Durchschnittspreis (CHF {AVG_DEVICE_PRICE})
       </FormulaBox>
 
       <h4 className="mb-2 text-sm font-medium">Annahmen:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
-        <li>Durchschnittspreis pro Gerät: <strong>CHF 150</strong></li>
+        <li>Durchschnittspreis pro Gerät: <strong>CHF {AVG_DEVICE_PRICE}</strong></li>
         <li>Alle Einnahmen auf Konto 3100 sind Geräteverkäufe</li>
         <li>Keine Unterscheidung nach Gerätetyp</li>
       </ul>
