@@ -220,6 +220,10 @@ export const FINANCIAL_CONTEXT = {
   total_2025: 60402,          // Erfolgsrechnung 2025:  60'401.93 — FULL YEAR
 } as const;
 
+// Display helpers for services revenue drop narrative
+export const SERVICES_PEAK_DISPLAY = `CHF ${Math.round(FINANCIAL_CONTEXT.services_2022 / 1000)}k`; // 'CHF 80k'
+export const SERVICES_CURRENT_DISPLAY = `CHF ${Math.round(FINANCIAL_CONTEXT.services_2025 / 1000)}k`; // 'CHF 28k'
+
 // -- Revenue History (verified Erfolgsrechnung, 2018-2025) --------------------
 // Source: Kivitendo Erfolgsrechnung per year, extracted 2026-02-11
 export const REVENUE_HISTORY = [

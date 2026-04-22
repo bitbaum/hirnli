@@ -11,6 +11,8 @@ import {
   REVENUE_YEAR3_TOTAL,
   REDUCTION_PCT,
   PROJECT_START,
+  SERVICES_PEAK_DISPLAY,
+  SERVICES_CURRENT_DISPLAY,
 } from '../data';
 
 export default function WhyWeNeedFunding() {
@@ -26,7 +28,7 @@ export default function WhyWeNeedFunding() {
 
           <p className="text-grey-dark leading-relaxed">
             <strong>Die Herausforderung:</strong> Unsere Einnahmen sind von {REVENUE_PEAK_DISPLAY} ({REVENUE_PEAK_YEAR.year}) auf {REVENUE_CURRENT_DISPLAY} (2025) gefallen — B2B-Hosting-Kunden verloren,
-            Dienstleistungen von CHF 80k auf CHF 28k geschrumpft. Das aktuelle Modell — abhängig von wenigen Einzelkunden — ist fragil.
+            Dienstleistungen von {SERVICES_PEAK_DISPLAY} auf {SERVICES_CURRENT_DISPLAY} geschrumpft. Das aktuelle Modell — abhängig von wenigen Einzelkunden — ist fragil.
           </p>
 
           <p className="text-grey-dark leading-relaxed">
