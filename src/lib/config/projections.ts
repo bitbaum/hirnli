@@ -83,6 +83,9 @@ export const PEOPLE_REACHED_CURRENT_DISPLAY =
   String(NUMBERS_REGISTRY.PEOPLE_REACHED_CURRENT.value); // '~5'
 export const REPAIR_TABLES_CURRENT =
   getNumericValue('REPAIR_TABLES_CURRENT'); // 4
+export const SWISS_FOUNDATIONS_UNIVERSE =
+  getNumericValue('SWISS_FOUNDATIONS_UNIVERSE'); // 16900
+export const SWISS_FOUNDATIONS_DISPLAY = `~${SWISS_FOUNDATIONS_UNIVERSE.toLocaleString('de-CH')}`; // '~16'900'
 
 // -- Experience ----------------------------------------------------------------
 

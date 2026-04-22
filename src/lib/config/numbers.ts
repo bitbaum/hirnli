@@ -669,6 +669,18 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     },
     category: 'operations',
   },
+
+  // External reference — Swiss foundations universe from Zefix commercial register
+  SWISS_FOUNDATIONS_UNIVERSE: {
+    value: 16900,
+    label: 'Eingetragene Stiftungen in der Schweiz (Zefix)',
+    source: {
+      methodology: 'Zefix Handelsregister (Abruf 2026-04-22). Umfasst alle im Handelsregister eingetragenen Stiftungen.',
+      confidence: 'estimated',
+      lastVerified: '2026-04-22',
+    },
+    category: 'operations',
+  },
 };
 
 /** Extract numeric value from a registry entry. Throws if not numeric. */

@@ -9,10 +9,11 @@ import {
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import type { QualityTier } from '@/lib/schemas/foundation';
 import { formatNumber } from '@/lib/utils/format';
+import { SWISS_FOUNDATIONS_DISPLAY } from '@/lib/config/projections';
 
 export const metadata: Metadata = {
   title: 'Pipeline-Methodik',
-  description: 'Wie wir aus 16\'000 Schweizer Stiftungen die richtigen finden',
+  description: `Wie wir aus ${SWISS_FOUNDATIONS_DISPLAY} Schweizer Stiftungen die richtigen finden`,
 };
 
 // ---------------------------------------------------------------------------
@@ -89,7 +90,7 @@ export default function PipelineMethodikPage() {
       />
 
       <p className="mb-8 text-sm text-text-light">
-        Die Schweiz hat über 16&apos;000 eingetragene Stiftungen. Wir können nicht alle recherchieren —
+        Die Schweiz hat über {SWISS_FOUNDATIONS_DISPLAY} eingetragene Stiftungen. Wir können nicht alle recherchieren —
         das wäre Jahre an Arbeit. Stattdessen nutzen wir einen mehrstufigen Trichter: jede Stufe ist
         günstiger als die nächste und eliminiert Stiftungen, die eine klare Frage nicht bestehen.
       </p>
@@ -106,7 +107,7 @@ export default function PipelineMethodikPage() {
             number={0}
             title="Schweizer Stiftungsuniversum"
             question="Existiert die Stiftung?"
-            count={`~16'900`}
+            count={SWISS_FOUNDATIONS_DISPLAY}
             countLabel="im Handelsregister (Zefix)"
             method="Zefix + ESA Register-Import"
             cost="Gratis"
@@ -192,7 +193,7 @@ export default function PipelineMethodikPage() {
               Offizielles Schweizer Handelsregister. Enthält alle eingetragenen Stiftungen
               mit Name, UID und Sitz. Keine Informationen über Stiftungszweck oder Tätigkeit.
             </p>
-            <p className="text-xs text-text-muted">~16&apos;900 Stiftungen. Quelle: zefix.ch</p>
+            <p className="text-xs text-text-muted">{SWISS_FOUNDATIONS_DISPLAY} Stiftungen. Quelle: zefix.ch</p>
           </Card>
           <Card>
             <h3 className="mb-2 font-semibold text-grey-dark">ESA (Eidg. Stiftungsaufsicht)</h3>
