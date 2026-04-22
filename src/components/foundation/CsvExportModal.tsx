@@ -4,7 +4,6 @@ import { useState, useMemo, useCallback } from 'react';
 import Modal from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { THEMES } from '@/lib/config/foundations';
-import { computePriorityScore } from '@/lib/domain/foundation-scores';
 import { getQualityTier } from '@/lib/domain/foundation-helpers';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
@@ -141,7 +140,7 @@ const COLUMN_GROUPS: ColumnGroup[] = [
     label: 'Bewertung',
     columns: [
       { id: 'fitScore', label: 'Fit-Score (0–10)', defaultOn: true, getValue: (f) => String(f.fitScore ?? 0) },
-      { id: 'priority', label: 'Priorität (P1–P4)', defaultOn: true, getValue: (f) => `P${computePriorityScore(f).level}` },
+      { id: 'priority', label: 'Priorität (P1–P4)', defaultOn: true, getValue: (f) => `P${f.priority}` },
       { id: 'tier', label: 'Qualitäts-Tier', defaultOn: false, getValue: (f) => getQualityTier(f) },
     ],
   },

@@ -1,12 +1,11 @@
-// Foundation Filtering — Sort and filter using computed scores
+// Foundation Filtering — Sort and filter using stored and computed scores
 // Fit display: getFitLevel(f) from foundation-helpers.ts
-// Priority: computePriorityScore(f) from foundation-scores.ts
+// Priority: f.priority (stored SSOT — sync script recomputes before generating TS file)
 
 import type { Foundation, ThemeId, FoundationType, FoundationStatus, QualityTier } from '../schemas/foundation';
 import type { SchwerpunktId } from '../config/schwerpunkte';
 import { SCHWERPUNKTE } from '../config/schwerpunkte';
 import { getQualityTier, tierAtLeast, getFitLevel } from './foundation-helpers';
-import { computePriorityScore } from './foundation-scores';
 import { getTrustLevel, type TrustLevel } from '../config/trust-levels';
 
 export type ThemeLogic = 'or' | 'and';
@@ -126,10 +125,9 @@ export function filterFoundations(
       if (!filters.fit.includes(getFitLevel(f))) return false;
     }
 
-    // Priority level filter — computed priority P1-P4
+    // Priority level filter — use stored priority (SSOT: DB → sync → generated file)
     if (filters.priorityLevels.length > 0) {
-      const p = computePriorityScore(f);
-      if (!filters.priorityLevels.includes(p.level)) return false;
+      if (!filters.priorityLevels.includes(f.priority)) return false;
     }
 
     // Hide operative foundations
@@ -179,8 +177,8 @@ export function sortFoundations(
     let cmp = 0;
     switch (field) {
       case 'priority':
-        // Higher computed priority score = higher priority → sort descending by score
-        cmp = computePriorityScore(b).score - computePriorityScore(a).score;
+        // Lower stored priority level = higher priority (P1 < P2 < P3 < P4)
+        cmp = a.priority - b.priority;
         break;
       case 'fit':
         // Higher fitScore first, but fitScore=0 (unassessed) sorts last

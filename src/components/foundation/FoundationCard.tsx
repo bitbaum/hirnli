@@ -3,7 +3,7 @@ import Badge from '@/components/ui/Badge';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS, STATUS_LABELS, FIT_CONFIG, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
-import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
+import { computeReadinessScore } from '@/lib/domain/foundation-scores';
 import { getTrustLevel, TRUST_CONFIG } from '@/lib/config/trust-levels';
 import ThemeBadgeList from './ThemeBadgeList';
 
@@ -19,7 +19,10 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
   const typeLabel = TYPE_LABELS[f.type];
   const readiness = computeReadinessScore(f);
   const tier = readiness.tier;
-  const priority = computePriorityScore(f, readiness.score);
+  // Use stored priority (SSOT) — label/color from config, override flag from field
+  const priorityConfig = PRIORITY_CONFIG[f.priority as 1 | 2 | 3 | 4] ?? PRIORITY_CONFIG[4];
+  const priorityLabel = priorityConfig.label;
+  const priorityIsOverride = f.priorityOverride ?? false;
   const trust = getTrustLevel(f);
   const trustDisplay = TRUST_CONFIG[trust];
 
@@ -34,10 +37,10 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
             <span className="inline-flex items-center gap-1">
               <span className={`text-xs ${trustDisplay.dotColor}`} title={trustDisplay.label}>●</span>
               <span
-                className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-bold leading-none ${PRIORITY_CONFIG[priority.level]?.color ?? PRIORITY_CONFIG[4].color}`}
+                className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-bold leading-none ${priorityConfig.color}`}
               >
-                {priority.label}
-                {priority.isOverride && (
+                {priorityLabel}
+                {priorityIsOverride && (
                   <span className="rounded bg-warning/10 px-0.5 text-xs font-medium text-warning">M</span>
                 )}
               </span>
