@@ -13,6 +13,8 @@ import {
 import {
   BPL_HARDWARE_PER_YEAR_DISPLAY,
   BPL_SOFTWARE_PER_YEAR_DISPLAY,
+  BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY,
+  DEVICES_PER_YEAR_TARGET,
   PEOPLE_REACHED_PER_YEAR,
 } from '@/lib/config/projections';
 import { formatNumber } from '@/lib/utils/format';
@@ -86,7 +88,7 @@ export default function BildungPage() {
               <div className="text-sm opacity-90">Bildungsprogrammleiter:innen</div>
             </div>
             <div className="bg-white/10 rounded-lg p-4 text-center backdrop-blur">
-              <div className="text-3xl font-bold">18</div>
+              <div className="text-3xl font-bold">{BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY}</div>
               <div className="text-sm opacity-90">Direkt trainiert/Jahr</div>
             </div>
             <div className="bg-white/10 rounded-lg p-4 text-center backdrop-blur">
@@ -184,7 +186,7 @@ export default function BildungPage() {
                 </h3>
                 <p className="text-sm text-text-light mb-3">
                   Hardware-BPL bildet <strong>{BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr</strong> aus. Software/AI-BPL trainiert <strong>{BPL_SOFTWARE_PER_YEAR_DISPLAY} Entwickler/Jahr</strong>.
-                  Total: <strong>18 Menschen/Jahr direkt</strong> (vs. 5 heute).
+                  Total: <strong>{BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY} Menschen/Jahr direkt</strong> (vs. 5 heute).
                 </p>
                 <div className="bg-pillar-vision/10 rounded-lg p-3 text-sm text-pillar-vision">
                   <strong>Beispiel Hardware:</strong> Ein:e Teilnehmer:in lernt nicht nur Laptop-Reparatur, sondern auch,
@@ -226,7 +228,7 @@ export default function BildungPage() {
                   Zusätzlich zu direktem und indirektem Training: <strong>Workshops, Events, Repair Cafés</strong> im Hub erreichen weitere 50-80 Menschen/Jahr.
                 </p>
                 <div className="bg-success/10 rounded-lg p-3 text-sm text-success">
-                  <strong>Gesamt-Reichweite (konservativ):</strong> 18 (direkt trainiert) + 20-40 (Workshop-Teilnehmer) = <strong>{PEOPLE_REACHED_PER_YEAR} Menschen/Jahr</strong>.
+                  <strong>Gesamt-Reichweite (konservativ):</strong> {BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY} (direkt trainiert) + 20-40 (Workshop-Teilnehmer) = <strong>{PEOPLE_REACHED_PER_YEAR} Menschen/Jahr</strong>.
                 </div>
               </div>
             </div>
@@ -367,7 +369,7 @@ export default function BildungPage() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <div className="bg-white rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-success">480</div>
+                <div className="text-2xl font-bold text-success">{DEVICES_PER_YEAR_TARGET}</div>
                 <div className="text-xs text-success">Geräte/Jahr (Hub)</div>
               </div>
               <div className="bg-white rounded-lg p-3 text-center">

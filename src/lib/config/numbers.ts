@@ -274,6 +274,18 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     category: 'social',
   },
 
+  BPL_DIRECT_TRAINED_PER_YEAR: {
+    value: 18,
+    label: 'Direkt trainierte Personen pro Jahr (beide BPL)',
+    source: {
+      methodology: 'Summe der Durchschnittswerte beider Bildungsprogrammleiter:innen',
+      calculation: 'Hardware-BPL: 10/Jahr (Mitte von 8-12) + Software-BPL: 8/Jahr (Mitte von 6-10) = 18 direkt trainiert',
+      confidence: 'estimated',
+      lastVerified: '2026-02-12',
+    },
+    category: 'social',
+  },
+
   TEAM_CORE_FTE: {
     value: SHARED_ORG_NUMBERS.TEAM_CORE_FTE,
     label: 'Kernteam (aktuell)',
