@@ -154,8 +154,8 @@ describe('DEFAULT_FILTERS', () => {
 });
 
 describe('FILTER_PRESETS', () => {
-  it('has 3 presets', () => {
-    expect(FILTER_PRESETS).toHaveLength(3);
+  it('has 4 presets', () => {
+    expect(FILTER_PRESETS).toHaveLength(4);
   });
 
   it('each preset has id, label, description, and filters', () => {
