@@ -4,7 +4,7 @@
 
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
-import { computeReadinessScore, computePriorityScore } from './foundation-scores';
+import { computeReadinessScore } from './foundation-scores';
 import { fitScoreToDisplay } from './fit-scoring';
 
 /** Ordered tier ranks for comparisons */
@@ -155,8 +155,8 @@ export function generateFoundationParams(): { slug: string }[] {
  */
 export function hasGesuchPage(f: Foundation): boolean {
   if (!tierAtLeast(getQualityTier(f), 'recherchiert')) return false;
-  const priority = computePriorityScore(f);
-  if (priority.level > 3) return false;
+  // Use stored priority (SSOT) — P4 foundations don't get a Gesuch page
+  if (f.priority > 3) return false;
   return true;
 }
 

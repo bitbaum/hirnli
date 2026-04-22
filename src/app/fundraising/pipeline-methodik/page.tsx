@@ -6,7 +6,6 @@ import {
   TIER_LABELS, TIER_COLORS,
   getQualityTier, tierAtLeast, computeTierCounts,
 } from '@/lib/domain/foundation-helpers';
-import { computePriorityScore } from '@/lib/domain/foundation-scores';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import type { QualityTier } from '@/lib/schemas/foundation';
 import { formatNumber } from '@/lib/utils/format';
@@ -65,8 +64,7 @@ function computeFunnelStats() {
   const recherchiertFoundations = STIFTUNGEN_DATA.filter(f => tierAtLeast(getQualityTier(f), 'recherchiert'));
   const pCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
   for (const f of recherchiertFoundations) {
-    const p = computePriorityScore(f);
-    pCounts[p.level]++;
+    pCounts[f.priority as 1 | 2 | 3 | 4]++;
   }
 
   return {

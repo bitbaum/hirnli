@@ -15,7 +15,6 @@
 
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeMetadata } from '@/lib/schemas/theme';
-import { computePriorityScore } from './foundation-scores';
 import { isResearched } from './foundation-helpers';
 import type { ThemeKey } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -32,7 +31,7 @@ import {
   getAnecdotes,
   getPhotoSlots,
 } from '@/lib/config/stories';
-import { TYPE_LABELS, THEMES } from '@/lib/config/foundations';
+import { TYPE_LABELS, THEMES, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { BudgetLineItem, BudgetScenario } from '@/lib/schemas/budget';
@@ -209,15 +208,16 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     : mapFoundationThemes(foundation);
 
   // Quality gate: tier (data completeness), priority (fit × readiness), themes
-  const computed = computePriorityScore(foundation);
-  const lowPriority = computed.level >= 4;
+  // Use stored priority (SSOT) — P4 = low priority, skip gesuch generation
+  const lowPriority = foundation.priority >= 4;
 
   if (!isResearched(foundation) || mapped.all.length === 0 || lowPriority) {
     let reason = '';
     if (!isResearched(foundation)) {
       reason = 'Diese Stiftung benötigt noch weitere Recherche.';
     } else if (lowPriority) {
-      reason = `Priorität ${computed.label}: ${computed.description}`;
+      const pc = PRIORITY_CONFIG[foundation.priority as 1 | 2 | 3 | 4] ?? PRIORITY_CONFIG[4];
+      reason = `Priorität ${pc.label}: ${pc.description}`;
     } else {
       reason = 'Keine passenden Themen für die Gesuch-Generierung gefunden.';
     }
