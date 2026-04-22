@@ -15,7 +15,7 @@ function makeFoundation(overrides: Partial<Foundation> = {}): Foundation {
     dataConfidence: 'assessed',
     source: 'manual',
     purposeSummary: '',
-    amount: { min: null, max: null },
+    amount: { min: null, max: null, text: '' },
     contact: {},
     ...overrides,
   } as Foundation;
@@ -78,24 +78,24 @@ describe('buildAIContext', () => {
 
   describe('grantRange', () => {
     it('returns undefined when both min and max are null', () => {
-      const ctx = buildAIContext(makeFoundation({ amount: { min: null, max: null } }));
+      const ctx = buildAIContext(makeFoundation({ amount: { min: null, max: null, text: '' } }));
       expect(ctx.grantRange).toBeUndefined();
     });
 
     it('returns grantRange when min is set', () => {
-      const ctx = buildAIContext(makeFoundation({ amount: { min: 5000, max: null } }));
+      const ctx = buildAIContext(makeFoundation({ amount: { min: 5000, max: null, text: 'ab CHF 5\'000' } }));
       expect(ctx.grantRange?.min).toBe(5000);
       expect(ctx.grantRange?.max).toBeUndefined();
     });
 
     it('returns grantRange when max is set', () => {
-      const ctx = buildAIContext(makeFoundation({ amount: { min: null, max: 50000 } }));
+      const ctx = buildAIContext(makeFoundation({ amount: { min: null, max: 50000, text: 'bis CHF 50\'000' } }));
       expect(ctx.grantRange?.max).toBe(50000);
       expect(ctx.grantRange?.min).toBeUndefined();
     });
 
     it('returns both bounds when both are set', () => {
-      const ctx = buildAIContext(makeFoundation({ amount: { min: 1000, max: 100000 } }));
+      const ctx = buildAIContext(makeFoundation({ amount: { min: 1000, max: 100000, text: 'CHF 1\'000–100\'000' } }));
       expect(ctx.grantRange).toEqual({ min: 1000, max: 100000 });
     });
   });

@@ -172,14 +172,30 @@ export function ApplicationCard({
             )}
           </div>
 
-          {/* Footer: priority + assignee */}
-          {(application.priorityLevel || application.assignedTo) && (
-            <div className="mt-2 flex items-center justify-between">
-              {application.priorityLevel && (
-                <span className={`rounded px-1.5 py-0.5 text-xs font-semibold ${getPriorityColor(application.priorityLevel)}`}>
-                  P{application.priorityLevel}
-                </span>
-              )}
+          {/* Footer: priority + fit score + assignee */}
+          {(application.priorityLevel || application.assignedTo || (foundation?.fitScore != null && foundation.fitScore > 0)) && (
+            <div className="mt-2 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5">
+                {application.priorityLevel && (
+                  <span className={`rounded px-1.5 py-0.5 text-xs font-semibold ${getPriorityColor(application.priorityLevel)}`}>
+                    P{application.priorityLevel}
+                  </span>
+                )}
+                {foundation?.fitScore != null && foundation.fitScore > 0 && (
+                  <span
+                    className={`rounded px-1.5 py-0.5 text-xs font-medium ${
+                      foundation.fitScore >= 7
+                        ? 'bg-success/10 text-success'
+                        : foundation.fitScore >= 4
+                          ? 'bg-amber-100 text-amber-700'
+                          : 'bg-bg-light text-text-muted'
+                    }`}
+                    title={`Fit-Score: ${foundation.fitScore}/10`}
+                  >
+                    Fit {foundation.fitScore}/10
+                  </span>
+                )}
+              </div>
               {application.assignedTo && (
                 <span className="text-xs text-text-muted">{application.assignedTo}</span>
               )}

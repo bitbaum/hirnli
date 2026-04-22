@@ -14,11 +14,13 @@ import type { BudgetLineItem, BudgetScenario } from '@/lib/schemas/budget';
 
 function makeScenario(overrides: Partial<BudgetScenario> = {}): BudgetScenario {
   return {
-    id: 'test-scenario',
+    id: 'minimal',
     label: 'Test',
     description: 'Test scenario',
+    tagline: 'Test tagline',
     lineItemIds: [],
-    requestedAmount: 50000,
+    targetFoundations: ['A'],
+    spaceRequirement: { min_sqm: 0, max_sqm: 100 },
     threeYearModel: {
       year1: { einmalig: 10000, jaehrlich: 5000, eigenleistung: 2000 },
       year2: { jaehrlich: 8000, eigenleistung: 1000 },
@@ -28,6 +30,12 @@ function makeScenario(overrides: Partial<BudgetScenario> = {}): BudgetScenario {
   };
 }
 
+const DEFAULT_SOURCE: BudgetLineItem['source'] = {
+  methodology: 'Marktrecherche',
+  confidence: 'estimated',
+  lastVerified: '2026-01-01',
+};
+
 function makeLineItem(overrides: Partial<BudgetLineItem> = {}): BudgetLineItem {
   return {
     id: 'item-1',
@@ -36,6 +44,7 @@ function makeLineItem(overrides: Partial<BudgetLineItem> = {}): BudgetLineItem {
     description: 'Default Description',
     type: 'jaehrlich',
     amount: 10000,
+    source: DEFAULT_SOURCE,
     ...overrides,
   };
 }
@@ -197,8 +206,8 @@ describe('groupLineItemsByCategory', () => {
   });
 
   it('handles single item', () => {
-    const items = [makeLineItem({ category: 'overhead' })];
+    const items = [makeLineItem({ category: 'operations' })];
     const grouped = groupLineItemsByCategory(items);
-    expect(grouped.get('overhead')?.length).toBe(1);
+    expect(grouped.get('operations')?.length).toBe(1);
   });
 });

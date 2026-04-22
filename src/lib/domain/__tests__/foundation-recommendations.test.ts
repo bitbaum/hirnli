@@ -43,8 +43,8 @@ describe('computeSimilarity', () => {
 
     it('returns full theme weight for identical themes (all other signals zero)', () => {
       const themes = ['kreislaufwirtschaft', 'digitale-bildung'] as Foundation['themes'];
-      const a = makeFoundation({ themes, type: 'X', fitScore: 0, region: 'zürich', sdgs: [] });
-      const b = makeFoundation({ themes, type: 'Y', fitScore: 0, region: 'bern', sdgs: [] });
+      const a = makeFoundation({ themes, type: 'B', fitScore: 0, region: 'zürich', sdgs: [] });
+      const b = makeFoundation({ themes, type: 'C', fitScore: 0, region: 'bern', sdgs: [] });
       // themeOverlap=1, typeMatch=0, fitProximity=0, regionOverlap=0, sdgOverlap=0
       // = 1*0.45 = 0.45
       const score = computeSimilarity(a, b);
@@ -53,8 +53,8 @@ describe('computeSimilarity', () => {
 
     it('uses Jaccard index for partial overlap', () => {
       // A={x,y}, B={y,z} → intersection=1, union=3 → jaccard=1/3
-      const a = makeFoundation({ themes: ['kreislaufwirtschaft', 'arbeitsintegration'] as Foundation['themes'], type: 'X', fitScore: 0, region: 'zürich', sdgs: [] });
-      const b = makeFoundation({ themes: ['arbeitsintegration', 'digitale-bildung'] as Foundation['themes'], type: 'X', fitScore: 0, region: 'bern', sdgs: [] });
+      const a = makeFoundation({ themes: ['kreislaufwirtschaft', 'arbeitsintegration'] as Foundation['themes'], type: 'B', fitScore: 0, region: 'zürich', sdgs: [] });
+      const b = makeFoundation({ themes: ['arbeitsintegration', 'digitale-bildung'] as Foundation['themes'], type: 'B', fitScore: 0, region: 'bern', sdgs: [] });
       const score = computeSimilarity(a, b);
       // themeOverlap=1/3, typeMatch=1, fitProximity=0, regionOverlap=0, sdgOverlap=0
       // = (1/3)*0.45 + 0.20 = 0.35
@@ -79,22 +79,22 @@ describe('computeSimilarity', () => {
 
   describe('fitProximity (weight 0.15)', () => {
     it('returns full weight for identical fit scores (type isolated)', () => {
-      const a = makeFoundation({ themes: [], fitScore: 7, region: 'zürich', type: 'X', sdgs: [] });
-      const b = makeFoundation({ themes: [], fitScore: 7, region: 'bern', type: 'X', sdgs: [] });
+      const a = makeFoundation({ themes: [], fitScore: 7, region: 'zürich', type: 'B', sdgs: [] });
+      const b = makeFoundation({ themes: [], fitScore: 7, region: 'bern', type: 'B', sdgs: [] });
       // typeMatch=1, fitProximity=1 → 0.20 + 0.15 = 0.35
       expect(computeSimilarity(a, b)).toBeCloseTo(0.35, 5);
     });
 
     it('returns 0 fitProximity when either fitScore=0 (unassessed)', () => {
-      const a = makeFoundation({ themes: [], fitScore: 0, region: 'zürich', type: 'X', sdgs: [] });
-      const b = makeFoundation({ themes: [], fitScore: 5, region: 'bern', type: 'X', sdgs: [] });
+      const a = makeFoundation({ themes: [], fitScore: 0, region: 'zürich', type: 'B', sdgs: [] });
+      const b = makeFoundation({ themes: [], fitScore: 5, region: 'bern', type: 'B', sdgs: [] });
       // fitProximity=0, typeMatch=1 → 0.20
       expect(computeSimilarity(a, b)).toBeCloseTo(0.20, 5);
     });
 
     it('scales linearly with score difference', () => {
-      const a = makeFoundation({ themes: [], fitScore: 10, region: 'zürich', type: 'X', sdgs: [] });
-      const b = makeFoundation({ themes: [], fitScore: 5, region: 'bern', type: 'X', sdgs: [] });
+      const a = makeFoundation({ themes: [], fitScore: 10, region: 'zürich', type: 'B', sdgs: [] });
+      const b = makeFoundation({ themes: [], fitScore: 5, region: 'bern', type: 'B', sdgs: [] });
       // fitProximity = 1 - 5/10 = 0.5 → typeMatch(0.20) + 0.5*0.15 = 0.275
       expect(computeSimilarity(a, b)).toBeCloseTo(0.275, 5);
     });
@@ -102,30 +102,30 @@ describe('computeSimilarity', () => {
 
   describe('regionOverlap (weight 0.10)', () => {
     it('adds 0.10 for same region (all other signals zero)', () => {
-      const a = makeFoundation({ themes: [], fitScore: 0, type: 'X', region: 'zürich', sdgs: [] });
-      const b = makeFoundation({ themes: [], fitScore: 0, type: 'Y', region: 'zürich', sdgs: [] });
+      const a = makeFoundation({ themes: [], fitScore: 0, type: 'B', region: 'zürich', sdgs: [] });
+      const b = makeFoundation({ themes: [], fitScore: 0, type: 'C', region: 'zürich', sdgs: [] });
       // typeMatch=0, regionOverlap=1 → 0.10
       expect(computeSimilarity(a, b)).toBeCloseTo(0.10, 5);
     });
 
     it('adds 0 for different regions (all signals zero)', () => {
-      const a = makeFoundation({ themes: [], fitScore: 0, type: 'X', region: 'zürich', sdgs: [] });
-      const b = makeFoundation({ themes: [], fitScore: 0, type: 'Y', region: 'bern', sdgs: [] });
+      const a = makeFoundation({ themes: [], fitScore: 0, type: 'B', region: 'zürich', sdgs: [] });
+      const b = makeFoundation({ themes: [], fitScore: 0, type: 'C', region: 'bern', sdgs: [] });
       expect(computeSimilarity(a, b)).toBeCloseTo(0.0, 5);
     });
   });
 
   describe('sdgOverlap (weight 0.10)', () => {
     it('adds 0 when either foundation has no SDGs', () => {
-      const a = makeFoundation({ themes: [], fitScore: 0, type: 'X', region: 'zürich', sdgs: [1, 2] });
-      const b = makeFoundation({ themes: [], fitScore: 0, type: 'Y', region: 'bern', sdgs: [] });
+      const a = makeFoundation({ themes: [], fitScore: 0, type: 'B', region: 'zürich', sdgs: [1, 2] });
+      const b = makeFoundation({ themes: [], fitScore: 0, type: 'C', region: 'bern', sdgs: [] });
       // All other signals 0, sdgOverlap=0
       expect(computeSimilarity(a, b)).toBeCloseTo(0.0, 5);
     });
 
     it('uses Jaccard for SDG overlap (all other signals zero)', () => {
-      const a = makeFoundation({ themes: [], fitScore: 0, type: 'X', region: 'zürich', sdgs: [1, 2] });
-      const b = makeFoundation({ themes: [], fitScore: 0, type: 'Y', region: 'bern', sdgs: [2, 3] });
+      const a = makeFoundation({ themes: [], fitScore: 0, type: 'B', region: 'zürich', sdgs: [1, 2] });
+      const b = makeFoundation({ themes: [], fitScore: 0, type: 'C', region: 'bern', sdgs: [2, 3] });
       // jaccard([1,2],[2,3])=1/3 → 0.10*(1/3) ≈ 0.0333
       expect(computeSimilarity(a, b)).toBeCloseTo(1 / 3 * 0.10, 5);
     });

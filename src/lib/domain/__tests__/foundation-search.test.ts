@@ -133,7 +133,7 @@ describe('searchFoundations', () => {
         priority: 2,
       });
       const withoutTheme = searchFoundations([f], 'Kreislauf');
-      const withTheme = searchFoundations([f], 'Kreislauf', ['kreislaufwirtschaft'] as Foundation['themes'][]);
+      const withTheme = searchFoundations([f], 'Kreislauf', ['kreislaufwirtschaft'] as Foundation['themes']);
       if (withoutTheme.length > 0 && withTheme.length > 0) {
         expect(withTheme[0].score).toBeGreaterThanOrEqual(withoutTheme[0].score);
       }

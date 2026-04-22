@@ -132,7 +132,7 @@ describe('applyGesuchOverrides', () => {
       const overrides: GesuchOverridesData = { anschreiben: { subject: 'New Subject' } };
       // Plain ComposedGesuch has no anschreiben — should be a no-op
       const result = applyGesuchOverrides(gesuch, overrides);
-      expect((result as Record<string, unknown>).anschreiben).toBeUndefined();
+      expect((result as unknown as Record<string, unknown>).anschreiben).toBeUndefined();
     });
 
     it('applies anschreiben override when field present', () => {
