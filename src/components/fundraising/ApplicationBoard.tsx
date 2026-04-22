@@ -177,8 +177,15 @@ export function ApplicationBoard() {
     (sum, { application }) => sum + (application.requestedAmount || 0),
     0,
   );
+  const totalAwarded = applications.reduce(
+    (sum, { application }) => sum + (application.awardedAmount || 0),
+    0,
+  );
   const submittedCount = applications.filter(
     ({ application }) => application.status === 'submitted',
+  ).length;
+  const acceptedCount = applications.filter(
+    ({ application }) => application.status === 'accepted',
   ).length;
 
   if (isLoading) {
@@ -198,12 +205,24 @@ export function ApplicationBoard() {
             <span>
               <span className="font-semibold text-grey-dark">{applications.length}</span> Gesuche
             </span>
+            {totalAwarded > 0 && (
+              <span className="font-semibold text-success">
+                {formatCHF(totalAwarded)} zugesagt
+              </span>
+            )}
             <span>
               <span className="font-semibold text-grey-dark">{formatCHF(totalRequested)}</span> beantragt
             </span>
-            <span>
-              <span className="font-semibold text-grey-dark">{submittedCount}</span> eingereicht
-            </span>
+            {submittedCount > 0 && (
+              <span>
+                <span className="font-semibold text-grey-dark">{submittedCount}</span> eingereicht
+              </span>
+            )}
+            {acceptedCount > 0 && (
+              <span>
+                <span className="font-semibold text-success">{acceptedCount}</span> zugesagt
+              </span>
+            )}
           </div>
         ) : (
           <div />
