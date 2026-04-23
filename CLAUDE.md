@@ -181,17 +181,21 @@ ESA / Zefix / Research scripts
   All UI pages (in-memory filtering, static generation at build time)
 ```
 
-**Foundation funnel (verified 2026-04-22):**
+**Foundation funnel (verified 2026-04-23 — run `npm run audit` for live numbers):**
 
 | Tier | Count | Table/File | What it means |
 |------|-------|------------|---------------|
 | Swiss universe | ~16,900 | Zefix commercial register | All registered Swiss foundations |
-| Pipeline | 16,572 | `fundraising_foundations` | In DB with config_data |
-| Rapid (name-only) | ~16,103 | (DB, excluded if data_confidence='unverified') | LLM-triaged register text only, always P4 |
-| Generated | 1,772 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', quality gate passed |
-| P1-P3 (actionable) | 242 | (standard/deep depth only) | Researched + scored, never rapid (P1=19, P2=77, P3=146) |
+| In DB (active) | 16,571 | `fundraising_foundations` (archived=52 excluded) | Active pipeline entries |
+| Rapid (LLM-triaged) | ~15,992 | (DB, excluded if data_confidence='unverified') | Zefix text + LLM triage only, always P4 |
+| Generated | 1,772 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', non-archived, Zod valid |
+| P1-P3 (actionable) | 242 | (standard/deep depth only) | Researched + scored, never rapid (P1=20, P2=76, P3=146) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
+
+**Data confidence distribution (active):** unverified=14,799 · ai-assessed=1,769 · human-verified=3
+
+**ApplicationUrl coverage:** P1=20/20 (100%) · P2=72/76 (95%) · P3=61/146 (42%) — run `npm run audit` for gap list
 
 **Note:** `fundraising_foundation_registry` was dropped (2026-04-08) — it duplicated
 config_data and was never read by the app. All foundation data lives in config_data JSONB.
@@ -440,7 +444,8 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 - No test suite (build-time validation + quality gate only)
 - Generated TS file (`stiftungen-generated.ts`) is a second copy of DB data — moving to
   server components would eliminate the sync layer (not urgent, but architecturally cleaner)
-- 5 P1-P3 foundations missing email — structural limitation (law firm contacts, arts foundations with no public email)
+- P1-P3 contact gaps: 1 P1 + 3 P2 + 18 P3 missing email (law firm contacts, foundations with no public email) — see `npm run audit`
+- 85 P3 foundations missing applicationUrl — web research needed foundation by foundation
 - Enrichment scripts (`enrich-addresses.ts`, `enrich-contacts-llm.ts`, `enrich-contacts-spheriq.ts`,
   `deep-enrich.ts`) write directly to DB without provenance tracking — need staging/review workflow
 
@@ -459,6 +464,16 @@ npm run dev
 
 ```bash
 npm run build
+```
+
+### Pipeline Audit
+
+The authoritative pipeline health check. Run after any rescore, sync, or research batch:
+
+```bash
+npm run audit
+# Prints: funnel counts, priority breakdown, applicationUrl coverage, gap list
+# Use this output to update the funnel table in CLAUDE.md
 ```
 
 ### Adding a Foundation
@@ -660,5 +675,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-23 (Phase 2 complete; fixed set-confidence.ts bugs + data_confidence restored; generated file now 1,772 (was 1,237); P1=19/P2=77/P3=146=242 P1-P3 foundations)
+**Last Updated:** 2026-04-23 — run `npm run audit` for live pipeline stats (P1=20/P2=76/P3=146=242, generated=1,772)
 **Maintainer:** Revamp-IT Team
