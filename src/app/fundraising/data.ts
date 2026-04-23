@@ -92,10 +92,13 @@ export const PROJECT_DURATION = `${PROJECT_END - PROJECT_START + 1} Jahre (${PRO
 export const PROJECT_DURATION_LABEL = 'Aufbau → Wachstum → Verselbständigung';
 
 export const RESOURCES = [
-  { href: '/wirkung', label: 'Wirkungsbericht', description: 'Impact-Zahlen mit Quellen' },
-  { href: '/fundraising/stiftungen', label: 'Stiftungen-Übersicht', description: `${STIFTUNGEN_DATA.length} Förderer mit Deadlines` },
-  { href: '/finanzen', label: 'Finanzdaten', description: 'Kivitendo-Daten visualisiert' },
-];
+  { href: '/api/documents/pitch-deck', label: 'Pitch Deck (PDF)', description: '8-Folien-Präsentation für Stiftungen', external: true },
+  { href: '/api/documents/impact-report', label: 'Wirkungsbericht (PDF)', description: 'Jährlicher Impact-Report, 2 Seiten', external: true },
+  { href: '/wirkung', label: 'Impact-Zahlen', description: 'Interaktive Wirkungsseite mit Quellen', external: false },
+  { href: '/fundraising/stiftungen', label: 'Stiftungen', description: `${STIFTUNGEN_DATA.length} Förderer mit Fit-Score`, external: false },
+  { href: '/finanzen', label: 'Finanzdaten', description: 'Kivitendo-Daten visualisiert', external: false },
+  { href: '/dokumente', label: 'Alle Dokumente', description: 'Gesuche, Vorlagen, Exporte', external: false },
+] as const;
 
 // -- HERO_STATS — derived from CORE_FACTS (SSOT) -----------------------------
 

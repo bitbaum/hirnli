@@ -278,13 +278,20 @@ export default function FundraisingClient() {
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wichtige Ressourcen</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {RESOURCES.map((resource) => (
-            <Link key={resource.href} href={resource.href} className="block">
+            <Link
+              key={resource.href}
+              href={resource.href}
+              className="block"
+              {...(resource.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            >
               <Card className="flex items-center gap-4 transition-shadow hover:shadow-md">
                 <div className="flex-1">
                   <strong className="block text-sm">{resource.label}</strong>
                   <span className="text-xs text-text-muted">{resource.description}</span>
                 </div>
-                <span className="text-primary" aria-hidden="true">&rarr;</span>
+                <span className="text-primary" aria-hidden="true">
+                  {resource.external ? '↓' : '→'}
+                </span>
               </Card>
             </Link>
           ))}
