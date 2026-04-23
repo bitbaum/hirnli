@@ -190,6 +190,18 @@ const BERICHTE: Document[] = [
     badge: 'Neu',
     lastUpdated: '2026-04-23',
   },
+  {
+    id: 'pitch-deck-2025',
+    title: 'Pitch Deck 2025',
+    description: 'Präsentationsdeck für Stiftungen & Förderer — 8 Folien, Querformat A4. Problem, Lösung, Impact, Finanzen, Hub-Vision. Aus Live-Daten generiert.',
+    format: 'PDF',
+    category: 'bericht',
+    action: 'download',
+    href: '/api/documents/pitch-deck',
+    size: '~8 Folien',
+    badge: 'Neu',
+    lastUpdated: '2026-04-23',
+  },
 ];
 
 // ---------------------------------------------------------------------------
