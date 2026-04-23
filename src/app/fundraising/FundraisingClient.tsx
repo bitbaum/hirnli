@@ -94,7 +94,7 @@ export default function FundraisingClient() {
           &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
         </p>
         <p className="mb-4 opacity-95">
-          Seit 2003 verbinden wir Kreislaufwirtschaft, Arbeitsintegration und Tech-Bildung unter
+          Seit {ORG_PROFILE.founded} verbinden wir Kreislaufwirtschaft, Arbeitsintegration und Tech-Bildung unter
           einem Dach. Auf{' '}
           <Inspectable
             data={inspectSpace}

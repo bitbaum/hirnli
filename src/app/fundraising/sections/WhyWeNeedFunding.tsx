@@ -1,5 +1,6 @@
 import Card from '@/components/ui/Card';
 import { TEAM_MEMBERS } from '@/app/team/data';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatCHF } from '@/lib/utils/format';
 import {
   REVENUE_PEAK_DISPLAY,
@@ -23,7 +24,7 @@ export default function WhyWeNeedFunding() {
           <h2 className="text-xl font-bold text-primary mt-0">Die Situation: Warum wir Stiftungen brauchen</h2>
 
           <p className="text-grey-dark leading-relaxed">
-            Seit 2003 reparieren und verkaufen wir refurbished Computer. <strong>Aber unser aktuelles Geschäftsmodell ist nicht nachhaltig.</strong>
+            Seit {ORG_PROFILE.founded} reparieren und verkaufen wir refurbished Computer. <strong>Aber unser aktuelles Geschäftsmodell ist nicht nachhaltig.</strong>
           </p>
 
           <p className="text-grey-dark leading-relaxed">
