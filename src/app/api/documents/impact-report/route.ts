@@ -33,7 +33,7 @@ export async function GET() {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `inline; filename="${filename}"`,
         'Content-Length': buffer.length.toString(),
-        'Cache-Control': 'public, max-age=3600',
+        'Cache-Control': 'private, max-age=3600',
       },
     });
   } catch (error) {
