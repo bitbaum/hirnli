@@ -48,9 +48,9 @@ function computeFunnelStats() {
   ).length;
 
   // Research depth
-  const rapid = STIFTUNGEN_DATA.filter(f => (f as Record<string, unknown>).researchDepth === 'rapid').length;
-  const standard = STIFTUNGEN_DATA.filter(f => (f as Record<string, unknown>).researchDepth === 'standard').length;
-  const deep = STIFTUNGEN_DATA.filter(f => (f as Record<string, unknown>).researchDepth === 'deep').length;
+  const rapid = STIFTUNGEN_DATA.filter(f => f.researchDepth === 'rapid').length;
+  const standard = STIFTUNGEN_DATA.filter(f => f.researchDepth === 'standard').length;
+  const deep = STIFTUNGEN_DATA.filter(f => f.researchDepth === 'deep').length;
 
   // Profiliert+ (can show detail page)
   const profiliert = STIFTUNGEN_DATA.filter(f => tierAtLeast(getQualityTier(f), 'profiliert')).length;
