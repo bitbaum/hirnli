@@ -19,7 +19,7 @@ import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financi
 
 export type DocumentFormat = 'PDF' | 'CSV' | 'Excel' | 'Markdown';
 export type DocumentAction = 'print' | 'download' | 'external';
-export type DocumentCategory = 'gesuch' | 'vorlage' | 'export' | 'quelle';
+export type DocumentCategory = 'gesuch' | 'vorlage' | 'export' | 'quelle' | 'bericht';
 
 export interface Document {
   id: string;
@@ -174,10 +174,30 @@ const SOURCE_FILES: Document[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// Reports (Wirkungsberichte)
+// ---------------------------------------------------------------------------
+
+const BERICHTE: Document[] = [
+  {
+    id: 'wirkungsbericht-2025',
+    title: 'Wirkungsbericht 2025',
+    description: `Jährlicher Impact-Report — Finanzen ${FINANCIAL_YEAR_RANGE}, Umweltwirkung, Arbeitsintegration, Stiftungspipeline. Aus Live-Daten generiert.`,
+    format: 'PDF',
+    category: 'bericht',
+    action: 'download',
+    href: '/api/documents/impact-report',
+    size: '~2 Seiten',
+    badge: 'Neu',
+    lastUpdated: '2026-04-23',
+  },
+];
+
+// ---------------------------------------------------------------------------
 // Exports
 // ---------------------------------------------------------------------------
 
 export const DOCUMENTS = {
+  berichte: BERICHTE,
   gesuche: FOUNDATION_GESUCHE,
   vorlagen: TEMPLATE_GESUCHE,
   exports: DATA_EXPORTS,
@@ -185,9 +205,10 @@ export const DOCUMENTS = {
 };
 
 export const DOCUMENT_STATS = {
+  berichteCount: BERICHTE.length,
   gesucheCount: FOUNDATION_GESUCHE.length,
   vorlagenCount: TEMPLATE_GESUCHE.length,
   exportsCount: DATA_EXPORTS.length,
   quellenCount: SOURCE_FILES.length,
-  totalCount: FOUNDATION_GESUCHE.length + TEMPLATE_GESUCHE.length + DATA_EXPORTS.length + SOURCE_FILES.length,
+  totalCount: BERICHTE.length + FOUNDATION_GESUCHE.length + TEMPLATE_GESUCHE.length + DATA_EXPORTS.length + SOURCE_FILES.length,
 };

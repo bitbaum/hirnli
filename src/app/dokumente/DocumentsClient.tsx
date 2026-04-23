@@ -8,12 +8,14 @@ import type { Document } from '@/lib/config/documents';
 
 interface DocumentsClientProps {
   documents: {
+    berichte: Document[];
     gesuche: Document[];
     vorlagen: Document[];
     exports: Document[];
     quellen: Document[];
   };
   stats: {
+    berichteCount: number;
     gesucheCount: number;
     vorlagenCount: number;
     exportsCount: number;
@@ -22,13 +24,14 @@ interface DocumentsClientProps {
   };
 }
 
-type TabId = 'gesuche' | 'vorlagen' | 'daten';
+type TabId = 'berichte' | 'gesuche' | 'vorlagen' | 'daten';
 
 export default function DocumentsClient({ documents, stats }: DocumentsClientProps) {
-  const [activeTab, setActiveTab] = useState<TabId>('gesuche');
+  const [activeTab, setActiveTab] = useState<TabId>('berichte');
   const [searchQuery, setSearchQuery] = useState('');
 
   const tabs = [
+    { id: 'berichte' as TabId, label: `Berichte (${stats.berichteCount})`, icon: '📋' },
     { id: 'gesuche' as TabId, label: `Gesuche (${stats.gesucheCount})`, icon: '📄' },
     { id: 'vorlagen' as TabId, label: `Vorlagen (${stats.vorlagenCount})`, icon: '📝' },
     { id: 'daten' as TabId, label: `Daten (${stats.exportsCount + stats.quellenCount})`, icon: '📊' },
@@ -46,6 +49,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
     );
   };
 
+  const filteredBerichte = filterDocuments(documents.berichte);
   const filteredGesuche = filterDocuments(documents.gesuche);
   const filteredVorlagen = filterDocuments(documents.vorlagen);
   const filteredExports = filterDocuments(documents.exports);
@@ -89,6 +93,33 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
           className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
         />
       </div>
+
+      {/* Berichte Tab */}
+      {activeTab === 'berichte' && (
+        <div>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-grey-dark mb-2">
+              Wirkungsberichte {searchQuery && `(${filteredBerichte.length} Ergebnisse)`}
+            </h2>
+            <p className="text-sm text-text-light">
+              Jährliche Impact-Reports aus Live-Daten generiert — Finanzen, Umweltwirkung, Sozialintegration, Stiftungspipeline.
+            </p>
+          </div>
+
+          {filteredBerichte.length === 0 ? (
+            <Card className="text-center py-12">
+              <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
+              <p className="text-text-muted">Keine Berichte gefunden für &bdquo;{searchQuery}&ldquo;</p>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredBerichte.map((doc) => (
+                <DocumentCard key={doc.id} document={doc} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Gesuche Tab */}
       {activeTab === 'gesuche' && (
