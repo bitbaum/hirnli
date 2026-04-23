@@ -19,9 +19,13 @@ import {
   CO2_REFURBISH_COST,
 } from '@/lib/config/numbers';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
-import { ANNUAL_PL, COMPLETE_YEARS, PEAK_REVENUE, PEAK_YEAR } from '@/app/finanzen/data';
+import { ANNUAL_PL, COMPLETE_YEARS, CUMULATIVE_WARENVERKAUF, PEAK_REVENUE, PEAK_YEAR } from '@/app/finanzen/data';
 import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import {
+  DEVICES_PER_YEAR_TARGET,
+  DEVICES_PER_YEAR_CURRENT,
+} from '@/lib/config/projections';
 
 // ---------------------------------------------------------------------------
 // Derived data
@@ -439,7 +443,7 @@ function Slide4Impact() {
 
         <View style={s.threeCol}>
           <View style={s.metricBox}>
-            <Text style={s.metricValue}>100+</Text>
+            <Text style={s.metricValue}>{SHARED_ORG_NUMBERS.PEOPLE_HELPED}</Text>
             <Text style={s.metricLabel}>Menschen begleitet</Text>
             <Text style={s.metricSub}>{`Praktika & Integration seit ${ORG_PROFILE.milestones.integrationProgram}`}</Text>
           </View>
@@ -451,7 +455,7 @@ function Slide4Impact() {
           <View style={s.metricBoxAccent}>
             <Text style={s.metricValueAccent}>~{SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT}</Text>
             <Text style={s.metricLabel}>Geräte/Jahr (aktuell)</Text>
-            <Text style={s.metricSub}>Kapazität ausbaubar auf 480+/Jahr mit Hub</Text>
+            <Text style={s.metricSub}>{`Kapazität ausbaubar auf ${DEVICES_PER_YEAR_TARGET}+/Jahr mit Hub`}</Text>
           </View>
         </View>
 
@@ -547,7 +551,7 @@ function Slide6TheAsk() {
           <View style={s.col}>
             <Text style={[s.h3, { marginBottom: 10 }]}>Der Hub ermöglicht</Text>
             <Bullet>Professionelle Refurbishment-Werkstatt (3× aktuelle Kapazität)</Bullet>
-            <Bullet>~480 Geräte/Jahr statt heute ~160</Bullet>
+            <Bullet>{`~${DEVICES_PER_YEAR_TARGET} Geräte/Jahr statt heute ~${DEVICES_PER_YEAR_CURRENT}`}</Bullet>
             <Bullet>Bildungsräume: Linux-Kurse, Repair-Workshops, Hacking</Bullet>
             <Bullet>20–30 strukturierte Integrationsplätze/Jahr</Bullet>
             <Bullet>Community Events: Repair-Cafés, Tech-Talks, Ausstellungen</Bullet>
@@ -597,7 +601,7 @@ function Slide7WhyUs() {
           <View style={s.thirdCol}>
             <Text style={[s.h3, { marginBottom: 8 }]}>Bewährter Betrieb</Text>
             <Bullet>{`Seit ${ORG_PROFILE.founded} operativ — ${String(ORG_PROFILE.yearsActive)} Jahre`}</Bullet>
-            <Bullet>Über CHF 238K Warenverkauf (Kivitendo-Buchhaltung)</Bullet>
+            <Bullet>{`Über CHF ${Math.round(CUMULATIVE_WARENVERKAUF / 1000)}K Warenverkauf (Kivitendo-Buchhaltung)`}</Bullet>
             <Bullet>Kontinuierliche Lieferkette für Geräte etabliert</Bullet>
             <Bullet>Zertifizierte Datenvernichtung (NIST 800-88)</Bullet>
             <Bullet>SWICO-Recyclingpartnerschaft</Bullet>
@@ -612,7 +616,7 @@ function Slide7WhyUs() {
           </View>
           <View style={s.thirdCol}>
             <Text style={[s.h3, { marginBottom: 8 }]}>Technische Expertise</Text>
-            <Bullet>Linux-Pioniere in der Schweiz seit 2003</Bullet>
+            <Bullet>{`Linux-Pioniere in der Schweiz seit ${ORG_PROFILE.founded}`}</Bullet>
             <Bullet>Vollständiger Qualitätsprozess (Diagnose → Garantie)</Bullet>
             <Bullet>Wärmeleitpaste, SSD/RAM-Upgrades aus eigenem Lager</Bullet>
             <Bullet>Stresstest & Akkumessung vor Verkauf</Bullet>

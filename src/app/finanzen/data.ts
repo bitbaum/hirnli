@@ -115,6 +115,8 @@ export const PEAK_REVENUE = Math.max(...ANNUAL_PL.map(y => y.revenue));
 export const PEAK_YEAR = ANNUAL_PL.find(y => y.revenue === PEAK_REVENUE)!.year;
 export const LATEST_COMPLETE = COMPLETE_YEARS[COMPLETE_YEARS.length - 1];
 export const CUMULATIVE_RESULT = COMPLETE_YEARS.reduce((sum, y) => sum + y.result, 0);
+/** Total device-sale revenue across all tracked years — SSOT for ~1600+ device count estimate */
+export const CUMULATIVE_WARENVERKAUF = ANNUAL_PL.reduce((sum, y) => sum + y.revenueDetail.warenverkauf, 0);
 
 // Financial year range constants — canonical source is lib/config/financial-constants.ts
 // Re-exported here for backward compatibility with app/ consumers.
