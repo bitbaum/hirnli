@@ -1,7 +1,7 @@
 # Template — What Claude Generates for a New Org
 
 When Claude onboards a new organization, it follows this checklist.
-Each step maps to one of the 14 ORG-SPECIFIC files.
+Each step maps to one of the 19 ORG-SPECIFIC files.
 
 ## Step-by-Step Onboarding
 
@@ -57,16 +57,42 @@ Each step maps to one of the 14 ORG-SPECIFIC files.
 - [ ] **strategie/data.ts** — Strategy data (SDGs, partnerships, capacity)
 - [ ] **strategie/components.tsx** — Strategy page components
 - [ ] **team/data.ts** — Team members with roles and bios
+- [ ] **wie-wir-arbeiten/data.ts** — How we work page (impact methodology)
 - [ ] **finanzen/FinanzenClient.tsx** — Financial dashboard (adapt chart logic)
 
 ### Phase 6: Gesuch Templates
 
 - [ ] **gesuch-templates.ts** — Application templates tailored to org's themes
-- [ ] **api/documents/gesuch/[id]/route.tsx** — PDF generation with org branding
+- [ ] **api/documents/gesuch/[id]/route.tsx** — Gesuch PDF with org branding
 
-### Phase 7: Foundation Research Pipeline
+### Phase 6b: PDF Reports
 
-- [ ] Set `org_id` in `scripts/foundation-upsert.ts`
+- [ ] **lib/pdf/impact-report/index.tsx** — Annual Wirkungsbericht PDF:
+  - Rewrite header, mission statement, environmental metrics
+  - Update social impact section (Arbeitsintegration, Bildung programs)
+  - Point to org's financial data source for P&L table
+  - Update contact block (org name, website, fundraising email)
+
+- [ ] **lib/pdf/pitch-deck/index.tsx** — Pitch deck PDF:
+  - Rewrite all 8 slides with org's story (problem, solution, impact, financials, ask)
+  - Update key metrics (devices/units, people helped, CO2 saved or org equivalent)
+  - Rewrite "Why Us" slide with org's track record
+  - Update contact and branding colors
+
+### Phase 7: Scoring Config
+
+- [ ] **fit-scoring.ts** — Adjust scoring weights for org's themes:
+  - SCORING_ENGINE: weight each ThemeId based on org's mission priorities
+  - PRIORITY_FORMULA: tune P1-P4 thresholds for org's pipeline size
+  - READINESS_ENGINE: adjust tier thresholds if needed
+
+### Phase 8: Values
+
+- [ ] **value-cascade.ts** — Rewrite value chain to match org's process steps
+
+### Phase 9: Foundation Research Pipeline
+
+- [ ] Set `org_id` and keyword list in `scripts/foundation-upsert.ts`
 - [ ] Run screening with org's keywords: `npx tsx scripts/foundation-screen-v3.1.ts`
 - [ ] Research top candidates → write drafts → upsert → sync → build
 
