@@ -8,6 +8,7 @@ import {
   DEVICES_PER_MONTH_CURRENT_DISPLAY,
   DEVICES_PER_MONTH_TARGET,
 } from '@/lib/config/projections';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 export default function SovereigntySection() {
   return (
@@ -22,10 +23,10 @@ export default function SovereigntySection() {
           <SovereigntyPillar
             icon="🔧"
             title="Hardware-Souveränität"
-            description="Repariere dein eigenes Gerät. Seit 2003."
+            description={`Repariere dein eigenes Gerät. Seit ${ORG_PROFILE.founded}.`}
             colorScheme="emerald"
             achievements={[
-              'Seit 2003: Repair-Workshops & Open-Source-Hardware',
+              `Seit ${ORG_PROFILE.founded}: Repair-Workshops & Open-Source-Hardware`,
               `${DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat aktuell, ~${DEVICES_PER_MONTH_TARGET}/Monat (Ziel mit Hub)`,
               'Right to Repair — Community-getrieben',
             ]}
@@ -40,7 +41,7 @@ export default function SovereigntySection() {
             description="Linux & Open Source statt Lizenzen."
             colorScheme="blue"
             achievements={[
-              'Seit 2003: Linux-Fokus (Ubuntu, Linux Mint, etc.)',
+              `Seit ${ORG_PROFILE.founded}: Linux-Fokus (Ubuntu, Linux Mint, etc.)`,
               '100% Open-Source-Software auf allen Geräten',
               'Keine Lizenzkosten = niedrigere Preise',
             ]}

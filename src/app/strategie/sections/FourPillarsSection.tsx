@@ -58,7 +58,7 @@ export default function FourPillarsSection() {
           ]}
           whyItMatters="Digitale Souveränität bedeutet: Du besitzt dein Gerät wirklich. Keine Zwangsupdates, keine Vendor Lock-ins, keine Lizenzkosten. Open-Source-Software gibt Nutzern Kontrolle zurück und ermöglicht es, ältere Hardware weiter zu nutzen. Das ist besonders wichtig für Menschen mit geringem Einkommen und für Organisationen, die unabhängig bleiben wollen."
           achievements={[
-            'Seit 2003: Pioniere für Linux-Desktop in der Schweiz',
+            `Seit ${ORG_PROFILE.founded}: Pioniere für Linux-Desktop in der Schweiz`,
             '~1\'600+ Geräte mit vorinstalliertem Linux verkauft (2018-2025, geschätzt aus Umsatzdaten)',
             '100% Open-Source-Software auf allen verkauften Geräten',
             'Teil der weltweiten Open-Source-Bewegung',
@@ -82,7 +82,7 @@ export default function FourPillarsSection() {
           ]}
           whyItMatters="In einer Welt, die sich durch Automatisierung und KI rasant verändert, werden digitale Kompetenzen zur Grundvoraussetzung für Teilhabe. Gleichzeitig geht Reparaturwissen verloren – dabei ist es ein Schlüssel zu Nachhaltigkeit und Unabhängigkeit. Wir vermitteln beides: Wie man Technologie nutzt UND wie man sie wartet."
           achievements={[
-            'Seit 2003: 100+ Menschen in Workshops & Praktika begleitet (Schätzung, nicht systematisch erfasst)',
+            `Seit ${ORG_PROFILE.founded}: 100+ Menschen in Workshops & Praktika begleitet (Schätzung, nicht systematisch erfasst)`,
             'Repair-Workshops, Linux-Kurse, technischer Support',
             'Niederschwelliger Zugang: Keine Vorkenntnisse erforderlich',
             'Wissensdokumentation: Anleitungen & How-Tos für Community',
