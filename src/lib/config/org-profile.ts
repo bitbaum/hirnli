@@ -12,6 +12,7 @@
 import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';
 
 const _FOUNDED = 2003;
+const _INTEGRATION_PROGRAM_YEAR = 2009; // Praktikums-/Integrationsprogramm start
 const _YEARS_ACTIVE = new Date().getFullYear() - _FOUNDED;
 
 export const ORG_PROFILE = {
@@ -41,7 +42,7 @@ export const ORG_PROFILE = {
 
   // Key program milestones (years)
   milestones: {
-    integrationProgram: 2009,  // Praktikums-/Integrationsprogramm
+    integrationProgram: _INTEGRATION_PROGRAM_YEAR,
     kivitendoStart: 2007,      // ERP-Buchhaltung
     deviceTrackingStart: 2018, // Systematische Geräteerfassung
   },
@@ -66,7 +67,7 @@ export const ORG_PROFILE = {
     {
       name: 'Arbeitsintegration',
       description: '8–10 Praktikumsplätze für benachteiligte Menschen (Sozialhilfe, RAV, IV)',
-      metrics: ['100+ Praktikant:innen seit 2009', 'Begleitung durch erfahrene Techniker'],
+      metrics: [`100+ Praktikant:innen seit ${_INTEGRATION_PROGRAM_YEAR}`, 'Begleitung durch erfahrene Techniker'],
     },
     {
       name: 'Digitale Bildung',
