@@ -188,7 +188,7 @@ ESA / Zefix / Research scripts
 | Swiss universe | ~16,900 | Zefix commercial register | All registered Swiss foundations |
 | Pipeline | 16,572 | `fundraising_foundations` | In DB with config_data |
 | Rapid (name-only) | ~16,103 | (DB, excluded if data_confidence='unverified') | LLM-triaged register text only, always P4 |
-| Generated | 1,237 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', quality gate passed |
+| Generated | 1,772 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', quality gate passed |
 | P1-P3 (actionable) | 242 | (standard/deep depth only) | Researched + scored, never rapid (P1=19, P2=77, P3=146) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
@@ -660,5 +660,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-23 (Phase 2 complete; backfill fixed import-research-results.ts bug — 117 foundations had real websites but researchDepth='rapid'; after upgrade+sync, P1=19/P2=77/P3=146=242 P1-P3 foundations)
+**Last Updated:** 2026-04-23 (Phase 2 complete; fixed set-confidence.ts bugs + data_confidence restored; generated file now 1,772 (was 1,237); P1=19/P2=77/P3=146=242 P1-P3 foundations)
 **Maintainer:** Revamp-IT Team

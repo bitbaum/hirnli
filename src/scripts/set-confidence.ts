@@ -1,12 +1,19 @@
 /**
- * Set data confidence levels based on research depth and source
+ * Set data confidence levels based on research depth
  *
- * Maps existing research_depth and source fields to dataConfidence levels:
- * - source='automated-research' + research_depth='rapid' → 'unverified'
+ * Rules (in priority order):
+ * - research_depth='deep'     → 'human-verified'
  * - research_depth='standard' → 'ai-assessed'
- * - research_depth='deep' → 'human-verified'
+ * - research_depth='rapid' + has real enrichment (applicationResearchMethod set or themes+notes)
+ *                             → 'ai-assessed'
+ * - research_depth='rapid' + no enrichment → 'unverified' (excluded from sync)
+ *
+ * IMPORTANT: The old Rule 1 ("automated-research + rapid → unverified") was too broad.
+ * Many automated-research foundations have been enriched by claude-agent batches, adding
+ * themes and purposeSummary. Those should remain 'ai-assessed', not be demoted.
  *
  * Run with: npx tsx src/scripts/set-confidence.ts
+ * Dry run:  npx tsx src/scripts/set-confidence.ts --dry-run
  */
 
 import { config } from 'dotenv';
@@ -14,99 +21,130 @@ config({ path: '.env.local' });
 
 import { neon } from '@neondatabase/serverless';
 
+const DRY_RUN = process.argv.includes('--dry-run');
+
 interface ConfidenceStats {
-  unverified: number;
-  aiAssessed: number;
-  humanVerified: number;
+  deepToVerified: number;
+  standardToAiAssessed: number;
+  enrichedRapidToAiAssessed: number;
+  unenrichedRapidToUnverified: number;
   unchanged: number;
 }
 
 async function setConfidence() {
   const sql = neon(process.env.DATABASE_URL!);
 
-  console.log('\n📊 Setting data confidence levels...\n');
+  console.log(`\n📊 Setting data confidence levels... (${DRY_RUN ? 'DRY RUN' : 'LIVE'})\n`);
 
   const stats: ConfidenceStats = {
-    unverified: 0,
-    aiAssessed: 0,
-    humanVerified: 0,
+    deepToVerified: 0,
+    standardToAiAssessed: 0,
+    enrichedRapidToAiAssessed: 0,
+    unenrichedRapidToUnverified: 0,
     unchanged: 0,
   };
 
-  // Rule 1: source='automated-research' AND research_depth='rapid' → 'unverified'
-  const unverifiedResult = await sql`
-    UPDATE fundraising_foundations
-    SET 
-      data_confidence = 'unverified',
-      updated_at = NOW()
-    WHERE source = 'automated-research'
-      AND research_depth = 'rapid'
-      AND (data_confidence IS NULL OR data_confidence != 'unverified')
-  `;
-  stats.unverified = Number((unverifiedResult[0] as any).count) ?? 0;
-  console.log(`✅ Set ${stats.unverified} foundations to 'unverified' (automated-research + rapid)`);
+  if (DRY_RUN) {
+    // Count what WOULD change, without updating
+    const [deep] = await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations WHERE research_depth='deep' AND (data_confidence IS NULL OR data_confidence != 'human-verified')`;
+    const [standard] = await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations WHERE research_depth='standard' AND (data_confidence IS NULL OR data_confidence != 'ai-assessed')`;
+    const [enrichedRapid] = await sql`
+      SELECT COUNT(*) as cnt FROM fundraising_foundations
+      WHERE research_depth='rapid'
+        AND (data_confidence IS NULL OR data_confidence != 'ai-assessed')
+        AND config_data->>'applicationResearchMethod' IS NOT NULL
+        AND config_data->>'applicationResearchMethod' NOT IN ('unknown', '')
+    `;
+    const [unenrichedRapid] = await sql`
+      SELECT COUNT(*) as cnt FROM fundraising_foundations
+      WHERE research_depth='rapid'
+        AND (data_confidence IS NULL OR data_confidence != 'unverified')
+        AND (config_data->>'applicationResearchMethod' IS NULL OR config_data->>'applicationResearchMethod' IN ('unknown', ''))
+    `;
+    console.log(`Would set: ${deep.cnt} deep→human-verified`);
+    console.log(`Would set: ${standard.cnt} standard→ai-assessed`);
+    console.log(`Would set: ${enrichedRapid.cnt} enriched-rapid→ai-assessed`);
+    console.log(`Would set: ${unenrichedRapid.cnt} unenriched-rapid→unverified`);
+    console.log('\nDRY RUN — no changes made.');
+    return;
+  }
 
-  // Rule 2: research_depth='standard' → 'ai-assessed'
-  const aiAssessedResult = await sql`
+  // Rule 1: deep → human-verified
+  const r1 = await sql`
     UPDATE fundraising_foundations
-    SET 
-      data_confidence = 'ai-assessed',
-      updated_at = NOW()
-    WHERE research_depth = 'standard'
-      AND (data_confidence IS NULL OR data_confidence != 'ai-assessed')
-  `;
-  stats.aiAssessed = Number((aiAssessedResult[0] as any).count) ?? 0;
-  console.log(`✅ Set ${stats.aiAssessed} foundations to 'ai-assessed' (research_depth=standard)`);
-
-  // Rule 3: research_depth='deep' → 'human-verified'
-  const humanVerifiedResult = await sql`
-    UPDATE fundraising_foundations
-    SET 
-      data_confidence = 'human-verified',
-      verified_at = NOW(),
-      updated_at = NOW()
+    SET data_confidence = 'human-verified', updated_at = NOW()
     WHERE research_depth = 'deep'
       AND (data_confidence IS NULL OR data_confidence != 'human-verified')
+    RETURNING 1
   `;
-  stats.humanVerified = Number((humanVerifiedResult[0] as any).count) ?? 0;
-  console.log(`✅ Set ${stats.humanVerified} foundations to 'human-verified' (research_depth=deep)`);
+  stats.deepToVerified = r1.length;
+  console.log(`✅ Set ${stats.deepToVerified} foundations to 'human-verified' (research_depth=deep)`);
 
-  // Count foundations that didn't match any rule
-  const totalResult = await sql`
-    SELECT COUNT(*) as count
-    FROM fundraising_foundations
-    WHERE data_confidence IS NULL
+  // Rule 2: standard → ai-assessed
+  const r2 = await sql`
+    UPDATE fundraising_foundations
+    SET data_confidence = 'ai-assessed', updated_at = NOW()
+    WHERE research_depth = 'standard'
+      AND (data_confidence IS NULL OR data_confidence != 'ai-assessed')
+    RETURNING 1
   `;
-  stats.unchanged = Number((totalResult[0] as any)?.count ?? 0);
+  stats.standardToAiAssessed = r2.length;
+  console.log(`✅ Set ${stats.standardToAiAssessed} foundations to 'ai-assessed' (research_depth=standard)`);
+
+  // Rule 3: rapid + has applicationResearchMethod set → ai-assessed
+  // (these were explicitly researched by claude-agent/chatgpt-agent etc.)
+  const r3 = await sql`
+    UPDATE fundraising_foundations
+    SET data_confidence = 'ai-assessed', updated_at = NOW()
+    WHERE research_depth = 'rapid'
+      AND (data_confidence IS NULL OR data_confidence != 'ai-assessed')
+      AND config_data->>'applicationResearchMethod' IS NOT NULL
+      AND config_data->>'applicationResearchMethod' NOT IN ('unknown', '')
+    RETURNING 1
+  `;
+  stats.enrichedRapidToAiAssessed = r3.length;
+  console.log(`✅ Set ${stats.enrichedRapidToAiAssessed} foundations to 'ai-assessed' (enriched rapid)`);
+
+  // Rule 4: rapid + no applicationResearchMethod → unverified
+  // (only zefix/register text, never explicitly researched)
+  const r4 = await sql`
+    UPDATE fundraising_foundations
+    SET data_confidence = 'unverified', updated_at = NOW()
+    WHERE research_depth = 'rapid'
+      AND (data_confidence IS NULL OR data_confidence != 'unverified')
+      AND (config_data->>'applicationResearchMethod' IS NULL
+           OR config_data->>'applicationResearchMethod' IN ('unknown', ''))
+    RETURNING 1
+  `;
+  stats.unenrichedRapidToUnverified = r4.length;
+  console.log(`✅ Set ${stats.unenrichedRapidToUnverified} foundations to 'unverified' (unenriched rapid)`);
+
+  // Count remaining NULL (should be ~0 after running all rules)
+  const [nullResult] = await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations WHERE data_confidence IS NULL`;
+  stats.unchanged = Number(nullResult.cnt);
 
   console.log(`\n📈 Summary:`);
-  console.log(`   Unverified:      ${stats.unverified}`);
-  console.log(`   AI-assessed:     ${stats.aiAssessed}`);
-  console.log(`   Human-verified:  ${stats.humanVerified}`);
-  console.log(`   Unchanged (NULL): ${stats.unchanged}`);
-  console.log(`   Total processed: ${stats.unverified + stats.aiAssessed + stats.humanVerified}\n`);
+  console.log(`   deep→human-verified:       ${stats.deepToVerified}`);
+  console.log(`   standard→ai-assessed:      ${stats.standardToAiAssessed}`);
+  console.log(`   enriched-rapid→ai-assessed:${stats.enrichedRapidToAiAssessed}`);
+  console.log(`   unenriched-rapid→unverified:${stats.unenrichedRapidToUnverified}`);
+  console.log(`   Unchanged (NULL):          ${stats.unchanged}`);
 
-  // Show distribution
+  // Show final distribution
   const distribution = await sql`
-    SELECT 
-      data_confidence,
-      COUNT(*) as count
+    SELECT data_confidence, COUNT(*) as cnt
     FROM fundraising_foundations
     GROUP BY data_confidence
-    ORDER BY 
-      CASE data_confidence
-        WHEN 'human-verified' THEN 1
-        WHEN 'ai-assessed' THEN 2
-        WHEN 'unverified' THEN 3
-        ELSE 4
-      END
+    ORDER BY CASE data_confidence
+      WHEN 'human-verified' THEN 1
+      WHEN 'ai-assessed' THEN 2
+      WHEN 'unverified' THEN 3
+      ELSE 4 END
   `;
 
-  console.log('📊 Current confidence distribution:\n');
+  console.log('\n📊 Current distribution:');
   for (const row of distribution) {
-    const level = row.data_confidence ?? '(null)';
-    const count = Number((row[0] as any).count);
-    console.log(`   ${level.padEnd(20)} ${count}`);
+    console.log(`   ${String(row.data_confidence ?? '(null)').padEnd(20)} ${row.cnt}`);
   }
   console.log('');
 }
