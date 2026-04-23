@@ -36,10 +36,13 @@ export function validateFoundationQuality(data: Foundation[]): QualityViolation[
     if (!f.themes || f.themes.length === 0) {
       issues.push('no themes assigned');
     }
-    if (!f.websiteUrl) {
-      issues.push('websiteUrl missing');
-    } else if (isRegistryUrl(f.websiteUrl)) {
-      issues.push('websiteUrl is a registry/directory link, not foundation website');
+    // Operative foundations often have no public grant application website — skip URL check
+    if (!f.isOperative) {
+      if (!f.websiteUrl) {
+        issues.push('websiteUrl missing');
+      } else if (isRegistryUrl(f.websiteUrl)) {
+        issues.push('websiteUrl is a registry/directory link, not foundation website');
+      }
     }
 
     if (issues.length > 0) {
