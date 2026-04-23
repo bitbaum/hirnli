@@ -88,8 +88,8 @@ Each foundation detail page is not just research for us — it's a **presentatio
 | Gesuch PDF (full 4-page) | Working | Professional PDF via `@react-pdf/renderer` |
 | One-pager concept note | Working | Single-page summary document |
 | Shareable landing page | Working | Public share URL with HMAC token |
-| Pitch Deck | Planned | Visual presentation format |
-| Impact Report | Planned | Annual report from live data |
+| Pitch Deck | Working | 8-slide landscape A4 PDF via `@react-pdf/renderer` |
+| Impact Report | Working | 2-page annual Wirkungsbericht from live data |
 
 ### 5. Config-Driven Data
 
@@ -437,7 +437,6 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 
 ### Remaining
 
-- Pitch deck and impact report formats not yet implemented (Phase 2 remaining items)
 - No test suite (build-time validation + quality gate only)
 - Generated TS file (`stiftungen-generated.ts`) is a second copy of DB data — moving to
   server components would eliminate the sync layer (not urgent, but architecturally cleaner)
@@ -550,7 +549,7 @@ for the step-by-step checklist.
 # Then: ask Claude Code to onboard
 ```
 
-### The 17 ORG-SPECIFIC Files
+### The 19 ORG-SPECIFIC Files
 
 | # | File | What It Contains |
 |---|------|-----------------|
@@ -571,6 +570,8 @@ for the step-by-step checklist.
 | 15 | `src/app/wie-wir-arbeiten/data.ts` | How we work page data |
 | 16 | `src/app/finanzen/FinanzenClient.tsx` | Financial dashboard |
 | 17 | `src/app/api/documents/gesuch/[id]/route.tsx` | Gesuch PDF generation |
+| 18 | `src/lib/pdf/impact-report/index.tsx` | Wirkungsbericht PDF template (2-page) |
+| 19 | `src/lib/pdf/pitch-deck/index.tsx` | Pitch Deck PDF template (8-slide landscape) |
 
 ### Claude Onboarding Workflow
 
@@ -581,8 +582,9 @@ for the step-by-step checklist.
 5. Rewrite `stories.ts`, `schwerpunkte.ts`, `budget-scenarios.ts`, `numbers.ts`
 6. Rewrite `gesuch-templates.ts`
 7. Rewrite page content (team, strategy, vision, finanzen)
-8. Set `org_id` in `scripts/foundation-upsert.ts`
-9. Run screening with new keywords → queue → research → upsert → sync → build
+8. Rewrite PDF templates (`impact-report/index.tsx`, `pitch-deck/index.tsx`) with new org narrative
+9. Set `org_id` in `scripts/foundation-upsert.ts`
+10. Run screening with new keywords → queue → research → upsert → sync → build
 
 ### Input Spec (`org-context/<org-name>/`)
 
@@ -603,12 +605,12 @@ for the step-by-step checklist.
 - Gesuch PDF (full 4-page) + one-pager + shareable landing page
 - HMAC share tokens, middleware auth for internal section
 
-### Phase 2: Document Generation — IN PROGRESS
+### Phase 2: Document Generation — COMPLETE (2026-04-23)
 - ~~Generate Gesuch PDFs~~ — DONE
 - ~~One-pager concept note~~ — DONE
 - ~~Shareable foundation landing page~~ — DONE
-- Pitch deck format — planned
-- Impact report from live data — planned
+- ~~Pitch deck format~~ — DONE (8-slide landscape A4, `GET /api/documents/pitch-deck`)
+- ~~Impact report from live data~~ — DONE (2-page Wirkungsbericht, `GET /api/documents/impact-report`)
 
 ### Phase 3: Hirnli — Multi-Tenant Platform
 
@@ -658,5 +660,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-23 (funnel stats updated to P1=18/P2=54/P3=82=154 total; SSOT sweep complete — CO2_NEW_LAPTOP_MANUFACTURE/CO2_REFURBISH_COST extracted, 285/75/150 hardcoded values eliminated across 7 files)
+**Last Updated:** 2026-04-23 (Phase 2 complete — pitch deck + impact report PDFs shipped; SSOT sweep complete; P1=18/P2=53/P3=79=150 P1-P3 foundations, all at recherchiert+)
 **Maintainer:** Revamp-IT Team
