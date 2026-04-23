@@ -9,6 +9,8 @@
  * - GesuchProcessSection (compact cascade in gesuch wizard)
  */
 
+import { FINANCIAL_YEAR_START } from './financial-constants';
+
 // ---------------------------------------------------------------------------
 // Tier interface
 // ---------------------------------------------------------------------------
@@ -68,7 +70,7 @@ export const CASCADE_TIERS: Record<string, CascadeTier> = {
       '6 Monate Garantie, solidarisches Preismodell',
     ],
     catchRate: '~60%',
-    enabledBy: 'Laufender Betrieb seit 2018',
+    enabledBy: `Laufender Betrieb seit ${FINANCIAL_YEAR_START}`,
   },
 
   parts_harvesting: {
@@ -95,7 +97,7 @@ export const CASCADE_TIERS: Record<string, CascadeTier> = {
       'Direkte Wiederverwendung in Tier-1-Refurbishing',
     ],
     catchRate: '~25%',
-    enabledBy: 'Laufender Betrieb seit 2018',
+    enabledBy: `Laufender Betrieb seit ${FINANCIAL_YEAR_START}`,
   },
 
   recycling_current: {

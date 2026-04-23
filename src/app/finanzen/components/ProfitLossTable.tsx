@@ -5,13 +5,14 @@
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { formatCHF, formatPercent } from '@/lib/utils/format';
+import { FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
 import type { AnnualPLEntry } from '../data';
 
 export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
   return (
     <Card className="mb-8">
       <CardHeader>
-        <CardTitle>Erfolgsrechnung 2018–2025</CardTitle>
+        <CardTitle>Erfolgsrechnung {FINANCIAL_YEAR_RANGE}</CardTitle>
       </CardHeader>
 
       {/* Desktop table */}

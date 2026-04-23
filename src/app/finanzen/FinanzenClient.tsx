@@ -23,6 +23,7 @@ import {
   PEAK_YEAR,
   DATA_QUALITY,
 } from './data';
+import { FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
 import OverviewTab from './tabs/OverviewTab';
 import MonthlyTab from './tabs/MonthlyTab';
 
@@ -44,7 +45,7 @@ export default function FinanzenClient() {
       <div className="flex items-start justify-between gap-4 mb-0">
         <PageHeader
           title="Finanzübersicht"
-          subtitle="Einnahmen & Aufwand — Kivitendo Buchhaltung 2018–2025"
+          subtitle={`Einnahmen & Aufwand — Kivitendo Buchhaltung ${FINANCIAL_YEAR_RANGE}`}
           badge="Quelldaten aus Buchhaltung"
         />
         <div className="shrink-0 pt-1">

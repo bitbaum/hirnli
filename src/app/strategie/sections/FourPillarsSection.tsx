@@ -106,7 +106,7 @@ export default function FourPillarsSection() {
           ]}
           whyItMatters="Geflüchtete, Langzeitarbeitslose und Menschen mit Behinderungen haben oft erschwerten Zugang zum Arbeitsmarkt – nicht wegen fehlender Fähigkeiten, sondern wegen fehlender Chancen. Wir bieten einen geschützten Rahmen, um praktische IT-Skills zu entwickeln, Selbstvertrauen aufzubauen und Referenzen zu sammeln. Das ist besonders wichtig, wenn Automatisierung traditionelle Einstiegsjobs ersetzt."
           achievements={[
-            'Seit 2009: Arbeitsintegrationsprogramme für benachteiligte Menschen',
+            `Seit ${ORG_PROFILE.milestones.integrationProgram}: Arbeitsintegrationsprogramme für benachteiligte Menschen`,
             'Zusammenarbeit mit AOZ, Caritas und anderen Sozialpartnern',
             'Erfolgreiche Vermittlungen in den ersten Arbeitsmarkt',
             'Sinnvolle Arbeit: Jedes refurbishte Gerät ist messbarer Impact',
