@@ -26,7 +26,7 @@ async function main() {
     const [row] = await sql`SELECT id, fit_score, priority, config_data FROM fundraising_foundations WHERE id = ${slug}`;
     if (!row) { console.log(`NOT FOUND: ${slug}`); continue; }
     const cd = row.config_data as Record<string, unknown>;
-    const result = computeFitScore(cd as Parameters<typeof computeFitScore>[0]);
+    const result = computeFitScore(cd as unknown as Parameters<typeof computeFitScore>[0]);
     const delta = result.fitScore - (row.fit_score as number);
     const themes = (cd.themes as string[])?.join(',') || 'none';
     const marker = delta > 0 ? `↑ ${row.fit_score}→${result.fitScore}` : `= ${row.fit_score}`;

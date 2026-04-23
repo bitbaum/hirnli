@@ -38,7 +38,7 @@ async function main() {
     if (!row) { console.log(`  ❌ NOT FOUND: ${slug}`); continue; }
 
     const cd = row.config_data as Record<string, unknown>;
-    const result = computeFitScore(cd as Parameters<typeof computeFitScore>[0]);
+    const result = computeFitScore(cd as unknown as Parameters<typeof computeFitScore>[0]);
     const newScore = result.fitScore;
     const oldScore = row.fit_score as number;
 
