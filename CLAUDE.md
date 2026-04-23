@@ -189,7 +189,7 @@ ESA / Zefix / Research scripts
 | Pipeline | 16,572 | `fundraising_foundations` | In DB with config_data |
 | Rapid (name-only) | ~16,103 | (DB, excluded if data_confidence='unverified') | LLM-triaged register text only, always P4 |
 | Generated | 1,237 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', quality gate passed |
-| P1-P3 (actionable) | 154 | (standard/deep depth only) | Researched + scored, never rapid (P1=18, P2=54, P3=82) |
+| P1-P3 (actionable) | 154 | (standard/deep depth only) | Researched + scored, never rapid (P1=18, P2=53, P3=83) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
 
@@ -660,5 +660,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-23 (Phase 2 complete — pitch deck + impact report PDFs shipped; SSOT sweep complete; P1=18/P2=53/P3=79=150 P1-P3 foundations, all at recherchiert+)
+**Last Updated:** 2026-04-23 (Phase 2 complete; pipeline rescore: 4 foundations promoted P4→P3 via real website URLs + fitScore recomputation; P1=18/P2=53/P3=83=154 P1-P3 foundations, all at recherchiert+)
 **Maintainer:** Revamp-IT Team
