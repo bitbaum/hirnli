@@ -154,6 +154,11 @@ function mergeIntoConfig(cd: Record<string, unknown>, r: ResearchResult): { chan
     if (!current || isRegistryUrl(current)) {
       cd.websiteUrl = r.website;
       fields.push('websiteUrl');
+      // Upgrade researchDepth when we get a real website (rapid → standard)
+      if ((cd.researchDepth as string) === 'rapid') {
+        cd.researchDepth = 'standard';
+        fields.push('researchDepth');
+      }
     }
   }
 
