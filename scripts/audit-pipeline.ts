@@ -49,7 +49,24 @@ async function main() {
     ORDER BY priority
   `;
 
-  // ── 3. Missing applicationUrls for P1–P3 ─────────────────────────────────
+  // ── 3. Truly unreachable P1-P3: missing both email AND appUrl ────────────
+  // Foundations with appUrl or method=online are reachable via form — not a gap.
+  const emailGaps = await sql`
+    SELECT id, priority, fit_score,
+      config_data->>'applicationMethod' AS method,
+      config_data->>'applicationUrl'    AS appurl
+    FROM fundraising_foundations
+    WHERE priority IN (1,2,3)
+      AND (data_confidence IS NULL OR data_confidence != 'unverified')
+      AND (archived IS NULL OR archived = false)
+      AND (config_data->'contact'->>'email' IS NULL OR config_data->'contact'->>'email' = '')
+      AND (config_data->>'applicationUrl' IS NULL OR config_data->>'applicationUrl' = '')
+      AND (config_data->>'applicationMethod' IS NULL
+           OR config_data->>'applicationMethod' NOT IN ('online', 'none', 'closed'))
+    ORDER BY priority, fit_score DESC
+  `;
+
+  // ── 4. Missing applicationUrls for P1–P3 ─────────────────────────────────
   const gaps = await sql`
     SELECT id, priority, fit_score,
       config_data->>'applicationMethod' AS method,
@@ -108,6 +125,18 @@ async function main() {
     );
   }
   console.log(`  P1-P3 total: ${p13total}`);
+  console.log(``);
+
+  // Email gaps (truly unreachable — no email AND no appUrl)
+  if (emailGaps.length === 0) {
+    console.log(`EMAIL GAPS (truly unreachable) — none ✓`);
+  } else {
+    console.log(`EMAIL GAPS (no email AND no appUrl) — ${emailGaps.length} P1-P3 truly unreachable`);
+    console.log(`  Note: foundations with appUrl/online-form are reachable; not listed here.`);
+    for (const r of emailGaps) {
+      console.log(`  P${r.priority} fit=${r.fit_score} | ${r.id} (method: ${r.method ?? '—'})`);
+    }
+  }
   console.log(``);
 
   if (gaps.length === 0) {
