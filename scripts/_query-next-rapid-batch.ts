@@ -22,6 +22,12 @@ const EXCLUDE_IDS = [
   'forschungsstiftung-fuer-informationstechnologie-und-gesellsc',
   'karl-margrith-wiederkehr-stiftung','stiftung-one-health','max-roessler-stiftung',
   'gottfried-schaerer-stiftung','chana-lutomirsky-stiftung',
+  // batch 42
+  'stiftung-muetterhilfe','stiftung-pfizer-forschungspreis',
+  'stiftung-zur-foerderung-sozialwissenschaftlicher-forschung-u',
+  'aline-andrea-rutz-stiftung','arte-terra-clima-foundation','asmallworld-foundation',
+  'baasch-medicus-stiftung-zuerich','costas-and-eleni-venieri-charitable-foundation',
+  'dr-adrian-otto-naegeli-stiftung','michael-kohn-stiftung',
   // earlier batches
   'stopp-klimakrise','fuchs-eugster','cammac-stiftung','climatoor','erde-2-0',
   'foundation-zuerich-park-side',
