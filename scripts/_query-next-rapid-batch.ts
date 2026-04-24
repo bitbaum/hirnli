@@ -11,11 +11,20 @@ const EXCLUDE_IDS = [
   'walter-robert-corti-stiftung','fairster-foundation','stiftung-pferdehof-pfisterberg',
   'albert-und-ida-beer-stiftung','netzwerk-stiftung-fuer-soziale-arbeit-sport-und-kultur',
   'dr-hans-duttweiler-hug-stiftung','options-for-growth-foundation',
+  // batch 40
+  'circular-zuerich','pep-stiftung','social-gastronomy-schweiz','familie-schwarz',
+  'iw-stiftung-mensch-und-zukunft','stiftung-symphasis','appsocial-org-stiftung',
+  'creative-ai-foundation','sefa-kaya-foundation','stiftung-i-care-for-you',
+  // batch 41
+  'jane-goodall-institut-schweiz-stiftung-fuer-forschung-bildun',
+  'jugendhof-stiftung-fuer-anthroposophisch-begruendete-krisenb',
+  'kurt-imhof-stiftung-fuer-medienqualitaet','stiftung-kalaidos-fachhochschule',
+  'forschungsstiftung-fuer-informationstechnologie-und-gesellsc',
+  'karl-margrith-wiederkehr-stiftung','stiftung-one-health','max-roessler-stiftung',
+  'gottfried-schaerer-stiftung','chana-lutomirsky-stiftung',
   // earlier batches
   'stopp-klimakrise','fuchs-eugster','cammac-stiftung','climatoor','erde-2-0',
-  // batch 36-38 IDs (from chatgpt-results files)
-  'social-gastronomy-schweiz','stiftung-one-health','stiftung-symphasis',
-  'foundation-zuerich-park-side','gottfried-schaerer-stiftung',
+  'foundation-zuerich-park-side',
 ];
 
 async function main() {
