@@ -17,6 +17,7 @@ export const REGISTRY_DOMAINS = [
   'linkedin.com',
   'moneyhouse.ch',
   'northdata.com',
+  'gemeinnuetzige-stiftungen.ch', // Vontobel-managed foundations platform
 ] as const;
 
 /** Check if a URL belongs to a known registry/directory site */
