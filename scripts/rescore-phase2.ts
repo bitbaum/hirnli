@@ -20,7 +20,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { computeFitScore } from '../src/lib/domain/fit-scoring';
 import { THEME_LABELS } from './lib/theme-classifier';
-import { callGroqJSON, GROQ_MODELS } from './lib/groq-client';
+import { callGroqJSON } from './lib/groq-client';
 import { sleep } from './lib/utilities';
 import { THEMES } from '../src/lib/config/foundations/metadata';
 import { ThemeId } from '../src/lib/schemas/foundation';

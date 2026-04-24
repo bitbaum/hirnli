@@ -14,6 +14,14 @@ const eslintConfig = defineConfig([
       }],
     },
   },
+  // Pipeline/migration scripts — relax any-type rule.
+  // These one-off scripts manipulate JSONB blobs where exact types aren't needed.
+  {
+    files: ["scripts/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

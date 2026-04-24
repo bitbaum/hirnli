@@ -79,7 +79,7 @@ export function reconcileContacts(candidates: ContactCandidate[]): ReconciledCon
     } else {
       // Sources disagree — pick best, flag conflict
       result.conflicts.push(
-        `Email conflict: ${uniqueEmails.map((e, i) => `${e} (${emails.find(x => x.email === e)!.source})`).join(' vs ')}`
+        `Email conflict: ${uniqueEmails.map((e, _i) => `${e} (${emails.find(x => x.email === e)!.source})`).join(' vs ')}`
       );
       // Pick by preference (info@ > kontakt@ > first found)
       const sorted = emails.sort((a, b) => emailPreferenceScore(a.email) - emailPreferenceScore(b.email));

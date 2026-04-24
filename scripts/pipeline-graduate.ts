@@ -44,7 +44,6 @@ import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scorin
 import {
   classifyThemes,
   scoreFunderOperator,
-  classifyType,
   detectApplicationMethod,
   THEME_LABELS,
 } from './lib/theme-classifier';
@@ -454,7 +453,7 @@ async function phase2LlmTriage(
     // 0→0, 1→4, 2→6, 3→8  (conservative: LLM "3" doesn't auto-become 10)
     const LLM_FIT_MAP = [0, 4, 6, 8] as const;
     const suggestedFit = typeof raw.suggestedFit === 'number' ? Math.min(3, Math.max(0, Math.round(raw.suggestedFit))) : 0;
-    const llmScore = LLM_FIT_MAP[suggestedFit] ?? 0;
+    const _llmScore = LLM_FIT_MAP[suggestedFit] ?? 0; // kept for reference; algo score used below
 
     // Use algorithmic score — LLM themes already feed into algo via computeFitScore.
     // Don't double-count LLM's suggestedFit (it can only inflate, never correct).
@@ -533,7 +532,7 @@ async function phase3Upsert(
       // Skip low-value results (no purpose summary = LLM gave nothing useful)
       if (!r.purposeSummary || r.purposeSummary.length < 30) continue;
 
-      const fitDisplay = fitScoreToDisplay(r.fitScore, true); // rapid tier → gated
+      const _fitDisplay = fitScoreToDisplay(r.fitScore, true); // rapid tier → gated (for debug logging)
 
       // Build merge config (without fitScore/priority — use GREATEST/LEAST)
       const mergeConfig = {

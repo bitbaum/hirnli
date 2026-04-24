@@ -31,7 +31,7 @@
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { mkdirSync, writeFileSync } from 'fs';
 import { neon } from '@neondatabase/serverless';
 import { fetchSpheriqProfile } from './lib/directory-fetcher';
 import { searchFoundationWebsite } from './lib/web-search';

@@ -79,7 +79,7 @@ async function main() {
 
     // Priority is NOT computed here — sync script derives it via
     // computePriorityScore() which uses fitScore + readiness + penalties.
-    const priority = 4;
+    const _priority = 4; // not written here — sync script derives priority via computePriorityScore()
 
     const fitLabel = fitScore >= 7 ? '★★★' : fitScore >= 4 ? '★★☆' : '★☆☆';
     console.log(`  ${entry.name}: fit=${fitScore} ${fitLabel}, themes=[${validThemes.join(',')}]`);

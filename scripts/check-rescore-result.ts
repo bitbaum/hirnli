@@ -1,6 +1,5 @@
 import { config } from 'dotenv'; config({ path: '.env.local' });
 import { neon } from '@neondatabase/serverless';
-import { computeFitScore } from '../src/lib/domain/fit-scoring';
 
 const sql = neon(process.env.DATABASE_URL!);
 
