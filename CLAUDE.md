@@ -195,7 +195,7 @@ ESA / Zefix / Research scripts
 
 **Data confidence distribution (active):** unverified=14,799 · ai-assessed=1,763 · human-verified=3
 
-**ApplicationUrl coverage:** P1=20/20 (100%) · P2=78/78 (100%) · P3=137/143 (96%) — run `npm run audit` for gap list
+**ApplicationUrl coverage:** P1=20/20 (100%) · P2=78/78 (100%) · P3=142/143 (99%) — run `npm run audit` for gap list (1 structural gap: alice-ackermann, phone-only)
 
 **Note:** `fundraising_foundation_registry` was dropped (2026-04-08) — it duplicated
 config_data and was never read by the app. All foundation data lives in config_data JSONB.

@@ -76,7 +76,7 @@ async function main() {
       AND (data_confidence IS NULL OR data_confidence != 'unverified')
       AND (archived IS NULL OR archived = false)
       AND (config_data->>'applicationUrl' IS NULL OR config_data->>'applicationUrl' = '')
-      AND (config_data->>'applicationMethod' IS NULL OR config_data->>'applicationMethod' NOT IN ('none', 'closed'))
+      AND (config_data->>'applicationMethod' IS NULL OR config_data->>'applicationMethod' NOT IN ('none', 'closed', 'email'))
     ORDER BY priority, fit_score DESC
   `;
 
