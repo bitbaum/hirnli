@@ -14,7 +14,7 @@ function postJson(url, body) {
     }, (res) => {
       let d = '';
       res.on('data', chunk => d += chunk);
-      res.on('end', () => { try { resolve(JSON.parse(d)); } catch(e) { resolve(null); } });
+      res.on('end', () => { try { resolve(JSON.parse(d)); } catch { resolve(null); } });
     });
     req.on('error', reject);
     req.write(data);
@@ -27,7 +27,7 @@ function fetchJson(url) {
     https.get(url, { headers: { 'Accept': 'application/json' } }, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
-      res.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { resolve(null); } });
+      res.on('end', () => { try { resolve(JSON.parse(data)); } catch { resolve(null); } });
     }).on('error', reject);
   });
 }
@@ -91,7 +91,7 @@ async function main() {
       
       if ((i+1) % 50 === 0) console.log(`  Progress: ${i+1}/${gaps.length} (found: ${found})`);
       await new Promise(r => setTimeout(r, 150)); // Rate limit
-    } catch (e) {
+    } catch {
       errors++;
     }
   }
@@ -109,7 +109,7 @@ async function main() {
       config.contact.address = u.address;
       await sql`UPDATE fundraising_foundations SET config_data = ${JSON.stringify(config)}::jsonb, updated_at = NOW() WHERE id = ${u.slug}`;
       written++;
-    } catch (e) {}
+    } catch {}
   }
   
   console.log(`Written to DB: ${written} addresses`);

@@ -16,7 +16,6 @@ import {
   CO2_PER_LAPTOP,
   LAPTOPS_REFURBISHED_COUNT,
   CO2_NEW_LAPTOP_MANUFACTURE,
-  CO2_REFURBISH_COST,
 } from '@/lib/config/numbers';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { ANNUAL_PL, COMPLETE_YEARS, CUMULATIVE_WARENVERKAUF, PEAK_REVENUE, PEAK_YEAR } from '@/app/finanzen/data';

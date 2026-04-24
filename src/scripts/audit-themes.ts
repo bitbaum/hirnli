@@ -12,16 +12,6 @@ config({ path: '.env.local' });
 
 import { neon } from '@neondatabase/serverless';
 
-interface FoundationRow {
-  id: string;
-  name: string;
-  priority: number | null;
-  config_data: {
-    officialPurpose?: string;
-    themes?: string[];
-  } | null;
-}
-
 interface ThemeDefinition {
   id: string;
   keywords: string[];

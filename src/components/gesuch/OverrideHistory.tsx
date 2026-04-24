@@ -66,7 +66,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
       })
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [slug, open]);
+  }, [slug, open, variantKey]);
 
   if (!open) return null;
 

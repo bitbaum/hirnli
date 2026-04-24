@@ -302,7 +302,7 @@ async function main() {
     const batch = toProcess.slice(i, i + CONCURRENCY);
 
     const batchPromises = batch.map(async (row) => {
-      const url = discoveredUrls.get(row.id) || row.config_data?.websiteUrl!;
+      const url = discoveredUrls.get(row.id) || (row.config_data?.websiteUrl as string);
       scraped++;
 
       try {

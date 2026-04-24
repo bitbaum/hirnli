@@ -157,7 +157,7 @@ function collectThemeMetadata(foundation: Foundation, schwerpunktId?: Schwerpunk
   // When a Schwerpunkt is selected, prefer themes matching the Schwerpunkt's focus.
   if (schwerpunktId) {
     const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
-    const spThemeIds = new Set(schwerpunkt.themeIds);
+    const _spThemeIds = new Set(schwerpunkt.themeIds);
     // Intersect foundation themes with Schwerpunkt themes, preserving Schwerpunkt order
     const orderedIds = schwerpunkt.themeIds.filter((id) => foundation.themes.includes(id));
     // If foundation has any matching themes, use those. Otherwise use Schwerpunkt themes directly.

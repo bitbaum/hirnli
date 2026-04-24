@@ -35,7 +35,7 @@ async function main() {
   console.log(`\n  Total needing upgrade: ${incomplete.length}`);
 
   // Not yet researched at all — filter in JS using RESEARCHED_METHODS as SSOT
-  const all = await sql`
+  const _all = await sql`
     SELECT COUNT(*) as count
     FROM fundraising_foundations
     WHERE priority IN (1,2,3) AND research_depth != 'rapid' AND archived = false

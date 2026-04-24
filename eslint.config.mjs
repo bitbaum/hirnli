@@ -17,9 +17,16 @@ const eslintConfig = defineConfig([
   // Pipeline/migration scripts — relax any-type rule.
   // These one-off scripts manipulate JSONB blobs where exact types aren't needed.
   {
-    files: ["scripts/**/*.ts"],
+    files: ["scripts/**/*.ts", "src/scripts/**/*.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
+  // Legacy JS scripts using CommonJS require() — exclude from ESM import rule.
+  {
+    files: ["src/scripts/**/*.js"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
   // Override default ignores of eslint-config-next.
@@ -29,6 +36,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Auto-generated file — never lint
+    "src/lib/config/foundations/stiftungen-generated.ts",
   ]),
 ]);
 
