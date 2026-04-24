@@ -28,6 +28,19 @@ const EXCLUDE_IDS = [
   'aline-andrea-rutz-stiftung','arte-terra-clima-foundation','asmallworld-foundation',
   'baasch-medicus-stiftung-zuerich','costas-and-eleni-venieri-charitable-foundation',
   'dr-adrian-otto-naegeli-stiftung','michael-kohn-stiftung',
+  // batch 43
+  'economic-foundation-zuerich-park-side','ernst-wilhelm-meier-stiftung',
+  'fritz-gerber-stiftung-fuer-begabte-junge-menschen','geschwister-maeder-stiftung',
+  'gottfried-und-ursula-schaeppi-jecklin-stiftung','gottlieb-naef-stiftung',
+  'guenther-caspar-stiftung-buero-ehrbar','hans-wegmann-stiftung',
+  'harald-naegeli-stiftung','iduna-stiftung',
+  // batch 44
+  'jean-anderson-studenten-sos-stiftung','jizchak-und-denise-schaechter-stiftung',
+  'joseph-stiftung','kanthari-foundation-switzerland','kohler-friederich-stiftung',
+  'kolianda-stiftung','liveyourdream-foundation',
+  'luiza-penha-walter-renteiro-stiftung-fuer-die-jugend-des-bez',
+  'max-wiederkehr-stiftung','maya-behn-eschenburg-stiftung',
+  'mekkihelp-stiftung','oscar-seeger-stiftung',
   // earlier batches
   'stopp-klimakrise','fuchs-eugster','cammac-stiftung','climatoor','erde-2-0',
   'foundation-zuerich-park-side',
