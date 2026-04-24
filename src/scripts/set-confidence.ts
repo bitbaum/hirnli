@@ -58,8 +58,9 @@ async function setConfidence() {
     const [unenrichedRapid] = await sql`
       SELECT COUNT(*) as cnt FROM fundraising_foundations
       WHERE research_depth='rapid'
-        AND (data_confidence IS NULL OR data_confidence != 'unverified')
-        AND (config_data->>'applicationResearchMethod' IS NULL OR config_data->>'applicationResearchMethod' IN ('unknown', ''))
+        AND data_confidence IS NULL
+        AND (config_data->>'applicationResearchMethod' IS NULL
+             OR config_data->>'applicationResearchMethod' IN ('unknown', ''))
     `;
     console.log(`Would set: ${deep.cnt} deep→human-verified`);
     console.log(`Would set: ${standard.cnt} standard→ai-assessed`);
@@ -105,13 +106,15 @@ async function setConfidence() {
   stats.enrichedRapidToAiAssessed = r3.length;
   console.log(`✅ Set ${stats.enrichedRapidToAiAssessed} foundations to 'ai-assessed' (enriched rapid)`);
 
-  // Rule 4: rapid + no applicationResearchMethod → unverified
-  // (only zefix/register text, never explicitly researched)
+  // Rule 4: rapid + no enrichment signal + not yet assessed → unverified
+  // Only marks NULL entries — never demotes existing ai-assessed foundations.
+  // Rapid foundations that are already ai-assessed (e.g. enriched via Groq themes
+  // pipeline without setting applicationResearchMethod) are intentionally preserved.
   const r4 = await sql`
     UPDATE fundraising_foundations
     SET data_confidence = 'unverified', updated_at = NOW()
     WHERE research_depth = 'rapid'
-      AND (data_confidence IS NULL OR data_confidence != 'unverified')
+      AND data_confidence IS NULL
       AND (config_data->>'applicationResearchMethod' IS NULL
            OR config_data->>'applicationResearchMethod' IN ('unknown', ''))
     RETURNING 1
