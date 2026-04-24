@@ -189,13 +189,13 @@ ESA / Zefix / Research scripts
 | In DB (active) | 16,566 | `fundraising_foundations` (archived=57 excluded) | Active pipeline entries |
 | Rapid (LLM-triaged) | ~15,973 | (DB, excluded if data_confidence='unverified') | Zefix text + LLM triage only, always P4 |
 | Generated | 1,767 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', non-archived, Zod valid |
-| P1-P3 (actionable) | 243 | (standard/deep depth only) | Researched + scored, never rapid (P1=20, P2=79, P3=144) |
+| P1-P3 (actionable) | 241 | (standard/deep depth only) | Researched + scored, never rapid (P1=20, P2=79, P3=142) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
 
 **Data confidence distribution (active):** unverified=14,799 · ai-assessed=1,764 · human-verified=3
 
-**ApplicationUrl coverage:** P1=20/20 (100%) · P2=79/79 (100%) · P3=135/144 (94%) — run `npm run audit` for gap list
+**ApplicationUrl coverage:** P1=20/20 (100%) · P2=79/79 (100%) · P3=136/142 (96%) — run `npm run audit` for gap list
 
 **Note:** `fundraising_foundation_registry` was dropped (2026-04-08) — it duplicated
 config_data and was never read by the app. All foundation data lives in config_data JSONB.
@@ -674,5 +674,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-24 — run `npm run audit` for live pipeline stats (P1=20/P2=79/P3=144=243, generated=1,767, P2 appUrl=100%)
+**Last Updated:** 2026-04-24 — run `npm run audit` for live pipeline stats (P1=20/P2=79/P3=142=241, generated=1,767, P2/P3 appUrl=100%/96%)
 **Maintainer:** Revamp-IT Team
