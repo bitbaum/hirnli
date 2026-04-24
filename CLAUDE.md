@@ -189,13 +189,13 @@ ESA / Zefix / Research scripts
 | In DB (active) | 16,569 | `fundraising_foundations` (archived=54 excluded) | Active pipeline entries |
 | Rapid (LLM-triaged) | ~15,975 | (DB, excluded if data_confidence='unverified') | Zefix text + LLM triage only, always P4 |
 | Generated | 1,770 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', non-archived, Zod valid |
-| P1-P3 (actionable) | 245 | (standard/deep depth only) | Researched + scored, never rapid (P1=20, P2=78, P3=147) |
+| P1-P3 (actionable) | 243 | (standard/deep depth only) | Researched + scored, never rapid (P1=20, P2=79, P3=144) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
 
 **Data confidence distribution (active):** unverified=14,799 · ai-assessed=1,767 · human-verified=3
 
-**ApplicationUrl coverage:** P1=20/20 (100%) · P2=74/78 (95%) · P3=134/147 (91%) — run `npm run audit` for gap list
+**ApplicationUrl coverage:** P1=20/20 (100%) · P2=75/79 (95%) · P3=135/144 (94%) — run `npm run audit` for gap list
 
 **Note:** `fundraising_foundation_registry` was dropped (2026-04-08) — it duplicated
 config_data and was never read by the app. All foundation data lives in config_data JSONB.
@@ -444,7 +444,7 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 - Generated TS file (`stiftungen-generated.ts`) is a second copy of DB data — moving to
   server components would eliminate the sync layer (not urgent, but architecturally cleaner)
 - P1-P3 contact gaps: 1 P1 + 3 P2 + 18 P3 missing email (law firm contacts, foundations with no public email) — see `npm run audit`
-- 13 P3 + 4 P2 foundations missing applicationUrl (structurally hard: no website, defunct domain, or no public access) — see `npm run audit`
+- 9 P3 + 4 P2 foundations missing applicationUrl (structurally hard: no website, defunct domain, or no public access) — see `npm run audit`
 - Enrichment scripts (`enrich-addresses.ts`, `enrich-contacts-llm.ts`, `enrich-contacts-spheriq.ts`,
   `deep-enrich.ts`) write directly to DB without provenance tracking — need staging/review workflow
 
@@ -674,5 +674,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-24 — run `npm run audit` for live pipeline stats (P1=20/P2=78/P3=147=245, generated=1,770)
+**Last Updated:** 2026-04-24 — run `npm run audit` for live pipeline stats (P1=20/P2=79/P3=144=243, generated=1,770)
 **Maintainer:** Revamp-IT Team
