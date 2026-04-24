@@ -34,7 +34,8 @@ const EXCLUDE_IDS = [
   'gottfried-und-ursula-schaeppi-jecklin-stiftung','gottlieb-naef-stiftung',
   'guenther-caspar-stiftung-buero-ehrbar','hans-wegmann-stiftung',
   'harald-naegeli-stiftung','iduna-stiftung',
-  // batch 44
+  // batch 44 + straggler
+  'paul-und-hedy-schaufelberger-biggel-stiftung',
   'jean-anderson-studenten-sos-stiftung','jizchak-und-denise-schaechter-stiftung',
   'joseph-stiftung','kanthari-foundation-switzerland','kohler-friederich-stiftung',
   'kolianda-stiftung','liveyourdream-foundation',
