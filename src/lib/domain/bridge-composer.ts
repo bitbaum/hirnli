@@ -61,8 +61,8 @@ export function buildFoundationBridge(foundation: Foundation, primaryThemeLabel:
     : '';
 
   if (purposeCore) {
-    // Purpose is already shown as the hero description above — bridge only states the connection
-    return `${ORG_PROFILE.name} adressiert genau dieses Anliegen: mit ${ORG_PROFILE.experienceLabel} in ${primaryThemeLabel}.`;
+    // Purpose is shown as the hero description above — bridge ties foundation focus to org wirkungsfeld
+    return `Der Förderfokus von ${foundation.name} trifft genau das Wirkungsfeld von ${ORG_PROFILE.name}: ${primaryThemeLabel} — mit ${ORG_PROFILE.experienceLabel}.`;
   }
   return `${ORG_PROFILE.name} ist seit über ${ORG_PROFILE.yearsActive} Jahren aktiv in ${primaryThemeLabel} — genau dem Bereich, den ${foundation.name} fördert.`;
 }

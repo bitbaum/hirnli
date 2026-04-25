@@ -51,10 +51,12 @@ describe('buildFoundationBridge', () => {
     expect(result).toContain('Kreislaufwirtschaft');
   });
 
-  it('uses experience format when purposeSummary exists', () => {
-    const f = makeFoundation({ purposeSummary: 'Fördert Umweltprojekte.' });
+  it('mentions foundation name when purposeSummary exists', () => {
+    const f = makeFoundation({ name: 'Drosos Stiftung', purposeSummary: 'Fördert Umweltprojekte.' });
     const result = buildFoundationBridge(f, 'Kreislaufwirtschaft');
-    expect(result).toContain('adressiert genau dieses Anliegen');
+    expect(result).toContain('Drosos Stiftung');
+    expect(result).toContain('Revamp-IT');
+    expect(result).toContain('Kreislaufwirtschaft');
   });
 
   it('uses years-active format when no purposeSummary', () => {
