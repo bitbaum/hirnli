@@ -236,19 +236,29 @@ function validateDuplicates(foundations: Foundation[]) {
       uids.add(foundation.uid);
     }
 
-    // Check fuzzy name matches
+    // Check fuzzy name matches.
+    // Use a length-aware threshold: short normalized names (3-letter acronyms
+    // like BSZ, BSD, EHW) have fundamentally low edit distance to each other
+    // even when they identify completely different foundations, so a flat
+    // distance ≤3 produced thousands of false positives. Skip names <5 chars
+    // and tighten the threshold for short-but-reasonable names.
     const normalized = normalizeName(foundation.name);
-    for (const [existingNormalized, existing] of names.entries()) {
-      const distance = levenshteinDistance(normalized, existingNormalized);
-      if (distance <= 3) {
-        addIssue({
-          slug: foundation.slug,
-          name: foundation.name,
-          severity: 'warning',
-          category: 'duplicate',
-          message: `Possible duplicate of "${existing.name}" (edit distance: ${distance})`,
-          fix: 'Verify these are different foundations, or merge if duplicate',
-        });
+    if (normalized.length >= 5) {
+      for (const [existingNormalized, existing] of names.entries()) {
+        const minLen = Math.min(normalized.length, existingNormalized.length);
+        if (minLen < 5) continue;
+        const maxDistance = minLen <= 7 ? 1 : 2;
+        const distance = levenshteinDistance(normalized, existingNormalized);
+        if (distance <= maxDistance) {
+          addIssue({
+            slug: foundation.slug,
+            name: foundation.name,
+            severity: 'warning',
+            category: 'duplicate',
+            message: `Possible duplicate of "${existing.name}" (edit distance: ${distance})`,
+            fix: 'Verify these are different foundations, or merge if duplicate',
+          });
+        }
       }
     }
     names.set(normalized, foundation);

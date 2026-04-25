@@ -443,11 +443,11 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 
 - Generated TS file (`stiftungen-generated.ts`) is a second copy of DB data — moving to
   server components would eliminate the sync layer (not urgent, but architecturally cleaner)
-- 1 P3 truly unreachable (alice-ackermann: phone-only, no appUrl, no email) — audit EMAIL GAPS section
-- 6 P3 applicationUrl gaps (structural: no website/defunct/no public access) — audit APPLICATION URL GAPS section
-- Many P1-P3 show "missing email" in raw count but ARE reachable via appUrl/online forms — audit now separates these correctly
-- Enrichment scripts (`enrich-addresses.ts`, `enrich-contacts-llm.ts`, `enrich-contacts-spheriq.ts`,
-  `deep-enrich.ts`) write directly to DB without provenance tracking — need staging/review workflow
+- 1 P3 truly unreachable (alice-ackermann: phone-only, no appUrl, no email) — also the only
+  remaining APPLICATION URL gap. Run `npm run audit` for the live list.
+- 65 Gesuch documents have data-quality issues per `gesuch-audit` (~30 thin researchNotes
+  <250 chars, ~10 thin purposeSummary <150 chars, 10 missing email/phone, 5 registry-only
+  websiteUrl) — needs per-foundation research enrichment, not a code fix
 
 ---
 
