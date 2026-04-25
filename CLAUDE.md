@@ -186,9 +186,9 @@ ESA / Zefix / Research scripts
 | Tier | Count | Table/File | What it means |
 |------|-------|------------|---------------|
 | Swiss universe | ~16,900 | Zefix commercial register | All registered Swiss foundations |
-| In DB (active) | 16,559 | `fundraising_foundations` (archived=64 excluded) | Active pipeline entries |
+| In DB (active) | 16,554 | `fundraising_foundations` (archived=69 excluded) | Active pipeline entries |
 | Rapid (LLM-triaged) | ~15,975 | (DB, excluded if data_confidence='unverified') | Zefix text + LLM triage only, always P4 |
-| Generated | 1,760 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', non-archived, Zod valid |
+| Generated | 1,755 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', non-archived, Zod valid |
 | P1-P3 (actionable) | 241 | (standard/deep depth only) | Researched + scored, never rapid (P1=20, P2=79, P3=142) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
@@ -675,5 +675,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-25 — run `npm run audit` for live pipeline stats (P1=20/P2=79/P3=142=241, generated=1,760, archived=64, P2/P3 appUrl=100%/96%)
+**Last Updated:** 2026-04-25 — run `npm run audit` for live pipeline stats (P1=20/P2=79/P3=142=241, generated=1,755, archived=69, P2/P3 appUrl=100%/96%)
 **Maintainer:** Revamp-IT Team
