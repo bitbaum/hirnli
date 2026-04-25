@@ -7,7 +7,7 @@
     "predev": "npm run sync",
     "build": "next build",
     "prebuild": "npm run sync",
-    "lint:umlauts": "! grep -rn 'ß' src/ --include='*.ts' --include='*.tsx' | grep -v 'ss statt ß' | grep -v node_modules && echo 'No ß found' || (echo 'ERROR: Found ß (should be ss in Swiss German)' && exit 1)",
+    "lint:umlauts": "! grep -rn 'ß' src/ --include='*.ts' --include='*.tsx' | grep -v 'ss statt ß' | grep -v node_modules | grep -v 'stiftungen-generated.ts' && echo 'No ß found' || (echo 'ERROR: Found ß (should be ss in Swiss German) in source code (foundation data in stiftungen-generated.ts is excluded — that file mirrors DB content sourced from German foundations)' && exit 1)",
     "sync": "tsx src/scripts/sync-foundations.ts",
     "audit": "tsx scripts/audit-pipeline.ts",
     "start": "next start",
