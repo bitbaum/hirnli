@@ -149,14 +149,18 @@ export function generateFoundationParams(): { slug: string }[] {
 /**
  * Check if a foundation qualifies for a gesuch page.
  * SSOT for the gesuch gate — used by both generateGesuchParams() and FoundationSidebar.
- * Requires tier >= recherchiert AND computed priority P1-P3.
+ * Requires tier >= recherchiert AND computed priority P1-P3 AND at least one theme.
  * P3 ("watch for timing") still gets a Gesuch for when the timing is right.
  * P4 ("maintain relationship") does not.
+ * Themes are required because composeGesuch() depends on theme→story mapping
+ * to assemble the document; without themes the page renders an error state.
  */
 export function hasGesuchPage(f: Foundation): boolean {
   if (!tierAtLeast(getQualityTier(f), 'recherchiert')) return false;
   // Use stored priority (SSOT) — P4 foundations don't get a Gesuch page
   if (f.priority > 3) return false;
+  // No themes = composeGesuch returns ready=false; skip Gesuch generation
+  if (!f.themes || f.themes.length === 0) return false;
   return true;
 }
 

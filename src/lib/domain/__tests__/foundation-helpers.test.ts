@@ -98,6 +98,12 @@ describe('hasGesuchPage', () => {
     const f = makeMinimalFoundation({ priority: 1, fitScore: 8 });
     expect(hasGesuchPage(f)).toBe(false);
   });
+
+  it('returns false when themes array is empty', () => {
+    // Without themes, composeGesuch cannot assemble the document.
+    const f = makeFoundation({ fitScore: 7, priority: 1, themes: [] });
+    expect(hasGesuchPage(f)).toBe(false);
+  });
 });
 
 describe('computeTierCounts', () => {
