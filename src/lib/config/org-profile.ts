@@ -49,7 +49,10 @@ export const ORG_PROFILE = {
 
   // Computed from founded year — never hardcode "20 Jahre" etc.
   yearsActive: _YEARS_ACTIVE,
-  experienceLabel: `über ${_YEARS_ACTIVE} Jahre Erfahrung`,
+  // Dative form ("Jahren") — used after "mit" / "Als <X> mit", so plural dative
+  // is required. Bridge-composer, anschreiben-composer, and the stories opening
+  // template all interpolate this in dative position.
+  experienceLabel: `über ${_YEARS_ACTIVE} Jahren Erfahrung`,
   missionKeywords: ['Kreislaufwirtschaft', 'Arbeitsintegration', 'digitale Bildung'],
   missionSummary: 'Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung',
 
