@@ -43,6 +43,31 @@ describe('composeGesuch', () => {
     }
   });
 
+  it('falls back to zuerich badge when zuerich is the only theme', () => {
+    // Foundations tagged only with the geographic 'zuerich' theme should still
+    // get a theme badge — otherwise the hero shows zero theme chips.
+    const result = composeGesuch(makeFoundation({ themes: ['zuerich'] }));
+    expect(result.ready).toBe(true);
+    if (result.ready) {
+      expect(result.themes.all.length).toBeGreaterThan(0);
+      expect(result.themes.all[0].id).toBe('zuerich');
+    }
+  });
+
+  it('hides zuerich when a content theme is also present', () => {
+    // When both a content theme and zuerich are tagged, zuerich is filtered
+    // (it maps to the same story key as klima).
+    const result = composeGesuch(
+      makeFoundation({ themes: ['kreislaufwirtschaft', 'zuerich'] }),
+    );
+    expect(result.ready).toBe(true);
+    if (result.ready) {
+      const ids = result.themes.all.map((t) => t.id);
+      expect(ids).toContain('kreislaufwirtschaft');
+      expect(ids).not.toContain('zuerich');
+    }
+  });
+
   it('includes bridge text when ready', () => {
     const result = composeGesuch(makeFoundation());
     if (result.ready) {

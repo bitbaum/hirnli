@@ -169,11 +169,16 @@ function collectThemeMetadata(foundation: Foundation, schwerpunktId?: Schwerpunk
   }
 
   // Default: deduplicate by story key so geographic aliases (e.g. 'zuerich' → 'klima')
-  // don't show alongside a proper klima theme.
+  // don't show alongside a proper klima theme. But keep 'zuerich' as a fallback
+  // badge when it is the foundation's only tag — otherwise the hero shows
+  // zero theme chips.
+  const hasContentTheme = foundation.themes.some(
+    (id) => id !== 'zuerich' && THEME_ID_TO_STORY_KEY[id] !== undefined,
+  );
   const seenStoryKeys = new Set<string>();
   return foundation.themes
     .filter((id) => {
-      if (id === 'zuerich') return false;
+      if (id === 'zuerich' && hasContentTheme) return false;
       const storyKey = THEME_ID_TO_STORY_KEY[id];
       if (!storyKey) return false;
       if (seenStoryKeys.has(storyKey)) return false;
