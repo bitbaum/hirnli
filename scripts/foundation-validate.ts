@@ -242,6 +242,11 @@ function validateDuplicates(foundations: Foundation[]) {
     // even when they identify completely different foundations, so a flat
     // distance ≤3 produced thousands of false positives. Skip names <5 chars
     // and tighten the threshold for short-but-reasonable names.
+    //
+    // For non-zero distance matches, also require matching UIDs — different
+    // UIDs identify different legal entities, so similar names with distinct
+    // UIDs are guaranteed to be different foundations (different family
+    // stiftungen, sister entities, coincidental name overlap, etc.).
     const normalized = normalizeName(foundation.name);
     if (normalized.length >= 5) {
       for (const [existingNormalized, existing] of names.entries()) {
@@ -249,16 +254,24 @@ function validateDuplicates(foundations: Foundation[]) {
         if (minLen < 5) continue;
         const maxDistance = minLen <= 7 ? 1 : 2;
         const distance = levenshteinDistance(normalized, existingNormalized);
-        if (distance <= maxDistance) {
-          addIssue({
-            slug: foundation.slug,
-            name: foundation.name,
-            severity: 'warning',
-            category: 'duplicate',
-            message: `Possible duplicate of "${existing.name}" (edit distance: ${distance})`,
-            fix: 'Verify these are different foundations, or merge if duplicate',
-          });
+        if (distance > maxDistance) continue;
+        // Distance 0: definitely flag (same normalized name)
+        // Distance 1+: only flag if UIDs match (or one is missing — possibly
+        //   the same foundation imported under two slugs, with one yet to
+        //   receive its UID)
+        if (distance > 0) {
+          if (foundation.uid && existing.uid && foundation.uid !== existing.uid) {
+            continue;  // different UIDs = different foundations
+          }
         }
+        addIssue({
+          slug: foundation.slug,
+          name: foundation.name,
+          severity: 'warning',
+          category: 'duplicate',
+          message: `Possible duplicate of "${existing.name}" (edit distance: ${distance})`,
+          fix: 'Verify these are different foundations, or merge if duplicate',
+        });
       }
     }
     names.set(normalized, foundation);
