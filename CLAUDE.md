@@ -186,14 +186,14 @@ ESA / Zefix / Research scripts
 | Tier | Count | Table/File | What it means |
 |------|-------|------------|---------------|
 | Swiss universe | ~16,900 | Zefix commercial register | All registered Swiss foundations |
-| In DB (active) | 16,553 | `fundraising_foundations` (archived=70 excluded) | Active pipeline entries |
-| Rapid (LLM-triaged) | ~15,975 | (DB, excluded if data_confidence='unverified') | Zefix text + LLM triage only, always P4 |
-| Generated | 1,754 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', non-archived, Zod valid |
+| In DB (active) | 15,507 | `fundraising_foundations` (archived=1,116 excluded) | Active pipeline entries |
+| Rapid (LLM-triaged) | ~14,919 | (DB, excluded if data_confidence='unverified') | Zefix text + LLM triage only, always P4 |
+| Generated | 1,684 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', non-archived, Zod valid |
 | P1-P3 (actionable) | 241 | (standard/deep depth only) | Researched + scored, never rapid (P1=20, P2=79, P3=142) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
 
-**Data confidence distribution (active):** unverified=14,799 · ai-assessed=1,761 · human-verified=3
+**Data confidence distribution (active):** unverified=13,823 · ai-assessed=1,681 · human-verified=3
 
 **ApplicationUrl coverage:** P1=20/20 (100%) · P2=79/79 (100%) · P3=136/142 (96% raw URL; 5 use applicationMethod='email', 1 unreachable) — run `npm run audit` for gap list (1 structural gap: alice-ackermann, phone-only)
 
@@ -675,5 +675,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-25 — run `npm run audit` for live pipeline stats (P1=20/P2=79/P3=142=241, generated=1,754, archived=70, P2/P3 appUrl=100%/96%)
+**Last Updated:** 2026-04-25 — run `npm run audit` for live pipeline stats (P1=20/P2=79/P3=142=241, generated=1,684, archived=1,116, P2/P3 appUrl=100%/96%)
 **Maintainer:** Revamp-IT Team

@@ -20,6 +20,7 @@
 
 import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
 import type { Foundation } from '../src/lib/schemas/foundation';
+import { ApplicationMethod } from '../src/lib/schemas/foundation';
 
 // ============================================================================
 // VALIDATION RULES
@@ -333,8 +334,10 @@ function validateSchema(foundation: Foundation) {
     });
   }
 
-  // ApplicationMethod must be valid
-  const validMethods = ['online', 'post', 'email', 'contact', 'direct', 'personal', 'partnership', 'via_partner', 'membership', 'contract', 'none', 'unknown'];
+  // ApplicationMethod must match the Zod schema enum (SSOT — never duplicate
+  // the list here; it drifted out of sync once already, treating valid
+  // 'invitation' as invalid).
+  const validMethods = ApplicationMethod.options;
   if (!validMethods.includes(foundation.applicationMethod)) {
     addIssue({
       slug: foundation.slug,
