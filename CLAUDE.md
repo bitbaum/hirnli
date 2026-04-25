@@ -195,7 +195,7 @@ ESA / Zefix / Research scripts
 
 **Data confidence distribution (active):** unverified=14,799 · ai-assessed=1,763 · human-verified=3
 
-**ApplicationUrl coverage:** P1=20/20 (100%) · P2=78/78 (100%) · P3=142/143 (99%) — run `npm run audit` for gap list (1 structural gap: alice-ackermann, phone-only)
+**ApplicationUrl coverage:** P1=20/20 (100%) · P2=78/78 (100%) · P3=137/143 (96% raw URL; 5 use applicationMethod='email', 1 unreachable) — run `npm run audit` for gap list (1 structural gap: alice-ackermann, phone-only)
 
 **Note:** `fundraising_foundation_registry` was dropped (2026-04-08) — it duplicated
 config_data and was never read by the app. All foundation data lives in config_data JSONB.
@@ -675,5 +675,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-24 — run `npm run audit` for live pipeline stats (P1=20/P2=78/P3=143=241, generated=1,766, archived=58, P2/P3 appUrl=100%/96%)
+**Last Updated:** 2026-04-25 — run `npm run audit` for live pipeline stats (P1=20/P2=78/P3=143=241, generated=1,766, archived=58, P2/P3 appUrl=100%/96%)
 **Maintainer:** Revamp-IT Team

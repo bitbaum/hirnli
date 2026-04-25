@@ -110,7 +110,7 @@ async function importFile(file: string): Promise<{ written: number; skipped: num
     const existingMethod = (cd.applicationResearchMethod as string) ?? 'unknown';
     const existingRank = RESEARCH_METHOD_RANK[existingMethod] ?? 0;
     const newRank = RESEARCH_METHOD_RANK[newMethod] ?? 0;
-    if (newRank >= existingRank) {
+    if (newRank > existingRank) {
       cd.applicationResearchMethod = newMethod;
       fields.push('applicationResearchMethod');
     }
