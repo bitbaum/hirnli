@@ -1,5 +1,18 @@
 # UX, Consistency & Growth Modeling Guide
 
+> ⚠️ **AUDIT FROM 2026-02-12** — this doc was a "Critical Issues to
+> Fix" snapshot. Several of the issues listed below have since been
+> addressed — Issue #1 (Number Consistency) shipped as
+> `src/lib/config/numbers.ts` (the registry the doc proposes is now
+> live with the canonical values it sketches), and the Number Source
+> tooltip pattern (`NumberWithSource`/`NumberInspector`) exists in
+> `src/components/metrics/`. The "Current State (as of 2026-02-12)"
+> example numbers in Issue #1's code blocks are example values from
+> that snapshot, not the live SSOT — query
+> `src/lib/config/numbers.ts` directly for current canonical
+> figures. Treat the rest of the doc as design-pattern guidance plus
+> historical motivation rather than a current to-do list.
+
 ## Critical Issues to Fix
 
 ### 1. Number Consistency Across Site
