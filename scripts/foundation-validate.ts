@@ -21,6 +21,7 @@
 import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
 import type { Foundation } from '../src/lib/schemas/foundation';
 import { ApplicationMethod } from '../src/lib/schemas/foundation';
+import { validateFoundationQuality } from '../src/lib/domain/foundation-quality';
 
 // ============================================================================
 // VALIDATION RULES
@@ -45,65 +46,28 @@ function addIssue(issue: ValidationIssue) {
 // QUALITY GATE VALIDATION
 // ============================================================================
 
-function validateQualityGate(foundation: Foundation) {
-  if (foundation.needsResearch === false) {
-    // Must have purposeSummary ≥ 150 chars
-    if (!foundation.purposeSummary || foundation.purposeSummary.length < 150) {
+/**
+ * Quality-gate validation for researched foundations.
+ *
+ * Delegates to the domain-layer validateFoundationQuality (SSOT) — that
+ * function uses computed quality tier (isResearched) and shared
+ * QUALITY_THRESHOLDS, replacing the now-deprecated stored needsResearch
+ * boolean. The script-level wrapper just flattens the violation list into
+ * the addIssue interface.
+ */
+function validateAllQualityGates() {
+  const violations = validateFoundationQuality(STIFTUNGEN_DATA);
+  for (const { slug, issues } of violations) {
+    const foundation = STIFTUNGEN_DATA.find((f) => f.slug === slug);
+    const name = foundation?.name ?? slug;
+    for (const message of issues) {
       addIssue({
-        slug: foundation.slug,
-        name: foundation.name,
-        severity: 'error',
+        slug,
+        name,
+        severity: 'warning',
         category: 'quality',
-        message: `needsResearch: false requires purposeSummary ≥150 chars (current: ${foundation.purposeSummary?.length || 0})`,
-        fix: 'Set needsResearch: true OR expand purposeSummary',
-      });
-    }
-
-    // Must have researchNotes ≥ 250 chars
-    if (!foundation.researchNotes || foundation.researchNotes.length < 250) {
-      addIssue({
-        slug: foundation.slug,
-        name: foundation.name,
-        severity: 'error',
-        category: 'quality',
-        message: `needsResearch: false requires researchNotes ≥250 chars (current: ${foundation.researchNotes?.length || 0})`,
-        fix: 'Set needsResearch: true OR expand researchNotes with fit analysis',
-      });
-    }
-
-    // Must have contact (email OR phone)
-    if (!foundation.contact || (!foundation.contact.email && !foundation.contact.phone)) {
-      addIssue({
-        slug: foundation.slug,
-        name: foundation.name,
-        severity: 'error',
-        category: 'quality',
-        message: 'needsResearch: false requires contact.email OR contact.phone',
-        fix: 'Set needsResearch: true OR add contact information',
-      });
-    }
-
-    // Must have themes
-    if (!foundation.themes || foundation.themes.length === 0) {
-      addIssue({
-        slug: foundation.slug,
-        name: foundation.name,
-        severity: 'error',
-        category: 'quality',
-        message: 'needsResearch: false requires at least one theme',
-        fix: 'Set needsResearch: true OR assign relevant themes',
-      });
-    }
-
-    // Must have websiteUrl OR applicationUrl
-    if (!foundation.websiteUrl && !foundation.applicationUrl) {
-      addIssue({
-        slug: foundation.slug,
-        name: foundation.name,
-        severity: 'error',
-        category: 'quality',
-        message: 'needsResearch: false requires websiteUrl OR applicationUrl',
-        fix: 'Set needsResearch: true OR add website URL',
+        message,
+        fix: 'Improve research depth (expand purposeSummary/researchNotes, add contact/themes/websiteUrl)',
       });
     }
   }
@@ -361,10 +325,11 @@ function main() {
   // Run validations
   for (const foundation of STIFTUNGEN_DATA) {
     validateSchema(foundation);
-    validateQualityGate(foundation);
     validateCompleteness(foundation);
   }
 
+  // Quality-gate runs once across the dataset (delegates to domain SSOT)
+  validateAllQualityGates();
   validateDuplicates(STIFTUNGEN_DATA);
 
   // Report results
