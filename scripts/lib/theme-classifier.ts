@@ -1,10 +1,10 @@
 /**
  * Theme Classifier — Shared keyword-based theme classification
  *
- * Extracted from batch-research.ts and esa-bulk-ingest.ts to eliminate
- * DRY violation. Single source of truth for theme keyword rules.
+ * Single source of truth for theme keyword rules.
  *
- * Used by: batch-research.ts, esa-bulk-ingest.ts, future pipeline scripts
+ * Used by: scripts/{zhaw-ingest, bulk-enrich, zefix-ingest,
+ * foundation-research-queue-v2, pipeline-incremental, pipeline-graduate}.
  */
 
 import type { ThemeId } from '../../src/lib/schemas/foundation';
