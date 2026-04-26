@@ -108,7 +108,8 @@ export function getTierPromotionSteps(f: Foundation): TierPromotion {
 /**
  * Whether a foundation has been sufficiently researched.
  * Derived from readiness tier: profiliert or above means researched.
- * Replaces the stored `needsResearch` boolean with a computed check.
+ * (The deprecated `needsResearch` boolean was removed from the schema —
+ * this is now the canonical signal.)
  */
 export function isResearched(f: Foundation): boolean {
   return tierAtLeast(getQualityTier(f), 'profiliert');

@@ -33,7 +33,6 @@ export function makeFoundation(overrides: Partial<Foundation> = {}): Foundation 
     themes: ['kreislaufwirtschaft', 'soziale-integration'],
     tagline: 'Fördert Nachhaltigkeit und Bildung',
     researchNotes: 'Gut recherchierte Stiftung mit klarem Profil. Die Stiftung hat eine lange Tradition der Förderung von Projekten in den Bereichen Umwelt und Bildung. Direkter Kontakt möglich. Ansprechperson bekannt. Regelmässige Vergabesitzungen vierteljährlich. Gute Passung.',
-    needsResearch: false,
     researchDate: '2026-01-15',
     researchDepth: 'deep',
     ...overrides,

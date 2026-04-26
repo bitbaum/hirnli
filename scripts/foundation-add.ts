@@ -12,7 +12,9 @@
  * Features:
  * - Schema validation before generating code
  * - Duplicate detection (slug, UID, fuzzy name)
- * - Quality gate enforcement for needsResearch: false
+ * - Quality warnings for thin purposeSummary / researchNotes / contact
+ *   (matches the QUALITY_THRESHOLDS used by isResearched(f) — see
+ *   src/lib/domain/foundation-quality.ts)
  * - Outputs ready-to-paste TypeScript
  */
 
@@ -124,88 +126,32 @@ async function promptForEntry(): Promise<Partial<Foundation>> {
   console.log('  via_partner, membership, contract, none, unknown\n');
   const applicationMethod = await question('Application Method: ');
 
-  const needsResearch = (await question('Needs more research? (yes/no): ')).toLowerCase() === 'yes';
+  // Always prompt for the depth fields. Quality is computed at runtime via
+  // isResearched(f) (foundation-quality.ts) based on data completeness — we
+  // just warn here when the entered data falls below QUALITY_THRESHOLDS so
+  // the user knows the entry won't reach `profiliert` tier yet.
+  console.log('\nDepth fields (warnings issued if below thresholds — entry');
+  console.log('still saved, just won\'t reach profiliert tier):');
+  console.log('  - purposeSummary: 150+ chars');
+  console.log('  - researchNotes:  250+ chars');
+  console.log('  - contact:        email OR phone\n');
 
-  let purposeSummary = '';
-  let researchNotes = '';
-  let contactEmail = '';
-  let contactPhone = '';
-  let contactAddress = '';
+  const purposeSummary = await question('Purpose Summary: ');
+  if (purposeSummary && purposeSummary.length < 150) {
+    console.log(`⚠️  Purpose only ${purposeSummary.length} chars — below 150 threshold.`);
+  }
 
-  if (!needsResearch) {
-    console.log('\n⚠️  needsResearch: false requires:');
-    console.log('  - purposeSummary (150+ chars)');
-    console.log('  - researchNotes (250+ chars)');
-    console.log('  - contact (email OR phone)\n');
+  const researchNotes = await question('Research Notes: ');
+  if (researchNotes && researchNotes.length < 250) {
+    console.log(`⚠️  Research notes only ${researchNotes.length} chars — below 250 threshold.`);
+  }
 
-    purposeSummary = await question('Purpose Summary (150+ chars): ');
-    if (purposeSummary.length < 150) {
-      console.log(`❌ Purpose too short (${purposeSummary.length} chars). Need 150+.`);
-      console.log('Setting needsResearch: true instead.\n');
-      return {
-        slug,
-        name,
-        type: type as FoundationType,
-        status: status as FoundationStatus,
-        region,
-        websiteUrl: websiteUrl || undefined,
-        uid: uid || undefined,
-        tagline,
-        fit,
-        priority,
-        source: source as SourceId,
-        themes: themes as ThemeId[],
-        applicationMethod: applicationMethod as ApplicationMethod,
-        needsResearch: true,
-      };
-    }
+  const contactEmail = await question('Contact Email [optional]: ');
+  const contactPhone = await question('Contact Phone [optional]: ');
+  const contactAddress = await question('Contact Address [optional]: ');
 
-    researchNotes = await question('Research Notes (250+ chars): ');
-    if (researchNotes.length < 250) {
-      console.log(`❌ Research notes too short (${researchNotes.length} chars). Need 250+.`);
-      console.log('Setting needsResearch: true instead.\n');
-      return {
-        slug,
-        name,
-        type: type as FoundationType,
-        status: status as FoundationStatus,
-        region,
-        websiteUrl: websiteUrl || undefined,
-        uid: uid || undefined,
-        tagline,
-        fit,
-        priority,
-        source: source as SourceId,
-        themes: themes as ThemeId[],
-        applicationMethod: applicationMethod as ApplicationMethod,
-        needsResearch: true,
-      };
-    }
-
-    contactEmail = await question('Contact Email [optional]: ');
-    contactPhone = await question('Contact Phone [optional]: ');
-    contactAddress = await question('Contact Address [optional]: ');
-
-    if (!contactEmail && !contactPhone) {
-      console.log('❌ Must provide email OR phone for needsResearch: false.');
-      console.log('Setting needsResearch: true instead.\n');
-      return {
-        slug,
-        name,
-        type: type as FoundationType,
-        status: status as FoundationStatus,
-        region,
-        websiteUrl: websiteUrl || undefined,
-        uid: uid || undefined,
-        tagline,
-        fit,
-        priority,
-        source: source as SourceId,
-        themes: themes as ThemeId[],
-        applicationMethod: applicationMethod as ApplicationMethod,
-        needsResearch: true,
-      };
-    }
+  if (!contactEmail && !contactPhone) {
+    console.log('⚠️  No email or phone — entry will be hard to reach.');
   }
 
   return {
@@ -222,7 +168,6 @@ async function promptForEntry(): Promise<Partial<Foundation>> {
     source: source as SourceId,
     themes: themes as ThemeId[],
     applicationMethod: applicationMethod as ApplicationMethod,
-    needsResearch,
     purposeSummary: purposeSummary || undefined,
     researchNotes: researchNotes || undefined,
     contact: (contactEmail || contactPhone || contactAddress)
@@ -281,7 +226,6 @@ function generateTypeScriptCode(entry: Partial<Foundation>): string {
   lines.push(`  themes: [${entry.themes?.map((t) => `'${t}'`).join(', ')}],`);
   lines.push(`  source: '${entry.source}',`);
   lines.push(`  researchDate: '${new Date().toISOString().split('T')[0]}',`);
-  lines.push(`  needsResearch: ${entry.needsResearch},`);
   lines.push('},');
 
   return lines.join('\n');

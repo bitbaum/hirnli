@@ -218,7 +218,6 @@ async function upsertEntry(
     tagline: `${entry.name} — Handelsregister`,
     themes,
     researchDate: today,
-    needsResearch: true,
     researchNotes,
     researchDepth,
   };

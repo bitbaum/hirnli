@@ -202,7 +202,6 @@ async function upsertEntry(
     tagline: purposeSummary.substring(0, 80),
     themes,
     researchDate: today,
-    needsResearch: true,
     researchNotes,
     researchDepth,
   };

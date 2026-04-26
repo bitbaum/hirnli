@@ -128,18 +128,10 @@ async function main() {
       sourceLinks: [],
     };
 
-    // --- Quality gate: compute needsResearch ---
-    // Note: hasWebsite intentionally includes Zefix/registry URLs — having the entry
-    // in a public register is sufficient for the quality gate. The researchDepth check
-    // is stricter (requires real website + email/phone for 'standard').
-    const hasContact = !!(a.contactInfo.email || a.contactInfo.phone || a.contactInfo.address);
-    const hasWebsite = !!(draft.queueItem.websiteUrl);
-    const hasPurpose = a.purposeSummary.length >= 150;
-    const hasNotes = a.researchNotes.length >= 250;
-    const hasThemes = a.themes.length >= 1;
-    const needsResearch = !(hasContact && hasWebsite && hasPurpose && hasNotes && hasThemes);
-
     // --- Compute researchDepth ---
+    // Note: hasWebsite intentionally includes Zefix/registry URLs — the strict
+    // check (requires real website + email/phone for 'standard') is below.
+    const hasWebsite = !!(draft.queueItem.websiteUrl);
     const hasRealWebsite = hasWebsite && !isZefixUrl(draft.queueItem.websiteUrl || '');
     const hasEmail = !!a.contactInfo.email;
     const hasPhone = !!a.contactInfo.phone;
@@ -176,7 +168,6 @@ async function main() {
       tagline: a.purposeSummary.substring(0, 80),
       themes: a.themes,
       researchDate: today,
-      needsResearch,
       researchNotes: a.researchNotes,
       researchDepth,
     };
@@ -212,7 +203,7 @@ async function main() {
           updated_at = ${now}
       `;
 
-      console.log(`  ${draft.name} → DB (newFit=${fitScore}, newP=${computedPriority}, depth=${researchDepth}, needsResearch=${needsResearch})`);
+      console.log(`  ${draft.name} → DB (newFit=${fitScore}, newP=${computedPriority}, depth=${researchDepth})`);
       success++;
     } catch (err) {
       console.error(`  ${draft.name}: ${err instanceof Error ? err.message : err}`);

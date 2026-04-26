@@ -542,7 +542,6 @@ async function phase3Upsert(
         researchDate: today,
         type: r.suggestedType,
         isOperative: !r.isFunder,
-        needsResearch: true,
         tagline: r.purposeSummary.substring(0, 80),
       };
 

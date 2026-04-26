@@ -221,7 +221,6 @@ export const analysisSchema = z.object({
   researchNotes: z.string().optional(),
 
   // -- Pipeline metadata (not used in domain scoring) -------------------------
-  needsResearch: z.boolean().default(true),   // DEPRECATED → isResearched(f)
   researchDate: z.string(),
   researchDepth: ResearchDepth.optional(),     // Pipeline bookkeeping only
 
