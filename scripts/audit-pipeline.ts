@@ -26,9 +26,12 @@ async function main() {
                          AND (archived IS NULL OR archived = false)) AS human_verified,
       COUNT(*) FILTER (WHERE (data_confidence IS NULL OR data_confidence != 'unverified')
                          AND (archived IS NULL OR archived = false)) AS sync_eligible,
-      COUNT(*) FILTER (WHERE research_depth = 'rapid')             AS depth_rapid,
-      COUNT(*) FILTER (WHERE research_depth = 'standard')          AS depth_standard,
-      COUNT(*) FILTER (WHERE research_depth = 'deep')              AS depth_deep
+      COUNT(*) FILTER (WHERE research_depth = 'rapid'
+                         AND (archived IS NULL OR archived = false))    AS depth_rapid,
+      COUNT(*) FILTER (WHERE research_depth = 'standard'
+                         AND (archived IS NULL OR archived = false))    AS depth_standard,
+      COUNT(*) FILTER (WHERE research_depth = 'deep'
+                         AND (archived IS NULL OR archived = false))    AS depth_deep
     FROM fundraising_foundations
   `;
 
