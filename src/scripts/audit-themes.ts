@@ -137,14 +137,19 @@ async function auditThemes() {
     const themes = row.config_data?.themes ?? [];
     if (themes.length === 0) continue;
 
-    // Build haystack from all three text fields. The Zefix officialPurpose is
-    // often terse and won't mention themes that were correctly assigned based
-    // on our deeper research — so check purposeSummary (our research summary)
-    // and researchNotes (our fit analysis) too.
+    // Build haystack from text fields. Zefix officialPurpose is often terse,
+    // so check purposeSummary (our research summary) and researchNotes (our
+    // fit analysis) too. Also include region + contact.address — the
+    // 'zuerich' geographic theme keywords (Zürich/Zurich/Zürcher) typically
+    // appear in those fields, not narrative purpose text.
     const officialPurpose = (row.config_data?.officialPurpose ?? '') as string;
     const purposeSummary = (row.config_data?.purposeSummary ?? '') as string;
     const researchNotes = (row.config_data?.researchNotes ?? '') as string;
-    const haystack = [officialPurpose, purposeSummary, researchNotes].filter(Boolean).join(' ');
+    const region = (row.config_data?.region ?? '') as string;
+    const address = ((row.config_data?.contact as { address?: string } | null)?.address ?? '') as string;
+    const haystack = [officialPurpose, purposeSummary, researchNotes, region, address]
+      .filter(Boolean)
+      .join(' ');
 
     // Skip if no text content at all
     if (haystack.trim() === '') continue;
