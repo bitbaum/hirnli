@@ -1,5 +1,12 @@
 # Hub Number Audit - 2026-02-13
 
+> ⚠️ **HISTORICAL SNAPSHOT** — this audit was performed on 2026-02-13.
+> The "WHAT TO FIX" recommendations near the bottom were partially
+> actioned afterwards (see commits in `src/app/fundraising/hub/` and
+> `src/lib/config/hub-space-plan.ts`). Kept as historical context for
+> the design rationale; do not treat the inconsistencies listed below
+> as still-current bugs without first checking the live code.
+
 ## CRITICAL INCONSISTENCIES FOUND
 
 ### 1. Square Meters Don't Add Up

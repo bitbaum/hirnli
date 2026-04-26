@@ -2,6 +2,12 @@
 **Generated:** 2026-02-13
 **Status:** ✅ PASSING (Build successful, no critical errors)
 
+> ⚠️ **HISTORICAL SNAPSHOT** — this report reflects state as of
+> 2026-02-13. The codebase has changed substantially since (foundation
+> count grew from 37 to 1,684, the `geo`-field issue called out below
+> was resolved, the document set has expanded). Run `npm run audit`
+> for the current pipeline state. Kept as historical context.
+
 ---
 
 ## ✅ Verified Correct
