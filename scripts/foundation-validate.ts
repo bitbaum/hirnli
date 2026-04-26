@@ -4,7 +4,9 @@
  *
  * Validates all foundation entries against quality gates:
  * - Schema validation (TypeScript types)
- * - Quality gate for needsResearch: false (150+ char purpose, 250+ char notes, contact, themes, website)
+ * - Quality gate (delegated to validateFoundationQuality SSOT — uses
+ *   isResearched(f) and QUALITY_THRESHOLDS, not the deprecated
+ *   needsResearch boolean)
  * - Duplicate detection (slug, UID, fuzzy name matching)
  * - Status enum validation
  * - Required field completeness
@@ -22,6 +24,7 @@ import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
 import type { Foundation } from '../src/lib/schemas/foundation';
 import { ApplicationMethod } from '../src/lib/schemas/foundation';
 import { validateFoundationQuality } from '../src/lib/domain/foundation-quality';
+import { isResearched } from '../src/lib/domain/foundation-helpers';
 
 // ============================================================================
 // VALIDATION RULES
@@ -114,15 +117,17 @@ function validateCompleteness(foundation: Foundation) {
     });
   }
 
-  // Warn if high priority (1-2) but needsResearch: true
-  if (foundation.priority <= 2 && foundation.needsResearch === true) {
+  // Warn if high priority (P1-P2) but research is incomplete (computed via tier).
+  // Replaces the previous needsResearch=true check — that field is deprecated
+  // (foundation-helpers.ts:isResearched is the canonical signal).
+  if (foundation.priority <= 2 && !isResearched(foundation)) {
     addIssue({
       slug: foundation.slug,
       name: foundation.name,
       severity: 'warning',
       category: 'quality',
-      message: 'High priority foundation (1-2) still needs research - should prioritize completion',
-      fix: 'Complete research to enable Gesuch generation',
+      message: 'High priority foundation (P1-P2) below `profiliert` tier — incomplete research',
+      fix: 'Expand purposeSummary/researchNotes/contact to lift the computed quality tier',
     });
   }
 }
