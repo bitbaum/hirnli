@@ -245,7 +245,7 @@ Tier + Priority ──→ Access Gates (detail page ≥ profiliert, gesuch ≥ r
 
 **Key helpers** (all in `lib/domain/foundation-helpers.ts`):
 - `getFitLevel(f)` — fitScore → display stars (0-3), gated by tier < profiliert → 0
-- `isResearched(f)` — tier ≥ profiliert (replaces stored `needsResearch`)
+- `isResearched(f)` — tier ≥ profiliert (canonical signal; the legacy stored `needsResearch` boolean was removed in commit 7161034)
 - `getQualityTier(f)` — readiness score → tier label
 - `hasGesuchPage(f)` — tier ≥ recherchiert AND P1-P3
 

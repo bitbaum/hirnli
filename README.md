@@ -1,46 +1,92 @@
 # Revamp-Info
 
-Internal communication and dashboard site for Revamp-IT team.
+Fundraising intelligence platform for Revamp-IT — foundation research,
+Gesuch generation, financial transparency, and impact dashboards.
 
 ## What This Is
 
-A static site for sharing interactive information with the team:
-- Fundraising research (Stiftungen, deadlines, contacts)
-- Financial dashboards
-- KPIs and impact metrics
-- Strategy and operations docs
+Internal Next.js app for the Revamp-IT team that helps present the org
+compellingly to potential funders, find the right foundations, and
+generate professional application documents.
 
-**Not PDFs. Not emails. Clickable, navigable, always up-to-date.**
+The full vision, scoring model, data flow, and engineering principles
+live in [`/CLAUDE.md`](./CLAUDE.md). This file is just the quick start.
 
-## Structure
+## Stack
+
+- **Next.js 16** (App Router) — TypeScript, Tailwind v4
+- **PostgreSQL** (Neon) via **Drizzle ORM** — write SSOT for foundation data
+- **Zod 4** — schema validation, type derivation
+- **Chart.js** + `@react-pdf/renderer` — financial dashboards + Gesuch PDFs
+- **Vercel** — auto-deploy on push to `main`
+
+## Quick Start
+
+```bash
+npm install
+npm run dev          # http://localhost:3000  (runs npm run sync first)
+```
+
+## Common Commands
+
+| Command | What it does |
+|---------|---|
+| `npm run dev` | Start dev server (auto-syncs DB → generated TS) |
+| `npm run build` | Production build (auto-syncs first) |
+| `npm test` | Run Vitest suite |
+| `npm run lint` | ESLint |
+| `npm run sync` | DB → `stiftungen-generated.ts` |
+| `npm run audit` | Pipeline funnel + gap report |
+| `npm run validate:foundations` | Schema + duplicate + quality validation |
+
+`scripts/README.md` lists all 28+ pipeline tools and their npm aliases.
+
+## Routes
 
 ```
-/                   → Main dashboard
-/pages/finanzen     → Financial overview
-/pages/fundraising  → Fundraising hub
-  └── stiftungen    → Foundation research
-/pages/kennzahlen   → KPIs
-/pages/wirkung      → Impact metrics
-/pages/strategie    → Strategy docs
-/pages/team         → Team info
+/                          Dashboard
+/finanzen                  Financial deep dive (8-year P&L)
+/wirkung                   Impact metrics
+/methodik                  Methodology & transparency
+/preismodell               Solidarity pricing
+/strategie                 Vision, mission, SDGs
+/team                      Team & capacity
+/operations                SOPs & processes
+/dokumente                 Document library
+/wie-wir-arbeiten          Impact methodology
+/revamp-2030               Vision 2030
+/fundraising/              Fundraising hub
+  ├── stiftungen           Foundation list + [slug] detail + /gesuch
+  ├── applications         Pipeline kanban + tracking
+  ├── hub                  Hub/space planning
+  ├── bildung              Education program
+  ├── scoring-methodik     Scoring transparency
+  └── gesuch-vorlagen      Gesuch templates
+/gesuch/share/[token]      Public Gesuch share page (HMAC token)
 ```
+
+## Authentication
+
+`src/middleware.ts` gates internal routes (`/fundraising/*`, `/api/*`)
+behind HTTP Basic Auth. Set `INTERNAL_PASSWORD` in Vercel env vars; if
+unset, all routes are open (local dev). The browser handles the prompt
+— no login page, no sessions.
+
+`/gesuch/share/[token]` is intentionally public — the controlled
+channel for sending foundation-specific content to program officers.
 
 ## Deployment
 
-Hosted on Vercel at: `revamp-info.vercel.app`
+Push to `main` → Vercel auto-deploys. Live at <https://revamp-info.vercel.app>.
 
-Push to `main` branch → automatically deploys.
+## Related Projects
 
-## Local Development
+- [**revampit.vercel.app**](https://revampit.vercel.app) — public website + shop + services
+- **This site** — internal dashboards, research, and Gesuch generation
 
-Just open `index.html` in a browser, or:
+## Documentation
 
-```bash
-npx serve .
-```
-
-## Related
-
-- **revampit.vercel.app** - Public website + admin
-- **revampit.vercel.app/admin/hirn** - HIRN knowledge management system
-- **This site** - Internal dashboards and research
+- [`CLAUDE.md`](./CLAUDE.md) — full product vision, scoring model, schema, data flow, conventions
+- [`scripts/README.md`](./scripts/README.md) — pipeline scripts reference
+- [`org-context/_template/README.md`](./org-context/_template/README.md) — multi-tenant onboarding (Phase 3)
+- `research/PIPELINE-LEARNINGS.md` — historical pipeline notes
