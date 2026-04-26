@@ -184,8 +184,6 @@ export const registrySchema = z.object({
   // Relationships
   pastGrantees: z.array(z.string()).optional(),
   partners: z.array(z.string()).optional(),
-  events: z.array(z.string()).optional(),
-  members: z.string().optional(),
   stats2025: z.string().optional(),
   sdgs: z.array(z.number()).optional(),
 
@@ -205,7 +203,6 @@ export const analysisSchema = z.object({
   // -- Scoring (see CLAUDE.md § Scoring Model) --------------------------------
   // fitScore is the ONLY stored fit metric. Display stars computed via getFitLevel().
   fitScore: z.number().min(0).max(10).default(0),
-  fitExplanation: z.string().optional(), // Human-readable score breakdown
   // priority is stored (1-4) or computed from Fit × Readiness.
   // priorityOverride=true means stored value takes precedence.
   priority: z.number().min(1).max(4),
