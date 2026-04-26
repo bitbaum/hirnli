@@ -26,7 +26,7 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 2. **Source everything** — cite sources for data/claims
 3. **Types from schemas** — derive types via `z.infer<>`, never define separately
 4. **SSOT components** — shared component library, no copy-paste
-5. **Data in config files** — `lib/config/foundations.ts`, `lib/config/stories.ts`, `lib/config/metrics.ts`
+5. **Data in config files** — `lib/config/foundations/` (directory: index, metadata, generated), `lib/config/stories.ts`, `lib/config/metrics.ts`, `lib/config/numbers.ts`
 6. **Separation of concerns** — config → domain → hooks → components
 7. **Org identity from `org-profile.ts`** — never hardcode org name in domain logic or UI chrome. Import from `ORG_PROFILE`. Files marked `ORG-SPECIFIC` contain content that needs rewriting per-org.
 
