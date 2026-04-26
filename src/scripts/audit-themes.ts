@@ -18,7 +18,9 @@ interface ThemeDefinition {
   excludeKeywords?: string[];
 }
 
-// Theme definitions with expected keywords in officialPurpose
+// Theme definitions with expected keywords. Matched against a haystack
+// of officialPurpose + purposeSummary + researchNotes so deep-research
+// content (where our theme assignments are actually grounded) counts.
 const THEME_DEFINITIONS: ThemeDefinition[] = [
   {
     id: 'klima',
@@ -135,19 +137,24 @@ async function auditThemes() {
     const themes = row.config_data?.themes ?? [];
     if (themes.length === 0) continue;
 
-    const officialPurpose = row.config_data?.officialPurpose ?? '';
-    
-    // Skip if no official purpose available
-    if (!officialPurpose || officialPurpose.trim() === '') {
-      continue;
-    }
+    // Build haystack from all three text fields. The Zefix officialPurpose is
+    // often terse and won't mention themes that were correctly assigned based
+    // on our deeper research — so check purposeSummary (our research summary)
+    // and researchNotes (our fit analysis) too.
+    const officialPurpose = (row.config_data?.officialPurpose ?? '') as string;
+    const purposeSummary = (row.config_data?.purposeSummary ?? '') as string;
+    const researchNotes = (row.config_data?.researchNotes ?? '') as string;
+    const haystack = [officialPurpose, purposeSummary, researchNotes].filter(Boolean).join(' ');
+
+    // Skip if no text content at all
+    if (haystack.trim() === '') continue;
 
     totalThemeAssignments += themes.length;
 
     // Check each theme
     for (const theme of themes) {
-      const check = checkThemeMatch(theme, officialPurpose);
-      
+      const check = checkThemeMatch(theme, haystack);
+
       if (!check.matches) {
         suspicious.push({
           foundationId: row.id,
@@ -155,7 +162,8 @@ async function auditThemes() {
           priority: row.priority ?? 0,
           theme,
           reason: check.reason,
-          officialPurpose: officialPurpose.slice(0, 200) + (officialPurpose.length > 200 ? '...' : ''),
+          officialPurpose: (purposeSummary || officialPurpose).slice(0, 200)
+            + ((purposeSummary || officialPurpose).length > 200 ? '...' : ''),
           allThemes: themes,
         });
         totalSuspicious++;

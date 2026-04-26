@@ -35,3 +35,6 @@ research/drafts/
 research/bulk-enrichment/
 research/queue-v2-*.json
 research/pipeline-graduate/phase1-*.json
+
+# Generated audit/report outputs
+theme-audit-report.json
