@@ -346,12 +346,9 @@ function enrichFoundation(
       applicationMethod: enriched.applicationMethod || 'unknown',
       isFunder: enriched.isOperative === false || enriched.isOperative === undefined,
     });
-    const depth = enriched.researchDepth || 'rapid';
-    const fitDisplay = fitScoreToDisplay(fitScore, depth === 'rapid');
 
     if (fitScore !== (enriched.fitScore || 0)) {
       enriched.fitScore = fitScore;
-      enriched.fit = fitDisplay; // DEPRECATED: kept for DB backward compat
     }
   }
 
@@ -406,7 +403,7 @@ function buildDraft(enriched: Foundation, esa: ESAEntry | undefined) {
       reasoning: 'Bulk enrichment from ESA register + Fundraiso cross-reference',
       themes: enriched.themes,
       suggestedType: enriched.type,
-      suggestedFit: enriched.fit,
+      suggestedFit: fitScoreToDisplay(enriched.fitScore || 0, (enriched.researchDepth || 'rapid') === 'rapid'),
       suggestedPriority: enriched.priority,
       purposeSummary: enriched.purposeSummary || buildMinimalPurposeSummary(enriched, esa),
       researchNotes: enriched.researchNotes || buildMinimalResearchNotes(enriched, esa),

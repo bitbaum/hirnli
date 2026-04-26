@@ -206,7 +206,6 @@ export const analysisSchema = z.object({
   // fitScore is the ONLY stored fit metric. Display stars computed via getFitLevel().
   fitScore: z.number().min(0).max(10).default(0),
   fitExplanation: z.string().optional(), // Human-readable score breakdown
-  fit: z.number().min(0).max(3).optional(), // DEPRECATED → getFitLevel(f)
   // priority is stored (1-4) or computed from Fit × Readiness.
   // priorityOverride=true means stored value takes precedence.
   priority: z.number().min(1).max(4),
@@ -247,16 +246,11 @@ const _foundationRaw = registrySchema.extend(
   analysisSchema.omit({ orgId: true }).shape
 );
 
-// Migration transform: derive fitScore from legacy fit field if missing.
-// This allows DB entries that only have fit (0-3) to validate during migration.
-// Once all DB entries have fitScore, this transform can be removed.
-export const foundationSchema = _foundationRaw.transform((data) => {
-  // If fitScore is 0 and legacy fit exists, derive fitScore from fit
-  if (data.fitScore === 0 && data.fit != null && data.fit > 0) {
-    return { ...data, fitScore: Math.round(data.fit * 10 / 3) };
-  }
-  return data;
-});
+// Legacy fit→fitScore migration transform was removed alongside the
+// deprecated `fit` schema field — all rows have been backfilled to use
+// fitScore directly. Display level (0-3) is computed at render time
+// via getFitLevel(f) in foundation-helpers.ts.
+export const foundationSchema = _foundationRaw;
 export type Foundation = z.output<typeof foundationSchema>;
 
 // Type labels

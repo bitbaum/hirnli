@@ -36,6 +36,7 @@ import { fetchRaw, stripHtml } from './lib/web-extract';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
 import { extractContactData, type ExtractedContact } from './lib/contact-extractor';
 import type { Foundation } from '../src/lib/schemas/foundation';
+import { fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 
 // ============================================================================
 // CONFIG
@@ -198,7 +199,7 @@ function buildEnrichmentDraft(result: EnrichmentResult, existing: Foundation) {
       reasoning: `Web enrichment: scraped ${result.pagesScraped.length} page(s) from ${result.url}`,
       themes: existing.themes || [],
       suggestedType: existing.type || 'C',
-      suggestedFit: existing.fit || 0,
+      suggestedFit: fitScoreToDisplay(existing.fitScore || 0, (existing.researchDepth || 'rapid') === 'rapid'),
       suggestedPriority: existing.priority || 4,
       purposeSummary: existing.purposeSummary || `${result.name}: Keine detaillierte Zweckbeschreibung verfügbar. Website: ${result.url}. Weitere Recherche empfohlen.`,
       researchNotes: existing.researchNotes || `${result.name}: Automatisch angereichert via Web-Scraping. Website: ${result.url}. ${c.emails.length > 0 ? `E-Mail gefunden: ${c.emails[0]}. ` : ''}${c.phones.length > 0 ? `Telefon gefunden: ${c.phones[0]}. ` : ''}${c.applicationMethod !== 'unknown' ? `Bewerbungsmethode: ${c.applicationMethod}. ` : ''}Manuelle Verifikation empfohlen.`,

@@ -100,11 +100,12 @@ async function promptForEntry(): Promise<Partial<Foundation>> {
 
   const tagline = await question('Tagline (short description): ');
 
-  console.log('\nFit Score:');
-  console.log('  3 = Excellent match');
-  console.log('  2 = Good match');
-  console.log('  1 = Limited match\n');
-  const fit = parseInt(await question('Fit (1-3): '), 10);
+  console.log('\nFit Score (0-10):');
+  console.log('  7-10 = Strong mission overlap (★★★)');
+  console.log('  4-6  = Partial overlap (★★☆)');
+  console.log('  1-3  = Limited / tangential (★☆☆)');
+  console.log('  0    = No data');
+  const fitScore = parseInt(await question('FitScore (0-10): '), 10);
 
   console.log('\nPriority:');
   console.log('  1 = Immediate (apply ASAP)');
@@ -163,7 +164,7 @@ async function promptForEntry(): Promise<Partial<Foundation>> {
     websiteUrl: websiteUrl || undefined,
     uid: uid || undefined,
     tagline,
-    fit,
+    fitScore,
     priority,
     source: source as SourceId,
     themes: themes as ThemeId[],
@@ -195,7 +196,7 @@ function generateTypeScriptCode(entry: Partial<Foundation>): string {
   lines.push(`  deadline: null,`);
   lines.push(`  deadlineText: 'Unbekannt',`);
   lines.push(`  amount: { min: null, max: null, text: 'Unbekannt' },`);
-  lines.push(`  fit: ${entry.fit},`);
+  lines.push(`  fitScore: ${entry.fitScore},`);
   lines.push(`  priority: ${entry.priority},`);
   lines.push(`  tagline: '${entry.tagline}',`);
   lines.push(`  founded: null,`);

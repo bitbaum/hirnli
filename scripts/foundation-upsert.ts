@@ -25,7 +25,7 @@ import * as path from 'path';
 import { neon } from '@neondatabase/serverless';
 import { ResearchDraftSchema } from './lib/research-types';
 import type { Foundation, FoundationRegistry } from '../src/lib/schemas/foundation';
-import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
+import { computeFitScore } from '../src/lib/domain/fit-scoring';
 
 // ============================================================================
 // RESEARCH DEPTH — Computed from data completeness
@@ -150,19 +150,17 @@ async function main() {
       applicationMethod: a.applicationMethod,
       isFunder: a.isFunder,
     });
-    // Map 0-10 → display 0-3 (gated: rapid tier → fit=0)
-    const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
     // Priority is NOT computed here — it's derived by sync script via
     // computePriorityScore() which uses fitScore + readiness + penalties.
     // Pipeline sets P4 as default; sync corrects to the real value.
     const computedPriority = 4;
 
     // --- Layer 2: Merged configData (backward compat for sync pipeline) ---
-    // Full config for INSERT (new entries)
+    // Full config for INSERT (new entries). Display fit (0-3) is no longer
+    // stored — getFitLevel(f) computes it from fitScore + tier at render time.
     const configData: Partial<Foundation> & { researchDepth: ResearchDepth; fitScore: number } = {
       ...registryData,
       type: a.suggestedType,
-      fit: fitDisplay as 0 | 1 | 2 | 3,
       fitScore,
       priority: computedPriority,
       tagline: a.purposeSummary.substring(0, 80),
