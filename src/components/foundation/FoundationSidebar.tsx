@@ -163,7 +163,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           ) : (
             <div className="flex items-center justify-between rounded px-2 py-1.5 text-text-muted">
               <span>Website</span>
-              <span className="text-xs italic">nicht bekannt</span>
+              <span className="text-sm italic">nicht bekannt</span>
             </div>
           )}
           {f.applicationUrl && (
@@ -174,7 +174,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           )}
           {/* All research platforms */}
           <div className="border-t border-border pt-2">
-            <p className="mb-1.5 px-2 text-xs font-medium text-text-muted">Datenbanken & Register</p>
+            <p className="mb-1.5 px-2 text-sm font-medium text-text-muted">Datenbanken & Register</p>
             {getResearchLinks(f).map((link) => (
               <a
                 key={link.id}

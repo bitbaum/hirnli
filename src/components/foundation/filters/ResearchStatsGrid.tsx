@@ -17,7 +17,7 @@ export default function ResearchStatsGrid({ stats }: ResearchStatsGridProps) {
           <span className="font-semibold text-grey-dark">{stats.researched}/{stats.total}</span>
         </div>
         <ProgressBar percent={stats.researchedPercent} size="sm" color="bg-primary" label={`Recherche-Fortschritt: ${stats.researchedPercent}% analysiert`} />
-        <div className="flex items-center justify-between text-xs text-text-muted">
+        <div className="flex items-center justify-between text-sm text-text-muted">
           <span>{stats.researchedPercent}% analysiert</span>
           <span>Ø {stats.avgCompleteness}% vollständig</span>
         </div>

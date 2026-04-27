@@ -51,7 +51,7 @@ export default function CountdownTimer({ deadline, label, className = '' }: Coun
 
   return (
     <div className={`text-center ${className}`}>
-      {label && <span className="mb-1 block text-xs text-text-muted">{label}</span>}
+      {label && <span className="mb-1 block text-sm text-text-muted">{label}</span>}
       <div className={`flex items-center justify-center gap-2 font-mono text-lg font-bold ${urgentClass}`}>
         <div className="flex flex-col items-center">
           <span>{timeLeft.days}</span>
