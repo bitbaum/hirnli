@@ -122,7 +122,7 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
             <Inspectable data={inspectStiftungen3Y} inspector={inspector} className="text-xl font-bold tabular-nums text-pillar-vision">
               {formatCHF(STIFTUNGEN_3Y_TOTAL)}
             </Inspectable>
-            <div className="text-xs text-text-muted">über 3 Jahre (degressiv)</div>
+            <div className="text-sm text-text-muted">über 3 Jahre (degressiv)</div>
           </div>
         </div>
       </Card>

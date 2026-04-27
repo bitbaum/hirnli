@@ -64,7 +64,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
               </Inspectable>
 
               {/* Breakdown */}
-              <div className="space-y-1.5 text-xs">
+              <div className="space-y-1.5 text-sm">
                 {year.einmalig > 0 && (
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5">

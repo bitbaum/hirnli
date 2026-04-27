@@ -52,7 +52,7 @@ export default function StepSubmit({
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p className="font-semibold text-grey-dark text-sm">Vollständiges Gesuch (PDF)</p>
-                <p className="mt-0.5 text-xs text-text-muted">4 Seiten — Anschreiben, Projektbeschrieb, Budget, Kurzportrait</p>
+                <p className="mt-0.5 text-sm text-text-muted">4 Seiten — Anschreiben, Projektbeschrieb, Budget, Kurzportrait</p>
               </div>
               <span className="text-xl">📄</span>
             </div>
@@ -72,7 +72,7 @@ export default function StepSubmit({
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p className="font-semibold text-grey-dark text-sm">Kurzübersicht (1 Seite)</p>
-                <p className="mt-0.5 text-xs text-text-muted">Concept Note — häufig als Ersteinreichung gefordert</p>
+                <p className="mt-0.5 text-sm text-text-muted">Concept Note — häufig als Ersteinreichung gefordert</p>
               </div>
               <span className="text-xl">📋</span>
             </div>
@@ -92,7 +92,7 @@ export default function StepSubmit({
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p className="font-semibold text-grey-dark text-sm">Öffentlicher Link</p>
-                <p className="mt-0.5 text-xs text-text-muted">Lesbare Landing Page — direkt an Stiftungs-Programme schicken</p>
+                <p className="mt-0.5 text-sm text-text-muted">Lesbare Landing Page — direkt an Stiftungs-Programme schicken</p>
               </div>
               <span className="text-xl">🔗</span>
             </div>
@@ -106,7 +106,7 @@ export default function StepSubmit({
                 {copied ? '✓ Link kopiert!' : 'Link kopieren'}
               </Button>
             ) : (
-              <p className="mt-3 text-xs text-text-muted">
+              <p className="mt-3 text-sm text-text-muted">
                 Setze <code className="rounded bg-bg px-1 py-0.5 font-mono">SHARE_SECRET</code> in den Umgebungsvariablen, um Links zu aktivieren.
               </p>
             )}

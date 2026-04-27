@@ -69,7 +69,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
         <p className="text-sm font-semibold text-warning">
           {bannerTitle}
         </p>
-        <p className="mt-1 text-xs text-text-light">
+        <p className="mt-1 text-sm text-text-light">
           Dies ist eine generische Vorlage. Felder wie <span className="font-mono">[Name der Stiftung]</span> müssen
           vor dem Versand durch die tatsächlichen Angaben ersetzt werden.
         </p>
