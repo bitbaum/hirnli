@@ -13,7 +13,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       <h2 className="mb-2 border-b-2 border-grey-dark pb-2 text-2xl font-bold text-grey-dark">
         Kurzportrait {ORG_PROFILE.name}
       </h2>
-      <p className="mb-6 text-xs text-text-muted">
+      <p className="mb-6 text-sm text-text-muted">
         {GESUCH_TEXT.kurzportrait_subtitle}
       </p>
 

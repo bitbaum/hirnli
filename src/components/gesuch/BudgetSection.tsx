@@ -111,7 +111,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
 
       </div>
 
-      <p className="mb-8 text-xs text-text-muted">
+      <p className="mb-8 text-sm text-text-muted">
         Stiftungsanteil sinkt von {dok.budget.threeYearModel[0].total > 0 ? Math.round((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) / dok.budget.threeYearModel[0].total * 100) : 0}% (Jahr 1) auf {dok.budget.threeYearModel[2].total > 0 ? Math.round(dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total * 100) : 0}% (Jahr 3).
         Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF {EIGENLEISTUNG_CONFIG.ratePerHour}/h), kein Cashflow. Wächst durch Community-Aufbau und Hub-Betrieb.
       </p>

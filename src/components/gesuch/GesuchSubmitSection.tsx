@@ -47,7 +47,7 @@ function CopyButton({ text, label = 'Kopieren' }: { text: string; label?: string
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }}
-      className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-text-muted hover:border-primary/40 hover:text-primary transition-colors"
+      className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm font-medium text-text-muted hover:border-primary/40 hover:text-primary transition-colors"
     >
       {copied ? '✓ Kopiert' : label}
     </button>
@@ -126,10 +126,10 @@ function EmailBlock({ info }: { info: SubmissionInfo }) {
             <SectionLabel>Begleit-E-Mail</SectionLabel>
             <CopyButton text={info.emailBody} label="Text kopieren" />
           </div>
-          <pre className="whitespace-pre-wrap rounded-lg border border-border bg-bg p-4 text-xs leading-relaxed text-text font-sans">
+          <pre className="whitespace-pre-wrap rounded-lg border border-border bg-bg p-4 text-sm leading-relaxed text-text font-sans">
             {info.emailBody}
           </pre>
-          <p className="mt-1.5 text-xs text-text-muted">
+          <p className="mt-1.5 text-sm text-text-muted">
             Gesuch-PDF aus Schritt 3 beilegen. Betreff: <span className="font-mono">{subject}</span>
           </p>
         </div>
@@ -181,12 +181,12 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
         <div className="rounded-lg border border-border overflow-hidden">
           {fieldMap.map(({ label, value }) => (
             <div key={label} className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-3 px-3 py-2 even:bg-bg-light border-b border-border last:border-0">
-              <span className="text-xs font-medium text-text-muted sm:shrink-0 sm:w-44">{label}</span>
-              <span className="text-xs text-text sm:text-right">{value}</span>
+              <span className="text-sm font-medium text-text-muted sm:shrink-0 sm:w-44">{label}</span>
+              <span className="text-sm text-text sm:text-right">{value}</span>
             </div>
           ))}
         </div>
-        <p className="mt-1.5 text-xs text-text-muted">
+        <p className="mt-1.5 text-sm text-text-muted">
           Vollständiges Gesuch als PDF-Anhang hochladen wo möglich.
         </p>
       </div>
@@ -211,7 +211,7 @@ function PostBlock({ info }: { info: SubmissionInfo }) {
           {fullAddress}
         </pre>
       </div>
-      <p className="text-xs text-text-muted">
+      <p className="text-sm text-text-muted">
         Gesuch als gebundenes Dokument (oder lose Blätter in Mappe) per A-Post senden.
         Einschreiben empfohlen falls Fristnachweis nötig.
       </p>

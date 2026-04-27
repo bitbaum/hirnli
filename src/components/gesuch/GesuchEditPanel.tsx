@@ -96,13 +96,13 @@ export default function GesuchEditPanel({
             ✏️ Gesuch anpassen
             <span className="ml-2 text-sm font-normal text-text-muted">→ {foundationName}</span>
           </h2>
-          <p className="mt-1 text-xs text-text-muted">
+          <p className="mt-1 text-sm text-text-muted">
             Änderungen überschreiben den generierten Text. PDF und HTML-Vorschau verwenden die gespeicherte Version.
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           {saved && <span className="text-xs font-medium text-success">Gespeichert ✓</span>}
-          {saveError && <span className="text-xs font-medium text-danger">{saveError}</span>}
+          {saveError && <span className="text-sm font-medium text-danger">{saveError}</span>}
           {dirty && !saved && !saveError && <span className="text-xs text-text-muted">Ungespeichert</span>}
           <button
             type="button"

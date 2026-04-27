@@ -43,7 +43,7 @@ export default function GesuchWhySection({ why, secondaryThemeRelevance }: Gesuc
                 className="rounded-lg border border-border bg-bg-light p-4"
               >
                 <span className="text-sm font-semibold text-primary">{item.label}</span>
-                <p className="mt-1 text-xs leading-relaxed text-text-light">
+                <p className="mt-1 text-sm leading-relaxed text-text-light">
                   {item.connection}
                 </p>
               </div>

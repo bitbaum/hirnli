@@ -33,7 +33,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
             </div>
           </div>
           {f.fitScore > 0 && (
-            <p className="mt-3 text-xs text-text-muted">
+            <p className="mt-3 text-sm text-text-muted">
               Vorläufiger Score: {f.fitScore}/10 (automatisch berechnet, nicht verifiziert)
             </p>
           )}
@@ -50,10 +50,10 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
 
       {/* Methodology — how the score is determined */}
       <details className="mb-4 rounded-lg border border-border">
-        <summary className="cursor-pointer px-4 py-2 text-xs font-medium text-text-muted hover:text-grey-dark">
+        <summary className="cursor-pointer px-4 py-2 text-sm font-medium text-text-muted hover:text-grey-dark">
           Wie wird der Fit-Score berechnet?
         </summary>
-        <div className="border-t border-border px-4 py-3 text-xs text-text-light space-y-1">
+        <div className="border-t border-border px-4 py-3 text-sm text-text-light space-y-1">
           <p>Der Fit-Score basiert auf drei Dimensionen (0–10 Punkte):</p>
           <ul className="list-inside list-disc space-y-0.5 ml-1">
             <li><strong>Thematischer Fit (0–4)</strong> — Übereinstimmung unserer Kernthemen mit den Förderbereichen</li>
@@ -95,7 +95,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
                 <span className="text-lg">{a.icon}</span>
                 <div>
                   <span className="text-xs font-semibold text-primary">{a.themeLabel}</span>
-                  <p className="mt-0.5 text-xs text-text-light">{a.revampConnection}</p>
+                  <p className="mt-0.5 text-sm text-text-light">{a.revampConnection}</p>
                 </div>
               </div>
             ))}
@@ -108,7 +108,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
           <p className="text-sm font-medium text-warning">
             Achtung: Operative Stiftung
           </p>
-          <p className="mt-1 text-xs text-text-light">
+          <p className="mt-1 text-sm text-text-light">
             Diese Stiftung betreibt eigene Programme und vergibt in der Regel keine Fördergelder an externe Projekte.
           </p>
         </div>

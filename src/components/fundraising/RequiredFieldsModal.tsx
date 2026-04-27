@@ -75,7 +75,7 @@ export default function RequiredFieldsModal({
           className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl space-y-4"
         >
           <h3 className="text-base font-semibold text-grey-dark">Pflichtfelder ergänzen</h3>
-          <p className="text-xs text-text-muted">
+          <p className="text-sm text-text-muted">
             Für diesen Statuswechsel werden zusätzliche Angaben benötigt.
           </p>
 
@@ -95,7 +95,7 @@ export default function RequiredFieldsModal({
           ))}
 
           {error && (
-            <p className="text-xs text-danger">{error}</p>
+            <p className="text-sm text-danger">{error}</p>
           )}
 
           <div className="flex items-center justify-end gap-3 pt-2">
