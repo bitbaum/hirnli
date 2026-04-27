@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
+import { ChartLoadingSkeleton } from '@/components/charts/ChartWrapper';
 import { formatCHF, calcGrowth } from '@/lib/utils/format';
 import {
   ANNUAL_PL,
@@ -16,13 +17,9 @@ import {
 import { InsightCard, ProfitLossTable, CostStructureCard } from '../components';
 import type { InspectorHandle } from '@/app/fundraising/sections/Inspectable';
 
-const ChartSkeleton = () => (
-  <Card padding={false} className="flex h-80 items-center justify-center text-text-muted">Laden...</Card>
-);
-
 const AnnualTrendChart = dynamic(() => import('@/components/charts/AnnualTrendChart'), {
   ssr: false,
-  loading: () => <ChartSkeleton />,
+  loading: () => <ChartLoadingSkeleton />,
 });
 
 export default function OverviewTab({ inspector }: { inspector: InspectorHandle }) {

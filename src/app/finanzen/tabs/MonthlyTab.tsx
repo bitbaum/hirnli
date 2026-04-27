@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
+import { ChartLoadingSkeleton } from '@/components/charts/ChartWrapper';
 import YearSelector from '@/components/ui/YearSelector';
 import {
   formatCHF,
@@ -18,17 +19,13 @@ import {
 import type { InspectorHandle } from '@/app/fundraising/sections/Inspectable';
 import type { useFinancialData } from '@/hooks/useFinancialData';
 
-const ChartSkeleton = () => (
-  <Card padding={false} className="flex h-80 items-center justify-center text-text-muted">Laden...</Card>
-);
-
 const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
   ssr: false,
-  loading: () => <ChartSkeleton />,
+  loading: () => <ChartLoadingSkeleton />,
 });
 const CategoryBreakdown = dynamic(() => import('@/components/charts/CategoryBreakdown'), {
   ssr: false,
-  loading: () => <ChartSkeleton />,
+  loading: () => <ChartLoadingSkeleton />,
 });
 
 type FinancialData = ReturnType<typeof useFinancialData>;

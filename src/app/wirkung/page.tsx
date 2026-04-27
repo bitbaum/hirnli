@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import WirkungClient from './WirkungClient';
+import { PageLoadingSpinner } from '@/components/ui/LoadingState';
 
 export const metadata: Metadata = {
   title: 'Wirkung',
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function WirkungPage() {
   return (
-    <Suspense fallback={<div className="text-text-muted">Laden...</div>}>
+    <Suspense fallback={<PageLoadingSpinner />}>
       <WirkungClient />
     </Suspense>
   );

@@ -9,6 +9,14 @@ interface ChartWrapperProps {
   className?: string;
 }
 
+export function ChartLoadingSkeleton() {
+  return (
+    <Card padding={false} className="flex h-80 items-center justify-center text-text-muted">
+      Laden…
+    </Card>
+  );
+}
+
 /**
  * Wrapper that handles client-side-only rendering for Chart.js components.
  * Chart.js requires window/document, so we defer rendering until mount.

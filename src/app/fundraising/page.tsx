@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import FundraisingClient from './FundraisingClient';
 import { PROJECT_YEAR_RANGE } from './data';
+import { PageLoadingSpinner } from '@/components/ui/LoadingState';
 
 export const metadata: Metadata = {
   title: `Fundraising Plan ${PROJECT_YEAR_RANGE}`,
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function FundraisingPage() {
   return (
-    <Suspense fallback={<div className="text-text-muted">Laden...</div>}>
+    <Suspense fallback={<PageLoadingSpinner />}>
       <FundraisingClient />
     </Suspense>
   );
