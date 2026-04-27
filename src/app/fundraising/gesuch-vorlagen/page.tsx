@@ -85,14 +85,14 @@ export default function GesuchVorlagenPage() {
                       <div key={type} className="flex gap-1">
                         <Link
                           href={`/fundraising/gesuch-vorlagen/${id}/${type}`}
-                          className="rounded-md bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20"
+                          className="rounded-md bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary hover:bg-primary/20"
                           title={`${sp.shortLabel} × ${typeLabel.long}`}
                         >
                           {typeLabel.short}
                         </Link>
                         <Link
                           href={`/fundraising/gesuch-vorlagen/${id}/${type}/dokument`}
-                          className="rounded-md border border-border px-2 py-1.5 text-xs text-text-muted hover:bg-bg-light"
+                          className="rounded-md border border-border px-2 py-1.5 text-sm text-text-muted hover:bg-bg-light"
                           title={`${sp.shortLabel} × ${typeLabel.long} (Dokument)`}
                         >
                           PDF

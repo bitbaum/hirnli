@@ -195,7 +195,7 @@ export default function FoundationListClient() {
         </div>
 
         {/* Priority distribution — computed from fit × readiness */}
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {([1, 2, 3, 4] as const).map((level) => {
             const pc = PRIORITY_CONFIG[level];
             return (

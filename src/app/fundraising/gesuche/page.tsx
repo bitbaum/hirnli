@@ -112,7 +112,7 @@ export default function MeineGesuchePage() {
                     <td className="px-4 py-3 text-right">
                       <Link
                         href={`/fundraising/stiftungen/${row.foundationId}/gesuch?step=2`}
-                        className="text-xs font-medium text-primary hover:underline"
+                        className="text-sm font-medium text-primary hover:underline"
                       >
                         Weiter bearbeiten →
                       </Link>
