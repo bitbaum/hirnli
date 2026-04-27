@@ -49,7 +49,9 @@ const THEME_DEFINITIONS: ThemeDefinition[] = [
   },
   {
     id: 'zuerich',
-    keywords: ['zürich', 'zurich', 'zürcher'],
+    // Kanton Zürich includes Winterthur + several districts whose foundations
+    // never mention "Zürich" in their purpose text but are correctly tagged.
+    keywords: ['zürich', 'zurich', 'zürcher', 'winterthur', 'meilen', 'bülach', 'dielsdorf'],
     excludeKeywords: [],
   },
   {
