@@ -42,7 +42,7 @@ export default function SubmissionChecklist() {
         ))}
       </div>
       {allChecked && (
-        <p className="mt-3 text-xs font-medium text-success">
+        <p className="mt-3 text-sm font-medium text-success">
           Alles bereit — Gesuch kann eingereicht werden.
         </p>
       )}

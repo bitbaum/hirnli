@@ -22,7 +22,7 @@ export default function GesuchEvidenceSection({ evidence }: GesuchEvidenceSectio
               href={ev.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-primary hover:underline"
+              className="text-sm text-primary hover:underline"
             >
               Quelle ansehen
             </a>

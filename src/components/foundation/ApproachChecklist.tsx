@@ -46,8 +46,8 @@ export default function ApproachChecklist({ steps, readiness }: ApproachChecklis
                     {STATUS_LABELS[step.status]}
                   </span>
                 </div>
-                <p className="mt-0.5 text-xs text-text-light">{step.detail}</p>
-                <p className="mt-0.5 text-xs text-text-muted">{step.timing}</p>
+                <p className="mt-0.5 text-sm text-text-light">{step.detail}</p>
+                <p className="mt-0.5 text-sm text-text-muted">{step.timing}</p>
               </div>
             </div>
           ))}
@@ -67,7 +67,7 @@ export default function ApproachChecklist({ steps, readiness }: ApproachChecklis
                 <span className={`text-sm ${item.ready ? 'font-medium text-grey-dark' : 'text-text-muted'}`}>
                   {item.label}
                 </span>
-                <p className="text-xs text-text-light">{item.detail}</p>
+                <p className="text-sm text-text-light">{item.detail}</p>
               </div>
             </div>
           ))}

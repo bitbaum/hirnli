@@ -101,9 +101,9 @@ export default function GesuchEditPanel({
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
-          {saved && <span className="text-xs font-medium text-success">Gespeichert ✓</span>}
+          {saved && <span className="text-sm font-medium text-success">Gespeichert ✓</span>}
           {saveError && <span className="text-sm font-medium text-danger">{saveError}</span>}
-          {dirty && !saved && !saveError && <span className="text-xs text-text-muted">Ungespeichert</span>}
+          {dirty && !saved && !saveError && <span className="text-sm text-text-muted">Ungespeichert</span>}
           <button
             type="button"
             onClick={handleReset}

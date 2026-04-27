@@ -24,7 +24,7 @@ export default function GesuchContactSection({ foundationName, organization }: G
           </a>
         </p>
       </div>
-      <div className="flex flex-wrap justify-center gap-3 text-xs text-text-muted">
+      <div className="flex flex-wrap justify-center gap-3 text-sm text-text-muted">
         {organization.unique.map((u) => (
           <span key={u} className="rounded-full bg-white px-3 py-1.5">{u}</span>
         ))}

@@ -50,7 +50,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
         {totalAmount > 0 && (
           <div className="text-xs font-medium text-text-muted">{formatCHF(totalAmount)}</div>
         )}
-        <p className="mt-0.5 text-xs text-text-muted">{status.description}</p>
+        <p className="mt-0.5 text-sm text-text-muted">{status.description}</p>
       </div>
 
       {/* Droppable area */}
@@ -65,7 +65,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
           strategy={verticalListSortingStrategy}
         >
           {applications.length === 0 ? (
-            <div className="flex h-16 items-center justify-center text-xs text-text-muted select-none">
+            <div className="flex h-16 items-center justify-center text-sm text-text-muted select-none">
               Hierher ziehen
             </div>
           ) : (

@@ -71,7 +71,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
           >
             {statusLabel.text}
           </Badge>
-          <span className="text-xs text-text-muted">{typeLabel.short}: {typeLabel.long}</span>
+          <span className="text-sm text-text-muted">{typeLabel.short}: {typeLabel.long}</span>
         </div>
       </div>
 
@@ -79,7 +79,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
         <ThemeBadgeList themeIds={f.themes} size="sm" />
       </div>
 
-      <div className="mt-3 flex items-center justify-between text-xs text-text-muted">
+      <div className="mt-3 flex items-center justify-between text-sm text-text-muted">
         <div className="flex items-center gap-2">
           {f.deadlineText && f.deadlineText !== 'Unbekannt' && (
             <span>{f.deadlineText}</span>
@@ -94,7 +94,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
       </div>
 
       {f.isOperative && (
-        <div className="mt-2 rounded bg-warning-bg px-2 py-1 text-xs text-warning">
+        <div className="mt-2 rounded bg-warning-bg px-2 py-1 text-sm text-warning">
           Operative Stiftung — vergibt keine Fördergelder
         </div>
       )}

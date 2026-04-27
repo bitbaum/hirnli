@@ -153,13 +153,13 @@ export function ApplicationCard({
 
           {/* Project focus */}
           {application.projectFocus && (
-            <div className="mb-2 text-xs text-text-muted line-clamp-1">
+            <div className="mb-2 text-sm text-text-muted line-clamp-1">
               {application.projectFocus}
             </div>
           )}
 
           {/* Dates row */}
-          <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs">
+          <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-sm">
             {application.contactDate && (
               <span className="text-text-muted" title="Kontaktdatum">
                 📅 {formatDate(application.contactDate)}
@@ -197,7 +197,7 @@ export function ApplicationCard({
                 )}
               </div>
               {application.assignedTo && (
-                <span className="text-xs text-text-muted">{application.assignedTo}</span>
+                <span className="text-sm text-text-muted">{application.assignedTo}</span>
               )}
             </div>
           )}

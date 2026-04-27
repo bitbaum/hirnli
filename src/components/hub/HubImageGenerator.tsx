@@ -63,7 +63,7 @@ export function HubImageGenerator() {
           {selectedConfig.negative_prompt && (
             <div className="bg-danger/10 p-3 rounded-lg mb-4">
               <p className="text-xs font-semibold text-danger mb-1">Negative Prompt (what to avoid):</p>
-              <p className="text-xs text-danger">{selectedConfig.negative_prompt}</p>
+              <p className="text-sm text-danger">{selectedConfig.negative_prompt}</p>
             </div>
           )}
 
@@ -108,7 +108,7 @@ export function HubImageGenerator() {
             <li><strong>Download the result</strong> and add to your presentations/documents</li>
           </ol>
           <div className="mt-4 pt-4 border-t border-primary/20">
-            <p className="text-xs text-primary">
+            <p className="text-sm text-primary">
               <strong>Free options:</strong> Use Midjourney free trial, DALL-E 3 via ChatGPT Plus, or Stable Diffusion (free, open-source).
               <br />
               <strong>Coming soon:</strong> Direct API integration for one-click generation.

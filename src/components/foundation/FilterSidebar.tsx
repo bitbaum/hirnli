@@ -331,7 +331,7 @@ export default function FilterSidebar({
 
           <a
             href="/fundraising/scoring-methodik"
-            className="block text-xs text-text-muted hover:text-primary"
+            className="block text-sm text-text-muted hover:text-primary"
           >
             Scoring-Methodik verstehen →
           </a>

@@ -293,7 +293,7 @@ export function EditApplicationModal({
               </p>
               {status === 'accepted' && (
                 <div>
-                  <label className="mb-1 block text-xs font-medium text-text-muted">
+                  <label className="mb-1 block text-sm font-medium text-text-muted">
                     Erfolgsfaktoren
                   </label>
                   <textarea
@@ -307,7 +307,7 @@ export function EditApplicationModal({
               )}
               {status === 'rejected' && (
                 <div>
-                  <label className="mb-1 block text-xs font-medium text-text-muted">
+                  <label className="mb-1 block text-sm font-medium text-text-muted">
                     Ablehnungsgrund
                   </label>
                   <textarea

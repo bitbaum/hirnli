@@ -39,7 +39,7 @@ export default function MetricCard({
         )}
       </div>
       <div className="text-2xl font-bold text-grey-dark">{value}</div>
-      {subtitle && <div className="mt-1 text-xs text-text-light">{subtitle}</div>}
+      {subtitle && <div className="mt-1 text-sm text-text-light">{subtitle}</div>}
       {trend && (
         <div
           className={`mt-2 text-sm font-medium ${

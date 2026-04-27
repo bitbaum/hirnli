@@ -35,10 +35,10 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
       {/* Sub-items breakdown */}
       {item.subItems && item.subItems.length > 0 && (
         <div>
-          <p className="text-xs font-semibold text-text-light mb-2">Zusammensetzung:</p>
+          <p className="text-sm font-semibold text-text-light mb-2">Zusammensetzung:</p>
           <div className="space-y-1">
             {item.subItems.map((sub, idx) => (
-              <div key={idx} className="flex justify-between text-xs text-text-light">
+              <div key={idx} className="flex justify-between text-sm text-text-light">
                 <span className="flex-1">• {sub.label}</span>
                 <span className="font-medium ml-2">{formatCHF(sub.amount)}</span>
               </div>
@@ -49,7 +49,7 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
               {item.subItems
                 .filter((sub) => sub.note)
                 .map((sub, idx) => (
-                  <p key={idx} className="text-xs text-text-muted italic">
+                  <p key={idx} className="text-sm text-text-muted italic">
                     → {sub.label}: {sub.note}
                   </p>
                 ))}
@@ -59,7 +59,7 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
       )}
 
       {/* Source metadata */}
-      <div className="text-xs space-y-1.5 pt-2 border-t border-primary/20">
+      <div className="text-sm space-y-1.5 pt-2 border-t border-primary/20">
         <div>
           <strong className="text-grey-dark">Quelle:</strong>{' '}
           <span className="text-text-light">{item.source.methodology}</span>

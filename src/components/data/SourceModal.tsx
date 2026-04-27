@@ -144,7 +144,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
 
         {/* Footer */}
         <div className="sticky bottom-0 bg-bg-light border-t border-border p-4 text-center">
-          <p className="text-xs text-text-muted">
+          <p className="text-sm text-text-muted">
             Alle Zahlen auf dieser Seite sind klickbar und vollständig nachvollziehbar.
           </p>
         </div>

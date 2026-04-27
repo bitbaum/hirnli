@@ -124,7 +124,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
 
         {/* Transparency Footer */}
         <div className="pt-4 border-t border-border">
-          <div className="flex items-start gap-2 text-xs text-text-muted">
+          <div className="flex items-start gap-2 text-sm text-text-muted">
             <span className="text-sm">✓</span>
             <p>
               Alle Zahlen auf dieser Seite sind klickbar und vollständig nachvollziehbar.
