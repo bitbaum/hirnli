@@ -64,9 +64,12 @@ export function PlatformGuide() {
                 <div className="text-2xl flex-shrink-0" aria-hidden="true">
                   {s.icon}
                 </div>
-                <div>
-                  <div className="font-semibold text-grey-dark group-hover:text-primary mb-1">
-                    {s.title}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="font-semibold text-grey-dark group-hover:text-primary">
+                      {s.title}
+                    </div>
+                    <span className="text-text-light group-hover:text-primary ml-2 flex-shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
                   </div>
                   <p className="text-sm text-text-light">{s.description}</p>
                 </div>

@@ -88,14 +88,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* :where() gives zero specificity — Tailwind text-* classes always win */
-:where(a) {
-  color: var(--color-primary);
-  text-decoration: none;
-}
+/* In Tailwind v4, utilities are in @layer utilities. Unlayered rules beat
+   any layer regardless of specificity. Put defaults in @layer base so
+   @layer utilities (text-white, text-grey-dark, etc.) can override them. */
+@layer base {
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
 
-:where(a):hover {
-  text-decoration: underline;
+  a:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ========================================
