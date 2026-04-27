@@ -53,7 +53,7 @@ export default async function SchwerpunktGesuchDokumentPage({ params }: Props) {
           <p className="text-sm font-semibold text-warning">
             {bannerTitle}
           </p>
-          <p className="mt-1 text-xs text-text-light">
+          <p className="mt-1 text-sm text-text-light">
             Schwerpunkt: <strong>{sp.label}</strong> |
             Platzhalterfelder vor dem Versand ersetzen.
           </p>

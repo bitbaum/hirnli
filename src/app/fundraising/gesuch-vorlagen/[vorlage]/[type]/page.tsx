@@ -56,7 +56,7 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
         <p className="text-sm font-semibold text-warning">
           {bannerTitle}
         </p>
-        <p className="mt-1 text-xs text-text-light">
+        <p className="mt-1 text-sm text-text-light">
           Schwerpunkt: <strong>{sp.label}</strong> |
           Felder wie <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">[Name der Stiftung]</span> vor dem Versand ersetzen.
         </p>

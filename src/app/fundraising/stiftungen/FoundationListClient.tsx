@@ -189,7 +189,7 @@ export default function FoundationListClient() {
             </span>
           </div>
           <ProgressBar percent={researchStats.researchedPercent} size="md" color="bg-primary" label={`Analyse-Fortschritt: ${researchStats.researchedPercent}% abgeschlossen`} />
-          <p className="mt-1.5 text-xs text-text-muted">
+          <p className="mt-1.5 text-sm text-text-muted">
             Stiftungszweck und Fit manuell bewertet — {researchStats.researchedPercent}% abgeschlossen
           </p>
         </div>

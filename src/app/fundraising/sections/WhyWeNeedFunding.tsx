@@ -43,7 +43,7 @@ export default function WhyWeNeedFunding() {
             <p className="text-warning mb-0">
               Wir haben {TEAM_MEMBERS.length} Menschen im Team (Techniker, Betrieb, Leitung) — aber zu wenig bezahlte Kapazität und keine
               dedizierte Bildungsstruktur, um Prozesse zu professionalisieren und das volle Potenzial auszuschöpfen.
-              <br /><span className="text-xs mt-1 block">Leitung: Andreas, Veronica (Sozialpädagogin), Dani. Technik & Betrieb: Freiwillige, Praktikanten, Reintegrations-Teilnehmer.</span>
+              <br /><span className="text-sm mt-1 block">Leitung: Andreas, Veronica (Sozialpädagogin), Dani. Technik & Betrieb: Freiwillige, Praktikanten, Reintegrations-Teilnehmer.</span>
             </p>
           </div>
 
@@ -95,7 +95,7 @@ export default function WhyWeNeedFunding() {
                 <div key={year.year} className={`bg-white rounded-lg p-4 border-2 ${colors[i].border}`}>
                   <div className={`text-sm ${colors[i].text} font-semibold`}>{year.year} ({PROJECT_START + i})</div>
                   <div className={`text-2xl font-bold ${colors[i].bold} my-2`}>{formatCHF(stiftungenAmt)}</div>
-                  <div className="text-xs text-text-light">{stiftungenPct}% von Stiftungen<br/>{labels[i]}</div>
+                  <div className="text-sm text-text-light">{stiftungenPct}% von Stiftungen<br/>{labels[i]}</div>
                 </div>
               );
             })}

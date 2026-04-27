@@ -25,7 +25,7 @@ function TemplateCard({ slug, title, description, subtitle }: {
           <h3 className="text-lg font-semibold text-grey-dark">{title}</h3>
           <p className="mt-1 text-sm text-text-light">{description}</p>
           {subtitle && (
-            <p className="mt-2 text-xs text-text-muted">{subtitle}</p>
+            <p className="mt-2 text-sm text-text-muted">{subtitle}</p>
           )}
         </div>
         <div className="flex shrink-0 gap-2">
@@ -75,7 +75,7 @@ export default function GesuchVorlagenPage() {
                   <span className="text-2xl">{sp.icon}</span>
                   <div>
                     <h3 className="font-semibold text-grey-dark">{sp.shortLabel}</h3>
-                    <p className="text-xs text-text-muted">{sp.description}</p>
+                    <p className="text-sm text-text-muted">{sp.description}</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">

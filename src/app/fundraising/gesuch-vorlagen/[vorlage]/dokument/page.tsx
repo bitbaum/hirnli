@@ -60,7 +60,7 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
           <p className="text-sm font-semibold text-warning">
             {bannerTitle}
           </p>
-          <p className="mt-1 text-xs text-text-light">
+          <p className="mt-1 text-sm text-text-light">
             Platzhalterfelder wie <span className="font-mono">[Name der Stiftung]</span> vor dem Versand ersetzen.
           </p>
         </div>

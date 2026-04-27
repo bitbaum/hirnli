@@ -62,7 +62,7 @@ export function MethodologySection({
         <div className="mt-6 flex items-center gap-2">
           <ConfidenceBadge level={confidence} />
           {confidenceNote && (
-            <span className="text-xs text-text-muted">{confidenceNote}</span>
+            <span className="text-sm text-text-muted">{confidenceNote}</span>
           )}
         </div>
       </Card>

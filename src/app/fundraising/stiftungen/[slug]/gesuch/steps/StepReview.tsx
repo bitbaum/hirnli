@@ -133,7 +133,7 @@ export default function StepReview({
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-grey-dark">Automatischer KI-Entwurf</p>
-              <p className="mt-0.5 text-xs text-text-muted">
+              <p className="mt-0.5 text-sm text-text-muted">
                 Verbindungssatz und Anschreiben werden auf {foundationName} massgeschneidert.
               </p>
             </div>
