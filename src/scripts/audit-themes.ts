@@ -34,7 +34,8 @@ const THEME_DEFINITIONS: ThemeDefinition[] = [
   },
   {
     id: 'soziale-integration',
-    keywords: ['integration', 'sozial', 'benachteiligt', 'inklusion', 'gemeinschaft', 'teilhabe', 'zusammenleben'],
+    // partizipation = direct synonym for Teilhabe in German social-integration contexts
+    keywords: ['integration', 'sozial', 'benachteiligt', 'inklusion', 'gemeinschaft', 'teilhabe', 'zusammenleben', 'partizipation'],
     excludeKeywords: [],
   },
   {
@@ -123,6 +124,7 @@ async function auditThemes() {
       config_data
     FROM fundraising_foundations
     WHERE priority IN (1, 2)
+      AND (archived IS NULL OR archived = false)
       AND config_data IS NOT NULL
       AND (config_data->>'themes') IS NOT NULL
     ORDER BY priority ASC, name ASC
