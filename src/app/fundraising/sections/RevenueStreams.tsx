@@ -43,7 +43,7 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
           <strong>Ziel Jahr 3:</strong> {formatCHF(REVENUE_YEAR3_TOTAL)}/Jahr (Prognose)
           — das wäre +{Math.round(((REVENUE_YEAR3_TOTAL - REVENUE_CURRENT_TOTAL) / REVENUE_CURRENT_TOTAL) * 100)}% Wachstum
         </p>
-        <p className="text-xs text-success">
+        <p className="text-sm text-success">
           Durch neue Einnahmequellen (Workshops, Corporate Training, Events, erhöhter Geräteverkauf)
           decken wir immer mehr unserer laufenden Kosten selbst.
         </p>

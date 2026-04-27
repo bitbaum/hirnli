@@ -68,7 +68,7 @@ export default function ScoringMethodikPage() {
               Passt diese Stiftung zu unserer Mission? Thematische, geografische und
               Zugangs-Übereinstimmung.
             </p>
-            <p className="mt-2 text-xs text-text-muted">Berechnet bei der Recherche, gespeichert pro Stiftung.</p>
+            <p className="mt-2 text-sm text-text-muted">Berechnet bei der Recherche, gespeichert pro Stiftung.</p>
           </Card>
           <Card>
             <div className="mb-2 text-2xl">📊</div>
@@ -77,7 +77,7 @@ export default function ScoringMethodikPage() {
               Können wir ein massgeschneidertes Gesuch schreiben? Misst die
               Vollständigkeit unserer Recherche-Daten.
             </p>
-            <p className="mt-2 text-xs text-text-muted">Berechnet in Echtzeit aus Stiftungsfeldern.</p>
+            <p className="mt-2 text-sm text-text-muted">Berechnet in Echtzeit aus Stiftungsfeldern.</p>
           </Card>
           <Card>
             <div className="mb-2 text-2xl">⚡</div>
@@ -86,7 +86,7 @@ export default function ScoringMethodikPage() {
               Sollten wir jetzt Aufwand investieren? Kombiniert Fit und Bereitschaft
               zu einer handlungsorientierten Empfehlung.
             </p>
-            <p className="mt-2 text-xs text-text-muted">Berechnet in Echtzeit. Fit ist Multiplikator.</p>
+            <p className="mt-2 text-sm text-text-muted">Berechnet in Echtzeit. Fit ist Multiplikator.</p>
           </Card>
         </div>
       </section>
@@ -127,16 +127,16 @@ export default function ScoringMethodikPage() {
               </tbody>
             </table>
           </div>
-          <div className="mt-4 rounded bg-bg-light p-3 text-xs text-text-muted">
+          <div className="mt-4 rounded bg-bg-light p-3 text-sm text-text-muted">
             <strong>Dimensionsfloors:</strong> Wenn der geografische Score unter 1 liegt
             (z.B. Stiftung fördert nur in Mexiko), wird der Gesamt-Fit auf maximal 3
             begrenzt. Bei thematischem Score 0 auf maximal 2. Dies verhindert, dass
             ein guter Zugang einen fundamentalen Mismatch kompensiert.
           </div>
-          <p className="mt-3 text-xs text-text-muted">
+          <p className="mt-3 text-sm text-text-muted">
             Anzeige: 0-3 Sterne (≥7 → 3 Sterne, ≥4 → 2 Sterne, ≥1 → 1 Stern, 0 → 0 Sterne). Stiftungen unter Tier «Profiliert» → 0 Sterne (ungenügende Datengrundlage).
           </p>
-          <div className="mt-3 rounded bg-bg-light p-3 text-xs text-text-muted">
+          <div className="mt-3 rounded bg-bg-light p-3 text-sm text-text-muted">
             <strong>Vertrauensgate:</strong> Stiftungen mit Bereitschafts-Tier unter «Profiliert» zeigen keine
             Sterne-Bewertung, da die Datengrundlage für eine belastbare Einschätzung nicht ausreicht.
           </div>
@@ -237,7 +237,7 @@ export default function ScoringMethodikPage() {
               <p>basis = fit_normiert × ({PRIORITY_FORMULA.baseFitFloor} + {PRIORITY_FORMULA.readinessScale} × bereitschaft / 100)</p>
               <p>priorität = min(100, basis × min(anwendbare_abzüge) + förder_bonus)</p>
             </div>
-            <p className="mt-2 text-xs text-text-muted">
+            <p className="mt-2 text-sm text-text-muted">
               fit_normiert = fitScore / 10 (0-1). Bei Fit 10 + Bereitschaft 100 → Priorität 100.
               Bei Fit 10 + Bereitschaft 0 → Priorität {PRIORITY_FORMULA.baseFitFloor}. Bei Fit 0 → immer 0.
             </p>
@@ -273,7 +273,7 @@ export default function ScoringMethodikPage() {
                 </tbody>
               </table>
             </div>
-            <p className="mt-2 text-xs text-text-muted">
+            <p className="mt-2 text-sm text-text-muted">
               Wenn mehrere Abzüge zutreffen, gilt nur der härteste (min). Keine Mehrfachbestrafung.
             </p>
           </div>
@@ -337,7 +337,7 @@ export default function ScoringMethodikPage() {
                 </div>
               </div>
             </div>
-            <p className="mt-2 text-xs text-text-muted">
+            <p className="mt-2 text-sm text-text-muted">
               Durchschnittlicher Prioritäts-Score: {priorityDist.avg}/100.
               Manuell überschriebene Prioritäten sind mit «manuell» gekennzeichnet.
             </p>
@@ -361,7 +361,7 @@ export default function ScoringMethodikPage() {
             vorbereitetes Gesuch, damit wir bei gutem Timing sofort einreichen können.
             P4-Stiftungen bekommen kein Gesuch, da die strategische Priorität zu niedrig ist.
           </p>
-          <div className="mt-3 rounded bg-bg-light p-3 text-xs text-text-muted">
+          <div className="mt-3 rounded bg-bg-light p-3 text-sm text-text-muted">
             Aktuell: {STIFTUNGEN_DATA.filter((f) => {
               const r = computeReadinessScore(f);
               const p = computePriorityScore(f, r.score);

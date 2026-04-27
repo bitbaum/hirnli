@@ -27,7 +27,7 @@ export default function SolutionGrid() {
                 <li>Besser organisiertes Lager</li>
               </ul>
               <div className="bg-primary/10 rounded-lg p-3 mb-3">
-                <p className="text-xs text-primary">
+                <p className="text-sm text-primary">
                   <strong>Warum das hilft:</strong> Mehr Raum bedeutet mehr parallele Arbeitsstationen, bessere Trennung
                   (Verkauf/Werkstatt/Schulung), weniger Chaos. <strong>Aber:</strong> Raum allein reicht nicht — siehe Punkt 2.
                 </p>
@@ -54,7 +54,7 @@ export default function SolutionGrid() {
               <div className="space-y-3 mb-4">
                 <div className="bg-pillar-vision/10 rounded-lg p-3">
                   <p className="text-sm font-semibold text-pillar-vision mb-1">Hardware-Bildungsprogrammleiter:in</p>
-                  <ul className="text-xs text-pillar-vision space-y-1 list-disc list-inside">
+                  <ul className="text-sm text-pillar-vision space-y-1 list-disc list-inside">
                     <li>Organisiert Reparatur-Tische: Zeitpläne, Qualitätssicherung, Prozesse</li>
                     <li>Bildet Techniker aus (nicht nur reparieren, sondern auch trainieren lernen)</li>
                     <li>Strukturierte Programme statt &bdquo;komm, wenn du willst&ldquo;</li>
@@ -63,7 +63,7 @@ export default function SolutionGrid() {
                 </div>
                 <div className="bg-pillar-vision/10 rounded-lg p-3">
                   <p className="text-sm font-semibold text-pillar-vision mb-1">Software/AI-Bildungsprogrammleiter:in</p>
-                  <ul className="text-xs text-pillar-vision space-y-1 list-disc list-inside">
+                  <ul className="text-sm text-pillar-vision space-y-1 list-disc list-inside">
                     <li>Organisiert Workshops: AI Literacy, Coding, Open Source</li>
                     <li>Bildet Entwickler aus, die dann selbst trainieren</li>
                     <li>Strukturierte Curricula für verschiedene Niveaus</li>
