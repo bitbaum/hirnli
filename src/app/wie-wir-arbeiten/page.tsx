@@ -37,7 +37,7 @@ export default function WieWirArbeitenPage() {
                 {m.value}
               </p>
               <p className="text-sm font-semibold text-grey-dark">{m.label}</p>
-              <p className="mt-1 text-xs text-text-muted">{m.detail}</p>
+              <p className="mt-1 text-sm text-text-muted">{m.detail}</p>
             </Card>
           ))}
         </div>
@@ -59,7 +59,7 @@ export default function WieWirArbeitenPage() {
             {CASCADE_MODELS.current.label}
           </h3>
           <CascadeDiagram tiers={CASCADE_MODELS.current.tiers} />
-          <p className="mt-4 text-center text-xs text-text-muted">
+          <p className="mt-4 text-center text-sm text-text-muted">
             Über 85% aller Geräte werden wiederverwendet oder als Ersatzteile
             genutzt — nur ~15% landen im Recycling.
           </p>
@@ -91,7 +91,7 @@ export default function WieWirArbeitenPage() {
               {CASCADE_MODELS.future.label}
             </h3>
             <CascadeDiagram tiers={CASCADE_MODELS.future.tiers} />
-            <p className="mt-4 text-center text-xs text-text-muted">
+            <p className="mt-4 text-center text-sm text-text-muted">
               Neuer Tier 3 (Vintage & Kunst) fängt Geräte auf, die sonst direkt
               recycelt würden → Recycling-Anteil sinkt auf &lt;10%.
             </p>

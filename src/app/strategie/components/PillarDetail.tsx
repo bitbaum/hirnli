@@ -167,7 +167,7 @@ export default function PillarDetail({
                     `}
                   >
                     <div className={`text-sm font-semibold ${colors.text}`}>{page.title}</div>
-                    <div className={`text-xs ${colors.textLight} mt-1`}>{page.reason}</div>
+                    <div className={`text-sm ${colors.textLight} mt-1`}>{page.reason}</div>
                   </Link>
                 ))}
               </div>

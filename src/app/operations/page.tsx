@@ -87,7 +87,7 @@ export default function OperationsPage() {
                 <TimeBadge>5-10 Min/Gerät</TimeBadge>
               </div>
             </CardHeader>
-            <p className="mb-3 text-xs text-text-muted">
+            <p className="mb-3 text-sm text-text-muted">
               <strong>Wer:</strong> Empfangsmitarbeiter/in oder Werkstattleitung
             </p>
             <Checklist items={INTAKE_CHECKLIST} />
@@ -124,7 +124,7 @@ export default function OperationsPage() {
               <CardHeader>
                 <CardTitle>{opt.title}</CardTitle>
               </CardHeader>
-              <p className="mb-3 text-xs text-text-muted">{opt.subtitle}</p>
+              <p className="mb-3 text-sm text-text-muted">{opt.subtitle}</p>
               <Checklist items={opt.steps} />
               <div className="mt-3">
                 <TimeBadge>{opt.duration}</TimeBadge>

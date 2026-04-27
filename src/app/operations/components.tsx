@@ -47,7 +47,7 @@ export function TriageSection() {
               <TimeBadge>10-15 Min</TimeBadge>
             </div>
           </CardHeader>
-          <p className="mb-3 text-xs text-text-muted">
+          <p className="mb-3 text-sm text-text-muted">
             <strong>Wer:</strong> Techniker/in
           </p>
           <h4 className="mb-2 text-sm font-semibold">Visuelle Inspektion:</h4>
@@ -89,7 +89,7 @@ export function TriageSection() {
               <span className={`inline-block rounded-full px-3 py-1 text-sm font-semibold ${cat.color}`}>
                 {cat.label}
               </span>
-              <p className="mt-2 text-xs text-text-muted">
+              <p className="mt-2 text-sm text-text-muted">
                 {cat.title}<br />{cat.description}
               </p>
             </div>

@@ -85,7 +85,7 @@ export default function Revamp2030Page() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div className="bg-pillar-digital/10 rounded-lg p-3">
                   <p className="text-sm font-semibold text-pillar-digital mb-2">Was die Plattform bietet:</p>
-                  <ul className="text-xs text-pillar-digital space-y-1 list-disc list-inside">
+                  <ul className="text-sm text-pillar-digital space-y-1 list-disc list-inside">
                     <li><strong>Community-Marktplatz:</strong> Gebrauchte IT transparent kaufen und verkaufen</li>
                     <li><strong>IT-Hilfe-Portal:</strong> Community-basierter Tech-Support</li>
                     <li><strong>Knowhow-Plattform:</strong> Reparaturanleitungen, Workshops, Blog</li>
@@ -94,7 +94,7 @@ export default function Revamp2030Page() {
                 </div>
                 <div className="bg-pillar-digital/10 rounded-lg p-3">
                   <p className="text-sm font-semibold text-pillar-digital mb-2">Warum das unsere Wirkung erhöht:</p>
-                  <ul className="text-xs text-pillar-digital space-y-1 list-disc list-inside">
+                  <ul className="text-sm text-pillar-digital space-y-1 list-disc list-inside">
                     <li><strong>Messbarkeit:</strong> Systematische Erfassung statt Schätzungen — jedes Gerät, jeder Service-Kontakt wird dokumentiert</li>
                     <li><strong>Skalierung:</strong> Online-Marktplatz und Wissensportal erreichen Menschen weit über Zürich hinaus</li>
                     <li><strong>Effizienz:</strong> Ein IT-Hilfe-Portal bedient 100 Anfragen so effizient wie 10</li>
@@ -104,11 +104,11 @@ export default function Revamp2030Page() {
               </div>
               <div className="bg-gradient-to-br from-pillar-digital/10 to-primary/10 rounded-lg p-4">
                 <p className="text-sm font-bold text-pillar-digital mb-2">Tech-Stack (produktionsreif):</p>
-                <p className="text-xs text-pillar-digital mb-2">
+                <p className="text-sm text-pillar-digital mb-2">
                   Next.js, TypeScript, PostgreSQL, Redis, Meilisearch, Auth.js, Payrexx —
                   professionelle Architektur mit {formatNumber(getNumericValue('PLATFORM_DB_MIGRATIONS'))} Datenbank-Migrationen und {formatNumber(getNumericValue('PLATFORM_API_ROUTES'))}+ API-Endpunkten.
                 </p>
-                <p className="text-xs text-pillar-digital">
+                <p className="text-sm text-pillar-digital">
                   <strong>Das beweist:</strong> Wir haben nicht nur die handwerkliche Kompetenz, Geräte zu reparieren —
                   wir haben auch die technische Kompetenz, die digitale Infrastruktur dafür selbst zu bauen.
                   Stiftungen investieren nicht in eine Werkstatt. Sie investieren in eine Organisation, die Technologie versteht und einsetzt.

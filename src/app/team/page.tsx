@@ -80,7 +80,7 @@ export default function TeamPage() {
                     <div className="flex items-start gap-3">
                       <div className="flex-1">
                         <h4 className="font-bold text-grey-dark">{member.name}</h4>
-                        <div className="text-xs text-text-muted mt-1">
+                        <div className="text-sm text-text-muted mt-1">
                           {member.fachgebiete.join(' · ')}
                         </div>
                         {member.capacity && (
@@ -115,7 +115,7 @@ export default function TeamPage() {
                     <Badge variant="primary">{member.vza} VZÄ</Badge>
                   </div>
                   {member.fachgebiete && (
-                    <div className="text-xs text-text-muted">
+                    <div className="text-sm text-text-muted">
                       {member.fachgebiete.join(' • ')}
                     </div>
                   )}
@@ -272,7 +272,7 @@ export default function TeamPage() {
             <div>
               <strong>Warum das OK ist:</strong> {DATA_QUALITY_NOTE.why_this_is_ok}
             </div>
-            <div className="pt-2 border-t border-border text-xs">
+            <div className="pt-2 border-t border-border text-sm">
               <strong>Frühere Datenquelle:</strong> {DATA_QUALITY_NOTE.previous_source}<br />
               <strong>Aktuelle Datenquelle:</strong> {DATA_QUALITY_NOTE.current_source}
             </div>

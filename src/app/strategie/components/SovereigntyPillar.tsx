@@ -86,7 +86,7 @@ export default function SovereigntyPillar({
         {icon}
       </span>
       <h3 className={`text-sm font-bold ${colors.text}`}>{title}</h3>
-      <p className={`mt-1 text-xs ${colors.textLight}`}>{description}</p>
+      <p className={`mt-1 text-sm ${colors.textLight}`}>{description}</p>
 
       {/* Expand indicator */}
       <div className={`mt-3 text-xs ${colors.textLight} flex items-center justify-center gap-1`}>
@@ -104,7 +104,7 @@ export default function SovereigntyPillar({
           {achievements.length > 0 && (
             <div>
               <h4 className={`text-xs font-semibold ${colors.text} mb-2`}>Was wir erreicht haben:</h4>
-              <ul className={`text-xs ${colors.textLight} space-y-1`}>
+              <ul className={`text-sm ${colors.textLight} space-y-1`}>
                 {achievements.map((achievement, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <span>✓</span>
@@ -131,7 +131,7 @@ export default function SovereigntyPillar({
                     `}
                   >
                     <div className={`text-xs font-semibold ${colors.text}`}>{page.title}</div>
-                    <div className={`text-xs ${colors.textLight} mt-0.5`}>{page.reason}</div>
+                    <div className={`text-sm ${colors.textLight} mt-0.5`}>{page.reason}</div>
                   </Link>
                 ))}
               </div>

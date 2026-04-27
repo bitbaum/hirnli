@@ -131,7 +131,7 @@ export default function CommunitySpaceCard({
             <div className="bg-warning/10 border-l-4 border-warning rounded-lg p-4">
               <h4 className="text-xs font-semibold text-warning mb-1">Geschätzte Kosten</h4>
               <p className="text-lg font-bold text-warning">{estimatedCost}</p>
-              <p className="text-xs text-warning mt-1">Einmalige Einrichtung + erstes Jahr Betrieb</p>
+              <p className="text-sm text-warning mt-1">Einmalige Einrichtung + erstes Jahr Betrieb</p>
             </div>
           )}
         </div>
