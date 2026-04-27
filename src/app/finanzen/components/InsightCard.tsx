@@ -20,7 +20,7 @@ export function InsightCard({
   return (
     <div className={`rounded-lg p-4 ${colors[variant]}`}>
       <h4 className="mb-1 text-sm font-semibold text-grey-dark">{title}</h4>
-      <p className="text-xs text-text-light">{text}</p>
+      <p className="text-sm text-text-light">{text}</p>
     </div>
   );
 }

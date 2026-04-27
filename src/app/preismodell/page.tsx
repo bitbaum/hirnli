@@ -142,7 +142,7 @@ export default function PreismodellPage() {
                 {step.step}
               </div>
               <h4 className="mb-1 font-semibold">{step.title}</h4>
-              <p className="text-xs text-text-muted">{step.description}</p>
+              <p className="text-sm text-text-muted">{step.description}</p>
             </Card>
           ))}
         </div>
@@ -171,7 +171,7 @@ export default function PreismodellPage() {
                 <li>KulturLegi-Rabatte für Working Poor</li>
                 <li>Workshops für Kinder aus einkommensschwachen Familien</li>
               </ul>
-              <p className="text-xs text-text-muted">
+              <p className="text-sm text-text-muted">
                 <strong>Empfohlen:</strong> +20% bis +50% auf den Normalpreis<br />
                 Bei einem CHF 200 Laptop sind das nur CHF 40 - 100 mehr.
               </p>

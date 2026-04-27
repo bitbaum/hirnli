@@ -13,7 +13,7 @@ export function DataQualityBanner() {
           <h3 className="text-sm font-semibold text-grey-dark">
             Datenqualität & Transparenz
           </h3>
-          <p className="mt-1 text-xs text-text-light">
+          <p className="mt-1 text-sm text-text-light">
             <strong>Vollständige Erfolgsrechnung:</strong> {DATA_QUALITY.completeRange} (Einnahmen + Aufwände).{' '}
             <strong>Nur Einnahmen:</strong> {DATA_QUALITY.incompleteRange} — Aufwände wurden im Buchhaltungssystem nicht verbucht.
           </p>
