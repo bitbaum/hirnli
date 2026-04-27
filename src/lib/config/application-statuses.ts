@@ -125,7 +125,9 @@ export const KANBAN_COLUMNS = [
   'review',
   'submitted',
   'pending',
+  'followup',
   'accepted',
+  'onhold',
 ] as const;
 
 /** Final-decision statuses — show outcome fields (successFactors, rejectionReason) */
