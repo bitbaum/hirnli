@@ -38,3 +38,6 @@ research/pipeline-graduate/phase1-*.json
 
 # Generated audit/report outputs
 theme-audit-report.json
+
+# Claude Code runtime files
+.claude/scheduled_tasks.lock
