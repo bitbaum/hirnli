@@ -404,7 +404,7 @@ export default function BildungPage() {
               🏛️ Passende Stiftungen finden
             </Link>
             <Link
-              href="/strategie-2030"
+              href="/revamp-2030"
               className="rounded-lg border-2 border-white bg-grey-dark px-8 py-4 font-bold text-white transition-colors hover:bg-grey-dark/85"
             >
               🚀 Gesamtstrategie 2030
