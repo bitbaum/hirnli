@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { BRANDING } from './branding';
 import { STIFTUNGEN_DATA } from './foundations';
 import { TEMPLATE_TYPES } from './gesuch-templates';
-import { HUB_SPACE_DISPLAY } from './projections';
+import { HUB_SPACE_DISPLAY, SWISS_FOUNDATIONS_DISPLAY } from './projections';
 import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
 
 // ---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ export const NAV_STRUCTURE: {
             { text: 'Meine Gesuche', href: '/fundraising/gesuche', desc: '📝 Bearbeitete Gesuch-Entwürfe im Überblick' },
             { text: 'Gesuch-Pipeline', href: '/fundraising/applications', desc: '📋 Stiftungsgesuche verwalten und nachverfolgen' },
             { text: 'Scoring-Methodik', href: '/fundraising/scoring-methodik', desc: '⚙️ Wie Fit, Bereitschaft und Priorität berechnet werden' },
-            { text: 'Pipeline-Methodik', href: '/fundraising/pipeline-methodik', desc: '🔬 Wie wir aus 16\'000 Stiftungen die richtigen finden' },
+            { text: 'Pipeline-Methodik', href: '/fundraising/pipeline-methodik', desc: `🔬 Wie wir aus ${SWISS_FOUNDATIONS_DISPLAY} Stiftungen die richtigen finden` },
           ],
         },
       ],
