@@ -24,14 +24,18 @@
 
   --color-success: #2ECC71;
   --color-success-bg: #D5F5E3;
+  --color-success-text: #166534;  /* 6.1:1 on success-bg */
   --color-warning: #E67E22;
   --color-warning-bg: #FDEBD0;
+  --color-warning-text: #7C3200;  /* 7.8:1 on warning-bg */
   --color-danger: #E74C3C;
   --color-danger-bg: #FADBD8;
+  --color-danger-text: #7F1D1D;   /* 7.7:1 on danger-bg */
+  --color-primary-text: #1A5C8A;  /* 6.5:1 on primary/10 bg */
 
   --color-text: #2C3E50;
-  --color-text-light: #657687;
-  --color-text-muted: #697882;
+  --color-text-light: #546270;    /* was #657687 — darkened for 4.9:1 on bg-light */
+  --color-text-muted: #5A6672;    /* was #697882 — darkened for 5.1:1 on bg-light */
   --color-bg: #FFFFFF;
   --color-bg-light: #ECF0F1;
   --color-border: #D5D8DC;

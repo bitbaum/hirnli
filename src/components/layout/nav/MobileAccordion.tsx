@@ -116,7 +116,7 @@ export default function MobileAccordion({
                         >
                           {link.text}
                           {link.desc && (
-                            <span className="block text-xs text-text-muted">
+                            <span className="block text-sm text-text-muted">
                               {link.desc}
                             </span>
                           )}

@@ -50,7 +50,7 @@ export default function Nav() {
             <span className="text-sm font-semibold text-revamp-green">
               {BRANDING.siteName}
             </span>
-            <span className="text-xs text-text-muted">
+            <span className="text-sm text-text-muted">
               {BRANDING.siteTagline}
             </span>
           </div>

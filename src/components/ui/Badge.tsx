@@ -1,15 +1,15 @@
 const VARIANTS = {
   default: 'bg-grey-light text-grey-dark',
-  primary: 'bg-primary/10 text-primary',
-  success: 'bg-success-bg text-success',
-  warning: 'bg-warning-bg text-warning',
-  danger: 'bg-danger-bg text-danger',
-  info: 'bg-primary/10 text-primary',
+  primary: 'bg-primary/10 text-primary-text',
+  success: 'bg-success-bg text-success-text',
+  warning: 'bg-warning-bg text-warning-text',
+  danger: 'bg-danger-bg text-danger-text',
+  info: 'bg-primary/10 text-primary-text',
   outline: 'border border-border bg-transparent text-text-muted',
   // Data source badges
-  live: 'bg-success-bg text-success',
-  derived: 'bg-primary/10 text-primary',
-  estimated: 'bg-warning-bg text-warning',
+  live: 'bg-success-bg text-success-text',
+  derived: 'bg-primary/10 text-primary-text',
+  estimated: 'bg-warning-bg text-warning-text',
   none: 'bg-grey-light text-text-muted',
 } as const;
 

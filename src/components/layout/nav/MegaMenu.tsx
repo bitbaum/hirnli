@@ -103,7 +103,7 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
                             {link.text}
                           </span>
                           {link.desc && (
-                            <span className="block text-xs text-text-muted">
+                            <span className="block text-sm text-text-muted">
                               {link.desc}
                             </span>
                           )}
@@ -136,7 +136,7 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
                             {link.text}
                           </span>
                           {link.desc && (
-                            <span className="block text-xs text-text-muted">
+                            <span className="block text-sm text-text-muted">
                               {link.desc}
                             </span>
                           )}

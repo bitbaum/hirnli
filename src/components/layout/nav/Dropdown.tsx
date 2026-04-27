@@ -95,7 +95,7 @@ export default function Dropdown({ item, pathname }: { item: NavItem; pathname: 
                   {child.text}
                 </span>
                 {child.desc && (
-                  <span className="mt-0.5 block text-xs text-text-muted">
+                  <span className="mt-0.5 block text-sm text-text-muted">
                     {child.desc}
                   </span>
                 )}
