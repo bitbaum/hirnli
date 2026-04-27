@@ -37,11 +37,11 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
               {check.passed ? '✓' : '○'}
             </span>
             <div className="min-w-0">
-              <p className={`text-xs ${check.passed ? 'text-grey-dark' : 'text-text-muted'}`}>
+              <p className={`text-sm ${check.passed ? 'text-grey-dark' : 'text-text-muted'}`}>
                 {check.label}
               </p>
               {!check.passed && (
-                <p className="text-xs text-text-light mt-0.5">{check.hint}</p>
+                <p className="text-sm text-text-light mt-0.5">{check.hint}</p>
               )}
             </div>
           </div>

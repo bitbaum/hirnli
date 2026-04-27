@@ -88,7 +88,7 @@ export default function FieldRow({
             <button
               type="button"
               onClick={() => onChange(originalValue)}
-              className="text-xs text-text-muted hover:text-danger"
+              className="text-sm text-text-muted hover:text-danger"
               title="Auf Original zurücksetzen"
             >
               ↩ zurücksetzen
@@ -100,7 +100,7 @@ export default function FieldRow({
             <button
               type="button"
               onClick={copyPrompt}
-              className="flex items-center gap-1 rounded px-2 py-0.5 text-xs text-text-muted transition hover:text-primary"
+              className="flex items-center gap-1 rounded px-2 py-0.5 text-sm text-text-muted transition hover:text-primary"
               title="Prompt für externes KI-Tool kopieren"
             >
               {copied ? '✓ Kopiert' : '📋 Prompt'}
@@ -109,7 +109,7 @@ export default function FieldRow({
           <button
             type="button"
             onClick={() => { setShowAi((v) => !v); setAiError(''); }}
-            className={`flex items-center gap-1 rounded px-2 py-0.5 text-xs transition ${
+            className={`flex items-center gap-1 rounded px-2 py-0.5 text-sm transition ${
               showAi ? 'bg-primary/10 text-primary' : 'text-text-muted hover:text-primary'
             }`}
             title="KI-Überarbeitung"
@@ -140,7 +140,7 @@ export default function FieldRow({
         />
       )}
       {/* Field location hint */}
-      <p className="text-xs text-text-muted">{fieldDescription}</p>
+      <p className="text-sm text-text-muted">{fieldDescription}</p>
 
       {/* AI panel */}
       {showAi && (
@@ -153,7 +153,7 @@ export default function FieldRow({
                 type="button"
                 disabled={aiLoading}
                 onClick={() => runAi(preset.instruction)}
-                className="min-h-[44px] rounded-full border border-primary/30 bg-white px-2.5 py-1 text-xs text-primary transition hover:bg-primary hover:text-white disabled:opacity-50"
+                className="min-h-[44px] rounded-full border border-primary/30 bg-white px-2.5 py-1 text-sm text-primary transition hover:bg-primary hover:text-white disabled:opacity-50"
               >
                 {preset.label}
               </button>
@@ -171,14 +171,14 @@ export default function FieldRow({
                 if (e.key === 'Escape') setShowAi(false);
               }}
               placeholder="Eigene Anweisung, z.B. «Auf Winterthur-Fokus anpassen»"
-              className="min-w-0 flex-1 rounded bg-white px-2.5 py-1.5 text-xs text-text-light outline-none ring-1 ring-border focus-visible:ring-primary"
+              className="min-w-0 flex-1 rounded bg-white px-2.5 py-1.5 text-sm text-text-light outline-none ring-1 ring-border focus-visible:ring-primary"
               autoFocus
             />
             <button
               type="button"
               onClick={() => runAi(aiInstruction)}
               disabled={aiLoading || !aiInstruction.trim()}
-              className="shrink-0 rounded bg-primary px-3 py-1.5 text-xs font-medium text-white transition hover:bg-primary/80 disabled:opacity-50"
+              className="shrink-0 rounded bg-primary px-3 py-1.5 text-sm font-medium text-white transition hover:bg-primary/80 disabled:opacity-50"
             >
               {aiLoading ? (
                 <span className="flex items-center gap-1">
@@ -192,7 +192,7 @@ export default function FieldRow({
           </div>
 
           {aiError && (
-            <p className="text-xs text-danger">{aiError}</p>
+            <p className="text-sm text-danger">{aiError}</p>
           )}
         </div>
       )}

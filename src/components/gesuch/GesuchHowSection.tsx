@@ -21,7 +21,7 @@ export default function GesuchHowSection({ trackRecord, competencies }: GesuchHo
         {trackRecord.proof_points.map((point) => (
           <Card key={point.label} className="text-center">
             <p className="text-xl font-bold text-primary md:text-2xl">{point.value}</p>
-            <p className="text-xs text-text-muted">{point.label}</p>
+            <p className="text-sm text-text-muted">{point.label}</p>
           </Card>
         ))}
       </div>

@@ -147,7 +147,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
                             {formatTimestamp(entry.timestamp)}
                           </p>
                           {fieldKeys.length > 0 && (
-                            <p className="text-xs text-text-muted mt-0.5">
+                            <p className="text-sm text-text-muted mt-0.5">
                               {fieldKeys.join(', ')}
                             </p>
                           )}
@@ -157,7 +157,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
                             type="button"
                             onClick={() => handleRestore(entry)}
                             disabled={restoring === entry.id}
-                            className="shrink-0 rounded-md border border-border px-2.5 py-1 text-xs font-medium text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors"
+                            className="shrink-0 rounded-md border border-border px-2.5 py-1 text-sm font-medium text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors"
                           >
                             {restoring === entry.id ? '…' : 'Wiederherstellen'}
                           </button>

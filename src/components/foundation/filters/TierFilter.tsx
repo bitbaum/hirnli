@@ -41,14 +41,14 @@ export default function TierFilter({ activeTier, tierCounts, onSelect }: TierFil
                 <span className="text-xs tabular-nums text-text-muted">{formatNumber(count)}</span>
               </span>
               {isActive && (
-                <span className="mt-0.5 pl-4 text-xs text-text-muted">
+                <span className="mt-0.5 pl-4 text-sm text-text-muted">
                   {TIER_DESCRIPTIONS[tier]}
                 </span>
               )}
             </button>
           );
         })}
-        <p className="mt-1 text-xs text-text-muted">
+        <p className="mt-1 text-sm text-text-muted">
           Zeigt alle Stiftungen ab gewählter Stufe.
         </p>
       </div>

@@ -86,7 +86,7 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
         {state === 'loading' ? 'Wird hinzugefügt...' : 'Gesuch starten'}
       </Button>
       {state === 'error' && error && (
-        <p className="text-xs text-danger">{error}</p>
+        <p className="text-sm text-danger">{error}</p>
       )}
     </div>
   );

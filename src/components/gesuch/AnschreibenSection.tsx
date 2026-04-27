@@ -57,7 +57,7 @@ export default function AnschreibenSection({ dok }: AnschreibenSectionProps) {
       </div>
 
       {/* Beilagen list */}
-      <div className="mt-8 border-t border-border pt-4 text-xs text-text-muted">
+      <div className="mt-8 border-t border-border pt-4 text-sm text-text-muted">
         <p className="font-semibold">Beilagen:</p>
         <ul className="mt-1 list-inside list-disc">
           <li>Projektbeschrieb (3 Seiten)</li>
