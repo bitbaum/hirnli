@@ -17,7 +17,7 @@ export function CascadeDiagram({ tiers }: CascadeDiagramProps) {
       {tiers.map((tier, i) => (
         <div key={tier.id} className="flex items-center gap-2">
           <div
-            className={`min-w-[100px] rounded-lg border-2 p-3 text-center text-xs ${tier.color.border} ${tier.color.bg} ${
+            className={`min-w-[100px] rounded-lg border-2 p-3 text-center text-sm ${tier.color.border} ${tier.color.bg} ${
               tier.status === 'future' ? 'border-dashed' : ''
             }`}
           >

@@ -66,7 +66,7 @@ export default function MethodikPage() {
             {PIPELINE_STEPS.map((step, i) => (
               <div key={step.label} className="flex items-center gap-2">
                 <div
-                  className={`min-w-[80px] rounded-lg p-3 text-center text-xs ${
+                  className={`min-w-[80px] rounded-lg p-3 text-center text-sm ${
                     step.highlight
                       ? 'bg-primary font-semibold text-white'
                       : 'bg-white'

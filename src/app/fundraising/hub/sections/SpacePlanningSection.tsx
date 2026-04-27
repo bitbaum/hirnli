@@ -27,17 +27,17 @@ export default function SpacePlanningSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div className="bg-primary/10 p-3 rounded-lg">
-            <p className="text-xs font-semibold text-primary mb-1">Kerngeschäft</p>
+            <p className="text-sm font-semibold text-primary mb-1">Kerngeschäft</p>
             <p className="text-lg font-bold text-primary">{SPACE_SUMMARY.by_category.core_business.total_sqm} m²</p>
             <p className="text-sm text-primary">Shop + Werkstatt + Lager</p>
           </div>
           <div className="bg-chart-5/10 p-3 rounded-lg">
-            <p className="text-xs font-semibold text-chart-5 mb-1">Innovation & Bildung</p>
+            <p className="text-sm font-semibold text-chart-5 mb-1">Innovation & Bildung</p>
             <p className="text-lg font-bold text-chart-5">{SPACE_SUMMARY.by_category.innovation.total_sqm} m²</p>
             <p className="text-sm text-chart-5">Makerspace + AI Lab + Schulung</p>
           </div>
           <div className="bg-danger/10 p-3 rounded-lg">
-            <p className="text-xs font-semibold text-danger mb-1">Kultur & Community</p>
+            <p className="text-sm font-semibold text-danger mb-1">Kultur & Community</p>
             <p className="text-lg font-bold text-danger">{SPACE_SUMMARY.by_category.culture_community.total_sqm} m²</p>
             <p className="text-sm text-danger">Events + Café + Repair Café</p>
           </div>
@@ -65,38 +65,38 @@ export default function SpacePlanningSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="bg-success/10 p-4 rounded-lg">
-            <p className="text-xs font-semibold text-success mb-2">Agglomeration (empfohlen)</p>
+            <p className="text-sm font-semibold text-success mb-2">Agglomeration (empfohlen)</p>
             <p className="text-sm text-success mb-2">
               <strong>{ZURICH_MARKET_DATA.agglomeration.commercial_space_per_year}</strong> pro m²/Jahr
             </p>
-            <p className="text-xs text-success mb-3">
+            <p className="text-sm text-success mb-3">
               Standorte: {ZURICH_MARKET_DATA.agglomeration.locations.join(', ')}
             </p>
             <div className="pt-3 border-t border-success/20">
-              <p className="text-xs text-success mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
+              <p className="text-sm text-success mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
               <p className="text-lg font-bold text-success">
                 CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.min)} - {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.max)} /Jahr
               </p>
-              <p className="text-xs text-success mt-1">
+              <p className="text-sm text-success mt-1">
                 (Realistisch: CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.realistic)} für gute Lage)
               </p>
             </div>
           </div>
 
           <div className="bg-primary/10 p-4 rounded-lg">
-            <p className="text-xs font-semibold text-primary mb-2">Stadt Zürich (teurer)</p>
+            <p className="text-sm font-semibold text-primary mb-2">Stadt Zürich (teurer)</p>
             <p className="text-sm text-primary mb-2">
               <strong>{ZURICH_MARKET_DATA.city_zurich.office_space_per_year}</strong> pro m²/Jahr
             </p>
-            <p className="text-xs text-primary mb-3">
+            <p className="text-sm text-primary mb-3">
               Zentrale Lagen (Kreis 4/5, Zürich West)
             </p>
             <div className="pt-3 border-t border-primary/20">
-              <p className="text-xs text-primary mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
+              <p className="text-sm text-primary mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
               <p className="text-lg font-bold text-primary">
                 CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.min)} - {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.max)} /Jahr
               </p>
-              <p className="text-xs text-primary mt-1">
+              <p className="text-sm text-primary mt-1">
                 ({ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.note})
               </p>
             </div>

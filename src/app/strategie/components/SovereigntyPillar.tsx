@@ -103,7 +103,7 @@ export default function SovereigntyPillar({
           {/* Achievements */}
           {achievements.length > 0 && (
             <div>
-              <h4 className={`text-xs font-semibold ${colors.text} mb-2`}>Was wir erreicht haben:</h4>
+              <h4 className={`text-sm font-semibold ${colors.text} mb-2`}>Was wir erreicht haben:</h4>
               <ul className={`text-sm ${colors.textLight} space-y-1`}>
                 {achievements.map((achievement, idx) => (
                   <li key={idx} className="flex items-start gap-2">
@@ -118,7 +118,7 @@ export default function SovereigntyPillar({
           {/* Related pages */}
           {relatedPages.length > 0 && (
             <div>
-              <h4 className={`text-xs font-semibold ${colors.text} mb-2`}>Mehr erfahren:</h4>
+              <h4 className={`text-sm font-semibold ${colors.text} mb-2`}>Mehr erfahren:</h4>
               <div className="space-y-2">
                 {relatedPages.map((page, idx) => (
                   <Link
@@ -130,7 +130,7 @@ export default function SovereigntyPillar({
                       ${colors.ring} focus:outline-none focus:ring-2
                     `}
                   >
-                    <div className={`text-xs font-semibold ${colors.text}`}>{page.title}</div>
+                    <div className={`text-sm font-semibold ${colors.text}`}>{page.title}</div>
                     <div className={`text-sm ${colors.textLight} mt-0.5`}>{page.reason}</div>
                   </Link>
                 ))}

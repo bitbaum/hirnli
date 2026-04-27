@@ -137,7 +137,7 @@ export default function GesuchVorlagenPage() {
             return (
               <div key={type} className="rounded border border-border bg-white p-3">
                 <p className="font-bold text-primary">{label.short}</p>
-                <p className="text-xs text-text-light">{label.long}</p>
+                <p className="text-sm text-text-light">{label.long}</p>
               </div>
             );
           })}

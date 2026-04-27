@@ -342,7 +342,7 @@ export default function FoundationListClient() {
               )}
               <button
                 onClick={resetFilters}
-                className="text-xs text-text-muted hover:text-primary"
+                className="text-sm text-text-muted hover:text-primary"
               >
                 Alle zurücksetzen
               </button>
@@ -361,7 +361,7 @@ export default function FoundationListClient() {
             <button
               onClick={() => setCsvModalOpen(true)}
               disabled={filtered.length === 0}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-grey-dark hover:bg-bg-light disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-grey-dark hover:bg-bg-light disabled:cursor-not-allowed disabled:opacity-40"
               title={`${filteredCount} Stiftungen als CSV exportieren`}
             >
               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

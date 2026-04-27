@@ -97,13 +97,13 @@ export default function CommunitySpaceCard({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {capacity && (
               <div className="bg-primary/10 rounded-lg p-4">
-                <h4 className="text-xs font-semibold text-primary mb-2">Kapazität</h4>
+                <h4 className="text-sm font-semibold text-primary mb-2">Kapazität</h4>
                 <p className="text-sm text-primary">{capacity}</p>
               </div>
             )}
             {targetAudience && (
               <div className="bg-success/10 rounded-lg p-4">
-                <h4 className="text-xs font-semibold text-success mb-2">Zielgruppe</h4>
+                <h4 className="text-sm font-semibold text-success mb-2">Zielgruppe</h4>
                 <p className="text-sm text-success">{targetAudience}</p>
               </div>
             )}
@@ -112,7 +112,7 @@ export default function CommunitySpaceCard({
           {/* SDGs */}
           {sdgs.length > 0 && (
             <div>
-              <h4 className="text-xs font-semibold text-grey-dark mb-2">SDG-Beitrag</h4>
+              <h4 className="text-sm font-semibold text-grey-dark mb-2">SDG-Beitrag</h4>
               <div className="flex flex-wrap gap-2">
                 {sdgs.map((sdg, idx) => (
                   <span
@@ -129,7 +129,7 @@ export default function CommunitySpaceCard({
           {/* Estimated Cost */}
           {estimatedCost && (
             <div className="bg-warning/10 border-l-4 border-warning rounded-lg p-4">
-              <h4 className="text-xs font-semibold text-warning mb-1">Geschätzte Kosten</h4>
+              <h4 className="text-sm font-semibold text-warning mb-1">Geschätzte Kosten</h4>
               <p className="text-lg font-bold text-warning">{estimatedCost}</p>
               <p className="text-sm text-warning mt-1">Einmalige Einrichtung + erstes Jahr Betrieb</p>
             </div>

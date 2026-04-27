@@ -43,19 +43,19 @@ export default function BudgetSection() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div className="bg-primary/10 p-3 rounded-lg">
-            <p className="text-xs font-semibold text-primary mb-1">Raumbedarf</p>
+            <p className="text-sm font-semibold text-primary mb-1">Raumbedarf</p>
             <p className="text-lg font-bold text-primary">
               {scenario.spaceRequirement.min_sqm}–{scenario.spaceRequirement.max_sqm} m²
             </p>
           </div>
           <div className="bg-chart-5/10 p-3 rounded-lg">
-            <p className="text-xs font-semibold text-chart-5 mb-1">Zielstiftungen</p>
+            <p className="text-sm font-semibold text-chart-5 mb-1">Zielstiftungen</p>
             <p className="text-lg font-bold text-chart-5">
               Typ {scenario.targetFoundations.join(', ')}
             </p>
           </div>
           <div className="bg-success/10 p-3 rounded-lg">
-            <p className="text-xs font-semibold text-success mb-1">Jahr 1 Total</p>
+            <p className="text-sm font-semibold text-success mb-1">Jahr 1 Total</p>
             <p className="text-lg font-bold text-success">
               CHF {formatNumber(
                 scenario.threeYearModel.year1.einmalig + scenario.threeYearModel.year1.jaehrlich

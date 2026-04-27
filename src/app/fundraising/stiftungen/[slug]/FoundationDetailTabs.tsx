@@ -103,8 +103,8 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                         <table className="mt-2 w-full text-sm">
                           <thead>
                             <tr className="border-b border-border">
-                              <th className="py-2 text-left text-xs font-semibold text-text-muted">Eingabe bis</th>
-                              <th className="py-2 text-left text-xs font-semibold text-text-muted">Antwort</th>
+                              <th className="py-2 text-left text-sm font-semibold text-text-muted">Eingabe bis</th>
+                              <th className="py-2 text-left text-sm font-semibold text-text-muted">Antwort</th>
                             </tr>
                           </thead>
                           <tbody>

@@ -59,7 +59,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
         {document.description}
       </p>
 
-      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted mb-3">
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-text-muted mb-3">
         {document.size && (
           <span>
             <strong>Grösse:</strong> {document.size}
@@ -78,7 +78,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
           <span>{actionLabel}</span>
         </span>
         {!isPdfView && document.action === 'download' && (
-          <span className="text-xs text-success font-semibold">Direkt-Download</span>
+          <span className="text-sm text-success font-semibold">Direkt-Download</span>
         )}
       </div>
     </>

@@ -81,7 +81,7 @@ export function CostStructureCard({ entry }: { entry: AnnualPLEntry }) {
       </div>
 
       {entry.note && (
-        <p className="mt-2 text-xs text-text-muted">⚠ {entry.note}</p>
+        <p className="mt-2 text-sm text-text-muted">⚠ {entry.note}</p>
       )}
     </Card>
   );
