@@ -69,7 +69,7 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 text-xs text-text-muted py-2">
+      <div className="flex items-center gap-2 text-sm text-text-muted py-2">
         <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-border border-t-primary" />
         Lade Aktivitäten…
       </div>
@@ -77,7 +77,7 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
   }
 
   if (entries.length === 0) {
-    return <p className="text-xs text-text-muted py-2">Noch keine Aktivitäten.</p>;
+    return <p className="text-sm text-text-muted py-2">Noch keine Aktivitäten.</p>;
   }
 
   return (
@@ -102,11 +102,11 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
                 {ACTION_LABELS[entry.actionType] ?? entry.actionType}
               </p>
               {hasStatusChange && (
-                <p className="text-xs text-text-muted">
+                <p className="text-sm text-text-muted">
                   {oldStatus} → {newStatus}
                 </p>
               )}
-              <p className="text-xs text-text-light">
+              <p className="text-sm text-text-light">
                 {formatTimestamp(entry.timestamp)}
               </p>
             </div>

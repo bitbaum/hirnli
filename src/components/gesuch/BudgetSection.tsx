@@ -21,7 +21,7 @@ function LineItemRows({ items, total, themeKey }: { items: BudgetLineItem[]; tot
             <span className="font-medium">{item.icon} {themed.label}</span>
             <span className="ml-2 text-sm text-text-muted">{themed.description}</span>
             {item.subItems && item.subItems.length > 0 && (
-              <div className="mt-1 ml-4 text-xs text-text-muted">
+              <div className="mt-1 ml-4 text-sm text-text-muted">
                 {item.subItems.map((sub, idx) => (
                   <span key={idx} className="mr-3">
                     {sub.label}: {formatCHF(sub.amount)}
@@ -69,7 +69,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
             <th className="pb-2 font-semibold" />
             {dok.budget.threeYearModel.map((y) => (
               <th key={y.year} className="pb-2 text-right font-semibold">
-                {y.year}<br /><span className="text-xs font-normal text-text-muted">{y.label}</span>
+                {y.year}<br /><span className="text-sm font-normal text-text-muted">{y.label}</span>
               </th>
             ))}
             <th className="pb-2 text-right font-semibold">Total</th>
@@ -134,14 +134,14 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
           {/* Einmalige Investitionen */}
           <tr className="border-b border-border bg-bg-light">
             <td className="py-2 font-semibold" colSpan={2}>Einmalige Investitionen</td>
-            <td className="py-2 text-right text-xs text-text-muted">{formatCHF(einmaligTotal)}</td>
+            <td className="py-2 text-right text-sm text-text-muted">{formatCHF(einmaligTotal)}</td>
           </tr>
           <LineItemRows items={einmalig} total={year1Total} themeKey={themeKey} />
 
           {/* Jährliche Kosten */}
           <tr className="border-b border-border bg-bg-light">
             <td className="py-2 font-semibold" colSpan={2}>Jährliche Kosten</td>
-            <td className="py-2 text-right text-xs text-text-muted">{formatCHF(jaehrlichTotal)}</td>
+            <td className="py-2 text-right text-sm text-text-muted">{formatCHF(jaehrlichTotal)}</td>
           </tr>
           <LineItemRows items={jaehrlich} total={year1Total} themeKey={themeKey} />
 

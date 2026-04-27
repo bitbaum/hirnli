@@ -48,9 +48,9 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             </span>
           </div>
           <ProgressBar percent={priority.score} size="sm" color="bg-primary" label={`Priorität: ${priority.score}%`} />
-          <p className="mt-1 text-xs text-text-muted">{priority.description}</p>
+          <p className="mt-1 text-sm text-text-muted">{priority.description}</p>
           {priority.components.penaltyReason && (
-            <p className="mt-0.5 text-xs text-warning">{priority.components.penaltyReason}</p>
+            <p className="mt-0.5 text-sm text-warning">{priority.components.penaltyReason}</p>
           )}
         </div>
 
@@ -88,7 +88,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             </p>
             <ul className="mt-1 space-y-0.5">
               {promotion.improvements.slice(0, 3).map((imp) => (
-                <li key={imp.label} className="flex items-center justify-between text-xs text-text-muted">
+                <li key={imp.label} className="flex items-center justify-between text-sm text-text-muted">
                   <span>{imp.label}</span>
                   <span className="tabular-nums text-primary">+{imp.points}</span>
                 </li>
@@ -219,7 +219,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               </Button>
               <Link
                 href={`/fundraising/stiftungen/${f.slug}/gesuch/dokument`}
-                className="block text-center text-xs text-text-muted hover:text-primary hover:underline"
+                className="block text-center text-sm text-text-muted hover:text-primary hover:underline"
               >
                 HTML-Vorschau
               </Link>
@@ -228,7 +228,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         ) : (
           <div className="space-y-2">
             <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
-            <p className="text-xs text-text-muted">
+            <p className="text-sm text-text-muted">
               {!tierAtLeast(tier, 'recherchiert')
                 ? 'Gesuch benötigt höhere Bereitschaft (min. Tier Recherchiert).'
                 : `Gesuch nur für Priorität 1–3 (aktuell: ${priority.label}).`}
@@ -333,7 +333,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                 <span>●</span>
                 <div>
                   <p className="font-semibold">{trustDisplay.label}</p>
-                  <p className="text-xs opacity-80">{trustDisplay.description}</p>
+                  <p className="text-sm opacity-80">{trustDisplay.description}</p>
                 </div>
               </div>
             );
@@ -344,7 +344,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             <p>Recherchiert: {f.researchDate}</p>
           </div>
           {f.researchNotes && (
-            <p className="rounded bg-bg-light p-2 text-xs text-text-light">{f.researchNotes}</p>
+            <p className="rounded bg-bg-light p-2 text-sm text-text-light">{f.researchNotes}</p>
           )}
         </div>
       </Card>
