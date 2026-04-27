@@ -26,7 +26,7 @@ export default function InnovationSection() {
           </p>
           <div className="text-sm mb-3">
             <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Ausstattung:</p>
-            <ul className="space-y-1 text-text-light text-xs">
+            <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>12× Werkbänke</strong> (je 6m²) für Elektronik-Projekte</li>
               <li>• <strong>6× Lötarbeitsplätze</strong> mit Absaugung</li>
               <li>• <strong>4× 3D-Drucker</strong> (FDM & Resin)</li>
@@ -34,7 +34,7 @@ export default function InnovationSection() {
               <li>• Tool Library: Werkzeugverleih (CHF 20/Tag)</li>
             </ul>
           </div>
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Kapazität:</strong> 20-30 Menschen gleichzeitig, 100+ Menschen/Monat<br />
             <strong>Zielgruppe:</strong> Maker, Hobbyisten, Startups, Schüler
           </div>
@@ -56,7 +56,7 @@ export default function InnovationSection() {
           </p>
           <div className="text-sm mb-3">
             <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Ausstattung:</p>
-            <ul className="space-y-1 text-text-light text-xs">
+            <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>10× Robotik-Arbeitsplätze</strong> (je 6m²)</li>
               <li>• <strong>30× Arduino/Raspberry Pi Kits</strong> (Leihgabe an Schulen)</li>
               <li>• <strong>8× Roboter-Chassis</strong> für autonome Projekte</li>
@@ -64,7 +64,7 @@ export default function InnovationSection() {
               <li>• Testfläche für autonome Navigation (20m²)</li>
             </ul>
           </div>
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Kapazität:</strong> 20 Kursplätze, 200+ Schüler/Jahr<br />
             <strong>Zielgruppe:</strong> Schulklassen, Jugendliche, MINT-Interessierte
           </div>
@@ -86,14 +86,14 @@ export default function InnovationSection() {
           </p>
           <div className="text-sm mb-3">
             <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Ausstattung:</p>
-            <ul className="space-y-1 text-text-light text-xs">
+            <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>20× Kursarbeitsplätze</strong> (Laptops, Monitore)</li>
               <li>• Whiteboard, Beamer, Präsentations-Setup</li>
               <li>• Flexible Tische (Gruppen- oder Einzelarbeit)</li>
               <li>• Netzwerk-Infrastruktur (Gigabit, VPN-Zugang)</li>
             </ul>
           </div>
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Kapazität:</strong> 20 Kursplätze, 500+ Teilnehmer/Jahr<br />
             <strong>Zielgruppe:</strong> Geflüchtete, Arbeitslose, Quereinsteiger, Unternehmen (Corporate Training)
           </div>
@@ -120,7 +120,7 @@ export default function InnovationSection() {
             <div className="space-y-3">
               <div className="bg-chart-6/10 p-3 rounded-lg">
                 <p className="font-semibold text-chart-6 mb-1">Setup A — Starter (CHF 15&apos;000-20&apos;000)</p>
-                <ul className="text-xs text-chart-6 space-y-1">
+                <ul className="text-sm text-chart-6 space-y-1">
                   <li>• 2-4× Consumer GPUs (NVIDIA RTX 3090/4090, gebraucht oder gespendet)</li>
                   <li>• 1× Server-Rack mit Basis-Kühlung</li>
                   <li>• <strong>Wirkung:</strong> AI Literacy Workshops (20-30 Teilnehmer/Monat), kleine Modelle fine-tunen</li>
@@ -129,7 +129,7 @@ export default function InnovationSection() {
 
               <div className="bg-chart-6/15 p-3 rounded-lg">
                 <p className="font-semibold text-chart-6 mb-1">Setup B — Professional (CHF 40&apos;000-60&apos;000)</p>
-                <ul className="text-xs text-chart-6 space-y-1">
+                <ul className="text-sm text-chart-6 space-y-1">
                   <li>• 4-6× Professional GPUs (NVIDIA A40, teilweise gespendet von Unternehmen)</li>
                   <li>• 2× Server-Racks mit professioneller Kühlung</li>
                   <li>• <strong>Wirkung:</strong> AI-gestützte Hardware-Diagnostik, AI Hosting für NGOs/KMUs, grössere Modelle trainieren</li>
@@ -138,7 +138,7 @@ export default function InnovationSection() {
 
               <div className="bg-chart-6/20 p-3 rounded-lg">
                 <p className="font-semibold text-chart-6 mb-1">Setup C — Enterprise (CHF 100&apos;000-150&apos;000)</p>
-                <ul className="text-xs text-chart-6 space-y-1">
+                <ul className="text-sm text-chart-6 space-y-1">
                   <li>• 8-12× NVIDIA A100 GPUs (Corporate-Spenden + Teilkauf, je CHF 10-15k)</li>
                   <li>• ODER 4-6× NVIDIA H100 GPUs (falls verfügbar, je CHF 25-35k)</li>
                   <li>• 2-3× Server-Racks mit Klimatisierung & Redundanz</li>
@@ -148,7 +148,7 @@ export default function InnovationSection() {
             </div>
           </div>
 
-          <div className="bg-warning/10 border-l-4 border-warning p-3 text-xs text-warning mb-3">
+          <div className="bg-warning/10 border-l-4 border-warning p-3 text-sm text-warning mb-3">
             <strong>Wichtig:</strong> Wir starten nicht mit Setup C. Wir bauen modular auf, basierend auf Spenden + verfügbarem Budget.
             Jedes Setup ist nützlich — auch Setup A ermöglicht AI Literacy Workshops und kleine Modelle.
             <br /><br />
@@ -156,7 +156,7 @@ export default function InnovationSection() {
             Setup C erfordert massive Corporate-Spenden oder schrittweisen Aufbau über mehrere Jahre.
           </div>
 
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Potenzielle Wirkung (je nach Setup):</strong> 20-60 Workshop-Teilnehmer/Monat, AI Hosting für 5-20 NGOs/KMUs, Hardware-Diagnostik-Automatisierung<br />
             <strong>Zielgruppe:</strong> NGOs, KMUs, Entwickler, AI-Interessierte, Studierende
           </div>

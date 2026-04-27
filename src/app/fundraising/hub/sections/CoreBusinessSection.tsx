@@ -43,7 +43,7 @@ export default function CoreBusinessSection() {
               </ul>
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-border text-xs text-text-light">
+          <div className="mt-4 pt-4 border-t border-border text-sm text-text-light">
             <strong>Zielgruppe:</strong> Privatkunden, KulturLegi, NGOs, Schulen
           </div>
         </Card>
@@ -85,13 +85,13 @@ export default function CoreBusinessSection() {
           </div>
           <div className="bg-primary/10 rounded-lg p-4 text-sm">
             <p className="font-semibold text-primary mb-2">Effizienz durch Prozesse, nicht durch Platz</p>
-            <p className="text-primary text-xs">
+            <p className="text-primary text-sm">
               Nicht 600m² Werkstatt, sondern <strong>klare Prozesse</strong> mit 2× Bildungsprogrammleitern.
               Sie organisieren Workflows, bilden Techniker aus, koordinieren Freiwillige & Reintegrations-Teilnehmer.
               Plus: Sozialpädagogische Begleitung (Veronica) für nachhaltige Arbeitsintegration.
             </p>
           </div>
-          <div className="mt-4 pt-4 border-t border-border text-xs text-text-light">
+          <div className="mt-4 pt-4 border-t border-border text-sm text-text-light">
             <strong>Zielgruppe:</strong> Techniker (fest & Praktikanten), Reintegrations-Programme, Freiwillige, Schulungs-Teilnehmer
           </div>
         </Card>

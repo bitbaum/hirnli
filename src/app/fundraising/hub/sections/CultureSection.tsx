@@ -27,7 +27,7 @@ export default function CultureSection() {
           </p>
           <div className="text-sm mb-3">
             <p className="font-semibold text-grey-dark mb-2">Ausstellungsflächen & Inhalte:</p>
-            <ul className="space-y-1 text-text-light text-xs">
+            <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>40 m² Permanent-Ausstellung</strong> (Commodore, Amiga, NeXT, Cray)</li>
               <li>• <strong>20 m² Wechselausstellungen</strong> (E-Waste-Kunst, Tech-Fotografie)</li>
               <li>• Führungen für Schulklassen (CHF 200/Klasse, 2×/Monat)</li>
@@ -35,7 +35,7 @@ export default function CultureSection() {
               <li>• Tech-Nostalgie-Events: &bdquo;Deine erste Konsole?&ldquo; (4×/Jahr)</li>
             </ul>
           </div>
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Kapazität:</strong> 30-40 Besucher gleichzeitig<br />
             <strong>Zielgruppe:</strong> Schulklassen, Tech-Nostalgiker, Kulturinteressierte
           </div>
@@ -58,7 +58,7 @@ export default function CultureSection() {
           </p>
           <div className="text-sm mb-3">
             <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Ausstattung:</p>
-            <ul className="space-y-1 text-text-light text-xs">
+            <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>6× Synth-Restaurierungs-Arbeitsplätze</strong> (Lötkolben, Oszilloskop)</li>
               <li>• <strong>10-15× Vintage-Synths</strong> (Roland, Korg, Moog aus 70er/80er)</li>
               <li>• <strong>Modular-Synthese-Setup</strong> für Workshops</li>
@@ -66,7 +66,7 @@ export default function CultureSection() {
               <li>• Circuit-Bending-Workshops (Spielzeug-Elektronik zu Instrumenten)</li>
             </ul>
           </div>
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Kapazität:</strong> 20-30 Konzertbesucher, 10 Workshop-Teilnehmer<br />
             <strong>Zielgruppe:</strong> Musiker, Elektronik-Fans, Experimentelle Szene
           </div>
@@ -89,7 +89,7 @@ export default function CultureSection() {
           </p>
           <div className="text-sm mb-3">
             <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Programm:</p>
-            <ul className="space-y-1 text-text-light text-xs">
+            <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>3× Resident Artists-Atelierplätze</strong> (je 10-12m², 3-6 Monate)</li>
               <li>• Werkzeuge für E-Waste-Verarbeitung (Sägen, Kleber, Löten)</li>
               <li>• Wechselausstellungen im Hub (4×/Jahr)</li>
@@ -97,7 +97,7 @@ export default function CultureSection() {
               <li>• Verkauf: 50% Künstler, 50% Hub (Revenue-Modell)</li>
             </ul>
           </div>
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Kapazität:</strong> 3 Resident Artists, 20 Workshop-Teilnehmer<br />
             <strong>Zielgruppe:</strong> Künstler, Schulen, Kunstinteressierte
           </div>
@@ -119,7 +119,7 @@ export default function CultureSection() {
           </p>
           <div className="text-sm mb-3">
             <p className="font-semibold text-grey-dark mb-2">Ausstattung & Nutzung:</p>
-            <ul className="space-y-1 text-text-light text-xs">
+            <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>Bestuhlung für 50-80 Personen</strong> (flexibel)</li>
               <li>• Beamer, Sound-System, Bühne (kleinere Konzerte)</li>
               <li>• Film Nights (1×/Monat, Dokumentarfilme zu Tech & Gesellschaft)</li>
@@ -128,7 +128,7 @@ export default function CultureSection() {
               <li>• Corporate Events & Team-Buildings (Revenue)</li>
             </ul>
           </div>
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Kapazität:</strong> 50-80 Personen (Events), 20 Personen (Workshops)<br />
             <strong>Zielgruppe:</strong> Tech-Community, Nachbarschaft, Unternehmen
           </div>
@@ -150,7 +150,7 @@ export default function CultureSection() {
           </p>
           <div className="text-sm mb-3">
             <p className="font-semibold text-grey-dark mb-2">Ausstattung & Angebot:</p>
-            <ul className="space-y-1 text-text-light text-xs">
+            <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>15-20 Sitzplätze</strong> (Café-Bereich)</li>
               <li>• <strong>30 Plätze beim Community-Dinner</strong> (1×/Woche)</li>
               <li>• Fair-Trade-Kaffee & Snacks (kostendeckend, keine Gewinnmarge)</li>
@@ -158,7 +158,7 @@ export default function CultureSection() {
               <li>• Tech-Support-Sprechstunde (Di + Do 14-17 Uhr, kostenlos)</li>
             </ul>
           </div>
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Kapazität:</strong> 15-20 Sitzplätze (Café), 30 (Community-Dinner)<br />
             <strong>Zielgruppe:</strong> Alle — niederschwelliger Zugang
           </div>
@@ -181,7 +181,7 @@ export default function CultureSection() {
           </p>
           <div className="text-sm mb-3">
             <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Format:</p>
-            <ul className="space-y-1 text-text-light text-xs">
+            <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>6× Reparatur-Arbeitsplätze</strong> (Werkzeuge & Material vor Ort)</li>
               <li>• Jeden 1. & 3. Samstag im Monat (10-16 Uhr)</li>
               <li>• Freiwillige Techniker helfen bei Reparatur</li>
@@ -189,7 +189,7 @@ export default function CultureSection() {
               <li>• Lernen durch Tun: Du reparierst, wir unterstützen</li>
             </ul>
           </div>
-          <div className="text-xs text-text-light pt-3 border-t border-border">
+          <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Kapazität:</strong> 30-40 Besucher/Event, 60-80 Menschen/Monat<br />
             <strong>Zielgruppe:</strong> Jede:r mit kaputtem Gerät
           </div>

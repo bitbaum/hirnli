@@ -87,7 +87,7 @@ export default function BudgetSection() {
           <strong>💡 Transparenz:</strong> Jede Zahl ist klickbar und zeigt Quelle, Methodik und
           Konfidenz-Level.
         </p>
-        <p className="text-xs text-primary">
+        <p className="text-sm text-primary">
           Alle Beträge basieren auf Marktforschung (Homegate, ImmoScout24, Industriepreise) und
           wurden am letzten Verifizierungsdatum überprüft. Klicken Sie auf eine Budget-Zeile, um
           Details zu sehen.

@@ -45,7 +45,7 @@ export default function SpacePlanningSection() {
 
         <div className="bg-warning/10 border-l-4 border-warning p-4 text-sm">
           <p className="font-semibold text-warning mb-2">Warum diese Grösse?</p>
-          <p className="text-xs text-warning">
+          <p className="text-sm text-warning">
             Basiert auf Industrie-Standards: Auto-Werkstatt mit 2 Hebebühnen = 140-185m² (Baseline für Werkstatt-Dimensionierung).
             Professionelle Reparatur-Arbeitsplätze benötigen <strong>12-18m²</strong> (Werkbank + Lagerfläche + Bewegungsraum).
             Workshop-Räume optimal bei <strong>2,4-3,6m Deckenhöhe</strong> (Belüftung + Beleuchtung). Unsere Planung:
@@ -103,7 +103,7 @@ export default function SpacePlanningSection() {
           </div>
         </div>
 
-        <div className="bg-primary/10 border-l-4 border-primary p-4 text-xs">
+        <div className="bg-primary/10 border-l-4 border-primary p-4 text-sm">
           <p className="font-semibold text-primary mb-1">Quelle & Methodik:</p>
           <p className="text-primary">
             Marktforschung basiert auf Homegate.ch, ImmoScout24, Comparis (Februar 2026). Kategorisierung:
@@ -128,7 +128,7 @@ export default function SpacePlanningSection() {
 
         <div className="bg-chart-5/10 p-4 rounded-lg mb-4">
           <p className="font-semibold text-chart-5 mb-3">Event-Raum + Café (kombiniert 100m²)</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
             <div className="bg-white p-3 rounded border border-chart-5/20">
               <p className="font-semibold text-chart-5 mb-1">Werktag (9-17 Uhr)</p>
               <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_day}</p>
@@ -142,13 +142,13 @@ export default function SpacePlanningSection() {
               <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.saturday_1st_3rd}</p>
             </div>
           </div>
-          <p className="text-xs text-chart-5 mt-3">
+          <p className="text-sm text-chart-5 mt-3">
             <strong>Ersparnis:</strong> Statt 140m² (60m² Café + 80m² Event-Raum separat) nutzen wir 100m² kombiniert.
             Das spart <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong> und damit CHF {formatNumber(MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved * 200)}/Jahr Miete.
           </p>
         </div>
 
-        <div className="text-xs text-text-light">
+        <div className="text-sm text-text-light">
           <p className="font-semibold text-grey-dark mb-2">Weitere Multi-Purpose-Konzepte:</p>
           <ul className="space-y-1">
             <li>• <strong>Schulungsraum + Repair Café:</strong> Werktags Kurse, 1./3. Samstag öffentliche Reparaturen</li>
