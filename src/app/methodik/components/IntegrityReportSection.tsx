@@ -96,19 +96,19 @@ export function IntegrityReportSection({ NumberSources }: { NumberSources: Recor
         <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <div className="rounded-lg bg-bg-light p-3 text-center">
             <span className="block text-2xl font-bold">{stats.total}</span>
-            <span className="text-xs text-text-muted">Total Zahlen</span>
+            <span className="text-sm text-text-muted">Total Zahlen</span>
           </div>
           <div className="rounded-lg bg-bg-light p-3 text-center">
             <span className="block text-2xl font-bold">{stats.clickable}</span>
-            <span className="text-xs text-text-muted">Klickbar</span>
+            <span className="text-sm text-text-muted">Klickbar</span>
           </div>
           <div className="rounded-lg bg-bg-light p-3 text-center">
             <span className="block text-2xl font-bold">{stats.verifiable}</span>
-            <span className="text-xs text-text-muted">Verifizierbar</span>
+            <span className="text-sm text-text-muted">Verifizierbar</span>
           </div>
           <div className="rounded-lg bg-bg-light p-3 text-center">
             <span className="block text-2xl font-bold">{stats.highConfidence}</span>
-            <span className="text-xs text-text-muted">High Confidence</span>
+            <span className="text-sm text-text-muted">High Confidence</span>
           </div>
         </div>
 

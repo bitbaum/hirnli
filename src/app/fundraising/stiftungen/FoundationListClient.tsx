@@ -201,7 +201,7 @@ export default function FoundationListClient() {
             return (
               <div key={level} className={`rounded-lg border ${pc.cardColor} px-3 py-2 text-center`}>
                 <div className={`text-lg font-bold tabular-nums ${pc.textColor}`}>{priorityDist[level]}</div>
-                <div className="text-xs font-semibold text-grey-dark">{pc.label}</div>
+                <div className="text-sm font-semibold text-grey-dark">{pc.label}</div>
               </div>
             );
           })}
@@ -212,20 +212,20 @@ export default function FoundationListClient() {
           <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
             <div className="text-2xl font-bold tabular-nums text-primary">{gesuchCount}</div>
             <div className="text-sm font-medium text-grey-dark">Mit Gesuch</div>
-            <p className="mt-0.5 text-xs text-text-muted">
+            <p className="mt-0.5 text-sm text-text-muted">
               Gesuch-Seite generiert (P1–P3)
             </p>
           </div>
           <div className="rounded-lg border border-success/20 bg-success-bg px-4 py-3">
             <div className="text-2xl font-bold tabular-nums text-success">{tierCounts.anwendungsbereit}</div>
             <div className="text-sm font-medium text-grey-dark">Bewerbungsbereit</div>
-            <p className="mt-0.5 text-xs text-text-muted">
+            <p className="mt-0.5 text-sm text-text-muted">
               Höchste Datenvollständigkeit (Bereitschafts-Score ≥{READINESS_ENGINE.display.thresholds[0].minScore})
             </p>
           </div>
         </div>
 
-        <p className="text-xs text-text-muted">
+        <p className="text-sm text-text-muted">
           Priorität = Fit × Bereitschaft. Scores algorithmisch berechnet.{' '}
           <a href="/fundraising/scoring-methodik" className="text-primary hover:underline">Methodik</a>
         </p>

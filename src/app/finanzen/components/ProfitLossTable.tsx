@@ -126,7 +126,7 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
 
       {/* Footnotes */}
       {data.some((d) => d.note) && (
-        <p className="mt-3 text-xs text-text-muted">
+        <p className="mt-3 text-sm text-text-muted">
           * {data.filter((d) => d.note).map((d) => `${d.year}: ${d.note}`).join(' | ')}
         </p>
       )}

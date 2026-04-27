@@ -185,7 +185,7 @@ export default function WirkungClient() {
             sourceType="live"
           />
         </MetricGrid>
-        <p className="mt-4 text-xs text-text-muted">
+        <p className="mt-4 text-sm text-text-muted">
           Plattform: <a href="https://revampit.vercel.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">revampit.vercel.app</a> — Next.js, TypeScript, PostgreSQL, Open Source
         </p>
       </Card>
@@ -197,7 +197,7 @@ export default function WirkungClient() {
           <p className="text-sm text-text-muted">Wie viel unserer Wirkung können wir messen?</p>
         </CardHeader>
         <ProgressBar percent={25} size="lg" color="bg-gradient-to-r from-warning to-warning" trackColor="bg-grey-light" label="Datenabdeckung: 25% der Wirkungsindikatoren messbar" />
-        <div className="flex justify-between text-xs text-text-muted">
+        <div className="flex justify-between text-sm text-text-muted">
           <span>25% der Wirkungsindikatoren messbar</span>
           <span>Ziel: 75%</span>
         </div>
@@ -256,7 +256,7 @@ export default function WirkungClient() {
         <div className="text-sm text-text-light">
           <p className="font-medium text-grey-dark">Datenquellen</p>
           <p>Umweltwirkung: BAFU Ökobilanz-Studie | Finanzdaten: Kivitendo Buchhaltung</p>
-          <p className="mt-1 text-xs text-text-muted">
+          <p className="mt-1 text-sm text-text-muted">
             Quelldaten: 01_Management/B_Finanzen/revamp-Einnahmen-{selectedYear}.xlsx
           </p>
         </div>

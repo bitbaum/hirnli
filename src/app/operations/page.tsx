@@ -45,7 +45,7 @@ export default function OperationsPage() {
           <UnifiedNumberDisplay numberKey="STORAGE_DAYS_TARGET" size="md" showLabel={true} />
           <UnifiedNumberDisplay numberKey="RECYCLING_RATE_TARGET" size="md" showLabel={true} />
         </MetricGrid>
-        <p className="mt-2 text-xs text-text-muted">
+        <p className="mt-2 text-sm text-text-muted">
           <Badge variant="estimated">KPI</Badge>{' '}
           Definiert in KMS Framework (C_Kennzahlen_und_Reporting)
         </p>
@@ -65,7 +65,7 @@ export default function OperationsPage() {
                   step.active ? 'bg-primary text-white' : 'bg-white'
                 }`}>
                   <span className="block text-xl font-bold">{step.number}</span>
-                  <span className="text-xs">{step.name}</span>
+                  <span className="text-sm">{step.name}</span>
                 </div>
                 {i < PROCESS_STEPS.length - 1 && (
                   <span className="text-lg text-text-muted">&rarr;</span>
@@ -240,7 +240,7 @@ export default function OperationsPage() {
             <span>TOTAL (aktiv)</span>
             <span>~2-3 Stunden</span>
           </div>
-          <p className="mt-3 text-xs text-text-muted">
+          <p className="mt-3 text-sm text-text-muted">
             <Badge variant="derived">SOP</Badge>{' '}
             Standard_Operating_Procedure.md, Version 1.0
           </p>

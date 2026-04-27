@@ -193,7 +193,7 @@ export default function PipelineMethodikPage() {
               Offizielles Schweizer Handelsregister. Enthält alle eingetragenen Stiftungen
               mit Name, UID und Sitz. Keine Informationen über Stiftungszweck oder Tätigkeit.
             </p>
-            <p className="text-xs text-text-muted">{SWISS_FOUNDATIONS_DISPLAY} Stiftungen. Quelle: zefix.ch</p>
+            <p className="text-sm text-text-muted">{SWISS_FOUNDATIONS_DISPLAY} Stiftungen. Quelle: zefix.ch</p>
           </Card>
           <Card>
             <h3 className="mb-2 font-semibold text-grey-dark">ESA (Eidg. Stiftungsaufsicht)</h3>
@@ -202,7 +202,7 @@ export default function PipelineMethodikPage() {
               die rechtliche Zweckbeschreibung, die bei der Gründung festgelegt wurde.
               Dies ist unser wichtigstes Signal für die Erstbewertung.
             </p>
-            <p className="text-xs text-text-muted">~5&apos;400 Stiftungen mit Zwecktext. Quelle: esa.admin.ch</p>
+            <p className="text-sm text-text-muted">~5&apos;400 Stiftungen mit Zwecktext. Quelle: esa.admin.ch</p>
           </Card>
         </div>
       </section>
@@ -263,7 +263,7 @@ export default function PipelineMethodikPage() {
             ESA-Stiftungsverzeichnis. Jede Stiftung bekommt einen Datenbankeintrag mit
             Name, UID und — falls von ESA vorhanden — dem offiziellen Stiftungszweck.
           </p>
-          <p className="text-xs text-text-muted">
+          <p className="text-sm text-text-muted">
             Vollständig automatisiert. Wird periodisch aktualisiert.
           </p>
         </Card>
@@ -277,7 +277,7 @@ export default function PipelineMethodikPage() {
             Stiftung eine Förderstiftung (vergibt Gelder) oder eine operative Stiftung
             (betreibt eigene Einrichtungen) ist.
           </p>
-          <p className="text-xs text-text-muted">
+          <p className="text-sm text-text-muted">
             Keyword-Matching auf dem Stiftungszweck. Keine KI-Kosten.
             Eliminiert Stiftungen ohne thematische Überschneidung (z.B. Medizinforschung, Kunst, Oper).
           </p>
@@ -291,7 +291,7 @@ export default function PipelineMethodikPage() {
             oder — bei vorhandener Website — durch Scraping und Auswertung der Stiftungs-Website.
             Dabei werden Kontaktdaten, Förderbereiche, Fristen und Bewerbungswege extrahiert.
           </p>
-          <p className="text-xs text-text-muted">
+          <p className="text-sm text-text-muted">
             KI-gestützt (LLM-Analyse). Moderate Kosten. Nur für Stiftungen mit positivem Screening.
           </p>
         </Card>
@@ -304,7 +304,7 @@ export default function PipelineMethodikPage() {
             P4-Stiftungen bleiben in der Datenbank für spätere Beziehungspflege,
             erhalten aber kein Gesuch.
           </p>
-          <p className="text-xs text-text-muted">
+          <p className="text-sm text-text-muted">
             Algorithmisch berechnet. Details: <a href="/fundraising/scoring-methodik" className="underline">Scoring-Methodik</a>.
           </p>
         </Card>
@@ -327,7 +327,7 @@ export default function PipelineMethodikPage() {
             wird geprüft, ob eine Stiftung eine eigene Website hat. Falls ja, wird diese
             gescrapt und der Stiftungszweck daraus extrahiert — danach greift der reguläre Trichter.
           </p>
-          <div className="rounded bg-bg-light p-3 text-xs text-text-muted">
+          <div className="rounded bg-bg-light p-3 text-sm text-text-muted">
             Bisherige Website-Erkennung: ~555 Websites bei ~16&apos;000 geprüften Stiftungen gefunden (3.4% Trefferquote).
             Die meisten Zefix-Stiftungen haben keine eigene Website.
           </div>
@@ -407,7 +407,7 @@ function FunnelStage({ number, title, question, count, countLabel, method, cost,
           {detail && (
             <p className="mb-2 text-sm text-text-light">{detail}</p>
           )}
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted">
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-text-muted">
             <span>Methode: {method}</span>
             <span>Kosten: {cost}</span>
           </div>

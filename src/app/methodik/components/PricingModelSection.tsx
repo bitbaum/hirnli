@@ -53,7 +53,7 @@ export function PricingModelSection() {
       <FormulaBox>
         <strong>Formel:</strong><br />
         Supporter-Preis = Normalpreis &times; (1 + Aufschlag)<br />
-        <span className="text-xs">wobei Aufschlag = 0.2 bis 0.5 (empfohlen)</span>
+        <span className="text-sm">wobei Aufschlag = 0.2 bis 0.5 (empfohlen)</span>
       </FormulaBox>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
         <li><strong>Quelle:</strong> Vorstandsentscheidung (Januar 2025)</li>

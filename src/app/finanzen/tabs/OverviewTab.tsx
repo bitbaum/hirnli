@@ -37,7 +37,7 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
               <strong>Vollständige P&L (Einnahmen + Aufwände):</strong> {DATA_QUALITY.completeRange}.{' '}
               <strong>Nur Einnahmen:</strong> {DATA_QUALITY.incompleteRange} — Aufwände wurden im Buchhaltungssystem nicht verbucht.
             </p>
-            <p className="mt-1 text-xs text-text-muted">
+            <p className="mt-1 text-sm text-text-muted">
               Quelle: {DATA_QUALITY.source}. {DATA_QUALITY.caveat}
             </p>
           </div>
@@ -176,10 +176,10 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
         <div className="text-sm text-text-light">
           <p className="font-medium text-grey-dark">Datenquelle</p>
           <p>{DATA_QUALITY.source}</p>
-          <p className="mt-1 text-xs text-text-muted">
+          <p className="mt-1 text-sm text-text-muted">
             System: {DATA_QUALITY.sourceSystem} | Vollständig: {DATA_QUALITY.completeRange} | Unvollständig: {DATA_QUALITY.incompleteRange}
           </p>
-          <p className="mt-1 text-xs text-text-muted">
+          <p className="mt-1 text-sm text-text-muted">
             {DATA_QUALITY.caveat}
           </p>
         </div>

@@ -233,7 +233,7 @@ export default function ScoringMethodikPage() {
           {/* Formula */}
           <div className="mb-4 rounded-lg bg-bg-light p-4">
             <h4 className="mb-2 text-sm font-semibold text-grey-dark">Formel</h4>
-            <div className="space-y-1 font-mono text-xs text-text-light">
+            <div className="space-y-1 font-mono text-sm text-text-light">
               <p>basis = fit_normiert × ({PRIORITY_FORMULA.baseFitFloor} + {PRIORITY_FORMULA.readinessScale} × bereitschaft / 100)</p>
               <p>priorität = min(100, basis × min(anwendbare_abzüge) + förder_bonus)</p>
             </div>

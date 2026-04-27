@@ -187,7 +187,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                         {f.boardMembers.map((m) => (
                           <div key={m.name} className="flex items-baseline justify-between border-b border-border py-1">
                             <span className="text-text">{m.name}</span>
-                            <span className="text-xs text-text-muted">{m.role}</span>
+                            <span className="text-sm text-text-muted">{m.role}</span>
                           </div>
                         ))}
                       </div>

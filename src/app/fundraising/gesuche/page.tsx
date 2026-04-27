@@ -100,7 +100,7 @@ export default function MeineGesuchePage() {
                           {statusConfig.label}
                         </span>
                       ) : (
-                        <span className="text-xs text-text-light">—</span>
+                        <span className="text-sm text-text-light">—</span>
                       )}
                     </td>
                     <td className="px-4 py-3 text-text-muted hidden sm:table-cell">

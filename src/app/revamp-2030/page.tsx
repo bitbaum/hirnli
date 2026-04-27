@@ -59,7 +59,7 @@ export default function Revamp2030Page() {
               <strong>Realistische Ziele (Jahr 3):</strong> ~{DEVICES_PER_MONTH_TARGET} Geräte/Monat (durch effiziente Prozesse, nicht durch endlos Raum).
               Menschen-Wirkung: {PEOPLE_REACHED_DISPLAY} durch Train-the-Trainer + Workshops (konservative Schätzung).
             </p>
-            <p className="text-xs opacity-75 mt-2">
+            <p className="text-sm opacity-75 mt-2">
               Aktuelle Kapazität nicht systematisch getrackt — Zahlen sind Schätzungen. Systematische Erfassung ab 2026 geplant.
             </p>
           </div>

@@ -63,12 +63,12 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
               </div>
               <div className="mt-2 flex items-baseline gap-3">
                 <div>
-                  <div className="text-xs text-text-muted">Heute</div>
+                  <div className="text-sm text-text-muted">Heute</div>
                   <div className="text-lg font-bold tabular-nums text-grey-dark">{formatCHF(stream.current)}</div>
                 </div>
                 <span className="text-text-muted" aria-hidden="true">&rarr;</span>
                 <div>
-                  <div className="text-xs text-text-muted">Jahr 3 (Ziel)</div>
+                  <div className="text-sm text-text-muted">Jahr 3 (Ziel)</div>
                   <Inspectable
                     data={{
                       label: `${stream.source} — Jahr 3 Prognose`,
@@ -86,7 +86,7 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
                 </div>
               </div>
               {growth !== null && (
-                <div className="mt-2 text-xs font-medium text-success">
+                <div className="mt-2 text-sm font-medium text-success">
                   Wachstum: +{growth}%
                 </div>
               )}

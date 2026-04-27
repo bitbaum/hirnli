@@ -81,7 +81,7 @@ export default function MethodikPage() {
               </div>
             ))}
           </div>
-          <p className="mt-4 text-center text-xs text-text-muted">
+          <p className="mt-4 text-center text-sm text-text-muted">
             Quelldatei: <code className="rounded bg-bg-light px-1">revamp-Einnahmen-2025.xlsx</code> |
             Dokumentation: <code className="rounded bg-bg-light px-1">DATA_ARCHITECTURE.md</code> im{' '}
             <a href="https://cloud.revamp-it.ch" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">

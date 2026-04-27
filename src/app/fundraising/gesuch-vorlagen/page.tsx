@@ -101,7 +101,7 @@ export default function GesuchVorlagenPage() {
                     );
                   })}
                 </div>
-                <p className="mt-2 text-xs text-text-muted">
+                <p className="mt-2 text-sm text-text-muted">
                   A = Professionell · B = Familienstiftung · C = Klein
                 </p>
               </Card>

@@ -278,19 +278,19 @@ export default function BildungPage() {
                 <div className="text-2xl font-bold text-success">
                   CHF {formatNumber(Math.round(((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier) / MULTIPLICATION_EFFECT.combined.direct_training))}
                 </div>
-                <div className="text-xs text-success">pro direkt trainierter Person/Jahr</div>
+                <div className="text-sm text-success">pro direkt trainierter Person/Jahr</div>
               </div>
               <div className="bg-white rounded-lg p-3">
                 <div className="text-sm text-success mb-1">Menschen erreicht (konservativ)</div>
                 <div className="text-2xl font-bold text-success">
                   {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops}
                 </div>
-                <div className="text-xs text-success">Menschen/Jahr (direkt + Workshops)</div>
+                <div className="text-sm text-success">Menschen/Jahr (direkt + Workshops)</div>
               </div>
               <div className="bg-white rounded-lg p-3">
                 <div className="text-sm text-success mb-1">Finanzierungsziel</div>
                 <div className="text-2xl font-bold text-success">3 Jahre</div>
-                <div className="text-xs text-success">CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr bis Selbsttragung</div>
+                <div className="text-sm text-success">CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr bis Selbsttragung</div>
               </div>
             </div>
           </Card>
@@ -370,11 +370,11 @@ export default function BildungPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <div className="bg-white rounded-lg p-3 text-center">
                 <div className="text-2xl font-bold text-success">{DEVICES_PER_YEAR_TARGET}</div>
-                <div className="text-xs text-success">Geräte/Jahr (Hub)</div>
+                <div className="text-sm text-success">Geräte/Jahr (Hub)</div>
               </div>
               <div className="bg-white rounded-lg p-3 text-center">
                 <div className="text-2xl font-bold text-success">{PEOPLE_REACHED_PER_YEAR}</div>
-                <div className="text-xs text-success">Menschen/Jahr (Bildung)</div>
+                <div className="text-sm text-success">Menschen/Jahr (Bildung)</div>
               </div>
             </div>
             <Badge variant="success">Beide Dimensionen skalieren</Badge>

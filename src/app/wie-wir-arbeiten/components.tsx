@@ -25,7 +25,7 @@ export function CascadeDiagram({ tiers }: CascadeDiagramProps) {
             <span className={`font-semibold ${tier.color.text}`}>
               {tier.shortName}
             </span>
-            <span className="mt-1 block text-xs text-text-muted">
+            <span className="mt-1 block text-sm text-text-muted">
               {tier.catchRate}
             </span>
           </div>

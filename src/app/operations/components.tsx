@@ -211,7 +211,7 @@ export function WarehouseSection() {
           </ul>
         </Card>
       </div>
-      <p className="mt-2 text-xs text-text-muted">
+      <p className="mt-2 text-sm text-text-muted">
         <Badge variant="live">Quelldokument</Badge>{' '}
         Finanzstrategie_2025.md, Operative Kennzahlen
       </p>

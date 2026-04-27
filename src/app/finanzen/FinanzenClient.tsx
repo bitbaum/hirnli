@@ -71,7 +71,7 @@ export default function FinanzenClient() {
             Stiftungsgelder sind keine Wachstumsinvestition, sondern ermöglichen die <strong>Diversifizierung</strong>,
             die Revamp-IT zum langfristigen Überleben braucht.
           </p>
-          <p className="text-xs text-text-muted">
+          <p className="text-sm text-text-muted">
             Alle Zahlen aus Kivitendo Buchhaltung. Vollständige P&L nur für {DATA_QUALITY.completeRange} verfügbar.
             Seit 2024 wurden keine Aufwände verbucht.
           </p>

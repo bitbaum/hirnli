@@ -45,7 +45,7 @@ export default function VisionMetric({ value, label, source }: VisionMetricProps
         <strong className="block text-xl">{value}</strong>
         <span className="text-sm opacity-90">{label}</span>
         {source && (
-          <div className="mt-2 text-xs opacity-75 flex items-center gap-1">
+          <div className="mt-2 text-sm opacity-75 flex items-center gap-1">
             <span>ℹ️</span>
             <span>Quelle anzeigen</span>
           </div>

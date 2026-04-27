@@ -91,7 +91,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
               </div>
 
               {/* Percentage callout */}
-              <div className="mt-3 rounded-lg bg-white/80 px-3 py-2 text-center text-xs">
+              <div className="mt-3 rounded-lg bg-white/80 px-3 py-2 text-center text-sm">
                 <span className="font-semibold text-pillar-vision">{stiftungenPct}%</span>
                 <span className="text-text-muted"> Stiftungen</span>
                 <span className="mx-1.5 text-text-muted">/</span>
@@ -170,7 +170,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
         </table>
       </div>
 
-      <p className="mt-3 text-xs text-text-muted italic">
+      <p className="mt-3 text-sm text-text-muted italic">
         * Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF {EIGENLEISTUNG_CONFIG.ratePerHour}/h, NGO-Standard), kein Cashflow.
         Jahr 3 setzt ~6.857 Freiwilligen-Stunden voraus (~3.4 Vollzeit-Äquivalente).
       </p>

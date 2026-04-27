@@ -85,7 +85,7 @@ export default function PreismodellPage() {
             keyExtractor={(row) => row.tier}
             compact
           />
-          <div className="mt-4 rounded-lg border-l-4 border-primary bg-bg-light p-3 text-xs text-text-muted">
+          <div className="mt-4 rounded-lg border-l-4 border-primary bg-bg-light p-3 text-sm text-text-muted">
             <strong className="mb-1 block">Quellenangaben:</strong>
             <Badge variant="derived" className="mr-1">Marktdaten</Badge> = Vergleich Ricardo/Tutti/Revendo |{' '}
             <Badge variant="primary" className="mr-1">Vorstand</Badge> = Vorstandsentscheidung Januar 2025 |{' '}
@@ -121,7 +121,7 @@ export default function PreismodellPage() {
               <Badge variant="primary">Vorstand</Badge>
             </li>
           </ul>
-          <div className="rounded-lg border-l-4 border-primary bg-white p-3 text-xs text-text-muted">
+          <div className="rounded-lg border-l-4 border-primary bg-white p-3 text-sm text-text-muted">
             <strong>Quelle Einkommensgrenze:</strong>{' '}
             Die CHF 2&apos;600/Monat stammen von{' '}
             <a href="https://www.kulturlegi.ch/ueber-uns/faq/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
@@ -207,7 +207,7 @@ export default function PreismodellPage() {
             keyExtractor={(row) => row.kpi}
             compact
           />
-          <div className="mt-4 rounded-lg border-l-4 border-primary bg-bg-light p-3 text-xs text-text-muted">
+          <div className="mt-4 rounded-lg border-l-4 border-primary bg-bg-light p-3 text-sm text-text-muted">
             <strong>Quelle aller Zielwerte:</strong>{' '}
             Vorstandsentscheidung Januar 2025. Basiert auf Schätzungen, nicht auf historischen Daten.{' '}
             <a href="/methodik#pricing-model" className="text-primary hover:underline">

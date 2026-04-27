@@ -151,12 +151,12 @@ export default function FundraisingClient() {
               className="block rounded-xl border border-border bg-white p-3 text-center transition-shadow hover:shadow-sm"
             >
               <div className="text-xl font-bold tabular-nums text-grey-dark">{item.value}</div>
-              <div className="text-xs font-medium text-text-muted">{item.label}</div>
-              <div className="text-xs text-text-muted">{item.sub}</div>
+              <div className="text-sm font-medium text-text-muted">{item.label}</div>
+              <div className="text-sm text-text-muted">{item.sub}</div>
             </Inspectable>
           ))}
         </div>
-        <p className="mt-2 text-right text-xs text-text-muted">Quelle: {TRACK_RECORD.source}</p>
+        <p className="mt-2 text-right text-sm text-text-muted">Quelle: {TRACK_RECORD.source}</p>
       </section>
 
       {/* Pipeline Metrics */}
@@ -257,7 +257,7 @@ export default function FundraisingClient() {
                   {STATUS_LABELS[status].text}
                 </Badge>
                 <div className="text-2xl font-bold text-grey-dark">{count}</div>
-                <div className="text-xs text-text-muted">{STATUS_LABELS[status].desc}</div>
+                <div className="text-sm text-text-muted">{STATUS_LABELS[status].desc}</div>
               </Link>
             )
           )}
