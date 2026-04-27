@@ -19,7 +19,7 @@ function LineItemRows({ items, total, themeKey }: { items: BudgetLineItem[]; tot
         <tr key={item.id} className="border-b border-border">
           <td className="py-1.5">
             <span className="font-medium">{item.icon} {themed.label}</span>
-            <span className="ml-2 text-xs text-text-muted">{themed.description}</span>
+            <span className="ml-2 text-sm text-text-muted">{themed.description}</span>
             {item.subItems && item.subItems.length > 0 && (
               <div className="mt-1 ml-4 text-xs text-text-muted">
                 {item.subItems.map((sub, idx) => (
@@ -56,7 +56,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
       <h2 className="mb-2 border-b-2 border-grey-dark pb-2 text-2xl font-bold text-grey-dark">
         Budget und Finanzierungsplan
       </h2>
-      <p className="mb-6 text-xs text-text-muted">
+      <p className="mb-6 text-sm text-text-muted">
         {dok.budget.projectDuration} | Gesamtbedarf 3 Jahre: {formatCHF(dok.budget.project3yTotal)}
       </p>
 
@@ -118,7 +118,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
 
       {/* Budget detail by line item (Jahr 1) */}
       <h3 className="mb-3 text-lg font-semibold text-grey-dark">Budgetdetail Jahr 1 ({formatCHF(year1Total)})</h3>
-      <div className="mb-4 text-xs text-text-muted bg-primary/10 p-3 rounded">
+      <div className="mb-4 text-sm text-text-muted bg-primary/10 p-3 rounded">
         <strong>Szenario:</strong> {dok.budget.scenario.label} — {dok.budget.scenario.description}
       </div>
       <div className="overflow-x-auto">
@@ -163,7 +163,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
           <tr className="border-b border-border">
             <td className="py-1.5">
               <span>Eigenleistung {ORG_PROFILE.name}</span>
-              <span className="ml-2 text-xs text-text-muted">
+              <span className="ml-2 text-sm text-text-muted">
                 Erlöse Geräteverkauf, IT-Dienstleistungen, Infrastruktur und Freiwilligenarbeit
               </span>
             </td>

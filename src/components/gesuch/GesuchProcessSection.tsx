@@ -21,7 +21,7 @@ function CompactTierCard({ tier }: { tier: CascadeTier }) {
           {tier.catchRate}
         </span>
       </div>
-      <p className="text-xs leading-relaxed text-text-light">{tier.tagline}</p>
+      <p className="text-sm leading-relaxed text-text-light">{tier.tagline}</p>
     </div>
   );
 }

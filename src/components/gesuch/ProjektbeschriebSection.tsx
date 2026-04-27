@@ -14,7 +14,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
       <h2 className="mb-2 border-b-2 border-grey-dark pb-2 text-2xl font-bold text-grey-dark">
         Projektbeschrieb
       </h2>
-      <p className="mb-8 text-xs text-text-muted">
+      <p className="mb-8 text-sm text-text-muted">
         {dok.organization.organization.name} — Fördergesuch an {dok.foundation.name}
       </p>
 
@@ -83,7 +83,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
             {dok.story.how.competencies.map((comp) => (
               <div key={comp.headline}>
                 <p className="mb-1 text-sm font-semibold text-grey-dark">{comp.headline}</p>
-                <ul className="text-xs text-text-light">
+                <ul className="text-sm text-text-light">
                   {comp.capabilities.slice(0, 4).map((c) => (
                     <li key={c}>• {c}</li>
                   ))}
@@ -144,7 +144,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
               <p className="mb-1 font-semibold text-grey-dark">{project.title}</p>
               <p className="mb-3 text-sm text-text-light">{project.summary}</p>
 
-              <div className="grid grid-cols-1 gap-4 text-xs sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-3">
                 <div>
                   <p className="mb-1 font-semibold text-primary">Ziele</p>
                   <ul className="text-text-light">

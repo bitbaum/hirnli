@@ -166,9 +166,9 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
 
       {status === 'submitted' && (
         <div className="space-y-1">
-          <p className="text-xs text-pillar-digital">Gesuch wurde als eingereicht markiert.</p>
+          <p className="text-sm text-pillar-digital">Gesuch wurde als eingereicht markiert.</p>
           {followUpDate && (
-            <p className="text-xs text-text-muted">
+            <p className="text-sm text-text-muted">
               Antwort erwartet: ~<span className="font-medium">{formatFollowUpDate(followUpDate)}</span>
               {' · '}
               Nachfassen ab: <span className="font-medium">{formatFollowUpDate(followUpDate)}</span>

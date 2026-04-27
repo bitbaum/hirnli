@@ -74,13 +74,13 @@ export default function GesuchShareView({
 
         {/* Viewer-facing footer note */}
         <div className="border-t border-border pt-6 text-center">
-          <p className="text-xs text-text-muted">
+          <p className="text-sm text-text-muted">
             Diese Seite wurde von {ORG_PROFILE.name} erstellt und ist ausschliesslich für{' '}
             {gesuch.foundation.name} bestimmt.
           </p>
           <a
             href={ORG_PROFILE.website}
-            className="mt-1 block text-xs text-primary hover:underline"
+            className="mt-1 block text-sm text-primary hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
