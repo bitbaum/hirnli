@@ -108,7 +108,7 @@ export default function GesuchEditPanel({
             type="button"
             onClick={handleReset}
             disabled={saving}
-            className="rounded-lg px-3 py-1.5 text-xs text-text-muted transition hover:bg-bg-light hover:text-danger disabled:opacity-50"
+            className="rounded-lg px-3 py-1.5 text-sm text-text-muted transition hover:bg-bg-light hover:text-danger disabled:opacity-50"
             title="Alle Änderungen verwerfen und auf generierten Text zurücksetzen"
           >
             Alles zurücksetzen
@@ -117,7 +117,7 @@ export default function GesuchEditPanel({
             type="button"
             onClick={handleSave}
             disabled={saving || !dirty}
-            className="rounded-lg bg-primary px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-primary/80 disabled:opacity-50"
+            className="rounded-lg bg-primary px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary/80 disabled:opacity-50"
           >
             {saving ? 'Speichern…' : 'Speichern'}
           </button>

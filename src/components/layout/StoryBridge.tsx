@@ -59,7 +59,7 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
                   {bridge.reason}
                 </div>
               </div>
-              <div className="flex-shrink-0 text-primary opacity-0 transition-opacity group-hover:opacity-100">
+              <div className="flex-shrink-0 text-primary opacity-40 transition-opacity group-hover:opacity-100">
                 →
               </div>
             </div>
