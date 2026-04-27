@@ -1,6 +1,6 @@
 // AUTO-GENERATED — DO NOT EDIT MANUALLY
 // Source: Neon DB (fundraising_foundations.config_data)
-// Generated: 2026-04-27T08:13:52.256Z
+// Generated: 2026-04-27T10:51:40.401Z
 // Run `npm run sync` to regenerate from database
 // Foundations: 1683
 
