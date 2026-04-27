@@ -34,6 +34,8 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
   const [followUpDate, setFollowUpDate] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [marking, setMarking] = useState(false);
+  const [addError, setAddError] = useState<string | null>(null);
+  const [markError, setMarkError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`/api/applications?foundationId=${slug}`)
@@ -55,6 +57,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
 
   async function addToPipeline() {
     setAdding(true);
+    setAddError(null);
     try {
       const r = await fetch('/api/applications', {
         method: 'POST',
@@ -65,7 +68,11 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
       if (d.success) {
         setAppId(d.data.id);
         setStatus('draft');
+      } else {
+        setAddError(d.error ?? 'Konnte nicht zur Pipeline hinzugefügt werden');
       }
+    } catch {
+      setAddError('Netzwerkfehler — bitte versuche es erneut');
     } finally {
       setAdding(false);
     }
@@ -74,6 +81,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
   async function markAsSubmitted() {
     if (!appId) return;
     setMarking(true);
+    setMarkError(null);
     try {
       const today = new Date().toISOString().split('T')[0];
       const decisionExpected = computeFollowUpDate(today, responseTime);
@@ -91,7 +99,11 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
       if (d.success) {
         setStatus('submitted');
         setFollowUpDate(decisionExpected);
+      } else {
+        setMarkError(d.error ?? 'Fehler beim Markieren als gesendet');
       }
+    } catch {
+      setMarkError('Netzwerkfehler — bitte versuche es erneut');
     } finally {
       setMarking(false);
     }
@@ -113,19 +125,22 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
   // No application yet
   if (!appId) {
     return (
-      <button
-        type="button"
-        onClick={addToPipeline}
-        disabled={adding}
-        className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors"
-      >
-        {adding ? (
-          <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
-        ) : (
-          '+'
-        )}
-        Zu Pipeline hinzufügen
-      </button>
+      <div className="flex flex-col gap-2">
+        <button
+          type="button"
+          onClick={addToPipeline}
+          disabled={adding}
+          className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors self-start"
+        >
+          {adding ? (
+            <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+          ) : (
+            '+'
+          )}
+          Zu Pipeline hinzufügen
+        </button>
+        {addError && <p className="text-sm text-danger">{addError}</p>}
+      </div>
     );
   }
 
@@ -149,19 +164,22 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
 
       {/* Mark as submitted CTA */}
       {canMarkSubmitted && (
-        <button
-          type="button"
-          onClick={markAsSubmitted}
-          disabled={marking}
-          className="flex items-center gap-2 self-start rounded-lg bg-pillar-digital px-4 py-2 text-sm font-semibold text-white hover:bg-pillar-digital/85 disabled:opacity-50 transition-colors"
-        >
-          {marking ? (
-            <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-          ) : (
-            '✓'
-          )}
-          Als gesendet markieren
-        </button>
+        <div className="flex flex-col gap-2">
+          <button
+            type="button"
+            onClick={markAsSubmitted}
+            disabled={marking}
+            className="flex items-center gap-2 self-start rounded-lg bg-pillar-digital px-4 py-2 text-sm font-semibold text-white hover:bg-pillar-digital/85 disabled:opacity-50 transition-colors"
+          >
+            {marking ? (
+              <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            ) : (
+              '✓'
+            )}
+            Als gesendet markieren
+          </button>
+          {markError && <p className="text-sm text-danger">{markError}</p>}
+        </div>
       )}
 
       {status === 'submitted' && (
