@@ -12,7 +12,7 @@ import Card from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { Button } from '@/components/ui/Button';
-import { APPLICATION_STATUSES, getStatusConfig } from '@/lib/config/application-statuses';
+import { APPLICATION_STATUSES, getStatusConfig, isTerminalStatus } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
@@ -209,7 +209,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         </Card>
 
         {/* Outcome fields — only when relevant */}
-        {(fields.status === 'accepted' || fields.status === 'rejected') && (
+        {isTerminalStatus(fields.status as ApplicationStatusId) && (
           <Card className="space-y-4">
             <h2 className="font-semibold text-grey-dark">Ergebnis</h2>
             {fields.status === 'accepted' && (

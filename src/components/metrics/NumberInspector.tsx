@@ -4,6 +4,7 @@ import Modal from '@/components/ui/Modal';
 import Badge from '@/components/ui/Badge';
 import type { InspectorData, InspectorSourceType } from '@/lib/schemas/inspector';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
 
 interface NumberInspectorProps {
   isOpen: boolean;
@@ -93,12 +94,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
                 <div className="flex-1">
                   <div className="font-medium text-grey-dark">Verlässlichkeit</div>
                   <div className="text-text-light">
-                    {data.confidence === 'high' && 'Hoch (verifizierte Buchhaltungsdaten)'}
-                    {data.confidence === 'medium' && 'Mittel (Schätzung mit dokumentierter Basis)'}
-                    {data.confidence === 'estimated' && 'Geschätzt (Prognose basierend auf Trends)'}
-                    {data.confidence === 'target' && 'Budget-Ziel (noch nicht realisiert)'}
-                    {data.confidence === 'unknown' && 'Unbekannt (aktuelle Daten fehlen)'}
-                    {!['high', 'medium', 'estimated', 'target', 'unknown'].includes(data.confidence) && data.confidence}
+                    {CONFIDENCE_DISPLAY_LABELS[data.confidence] ?? data.confidence}
                   </div>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { buildAIContext, type FoundationAIContext } from '@/lib/domain/ai-context';
@@ -12,7 +13,7 @@ async function ensurePipelineEntry(slug: string) {
     const data = await res.json();
     const active = (data.data ?? []).find(
       (row: { application: { status: string } }) =>
-        !['rejected', 'withdrawn'].includes(row.application.status),
+        isActiveApplication(row.application.status as ApplicationStatusId),
     );
     if (!active) {
       await fetch('/api/applications', {

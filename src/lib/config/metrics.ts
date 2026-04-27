@@ -746,15 +746,10 @@ const SOURCE_TYPE_MAP: Record<MetricSourceType, InspectorSourceType> = {
   capacity: 'none',
 };
 
-const CONFIDENCE_LABELS: Record<Confidence, string> = {
-  high: 'Hoch',
-  medium: 'Mittel',
-  low: 'Niedrig',
-};
-
 /**
  * Convert a NumberSources metric to InspectorData for the NumberInspector modal.
  * Year references ("2025") in name/description/path are auto-replaced when `year` is provided.
+ * confidence is stored as the raw key so NumberInspector can use CONFIDENCE_DISPLAY_LABELS.
  */
 export function metricToInspectorData(
   metric: Metric,
@@ -774,7 +769,7 @@ export function metricToInspectorData(
     source: yearReplace(metric.source.path ?? 'Berechnet'),
     account: metric.source.account,
     formula: options?.formula ?? (metric.formula ? yearReplace(metric.formula.expression) : undefined),
-    confidence: CONFIDENCE_LABELS[metric.source.confidence],
+    confidence: metric.source.confidence,
     description: yearReplace(metric.documentation.description),
   };
 }

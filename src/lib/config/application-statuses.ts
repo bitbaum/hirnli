@@ -127,3 +127,13 @@ export const KANBAN_COLUMNS = [
   'pending',
   'accepted',
 ] as const;
+
+/** Final-decision statuses — show outcome fields (successFactors, rejectionReason) */
+export function isTerminalStatus(status: ApplicationStatusId): boolean {
+  return status === 'accepted' || status === 'rejected';
+}
+
+/** Active statuses — the application is still being pursued (not closed or withdrawn) */
+export function isActiveApplication(status: ApplicationStatusId): boolean {
+  return status !== 'rejected' && status !== 'withdrawn';
+}

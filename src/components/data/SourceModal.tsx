@@ -1,6 +1,7 @@
 'use client';
 
 import type { NumberSource } from '@/lib/config/numbers';
+import { CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
 
 const CONFIDENCE_COLORS: Record<string, string> = {
   high: 'bg-success/10 text-success',
@@ -8,14 +9,6 @@ const CONFIDENCE_COLORS: Record<string, string> = {
   estimated: 'bg-warning/10 text-warning',
   target: 'bg-primary/10 text-primary',
   unknown: 'bg-danger/10 text-danger',
-};
-
-const CONFIDENCE_LABELS: Record<string, string> = {
-  high: 'Hoch (verifiziert)',
-  medium: 'Mittel (Schätzung mit Basis)',
-  estimated: 'Geschätzt (Prognose)',
-  target: 'Budget-Ziel (noch nicht realisiert)',
-  unknown: 'Unbekannt (Daten fehlen)',
 };
 
 interface SourceModalProps {
@@ -67,7 +60,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
               Verlässlichkeit
             </div>
             <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${CONFIDENCE_COLORS[data.source.confidence] ?? CONFIDENCE_COLORS.unknown}`}>
-              {CONFIDENCE_LABELS[data.source.confidence] ?? CONFIDENCE_LABELS.unknown}
+              {CONFIDENCE_DISPLAY_LABELS[data.source.confidence] ?? CONFIDENCE_DISPLAY_LABELS.unknown}
             </span>
           </div>
 

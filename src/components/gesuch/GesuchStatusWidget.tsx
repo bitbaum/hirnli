@@ -11,7 +11,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import { getStatusConfig, isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { computeFollowUpDate, formatFollowUpDate } from '@/lib/utils/parse-response-time';
 
 interface GesuchStatusWidgetProps {
@@ -41,7 +41,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
       .then((d) => {
         const active = (d.data ?? []).find(
           (row: ApplicationRow) =>
-            !['rejected', 'withdrawn'].includes(row.application.status),
+            isActiveApplication(row.application.status as ApplicationStatusId),
         );
         if (active) {
           setAppId(active.application.id);

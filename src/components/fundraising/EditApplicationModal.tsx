@@ -8,7 +8,7 @@
 'use client';
 
 import { useState } from 'react';
-import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
+import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 import type { Application, FoundationRow } from '@/lib/db/schema';
@@ -286,7 +286,7 @@ export function EditApplicationModal({
           </div>
 
           {/* Outcome fields — only visible when relevant */}
-          {(status === 'accepted' || status === 'rejected') && (
+          {isTerminalStatus(status as ApplicationStatusId) && (
             <div className="rounded-lg border border-border bg-bg-light p-4 space-y-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">
                 Ergebnis

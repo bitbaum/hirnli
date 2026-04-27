@@ -30,6 +30,16 @@ import { ORG_PROFILE } from './org-profile'
 export const NumberConfidence = z.enum(['high', 'medium', 'estimated', 'target', 'unknown']);
 export type NumberConfidence = z.infer<typeof NumberConfidence>;
 
+/** SSOT for confidence level display labels — used by NumberInspector, SourceModal */
+export const CONFIDENCE_DISPLAY_LABELS: Record<string, string> = {
+  high: 'Hoch (verifizierte Buchhaltungsdaten)',
+  medium: 'Mittel (Schätzung mit dokumentierter Basis)',
+  low: 'Niedrig (grobe Schätzung)',
+  estimated: 'Geschätzt (Prognose basierend auf Trends)',
+  target: 'Budget-Ziel (noch nicht realisiert)',
+  unknown: 'Unbekannt (aktuelle Daten fehlen)',
+};
+
 export interface NumberSource {
   value: string | number;
   label: string;
