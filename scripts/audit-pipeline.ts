@@ -9,6 +9,9 @@
  */
 import { config } from 'dotenv'; config({ path: '.env.local' });
 import { neon } from '@neondatabase/serverless';
+import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
+import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
+import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 const sql = neon(process.env.DATABASE_URL!);
 
 async function main() {
@@ -153,6 +156,39 @@ async function main() {
       console.log(`  P${r.priority}   ${String(r.id).padEnd(40)} ${String(r.method ?? '—').padEnd(12)} ${web}`);
     }
   }
+
+  // ── 5. Gesuch quality (from generated TS file) ───────────────────────────
+  const gesuchFoundations = STIFTUNGEN_DATA.filter(f => hasGesuchPage(f));
+  let gesuchPerfect = 0;
+  const gesuchIssues: { p: number; issues: string[] }[] = [];
+  for (const f of gesuchFoundations) {
+    const issues: string[] = [];
+    if (!f.contact?.email && !f.contact?.phone) issues.push('no-contact');
+    if (!f.researchNotes || f.researchNotes.length < 250) issues.push('thin-notes');
+    if (!f.purposeSummary || f.purposeSummary.length < 150) issues.push('thin-purpose');
+    if (!f.websiteUrl || (f.websiteUrl as string).includes('zefix.ch')) issues.push('no-website');
+    if (issues.length === 0) gesuchPerfect++;
+    else gesuchIssues.push({ p: computePriorityScore(f).level, issues });
+  }
+  const gByP = [1,2,3].map(p => {
+    const items = gesuchIssues.filter(i => i.p === p);
+    const total = gesuchFoundations.filter(f => computePriorityScore(f).level === p).length;
+    return { p, issues: items.length, total };
+  });
+
+  console.log(`GESUCH QUALITY (from generated file)`);
+  console.log(`  Total gesuch pages: ${gesuchFoundations.length}  (perfect: ${gesuchPerfect}, with issues: ${gesuchIssues.length})`);
+  for (const g of gByP) {
+    const perfect = g.total - g.issues;
+    const pct = g.total > 0 ? `${Math.round(perfect/g.total*100)}%` : '—';
+    console.log(`  P${g.p}: ${perfect}/${g.total} perfect (${pct})`);
+  }
+  const issueTypes = ['no-contact','thin-notes','thin-purpose','no-website'];
+  for (const t of issueTypes) {
+    const n = gesuchIssues.filter(i => i.issues.includes(t)).length;
+    if (n > 0) console.log(`  └─ ${t}: ${n}`);
+  }
+  console.log(``);
 
   console.log(`\n══════════════════════════════════════════════════\n`);
   console.log(`To update CLAUDE.md, replace the funnel table with:`);

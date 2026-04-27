@@ -445,9 +445,10 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
   server components would eliminate the sync layer (not urgent, but architecturally cleaner)
 - 1 P3 truly unreachable (alice-ackermann: phone-only, no appUrl, no email) — also the only
   remaining APPLICATION URL gap. Run `npm run audit` for the live list.
-- 65 Gesuch documents have data-quality issues per `gesuch-audit` (~30 thin researchNotes
-  <250 chars, ~10 thin purposeSummary <150 chars, 10 missing email/phone, 5 registry-only
-  websiteUrl) — needs per-foundation research enrichment, not a code fix
+- 57 Gesuch documents have data-quality issues per `gesuch-audit` (run `npx tsx scripts/gesuch-audit.ts`):
+  16 P2 and 41 P3 — thin researchNotes (<250 chars), thin purposeSummary (<150 chars),
+  missing email/phone, or no real websiteUrl — needs per-foundation research enrichment, not a code fix.
+  P1 gesuch pages: 20/20 perfect.
 
 ---
 
