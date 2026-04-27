@@ -75,12 +75,12 @@ export function ImpactStoryCards({
             <div className="mb-2 text-3xl font-bold">~{co2Avoided} t</div>
             <p className="mb-2 text-sm text-text-muted">CO₂ vermieden durch Wiederverwendung</p>
             <Badge variant="estimated">Schätzung</Badge>
-            <p className="mt-3 text-xs text-text-muted">
+            <p className="mt-3 text-sm text-text-muted">
               <strong>Berechnung:</strong> {CO2_PER_LAPTOP} kg CO₂ pro Laptop (300 kg Produktion - 15 kg Refurbishment)
             </p>
             <div className="mt-3 rounded-lg bg-bg-light p-3">
               <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Das entspricht etwa:</h4>
-              <ul className="space-y-1 text-xs text-text-light">
+              <ul className="space-y-1 text-sm text-text-light">
                 <li>🚗 {formatNumber(carsKm)} km Autofahrt</li>
                 <li>✈️ {flightsZurichBerlin} Flüge Zürich-Berlin</li>
               </ul>
@@ -97,12 +97,12 @@ export function ImpactStoryCards({
             <div className="mb-2 text-3xl font-bold">~{formatNumber(eWaste)} kg</div>
             <p className="mb-2 text-sm text-text-muted">Elektroschrott vermieden</p>
             <Badge variant="estimated">Schätzung</Badge>
-            <p className="mt-3 text-xs text-text-muted">
+            <p className="mt-3 text-sm text-text-muted">
               <strong>Berechnung:</strong> ~5 kg Durchschnittsgewicht pro Gerät
             </p>
             <div className="mt-3 rounded-lg bg-bg-light p-3">
               <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Enthält wertvolle Rohstoffe:</h4>
-              <ul className="space-y-1 text-xs text-text-light">
+              <ul className="space-y-1 text-sm text-text-light">
                 <li>⚡ Seltene Erden</li>
                 <li>🪨 Kobalt & Lithium</li>
                 <li>🔧 Kupfer & Aluminium</li>
@@ -122,7 +122,7 @@ export function ImpactStoryCards({
             <Badge variant="none">Nicht erfasst</Badge>
             <div className="mt-3 rounded-lg bg-danger/10 p-3">
               <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">{`Historisch (seit ${ORG_PROFILE.milestones.integrationProgram}):`}</h4>
-              <ul className="space-y-1 text-xs text-text-light">
+              <ul className="space-y-1 text-sm text-text-light">
                 <li>👥 <strong>100+</strong> Praktikant:innen</li>
                 <li>✓ <strong>~40%</strong> Erfolgsquote</li>
                 <li>🏠 <strong>8-10</strong> Plätze verfügbar</li>

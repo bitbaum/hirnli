@@ -51,7 +51,7 @@ export default function MethodikPage() {
               <div key={dt.label} className="text-center">
                 <Badge variant={dt.badgeVariant} className="text-sm">{dt.label}</Badge>
                 <p className="mt-2 text-sm font-medium">{dt.confidence}</p>
-                <p className="mt-1 text-xs text-text-muted">{dt.description}</p>
+                <p className="mt-1 text-sm text-text-muted">{dt.description}</p>
               </div>
             ))}
           </MetricGrid>

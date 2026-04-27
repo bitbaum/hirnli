@@ -214,7 +214,7 @@ export default function WirkungClient() {
             <div key={gap.title} className="rounded-lg bg-white p-3 text-center">
               <div className="mb-1 text-2xl opacity-50">{gap.icon}</div>
               <p className="text-sm font-semibold">{gap.title}</p>
-              <p className="text-xs text-text-muted">{gap.desc}</p>
+              <p className="text-sm text-text-muted">{gap.desc}</p>
             </div>
           ))}
         </div>
@@ -238,8 +238,8 @@ export default function WirkungClient() {
               }`}
             >
               <h4 className="mb-1 text-sm font-semibold text-grey-dark">{step.label}</h4>
-              <p className="text-xs text-text-light">{step.desc}</p>
-              <p className="mt-1 text-xs text-text-muted">&rarr; {step.impact}</p>
+              <p className="text-sm text-text-light">{step.desc}</p>
+              <p className="mt-1 text-sm text-text-muted">&rarr; {step.impact}</p>
             </div>
           ))}
         </div>

@@ -66,7 +66,7 @@ export function CostStructureCard({ entry }: { entry: AnnualPLEntry }) {
       </div>
 
       {/* Context */}
-      <div className="mt-3 rounded-lg bg-danger-bg/20 p-3 text-xs text-text-light">
+      <div className="mt-3 rounded-lg bg-danger-bg/20 p-3 text-sm text-text-light">
         <strong>Ergebnis {entry.year}:</strong>{' '}
         <span className={entry.result >= 0 ? 'text-success' : 'text-danger'}>
           {formatCHF(entry.result)}
