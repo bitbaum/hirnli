@@ -41,7 +41,7 @@ const THEME_DEFINITIONS: ThemeDefinition[] = [
   {
     id: 'digitale-bildung',
     keywords: ['digital', 'bildung', 'schul', 'ausbildung', 'lern', 'pädagog', 'unterricht', 'medien'],
-    excludeKeywords: ['medizin'], // avoid medical education false positives
+    excludeKeywords: ['medizinstudium', 'medizinische ausbildung'], // avoid medical school false positives; 'medizin' alone is too broad (fires on velux "medizinische Gebiete" which correctly has digitale-bildung)
   },
   {
     id: 'digitale-souveraenitaet',
