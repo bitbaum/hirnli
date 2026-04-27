@@ -4,7 +4,7 @@ import Card from '@/components/ui/Card';
 import { READINESS_ENGINE, PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
 import { STIFTUNGEN_DATA, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { formatNumber } from '@/lib/utils/format';
-import { TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS, computeTierCounts } from '@/lib/domain/foundation-helpers';
+import { TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS, computeTierCounts, hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { computeReadinessScore, computePriorityScore, TIER_FROM_LEVEL } from '@/lib/domain/foundation-scores';
 import type { QualityTier } from '@/lib/schemas/foundation';
 import type { AdditiveChecksConfig } from '@/lib/config/fit-scoring';
@@ -362,11 +362,7 @@ export default function ScoringMethodikPage() {
             P4-Stiftungen bekommen kein Gesuch, da die strategische Priorität zu niedrig ist.
           </p>
           <div className="mt-3 rounded bg-bg-light p-3 text-sm text-text-muted">
-            Aktuell: {STIFTUNGEN_DATA.filter((f) => {
-              const r = computeReadinessScore(f);
-              const p = computePriorityScore(f, r.score);
-              return r.tier !== 'verzeichnet' && r.tier !== 'erfasst' && r.tier !== 'profiliert' && p.level <= 3;
-            }).length} von {total} Stiftungen haben eine Gesuch-Seite.
+            Aktuell: {STIFTUNGEN_DATA.filter(hasGesuchPage).length} von {total} Stiftungen haben eine Gesuch-Seite.
           </div>
         </Card>
       </section>
