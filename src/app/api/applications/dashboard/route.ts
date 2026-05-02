@@ -19,7 +19,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
-import { eq, and, gte, sql } from 'drizzle-orm';
+import { eq, and, gte, lte } from 'drizzle-orm';
 
 /**
  * GET /api/applications/dashboard
@@ -89,7 +89,7 @@ export async function GET(_request: NextRequest) {
       .where(
         and(
           gte(applications.decisionExpected, today),
-          sql`${applications.decisionExpected} <= ${in30Days}`,
+          lte(applications.decisionExpected, in30Days),
           eq(applications.status, 'pending')
         )
       )
