@@ -6,11 +6,11 @@ import Badge from '@/components/ui/Badge';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 
 export const CONFIDENCE_BADGE_MAP: Record<string, { label: string; variant: 'success' | 'warning' | 'danger' | 'default' }> = {
-  high: { label: 'High', variant: 'success' },
-  medium: { label: 'Medium', variant: 'warning' },
+  high: { label: 'Hoch', variant: 'success' },
+  medium: { label: 'Mittel', variant: 'warning' },
   estimated: { label: 'Geschätzt', variant: 'warning' },
   target: { label: 'Budget-Ziel', variant: 'default' },
-  low: { label: 'Low', variant: 'danger' },
+  low: { label: 'Niedrig', variant: 'danger' },
   unknown: { label: 'Unbekannt', variant: 'danger' },
 };
 
