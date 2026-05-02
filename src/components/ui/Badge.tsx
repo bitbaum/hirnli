@@ -13,7 +13,7 @@ const VARIANTS = {
   none: 'bg-grey-light text-text-muted',
 } as const;
 
-const COLORS: Record<string, string> = {
+const COLORS = {
   blue: 'bg-blue-100 text-blue-700',
   green: 'bg-green-100 text-green-700',
   emerald: 'bg-emerald-100 text-emerald-700',
@@ -26,19 +26,17 @@ const COLORS: Record<string, string> = {
   yellow: 'bg-yellow-100 text-yellow-700',
   red: 'bg-red-100 text-red-700',
   cyan: 'bg-cyan-100 text-cyan-700',
-};
+} as const;
 
 interface BadgeProps {
   children: React.ReactNode;
   variant?: keyof typeof VARIANTS;
-  color?: string;
+  color?: keyof typeof COLORS;
   className?: string;
 }
 
 export default function Badge({ children, variant = 'default', color, className = '' }: BadgeProps) {
-  const colorClass = color
-    ? (COLORS[color] || COLORS.gray)
-    : VARIANTS[variant];
+  const colorClass = color ? COLORS[color] : VARIANTS[variant];
 
   return (
     <span

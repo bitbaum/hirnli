@@ -55,7 +55,7 @@ const INTEGRITY_COLUMNS = [
     key: 'confidence',
     header: 'Confidence',
     render: (row: IntegrityRow) => {
-      const conf = CONFIDENCE_BADGE_MAP[row.confidence] ?? CONFIDENCE_BADGE_MAP.unknown;
+      const conf = CONFIDENCE_BADGE_MAP[row.confidence as keyof typeof CONFIDENCE_BADGE_MAP] ?? CONFIDENCE_BADGE_MAP.unknown;
       return <Badge variant={conf.variant}>{conf.label}</Badge>;
     },
   },
