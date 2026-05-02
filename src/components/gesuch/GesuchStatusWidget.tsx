@@ -12,7 +12,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getStatusConfig, isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
-import { computeFollowUpDate, formatFollowUpDate } from '@/lib/utils/parse-response-time';
+import { computeFollowUpDate } from '@/lib/utils/parse-response-time';
+import { formatDateCHLong } from '@/lib/utils/format';
 
 interface GesuchStatusWidgetProps {
   slug: string;
@@ -187,9 +188,9 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
           <p className="text-sm text-pillar-digital">Gesuch wurde als eingereicht markiert.</p>
           {followUpDate && (
             <p className="text-sm text-text-muted">
-              Antwort erwartet: ~<span className="font-medium">{formatFollowUpDate(followUpDate)}</span>
+              Antwort erwartet: ~<span className="font-medium">{formatDateCHLong(followUpDate)}</span>
               {' · '}
-              Nachfassen ab: <span className="font-medium">{formatFollowUpDate(followUpDate)}</span>
+              Nachfassen ab: <span className="font-medium">{formatDateCHLong(followUpDate)}</span>
             </p>
           )}
         </div>

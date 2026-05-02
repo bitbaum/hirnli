@@ -14,6 +14,7 @@ import { foundations, applications } from '@/lib/db/schema';
 import { and, eq, isNull, lt, gte, sql } from 'drizzle-orm';
 import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { formatDateCH } from '@/lib/utils/format';
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -158,7 +159,7 @@ export async function GET(request: NextRequest) {
         items: stuckApplications.slice(0, 10).map(({ application, foundation }) => ({
           id: application.id,
           name: foundation?.name || 'Unknown',
-          detail: `Last update: ${application.updatedAt ? new Date(application.updatedAt).toLocaleDateString('de-CH') : 'Never'}`,
+          detail: `Last update: ${application.updatedAt ? formatDateCH(application.updatedAt.toISOString()) : 'Never'}`,
         })),
       });
     }

@@ -2,6 +2,7 @@
 
 import type { NumberSource } from '@/lib/config/numbers';
 import { CONFIDENCE_DISPLAY_LABELS, CONFIDENCE_COLORS } from '@/lib/config/numbers';
+import { formatDateCHLong } from '@/lib/utils/format';
 
 interface SourceModalProps {
   data: NumberSource;
@@ -84,11 +85,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
               Zuletzt verifiziert
             </div>
             <div className="text-text-light text-sm">
-              {new Date(data.source.lastVerified).toLocaleDateString('de-CH', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
+              {formatDateCHLong(data.source.lastVerified)}
             </div>
           </div>
 

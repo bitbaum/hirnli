@@ -90,3 +90,14 @@ export function formatDateTimeCH(dateStr: string): string {
     minute: '2-digit',
   });
 }
+
+/**
+ * Format a date string as Swiss long date: "15. Mai 2026"
+ */
+export function formatDateCHLong(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('de-CH', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}

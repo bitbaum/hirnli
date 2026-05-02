@@ -36,11 +36,3 @@ export function computeFollowUpDate(submissionDateIso: string, responseTime?: st
   return d.toISOString().split('T')[0];
 }
 
-/** Format an ISO date as "15. Mai 2026" for display */
-export function formatFollowUpDate(isoDate: string): string {
-  return new Date(isoDate).toLocaleDateString('de-CH', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-}

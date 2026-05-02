@@ -8,6 +8,7 @@ import {
   formatDateDE,
   formatDateCH,
   formatDateTimeCH,
+  formatDateCHLong,
 } from './format';
 
 describe('formatCHF', () => {
@@ -243,5 +244,26 @@ describe('formatDateTimeCH', () => {
     const parts = result.split(',');
     expect(parts).toHaveLength(2);
     expect(parts[1].trim()).toMatch(/^\d{2}:\d{2}$/);
+  });
+});
+
+describe('formatDateCHLong', () => {
+  it('includes the year', () => {
+    expect(formatDateCHLong('2026-05-15')).toContain('2026');
+  });
+
+  it('uses long month name (Mai)', () => {
+    expect(formatDateCHLong('2026-05-15')).toContain('Mai');
+  });
+
+  it('includes the day number', () => {
+    expect(formatDateCHLong('2026-05-15')).toContain('15');
+  });
+
+  it('produces different output from formatDateCH for same date', () => {
+    const compact = formatDateCH('2026-05-15');
+    const long = formatDateCHLong('2026-05-15');
+    expect(long).not.toBe(compact);
+    expect(long.length).toBeGreaterThan(compact.length);
   });
 });
