@@ -32,6 +32,7 @@ export function ApplicationCard({
   const [showEdit, setShowEdit] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const {
     attributes,
@@ -72,20 +73,17 @@ export function ApplicationCard({
 
   async function handleDelete() {
     setIsDeleting(true);
+    setDeleteError(null);
     try {
       const res = await fetch(`/api/applications/${application.id}`, { method: 'DELETE' });
       const result = await res.json();
       if (result.success) {
         onDeleted(application.id);
       } else {
-        console.error('Delete failed:', result.error);
-        alert(`Fehler: ${result.error}`);
-        setDeleteConfirm(false);
+        setDeleteError(result.error ?? 'Unbekannter Fehler');
       }
-    } catch (err) {
-      console.error('Failed to delete application:', err);
-      alert('Netzwerkfehler beim Löschen');
-      setDeleteConfirm(false);
+    } catch {
+      setDeleteError('Netzwerkfehler beim Löschen');
     } finally {
       setIsDeleting(false);
     }
@@ -202,26 +200,40 @@ export function ApplicationCard({
             </div>
           )}
 
-          {/* Delete confirmation inline */}
+          {/* Delete confirmation + inline error */}
           {deleteConfirm && (
-            <div className="mt-3 flex items-center justify-between rounded-lg bg-danger/10 px-3 py-2 text-sm">
-              <span className="font-medium text-danger">Wirklich löschen?</span>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setDeleteConfirm(false)}
-                  className="rounded px-2 py-0.5 text-xs text-text-light hover:bg-bg-light"
-                  disabled={isDeleting}
-                >
-                  Nein
-                </button>
-                <button
-                  onClick={handleDelete}
-                  disabled={isDeleting}
-                  className="rounded bg-danger px-2 py-0.5 text-xs font-semibold text-white hover:bg-danger/80 disabled:opacity-50"
-                >
-                  {isDeleting ? '...' : 'Ja, löschen'}
-                </button>
-              </div>
+            <div className="mt-3 rounded-lg bg-danger/10 px-3 py-2 text-sm">
+              {deleteError ? (
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-danger">{deleteError}</span>
+                  <button
+                    onClick={() => { setDeleteConfirm(false); setDeleteError(null); }}
+                    className="rounded px-2 py-0.5 text-xs text-text-light hover:bg-bg-light"
+                  >
+                    Schliessen
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-danger">Wirklich löschen?</span>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setDeleteConfirm(false)}
+                      className="rounded px-2 py-0.5 text-xs text-text-light hover:bg-bg-light"
+                      disabled={isDeleting}
+                    >
+                      Nein
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      disabled={isDeleting}
+                      className="rounded bg-danger px-2 py-0.5 text-xs font-semibold text-white hover:bg-danger/80 disabled:opacity-50"
+                    >
+                      {isDeleting ? '...' : 'Ja, löschen'}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
