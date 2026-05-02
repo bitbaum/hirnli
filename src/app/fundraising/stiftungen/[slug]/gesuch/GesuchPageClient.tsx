@@ -72,6 +72,7 @@ export default function GesuchPageClient({
     editMode,
     saving,
     dirty,
+    loadError,
     draftedVariants,
     toggleEditMode,
     updateField,
@@ -159,6 +160,12 @@ export default function GesuchPageClient({
         <div className="mb-10 flex justify-center">
           <StepIndicator currentStep={step} onNavigate={navigateStep} />
         </div>
+
+        {loadError && (
+          <div className="mb-6 rounded-lg border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
+            Gespeicherte Anpassungen konnten nicht geladen werden. Bitte Seite neu laden.
+          </div>
+        )}
 
         {/* Step content */}
         {step === 1 && (

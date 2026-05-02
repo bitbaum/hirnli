@@ -32,6 +32,7 @@ interface UseGesuchOverridesReturn {
   editMode: boolean;
   saving: boolean;
   dirty: boolean;
+  loadError: boolean;
   draftedVariants: string[];
   toggleEditMode: () => void;
   updateField: (patch: GesuchOverridesData) => void;
@@ -60,6 +61,7 @@ export function useGesuchOverrides(
   const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const [draftedVariants, setDraftedVariants] = useState<string[]>([]);
   const overridesRef = useRef(overrides);
   overridesRef.current = overrides;
@@ -83,6 +85,7 @@ export function useGesuchOverrides(
     setOverrides({});
     setSavedOverrides({});
     setDirty(false);
+    setLoadError(false);
 
     const url = `/api/gesuch-overrides/${slug}?variant=${encodeURIComponent(variantKey)}`;
     fetch(url)
@@ -92,12 +95,16 @@ export function useGesuchOverrides(
           const saved = result.data.overrides as GesuchOverridesData;
           setOverrides(saved);
           setSavedOverrides(saved);
-        } else if (foundation && !autoTriggeredVariants.current.has(variantKey)) {
-          autoTriggeredVariants.current.add(variantKey);
-          setNeedsAutoDraft(true);
+        } else if (result.success) {
+          if (foundation && !autoTriggeredVariants.current.has(variantKey)) {
+            autoTriggeredVariants.current.add(variantKey);
+            setNeedsAutoDraft(true);
+          }
+        } else {
+          setLoadError(true);
         }
       })
-      .catch(() => {});
+      .catch(() => setLoadError(true));
   }, [slug, variantKey, foundation]);
 
   const toggleEditMode = useCallback(() => {
@@ -297,6 +304,7 @@ export function useGesuchOverrides(
     editMode,
     saving,
     dirty,
+    loadError,
     draftedVariants,
     toggleEditMode,
     updateField,
