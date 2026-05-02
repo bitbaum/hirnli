@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
 import type { Document } from '@/lib/config/documents';
+import { formatDateCH } from '@/lib/utils/format';
 
 interface DocumentCardProps {
   document: Document;
@@ -67,7 +68,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
         )}
         {document.lastUpdated && (
           <span>
-            <strong>Stand:</strong> {new Date(document.lastUpdated).toLocaleDateString('de-CH')}
+            <strong>Stand:</strong> {formatDateCH(document.lastUpdated)}
           </span>
         )}
       </div>

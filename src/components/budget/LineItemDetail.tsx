@@ -1,5 +1,5 @@
 import type { BudgetLineItem } from '@/lib/schemas/budget';
-import { formatCHF } from '@/lib/utils/format';
+import { formatCHF, formatDateCH } from '@/lib/utils/format';
 
 /**
  * LineItemDetail Component
@@ -91,7 +91,7 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
         <div>
           <strong className="text-grey-dark">Verifiziert:</strong>{' '}
           <span className="text-text-light">
-            {new Date(item.source.lastVerified).toLocaleDateString('de-CH')}
+            {formatDateCH(item.source.lastVerified)}
           </span>
         </div>
 
