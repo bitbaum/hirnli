@@ -249,6 +249,20 @@ describe('getApplicationReadiness', () => {
     expect(getApplicationReadiness(f).find((i) => i.label === 'Bewerbungsweg bekannt')!.ready).toBe(true);
   });
 
+  it('"Bewerbungsweg bekannt" detail uses human-readable label not raw value', () => {
+    const f = makeFoundation({ applicationMethod: 'email' as Foundation['applicationMethod'] });
+    const item = getApplicationReadiness(f).find((i) => i.label === 'Bewerbungsweg bekannt')!;
+    expect(item.detail).toContain('Per E-Mail');
+    expect(item.detail).not.toContain(': email');
+  });
+
+  it('"Bewerbungsweg bekannt" detail uses label for via_partner', () => {
+    const f = makeFoundation({ applicationMethod: 'via_partner' as Foundation['applicationMethod'] });
+    const item = getApplicationReadiness(f).find((i) => i.label === 'Bewerbungsweg bekannt')!;
+    expect(item.detail).toContain('Über Partner');
+    expect(item.detail).not.toContain('via_partner');
+  });
+
   it('"Gesuch generiert" is always ready', () => {
     const items = getApplicationReadiness(makeFoundation());
     expect(items.find((i) => i.label === 'Gesuch generiert')!.ready).toBe(true);

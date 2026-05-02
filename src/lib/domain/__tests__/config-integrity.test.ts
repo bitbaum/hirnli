@@ -6,6 +6,7 @@ import { FoundationType } from '@/lib/schemas/foundation';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
 import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, getPriorityColor, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
+import { Confidence } from '@/lib/schemas/metric';
 import { computeReadinessScore, computePriorityScore } from '../foundation-scores';
 import { validateFoundationQuality } from '../foundation-quality';
 
@@ -91,6 +92,14 @@ describe('confidence config integrity', () => {
 
   it('CONFIDENCE_DISPLAY_LABELS covers every NumberConfidence enum value', () => {
     for (const level of validLevels) {
+      expect(CONFIDENCE_DISPLAY_LABELS[level]).toBeTruthy();
+    }
+  });
+
+  it('CONFIDENCE_DISPLAY_LABELS covers every Confidence (metric) enum value including low', () => {
+    // Confidence in metric schema is ['high', 'medium', 'low']. NumberInspector looks up
+    // labels for metric confidence values, so all must map to human-readable German.
+    for (const level of Confidence.options) {
       expect(CONFIDENCE_DISPLAY_LABELS[level]).toBeTruthy();
     }
   });
