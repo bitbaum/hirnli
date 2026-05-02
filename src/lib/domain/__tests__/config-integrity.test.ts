@@ -15,6 +15,13 @@ describe('application-statuses config integrity', () => {
     }
   });
 
+  it('every status has chartColor with bg and border', () => {
+    for (const s of APPLICATION_STATUSES) {
+      expect(s.chartColor.bg).toBeTruthy();
+      expect(s.chartColor.border).toBeTruthy();
+    }
+  });
+
   it('every active (non-withdrawn, non-rejected) status appears in KANBAN_COLUMNS', () => {
     const kanbanSet = new Set(KANBAN_COLUMNS);
     for (const s of APPLICATION_STATUSES) {
