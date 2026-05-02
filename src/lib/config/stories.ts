@@ -41,6 +41,7 @@ import type {
   Anecdote,
   PhotoSlot,
 } from '@/lib/schemas/story';
+import type { ThemeId } from '@/lib/schemas/foundation';
 import { getNumericValue, CO2_PER_LAPTOP } from '@/lib/config/numbers';
 import { formatNumber } from '@/lib/utils/format';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -627,7 +628,7 @@ export const ANSCHREIBEN_TEMPLATES: Record<string, { opening: string; closing: s
 // ============================================================================
 
 /** Maps foundation ThemeId values to story ThemeKey values */
-export const THEME_ID_TO_STORY_KEY: Record<string, ThemeKey> = {
+export const THEME_ID_TO_STORY_KEY: Record<ThemeId, ThemeKey> = {
   'klima': 'klima',
   'kreislaufwirtschaft': 'kreislaufwirtschaft',
   'soziale-integration': 'sozial',
