@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
-import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, getPriorityColor, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
 import { computeReadinessScore, computePriorityScore } from '../foundation-scores';
 import { validateFoundationQuality } from '../foundation-quality';
@@ -55,6 +55,26 @@ describe('application-statuses config integrity', () => {
     for (const id of active) {
       expect(isActiveApplication(id)).toBe(true);
     }
+  });
+});
+
+describe('getPriorityColor', () => {
+  it('returns a non-empty string for each valid priority level (1-4)', () => {
+    for (const level of [1, 2, 3, 4]) {
+      const result = getPriorityColor(level);
+      expect(typeof result).toBe('string');
+      expect(result.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('returns a non-empty string for null (no priority set)', () => {
+    const result = getPriorityColor(null);
+    expect(typeof result).toBe('string');
+    expect(result.length).toBeGreaterThan(0);
+  });
+
+  it('returns the same fallback for null and unknown level', () => {
+    expect(getPriorityColor(null)).toBe(getPriorityColor(99));
   });
 });
 
