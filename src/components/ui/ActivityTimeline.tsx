@@ -7,6 +7,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { formatDateTimeCH } from '@/lib/utils/format';
 
 const ACTION_LABELS: Record<string, string> = {
   created: 'Erstellt',
@@ -33,16 +34,6 @@ interface ActivityTimelineProps {
   limit?: number;
 }
 
-function formatTimestamp(ts: string): string {
-  const d = new Date(ts);
-  return d.toLocaleDateString('de-CH', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-}
 
 function parseDetails(raw: string | null): Record<string, unknown> | null {
   if (!raw) return null;
@@ -114,7 +105,7 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
                 </p>
               )}
               <p className="text-sm text-text-light">
-                {formatTimestamp(entry.timestamp)}
+                {formatDateTimeCH(entry.timestamp)}
               </p>
             </div>
           </div>

@@ -12,6 +12,7 @@ import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import { formatDateCH } from '@/lib/utils/format';
 
 interface GesuchOverviewRow {
   foundationId: string;
@@ -22,13 +23,6 @@ interface GesuchOverviewRow {
   applicationStatus: string | null;
 }
 
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('de-CH', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
-}
 
 export default function MeineGesuchePage() {
   const [rows, setRows] = useState<GesuchOverviewRow[]>([]);
@@ -113,7 +107,7 @@ export default function MeineGesuchePage() {
                       {row.overrideFieldCount} Felder
                     </td>
                     <td className="px-4 py-3 text-text-muted hidden sm:table-cell">
-                      {row.overrideUpdatedAt ? formatDate(row.overrideUpdatedAt) : '—'}
+                      {row.overrideUpdatedAt ? formatDateCH(row.overrideUpdatedAt) : '—'}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <Link

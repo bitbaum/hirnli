@@ -8,6 +8,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { formatDateTimeCH } from '@/lib/utils/format';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 
 interface OverrideHistoryProps {
@@ -24,15 +25,6 @@ interface ActivityEntry {
   timestamp: string;
 }
 
-function formatTimestamp(ts: string): string {
-  return new Date(ts).toLocaleDateString('de-CH', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-}
 
 /** Extract override keys that have non-empty values */
 function getFieldKeys(overrides: GesuchOverridesData): string[] {
@@ -159,7 +151,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <p className="text-sm font-medium text-grey-dark">
-                            {formatTimestamp(entry.timestamp)}
+                            {formatDateTimeCH(entry.timestamp)}
                           </p>
                           {fieldKeys.length > 0 && (
                             <p className="text-sm text-text-muted mt-0.5">

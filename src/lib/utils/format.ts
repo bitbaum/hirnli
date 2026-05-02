@@ -66,3 +66,27 @@ export function calcGrowth(oldVal: number, newVal: number): number {
   if (!oldVal || oldVal === 0) return newVal > 0 ? 1 : 0;
   return (newVal - oldVal) / Math.abs(oldVal);
 }
+
+/**
+ * Format a date string as Swiss compact date: "26.02.2026"
+ */
+export function formatDateCH(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('de-CH', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+}
+
+/**
+ * Format a date string as Swiss compact date + time: "26.02.2026, 14:30"
+ */
+export function formatDateTimeCH(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('de-CH', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}

@@ -7,7 +7,7 @@
 'use client';
 
 import Link from 'next/link';
-import { formatCHF } from '@/lib/utils/format';
+import { formatCHF, formatDateCH } from '@/lib/utils/format';
 
 interface Deadline {
   id: string;
@@ -22,13 +22,6 @@ interface UpcomingDeadlinesProps {
 }
 
 export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('de-CH', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  };
 
   const getUrgencyColor = (days: number) => {
     if (days <= 7) return 'bg-danger/10 border-danger/20 text-danger';
@@ -66,7 +59,7 @@ export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
               </div>
               <div className="text-sm space-y-1">
                 <div>
-                  Entscheidung: <strong>{formatDate(deadline.decisionExpected)}</strong>
+                  Entscheidung: <strong>{formatDateCH(deadline.decisionExpected)}</strong>
                 </div>
                 {deadline.requestedAmount && (
                   <div>
