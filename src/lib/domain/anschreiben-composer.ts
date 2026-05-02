@@ -48,7 +48,7 @@ export function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: s
         ? `Ihr Fokus auf ${purposeCore} zeigt, dass messbare Wirkung für Sie zählt. ${ORG_PROFILE.name} liefert genau das: transparente Impact-Daten zu ${ORG_PROFILE.missionSummary} im Bereich ${primaryThemeLabel}.`
         : ANSCHREIBEN_TEMPLATES['D'].opening;
     default:
-      return ANSCHREIBEN_TEMPLATES['A'].opening;
+      return ANSCHREIBEN_TEMPLATES[foundation.type].opening;
   }
 }
 

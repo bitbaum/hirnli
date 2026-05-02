@@ -22,7 +22,7 @@ const TYPE_LABELS: Record<InspectorSourceType, { label: string; variant: Inspect
 export default function NumberInspector({ isOpen, onClose, data }: NumberInspectorProps) {
   if (!data) return null;
 
-  const typeInfo = TYPE_LABELS[data.sourceType] || TYPE_LABELS.none;
+  const typeInfo = TYPE_LABELS[data.sourceType];
 
   // Convert technical source path to donor-friendly description
   const getDonorFriendlySource = (source: string): string => {

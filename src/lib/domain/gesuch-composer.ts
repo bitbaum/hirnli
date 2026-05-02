@@ -295,7 +295,7 @@ export function composeAnschreibenText(foundation: Foundation, schwerpunktId?: S
   closing: string;
   themeAlignment: string;
 } {
-  const template = ANSCHREIBEN_TEMPLATES[foundation.type] ?? ANSCHREIBEN_TEMPLATES['A'];
+  const template = ANSCHREIBEN_TEMPLATES[foundation.type];
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
   return {
@@ -308,7 +308,7 @@ export function composeAnschreibenText(foundation: Foundation, schwerpunktId?: S
 
 export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: SchwerpunktId): ComposedGesuchDokument {
   const gesuch = composeGesuch(foundation, schwerpunktId);
-  const template = ANSCHREIBEN_TEMPLATES[foundation.type] ?? ANSCHREIBEN_TEMPLATES['A'];
+  const template = ANSCHREIBEN_TEMPLATES[foundation.type];
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
 
