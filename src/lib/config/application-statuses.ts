@@ -17,6 +17,7 @@ export const APPLICATION_STATUSES = [
     label: 'Interessant',
     description: 'Potenzielle Stiftungen, die wir ansprechen wollen',
     color: 'bg-bg-light text-grey-dark border-border',
+    chartColor: { bg: 'rgba(156, 163, 175, 0.6)', border: 'rgba(156, 163, 175, 1)' },
     requiredFields: [] as RequiredField[],
   },
   {
@@ -24,6 +25,7 @@ export const APPLICATION_STATUSES = [
     label: 'In Recherche',
     description: 'Stiftungs-Fit und Anforderungen werden geprüft',
     color: 'bg-blue-100 text-blue-700 border-blue-300',
+    chartColor: { bg: 'rgba(59, 130, 246, 0.6)', border: 'rgba(59, 130, 246, 1)' },
     requiredFields: [] as RequiredField[],
   },
   {
@@ -31,6 +33,7 @@ export const APPLICATION_STATUSES = [
     label: 'Entwurf',
     description: 'Gesuch wird erarbeitet',
     color: 'bg-purple-100 text-purple-700 border-purple-300',
+    chartColor: { bg: 'rgba(147, 51, 234, 0.6)', border: 'rgba(147, 51, 234, 1)' },
     requiredFields: [] as RequiredField[],
   },
   {
@@ -38,6 +41,7 @@ export const APPLICATION_STATUSES = [
     label: 'In Prüfung',
     description: 'Interne Prüfung vor der Einreichung',
     color: 'bg-yellow-100 text-yellow-700 border-yellow-300',
+    chartColor: { bg: 'rgba(234, 179, 8, 0.6)', border: 'rgba(234, 179, 8, 1)' },
     requiredFields: [] as RequiredField[],
   },
   {
@@ -45,6 +49,7 @@ export const APPLICATION_STATUSES = [
     label: 'Eingereicht (extern)',
     description: 'Gesuch wurde an die Stiftung gesendet',
     color: 'bg-indigo-100 text-indigo-700 border-indigo-300',
+    chartColor: { bg: 'rgba(99, 102, 241, 0.6)', border: 'rgba(99, 102, 241, 1)' },
     requiredFields: [
       { field: 'submissionDate', label: 'Einreichungsdatum', type: 'date' },
     ] as RequiredField[],
@@ -54,6 +59,7 @@ export const APPLICATION_STATUSES = [
     label: 'Entscheidung ausstehend',
     description: 'Wir warten auf die Entscheidung der Stiftung',
     color: 'bg-orange-100 text-orange-700 border-orange-300',
+    chartColor: { bg: 'rgba(249, 115, 22, 0.6)', border: 'rgba(249, 115, 22, 1)' },
     requiredFields: [] as RequiredField[],
   },
   {
@@ -61,6 +67,7 @@ export const APPLICATION_STATUSES = [
     label: 'Nachfassen',
     description: 'Nachfassen erforderlich',
     color: 'bg-pink-100 text-pink-700 border-pink-300',
+    chartColor: { bg: 'rgba(236, 72, 153, 0.6)', border: 'rgba(236, 72, 153, 1)' },
     requiredFields: [] as RequiredField[],
   },
   {
@@ -68,6 +75,7 @@ export const APPLICATION_STATUSES = [
     label: 'Zugesagt ✓',
     description: 'Förderung zugesagt',
     color: 'bg-green-100 text-green-700 border-green-300',
+    chartColor: { bg: 'rgba(34, 197, 94, 0.6)', border: 'rgba(34, 197, 94, 1)' },
     requiredFields: [
       { field: 'awardedAmount', label: 'Bewilligter Betrag (CHF)', type: 'number' },
     ] as RequiredField[],
@@ -77,6 +85,7 @@ export const APPLICATION_STATUSES = [
     label: 'Abgelehnt',
     description: 'Gesuch wurde abgelehnt',
     color: 'bg-red-100 text-red-700 border-red-300',
+    chartColor: { bg: 'rgba(239, 68, 68, 0.6)', border: 'rgba(239, 68, 68, 1)' },
     requiredFields: [
       { field: 'rejectionReason', label: 'Ablehnungsgrund', type: 'text' },
     ] as RequiredField[],
@@ -86,6 +95,7 @@ export const APPLICATION_STATUSES = [
     label: 'Zurückgezogen',
     description: 'Gesuch von uns zurückgezogen',
     color: 'bg-bg-light text-text-light border-border',
+    chartColor: { bg: 'rgba(203, 213, 225, 0.6)', border: 'rgba(203, 213, 225, 1)' },
     requiredFields: [] as RequiredField[],
   },
   {
@@ -93,6 +103,7 @@ export const APPLICATION_STATUSES = [
     label: 'Pausiert',
     description: 'Gesuch pausiert — wird später weiterverfolgt',
     color: 'bg-slate-100 text-slate-600 border-slate-300',
+    chartColor: { bg: 'rgba(100, 116, 139, 0.6)', border: 'rgba(100, 116, 139, 1)' },
     requiredFields: [] as RequiredField[],
   },
 ] as const;
