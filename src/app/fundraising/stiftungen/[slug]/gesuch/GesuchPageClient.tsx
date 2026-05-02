@@ -14,6 +14,7 @@ import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { useMemo } from 'react';
 import { computeGesuchReadiness } from '@/lib/domain/gesuch-readiness';
 import { LoadingState } from '@/components/ui/LoadingState';
+import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import StepIndicator from '@/components/gesuch/StepIndicator';
 import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
 import type { SubmissionInfo } from '@/components/gesuch/GesuchSubmitSection';
@@ -162,9 +163,9 @@ export default function GesuchPageClient({
         </div>
 
         {loadError && (
-          <div className="mb-6 rounded-lg border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
+          <ErrorAlert className="mb-6">
             Gespeicherte Anpassungen konnten nicht geladen werden. Bitte Seite neu laden.
-          </div>
+          </ErrorAlert>
         )}
 
         {/* Step content */}

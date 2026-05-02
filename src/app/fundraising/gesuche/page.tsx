@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import { LoadingState } from '@/components/ui/LoadingState';
+import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { formatDateCH } from '@/lib/utils/format';
 
@@ -50,9 +51,7 @@ export default function MeineGesuchePage() {
       {loading ? (
         <LoadingState label="Lade Gesuche…" className="py-20" />
       ) : error ? (
-        <div className="rounded-lg border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
-          {error}
-        </div>
+        <ErrorAlert>{error}</ErrorAlert>
       ) : rows.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-16 text-center">
           <p className="mb-1 text-lg font-semibold text-grey-dark">Noch keine Gesuche bearbeitet</p>

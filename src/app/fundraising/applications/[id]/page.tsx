@@ -97,11 +97,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         </div>
 
         {/* Save error */}
-        {saveError && (
-          <div className="rounded-lg border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
-            {saveError}
-          </div>
-        )}
+        <ErrorAlert>{saveError}</ErrorAlert>
 
         {/* Main edit form */}
         <Card className="space-y-5">

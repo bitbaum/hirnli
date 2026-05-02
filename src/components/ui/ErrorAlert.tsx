@@ -1,26 +1,33 @@
 /**
  * Shared error alert component.
  *
- * Inline error banner with optional retry button or back link.
- * Use fullPage=true to center within a min-h-screen container.
+ * Two modes:
+ *   <ErrorAlert error={msg} onRetry={fn} />     — "Fehler: {msg}" with optional retry/back
+ *   <ErrorAlert className="mb-4">{msg}</ErrorAlert> — renders children directly, no prefix
+ *
+ * Renders nothing when both error and children are falsy.
  */
 
 import { Button } from '@/components/ui/Button';
 
 export function ErrorAlert({
   error,
+  children,
+  className,
   onRetry,
   backLink,
 }: {
-  error: string | null;
+  error?: string | null;
+  children?: React.ReactNode;
+  className?: string;
   onRetry?: () => void;
   backLink?: { href: string; label: string };
 }) {
-  if (!error) return null;
+  if (!error && !children) return null;
 
   return (
-    <div className="rounded-lg border border-danger/20 bg-danger/10 p-4">
-      <p className="text-danger">Fehler: {error}</p>
+    <div className={`rounded-lg border border-danger/20 bg-danger/10 px-4 py-3${className ? ` ${className}` : ''}`}>
+      <p className="text-sm text-danger">{children ?? `Fehler: ${error}`}</p>
       {onRetry && (
         <Button
           onClick={onRetry}

@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
+import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 
 interface EditApplicationModalProps {
@@ -126,11 +127,7 @@ export function EditApplicationModal({
 
         {/* Body — scrollable */}
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
-          {error && (
-            <div className="rounded-lg border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
-              {error}
-            </div>
-          )}
+          <ErrorAlert>{error}</ErrorAlert>
 
           {/* Status + Priority row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
