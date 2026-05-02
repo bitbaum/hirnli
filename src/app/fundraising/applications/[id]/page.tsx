@@ -12,9 +12,8 @@ import Card from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { Button } from '@/components/ui/Button';
-import { APPLICATION_STATUSES, getStatusConfig, isTerminalStatus } from '@/lib/config/application-statuses';
+import { APPLICATION_STATUSES, getStatusConfig, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
-import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
 import ActivityTimeline from '@/components/ui/ActivityTimeline';
 
@@ -38,6 +37,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
     save,
     isDeleting,
     deleteConfirm,
+    deleteError,
     confirmDelete,
     cancelDelete,
     executeDelete,
@@ -60,7 +60,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
     );
   }
 
-  const statusConfig = getStatusConfig(fields.status as ApplicationStatusId);
+  const statusConfig = getStatusConfig(fields.status);
 
   return (
     <div className="min-h-screen bg-bg-light p-4 md:p-6">
@@ -110,7 +110,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className={labelClass}>Status</label>
-              <select value={fields.status} onChange={(e) => updateField('status', e.target.value)} className={inputClass}>
+              <select value={fields.status} onChange={(e) => updateField('status', e.target.value as ApplicationStatusId)} className={inputClass}>
                 {APPLICATION_STATUSES.map((s) => (
                   <option key={s.id} value={s.id}>{s.label}</option>
                 ))}
@@ -209,7 +209,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         </Card>
 
         {/* Outcome fields — only when relevant */}
-        {isTerminalStatus(fields.status as ApplicationStatusId) && (
+        {isTerminalStatus(fields.status) && (
           <Card className="space-y-4">
             <h2 className="font-semibold text-grey-dark">Ergebnis</h2>
             {fields.status === 'accepted' && (
@@ -286,24 +286,21 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           {/* Delete */}
           <div>
             {deleteConfirm ? (
-              <div className="flex items-center gap-3 rounded-lg border border-danger/20 bg-danger/10 px-4 py-2">
-                <span className="text-sm font-medium text-danger">Wirklich löschen?</span>
-                <Button
-                  onClick={cancelDelete}
-                  variant="ghost"
-                  size="sm"
-                  disabled={isDeleting}
-                >
-                  Nein
-                </Button>
-                <Button
-                  onClick={executeDelete}
-                  disabled={isDeleting}
-                  variant="danger"
-                  size="sm"
-                >
-                  {isDeleting ? '...' : 'Ja, löschen'}
-                </Button>
+              <div className="rounded-lg border border-danger/20 bg-danger/10 px-4 py-2">
+                {deleteError ? (
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-danger">{deleteError}</span>
+                    <Button onClick={cancelDelete} variant="ghost" size="sm">Schliessen</Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-medium text-danger">Wirklich löschen?</span>
+                    <Button onClick={cancelDelete} variant="ghost" size="sm" disabled={isDeleting}>Nein</Button>
+                    <Button onClick={executeDelete} disabled={isDeleting} variant="danger" size="sm">
+                      {isDeleting ? '...' : 'Ja, löschen'}
+                    </Button>
+                  </div>
+                )}
               </div>
             ) : (
               <Button

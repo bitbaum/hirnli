@@ -3,9 +3,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Application, FoundationRow } from '@/lib/db/schema';
+import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 export interface ApplicationFormFields {
-  status: string;
+  status: ApplicationStatusId;
   requestedAmount: string;
   awardedAmount: string;
   priorityLevel: string;
@@ -21,7 +22,7 @@ export interface ApplicationFormFields {
 }
 
 const EMPTY_FIELDS: ApplicationFormFields = {
-  status: '',
+  status: 'prospect',
   requestedAmount: '',
   awardedAmount: '',
   priorityLevel: '',
@@ -86,6 +87,7 @@ export function useApplicationForm(id: string) {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchApplication() {
@@ -144,21 +146,19 @@ export function useApplicationForm(id: string) {
 
   const executeDelete = useCallback(async () => {
     setIsDeleting(true);
+    setDeleteError(null);
     try {
       const response = await fetch(`/api/applications/${id}`, { method: 'DELETE' });
       const result = await response.json();
       if (result.success) {
         router.push('/fundraising/applications');
       } else {
-        alert(`Fehler: ${result.error}`);
+        setDeleteError(result.error ?? 'Löschen fehlgeschlagen');
         setIsDeleting(false);
-        setDeleteConfirm(false);
       }
-    } catch (err) {
-      console.error('Failed to delete application:', err);
-      alert('Netzwerkfehler beim Löschen');
+    } catch {
+      setDeleteError('Netzwerkfehler beim Löschen');
       setIsDeleting(false);
-      setDeleteConfirm(false);
     }
   }, [id, router]);
 
@@ -173,6 +173,7 @@ export function useApplicationForm(id: string) {
     save,
     isDeleting,
     deleteConfirm,
+    deleteError,
     confirmDelete,
     cancelDelete,
     executeDelete,
