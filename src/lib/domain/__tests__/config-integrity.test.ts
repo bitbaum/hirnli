@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT } from '@/lib/config/foundations';
+import type { FoundationStatus } from '@/lib/schemas/foundation';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
 import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, getPriorityColor, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
@@ -147,6 +148,29 @@ describe('budget config integrity', () => {
       expect(scenario.threeYearModel.year2).toBeDefined();
       expect(scenario.threeYearModel.year3).toBeDefined();
     }
+  });
+});
+
+const FOUNDATION_STATUSES: FoundationStatus[] = ['open', 'closed', 'soon', 'rolling'];
+
+describe('foundation status config integrity', () => {
+  it('STATUS_LABELS covers every FoundationStatus', () => {
+    for (const status of FOUNDATION_STATUSES) {
+      expect(STATUS_LABELS[status]).toBeTruthy();
+      expect(STATUS_LABELS[status].text.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('STATUS_BADGE_VARIANT covers every FoundationStatus', () => {
+    for (const status of FOUNDATION_STATUSES) {
+      expect(STATUS_BADGE_VARIANT[status]).toBeTruthy();
+    }
+  });
+
+  it('STATUS_BADGE_VARIANT and STATUS_LABELS have the same key set', () => {
+    const labelKeys = Object.keys(STATUS_LABELS).sort();
+    const variantKeys = Object.keys(STATUS_BADGE_VARIANT).sort();
+    expect(variantKeys).toEqual(labelKeys);
   });
 });
 

@@ -7,7 +7,7 @@ import Badge from '@/components/ui/Badge';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
-import { STATUS_LABELS, STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { STATUS_LABELS, STATUS_BADGE_VARIANT, STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { formatNumber } from '@/lib/utils/format';
 import { computeTierCounts, TIER_LABELS, TIER_DESCRIPTIONS } from '@/lib/domain/foundation-helpers';
 import { CORE_FACTS } from '@/lib/config/stories';
@@ -19,7 +19,6 @@ import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import {
   computePipelineStats,
-  STATUS_BADGE_VARIANT,
   HERO_STATS,
   RESOURCES,
   NEXT_STEPS,

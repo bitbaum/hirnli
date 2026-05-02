@@ -1,7 +1,7 @@
 import Badge from '@/components/ui/Badge';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import type { Foundation } from '@/lib/schemas/foundation';
-import { TYPE_LABELS, STATUS_LABELS } from '@/lib/config/foundations';
+import { TYPE_LABELS, STATUS_LABELS, STATUS_BADGE_VARIANT } from '@/lib/config/foundations';
 import ThemeBadgeList from './ThemeBadgeList';
 
 interface FoundationHeaderProps {
@@ -18,11 +18,7 @@ export default function FoundationHeader({ foundation: f }: FoundationHeaderProp
         <div>
           <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold text-grey-dark md:text-3xl">{f.name}</h1>
-            <Badge
-              variant={
-                f.status === 'open' ? 'success' : f.status === 'rolling' ? 'primary' : f.status === 'soon' ? 'warning' : 'default'
-              }
-            >
+            <Badge variant={STATUS_BADGE_VARIANT[f.status]}>
               {statusLabel.text}
             </Badge>
           </div>

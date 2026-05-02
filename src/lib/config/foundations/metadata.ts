@@ -193,6 +193,14 @@ export const STATUS_LABELS: Record<FoundationStatus, StatusLabel> = {
   rolling: { text: 'Laufend', class: 'rolling', desc: 'Jederzeit bewerbbar' },
 } as const satisfies Record<FoundationStatus, StatusLabel>;
 
+/** Badge variant for each foundation status \u2014 single source instead of inline ternary chains. */
+export const STATUS_BADGE_VARIANT: Record<FoundationStatus, 'success' | 'warning' | 'danger' | 'primary'> = {
+  open: 'success',
+  rolling: 'primary',
+  soon: 'warning',
+  closed: 'danger',
+} as const;
+
 // ============================================================================
 // PRIORITY CONFIG
 // ============================================================================

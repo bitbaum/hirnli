@@ -54,13 +54,6 @@ export function computePipelineStats() {
 
 // -- Static config for the page -----------------------------------------------
 
-export const STATUS_BADGE_VARIANT: Record<FoundationStatus, 'success' | 'warning' | 'danger' | 'primary'> = {
-  open: 'success',
-  rolling: 'primary',
-  soon: 'warning',
-  closed: 'danger',
-};
-
 // Budget line items grouped by type — derived from SSOT (budget-scenarios.ts)
 // Using 'moderate' scenario as the default recommended solution for fundraising dashboard
 const MODERATE_SCENARIO = getScenario('moderate');

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import type { Foundation } from '@/lib/schemas/foundation';
-import { TYPE_LABELS, STATUS_LABELS, FIT_CONFIG, PRIORITY_CONFIG } from '@/lib/config/foundations';
+import { TYPE_LABELS, STATUS_LABELS, STATUS_BADGE_VARIANT, FIT_CONFIG, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
 import { computeReadinessScore } from '@/lib/domain/foundation-scores';
 import { getTrustLevel, TRUST_CONFIG } from '@/lib/config/trust-levels';
@@ -64,11 +64,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
           <p className="mt-1 text-sm text-text-light">{f.tagline}</p>
         </div>
         <div className="flex items-center gap-2 sm:ml-4 sm:flex-col sm:items-end sm:gap-1">
-          <Badge
-            variant={
-              f.status === 'open' ? 'success' : f.status === 'rolling' ? 'primary' : f.status === 'soon' ? 'warning' : 'default'
-            }
-          >
+          <Badge variant={STATUS_BADGE_VARIANT[f.status]}>
             {statusLabel.text}
           </Badge>
           <span className="text-sm text-text-muted">{typeLabel.short}: {typeLabel.long}</span>
