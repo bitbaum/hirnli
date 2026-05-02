@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
-import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
 import { computeReadinessScore, computePriorityScore } from '../foundation-scores';
 import { validateFoundationQuality } from '../foundation-quality';
@@ -34,6 +34,27 @@ describe('application-statuses config integrity', () => {
   it('rejected and withdrawn are excluded from KANBAN_COLUMNS', () => {
     expect(KANBAN_COLUMNS).not.toContain('rejected');
     expect(KANBAN_COLUMNS).not.toContain('withdrawn');
+  });
+
+  it('isTerminalStatus returns true only for accepted and rejected', () => {
+    expect(isTerminalStatus('accepted')).toBe(true);
+    expect(isTerminalStatus('rejected')).toBe(true);
+    // All non-terminal statuses must return false
+    const nonTerminal = APPLICATION_STATUSES.map(s => s.id as ApplicationStatusId)
+      .filter(id => id !== 'accepted' && id !== 'rejected');
+    for (const id of nonTerminal) {
+      expect(isTerminalStatus(id)).toBe(false);
+    }
+  });
+
+  it('isActiveApplication returns false only for rejected and withdrawn', () => {
+    expect(isActiveApplication('rejected')).toBe(false);
+    expect(isActiveApplication('withdrawn')).toBe(false);
+    const active = APPLICATION_STATUSES.map(s => s.id as ApplicationStatusId)
+      .filter(id => id !== 'rejected' && id !== 'withdrawn');
+    for (const id of active) {
+      expect(isActiveApplication(id)).toBe(true);
+    }
   });
 });
 
