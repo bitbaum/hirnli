@@ -225,7 +225,7 @@ export default function FilterSidebar({
       {/* Datenqualität — trust level filter */}
       <CollapsibleSection title="Datenqualität" count={filters.trustLevels.length || undefined}>
         <div className="flex flex-wrap gap-1.5">
-          {(['verified', 'assessed', 'unverified'] as const).map((level) => (
+          {(Object.keys(TRUST_CONFIG) as TrustLevel[]).map((level) => (
             <button
               key={level}
               onClick={() => toggleTrustLevel(level)}
