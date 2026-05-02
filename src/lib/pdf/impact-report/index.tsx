@@ -22,6 +22,7 @@ import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { ANNUAL_PL, COMPLETE_YEARS, PEAK_REVENUE, PEAK_YEAR } from '@/app/finanzen/data';
 import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { isActionablePriority } from '@/lib/domain/foundation-helpers';
 
 // ---------------------------------------------------------------------------
 // Styles
@@ -174,7 +175,7 @@ const CURRENT_YEAR = CURRENT_YEAR_DATA.year;
 const CURRENT_REVENUE = CURRENT_YEAR_DATA.revenue;
 
 // Count P1-P3 from STIFTUNGEN_DATA
-const P1P3_COUNT = STIFTUNGEN_DATA.filter(f => f.priority <= 3).length;
+const P1P3_COUNT = STIFTUNGEN_DATA.filter(isActionablePriority).length;
 
 // ---------------------------------------------------------------------------
 // Sub-components

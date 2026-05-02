@@ -21,6 +21,7 @@ import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { ANNUAL_PL, COMPLETE_YEARS, CUMULATIVE_WARENVERKAUF, PEAK_REVENUE, PEAK_YEAR } from '@/app/finanzen/data';
 import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { isActionablePriority } from '@/lib/domain/foundation-helpers';
 import {
   DEVICES_PER_YEAR_TARGET,
   DEVICES_PER_YEAR_CURRENT,
@@ -34,7 +35,7 @@ const CO2_TOTAL_TONNES = Math.round((LAPTOPS_REFURBISHED_COUNT * CO2_PER_LAPTOP)
 const CURRENT_YEAR_DATA = ANNUAL_PL[ANNUAL_PL.length - 1];
 const CURRENT_YEAR = CURRENT_YEAR_DATA.year;
 const CURRENT_REVENUE = CURRENT_YEAR_DATA.revenue;
-const P1P3_COUNT = STIFTUNGEN_DATA.filter((f) => f.priority <= 3).length;
+const P1P3_COUNT = STIFTUNGEN_DATA.filter(isActionablePriority).length;
 const TOTAL_SLIDES = 8;
 
 // ---------------------------------------------------------------------------
