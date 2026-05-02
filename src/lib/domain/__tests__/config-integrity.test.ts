@@ -2,8 +2,32 @@ import { describe, it, expect } from 'vitest';
 import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
+import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { computeReadinessScore, computePriorityScore } from '../foundation-scores';
 import { validateFoundationQuality } from '../foundation-quality';
+
+describe('application-statuses config integrity', () => {
+  it('every status has a non-empty label and color', () => {
+    for (const s of APPLICATION_STATUSES) {
+      expect(s.label).toBeTruthy();
+      expect(s.color).toBeTruthy();
+    }
+  });
+
+  it('every active (non-withdrawn, non-rejected) status appears in KANBAN_COLUMNS', () => {
+    const kanbanSet = new Set(KANBAN_COLUMNS);
+    for (const s of APPLICATION_STATUSES) {
+      if (isActiveApplication(s.id as ApplicationStatusId)) {
+        expect(kanbanSet.has(s.id as typeof KANBAN_COLUMNS[number])).toBe(true);
+      }
+    }
+  });
+
+  it('rejected and withdrawn are excluded from KANBAN_COLUMNS', () => {
+    expect(KANBAN_COLUMNS).not.toContain('rejected');
+    expect(KANBAN_COLUMNS).not.toContain('withdrawn');
+  });
+});
 
 describe('scoring config integrity', () => {
   it('SCORING_ENGINE has dimensions with positive maxScore', () => {
