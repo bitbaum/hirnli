@@ -25,7 +25,7 @@ import {
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
-import { APPLICATION_STATUSES, KANBAN_COLUMNS, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
+import { KANBAN_COLUMNS, getStatusConfig, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
 import { formatCHF } from '@/lib/utils/format';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
@@ -175,7 +175,7 @@ export function ApplicationBoard() {
     : null;
 
   const applicationsByStatus = KANBAN_COLUMNS.map((statusId) => {
-    const statusConfig = APPLICATION_STATUSES.find((s) => s.id === statusId)!;
+    const statusConfig = getStatusConfig(statusId)!;
     return {
       status: statusConfig,
       applications: applications.filter((a) => a.application.status === statusId),

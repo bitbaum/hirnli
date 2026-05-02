@@ -13,7 +13,7 @@ import { applications, foundations, activityLog } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
-import { APPLICATION_STATUSES, STATUS_IDS } from '@/lib/config/application-statuses';
+import { STATUS_IDS, getStatusConfig } from '@/lib/config/application-statuses';
 
 // Validation schema for updates
 const updateApplicationSchema = z.object({
@@ -125,7 +125,7 @@ export async function PATCH(
 
     // Check required fields for status transitions
     if (data.status) {
-      const targetStatus = APPLICATION_STATUSES.find(s => s.id === data.status);
+      const targetStatus = getStatusConfig(data.status);
       if (targetStatus && targetStatus.requiredFields.length > 0) {
         const missingFields = targetStatus.requiredFields.filter(rf => {
           const val = data[rf.field as keyof typeof data];

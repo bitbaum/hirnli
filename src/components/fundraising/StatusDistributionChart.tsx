@@ -14,7 +14,7 @@ import {
   Legend,
   type ChartData,
 } from 'chart.js';
-import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
+import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -31,21 +31,15 @@ interface StatusDistributionChartProps {
 }
 
 export function StatusDistributionChart({ data }: StatusDistributionChartProps) {
+  const configs = data.map(item => getStatusConfig(item.status as ApplicationStatusId));
   const chartData: ChartData<'pie'> = {
-    labels: data.map(item => {
-      const config = APPLICATION_STATUSES.find(s => s.id === item.status);
-      return config?.label || item.status;
-    }),
+    labels: data.map((item, i) => configs[i]?.label ?? item.status),
     datasets: [
       {
         label: 'Gesuche',
         data: data.map(item => item.count),
-        backgroundColor: data.map(item =>
-          (APPLICATION_STATUSES.find(s => s.id === item.status)?.chartColor ?? FALLBACK_COLOR).bg
-        ),
-        borderColor: data.map(item =>
-          (APPLICATION_STATUSES.find(s => s.id === item.status)?.chartColor ?? FALLBACK_COLOR).border
-        ),
+        backgroundColor: configs.map(c => (c?.chartColor ?? FALLBACK_COLOR).bg),
+        borderColor: configs.map(c => (c?.chartColor ?? FALLBACK_COLOR).border),
         borderWidth: 2,
       },
     ],
