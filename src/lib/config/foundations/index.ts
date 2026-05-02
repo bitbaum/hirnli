@@ -16,6 +16,7 @@ export {
   FIT_CONFIG,
   NOT_RECOMMENDED,
   DATABASES,
+  APPLICATION_METHOD_LABELS,
 } from './metadata';
 
 import { STIFTUNGEN_GENERATED } from './stiftungen-generated';

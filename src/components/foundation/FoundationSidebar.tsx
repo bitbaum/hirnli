@@ -2,7 +2,8 @@ import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import type { Foundation } from '@/lib/schemas/foundation';
-import { SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
+import { SOURCES, FIT_CONFIG, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
+import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
 import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
@@ -133,10 +134,14 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             </div>
           )}
           {f.applicationMethod && f.applicationMethod !== 'unknown' && (
-            <div>
-              <dt className="text-text-muted">Bewerbungsweg</dt>
-              <dd className="font-medium text-grey-dark capitalize">{f.applicationMethod}</dd>
-            </div>
+            APPLICATION_METHOD_LABELS[f.applicationMethod as ApplicationMethod] !== null && (
+              <div>
+                <dt className="text-text-muted">Bewerbungsweg</dt>
+                <dd className="font-medium text-grey-dark">
+                  {APPLICATION_METHOD_LABELS[f.applicationMethod as ApplicationMethod]}
+                </dd>
+              </div>
+            )
           )}
           <div>
             <dt className="text-text-muted">Fit-Score</dt>

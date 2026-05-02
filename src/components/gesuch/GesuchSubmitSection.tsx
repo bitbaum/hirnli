@@ -14,7 +14,7 @@
 
 import { useState } from 'react';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations/metadata';
+import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 
 export interface SubmissionInfo {
   foundationName: string;
