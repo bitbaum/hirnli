@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
-import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT } from '@/lib/config/foundations';
+import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
+import { FoundationType } from '@/lib/schemas/foundation';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
 import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, getPriorityColor, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
@@ -171,6 +172,42 @@ describe('foundation status config integrity', () => {
     const labelKeys = Object.keys(STATUS_LABELS).sort();
     const variantKeys = Object.keys(STATUS_BADGE_VARIANT).sort();
     expect(variantKeys).toEqual(labelKeys);
+  });
+});
+
+describe('foundation type config integrity', () => {
+  const FOUNDATION_TYPES = FoundationType.options;
+
+  it('TYPE_LABELS covers every FoundationType', () => {
+    for (const type of FOUNDATION_TYPES) {
+      expect(TYPE_LABELS[type]).toBeTruthy();
+      expect(TYPE_LABELS[type].short.length).toBeGreaterThan(0);
+      expect(TYPE_LABELS[type].long.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('TYPE_LABELS has no extra keys beyond FoundationType', () => {
+    const labelKeys = Object.keys(TYPE_LABELS).sort();
+    const schemaKeys = [...FOUNDATION_TYPES].sort();
+    expect(labelKeys).toEqual(schemaKeys);
+  });
+});
+
+describe('priority config integrity', () => {
+  const PRIORITY_LEVELS = [1, 2, 3, 4];
+
+  it('PRIORITY_CONFIG covers all priority levels 1-4', () => {
+    for (const level of PRIORITY_LEVELS) {
+      expect(PRIORITY_CONFIG[level]).toBeTruthy();
+      expect(PRIORITY_CONFIG[level].label.length).toBeGreaterThan(0);
+      expect(PRIORITY_CONFIG[level].color.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('PRIORITY_CONFIG labels are P1-P4', () => {
+    for (const level of PRIORITY_LEVELS) {
+      expect(PRIORITY_CONFIG[level].label).toBe(`P${level}`);
+    }
   });
 });
 
