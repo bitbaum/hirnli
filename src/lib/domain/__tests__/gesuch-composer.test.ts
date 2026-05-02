@@ -97,6 +97,15 @@ describe('composeGesuch', () => {
     expect(withDefault.ready).toBe(true);
     expect(withSchwerpunkt.ready).toBe(true);
   });
+
+  it('returns ready=false with priority reason for researched P4 foundation', () => {
+    // A researched foundation that is P4 should hit the lowPriority gate,
+    // not the "needs research" gate — so the reason must mention "Priorität"
+    const f = makeFoundation({ priority: 4 });
+    const result = composeGesuch(f);
+    expect(result.ready).toBe(false);
+    expect(result.readyReason).toContain('Priorität');
+  });
 });
 
 describe('composeGesuchDokument', () => {
@@ -125,6 +134,29 @@ describe('composeGesuchDokument', () => {
     const result = composeGesuchDokument(makeMinimalFoundation());
     expect(result.ready).toBe(false);
   });
+
+  it('sets budget.primaryThemeKey when schwerpunktId is provided', () => {
+    const result = composeGesuchDokument(makeFoundation(), 'nachhaltigkeit');
+    if (result.ready) {
+      expect(result.budget.primaryThemeKey).toBe('klima');
+    }
+  });
+
+  it('includes foundation address in anschreiben when contact.address is present', () => {
+    const result = composeGesuchDokument(makeFoundation());
+    if (result.ready) {
+      expect(result.anschreiben.foundationAddress).toContain('Test Stiftung');
+      expect(result.anschreiben.foundationAddress).toContain('Teststr. 1');
+    }
+  });
+
+  it('omits address line in anschreiben when contact has no address', () => {
+    const f = makeFoundation({ contact: { email: 'info@test.ch' } });
+    const result = composeGesuchDokument(f);
+    if (result.ready) {
+      expect(result.anschreiben.foundationAddress).toBe('Test Stiftung');
+    }
+  });
 });
 
 describe('composeAnschreibenText', () => {
@@ -139,5 +171,17 @@ describe('composeAnschreibenText', () => {
   it('includes org name in subject', () => {
     const result = composeAnschreibenText(makeFoundation());
     expect(result.subject).toContain('Revamp-IT');
+  });
+
+  it('uses schwerpunkt theme label in subject when schwerpunktId provided', () => {
+    // Foundation has only kreislaufwirtschaft — no overlap with 'soziale-integration' schwerpunkt.
+    // collectThemeMetadata falls back to schwerpunkt.themeIds directly, so the primary
+    // label comes from the schwerpunkt rather than the foundation's own theme.
+    const f = makeFoundation({ themes: ['kreislaufwirtschaft'] });
+    const withDefault = composeAnschreibenText(f);
+    const withSchwerpunkt = composeAnschreibenText(f, 'soziale-integration');
+    expect(withSchwerpunkt.subject).toContain('Fördergesuch');
+    expect(withSchwerpunkt.subject).toContain('Revamp-IT');
+    expect(withSchwerpunkt.subject).not.toBe(withDefault.subject);
   });
 });
