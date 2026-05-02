@@ -6,7 +6,7 @@
  * - buildSecondaryRelevance(): Per-theme connection sentences for non-primary themes
  */
 
-import type { Foundation } from '@/lib/schemas/foundation';
+import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
 import type { ThemeKey } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
@@ -82,7 +82,7 @@ export function buildSecondaryRelevance(
       const themeId = Object.entries(THEME_ID_TO_STORY_KEY).find(
         ([, key]) => key === theme,
       )?.[0];
-      const label = themeId ? THEMES[themeId as keyof typeof THEMES]?.label ?? theme : theme;
+      const label = themeId ? THEMES[themeId as ThemeId].label : theme;
 
       return { theme, label, connection: firstSentence };
     })

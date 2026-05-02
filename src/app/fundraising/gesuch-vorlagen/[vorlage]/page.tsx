@@ -52,7 +52,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
   const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
   const tplLabel = TEMPLATE_LABELS[type];
   const primaryThemeId = foundation.themes[0];
-  const primaryColor = primaryThemeId ? THEMES[primaryThemeId]?.color ?? DEFAULT_THEME_COLOR : DEFAULT_THEME_COLOR;
+  const primaryColor = primaryThemeId ? THEMES[primaryThemeId].color : DEFAULT_THEME_COLOR;
 
   const bannerTitle = typeLabel
     ? `VORLAGE — Typ ${typeLabel.short}: ${typeLabel.long}`

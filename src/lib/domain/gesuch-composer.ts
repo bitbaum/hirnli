@@ -15,6 +15,7 @@
 
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeMetadata } from '@/lib/schemas/theme';
+import type { ThemeId } from '@/lib/schemas/foundation';
 import { isResearched, isActionablePriority } from './foundation-helpers';
 import type { ThemeKey } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -248,7 +249,7 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     ([, key]) => key === mapped.primary,
   )?.[0];
   const primaryThemeLabel = primaryThemeId
-    ? THEMES[primaryThemeId as keyof typeof THEMES]?.label ?? mapped.primary
+    ? THEMES[primaryThemeId as ThemeId].label
     : mapped.primary;
 
   const whyAnecdotes = getAnecdotes(mapped.primary, 'why').slice(0, 2);

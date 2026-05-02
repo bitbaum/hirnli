@@ -73,8 +73,7 @@ function countThemeOverlaps(themes: ThemeId[]): number {
 function getOverlappingThemeLabels(themes: ThemeId[]): string[] {
   return themes
     .filter((id) => THEME_ID_TO_STORY_KEY[id] !== undefined)
-    .map((id) => THEMES[id]?.label)
-    .filter((label): label is string => label !== undefined);
+    .map((id) => THEMES[id].label);
 }
 
 /** Determine strength level from fitScore (0-10) via domain engine thresholds */
