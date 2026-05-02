@@ -115,6 +115,11 @@ export function isResearched(f: Foundation): boolean {
   return tierAtLeast(getQualityTier(f), 'profiliert');
 }
 
+/** Returns true when the foundation is in the actionable priority range (P1-P3). */
+export function isActionablePriority(f: Foundation): boolean {
+  return f.priority >= 1 && f.priority <= 3;
+}
+
 // -- Fit display level --------------------------------------------------------
 
 /**
@@ -158,8 +163,7 @@ export function generateFoundationParams(): { slug: string }[] {
  */
 export function hasGesuchPage(f: Foundation): boolean {
   if (!tierAtLeast(getQualityTier(f), 'recherchiert')) return false;
-  // Use stored priority (SSOT) — P4 foundations don't get a Gesuch page
-  if (f.priority > 3) return false;
+  if (!isActionablePriority(f)) return false;
   // No themes = composeGesuch returns ready=false; skip Gesuch generation
   if (!f.themes || f.themes.length === 0) return false;
   return true;

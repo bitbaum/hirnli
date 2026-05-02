@@ -3,6 +3,7 @@ import {
   tierAtLeast,
   getQualityTier,
   isResearched,
+  isActionablePriority,
   getFitLevel,
   hasGesuchPage,
   computeTierCounts,
@@ -144,6 +145,24 @@ describe('getTierPromotionSteps', () => {
     if (promo.currentTier === 'anwendungsbereit') {
       expect(promo.nextTier).toBeNull();
     }
+  });
+});
+
+describe('isActionablePriority', () => {
+  it('returns true for P1', () => {
+    expect(isActionablePriority(makeFoundation({ priority: 1 }))).toBe(true);
+  });
+
+  it('returns true for P2', () => {
+    expect(isActionablePriority(makeFoundation({ priority: 2 }))).toBe(true);
+  });
+
+  it('returns true for P3', () => {
+    expect(isActionablePriority(makeFoundation({ priority: 3 }))).toBe(true);
+  });
+
+  it('returns false for P4', () => {
+    expect(isActionablePriority(makeFoundation({ priority: 4 }))).toBe(false);
   });
 });
 

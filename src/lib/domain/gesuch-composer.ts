@@ -15,7 +15,7 @@
 
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeMetadata } from '@/lib/schemas/theme';
-import { isResearched } from './foundation-helpers';
+import { isResearched, isActionablePriority } from './foundation-helpers';
 import type { ThemeKey } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatDateDE } from '@/lib/utils/format';
@@ -213,8 +213,7 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     : mapFoundationThemes(foundation);
 
   // Quality gate: tier (data completeness), priority (fit × readiness), themes
-  // Use stored priority (SSOT) — P4 = low priority, skip gesuch generation
-  const lowPriority = foundation.priority >= 4;
+  const lowPriority = !isActionablePriority(foundation);
 
   if (!isResearched(foundation) || mapped.all.length === 0 || lowPriority) {
     let reason = '';

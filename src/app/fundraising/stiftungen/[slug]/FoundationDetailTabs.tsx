@@ -6,7 +6,7 @@ import ApproachChecklist from '@/components/foundation/ApproachChecklist';
 import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS } from '@/lib/config/foundations';
-import { getQualityTier, tierAtLeast, TIER_LABELS } from '@/lib/domain/foundation-helpers';
+import { getQualityTier, tierAtLeast, TIER_LABELS, isActionablePriority } from '@/lib/domain/foundation-helpers';
 import { getTrustLevel } from '@/lib/config/trust-levels';
 import type { FitNarrative, ThemeAlignment, ApproachStep, ReadinessItem } from '@/lib/domain/foundation-contextualization';
 import type { QualityTier } from '@/lib/schemas/foundation';
@@ -41,7 +41,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
   const tier = getQualityTier(f);
   const banner = TIER_BANNER[tier];
   const trust = getTrustLevel(f);
-  const isActionable = f.priority !== undefined && f.priority >= 1 && f.priority <= 3;
+  const isActionable = isActionablePriority(f);
   const showTrustWarning = trust === 'unverified' && isActionable;
 
   // verzeichnet/erfasst: only show Details tab (fit + strategy are meaningless)
