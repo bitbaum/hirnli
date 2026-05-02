@@ -3,7 +3,7 @@ import { CORE_FACTS, SOCIAL_DISPLAY } from '@/lib/config/stories';
 import { getScenario, getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { SPACE_SUMMARY, HUB_SPACE_AREAS } from '@/lib/config/hub-space-plan';
+import { SPACE_SUMMARY, HUB_SPACE_AREAS, STORAGE_AREA, LOADING_AREA } from '@/lib/config/hub-space-plan';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
 
@@ -124,8 +124,6 @@ const SPACE_AREA_MAP: Record<string, { area: string; description: string }> = {
 };
 
 // Storage & Logistics + Loading & Delivery Zone → combined as one display area
-const STORAGE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Storage & Logistics');
-const LOADING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Loading & Delivery Zone');
 const STORAGE_COMBINED_SQM = (STORAGE_AREA?.sqm_recommended ?? 0) + (LOADING_AREA?.sqm_recommended ?? 0);
 
 export const SPACE_PLAN = [

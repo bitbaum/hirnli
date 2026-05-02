@@ -343,9 +343,25 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
 // Summary Calculations
 // ---------------------------------------------------------------------------
 
-// Circulation area is infrastructure, not usable program space
-const CIRCULATION_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Circulation, Corridors, Bathrooms');
-const CIRCULATION_SQM = CIRCULATION_AREA?.sqm_recommended ?? 0;
+// Private helpers — derive category totals from the authoritative area definitions above
+function _sumSqm(names: readonly string[]): number {
+  return HUB_SPACE_AREAS.filter(a => names.includes(a.name)).reduce((s, a) => s + a.sqm_recommended, 0);
+}
+function _sumCost(names: readonly string[]): number {
+  return HUB_SPACE_AREAS.filter(a => names.includes(a.name)).reduce((s, a) => s + a.cost_estimate_chf, 0);
+}
+
+// Category area name lists — each drives both the label array and the computed totals
+const _CORE_AREAS = ['Shop & Customer Area', 'Refurbishment Workshop', 'Office & Meeting Spaces', 'Storage & Logistics', 'Loading & Delivery Zone'] as const;
+const _INNOVATION_AREAS = ['Makerspace & Hackerspace', 'AI Lab (Server Room)', 'Training & Course Room'] as const;
+const _CULTURE_AREAS = ['Event Space + Community Café (MULTI-PURPOSE)'] as const;
+const _INFRA_AREAS = ['Circulation, Corridors, Bathrooms'] as const;
+
+// Named exports for cross-module lookups (avoids string-keyed find() in consumers)
+export const STORAGE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Storage & Logistics');
+export const LOADING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Loading & Delivery Zone');
+
+const CIRCULATION_SQM = _sumSqm(_INFRA_AREAS);
 
 export const SPACE_SUMMARY = {
   /** Total including circulation — the full lease footprint */
@@ -356,25 +372,26 @@ export const SPACE_SUMMARY = {
 
   by_category: {
     core_business: {
-      areas: ['Shop & Customer Area', 'Refurbishment Workshop', 'Office & Meeting Spaces', 'Storage & Logistics', 'Loading & Delivery Zone'],
-      total_sqm: 50 + 150 + 50 + 80 + 30,
-      total_cost: 20_000 + 65_000 + 25_000 + 35_000 + 10_000,
+      areas: _CORE_AREAS,
+      total_sqm: _sumSqm(_CORE_AREAS),
+      total_cost: _sumCost(_CORE_AREAS),
     },
     innovation: {
-      areas: ['Makerspace & Hackerspace', 'AI Lab (Server Room)', 'Training & Course Room'],
-      total_sqm: 60 + 20 + 50,
+      areas: _INNOVATION_AREAS,
+      total_sqm: _sumSqm(_INNOVATION_AREAS),
+      // AI Lab cost varies by GPU setup (15k–150k) — not in per-area config
       total_cost_min: 35_000 + 15_000 + 30_000, // AI Lab Setup A
       total_cost_max: 35_000 + 150_000 + 30_000, // AI Lab Setup C
     },
     culture_community: {
-      areas: ['Event Space + Community Café (MULTI-PURPOSE)'],
-      total_sqm: 100,
-      total_cost: 45_000,
+      areas: _CULTURE_AREAS,
+      total_sqm: _sumSqm(_CULTURE_AREAS),
+      total_cost: _sumCost(_CULTURE_AREAS),
     },
     infrastructure: {
-      areas: ['Circulation, Corridors, Bathrooms'],
-      total_sqm: 60,
-      total_cost: 25_000,
+      areas: _INFRA_AREAS,
+      total_sqm: _sumSqm(_INFRA_AREAS),
+      total_cost: _sumCost(_INFRA_AREAS),
     },
   },
 
