@@ -56,14 +56,17 @@ function parseDetails(raw: string | null): Record<string, unknown> | null {
 export default function ActivityTimeline({ entityId, entityType, limit = 20 }: ActivityTimelineProps) {
   const [entries, setEntries] = useState<ActivityEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    setError(false);
     fetch(`/api/activity-log?entityId=${entityId}&entityType=${entityType}&limit=${limit}`)
       .then((r) => r.json())
       .then((d) => {
         if (d.success) setEntries(d.data);
+        else setError(true);
       })
-      .catch(() => {})
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, [entityId, entityType, limit]);
 
@@ -74,6 +77,10 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
         Lade Aktivitäten…
       </div>
     );
+  }
+
+  if (error) {
+    return <p className="text-sm text-text-muted py-2">Aktivitäten konnten nicht geladen werden.</p>;
   }
 
   if (entries.length === 0) {

@@ -53,18 +53,21 @@ function getFieldKeys(overrides: GesuchOverridesData): string[] {
 export default function OverrideHistory({ slug, variantKey, open, onClose, onRestore }: OverrideHistoryProps) {
   const [entries, setEntries] = useState<ActivityEntry[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [restoring, setRestoring] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
     setLoading(true);
+    setError(false);
     const entityId = variantKey && variantKey !== 'auto' ? `${slug}::${variantKey}` : slug;
     fetch(`/api/activity-log?entityId=${entityId}&entityType=gesuch_override&limit=50`)
       .then((r) => r.json())
       .then((d) => {
         if (d.success) setEntries(d.data);
+        else setError(true);
       })
-      .catch(() => {})
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, [slug, open, variantKey]);
 
@@ -118,6 +121,8 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
               <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-border border-t-primary" />
               Lade Versionen…
             </div>
+          ) : error ? (
+            <p className="text-sm text-text-muted py-4">Versionshistorie konnte nicht geladen werden.</p>
           ) : entries.length === 0 ? (
             <p className="text-sm text-text-muted py-4">Noch keine gespeicherten Versionen.</p>
           ) : (

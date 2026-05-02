@@ -33,14 +33,16 @@ function formatDate(dateStr: string): string {
 export default function MeineGesuchePage() {
   const [rows, setRows] = useState<GesuchOverviewRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/gesuch-overrides')
       .then((r) => r.json())
       .then((d) => {
         if (d.success) setRows(d.data);
+        else setError(d.error ?? 'Fehler beim Laden');
       })
-      .catch(() => {})
+      .catch(() => setError('Netzwerkfehler beim Laden'))
       .finally(() => setLoading(false));
   }, []);
 
@@ -53,6 +55,10 @@ export default function MeineGesuchePage() {
 
       {loading ? (
         <LoadingState label="Lade Gesuche…" className="py-20" />
+      ) : error ? (
+        <div className="rounded-lg border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
+          {error}
+        </div>
       ) : rows.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-16 text-center">
           <p className="mb-1 text-lg font-semibold text-grey-dark">Noch keine Gesuche bearbeitet</p>
