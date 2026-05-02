@@ -229,7 +229,7 @@ export const EVIDENCE: Record<string, Record<string, Evidence>> = {
 // ============================================================================
 // WHY - Emotional hooks by theme (Page 1 of Gesuch)
 // ============================================================================
-export const WHY: Record<string, WhySection> = {
+export const WHY: Record<ThemeKey, WhySection> = {
   // For Klimaschutz / Nachhaltigkeit foundations
   klima: {
     headline: '62 Millionen Tonnen Elektroschrott. Jedes Jahr.',
