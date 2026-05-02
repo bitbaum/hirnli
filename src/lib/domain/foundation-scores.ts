@@ -149,8 +149,8 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
         penaltyReason: null,
       },
       level,
-      label: pc?.label ?? `P${level}`,
-      description: pc?.description ?? '',
+      label: pc.label,
+      description: pc.description,
       isOverride: true,
     };
   }
@@ -163,8 +163,8 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
       score: 10,
       components: { fitNorm: f.fitScore / 10, readiness: 0, base: 0, multiplier: 1, grantBonus: 0, penaltyReason: 'Rapid (name-only)' },
       level: 4,
-      label: pc?.label ?? 'P4',
-      description: pc?.description ?? '',
+      label: pc.label,
+      description: pc.description,
       isOverride: false,
     };
   }
@@ -208,8 +208,8 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
     }
   }
   const pc = PRIORITY_CONFIG[level];
-  const label = pc?.label ?? `P${level}`;
-  const description = pc?.description ?? '';
+  const label = pc.label;
+  const description = pc.description;
 
   return {
     score: Math.round(score),
