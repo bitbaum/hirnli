@@ -10,6 +10,7 @@
 import { STIFTUNGEN_DATA } from './foundations';
 import { TEMPLATE_TYPES, TEMPLATE_FOUNDATIONS, TEMPLATE_LABELS } from './gesuch-templates';
 import { TYPE_LABELS } from './foundations/metadata';
+import type { FoundationType } from '@/lib/schemas/foundation';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
 
@@ -62,7 +63,7 @@ const TEMPLATE_GESUCHE: Document[] = TEMPLATE_TYPES.map((templateType) => {
   // Get proper label: TYPE_LABELS for A/B/C/D/network, TEMPLATE_LABELS for generisch
   const label = templateType === 'generisch'
     ? TEMPLATE_LABELS.generisch.long
-    : TYPE_LABELS[templateType as keyof typeof TYPE_LABELS]?.long || `Typ ${templateType.toUpperCase()}`;
+    : TYPE_LABELS[templateType as FoundationType].long;
 
   return {
     id: `vorlage-${templateType}`,
