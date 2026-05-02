@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import type { Foundation } from '@/lib/schemas/foundation';
+import type { Foundation, ApplicationMethod } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
-import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
 import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';

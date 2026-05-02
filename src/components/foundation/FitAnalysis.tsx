@@ -1,5 +1,6 @@
 import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
+import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { FIT_CONFIG } from '@/lib/config/foundations';
 import { getFitLevel } from '@/lib/domain/foundation-helpers';
 import ThemeBadgeList from './ThemeBadgeList';
@@ -64,7 +65,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
           {isUnassessed && (
             <p className="text-text-muted mt-1">Stiftungen mit ungenügender Datengrundlage (Tier unter «Profiliert») werden als «Nicht geprüft» angezeigt.</p>
           )}
-          <p className="text-text-muted mt-1">Letzte Bewertung: {f.researchDate || 'Unbekannt'}</p>
+          <p className="text-text-muted mt-1">Letzte Bewertung: {f.researchDate || UNKNOWN_FIELD}</p>
         </div>
       </details>
 
