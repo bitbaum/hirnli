@@ -3,6 +3,7 @@ import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS 
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
 import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
 import { computeReadinessScore, computePriorityScore } from '../foundation-scores';
 import { validateFoundationQuality } from '../foundation-quality';
 
@@ -26,6 +27,22 @@ describe('application-statuses config integrity', () => {
   it('rejected and withdrawn are excluded from KANBAN_COLUMNS', () => {
     expect(KANBAN_COLUMNS).not.toContain('rejected');
     expect(KANBAN_COLUMNS).not.toContain('withdrawn');
+  });
+});
+
+describe('confidence config integrity', () => {
+  const validLevels = NumberConfidence.options;
+
+  it('CONFIDENCE_COLORS covers every NumberConfidence enum value', () => {
+    for (const level of validLevels) {
+      expect(CONFIDENCE_COLORS[level]).toBeTruthy();
+    }
+  });
+
+  it('CONFIDENCE_DISPLAY_LABELS covers every NumberConfidence enum value', () => {
+    for (const level of validLevels) {
+      expect(CONFIDENCE_DISPLAY_LABELS[level]).toBeTruthy();
+    }
   });
 });
 
