@@ -17,6 +17,7 @@ import { isResearched } from './foundation-helpers';
 import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
 import { THEMES } from '@/lib/config/foundations';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { fitScoreToDisplay } from './fit-scoring';
 
 // ============================================================================
 // Types
@@ -75,10 +76,11 @@ function getOverlappingThemeLabels(themes: ThemeId[]): string[] {
     .filter((label): label is string => label !== undefined);
 }
 
-/** Determine strength level from fitScore (0-10) */
+/** Determine strength level from fitScore (0-10) via domain engine thresholds */
 function fitToStrength(fitScore: number): 'strong' | 'moderate' | 'limited' {
-  if (fitScore >= 7) return 'strong';
-  if (fitScore >= 4) return 'moderate';
+  const level = fitScoreToDisplay(fitScore, false);
+  if (level === 3) return 'strong';
+  if (level >= 2) return 'moderate';
   return 'limited';
 }
 
@@ -123,8 +125,8 @@ export function generateApproachSteps(foundation: Foundation): ApproachStep[] {
   const steps: ApproachStep[] = [];
   let order = 1;
 
-  // Step 1: Prepare application
-  const canPrepare = foundation.fitScore >= 4 && foundation.themes.length > 0;
+  // Step 1: Prepare application — level >= 2 (moderate or strong fit)
+  const canPrepare = fitScoreToDisplay(foundation.fitScore, false) >= 2 && foundation.themes.length > 0;
   steps.push({
     order: order++,
     action: 'Gesuch vorbereiten',

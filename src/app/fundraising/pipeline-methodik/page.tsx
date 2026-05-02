@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import {
   TIER_LABELS, TIER_COLORS,
   getQualityTier, tierAtLeast, computeTierCounts,
@@ -34,8 +35,8 @@ function computeFunnelStats() {
 
   // Fit score distribution
   const withFitScore = STIFTUNGEN_DATA.filter(f => f.fitScore > 0).length;
-  const highFit = STIFTUNGEN_DATA.filter(f => f.fitScore >= 7).length;
-  const mediumFit = STIFTUNGEN_DATA.filter(f => f.fitScore >= 4 && f.fitScore < 7).length;
+  const highFit = STIFTUNGEN_DATA.filter(f => fitScoreToDisplay(f.fitScore, false) === 3).length;
+  const mediumFit = STIFTUNGEN_DATA.filter(f => fitScoreToDisplay(f.fitScore, false) === 2).length;
 
   // Contact info
   const withContact = STIFTUNGEN_DATA.filter(f =>

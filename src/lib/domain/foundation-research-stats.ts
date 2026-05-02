@@ -1,5 +1,6 @@
 import type { Foundation } from '../schemas/foundation';
 import { isResearched } from './foundation-helpers';
+import { fitScoreToDisplay } from './fit-scoring';
 
 // ---------------------------------------------------------------------------
 // Vollstaendigkeit & Recherche-Statistiken
@@ -142,9 +143,8 @@ export function computeResearchStats(
     byType[typeKey].total++;
     if (fResearched) byType[typeKey].researched++;
 
-    // Nach Fit
-    // Group by fitScore bucket: 0, 1-3, 4-6, 7-10
-    const fitBucket = f.fitScore >= 7 ? 3 : f.fitScore >= 4 ? 2 : f.fitScore >= 1 ? 1 : 0;
+    // Nach Fit — bucket 0-3 via domain engine thresholds
+    const fitBucket = fitScoreToDisplay(f.fitScore, false);
     if (!byFit[fitBucket]) byFit[fitBucket] = { total: 0, researched: 0 };
     byFit[fitBucket].total++;
     if (fResearched) byFit[fitBucket].researched++;

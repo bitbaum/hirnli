@@ -10,6 +10,7 @@ import type { ThemeMetadata } from '@/lib/schemas/theme';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { ANSCHREIBEN_TEMPLATES } from '@/lib/config/stories';
 import { extractPurposeCore } from './bridge-composer';
+import { fitScoreToDisplay } from './fit-scoring';
 
 /** Build a type-specific opening paragraph that references foundation purpose */
 export function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: string): string {
@@ -17,7 +18,7 @@ export function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: s
     ? extractPurposeCore(foundation.purposeSummary)
     : '';
   const isDeep = foundation.researchDepth === 'deep';
-  const highFit = foundation.fitScore >= 7;
+  const highFit = fitScoreToDisplay(foundation.fitScore, false) === 3;
 
   // Lowercase only the first character so adjectives are lowercase but nouns stay capitalized
   // e.g. "Gemeinnütziger Verein" → "gemeinnütziger Verein" (correct German grammar)
