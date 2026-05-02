@@ -13,6 +13,7 @@ import { CSS } from '@dnd-kit/utilities';
 import Link from 'next/link';
 import { EditApplicationModal } from './EditApplicationModal';
 import { getPriorityColor } from '@/lib/config/application-statuses';
+import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import { formatCHF } from '@/lib/utils/format';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 
@@ -182,9 +183,9 @@ export function ApplicationCard({
                 {foundation?.fitScore != null && foundation.fitScore > 0 && (
                   <span
                     className={`rounded px-1.5 py-0.5 text-xs font-medium ${
-                      foundation.fitScore >= 7
+                      fitScoreToDisplay(foundation.fitScore, false) === 3
                         ? 'bg-success/10 text-success'
-                        : foundation.fitScore >= 4
+                        : fitScoreToDisplay(foundation.fitScore, false) >= 2
                           ? 'bg-amber-100 text-amber-700'
                           : 'bg-bg-light text-text-muted'
                     }`}
