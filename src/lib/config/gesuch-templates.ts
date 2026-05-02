@@ -20,7 +20,7 @@ import { SCHWERPUNKTE, SCHWERPUNKT_IDS, type SchwerpunktId } from '@/lib/config/
 import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
 
 /** Virtual foundations per template key — placeholder data for template generation */
-export const TEMPLATE_FOUNDATIONS: Record<string, Foundation> = {
+export const TEMPLATE_FOUNDATIONS: Record<typeof TEMPLATE_TYPES[number], Foundation> = {
   A: {
     slug: 'vorlage-typ-a',
     name: '[Name der Stiftung]',
@@ -175,7 +175,7 @@ export const TEMPLATE_LABELS: Record<string, { short: string; long: string; desc
 
 /** Get a template foundation by type */
 export function getTemplateFoundation(type: string): Foundation | undefined {
-  return TEMPLATE_FOUNDATIONS[type];
+  return (TEMPLATE_FOUNDATIONS as Record<string, Foundation | undefined>)[type];
 }
 
 // =========================================================================
@@ -186,17 +186,17 @@ export function getTemplateFoundation(type: string): Foundation | undefined {
 export const SCHWERPUNKT_TEMPLATE_TYPES = ['A', 'B', 'C'] as const;
 
 /** Amount ranges per type — reflects Robert Schmuki's typical ranges */
-const SCHWERPUNKT_AMOUNTS: Record<string, { min: number; max: number; text: string }> = {
+const SCHWERPUNKT_AMOUNTS: Record<typeof SCHWERPUNKT_TEMPLATE_TYPES[number], { min: number; max: number; text: string }> = {
   A: { min: 20000, max: 50000, text: "CHF 20'000–50'000" },
   B: { min: 10000, max: 30000, text: "CHF 10'000–30'000" },
   C: { min: 5000, max: 15000, text: "CHF 5'000–15'000" },
 };
 
 /** Create a template foundation for a Schwerpunkt × Type combination */
-function createSchwerpunktTemplate(schwerpunktId: SchwerpunktId, type: string): Foundation {
+function createSchwerpunktTemplate(schwerpunktId: SchwerpunktId, type: typeof SCHWERPUNKT_TEMPLATE_TYPES[number]): Foundation {
   const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
   const typeLabel = TYPE_LABELS[type as FoundationType];
-  const amount = SCHWERPUNKT_AMOUNTS[type] ?? SCHWERPUNKT_AMOUNTS['B'];
+  const amount = SCHWERPUNKT_AMOUNTS[type];
 
   return {
     slug: `vorlage-${schwerpunktId}-${type.toLowerCase()}`,
@@ -225,7 +225,7 @@ function createSchwerpunktTemplate(schwerpunktId: SchwerpunktId, type: string): 
 export function getSchwerpunktTemplate(schwerpunktId: string, type: string): Foundation | undefined {
   if (!SCHWERPUNKT_IDS.includes(schwerpunktId as SchwerpunktId)) return undefined;
   if (!SCHWERPUNKT_TEMPLATE_TYPES.includes(type as typeof SCHWERPUNKT_TEMPLATE_TYPES[number])) return undefined;
-  return createSchwerpunktTemplate(schwerpunktId as SchwerpunktId, type);
+  return createSchwerpunktTemplate(schwerpunktId as SchwerpunktId, type as typeof SCHWERPUNKT_TEMPLATE_TYPES[number]);
 }
 
 /** All valid Schwerpunkt route params (for generateStaticParams) */

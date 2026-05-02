@@ -94,7 +94,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
                 <div className="flex-1">
                   <div className="font-medium text-grey-dark">Verlässlichkeit</div>
                   <div className="text-text-light">
-                    {CONFIDENCE_DISPLAY_LABELS[data.confidence] ?? data.confidence}
+                    {CONFIDENCE_DISPLAY_LABELS[data.confidence as keyof typeof CONFIDENCE_DISPLAY_LABELS] ?? data.confidence}
                   </div>
                 </div>
               </div>
