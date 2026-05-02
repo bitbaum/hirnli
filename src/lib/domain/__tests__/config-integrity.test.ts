@@ -1,8 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
-import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG, APPLICATION_METHOD_LABELS, SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
+import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG, APPLICATION_METHOD_LABELS, SOURCES, FIT_CONFIG, THEMES } from '@/lib/config/foundations';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
-import { FoundationType, ApplicationMethod, SourceId } from '@/lib/schemas/foundation';
+import { FoundationType, ApplicationMethod, SourceId, ThemeId } from '@/lib/schemas/foundation';
+import { TRUST_CONFIG } from '@/lib/config/trust-levels';
+import { WHY, ANSCHREIBEN_TEMPLATES, THEME_ID_TO_STORY_KEY } from '@/lib/config/stories';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
 import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, getPriorityColor, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
@@ -358,6 +360,74 @@ describe('FIT_CONFIG integrity', () => {
     for (const level of FIT_LEVELS) {
       expect(FIT_CONFIG[level]).toBeDefined();
       expect(FIT_CONFIG[level].stars).toBeTruthy();
+    }
+  });
+});
+
+describe('THEMES config integrity', () => {
+  it('covers every ThemeId enum value', () => {
+    for (const id of ThemeId.options) {
+      expect(THEMES[id]).toBeDefined();
+      expect(THEMES[id].label.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('has no extra keys beyond ThemeId', () => {
+    const themeKeys = Object.keys(THEMES).sort();
+    const schemaKeys = [...ThemeId.options].sort();
+    expect(themeKeys).toEqual(schemaKeys);
+  });
+});
+
+describe('THEME_ID_TO_STORY_KEY integrity', () => {
+  it('covers every ThemeId enum value', () => {
+    for (const id of ThemeId.options) {
+      expect(THEME_ID_TO_STORY_KEY[id]).toBeTruthy();
+    }
+  });
+
+  it('has no extra keys beyond ThemeId', () => {
+    const mapKeys = Object.keys(THEME_ID_TO_STORY_KEY).sort();
+    const schemaKeys = [...ThemeId.options].sort();
+    expect(mapKeys).toEqual(schemaKeys);
+  });
+});
+
+describe('ANSCHREIBEN_TEMPLATES integrity', () => {
+  it('covers every FoundationType with non-empty opening and closing', () => {
+    for (const type of FoundationType.options) {
+      expect(ANSCHREIBEN_TEMPLATES[type]).toBeDefined();
+      expect(ANSCHREIBEN_TEMPLATES[type].opening.length).toBeGreaterThan(0);
+      expect(ANSCHREIBEN_TEMPLATES[type].closing.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('has no extra keys beyond FoundationType', () => {
+    const templateKeys = Object.keys(ANSCHREIBEN_TEMPLATES).sort();
+    const schemaKeys = [...FoundationType.options].sort();
+    expect(templateKeys).toEqual(schemaKeys);
+  });
+});
+
+describe('WHY config integrity', () => {
+  const THEME_KEYS = ['klima', 'kreislaufwirtschaft', 'sozial', 'bildung', 'digital'] as const;
+
+  it('covers every ThemeKey with required fields', () => {
+    for (const key of THEME_KEYS) {
+      expect(WHY[key]).toBeDefined();
+      expect(WHY[key].headline.length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('TRUST_CONFIG integrity', () => {
+  const TRUST_LEVELS = ['verified', 'assessed', 'unverified'] as const;
+
+  it('covers every TrustLevel with required display fields', () => {
+    for (const level of TRUST_LEVELS) {
+      expect(TRUST_CONFIG[level]).toBeDefined();
+      expect(TRUST_CONFIG[level].label.length).toBeGreaterThan(0);
+      expect(TRUST_CONFIG[level].badgeClass.length).toBeGreaterThan(0);
     }
   });
 });
