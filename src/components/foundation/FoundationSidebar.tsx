@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import type { Foundation } from '@/lib/schemas/foundation';
+import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
@@ -100,13 +101,13 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       <Card>
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Auf einen Blick</h3>
         <dl className="space-y-2 text-sm">
-          {f.amount.text && f.amount.text !== 'Unbekannt' && (
+          {f.amount.text && f.amount.text !== UNKNOWN_FIELD && (
             <div>
               <dt className="text-text-muted">Förderbetrag</dt>
               <dd className="font-medium text-grey-dark">{f.amount.text}</dd>
             </div>
           )}
-          {f.deadlineText && f.deadlineText !== 'Unbekannt' && (
+          {f.deadlineText && f.deadlineText !== UNKNOWN_FIELD && (
             <div>
               <dt className="text-text-muted">Bewerbungsfrist</dt>
               <dd className="font-medium text-grey-dark">{f.deadlineText}</dd>

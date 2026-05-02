@@ -72,6 +72,11 @@ export const RESEARCH_METHOD_RANK: Record<ApplicationResearchMethod, number> = {
 // Methods considered "researched" — won't appear in the research queue
 export const RESEARCHED_METHODS: ApplicationResearchMethod[] = ['chatgpt-agent', 'claude-agent', 'manual'];
 
+// Sentinel stored in optional text fields (deadlineText, amount.text) when the
+// field is known to exist but the specific value is undetermined.
+// Guard before displaying: `value && value !== UNKNOWN_FIELD`
+export const UNKNOWN_FIELD = 'Unbekannt';
+
 // Theme definition
 export const themeSchema = z.object({
   id: ThemeId,

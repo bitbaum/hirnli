@@ -10,7 +10,7 @@
  * live in config. No magic numbers.
  */
 
-import { QualityTier } from '@/lib/schemas/foundation';
+import { QualityTier, UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { READINESS_ENGINE, PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
@@ -39,7 +39,7 @@ function foundationToReadinessInput(f: Foundation): Record<string, unknown> {
     hasApplicationUrl: !!f.applicationUrl,
     hasKnownMethod: f.applicationMethod !== 'unknown' && f.applicationMethod !== 'none',
     acceptsApplications: f.acceptsApplications ?? 'unknown',
-    hasDeadlineInfo: !!f.deadlineText && f.deadlineText !== 'Unbekannt',
+    hasDeadlineInfo: !!f.deadlineText && f.deadlineText !== UNKNOWN_FIELD,
 
     // Financial Calibration
     hasAmountRange: f.amount?.min != null || f.amount?.max != null,

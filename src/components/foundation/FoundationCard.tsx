@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import type { Foundation } from '@/lib/schemas/foundation';
+import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { TYPE_LABELS, STATUS_LABELS, STATUS_BADGE_VARIANT, FIT_CONFIG, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
 import { computeReadinessScore } from '@/lib/domain/foundation-scores';
@@ -77,14 +78,14 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
 
       <div className="mt-3 flex items-center justify-between text-sm text-text-muted">
         <div className="flex items-center gap-2">
-          {f.deadlineText && f.deadlineText !== 'Unbekannt' && (
+          {f.deadlineText && f.deadlineText !== UNKNOWN_FIELD && (
             <span>{f.deadlineText}</span>
           )}
           <span className={`rounded-full px-1.5 py-0.5 text-xs font-medium ${TIER_COLORS[tier]}`}>
             {TIER_LABELS[tier]}
           </span>
         </div>
-        {f.amount.text && f.amount.text !== 'Unbekannt' && (
+        {f.amount.text && f.amount.text !== UNKNOWN_FIELD && (
           <span>{f.amount.text}</span>
         )}
       </div>
