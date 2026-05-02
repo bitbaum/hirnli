@@ -125,8 +125,8 @@ export function getPriorityColor(level: number | null): string {
 /**
  * Get status configuration by ID
  */
-export function getStatusConfig(statusId: ApplicationStatusId) {
-  return APPLICATION_STATUSES.find(s => s.id === statusId);
+export function getStatusConfig(statusId: ApplicationStatusId): typeof APPLICATION_STATUSES[number] {
+  return APPLICATION_STATUSES.find(s => s.id === statusId)!;
 }
 
 /**

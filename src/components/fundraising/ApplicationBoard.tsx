@@ -170,7 +170,7 @@ export function ApplicationBoard() {
     : null;
 
   const applicationsByStatus = KANBAN_COLUMNS.map((statusId) => {
-    const statusConfig = getStatusConfig(statusId)!;
+    const statusConfig = getStatusConfig(statusId);
     return {
       status: statusConfig,
       applications: applications.filter((a) => a.application.status === statusId),
