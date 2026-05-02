@@ -140,7 +140,7 @@ export function EditApplicationModal({
               </label>
               <select
                 value={status}
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) => setStatus(e.target.value as ApplicationStatusId)}
                 className={FORM_INPUT_CLASS}
               >
                 {APPLICATION_STATUSES.map((s) => (
@@ -286,7 +286,7 @@ export function EditApplicationModal({
           </div>
 
           {/* Outcome fields — only visible when relevant */}
-          {isTerminalStatus(status as ApplicationStatusId) && (
+          {isTerminalStatus(status) && (
             <div className="rounded-lg border border-border bg-bg-light p-4 space-y-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">
                 Ergebnis

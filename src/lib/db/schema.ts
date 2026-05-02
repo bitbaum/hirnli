@@ -11,6 +11,7 @@
  */
 
 import { text, integer, boolean, jsonb, pgTable, timestamp } from 'drizzle-orm/pg-core';
+import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 /**
  * Foundations Table - Org-specific analysis (Layer 2)
@@ -62,7 +63,7 @@ export const applications = pgTable('fundraising_applications', {
   foundationId: text('foundation_id').notNull().references(() => foundations.id),
 
   // Status tracking (Kanban board columns)
-  status: text('status').notNull(), // prospect | research | draft | review | submitted | pending | followup | accepted | rejected | withdrawn | onhold
+  status: text('status').notNull().$type<ApplicationStatusId>(), // type narrowed from config SSOT
 
   // Application details
   requestedAmount: integer('requested_amount'), // CHF

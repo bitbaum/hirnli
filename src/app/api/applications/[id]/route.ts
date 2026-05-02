@@ -13,10 +13,7 @@ import { applications, foundations, activityLog } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
-import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
-
-// Derive status ID tuple from config SSOT
-const STATUS_IDS = APPLICATION_STATUSES.map(s => s.id) as [string, ...string[]];
+import { APPLICATION_STATUSES, STATUS_IDS } from '@/lib/config/application-statuses';
 
 // Validation schema for updates
 const updateApplicationSchema = z.object({

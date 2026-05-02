@@ -99,6 +99,9 @@ export const APPLICATION_STATUSES = [
 
 export type ApplicationStatusId = typeof APPLICATION_STATUSES[number]['id'];
 
+/** Tuple of all status IDs — for Zod enum and schema typing. Derived from config SSOT. */
+export const STATUS_IDS = APPLICATION_STATUSES.map(s => s.id) as [ApplicationStatusId, ...ApplicationStatusId[]];
+
 import { PRIORITY_CONFIG } from './foundations';
 
 const PRIORITY_COLOR_DEFAULT = 'bg-bg-light text-text-muted';

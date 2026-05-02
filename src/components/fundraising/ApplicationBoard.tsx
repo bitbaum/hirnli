@@ -25,8 +25,7 @@ import {
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
-import { APPLICATION_STATUSES, KANBAN_COLUMNS } from '@/lib/config/application-statuses';
-import type { RequiredField } from '@/lib/config/application-statuses';
+import { APPLICATION_STATUSES, KANBAN_COLUMNS, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
 import { formatCHF } from '@/lib/utils/format';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
@@ -107,7 +106,7 @@ export function ApplicationBoard() {
     if (!over) return;
 
     const applicationId = active.id as string;
-    const newStatus = over.id as string;
+    const newStatus = over.id as ApplicationStatusId; // drop targets are always KANBAN_COLUMNS entries
 
     const appIndex = applications.findIndex((a) => a.application.id === applicationId);
     if (appIndex === -1) return;

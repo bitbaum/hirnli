@@ -43,7 +43,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
       .then((d) => {
         const active = (d.data ?? []).find(
           (row: ApplicationRow) =>
-            isActiveApplication(row.application.status as ApplicationStatusId),
+            isActiveApplication(row.application.status),
         );
         if (active) {
           setAppId(active.application.id);
