@@ -13,7 +13,7 @@ interface FitAnalysisProps {
 
 export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignments }: FitAnalysisProps) {
   const fitLevel = getFitLevel(f);
-  const fit = FIT_CONFIG[fitLevel] ?? FIT_CONFIG[0];
+  const fit = FIT_CONFIG[fitLevel];
   const isUnassessed = fitLevel === 0;
 
   return (

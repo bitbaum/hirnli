@@ -8,7 +8,8 @@ import { TRUST_CONFIG, type TrustLevel } from '@/lib/config/trust-levels';
 import { DEFAULT_FILTERS, FILTER_PRESETS } from '@/lib/domain/foundation-filter';
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import type { FilterChip } from '@/lib/types/filter';
-import { FIT_DISPLAY, SCORING_ENGINE } from '@/lib/config/fit-scoring';
+import { FIT_CONFIG } from '@/lib/config/foundations';
+import { SCORING_ENGINE } from '@/lib/config/fit-scoring';
 import CheckboxFilterGroup from './filters/CheckboxFilterGroup';
 import SchwerpunkteFilter from './filters/SchwerpunkteFilter';
 import TierFilter from './filters/TierFilter';
@@ -50,9 +51,8 @@ export interface FilterSidebarProps {
 }
 
 /** Build fit level label from SSOT config */
-function fitLabel(level: number): string {
-  const fd = FIT_DISPLAY[level as keyof typeof FIT_DISPLAY];
-  if (!fd) return '○○○ Nicht geprüft';
+function fitLabel(level: 0 | 1 | 2 | 3): string {
+  const fd = FIT_CONFIG[level];
   const threshold = SCORING_ENGINE.display.thresholds.find(t => t.level === level);
   const nextThreshold = SCORING_ENGINE.display.thresholds.find(t => t.level === level + 1);
   if (threshold) {
@@ -178,7 +178,7 @@ export default function FilterSidebar({
       {/* Fit — labels from FIT_DISPLAY config (SSOT) */}
       <CollapsibleSection title="Fit" count={filters.fit.length || undefined}>
         <div className="space-y-1.5">
-          {[3, 2, 1, 0].map((value) => {
+          {([3, 2, 1, 0] as const).map((value) => {
             const isActive = filters.fit.includes(value);
             return (
               <label key={value} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
