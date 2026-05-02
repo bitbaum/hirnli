@@ -6,6 +6,8 @@ import {
   formatMonthShort,
   calcGrowth,
   formatDateDE,
+  formatDateCH,
+  formatDateTimeCH,
 } from './format';
 
 describe('formatCHF', () => {
@@ -203,5 +205,43 @@ describe('formatDateDE', () => {
       const d = new Date(2026, i, 15);
       expect(formatDateDE(d)).toContain(name);
     });
+  });
+});
+
+describe('formatDateCH', () => {
+  it('formats an ISO date string as dd.mm.yyyy', () => {
+    expect(formatDateCH('2026-02-26')).toBe('26.02.2026');
+  });
+
+  it('formats January 1st correctly', () => {
+    expect(formatDateCH('2026-01-01')).toBe('01.01.2026');
+  });
+
+  it('formats December 31st correctly', () => {
+    expect(formatDateCH('2025-12-31')).toBe('31.12.2025');
+  });
+
+  it('produces a string matching dd.mm.yyyy pattern', () => {
+    expect(formatDateCH('2026-06-15')).toMatch(/^\d{2}\.\d{2}\.\d{4}$/);
+  });
+});
+
+describe('formatDateTimeCH', () => {
+  it('produces a string matching dd.mm.yyyy, hh:mm pattern', () => {
+    const result = formatDateTimeCH('2026-02-26T12:00:00Z');
+    expect(result).toMatch(/^\d{2}\.\d{2}\.\d{4},\s\d{2}:\d{2}$/);
+  });
+
+  it('contains the correct date portion', () => {
+    const result = formatDateTimeCH('2026-02-26T12:00:00Z');
+    expect(result).toContain('26.02.2026');
+  });
+
+  it('includes a time part separated by comma', () => {
+    const result = formatDateTimeCH('2026-02-26T12:00:00Z');
+    expect(result).toContain(',');
+    const parts = result.split(',');
+    expect(parts).toHaveLength(2);
+    expect(parts[1].trim()).toMatch(/^\d{2}:\d{2}$/);
   });
 });
