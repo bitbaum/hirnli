@@ -13,6 +13,7 @@ import { useFoundationFilters } from '@/hooks/useFoundationFilters';
 import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
 import { computeTierCounts, hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
+import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import type { SortField } from '@/lib/domain/foundation-filter';
 import {
   STATUS_CHIPS,
@@ -114,7 +115,7 @@ export default function FoundationListClient() {
   const researchStats = useMemo(() => computeResearchStats(STIFTUNGEN_DATA), []);
   const tierCounts = useMemo(() => computeTierCounts(STIFTUNGEN_DATA), []);
 
-  const highFitCount = filtered.filter((f) => f.fitScore >= 7).length;
+  const highFitCount = filtered.filter((f) => fitScoreToDisplay(f.fitScore, false) === 3).length;
   const openCount = filtered.filter(
     (f) => f.status === 'open' || f.status === 'rolling',
   ).length;

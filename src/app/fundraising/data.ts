@@ -1,6 +1,7 @@
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { CORE_FACTS, SOCIAL_DISPLAY } from '@/lib/config/stories';
 import { getScenario, getLineItemsForScenario } from '@/lib/domain/budget-calculations';
+import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SPACE_SUMMARY, HUB_SPACE_AREAS } from '@/lib/config/hub-space-plan';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
@@ -40,7 +41,7 @@ export function computePipelineStats() {
   }
 
   const avgFit = fitCount > 0 ? totalFit / fitCount : 0;
-  const highFitCount = STIFTUNGEN_DATA.filter((f) => f.fitScore >= 7).length;
+  const highFitCount = STIFTUNGEN_DATA.filter((f) => fitScoreToDisplay(f.fitScore, false) === 3).length;
 
   return {
     total: STIFTUNGEN_DATA.length,

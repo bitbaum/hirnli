@@ -10,6 +10,8 @@ import {
   getTierPromotionSteps,
   QUALITY_TIERS,
   TIER_LABELS,
+  TIER_COLORS,
+  TIER_DESCRIPTIONS,
 } from '../foundation-helpers';
 import { makeFoundation, makeMinimalFoundation } from './fixtures';
 
@@ -176,6 +178,18 @@ describe('constants', () => {
   it('TIER_LABELS has an entry for every tier', () => {
     for (const tier of QUALITY_TIERS) {
       expect(TIER_LABELS[tier]).toBeTruthy();
+    }
+  });
+
+  it('TIER_COLORS has an entry for every tier', () => {
+    for (const tier of QUALITY_TIERS) {
+      expect(TIER_COLORS[tier]).toBeTruthy();
+    }
+  });
+
+  it('TIER_DESCRIPTIONS has an entry for every tier', () => {
+    for (const tier of QUALITY_TIERS) {
+      expect(TIER_DESCRIPTIONS[tier]).toBeTruthy();
     }
   });
 });
