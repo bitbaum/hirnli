@@ -107,16 +107,18 @@ export const TOC_TABLE_DATA: TocRow[] = [
 
 export type SdgRow = { sdg: string; name: string; activities: string };
 
-export const SDG_DATA: SdgRow[] = [
+export const SDG_DATA = [
   { sdg: 'SDG 4', name: 'Hochwertige Bildung', activities: 'Workshops, Digital-Skills-Training, Praktikanten-Ausbildung' },
   { sdg: 'SDG 8', name: 'Menschenwürdige Arbeit', activities: 'Arbeitsintegrationsprogramme, sinnvolle Beschäftigung' },
   { sdg: 'SDG 9', name: 'Innovation & Infrastruktur', activities: 'Zugang zu IT-Infrastruktur, Open-Source-Lösungen' },
   { sdg: 'SDG 10', name: 'Weniger Ungleichheiten', activities: 'Solidarisches Preismodell, Gratis-Geräte für Bedürftige' },
   { sdg: 'SDG 12', name: 'Nachhaltiger Konsum', activities: 'Refurbishment, Reparatur statt Neukauf' },
   { sdg: 'SDG 13', name: 'Klimaschutz', activities: 'CO2-Vermeidung durch Lebensdauerverlängerung' },
-];
+] as const satisfies SdgRow[];
 
-export const SDG_COLORS: Record<string, string> = {
+type SdgLabel = typeof SDG_DATA[number]['sdg'];
+
+export const SDG_COLORS: Record<SdgLabel, string> = {
   'SDG 4': 'from-red-700 to-red-500',
   'SDG 8': 'from-pink-800 to-pink-600',
   'SDG 9': 'from-orange-600 to-orange-400',

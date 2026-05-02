@@ -14,10 +14,7 @@ import { getTrustLevel, TRUST_CONFIG } from '@/lib/config/trust-levels';
 import ProgressBar from '@/components/ui/ProgressBar';
 
 /** Dimension labels keyed by id for readiness bar display */
-const DIM_LABELS: Record<string, string> = {};
-for (const dim of READINESS_ENGINE.dimensions) {
-  DIM_LABELS[dim.id] = dim.label;
-}
+const DIM_LABELS = Object.fromEntries(READINESS_ENGINE.dimensions.map(d => [d.id, d.label]));
 
 interface FoundationSidebarProps {
   foundation: Foundation;

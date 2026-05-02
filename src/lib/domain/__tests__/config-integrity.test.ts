@@ -9,6 +9,11 @@ import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '
 import { Confidence } from '@/lib/schemas/metric';
 import { computeReadinessScore, computePriorityScore } from '../foundation-scores';
 import { validateFoundationQuality } from '../foundation-quality';
+import {
+  TEMPLATE_TYPES, TEMPLATE_FOUNDATIONS, TYPE_TEMPLATE_KEYS,
+  SCHWERPUNKT_TEMPLATE_TYPES, getTemplateFoundation, getSchwerpunktTemplate,
+} from '@/lib/config/gesuch-templates';
+import { SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 
 describe('application-statuses config integrity', () => {
   it('every status has a non-empty label and color', () => {
@@ -267,5 +272,52 @@ describe('foundation data integrity', () => {
     // Many foundations are auto-imported with minimal data, so violation rate
     // among researched ones can be high. Just verify the check runs without error.
     expect(violationRate).toBeLessThan(0.8);
+  });
+});
+
+describe('gesuch-templates config integrity', () => {
+  it('TEMPLATE_FOUNDATIONS has an entry for every TEMPLATE_TYPE', () => {
+    for (const type of TEMPLATE_TYPES) {
+      expect(TEMPLATE_FOUNDATIONS[type]).toBeDefined();
+      expect(TEMPLATE_FOUNDATIONS[type].slug).toBeTruthy();
+    }
+  });
+
+  it('getTemplateFoundation returns a foundation for each TEMPLATE_TYPE', () => {
+    for (const type of TEMPLATE_TYPES) {
+      const f = getTemplateFoundation(type);
+      expect(f).toBeDefined();
+      expect(f?.slug).toBeTruthy();
+    }
+  });
+
+  it('getTemplateFoundation returns undefined for unknown type', () => {
+    expect(getTemplateFoundation('nonexistent')).toBeUndefined();
+  });
+
+  it('TYPE_TEMPLATE_KEYS are all valid FoundationTypes', () => {
+    const validTypes = FoundationType.options;
+    for (const key of TYPE_TEMPLATE_KEYS) {
+      expect(validTypes).toContain(key);
+    }
+  });
+
+  it('getSchwerpunktTemplate returns a foundation for every schwerpunkt × SCHWERPUNKT_TEMPLATE_TYPE', () => {
+    for (const schwerpunktId of SCHWERPUNKT_IDS) {
+      for (const type of SCHWERPUNKT_TEMPLATE_TYPES) {
+        const f = getSchwerpunktTemplate(schwerpunktId, type);
+        expect(f).toBeDefined();
+        expect(f?.slug).toContain(schwerpunktId);
+      }
+    }
+  });
+
+  it('getSchwerpunktTemplate returns undefined for invalid schwerpunkt', () => {
+    expect(getSchwerpunktTemplate('nonexistent', 'A')).toBeUndefined();
+  });
+
+  it('getSchwerpunktTemplate returns undefined for invalid type', () => {
+    const validSchwerpunkt = SCHWERPUNKT_IDS[0];
+    expect(getSchwerpunktTemplate(validSchwerpunkt, 'D')).toBeUndefined();
   });
 });
