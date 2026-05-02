@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { HUB_IMAGE_PROMPTS, getMidjourneyPrompt, getDallEPrompt } from '@/lib/config/hub-image-prompts';
+import { HUB_IMAGE_PROMPTS, getMidjourneyPrompt, getDallEPrompt, getPromptConfig } from '@/lib/config/hub-image-prompts';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 
@@ -16,7 +16,7 @@ export function HubImageGenerator() {
     setTimeout(() => setCopiedPrompt(null), 2000);
   };
 
-  const selectedConfig = selectedSpace ? HUB_IMAGE_PROMPTS.find(p => p.space_name === selectedSpace) : null;
+  const selectedConfig = selectedSpace ? getPromptConfig(selectedSpace) : null;
 
   return (
     <div className="space-y-6">

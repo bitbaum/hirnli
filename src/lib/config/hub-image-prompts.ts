@@ -115,11 +115,15 @@ export const HUB_IMAGE_PROMPTS: ImagePrompt[] = [
   },
 ];
 
+export function getPromptConfig(spaceName: string) {
+  return HUB_IMAGE_PROMPTS.find(p => p.space_name === spaceName);
+}
+
 /**
  * Generate a complete prompt string for a specific space
  */
 export function getFullPrompt(spaceName: string): string {
-  const config = HUB_IMAGE_PROMPTS.find(p => p.space_name === spaceName);
+  const config = getPromptConfig(spaceName);
   if (!config) return '';
 
   let fullPrompt = config.prompt;
@@ -139,7 +143,7 @@ export function getFullPrompt(spaceName: string): string {
  * Get Midjourney-specific formatted prompt
  */
 export function getMidjourneyPrompt(spaceName: string): string {
-  const config = HUB_IMAGE_PROMPTS.find(p => p.space_name === spaceName);
+  const config = getPromptConfig(spaceName);
   if (!config) return '';
 
   let prompt = getFullPrompt(spaceName);
@@ -159,7 +163,7 @@ export function getMidjourneyPrompt(spaceName: string): string {
  * Get DALL-E 3 formatted prompt (max 4000 chars)
  */
 export function getDallEPrompt(spaceName: string): string {
-  const config = HUB_IMAGE_PROMPTS.find(p => p.space_name === spaceName);
+  const config = getPromptConfig(spaceName);
   if (!config) return '';
 
   let prompt = getFullPrompt(spaceName);

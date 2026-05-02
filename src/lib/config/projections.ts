@@ -112,12 +112,7 @@ function getSpaceCost(spaceName: string): number | null {
  */
 export function getSpaceCostDisplay(spaceName: string): string {
   const cost = getSpaceCost(spaceName);
-  if (cost === null) {
-    // AI Lab has a string cost (variable) — return it as-is
-    const area = HUB_SPACE_AREAS.find((a) => a.name === spaceName);
-    return area ? String(area.cost_estimate_chf) : 'Nicht definiert';
-  }
-  return formatCHF(cost);
+  return cost !== null ? formatCHF(cost) : 'Nicht definiert';
 }
 
 /**
