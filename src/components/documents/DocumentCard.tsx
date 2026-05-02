@@ -1,28 +1,30 @@
 import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
-import type { Document } from '@/lib/config/documents';
+import type { Document, DocumentFormat, DocumentAction } from '@/lib/config/documents';
 import { formatDateCH } from '@/lib/utils/format';
+
+type EffectiveAction = DocumentAction | 'view';
 
 interface DocumentCardProps {
   document: Document;
 }
 
-const FORMAT_ICONS: Record<string, string> = {
+const FORMAT_ICONS: Record<DocumentFormat, string> = {
   PDF: '📄',
   CSV: '📊',
   Excel: '📈',
   Markdown: '📝',
 };
 
-const ACTION_LABELS: Record<string, string> = {
+const ACTION_LABELS: Record<EffectiveAction, string> = {
   print: 'Öffnen & Cmd/Ctrl+P',
   download: 'Download',
   view: 'PDF ansehen',
   external: 'Öffnen',
 };
 
-const ACTION_ICONS: Record<string, string> = {
+const ACTION_ICONS: Record<EffectiveAction, string> = {
   print: '🖨️',
   download: '⬇️',
   view: '📄',
@@ -30,12 +32,12 @@ const ACTION_ICONS: Record<string, string> = {
 };
 
 export default function DocumentCard({ document }: DocumentCardProps) {
-  const icon = FORMAT_ICONS[document.format] || '📄';
+  const icon = FORMAT_ICONS[document.format];
   // PDFs with download action should open in-browser instead of downloading
   const isPdfView = document.format === 'PDF' && document.action === 'download';
-  const effectiveAction = isPdfView ? 'view' : document.action;
-  const actionLabel = ACTION_LABELS[effectiveAction] || 'Öffnen';
-  const actionIcon = ACTION_ICONS[effectiveAction] || '→';
+  const effectiveAction: EffectiveAction = isPdfView ? 'view' : document.action;
+  const actionLabel = ACTION_LABELS[effectiveAction];
+  const actionIcon = ACTION_ICONS[effectiveAction];
 
   const cardContent = (
     <>
