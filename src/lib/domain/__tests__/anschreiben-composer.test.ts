@@ -42,6 +42,23 @@ describe('buildDynamicOpening', () => {
     );
     expect(result).toContain('messbare Wirkung');
   });
+
+  it('network type uses network template opening, not type-A opening', () => {
+    // Regression: default case in switch was returning ANSCHREIBEN_TEMPLATES['A'].opening
+    // instead of ANSCHREIBEN_TEMPLATES[foundation.type].opening for 'network' foundations
+    const networkResult = buildDynamicOpening(
+      makeFoundation({ type: 'network', researchDepth: 'standard', fitScore: 5, purposeSummary: '' }),
+      'Kreislaufwirtschaft',
+    );
+    const typeAResult = buildDynamicOpening(
+      makeFoundation({ type: 'A', researchDepth: 'standard', fitScore: 5, purposeSummary: '' }),
+      'Kreislaufwirtschaft',
+    );
+    // Network opening is distinct from type-A opening
+    expect(networkResult).not.toBe(typeAResult);
+    // Network template mentions Mitgliedschaft (unique to network template)
+    expect(networkResult).toContain('Mitgliedschaft');
+  });
 });
 
 describe('buildThemeAlignment', () => {
