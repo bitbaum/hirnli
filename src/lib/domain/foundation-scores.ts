@@ -10,7 +10,8 @@
  * live in config. No magic numbers.
  */
 
-import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
+import { QualityTier } from '@/lib/schemas/foundation';
+import type { Foundation } from '@/lib/schemas/foundation';
 import { READINESS_ENGINE, PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { evaluateEngine, type CheckDetail } from './fit-scoring';
@@ -68,13 +69,10 @@ interface ReadinessResult {
   topImprovements: { label: string; points: number; dimension: string }[];
 }
 
-export const TIER_FROM_LEVEL: Record<number, QualityTier> = {
-  5: 'anwendungsbereit',
-  4: 'recherchiert',
-  3: 'profiliert',
-  2: 'erfasst',
-  1: 'verzeichnet',
-};
+/** Inverse tier map — derived from schema order so adding a tier updates this automatically */
+export const TIER_FROM_LEVEL = Object.fromEntries(
+  QualityTier.options.map((tier, i) => [i + 1, tier])
+) as Record<number, QualityTier>;
 
 /** Compute readiness score from foundation data */
 export function computeReadinessScore(f: Foundation): ReadinessResult {

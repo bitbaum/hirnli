@@ -2,28 +2,19 @@
 // See CLAUDE.md § Scoring Model for the 3-layer architecture.
 // All computed from scoring engines — no stored booleans.
 
-import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
+import { QualityTier } from '@/lib/schemas/foundation';
+import type { Foundation } from '@/lib/schemas/foundation';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { computeReadinessScore } from './foundation-scores';
 import { fitScoreToDisplay } from './fit-scoring';
 
-/** Ordered tier ranks for comparisons */
-const TIER_RANK: Record<QualityTier, number> = {
-  verzeichnet: 1,
-  erfasst: 2,
-  profiliert: 3,
-  recherchiert: 4,
-  anwendungsbereit: 5,
-};
+/** All tiers in ascending order — derived from schema so adding a tier updates all maps */
+export const QUALITY_TIERS: QualityTier[] = [...QualityTier.options];
 
-/** All tiers in ascending order */
-export const QUALITY_TIERS: QualityTier[] = [
-  'verzeichnet',
-  'erfasst',
-  'profiliert',
-  'recherchiert',
-  'anwendungsbereit',
-];
+/** Ordered tier ranks for comparisons — derived from schema order */
+const TIER_RANK = Object.fromEntries(
+  QualityTier.options.map((tier, i) => [tier, i + 1])
+) as Record<QualityTier, number>;
 
 /** Check if a tier meets a minimum threshold */
 export function tierAtLeast(tier: QualityTier, minimum: QualityTier): boolean {
