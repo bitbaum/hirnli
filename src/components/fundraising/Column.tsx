@@ -10,7 +10,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { ApplicationCard } from './ApplicationCard';
 import { formatCHF } from '@/lib/utils/format';
-import type { Application, FoundationRow } from '@/lib/db/schema';
+import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 
 interface ColumnProps {
   status: {
@@ -19,10 +19,7 @@ interface ColumnProps {
     description: string;
     color: string;
   };
-  applications: Array<{
-    application: Application;
-    foundation: FoundationRow | null;
-  }>;
+  applications: ApplicationWithFoundation[];
   onDeleted: (id: string) => void;
   onUpdated: (updated: Application) => void;
 }

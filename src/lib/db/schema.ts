@@ -181,6 +181,7 @@ export type NewFoundationRow = typeof foundations.$inferInsert;
 
 export type Application = typeof applications.$inferSelect;
 export type NewApplication = typeof applications.$inferInsert;
+export type ApplicationWithFoundation = { application: Application; foundation: FoundationRow | null };
 
 export type CustomizationRule = typeof customizationRules.$inferSelect;
 export type NewCustomizationRule = typeof customizationRules.$inferInsert;

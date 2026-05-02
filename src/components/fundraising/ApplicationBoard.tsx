@@ -27,13 +27,8 @@ import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
 import { KANBAN_COLUMNS, getStatusConfig, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
 import { formatCHF } from '@/lib/utils/format';
-import type { Application, FoundationRow } from '@/lib/db/schema';
+import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
-
-interface ApplicationWithFoundation {
-  application: Application;
-  foundation: FoundationRow | null;
-}
 
 export function ApplicationBoard() {
   const [applications, setApplications] = useState<ApplicationWithFoundation[]>([]);
