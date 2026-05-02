@@ -15,7 +15,8 @@ import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
 import type { ThemeKey } from '@/lib/config/stories';
 import { isResearched } from './foundation-helpers';
 import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
-import { THEMES } from '@/lib/config/foundations';
+import { THEMES, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
+import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { fitScoreToDisplay } from './fit-scoring';
 
@@ -297,7 +298,7 @@ export function getApplicationReadiness(foundation: Foundation): ReadinessItem[]
       label: 'Bewerbungsweg bekannt',
       ready: hasMethod,
       detail: hasMethod
-        ? `Methode: ${foundation.applicationMethod}`
+        ? `Methode: ${APPLICATION_METHOD_LABELS[foundation.applicationMethod as ApplicationMethod] ?? foundation.applicationMethod}`
         : 'Bewerbungsweg noch unklar',
     },
   ];
