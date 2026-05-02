@@ -66,6 +66,7 @@ export default function GesuchEditPanel({
 
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState('');
+  const [resetConfirm, setResetConfirm] = useState(false);
 
   const handleSave = async () => {
     setSaveError('');
@@ -79,7 +80,7 @@ export default function GesuchEditPanel({
   };
 
   const handleReset = async () => {
-    if (!window.confirm('Alle manuellen Änderungen verwerfen und auf den generierten Text zurücksetzen?')) return;
+    setResetConfirm(false);
     await onReset();
   };
 
@@ -103,24 +104,46 @@ export default function GesuchEditPanel({
         <div className="flex shrink-0 items-center gap-2">
           {saved && <span className="text-sm font-medium text-success">Gespeichert ✓</span>}
           {saveError && <span className="text-sm font-medium text-danger">{saveError}</span>}
-          {dirty && !saved && !saveError && <span className="text-sm text-text-muted">Ungespeichert</span>}
-          <button
-            type="button"
-            onClick={handleReset}
-            disabled={saving}
-            className="rounded-lg px-3 py-1.5 text-sm text-text-muted transition hover:bg-bg-light hover:text-danger disabled:opacity-50"
-            title="Alle Änderungen verwerfen und auf generierten Text zurücksetzen"
-          >
-            Alles zurücksetzen
-          </button>
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={saving || !dirty}
-            className="rounded-lg bg-primary px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary/80 disabled:opacity-50"
-          >
-            {saving ? 'Speichern…' : 'Speichern'}
-          </button>
+          {dirty && !saved && !saveError && !resetConfirm && <span className="text-sm text-text-muted">Ungespeichert</span>}
+          {resetConfirm ? (
+            <>
+              <span className="text-sm font-medium text-danger">Wirklich zurücksetzen?</span>
+              <button
+                type="button"
+                onClick={() => setResetConfirm(false)}
+                className="rounded-lg px-3 py-1.5 text-sm text-text-muted transition hover:bg-bg-light"
+              >
+                Nein
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="rounded-lg bg-danger px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-danger/80"
+              >
+                Ja, zurücksetzen
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => setResetConfirm(true)}
+                disabled={saving}
+                className="rounded-lg px-3 py-1.5 text-sm text-text-muted transition hover:bg-bg-light hover:text-danger disabled:opacity-50"
+                title="Alle Änderungen verwerfen und auf generierten Text zurücksetzen"
+              >
+                Alles zurücksetzen
+              </button>
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={saving || !dirty}
+                className="rounded-lg bg-primary px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary/80 disabled:opacity-50"
+              >
+                {saving ? 'Speichern…' : 'Speichern'}
+              </button>
+            </>
+          )}
         </div>
       </div>
 
