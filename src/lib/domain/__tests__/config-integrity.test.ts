@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
-import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG } from '@/lib/config/foundations';
+import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG, APPLICATION_METHOD_LABELS, SOURCES, FIT_CONFIG } from '@/lib/config/foundations';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
-import { FoundationType } from '@/lib/schemas/foundation';
+import { FoundationType, ApplicationMethod, SourceId } from '@/lib/schemas/foundation';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
 import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, getPriorityColor, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
@@ -319,5 +319,45 @@ describe('gesuch-templates config integrity', () => {
   it('getSchwerpunktTemplate returns undefined for invalid type', () => {
     const validSchwerpunkt = SCHWERPUNKT_IDS[0];
     expect(getSchwerpunktTemplate(validSchwerpunkt, 'D')).toBeUndefined();
+  });
+});
+
+describe('APPLICATION_METHOD_LABELS config integrity', () => {
+  it('covers every ApplicationMethod enum value', () => {
+    for (const method of ApplicationMethod.options) {
+      expect(APPLICATION_METHOD_LABELS).toHaveProperty(method);
+    }
+  });
+
+  it('has no extra keys beyond ApplicationMethod', () => {
+    const labelKeys = Object.keys(APPLICATION_METHOD_LABELS).sort();
+    const schemaKeys = [...ApplicationMethod.options].sort();
+    expect(labelKeys).toEqual(schemaKeys);
+  });
+});
+
+describe('SOURCES config integrity', () => {
+  it('covers every SourceId enum value', () => {
+    for (const id of SourceId.options) {
+      expect(SOURCES[id]).toBeDefined();
+      expect(SOURCES[id].label).toBeTruthy();
+    }
+  });
+
+  it('has no extra keys beyond SourceId', () => {
+    const sourceKeys = Object.keys(SOURCES).sort();
+    const schemaKeys = [...SourceId.options].sort();
+    expect(sourceKeys).toEqual(schemaKeys);
+  });
+});
+
+describe('FIT_CONFIG integrity', () => {
+  const FIT_LEVELS = [0, 1, 2, 3] as const;
+
+  it('covers all fit levels 0-3', () => {
+    for (const level of FIT_LEVELS) {
+      expect(FIT_CONFIG[level]).toBeDefined();
+      expect(FIT_CONFIG[level].stars).toBeTruthy();
+    }
   });
 });
