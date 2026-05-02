@@ -46,8 +46,8 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
               </span>
             </span>
             <h3 className="font-semibold text-grey-dark">{f.name}</h3>
-            <span className={`text-xs font-bold ${FIT_CONFIG[getFitLevel(f)]?.color ?? FIT_CONFIG[0].color}`} aria-hidden="true">
-              {FIT_CONFIG[getFitLevel(f)]?.stars ?? FIT_CONFIG[0].stars}
+            <span className={`text-xs font-bold ${FIT_CONFIG[getFitLevel(f)].color}`} aria-hidden="true">
+              {FIT_CONFIG[getFitLevel(f)].stars}
             </span>
             <span className="sr-only">Fit: {f.fitScore}/10</span>
             {score != null && (

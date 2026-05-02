@@ -25,8 +25,8 @@ export default function SimilarFoundations({ similar }: SimilarFoundationsProps)
           >
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-grey-dark">{f.name}</span>
-              <span className={`text-xs font-bold ${FIT_CONFIG[getFitLevel(f)]?.color ?? 'text-text-muted'}`}>
-                {FIT_CONFIG[getFitLevel(f)]?.stars ?? '☆☆☆'}
+              <span className={`text-xs font-bold ${FIT_CONFIG[getFitLevel(f)].color}`}>
+                {FIT_CONFIG[getFitLevel(f)].stars}
               </span>
             </div>
             <div className="mt-1 flex flex-wrap gap-1">
