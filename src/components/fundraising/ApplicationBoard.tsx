@@ -40,6 +40,7 @@ export function ApplicationBoard() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [dragError, setDragError] = useState<string | null>(null);
   const [requiredFieldsModal, setRequiredFieldsModal] = useState<{
     applicationId: string;
     targetStatus: string;
@@ -68,6 +69,13 @@ export function ApplicationBoard() {
   useEffect(() => {
     fetchApplications();
   }, [fetchApplications]);
+
+  // Auto-clear drag errors after 5 seconds
+  useEffect(() => {
+    if (!dragError) return;
+    const t = setTimeout(() => setDragError(null), 5000);
+    return () => clearTimeout(t);
+  }, [dragError]);
 
   // Called by ApplicationCard after successful delete
   function handleDeleted(id: string) {
@@ -139,17 +147,18 @@ export function ApplicationBoard() {
               : item,
           ),
         );
-        // Show required fields modal on 422
+        // Show required fields modal on 422, inline error for everything else
         if (response.status === 422 && result.missingFields) {
           setRequiredFieldsModal({
             applicationId,
             targetStatus: newStatus,
             missingFields: result.missingFields,
           });
+        } else {
+          setDragError(result.error ?? 'Status konnte nicht gespeichert werden.');
         }
       }
-    } catch (err) {
-      console.error('Failed to update application status:', err);
+    } catch {
       setApplications((prev) =>
         prev.map((item) =>
           item.application.id === applicationId
@@ -157,6 +166,7 @@ export function ApplicationBoard() {
             : item,
         ),
       );
+      setDragError('Netzwerkfehler — Status nicht gespeichert.');
     }
   }
 
@@ -241,6 +251,20 @@ export function ApplicationBoard() {
           </button>
         </div>
       </div>
+
+      {/* Drag error banner — auto-dismisses after 5 s */}
+      {dragError && (
+        <div className="flex items-center justify-between rounded-lg border border-danger/30 bg-danger/10 px-4 py-2 text-sm text-danger">
+          <span>{dragError}</span>
+          <button
+            onClick={() => setDragError(null)}
+            className="ml-4 text-danger/70 hover:text-danger"
+            aria-label="Schliessen"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Empty state */}
       {applications.length === 0 ? (
