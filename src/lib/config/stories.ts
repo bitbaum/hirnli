@@ -41,7 +41,7 @@ import type {
   Anecdote,
   PhotoSlot,
 } from '@/lib/schemas/story';
-import type { ThemeId } from '@/lib/schemas/foundation';
+import type { ThemeId, FoundationType } from '@/lib/schemas/foundation';
 import { getNumericValue, CO2_PER_LAPTOP } from '@/lib/config/numbers';
 import { formatNumber } from '@/lib/utils/format';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -600,7 +600,7 @@ const PROJECTS: Record<string, Project> = {
 // ANSCHREIBEN - Cover letter building blocks per foundation type
 // ============================================================================
 
-export const ANSCHREIBEN_TEMPLATES: Record<string, { opening: string; closing: string }> = {
+export const ANSCHREIBEN_TEMPLATES: Record<FoundationType, { opening: string; closing: string }> = {
   A: {
     opening: `Wir erlauben uns, Ihnen ein Fördergesuch für unser Projekt einzureichen. Als gemeinnütziger Verein mit ${ORG_PROFILE.experienceLabel} in der Verbindung von Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung möchten wir Ihnen eine Zusammenarbeit vorschlagen.`,
     closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für ein Gespräch jederzeit zur Verfügung. Gerne senden wir Ihnen weitere Unterlagen zu.',
