@@ -55,6 +55,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [restoring, setRestoring] = useState<string | null>(null);
+  const [restoreError, setRestoreError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -75,6 +76,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
 
   async function handleRestore(entry: ActivityEntry) {
     if (!entry.actionDetails) return;
+    setRestoreError(null);
     try {
       const details = JSON.parse(entry.actionDetails) as { overrides?: GesuchOverridesData };
       if (!details.overrides) return;
@@ -89,9 +91,11 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
       if (result.success) {
         onRestore(details.overrides);
         onClose();
+      } else {
+        setRestoreError(result.error ?? 'Wiederherstellen fehlgeschlagen.');
       }
     } catch {
-      // silent
+      setRestoreError('Netzwerkfehler — bitte erneut versuchen.');
     } finally {
       setRestoring(null);
     }
@@ -114,6 +118,12 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
             ✕
           </button>
         </div>
+
+        {restoreError && (
+          <div className="border-b border-danger/20 bg-danger/10 px-5 py-3 text-sm text-danger">
+            {restoreError}
+          </div>
+        )}
 
         <div className="p-5">
           {loading ? (
