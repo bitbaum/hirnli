@@ -26,12 +26,14 @@ import { z } from 'zod';
 import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated'
 import { SPACE_SUMMARY } from './hub-space-plan'
 import { ORG_PROFILE } from './org-profile'
+import type { Confidence } from '../schemas/metric';
 
 export const NumberConfidence = z.enum(['high', 'medium', 'estimated', 'target', 'unknown']);
 export type NumberConfidence = z.infer<typeof NumberConfidence>;
 
-/** SSOT for confidence level display labels — used by NumberInspector, SourceModal */
-export const CONFIDENCE_DISPLAY_LABELS: Record<string, string> = {
+/** SSOT for confidence level display labels — used by NumberInspector, SourceModal.
+ *  Covers both NumberConfidence (number-source entries) and Confidence (metric entries, includes 'low'). */
+export const CONFIDENCE_DISPLAY_LABELS: Record<NumberConfidence | Confidence, string> = {
   high: 'Hoch (verifizierte Buchhaltungsdaten)',
   medium: 'Mittel (Schätzung mit dokumentierter Basis)',
   low: 'Niedrig (grobe Schätzung)',
@@ -40,8 +42,8 @@ export const CONFIDENCE_DISPLAY_LABELS: Record<string, string> = {
   unknown: 'Unbekannt (aktuelle Daten fehlen)',
 };
 
-/** SSOT for confidence level badge colors — used by SourceModal, LineItemDetail */
-export const CONFIDENCE_COLORS: Record<string, string> = {
+/** SSOT for confidence level badge colors — used by SourceModal, LineItemDetail (NumberConfidence only) */
+export const CONFIDENCE_COLORS: Record<NumberConfidence, string> = {
   high: 'bg-success/10 text-success',
   medium: 'bg-warning/10 text-warning',
   estimated: 'bg-warning/10 text-warning',
