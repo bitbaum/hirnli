@@ -1,15 +1,7 @@
 'use client';
 
 import type { NumberSource } from '@/lib/config/numbers';
-import { CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
-
-const CONFIDENCE_COLORS: Record<string, string> = {
-  high: 'bg-success/10 text-success',
-  medium: 'bg-warning/10 text-warning',
-  estimated: 'bg-warning/10 text-warning',
-  target: 'bg-primary/10 text-primary',
-  unknown: 'bg-danger/10 text-danger',
-};
+import { CONFIDENCE_DISPLAY_LABELS, CONFIDENCE_COLORS } from '@/lib/config/numbers';
 
 interface SourceModalProps {
   data: NumberSource;

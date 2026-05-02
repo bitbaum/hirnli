@@ -40,6 +40,15 @@ export const CONFIDENCE_DISPLAY_LABELS: Record<string, string> = {
   unknown: 'Unbekannt (aktuelle Daten fehlen)',
 };
 
+/** SSOT for confidence level badge colors — used by SourceModal, LineItemDetail */
+export const CONFIDENCE_COLORS: Record<string, string> = {
+  high: 'bg-success/10 text-success',
+  medium: 'bg-warning/10 text-warning',
+  estimated: 'bg-warning/10 text-warning',
+  target: 'bg-primary/10 text-primary',
+  unknown: 'bg-danger/10 text-danger',
+};
+
 export interface NumberSource {
   value: string | number;
   label: string;

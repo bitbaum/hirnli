@@ -1,5 +1,6 @@
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import { formatCHF, formatDateCH } from '@/lib/utils/format';
+import { CONFIDENCE_COLORS } from '@/lib/config/numbers';
 
 /**
  * LineItemDetail Component
@@ -19,14 +20,6 @@ interface LineItemDetailProps {
 }
 
 export default function LineItemDetail({ item }: LineItemDetailProps) {
-  const confidenceColors: Record<string, string> = {
-    high: 'bg-success/10 text-success',
-    medium: 'bg-warning/10 text-warning',
-    estimated: 'bg-warning/10 text-warning',
-    target: 'bg-primary/10 text-primary',
-    unknown: 'bg-danger/10 text-danger',
-  };
-
   return (
     <div className="ml-8 p-4 bg-primary/10 rounded-lg border-l-4 border-primary space-y-3">
       {/* Description */}
@@ -82,7 +75,7 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
         <div className="flex items-center gap-2">
           <strong className="text-grey-dark">Konfidenz:</strong>
           <span
-            className={`px-2 py-0.5 rounded text-xs font-medium ${confidenceColors[item.source.confidence]}`}
+            className={`px-2 py-0.5 rounded text-xs font-medium ${CONFIDENCE_COLORS[item.source.confidence]}`}
           >
             {item.source.confidence}
           </span>
