@@ -6,7 +6,7 @@ import {
   FILTER_PRESETS,
 } from '../foundation-filter';
 import type { FoundationFilters } from '../foundation-filter';
-import { makeFoundation } from './fixtures';
+import { makeFoundation, makeMinimalFoundation } from './fixtures';
 
 function filters(overrides: Partial<FoundationFilters> = {}): FoundationFilters {
   return { ...DEFAULT_FILTERS, minTier: 'verzeichnet', ...overrides };
@@ -123,6 +123,92 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'unverified', source: 'zefix', researchDepth: 'rapid' }),
     ];
     const result = filterFoundations(data, filters({ trustLevels: [] }));
+    expect(result).toHaveLength(2);
+  });
+
+  it('filters by priority level', () => {
+    const data = [
+      makeFoundation({ slug: 'p1', priority: 1 }),
+      makeFoundation({ slug: 'p2', priority: 2 }),
+      makeFoundation({ slug: 'p3', priority: 3 }),
+      makeFoundation({ slug: 'p4', priority: 4 }),
+    ];
+    const result = filterFoundations(data, filters({ priorityLevels: [1, 2] }));
+    expect(result.map(f => f.slug)).toEqual(['p1', 'p2']);
+  });
+
+  it('empty priorityLevels filter shows all', () => {
+    const data = [
+      makeFoundation({ slug: 'p1', priority: 1 }),
+      makeFoundation({ slug: 'p4', priority: 4 }),
+    ];
+    expect(filterFoundations(data, filters({ priorityLevels: [] }))).toHaveLength(2);
+  });
+
+  it('filters by fit display level', () => {
+    // fitScore 7-10 → level 3 (★★★), 4-6 → 2, 1-3 → 1, 0 → 0
+    const data = [
+      makeFoundation({ slug: 'high', fitScore: 8 }),
+      makeFoundation({ slug: 'mid', fitScore: 5 }),
+      makeFoundation({ slug: 'low', fitScore: 2 }),
+    ];
+    const result = filterFoundations(data, filters({ fit: [3] }));
+    expect(result.map(f => f.slug)).toEqual(['high']);
+  });
+
+  it('filters by schwerpunkt (matches any themeId in the schwerpunkt)', () => {
+    // 'nachhaltigkeit' schwerpunkt covers themeIds ['klima', 'kreislaufwirtschaft']
+    const data = [
+      makeFoundation({ slug: 'kreislauf', themes: ['kreislaufwirtschaft'] }),
+      makeFoundation({ slug: 'digital', themes: ['digitale-bildung'] }),
+    ];
+    const result = filterFoundations(data, filters({ schwerpunkt: 'nachhaltigkeit' }));
+    expect(result.map(f => f.slug)).toEqual(['kreislauf']);
+  });
+
+  it('filters by requireEmail', () => {
+    const data = [
+      makeFoundation({ slug: 'with-email', contact: { email: 'a@b.ch' } }),
+      makeFoundation({ slug: 'no-email', contact: { phone: '+41 44 000' } }),
+    ];
+    const result = filterFoundations(data, filters({ requireEmail: true }));
+    expect(result.map(f => f.slug)).toEqual(['with-email']);
+  });
+
+  it('filters by requirePhone', () => {
+    const data = [
+      makeFoundation({ slug: 'with-phone', contact: { phone: '+41 44 000' } }),
+      makeFoundation({ slug: 'no-phone', contact: { email: 'a@b.ch' } }),
+    ];
+    const result = filterFoundations(data, filters({ requirePhone: true }));
+    expect(result.map(f => f.slug)).toEqual(['with-phone']);
+  });
+
+  it('filters by requireAddress', () => {
+    const data = [
+      makeFoundation({ slug: 'with-addr', contact: { address: 'Strasse 1' } }),
+      makeFoundation({ slug: 'no-addr', contact: { email: 'a@b.ch' } }),
+    ];
+    const result = filterFoundations(data, filters({ requireAddress: true }));
+    expect(result.map(f => f.slug)).toEqual(['with-addr']);
+  });
+
+  it('minTier filters out low-quality foundations', () => {
+    const data = [
+      makeFoundation({ slug: 'high' }),          // deep research → anwendungsbereit
+      makeMinimalFoundation({ slug: 'minimal' }), // rapid, no data → verzeichnet
+    ];
+    // Explicitly set minTier to 'profiliert' — filters() defaults to 'verzeichnet'
+    const result = filterFoundations(data, filters({ minTier: 'profiliert' }));
+    expect(result.map(f => f.slug)).toEqual(['high']);
+  });
+
+  it('minTier=verzeichnet shows all tiers', () => {
+    const data = [
+      makeFoundation({ slug: 'high' }),
+      makeMinimalFoundation({ slug: 'minimal' }),
+    ];
+    const result = filterFoundations(data, filters({ minTier: 'verzeichnet' }));
     expect(result).toHaveLength(2);
   });
 
