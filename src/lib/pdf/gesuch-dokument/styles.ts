@@ -145,3 +145,12 @@ export function pdfFormatCHF(value: number): string {
   });
   return `${value < 0 ? '-' : ''}CHF ${formatted}`;
 }
+
+/** Today's date formatted for PDF documents (DD.MM.YYYY) */
+export function pdfTodayCH(): string {
+  return new Date().toLocaleDateString('de-CH', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+}

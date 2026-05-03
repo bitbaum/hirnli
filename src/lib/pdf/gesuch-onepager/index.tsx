@@ -11,7 +11,7 @@ import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { COLORS, pdfFormatCHF } from '@/lib/pdf/gesuch-dokument/styles';
+import { COLORS, pdfFormatCHF, pdfTodayCH } from '@/lib/pdf/gesuch-dokument/styles';
 
 const s = StyleSheet.create({
   page: {
@@ -206,11 +206,7 @@ interface OnePagerPDFProps {
 }
 
 export default function GesuchOnePagerPDF({ dok, shareUrl }: OnePagerPDFProps) {
-  const today = new Date().toLocaleDateString('de-CH', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
+  const today = pdfTodayCH();
 
   // Use first 3 competencies for bullet points
   const competencyBullets = dok.story.how.competencies

@@ -14,6 +14,7 @@ import {
   StyleSheet,
 } from '@react-pdf/renderer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { pdfFormatCHF, pdfTodayCH } from '@/lib/pdf/gesuch-dokument/styles';
 
 // Define styles
 const styles = StyleSheet.create({
@@ -127,19 +128,7 @@ interface GesuchPDFProps {
 }
 
 export function GesuchPDF({ content }: GesuchPDFProps) {
-  const formatCHF = (amount: number) => {
-    return new Intl.NumberFormat('de-CH', {
-      style: 'currency',
-      currency: 'CHF',
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  const today = new Date().toLocaleDateString('de-CH', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
+  const today = pdfTodayCH();
 
   return (
     <Document>
@@ -168,7 +157,7 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Zusammenfassung</Text>
           <Text style={styles.paragraph}>
-            Wir beantragen {formatCHF(content.requestedAmount)} für{' '}
+            Wir beantragen {pdfFormatCHF(content.requestedAmount)} für{' '}
             {content.projectFocus}.
           </Text>
           <Text style={styles.paragraph}>{content.introduction}</Text>
@@ -204,14 +193,14 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
                 </Text>
               </View>
               <Text style={styles.tableCellRight}>
-                {formatCHF(module.amount)}
+                {pdfFormatCHF(module.amount)}
               </Text>
             </View>
           ))}
           <View style={[styles.tableRow, { borderTop: '2 solid #1F2937' }]}>
             <Text style={{ flex: 2, fontWeight: 'bold' }}>Gesamt</Text>
             <Text style={[styles.tableCellRight, { fontWeight: 'bold' }]}>
-              {formatCHF(content.budget.total)}
+              {pdfFormatCHF(content.budget.total)}
             </Text>
           </View>
         </View>
