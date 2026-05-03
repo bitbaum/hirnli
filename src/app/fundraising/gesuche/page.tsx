@@ -21,7 +21,7 @@ interface GesuchOverviewRow {
   overrideUpdatedAt: string;
   overrideFieldCount: number;
   applicationId: string | null;
-  applicationStatus: string | null;
+  applicationStatus: ApplicationStatusId | null;
 }
 
 
@@ -80,7 +80,7 @@ export default function MeineGesuchePage() {
             <tbody>
               {rows.map((row) => {
                 const statusConfig = row.applicationStatus
-                  ? getStatusConfig(row.applicationStatus as ApplicationStatusId)
+                  ? getStatusConfig(row.applicationStatus)
                   : null;
 
                 return (

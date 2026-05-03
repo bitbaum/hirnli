@@ -12,8 +12,8 @@ async function ensurePipelineEntry(slug: string) {
     const res = await fetch(`/api/applications?foundationId=${slug}`);
     const data = await res.json();
     const active = (data.data ?? []).find(
-      (row: { application: { status: string } }) =>
-        isActiveApplication(row.application.status as ApplicationStatusId),
+      (row: { application: { status: ApplicationStatusId } }) =>
+        isActiveApplication(row.application.status),
     );
     if (!active) {
       await fetch('/api/applications', {

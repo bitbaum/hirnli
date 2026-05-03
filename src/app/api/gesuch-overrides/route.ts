@@ -11,6 +11,7 @@ import { db } from '@/lib/db/client';
 import { gesuchOverrides, applications, foundations } from '@/lib/db/schema';
 import { eq, inArray } from 'drizzle-orm';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 const ORG_ID = ORG_PROFILE.orgId;
 
@@ -51,7 +52,7 @@ export async function GET() {
     // Build lookup maps for O(1) access
     const foundationNameById = new Map(foundationRows.map((f) => [f.id, f.name]));
     // Keep only the first application per foundation (preserves original .limit(1) behaviour)
-    const appByFoundationId = new Map<string, { id: string; status: string }>();
+    const appByFoundationId = new Map<string, { id: string; status: ApplicationStatusId }>();
     for (const app of appRows) {
       if (!appByFoundationId.has(app.foundationId)) {
         appByFoundationId.set(app.foundationId, { id: app.id, status: app.status });
