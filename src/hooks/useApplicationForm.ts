@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NET_ERR_LOAD, NET_ERR_SAVE, NET_ERR_DELETE } from '@/lib/utils/errors';
+import { normalizeDateInput } from '@/lib/utils/format';
 
 export interface ApplicationFormFields {
   status: ApplicationStatusId;
@@ -38,10 +39,6 @@ const EMPTY_FIELDS: ApplicationFormFields = {
   successFactors: '',
 };
 
-function formatDate(value: string | null | undefined): string {
-  return value ? value.split('T')[0] : '';
-}
-
 function initFieldsFromApplication(app: Application): ApplicationFormFields {
   return {
     status: app.status,
@@ -51,10 +48,10 @@ function initFieldsFromApplication(app: Application): ApplicationFormFields {
     assignedTo: app.assignedTo ?? '',
     projectFocus: app.projectFocus ?? '',
     customizationNotes: app.customizationNotes ?? '',
-    contactDate: formatDate(app.contactDate),
-    submissionDate: formatDate(app.submissionDate),
-    decisionExpected: formatDate(app.decisionExpected),
-    decisionDate: formatDate(app.decisionDate),
+    contactDate: normalizeDateInput(app.contactDate),
+    submissionDate: normalizeDateInput(app.submissionDate),
+    decisionExpected: normalizeDateInput(app.decisionExpected),
+    decisionDate: normalizeDateInput(app.decisionDate),
     rejectionReason: app.rejectionReason ?? '',
     successFactors: app.successFactors ?? '',
   };

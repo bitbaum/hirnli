@@ -12,6 +12,7 @@ import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 import { NET_ERR_SAVE } from '@/lib/utils/errors';
+import { normalizeDateInput } from '@/lib/utils/format';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 
@@ -47,18 +48,10 @@ export function EditApplicationModal({
   const [customizationNotes, setCustomizationNotes] = useState(
     application.customizationNotes ?? '',
   );
-  const [contactDate, setContactDate] = useState(
-    application.contactDate ? application.contactDate.split('T')[0] : '',
-  );
-  const [submissionDate, setSubmissionDate] = useState(
-    application.submissionDate ? application.submissionDate.split('T')[0] : '',
-  );
-  const [decisionExpected, setDecisionExpected] = useState(
-    application.decisionExpected ? application.decisionExpected.split('T')[0] : '',
-  );
-  const [decisionDate, setDecisionDate] = useState(
-    application.decisionDate ? application.decisionDate.split('T')[0] : '',
-  );
+  const [contactDate, setContactDate] = useState(normalizeDateInput(application.contactDate));
+  const [submissionDate, setSubmissionDate] = useState(normalizeDateInput(application.submissionDate));
+  const [decisionExpected, setDecisionExpected] = useState(normalizeDateInput(application.decisionExpected));
+  const [decisionDate, setDecisionDate] = useState(normalizeDateInput(application.decisionDate));
   const [rejectionReason, setRejectionReason] = useState(application.rejectionReason ?? '');
   const [successFactors, setSuccessFactors] = useState(application.successFactors ?? '');
 

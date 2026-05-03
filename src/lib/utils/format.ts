@@ -103,8 +103,23 @@ export function formatDateCHLong(dateStr: string): string {
 }
 
 /**
+ * Convert a Date to ISO-8601 date-only string: "2026-05-03" (UTC)
+ */
+export function toISODateStr(date: Date): string {
+  return date.toISOString().split('T')[0];
+}
+
+/**
  * Today's date as ISO-8601 date string: "2026-05-03"
  */
 export function getTodayISO(): string {
-  return new Date().toISOString().split('T')[0];
+  return toISODateStr(new Date());
+}
+
+/**
+ * Normalize a stored ISO string (may include time) to date-only: "2026-05-03"
+ * Returns '' for null/undefined (safe for HTML <input type="date"> value).
+ */
+export function normalizeDateInput(value: string | null | undefined): string {
+  return value ? value.split('T')[0] : '';
 }

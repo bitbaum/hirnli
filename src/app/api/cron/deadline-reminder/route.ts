@@ -15,6 +15,7 @@ import { eq, and } from 'drizzle-orm';
 import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { Application, FoundationRow } from '@/lib/db/schema';
+import { toISODateStr } from '@/lib/utils/format';
 
 // Initialize Resend (requires RESEND_API_KEY in env)
 const resend = process.env.RESEND_API_KEY
@@ -59,7 +60,7 @@ export async function GET(request: NextRequest) {
     for (const interval of deadlineIntervals) {
       const targetDate = new Date(today);
       targetDate.setDate(today.getDate() + interval.days);
-      const targetDateStr = targetDate.toISOString().split('T')[0];
+      const targetDateStr = toISODateStr(targetDate);
 
       // Find applications with decision expected on target date
       const upcomingDeadlines = await db

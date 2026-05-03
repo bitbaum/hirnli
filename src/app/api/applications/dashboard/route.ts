@@ -22,7 +22,7 @@ import { applications, foundations } from '@/lib/db/schema';
 import { eq, and, gte, lte } from 'drizzle-orm';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
-import { getTodayISO } from '@/lib/utils/format';
+import { getTodayISO, toISODateStr } from '@/lib/utils/format';
 import { API_ERR_LOAD } from '@/lib/utils/errors';
 
 /**
@@ -81,7 +81,7 @@ export async function GET(_request: NextRequest) {
 
     // Upcoming deadlines (next 30 days)
     const today = getTodayISO();
-    const in30Days = new Date(Date.now() + DEADLINE_UPCOMING_DAYS * MS_PER_DAY).toISOString().split('T')[0];
+    const in30Days = toISODateStr(new Date(Date.now() + DEADLINE_UPCOMING_DAYS * MS_PER_DAY));
 
     const upcomingDeadlines = await db
       .select({
