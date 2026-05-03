@@ -283,7 +283,7 @@ export function getApplicationReadiness(foundation: Foundation): ReadinessItem[]
       label: 'Bewerbungsweg bekannt',
       ready: hasMethod,
       detail: hasMethod
-        ? `Methode: ${APPLICATION_METHOD_LABELS[foundation.applicationMethod as ApplicationMethod] ?? foundation.applicationMethod}`
+        ? `Methode: ${APPLICATION_METHOD_LABELS[foundation.applicationMethod] ?? foundation.applicationMethod}`
         : 'Bewerbungsweg noch unklar',
     },
   ];
