@@ -15,12 +15,13 @@
 import { useState } from 'react';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
+import type { ApplicationMethod } from '@/lib/schemas/foundation';
 
 export interface SubmissionInfo {
   foundationName: string;
   email?: string;
   applicationUrl?: string;
-  applicationMethod?: string;
+  applicationMethod?: ApplicationMethod;
   deadline?: string | null;
   deadlineText?: string;
   websiteUrl?: string;
@@ -266,9 +267,7 @@ function ContactBlock({ info }: { info: SubmissionInfo }) {
 export default function GesuchSubmitSection({ info }: { info: SubmissionInfo }) {
   const method = info.applicationMethod;
 
-  const methodLabel = method
-    ? APPLICATION_METHOD_LABELS[method as keyof typeof APPLICATION_METHOD_LABELS] ?? null
-    : null;
+  const methodLabel = method ? APPLICATION_METHOD_LABELS[method] : null;
 
   return (
     <div className="space-y-4 print:hidden">
