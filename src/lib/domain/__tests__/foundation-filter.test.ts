@@ -96,6 +96,36 @@ describe('filterFoundations', () => {
     expect(result.map(f => f.slug)).toEqual(['a']);
   });
 
+  it('filters by trust level', () => {
+    // default fixture: source='manual' → verified
+    const data = [
+      makeFoundation({ slug: 'verified', source: 'manual', researchDepth: 'deep' }),
+      makeFoundation({ slug: 'assessed', source: 'website', researchDepth: 'standard' }),
+      makeFoundation({ slug: 'unverified', source: 'zefix', researchDepth: 'rapid' }),
+    ];
+    const result = filterFoundations(data, filters({ trustLevels: ['verified'] }));
+    expect(result.map(f => f.slug)).toEqual(['verified']);
+  });
+
+  it('trust level filter with multiple levels', () => {
+    const data = [
+      makeFoundation({ slug: 'verified', source: 'manual', researchDepth: 'deep' }),
+      makeFoundation({ slug: 'assessed', source: 'website', researchDepth: 'standard' }),
+      makeFoundation({ slug: 'unverified', source: 'zefix', researchDepth: 'rapid' }),
+    ];
+    const result = filterFoundations(data, filters({ trustLevels: ['verified', 'assessed'] }));
+    expect(result.map(f => f.slug)).toEqual(['verified', 'assessed']);
+  });
+
+  it('empty trustLevels filter shows all', () => {
+    const data = [
+      makeFoundation({ slug: 'verified', source: 'manual', researchDepth: 'deep' }),
+      makeFoundation({ slug: 'unverified', source: 'zefix', researchDepth: 'rapid' }),
+    ];
+    const result = filterFoundations(data, filters({ trustLevels: [] }));
+    expect(result).toHaveLength(2);
+  });
+
   it('handles empty foundations array', () => {
     expect(filterFoundations([], filters())).toHaveLength(0);
   });
