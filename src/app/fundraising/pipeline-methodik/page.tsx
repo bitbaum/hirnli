@@ -4,11 +4,10 @@ import Card from '@/components/ui/Card';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import {
-  TIER_LABELS, TIER_COLORS,
+  TIER_LABELS, TIER_COLORS, QUALITY_TIERS,
   getQualityTier, tierAtLeast, computeTierCounts,
 } from '@/lib/domain/foundation-helpers';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
-import type { QualityTier } from '@/lib/schemas/foundation';
 import { formatNumber } from '@/lib/utils/format';
 import { SWISS_FOUNDATIONS_DISPLAY } from '@/lib/config/projections';
 
@@ -219,7 +218,7 @@ export default function PipelineMethodikPage() {
         </p>
         <Card>
           <div className="space-y-2">
-            {(['anwendungsbereit', 'recherchiert', 'profiliert', 'erfasst', 'verzeichnet'] as QualityTier[]).map(tier => {
+            {[...QUALITY_TIERS].reverse().map(tier => {
               const count = s.tierCounts[tier];
               const pct = s.total > 0 ? ((count / s.total) * 100).toFixed(1) : '0';
               const capability = {
