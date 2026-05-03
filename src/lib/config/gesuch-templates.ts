@@ -195,13 +195,13 @@ const SCHWERPUNKT_AMOUNTS: Record<typeof SCHWERPUNKT_TEMPLATE_TYPES[number], { m
 /** Create a template foundation for a Schwerpunkt × Type combination */
 function createSchwerpunktTemplate(schwerpunktId: SchwerpunktId, type: typeof SCHWERPUNKT_TEMPLATE_TYPES[number]): Foundation {
   const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
-  const typeLabel = TYPE_LABELS[type as FoundationType];
+  const typeLabel = TYPE_LABELS[type];
   const amount = SCHWERPUNKT_AMOUNTS[type];
 
   return {
     slug: `vorlage-${schwerpunktId}-${type.toLowerCase()}`,
     name: '[Name der Stiftung]',
-    type: type as FoundationType,
+    type,
     status: 'rolling',
     deadline: null,
     deadlineText: 'Laufend',

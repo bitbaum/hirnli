@@ -63,7 +63,7 @@ const TEMPLATE_GESUCHE: Document[] = TEMPLATE_TYPES.map((templateType) => {
   // Get proper label: TYPE_LABELS for A/B/C/D/network, TEMPLATE_LABELS for generisch
   const label = templateType === 'generisch'
     ? TEMPLATE_LABELS.generisch.long
-    : TYPE_LABELS[templateType as FoundationType].long;
+    : TYPE_LABELS[templateType].long;
 
   return {
     id: `vorlage-${templateType}`,
