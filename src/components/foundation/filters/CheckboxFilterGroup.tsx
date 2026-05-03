@@ -22,7 +22,7 @@ export default function CheckboxFilterGroup({
     <CollapsibleSection title={title} defaultOpen={defaultOpen} count={selected.length || undefined}>
       <div className="space-y-1.5">
         {chips.map((chip) => {
-          const isSelected = (selected as string[]).includes(chip.id);
+          const isSelected = selected.includes(chip.id);
           return (
             <label key={chip.id} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
               <input
