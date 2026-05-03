@@ -148,7 +148,7 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
         grantBonus: 0,
         penaltyReason: null,
       },
-      level,
+      level: level as 1 | 2 | 3 | 4,
       label: pc.label,
       description: pc.description,
       isOverride: true,
