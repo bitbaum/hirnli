@@ -214,7 +214,7 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
     if (!isResearched(foundation)) {
       reason = 'Diese Stiftung benötigt noch weitere Recherche.';
     } else if (lowPriority) {
-      const pc = PRIORITY_CONFIG[foundation.priority as 1 | 2 | 3 | 4];
+      const pc = PRIORITY_CONFIG[foundation.priority];
       reason = `Priorität ${pc.label}: ${pc.description}`;
     } else {
       reason = 'Keine passenden Themen für die Gesuch-Generierung gefunden.';

@@ -21,7 +21,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
   const readiness = computeReadinessScore(f);
   const tier = readiness.tier;
   // Use stored priority (SSOT) — label/color from config, override flag from field
-  const priorityConfig = PRIORITY_CONFIG[f.priority as 1 | 2 | 3 | 4];
+  const priorityConfig = PRIORITY_CONFIG[f.priority];
   const priorityLabel = priorityConfig.label;
   const priorityIsOverride = f.priorityOverride ?? false;
   const trust = getTrustLevel(f);

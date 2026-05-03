@@ -111,9 +111,9 @@ export default function FoundationListClient() {
   // Priority distribution — use stored priority (SSOT: DB → sync → generated file)
   // computePriorityScore is not re-run here; sync script already recomputes and persists.
   const priorityDist = useMemo(() => {
-    const counts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    const counts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0 };
     for (const f of STIFTUNGEN_DATA) {
-      counts[f.priority as 1 | 2 | 3 | 4]++;
+      counts[f.priority]++;
     }
     return counts;
   }, []);

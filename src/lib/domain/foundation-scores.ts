@@ -136,7 +136,7 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
 
   // Check for manual override first
   if (f.priorityOverride && f.priority >= 1 && f.priority <= 4) {
-    const level = f.priority as 1 | 2 | 3 | 4;
+    const level = f.priority;
     const pc = PRIORITY_CONFIG[level];
     return {
       score: level === 1 ? 85 : level === 2 ? 57 : level === 3 ? 30 : 10,
