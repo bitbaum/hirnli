@@ -30,11 +30,11 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
   const [activeTab, setActiveTab] = useState<TabId>('berichte');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const tabs = [
-    { id: 'berichte' as TabId, label: `Berichte (${stats.berichteCount})`, icon: '📋' },
-    { id: 'gesuche' as TabId, label: `Gesuche (${stats.gesucheCount})`, icon: '📄' },
-    { id: 'vorlagen' as TabId, label: `Vorlagen (${stats.vorlagenCount})`, icon: '📝' },
-    { id: 'daten' as TabId, label: `Daten (${stats.exportsCount + stats.quellenCount})`, icon: '📊' },
+  const tabs: { id: TabId; label: string; icon: string }[] = [
+    { id: 'berichte', label: `Berichte (${stats.berichteCount})`, icon: '📋' },
+    { id: 'gesuche', label: `Gesuche (${stats.gesucheCount})`, icon: '📄' },
+    { id: 'vorlagen', label: `Vorlagen (${stats.vorlagenCount})`, icon: '📝' },
+    { id: 'daten', label: `Daten (${stats.exportsCount + stats.quellenCount})`, icon: '📊' },
   ];
 
   // Filter documents based on search query

@@ -76,8 +76,10 @@ export function buildSecondaryRelevance(
       const whySection = WHY[theme];
       if (!whySection) return null;
       const firstSentence = whySection.solution.split('.')[0].trim() + '.';
-      const themeId = Object.entries(THEME_ID_TO_STORY_KEY).find(([, key]) => key === theme)?.[0];
-      const label = themeId ? THEMES[themeId as ThemeId].label : theme;
+      const themeId = (Object.keys(THEME_ID_TO_STORY_KEY) as ThemeId[]).find(
+        (id) => THEME_ID_TO_STORY_KEY[id] === theme,
+      );
+      const label = themeId ? THEMES[themeId].label : theme;
       return { theme, label, connection: firstSentence };
     })
     .filter((r): r is { theme: ThemeKey; label: string; connection: string } => r !== null);

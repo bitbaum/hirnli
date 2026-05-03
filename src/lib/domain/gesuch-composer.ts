@@ -238,11 +238,11 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
   const story = composeStory(mapped.primary, mapped.secondary);
 
   // Primary theme label for bridge text
-  const primaryThemeId = Object.entries(THEME_ID_TO_STORY_KEY).find(
-    ([, key]) => key === mapped.primary,
-  )?.[0];
+  const primaryThemeId = (Object.keys(THEME_ID_TO_STORY_KEY) as ThemeId[]).find(
+    (id) => THEME_ID_TO_STORY_KEY[id] === mapped.primary,
+  );
   const primaryThemeLabel = primaryThemeId
-    ? THEMES[primaryThemeId as ThemeId].label
+    ? THEMES[primaryThemeId].label
     : mapped.primary;
 
   const whyAnecdotes = getAnecdotes(mapped.primary, 'why').slice(0, 2);
