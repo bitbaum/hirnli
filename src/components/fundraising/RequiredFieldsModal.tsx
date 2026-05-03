@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import type { RequiredField } from '@/lib/config/application-statuses';
+import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 
 interface RequiredFieldsModalProps {
   applicationId: string;
@@ -81,14 +82,14 @@ export default function RequiredFieldsModal({
 
           {missingFields.map((field) => (
             <div key={field.field}>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <label className={FORM_LABEL_CLASS}>
                 {field.label}
               </label>
               <input
                 type={field.type === 'number' ? 'number' : field.type === 'date' ? 'date' : 'text'}
                 value={values[field.field] ?? ''}
                 onChange={(e) => setValues((prev) => ({ ...prev, [field.field]: e.target.value }))}
-                className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className={FORM_INPUT_CLASS}
                 required
               />
             </div>
