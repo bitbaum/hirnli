@@ -15,6 +15,7 @@ import { KPICard } from './KPICard';
 import { StatusDistributionChart } from './StatusDistributionChart';
 import { UpcomingDeadlines } from './UpcomingDeadlines';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
+import { NET_ERR_LOAD } from '@/lib/utils/errors';
 
 interface DashboardData {
   totals: {
@@ -66,7 +67,7 @@ export function FundraisingDashboard() {
       }
     } catch (err) {
       console.error('Failed to fetch dashboard data:', err);
-      setError('Netzwerkfehler beim Laden');
+      setError(NET_ERR_LOAD);
     } finally {
       setIsLoading(false);
     }

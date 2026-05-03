@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
+import { NET_ERR_LOAD, NET_ERR_SAVE, NET_ERR_DELETE } from '@/lib/utils/errors';
 
 export interface ApplicationFormFields {
   status: ApplicationStatusId;
@@ -103,7 +104,7 @@ export function useApplicationForm(id: string) {
         }
       } catch (err) {
         console.error('Failed to fetch application:', err);
-        setError('Netzwerkfehler beim Laden');
+        setError(NET_ERR_LOAD);
       } finally {
         setIsLoading(false);
       }
@@ -135,7 +136,7 @@ export function useApplicationForm(id: string) {
       }
     } catch (err) {
       console.error('Failed to save application:', err);
-      setSaveError('Netzwerkfehler beim Speichern');
+      setSaveError(NET_ERR_SAVE);
     } finally {
       setIsSaving(false);
     }
@@ -157,7 +158,7 @@ export function useApplicationForm(id: string) {
         setIsDeleting(false);
       }
     } catch {
-      setDeleteError('Netzwerkfehler beim Löschen');
+      setDeleteError(NET_ERR_DELETE);
       setIsDeleting(false);
     }
   }, [id, router]);

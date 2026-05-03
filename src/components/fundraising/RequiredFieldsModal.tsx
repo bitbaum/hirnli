@@ -8,6 +8,7 @@
 import { useState } from 'react';
 import type { RequiredField, ApplicationStatusId } from '@/lib/config/application-statuses';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
+import { NET_ERR_RETRY } from '@/lib/utils/errors';
 
 interface RequiredFieldsModalProps {
   applicationId: string;
@@ -58,7 +59,7 @@ export default function RequiredFieldsModal({
         setError(result.error || 'Fehler beim Speichern');
       }
     } catch {
-      setError('Netzwerkfehler');
+      setError(NET_ERR_RETRY);
     } finally {
       setSubmitting(false);
     }

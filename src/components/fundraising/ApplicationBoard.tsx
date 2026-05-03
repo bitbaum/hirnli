@@ -27,6 +27,7 @@ import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
 import { KANBAN_COLUMNS, getStatusConfig, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
 import { formatCHF } from '@/lib/utils/format';
+import { NET_ERR_LOAD, NET_ERR_SAVE } from '@/lib/utils/errors';
 import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
 
@@ -55,7 +56,7 @@ export function ApplicationBoard() {
       }
     } catch (err) {
       console.error('Failed to fetch applications:', err);
-      setError('Netzwerkfehler beim Laden');
+      setError(NET_ERR_LOAD);
     } finally {
       setIsLoading(false);
     }
@@ -161,7 +162,7 @@ export function ApplicationBoard() {
             : item,
         ),
       );
-      setDragError('Netzwerkfehler — Status nicht gespeichert.');
+      setDragError(NET_ERR_SAVE);
     }
   }
 

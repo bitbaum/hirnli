@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { getStatusConfig, isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { computeFollowUpDate } from '@/lib/utils/parse-response-time';
 import { formatDateCHLong } from '@/lib/utils/format';
+import { NET_ERR_RETRY } from '@/lib/utils/errors';
 
 interface GesuchStatusWidgetProps {
   slug: string;
@@ -73,7 +74,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
         setAddError(d.error ?? 'Konnte nicht zur Pipeline hinzugefügt werden');
       }
     } catch {
-      setAddError('Netzwerkfehler — bitte versuche es erneut');
+      setAddError(NET_ERR_RETRY);
     } finally {
       setAdding(false);
     }
@@ -104,7 +105,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
         setMarkError(d.error ?? 'Fehler beim Markieren als gesendet');
       }
     } catch {
-      setMarkError('Netzwerkfehler — bitte versuche es erneut');
+      setMarkError(NET_ERR_RETRY);
     } finally {
       setMarking(false);
     }

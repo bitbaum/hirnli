@@ -9,6 +9,7 @@
 
 import { useState, useEffect } from 'react';
 import { formatDateTimeCH } from '@/lib/utils/format';
+import { NET_ERR_RETRY } from '@/lib/utils/errors';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 
 interface OverrideHistoryProps {
@@ -87,7 +88,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
         setRestoreError(result.error ?? 'Wiederherstellen fehlgeschlagen.');
       }
     } catch {
-      setRestoreError('Netzwerkfehler — bitte erneut versuchen.');
+      setRestoreError(NET_ERR_RETRY);
     } finally {
       setRestoring(null);
     }

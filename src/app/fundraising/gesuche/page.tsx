@@ -14,6 +14,7 @@ import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { formatDateCH } from '@/lib/utils/format';
+import { NET_ERR_LOAD } from '@/lib/utils/errors';
 
 interface GesuchOverviewRow {
   foundationId: string;
@@ -37,7 +38,7 @@ export default function MeineGesuchePage() {
         if (d.success) setRows(d.data);
         else setError(d.error ?? 'Fehler beim Laden');
       })
-      .catch(() => setError('Netzwerkfehler beim Laden'))
+      .catch(() => setError(NET_ERR_LOAD))
       .finally(() => setLoading(false));
   }, []);
 

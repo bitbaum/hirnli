@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
+import { NET_ERR_SAVE } from '@/lib/utils/errors';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 
@@ -97,7 +98,7 @@ export function EditApplicationModal({
       onClose();
     } catch (err) {
       console.error('Failed to save application:', err);
-      setError('Netzwerkfehler beim Speichern');
+      setError(NET_ERR_SAVE);
     } finally {
       setIsSaving(false);
     }
