@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
-import { NET_ERR_SAVE } from '@/lib/utils/errors';
+import { NET_ERR_SAVE, API_ERR_SAVE } from '@/lib/utils/errors';
 import { normalizeDateInput } from '@/lib/utils/format';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import type { Application, FoundationRow } from '@/lib/db/schema';
@@ -83,7 +83,7 @@ export function EditApplicationModal({
 
       const result = await response.json();
       if (!result.success) {
-        setError(result.error || 'Speichern fehlgeschlagen');
+        setError(result.error || API_ERR_SAVE);
         return;
       }
 

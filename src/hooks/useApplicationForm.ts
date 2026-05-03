@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
-import { NET_ERR_LOAD, NET_ERR_SAVE, NET_ERR_DELETE } from '@/lib/utils/errors';
+import { NET_ERR_LOAD, NET_ERR_SAVE, NET_ERR_DELETE, API_ERR_NOT_FOUND, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
 import { normalizeDateInput } from '@/lib/utils/format';
 
 export interface ApplicationFormFields {
@@ -97,7 +97,7 @@ export function useApplicationForm(id: string) {
           setFoundation(result.data.foundation);
           setFields(initFieldsFromApplication(result.data.application));
         } else {
-          setError(result.error || 'Nicht gefunden');
+          setError(result.error || API_ERR_NOT_FOUND);
         }
       } catch (err) {
         console.error('Failed to fetch application:', err);
@@ -129,7 +129,7 @@ export function useApplicationForm(id: string) {
       if (result.success) {
         setFoundation(result.data.foundation);
       } else {
-        setSaveError(result.error || 'Speichern fehlgeschlagen');
+        setSaveError(result.error || API_ERR_SAVE);
       }
     } catch (err) {
       console.error('Failed to save application:', err);
@@ -151,7 +151,7 @@ export function useApplicationForm(id: string) {
       if (result.success) {
         router.push('/fundraising/applications');
       } else {
-        setDeleteError(result.error ?? 'Löschen fehlgeschlagen');
+        setDeleteError(result.error ?? API_ERR_DELETE);
         setIsDeleting(false);
       }
     } catch {
