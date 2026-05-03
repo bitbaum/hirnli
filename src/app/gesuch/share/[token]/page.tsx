@@ -18,7 +18,7 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { getFoundationBySlug, hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
-import { SCHWERPUNKT_IDS, SCHWERPUNKTE } from '@/lib/config/schwerpunkte';
+import { SCHWERPUNKT_IDS, SCHWERPUNKTE, isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { resolveShareToken } from '@/lib/utils/share-token';
 
@@ -77,8 +77,8 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
   let primaryColor = gesuch.themes.all[0]?.color ?? DEFAULT_THEME_COLOR;
   let selectedSchwerpunkt: string = 'auto';
 
-  if (schwerpunktParam && SCHWERPUNKT_IDS.includes(schwerpunktParam as typeof SCHWERPUNKT_IDS[number])) {
-    const spId = schwerpunktParam as typeof SCHWERPUNKT_IDS[number];
+  if (schwerpunktParam && isSchwerpunktId(schwerpunktParam)) {
+    const spId = schwerpunktParam;
     const variant = composeGesuch(foundation, spId);
     if (variant.ready) {
       gesuch = variant;
