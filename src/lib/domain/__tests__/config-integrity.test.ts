@@ -6,7 +6,7 @@ import { FoundationType, ApplicationMethod, SourceId, ThemeId } from '@/lib/sche
 import { TRUST_CONFIG } from '@/lib/config/trust-levels';
 import { WHY, ANSCHREIBEN_TEMPLATES, THEME_ID_TO_STORY_KEY } from '@/lib/config/stories';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
-import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, getPriorityColor, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, getPriorityColor } from '@/lib/config/application-statuses';
 import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
 import { Confidence } from '@/lib/schemas/metric';
 import { computeReadinessScore, computePriorityScore } from '../foundation-scores';

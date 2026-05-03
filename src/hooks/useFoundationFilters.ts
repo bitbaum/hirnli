@@ -3,7 +3,7 @@
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import { QualityTier, ThemeId, FoundationType, FoundationStatus } from '@/lib/schemas/foundation';
-import type { FoundationFilters, SortField, ThemeLogic, FilterPresetId } from '@/lib/domain/foundation-filter';
+import type { FoundationFilters, SortField, FilterPresetId } from '@/lib/domain/foundation-filter';
 import { TRUST_CONFIG, type TrustLevel } from '@/lib/config/trust-levels';
 import { DEFAULT_FILTERS, FILTER_PRESETS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';

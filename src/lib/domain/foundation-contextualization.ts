@@ -12,11 +12,9 @@
  */
 
 import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
-import type { ThemeKey } from '@/lib/config/stories';
 import { isResearched } from './foundation-helpers';
 import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
 import { THEMES, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
-import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { fitScoreToDisplay } from './fit-scoring';
 

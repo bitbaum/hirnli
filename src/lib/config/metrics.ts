@@ -6,7 +6,7 @@
  * formula (if derived), validation rules, and documentation link.
  */
 
-import type { Metric, MetricSourceType, Confidence } from '../schemas/metric';
+import type { Metric, MetricSourceType } from '../schemas/metric';
 import type { InspectorData, InspectorSourceType } from '../schemas/inspector';
 import { ORG_PROFILE } from './org-profile';
 import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';

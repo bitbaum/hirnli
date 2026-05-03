@@ -14,7 +14,7 @@
  * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
  */
 
-import type { Foundation, FoundationType } from '@/lib/schemas/foundation';
+import type { Foundation } from '@/lib/schemas/foundation';
 import { ORG_PROFILE } from './org-profile';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS, isSchwerpunktId, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
