@@ -136,7 +136,7 @@ export async function PATCH(
           return NextResponse.json(
             {
               success: false,
-              error: 'Pflichtfelder fehlen',
+              error: API_ERR_VALIDATION,
               missingFields: missingFields.map(f => ({
                 field: f.field,
                 label: f.label,

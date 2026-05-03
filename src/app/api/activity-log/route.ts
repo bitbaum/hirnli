@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { activityLog } from '@/lib/db/schema';
 import { eq, and, desc } from 'drizzle-orm';
+import { API_ERR_VALIDATION, API_ERR_DB } from '@/lib/utils/errors';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
 
   if (!entityId || !entityType) {
     return NextResponse.json(
-      { success: false, error: 'entityId und entityType sind erforderlich' },
+      { success: false, error: API_ERR_VALIDATION },
       { status: 400 },
     );
   }
@@ -40,6 +41,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: true, data: entries });
   } catch (err) {
     console.error('GET activity-log error:', err);
-    return NextResponse.json({ success: false, error: 'Datenbankfehler' }, { status: 500 });
+    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
   }
 }

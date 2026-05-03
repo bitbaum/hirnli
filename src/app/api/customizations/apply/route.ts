@@ -10,7 +10,7 @@ import {
   getCustomizationSummary,
 } from '@/lib/domain/personalization-engine';
 import { z } from 'zod';
-import { API_ERR_VALIDATION } from '@/lib/utils/errors';
+import { API_ERR_VALIDATION, API_ERR_PROCESS } from '@/lib/utils/errors';
 
 // Request schema
 const applySchema = z.object({
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        error: 'Verarbeitung fehlgeschlagen',
+        error: API_ERR_PROCESS,
       },
       { status: 500 }
     );
