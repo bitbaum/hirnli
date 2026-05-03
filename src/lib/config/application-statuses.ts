@@ -11,6 +11,8 @@ export interface RequiredField {
   type: 'date' | 'number' | 'text';
 }
 
+const NO_REQUIRED_FIELDS: RequiredField[] = [];
+
 export const APPLICATION_STATUSES = [
   {
     id: 'prospect',
@@ -18,7 +20,7 @@ export const APPLICATION_STATUSES = [
     description: 'Potenzielle Stiftungen, die wir ansprechen wollen',
     color: 'bg-bg-light text-grey-dark border-border',
     chartColor: { bg: 'rgba(156, 163, 175, 0.6)', border: 'rgba(156, 163, 175, 1)' },
-    requiredFields: [] as RequiredField[],
+    requiredFields: NO_REQUIRED_FIELDS,
   },
   {
     id: 'research',
@@ -26,7 +28,7 @@ export const APPLICATION_STATUSES = [
     description: 'Stiftungs-Fit und Anforderungen werden geprüft',
     color: 'bg-blue-100 text-blue-700 border-blue-300',
     chartColor: { bg: 'rgba(59, 130, 246, 0.6)', border: 'rgba(59, 130, 246, 1)' },
-    requiredFields: [] as RequiredField[],
+    requiredFields: NO_REQUIRED_FIELDS,
   },
   {
     id: 'draft',
@@ -34,7 +36,7 @@ export const APPLICATION_STATUSES = [
     description: 'Gesuch wird erarbeitet',
     color: 'bg-purple-100 text-purple-700 border-purple-300',
     chartColor: { bg: 'rgba(147, 51, 234, 0.6)', border: 'rgba(147, 51, 234, 1)' },
-    requiredFields: [] as RequiredField[],
+    requiredFields: NO_REQUIRED_FIELDS,
   },
   {
     id: 'review',
@@ -42,7 +44,7 @@ export const APPLICATION_STATUSES = [
     description: 'Interne Prüfung vor der Einreichung',
     color: 'bg-yellow-100 text-yellow-700 border-yellow-300',
     chartColor: { bg: 'rgba(234, 179, 8, 0.6)', border: 'rgba(234, 179, 8, 1)' },
-    requiredFields: [] as RequiredField[],
+    requiredFields: NO_REQUIRED_FIELDS,
   },
   {
     id: 'submitted',
@@ -60,7 +62,7 @@ export const APPLICATION_STATUSES = [
     description: 'Wir warten auf die Entscheidung der Stiftung',
     color: 'bg-orange-100 text-orange-700 border-orange-300',
     chartColor: { bg: 'rgba(249, 115, 22, 0.6)', border: 'rgba(249, 115, 22, 1)' },
-    requiredFields: [] as RequiredField[],
+    requiredFields: NO_REQUIRED_FIELDS,
   },
   {
     id: 'followup',
@@ -68,7 +70,7 @@ export const APPLICATION_STATUSES = [
     description: 'Nachfassen erforderlich',
     color: 'bg-pink-100 text-pink-700 border-pink-300',
     chartColor: { bg: 'rgba(236, 72, 153, 0.6)', border: 'rgba(236, 72, 153, 1)' },
-    requiredFields: [] as RequiredField[],
+    requiredFields: NO_REQUIRED_FIELDS,
   },
   {
     id: 'accepted',
@@ -96,7 +98,7 @@ export const APPLICATION_STATUSES = [
     description: 'Gesuch von uns zurückgezogen',
     color: 'bg-bg-light text-text-light border-border',
     chartColor: { bg: 'rgba(203, 213, 225, 0.6)', border: 'rgba(203, 213, 225, 1)' },
-    requiredFields: [] as RequiredField[],
+    requiredFields: NO_REQUIRED_FIELDS,
   },
   {
     id: 'onhold',
@@ -104,7 +106,7 @@ export const APPLICATION_STATUSES = [
     description: 'Gesuch pausiert — wird später weiterverfolgt',
     color: 'bg-slate-100 text-slate-600 border-slate-300',
     chartColor: { bg: 'rgba(100, 116, 139, 0.6)', border: 'rgba(100, 116, 139, 1)' },
-    requiredFields: [] as RequiredField[],
+    requiredFields: NO_REQUIRED_FIELDS,
   },
 ] as const;
 

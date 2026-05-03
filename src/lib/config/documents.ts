@@ -41,13 +41,13 @@ export interface Document {
 
 const FOUNDATION_GESUCHE: Document[] = STIFTUNGEN_DATA
   .filter(hasGesuchPage)
-  .map((foundation) => ({
+  .map((foundation): Document => ({
     id: `gesuch-${foundation.slug}`,
     title: `Gesuch ${foundation.name}`,
     description: `Personalisiertes Gesuch für ${foundation.name} — ${foundation.themes.join(', ')}`,
-    format: 'PDF' as DocumentFormat,
-    category: 'gesuch' as DocumentCategory,
-    action: 'download' as DocumentAction,
+    format: 'PDF',
+    category: 'gesuch',
+    action: 'download',
     href: `/api/pdf/gesuch/${foundation.slug}`,
     size: '~5 Seiten',
     badge: `Fit ${foundation.fitScore}/10`,
@@ -57,7 +57,7 @@ const FOUNDATION_GESUCHE: Document[] = STIFTUNGEN_DATA
 // Template Gesuche (Reference Templates)
 // ---------------------------------------------------------------------------
 
-const TEMPLATE_GESUCHE: Document[] = TEMPLATE_TYPES.map((templateType) => {
+const TEMPLATE_GESUCHE: Document[] = TEMPLATE_TYPES.map((templateType): Document => {
   const foundation = TEMPLATE_FOUNDATIONS[templateType];
 
   // Get proper label: TYPE_LABELS for A/B/C/D/network, TEMPLATE_LABELS for generisch
@@ -69,9 +69,9 @@ const TEMPLATE_GESUCHE: Document[] = TEMPLATE_TYPES.map((templateType) => {
     id: `vorlage-${templateType}`,
     title: `Gesuch ${label}`,
     description: foundation?.tagline || label,
-    format: 'PDF' as DocumentFormat,
-    category: 'vorlage' as DocumentCategory,
-    action: 'print' as DocumentAction,
+    format: 'PDF',
+    category: 'vorlage',
+    action: 'print',
     href: `/fundraising/gesuch-vorlagen/${templateType}/dokument`,
     size: '~4-6 Seiten',
     badge: templateType === 'generisch' ? 'Generisch' : `Typ ${templateType.toUpperCase()}`,
