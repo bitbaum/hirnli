@@ -38,7 +38,7 @@ export function ApplicationBoard() {
   const [dragError, setDragError] = useState<string | null>(null);
   const [requiredFieldsModal, setRequiredFieldsModal] = useState<{
     applicationId: string;
-    targetStatus: string;
+    targetStatus: ApplicationStatusId;
     missingFields: RequiredField[];
   } | null>(null);
 

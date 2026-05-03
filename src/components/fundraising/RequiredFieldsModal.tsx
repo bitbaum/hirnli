@@ -6,12 +6,12 @@
  */
 
 import { useState } from 'react';
-import type { RequiredField } from '@/lib/config/application-statuses';
+import type { RequiredField, ApplicationStatusId } from '@/lib/config/application-statuses';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 
 interface RequiredFieldsModalProps {
   applicationId: string;
-  targetStatus: string;
+  targetStatus: ApplicationStatusId;
   missingFields: RequiredField[];
   onSuccess: () => void;
   onCancel: () => void;
