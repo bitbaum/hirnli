@@ -17,7 +17,7 @@ import { formatNumber } from '@/lib/utils/format';
 import { z } from 'zod';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
-import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
+import { resolveTypeLabel } from '@/lib/config/foundations/metadata';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
@@ -90,7 +90,7 @@ function buildUserMessage(body: RequestBody): string {
     lines.push(`## Stiftung: ${fc.name}`);
     if (fc.purpose) lines.push(`Stiftungszweck: ${fc.purpose}`);
     if (fc.type) {
-      const label = TYPE_LABELS[fc.type as keyof typeof TYPE_LABELS];
+      const label = resolveTypeLabel(fc.type);
       lines.push(`Stiftungstyp: ${label ? `Typ ${label.short} — ${label.long}` : fc.type}`);
     }
     if (fc.themes?.length) {

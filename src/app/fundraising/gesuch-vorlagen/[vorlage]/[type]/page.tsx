@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { TYPE_LABELS } from '@/lib/config/foundations';
+import { resolveTypeLabel } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
@@ -25,7 +25,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { vorlage: schwerpunkt, type } = await params;
   const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
-  const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  const typeLabel = resolveTypeLabel(type);
   if (!sp || !typeLabel) return { title: 'Vorlage nicht gefunden' };
 
   return {
@@ -43,7 +43,7 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
   }
 
   const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
-  const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  const typeLabel = resolveTypeLabel(type);
   const gesuch = composeGesuch(foundation, schwerpunkt as SchwerpunktId);
   const primaryColor = sp?.color ?? DEFAULT_THEME_COLOR;
 

@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
-import { THEMES, TYPE_LABELS } from '@/lib/config/foundations';
+import { THEMES, resolveTypeLabel } from '@/lib/config/foundations';
 import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
@@ -23,7 +23,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { vorlage: type } = await params;
-  const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  const typeLabel = resolveTypeLabel(type);
   if (typeLabel) {
     return {
       title: `Gesuch-Vorlage Typ ${typeLabel.short} — ${typeLabel.long}`,
@@ -49,7 +49,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
   }
 
   const gesuch = composeGesuch(foundation);
-  const typeLabel = TYPE_LABELS[type as keyof typeof TYPE_LABELS];
+  const typeLabel = resolveTypeLabel(type);
   const tplLabel = TEMPLATE_LABELS[type];
   const primaryThemeId = foundation.themes[0];
   const primaryColor = primaryThemeId ? THEMES[primaryThemeId].color : DEFAULT_THEME_COLOR;

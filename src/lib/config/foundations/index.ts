@@ -10,6 +10,7 @@ export {
   THEMES,
   SOURCES,
   TYPE_LABELS,
+  resolveTypeLabel,
   STATUS_LABELS,
   STATUS_BADGE_VARIANT,
   PRIORITY_CONFIG,

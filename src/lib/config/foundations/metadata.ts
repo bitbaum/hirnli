@@ -182,6 +182,11 @@ export const TYPE_LABELS: Record<FoundationType, TypeLabel> = {
   },
 } as const satisfies Record<FoundationType, TypeLabel>;
 
+/** Look up a type label from a URL param or request body string. Returns undefined for unknown types. */
+export function resolveTypeLabel(type: string): TypeLabel | undefined {
+  return TYPE_LABELS[type as FoundationType];
+}
+
 // ============================================================================
 // STATUS LABELS
 // ============================================================================
