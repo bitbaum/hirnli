@@ -17,6 +17,7 @@ import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchOnePagerPDF from '@/lib/pdf/gesuch-onepager';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
+import { getTodayISO } from '@/lib/utils/format';
 
 export async function GET(
   request: NextRequest,
@@ -70,7 +71,7 @@ export async function GET(
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '')
       .toLowerCase();
-    const date = new Date().toISOString().split('T')[0];
+    const date = getTodayISO();
     const filename = `kurzuebersicht-${safeName}-${date}.pdf`;
 
     return new NextResponse(buffer, {

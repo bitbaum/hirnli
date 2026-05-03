@@ -101,3 +101,10 @@ export function formatDateCHLong(dateStr: string): string {
     year: 'numeric',
   });
 }
+
+/**
+ * Today's date as ISO-8601 date string: "2026-05-03"
+ */
+export function getTodayISO(): string {
+  return new Date().toISOString().split('T')[0];
+}

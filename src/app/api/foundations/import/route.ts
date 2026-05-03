@@ -13,6 +13,7 @@ import { db } from '@/lib/db/client';
 import { foundations } from '@/lib/db/schema';
 import { z } from 'zod';
 import { toSlug } from '@/lib/utils/slug';
+import { getTodayISO } from '@/lib/utils/format';
 
 // Validation schema for imported foundations
 const importedFoundationSchema = z.object({
@@ -198,7 +199,7 @@ export async function POST(request: NextRequest) {
         priority: f.priority ?? null,
         configData,
         researchDepth: 'rapid' as const,
-        researchDate: new Date().toISOString().split('T')[0],
+        researchDate: getTodayISO(),
         source: f.source || 'api-import',
         archived: false,
       };

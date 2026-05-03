@@ -17,6 +17,7 @@ import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchDokumentPDF from '@/lib/pdf/gesuch-dokument';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
+import { getTodayISO } from '@/lib/utils/format';
 
 export async function GET(
   request: NextRequest,
@@ -76,7 +77,7 @@ export async function GET(
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '')
       .toLowerCase();
-    const date = new Date().toISOString().split('T')[0];
+    const date = getTodayISO();
     const filename = `gesuch-${safeName}-${date}.pdf`;
 
     return new NextResponse(buffer, {

@@ -20,6 +20,7 @@ import { foundations } from '@/lib/db/schema';
 import { and, count, desc, eq, gte, ilike, sql } from 'drizzle-orm';
 import { toSlug } from '@/lib/utils/slug';
 import { createFoundationSchema } from '@/lib/schemas/foundation-api';
+import { getTodayISO } from '@/lib/utils/format';
 
 /**
  * GET /api/foundations
@@ -144,7 +145,7 @@ export async function POST(request: NextRequest) {
       fitScore: data.fitScore ?? null,
       priority: data.priority ?? null,
       researchDepth: data.researchDepth ?? 'rapid',
-      researchDate: new Date().toISOString().split('T')[0],
+      researchDate: getTodayISO(),
       source: data.source ?? null,
       configData: data.configData ?? { slug, name: data.name },
       archived: false,

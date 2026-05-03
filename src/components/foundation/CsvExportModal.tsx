@@ -8,6 +8,7 @@ import { getQualityTier } from '@/lib/domain/foundation-helpers';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
 import { escapeCSV } from '@/lib/utils/csv';
+import { getTodayISO } from '@/lib/utils/format';
 
 interface ParsedAddress {
   street: string;
@@ -248,7 +249,7 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `stiftungen-export-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `stiftungen-export-${getTodayISO()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
     onClose();

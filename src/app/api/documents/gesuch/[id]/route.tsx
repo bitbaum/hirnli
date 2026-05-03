@@ -17,6 +17,7 @@ import { GesuchPDF } from '@/lib/pdf/GesuchTemplate';
 import { generatePersonalizedGesuch } from '@/lib/domain/personalization-engine';
 import { CO2_PER_LAPTOP, LAPTOPS_REFURBISHED_COUNT, NUMBERS_REGISTRY } from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTodayISO } from '@/lib/utils/format';
 
 /**
  * POST /api/documents/gesuch/[id]
@@ -118,7 +119,7 @@ export async function POST(
     const buffer = Buffer.concat(chunks);
 
     // Generate filename
-    const filename = `gesuch-${foundation.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.pdf`;
+    const filename = `gesuch-${foundation.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${getTodayISO()}.pdf`;
 
     // Return PDF
     return new NextResponse(buffer, {

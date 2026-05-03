@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getStatusConfig, isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { computeFollowUpDate } from '@/lib/utils/parse-response-time';
-import { formatDateCHLong } from '@/lib/utils/format';
+import { formatDateCHLong, getTodayISO } from '@/lib/utils/format';
 import { NET_ERR_RETRY } from '@/lib/utils/errors';
 
 interface GesuchStatusWidgetProps {
@@ -85,7 +85,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
     setMarking(true);
     setMarkError(null);
     try {
-      const today = new Date().toISOString().split('T')[0];
+      const today = getTodayISO();
       const decisionExpected = computeFollowUpDate(today, responseTime);
       const r = await fetch(`/api/applications/${appId}`, {
         method: 'PATCH',
