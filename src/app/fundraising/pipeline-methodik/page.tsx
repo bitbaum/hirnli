@@ -63,9 +63,9 @@ function computeFunnelStats() {
 
   // Priority distribution among recherchiert+
   const recherchiertFoundations = STIFTUNGEN_DATA.filter(f => tierAtLeast(getQualityTier(f), 'recherchiert'));
-  const pCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+  const pCounts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0 };
   for (const f of recherchiertFoundations) {
-    pCounts[f.priority as 1 | 2 | 3 | 4]++;
+    pCounts[f.priority]++;
   }
 
   return {
