@@ -18,6 +18,7 @@ import { generatePersonalizedGesuch } from '@/lib/domain/personalization-engine'
 import { CO2_PER_LAPTOP, LAPTOPS_REFURBISHED_COUNT, NUMBERS_REGISTRY } from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { getTodayISO } from '@/lib/utils/format';
+import { API_ERR_NOT_FOUND } from '@/lib/utils/errors';
 
 /**
  * POST /api/documents/gesuch/[id]
@@ -43,7 +44,7 @@ export async function POST(
 
     if (result.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Application not found' },
+        { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
       );
     }

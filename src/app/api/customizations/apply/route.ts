@@ -10,6 +10,7 @@ import {
   getCustomizationSummary,
 } from '@/lib/domain/personalization-engine';
 import { z } from 'zod';
+import { API_ERR_VALIDATION } from '@/lib/utils/errors';
 
 // Request schema
 const applySchema = z.object({
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Validation failed',
+          error: API_ERR_VALIDATION,
           details: validation.error.flatten(),
         },
         { status: 400 }

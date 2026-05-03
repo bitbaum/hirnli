@@ -14,6 +14,7 @@ import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { foundationSchema } from '@/lib/schemas/foundation';
 import { updateFoundationSchema } from '@/lib/schemas/foundation-api';
+import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE } from '@/lib/utils/errors';
 
 /**
  * GET /api/foundations/[id]
@@ -47,7 +48,7 @@ export async function GET(
   } catch (error) {
     console.error(`GET /api/foundations/${id} error:`, error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch foundation' },
+      { success: false, error: API_ERR_LOAD },
       { status: 500 }
     );
   }
@@ -72,7 +73,7 @@ export async function PUT(
       return NextResponse.json(
         {
           success: false,
-          error: 'Validation failed',
+          error: API_ERR_VALIDATION,
           details: validation.error.issues.map((i) => ({
             path: i.path.join('.'),
             message: i.message,
@@ -137,7 +138,7 @@ export async function PUT(
   } catch (error) {
     console.error(`PUT /api/foundations/${id} error:`, error);
     return NextResponse.json(
-      { success: false, error: 'Failed to update foundation' },
+      { success: false, error: API_ERR_SAVE },
       { status: 500 }
     );
   }
@@ -161,7 +162,7 @@ export async function PATCH(
       return NextResponse.json(
         {
           success: false,
-          error: 'Validation failed',
+          error: API_ERR_VALIDATION,
           details: validation.error.flatten()
         },
         { status: 400 }
@@ -233,7 +234,7 @@ export async function PATCH(
   } catch (error) {
     console.error(`PATCH /api/foundations/${id} error:`, error);
     return NextResponse.json(
-      { success: false, error: 'Failed to update foundation' },
+      { success: false, error: API_ERR_SAVE },
       { status: 500 }
     );
   }
@@ -293,7 +294,7 @@ export async function DELETE(
   } catch (error) {
     console.error(`DELETE /api/foundations/${id} error:`, error);
     return NextResponse.json(
-      { success: false, error: 'Failed to archive foundation' },
+      { success: false, error: API_ERR_SAVE },
       { status: 500 }
     );
   }

@@ -11,6 +11,7 @@ import { customizationRules } from '@/lib/db/schema';
 import { eq, desc, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
+import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE } from '@/lib/utils/errors';
 
 // Validation schema for creating rules
 const createRuleSchema = z.object({
@@ -74,7 +75,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('GET /api/customizations error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch customization rules' },
+      { success: false, error: API_ERR_LOAD },
       { status: 500 }
     );
   }
@@ -94,7 +95,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Validation failed',
+          error: API_ERR_VALIDATION,
           details: validation.error.flatten(),
         },
         { status: 400 }
@@ -118,7 +119,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('POST /api/customizations error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to create customization rule' },
+      { success: false, error: API_ERR_SAVE },
       { status: 500 }
     );
   }

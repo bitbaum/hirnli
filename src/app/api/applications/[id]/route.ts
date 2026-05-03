@@ -14,6 +14,7 @@ import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { STATUS_IDS, getStatusConfig } from '@/lib/config/application-statuses';
+import { API_ERR_NOT_FOUND, API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
 
 // Validation schema for updates
 const updateApplicationSchema = z.object({
@@ -63,7 +64,7 @@ export async function GET(
 
     if (result.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Application not found' },
+        { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -76,7 +77,7 @@ export async function GET(
   } catch (error) {
     console.error(`GET /api/applications/${id} error:`, error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch application' },
+      { success: false, error: API_ERR_LOAD },
       { status: 500 }
     );
   }
@@ -100,7 +101,7 @@ export async function PATCH(
       return NextResponse.json(
         {
           success: false,
-          error: 'Validation failed',
+          error: API_ERR_VALIDATION,
           details: validation.error.flatten()
         },
         { status: 400 }
@@ -116,7 +117,7 @@ export async function PATCH(
 
     if (existing.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Application not found' },
+        { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -200,7 +201,7 @@ export async function PATCH(
   } catch (error) {
     console.error(`PATCH /api/applications/${id} error:`, error);
     return NextResponse.json(
-      { success: false, error: 'Failed to update application' },
+      { success: false, error: API_ERR_SAVE },
       { status: 500 }
     );
   }
@@ -226,7 +227,7 @@ export async function DELETE(
 
     if (existing.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Application not found' },
+        { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -258,7 +259,7 @@ export async function DELETE(
   } catch (error) {
     console.error(`DELETE /api/applications/${id} error:`, error);
     return NextResponse.json(
-      { success: false, error: 'Failed to delete application' },
+      { success: false, error: API_ERR_DELETE },
       { status: 500 }
     );
   }

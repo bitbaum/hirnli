@@ -21,6 +21,7 @@ import { and, count, desc, eq, gte, ilike, sql } from 'drizzle-orm';
 import { toSlug } from '@/lib/utils/slug';
 import { createFoundationSchema } from '@/lib/schemas/foundation-api';
 import { getTodayISO } from '@/lib/utils/format';
+import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_CONFLICT } from '@/lib/utils/errors';
 
 /**
  * GET /api/foundations
@@ -93,7 +94,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('GET /api/foundations error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch foundations' },
+      { success: false, error: API_ERR_LOAD },
       { status: 500 }
     );
   }
@@ -113,7 +114,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Validation failed',
+          error: API_ERR_VALIDATION,
           details: validation.error.flatten()
         },
         { status: 400 }
@@ -133,7 +134,7 @@ export async function POST(request: NextRequest) {
 
     if (existing.length > 0) {
       return NextResponse.json(
-        { success: false, error: 'Foundation with this name already exists' },
+        { success: false, error: API_ERR_CONFLICT },
         { status: 409 }
       );
     }
@@ -161,7 +162,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('POST /api/foundations error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to create foundation' },
+      { success: false, error: API_ERR_SAVE },
       { status: 500 }
     );
   }

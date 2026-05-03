@@ -20,6 +20,7 @@ import { and, count, desc, eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { STATUS_IDS } from '@/lib/config/application-statuses';
+import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE } from '@/lib/utils/errors';
 
 // Validation schema for creating applications
 const createApplicationSchema = z.object({
@@ -108,7 +109,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('GET /api/applications error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch applications' },
+      { success: false, error: API_ERR_LOAD },
       { status: 500 }
     );
   }
@@ -128,7 +129,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Validation failed',
+          error: API_ERR_VALIDATION,
           details: validation.error.flatten()
         },
         { status: 400 }
@@ -181,7 +182,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('POST /api/applications error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to create application' },
+      { success: false, error: API_ERR_SAVE },
       { status: 500 }
     );
   }

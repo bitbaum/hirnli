@@ -63,7 +63,7 @@ export function FundraisingDashboard() {
       if (result.success) {
         setData(result.data);
       } else {
-        setError(result.error || 'Failed to fetch dashboard data');
+        setError(result.error || NET_ERR_LOAD);
       }
     } catch (err) {
       console.error('Failed to fetch dashboard data:', err);

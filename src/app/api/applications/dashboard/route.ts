@@ -23,6 +23,7 @@ import { eq, and, gte, lte } from 'drizzle-orm';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 import { getTodayISO } from '@/lib/utils/format';
+import { API_ERR_LOAD } from '@/lib/utils/errors';
 
 /**
  * GET /api/applications/dashboard
@@ -140,7 +141,7 @@ export async function GET(_request: NextRequest) {
   } catch (error) {
     console.error('GET /api/applications/dashboard error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch dashboard statistics' },
+      { success: false, error: API_ERR_LOAD },
       { status: 500 }
     );
   }

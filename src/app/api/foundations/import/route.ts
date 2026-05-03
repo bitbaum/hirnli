@@ -14,6 +14,7 @@ import { foundations } from '@/lib/db/schema';
 import { z } from 'zod';
 import { toSlug } from '@/lib/utils/slug';
 import { getTodayISO } from '@/lib/utils/format';
+import { API_ERR_SAVE } from '@/lib/utils/errors';
 
 // Validation schema for imported foundations
 const importedFoundationSchema = z.object({
@@ -110,7 +111,7 @@ export async function POST(request: NextRequest) {
       parsed = JSON.parse(content);
     } catch {
       return NextResponse.json(
-        { success: false, error: 'Invalid JSON format' },
+        { success: false, error: 'Ungültiges JSON-Format' },
         { status: 400 }
       );
     }
@@ -219,7 +220,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('POST /api/foundations/import error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to import foundations' },
+      { success: false, error: API_ERR_SAVE },
       { status: 500 }
     );
   }
