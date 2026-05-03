@@ -20,7 +20,7 @@ import { and, count, desc, eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { STATUS_IDS } from '@/lib/config/application-statuses';
-import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE } from '@/lib/utils/errors';
+import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_NOT_FOUND } from '@/lib/utils/errors';
 
 // Validation schema for creating applications
 const createApplicationSchema = z.object({
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
 
     if (foundation.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Foundation not found' },
+        { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
       );
     }

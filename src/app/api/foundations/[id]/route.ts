@@ -14,7 +14,7 @@ import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { foundationSchema } from '@/lib/schemas/foundation';
 import { updateFoundationSchema } from '@/lib/schemas/foundation-api';
-import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE } from '@/lib/utils/errors';
+import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_NOT_FOUND } from '@/lib/utils/errors';
 
 /**
  * GET /api/foundations/[id]
@@ -35,7 +35,7 @@ export async function GET(
 
     if (result.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Foundation not found' },
+        { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -92,7 +92,7 @@ export async function PUT(
 
     if (existing.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Foundation not found' },
+        { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -178,7 +178,7 @@ export async function PATCH(
 
     if (existing.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Foundation not found' },
+        { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
       );
     }
@@ -260,7 +260,7 @@ export async function DELETE(
 
     if (existing.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Foundation not found' },
+        { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
       );
     }

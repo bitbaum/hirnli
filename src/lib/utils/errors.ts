@@ -11,3 +11,6 @@ export const API_ERR_LOAD = 'Fehler beim Laden';
 export const API_ERR_SAVE = 'Fehler beim Speichern';
 export const API_ERR_DELETE = 'Fehler beim Löschen';
 export const API_ERR_CONFLICT = 'Eintrag existiert bereits';
+export const API_ERR_DB = 'Datenbankfehler';
+export const API_ERR_EXPORT = 'Export fehlgeschlagen';
+export const API_ERR_BAD_REQUEST = 'Ungültige Anfrage';

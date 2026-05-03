@@ -14,6 +14,7 @@ import { gesuchOverridesSchema, type GesuchOverridesData } from '@/lib/schemas/g
 import { eq, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { API_ERR_DB, API_ERR_VALIDATION, API_ERR_BAD_REQUEST } from '@/lib/utils/errors';
 
 const ORG_ID = ORG_PROFILE.orgId;
 
@@ -87,7 +88,7 @@ export async function GET(
     return NextResponse.json({ success: true, data: { overrides: rows[0].overrides } });
   } catch (err) {
     console.error('GET gesuch-overrides error:', err);
-    return NextResponse.json({ success: false, error: 'Datenbankfehler' }, { status: 500 });
+    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
   }
 }
 
@@ -105,13 +106,13 @@ export async function PUT(
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ success: false, error: 'Ungültige Anfrage' }, { status: 400 });
+    return NextResponse.json({ success: false, error: API_ERR_BAD_REQUEST }, { status: 400 });
   }
 
   const parsed = gesuchOverridesSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { success: false, error: 'Validierungsfehler', details: parsed.error.flatten() },
+      { success: false, error: API_ERR_VALIDATION, details: parsed.error.flatten() },
       { status: 400 }
     );
   }
@@ -147,7 +148,7 @@ export async function PUT(
     return NextResponse.json({ success: true, data: { overrides: parsed.data } });
   } catch (err) {
     console.error('PUT gesuch-overrides error:', err);
-    return NextResponse.json({ success: false, error: 'Datenbankfehler' }, { status: 500 });
+    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
   }
 }
 
@@ -165,13 +166,13 @@ export async function PATCH(
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ success: false, error: 'Ungültige Anfrage' }, { status: 400 });
+    return NextResponse.json({ success: false, error: API_ERR_BAD_REQUEST }, { status: 400 });
   }
 
   const parsed = gesuchOverridesSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { success: false, error: 'Validierungsfehler', details: parsed.error.flatten() },
+      { success: false, error: API_ERR_VALIDATION, details: parsed.error.flatten() },
       { status: 400 }
     );
   }
@@ -211,7 +212,7 @@ export async function PATCH(
     return NextResponse.json({ success: true, data: { overrides: merged } });
   } catch (err) {
     console.error('PATCH gesuch-overrides error:', err);
-    return NextResponse.json({ success: false, error: 'Datenbankfehler' }, { status: 500 });
+    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
   }
 }
 
@@ -237,6 +238,6 @@ export async function DELETE(
     return NextResponse.json({ success: true, data: null });
   } catch (err) {
     console.error('DELETE gesuch-overrides error:', err);
-    return NextResponse.json({ success: false, error: 'Datenbankfehler' }, { status: 500 });
+    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
   }
 }

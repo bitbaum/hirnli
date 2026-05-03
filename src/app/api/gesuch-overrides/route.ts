@@ -12,6 +12,7 @@ import { gesuchOverrides, applications, foundations } from '@/lib/db/schema';
 import { eq, inArray } from 'drizzle-orm';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
+import { API_ERR_DB } from '@/lib/utils/errors';
 
 const ORG_ID = ORG_PROFILE.orgId;
 
@@ -83,6 +84,6 @@ export async function GET() {
     return NextResponse.json({ success: true, data: results });
   } catch (err) {
     console.error('GET gesuch-overrides (list) error:', err);
-    return NextResponse.json({ success: false, error: 'Datenbankfehler' }, { status: 500 });
+    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
   }
 }

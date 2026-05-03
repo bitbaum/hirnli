@@ -5,6 +5,7 @@ import { eq } from 'drizzle-orm';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { arrayToCSV } from '@/lib/utils/csv';
 import { MS_PER_DAY } from '@/lib/utils/time';
+import { API_ERR_EXPORT } from '@/lib/utils/errors';
 
 const filePrefix = ORG_PROFILE.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -96,6 +97,6 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Fundraising pipeline export error:', error);
-    return NextResponse.json({ success: false, error: 'Export failed' }, { status: 500 });
+    return NextResponse.json({ success: false, error: API_ERR_EXPORT }, { status: 500 });
   }
 }
