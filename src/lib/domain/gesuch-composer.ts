@@ -134,11 +134,7 @@ export interface ComposedGesuchDokument extends ComposedGesuch {
 // ============================================================================
 
 function mapFoundationThemes(foundation: Foundation) {
-  const mappedThemes = [...new Set(
-    foundation.themes
-      .map((id) => THEME_ID_TO_STORY_KEY[id])
-      .filter((k): k is ThemeKey => k !== undefined)
-  )];
+  const mappedThemes = [...new Set(foundation.themes.map((id) => THEME_ID_TO_STORY_KEY[id]))];
 
   const sorted = [...mappedThemes].sort(
     (a, b) => THEME_PRIORITY.indexOf(b) - THEME_PRIORITY.indexOf(a)
@@ -158,37 +154,34 @@ function collectThemeMetadata(foundation: Foundation, schwerpunktId?: Schwerpunk
   // When a Schwerpunkt is selected, prefer themes matching the Schwerpunkt's focus.
   if (schwerpunktId) {
     const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
-    const _spThemeIds = new Set(schwerpunkt.themeIds);
     // Intersect foundation themes with Schwerpunkt themes, preserving Schwerpunkt order
     const orderedIds = schwerpunkt.themeIds.filter((id) => foundation.themes.includes(id));
     // If foundation has any matching themes, use those. Otherwise use Schwerpunkt themes directly.
     const ids = orderedIds.length > 0 ? orderedIds : schwerpunkt.themeIds;
-    return ids
-      .map((id) => THEMES[id])
-      .filter((t): t is NonNullable<typeof t> => t !== undefined)
-      .map((t) => ({ id: t.id, label: t.label, icon: t.icon, color: t.color }));
+    return ids.map((id) => {
+      const t = THEMES[id];
+      return { id: t.id, label: t.label, icon: t.icon, color: t.color };
+    });
   }
 
   // Default: deduplicate by story key so geographic aliases (e.g. 'zuerich' → 'klima')
   // don't show alongside a proper klima theme. But keep 'zuerich' as a fallback
   // badge when it is the foundation's only tag — otherwise the hero shows
   // zero theme chips.
-  const hasContentTheme = foundation.themes.some(
-    (id) => id !== 'zuerich' && THEME_ID_TO_STORY_KEY[id] !== undefined,
-  );
+  const hasContentTheme = foundation.themes.some((id) => id !== 'zuerich');
   const seenStoryKeys = new Set<string>();
   return foundation.themes
     .filter((id) => {
       if (id === 'zuerich' && hasContentTheme) return false;
       const storyKey = THEME_ID_TO_STORY_KEY[id];
-      if (!storyKey) return false;
       if (seenStoryKeys.has(storyKey)) return false;
       seenStoryKeys.add(storyKey);
       return true;
     })
-    .map((id) => THEMES[id])
-    .filter((t) => t !== undefined)
-    .map((t) => ({ id: t.id, label: t.label, icon: t.icon, color: t.color }));
+    .map((id) => {
+      const t = THEMES[id];
+      return { id: t.id, label: t.label, icon: t.icon, color: t.color };
+    });
 }
 
 function buildFoundationInfo(foundation: Foundation) {

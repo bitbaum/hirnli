@@ -64,18 +64,6 @@ function firstSentence(text: string | undefined): string {
   return trimmed.slice(0, dotIndex + 1);
 }
 
-/** Count how many foundation themes map to a story key */
-function countThemeOverlaps(themes: ThemeId[]): number {
-  return themes.filter((id) => THEME_ID_TO_STORY_KEY[id] !== undefined).length;
-}
-
-/** Get labels for overlapping themes, ordered by the foundation's theme list */
-function getOverlappingThemeLabels(themes: ThemeId[]): string[] {
-  return themes
-    .filter((id) => THEME_ID_TO_STORY_KEY[id] !== undefined)
-    .map((id) => THEMES[id].label);
-}
-
 /** Determine strength level from fitScore (0-10) via domain engine thresholds */
 function fitToStrength(fitScore: number): 'strong' | 'moderate' | 'limited' {
   const level = fitScoreToDisplay(fitScore, false);
@@ -89,10 +77,10 @@ function fitToStrength(fitScore: number): 'strong' | 'moderate' | 'limited' {
 // ============================================================================
 
 export function generateFitNarrative(foundation: Foundation): FitNarrative {
-  const overlaps = countThemeOverlaps(foundation.themes);
+  const overlaps = foundation.themes.length;
   const strengthLevel = fitToStrength(foundation.fitScore);
   const purposeFirst = firstSentence(foundation.purposeSummary) || 'Ihr Stiftungszweck';
-  const overlappingLabels = getOverlappingThemeLabels(foundation.themes);
+  const overlappingLabels = foundation.themes.map((id) => THEMES[id].label);
 
   let text: string;
 
@@ -243,9 +231,7 @@ export function generateApproachSteps(foundation: Foundation): ApproachStep[] {
 export function getApplicationReadiness(foundation: Foundation): ReadinessItem[] {
   const hasContact = !!(foundation.contact?.email || foundation.contact?.address);
   const hasApplicationUrl = !!foundation.applicationUrl;
-  const hasThemeMatch =
-    foundation.themes.length > 0 &&
-    foundation.themes.some((id) => THEME_ID_TO_STORY_KEY[id] !== undefined);
+  const hasThemeMatch = foundation.themes.length > 0;
   const hasFrist = !!foundation.deadline || foundation.status === 'rolling';
   const researched = isResearched(foundation);
   const hasMethod = foundation.applicationMethod !== 'unknown';
@@ -269,7 +255,7 @@ export function getApplicationReadiness(foundation: Foundation): ReadinessItem[]
       label: 'Thematische Übereinstimmung',
       ready: hasThemeMatch,
       detail: hasThemeMatch
-        ? `${countThemeOverlaps(foundation.themes)} passende Schwerpunkte identifiziert`
+        ? `${foundation.themes.length} passende Schwerpunkte identifiziert`
         : 'Keine thematische Überschneidung gefunden',
     },
     {
@@ -308,27 +294,14 @@ export function getApplicationReadiness(foundation: Foundation): ReadinessItem[]
 // ============================================================================
 
 export function generateThemeAlignments(foundation: Foundation): ThemeAlignment[] {
-  return foundation.themes
-    .map((themeId): ThemeAlignment | null => {
-      const theme = THEMES[themeId];
-      if (!theme) return null;
-
-      const storyKey = THEME_ID_TO_STORY_KEY[themeId] as ThemeKey | undefined;
-      let revampConnection: string;
-
-      if (storyKey && WHY[storyKey]) {
-        revampConnection = firstSentence(WHY[storyKey].solution);
-      } else {
-        // Fallback: use the theme's description from THEMES config
-        revampConnection = theme.description;
-      }
-
-      return {
-        themeId,
-        themeLabel: theme.label,
-        icon: theme.icon,
-        revampConnection,
-      };
-    })
-    .filter((alignment): alignment is ThemeAlignment => alignment !== null);
+  return foundation.themes.map((themeId) => {
+    const theme = THEMES[themeId];
+    const storyKey = THEME_ID_TO_STORY_KEY[themeId];
+    return {
+      themeId,
+      themeLabel: theme.label,
+      icon: theme.icon,
+      revampConnection: firstSentence(WHY[storyKey].solution),
+    };
+  });
 }
