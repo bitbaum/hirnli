@@ -15,6 +15,7 @@ import { computeTierCounts, hasGesuchPage } from '@/lib/domain/foundation-helper
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import type { SortField } from '@/lib/domain/foundation-filter';
+import { DEFAULT_FILTERS } from '@/lib/domain/foundation-filter';
 import {
   STATUS_CHIPS,
   TYPE_CHIPS,
@@ -23,6 +24,7 @@ import {
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import ProgressBar from '@/components/ui/ProgressBar';
+import { TRUST_CONFIG } from '@/lib/config/trust-levels';
 
 const LOAD_MORE_COUNT = 50;
 
@@ -318,8 +320,11 @@ export default function FoundationListClient() {
               {filters.requireAddress && (
                 <FilterPill label="Adresse" onRemove={toggleRequireAddress} />
               )}
-              {filters.minTier !== 'profiliert' && (
-                <FilterPill label={`Min: ${filters.minTier}`} onRemove={() => setMinTier('profiliert')} />
+              {filters.trustLevels.map((level) => (
+                <FilterPill key={level} label={TRUST_CONFIG[level].label} onRemove={() => toggleTrustLevel(level)} />
+              ))}
+              {filters.minTier !== DEFAULT_FILTERS.minTier && (
+                <FilterPill label={`Min: ${filters.minTier}`} onRemove={() => setMinTier(DEFAULT_FILTERS.minTier)} />
               )}
               <button
                 onClick={resetFilters}
