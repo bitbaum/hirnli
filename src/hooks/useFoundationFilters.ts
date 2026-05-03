@@ -34,7 +34,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     themes: (searchParams.get('themes')?.split(',').filter(Boolean) || []).filter(
       (t): t is ThemeId => ThemeId.safeParse(t).success
     ),
-    themeLogic: (searchParams.get('tl') as ThemeLogic) || 'or',
+    themeLogic: searchParams.get('tl') === 'and' ? 'and' : 'or',
     types: (searchParams.get('types')?.split(',').filter(Boolean) || []).filter(
       (t): t is FoundationType => FoundationType.safeParse(t).success
     ),
