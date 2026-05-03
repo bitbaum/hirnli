@@ -2,23 +2,21 @@
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
-import type { ThemeId, FoundationType, FoundationStatus, QualityTier } from '@/lib/schemas/foundation';
+import { QualityTier, ThemeId, FoundationType, FoundationStatus } from '@/lib/schemas/foundation';
 import type { FoundationFilters, SortField, ThemeLogic, FilterPresetId } from '@/lib/domain/foundation-filter';
 import type { TrustLevel } from '@/lib/config/trust-levels';
 import { DEFAULT_FILTERS, FILTER_PRESETS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { createSearchIndex, searchFoundations } from '@/lib/domain/foundation-search';
-import { QUALITY_TIERS } from '@/lib/domain/foundation-helpers';
 
 /** Map legacy `researched=0` URL param to new tier system */
 function parseTierParam(searchParams: URLSearchParams): QualityTier {
   // Backward compat: ?researched=0 → show all (verzeichnet)
   if (searchParams.get('researched') === '0') return 'verzeichnet';
   // New param: ?tier=erfasst
-  const tierParam = searchParams.get('tier') as QualityTier | null;
-  if (tierParam && QUALITY_TIERS.includes(tierParam)) return tierParam;
-  // Default
+  const parsed = QualityTier.safeParse(searchParams.get('tier'));
+  if (parsed.success) return parsed.data;
   return DEFAULT_FILTERS.minTier;
 }
 
@@ -32,10 +30,16 @@ export function useFoundationFilters(foundations: Foundation[]) {
 
   // Parse filters from URL
   const filters: FoundationFilters = useMemo(() => ({
-    themes: (searchParams.get('themes')?.split(',').filter(Boolean) || []) as ThemeId[],
+    themes: (searchParams.get('themes')?.split(',').filter(Boolean) || []).filter(
+      (t): t is ThemeId => ThemeId.safeParse(t).success
+    ),
     themeLogic: (searchParams.get('tl') as ThemeLogic) || 'or',
-    types: (searchParams.get('types')?.split(',').filter(Boolean) || []) as FoundationType[],
-    statuses: (searchParams.get('statuses')?.split(',').filter(Boolean) || []) as FoundationStatus[],
+    types: (searchParams.get('types')?.split(',').filter(Boolean) || []).filter(
+      (t): t is FoundationType => FoundationType.safeParse(t).success
+    ),
+    statuses: (searchParams.get('statuses')?.split(',').filter(Boolean) || []).filter(
+      (t): t is FoundationStatus => FoundationStatus.safeParse(t).success
+    ),
     fit: searchParams.get('fit')?.split(',').map(Number).filter((n) => !isNaN(n)) || [],
     priorityLevels: searchParams.get('pl')?.split(',').map(Number).filter((n) => !isNaN(n) && n >= 1 && n <= 4) || [],
     search: searchParams.get('q') || '',
