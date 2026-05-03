@@ -35,7 +35,7 @@ describe('application-statuses config integrity', () => {
   it('every active (non-withdrawn, non-rejected) status appears in KANBAN_COLUMNS', () => {
     const kanbanSet = new Set(KANBAN_COLUMNS);
     for (const s of APPLICATION_STATUSES) {
-      if (isActiveApplication(s.id as ApplicationStatusId)) {
+      if (isActiveApplication(s.id)) {
         expect(kanbanSet.has(s.id as typeof KANBAN_COLUMNS[number])).toBe(true);
       }
     }
@@ -50,7 +50,7 @@ describe('application-statuses config integrity', () => {
     expect(isTerminalStatus('accepted')).toBe(true);
     expect(isTerminalStatus('rejected')).toBe(true);
     // All non-terminal statuses must return false
-    const nonTerminal = APPLICATION_STATUSES.map(s => s.id as ApplicationStatusId)
+    const nonTerminal = APPLICATION_STATUSES.map(s => s.id)
       .filter(id => id !== 'accepted' && id !== 'rejected');
     for (const id of nonTerminal) {
       expect(isTerminalStatus(id)).toBe(false);
@@ -60,7 +60,7 @@ describe('application-statuses config integrity', () => {
   it('isActiveApplication returns false only for rejected and withdrawn', () => {
     expect(isActiveApplication('rejected')).toBe(false);
     expect(isActiveApplication('withdrawn')).toBe(false);
-    const active = APPLICATION_STATUSES.map(s => s.id as ApplicationStatusId)
+    const active = APPLICATION_STATUSES.map(s => s.id)
       .filter(id => id !== 'rejected' && id !== 'withdrawn');
     for (const id of active) {
       expect(isActiveApplication(id)).toBe(true);
