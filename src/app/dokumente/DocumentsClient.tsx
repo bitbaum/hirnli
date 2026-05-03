@@ -87,6 +87,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
       <div className="max-w-md">
         <input
           type="text"
+          aria-label="Dokumente durchsuchen"
           placeholder="Dokumente durchsuchen..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}

@@ -145,6 +145,7 @@ export default function FilterSidebar({
       <div className="pb-3">
         <input
           type="text"
+          aria-label="Stiftung suchen"
           placeholder="Stiftung suchen..."
           value={filters.search}
           onChange={(e) => setSearch(e.target.value)}
@@ -155,6 +156,7 @@ export default function FilterSidebar({
       {/* Sort */}
       <div className="border-b border-border pb-3">
         <select
+          aria-label="Sortierung"
           value={sort}
           onChange={(e) => setSort(e.target.value as SortField)}
           className={FORM_INPUT_CLASS}

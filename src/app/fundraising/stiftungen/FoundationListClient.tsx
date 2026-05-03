@@ -236,6 +236,7 @@ export default function FoundationListClient() {
       <div className="mb-4 space-y-2 md:hidden">
         <input
           type="text"
+          aria-label="Stiftung suchen"
           placeholder="Stiftung suchen..."
           value={filters.search}
           onChange={(e) => setSearch(e.target.value)}
@@ -243,6 +244,7 @@ export default function FoundationListClient() {
         />
         <div className="flex items-center gap-2">
           <select
+            aria-label="Sortierung"
             value={sort}
             onChange={(e) => setSort(e.target.value as SortField)}
             className="min-w-0 flex-1 rounded-lg border border-border px-2 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
