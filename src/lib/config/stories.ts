@@ -790,7 +790,7 @@ export function composeStory(
     // Collect projects from ALL themes, deduplicated and in order
     projects: [...new Set(allThemes.flatMap((t) => getProjectsByTheme(t)))],
     evidence:
-      WHY[primaryTheme]?.evidence
+      WHY[primaryTheme].evidence
         ?.map((key) => findEvidence(key))
         .filter((e): e is Evidence => e !== null) ?? [],
   };
