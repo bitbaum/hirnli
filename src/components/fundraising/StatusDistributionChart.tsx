@@ -20,7 +20,7 @@ import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/applicat
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface StatusCount {
-  status: string;
+  status: ApplicationStatusId;
   count: number;
 }
 
@@ -29,7 +29,7 @@ interface StatusDistributionChartProps {
 }
 
 export function StatusDistributionChart({ data }: StatusDistributionChartProps) {
-  const configs = data.map(item => getStatusConfig(item.status as ApplicationStatusId));
+  const configs = data.map(item => getStatusConfig(item.status));
   const chartData: ChartData<'pie'> = {
     labels: data.map((item, i) => configs[i].label),
     datasets: [

@@ -20,6 +20,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
 import { eq, and, gte, lte } from 'drizzle-orm';
+import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 /**
  * GET /api/applications/dashboard
@@ -51,8 +52,8 @@ export async function GET(_request: NextRequest) {
       0
     );
 
-    // Count by status
-    const statusCounts: Record<string, number> = {};
+    // Count by status — app.status is typed ApplicationStatusId via Drizzle schema
+    const statusCounts: Partial<Record<ApplicationStatusId, number>> = {};
     allApplications.forEach(app => {
       statusCounts[app.status] = (statusCounts[app.status] || 0) + 1;
     });

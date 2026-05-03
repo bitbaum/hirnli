@@ -14,6 +14,7 @@ import { formatCHF } from '@/lib/utils/format';
 import { KPICard } from './KPICard';
 import { StatusDistributionChart } from './StatusDistributionChart';
 import { UpcomingDeadlines } from './UpcomingDeadlines';
+import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 interface DashboardData {
   totals: {
@@ -27,7 +28,7 @@ interface DashboardData {
     totalApplications: number;
   };
   byStatus: Array<{
-    status: string;
+    status: ApplicationStatusId;
     count: number;
   }>;
   byPriority: Array<{
