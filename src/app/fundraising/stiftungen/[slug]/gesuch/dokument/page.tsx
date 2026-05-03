@@ -5,7 +5,7 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
-import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
+import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
 import ProjektbeschriebSection from '@/components/gesuch/ProjektbeschriebSection';
 import BudgetSection from '@/components/gesuch/BudgetSection';
@@ -37,8 +37,8 @@ export default async function GesuchDokumentPage({ params, searchParams }: Props
     notFound();
   }
 
-  const schwerpunktId = schwerpunktParam && schwerpunktParam in SCHWERPUNKTE
-    ? (schwerpunktParam as SchwerpunktId)
+  const schwerpunktId = schwerpunktParam && isSchwerpunktId(schwerpunktParam)
+    ? schwerpunktParam
     : undefined;
 
   const baseDok = composeGesuchDokument(foundation, schwerpunktId);

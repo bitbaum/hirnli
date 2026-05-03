@@ -14,7 +14,7 @@ import { renderToStream } from '@react-pdf/renderer';
 import React from 'react';
 import { getFoundationBySlug, hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
+import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchOnePagerPDF from '@/lib/pdf/gesuch-onepager';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
 
@@ -41,8 +41,8 @@ export async function GET(
     }
 
     const schwerpunktParam = request.nextUrl.searchParams.get('schwerpunkt');
-    const schwerpunktId = schwerpunktParam && schwerpunktParam in SCHWERPUNKTE
-      ? (schwerpunktParam as SchwerpunktId)
+    const schwerpunktId = schwerpunktParam && isSchwerpunktId(schwerpunktParam)
+      ? schwerpunktParam
       : undefined;
 
     // Same data pipeline as full PDF

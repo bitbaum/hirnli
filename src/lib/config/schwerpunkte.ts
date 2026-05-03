@@ -83,6 +83,9 @@ export const SCHWERPUNKTE = {
 
 export type SchwerpunktId = keyof typeof SCHWERPUNKTE;
 export const SCHWERPUNKT_IDS = Object.keys(SCHWERPUNKTE) as SchwerpunktId[];
+export function isSchwerpunktId(id: string): id is SchwerpunktId {
+  return id in SCHWERPUNKTE;
+}
 
 /**
  * Theme Hierarchy — SSOT for core vs secondary theme classification

@@ -32,6 +32,9 @@ export function getTrustLevel(f: Foundation): TrustLevel {
   return 'unverified';
 }
 
+/** Ordered list of all trust levels — use instead of Object.keys(TRUST_CONFIG) */
+export const TRUST_LEVELS: readonly TrustLevel[] = ['verified', 'assessed', 'unverified'];
+
 /** Display configuration per trust level */
 export const TRUST_CONFIG: Record<TrustLevel, {
   label: string;

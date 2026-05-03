@@ -7,6 +7,7 @@ import type { FoundationFilters, SortField, ThemeLogic, FilterPresetId } from '@
 import { TRUST_CONFIG, type TrustLevel } from '@/lib/config/trust-levels';
 import { DEFAULT_FILTERS, FILTER_PRESETS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';
+import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { createSearchIndex, searchFoundations } from '@/lib/domain/foundation-search';
 
@@ -43,7 +44,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     fit: searchParams.get('fit')?.split(',').map(Number).filter((n) => !isNaN(n)) || [],
     priorityLevels: searchParams.get('pl')?.split(',').map(Number).filter((n) => !isNaN(n) && n >= 1 && n <= 4) || [],
     search: searchParams.get('q') || '',
-    schwerpunkt: (searchParams.get('sp') as SchwerpunktId) || null,
+    schwerpunkt: (() => { const sp = searchParams.get('sp'); return sp && isSchwerpunktId(sp) ? sp : null; })(),
     hideOperative: searchParams.get('hideOp') === '1',
     hideNetworks: searchParams.get('hideNet') === '1',
     hideNoApplication: searchParams.get('hideNoApp') === '1',

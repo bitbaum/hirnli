@@ -4,7 +4,7 @@ import { FORM_INPUT_CLASS } from '@/lib/utils/form-classes';
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { FoundationFilters, SortField, FilterPresetId } from '@/lib/domain/foundation-filter';
-import { TRUST_CONFIG, type TrustLevel } from '@/lib/config/trust-levels';
+import { TRUST_CONFIG, TRUST_LEVELS, type TrustLevel } from '@/lib/config/trust-levels';
 import { DEFAULT_FILTERS, FILTER_PRESETS } from '@/lib/domain/foundation-filter';
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import type { FilterChip } from '@/lib/types/filter';
@@ -227,7 +227,7 @@ export default function FilterSidebar({
       {/* Datenqualität — trust level filter */}
       <CollapsibleSection title="Datenqualität" count={filters.trustLevels.length || undefined}>
         <div className="flex flex-wrap gap-1.5">
-          {(Object.keys(TRUST_CONFIG) as TrustLevel[]).map((level) => (
+          {TRUST_LEVELS.map((level) => (
             <button
               key={level}
               onClick={() => toggleTrustLevel(level)}

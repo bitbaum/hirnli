@@ -16,7 +16,7 @@
 
 import type { Foundation, FoundationType } from '@/lib/schemas/foundation';
 import { ORG_PROFILE } from './org-profile';
-import { SCHWERPUNKTE, SCHWERPUNKT_IDS, type SchwerpunktId } from '@/lib/config/schwerpunkte';
+import { SCHWERPUNKTE, SCHWERPUNKT_IDS, isSchwerpunktId, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
 
 /** Virtual foundations per template key — placeholder data for template generation */
@@ -223,9 +223,9 @@ function createSchwerpunktTemplate(schwerpunktId: SchwerpunktId, type: typeof SC
 
 /** Get a Schwerpunkt template foundation */
 export function getSchwerpunktTemplate(schwerpunktId: string, type: string): Foundation | undefined {
-  if (!SCHWERPUNKT_IDS.includes(schwerpunktId as SchwerpunktId)) return undefined;
+  if (!isSchwerpunktId(schwerpunktId)) return undefined;
   if (!SCHWERPUNKT_TEMPLATE_TYPES.includes(type as typeof SCHWERPUNKT_TEMPLATE_TYPES[number])) return undefined;
-  return createSchwerpunktTemplate(schwerpunktId as SchwerpunktId, type as typeof SCHWERPUNKT_TEMPLATE_TYPES[number]);
+  return createSchwerpunktTemplate(schwerpunktId, type as typeof SCHWERPUNKT_TEMPLATE_TYPES[number]);
 }
 
 /** All valid Schwerpunkt route params (for generateStaticParams) */

@@ -14,7 +14,7 @@ import { renderToStream } from '@react-pdf/renderer';
 import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
+import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchDokumentPDF from '@/lib/pdf/gesuch-dokument';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
 
@@ -44,8 +44,8 @@ export async function GET(
 
     // Optional schwerpunkt filter
     const schwerpunktParam = request.nextUrl.searchParams.get('schwerpunkt');
-    const schwerpunktId = schwerpunktParam && schwerpunktParam in SCHWERPUNKTE
-      ? (schwerpunktParam as SchwerpunktId)
+    const schwerpunktId = schwerpunktParam && isSchwerpunktId(schwerpunktParam)
+      ? schwerpunktParam
       : undefined;
 
     // Compose document data (same SSOT as HTML page)
