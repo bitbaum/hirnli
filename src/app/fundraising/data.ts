@@ -6,6 +6,7 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SPACE_SUMMARY, HUB_SPACE_AREAS, STORAGE_AREA, LOADING_AREA } from '@/lib/config/hub-space-plan';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
+import { MS_PER_DAY } from '@/lib/utils/time';
 
 // -- Derived data from STIFTUNGEN_DATA ----------------------------------------
 
@@ -21,7 +22,7 @@ export function computePipelineStats() {
   let fitCount = 0;
   let upcomingDeadlines = 0;
   const now = new Date();
-  const threeMonths = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
+  const threeMonths = new Date(now.getTime() + 90 * MS_PER_DAY);
 
   for (const f of STIFTUNGEN_DATA) {
     statusCounts[f.status]++;

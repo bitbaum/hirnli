@@ -21,6 +21,7 @@ import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
 import { eq, and, gte, lte } from 'drizzle-orm';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
+import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 
 /**
  * GET /api/applications/dashboard
@@ -78,7 +79,7 @@ export async function GET(_request: NextRequest) {
 
     // Upcoming deadlines (next 30 days)
     const today = new Date().toISOString().split('T')[0];
-    const in30Days = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const in30Days = new Date(Date.now() + DEADLINE_UPCOMING_DAYS * MS_PER_DAY).toISOString().split('T')[0];
 
     const upcomingDeadlines = await db
       .select({
@@ -129,7 +130,7 @@ export async function GET(_request: NextRequest) {
           decisionExpected: item.application.decisionExpected,
           requestedAmount: item.application.requestedAmount,
           daysUntilDeadline: Math.ceil(
-            (new Date(item.application.decisionExpected!).getTime() - Date.now()) / (24 * 60 * 60 * 1000)
+            (new Date(item.application.decisionExpected!).getTime() - Date.now()) / MS_PER_DAY
           ),
         })),
       },

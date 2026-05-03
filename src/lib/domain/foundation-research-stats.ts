@@ -1,6 +1,7 @@
 import type { Foundation } from '../schemas/foundation';
 import { isResearched } from './foundation-helpers';
 import { fitScoreToDisplay } from './fit-scoring';
+import { MS_PER_DAY } from '@/lib/utils/time';
 
 // ---------------------------------------------------------------------------
 // Vollstaendigkeit & Recherche-Statistiken
@@ -77,7 +78,7 @@ function isAnalyzed(f: Foundation): boolean {
 function isStale(f: Foundation, now: Date, daysThreshold: number): boolean {
   if (!f.researchDate) return true;
   const researchMs = new Date(f.researchDate).getTime();
-  const thresholdMs = now.getTime() - daysThreshold * 24 * 60 * 60 * 1000;
+  const thresholdMs = now.getTime() - daysThreshold * MS_PER_DAY;
   return researchMs < thresholdMs;
 }
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { MS_PER_DAY, DEADLINE_CRITICAL_DAYS, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 
 interface CountdownTimerProps {
   deadline: string; // ISO date string "YYYY-MM-DD"
@@ -20,7 +21,7 @@ function calcTimeLeft(deadline: string): TimeLeft {
   const diff = new Date(deadline).getTime() - Date.now();
   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
   return {
-    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    days: Math.floor(diff / MS_PER_DAY),
     hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
     minutes: Math.floor((diff / (1000 * 60)) % 60),
     seconds: Math.floor((diff / 1000) % 60),
@@ -47,7 +48,7 @@ export default function CountdownTimer({ deadline, label, className = '' }: Coun
     );
   }
 
-  const urgentClass = timeLeft.days < 14 ? 'text-danger' : timeLeft.days < 30 ? 'text-warning' : 'text-grey-dark';
+  const urgentClass = timeLeft.days < DEADLINE_CRITICAL_DAYS ? 'text-danger' : timeLeft.days < DEADLINE_UPCOMING_DAYS ? 'text-warning' : 'text-grey-dark';
 
   return (
     <div className={`text-center ${className}`}>

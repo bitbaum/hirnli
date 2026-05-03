@@ -3,23 +3,10 @@ import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { arrayToCSV } from '@/lib/utils/csv';
+import { MS_PER_DAY } from '@/lib/utils/time';
 
 const filePrefix = ORG_PROFILE.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-
-function escapeCSV(value: string | number | null | undefined): string {
-  if (value === null || value === undefined) return '';
-  const str = String(value);
-  if (str.includes(',') || str.includes('"') || str.includes('\n')) {
-    return `"${str.replace(/"/g, '""')}"`;
-  }
-  return str;
-}
-
-function toCsv(headers: string[], rows: (string | number | null | undefined)[][]): string {
-  const headerRow = headers.map(escapeCSV).join(',');
-  const dataRows = rows.map((row) => row.map(escapeCSV).join(',')).join('\n');
-  return `${headerRow}\n${dataRows}`;
-}
 
 /**
  * GET /api/export/fundraising-pipeline
@@ -53,7 +40,7 @@ export async function GET() {
     const now = new Date();
     const dataRows: (string | number | null | undefined)[][] = rows.map((r) => {
       const daysToDecision = r.decisionExpected
-        ? Math.ceil((new Date(r.decisionExpected).getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+        ? Math.ceil((new Date(r.decisionExpected).getTime() - now.getTime()) / MS_PER_DAY)
         : null;
 
       const requested = r.requestedAmount || 0;
@@ -79,7 +66,7 @@ export async function GET() {
       ];
     });
 
-    const csv = toCsv(
+    const csv = arrayToCSV(
       [
         'application_id',
         'foundation_id',

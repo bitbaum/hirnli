@@ -7,17 +7,7 @@ import { THEMES } from '@/lib/config/foundations';
 import { getQualityTier } from '@/lib/domain/foundation-helpers';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
-
-// ---------------------------------------------------------------------------
-// CSV utilities
-// ---------------------------------------------------------------------------
-
-function csvEscape(val: string): string {
-  if (val.includes('"') || val.includes(',') || val.includes('\n') || val.includes(';')) {
-    return `"${val.replace(/"/g, '""')}"`;
-  }
-  return val;
-}
+import { escapeCSV } from '@/lib/utils/csv';
 
 interface ParsedAddress {
   street: string;
@@ -248,9 +238,9 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
     const activeCols = ALL_COLUMNS.filter((c) => selected.has(c.id));
     if (activeCols.length === 0) return;
 
-    const header = activeCols.map((c) => csvEscape(c.label));
+    const header = activeCols.map((c) => escapeCSV(c.label));
     const rows = foundations.map((f) =>
-      activeCols.map((c) => csvEscape(c.getValue(f))).join(','),
+      activeCols.map((c) => escapeCSV(c.getValue(f))).join(','),
     );
 
     const csv = '\uFEFF' + [header.join(','), ...rows].join('\r\n');

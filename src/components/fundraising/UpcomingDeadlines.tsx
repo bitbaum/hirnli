@@ -8,6 +8,7 @@
 
 import Link from 'next/link';
 import { formatCHF, formatDateCH } from '@/lib/utils/format';
+import { DEADLINE_CRITICAL_DAYS, DEADLINE_WARNING_DAYS } from '@/lib/utils/time';
 
 interface Deadline {
   id: string;
@@ -24,14 +25,14 @@ interface UpcomingDeadlinesProps {
 export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
 
   const getUrgencyColor = (days: number) => {
-    if (days <= 7) return 'bg-danger/10 border-danger/20 text-danger';
-    if (days <= 14) return 'bg-warning/10 border-warning/20 text-warning';
-    return 'bg-warning/10 border-warning/20 text-warning';
+    if (days <= DEADLINE_CRITICAL_DAYS) return 'bg-danger/10 border-danger/20 text-danger';
+    if (days <= DEADLINE_WARNING_DAYS) return 'bg-warning/10 border-warning/20 text-warning';
+    return 'bg-surface border-border text-text-muted';
   };
 
   const getUrgencyIcon = (days: number) => {
-    if (days <= 7) return '🔴';
-    if (days <= 14) return '🟠';
+    if (days <= DEADLINE_CRITICAL_DAYS) return '🔴';
+    if (days <= DEADLINE_WARNING_DAYS) return '🟠';
     return '🟡';
   };
 

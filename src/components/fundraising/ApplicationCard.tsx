@@ -14,7 +14,8 @@ import Link from 'next/link';
 import { EditApplicationModal } from './EditApplicationModal';
 import { getPriorityColor } from '@/lib/config/application-statuses';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
-import { formatCHF } from '@/lib/utils/format';
+import { formatCHF, formatDateCH } from '@/lib/utils/format';
+import { MS_PER_DAY, DEADLINE_CRITICAL_DAYS, DEADLINE_WARNING_DAYS } from '@/lib/utils/time';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 
 interface ApplicationCardProps {
@@ -50,25 +51,14 @@ export function ApplicationCard({
     opacity: isDragging ? 0.4 : 1,
   };
 
-  // Format date to DD.MM.YY
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return null;
-    const d = new Date(dateString);
-    return d.toLocaleDateString('de-CH', {
-      day: '2-digit',
-      month: '2-digit',
-      year: '2-digit',
-    });
-  };
-
   // Deadline urgency colour
   const deadlineColor = () => {
     if (!application.decisionExpected) return 'text-text-muted';
     const days = Math.ceil(
-      (new Date(application.decisionExpected).getTime() - Date.now()) / 86400000,
+      (new Date(application.decisionExpected).getTime() - Date.now()) / MS_PER_DAY,
     );
-    if (days <= 7) return 'text-danger font-semibold';
-    if (days <= 14) return 'text-warning';
+    if (days <= DEADLINE_CRITICAL_DAYS) return 'text-danger font-semibold';
+    if (days <= DEADLINE_WARNING_DAYS) return 'text-warning';
     return 'text-text-muted';
   };
 
@@ -161,12 +151,12 @@ export function ApplicationCard({
           <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-sm">
             {application.contactDate && (
               <span className="text-text-muted" title="Kontaktdatum">
-                📅 {formatDate(application.contactDate)}
+                📅 {formatDateCH(application.contactDate)}
               </span>
             )}
             {application.decisionExpected && (
               <span className={deadlineColor()} title="Entscheidung erwartet">
-                ⏰ {formatDate(application.decisionExpected)}
+                ⏰ {formatDateCH(application.decisionExpected)}
               </span>
             )}
           </div>

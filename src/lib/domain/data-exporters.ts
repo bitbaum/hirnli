@@ -9,25 +9,7 @@ import { loadFinancialData } from '@/lib/data/financial';
 import { FINANCIAL_YEAR_START, FINANCIAL_YEAR_END } from '@/lib/config/financial-constants';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { REVENUE_HISTORY } from '@/app/fundraising/data';
-
-// ---------------------------------------------------------------------------
-// CSV Helper Functions
-// ---------------------------------------------------------------------------
-
-function escapeCSV(value: string | number | null | undefined): string {
-  if (value === null || value === undefined) return '';
-  const str = String(value);
-  if (str.includes(',') || str.includes('"') || str.includes('\n')) {
-    return `"${str.replace(/"/g, '""')}"`;
-  }
-  return str;
-}
-
-function arrayToCSV(headers: string[], rows: (string | number | null | undefined)[][]): string {
-  const headerRow = headers.map(escapeCSV).join(',');
-  const dataRows = rows.map((row) => row.map(escapeCSV).join(',')).join('\n');
-  return `${headerRow}\n${dataRows}`;
-}
+import { escapeCSV, arrayToCSV } from '@/lib/utils/csv';
 
 // ---------------------------------------------------------------------------
 // Financial Data Export

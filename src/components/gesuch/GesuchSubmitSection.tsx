@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import type { ApplicationMethod } from '@/lib/schemas/foundation';
+import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 
 export interface SubmissionInfo {
   foundationName: string;
@@ -35,7 +36,7 @@ function daysUntil(dateStr: string): number | null {
   if (isNaN(d.getTime())) return null;
   const now = new Date();
   now.setHours(0, 0, 0, 0);
-  return Math.ceil((d.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  return Math.ceil((d.getTime() - now.getTime()) / MS_PER_DAY);
 }
 
 function CopyButton({ text, label = 'Kopieren' }: { text: string; label?: string }) {
@@ -66,7 +67,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 /** Response time + deadline block — shown for all methods */
 function TimingBlock({ info }: { info: SubmissionInfo }) {
   const days = info.deadline ? daysUntil(info.deadline) : null;
-  const deadlineUrgent = days !== null && days <= 30;
+  const deadlineUrgent = days !== null && days <= DEADLINE_UPCOMING_DAYS;
 
   if (!info.responseTime && !info.deadlineText && days === null) return null;
 
