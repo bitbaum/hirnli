@@ -16,6 +16,7 @@ import { APPLICATION_STATUSES, getStatusConfig, isTerminalStatus, type Applicati
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
 import ActivityTimeline from '@/components/ui/ActivityTimeline';
+import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 
 interface ApplicationDetailProps {
   params: {
@@ -237,24 +238,22 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
         {/* Foundation info (read-only) */}
         {foundation && (() => {
-          const cd = foundation.configData as Record<string, unknown> | null;
-          const contact = (cd?.contact ?? {}) as Record<string, string | undefined>;
-          const websiteUrl = cd?.websiteUrl as string | undefined;
+          const f = getFoundationBySlug(foundation.id);
           return (
           <Card className="space-y-3">
             <h2 className="font-semibold text-grey-dark">Stiftung</h2>
             <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">Website</p>
-                {websiteUrl ? (
-                  <a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
-                    {websiteUrl}
+                {f?.websiteUrl ? (
+                  <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
+                    {f.websiteUrl}
                   </a>
                 ) : '—'}
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">E-Mail</p>
-                <p className="text-grey-dark">{contact.email ?? '—'}</p>
+                <p className="text-grey-dark">{f?.contact?.email ?? '—'}</p>
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">Fit Score</p>
