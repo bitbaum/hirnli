@@ -41,6 +41,7 @@ export default async function SchwerpunktGesuchDokumentPage({ params }: Props) {
 
   const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
   const typeLabel = resolveTypeLabel(type);
+  if (!typeLabel) notFound();
   const dok = composeGesuchDokument(foundation, schwerpunkt as SchwerpunktId);
 
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;

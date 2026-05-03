@@ -19,8 +19,6 @@ import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/applicat
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const FALLBACK_COLOR = { bg: 'rgba(107, 114, 128, 0.6)', border: 'rgba(107, 114, 128, 1)' };
-
 interface StatusCount {
   status: string;
   count: number;
@@ -33,13 +31,13 @@ interface StatusDistributionChartProps {
 export function StatusDistributionChart({ data }: StatusDistributionChartProps) {
   const configs = data.map(item => getStatusConfig(item.status as ApplicationStatusId));
   const chartData: ChartData<'pie'> = {
-    labels: data.map((item, i) => configs[i]?.label ?? item.status),
+    labels: data.map((item, i) => configs[i].label),
     datasets: [
       {
         label: 'Gesuche',
         data: data.map(item => item.count),
-        backgroundColor: configs.map(c => (c?.chartColor ?? FALLBACK_COLOR).bg),
-        borderColor: configs.map(c => (c?.chartColor ?? FALLBACK_COLOR).border),
+        backgroundColor: configs.map(c => c.chartColor.bg),
+        borderColor: configs.map(c => c.chartColor.border),
         borderWidth: 2,
       },
     ],
