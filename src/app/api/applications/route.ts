@@ -19,7 +19,7 @@ import { applications, foundations, activityLog } from '@/lib/db/schema';
 import { and, count, desc, eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
-import { STATUS_IDS, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import { STATUS_IDS } from '@/lib/config/application-statuses';
 
 // Validation schema for creating applications
 const createApplicationSchema = z.object({
@@ -57,8 +57,9 @@ export async function GET(request: NextRequest) {
     // Build filter conditions
     const conditions = [];
 
-    if (status && (STATUS_IDS as readonly string[]).includes(status)) {
-      conditions.push(eq(applications.status, status as ApplicationStatusId));
+    const statusFilter = z.enum(STATUS_IDS).safeParse(status);
+    if (statusFilter.success) {
+      conditions.push(eq(applications.status, statusFilter.data));
     }
 
     if (foundationId) {
