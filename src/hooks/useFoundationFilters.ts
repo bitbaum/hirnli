@@ -4,7 +4,7 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import { QualityTier, ThemeId, FoundationType, FoundationStatus } from '@/lib/schemas/foundation';
 import type { FoundationFilters, SortField, ThemeLogic, FilterPresetId } from '@/lib/domain/foundation-filter';
-import type { TrustLevel } from '@/lib/config/trust-levels';
+import { TRUST_CONFIG, type TrustLevel } from '@/lib/config/trust-levels';
 import { DEFAULT_FILTERS, FILTER_PRESETS, filterFoundations, sortFoundations } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
@@ -50,7 +50,9 @@ export function useFoundationFilters(foundations: Foundation[]) {
     requireEmail: searchParams.get('email') === '1',
     requirePhone: searchParams.get('phone') === '1',
     requireAddress: searchParams.get('addr') === '1',
-    trustLevels: (searchParams.get('trust')?.split(',').filter(Boolean) || []) as TrustLevel[],
+    trustLevels: (searchParams.get('trust')?.split(',').filter(Boolean) || []).filter(
+      (t): t is TrustLevel => t in TRUST_CONFIG
+    ),
     minTier: parseTierParam(searchParams),
   }), [searchParams]);
 
