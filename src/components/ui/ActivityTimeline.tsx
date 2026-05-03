@@ -8,6 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import { formatDateTimeCH } from '@/lib/utils/format';
+import type { ActivityLogEntryJSON } from '@/lib/db/schema';
 
 const ACTION_LABELS: Record<string, string> = {
   created: 'Erstellt',
@@ -18,15 +19,6 @@ const ACTION_LABELS: Record<string, string> = {
   document_generated: 'Dokument erstellt',
 };
 
-interface ActivityEntry {
-  id: string;
-  entityType: string;
-  entityId: string;
-  actionType: string;
-  actionDetails: string | null;
-  performedBy: string | null;
-  timestamp: string;
-}
 
 interface ActivityTimelineProps {
   entityId: string;
@@ -45,11 +37,12 @@ function parseDetails(raw: string | null): Record<string, unknown> | null {
 }
 
 export default function ActivityTimeline({ entityId, entityType, limit = 20 }: ActivityTimelineProps) {
-  const [entries, setEntries] = useState<ActivityEntry[]>([]);
+  const [entries, setEntries] = useState<ActivityLogEntryJSON[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- resets error state before new fetch
     setError(false);
     fetch(`/api/activity-log?entityId=${entityId}&entityType=${entityType}&limit=${limit}`)
       .then((r) => r.json())

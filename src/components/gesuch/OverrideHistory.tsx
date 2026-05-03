@@ -10,7 +10,7 @@
 import { useState, useEffect } from 'react';
 import { formatDateTimeCH } from '@/lib/utils/format';
 import { NET_ERR_RETRY } from '@/lib/utils/errors';
-import type { GesuchOverridesData } from '@/lib/db/schema';
+import type { GesuchOverridesData, ActivityLogEntryJSON } from '@/lib/db/schema';
 
 interface OverrideHistoryProps {
   slug: string;
@@ -20,11 +20,7 @@ interface OverrideHistoryProps {
   onRestore: (overrides: GesuchOverridesData) => void;
 }
 
-interface ActivityEntry {
-  id: string;
-  actionDetails: string | null;
-  timestamp: string;
-}
+type ActivityEntry = Pick<ActivityLogEntryJSON, 'id' | 'actionDetails' | 'timestamp'>;
 
 
 /** Extract override keys that have non-empty values */

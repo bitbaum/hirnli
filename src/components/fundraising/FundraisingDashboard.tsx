@@ -13,7 +13,7 @@ import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { formatCHF } from '@/lib/utils/format';
 import { KPICard } from './KPICard';
 import { StatusDistributionChart } from './StatusDistributionChart';
-import { UpcomingDeadlines } from './UpcomingDeadlines';
+import { UpcomingDeadlines, type Deadline } from './UpcomingDeadlines';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NET_ERR_LOAD } from '@/lib/utils/errors';
 
@@ -36,13 +36,7 @@ interface DashboardData {
     priority: number;
     count: number;
   }>;
-  upcomingDeadlines: Array<{
-    id: string;
-    foundationName: string;
-    decisionExpected: string;
-    requestedAmount: number | null;
-    daysUntilDeadline: number;
-  }>;
+  upcomingDeadlines: Deadline[];
 }
 
 export function FundraisingDashboard() {

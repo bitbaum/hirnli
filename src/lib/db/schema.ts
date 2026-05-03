@@ -188,4 +188,6 @@ export type NewCustomizationRule = typeof customizationRules.$inferInsert;
 
 export type ActivityLogEntry = typeof activityLog.$inferSelect;
 export type NewActivityLogEntry = typeof activityLog.$inferInsert;
+/** JSON-serialized shape returned by GET /api/activity-log (timestamp is a string, not Date) */
+export type ActivityLogEntryJSON = Omit<ActivityLogEntry, 'timestamp'> & { timestamp: string };
 

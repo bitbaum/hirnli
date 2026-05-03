@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { formatCHF, formatDateCH } from '@/lib/utils/format';
 import { DEADLINE_CRITICAL_DAYS, DEADLINE_WARNING_DAYS } from '@/lib/utils/time';
 
-interface Deadline {
+export interface Deadline {
   id: string;
   foundationName: string;
   decisionExpected: string;
