@@ -75,15 +75,9 @@ export function buildSecondaryRelevance(
     .map((theme) => {
       const whySection = WHY[theme];
       if (!whySection) return null;
-
-      const solution = whySection.solution;
-      const firstSentence = solution.split('.')[0].trim() + '.';
-
-      const themeId = Object.entries(THEME_ID_TO_STORY_KEY).find(
-        ([, key]) => key === theme,
-      )?.[0];
+      const firstSentence = whySection.solution.split('.')[0].trim() + '.';
+      const themeId = Object.entries(THEME_ID_TO_STORY_KEY).find(([, key]) => key === theme)?.[0];
       const label = themeId ? THEMES[themeId as ThemeId].label : theme;
-
       return { theme, label, connection: firstSentence };
     })
     .filter((r): r is { theme: ThemeKey; label: string; connection: string } => r !== null);
