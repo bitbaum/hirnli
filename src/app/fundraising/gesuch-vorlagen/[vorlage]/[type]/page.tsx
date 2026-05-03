@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { resolveTypeLabel } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
-import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
+import { SCHWERPUNKTE, isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
 import GesuchWhySection from '@/components/gesuch/GesuchWhySection';
@@ -23,7 +23,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { vorlage: schwerpunkt, type } = await params;
-  const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
+  const sp = isSchwerpunktId(schwerpunkt) ? SCHWERPUNKTE[schwerpunkt] : undefined;
   const typeLabel = resolveTypeLabel(type);
   if (!sp || !typeLabel) return { title: 'Vorlage nicht gefunden' };
 
@@ -35,16 +35,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function SchwerpunktGesuchPage({ params }: Props) {
   const { vorlage: schwerpunkt, type } = await params;
+  if (!isSchwerpunktId(schwerpunkt)) notFound();
   const foundation = getSchwerpunktTemplate(schwerpunkt, type);
+  if (!foundation) notFound();
 
-  if (!foundation) {
-    notFound();
-  }
-
-  const sp = SCHWERPUNKTE[schwerpunkt as SchwerpunktId];
+  const sp = SCHWERPUNKTE[schwerpunkt];
   const typeLabel = resolveTypeLabel(type);
   if (!typeLabel) notFound();
-  const gesuch = composeGesuch(foundation, schwerpunkt as SchwerpunktId);
+  const gesuch = composeGesuch(foundation, schwerpunkt);
   const primaryColor = sp.color;
 
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;
