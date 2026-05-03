@@ -26,27 +26,6 @@ import ProgressBar from '@/components/ui/ProgressBar';
 
 const LOAD_MORE_COUNT = 50;
 
-/** Count of active non-default filters (for mobile badge) */
-function countActiveFilters(
-  filters: ReturnType<typeof useFoundationFilters>['filters'],
-): number {
-  let count = 0;
-  if (filters.themes.length > 0) count++;
-  if (filters.types.length > 0) count++;
-  if (filters.statuses.length > 0) count++;
-  if (filters.fit.length > 0) count++;
-  if (filters.priorityLevels.length > 0) count++;
-  if (filters.schwerpunkt) count++;
-  if (filters.hideNoApplication) count++;
-  if (filters.hideOperative) count++;
-  if (filters.hideNetworks) count++;
-  if (filters.requireEmail) count++;
-  if (filters.requirePhone) count++;
-  if (filters.requireAddress) count++;
-  if (filters.minTier !== 'profiliert') count++;
-  return count;
-}
-
 export default function FoundationListClient() {
   const {
     filters,
@@ -54,6 +33,7 @@ export default function FoundationListClient() {
     filtered,
     scoreMap,
     hasActiveFilters,
+    activeFilterCount,
     totalCount,
     filteredCount,
     toggleTheme,
@@ -135,8 +115,6 @@ export default function FoundationListClient() {
     }
     return counts;
   }, []);
-
-  const activeFilterCount = countActiveFilters(filters);
 
   // Shared sidebar props
   const sidebarProps = {

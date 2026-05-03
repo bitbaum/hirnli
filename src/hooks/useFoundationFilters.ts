@@ -240,8 +240,29 @@ export function useFoundationFilters(foundations: Foundation[]) {
       filters.requireEmail ||
       filters.requirePhone ||
       filters.requireAddress ||
+      filters.trustLevels.length > 0 ||
       filters.minTier !== DEFAULT_FILTERS.minTier
     );
+  }, [filters]);
+
+  /** Count of active filter dimensions for the mobile drawer badge */
+  const activeFilterCount = useMemo(() => {
+    let count = 0;
+    if (filters.themes.length > 0) count++;
+    if (filters.types.length > 0) count++;
+    if (filters.statuses.length > 0) count++;
+    if (filters.fit.length > 0) count++;
+    if (filters.priorityLevels.length > 0) count++;
+    if (filters.schwerpunkt) count++;
+    if (filters.hideNoApplication) count++;
+    if (filters.hideOperative) count++;
+    if (filters.hideNetworks) count++;
+    if (filters.requireEmail) count++;
+    if (filters.requirePhone) count++;
+    if (filters.requireAddress) count++;
+    if (filters.trustLevels.length > 0) count++;
+    if (filters.minTier !== DEFAULT_FILTERS.minTier) count++;
+    return count;
   }, [filters]);
 
   return {
@@ -250,6 +271,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     filtered,
     scoreMap,
     hasActiveFilters,
+    activeFilterCount,
     totalCount: foundations.length,
     filteredCount: filtered.length,
     toggleTheme,
