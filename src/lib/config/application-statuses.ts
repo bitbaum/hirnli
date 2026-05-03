@@ -54,7 +54,7 @@ export const APPLICATION_STATUSES = [
     chartColor: { bg: 'rgba(99, 102, 241, 0.6)', border: 'rgba(99, 102, 241, 1)' },
     requiredFields: [
       { field: 'submissionDate', label: 'Einreichungsdatum', type: 'date' },
-    ] as RequiredField[],
+    ] satisfies RequiredField[],
   },
   {
     id: 'pending',
@@ -80,7 +80,7 @@ export const APPLICATION_STATUSES = [
     chartColor: { bg: 'rgba(34, 197, 94, 0.6)', border: 'rgba(34, 197, 94, 1)' },
     requiredFields: [
       { field: 'awardedAmount', label: 'Bewilligter Betrag (CHF)', type: 'number' },
-    ] as RequiredField[],
+    ] satisfies RequiredField[],
   },
   {
     id: 'rejected',
@@ -90,7 +90,7 @@ export const APPLICATION_STATUSES = [
     chartColor: { bg: 'rgba(239, 68, 68, 0.6)', border: 'rgba(239, 68, 68, 1)' },
     requiredFields: [
       { field: 'rejectionReason', label: 'Ablehnungsgrund', type: 'text' },
-    ] as RequiredField[],
+    ] satisfies RequiredField[],
   },
   {
     id: 'withdrawn',

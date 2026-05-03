@@ -161,13 +161,13 @@ export async function generatePersonalizedGesuch(
   }
 
   // Build customizations object
-  const customizations = {
-    emphasizedNarratives: [] as string[],
-    visibleBudgetModules: [] as string[],
-    hiddenBudgetModules: [] as string[],
-    toneAdjustments: [] as string[],
-    additionalSections: [] as Array<{ section: string; content: string }>,
-    sectionOrder: [] as string[],
+  const customizations: PersonalizedGesuch['customizations'] = {
+    emphasizedNarratives: [],
+    visibleBudgetModules: [],
+    hiddenBudgetModules: [],
+    toneAdjustments: [],
+    additionalSections: [],
+    sectionOrder: [],
   };
 
   // Apply actions
