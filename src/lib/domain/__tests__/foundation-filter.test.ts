@@ -252,6 +252,26 @@ describe('sortFoundations', () => {
     expect(result[result.length - 1].slug).toBe('a');
   });
 
+  it('sorts by priority (P1 first)', () => {
+    const data = [
+      makeFoundation({ slug: 'p3', priority: 3 }),
+      makeFoundation({ slug: 'p1', priority: 1 }),
+      makeFoundation({ slug: 'p2', priority: 2 }),
+    ];
+    const result = sortFoundations(data, 'priority', 'asc');
+    expect(result.map(f => f.slug)).toEqual(['p1', 'p2', 'p3']);
+  });
+
+  it('sorts by deadline ascending (earliest first)', () => {
+    const data = [
+      makeFoundation({ slug: 'b', deadline: '2026-06-01' }),
+      makeFoundation({ slug: 'c', deadline: '2026-03-01' }),
+      makeFoundation({ slug: 'a', deadline: null }),
+    ];
+    const result = sortFoundations(data, 'deadline', 'asc');
+    expect(result.map(f => f.slug)).toEqual(['c', 'b', 'a']);
+  });
+
   it('does not mutate original array', () => {
     const original = [...foundations];
     sortFoundations(foundations, 'name', 'desc');
