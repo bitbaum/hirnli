@@ -1,7 +1,7 @@
 'use client';
 
 import { NUMBERS_REGISTRY } from '@/lib/config/numbers';
-import { NumberSources } from '@/lib/config/metrics';
+import { NumberSources, SOURCE_TYPE_MAP } from '@/lib/config/metrics';
 import { NumberWithSource } from '@/components/data/NumberWithSource';
 import MetricCard from '@/components/metrics/MetricCard';
 import { useState } from 'react';
@@ -51,20 +51,11 @@ export default function UnifiedNumberDisplay({
   // 2. Fall back to NumberSources (legacy system)
   const legacyMetric = NumberSources[numberKey];
   if (legacyMetric) {
-    const sourceTypeMap: Record<string, 'live' | 'derived' | 'estimated' | 'none'> = {
-      source: 'live',
-      capacity: 'derived',
-      estimated: 'estimated',
-      target: 'derived',
-      derived: 'derived',
-      calculated: 'derived',
-    };
-
     const handleClick = () => {
       const data: InspectorData = {
         label: legacyMetric.name,
         value: '—',
-        sourceType: sourceTypeMap[legacyMetric.source.type] || 'none',
+        sourceType: SOURCE_TYPE_MAP[legacyMetric.source.type] ?? 'none',
         source: legacyMetric.source.path || '',
         account: legacyMetric.source.account,
         formula: legacyMetric.formula?.expression,
@@ -78,7 +69,7 @@ export default function UnifiedNumberDisplay({
         <MetricCard
           label={legacyMetric.name}
           value="—"
-          sourceType={sourceTypeMap[legacyMetric.source.type] || 'none'}
+          sourceType={SOURCE_TYPE_MAP[legacyMetric.source.type] ?? 'none'}
           onClick={handleClick}
         />
         {/* Inspector modal would go here - for now, legacy system handles it */}

@@ -4,6 +4,13 @@ import { z } from 'zod';
 export const InspectorSourceType = z.enum(['live', 'derived', 'estimated', 'none']);
 export type InspectorSourceType = z.infer<typeof InspectorSourceType>;
 
+export const INSPECTOR_SOURCE_ICONS: Record<InspectorSourceType, string> = {
+  live: '●',
+  derived: '◐',
+  estimated: '○',
+  none: '?',
+};
+
 // Data shape for the NumberInspector modal
 export const inspectorDataSchema = z.object({
   label: z.string(),

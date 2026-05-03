@@ -2,6 +2,7 @@
 
 import Modal from '@/components/ui/Modal';
 import Badge from '@/components/ui/Badge';
+import { INSPECTOR_SOURCE_ICONS } from '@/lib/schemas/inspector';
 import type { InspectorData, InspectorSourceType } from '@/lib/schemas/inspector';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
@@ -12,11 +13,11 @@ interface NumberInspectorProps {
   data: InspectorData | null;
 }
 
-const TYPE_LABELS: Record<InspectorSourceType, { label: string; variant: InspectorSourceType; icon: string }> = {
-  live: { label: 'Live-Daten', variant: 'live', icon: '●' },
-  derived: { label: 'Berechnet', variant: 'derived', icon: '◐' },
-  estimated: { label: 'Schätzung', variant: 'estimated', icon: '○' },
-  none: { label: 'Keine Quelle', variant: 'none', icon: '?' },
+const TYPE_LABELS: Record<InspectorSourceType, { label: string; variant: InspectorSourceType }> = {
+  live: { label: 'Live-Daten', variant: 'live' },
+  derived: { label: 'Berechnet', variant: 'derived' },
+  estimated: { label: 'Schätzung', variant: 'estimated' },
+  none: { label: 'Keine Quelle', variant: 'none' },
 };
 
 export default function NumberInspector({ isOpen, onClose, data }: NumberInspectorProps) {
@@ -56,7 +57,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
           <h4 className="mb-1 text-xs font-semibold uppercase text-text-muted">Aktueller Wert</h4>
           <div className="text-2xl font-bold text-grey-dark">{data.value}</div>
           <Badge variant={typeInfo.variant} className="mt-1">
-            {typeInfo.icon} {typeInfo.label}
+            {INSPECTOR_SOURCE_ICONS[typeInfo.variant]} {typeInfo.label}
           </Badge>
         </div>
 

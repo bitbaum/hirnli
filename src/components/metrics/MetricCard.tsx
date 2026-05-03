@@ -1,6 +1,7 @@
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
 import { formatPercent } from '@/lib/utils/format';
+import { INSPECTOR_SOURCE_ICONS } from '@/lib/schemas/inspector';
 
 interface MetricCardProps {
   label: string;
@@ -12,12 +13,6 @@ interface MetricCardProps {
   className?: string;
 }
 
-const SOURCE_ICONS = {
-  live: '●',
-  derived: '◐',
-  estimated: '○',
-  none: '?',
-} as const;
 
 export default function MetricCard({
   label,
@@ -34,7 +29,7 @@ export default function MetricCard({
         <span className="text-xs font-medium uppercase tracking-wider text-text-muted">{label}</span>
         {sourceType && (
           <Badge variant={sourceType}>
-            {SOURCE_ICONS[sourceType]}
+            {INSPECTOR_SOURCE_ICONS[sourceType]}
           </Badge>
         )}
       </div>

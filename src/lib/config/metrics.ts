@@ -737,13 +737,13 @@ export const NumberSources: Record<string, Metric> = {
 // Metric → InspectorData bridge
 // ---------------------------------------------------------------------------
 
-const SOURCE_TYPE_MAP: Record<MetricSourceType, InspectorSourceType> = {
+export const SOURCE_TYPE_MAP: Record<MetricSourceType, InspectorSourceType> = {
   source: 'live',
   derived: 'derived',
   estimated: 'estimated',
   calculated: 'derived',
-  target: 'none',
-  capacity: 'none',
+  target: 'derived',
+  capacity: 'derived',
 };
 
 /**
