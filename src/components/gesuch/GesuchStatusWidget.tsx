@@ -38,6 +38,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
   const [marking, setMarking] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
   const [markError, setMarkError] = useState<string | null>(null);
+  const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
     fetch(`/api/applications?foundationId=${slug}`)
@@ -54,7 +55,10 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
           setAppId(null);
         }
       })
-      .catch(() => setAppId(null));
+      .catch(() => {
+        setFetchError(true);
+        setAppId(null);
+      });
   }, [slug]);
 
   async function addToPipeline() {
@@ -122,6 +126,11 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
         Pipeline wird geladen…
       </div>
     );
+  }
+
+  // Fetch failed — don't show "add to pipeline" (could create duplicates)
+  if (fetchError) {
+    return <p className="text-sm text-danger">Pipeline-Status konnte nicht geladen werden.</p>;
   }
 
   // No application yet
