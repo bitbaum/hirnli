@@ -78,7 +78,7 @@ export function useGesuchOverrides(
       .then((result) => {
         if (result.success) setDraftedVariants(result.data ?? []);
       })
-      .catch(() => {});
+      .catch((err) => console.warn('variants fetch failed (display-only):', err));
   }, [slug]);
 
   // Load overrides for current variant — auto-draft if none exist
