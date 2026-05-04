@@ -25,7 +25,7 @@ export default function DashboardClient() {
     monthCount,
     monthlyAvg,
     selfFinancingRate,
-  } = useFinancialData(2025);
+  } = useFinancialData();
 
   const inspector = useNumberInspector();
 

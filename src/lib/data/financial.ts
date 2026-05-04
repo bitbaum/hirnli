@@ -565,11 +565,14 @@ const FALLBACK_DATA: Record<number, YearData> = {
 /** Years for which fallback data is available. */
 export const AVAILABLE_YEARS = [2022, 2023, 2024, 2025] as const;
 
+/** The most recent year with embedded financial data — derived from AVAILABLE_YEARS (SSOT) */
+export const CURRENT_FINANCIAL_YEAR = AVAILABLE_YEARS[AVAILABLE_YEARS.length - 1];
+
 /**
  * Loads financial data for a given year from the embedded fallback dataset.
  * Returns a FinanceDataSet ready for queries.
  */
-export function loadFinancialData(year: number = 2025): FinanceDataSet {
+export function loadFinancialData(year: number = CURRENT_FINANCIAL_YEAR): FinanceDataSet {
   const yearData = FALLBACK_DATA[year];
 
   if (!yearData) {

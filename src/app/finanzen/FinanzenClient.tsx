@@ -33,7 +33,7 @@ const TABS = [
 ];
 
 export default function FinanzenClient() {
-  const financialData = useFinancialData(2025);
+  const financialData = useFinancialData();
   const inspector = useNumberInspector();
   const prevYear = useFinancialData(financialData.selectedYear - 1);
   const growth = prevYear.totals.total > 0

@@ -28,7 +28,7 @@ export default function WirkungClient() {
     setSelectedYear,
     availableYears,
     totals,
-  } = useFinancialData(2025);
+  } = useFinancialData();
 
   const inspector = useNumberInspector();
 

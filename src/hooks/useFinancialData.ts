@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { loadFinancialData, AVAILABLE_YEARS } from '@/lib/data/financial';
+import { loadFinancialData, AVAILABLE_YEARS, CURRENT_FINANCIAL_YEAR } from '@/lib/data/financial';
 import type { MonthlyAggregate } from '@/lib/schemas/financial';
 
-export function useFinancialData(defaultYear = 2025) {
+export function useFinancialData(defaultYear: number = CURRENT_FINANCIAL_YEAR) {
   const [selectedYear, setSelectedYear] = useState(defaultYear);
 
   const dataset = useMemo(() => loadFinancialData(selectedYear), [selectedYear]);
