@@ -12,6 +12,7 @@ import { isRegistryUrl } from '@/lib/config/registry-domains';
 import { getResearchLinks } from '@/lib/config/research-links';
 import { getTrustLevel, TRUST_CONFIG } from '@/lib/config/trust-levels';
 import ProgressBar from '@/components/ui/ProgressBar';
+import { CARD_HEADING_CLASS } from '@/lib/utils/form-classes';
 
 /** Dimension labels keyed by id for readiness bar display */
 const DIM_LABELS = Object.fromEntries(READINESS_ENGINE.dimensions.map(d => [d.id, d.label]));
@@ -32,7 +33,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
     <div className="space-y-4">
       {/* Scores Card — Fit, Bereitschaft, Priorität */}
       <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Scores</h3>
+        <h3 className={CARD_HEADING_CLASS}>Scores</h3>
 
         {/* Priority */}
         <div className="mb-3">
@@ -98,7 +99,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
 
       {/* Key Facts */}
       <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Auf einen Blick</h3>
+        <h3 className={CARD_HEADING_CLASS}>Auf einen Blick</h3>
         <dl className="space-y-2 text-sm">
           {f.amount.text && f.amount.text !== UNKNOWN_FIELD && (
             <div>
@@ -154,7 +155,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
 
       {/* Research Links — cross-platform references for verification */}
       <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Recherche-Links</h3>
+        <h3 className={CARD_HEADING_CLASS}>Recherche-Links</h3>
         <div className="space-y-1.5 text-sm">
           {/* Foundation website (if verified) */}
           {f.websiteUrl && !isRegistryUrl(f.websiteUrl) ? (
@@ -198,7 +199,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
 
       {/* Gesuch */}
       <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Gesuch</h3>
+        <h3 className={CARD_HEADING_CLASS}>Gesuch</h3>
         {gesuchReady ? (
           <div className="space-y-4">
             <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
@@ -242,7 +243,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       {/* Source Links — additional references beyond standard platforms */}
       {f.sourceLinks && f.sourceLinks.length > 0 && (
         <Card>
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Weitere Quellen</h3>
+          <h3 className={CARD_HEADING_CLASS}>Weitere Quellen</h3>
           <div className="space-y-1.5 text-sm">
             {f.sourceLinks.map((link, i) => (
               <a
@@ -263,7 +264,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       {/* Contact */}
       {/* Contact — always show all channels, mark missing with search link */}
       <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Kontakt</h3>
+        <h3 className={CARD_HEADING_CLASS}>Kontakt</h3>
         <div className="space-y-2 text-sm">
           {/* Email */}
           {f.contact?.email ? (
@@ -325,7 +326,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
 
       {/* Research Info + Trust Level */}
       <Card>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">Recherche</h3>
+        <h3 className={CARD_HEADING_CLASS}>Recherche</h3>
         <div className="space-y-2 text-sm">
           {(() => {
             const trust = getTrustLevel(f);

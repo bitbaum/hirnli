@@ -10,3 +10,7 @@ export const FORM_INPUT_CLASS =
 
 export const FORM_LABEL_CLASS =
   'mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted';
+
+/** Heading style used in Card sections (8+ occurrences across FoundationSidebar, SimilarFoundations, etc.) */
+export const CARD_HEADING_CLASS =
+  'mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted';

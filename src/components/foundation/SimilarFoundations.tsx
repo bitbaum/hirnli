@@ -3,6 +3,7 @@ import Card from '@/components/ui/Card';
 import type { SimilarFoundation } from '@/lib/domain/foundation-recommendations';
 import { FIT_CONFIG } from '@/lib/config/foundations';
 import { getFitLevel } from '@/lib/domain/foundation-helpers';
+import { CARD_HEADING_CLASS } from '@/lib/utils/form-classes';
 
 interface SimilarFoundationsProps {
   similar: SimilarFoundation[];
@@ -13,9 +14,7 @@ export default function SimilarFoundations({ similar }: SimilarFoundationsProps)
 
   return (
     <Card>
-      <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
-        Ähnliche Stiftungen
-      </h3>
+      <h3 className={CARD_HEADING_CLASS}>Ähnliche Stiftungen</h3>
       <div className="space-y-3">
         {similar.map(({ foundation: f, reasons }) => (
           <Link
