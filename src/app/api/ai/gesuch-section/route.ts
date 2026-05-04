@@ -18,7 +18,14 @@ import { z } from 'zod';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { resolveTypeLabel } from '@/lib/config/foundations/metadata';
-import { API_ERR_BAD_REQUEST } from '@/lib/utils/errors';
+import {
+  API_ERR_BAD_REQUEST,
+  API_ERR_AI_NOT_CONFIGURED,
+  API_ERR_AI_UNAVAILABLE,
+  API_ERR_AI_NO_RESPONSE,
+  API_ERR_AI_TIMEOUT,
+  API_ERR_INTERNAL,
+} from '@/lib/utils/errors';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
@@ -157,7 +164,7 @@ export async function POST(request: NextRequest) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
-      { success: false, error: 'KI-Dienst nicht konfiguriert' },
+      { success: false, error: API_ERR_AI_NOT_CONFIGURED },
       { status: 503 },
     );
   }
@@ -209,7 +216,7 @@ export async function POST(request: NextRequest) {
       const errText = await response.text().catch(() => '');
       console.error('Groq API error:', response.status, errText);
       return NextResponse.json(
-        { success: false, error: 'KI-Dienst momentan nicht erreichbar' },
+        { success: false, error: API_ERR_AI_UNAVAILABLE },
         { status: 502 },
       );
     }
@@ -219,7 +226,7 @@ export async function POST(request: NextRequest) {
 
     if (!rewritten) {
       return NextResponse.json(
-        { success: false, error: 'Keine Antwort vom KI-Dienst' },
+        { success: false, error: API_ERR_AI_NO_RESPONSE },
         { status: 502 },
       );
     }
@@ -228,11 +235,11 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     if ((err as Error).name === 'AbortError') {
       return NextResponse.json(
-        { success: false, error: 'KI-Anfrage hat zu lange gedauert (Timeout)' },
+        { success: false, error: API_ERR_AI_TIMEOUT },
         { status: 504 },
       );
     }
     console.error('AI gesuch-section error:', err);
-    return NextResponse.json({ success: false, error: 'Interner Fehler' }, { status: 500 });
+    return NextResponse.json({ success: false, error: API_ERR_INTERNAL }, { status: 500 });
   }
 }

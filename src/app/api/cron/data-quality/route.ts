@@ -15,6 +15,7 @@ import { and, eq, isNull, lt, gte, sql } from 'drizzle-orm';
 import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatDateCH, toISODateStr } from '@/lib/utils/format';
+import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
   // Security: Verify cron secret
   const cronSecret = process.env.CRON_SECRET;
   if (!cronSecret) {
-    return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ success: false, error: API_ERR_UNAUTHORIZED }, { status: 401 });
   }
   const authHeader = request.headers.get('authorization') ?? '';
   const expected = `Bearer ${cronSecret}`;
@@ -44,7 +45,7 @@ export async function GET(request: NextRequest) {
   const crypto = await import('crypto');
   if (authHeader.length !== expected.length ||
       !crypto.timingSafeEqual(Buffer.from(authHeader), Buffer.from(expected))) {
-    return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ success: false, error: API_ERR_UNAUTHORIZED }, { status: 401 });
   }
 
   try {
@@ -233,7 +234,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Data quality cron error:', error);
     return NextResponse.json(
-      { success: false, error: 'Cron job failed' },
+      { success: false, error: API_ERR_CRON },
       { status: 500 }
     );
   }
