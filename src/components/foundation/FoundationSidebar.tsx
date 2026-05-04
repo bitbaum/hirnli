@@ -158,7 +158,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         <div className="space-y-1.5 text-sm">
           {/* Foundation website (if verified) */}
           {f.websiteUrl && !isRegistryUrl(f.websiteUrl) ? (
-            <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded px-2 py-1.5 text-primary hover:bg-bg-light hover:underline">
+            <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-primary hover:bg-bg-light hover:underline">
               <span className="font-medium">Website</span>
               <span className="text-xs text-text-muted">↗</span>
             </a>
@@ -169,7 +169,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             </div>
           )}
           {f.applicationUrl && (
-            <a href={f.applicationUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded bg-primary/5 px-2 py-1.5 font-semibold text-primary hover:bg-primary/10 hover:underline">
+            <a href={f.applicationUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center justify-between rounded bg-primary/5 px-2 py-2.5 font-semibold text-primary hover:bg-primary/10 hover:underline">
               <span>Gesuch einreichen</span>
               <span className="text-xs">↗</span>
             </a>
@@ -183,7 +183,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between rounded px-2 py-1 text-text-muted hover:bg-bg-light hover:text-primary"
+                className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-text-muted hover:bg-bg-light hover:text-primary"
               >
                 <span className="flex items-center gap-1.5">
                   {link.official && <span className="text-xs text-primary/60" title="Offizielles Register">●</span>}
@@ -250,7 +250,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between rounded px-2 py-1 text-text-muted hover:bg-bg-light hover:text-primary"
+                className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-text-muted hover:bg-bg-light hover:text-primary"
               >
                 <span>{link.label || SOURCES[link.source]?.label || link.source}</span>
                 <span className="text-xs">↗</span>

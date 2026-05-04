@@ -71,7 +71,7 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
       <div
         id={menuId}
         role="menu"
-        className={`absolute left-1/2 top-full z-50 w-[640px] -translate-x-1/2 pt-3 transition-all duration-200 ${
+        className={`absolute left-1/2 top-full z-50 w-[640px] max-w-[calc(100vw-2rem)] -translate-x-1/2 pt-3 transition-all duration-200 ${
           open
             ? 'visible opacity-100 translate-y-0'
             : 'invisible opacity-0 -translate-y-1'
