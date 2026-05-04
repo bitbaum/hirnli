@@ -25,6 +25,7 @@ import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import ProgressBar from '@/components/ui/ProgressBar';
 import { TRUST_CONFIG } from '@/lib/config/trust-levels';
+import { ErrorAlert } from '@/components/ui/ErrorAlert';
 
 const LOAD_MORE_COUNT = 50;
 
@@ -76,6 +77,7 @@ export default function FoundationListClient() {
   // Foundation slugs that already have a pipeline entry
   const [pipelineSlugs, setPipelineSlugs] = useState<Set<string>>(new Set());
   const [pipelineLoading, setPipelineLoading] = useState(true);
+  const [pipelineError, setPipelineError] = useState(false);
   useEffect(() => {
     fetch('/api/applications')
       .then((r) => r.json())
@@ -87,9 +89,14 @@ export default function FoundationListClient() {
               .filter(Boolean),
           );
           setPipelineSlugs(slugs);
+        } else {
+          setPipelineError(true);
         }
       })
-      .catch((err) => console.error('Failed to load pipeline data:', err))
+      .catch((err) => {
+        console.error('Failed to load pipeline data:', err);
+        setPipelineError(true);
+      })
       .finally(() => setPipelineLoading(false));
   }, []);
 
@@ -356,6 +363,12 @@ export default function FoundationListClient() {
               CSV Export
             </button>
           </div>
+
+          {pipelineError && (
+            <ErrorAlert className="mb-4">
+              Pipeline-Daten konnten nicht geladen werden — «Im Pipeline» wird nicht angezeigt.
+            </ErrorAlert>
+          )}
 
           {/* Foundation list */}
           <div className="space-y-3">
