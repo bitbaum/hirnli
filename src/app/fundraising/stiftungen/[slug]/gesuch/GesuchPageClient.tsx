@@ -84,6 +84,7 @@ export default function GesuchPageClient({
     restoreOverrides,
     autoDraft,
     autoDraftLoading,
+    autoDraftError,
   } = useGesuchOverrides(slug, foundationData, variantKey, schwerpunktLabel);
 
   const foundationContext = useMemo(
@@ -165,6 +166,11 @@ export default function GesuchPageClient({
         {loadError && (
           <ErrorAlert className="mb-6">
             Gespeicherte Anpassungen konnten nicht geladen werden. Bitte Seite neu laden.
+          </ErrorAlert>
+        )}
+        {autoDraftError && (
+          <ErrorAlert className="mb-6">
+            KI-Entwurf wurde generiert, konnte aber nicht gespeichert werden — bitte manuell speichern.
           </ErrorAlert>
         )}
 

@@ -33,6 +33,7 @@ interface UseGesuchOverridesReturn {
   saving: boolean;
   dirty: boolean;
   loadError: boolean;
+  autoDraftError: boolean;
   draftedVariants: string[];
   toggleEditMode: () => void;
   updateField: (patch: GesuchOverridesData) => void;
@@ -219,10 +220,12 @@ export function useGesuchOverrides(
   );
 
   const [autoDraftLoading, setAutoDraftLoading] = useState(false);
+  const [autoDraftError, setAutoDraftError] = useState(false);
 
   const autoDraft = useCallback(async () => {
     if (!foundation) return;
     setAutoDraftLoading(true);
+    setAutoDraftError(false);
     try {
       const name = foundation.name;
       const purposeHint = foundation.purposeSummary
@@ -279,7 +282,11 @@ export function useGesuchOverrides(
       if (whyResult) updateField({ why: { problem: whyResult } });
       if (howResult) updateField({ how: { trackRecord: { text: howResult } } });
 
-      await save();
+      try {
+        await save();
+      } catch {
+        setAutoDraftError(true);
+      }
     } finally {
       setAutoDraftLoading(false);
     }
@@ -305,6 +312,7 @@ export function useGesuchOverrides(
     saving,
     dirty,
     loadError,
+    autoDraftError,
     draftedVariants,
     toggleEditMode,
     updateField,
