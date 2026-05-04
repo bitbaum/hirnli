@@ -16,6 +16,10 @@ import { StatusDistributionChart } from './StatusDistributionChart';
 import { UpcomingDeadlines, type Deadline } from './UpcomingDeadlines';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { NET_ERR_LOAD } from '@/lib/utils/errors';
+import { DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
+
+const SUCCESS_RATE_GREEN = 30;
+const SUCCESS_RATE_WARN = 15;
 
 interface DashboardData {
   totals: {
@@ -140,7 +144,7 @@ export function FundraisingDashboard() {
               label="Erfolgsquote"
               value={`${data.totals.successRate}%`}
               icon="📊"
-              color={data.totals.successRate >= 30 ? 'green' : data.totals.successRate >= 15 ? 'orange' : 'red'}
+              color={data.totals.successRate >= SUCCESS_RATE_GREEN ? 'green' : data.totals.successRate >= SUCCESS_RATE_WARN ? 'orange' : 'red'}
               subtitle={`${data.totals.accepted} angenommen, ${data.totals.rejected} abgelehnt`}
             />
           </div>
@@ -156,7 +160,7 @@ export function FundraisingDashboard() {
 
             <div className="bg-white border border-border rounded-lg p-6">
               <h2 className="text-lg font-semibold text-grey-dark mb-4">
-                Anstehende Fristen (30 Tage)
+                Anstehende Fristen ({DEADLINE_UPCOMING_DAYS} Tage)
               </h2>
               <div className="max-h-80 overflow-y-auto">
                 <UpcomingDeadlines deadlines={data.upcomingDeadlines} />

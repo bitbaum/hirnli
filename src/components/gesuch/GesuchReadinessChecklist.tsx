@@ -6,6 +6,8 @@
 
 import type { GesuchReadiness } from '@/lib/domain/gesuch-readiness';
 
+const GESUCH_SCORE_WARNING = 40;
+
 interface GesuchReadinessChecklistProps {
   readiness: GesuchReadiness;
 }
@@ -21,7 +23,7 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
           className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
             ready
               ? 'bg-success/10 text-success'
-              : score >= 40
+              : score >= GESUCH_SCORE_WARNING
                 ? 'bg-warning/10 text-warning'
                 : 'bg-danger/10 text-danger'
           }`}

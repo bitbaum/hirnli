@@ -8,7 +8,7 @@
 
 import Link from 'next/link';
 import { formatCHF, formatDateCH } from '@/lib/utils/format';
-import { DEADLINE_CRITICAL_DAYS, DEADLINE_WARNING_DAYS } from '@/lib/utils/time';
+import { DEADLINE_CRITICAL_DAYS, DEADLINE_WARNING_DAYS, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 
 export interface Deadline {
   id: string;
@@ -39,7 +39,7 @@ export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
   if (deadlines.length === 0) {
     return (
       <div className="text-center text-text-muted py-8">
-        Keine anstehenden Fristen in den nächsten 30 Tagen
+        Keine anstehenden Fristen in den nächsten {DEADLINE_UPCOMING_DAYS} Tagen
       </div>
     );
   }

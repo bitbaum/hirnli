@@ -3,6 +3,7 @@ import Badge from '@/components/ui/Badge';
 import { formatNumber } from '@/lib/utils/format';
 import { CO2_PER_LAPTOP, CO2_NEW_LAPTOP_MANUFACTURE, CO2_REFURBISH_COST } from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { SOCIAL_DISPLAY } from '@/lib/config/stories';
 
 // ---------------------------------------------------------------------------
 // Theory of Change column component
@@ -123,9 +124,9 @@ export function ImpactStoryCards({
             <div className="mt-3 rounded-lg bg-danger/10 p-3">
               <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">{`Historisch (seit ${ORG_PROFILE.milestones.integrationProgram}):`}</h4>
               <ul className="space-y-1 text-sm text-text-light">
-                <li>👥 <strong>100+</strong> Praktikant:innen</li>
-                <li>✓ <strong>~40%</strong> Erfolgsquote</li>
-                <li>🏠 <strong>8-10</strong> Plätze verfügbar</li>
+                <li>👥 <strong>{SOCIAL_DISPLAY.practitioners_total}</strong> Praktikant:innen</li>
+                <li>✓ <strong>{SOCIAL_DISPLAY.success_rate}</strong> Erfolgsquote</li>
+                <li>🏠 <strong>{SOCIAL_DISPLAY.capacity}</strong> Plätze verfügbar</li>
               </ul>
             </div>
           </div>
