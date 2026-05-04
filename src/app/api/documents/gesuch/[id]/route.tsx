@@ -19,7 +19,7 @@ import { CO2_PER_LAPTOP, LAPTOPS_REFURBISHED_COUNT, NUMBERS_REGISTRY } from '@/l
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { getTodayISO } from '@/lib/utils/format';
 import { API_ERR_NOT_FOUND, API_ERR_PROCESS } from '@/lib/utils/errors';
-import { streamToBuffer } from '@/lib/pdf/utils';
+import { streamToBuffer, sanitizeFoundationFilename } from '@/lib/pdf/utils';
 
 /**
  * POST /api/documents/gesuch/[id]
@@ -114,7 +114,7 @@ export async function POST(
     const stream = await renderToStream(pdfComponent);
 
     const buffer = await streamToBuffer(stream);
-    const filename = `gesuch-${foundation.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${getTodayISO()}.pdf`;
+    const filename = `gesuch-${sanitizeFoundationFilename(foundation.name)}-${getTodayISO()}.pdf`;
 
     // Return PDF
     return new NextResponse(buffer, {
