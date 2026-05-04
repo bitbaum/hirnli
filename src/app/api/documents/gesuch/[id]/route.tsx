@@ -18,7 +18,7 @@ import { generatePersonalizedGesuch } from '@/lib/domain/personalization-engine'
 import { CO2_PER_LAPTOP, LAPTOPS_REFURBISHED_COUNT, NUMBERS_REGISTRY } from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { getTodayISO } from '@/lib/utils/format';
-import { API_ERR_NOT_FOUND, API_ERR_PROCESS } from '@/lib/utils/errors';
+import { API_ERR_NOT_FOUND, API_ERR_PROCESS, API_ERR_FOUNDATION_NOT_FOUND } from '@/lib/utils/errors';
 import { streamToBuffer, sanitizeFoundationFilename } from '@/lib/pdf/utils';
 
 /**
@@ -54,7 +54,7 @@ export async function POST(
 
     if (!foundation) {
       return NextResponse.json(
-        { success: false, error: 'Foundation not found' },
+        { success: false, error: API_ERR_FOUNDATION_NOT_FOUND },
         { status: 404 }
       );
     }
