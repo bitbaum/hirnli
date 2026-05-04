@@ -18,7 +18,7 @@ import { generatePersonalizedGesuch } from '@/lib/domain/personalization-engine'
 import { CO2_PER_LAPTOP, LAPTOPS_REFURBISHED_COUNT, NUMBERS_REGISTRY } from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { getTodayISO } from '@/lib/utils/format';
-import { API_ERR_NOT_FOUND } from '@/lib/utils/errors';
+import { API_ERR_NOT_FOUND, API_ERR_PROCESS } from '@/lib/utils/errors';
 
 /**
  * POST /api/documents/gesuch/[id]
@@ -135,7 +135,7 @@ export async function POST(
     return NextResponse.json(
       {
         success: false,
-        error: 'Verarbeitung fehlgeschlagen',
+        error: API_ERR_PROCESS,
       },
       { status: 500 }
     );

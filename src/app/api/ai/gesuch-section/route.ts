@@ -172,7 +172,7 @@ export async function POST(request: NextRequest) {
   const parsed = requestSchema.safeParse(rawBody);
   if (!parsed.success) {
     return NextResponse.json(
-      { success: false, error: 'Ungültige Anfrage' },
+      { success: false, error: API_ERR_BAD_REQUEST },
       { status: 400 },
     );
   }

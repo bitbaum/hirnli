@@ -14,7 +14,7 @@ import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { formatDateCH } from '@/lib/utils/format';
-import { NET_ERR_LOAD } from '@/lib/utils/errors';
+import { NET_ERR_LOAD, API_ERR_LOAD } from '@/lib/utils/errors';
 
 interface GesuchOverviewRow {
   foundationId: string;
@@ -36,7 +36,7 @@ export default function MeineGesuchePage() {
       .then((r) => r.json())
       .then((d) => {
         if (d.success) setRows(d.data);
-        else setError(d.error ?? 'Fehler beim Laden');
+        else setError(d.error ?? API_ERR_LOAD);
       })
       .catch(() => setError(NET_ERR_LOAD))
       .finally(() => setLoading(false));
