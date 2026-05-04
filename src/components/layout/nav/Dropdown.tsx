@@ -1,47 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useRef, useCallback, useId } from 'react';
 import type { NavItem } from '@/lib/config/nav';
 import { NAV_LINK_BASE, NAV_ITEM_BASE, activeClasses, isActive } from './nav-utils';
+import { useNavDropdown } from './useNavDropdown';
 
 export default function Dropdown({ item, pathname }: { item: NavItem; pathname: string }) {
-  const [open, setOpen] = useState(false);
-  const wrapperRef = useRef<HTMLLIElement>(null);
-  const menuId = useId();
-  const closeTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-  const openMenu = useCallback(() => {
-    clearTimeout(closeTimeout.current);
-    setOpen(true);
-  }, []);
-
-  const scheduleClose = useCallback(() => {
-    closeTimeout.current = setTimeout(() => setOpen(false), 150);
-  }, []);
-
-  const handleBlur = useCallback(
-    (e: React.FocusEvent) => {
-      if (
-        wrapperRef.current &&
-        e.relatedTarget instanceof Node &&
-        !wrapperRef.current.contains(e.relatedTarget)
-      ) {
-        setOpen(false);
-      }
-    },
-    [],
-  );
-
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      setOpen(false);
-      const trigger = wrapperRef.current?.querySelector<HTMLElement>(
-        '[aria-haspopup]',
-      );
-      trigger?.focus();
-    }
-  }, []);
+  const { open, setOpen, wrapperRef, menuId, openMenu, scheduleClose, handleBlur, handleKeyDown } =
+    useNavDropdown();
 
   return (
     <li
