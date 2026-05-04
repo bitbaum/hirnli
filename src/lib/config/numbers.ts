@@ -131,8 +131,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   YEARS_EXPERIENCE: {
-    value: new Date().getFullYear() - SHARED_ORG_NUMBERS.FOUNDING_YEAR,
-    label: `Jahre Erfahrung (seit ${SHARED_ORG_NUMBERS.FOUNDING_YEAR})`,
+    value: ORG_PROFILE.yearsActive,
+    label: `Jahre Erfahrung (seit ${ORG_PROFILE.founded})`,
     source: {
       methodology: 'Handelsregister Eintrag, Gründungsjahr verifiziert',
       confidence: 'high',
