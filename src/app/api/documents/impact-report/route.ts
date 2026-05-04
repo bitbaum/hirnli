@@ -13,16 +13,13 @@ import { renderToStream } from '@react-pdf/renderer';
 import { ImpactReportPDF } from '@/lib/pdf/impact-report';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { API_ERR_PDF } from '@/lib/utils/errors';
+import { streamToBuffer } from '@/lib/pdf/utils';
 
 export async function GET() {
   try {
     const stream = await renderToStream(React.createElement(ImpactReportPDF));
 
-    const chunks: Buffer[] = [];
-    for await (const chunk of stream) {
-      chunks.push(Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
+    const buffer = await streamToBuffer(stream);
 
     const year = new Date().getFullYear();
     const filename = `wirkungsbericht-${year}-${ORG_PROFILE.name

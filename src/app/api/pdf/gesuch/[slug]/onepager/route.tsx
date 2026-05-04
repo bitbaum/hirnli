@@ -17,8 +17,9 @@ import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchOnePagerPDF from '@/lib/pdf/gesuch-onepager';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
-import { API_ERR_PDF } from '@/lib/utils/errors';
+import { API_ERR_PDF, API_ERR_FOUNDATION_NOT_FOUND, API_ERR_GESUCH_UNAVAILABLE, API_ERR_GESUCH_NOT_READY } from '@/lib/utils/errors';
 import { getTodayISO } from '@/lib/utils/format';
+import { streamToBuffer, sanitizeFoundationFilename } from '@/lib/pdf/utils';
 
 export async function GET(
   request: NextRequest,
@@ -30,14 +31,14 @@ export async function GET(
     const foundation = getFoundationBySlug(slug);
     if (!foundation) {
       return NextResponse.json(
-        { success: false, error: 'Stiftung nicht gefunden' },
+        { success: false, error: API_ERR_FOUNDATION_NOT_FOUND },
         { status: 404 }
       );
     }
 
     if (!hasGesuchPage(foundation)) {
       return NextResponse.json(
-        { success: false, error: 'Gesuch nicht verfügbar für diese Stiftung' },
+        { success: false, error: API_ERR_GESUCH_UNAVAILABLE },
         { status: 400 }
       );
     }
@@ -47,33 +48,20 @@ export async function GET(
       ? schwerpunktParam
       : undefined;
 
-    // Same data pipeline as full PDF
     const baseDok = composeGesuchDokument(foundation, schwerpunktId);
     const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
     const dok = applyGesuchOverrides(baseDok, overrides);
 
     if (!dok.ready) {
       return NextResponse.json(
-        { success: false, error: dok.readyReason || 'Gesuch nicht bereit' },
+        { success: false, error: dok.readyReason || API_ERR_GESUCH_NOT_READY },
         { status: 400 }
       );
     }
 
     const stream = await renderToStream(<GesuchOnePagerPDF dok={dok} />);
-
-    const chunks: Buffer[] = [];
-    for await (const chunk of stream) {
-      chunks.push(Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-
-    const safeName = foundation.name
-      .replace(/[^a-zäöü0-9]/gi, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '')
-      .toLowerCase();
-    const date = getTodayISO();
-    const filename = `kurzuebersicht-${safeName}-${date}.pdf`;
+    const buffer = await streamToBuffer(stream);
+    const filename = `kurzuebersicht-${sanitizeFoundationFilename(foundation.name)}-${getTodayISO()}.pdf`;
 
     return new NextResponse(buffer, {
       headers: {
@@ -85,10 +73,7 @@ export async function GET(
   } catch (error) {
     console.error('One-pager PDF generation error:', error);
     return NextResponse.json(
-      {
-        success: false,
-        error: API_ERR_PDF,
-      },
+      { success: false, error: API_ERR_PDF },
       { status: 500 }
     );
   }

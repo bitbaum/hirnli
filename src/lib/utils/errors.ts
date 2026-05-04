@@ -16,3 +16,6 @@ export const API_ERR_EXPORT = 'Export fehlgeschlagen';
 export const API_ERR_BAD_REQUEST = 'Ungültige Anfrage';
 export const API_ERR_PROCESS = 'Verarbeitung fehlgeschlagen';
 export const API_ERR_PDF = 'PDF-Generierung fehlgeschlagen';
+export const API_ERR_FOUNDATION_NOT_FOUND = 'Stiftung nicht gefunden';
+export const API_ERR_GESUCH_UNAVAILABLE = 'Gesuch nicht verfügbar für diese Stiftung';
+export const API_ERR_GESUCH_NOT_READY = 'Gesuch nicht bereit';

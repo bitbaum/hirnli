@@ -11,14 +11,14 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { renderToStream } from '@react-pdf/renderer';
-import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
-import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
+import { getFoundationBySlug, hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchDokumentPDF from '@/lib/pdf/gesuch-dokument';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
-import { API_ERR_PDF } from '@/lib/utils/errors';
+import { API_ERR_PDF, API_ERR_FOUNDATION_NOT_FOUND, API_ERR_GESUCH_UNAVAILABLE, API_ERR_GESUCH_NOT_READY } from '@/lib/utils/errors';
 import { getTodayISO } from '@/lib/utils/format';
+import { streamToBuffer, sanitizeFoundationFilename } from '@/lib/pdf/utils';
 
 export async function GET(
   request: NextRequest,
@@ -27,59 +27,40 @@ export async function GET(
   try {
     const { slug } = await params;
 
-    // Validate foundation exists
     const foundation = getFoundationBySlug(slug);
     if (!foundation) {
       return NextResponse.json(
-        { success: false, error: 'Stiftung nicht gefunden' },
+        { success: false, error: API_ERR_FOUNDATION_NOT_FOUND },
         { status: 404 }
       );
     }
 
-    // Validate gesuch page is available
     if (!hasGesuchPage(foundation)) {
       return NextResponse.json(
-        { success: false, error: 'Gesuch nicht verfügbar für diese Stiftung' },
+        { success: false, error: API_ERR_GESUCH_UNAVAILABLE },
         { status: 400 }
       );
     }
 
-    // Optional schwerpunkt filter
     const schwerpunktParam = request.nextUrl.searchParams.get('schwerpunkt');
     const schwerpunktId = schwerpunktParam && isSchwerpunktId(schwerpunktParam)
       ? schwerpunktParam
       : undefined;
 
-    // Compose document data (same SSOT as HTML page)
     const baseDok = composeGesuchDokument(foundation, schwerpunktId);
     const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
     const dok = applyGesuchOverrides(baseDok, overrides);
 
     if (!dok.ready) {
       return NextResponse.json(
-        { success: false, error: dok.readyReason || 'Gesuch nicht bereit' },
+        { success: false, error: dok.readyReason || API_ERR_GESUCH_NOT_READY },
         { status: 400 }
       );
     }
 
-    // Render PDF
     const stream = await renderToStream(<GesuchDokumentPDF dok={dok} />);
-
-    // Collect stream into buffer
-    const chunks: Buffer[] = [];
-    for await (const chunk of stream) {
-      chunks.push(Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-
-    // Sanitize filename
-    const safeName = foundation.name
-      .replace(/[^a-zäöü0-9]/gi, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '')
-      .toLowerCase();
-    const date = getTodayISO();
-    const filename = `gesuch-${safeName}-${date}.pdf`;
+    const buffer = await streamToBuffer(stream);
+    const filename = `gesuch-${sanitizeFoundationFilename(foundation.name)}-${getTodayISO()}.pdf`;
 
     return new NextResponse(buffer, {
       headers: {
@@ -91,10 +72,7 @@ export async function GET(
   } catch (error) {
     console.error('PDF generation error:', error);
     return NextResponse.json(
-      {
-        success: false,
-        error: API_ERR_PDF,
-      },
+      { success: false, error: API_ERR_PDF },
       { status: 500 }
     );
   }
