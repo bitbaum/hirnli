@@ -9,6 +9,9 @@ import {
   formatDateCH,
   formatDateTimeCH,
   formatDateCHLong,
+  toISODateStr,
+  normalizeDateInput,
+  getTodayISO,
 } from './format';
 
 describe('formatCHF', () => {
@@ -265,5 +268,58 @@ describe('formatDateCHLong', () => {
     const long = formatDateCHLong('2026-05-15');
     expect(long).not.toBe(compact);
     expect(long.length).toBeGreaterThan(compact.length);
+  });
+});
+
+describe('toISODateStr', () => {
+  it('returns YYYY-MM-DD string from a Date', () => {
+    expect(toISODateStr(new Date('2026-05-04T00:00:00Z'))).toBe('2026-05-04');
+  });
+
+  it('strips time component from mid-day date', () => {
+    expect(toISODateStr(new Date('2026-01-15T14:30:00Z'))).toBe('2026-01-15');
+  });
+
+  it('handles end-of-year date correctly', () => {
+    expect(toISODateStr(new Date('2025-12-31T23:59:59Z'))).toBe('2025-12-31');
+  });
+
+  it('returns format matching /^\\d{4}-\\d{2}-\\d{2}$/', () => {
+    expect(toISODateStr(new Date())).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+});
+
+describe('normalizeDateInput', () => {
+  it('returns date-only part from ISO datetime string', () => {
+    expect(normalizeDateInput('2026-05-04T14:30:00.000Z')).toBe('2026-05-04');
+  });
+
+  it('returns the value unchanged when already date-only', () => {
+    expect(normalizeDateInput('2026-05-04')).toBe('2026-05-04');
+  });
+
+  it('returns empty string for null', () => {
+    expect(normalizeDateInput(null)).toBe('');
+  });
+
+  it('returns empty string for undefined', () => {
+    expect(normalizeDateInput(undefined)).toBe('');
+  });
+
+  it('returns empty string for empty string', () => {
+    expect(normalizeDateInput('')).toBe('');
+  });
+});
+
+describe('getTodayISO', () => {
+  it('returns a string matching YYYY-MM-DD format', () => {
+    expect(getTodayISO()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it('matches toISODateStr(new Date())', () => {
+    const before = toISODateStr(new Date());
+    const result = getTodayISO();
+    const after = toISODateStr(new Date());
+    expect(result === before || result === after).toBe(true);
   });
 });
