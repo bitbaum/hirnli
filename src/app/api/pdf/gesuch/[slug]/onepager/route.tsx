@@ -17,6 +17,7 @@ import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchOnePagerPDF from '@/lib/pdf/gesuch-onepager';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
+import { API_ERR_PDF } from '@/lib/utils/errors';
 import { getTodayISO } from '@/lib/utils/format';
 
 export async function GET(
@@ -86,7 +87,7 @@ export async function GET(
     return NextResponse.json(
       {
         success: false,
-        error: 'PDF-Generierung fehlgeschlagen',
+        error: API_ERR_PDF,
       },
       { status: 500 }
     );

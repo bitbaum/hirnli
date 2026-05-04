@@ -18,6 +18,7 @@ import { z } from 'zod';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { resolveTypeLabel } from '@/lib/config/foundations/metadata';
+import { API_ERR_BAD_REQUEST } from '@/lib/utils/errors';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
@@ -165,7 +166,7 @@ export async function POST(request: NextRequest) {
   try {
     rawBody = await request.json();
   } catch {
-    return NextResponse.json({ success: false, error: 'Ungültige Anfrage' }, { status: 400 });
+    return NextResponse.json({ success: false, error: API_ERR_BAD_REQUEST }, { status: 400 });
   }
 
   const parsed = requestSchema.safeParse(rawBody);

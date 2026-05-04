@@ -11,6 +11,7 @@ import React from 'react';
 import { renderToStream } from '@react-pdf/renderer';
 import { PitchDeckPDF } from '@/lib/pdf/pitch-deck';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { API_ERR_PDF } from '@/lib/utils/errors';
 
 export async function GET() {
   try {
@@ -38,7 +39,7 @@ export async function GET() {
   } catch (error) {
     console.error('Pitch deck generation error:', error);
     return NextResponse.json(
-      { success: false, error: 'PDF-Generierung fehlgeschlagen' },
+      { success: false, error: API_ERR_PDF },
       { status: 500 }
     );
   }

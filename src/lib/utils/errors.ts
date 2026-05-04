@@ -15,3 +15,4 @@ export const API_ERR_DB = 'Datenbankfehler';
 export const API_ERR_EXPORT = 'Export fehlgeschlagen';
 export const API_ERR_BAD_REQUEST = 'Ungültige Anfrage';
 export const API_ERR_PROCESS = 'Verarbeitung fehlgeschlagen';
+export const API_ERR_PDF = 'PDF-Generierung fehlgeschlagen';
