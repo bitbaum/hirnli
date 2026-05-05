@@ -26,6 +26,7 @@ export const ORG_PROFILE = {
   location: 'Zürich',
   address: 'Birmensdorferstrasse 379, 8055 Zürich',
   website: 'https://revamp-it.ch',
+  cloudUrl: 'https://cloud.revamp-it.ch',
   email: 'empfang@revamp-it.ch',
   fundraisingEmail: 'fundraising@revamp-it.ch',
   contactName: 'Andreas Hunkeler',

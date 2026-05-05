@@ -8,6 +8,7 @@
 import type { ComposedGesuch } from './gesuch-composer';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
+import { QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
 
 export interface ReadinessCheck {
   id: string;
@@ -31,14 +32,14 @@ export function computeGesuchReadiness(
     {
       id: 'bridge',
       label: 'Verbindungssatz personalisiert',
-      passed: Boolean(overrides.foundationBridge && overrides.foundationBridge.length > 20),
+      passed: Boolean(overrides.foundationBridge && overrides.foundationBridge.length > QUALITY_THRESHOLDS.minContentChars),
       hint: 'Im Bearbeitungsmodus den Verbindungssatz anpassen oder KI-Entwurf nutzen.',
     },
     {
       id: 'anschreiben',
       label: 'Anschreiben angepasst',
       passed: Boolean(
-        overrides.anschreiben?.opening && overrides.anschreiben.opening.length > 20,
+        overrides.anschreiben?.opening && overrides.anschreiben.opening.length > QUALITY_THRESHOLDS.minContentChars,
       ),
       hint: 'Eröffnungsabsatz des Anschreibens auf die Stiftung zuschneiden.',
     },

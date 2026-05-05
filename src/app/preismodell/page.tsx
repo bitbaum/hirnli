@@ -11,6 +11,7 @@ import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import UnifiedNumberDisplay from '@/components/data/UnifiedNumberDisplay';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 export const metadata: Metadata = {
   title: 'Solidarisches Preismodell',
@@ -258,7 +259,7 @@ export default function PreismodellPage() {
             </code>
           </p>
           <a
-            href="https://cloud.revamp-it.ch"
+            href={ORG_PROFILE.cloudUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-block rounded-lg bg-grey-dark px-4 py-2 text-sm font-medium text-white hover:bg-grey-dark/85"

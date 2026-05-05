@@ -480,4 +480,6 @@ export const PRIORITY_FORMULA = {
 export const QUALITY_THRESHOLDS = {
   purposeSummaryMinChars: 150,
   researchNotesMinChars: 250,
+  /** Minimum chars to treat a text field as "present" (not just a placeholder) */
+  minContentChars: 20,
 } as const;

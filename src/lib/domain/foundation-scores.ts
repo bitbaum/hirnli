@@ -12,7 +12,7 @@
 
 import { QualityTier, UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import type { Foundation } from '@/lib/schemas/foundation';
-import { READINESS_ENGINE, PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
+import { READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { evaluateEngine, type CheckDetail } from './fit-scoring';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
@@ -28,8 +28,8 @@ import { isRegistryUrl } from '@/lib/config/registry-domains';
 function foundationToReadinessInput(f: Foundation): Record<string, unknown> {
   return {
     // Tailoring Intelligence
-    hasPurposeSummary: !!f.purposeSummary && f.purposeSummary.length > 20,
-    hasResearchNotes: !!f.researchNotes && f.researchNotes.length > 20,
+    hasPurposeSummary: !!f.purposeSummary && f.purposeSummary.length > QUALITY_THRESHOLDS.minContentChars,
+    hasResearchNotes: !!f.researchNotes && f.researchNotes.length > QUALITY_THRESHOLDS.minContentChars,
     hasThemes: f.themes.length > 0,
     hasPastGrantees: !!(f.pastGrantees && f.pastGrantees.length > 0),
     hasApplicationProcess: !!(f.applicationProcess && f.applicationProcess.length > 0),

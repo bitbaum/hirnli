@@ -88,11 +88,11 @@ describe('metricToInspectorData', () => {
     expect(d.source).toBe(sampleMetric.source.path);
   });
 
-  it('falls back to "Berechnet" when source.path is null', () => {
+  it('falls back to "Berechnet" when source.path is undefined', () => {
     const metricWithoutPath = {
       ...sampleMetric,
-      source: { ...sampleMetric.source, path: null },
-    } as typeof sampleMetric;
+      source: { ...sampleMetric.source, path: undefined },
+    };
     const d = metricToInspectorData(metricWithoutPath, '0');
     expect(d.source).toBe('Berechnet');
   });
