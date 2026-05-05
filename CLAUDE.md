@@ -187,7 +187,7 @@ ESA / Zefix / Research scripts
   All UI pages (in-memory filtering, static generation at build time)
 ```
 
-**Foundation funnel (verified 2026-04-24 — run `npm run audit` for live numbers):**
+**Foundation funnel (verified 2026-05-05 — run `npm run audit` for live numbers):**
 
 | Tier | Count | Table/File | What it means |
 |------|-------|------------|---------------|
@@ -454,7 +454,9 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 - 57 Gesuch documents have data-quality issues per `gesuch-audit` (run `npx tsx scripts/gesuch-audit.ts`):
   16 P2 and 41 P3 — thin researchNotes (<250 chars), thin purposeSummary (<150 chars),
   missing email/phone, or no real websiteUrl — needs per-foundation research enrichment, not a code fix.
-  P1 gesuch pages: 20/20 perfect.
+  The pipeline overview shows ~60 (hasGesuchDataGaps uses isRegistryUrl which catches more registries than
+  the audit script's zefix-only check). P1 gesuch pages: 20/20 perfect (P2: 59/75=79%, P3: 76/117=65%).
+  Use `/fundraising/stiftungen?gaps=1` or the "Lücken füllen" preset to find them.
 
 ---
 
@@ -682,5 +684,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-04-27 — run `npm run audit` for live pipeline stats (P1=20/P2=78/P3=142=240, generated=1,683, archived=1,117, P2/P3 appUrl=100%/96%)
+**Last Updated:** 2026-05-05 — run `npm run audit` for live pipeline stats (P1=20/P2=78/P3=142=240, generated=1,683, archived=1,117, P2/P3 appUrl=100%/96%; Gesuch P1=20/20 perfect, P2=59/75=79%, P3=76/117=65%)
 **Maintainer:** Revamp-IT Team

@@ -43,7 +43,6 @@ export interface FilterSidebarProps {
   toggleRequireEmail: () => void;
   toggleRequirePhone: () => void;
   toggleRequireAddress: () => void;
-  toggleRequireDataGaps: () => void;
   toggleTrustLevel: (level: TrustLevel) => void;
   setMinTier: (tier: QualityTier) => void;
   togglePriorityLevel: (level: number) => void;
@@ -84,7 +83,6 @@ export default function FilterSidebar({
   toggleRequireEmail,
   toggleRequirePhone,
   toggleRequireAddress,
-  toggleRequireDataGaps,
   toggleTrustLevel,
   setMinTier,
   togglePriorityLevel,
