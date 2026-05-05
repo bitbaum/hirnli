@@ -11,7 +11,7 @@ import { STIFTUNGEN_DATA, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import CsvExportModal from '@/components/foundation/CsvExportModal';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
 import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
-import { computeTierCounts, hasGesuchPage } from '@/lib/domain/foundation-helpers';
+import { computeTierCounts, hasGesuchPage, hasGesuchDataGaps } from '@/lib/domain/foundation-helpers';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import type { SortField } from '@/lib/domain/foundation-filter';
@@ -115,6 +115,12 @@ export default function FoundationListClient() {
     [],
   );
 
+  // Data quality gaps: Gesuch-page foundations with thin research data
+  const gesuchGapCount = useMemo(
+    () => STIFTUNGEN_DATA.filter(f => hasGesuchPage(f) && hasGesuchDataGaps(f)).length,
+    [],
+  );
+
   // Priority distribution — use stored priority (SSOT: DB → sync → generated file)
   // computePriorityScore is not re-run here; sync script already recomputes and persists.
   const priorityDist = useMemo(() => {
@@ -212,6 +218,14 @@ export default function FoundationListClient() {
             </p>
           </div>
         </div>
+
+        {gesuchGapCount > 0 && (
+          <div className="rounded-lg border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm">
+            <span className="font-semibold text-warning">{gesuchGapCount}</span>
+            {' '}von {gesuchCount} Gesuch-Seiten haben dünne Quelldaten —{' '}
+            researchNotes oder purposeSummary vervollständigen.
+          </div>
+        )}
 
         <p className="text-sm text-text-muted">
           Priorität = Fit × Bereitschaft. Scores algorithmisch berechnet.{' '}

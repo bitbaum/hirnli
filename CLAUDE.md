@@ -4,6 +4,12 @@
 
 ---
 
+## Mission
+
+Revamp-IT's survival depends on foundation grants — this platform exists to find the right foundations, build compelling evidence of fit, and generate professional Gesuche that win funding. Success means submitted applications that convert: every line of code should move a foundation from "pipeline entry" to "funded partner."
+
+---
+
 ## Platform Identity
 
 ### Internal Codename: Hirnli

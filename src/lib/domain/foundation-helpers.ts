@@ -7,6 +7,8 @@ import type { Foundation } from '@/lib/schemas/foundation';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { computeReadinessScore } from './foundation-scores';
 import { fitScoreToDisplay } from './fit-scoring';
+import { QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
+import { isRegistryUrl } from '@/lib/config/registry-domains';
 
 /** All tiers in ascending order — derived from schema so adding a tier updates all maps */
 export const QUALITY_TIERS: QualityTier[] = [...QualityTier.options];
@@ -165,4 +167,17 @@ export function generateGesuchParams(): { slug: string }[] {
   return STIFTUNGEN_DATA
     .filter(hasGesuchPage)
     .map((f) => ({ slug: f.slug }));
+}
+
+/**
+ * Returns true if this foundation has structural data gaps that reduce Gesuch quality.
+ * Mirrors the structural checks in scripts/gesuch-audit.ts.
+ * Use with hasGesuchPage() to find actionable gaps: hasGesuchPage(f) && hasGesuchDataGaps(f).
+ */
+export function hasGesuchDataGaps(f: Foundation): boolean {
+  const lacksContact = !f.contact?.email && !f.contact?.phone;
+  const thinResearchNotes = !f.researchNotes || f.researchNotes.length < QUALITY_THRESHOLDS.researchNotesMinChars;
+  const thinPurposeSummary = !f.purposeSummary || f.purposeSummary.length < QUALITY_THRESHOLDS.purposeSummaryMinChars;
+  const lacksWebsite = !f.websiteUrl || isRegistryUrl(f.websiteUrl);
+  return lacksContact || thinResearchNotes || thinPurposeSummary || lacksWebsite;
 }
