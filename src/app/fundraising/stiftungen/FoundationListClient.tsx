@@ -154,7 +154,6 @@ export default function FoundationListClient() {
     toggleRequireEmail,
     toggleRequirePhone,
     toggleRequireAddress,
-    toggleRequireDataGaps,
     toggleTrustLevel,
     setMinTier,
     togglePriorityLevel,

@@ -26,3 +26,10 @@ export const API_ERR_AI_NOT_CONFIGURED = 'KI-Dienst nicht konfiguriert';
 export const API_ERR_AI_UNAVAILABLE = 'KI-Dienst momentan nicht erreichbar';
 export const API_ERR_AI_NO_RESPONSE = 'Keine Antwort vom KI-Dienst';
 export const API_ERR_AI_TIMEOUT = 'KI-Anfrage hat zu lange gedauert (Timeout)';
+
+/** Import-specific validation errors */
+export const API_ERR_IMPORT_NO_FILE = 'Keine Datei angegeben';
+export const API_ERR_IMPORT_FILE_TOO_LARGE = 'Datei zu gross (max. 10 MB)';
+export const API_ERR_IMPORT_FILE_TYPE = 'Datei muss im JSON-Format sein';
+export const API_ERR_IMPORT_JSON_INVALID = 'Ungültiges JSON-Format';
+export const API_ERR_IMPORT_EMPTY = 'Datei muss ein Array von Stiftungen enthalten';

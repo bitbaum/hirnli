@@ -14,7 +14,14 @@ import { foundations } from '@/lib/db/schema';
 import { z } from 'zod';
 import { toSlug } from '@/lib/utils/slug';
 import { getTodayISO } from '@/lib/utils/format';
-import { API_ERR_SAVE } from '@/lib/utils/errors';
+import {
+  API_ERR_SAVE,
+  API_ERR_IMPORT_NO_FILE,
+  API_ERR_IMPORT_FILE_TOO_LARGE,
+  API_ERR_IMPORT_FILE_TYPE,
+  API_ERR_IMPORT_JSON_INVALID,
+  API_ERR_IMPORT_EMPTY,
+} from '@/lib/utils/errors';
 
 // Validation schema for imported foundations
 const importedFoundationSchema = z.object({
@@ -82,7 +89,7 @@ export async function POST(request: NextRequest) {
 
     if (!file) {
       return NextResponse.json(
-        { success: false, error: 'No file provided' },
+        { success: false, error: API_ERR_IMPORT_NO_FILE },
         { status: 400 }
       );
     }
@@ -91,7 +98,7 @@ export async function POST(request: NextRequest) {
     const MAX_FILE_SIZE = 10 * 1024 * 1024;
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        { success: false, error: 'File too large (max 10 MB)' },
+        { success: false, error: API_ERR_IMPORT_FILE_TOO_LARGE },
         { status: 413 }
       );
     }
@@ -99,7 +106,7 @@ export async function POST(request: NextRequest) {
     // Validate file type
     if (file.type && !['application/json', 'text/plain', ''].includes(file.type)) {
       return NextResponse.json(
-        { success: false, error: 'File must be JSON' },
+        { success: false, error: API_ERR_IMPORT_FILE_TYPE },
         { status: 400 }
       );
     }
@@ -111,7 +118,7 @@ export async function POST(request: NextRequest) {
       parsed = JSON.parse(content);
     } catch {
       return NextResponse.json(
-        { success: false, error: 'Ungültiges JSON-Format' },
+        { success: false, error: API_ERR_IMPORT_JSON_INVALID },
         { status: 400 }
       );
     }
@@ -121,7 +128,7 @@ export async function POST(request: NextRequest) {
 
     if (!Array.isArray(batch) || batch.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'File must contain an array of foundations' },
+        { success: false, error: API_ERR_IMPORT_EMPTY },
         { status: 400 }
       );
     }

@@ -50,6 +50,13 @@ export interface FilterSidebarProps {
   resetFilters: () => void;
 }
 
+/** Shared className for toggle chip buttons (preset, contact, trust level) */
+function chipClass(active: boolean, withGap = false): string {
+  return `inline-flex min-h-[44px] items-center justify-center${withGap ? ' gap-1' : ''} rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+    active ? 'bg-primary text-white' : 'bg-grey-light text-grey-dark hover:bg-border'
+  }`;
+}
+
 /** Build fit level label from SSOT config */
 function fitLabel(level: 0 | 1 | 2 | 3): string {
   const fd = FIT_CONFIG[level];
@@ -129,11 +136,7 @@ export default function FilterSidebar({
             <button
               key={preset.id}
               onClick={() => applyPreset(preset.id)}
-              className={`inline-flex min-h-[44px] items-center justify-center rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                isActive
-                  ? 'bg-primary text-white'
-                  : 'bg-grey-light text-grey-dark hover:bg-border'
-              }`}
+              className={chipClass(isActive)}
               title={preset.description}
             >
               {preset.label}
@@ -213,11 +216,7 @@ export default function FilterSidebar({
             <button
               key={label}
               onClick={toggle}
-              className={`inline-flex min-h-[44px] items-center justify-center rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                active
-                  ? 'bg-primary text-white'
-                  : 'bg-grey-light text-grey-dark hover:bg-border'
-              }`}
+              className={chipClass(active)}
             >
               {label}
             </button>
@@ -232,11 +231,7 @@ export default function FilterSidebar({
             <button
               key={level}
               onClick={() => toggleTrustLevel(level)}
-              className={`inline-flex min-h-[44px] items-center justify-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                filters.trustLevels.includes(level)
-                  ? 'bg-primary text-white'
-                  : 'bg-grey-light text-grey-dark hover:bg-border'
-              }`}
+              className={chipClass(filters.trustLevels.includes(level), true)}
             >
               <span className={filters.trustLevels.includes(level) ? 'text-white' : TRUST_CONFIG[level].dotColor}>●</span>
               {TRUST_CONFIG[level].label}
