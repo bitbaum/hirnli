@@ -37,6 +37,9 @@ const CURRENT_REVENUE = CURRENT_YEAR_DATA.revenue;
 const P1P3_COUNT = STIFTUNGEN_DATA.filter(isActionablePriority).length;
 const TOTAL_SLIDES = 8;
 
+// Amber used for the "Solidarisch" pricing tier — not in shared COLORS
+const AMBER = '#F59E0B';
+
 // ---------------------------------------------------------------------------
 // Slide styles (landscape A4 = 842 × 595 pt)
 // ---------------------------------------------------------------------------
@@ -124,7 +127,7 @@ const s = StyleSheet.create({
     flex: 1,
   },
   metricBoxAccent: {
-    backgroundColor: '#FFF7ED',
+    backgroundColor: COLORS.bgAccent,
     borderLeftWidth: 4,
     borderLeftColor: COLORS.accent,
     padding: 14,
@@ -138,7 +141,7 @@ const s = StyleSheet.create({
 
   // Problem callout
   problemBox: {
-    backgroundColor: '#FEF2F2',
+    backgroundColor: COLORS.bgDanger,
     borderLeftWidth: 4,
     borderLeftColor: COLORS.danger,
     padding: 12,
@@ -362,8 +365,8 @@ function Slide3Solution() {
               <Text style={s.tierRate}>~60%</Text>
             </View>
 
-            <View style={[s.tier, { borderLeftColor: '#F59E0B' }]}>
-              <View style={[s.tierNum, { backgroundColor: '#F59E0B' }]}>
+            <View style={[s.tier, { borderLeftColor: AMBER }]}>
+              <View style={[s.tierNum, { backgroundColor: AMBER }]}>
                 <Text style={s.tierNumText}>2</Text>
               </View>
               <View style={s.tierContent}>
@@ -372,7 +375,7 @@ function Slide3Solution() {
                   Funktionierende Komponenten werden ins Teilelager aufgenommen
                 </Text>
               </View>
-              <Text style={[s.tierRate, { color: '#F59E0B' }]}>~25%</Text>
+              <Text style={[s.tierRate, { color: AMBER }]}>~25%</Text>
             </View>
 
             <View style={[s.tier, { borderLeftColor: COLORS.textMuted }]}>

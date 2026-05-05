@@ -21,6 +21,8 @@ export const COLORS = {
   bgLight: '#F9FAFB',
   bgBlue: '#EFF6FF',
   bgGreen: '#ECFDF5',
+  bgAccent: '#FFF7ED',
+  bgDanger: '#FEF2F2',
   greenText: '#065F46',
   white: '#FFFFFF',
   danger: '#DC2626',

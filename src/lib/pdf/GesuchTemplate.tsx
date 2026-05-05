@@ -14,9 +14,14 @@ import {
   StyleSheet,
 } from '@react-pdf/renderer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { pdfFormatCHF, pdfTodayCH } from '@/lib/pdf/gesuch-dokument/styles';
+import { COLORS, pdfFormatCHF, pdfTodayCH } from '@/lib/pdf/gesuch-dokument/styles';
 
-// Define styles
+// Template-specific tokens not in the shared COLORS object
+const TEMPLATE_BLUE = '#3B82F6';   // Tailwind blue-500 — header/highlight accent
+const FOOTER_GRAY  = '#9CA3AF';   // Tailwind gray-400 — footer text
+const EMPHASIS_BG  = '#DCFCE7';   // Tailwind green-100 — narrative highlight box
+const EMPHASIS_FG  = '#166534';   // Tailwind green-800 — narrative highlight text
+
 const styles = StyleSheet.create({
   page: {
     padding: 40,
@@ -26,18 +31,18 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 30,
-    borderBottom: '2 solid #3B82F6',
+    borderBottom: `2 solid ${TEMPLATE_BLUE}`,
     paddingBottom: 15,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#1F2937',
+    color: COLORS.text,
     marginBottom: 5,
   },
   subtitle: {
     fontSize: 12,
-    color: '#6B7280',
+    color: COLORS.textMuted,
   },
   section: {
     marginBottom: 20,
@@ -45,9 +50,9 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#1F2937',
+    color: COLORS.text,
     marginBottom: 10,
-    borderBottom: '1 solid #E5E7EB',
+    borderBottom: `1 solid ${COLORS.border}`,
     paddingBottom: 5,
   },
   paragraph: {
@@ -55,14 +60,14 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
   highlight: {
-    backgroundColor: '#EFF6FF',
+    backgroundColor: COLORS.bgBlue,
     padding: 10,
     marginBottom: 10,
-    borderLeft: '3 solid #3B82F6',
+    borderLeft: `3 solid ${TEMPLATE_BLUE}`,
   },
   tableRow: {
     flexDirection: 'row',
-    borderBottom: '1 solid #E5E7EB',
+    borderBottom: `1 solid ${COLORS.border}`,
     paddingVertical: 8,
   },
   tableCell: {
@@ -79,19 +84,19 @@ const styles = StyleSheet.create({
     right: 40,
     textAlign: 'center',
     fontSize: 9,
-    color: '#9CA3AF',
-    borderTop: '1 solid #E5E7EB',
+    color: FOOTER_GRAY,
+    borderTop: `1 solid ${COLORS.border}`,
     paddingTop: 10,
   },
   emphasisBox: {
-    backgroundColor: '#DCFCE7',
+    backgroundColor: EMPHASIS_BG,
     padding: 12,
     marginBottom: 15,
     borderRadius: 4,
   },
   emphasisText: {
     fontSize: 12,
-    color: '#166534',
+    color: EMPHASIS_FG,
     fontWeight: 'bold',
   },
 });
@@ -188,7 +193,7 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
             <View key={module.id} style={styles.tableRow}>
               <View style={{ flex: 2 }}>
                 <Text style={{ fontWeight: 'bold' }}>{module.name}</Text>
-                <Text style={{ fontSize: 9, color: '#6B7280' }}>
+                <Text style={{ fontSize: 9, color: COLORS.textMuted }}>
                   {module.description}
                 </Text>
               </View>
@@ -197,7 +202,7 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
               </Text>
             </View>
           ))}
-          <View style={[styles.tableRow, { borderTop: '2 solid #1F2937' }]}>
+          <View style={[styles.tableRow, { borderTop: `2 solid ${COLORS.text}` }]}>
             <Text style={{ flex: 2, fontWeight: 'bold' }}>Gesamt</Text>
             <Text style={[styles.tableCellRight, { fontWeight: 'bold' }]}>
               {pdfFormatCHF(content.budget.total)}
