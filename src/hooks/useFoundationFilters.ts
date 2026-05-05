@@ -51,6 +51,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     requireEmail: searchParams.get('email') === '1',
     requirePhone: searchParams.get('phone') === '1',
     requireAddress: searchParams.get('addr') === '1',
+    requireDataGaps: searchParams.get('gaps') === '1',
     trustLevels: (searchParams.get('trust')?.split(',').filter(Boolean) || []).filter(
       (t): t is TrustLevel => t in TRUST_CONFIG
     ),
@@ -149,6 +150,10 @@ export function useFoundationFilters(foundations: Foundation[]) {
     updateParams({ addr: filters.requireAddress ? null : '1' });
   }, [filters.requireAddress, updateParams]);
 
+  const toggleRequireDataGaps = useCallback(() => {
+    updateParams({ gaps: filters.requireDataGaps ? null : '1' });
+  }, [filters.requireDataGaps, updateParams]);
+
   const toggleTrustLevel = useCallback((level: TrustLevel) => {
     const current = filters.trustLevels;
     const next = current.includes(level)
@@ -188,6 +193,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     if (pf.requireEmail) params.set('email', '1');
     if (pf.requirePhone) params.set('phone', '1');
     if (pf.requireAddress) params.set('addr', '1');
+    if (pf.requireDataGaps) params.set('gaps', '1');
 
     const qs = params.toString();
     router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
@@ -247,6 +253,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
       filters.requireEmail ||
       filters.requirePhone ||
       filters.requireAddress ||
+      filters.requireDataGaps ||
       filters.trustLevels.length > 0 ||
       filters.minTier !== DEFAULT_FILTERS.minTier
     );
@@ -267,6 +274,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     if (filters.requireEmail) count++;
     if (filters.requirePhone) count++;
     if (filters.requireAddress) count++;
+    if (filters.requireDataGaps) count++;
     if (filters.trustLevels.length > 0) count++;
     if (filters.minTier !== DEFAULT_FILTERS.minTier) count++;
     return count;
@@ -296,6 +304,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     toggleRequireEmail,
     toggleRequirePhone,
     toggleRequireAddress,
+    toggleRequireDataGaps,
     toggleTrustLevel,
     setMinTier,
     togglePriorityLevel,

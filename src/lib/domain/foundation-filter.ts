@@ -5,7 +5,7 @@
 import type { Foundation, ThemeId, FoundationType, FoundationStatus, QualityTier } from '../schemas/foundation';
 import type { SchwerpunktId } from '../config/schwerpunkte';
 import { SCHWERPUNKTE } from '../config/schwerpunkte';
-import { getQualityTier, tierAtLeast, getFitLevel } from './foundation-helpers';
+import { getQualityTier, tierAtLeast, getFitLevel, hasGesuchPage, hasGesuchDataGaps } from './foundation-helpers';
 import { getTrustLevel, type TrustLevel } from '../config/trust-levels';
 
 export type ThemeLogic = 'or' | 'and';
@@ -25,6 +25,7 @@ export interface FoundationFilters {
   requireEmail: boolean;
   requirePhone: boolean;
   requireAddress: boolean;
+  requireDataGaps: boolean;
   trustLevels: TrustLevel[];
   minTier: QualityTier;
 }
@@ -44,6 +45,7 @@ export const DEFAULT_FILTERS: FoundationFilters = {
   requireEmail: false,
   requirePhone: false,
   requireAddress: false,
+  requireDataGaps: false,
   trustLevels: [],
   minTier: 'profiliert',
 };
@@ -52,7 +54,7 @@ export const DEFAULT_FILTERS: FoundationFilters = {
 // Quick-view presets — preset filter combos for common sidebar actions
 // ============================================================================
 
-export type FilterPresetId = 'bewerbungsbereit' | 'hoher-fit' | 'mit-email' | 'alle';
+export type FilterPresetId = 'bewerbungsbereit' | 'hoher-fit' | 'mit-email' | 'mit-luecken' | 'alle';
 
 export interface FilterPreset {
   id: FilterPresetId;
@@ -80,6 +82,12 @@ export const FILTER_PRESETS: FilterPreset[] = [
     label: 'Mit E-Mail',
     description: 'Nur Stiftungen mit E-Mail-Adresse',
     filters: { requireEmail: true },
+  },
+  {
+    id: 'mit-luecken',
+    label: 'Lücken füllen',
+    description: 'Gesuch-Seiten mit dünnen Quelldaten',
+    filters: { requireDataGaps: true },
   },
   {
     id: 'alle',
@@ -143,6 +151,9 @@ export function filterFoundations(
     if (filters.requireEmail && !f.contact?.email) return false;
     if (filters.requirePhone && !f.contact?.phone) return false;
     if (filters.requireAddress && !f.contact?.address) return false;
+
+    // Data gap filter — show only Gesuch-eligible foundations with incomplete source data
+    if (filters.requireDataGaps && !(hasGesuchPage(f) && hasGesuchDataGaps(f))) return false;
 
     // Trust level filter
     if (filters.trustLevels.length > 0) {

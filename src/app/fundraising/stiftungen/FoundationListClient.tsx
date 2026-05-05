@@ -52,6 +52,7 @@ export default function FoundationListClient() {
     toggleRequireEmail,
     toggleRequirePhone,
     toggleRequireAddress,
+    toggleRequireDataGaps,
     toggleTrustLevel,
     setMinTier,
     togglePriorityLevel,
@@ -153,6 +154,7 @@ export default function FoundationListClient() {
     toggleRequireEmail,
     toggleRequirePhone,
     toggleRequireAddress,
+    toggleRequireDataGaps,
     toggleTrustLevel,
     setMinTier,
     togglePriorityLevel,
@@ -220,10 +222,18 @@ export default function FoundationListClient() {
         </div>
 
         {gesuchGapCount > 0 && (
-          <div className="rounded-lg border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm">
-            <span className="font-semibold text-warning">{gesuchGapCount}</span>
-            {' '}von {gesuchCount} Gesuch-Seiten haben dünne Quelldaten —{' '}
-            researchNotes oder purposeSummary vervollständigen.
+          <div className="flex items-center justify-between rounded-lg border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm">
+            <span>
+              <span className="font-semibold text-warning">{gesuchGapCount}</span>
+              {' '}von {gesuchCount} Gesuch-Seiten haben dünne Quelldaten —{' '}
+              researchNotes oder purposeSummary vervollständigen.
+            </span>
+            <button
+              onClick={() => applyPreset('mit-luecken')}
+              className="ml-3 shrink-0 rounded-md bg-warning/20 px-2.5 py-1 text-xs font-medium text-warning hover:bg-warning/30"
+            >
+              Zeigen →
+            </button>
           </div>
         )}
 
@@ -340,6 +350,9 @@ export default function FoundationListClient() {
               )}
               {filters.requireAddress && (
                 <FilterPill label="Adresse" onRemove={toggleRequireAddress} />
+              )}
+              {filters.requireDataGaps && (
+                <FilterPill label="Lücken füllen" onRemove={toggleRequireDataGaps} />
               )}
               {filters.trustLevels.map((level) => (
                 <FilterPill key={level} label={TRUST_CONFIG[level].label} onRemove={() => toggleTrustLevel(level)} />

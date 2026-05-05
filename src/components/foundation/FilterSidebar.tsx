@@ -43,6 +43,7 @@ export interface FilterSidebarProps {
   toggleRequireEmail: () => void;
   toggleRequirePhone: () => void;
   toggleRequireAddress: () => void;
+  toggleRequireDataGaps: () => void;
   toggleTrustLevel: (level: TrustLevel) => void;
   setMinTier: (tier: QualityTier) => void;
   togglePriorityLevel: (level: number) => void;
@@ -83,6 +84,7 @@ export default function FilterSidebar({
   toggleRequireEmail,
   toggleRequirePhone,
   toggleRequireAddress,
+  toggleRequireDataGaps,
   toggleTrustLevel,
   setMinTier,
   togglePriorityLevel,
@@ -100,6 +102,7 @@ export default function FilterSidebar({
     const matchesEmail = pf.requireEmail ? filters.requireEmail === pf.requireEmail : !filters.requireEmail;
     const matchesPhone = pf.requirePhone ? filters.requirePhone === pf.requirePhone : !filters.requirePhone;
     const matchesAddress = pf.requireAddress ? filters.requireAddress === pf.requireAddress : !filters.requireAddress;
+    const matchesDataGaps = pf.requireDataGaps ? filters.requireDataGaps === pf.requireDataGaps : !filters.requireDataGaps;
     const noOtherFilters =
       filters.themes.length === 0 &&
       filters.types.length === 0 &&
@@ -109,7 +112,7 @@ export default function FilterSidebar({
       !filters.hideNetworks &&
       !filters.hideNoApplication &&
       !filters.search;
-    return matchesTier && matchesFit && matchesPriority && matchesEmail && matchesPhone && matchesAddress && noOtherFilters;
+    return matchesTier && matchesFit && matchesPriority && matchesEmail && matchesPhone && matchesAddress && matchesDataGaps && noOtherFilters;
   });
 
   const isTopPriority = filters.priorityLevels.length === 2

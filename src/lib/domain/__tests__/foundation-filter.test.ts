@@ -193,6 +193,17 @@ describe('filterFoundations', () => {
     expect(result.map(f => f.slug)).toEqual(['with-addr']);
   });
 
+  it('filters by requireDataGaps — shows only Gesuch-eligible foundations with data gaps', () => {
+    // makeFoundation has gesuch page (P1-P3, recherchiert+) but no gaps by default
+    // makeMinimalFoundation has gaps but no gesuch page
+    const complete = makeFoundation({ slug: 'complete', priority: 1 });
+    const gappy = makeFoundation({ slug: 'gappy', priority: 1, researchNotes: 'Kurz.' });
+    const noGesuch = makeMinimalFoundation({ slug: 'no-gesuch', priority: 1 });
+    const result = filterFoundations([complete, gappy, noGesuch], filters({ requireDataGaps: true }));
+    // only gappy: has gesuch page AND has data gaps
+    expect(result.map(f => f.slug)).toEqual(['gappy']);
+  });
+
   it('minTier filters out low-quality foundations', () => {
     const data = [
       makeFoundation({ slug: 'high' }),          // deep research → anwendungsbereit
@@ -290,8 +301,8 @@ describe('DEFAULT_FILTERS', () => {
 });
 
 describe('FILTER_PRESETS', () => {
-  it('has 4 presets', () => {
-    expect(FILTER_PRESETS).toHaveLength(4);
+  it('has 5 presets', () => {
+    expect(FILTER_PRESETS).toHaveLength(5);
   });
 
   it('each preset has id, label, description, and filters', () => {
