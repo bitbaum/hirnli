@@ -5,9 +5,8 @@ import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import {
   TIER_LABELS, TIER_COLORS, QUALITY_TIERS,
-  getQualityTier, tierAtLeast, computeTierCounts,
+  getQualityTier, tierAtLeast, computeTierCounts, hasGesuchPage,
 } from '@/lib/domain/foundation-helpers';
-import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { formatNumber } from '@/lib/utils/format';
 import { SWISS_FOUNDATIONS_DISPLAY } from '@/lib/config/projections';
 

@@ -16,7 +16,9 @@ export default function SimilarFoundations({ similar }: SimilarFoundationsProps)
     <Card>
       <h3 className={CARD_HEADING_CLASS}>Ähnliche Stiftungen</h3>
       <div className="space-y-3">
-        {similar.map(({ foundation: f, reasons }) => (
+        {similar.map(({ foundation: f, reasons }) => {
+          const fitLevel = getFitLevel(f);
+          return (
           <Link
             key={f.slug}
             href={`/fundraising/stiftungen/${f.slug}`}
@@ -24,8 +26,8 @@ export default function SimilarFoundations({ similar }: SimilarFoundationsProps)
           >
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-grey-dark">{f.name}</span>
-              <span className={`text-xs font-bold ${FIT_CONFIG[getFitLevel(f)].color}`}>
-                {FIT_CONFIG[getFitLevel(f)].stars}
+              <span className={`text-xs font-bold ${FIT_CONFIG[fitLevel].color}`}>
+                {FIT_CONFIG[fitLevel].stars}
               </span>
             </div>
             <div className="mt-1 flex flex-wrap gap-1">
@@ -36,7 +38,8 @@ export default function SimilarFoundations({ similar }: SimilarFoundationsProps)
               ))}
             </div>
           </Link>
-        ))}
+          );
+        })}
       </div>
     </Card>
   );
