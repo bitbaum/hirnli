@@ -20,7 +20,7 @@ import {
   LAPTOPS_REFURBISHED_COUNT,
 } from '@/lib/config/numbers';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
-import { ANNUAL_PL, COMPLETE_YEARS, PEAK_REVENUE, PEAK_YEAR } from '@/app/finanzen/data';
+import { ANNUAL_PL, COMPLETE_YEARS, CURRENT_YEAR_DATA, PEAK_REVENUE, PEAK_YEAR } from '@/app/finanzen/data';
 import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { isActionablePriority } from '@/lib/domain/foundation-helpers';
@@ -170,7 +170,6 @@ const s = StyleSheet.create({
 // Derived impact data
 // ---------------------------------------------------------------------------
 
-const CURRENT_YEAR_DATA = ANNUAL_PL[ANNUAL_PL.length - 1];
 const CURRENT_YEAR = CURRENT_YEAR_DATA.year;
 const CURRENT_REVENUE = CURRENT_YEAR_DATA.revenue;
 

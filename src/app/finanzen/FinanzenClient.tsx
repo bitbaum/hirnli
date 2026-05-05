@@ -19,6 +19,7 @@ import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { formatCHF, calcGrowth } from '@/lib/utils/format';
 import {
   ANNUAL_PL,
+  CURRENT_YEAR_DATA,
   PEAK_REVENUE,
   PEAK_YEAR,
   DATA_QUALITY,
@@ -63,8 +64,8 @@ export default function FinanzenClient() {
         <h3 className="font-semibold text-grey-dark mb-2">Warum jetzt? Die Ausgangslage ehrlich</h3>
         <div className="text-sm text-text-light space-y-2">
           <p>
-            Unsere Einnahmen sind von <strong>CHF {formatCHF(PEAK_REVENUE)}</strong> ({PEAK_YEAR}) auf <strong>{formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenue)}</strong> ({ANNUAL_PL[ANNUAL_PL.length - 1].year}) gefallen — ein Rückgang von über 50%.
-            Der Haupttreiber: Verlust von B2B-Hosting-Kunden (Dienstleistungen von {formatCHF(Math.max(...ANNUAL_PL.filter(y => y.isComplete).map(y => y.revenueDetail.dienstleistungen)))} auf {formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenueDetail.dienstleistungen)}).
+            Unsere Einnahmen sind von <strong>CHF {formatCHF(PEAK_REVENUE)}</strong> ({PEAK_YEAR}) auf <strong>{formatCHF(CURRENT_YEAR_DATA.revenue)}</strong> ({CURRENT_YEAR_DATA.year}) gefallen — ein Rückgang von über 50%.
+            Der Haupttreiber: Verlust von B2B-Hosting-Kunden (Dienstleistungen von {formatCHF(Math.max(...ANNUAL_PL.filter(y => y.isComplete).map(y => y.revenueDetail.dienstleistungen)))} auf {formatCHF(CURRENT_YEAR_DATA.revenueDetail.dienstleistungen)}).
           </p>
           <p>
             Das aktuelle Modell — abhängig von wenigen grossen Einzelkunden — ist <strong>fragil</strong>.

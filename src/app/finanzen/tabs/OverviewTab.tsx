@@ -7,6 +7,7 @@ import { formatCHF, calcGrowth } from '@/lib/utils/format';
 import {
   ANNUAL_PL,
   COMPLETE_YEARS,
+  CURRENT_YEAR_DATA,
   LATEST_COMPLETE,
   PEAK_REVENUE,
   PEAK_YEAR,
@@ -62,24 +63,24 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
           }
         />
         <MetricCard
-          label={`Umsatz ${ANNUAL_PL[ANNUAL_PL.length - 1].year}`}
-          value={formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenue)}
+          label={`Umsatz ${CURRENT_YEAR_DATA.year}`}
+          value={formatCHF(CURRENT_YEAR_DATA.revenue)}
           subtitle="Aktuellstes Jahr"
           trend={{
             value: calcGrowth(
               ANNUAL_PL[ANNUAL_PL.length - 2].revenue,
-              ANNUAL_PL[ANNUAL_PL.length - 1].revenue,
+              CURRENT_YEAR_DATA.revenue,
             ),
             label: `vs. ${ANNUAL_PL[ANNUAL_PL.length - 2].year}`,
           }}
           sourceType="live"
           onClick={() =>
             inspector.inspect({
-              label: `Umsatz ${ANNUAL_PL[ANNUAL_PL.length - 1].year}`,
-              value: formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenue),
+              label: `Umsatz ${CURRENT_YEAR_DATA.year}`,
+              value: formatCHF(CURRENT_YEAR_DATA.revenue),
               sourceType: 'live',
               source: DATA_QUALITY.source,
-              description: ANNUAL_PL[ANNUAL_PL.length - 1].note || 'Einnahmen aus Kivitendo Erfolgsrechnung.',
+              description: CURRENT_YEAR_DATA.note || 'Einnahmen aus Kivitendo Erfolgsrechnung.',
             })
           }
         />
@@ -152,7 +153,7 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
               <InsightCard
                 variant="warning"
                 title="Umsatzrückgang 2024–2025"
-                text={`Von ${formatCHF(PEAK_REVENUE)} (${PEAK_YEAR}) auf ${formatCHF(ANNUAL_PL[ANNUAL_PL.length - 1].revenue)} (${ANNUAL_PL[ANNUAL_PL.length - 1].year}). Dienstleistungen am stärksten betroffen.`}
+                text={`Von ${formatCHF(PEAK_REVENUE)} (${PEAK_YEAR}) auf ${formatCHF(CURRENT_YEAR_DATA.revenue)} (${CURRENT_YEAR_DATA.year}). Dienstleistungen am stärksten betroffen.`}
               />
               <InsightCard
                 variant="info"
