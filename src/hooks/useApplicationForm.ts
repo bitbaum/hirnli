@@ -57,7 +57,7 @@ function initFieldsFromApplication(app: Application): ApplicationFormFields {
   };
 }
 
-function buildPatchPayload(fields: ApplicationFormFields) {
+export function buildPatchPayload(fields: ApplicationFormFields) {
   return {
     status: fields.status,
     requestedAmount: fields.requestedAmount ? Number(fields.requestedAmount) : null,

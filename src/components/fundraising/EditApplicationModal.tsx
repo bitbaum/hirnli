@@ -15,6 +15,7 @@ import { NET_ERR_SAVE, API_ERR_SAVE } from '@/lib/utils/errors';
 import { normalizeDateInput } from '@/lib/utils/format';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import type { Application, FoundationRow } from '@/lib/db/schema';
+import { buildPatchPayload, type ApplicationFormFields } from '@/hooks/useApplicationForm';
 
 interface EditApplicationModalProps {
   application: Application;
@@ -59,21 +60,12 @@ export function EditApplicationModal({
     setIsSaving(true);
     setError(null);
     try {
-      const payload: Record<string, unknown> = {
-        status,
-        requestedAmount: requestedAmount ? Number(requestedAmount) : null,
-        awardedAmount: awardedAmount ? Number(awardedAmount) : null,
-        priorityLevel: priorityLevel ? Number(priorityLevel) : null,
-        assignedTo: assignedTo || null,
-        projectFocus: projectFocus || null,
-        customizationNotes: customizationNotes || null,
-        contactDate: contactDate || null,
-        submissionDate: submissionDate || null,
-        decisionExpected: decisionExpected || null,
-        decisionDate: decisionDate || null,
-        rejectionReason: rejectionReason || null,
-        successFactors: successFactors || null,
+      const fields: ApplicationFormFields = {
+        status, requestedAmount, awardedAmount, priorityLevel, assignedTo,
+        projectFocus, customizationNotes, contactDate, submissionDate,
+        decisionExpected, decisionDate, rejectionReason, successFactors,
       };
+      const payload = buildPatchPayload(fields);
 
       const response = await fetch(`/api/applications/${application.id}`, {
         method: 'PATCH',
