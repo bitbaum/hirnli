@@ -128,7 +128,7 @@ export default function FilterSidebar({
             <button
               key={preset.id}
               onClick={() => applyPreset(preset.id)}
-              className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`inline-flex min-h-[44px] items-center justify-center rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                 isActive
                   ? 'bg-primary text-white'
                   : 'bg-grey-light text-grey-dark hover:bg-border'
@@ -212,7 +212,7 @@ export default function FilterSidebar({
             <button
               key={label}
               onClick={toggle}
-              className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`inline-flex min-h-[44px] items-center justify-center rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                 active
                   ? 'bg-primary text-white'
                   : 'bg-grey-light text-grey-dark hover:bg-border'
@@ -231,7 +231,7 @@ export default function FilterSidebar({
             <button
               key={level}
               onClick={() => toggleTrustLevel(level)}
-              className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`inline-flex min-h-[44px] items-center justify-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                 filters.trustLevels.includes(level)
                   ? 'bg-primary text-white'
                   : 'bg-grey-light text-grey-dark hover:bg-border'

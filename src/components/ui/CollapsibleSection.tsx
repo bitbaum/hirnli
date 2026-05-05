@@ -30,7 +30,7 @@ export default function CollapsibleSection({
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-controls={panelId}
-        className="flex w-full items-center justify-between py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-grey-dark"
+        className="flex min-h-[44px] w-full items-center justify-between py-2 text-left text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-grey-dark"
       >
         <span className="flex items-center gap-1.5">
           {title}
