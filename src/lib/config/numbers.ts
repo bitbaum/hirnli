@@ -724,6 +724,9 @@ export const CO2_REFURBISH_COST = 65; // kg CO2, Fraunhofer IZM 2023
 // Numeric total for calculations (NUMBERS_REGISTRY.LAPTOPS_REFURBISHED_TOTAL.value is a
 // display string '1\'200+' — this export provides the numeric equivalent for arithmetic)
 export const LAPTOPS_REFURBISHED_COUNT = 1200;
+// Total CO2 saved across all refurbished devices — derived from the two constants above.
+// Used in 3+ places (pitch-deck, impact-report, gesuch route). Change source constants, not this.
+export const CO2_TOTAL_TONNES = Math.round((LAPTOPS_REFURBISHED_COUNT * CO2_PER_LAPTOP) / 1000);
 // Average CO2 footprint of one economy flight Zürich–Berlin (~1 hour), in kg
 // Source: myclimate.org flight calculator (2024). Used to contextualize CO2 savings.
 export const CO2_PER_FLIGHT_ZRH_BER = 1500;

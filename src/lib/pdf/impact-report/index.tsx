@@ -14,9 +14,10 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { COLORS, pdfFormatCHF } from '@/lib/pdf/gesuch-dokument/styles';
 import {
   CO2_PER_LAPTOP,
-  LAPTOPS_REFURBISHED_COUNT,
+  CO2_TOTAL_TONNES,
   CO2_NEW_LAPTOP_MANUFACTURE,
   CO2_REFURBISH_COST,
+  LAPTOPS_REFURBISHED_COUNT,
 } from '@/lib/config/numbers';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { ANNUAL_PL, COMPLETE_YEARS, PEAK_REVENUE, PEAK_YEAR } from '@/app/finanzen/data';
@@ -169,7 +170,6 @@ const s = StyleSheet.create({
 // Derived impact data
 // ---------------------------------------------------------------------------
 
-const CO2_TOTAL_TONNES = Math.round((LAPTOPS_REFURBISHED_COUNT * CO2_PER_LAPTOP) / 1000);
 const CURRENT_YEAR_DATA = ANNUAL_PL[ANNUAL_PL.length - 1];
 const CURRENT_YEAR = CURRENT_YEAR_DATA.year;
 const CURRENT_REVENUE = CURRENT_YEAR_DATA.revenue;
