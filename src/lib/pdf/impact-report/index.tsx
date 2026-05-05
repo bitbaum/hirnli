@@ -143,7 +143,7 @@ const s = StyleSheet.create({
   bold: { fontWeight: 'bold' },
   muted: { fontSize: 7, color: COLORS.textMuted },
   positive: { color: COLORS.secondary },
-  negative: { color: '#DC2626' },
+  negative: { color: COLORS.danger },
 
   // Bullet list
   bulletRow: { flexDirection: 'row', marginBottom: 2 },

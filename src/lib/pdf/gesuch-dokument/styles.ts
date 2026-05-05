@@ -23,6 +23,7 @@ export const COLORS = {
   bgGreen: '#ECFDF5',
   greenText: '#065F46',
   white: '#FFFFFF',
+  danger: '#DC2626',
 } as const;
 
 export const styles = StyleSheet.create({

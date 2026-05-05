@@ -140,11 +140,11 @@ const s = StyleSheet.create({
   problemBox: {
     backgroundColor: '#FEF2F2',
     borderLeftWidth: 4,
-    borderLeftColor: '#DC2626',
+    borderLeftColor: COLORS.danger,
     padding: 12,
     marginBottom: 10,
   },
-  problemStat: { fontSize: 22, fontWeight: 'bold', color: '#DC2626' },
+  problemStat: { fontSize: 22, fontWeight: 'bold', color: COLORS.danger },
   problemLabel: { fontSize: 9, color: COLORS.textMuted, marginTop: 2 },
 
   // Cascade tier
@@ -198,7 +198,7 @@ const s = StyleSheet.create({
   bold: { fontWeight: 'bold' },
   primary: { color: COLORS.primary },
   accent: { color: COLORS.accent },
-  negative: { color: '#DC2626' },
+  negative: { color: COLORS.danger },
   positive: { color: COLORS.secondary },
 
   // Bullet
