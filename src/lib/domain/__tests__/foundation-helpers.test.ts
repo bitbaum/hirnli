@@ -6,6 +6,7 @@ import {
   isActionablePriority,
   getFitLevel,
   hasGesuchPage,
+  hasGesuchDataGaps,
   computeTierCounts,
   getTierPromotionSteps,
   QUALITY_TIERS,
@@ -147,6 +148,62 @@ describe('getTierPromotionSteps', () => {
     if (promo.currentTier === 'anwendungsbereit') {
       expect(promo.nextTier).toBeNull();
     }
+  });
+});
+
+describe('hasGesuchDataGaps', () => {
+  it('returns false for a complete foundation (no gaps)', () => {
+    // makeFoundation has email, 250+ char researchNotes, 150+ char purposeSummary, real websiteUrl
+    expect(hasGesuchDataGaps(makeFoundation())).toBe(false);
+  });
+
+  it('returns true when contact info is missing', () => {
+    const f = makeFoundation({ contact: undefined });
+    expect(hasGesuchDataGaps(f)).toBe(true);
+  });
+
+  it('returns true when contact has no email and no phone', () => {
+    const f = makeFoundation({ contact: { address: 'Teststr. 1' } });
+    expect(hasGesuchDataGaps(f)).toBe(true);
+  });
+
+  it('returns false when contact has email but no phone', () => {
+    const f = makeFoundation({ contact: { email: 'info@test.ch' } });
+    expect(hasGesuchDataGaps(f)).toBe(false);
+  });
+
+  it('returns true when researchNotes is absent', () => {
+    const f = makeFoundation({ researchNotes: undefined });
+    expect(hasGesuchDataGaps(f)).toBe(true);
+  });
+
+  it('returns true when researchNotes is below 250 chars', () => {
+    const f = makeFoundation({ researchNotes: 'Kurze Notiz.' });
+    expect(hasGesuchDataGaps(f)).toBe(true);
+  });
+
+  it('returns true when purposeSummary is absent', () => {
+    const f = makeFoundation({ purposeSummary: undefined });
+    expect(hasGesuchDataGaps(f)).toBe(true);
+  });
+
+  it('returns true when purposeSummary is below 150 chars', () => {
+    const f = makeFoundation({ purposeSummary: 'Kurze Zusammenfassung.' });
+    expect(hasGesuchDataGaps(f)).toBe(true);
+  });
+
+  it('returns true when websiteUrl is a registry URL', () => {
+    const f = makeFoundation({ websiteUrl: 'https://www.zefix.ch/de/search/entity/list?mainSearch=CHE-123' });
+    expect(hasGesuchDataGaps(f)).toBe(true);
+  });
+
+  it('returns true when websiteUrl is absent', () => {
+    const f = makeFoundation({ websiteUrl: undefined });
+    expect(hasGesuchDataGaps(f)).toBe(true);
+  });
+
+  it('returns true for minimal foundation (multiple gaps)', () => {
+    expect(hasGesuchDataGaps(makeMinimalFoundation())).toBe(true);
   });
 });
 
