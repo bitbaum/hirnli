@@ -12,10 +12,9 @@ import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 import { NET_ERR_SAVE, API_ERR_SAVE } from '@/lib/utils/errors';
-import { normalizeDateInput } from '@/lib/utils/format';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import type { Application, FoundationRow } from '@/lib/db/schema';
-import { buildPatchPayload, type ApplicationFormFields } from '@/hooks/useApplicationForm';
+import { buildPatchPayload, initFieldsFromApplication, type ApplicationFormFields } from '@/hooks/useApplicationForm';
 
 interface EditApplicationModalProps {
   application: Application;
@@ -33,28 +32,21 @@ export function EditApplicationModal({
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Form state — initialised from application
-  const [status, setStatus] = useState(application.status);
-  const [requestedAmount, setRequestedAmount] = useState(
-    application.requestedAmount?.toString() ?? '',
-  );
-  const [awardedAmount, setAwardedAmount] = useState(
-    application.awardedAmount?.toString() ?? '',
-  );
-  const [priorityLevel, setPriorityLevel] = useState(
-    application.priorityLevel?.toString() ?? '',
-  );
-  const [assignedTo, setAssignedTo] = useState(application.assignedTo ?? '');
-  const [projectFocus, setProjectFocus] = useState(application.projectFocus ?? '');
-  const [customizationNotes, setCustomizationNotes] = useState(
-    application.customizationNotes ?? '',
-  );
-  const [contactDate, setContactDate] = useState(normalizeDateInput(application.contactDate));
-  const [submissionDate, setSubmissionDate] = useState(normalizeDateInput(application.submissionDate));
-  const [decisionExpected, setDecisionExpected] = useState(normalizeDateInput(application.decisionExpected));
-  const [decisionDate, setDecisionDate] = useState(normalizeDateInput(application.decisionDate));
-  const [rejectionReason, setRejectionReason] = useState(application.rejectionReason ?? '');
-  const [successFactors, setSuccessFactors] = useState(application.successFactors ?? '');
+  // Form state — initialised from application via shared utility
+  const init = initFieldsFromApplication(application);
+  const [status, setStatus] = useState(init.status);
+  const [requestedAmount, setRequestedAmount] = useState(init.requestedAmount);
+  const [awardedAmount, setAwardedAmount] = useState(init.awardedAmount);
+  const [priorityLevel, setPriorityLevel] = useState(init.priorityLevel);
+  const [assignedTo, setAssignedTo] = useState(init.assignedTo);
+  const [projectFocus, setProjectFocus] = useState(init.projectFocus);
+  const [customizationNotes, setCustomizationNotes] = useState(init.customizationNotes);
+  const [contactDate, setContactDate] = useState(init.contactDate);
+  const [submissionDate, setSubmissionDate] = useState(init.submissionDate);
+  const [decisionExpected, setDecisionExpected] = useState(init.decisionExpected);
+  const [decisionDate, setDecisionDate] = useState(init.decisionDate);
+  const [rejectionReason, setRejectionReason] = useState(init.rejectionReason);
+  const [successFactors, setSuccessFactors] = useState(init.successFactors);
 
   async function handleSave() {
     setIsSaving(true);

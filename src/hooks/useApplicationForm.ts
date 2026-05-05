@@ -39,7 +39,7 @@ const EMPTY_FIELDS: ApplicationFormFields = {
   successFactors: '',
 };
 
-function initFieldsFromApplication(app: Application): ApplicationFormFields {
+export function initFieldsFromApplication(app: Application): ApplicationFormFields {
   return {
     status: app.status,
     requestedAmount: app.requestedAmount?.toString() ?? '',
