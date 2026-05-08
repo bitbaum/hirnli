@@ -7,7 +7,7 @@ import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { TYPE_LABELS } from '@/lib/config/foundations';
 import { getQualityTier, tierAtLeast, TIER_LABELS, isActionablePriority } from '@/lib/domain/foundation-helpers';
-import { getTrustLevel } from '@/lib/config/trust-levels';
+import { getFoundationPresentation } from '@/lib/domain/foundation-presenter';
 import type { FitNarrative, ThemeAlignment, ApproachStep, ReadinessItem } from '@/lib/domain/foundation-contextualization';
 import type { QualityTier } from '@/lib/schemas/foundation';
 
@@ -40,7 +40,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
   const typeLabel = TYPE_LABELS[f.type];
   const tier = getQualityTier(f);
   const banner = TIER_BANNER[tier];
-  const trust = getTrustLevel(f);
+  const { trust } = getFoundationPresentation(f);
   const isActionable = isActionablePriority(f);
   const showTrustWarning = trust === 'unverified' && isActionable;
 

@@ -7,7 +7,8 @@ import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
-import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
+import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS } from '@/lib/domain/foundation-helpers';
+import { getFoundationPresentation } from '@/lib/domain/foundation-presenter';
 import AddToPipelineButton from './AddToPipelineButton';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
 import { getResearchLinks } from '@/lib/config/research-links';
@@ -24,12 +25,11 @@ interface FoundationSidebarProps {
 
 export default function FoundationSidebar({ foundation: f }: FoundationSidebarProps) {
   const source = SOURCES[f.source];
+  const { tier, tierLabel, tierColor, fitLevel, readinessScore } = getFoundationPresentation(f);
   const readiness = computeReadinessScore(f);
   const priority = computePriorityScore(f, readiness.score);
   const gesuchReady = hasGesuchPage(f);
-  const tier = readiness.tier;
   const promotion = getTierPromotionSteps(f);
-  const fitLevel = getFitLevel(f);
 
   return (
     <div className="space-y-4">
@@ -60,7 +60,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-text-muted">Bereitschaft</span>
             <div className="flex items-center gap-1.5">
-              <Badge variant="raw" size="sm" className={TIER_COLORS[tier]}>
+              <Badge variant="raw" size="sm" className={tierColor}>
                 {TIER_LABELS[tier]}
               </Badge>
               <span className="text-xs tabular-nums text-text-muted">{readiness.score}/100</span>

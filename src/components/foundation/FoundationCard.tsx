@@ -3,9 +3,7 @@ import Badge from '@/components/ui/Badge';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { TYPE_LABELS, STATUS_LABELS, STATUS_BADGE_VARIANT, FIT_CONFIG, PRIORITY_CONFIG } from '@/lib/config/foundations';
-import { TIER_LABELS, TIER_COLORS, getFitLevel } from '@/lib/domain/foundation-helpers';
-import { computeReadinessScore } from '@/lib/domain/foundation-scores';
-import { getTrustLevel, TRUST_CONFIG } from '@/lib/config/trust-levels';
+import { getFoundationPresentation } from '@/lib/domain/foundation-presenter';
 import ThemeBadgeList from './ThemeBadgeList';
 
 interface FoundationCardProps {
@@ -18,15 +16,11 @@ interface FoundationCardProps {
 export default function FoundationCard({ foundation: f, inPipeline, score }: FoundationCardProps) {
   const statusLabel = STATUS_LABELS[f.status];
   const typeLabel = TYPE_LABELS[f.type];
-  const readiness = computeReadinessScore(f);
-  const tier = readiness.tier;
+  const { tier, tierLabel, tierColor, fitLevel, trust, trustDisplay } = getFoundationPresentation(f);
   // Use stored priority (SSOT) — label/color from config, override flag from field
   const priorityConfig = PRIORITY_CONFIG[f.priority];
   const priorityLabel = priorityConfig.label;
   const priorityIsOverride = f.priorityOverride ?? false;
-  const trust = getTrustLevel(f);
-  const trustDisplay = TRUST_CONFIG[trust];
-  const fitLevel = getFitLevel(f);
 
   return (
     <Link
@@ -82,8 +76,8 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
           {f.deadlineText && f.deadlineText !== UNKNOWN_FIELD && (
             <span>{f.deadlineText}</span>
           )}
-          <Badge variant="raw" size="sm" className={TIER_COLORS[tier]}>
-            {TIER_LABELS[tier]}
+          <Badge variant="raw" size="sm" className={tierColor}>
+            {tierLabel}
           </Badge>
         </div>
         {f.amount.text && f.amount.text !== UNKNOWN_FIELD && (
