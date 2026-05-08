@@ -24,6 +24,7 @@ import type {
   StatusLabel,
   ApplicationMethod,
 } from '../../schemas/foundation';
+import { THEME_COLORS } from '@/lib/config/chart-colors';
 
 // Human-readable labels for ApplicationMethod enum values.
 // Hide when value is 'unknown' or 'none' (no useful info to show).
@@ -53,49 +54,49 @@ export const THEMES: Record<ThemeId, Theme> = {
     label: 'Klima & Umwelt',
     icon: '\u{1F30D}',
     description: 'Klimaschutz, CO2-Reduktion, Nachhaltigkeit',
-    color: '#10b981',
+    color: THEME_COLORS.klima,
   },
   kreislaufwirtschaft: {
     id: 'kreislaufwirtschaft',
     label: 'Kreislaufwirtschaft',
     icon: '\u267B\uFE0F',
     description: 'Wiederverwendung, Reparatur, E-Waste',
-    color: '#059669',
+    color: THEME_COLORS.kreislaufwirtschaft,
   },
   'soziale-integration': {
     id: 'soziale-integration',
     label: 'Soziale Integration',
     icon: '\u{1F91D}',
     description: 'Benachteiligte, Chancengleichheit, Second Chance',
-    color: '#8b5cf6',
+    color: THEME_COLORS.soziale_integration,
   },
   'digitale-bildung': {
     id: 'digitale-bildung',
     label: 'Digitale Bildung',
     icon: '\u{1F4BB}',
     description: 'IT-Workshops, Tech Skills, Medienkompetenz',
-    color: '#3b82f6',
+    color: THEME_COLORS.digitale_bildung,
   },
   'digitale-souveraenitaet': {
     id: 'digitale-souveraenitaet',
     label: 'Digitale Souver\u00E4nit\u00E4t',
     icon: '\u{1F513}',
     description: 'Open Source, Linux, Unabh\u00E4ngigkeit',
-    color: '#6366f1',
+    color: THEME_COLORS.digitale_souveraenitaet,
   },
   zuerich: {
     id: 'zuerich',
     label: 'Region Z\u00FCrich',
     icon: '\u{1F4CD}',
     description: 'Stadt oder Kanton Z\u00FCrich Fokus',
-    color: '#ef4444',
+    color: THEME_COLORS.zuerich,
   },
   arbeitsintegration: {
     id: 'arbeitsintegration',
     label: 'Arbeitsintegration',
     icon: '\u{1F4BC}',
     description: 'Arbeitsmarkt-Integration, Besch\u00E4ftigung',
-    color: '#14b8a6',
+    color: THEME_COLORS.arbeitsintegration,
   },
 } as const satisfies Record<ThemeId, Theme>;
 

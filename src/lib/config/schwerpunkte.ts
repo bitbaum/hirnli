@@ -15,6 +15,7 @@
 
 import type { ThemeKey } from '@/lib/config/stories';
 import type { ThemeId } from '@/lib/schemas/foundation';
+import { THEME_COLORS } from '@/lib/config/chart-colors';
 
 export interface Schwerpunkt {
   id: string;
@@ -36,7 +37,7 @@ export const SCHWERPUNKTE = {
     label: 'Nachhaltigkeit & Kreislaufwirtschaft',
     shortLabel: 'Nachhaltigkeit',
     icon: '\u267B\uFE0F',
-    color: '#10b981',
+    color: THEME_COLORS.klima,
     borderClass: 'border-l-theme-klima',
     description: 'Klimaschutz, CO\u2082-Reduktion, Kreislaufwirtschaft, E-Waste-Vermeidung',
     storyThemes: ['klima', 'kreislaufwirtschaft'] as ThemeKey[],
@@ -48,7 +49,7 @@ export const SCHWERPUNKTE = {
     label: 'Soziale Integration & Arbeitsmarkt',
     shortLabel: 'Soziale Integration',
     icon: '\u{1F91D}',
-    color: '#8b5cf6',
+    color: THEME_COLORS.soziale_integration,
     borderClass: 'border-l-theme-sozial',
     description: 'Arbeitsintegration, Second Chance, Reintegration, Inklusion',
     storyThemes: ['sozial'] as ThemeKey[],
@@ -60,7 +61,7 @@ export const SCHWERPUNKTE = {
     label: 'Digitale Bildung & Teilhabe',
     shortLabel: 'Digitale Bildung',
     icon: '\u{1F4BB}',
-    color: '#3b82f6',
+    color: THEME_COLORS.digitale_bildung,
     borderClass: 'border-l-theme-bildung',
     description: 'Digital Literacy, IT-Kompetenzen, Medienkompetenz, AI-Literacy, Wissensplattform',
     storyThemes: ['bildung'] as ThemeKey[],
@@ -72,7 +73,7 @@ export const SCHWERPUNKTE = {
     label: 'Digitale Souveränität',
     shortLabel: 'Digitale Souveränität',
     icon: '\u{1F510}',
-    color: '#6366f1',
+    color: THEME_COLORS.digitale_souveraenitaet,
     borderClass: 'border-l-theme-digital',
     description: 'Open Source, Linux, Datenhoheit, souveräne IT-Infrastruktur, eigene Community-Plattform',
     storyThemes: ['digital'] as ThemeKey[],

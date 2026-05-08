@@ -32,10 +32,10 @@ export const REVENUE_CATEGORIES = [
 export const EXPENSE_CATEGORIES = [
   { key: 'miete' as const, label: 'Miete & Nebenkosten', codes: '6000, 6400, 6460', color: CHART_COLORS.red },
   { key: 'personal' as const, label: 'Personal', codes: '5000–5830', color: CHART_COLORS.blue },
-  { key: 'material' as const, label: 'Material & Beschaffung', codes: '4000, 4400, 4710', color: '#F39C12' },
+  { key: 'material' as const, label: 'Material & Beschaffung', codes: '4000, 4400, 4710', color: CHART_COLORS.amber },
   { key: 'it' as const, label: 'IT & Kommunikation', codes: '6510, 6511', color: CHART_COLORS.purple },
-  { key: 'abschreibungen' as const, label: 'Abschreibungen', codes: '6800', color: '#95A5A6' },
-  { key: 'uebrig' as const, label: 'Übriger Betrieb', codes: '6100–6900, 8xxx', color: '#BDC3C7' },
+  { key: 'abschreibungen' as const, label: 'Abschreibungen', codes: '6800', color: CHART_COLORS.concrete },
+  { key: 'uebrig' as const, label: 'Übriger Betrieb', codes: '6100–6900, 8xxx', color: CHART_COLORS.silver },
 ] as const;
 
 export type ExpenseCategoryKey = typeof EXPENSE_CATEGORIES[number]['key'];
