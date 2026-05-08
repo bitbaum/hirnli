@@ -10,7 +10,7 @@ interface GesuchWhySectionProps {
 export default function GesuchWhySection({ why, secondaryThemeRelevance }: GesuchWhySectionProps) {
   return (
     <section>
-      <h2 className="mb-6 text-xl font-bold text-grey-dark md:text-3xl">
+      <h2 className="mb-6 heading-page">
         {why.headline}
       </h2>
       <p className="mb-8 text-base leading-relaxed text-text-light md:text-lg">

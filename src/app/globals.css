@@ -140,10 +140,11 @@
    ======================================== */
 
 @layer utilities {
-  .heading-page       { @apply text-3xl font-bold text-grey-dark; }
+  .heading-page       { @apply text-xl font-bold text-grey-dark md:text-3xl; }
   .heading-section    { @apply text-2xl font-bold text-grey-dark; }
   .heading-subsection { @apply text-xl font-semibold text-grey-dark; }
   .heading-card       { @apply text-lg font-semibold text-grey-dark; }
+  .heading-item       { @apply text-base font-semibold text-grey-dark; }
   .heading-label      { @apply text-sm font-semibold uppercase tracking-wider text-text-muted; }
   .heading-xs-label   { @apply text-xs font-semibold uppercase tracking-wider text-text-muted; }
 }

@@ -76,7 +76,7 @@ export default function RequiredFieldsModal({
           onSubmit={handleSubmit}
           className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl space-y-4"
         >
-          <h3 className="text-base font-semibold text-grey-dark">Pflichtfelder ergänzen</h3>
+          <h3 className="heading-item">Pflichtfelder ergänzen</h3>
           <p className="text-sm text-text-muted">
             Für diesen Statuswechsel werden zusätzliche Angaben benötigt.
           </p>

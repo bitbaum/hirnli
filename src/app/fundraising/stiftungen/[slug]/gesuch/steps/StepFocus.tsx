@@ -56,7 +56,7 @@ export default function StepFocus({
 
       {/* Schwerpunkt selector */}
       <div>
-        <h3 className="mb-3 text-base font-semibold text-grey-dark">Welcher Schwerpunkt passt am besten?</h3>
+        <h3 className="mb-3 heading-item">Welcher Schwerpunkt passt am besten?</h3>
         <SchwerpunktSelector
           active={activeSchwerpunkt}
           foundationThemes={foundationThemes}

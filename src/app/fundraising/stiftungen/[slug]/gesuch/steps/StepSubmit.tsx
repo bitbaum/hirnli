@@ -45,7 +45,7 @@ export default function StepSubmit({
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Left: Output formats */}
         <div className="space-y-4">
-          <h3 className="text-base font-semibold text-grey-dark">Dokument erstellen</h3>
+          <h3 className="heading-item">Dokument erstellen</h3>
 
           {/* Full PDF */}
           <div className="rounded-xl border border-border bg-bg-light p-5">
@@ -128,19 +128,19 @@ export default function StepSubmit({
 
           {/* Pipeline widget */}
           <div>
-            <h3 className="mb-3 text-base font-semibold text-grey-dark">Pipeline-Status</h3>
+            <h3 className="mb-3 heading-item">Pipeline-Status</h3>
             <GesuchStatusWidget slug={slug} responseTime={responseTime} shareToken={shareToken} />
           </div>
 
           {/* Submit info */}
           <div>
-            <h3 className="mb-3 text-base font-semibold text-grey-dark">Einreichung</h3>
+            <h3 className="mb-3 heading-item">Einreichung</h3>
             <GesuchSubmitSection info={{ ...submissionInfo, emailBody }} />
           </div>
 
           {/* Activity timeline */}
           <div>
-            <h3 className="mb-3 text-base font-semibold text-grey-dark">Verlauf</h3>
+            <h3 className="mb-3 heading-item">Verlauf</h3>
             <ActivityTimeline entityId={slug} entityType="gesuch_override" limit={5} />
           </div>
         </div>

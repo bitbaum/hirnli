@@ -12,7 +12,7 @@ export default function OperationsSection() {
         <Card className="border-l-4 border-l-grey-medium">
           <div className="flex items-center gap-3 mb-3">
             <div className="text-2xl" aria-hidden="true">💼</div>
-            <h3 className="text-base font-semibold text-grey-dark">Offices & Sozialräume</h3>
+            <h3 className="heading-item">Offices & Sozialräume</h3>
           </div>
           <p className="text-sm text-text-light mb-3">
             <strong>100 m²</strong> für Geschäftsleitung, Koordination, Meetings, Pausenraum, Sozialräume.
@@ -34,7 +34,7 @@ export default function OperationsSection() {
         <Card className="border-l-4 border-l-grey-medium">
           <div className="flex items-center gap-3 mb-3">
             <div className="text-2xl" aria-hidden="true">📦</div>
-            <h3 className="text-base font-semibold text-grey-dark">Lager & Logistik</h3>
+            <h3 className="heading-item">Lager & Logistik</h3>
           </div>
           <p className="text-sm text-text-light mb-3">
             <strong>150 m²</strong> für Eingang/Triage, Ersatzteile, Fertigware, Recycling-Staging.
@@ -56,7 +56,7 @@ export default function OperationsSection() {
         <Card className="border-l-4 border-l-grey-medium">
           <div className="flex items-center gap-3 mb-3">
             <div className="text-2xl" aria-hidden="true">🚚</div>
-            <h3 className="text-base font-semibold text-grey-dark">Lade- & Anlieferzone</h3>
+            <h3 className="heading-item">Lade- & Anlieferzone</h3>
           </div>
           <p className="text-sm text-text-light mb-3">
             <strong>50 m²</strong> für Wareneingang, LKW-Zufahrt, Palette-Handling.

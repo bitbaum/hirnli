@@ -10,7 +10,7 @@ export default function GesuchProjectsSection({ projects }: GesuchProjectsSectio
 
   return (
     <section>
-      <h2 className="mb-6 text-xl font-bold text-grey-dark md:text-3xl">Unsere Projekte</h2>
+      <h2 className="mb-6 heading-page">Unsere Projekte</h2>
       <div className="space-y-6">
         {projects.map((project) => (
           <Card key={project.title}>

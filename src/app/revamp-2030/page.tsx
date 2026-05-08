@@ -128,21 +128,21 @@ export default function Revamp2030Page() {
         <h2 className="mb-4 heading-subsection">Warum jetzt?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="border-l-4 border-l-danger">
-            <h3 className="text-base font-semibold text-grey-dark mb-2">🚨 Das Problem</h3>
+            <h3 className="heading-item mb-2">🚨 Das Problem</h3>
             <p className="text-sm text-text-light">
               Einnahmen von {REVENUE_DECLINE_DISPLAY} gefallen — B2B-Kunden verloren, Dienstleistungen eingebrochen.
               Das eigentliche Problem: <strong>Fehlende Organisation für Verkauf & Ausführung</strong>, nicht fehlende Kapazität.
             </p>
           </Card>
           <Card className="border-l-4 border-l-amber">
-            <h3 className="text-base font-semibold text-grey-dark mb-2">🎯 Die Lösung</h3>
+            <h3 className="heading-item mb-2">🎯 Die Lösung</h3>
             <p className="text-sm text-text-light">
               Nicht mehr Raum, sondern <strong>bessere Prozesse + bezahlte Bildungsprogrammleiter</strong>.
               Sie organisieren Workflows, bilden Techniker aus, koordinieren Freiwillige & Reintegrations-Teilnehmer.
             </p>
           </Card>
           <Card className="border-l-4 border-l-success">
-            <h3 className="text-base font-semibold text-grey-dark mb-2">💪 Wir sind bereit</h3>
+            <h3 className="heading-item mb-2">💪 Wir sind bereit</h3>
             <p className="text-sm text-text-light">
               {YEARS_EXPERIENCE_DISPLAY}. Soziale Mission mit sozialpädagogischem Fokus (Veronica).
               Wir wissen genau, was fehlt: <strong>Organisation, Struktur, bezahlte Fachleute</strong>.

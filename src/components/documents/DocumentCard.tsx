@@ -45,7 +45,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
         <div className="flex items-center gap-2">
           <span className="text-2xl" aria-hidden="true">{icon}</span>
           <div>
-            <h3 className="text-base font-semibold text-grey-dark group-hover:text-primary transition-colors">
+            <h3 className="heading-item group-hover:text-primary transition-colors">
               {document.title}
             </h3>
             {document.badge && (

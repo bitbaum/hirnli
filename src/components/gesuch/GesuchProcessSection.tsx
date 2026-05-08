@@ -32,7 +32,7 @@ export default function GesuchProcessSection({
 
   return (
     <section>
-      <h2 className="mb-6 text-xl font-bold text-grey-dark md:text-3xl">
+      <h2 className="mb-6 heading-page">
         {CASCADE_SUMMARY.headline}
       </h2>
       <p className="mb-6 text-base leading-relaxed text-text-light">

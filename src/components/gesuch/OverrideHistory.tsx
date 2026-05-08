@@ -100,7 +100,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
       {/* Drawer */}
       <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto bg-white shadow-xl">
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <h2 className="text-base font-semibold text-grey-dark">Versionshistorie</h2>
+          <h2 className="heading-item">Versionshistorie</h2>
           <button
             type="button"
             onClick={onClose}

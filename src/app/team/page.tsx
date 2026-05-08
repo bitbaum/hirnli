@@ -71,7 +71,7 @@ export default function TeamPage() {
           const members = TEAM_MEMBERS.filter((m) => m.bereich === dept.name);
           return (
             <div key={dept.name} className="mb-6">
-              <h3 className="text-base font-semibold text-grey-dark mb-3 flex items-center gap-2">
+              <h3 className="heading-item mb-3 flex items-center gap-2">
                 <span>{dept.icon}</span> {dept.name} ({members.length})
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">

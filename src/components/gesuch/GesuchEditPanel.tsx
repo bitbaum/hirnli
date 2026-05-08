@@ -93,7 +93,7 @@ export default function GesuchEditPanel({
       {/* Header — stacks vertically on mobile */}
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div>
-          <h2 className="text-base font-semibold text-grey-dark">
+          <h2 className="heading-item">
             ✏️ Gesuch anpassen
             <span className="ml-2 text-sm font-normal text-text-muted">→ {foundationName}</span>
           </h2>

@@ -136,7 +136,7 @@ export function ApplicationCard({
         <div className="px-3 pb-3 pt-2">
           {/* Amount */}
           {application.requestedAmount && (
-            <div className="mb-1.5 text-base font-semibold text-grey-dark">
+            <div className="mb-1.5 heading-item">
               {formatCHF(application.requestedAmount)}
             </div>
           )}
