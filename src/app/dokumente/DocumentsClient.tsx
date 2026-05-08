@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import type { ReactNode } from 'react';
 import DocumentCard from '@/components/documents/DocumentCard';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -26,6 +27,43 @@ interface DocumentsClientProps {
 
 type TabId = 'berichte' | 'gesuche' | 'vorlagen' | 'daten';
 
+function DocumentSection({
+  title,
+  subtitle,
+  docs,
+  query,
+  type,
+}: {
+  title: string;
+  subtitle: ReactNode;
+  docs: Document[];
+  query: string;
+  type: string;
+}) {
+  return (
+    <div>
+      <div className="mb-6">
+        <h2 className="heading-section mb-2">
+          {title} {query && `(${docs.length} Ergebnisse)`}
+        </h2>
+        <p className="text-sm text-text-light">{subtitle}</p>
+      </div>
+      {docs.length === 0 ? (
+        <Card className="text-center py-12">
+          <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
+          <p className="text-text-muted">Keine {type} gefunden für &bdquo;{query}&ldquo;</p>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {docs.map((doc) => (
+            <DocumentCard key={doc.id} document={doc} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function DocumentsClient({ documents, stats }: DocumentsClientProps) {
   const [activeTab, setActiveTab] = useState<TabId>('berichte');
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,7 +75,6 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
     { id: 'daten', label: `Daten (${stats.exportsCount + stats.quellenCount})`, icon: '📊' },
   ];
 
-  // Filter documents based on search query
   const filterDocuments = (docs: Document[]) => {
     if (!searchQuery) return docs;
     const query = searchQuery.toLowerCase();
@@ -57,7 +94,6 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
 
   return (
     <div className="space-y-8">
-      {/* Usage tip */}
       <p className="text-sm text-text-muted">
         <strong>PDF-Gesuche</strong> öffnen im Browser.{' '}
         <strong>CSV/Excel</strong> werden direkt heruntergeladen.
@@ -95,138 +131,52 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
         />
       </div>
 
-      {/* Berichte Tab */}
       {activeTab === 'berichte' && (
-        <div>
-          <div className="mb-6">
-            <h2 className="heading-section mb-2">
-              Wirkungsberichte {searchQuery && `(${filteredBerichte.length} Ergebnisse)`}
-            </h2>
-            <p className="text-sm text-text-light">
-              Jährliche Impact-Reports aus Live-Daten generiert — Finanzen, Umweltwirkung, Sozialintegration, Stiftungspipeline.
-            </p>
-          </div>
-
-          {filteredBerichte.length === 0 ? (
-            <Card className="text-center py-12">
-              <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
-              <p className="text-text-muted">Keine Berichte gefunden für &bdquo;{searchQuery}&ldquo;</p>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredBerichte.map((doc) => (
-                <DocumentCard key={doc.id} document={doc} />
-              ))}
-            </div>
-          )}
-        </div>
+        <DocumentSection
+          title="Wirkungsberichte"
+          subtitle="Jährliche Impact-Reports aus Live-Daten generiert — Finanzen, Umweltwirkung, Sozialintegration, Stiftungspipeline."
+          docs={filteredBerichte}
+          query={searchQuery}
+          type="Berichte"
+        />
       )}
 
-      {/* Gesuche Tab */}
       {activeTab === 'gesuche' && (
-        <div>
-          <div className="mb-6">
-            <h2 className="heading-section mb-2">
-              Stiftungsgesuche {searchQuery && `(${filteredGesuche.length} Ergebnisse)`}
-            </h2>
-            <p className="text-sm text-text-light">
-              Personalisierte Gesuche für analysierte Stiftungen. Klicken Sie auf ein Gesuch, dann Cmd/Ctrl+P um als PDF zu speichern.
-            </p>
-          </div>
-
-          {filteredGesuche.length === 0 ? (
-            <Card className="text-center py-12">
-              <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
-              <p className="text-text-muted">Keine Gesuche gefunden für &bdquo;{searchQuery}&ldquo;</p>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredGesuche.map((doc) => (
-                <DocumentCard key={doc.id} document={doc} />
-              ))}
-            </div>
-          )}
-        </div>
+        <DocumentSection
+          title="Stiftungsgesuche"
+          subtitle="Personalisierte Gesuche für analysierte Stiftungen. Klicken Sie auf ein Gesuch, dann Cmd/Ctrl+P um als PDF zu speichern."
+          docs={filteredGesuche}
+          query={searchQuery}
+          type="Gesuche"
+        />
       )}
 
-      {/* Vorlagen Tab */}
       {activeTab === 'vorlagen' && (
-        <div>
-          <div className="mb-6">
-            <h2 className="heading-section mb-2">
-              Gesuch-Vorlagen {searchQuery && `(${filteredVorlagen.length} Ergebnisse)`}
-            </h2>
-            <p className="text-sm text-text-light">
-              Referenz-Vorlagen nach Stiftungstyp. Zeigen Struktur und Ton für jeden Foundation-Typ (A/B/C/D/Netzwerk/Generisch).
-            </p>
-          </div>
-
-          {filteredVorlagen.length === 0 ? (
-            <Card className="text-center py-12">
-              <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
-              <p className="text-text-muted">Keine Vorlagen gefunden für &bdquo;{searchQuery}&ldquo;</p>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredVorlagen.map((doc) => (
-                <DocumentCard key={doc.id} document={doc} />
-              ))}
-            </div>
-          )}
-        </div>
+        <DocumentSection
+          title="Gesuch-Vorlagen"
+          subtitle="Referenz-Vorlagen nach Stiftungstyp. Zeigen Struktur und Ton für jeden Foundation-Typ (A/B/C/D/Netzwerk/Generisch)."
+          docs={filteredVorlagen}
+          query={searchQuery}
+          type="Vorlagen"
+        />
       )}
 
-      {/* Daten Tab */}
       {activeTab === 'daten' && (
         <div className="space-y-12">
-          {/* Generated Exports */}
-          <section>
-            <div className="mb-6">
-              <h2 className="heading-section mb-2">
-                Generierte Exporte {searchQuery && `(${filteredExports.length} Ergebnisse)`}
-              </h2>
-              <p className="text-sm text-text-light">
-                Live generierte CSV-Dateien aus aktuellen Daten. Diese werden bei jedem Download neu erstellt und sind immer aktuell.
-              </p>
-            </div>
-
-            {filteredExports.length === 0 ? (
-              <Card className="text-center py-8">
-                <p className="text-text-muted">Keine Exporte gefunden für &bdquo;{searchQuery}&ldquo;</p>
-              </Card>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredExports.map((doc) => (
-                  <DocumentCard key={doc.id} document={doc} />
-                ))}
-              </div>
-            )}
-          </section>
-
-          {/* Source Files */}
-          <section>
-            <div className="mb-6">
-              <h2 className="heading-section mb-2">
-                Quelldateien (Kivitendo) {searchQuery && `(${filteredQuellen.length} Ergebnisse)`}
-              </h2>
-              <p className="text-sm text-text-light">
-                Original-Datenquellen aus Kivitendo (anonymisiert). Diese Dateien bilden die Grundlage für alle Finanzdaten auf dieser Seite.
-                <strong className="text-primary ml-1">Empfohlen: Lesen Sie zuerst das README!</strong>
-              </p>
-            </div>
-
-            {filteredQuellen.length === 0 ? (
-              <Card className="text-center py-8">
-                <p className="text-text-muted">Keine Quelldateien gefunden für &bdquo;{searchQuery}&ldquo;</p>
-              </Card>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredQuellen.map((doc) => (
-                  <DocumentCard key={doc.id} document={doc} />
-                ))}
-              </div>
-            )}
-          </section>
+          <DocumentSection
+            title="Generierte Exporte"
+            subtitle="Live generierte CSV-Dateien aus aktuellen Daten. Diese werden bei jedem Download neu erstellt und sind immer aktuell."
+            docs={filteredExports}
+            query={searchQuery}
+            type="Exporte"
+          />
+          <DocumentSection
+            title="Quelldateien (Kivitendo)"
+            subtitle={<>Original-Datenquellen aus Kivitendo (anonymisiert). Diese Dateien bilden die Grundlage für alle Finanzdaten auf dieser Seite.<strong className="text-primary ml-1">Empfohlen: Lesen Sie zuerst das README!</strong></>}
+            docs={filteredQuellen}
+            query={searchQuery}
+            type="Quelldateien"
+          />
         </div>
       )}
     </div>
