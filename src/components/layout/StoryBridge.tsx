@@ -27,7 +27,7 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
   return (
     <div className="mt-12 border-t border-border pt-8">
       <div className="mb-6 text-center">
-        <h2 className="text-lg font-semibold text-grey-dark">
+        <h2 className="heading-card">
           Weitere Zusammenhänge erkunden
         </h2>
         <p className="mt-1 text-sm text-text-light">

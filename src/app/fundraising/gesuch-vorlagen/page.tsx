@@ -22,7 +22,7 @@ function TemplateCard({ slug, title, description, subtitle }: {
     <Card>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-grey-dark">{title}</h3>
+          <h3 className="heading-card">{title}</h3>
           <p className="mt-1 text-sm text-text-light">{description}</p>
           {subtitle && (
             <p className="mt-2 text-sm text-text-muted">{subtitle}</p>
@@ -47,7 +47,7 @@ export default function GesuchVorlagenPage() {
   return (
     <div className="mx-auto max-w-4xl">
       <div className="mb-8">
-        <h1 className="mb-4 text-3xl font-bold text-grey-dark">Gesuch-Vorlagen</h1>
+        <h1 className="mb-4 heading-page">Gesuch-Vorlagen</h1>
         <p className="mb-2 text-lg text-text-light">
           Vorlagen nach Schwerpunkt (themenspezifisch) und Stiftungstyp (tonspezifisch).
         </p>
@@ -60,7 +60,7 @@ export default function GesuchVorlagenPage() {
 
       {/* Section 1: Nach Schwerpunkt (primary — the new way) */}
       <section className="mb-10">
-        <h2 className="mb-2 text-xl font-semibold text-grey-dark">Nach Schwerpunkt</h2>
+        <h2 className="mb-2 heading-subsection">Nach Schwerpunkt</h2>
         <p className="mb-4 text-sm text-text-light">
           Wählen Sie den thematischen Schwerpunkt, der zur Stiftung passt.
           Gleiches Budget, unterschiedliche Framing — die Stiftung sieht genau die Aktivitäten,
@@ -112,7 +112,7 @@ export default function GesuchVorlagenPage() {
 
       {/* Section 2: Universelle Vorlage */}
       <section className="mb-10">
-        <h2 className="mb-2 text-xl font-semibold text-grey-dark">Universelle Vorlage</h2>
+        <h2 className="mb-2 heading-subsection">Universelle Vorlage</h2>
         <p className="mb-4 text-sm text-text-light">
           Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen.
           Sie enthält das gesamte {ORG_PROFILE.name}-Profil mit allen Schwerpunkten.
@@ -126,7 +126,7 @@ export default function GesuchVorlagenPage() {
 
       {/* Section 3: Nach Stiftungstyp (legacy) */}
       <section className="mb-10">
-        <h2 className="mb-2 text-xl font-semibold text-grey-dark">Nach Stiftungstyp</h2>
+        <h2 className="mb-2 heading-subsection">Nach Stiftungstyp</h2>
         <p className="mb-4 text-sm text-text-light">
           Klassische Vorlagen nur nach Typ — wenn Sie den Schwerpunkt noch nicht kennen,
           aber den Stiftungstyp schon. Inkl. D (Corporate) und Netzwerk.

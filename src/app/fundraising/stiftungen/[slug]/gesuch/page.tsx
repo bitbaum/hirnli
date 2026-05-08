@@ -49,7 +49,7 @@ export default async function GesuchPage({ params }: Props) {
     return (
       <div className="gesuch-page mx-auto max-w-4xl px-4 py-12">
         <Card className="text-center">
-          <h1 className="mb-4 text-2xl font-bold text-grey-dark">
+          <h1 className="mb-4 heading-section">
             Gesuch für {autoGesuch.foundation.name}
           </h1>
           <p className="mb-6 text-text-light">{autoGesuch.readyReason}</p>

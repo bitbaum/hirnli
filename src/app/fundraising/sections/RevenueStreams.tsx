@@ -20,7 +20,7 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
 
   return (
     <section className="mb-8">
-      <h2 className="mb-2 text-xl font-semibold text-grey-dark">Einnahmequellen & Nachhaltigkeit</h2>
+      <h2 className="mb-2 heading-subsection">Einnahmequellen & Nachhaltigkeit</h2>
       <p className="mb-4 text-sm text-text-muted">
         Von{' '}
         <Inspectable data={inspectRevenueCurrent} inspector={inspector}>

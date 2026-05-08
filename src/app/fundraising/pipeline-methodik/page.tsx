@@ -99,7 +99,7 @@ export default function PipelineMethodikPage() {
       {/* THE FUNNEL — Visual overview                                       */}
       {/* ================================================================= */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Der Trichter</h2>
+        <h2 className="mb-4 heading-subsection">Der Trichter</h2>
 
         <div className="space-y-3">
           {/* Stage 0: Universe */}
@@ -185,7 +185,7 @@ export default function PipelineMethodikPage() {
       {/* DATA SOURCES                                                       */}
       {/* ================================================================= */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Datenquellen</h2>
+        <h2 className="mb-4 heading-subsection">Datenquellen</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Card>
             <h3 className="mb-2 font-semibold text-grey-dark">Zefix (Handelsregister)</h3>
@@ -211,7 +211,7 @@ export default function PipelineMethodikPage() {
       {/* TIER DISTRIBUTION                                                  */}
       {/* ================================================================= */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Aktuelle Verteilung nach Qualitätsstufe</h2>
+        <h2 className="mb-4 heading-subsection">Aktuelle Verteilung nach Qualitätsstufe</h2>
         <p className="mb-4 text-sm text-text-light">
           Jede Stiftung wird anhand ihrer Datenvollständigkeit einer von fünf Qualitätsstufen zugeordnet.
           Die Stufe bestimmt, was mit der Stiftung möglich ist.
@@ -254,7 +254,7 @@ export default function PipelineMethodikPage() {
       {/* HOW EACH STAGE WORKS                                               */}
       {/* ================================================================= */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Was an jeder Stufe passiert</h2>
+        <h2 className="mb-4 heading-subsection">Was an jeder Stufe passiert</h2>
 
         <Card className="mb-4">
           <h3 className="mb-2 font-semibold text-grey-dark">Stufe 1-2: Register-Import</h3>
@@ -314,7 +314,7 @@ export default function PipelineMethodikPage() {
       {/* THE DARK POOL                                                      */}
       {/* ================================================================= */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die verbleibende Lücke</h2>
+        <h2 className="mb-4 heading-subsection">Die verbleibende Lücke</h2>
         <Card>
           <p className="mb-3 text-sm text-text-light">
             Von den {formatNumber(s.total)} Stiftungen in unserer Datenbank
@@ -338,7 +338,7 @@ export default function PipelineMethodikPage() {
       {/* PRINCIPLES                                                         */}
       {/* ================================================================= */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Prinzipien</h2>
+        <h2 className="mb-4 heading-subsection">Prinzipien</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Card>
             <h3 className="mb-2 font-semibold text-grey-dark">Günstigstes Signal zuerst</h3>

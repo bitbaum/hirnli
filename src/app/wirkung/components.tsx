@@ -65,7 +65,7 @@ export function ImpactStoryCards({
 }) {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-lg font-semibold text-grey-dark">Wirkung im Detail</h2>
+      <h2 className="mb-4 heading-card">Wirkung im Detail</h2>
       <div className="grid gap-6 md:grid-cols-3">
         {/* Ecological impact */}
         <Card padding={false}>

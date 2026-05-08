@@ -43,7 +43,7 @@ export function HubImageGenerator() {
         <Card className="border-l-4 border-l-purple-500">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h3 className="text-lg font-semibold text-grey-dark mb-1">{selectedConfig.space_name}</h3>
+              <h3 className="heading-card mb-1">{selectedConfig.space_name}</h3>
               <div className="flex gap-2 flex-wrap">
                 <Badge color="purple">Aspect: {selectedConfig.aspect_ratio}</Badge>
                 {selectedConfig.style_keywords.slice(0, 3).map((keyword) => (

@@ -30,7 +30,7 @@ export default function GesuchHowSection({ trackRecord, competencies }: GesuchHo
       <div className="grid gap-6 md:grid-cols-2">
         {competencies.map((comp) => (
           <Card key={comp.headline}>
-            <h3 className="mb-3 text-lg font-semibold text-grey-dark">{comp.headline}</h3>
+            <h3 className="mb-3 heading-card">{comp.headline}</h3>
             <ul className="space-y-1">
               {comp.capabilities.map((cap) => (
                 <li key={cap} className="flex items-start gap-2 text-sm text-text-light">

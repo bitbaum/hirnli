@@ -41,7 +41,7 @@ export default function CommunityTechSpaceSection() {
 
       {/* Core Spaces */}
       <div className="mb-8">
-        <h3 className="text-2xl font-bold text-grey-dark mb-4">Kernbereiche</h3>
+        <h3 className="heading-section mb-4">Kernbereiche</h3>
         <p className="text-sm text-text-light mb-6">
           Fünf Bereiche, die direkt aus unserer heutigen Arbeit wachsen. Zusammen bilden sie den Kern des Community Tech Space.
         </p>
@@ -144,7 +144,7 @@ export default function CommunityTechSpaceSection() {
 
       {/* Expansion Spaces */}
       <div className="mb-8">
-        <h3 className="text-2xl font-bold text-grey-dark mb-4">Mögliche Erweiterungen</h3>
+        <h3 className="heading-section mb-4">Mögliche Erweiterungen</h3>
         <p className="text-sm text-text-light mb-6">
           Vier Programmbereiche, die den Hub einzigartig machen könnten. Sie nutzen die Kernbereiche (Werkstatt, Begegnungsraum, Museum) als Infrastruktur — abhängig von Funding und Community-Interesse.
         </p>

@@ -15,7 +15,7 @@ import { CUMULATIVE_WARENVERKAUF } from '@/app/finanzen/data';
 export default function FourPillarsSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Vier Säulen unserer Arbeit</h2>
+      <h2 className="mb-4 heading-subsection">Vier Säulen unserer Arbeit</h2>
       <p className="mb-6 text-sm text-text-light">
         Unsere Mission ruht auf vier gleichwertigen Säulen. Klicke auf «Mehr erfahren», um zu sehen,
         was wir konkret tun, warum es wichtig ist und was wir erreicht haben.

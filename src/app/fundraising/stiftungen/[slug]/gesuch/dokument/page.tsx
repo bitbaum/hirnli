@@ -48,7 +48,7 @@ export default async function GesuchDokumentPage({ params, searchParams }: Props
   if (!dok.ready) {
     return (
       <div className="gesuch-dokument mx-auto max-w-3xl py-12 text-center">
-        <h1 className="mb-4 text-2xl font-bold text-grey-dark">
+        <h1 className="mb-4 heading-section">
           Gesuch-Dokument für {dok.foundation.name}
         </h1>
         <p className="mb-6 text-text-light">{dok.readyReason}</p>

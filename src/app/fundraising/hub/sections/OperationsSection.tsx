@@ -4,7 +4,7 @@ import { TEAM_MEMBERS } from '@/app/team/data';
 export default function OperationsSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">💼 Betrieb & Infrastruktur</h2>
+      <h2 className="mb-4 heading-subsection">💼 Betrieb & Infrastruktur</h2>
       <p className="text-sm text-text-light mb-6">
         Was im Hintergrund läuft: Büros, Lager, Logistik. Nicht glamourös, aber essentiell.
       </p>

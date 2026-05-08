@@ -33,7 +33,7 @@ export default function MetricCard({
           </Badge>
         )}
       </div>
-      <div className="text-2xl font-bold text-grey-dark">{value}</div>
+      <div className="heading-section">{value}</div>
       {subtitle && <div className="mt-1 text-sm text-text-light">{subtitle}</div>}
       {trend && (
         <div

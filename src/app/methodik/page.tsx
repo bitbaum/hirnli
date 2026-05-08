@@ -45,7 +45,7 @@ export default function MethodikPage() {
 
       {/* Datentypen-Legende */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Datentypen</h2>
+        <h2 className="mb-4 heading-subsection">Datentypen</h2>
         <Card>
           <MetricGrid columns={3}>
             {DATA_TYPES.map((dt) => (
@@ -61,7 +61,7 @@ export default function MethodikPage() {
 
       {/* Datenfluss */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Datenfluss</h2>
+        <h2 className="mb-4 heading-subsection">Datenfluss</h2>
         <Card>
           <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg bg-bg-light p-4">
             {PIPELINE_STEPS.map((step, i) => (
@@ -94,7 +94,7 @@ export default function MethodikPage() {
 
       {/* Inhaltsverzeichnis */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Inhaltsverzeichnis</h2>
+        <h2 className="mb-4 heading-subsection">Inhaltsverzeichnis</h2>
         <Card>
           <nav>
             <ul className="divide-y divide-border">

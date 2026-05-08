@@ -3,7 +3,7 @@ import Card from '@/components/ui/Card';
 export default function ArtCultureSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Kunst, Kultur & Musik: Elektroschrott neu denken</h2>
+      <h2 className="mb-4 heading-subsection">Kunst, Kultur & Musik: Elektroschrott neu denken</h2>
       <Card className="border-l-4 border-l-danger">
         <p className="text-sm text-text-light mb-4">
           Revamp 2030 ist nicht nur Technik — <strong>Kunst und Kultur sind zentral</strong>, um

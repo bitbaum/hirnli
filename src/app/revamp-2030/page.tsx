@@ -71,7 +71,7 @@ export default function Revamp2030Page() {
 
       {/* Digitale Plattform */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Digitale Plattform — unsere eigene Software</h2>
+        <h2 className="mb-4 heading-subsection">Digitale Plattform — unsere eigene Software</h2>
         <Card className="border-l-4 border-l-pillar-digital">
           <div className="flex items-start gap-4">
             <span className="text-4xl" aria-hidden="true">🌐</span>
@@ -125,7 +125,7 @@ export default function Revamp2030Page() {
 
       {/* Warum jetzt? */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Warum jetzt?</h2>
+        <h2 className="mb-4 heading-subsection">Warum jetzt?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="border-l-4 border-l-red-500">
             <h3 className="text-md font-semibold text-grey-dark mb-2">🚨 Das Problem</h3>

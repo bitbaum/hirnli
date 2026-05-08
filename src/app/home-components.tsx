@@ -99,7 +99,7 @@ export function PillarGrid() {
                   {s.icon}
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-grey-dark mb-1">{s.label}</h3>
+                  <h3 className="heading-card mb-1">{s.label}</h3>
                   <p className="text-sm text-text-light mb-2">{s.description}</p>
                   <Badge color="gray">{s.pillar}</Badge>
                 </div>

@@ -38,7 +38,7 @@ export default function OperationsPage() {
 
       {/* Operative Kennzahlen */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Operative Kennzahlen</h2>
+        <h2 className="mb-4 heading-subsection">Operative Kennzahlen</h2>
         <MetricGrid columns={4}>
           <UnifiedNumberDisplay numberKey="DEVICES_PER_MONTH_CURRENT" size="md" showLabel={true} />
           <UnifiedNumberDisplay numberKey="TIME_PER_DEVICE" size="md" showLabel={true} />
@@ -53,7 +53,7 @@ export default function OperationsPage() {
 
       {/* Refurbishment-Prozess Übersicht */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Refurbishment-Prozess Übersicht</h2>
+        <h2 className="mb-4 heading-subsection">Refurbishment-Prozess Übersicht</h2>
         <Card>
           <CardHeader>
             <CardTitle className="text-center">Von Spende bis Verkauf</CardTitle>
@@ -78,7 +78,7 @@ export default function OperationsPage() {
 
       {/* Step 1: Intake */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">1. Geräte-Intake</h2>
+        <h2 className="mb-4 heading-subsection">1. Geräte-Intake</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
@@ -114,7 +114,7 @@ export default function OperationsPage() {
 
       {/* Step 3: Datenlöschung */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">3. Datenlöschung</h2>
+        <h2 className="mb-4 heading-subsection">3. Datenlöschung</h2>
         <div className="mb-4 rounded-lg border-l-4 border-l-danger bg-danger/10 p-4">
           <strong>WICHTIG:</strong> Dieser Schritt ist OBLIGATORISCH für alle Geräte mit Festplatten!
         </div>
@@ -144,7 +144,7 @@ export default function OperationsPage() {
 
       {/* Step 7: QA */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">7. Qualitätskontrolle</h2>
+        <h2 className="mb-4 heading-subsection">7. Qualitätskontrolle</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
@@ -179,7 +179,7 @@ export default function OperationsPage() {
 
       {/* Step 8: Pricing & Listing */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">8. Pricing & Listing</h2>
+        <h2 className="mb-4 heading-subsection">8. Pricing & Listing</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
@@ -219,7 +219,7 @@ export default function OperationsPage() {
 
       {/* Zeitaufwand-Übersicht */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Zeitaufwand-Übersicht</h2>
+        <h2 className="mb-4 heading-subsection">Zeitaufwand-Übersicht</h2>
         <Card>
           <Table<TimeRow>
             columns={[
@@ -249,7 +249,7 @@ export default function OperationsPage() {
 
       {/* Werkzeuge & Materialien */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Werkzeuge & Materialien</h2>
+        <h2 className="mb-4 heading-subsection">Werkzeuge & Materialien</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map((tool) => (
             <Card key={tool.title} className="border-l-4 border-l-primary">

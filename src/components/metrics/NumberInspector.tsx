@@ -55,7 +55,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
       <div className="space-y-4">
         <div>
           <h4 className="mb-1 text-xs font-semibold uppercase text-text-muted">Aktueller Wert</h4>
-          <div className="text-2xl font-bold text-grey-dark">{data.value}</div>
+          <div className="heading-section">{data.value}</div>
           <Badge variant={typeInfo.variant} className="mt-1">
             {INSPECTOR_SOURCE_ICONS[typeInfo.variant]} {typeInfo.label}
           </Badge>

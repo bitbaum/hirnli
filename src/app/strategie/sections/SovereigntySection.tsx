@@ -13,7 +13,7 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 export default function SovereigntySection() {
   return (
     <section id="souveraenitat" className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unser Weg: Souveränität auf jeder Ebene</h2>
+      <h2 className="mb-4 heading-subsection">Unser Weg: Souveränität auf jeder Ebene</h2>
       <Card>
         <p className="mb-6 text-sm text-text-light">
           Von Anfang an ging es um Unabhängigkeit — von geplanter Obsoleszenz, von Lizenzkosten, von Abhängigkeit.

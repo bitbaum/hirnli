@@ -266,7 +266,7 @@ export function ApplicationBoard() {
       {/* Empty state */}
       {applications.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-20 text-center">
-          <p className="mb-1 text-lg font-semibold text-grey-dark">Noch keine Gesuche</p>
+          <p className="mb-1 heading-card">Noch keine Gesuche</p>
           <p className="mb-6 max-w-xs text-sm text-text-muted">
             Wähle eine Stiftung aus der Liste und klicke auf &ldquo;Gesuch starten&rdquo;, um sie
             in die Pipeline aufzunehmen.

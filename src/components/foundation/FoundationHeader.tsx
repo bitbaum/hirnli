@@ -17,7 +17,7 @@ export default function FoundationHeader({ foundation: f }: FoundationHeaderProp
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-grey-dark md:text-3xl">{f.name}</h1>
+            <h1 className="heading-section md:text-3xl">{f.name}</h1>
             <Badge variant={STATUS_BADGE_VARIANT[f.status]}>
               {statusLabel.text}
             </Badge>

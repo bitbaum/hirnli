@@ -58,7 +58,7 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
 
   return (
     <section className="mb-8">
-      <h2 className="mb-2 text-xl font-semibold text-grey-dark">Budgetdetail Jahr 1</h2>
+      <h2 className="mb-2 heading-subsection">Budgetdetail Jahr 1</h2>
       <p className="mb-6 text-sm text-text-muted">
         7 Module, einzeln förderbar. Einmalige Investitionen + jährliche Kosten ={' '}
         <Inspectable data={inspectBudgetTotal} inspector={inspector}>
@@ -69,7 +69,7 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
       {/* Einmalige Investitionen */}
       <div className="mb-6">
         <div className="mb-3 flex items-baseline justify-between">
-          <h3 className="text-lg font-semibold text-grey-dark">
+          <h3 className="heading-card">
             <span className="mr-2 inline-block h-3 w-3 rounded-sm bg-primary" />
             Einmalige Investitionen
           </h3>
@@ -87,7 +87,7 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
       {/* Jährliche Kosten */}
       <div className="mb-6">
         <div className="mb-3 flex items-baseline justify-between">
-          <h3 className="text-lg font-semibold text-grey-dark">
+          <h3 className="heading-card">
             <span className="mr-2 inline-block h-3 w-3 rounded-sm bg-pillar-vision" />
             Jährliche Kosten
             <span className="ml-2 text-sm font-normal text-text-muted">(degressiv finanziert über 3 Jahre)</span>
@@ -107,7 +107,7 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
       <Card className="border-success/20 gradient-card-success">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-2xl font-bold text-grey-dark">
+            <div className="heading-section">
               <Inspectable data={inspectBudgetTotal} inspector={inspector}>
                 {formatCHF(BUDGET_SUMMARY.total)}
               </Inspectable>

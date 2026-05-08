@@ -40,7 +40,7 @@ export default function BildungPage() {
 
       {/* Problem: Current Bottleneck */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Das Problem: Soziale Reichweite ist begrenzt</h2>
+        <h2 className="mb-4 heading-subsection">Das Problem: Soziale Reichweite ist begrenzt</h2>
         <Card className="border-l-4 border-l-warning bg-warning/10">
           <div className="flex items-start gap-4">
             <span className="text-4xl flex-shrink-0" aria-hidden="true">⚠️</span>
@@ -70,7 +70,7 @@ export default function BildungPage() {
 
       {/* Vision: Train-the-Trainer */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Lösung: Train-the-Trainer</h2>
+        <h2 className="mb-4 heading-subsection">Die Lösung: Train-the-Trainer</h2>
         <div className="rounded-xl gradient-hero-bildung p-8 text-white mb-6">
           <div className="text-center mb-6">
             <div className="text-6xl font-bold mb-2">{PEOPLE_REACHED_PER_YEAR}</div>
@@ -101,7 +101,7 @@ export default function BildungPage() {
 
       {/* Die 2 Rollen */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Zwei Bildungsprogrammleiter:innen — Zwei Fokusgebiete</h2>
+        <h2 className="mb-4 heading-subsection">Zwei Bildungsprogrammleiter:innen — Zwei Fokusgebiete</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {BILDUNGSPROGRAMMLEITER.map((bpl) => (
             <Card key={bpl.name} className="border-l-4 border-l-pillar-vision">
@@ -110,7 +110,7 @@ export default function BildungPage() {
                   {bpl.name.includes('Hardware') ? '🔧' : '💻'}
                 </span>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-grey-dark mb-1">{bpl.role}</h3>
+                  <h3 className="heading-card mb-1">{bpl.role}</h3>
                   <div className="flex items-center gap-2 mb-3">
                     <Badge variant="info">{bpl.vza} VZÄ</Badge>
                     <Badge variant={bpl.status === 'aktiv' ? 'success' : 'warning'}>
@@ -161,7 +161,7 @@ export default function BildungPage() {
 
       {/* Wie funktioniert Train-the-Trainer? */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie funktioniert Train-the-Trainer?</h2>
+        <h2 className="mb-4 heading-subsection">Wie funktioniert Train-the-Trainer?</h2>
         <Card>
           <div className="bg-primary/10 border-l-4 border-primary rounded-lg p-4 mb-6">
             <p className="text-sm text-primary mb-2">
@@ -238,10 +238,10 @@ export default function BildungPage() {
 
       {/* Budget */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Budget: Was kostet das?</h2>
+        <h2 className="mb-4 heading-subsection">Budget: Was kostet das?</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="border-l-4 border-l-primary">
-            <h3 className="text-lg font-semibold text-grey-dark mb-4">Personalkosten (pro Jahr)</h3>
+            <h3 className="heading-card mb-4">Personalkosten (pro Jahr)</h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Hardware-BPL (1 VZÄ)</span>
@@ -299,7 +299,7 @@ export default function BildungPage() {
 
       {/* Finanzierungsstrategie */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Finanzierungsstrategie: 3 Jahre bis Selbsttragung</h2>
+        <h2 className="mb-4 heading-subsection">Finanzierungsstrategie: 3 Jahre bis Selbsttragung</h2>
         <Card>
           <p className="text-sm text-text-light mb-6">
             Wir suchen <strong>Stiftungsfinanzierung über 3 Jahre</strong> (CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr, degressiv),
@@ -350,10 +350,10 @@ export default function BildungPage() {
 
       {/* Warum beide zusammen? */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Warum Hub + Bildung zusammen?</h2>
+        <h2 className="mb-4 heading-subsection">Warum Hub + Bildung zusammen?</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="border-l-4 border-l-warning">
-            <h3 className="text-lg font-semibold text-grey-dark mb-3">❌ Bildung ohne Hub = Begrenzte Kapazität</h3>
+            <h3 className="heading-card mb-3">❌ Bildung ohne Hub = Begrenzte Kapazität</h3>
             <p className="text-sm text-text-light mb-4">
               Ohne grösseren Raum fehlen Werkstattplätze, Schulungsräume und Equipment für mehr Teilnehmende.
               Trainings bleiben theoretisch, weil die Praxis-Infrastruktur fehlt.

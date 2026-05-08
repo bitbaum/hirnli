@@ -25,7 +25,7 @@ export default function BudgetSection() {
 
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">💰 Budget: Was kostet der Hub?</h2>
+      <h2 className="mb-4 heading-subsection">💰 Budget: Was kostet der Hub?</h2>
 
       {/* Scenario Selector */}
       <div className="mb-6">
@@ -38,7 +38,7 @@ export default function BudgetSection() {
       {/* Active Scenario Description */}
       <Card className="mb-6 border-l-4 border-l-primary">
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-grey-dark mb-2">{scenario.label}</h3>
+          <h3 className="heading-card mb-2">{scenario.label}</h3>
           <p className="text-sm text-text-light">{scenario.description}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
@@ -69,7 +69,7 @@ export default function BudgetSection() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {/* Line Items (2/3 width) */}
         <div className="lg:col-span-2">
-          <h3 className="text-lg font-semibold text-grey-dark mb-4">
+          <h3 className="heading-card mb-4">
             Budget-Details (klicken für Quellen)
           </h3>
           <BudgetTable scenarioId={activeScenario} />

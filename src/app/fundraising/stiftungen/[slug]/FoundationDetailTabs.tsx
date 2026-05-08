@@ -85,7 +85,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
             return (
               <div className="space-y-4">
                 <Card>
-                  <h3 className="mb-4 text-lg font-semibold text-grey-dark">Bewerbungsstrategie</h3>
+                  <h3 className="mb-4 heading-card">Bewerbungsstrategie</h3>
                   <div className="space-y-4">
                     <div>
                       <h4 className="text-sm font-semibold text-grey-dark">Stiftungstyp</h4>
@@ -153,7 +153,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
           case 'details':
             return (
               <Card>
-                <h3 className="mb-4 text-lg font-semibold text-grey-dark">Details</h3>
+                <h3 className="mb-4 heading-card">Details</h3>
                 <div className="space-y-4 text-sm">
                   {f.purposeSummary && (
                     <div>

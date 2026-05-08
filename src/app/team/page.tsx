@@ -61,7 +61,7 @@ export default function TeamPage() {
 
       {/* ========== GANZES TEAM ========== */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unser Team ({TEAM_MEMBERS.length} Personen)</h2>
+        <h2 className="mb-4 heading-subsection">Unser Team ({TEAM_MEMBERS.length} Personen)</h2>
         <p className="mb-6 text-sm text-text-muted">
           Leitung, Techniker, Betrieb — eine Mischung aus Festangestellten, Freiwilligen und Reintegrations-Teilnehmern.
           Nicht alle arbeiten Vollzeit; Arbeitspensum wird nicht systematisch erfasst.
@@ -98,7 +98,7 @@ export default function TeamPage() {
 
       {/* ========== BILDUNGSPROGRAMMLEITER (GEPLANT) ========== */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Bildungsprogrammleiter (geplant)</h2>
+        <h2 className="mb-4 heading-subsection">Bildungsprogrammleiter (geplant)</h2>
         <p className="mb-4 text-sm text-text-muted">
           Diese 2 Positionen sind der Schlüssel zur Skalierung. Sie ermöglichen Train-the-Trainer Multiplikation.
         </p>
@@ -140,7 +140,7 @@ export default function TeamPage() {
 
       {/* ========== MULTIPLIKATOR-EFFEKT ========== */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Train-the-Trainer Multiplikator-Effekt</h2>
+        <h2 className="mb-4 heading-subsection">Train-the-Trainer Multiplikator-Effekt</h2>
         <p className="mb-6 text-sm text-text-muted">
           Wie 2 geplante Bildungsprogrammleiter (Budget-Ziel: CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) / 1000)}k/Jahr) durch Train-the-Trainer {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreichen sollen.
         </p>
@@ -208,7 +208,7 @@ export default function TeamPage() {
 
       {/* ========== KAPAZITÄTS-WACHSTUM ========== */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Kapazitäts-Wachstum</h2>
+        <h2 className="mb-4 heading-subsection">Kapazitäts-Wachstum</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Current */}
           <Card className="border-l-4 border-l-border">
@@ -284,7 +284,7 @@ export default function TeamPage() {
       <section className="mb-8">
         <Card className="gradient-card-primary border-2 border-pillar-vision/20">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-grey-dark mb-4">Mehr erfahren</h2>
+            <h2 className="heading-section mb-4">Mehr erfahren</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <Button href="/wirkung" size="lg">Wirkung & Impact</Button>
               <Button href="/revamp-2030" size="lg">Revamp 2030</Button>

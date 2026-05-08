@@ -54,7 +54,7 @@ export function TierDetailCard({ tier }: TierDetailCardProps) {
         <div className="flex items-center gap-3">
           <span className="text-2xl">{tier.icon}</span>
           <div>
-            <h3 className="text-lg font-semibold text-grey-dark">
+            <h3 className="heading-card">
               Stufe {tier.number}: {tier.name}
             </h3>
             <Badge variant="raw" className={`${tier.color.badgeBg} ${tier.color.badgeText}`}>

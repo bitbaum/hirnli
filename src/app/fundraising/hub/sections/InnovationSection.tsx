@@ -4,7 +4,7 @@ import Badge from '@/components/ui/Badge';
 export default function InnovationSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">🚀 Innovation, Makerspace & Bildung</h2>
+      <h2 className="mb-4 heading-subsection">🚀 Innovation, Makerspace & Bildung</h2>
       <p className="text-sm text-text-light mb-6">
         Nächste Stufe: Nicht nur reparieren, sondern <strong>experimentieren, prototypen, lernen</strong>.
         Makerspace, Robotik, Schulungen. Hier entsteht Know-how.
@@ -15,7 +15,7 @@ export default function InnovationSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🛠️</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Makerspace & Hackerspace</h3>
+                <h3 className="heading-card">Makerspace & Hackerspace</h3>
                 <p className="text-sm text-chart-5 font-medium">80 m² — Prototyping & Tüfteln</p>
               </div>
             </div>
@@ -45,7 +45,7 @@ export default function InnovationSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🤖</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Robotik-Labor</h3>
+                <h3 className="heading-card">Robotik-Labor</h3>
                 <p className="text-sm text-pillar-digital font-medium">60 m² — Arduino, Raspberry Pi, autonome Systeme</p>
               </div>
             </div>
@@ -75,7 +75,7 @@ export default function InnovationSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🎓</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Schulungs- & Kursräume</h3>
+                <h3 className="heading-card">Schulungs- & Kursräume</h3>
                 <p className="text-sm text-primary font-medium">70 m² — Linux, AI, Coding für alle</p>
               </div>
             </div>
@@ -104,7 +104,7 @@ export default function InnovationSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🤖</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">AI Lab — Verschiedene Setups möglich</h3>
+                <h3 className="heading-card">AI Lab — Verschiedene Setups möglich</h3>
                 <p className="text-sm text-chart-6 font-medium">20-40 m² — Eigene GPUs, digitale Souveränität</p>
               </div>
             </div>

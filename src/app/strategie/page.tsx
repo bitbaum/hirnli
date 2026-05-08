@@ -35,7 +35,7 @@ export default function StrategiePage() {
 
       {/* Mission Statement */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Mission</h2>
+        <h2 className="mb-4 heading-subsection">Mission</h2>
         <Card className="border-l-4 border-l-success bg-success/10">
           <p className="text-lg font-semibold text-success">
             {ORG_PROFILE.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und Lebensdauerverlängerung.
@@ -52,7 +52,7 @@ export default function StrategiePage() {
 
       {/* Vision 2030 */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Vision 2030</h2>
+        <h2 className="mb-4 heading-subsection">Vision 2030</h2>
         <div className="gradient-hero-vision rounded-2xl p-8 text-white">
           <h3 className="mb-2 text-xl font-bold">
             Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder Technologie ausgeschlossen.
@@ -78,7 +78,7 @@ export default function StrategiePage() {
 
       {/* SDG Alignment */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">UN Sustainable Development Goals</h2>
+        <h2 className="mb-4 heading-subsection">UN Sustainable Development Goals</h2>
         <Card>
           <div className="mb-4 flex flex-wrap justify-center gap-2">
             {SDG_DATA.map((sdg) => (

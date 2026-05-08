@@ -13,7 +13,7 @@ import {
 export default function ReachSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wie wir mehr Menschen erreichen</h2>
+      <h2 className="mb-4 heading-subsection">Wie wir mehr Menschen erreichen</h2>
       <Card>
         <div className="bg-primary/10 border-l-4 border-primary rounded-lg p-4 mb-6">
           <p className="text-sm text-primary">

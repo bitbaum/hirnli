@@ -53,7 +53,7 @@ export default function HubPage() {
 
       {/* AI Image Generation */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">🎨 Hub visualisieren: AI-Bilder generieren</h2>
+        <h2 className="mb-4 heading-subsection">🎨 Hub visualisieren: AI-Bilder generieren</h2>
         <p className="text-sm text-text-light mb-6">
           Erstelle professionelle Visualisierungen der verschiedenen Hub-Bereiche mit AI-Bildgenerierung.
           Wähle einen Raum, kopiere den Prompt, und generiere in Midjourney, DALL-E 3 oder Stable Diffusion.

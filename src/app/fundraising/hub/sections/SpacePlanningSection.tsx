@@ -10,7 +10,7 @@ import { formatNumber } from '@/lib/utils/format';
 export default function SpacePlanningSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">📐 Raumplanung: Wie gross? Warum? Was kostet es?</h2>
+      <h2 className="mb-4 heading-subsection">📐 Raumplanung: Wie gross? Warum? Was kostet es?</h2>
       <p className="text-sm text-text-light mb-6">
         Detaillierte Begründung für jede Fläche — basierend auf Industrie-Standards, Zürich-Marktforschung und Multi-Purpose-Strategie.
       </p>
@@ -19,7 +19,7 @@ export default function SpacePlanningSection() {
       <Card className="mb-6 border-l-4 border-l-primary">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-lg font-semibold text-grey-dark mb-2">Gesamt-Raumkonzept</h3>
+            <h3 className="heading-card mb-2">Gesamt-Raumkonzept</h3>
             <p className="text-2xl font-bold text-primary">{SPACE_SUMMARY.total_with_circulation} m²</p>
           </div>
           <Badge color="blue">Realistisch</Badge>
@@ -58,7 +58,7 @@ export default function SpacePlanningSection() {
       <Card className="mb-6 border-l-4 border-l-success">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-lg font-semibold text-grey-dark mb-2">Zürich Marktforschung: Was kostet {SPACE_SUMMARY.total_with_circulation}m²?</h3>
+            <h3 className="heading-card mb-2">Zürich Marktforschung: Was kostet {SPACE_SUMMARY.total_with_circulation}m²?</h3>
           </div>
           <Badge color="green">Marktdaten 2026</Badge>
         </div>
@@ -117,7 +117,7 @@ export default function SpacePlanningSection() {
       <Card className="mb-6 border-l-4 border-l-purple-500">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-lg font-semibold text-grey-dark mb-2">Multi-Purpose-Strategie: Effizienz durch Zeit-Sharing</h3>
+            <h3 className="heading-card mb-2">Multi-Purpose-Strategie: Effizienz durch Zeit-Sharing</h3>
           </div>
           <Badge color="purple">Platzsparend</Badge>
         </div>

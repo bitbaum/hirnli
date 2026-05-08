@@ -9,7 +9,7 @@ import {
 export default function RoadmapSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Roadmap 2026-2030: Wie wir hinkommen</h2>
+      <h2 className="mb-4 heading-subsection">Roadmap 2026-2030: Wie wir hinkommen</h2>
       <p className="text-sm text-text-light mb-6">
         <strong>Phase 1 (2026-2028):</strong> Foundation - Hub aufbauen + Bildungsprogramm starten.
         <strong> Phase 2 (2029-2030):</strong> Skalierung - volle Kapazität, zusätzliche Programme, nachhaltige Selbsttragung.

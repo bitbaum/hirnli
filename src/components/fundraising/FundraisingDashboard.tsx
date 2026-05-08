@@ -85,7 +85,7 @@ export function FundraisingDashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-grey-dark">Fundraising Dashboard</h1>
+        <h1 className="heading-section">Fundraising Dashboard</h1>
         <button
           onClick={fetchDashboardData}
           className="px-4 py-2 bg-bg-light text-grey-dark rounded hover:bg-grey-light text-sm"
@@ -97,7 +97,7 @@ export function FundraisingDashboard() {
       {isEmpty ? (
         /* Empty state — pipeline has no applications yet */
         <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-24 text-center">
-          <p className="text-lg font-semibold text-grey-dark mb-1">Pipeline ist leer</p>
+          <p className="heading-card mb-1">Pipeline ist leer</p>
           <p className="text-sm text-text-muted mb-6 max-w-sm">
             Sobald du Stiftungsgesuche startest, siehst du hier Kennzahlen,
             Fristen und den Überblick über den Fundraising-Fortschritt.
@@ -142,14 +142,14 @@ export function FundraisingDashboard() {
           {/* Charts and Deadlines */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white border border-border rounded-lg p-6">
-              <h2 className="text-lg font-semibold text-grey-dark mb-4">
+              <h2 className="heading-card mb-4">
                 Verteilung nach Status
               </h2>
               <StatusDistributionChart data={data.byStatus} />
             </div>
 
             <div className="bg-white border border-border rounded-lg p-6">
-              <h2 className="text-lg font-semibold text-grey-dark mb-4">
+              <h2 className="heading-card mb-4">
                 Anstehende Fristen ({DEADLINE_UPCOMING_DAYS} Tage)
               </h2>
               <div className="max-h-80 overflow-y-auto">
@@ -160,12 +160,12 @@ export function FundraisingDashboard() {
 
           {/* Summary Stats */}
           <div className="bg-white border border-border rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-grey-dark mb-4">
+            <h2 className="heading-card mb-4">
               Zusammenfassung
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
-                <div className="text-3xl font-bold text-grey-dark">
+                <div className="heading-page">
                   {data.totals.totalApplications}
                 </div>
                 <div className="text-sm text-text-light">Gesamt Gesuche</div>

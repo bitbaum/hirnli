@@ -55,7 +55,7 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
           <div key={category} className="bg-white rounded-lg border border-border p-5">
             {/* Category header */}
             <div className="flex justify-between items-center mb-4 pb-3 border-b border-border">
-              <h3 className="text-lg font-semibold text-grey-dark">
+              <h3 className="heading-card">
                 {BUDGET_CATEGORY_LABELS[category]}
               </h3>
               <span className="text-sm font-medium text-text-light">

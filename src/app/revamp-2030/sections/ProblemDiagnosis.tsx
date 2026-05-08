@@ -4,7 +4,7 @@ import { REPAIR_TABLES_CURRENT } from '@/lib/config/projections';
 export default function ProblemDiagnosis() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Das eigentliche Problem: Nicht Raum, sondern Organisation</h2>
+      <h2 className="mb-4 heading-subsection">Das eigentliche Problem: Nicht Raum, sondern Organisation</h2>
       <Card className="border-l-4 border-l-danger bg-danger/10">
         <div className="flex items-start gap-4">
           <span className="text-4xl flex-shrink-0" aria-hidden="true">⚠️</span>

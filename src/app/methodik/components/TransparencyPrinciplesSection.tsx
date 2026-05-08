@@ -7,7 +7,7 @@ import Card from '@/components/ui/Card';
 export function TransparencyPrinciplesSection() {
   return (
     <section className="mt-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Transparenz-Prinzipien</h2>
+      <h2 className="mb-4 heading-subsection">Transparenz-Prinzipien</h2>
       <Card>
         <div className="grid gap-6 sm:grid-cols-2">
           <div>

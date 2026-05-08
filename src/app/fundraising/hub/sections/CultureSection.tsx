@@ -4,7 +4,7 @@ import Badge from '@/components/ui/Badge';
 export default function CultureSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">🎨 Kultur, Kunst & Gemeinschaft</h2>
+      <h2 className="mb-4 heading-subsection">🎨 Kultur, Kunst & Gemeinschaft</h2>
       <p className="text-sm text-text-light mb-6">
         <strong>Warum Kultur?</strong> Weil Menschen nicht zu einer &bdquo;Werkstatt&ldquo; kommen — aber zu einem Konzert, einer Ausstellung, einem Filmabend.
         Kultur ist der Einstiegspunkt. Und dann sehen sie: Alte Synths machen Musik. Computer sind Geschichte. Reparatur ist Kultur, nicht Pflicht.
@@ -15,7 +15,7 @@ export default function CultureSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🏛️</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Computer History Museum</h3>
+                <h3 className="heading-card">Computer History Museum</h3>
                 <p className="text-sm text-danger font-medium">60 m² — Technik-Geschichte zum Anfassen</p>
               </div>
             </div>
@@ -46,7 +46,7 @@ export default function CultureSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🎹</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Elektronische Musik & Synth-Labor</h3>
+                <h3 className="heading-card">Elektronische Musik & Synth-Labor</h3>
                 <p className="text-sm text-chart-5 font-medium">50 m² — Alte Elektronik wird Musik</p>
               </div>
             </div>
@@ -77,7 +77,7 @@ export default function CultureSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🎨</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">E-Waste-Art Studio</h3>
+                <h3 className="heading-card">E-Waste-Art Studio</h3>
                 <p className="text-sm text-warning font-medium">40 m² — Elektroschrott wird Kunst</p>
               </div>
             </div>
@@ -108,7 +108,7 @@ export default function CultureSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🎤</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Event- & Multifunktionsraum</h3>
+                <h3 className="heading-card">Event- & Multifunktionsraum</h3>
                 <p className="text-sm text-theme-arbeit font-medium">100 m² — Tags Workshops, abends Events</p>
               </div>
             </div>
@@ -139,7 +139,7 @@ export default function CultureSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">☕</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Zero-Waste Community Kitchen</h3>
+                <h3 className="heading-card">Zero-Waste Community Kitchen</h3>
                 <p className="text-sm text-success font-medium">50 m² — Gemeinsam essen, gemeinsam lernen</p>
               </div>
             </div>
@@ -169,7 +169,7 @@ export default function CultureSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🔧</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Repair Café</h3>
+                <h3 className="heading-card">Repair Café</h3>
                 <p className="text-sm text-warning font-medium">30 m² — Community-Reparatur, 2×/Monat</p>
               </div>
             </div>

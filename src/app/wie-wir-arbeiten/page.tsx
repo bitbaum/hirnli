@@ -45,7 +45,7 @@ export default function WieWirArbeitenPage() {
 
       {/* Block 1: Unsere Methode (current 3-tier cascade) */}
       <section className="mb-12">
-        <h2 className="mb-2 text-2xl font-bold text-grey-dark">
+        <h2 className="mb-2 heading-section">
           Unsere Methode
         </h2>
         <p className="mb-6 text-base text-text-light">
@@ -55,7 +55,7 @@ export default function WieWirArbeitenPage() {
 
         {/* Horizontal flow diagram */}
         <Card className="mb-8">
-          <h3 className="mb-4 text-lg font-semibold text-grey-dark">
+          <h3 className="mb-4 heading-card">
             {CASCADE_MODELS.current.label}
           </h3>
           <CascadeDiagram tiers={CASCADE_MODELS.current.tiers} />
@@ -75,7 +75,7 @@ export default function WieWirArbeitenPage() {
 
       {/* Block 2: What the Community Tech Space enables (future model) */}
       <section className="mb-12">
-        <h2 className="mb-2 text-2xl font-bold text-grey-dark">
+        <h2 className="mb-2 heading-section">
           Was der Community Tech Space ermöglicht
         </h2>
         <p className="mb-6 text-base text-text-light">
@@ -87,7 +87,7 @@ export default function WieWirArbeitenPage() {
         <FutureVisionBlock>
           {/* Future flow diagram */}
           <Card className="mb-8 border-0 bg-white/80">
-            <h3 className="mb-4 text-lg font-semibold text-grey-dark">
+            <h3 className="mb-4 heading-card">
               {CASCADE_MODELS.future.label}
             </h3>
             <CascadeDiagram tiers={CASCADE_MODELS.future.tiers} />

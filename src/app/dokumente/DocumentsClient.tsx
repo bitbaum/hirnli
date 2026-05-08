@@ -99,7 +99,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
       {activeTab === 'berichte' && (
         <div>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-grey-dark mb-2">
+            <h2 className="heading-section mb-2">
               Wirkungsberichte {searchQuery && `(${filteredBerichte.length} Ergebnisse)`}
             </h2>
             <p className="text-sm text-text-light">
@@ -126,7 +126,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
       {activeTab === 'gesuche' && (
         <div>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-grey-dark mb-2">
+            <h2 className="heading-section mb-2">
               Stiftungsgesuche {searchQuery && `(${filteredGesuche.length} Ergebnisse)`}
             </h2>
             <p className="text-sm text-text-light">
@@ -153,7 +153,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
       {activeTab === 'vorlagen' && (
         <div>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-grey-dark mb-2">
+            <h2 className="heading-section mb-2">
               Gesuch-Vorlagen {searchQuery && `(${filteredVorlagen.length} Ergebnisse)`}
             </h2>
             <p className="text-sm text-text-light">
@@ -182,7 +182,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
           {/* Generated Exports */}
           <section>
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-grey-dark mb-2">
+              <h2 className="heading-section mb-2">
                 Generierte Exporte {searchQuery && `(${filteredExports.length} Ergebnisse)`}
               </h2>
               <p className="text-sm text-text-light">
@@ -206,7 +206,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
           {/* Source Files */}
           <section>
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-grey-dark mb-2">
+              <h2 className="heading-section mb-2">
                 Quelldateien (Kivitendo) {searchQuery && `(${filteredQuellen.length} Ergebnisse)`}
               </h2>
               <p className="text-sm text-text-light">

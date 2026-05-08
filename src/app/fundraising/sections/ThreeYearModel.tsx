@@ -25,7 +25,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
 
   return (
     <section className="mb-8">
-      <h2 className="mb-2 text-xl font-semibold text-grey-dark">3-Jahres-Modell: Weg zur Selbständigkeit</h2>
+      <h2 className="mb-2 heading-subsection">3-Jahres-Modell: Weg zur Selbständigkeit</h2>
       <p className="mb-6 text-sm text-text-muted">
         Einmalige Investitionen nur im Jahr 1. Stiftungsgelder sinken jedes Jahr.
         Eigenleistung (bewertete Freiwilligenarbeit, kein Cash) wächst durch Community-Aufbau.

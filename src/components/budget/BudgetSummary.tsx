@@ -23,7 +23,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
 
   return (
     <div className={`bg-white rounded-lg border border-border p-6 ${className}`}>
-      <h3 className="text-lg font-semibold text-grey-dark mb-4">3-Jahres-Finanzplan</h3>
+      <h3 className="heading-card mb-4">3-Jahres-Finanzplan</h3>
 
       {/* Year-by-year breakdown */}
       <div className="space-y-4 mb-6">

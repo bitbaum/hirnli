@@ -11,7 +11,7 @@ import {
 export default function TwoAsks() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wir sammeln für 2 Dinge: Hub + Menschen</h2>
+      <h2 className="mb-4 heading-subsection">Wir sammeln für 2 Dinge: Hub + Menschen</h2>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Hub */}
         <Card className="border-l-4 border-l-primary">

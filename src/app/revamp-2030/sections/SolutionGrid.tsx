@@ -5,13 +5,13 @@ import { HUB_SPACE_DISPLAY } from '@/lib/config/projections';
 export default function SolutionGrid() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Lösung: Hub (Infrastruktur) + Menschen (Organisation)</h2>
+      <h2 className="mb-4 heading-subsection">Die Lösung: Hub (Infrastruktur) + Menschen (Organisation)</h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-l-4 border-l-primary">
           <div className="flex items-start gap-4">
             <span className="text-4xl" aria-hidden="true">🏢</span>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-grey-dark mb-2">1. Revamp Hub — Infrastruktur & Raum</h3>
+              <h3 className="heading-card mb-2">1. Revamp Hub — Infrastruktur & Raum</h3>
               <p className="text-sm text-text-light mb-3">
                 <strong>Was wir heute haben:</strong> Laden + Lager (genaue Quadratmeter werden im Rahmen unserer Data-Strategie dokumentiert).
                 Verteilt auf 2 Standorte, suboptimal organisiert.
@@ -46,7 +46,7 @@ export default function SolutionGrid() {
           <div className="flex items-start gap-4">
             <span className="text-4xl" aria-hidden="true">🎓</span>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-grey-dark mb-2">2. Bildungsprogrammleiter:innen — Organisation & Multiplikation</h3>
+              <h3 className="heading-card mb-2">2. Bildungsprogrammleiter:innen — Organisation & Multiplikation</h3>
               <p className="text-sm text-text-light mb-3">
                 <strong>Das ist der eigentliche Game-Changer:</strong> Zwei <strong>bezahlte Fachleute</strong>, die
                 professionell organisieren, trainieren und Programme leiten.

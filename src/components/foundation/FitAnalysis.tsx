@@ -19,7 +19,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
 
   return (
     <Card>
-      <h3 className="mb-4 text-lg font-semibold text-grey-dark">Fit-Analyse</h3>
+      <h3 className="mb-4 heading-card">Fit-Analyse</h3>
 
       {isUnassessed ? (
         <div className="mb-4 rounded-lg border border-border bg-bg-light p-4">

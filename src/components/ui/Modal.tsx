@@ -82,7 +82,7 @@ export default function Modal({ isOpen, onClose, title, children, className }: M
         className={`max-h-[80vh] w-full overflow-y-auto rounded-lg bg-white shadow-xl ${className ?? 'max-w-lg'}`}
       >
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
-          <h3 className="text-lg font-semibold text-grey-dark">{title}</h3>
+          <h3 className="heading-card">{title}</h3>
           <button
             onClick={onClose}
             aria-label="Schliessen"

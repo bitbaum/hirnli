@@ -59,7 +59,7 @@ export default function ScoringMethodikPage() {
 
       {/* Architecture Overview */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Drei Scoring-Ebenen</h2>
+        <h2 className="mb-4 heading-subsection">Drei Scoring-Ebenen</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Card>
             <div className="mb-2 text-2xl">🎯</div>
@@ -93,7 +93,7 @@ export default function ScoringMethodikPage() {
 
       {/* Layer 1: Fit */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Ebene 1: Fit-Score</h2>
+        <h2 className="mb-4 heading-subsection">Ebene 1: Fit-Score</h2>
         <Card>
           <p className="mb-4 text-sm text-text-light">
             Der Fit-Score bewertet die inhaltliche Übereinstimmung zwischen Stiftungszweck
@@ -145,7 +145,7 @@ export default function ScoringMethodikPage() {
 
       {/* Layer 2: Readiness */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Ebene 2: Bereitschafts-Score</h2>
+        <h2 className="mb-4 heading-subsection">Ebene 2: Bereitschafts-Score</h2>
         <p className="mb-4 text-sm text-text-light">
           Der Bereitschafts-Score misst, wie gut unsere Datenlage ist, um ein überzeugendes,
           auf die Stiftung massgeschneidertes Gesuch zu erstellen. Er besteht aus vier
@@ -222,7 +222,7 @@ export default function ScoringMethodikPage() {
 
       {/* Layer 3: Priority */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Ebene 3: Prioritäts-Score</h2>
+        <h2 className="mb-4 heading-subsection">Ebene 3: Prioritäts-Score</h2>
         <Card>
           <p className="mb-4 text-sm text-text-light">
             Die Priorität kombiniert Fit und Bereitschaft zu einer handlungsorientierten
@@ -347,7 +347,7 @@ export default function ScoringMethodikPage() {
 
       {/* Gesuch Gate */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Gesuch-Gate</h2>
+        <h2 className="mb-4 heading-subsection">Gesuch-Gate</h2>
         <Card>
           <p className="mb-3 text-sm text-text-light">
             Eine Gesuch-Seite wird nur generiert, wenn beide Bedingungen erfüllt sind:
@@ -369,7 +369,7 @@ export default function ScoringMethodikPage() {
 
       {/* Design Principles */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Design-Prinzipien</h2>
+        <h2 className="mb-4 heading-subsection">Design-Prinzipien</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Card>
             <h3 className="mb-2 font-semibold text-grey-dark">Fit als Gate, nicht als Summand</h3>

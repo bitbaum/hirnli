@@ -11,7 +11,7 @@ interface ProjektbeschriebSectionProps {
 export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSectionProps) {
   return (
     <section className="gesuch-section mb-12">
-      <h2 className="mb-2 border-b-2 border-grey-dark pb-2 text-2xl font-bold text-grey-dark">
+      <h2 className="mb-2 border-b-2 border-grey-dark pb-2 heading-section">
         Projektbeschrieb
       </h2>
       <p className="mb-8 text-sm text-text-muted">
@@ -20,7 +20,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
 
       {/* 1. Zusammenfassung — with foundation purpose (Gap #3) */}
       <div className="mb-8">
-        <h3 className="mb-2 text-lg font-semibold text-grey-dark">1. Zusammenfassung</h3>
+        <h3 className="mb-2 heading-card">1. Zusammenfassung</h3>
         {dok.foundation.purposeSummary && (
           <p className="mb-3 text-sm leading-relaxed text-text">
             Die {dok.foundation.name} hat sich dem Thema {extractPurposeCore(dok.foundation.purposeSummary)} verschrieben.
@@ -36,7 +36,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
       {/* 2. Ausgangslage / Problem */}
       {dok.story.why && (
         <div className="mb-8">
-          <h3 className="mb-2 text-lg font-semibold text-grey-dark">2. Ausgangslage und Problemstellung</h3>
+          <h3 className="mb-2 heading-card">2. Ausgangslage und Problemstellung</h3>
           <p className="text-sm leading-relaxed text-text">
             {dok.story.why.problem}
           </p>
@@ -66,7 +66,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
 
       {/* 3. Trägerschaft */}
       <div className="mb-8">
-        <h3 className="mb-2 text-lg font-semibold text-grey-dark">3. Trägerschaft und Kompetenzen</h3>
+        <h3 className="mb-2 heading-card">3. Trägerschaft und Kompetenzen</h3>
         <p className="mb-3 text-sm leading-relaxed text-text">
           {dok.story.how.track_record.text}
         </p>
@@ -138,7 +138,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
       {/* 4. Zielsetzung und Massnahmen */}
       {dok.story.projects.length > 0 && (
         <div className="mb-8">
-          <h3 className="mb-2 text-lg font-semibold text-grey-dark">4. Zielsetzung und Massnahmen</h3>
+          <h3 className="mb-2 heading-card">4. Zielsetzung und Massnahmen</h3>
           {dok.story.projects.map((project) => (
             <div key={project.title} className="mb-6">
               <p className="mb-1 font-semibold text-grey-dark">{project.title}</p>
@@ -175,7 +175,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
 
       {/* 5. Wirkungsmessung */}
       <div className="mb-8">
-        <h3 className="mb-2 text-lg font-semibold text-grey-dark">5. Wirkungsmessung und Nachhaltigkeit</h3>
+        <h3 className="mb-2 heading-card">5. Wirkungsmessung und Nachhaltigkeit</h3>
         <p className="text-sm leading-relaxed text-text">
           {GESUCH_TEXT.wirkungsmessung.indicators}
         </p>

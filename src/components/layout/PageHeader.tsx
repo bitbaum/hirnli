@@ -23,7 +23,7 @@ export default function PageHeader({ title, subtitle, badge, variant = 'default'
   return (
     <div className="mb-8">
       <div className="flex items-center gap-3">
-        <h1 className="text-2xl font-bold text-grey-dark md:text-3xl">{title}</h1>
+        <h1 className="heading-section md:text-3xl">{title}</h1>
         {badge && (
           <Badge variant="primary" className="px-3 py-1">{badge}</Badge>
         )}

@@ -56,7 +56,7 @@ export default function MeineGesuchePage() {
         <ErrorAlert>{error}</ErrorAlert>
       ) : rows.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-16 text-center">
-          <p className="mb-1 text-lg font-semibold text-grey-dark">Noch keine Gesuche bearbeitet</p>
+          <p className="mb-1 heading-card">Noch keine Gesuche bearbeitet</p>
           <p className="mb-6 max-w-xs text-sm text-text-muted">
             Wähle eine Stiftung und starte den Gesuch-Workflow, um hier deine Entwürfe zu sehen.
           </p>

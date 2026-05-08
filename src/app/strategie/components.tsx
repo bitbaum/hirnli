@@ -14,7 +14,7 @@ export { default as CommunitySpaceCard } from './components/CommunitySpaceCard';
 export function GeschichteSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Unsere Geschichte</h2>
+      <h2 className="mb-4 heading-subsection">Unsere Geschichte</h2>
       <Card>
         <div className="flex flex-wrap gap-8">
           <div className="min-w-0 flex-[2] sm:min-w-[300px]">
@@ -57,7 +57,7 @@ export function GeschichteSection() {
 export function KontaktSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">Kontakt</h2>
+      <h2 className="mb-4 heading-subsection">Kontakt</h2>
       <Card className="text-center">
         <h3 className="mb-3 text-lg font-semibold">{ORG_PROFILE.name}</h3>
         <p className="text-sm"><strong>Adresse:</strong> {ORG_PROFILE.address}</p>

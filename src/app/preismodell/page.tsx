@@ -47,7 +47,7 @@ export default function PreismodellPage() {
 
       {/* Die 4 Preisstufen */}
       <section className="mb-8">
-        <h2 className="mb-6 text-xl font-semibold text-grey-dark">Die 4 Preisstufen</h2>
+        <h2 className="mb-6 heading-subsection">Die 4 Preisstufen</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {PRICING_TIERS.map((tier) => (
             <Card
@@ -75,7 +75,7 @@ export default function PreismodellPage() {
 
       {/* Preisbeispiel */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">
+        <h2 className="mb-4 heading-subsection">
           Preisbeispiel: Laptop (Normalpreis CHF 200)
         </h2>
         <Card>
@@ -98,7 +98,7 @@ export default function PreismodellPage() {
 
       {/* KulturLegi Info */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Was ist KulturLegi?</h2>
+        <h2 className="mb-4 heading-subsection">Was ist KulturLegi?</h2>
         <Card className="border border-warning/30 bg-warning/10">
           <h3 className="mb-3 text-lg font-semibold">Der Ausweis für Menschen mit wenig Geld</h3>
           <p className="mb-4 text-sm">
@@ -134,7 +134,7 @@ export default function PreismodellPage() {
 
       {/* Gratis-Prozess */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">So funktioniert die Gratis-Abgabe</h2>
+        <h2 className="mb-4 heading-subsection">So funktioniert die Gratis-Abgabe</h2>
         <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {PROCESS_STEPS.map((step) => (
             <Card key={step.step} className="text-center">
@@ -156,7 +156,7 @@ export default function PreismodellPage() {
 
       {/* Supporter CTA */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Werde Supporter</h2>
+        <h2 className="mb-4 heading-subsection">Werde Supporter</h2>
         <Card className="border-2 border-pillar-vision bg-pillar-vision/10">
           <div className="flex flex-wrap items-center gap-8">
             <div className="min-w-0 flex-1 sm:min-w-[280px]">
@@ -186,7 +186,7 @@ export default function PreismodellPage() {
 
       {/* Monitoring KPIs */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">
+        <h2 className="mb-4 heading-subsection">
           Monitoring: Wie erfolgreich ist das Modell?
         </h2>
 
@@ -229,7 +229,7 @@ export default function PreismodellPage() {
 
       {/* FAQ */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Häufige Fragen</h2>
+        <h2 className="mb-4 heading-subsection">Häufige Fragen</h2>
         <Card>
           <div className="divide-y divide-border">
             {FAQ_ITEMS.map((faq) => (
@@ -246,7 +246,7 @@ export default function PreismodellPage() {
 
       {/* Dokumentation */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Dokumentation</h2>
+        <h2 className="mb-4 heading-subsection">Dokumentation</h2>
         <Card>
           <p className="text-sm">
             Das vollständige Preismodell-Dokument mit allen Details zu Buchhaltung,

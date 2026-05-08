@@ -4,7 +4,7 @@ import Badge from '@/components/ui/Badge';
 export default function CoreBusinessSection() {
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-xl font-semibold text-grey-dark">🏪 Das Kerngeschäft: Shop & Refurbishment</h2>
+      <h2 className="mb-4 heading-subsection">🏪 Das Kerngeschäft: Shop & Refurbishment</h2>
       <p className="text-sm text-text-light mb-6">
         Wo alles beginnt: Kunden bringen Geräte, wir reparieren & verkaufen sie. Das ist unser Fundament.
       </p>
@@ -14,7 +14,7 @@ export default function CoreBusinessSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🏪</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Shop & Kundenbereich</h3>
+                <h3 className="heading-card">Shop & Kundenbereich</h3>
                 <p className="text-sm text-success font-medium">80 m² — Verkauf, Beratung, Annahme</p>
               </div>
             </div>
@@ -53,7 +53,7 @@ export default function CoreBusinessSection() {
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🔧</div>
               <div>
-                <h3 className="text-lg font-semibold text-grey-dark">Refurbishment-Werkstatt</h3>
+                <h3 className="heading-card">Refurbishment-Werkstatt</h3>
                 <p className="text-sm text-primary font-medium">~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)</p>
               </div>
             </div>

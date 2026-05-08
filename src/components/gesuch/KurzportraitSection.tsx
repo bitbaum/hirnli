@@ -10,7 +10,7 @@ interface KurzportraitSectionProps {
 export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
   return (
     <section className="gesuch-section mb-12">
-      <h2 className="mb-2 border-b-2 border-grey-dark pb-2 text-2xl font-bold text-grey-dark">
+      <h2 className="mb-2 border-b-2 border-grey-dark pb-2 heading-section">
         Kurzportrait {ORG_PROFILE.name}
       </h2>
       <p className="mb-6 text-sm text-text-muted">

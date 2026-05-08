@@ -127,7 +127,7 @@ export default function FundraisingClient() {
 
       {/* Track Record */}
       <section className="mb-8">
-        <h2 className="mb-4 text-lg font-semibold text-grey-dark">Leistungsausweis (verifiziert)</h2>
+        <h2 className="mb-4 heading-card">Leistungsausweis (verifiziert)</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {[
             { value: `${TRACK_RECORD.yearsActive}+`, label: 'Jahre aktiv', sub: `Seit ${CORE_FACTS.organization.founded}` },
@@ -192,7 +192,7 @@ export default function FundraisingClient() {
 
       {/* Business Model Challenge */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Geschäftsmodell-Herausforderung</h2>
+        <h2 className="mb-4 heading-subsection">Die Geschäftsmodell-Herausforderung</h2>
         <Card>
           <div className="prose prose-sm max-w-none">
             <p className="text-grey-dark leading-relaxed">
@@ -256,7 +256,7 @@ export default function FundraisingClient() {
                 <Badge variant={STATUS_BADGE_VARIANT[status]} className="mb-2">
                   {STATUS_LABELS[status].text}
                 </Badge>
-                <div className="text-2xl font-bold text-grey-dark">{count}</div>
+                <div className="heading-section">{count}</div>
                 <div className="text-sm text-text-muted">{STATUS_LABELS[status].desc}</div>
               </Link>
             )
@@ -271,7 +271,7 @@ export default function FundraisingClient() {
 
       {/* Key Resources */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-grey-dark">Wichtige Ressourcen</h2>
+        <h2 className="mb-4 heading-subsection">Wichtige Ressourcen</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {RESOURCES.map((resource) => (
             <Link

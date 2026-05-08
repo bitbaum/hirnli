@@ -33,7 +33,7 @@ export default function GesuchWhySection({ why, secondaryThemeRelevance }: Gesuc
 
       {secondaryThemeRelevance && secondaryThemeRelevance.length > 0 && (
         <div className="mt-8">
-          <h3 className="mb-4 text-lg font-semibold text-grey-dark">
+          <h3 className="mb-4 heading-card">
             Weitere relevante Schwerpunkte
           </h3>
           <div className="grid gap-3 sm:grid-cols-2">

@@ -53,7 +53,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
 
   return (
     <section className="gesuch-section mb-12">
-      <h2 className="mb-2 border-b-2 border-grey-dark pb-2 text-2xl font-bold text-grey-dark">
+      <h2 className="mb-2 border-b-2 border-grey-dark pb-2 heading-section">
         Budget und Finanzierungsplan
       </h2>
       <p className="mb-6 text-sm text-text-muted">
@@ -61,7 +61,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
       </p>
 
       {/* 3-Year Trajectory — the headline story */}
-      <h3 className="mb-3 text-lg font-semibold text-grey-dark">3-Jahres-Finanzmodell (degressiv)</h3>
+      <h3 className="mb-3 heading-card">3-Jahres-Finanzmodell (degressiv)</h3>
       <div className="overflow-x-auto">
       <table className="mb-6 w-full text-sm">
         <thead>
@@ -117,7 +117,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
       </p>
 
       {/* Budget detail by line item (Jahr 1) */}
-      <h3 className="mb-3 text-lg font-semibold text-grey-dark">Budgetdetail Jahr 1 ({formatCHF(year1Total)})</h3>
+      <h3 className="mb-3 heading-card">Budgetdetail Jahr 1 ({formatCHF(year1Total)})</h3>
       <div className="mb-4 text-sm text-text-muted bg-primary/10 p-3 rounded">
         <strong>Szenario:</strong> {dok.budget.scenario.label} — {dok.budget.scenario.description}
       </div>
@@ -156,7 +156,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
       </div>
 
       {/* Financing plan */}
-      <h3 className="mb-3 text-lg font-semibold text-grey-dark">Finanzierungsplan</h3>
+      <h3 className="mb-3 heading-card">Finanzierungsplan</h3>
       <div className="overflow-x-auto">
       <table className="mb-6 w-full text-sm">
         <tbody>

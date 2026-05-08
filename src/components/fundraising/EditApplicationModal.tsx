@@ -91,7 +91,7 @@ export function EditApplicationModal({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
           <div>
-            <h2 className="text-lg font-semibold text-grey-dark">Gesuch bearbeiten</h2>
+            <h2 className="heading-card">Gesuch bearbeiten</h2>
             <p className="text-sm text-text-muted">{foundation?.name ?? application.foundationId}</p>
           </div>
           <button

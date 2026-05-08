@@ -76,7 +76,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             >
               ← Pipeline
             </Link>
-            <h1 className="text-2xl font-bold text-grey-dark">
+            <h1 className="heading-section">
               {foundation?.name ?? 'Unbekannte Stiftung'}
             </h1>
             {foundation && (
