@@ -134,7 +134,7 @@ export default function Revamp2030Page() {
               Das eigentliche Problem: <strong>Fehlende Organisation für Verkauf & Ausführung</strong>, nicht fehlende Kapazität.
             </p>
           </Card>
-          <Card className="border-l-4 border-l-amber-500">
+          <Card className="border-l-4 border-l-amber">
             <h3 className="text-base font-semibold text-grey-dark mb-2">🎯 Die Lösung</h3>
             <p className="text-sm text-text-light">
               Nicht mehr Raum, sondern <strong>bessere Prozesse + bezahlte Bildungsprogrammleiter</strong>.

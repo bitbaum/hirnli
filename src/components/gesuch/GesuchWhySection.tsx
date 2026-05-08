@@ -18,13 +18,13 @@ export default function GesuchWhySection({ why, secondaryThemeRelevance }: Gesuc
       </p>
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
-          <h3 className="mb-3 text-lg font-semibold text-danger">Das Problem</h3>
+          <h3 className="mb-3 heading-card text-danger">Das Problem</h3>
           <p className="text-sm leading-relaxed text-text-light">
             {why.problem}
           </p>
         </Card>
         <Card>
-          <h3 className="mb-3 text-lg font-semibold text-secondary">Unsere Lösung</h3>
+          <h3 className="mb-3 heading-card text-secondary">Unsere Lösung</h3>
           <p className="text-sm leading-relaxed text-text-light">
             {why.solution}
           </p>

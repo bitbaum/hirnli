@@ -27,8 +27,8 @@ export default function HubPage() {
 
       {/* Vision */}
       <section className="mb-8">
-        <Card className="border-l-4 border-l-blue-500">
-          <h2 className="text-2xl font-bold mb-4 text-grey-dark">Der Revamp Hub: Prozesse professionalisieren, Menschen befähigen</h2>
+        <Card className="border-l-4 border-l-primary">
+          <h2 className="heading-section mb-4">Der Revamp Hub: Prozesse professionalisieren, Menschen befähigen</h2>
           <p className="text-base text-text-light mb-4 leading-relaxed">
             <strong>Das Kernproblem heute:</strong> Nicht fehlende Fläche, sondern fehlende Organisation.
             Wir haben zu viel Inventar in 2 Lagern, aber keine effizienten Verkaufs- und Refurbishment-Prozesse.

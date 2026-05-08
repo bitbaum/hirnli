@@ -103,7 +103,7 @@ export default function CultureSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-teal-500">
+        <Card className="border-l-4 border-l-pillar-social">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🎤</div>

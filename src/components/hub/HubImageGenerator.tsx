@@ -40,7 +40,7 @@ export function HubImageGenerator() {
 
       {/* Prompt Display */}
       {selectedConfig && (
-        <Card className="border-l-4 border-l-purple-500">
+        <Card className="border-l-4 border-l-pillar-vision">
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="heading-card mb-1">{selectedConfig.space_name}</h3>

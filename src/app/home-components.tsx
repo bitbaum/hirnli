@@ -55,7 +55,7 @@ export function HeroSection() {
 export function PlatformGuide() {
   return (
     <section className="mb-12">
-      <h2 className="text-3xl font-bold mb-6 text-grey-dark">{GUIDE_HEADING}</h2>
+      <h2 className="heading-page mb-6">{GUIDE_HEADING}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {GUIDE_SECTIONS.map((s) => (
           <Link key={s.href} href={s.href} className="group block">
@@ -87,7 +87,7 @@ export function PlatformGuide() {
 export function PillarGrid() {
   return (
     <section className="mb-12">
-      <h2 className="text-3xl font-bold mb-6 text-grey-dark">{PILLARS_HEADING}</h2>
+      <h2 className="heading-page mb-6">{PILLARS_HEADING}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {SCHWERPUNKT_IDS.map((id) => {
           const s = SCHWERPUNKTE[id];

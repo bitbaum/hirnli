@@ -114,7 +114,7 @@ export default function SpacePlanningSection() {
       </Card>
 
       {/* Multi-Purpose Efficiency Strategy */}
-      <Card className="mb-6 border-l-4 border-l-purple-500">
+      <Card className="mb-6 border-l-4 border-l-pillar-vision">
         <div className="flex items-start justify-between mb-4">
           <div>
             <h3 className="heading-card mb-2">Multi-Purpose-Strategie: Effizienz durch Zeit-Sharing</h3>

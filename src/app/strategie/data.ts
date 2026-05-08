@@ -12,12 +12,12 @@ import { formatNumber } from '@/lib/utils/format';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 export const VALUES = [
-  { icon: '🌍', title: 'Nachhaltigkeit', description: 'Wir verlängern die Lebensdauer von IT-Geräten und reduzieren aktiv Elektroschrott und CO2-Emissionen.', color: 'border-l-emerald-500' },
-  { icon: '🔓', title: 'Offenheit', description: 'Wir setzen auf Open Source Software, transparente Prozesse und teilen unser Wissen frei mit der Community.', color: 'border-l-blue-500' },
-  { icon: '🤝', title: 'Inklusion', description: 'Wir schaffen Zugang zu Technologie für alle – unabhängig von Einkommen, Vorwissen oder Herkunft.', color: 'border-l-violet-500' },
-  { icon: '💡', title: 'Befähigung', description: 'Wir bilden Menschen aus, vermitteln Fähigkeiten und schaffen Perspektiven für berufliche Entwicklung.', color: 'border-l-amber-500' },
-  { icon: '⚡', title: 'Innovation', description: 'Wir finden kreative Lösungen für alte Probleme und beweisen, dass Nachhaltigkeit und Leistung Hand in Hand gehen.', color: 'border-l-red-500' },
-  { icon: '🎯', title: 'Wirkung', description: 'Jede unserer Aktivitäten dient einem messbaren ökologischen, sozialen oder ökonomischen Nutzen.', color: 'border-l-cyan-500' },
+  { icon: '🌍', title: 'Nachhaltigkeit', description: 'Wir verlängern die Lebensdauer von IT-Geräten und reduzieren aktiv Elektroschrott und CO2-Emissionen.', color: 'border-l-pillar-eco' },
+  { icon: '🔓', title: 'Offenheit', description: 'Wir setzen auf Open Source Software, transparente Prozesse und teilen unser Wissen frei mit der Community.', color: 'border-l-primary' },
+  { icon: '🤝', title: 'Inklusion', description: 'Wir schaffen Zugang zu Technologie für alle – unabhängig von Einkommen, Vorwissen oder Herkunft.', color: 'border-l-pillar-vision' },
+  { icon: '💡', title: 'Befähigung', description: 'Wir bilden Menschen aus, vermitteln Fähigkeiten und schaffen Perspektiven für berufliche Entwicklung.', color: 'border-l-amber' },
+  { icon: '⚡', title: 'Innovation', description: 'Wir finden kreative Lösungen für alte Probleme und beweisen, dass Nachhaltigkeit und Leistung Hand in Hand gehen.', color: 'border-l-danger' },
+  { icon: '🎯', title: 'Wirkung', description: 'Jede unserer Aktivitäten dient einem messbaren ökologischen, sozialen oder ökonomischen Nutzen.', color: 'border-l-cyan' },
 ] as const;
 
 export const PILLARS = [

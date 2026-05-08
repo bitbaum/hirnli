@@ -76,6 +76,7 @@
   --color-pink: #db2777;
   --color-pink-bg: #fce7f3;
   --color-pink-text: #831843;    /* 8.5:1 on pink-bg */
+  --color-cyan: #06b6d4;
 
   /* Shadows — override Tailwind v4 defaults so one edit resets all depth */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);

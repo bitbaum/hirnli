@@ -10,7 +10,7 @@ export default function InnovationSection() {
         Makerspace, Robotik, Schulungen. Hier entsteht Know-how.
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-l-4 border-l-purple-500">
+        <Card className="border-l-4 border-l-pillar-vision">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🛠️</div>
@@ -40,7 +40,7 @@ export default function InnovationSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-indigo-500">
+        <Card className="border-l-4 border-l-pillar-digital">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🤖</div>
@@ -99,7 +99,7 @@ export default function InnovationSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-cyan-500">
+        <Card className="border-l-4 border-l-cyan">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="text-3xl" aria-hidden="true">🤖</div>
