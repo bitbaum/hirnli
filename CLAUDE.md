@@ -460,6 +460,189 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 
 ---
 
+## Design System
+
+**Tailwind v4 — no `tailwind.config.ts`.** All tokens are defined in `src/app/globals.css` using the `@theme inline` directive. Tailwind reads CSS vars directly; no separate config file exists or is needed.
+
+**Token file:** `src/app/globals.css` — the only SSOT for all design tokens.
+
+### Colors — `@theme inline` in `src/app/globals.css`
+
+**Revamp-IT brand palette:**
+```css
+--color-revamp-green:  #2ECC71;
+--color-revamp-blue:   #3498DB;
+--color-revamp-orange: #E67E22;
+```
+
+**Greys:**
+```css
+--color-grey-dark:   #2C3E50;
+--color-grey-medium: #7F8C8D;
+--color-grey-light:  #ECF0F1;
+```
+
+**Semantic colors:**
+```css
+--color-primary:       #3498DB;
+--color-primary-light: #5DADE2;
+--color-secondary:     #2ECC71;
+--color-accent:        #E67E22;
+
+--color-success:      #2ECC71;
+--color-success-bg:   #D5F5E3;
+--color-success-text: #166534;   /* 6.1:1 on success-bg */
+--color-warning:      #E67E22;
+--color-warning-bg:   #FDEBD0;
+--color-warning-text: #7C3200;   /* 7.8:1 on warning-bg */
+--color-danger:       #E74C3C;
+--color-danger-bg:    #FADBD8;
+--color-danger-text:  #7F1D1D;   /* 7.7:1 on danger-bg */
+--color-primary-text: #1A5C8A;   /* 6.5:1 on primary/10 bg */
+
+--color-text:       #2C3E50;
+--color-text-light: #546270;     /* 4.9:1 on bg-light */
+--color-text-muted: #5A6672;     /* 5.1:1 on bg-light */
+--color-bg:         #FFFFFF;
+--color-bg-light:   #ECF0F1;
+--color-border:     #D5D8DC;
+```
+
+**Chart series:**
+```css
+--color-chart-1: #3498DB;
+--color-chart-2: #2ECC71;
+--color-chart-3: #E67E22;
+--color-chart-4: #E74C3C;
+--color-chart-5: #9B59B6;
+--color-chart-6: #1ABC9C;
+```
+
+**Theme colors (foundation themes):**
+```css
+--color-theme-klima:     #10b981;
+--color-theme-kreislauf: #059669;
+--color-theme-sozial:    #8b5cf6;
+--color-theme-bildung:   #3b82f6;
+--color-theme-digital:   #6366f1;
+--color-theme-zuerich:   #ef4444;
+--color-theme-arbeit:    #14b8a6;
+```
+
+**Pillar colors (vision/strategy pages):**
+```css
+--color-pillar-vision:  #8b5cf6;   /* violet */
+--color-pillar-digital: #6366f1;   /* indigo */
+--color-pillar-social:  #14b8a6;   /* teal */
+--color-pillar-eco:     #10b981;   /* green */
+```
+
+**Extended palette (data visualization, status chips — not UI states):**
+```css
+--color-amber:       #f59e0b;  --color-amber-bg:  #fef3c7;  --color-amber-text:  #b45309;
+--color-yellow:      #eab308;  --color-yellow-bg: #fef9c3;  --color-yellow-text: #854d0e;
+--color-purple:      #7c3aed;  --color-purple-bg: #ede9fe;  --color-purple-text: #4c1d95;
+--color-pink:        #db2777;  --color-pink-bg:   #fce7f3;  --color-pink-text:   #831843;
+--color-cyan:        #06b6d4;
+```
+
+### Shape & Elevation
+
+```css
+/* Border radius — override Tailwind v4 defaults */
+--radius-sm:   4px;
+--radius-md:   6px;
+--radius-lg:   8px;
+--radius-xl:   12px;
+--radius-2xl:  16px;
+--radius-3xl:  24px;
+--radius-full: 9999px;
+
+/* Shadows — override Tailwind v4 defaults */
+--shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+--shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+--shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+--shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+```
+
+### Typography
+
+```css
+--font-sans: var(--font-inter), 'Segoe UI', system-ui, -apple-system, sans-serif;
+--font-mono: 'Consolas', 'Monaco', monospace;
+```
+
+### Gradient Utility Classes
+
+All gradients are defined as CSS classes in `globals.css` — never inline in components:
+
+```css
+/* Hero backgrounds */
+.gradient-hero-vision       .gradient-hero-transparency
+.gradient-hero-fundraising  .gradient-hero-financial
+
+/* Brand accent bar */
+.gradient-brand
+
+/* Nav item states */
+.gradient-nav-highlight  .gradient-nav-active
+
+/* Card tints */
+.gradient-card-success  .gradient-card-primary
+.gradient-card-digital  .gradient-card-art
+
+/* Section heroes */
+.gradient-hero-bildung  .gradient-hero-community
+
+/* SDG badge colors */
+.gradient-sdg-4  .gradient-sdg-8  .gradient-sdg-9
+.gradient-sdg-10 .gradient-sdg-12 .gradient-sdg-13
+```
+
+### Typography Utility Classes
+
+Semantic heading scale defined in `globals.css` via `@layer utilities`:
+
+```css
+.heading-page        /* text-xl font-bold text-grey-dark md:text-3xl */
+.heading-section     /* text-2xl font-bold text-grey-dark */
+.heading-subsection  /* text-xl font-semibold text-grey-dark */
+.heading-card        /* text-lg font-semibold text-grey-dark */
+.heading-item        /* text-base font-semibold text-grey-dark */
+.heading-detail      /* text-sm font-semibold text-grey-dark */
+.heading-label       /* text-sm font-semibold uppercase tracking-wider text-text-muted */
+.heading-xs-label    /* text-xs font-semibold uppercase tracking-wider text-text-muted */
+```
+
+### Interaction & Z-Index Utilities
+
+```css
+.transition-standard  /* transition-colors duration-200 */
+.transition-hover     /* transition-all duration-200 */
+.transition-reveal    /* transition-all duration-300 ease-out */
+
+.z-backdrop  /* z-40 */
+.z-modal     /* z-50 */
+```
+
+### Note on `lib/utils/theme.ts`
+
+`themeStyle(color)` in `src/lib/utils/theme.ts` returns an inline style object (`{ backgroundColor: color + '33', color }`). This is used for dynamic theme badge colors sourced from `THEMES` config — the color value comes from the token at runtime, so this is an acceptable non-violation (dynamic, not hardcoded).
+
+### SSOT Rule
+
+All design tokens live in `src/app/globals.css` only. Tailwind config MUST reference CSS vars (`'var(--name)'`), never literal values. Components MUST use semantic Tailwind classes, never arbitrary values like `bg-[#hex]`.
+
+**Violations to fix when touching UI:**
+- `bg-[#hex]` / `text-[#hex]` in className → CSS var + semantic class
+- `style={{ color: '#hex' }}` → CSS var + className
+- Literal hex in tailwind.config → `'var(--color-name)'`
+- Same token defined in 2+ files → consolidate to globals.css
+
+**Audit:** `grep -r '\[#' src/` — every result is a violation.
+
+---
+
 ## Development Guide
 
 ### Local Development
