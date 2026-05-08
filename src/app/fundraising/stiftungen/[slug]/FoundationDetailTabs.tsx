@@ -157,20 +157,20 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                 <div className="space-y-4 text-sm">
                   {f.purposeSummary && (
                     <div>
-                      <h4 className="font-semibold text-grey-dark">Stiftungszweck</h4>
+                      <h4 className="heading-item">Stiftungszweck</h4>
                       <p className="mt-1 text-text-light">{f.purposeSummary}</p>
                     </div>
                   )}
                   {f.criteria && (
                     <div>
-                      <h4 className="font-semibold text-grey-dark">Förderkriterien</h4>
+                      <h4 className="heading-item">Förderkriterien</h4>
                       {f.criteria.nature && <p className="mt-1 text-text-light">{f.criteria.nature}</p>}
                       {f.criteria.education && <p className="mt-1 text-text-light">{f.criteria.education}</p>}
                     </div>
                   )}
                   {f.sdgs && f.sdgs.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-grey-dark">SDGs</h4>
+                      <h4 className="heading-item">SDGs</h4>
                       <div className="mt-1 flex gap-2">
                         {f.sdgs.map((sdg) => (
                           <span key={sdg} className="rounded bg-bg-light px-2 py-1 text-xs font-medium">
@@ -182,7 +182,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                   )}
                   {f.boardMembers && f.boardMembers.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-grey-dark">Stiftungsrat</h4>
+                      <h4 className="heading-item">Stiftungsrat</h4>
                       <div className="mt-2 space-y-1">
                         {f.boardMembers.map((m) => (
                           <div key={m.name} className="flex items-baseline justify-between border-b border-border py-1">
@@ -195,7 +195,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                   )}
                   {f.pastGrantees && f.pastGrantees.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-grey-dark">Bisherige Förderempfänger</h4>
+                      <h4 className="heading-item">Bisherige Förderempfänger</h4>
                       <div className="mt-2 flex flex-wrap gap-2">
                         {f.pastGrantees.map((g) => (
                           <span key={g} className="rounded bg-bg-light px-2 py-1 text-xs">{g}</span>
@@ -207,13 +207,13 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       {f.supervisoryAuthority && (
                         <div>
-                          <h4 className="font-semibold text-grey-dark">Aufsichtsbehörde</h4>
+                          <h4 className="heading-item">Aufsichtsbehörde</h4>
                           <p className="mt-1 text-text-light">{f.supervisoryAuthority}</p>
                         </div>
                       )}
                       {f.memberships && f.memberships.length > 0 && (
                         <div>
-                          <h4 className="font-semibold text-grey-dark">Mitgliedschaften</h4>
+                          <h4 className="heading-item">Mitgliedschaften</h4>
                           <div className="mt-1 flex flex-wrap gap-1">
                             {f.memberships.map((m) => (
                               <span key={m} className="rounded bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">{m}</span>
@@ -225,13 +225,13 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                   )}
                   {f.uid && (
                     <div>
-                      <h4 className="font-semibold text-grey-dark">UID</h4>
+                      <h4 className="heading-item">UID</h4>
                       <p className="mt-1 font-mono text-text-light">{f.uid}</p>
                     </div>
                   )}
                   {f.researchNotes && (
                     <div>
-                      <h4 className="font-semibold text-grey-dark">Recherche-Notizen</h4>
+                      <h4 className="heading-item">Recherche-Notizen</h4>
                       <p className="mt-1 text-text-light">{f.researchNotes}</p>
                     </div>
                   )}

@@ -102,7 +102,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
         {/* Main edit form */}
         <Card className="space-y-5">
-          <h2 className="font-semibold text-grey-dark">Gesuchsinformationen</h2>
+          <h2 className="heading-item">Gesuchsinformationen</h2>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
@@ -184,7 +184,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
         {/* Timeline */}
         <Card className="space-y-5">
-          <h2 className="font-semibold text-grey-dark">Timeline</h2>
+          <h2 className="heading-item">Timeline</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className={labelClass}>Kontaktdatum</label>
@@ -208,7 +208,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         {/* Outcome fields — only when relevant */}
         {isTerminalStatus(fields.status) && (
           <Card className="space-y-4">
-            <h2 className="font-semibold text-grey-dark">Ergebnis</h2>
+            <h2 className="heading-item">Ergebnis</h2>
             {fields.status === 'accepted' && (
               <div>
                 <label className={labelClass}>Erfolgsfaktoren</label>
@@ -241,7 +241,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           const f = getFoundationBySlug(foundation.id);
           return (
           <Card className="space-y-3">
-            <h2 className="font-semibold text-grey-dark">Stiftung</h2>
+            <h2 className="heading-item">Stiftung</h2>
             <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
               <div>
                 <p className="heading-xs-label">Website</p>
@@ -272,7 +272,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
         {/* Activity log */}
         <Card className="space-y-3">
-          <h2 className="font-semibold text-grey-dark">Aktivitäten</h2>
+          <h2 className="heading-item">Aktivitäten</h2>
           <ActivityTimeline entityId={params.id} entityType="application" />
         </Card>
 
