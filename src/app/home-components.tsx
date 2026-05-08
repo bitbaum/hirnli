@@ -118,7 +118,7 @@ export function TransparencyBlock() {
   return (
     <section className="mb-12">
       <Card className="border-l-4 border-l-primary">
-        <h2 className="text-xl font-bold text-grey-dark mb-2">{TRANSPARENCY.heading}</h2>
+        <h2 className="heading-subsection mb-2">{TRANSPARENCY.heading}</h2>
         <p className="text-base text-text-light mb-4">{TRANSPARENCY.lead}</p>
         <div className="flex flex-wrap gap-3">
           {TRANSPARENCY.points.map((point) => (

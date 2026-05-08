@@ -48,7 +48,7 @@ export default function CommunitySpaceCard({
         <div className="flex-1">
           <div className="flex items-start justify-between gap-2">
             <div>
-              <h3 className="text-lg font-bold text-grey-dark">{title}</h3>
+              <h3 className="heading-card">{title}</h3>
               <p className="text-sm text-text-light mt-1">{tagline}</p>
             </div>
             {type === 'core' && (

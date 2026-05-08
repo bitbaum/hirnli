@@ -35,7 +35,7 @@ export default function StepFocus({
         <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="heading-xs-label">Stiftung</p>
-            <h2 className="mt-1 text-xl font-bold text-grey-dark">{foundationName}</h2>
+            <h2 className="mt-1 heading-subsection">{foundationName}</h2>
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="rounded-full border border-border bg-bg px-2.5 py-0.5 text-xs font-medium text-text-muted">

@@ -31,7 +31,7 @@ export default function AnschreibenSection({ dok }: AnschreibenSectionProps) {
       <p className="mb-8 text-sm text-text-muted">{dok.anschreiben.date}</p>
 
       {/* Subject */}
-      <h1 className="mb-6 text-xl font-bold text-grey-dark">
+      <h1 className="mb-6 heading-subsection">
         {dok.anschreiben.subject}
       </h1>
 

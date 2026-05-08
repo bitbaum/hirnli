@@ -150,7 +150,7 @@ export default function TeamPage() {
           <Card className="border-l-4 border-l-primary">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-3xl" aria-hidden="true">🔧</span>
-              <h3 className="text-lg font-bold text-grey-dark">Hardware-BPL</h3>
+              <h3 className="heading-card">Hardware-BPL</h3>
             </div>
             <div className="space-y-3 text-sm">
               <div className="bg-primary/10 rounded-lg p-3">
@@ -167,7 +167,7 @@ export default function TeamPage() {
           <Card className="border-l-4 border-l-pillar-vision">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-3xl" aria-hidden="true">💻</span>
-              <h3 className="text-lg font-bold text-grey-dark">Software/AI-BPL</h3>
+              <h3 className="heading-card">Software/AI-BPL</h3>
             </div>
             <div className="space-y-3 text-sm">
               <div className="bg-pillar-vision/10 rounded-lg p-3">
@@ -184,7 +184,7 @@ export default function TeamPage() {
         {/* Combined Effect */}
         <Card className="mt-6 gradient-card-primary border-2 border-primary/20">
           <div className="text-center">
-            <h3 className="text-xl font-bold text-grey-dark mb-4">Kombinierter Effekt</h3>
+            <h3 className="heading-subsection mb-4">Kombinierter Effekt</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <div className="text-sm text-text-muted mb-1">Direkt trainiert</div>
@@ -212,7 +212,7 @@ export default function TeamPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Current */}
           <Card className="border-l-4 border-l-border">
-            <h3 className="text-lg font-bold text-grey-dark mb-4">Heute (2025, geschätzt)</h3>
+            <h3 className="heading-card mb-4">Heute (2025, geschätzt)</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-text-muted">Team:</span>
@@ -235,7 +235,7 @@ export default function TeamPage() {
 
           {/* Year 3 with Hub + BPL */}
           <Card className="border-l-4 border-l-success">
-            <h3 className="text-lg font-bold text-grey-dark mb-4">Jahr 3 — Ziel (Hub + 2× BPL)</h3>
+            <h3 className="heading-card mb-4">Jahr 3 — Ziel (Hub + 2× BPL)</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-text-muted">Team:</span>

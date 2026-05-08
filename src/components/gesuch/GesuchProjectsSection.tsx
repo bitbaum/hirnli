@@ -14,7 +14,7 @@ export default function GesuchProjectsSection({ projects }: GesuchProjectsSectio
       <div className="space-y-6">
         {projects.map((project) => (
           <Card key={project.title}>
-            <h3 className="mb-1 text-lg font-bold text-grey-dark md:text-xl">{project.title}</h3>
+            <h3 className="mb-1 heading-card md:text-xl">{project.title}</h3>
             <p className="mb-4 text-sm text-text-muted">{project.subtitle}</p>
             <p className="mb-6 text-sm leading-relaxed text-text-light">{project.summary}</p>
             <div className="grid gap-4 md:grid-cols-3">

@@ -11,7 +11,7 @@ export default function GesuchContactSection({ foundationName, organization }: G
 
   return (
     <section className="rounded-2xl bg-bg-light p-4 text-center md:p-8">
-      <h2 className="mb-4 text-xl font-bold text-grey-dark md:text-2xl">Lassen Sie uns ins Gespräch kommen</h2>
+      <h2 className="mb-4 heading-subsection md:text-2xl">Lassen Sie uns ins Gespräch kommen</h2>
       <p className="mb-6 text-text-light">
         Wir freuen uns auf einen Austausch darüber, wie {ORG_PROFILE.name} und {foundationName} gemeinsam wirken können.
       </p>

@@ -18,7 +18,7 @@ export default function TwoAsks() {
           <div className="flex items-start gap-4">
             <span className="text-4xl" aria-hidden="true">🏢</span>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-grey-dark">1. Community Tech Hub (Raum)</h3>
+              <h3 className="heading-card">1. Community Tech Hub (Raum)</h3>
               <p className="mt-2 text-sm text-text-light">
                 <strong>{HUB_SPACE_DISPLAY}:</strong> Werkstatt, AI Lab, Event Space, Shop, Offices — alles unter einem Dach
               </p>
@@ -40,7 +40,7 @@ export default function TwoAsks() {
           <div className="flex items-start gap-4">
             <span className="text-4xl" aria-hidden="true">👥</span>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-grey-dark">2. Bildungsprogrammleiter (Team)</h3>
+              <h3 className="heading-card">2. Bildungsprogrammleiter (Team)</h3>
               <p className="mt-2 text-sm text-text-light">
                 <strong>2× neue Stellen:</strong> Hardware-BPL + Software/AI-BPL
               </p>
