@@ -26,7 +26,7 @@ export default function CultureSection() {
             Zeigt, dass alte Hardware wertvoll ist — nicht Müll.
           </p>
           <div className="text-sm mb-3">
-            <p className="font-semibold text-grey-dark mb-2">Ausstellungsflächen & Inhalte:</p>
+            <h4 className="heading-detail mb-2">Ausstellungsflächen & Inhalte</h4>
             <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>40 m² Permanent-Ausstellung</strong> (Commodore, Amiga, NeXT, Cray)</li>
               <li>• <strong>20 m² Wechselausstellungen</strong> (E-Waste-Kunst, Tech-Fotografie)</li>
@@ -57,7 +57,7 @@ export default function CultureSection() {
             Musik als Zugang zu Technologie.
           </p>
           <div className="text-sm mb-3">
-            <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Ausstattung:</p>
+            <h4 className="heading-detail mb-2">Arbeitsplätze & Ausstattung</h4>
             <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>6× Synth-Restaurierungs-Arbeitsplätze</strong> (Lötkolben, Oszilloskop)</li>
               <li>• <strong>10-15× Vintage-Synths</strong> (Roland, Korg, Moog aus 70er/80er)</li>
@@ -88,7 +88,7 @@ export default function CultureSection() {
             Zeigt: Schrott = Ressource.
           </p>
           <div className="text-sm mb-3">
-            <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Programm:</p>
+            <h4 className="heading-detail mb-2">Arbeitsplätze & Programm</h4>
             <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>3× Resident Artists-Atelierplätze</strong> (je 10-12m², 3-6 Monate)</li>
               <li>• Werkzeuge für E-Waste-Verarbeitung (Sägen, Kleber, Löten)</li>
@@ -118,7 +118,7 @@ export default function CultureSection() {
             Flexibler Raum für 50-80 Personen. Tags: Workshops, Co-Working. Abends: Konzerte, Film, Talks.
           </p>
           <div className="text-sm mb-3">
-            <p className="font-semibold text-grey-dark mb-2">Ausstattung & Nutzung:</p>
+            <h4 className="heading-detail mb-2">Ausstattung & Nutzung</h4>
             <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>Bestuhlung für 50-80 Personen</strong> (flexibel)</li>
               <li>• Beamer, Sound-System, Bühne (kleinere Konzerte)</li>
@@ -149,7 +149,7 @@ export default function CultureSection() {
             Fair-Trade-Café tags, Community-Kitchen abends. Niederschwelliger Treffpunkt — keine Konsumpflicht.
           </p>
           <div className="text-sm mb-3">
-            <p className="font-semibold text-grey-dark mb-2">Ausstattung & Angebot:</p>
+            <h4 className="heading-detail mb-2">Ausstattung & Angebot</h4>
             <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>15-20 Sitzplätze</strong> (Café-Bereich)</li>
               <li>• <strong>30 Plätze beim Community-Dinner</strong> (1×/Woche)</li>
@@ -180,7 +180,7 @@ export default function CultureSection() {
             Lernen durch Tun.
           </p>
           <div className="text-sm mb-3">
-            <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Format:</p>
+            <h4 className="heading-detail mb-2">Arbeitsplätze & Format</h4>
             <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>6× Reparatur-Arbeitsplätze</strong> (Werkzeuge & Material vor Ort)</li>
               <li>• Jeden 1. & 3. Samstag im Monat (10-16 Uhr)</li>

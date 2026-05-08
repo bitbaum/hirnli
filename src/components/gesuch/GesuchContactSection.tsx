@@ -16,7 +16,7 @@ export default function GesuchContactSection({ foundationName, organization }: G
         Wir freuen uns auf einen Austausch darüber, wie {ORG_PROFILE.name} und {foundationName} gemeinsam wirken können.
       </p>
       <div className="mb-6 space-y-1 text-sm text-text-light">
-        <p className="font-semibold text-grey-dark">{organization.organization.name}</p>
+        <p className="heading-item">{organization.organization.name}</p>
         <p>{organization.organization.address}</p>
         <p>
           <a href={websiteUrl} className="text-primary hover:underline">

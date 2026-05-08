@@ -141,7 +141,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
           <h3 className="mb-2 heading-card">4. Zielsetzung und Massnahmen</h3>
           {dok.story.projects.map((project) => (
             <div key={project.title} className="mb-6">
-              <p className="mb-1 font-semibold text-grey-dark">{project.title}</p>
+              <p className="mb-1 heading-item">{project.title}</p>
               <p className="mb-3 text-sm text-text-light">{project.summary}</p>
 
               <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-3">
