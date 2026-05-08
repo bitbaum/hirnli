@@ -167,7 +167,7 @@ export default function GesuchEditPanel({
         {generated.why && (
           <>
             <div className="border-t border-border pt-4">
-              <p className="mb-4 text-xs font-bold uppercase tracking-wider text-text-muted">
+              <p className="mb-4 heading-xs-label">
                 Warum-Abschnitt
               </p>
               <div className="space-y-4">
@@ -231,7 +231,7 @@ export default function GesuchEditPanel({
 
         {/* 3. How / Track Record */}
         <div className="border-t border-border pt-4">
-          <p className="mb-4 text-xs font-bold uppercase tracking-wider text-text-muted">
+          <p className="mb-4 heading-xs-label">
             Wie-Abschnitt (Track Record)
           </p>
           <div className="space-y-4">
@@ -265,7 +265,7 @@ export default function GesuchEditPanel({
 
         {/* 4. Anschreiben (Cover Letter) */}
         <div className="border-t border-border pt-4">
-          <p className="mb-4 text-xs font-bold uppercase tracking-wider text-text-muted">
+          <p className="mb-4 heading-xs-label">
             Anschreiben (Begleitbrief)
           </p>
           <div className="space-y-4">

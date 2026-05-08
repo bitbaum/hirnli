@@ -129,6 +129,15 @@ export function ApplicationBoard() {
       ),
     );
 
+    const revert = () =>
+      setApplications((prev) =>
+        prev.map((item) =>
+          item.application.id === applicationId
+            ? { ...item, application: { ...item.application, status: oldStatus } }
+            : item,
+        ),
+      );
+
     try {
       const response = await fetch(`/api/applications/${applicationId}`, {
         method: 'PATCH',
@@ -137,14 +146,7 @@ export function ApplicationBoard() {
       });
       const result = await response.json();
       if (!result.success) {
-        // Revert optimistic update
-        setApplications((prev) =>
-          prev.map((item) =>
-            item.application.id === applicationId
-              ? { ...item, application: { ...item.application, status: oldStatus } }
-              : item,
-          ),
-        );
+        revert();
         // Show required fields modal on 422, inline error for everything else
         if (response.status === 422 && result.missingFields) {
           setRequiredFieldsModal({
@@ -157,13 +159,7 @@ export function ApplicationBoard() {
         }
       }
     } catch {
-      setApplications((prev) =>
-        prev.map((item) =>
-          item.application.id === applicationId
-            ? { ...item, application: { ...item.application, status: oldStatus } }
-            : item,
-        ),
-      );
+      revert();
       setDragError(NET_ERR_SAVE);
     }
   }
