@@ -16,6 +16,7 @@ import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { formatDateCH } from '@/lib/utils/format';
 import { NET_ERR_LOAD, API_ERR_LOAD } from '@/lib/utils/errors';
+import EmptyState from '@/components/ui/EmptyState';
 
 interface GesuchOverviewRow {
   foundationId: string;
@@ -55,13 +56,11 @@ export default function MeineGesuchePage() {
       ) : error ? (
         <ErrorAlert>{error}</ErrorAlert>
       ) : rows.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-16 text-center">
-          <p className="mb-1 heading-card">Noch keine Gesuche bearbeitet</p>
-          <p className="mb-6 max-w-xs text-sm text-text-muted">
-            Wähle eine Stiftung und starte den Gesuch-Workflow, um hier deine Entwürfe zu sehen.
-          </p>
-          <Button href="/fundraising/stiftungen" size="lg">Stiftungen durchsuchen →</Button>
-        </div>
+        <EmptyState
+          title="Noch keine Gesuche bearbeitet"
+          description="Wähle eine Stiftung und starte den Gesuch-Workflow, um hier deine Entwürfe zu sehen."
+          action={{ label: 'Stiftungen durchsuchen →', href: '/fundraising/stiftungen' }}
+        />
       ) : (
         <div className="rounded-xl border border-border overflow-hidden">
           <table className="w-full text-sm">

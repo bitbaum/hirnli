@@ -31,6 +31,7 @@ import { formatCHF } from '@/lib/utils/format';
 import { NET_ERR_LOAD, NET_ERR_SAVE, API_ERR_LOAD } from '@/lib/utils/errors';
 import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
+import EmptyState from '@/components/ui/EmptyState';
 
 export function ApplicationBoard() {
   const [applications, setApplications] = useState<ApplicationWithFoundation[]>([]);
@@ -265,14 +266,12 @@ export function ApplicationBoard() {
 
       {/* Empty state */}
       {applications.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-20 text-center">
-          <p className="mb-1 heading-card">Noch keine Gesuche</p>
-          <p className="mb-6 max-w-xs text-sm text-text-muted">
-            Wähle eine Stiftung aus der Liste und klicke auf &ldquo;Gesuch starten&rdquo;, um sie
-            in die Pipeline aufzunehmen.
-          </p>
-          <Button href="/fundraising/stiftungen" size="lg">Stiftungen durchsuchen →</Button>
-        </div>
+        <EmptyState
+          title="Noch keine Gesuche"
+          description="Wähle eine Stiftung aus der Liste und klicke auf «Gesuch starten», um sie in die Pipeline aufzunehmen."
+          action={{ label: 'Stiftungen durchsuchen →', href: '/fundraising/stiftungen' }}
+          size="lg"
+        />
       ) : (
         <DndContext
           sensors={sensors}
