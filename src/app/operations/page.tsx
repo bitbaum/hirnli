@@ -133,7 +133,7 @@ export default function OperationsPage() {
           ))}
         </div>
         <Card className="mt-4 bg-success/10">
-          <h4 className="text-sm font-semibold">Dokumentation:</h4>
+          <h4 className="heading-detail">Dokumentation:</h4>
           <p className="mt-1 text-sm text-text-light">
             Lösch-Zertifikat ausdrucken und bei Gerät archivieren. Wichtig für Corporate Spender!
           </p>
@@ -161,7 +161,7 @@ export default function OperationsPage() {
               <CardTitle>Kosmetische Prüfung</CardTitle>
             </CardHeader>
             <Checklist items={QA_COSMETIC} />
-            <h4 className="mb-2 mt-4 text-sm font-semibold">Dokumentation:</h4>
+            <h4 className="heading-detail mb-2 mt-4">Dokumentation:</h4>
             <div className="space-y-2 text-sm">
               {['QA-Status → Pass / Fail', 'QA-Datum → [Datum]', 'QA-Techniker → [Name]', 'Bemerkungen → [Notizen]'].map((item) => (
                 <div key={item} className="flex justify-between rounded bg-bg-light px-3 py-2">
@@ -188,7 +188,7 @@ export default function OperationsPage() {
             <p className="mb-3 text-sm text-text-muted">
               Basierend auf unserem <a href="/preismodell">Solidarischen 4-Stufen-Preismodell</a>
             </p>
-            <h4 className="mb-2 text-sm font-semibold">Faktoren:</h4>
+            <h4 className="heading-detail mb-2">Faktoren:</h4>
             <ul className="list-disc space-y-1 pl-5 text-sm text-text-light">
               <li>Alter des Geräts</li>
               <li>CPU-Performance</li>
@@ -253,7 +253,7 @@ export default function OperationsPage() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map((tool) => (
             <Card key={tool.title} className="border-l-4 border-l-primary">
-              <h4 className="mb-3 text-base font-semibold">{tool.icon} {tool.title}</h4>
+              <h4 className="heading-item mb-3">{tool.icon} {tool.title}</h4>
               <ul className="list-disc space-y-1 pl-5 text-sm text-text-light">
                 {tool.items.map((item) => (
                   <li key={item}>{item}</li>
