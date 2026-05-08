@@ -28,7 +28,7 @@ export default function VisionMetric({ value, label, source }: VisionMetricProps
       <div
         className={`
           rounded-lg bg-white/10 p-4
-          transition-all duration-200
+          transition-hover
           ${source ? 'cursor-pointer hover:bg-white/20 hover:scale-105' : ''}
         `}
         onClick={handleClick}

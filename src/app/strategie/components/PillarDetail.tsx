@@ -162,7 +162,7 @@ export default function PillarDetail({
                     href={page.href}
                     className={`
                       block p-3 rounded-lg bg-white
-                      hover:shadow-md transition-all duration-200
+                      hover:shadow-md transition-hover
                       ${colors.ring} focus:outline-none focus:ring-2
                     `}
                   >

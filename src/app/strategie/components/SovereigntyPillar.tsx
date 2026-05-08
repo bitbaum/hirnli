@@ -122,7 +122,7 @@ export default function SovereigntyPillar({
                     href={page.href}
                     className={`
                       block p-2 rounded-lg bg-white/50 hover:bg-white
-                      transition-colors duration-200
+                      transition-standard
                       ${colors.ring} focus:outline-none focus:ring-2
                     `}
                   >

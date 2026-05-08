@@ -96,7 +96,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
         rel="noopener noreferrer"
         className="block group no-underline"
       >
-        <Card className="border-l-4 border-l-primary hover:shadow-lg transition-all duration-200">
+        <Card className="border-l-4 border-l-primary hover:shadow-lg transition-hover">
           {cardContent}
         </Card>
       </a>
@@ -106,7 +106,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
   // Data files (CSV, Excel): direct download
   if (document.action === 'download') {
     return (
-      <Card className="group border-l-4 border-l-success hover:shadow-lg transition-all duration-200">
+      <Card className="group border-l-4 border-l-success hover:shadow-lg transition-hover">
         <a
           href={document.href}
           download
@@ -121,7 +121,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
   // Print/external: open in same tab
   return (
     <Link href={document.href} className="block group no-underline">
-      <Card className="border-l-4 border-l-primary hover:shadow-lg transition-all duration-200">
+      <Card className="border-l-4 border-l-primary hover:shadow-lg transition-hover">
         {cardContent}
       </Card>
     </Link>
