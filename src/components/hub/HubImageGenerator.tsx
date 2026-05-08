@@ -100,7 +100,7 @@ export function HubImageGenerator() {
       {/* Instructions */}
       {!selectedSpace && (
         <Card className="bg-primary/10 border-l-4 border-l-primary">
-          <h3 className="text-md font-semibold text-primary mb-2">How to Generate Hub Visualizations</h3>
+          <h3 className="text-base font-semibold text-primary mb-2">How to Generate Hub Visualizations</h3>
           <ol className="text-sm text-primary space-y-2 list-decimal list-inside">
             <li><strong>Select a space</strong> from the grid above</li>
             <li><strong>Copy the prompt</strong> for your preferred AI tool (Midjourney or DALL-E 3)</li>

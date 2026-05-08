@@ -181,7 +181,7 @@ export default function BildungPage() {
                 1
               </div>
               <div className="flex-1">
-                <h3 className="text-md font-semibold text-grey-dark mb-2">
+                <h3 className="text-base font-semibold text-grey-dark mb-2">
                   Bildungsprogrammleiter:innen trainieren Trainer:innen
                 </h3>
                 <p className="text-sm text-text-light mb-3">
@@ -201,7 +201,7 @@ export default function BildungPage() {
                 2
               </div>
               <div className="flex-1">
-                <h3 className="text-md font-semibold text-grey-dark mb-2">
+                <h3 className="text-base font-semibold text-grey-dark mb-2">
                   Trainer:innen trainieren andere
                 </h3>
                 <p className="text-sm text-text-light mb-3">
@@ -221,7 +221,7 @@ export default function BildungPage() {
                 3
               </div>
               <div className="flex-1">
-                <h3 className="text-md font-semibold text-grey-dark mb-2">
+                <h3 className="text-base font-semibold text-grey-dark mb-2">
                   Community-Effekte & Workshops
                 </h3>
                 <p className="text-sm text-text-light mb-3">
@@ -245,24 +245,24 @@ export default function BildungPage() {
             <div className="space-y-3">
               <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Hardware-BPL (1 VZÄ)</span>
-                <span className="text-md font-semibold text-grey-dark">
+                <span className="text-base font-semibold text-grey-dark">
                   CHF {formatNumber(TEAM_SALARIES.hardware_bpl)}
                 </span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Software/AI-BPL (1 VZÄ)</span>
-                <span className="text-md font-semibold text-grey-dark">
+                <span className="text-base font-semibold text-grey-dark">
                   CHF {formatNumber(TEAM_SALARIES.software_bpl)}
                 </span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b border-border">
                 <span className="text-sm text-text-light">Sozialabgaben (20%)</span>
-                <span className="text-md font-semibold text-grey-dark">
+                <span className="text-base font-semibold text-grey-dark">
                   CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * 0.2)}
                 </span>
               </div>
               <div className="flex justify-between items-center pt-2 bg-primary/10 rounded-lg p-3">
-                <span className="text-md font-bold text-primary">Total pro Jahr</span>
+                <span className="text-base font-bold text-primary">Total pro Jahr</span>
                 <span className="text-xl font-bold text-primary">
                   CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}
                 </span>
@@ -309,7 +309,7 @@ export default function BildungPage() {
             <div className="flex items-start gap-4">
               <Badge variant="info" className="mt-1">Jahr 1</Badge>
               <div className="flex-1">
-                <h3 className="text-md font-semibold text-grey-dark mb-2">Aufbau & Pilotphase</h3>
+                <h3 className="text-base font-semibold text-grey-dark mb-2">Aufbau & Pilotphase</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                   <li>Hardware-BPL eingestellt, Curricula entwickelt, erste Trainings</li>
                   <li>Erste trainierte Techniker werden aktiv (2-3 Trainer:innen)</li>
@@ -322,7 +322,7 @@ export default function BildungPage() {
             <div className="flex items-start gap-4">
               <Badge variant="info" className="mt-1">Jahr 2</Badge>
               <div className="flex-1">
-                <h3 className="text-md font-semibold text-grey-dark mb-2">Skalierung & zweite:r BPL</h3>
+                <h3 className="text-base font-semibold text-grey-dark mb-2">Skalierung & zweite:r BPL</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                   <li>Software/AI-BPL eingestellt, beide Programme laufen parallel</li>
                   <li>5 Hardware-Techniker + 3 AI-Trainer gleichzeitig aktiv</li>
@@ -335,7 +335,7 @@ export default function BildungPage() {
             <div className="flex items-start gap-4">
               <Badge variant="success" className="mt-1">Jahr 3 (Ziel)</Badge>
               <div className="flex-1">
-                <h3 className="text-md font-semibold text-grey-dark mb-2">Selbsttragung erreicht</h3>
+                <h3 className="text-base font-semibold text-grey-dark mb-2">Selbsttragung erreicht</h3>
                 <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                   <li>Train-the-Trainer voll etabliert, {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreicht</li>
                   <li>Trainer:innen trainieren ohne unsere direkte Beteiligung</li>

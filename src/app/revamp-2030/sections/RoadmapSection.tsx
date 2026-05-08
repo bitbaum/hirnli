@@ -19,7 +19,7 @@ export default function RoadmapSection() {
           <div className="flex items-start gap-4">
             <Badge variant="info" className="mt-1">2026</Badge>
             <div className="flex-1">
-              <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 1: Fundraising & Standortsuche</h3>
+              <h3 className="text-base font-semibold text-grey-dark mb-2">Phase 1: Fundraising & Standortsuche</h3>
               <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                 <li>Standortsuche: {HUB_SPACE_DISPLAY} in Zürich Agglomeration</li>
                 <li>Fundraising für Hub + Bildungsprogramm (3 Jahre)</li>
@@ -32,7 +32,7 @@ export default function RoadmapSection() {
           <div className="flex items-start gap-4">
             <Badge variant="info" className="mt-1">2027</Badge>
             <div className="flex-1">
-              <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 2: Hub-Aufbau + erste:r BPL</h3>
+              <h3 className="text-base font-semibold text-grey-dark mb-2">Phase 2: Hub-Aufbau + erste:r BPL</h3>
               <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                 <li>Hub-Umbau & Einrichtung (Werkstatt, Schulungsräume, Event-/Kulturraum)</li>
                 <li>Erste:r Bildungsprogrammleiter:in eingestellt (Hardware oder Software/AI)</li>
@@ -45,7 +45,7 @@ export default function RoadmapSection() {
           <div className="flex items-start gap-4">
             <Badge variant="success" className="mt-1">2028</Badge>
             <div className="flex-1">
-              <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 1 abgeschlossen: Grundlagen stehen</h3>
+              <h3 className="text-base font-semibold text-grey-dark mb-2">Phase 1 abgeschlossen: Grundlagen stehen</h3>
               <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                 <li>Zweite:r Bildungsprogrammleiter:in eingestellt (beide BPL aktiv)</li>
                 <li>Hub-Betrieb läuft: Werkstatt, Schulungsräume, Event-/Kulturraum etabliert</li>
@@ -59,7 +59,7 @@ export default function RoadmapSection() {
           <div className="flex items-start gap-4">
             <Badge variant="warning" className="mt-1">2029-2030</Badge>
             <div className="flex-1">
-              <h3 className="text-md font-semibold text-grey-dark mb-2">Phase 2: Skalierung & Vollausbau</h3>
+              <h3 className="text-base font-semibold text-grey-dark mb-2">Phase 2: Skalierung & Vollausbau</h3>
               <ul className="text-sm text-text-light space-y-1 list-disc list-inside">
                 <li>Weitere Optimierung der Prozesse und Kapazitäten</li>
                 <li>Train-the-Trainer-Programme voll etabliert und selbsttragend</li>

@@ -28,7 +28,7 @@ export default function ReachSection() {
         <div className="space-y-6">
           {/* Heute */}
           <div>
-            <h3 className="text-md font-semibold text-grey-dark mb-3 flex items-center gap-2">
+            <h3 className="text-base font-semibold text-grey-dark mb-3 flex items-center gap-2">
               <Badge variant="warning">Heute</Badge>
               Unstrukturiert, ineffizient
             </h3>
@@ -58,7 +58,7 @@ export default function ReachSection() {
 
           {/* Mit Hub + BPL */}
           <div>
-            <h3 className="text-md font-semibold text-grey-dark mb-3 flex items-center gap-2">
+            <h3 className="text-base font-semibold text-grey-dark mb-3 flex items-center gap-2">
               <Badge variant="success">Mit Hub + Bildungsprogrammleiter:innen</Badge>
               Strukturiert, organisiert, skalierbar
             </h3>
@@ -97,7 +97,7 @@ export default function ReachSection() {
 
           {/* Online Content & Skalierung */}
           <div>
-            <h3 className="text-md font-semibold text-grey-dark mb-3 flex items-center gap-2">
+            <h3 className="text-base font-semibold text-grey-dark mb-3 flex items-center gap-2">
               <Badge variant="info">Bonus: Online Content</Badge>
               Noch mehr Reichweite ohne zusätzliche Personalkosten
             </h3>
