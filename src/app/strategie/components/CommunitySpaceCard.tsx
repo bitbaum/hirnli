@@ -79,7 +79,7 @@ export default function CommunitySpaceCard({
           {/* Activities */}
           {activities.length > 0 && (
             <div>
-              <h4 className="text-sm font-bold text-grey-dark mb-3">
+              <h4 className="heading-detail mb-3">
                 Was hier passiert:
               </h4>
               <ul className="space-y-2">

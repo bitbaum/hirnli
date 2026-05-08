@@ -79,7 +79,7 @@ export default function TeamPage() {
                   <Card key={member.id} className={`border-l-4 ${dept.borderColor}`}>
                     <div className="flex items-start gap-3">
                       <div className="flex-1">
-                        <h4 className="font-bold text-grey-dark">{member.name}</h4>
+                        <h4 className="heading-item">{member.name}</h4>
                         <div className="text-sm text-text-muted mt-1">
                           {member.fachgebiete.join(' · ')}
                         </div>
@@ -108,7 +108,7 @@ export default function TeamPage() {
               <div className="flex items-start gap-3">
                 <div className="text-3xl" aria-hidden="true">🎯</div>
                 <div className="flex-1">
-                  <h3 className="font-bold text-grey-dark">{member.name}</h3>
+                  <h3 className="heading-card">{member.name}</h3>
                   <div className="text-sm text-pillar-vision mb-2">{member.role}</div>
                   <div className="flex items-center gap-2 mb-3">
                     <Badge variant="warning">{member.status}</Badge>

@@ -61,7 +61,7 @@ export default function FinanzenClient() {
 
       {/* Revenue decline narrative */}
       <Card className="mb-6 border-l-4 border-l-warning bg-warning/10">
-        <h3 className="font-semibold text-grey-dark mb-2">Warum jetzt? Die Ausgangslage ehrlich</h3>
+        <h3 className="heading-item mb-2">Warum jetzt? Die Ausgangslage ehrlich</h3>
         <div className="text-sm text-text-light space-y-2">
           <p>
             Unsere Einnahmen sind von <strong>CHF {formatCHF(PEAK_REVENUE)}</strong> ({PEAK_YEAR}) auf <strong>{formatCHF(CURRENT_YEAR_DATA.revenue)}</strong> ({CURRENT_YEAR_DATA.year}) gefallen — ein Rückgang von über 50%.

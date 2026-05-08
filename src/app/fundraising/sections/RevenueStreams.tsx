@@ -58,7 +58,7 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
           return (
             <Card key={stream.source} className={`${isNew ? 'border-l-4 border-l-success' : ''}`}>
               <div className="flex items-baseline justify-between">
-                <h4 className="font-semibold text-grey-dark">{stream.source}</h4>
+                <h4 className="heading-item">{stream.source}</h4>
                 {isNew && <Badge variant="success">Neu</Badge>}
               </div>
               <div className="mt-2 flex items-baseline gap-3">

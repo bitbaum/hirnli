@@ -63,7 +63,7 @@ export default function ScoringMethodikPage() {
         <div className="grid gap-4 sm:grid-cols-3">
           <Card>
             <div className="mb-2 text-2xl">🎯</div>
-            <h3 className="mb-1 font-semibold text-grey-dark">Fit-Score (0-10)</h3>
+            <h3 className="mb-1 heading-item">Fit-Score (0-10)</h3>
             <p className="text-sm text-text-light">
               Passt diese Stiftung zu unserer Mission? Thematische, geografische und
               Zugangs-Übereinstimmung.
@@ -72,7 +72,7 @@ export default function ScoringMethodikPage() {
           </Card>
           <Card>
             <div className="mb-2 text-2xl">📊</div>
-            <h3 className="mb-1 font-semibold text-grey-dark">Bereitschaft (0-100)</h3>
+            <h3 className="mb-1 heading-item">Bereitschaft (0-100)</h3>
             <p className="text-sm text-text-light">
               Können wir ein massgeschneidertes Gesuch schreiben? Misst die
               Vollständigkeit unserer Recherche-Daten.
@@ -81,7 +81,7 @@ export default function ScoringMethodikPage() {
           </Card>
           <Card>
             <div className="mb-2 text-2xl">⚡</div>
-            <h3 className="mb-1 font-semibold text-grey-dark">Priorität (0-100)</h3>
+            <h3 className="mb-1 heading-item">Priorität (0-100)</h3>
             <p className="text-sm text-text-light">
               Sollten wir jetzt Aufwand investieren? Kombiniert Fit und Bereitschaft
               zu einer handlungsorientierten Empfehlung.
@@ -103,9 +103,9 @@ export default function ScoringMethodikPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="pb-2 pr-4 font-semibold text-grey-dark">Dimension</th>
-                  <th className="pb-2 pr-4 font-semibold text-grey-dark">Bereich</th>
-                  <th className="pb-2 font-semibold text-grey-dark">Beschreibung</th>
+                  <th className="pb-2 pr-4 heading-item">Dimension</th>
+                  <th className="pb-2 pr-4 heading-item">Bereich</th>
+                  <th className="pb-2 heading-item">Beschreibung</th>
                 </tr>
               </thead>
               <tbody className="text-text-light">
@@ -157,7 +157,7 @@ export default function ScoringMethodikPage() {
           return (
             <Card key={dim.id} className="mb-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-grey-dark">{dim.label}</h3>
+                <h3 className="heading-item">{dim.label}</h3>
                 <Badge variant="primary" className="font-bold tabular-nums">max {dim.maxScore}</Badge>
               </div>
               <div className="mt-3 overflow-x-auto">
@@ -186,7 +186,7 @@ export default function ScoringMethodikPage() {
 
         {/* Tier mapping */}
         <Card>
-          <h3 className="mb-3 font-semibold text-grey-dark">Score → Qualitätsstufe</h3>
+          <h3 className="mb-3 heading-item">Score → Qualitätsstufe</h3>
           <p className="mb-3 text-sm text-text-light">
             Der Bereitschafts-Score wird in fünf Qualitätsstufen übersetzt.
             Aktueller Durchschnitt: <strong>{readinessDist.avg}/100</strong> über {total} Stiftungen.
@@ -372,28 +372,28 @@ export default function ScoringMethodikPage() {
         <h2 className="mb-4 heading-subsection">Design-Prinzipien</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">Fit als Gate, nicht als Summand</h3>
+            <h3 className="mb-2 heading-item">Fit als Gate, nicht als Summand</h3>
             <p className="text-sm text-text-light">
               Eine Stiftung mit perfekten Daten aber schlechtem Fit (z.B. nur Medizinforschung)
               hat Priorität 0. Gute Daten kompensieren keinen fundamentalen Mismatch.
             </p>
           </Card>
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">Dimensionen nach Zweck</h3>
+            <h3 className="mb-2 heading-item">Dimensionen nach Zweck</h3>
             <p className="text-sm text-text-light">
               Bereitschafts-Dimensionen messen konkrete Fähigkeiten: «Können wir die Story
               massschneidern?» statt «Wie viele Felder sind gefüllt?»
             </p>
           </Card>
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">Inspizierbar</h3>
+            <h3 className="mb-2 heading-item">Inspizierbar</h3>
             <p className="text-sm text-text-light">
               Jede Stiftungs-Detailseite zeigt den Score-Aufschlüsselung:
               welche Checks bestanden haben und welche fehlen. Keine Black Box.
             </p>
           </Card>
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">Konfigurierbar</h3>
+            <h3 className="mb-2 heading-item">Konfigurierbar</h3>
             <p className="text-sm text-text-light">
               Alle Gewichte, Schwellenwerte und Abzüge leben in einer einzigen
               Konfigurationsdatei. Pro Organisation anpassbar.

@@ -401,7 +401,7 @@ function FunnelStage({ number, title, question, count, countLabel, method, cost,
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-grey-dark text-xs font-bold text-white">
               {number}
             </span>
-            <h3 className="font-semibold text-grey-dark">{title}</h3>
+            <h3 className="heading-item">{title}</h3>
           </div>
           <p className="mb-2 text-sm italic text-text-muted">&laquo;{question}&raquo;</p>
           {detail && (
