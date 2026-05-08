@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 import PageHeader from '@/components/layout/PageHeader';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
@@ -286,24 +286,9 @@ export default function TeamPage() {
           <div className="text-center">
             <h2 className="text-2xl font-bold text-grey-dark mb-4">Mehr erfahren</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <Link
-                href="/wirkung"
-                className="inline-block rounded-lg bg-grey-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-grey-dark/85"
-              >
-                Wirkung & Impact
-              </Link>
-              <Link
-                href="/revamp-2030"
-                className="inline-block rounded-lg bg-grey-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-grey-dark/85"
-              >
-                Revamp 2030
-              </Link>
-              <Link
-                href="/strategie"
-                className="inline-block rounded-lg border-2 border-border bg-white px-6 py-3 font-semibold text-grey-dark transition-colors hover:bg-bg-light"
-              >
-                Strategie 2030
-              </Link>
+              <Button href="/wirkung" size="lg">Wirkung & Impact</Button>
+              <Button href="/revamp-2030" size="lg">Revamp 2030</Button>
+              <Button href="/strategie" variant="secondary" size="lg">Strategie 2030</Button>
             </div>
           </div>
         </Card>

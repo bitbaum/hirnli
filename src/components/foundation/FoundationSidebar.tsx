@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
+import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
@@ -59,9 +60,9 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-text-muted">Bereitschaft</span>
             <div className="flex items-center gap-1.5">
-              <span className={`rounded-full px-1.5 py-0.5 text-xs font-semibold ${TIER_COLORS[tier]}`}>
+              <Badge variant="raw" size="sm" className={TIER_COLORS[tier]}>
                 {TIER_LABELS[tier]}
-              </span>
+              </Badge>
               <span className="text-xs tabular-nums text-text-muted">{readiness.score}/100</span>
             </div>
           </div>

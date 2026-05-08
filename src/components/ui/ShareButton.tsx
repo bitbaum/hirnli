@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 
 export default function ShareButton() {
   const [copied, setCopied] = useState(false);
@@ -13,11 +14,8 @@ export default function ShareButton() {
   }
 
   return (
-    <button
-      onClick={handleCopy}
-      className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-white px-3 py-1.5 text-sm font-medium text-text-muted transition-colors hover:bg-bg-light"
-    >
+    <Button variant="secondary" size="sm" onClick={handleCopy}>
       {copied ? '✓ Link kopiert' : '🔗 Seite teilen'}
-    </button>
+    </Button>
   );
 }

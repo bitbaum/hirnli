@@ -5,6 +5,7 @@
  */
 
 import type { GesuchReadiness } from '@/lib/domain/gesuch-readiness';
+import Badge from '@/components/ui/Badge';
 
 const GESUCH_SCORE_WARNING = 40;
 
@@ -19,17 +20,15 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
     <div className="rounded-xl border border-border bg-bg-light p-4 print:hidden">
       <div className="flex items-center justify-between mb-3">
         <p className="text-sm font-semibold text-grey-dark">Bereitschaft</p>
-        <span
-          className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-            ready
-              ? 'bg-success/10 text-success'
-              : score >= GESUCH_SCORE_WARNING
-                ? 'bg-warning/10 text-warning'
-                : 'bg-danger/10 text-danger'
-          }`}
-        >
+        <Badge variant="raw" className={
+          ready
+            ? 'bg-success/10 text-success'
+            : score >= GESUCH_SCORE_WARNING
+              ? 'bg-warning/10 text-warning'
+              : 'bg-danger/10 text-danger'
+        }>
           {score}%
-        </span>
+        </Badge>
       </div>
 
       <div className="space-y-1.5">

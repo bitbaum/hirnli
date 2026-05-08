@@ -59,10 +59,10 @@ export const HARDWARE_TESTS = [
 ] as const;
 
 export const CATEGORIES = [
-  { label: 'Kategorie A', color: 'bg-emerald-100 text-emerald-800', title: 'Ready for Refurbishment', description: 'Voll funktionsfähig' },
-  { label: 'Kategorie B', color: 'bg-amber-100 text-amber-800', title: 'Repair Needed', description: 'Kleine Reparaturen' },
-  { label: 'Kategorie C', color: 'bg-blue-100 text-blue-800', title: 'Parts Only', description: 'Ersatzteillager' },
-  { label: 'Kategorie D', color: 'bg-red-100 text-red-800', title: 'E-Waste', description: 'Fachgerecht recyceln' },
+  { label: 'Kategorie A', color: 'bg-success-bg text-success-text', title: 'Ready for Refurbishment', description: 'Voll funktionsfähig' },
+  { label: 'Kategorie B', color: 'bg-warning-bg text-warning-text', title: 'Repair Needed', description: 'Kleine Reparaturen' },
+  { label: 'Kategorie C', color: 'bg-primary/10 text-primary-text', title: 'Parts Only', description: 'Ersatzteillager' },
+  { label: 'Kategorie D', color: 'bg-danger-bg text-danger-text', title: 'E-Waste', description: 'Fachgerecht recyceln' },
 ] as const;
 
 export const DATA_WIPE_OPTIONS = [

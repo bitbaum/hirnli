@@ -201,9 +201,9 @@ export default function ScoringMethodikPage() {
             ].map(([tier, minScore]) => (
               <div key={tier} className="flex items-center justify-between rounded-lg border border-border/50 p-3">
                 <div className="flex items-center gap-3">
-                  <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${TIER_COLORS[tier]}`}>
+                  <Badge variant="raw" className={TIER_COLORS[tier]}>
                     {TIER_LABELS[tier]}
-                  </span>
+                  </Badge>
                   <span className="text-sm text-text-light">{TIER_DESCRIPTIONS[tier]}</span>
                 </div>
                 <div className="flex items-center gap-3">

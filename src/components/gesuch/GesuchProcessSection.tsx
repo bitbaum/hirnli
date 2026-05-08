@@ -1,4 +1,5 @@
 import Card from '@/components/ui/Card';
+import Badge from '@/components/ui/Badge';
 import { CASCADE_MODELS, CASCADE_SUMMARY } from '@/lib/config/value-cascade';
 import type { CascadeTier } from '@/lib/config/value-cascade';
 
@@ -15,11 +16,9 @@ function CompactTierCard({ tier }: { tier: CascadeTier }) {
         <span className={`text-sm font-semibold ${tier.color.text}`}>
           {tier.shortName}
         </span>
-        <span
-          className={`ml-auto rounded-full px-2 py-0.5 text-xs font-medium ${tier.color.badgeBg} ${tier.color.badgeText}`}
-        >
+        <Badge variant="raw" className={`ml-auto ${tier.color.badgeBg} ${tier.color.badgeText}`}>
           {tier.catchRate}
-        </span>
+        </Badge>
       </div>
       <p className="text-sm leading-relaxed text-text-light">{tier.tagline}</p>
     </div>

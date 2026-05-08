@@ -9,6 +9,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import {
@@ -270,12 +271,7 @@ export function ApplicationBoard() {
             Wähle eine Stiftung aus der Liste und klicke auf &ldquo;Gesuch starten&rdquo;, um sie
             in die Pipeline aufzunehmen.
           </p>
-          <Link
-            href="/fundraising/stiftungen"
-            className="inline-block rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white hover:bg-grey-dark/85"
-          >
-            Stiftungen durchsuchen →
-          </Link>
+          <Button href="/fundraising/stiftungen" size="lg">Stiftungen durchsuchen →</Button>
         </div>
       ) : (
         <DndContext

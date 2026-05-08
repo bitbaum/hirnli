@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 import {
   HUB_SPACE_DISPLAY,
   DEVICES_PER_YEAR_TARGET_DISPLAY,
@@ -78,14 +79,11 @@ export default function TwoAsks() {
           + {PEOPLE_REACHED_DISPLAY} in Tech-Bildung & Integration
         </div>
         <div className="mt-4 pt-4 border-t border-border">
-          <Link
-            href="/fundraising/hub"
-            className="inline-flex items-center gap-2 rounded-lg bg-grey-dark px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
-          >
+          <Button href="/fundraising/hub" size="md">
             <span>📖</span>
             <span>Detaillierte Hub-Planung ansehen</span>
             <span>→</span>
-          </Link>
+          </Button>
         </div>
       </div>
     </section>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import Table from '@/components/ui/Table';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
@@ -53,11 +54,9 @@ export default function PreismodellPage() {
               key={tier.name}
               className={`relative border-2 bg-gradient-to-br ${tier.borderColor} ${tier.bgGradient} transition-shadow hover:shadow-lg`}
             >
-              <span
-                className={`absolute -top-3 right-4 rounded-full px-3 py-0.5 text-xs font-semibold ${tier.badgeColor}`}
-              >
+              <Badge variant="raw" className={`absolute -top-3 right-4 px-3 py-0.5 font-semibold ${tier.badgeColor}`}>
                 {tier.badge}
-              </span>
+              </Badge>
               <h3 className="mb-1 text-lg font-bold">{tier.name}</h3>
               <p className={`mb-3 text-xl font-bold ${tier.priceColor}`}>{tier.price}</p>
               <p className="mb-4 text-sm text-text-muted">{tier.description}</p>
@@ -258,14 +257,7 @@ export default function PreismodellPage() {
               01_Management/B_Finanzen/Preismodell_Solidaritaet.md
             </code>
           </p>
-          <a
-            href={ORG_PROFILE.cloudUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-block rounded-lg bg-grey-dark px-4 py-2 text-sm font-medium text-white hover:bg-grey-dark/85"
-          >
-            Im Nextcloud öffnen
-          </a>
+          <Button href={ORG_PROFILE.cloudUrl} target="_blank" className="mt-4">Im Nextcloud öffnen</Button>
         </Card>
       </section>
 

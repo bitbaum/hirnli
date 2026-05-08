@@ -86,9 +86,9 @@ export function TriageSection() {
         <MetricGrid columns={4} className="mt-4">
           {CATEGORIES.map((cat) => (
             <div key={cat.label} className="text-center">
-              <span className={`inline-block rounded-full px-3 py-1 text-sm font-semibold ${cat.color}`}>
+              <Badge variant="raw" size="md" className={`px-3 py-1 text-sm font-semibold ${cat.color}`}>
                 {cat.label}
-              </span>
+              </Badge>
               <p className="mt-2 text-sm text-text-muted">
                 {cat.title}<br />{cat.description}
               </p>

@@ -58,9 +58,9 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
               </Badge>
             )}
             {inPipeline && (
-              <span className="rounded-full bg-pillar-vision/15 px-2 py-0.5 text-xs font-semibold text-pillar-vision">
+              <Badge variant="raw" className="bg-pillar-vision/15 text-pillar-vision font-semibold">
                 In Pipeline
-              </span>
+              </Badge>
             )}
           </div>
           <p className="mt-1 text-sm text-text-light">{f.tagline}</p>
@@ -82,9 +82,9 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
           {f.deadlineText && f.deadlineText !== UNKNOWN_FIELD && (
             <span>{f.deadlineText}</span>
           )}
-          <span className={`rounded-full px-1.5 py-0.5 text-xs font-medium ${TIER_COLORS[tier]}`}>
+          <Badge variant="raw" size="sm" className={TIER_COLORS[tier]}>
             {TIER_LABELS[tier]}
-          </span>
+          </Badge>
         </div>
         {f.amount.text && f.amount.text !== UNKNOWN_FIELD && (
           <span>{f.amount.text}</span>

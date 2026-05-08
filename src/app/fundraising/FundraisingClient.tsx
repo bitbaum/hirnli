@@ -8,6 +8,7 @@ import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
 import { STATUS_LABELS, STATUS_BADGE_VARIANT, STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { Button } from '@/components/ui/Button';
 import { formatNumber } from '@/lib/utils/format';
 import { computeTierCounts, TIER_LABELS, TIER_DESCRIPTIONS } from '@/lib/domain/foundation-helpers';
 import { CORE_FACTS } from '@/lib/config/stories';
@@ -262,13 +263,9 @@ export default function FundraisingClient() {
           )}
         </div>
         <div className="mt-4 text-center">
-          <Link
-            href="/fundraising/stiftungen"
-            className="inline-flex items-center gap-2 rounded-lg bg-grey-dark px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-grey-dark/85"
-          >
-            Stiftungen & Förderer Übersicht
-            <span aria-hidden="true">&rarr;</span>
-          </Link>
+          <Button href="/fundraising/stiftungen" size="md">
+            Stiftungen & Förderer Übersicht <span aria-hidden="true">&rarr;</span>
+          </Button>
         </div>
       </Card>
 

@@ -7,7 +7,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { formatCHF } from '@/lib/utils/format';
@@ -103,18 +103,8 @@ export function FundraisingDashboard() {
             Fristen und den Überblick über den Fundraising-Fortschritt.
           </p>
           <div className="flex gap-3">
-            <Link
-              href="/fundraising/stiftungen"
-              className="inline-block rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white hover:bg-grey-dark/85"
-            >
-              Stiftungen durchsuchen →
-            </Link>
-            <Link
-              href="/fundraising/applications"
-              className="inline-block rounded-lg border border-border bg-white px-6 py-3 text-sm font-semibold text-grey-dark hover:bg-bg-light"
-            >
-              Pipeline öffnen
-            </Link>
+            <Button href="/fundraising/stiftungen" size="lg">Stiftungen durchsuchen →</Button>
+            <Button href="/fundraising/applications" variant="secondary" size="lg">Pipeline öffnen</Button>
           </div>
         </div>
       ) : (

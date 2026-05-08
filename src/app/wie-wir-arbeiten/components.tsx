@@ -1,6 +1,7 @@
 'use client';
 
 import Card from '@/components/ui/Card';
+import Badge from '@/components/ui/Badge';
 import type { CascadeTier } from '@/lib/config/value-cascade';
 
 // ---------------------------------------------------------------------------
@@ -56,11 +57,9 @@ export function TierDetailCard({ tier }: TierDetailCardProps) {
             <h3 className="text-lg font-semibold text-grey-dark">
               Stufe {tier.number}: {tier.name}
             </h3>
-            <span
-              className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${tier.color.badgeBg} ${tier.color.badgeText}`}
-            >
+            <Badge variant="raw" className={`${tier.color.badgeBg} ${tier.color.badgeText}`}>
               {tier.catchRate} der Geräte
-            </span>
+            </Badge>
           </div>
         </div>
       </div>

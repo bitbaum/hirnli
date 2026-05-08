@@ -9,6 +9,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 import PageHeader from '@/components/layout/PageHeader';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
@@ -59,12 +60,7 @@ export default function MeineGesuchePage() {
           <p className="mb-6 max-w-xs text-sm text-text-muted">
             Wähle eine Stiftung und starte den Gesuch-Workflow, um hier deine Entwürfe zu sehen.
           </p>
-          <Link
-            href="/fundraising/stiftungen"
-            className="inline-block rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white hover:bg-grey-dark/85"
-          >
-            Stiftungen durchsuchen →
-          </Link>
+          <Button href="/fundraising/stiftungen" size="lg">Stiftungen durchsuchen →</Button>
         </div>
       ) : (
         <div className="rounded-xl border border-border overflow-hidden">

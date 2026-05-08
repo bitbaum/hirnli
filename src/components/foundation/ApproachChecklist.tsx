@@ -1,4 +1,5 @@
 import Card from '@/components/ui/Card';
+import Badge from '@/components/ui/Badge';
 import type { ApproachStep, ReadinessItem } from '@/lib/domain/foundation-contextualization';
 
 interface ApproachChecklistProps {
@@ -40,11 +41,9 @@ export default function ApproachChecklist({ steps, readiness }: ApproachChecklis
               <div className="flex-1 pb-3">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium text-grey-dark">{step.action}</span>
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${STATUS_STYLES[step.status]}`}
-                  >
+                  <Badge variant="raw" className={STATUS_STYLES[step.status]}>
                     {STATUS_LABELS[step.status]}
-                  </span>
+                  </Badge>
                 </div>
                 <p className="mt-0.5 text-sm text-text-light">{step.detail}</p>
                 <p className="mt-0.5 text-sm text-text-muted">{step.timing}</p>

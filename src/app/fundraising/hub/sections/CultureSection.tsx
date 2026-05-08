@@ -109,7 +109,7 @@ export default function CultureSection() {
               <div className="text-3xl" aria-hidden="true">🎤</div>
               <div>
                 <h3 className="text-lg font-semibold text-grey-dark">Event- & Multifunktionsraum</h3>
-                <p className="text-sm text-teal-700 font-medium">100 m² — Tags Workshops, abends Events</p>
+                <p className="text-sm text-theme-arbeit font-medium">100 m² — Tags Workshops, abends Events</p>
               </div>
             </div>
             <Badge color="teal">CHF 60&apos;000</Badge>
