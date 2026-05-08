@@ -19,7 +19,7 @@ function BudgetLineItemCard({ item, borderColor }: { item: BudgetLineItem; borde
         {item.icon && <span className="text-2xl" aria-hidden="true">{item.icon}</span>}
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline justify-between gap-2">
-            <h4 className="font-semibold text-grey-dark">{item.label}</h4>
+            <h4 className="heading-item">{item.label}</h4>
             <span className="shrink-0 font-bold text-grey-dark">{formatCHF(item.amount)}</span>
           </div>
           <p className="mt-1 text-sm text-text-muted">{item.description}</p>

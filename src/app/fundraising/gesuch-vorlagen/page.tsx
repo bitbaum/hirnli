@@ -74,7 +74,7 @@ export default function GesuchVorlagenPage() {
                 <div className="mb-3 flex items-center gap-2">
                   <span className="text-2xl">{sp.icon}</span>
                   <div>
-                    <h3 className="font-semibold text-grey-dark">{sp.shortLabel}</h3>
+                    <h3 className="heading-item">{sp.shortLabel}</h3>
                     <p className="text-sm text-text-muted">{sp.description}</p>
                   </div>
                 </div>

@@ -188,7 +188,7 @@ export default function PipelineMethodikPage() {
         <h2 className="mb-4 heading-subsection">Datenquellen</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">Zefix (Handelsregister)</h3>
+            <h3 className="mb-2 heading-item">Zefix (Handelsregister)</h3>
             <p className="mb-2 text-sm text-text-light">
               Offizielles Schweizer Handelsregister. Enthält alle eingetragenen Stiftungen
               mit Name, UID und Sitz. Keine Informationen über Stiftungszweck oder Tätigkeit.
@@ -196,7 +196,7 @@ export default function PipelineMethodikPage() {
             <p className="text-sm text-text-muted">{SWISS_FOUNDATIONS_DISPLAY} Stiftungen. Quelle: zefix.ch</p>
           </Card>
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">ESA (Eidg. Stiftungsaufsicht)</h3>
+            <h3 className="mb-2 heading-item">ESA (Eidg. Stiftungsaufsicht)</h3>
             <p className="mb-2 text-sm text-text-light">
               Bundesaufsicht über Stiftungen. Enthält den offiziellen Stiftungszweck —
               die rechtliche Zweckbeschreibung, die bei der Gründung festgelegt wurde.
@@ -257,7 +257,7 @@ export default function PipelineMethodikPage() {
         <h2 className="mb-4 heading-subsection">Was an jeder Stufe passiert</h2>
 
         <Card className="mb-4">
-          <h3 className="mb-2 font-semibold text-grey-dark">Stufe 1-2: Register-Import</h3>
+          <h3 className="mb-2 heading-item">Stufe 1-2: Register-Import</h3>
           <p className="mb-2 text-sm text-text-light">
             Automatischer Import aller Stiftungen aus dem Zefix-Handelsregister und dem
             ESA-Stiftungsverzeichnis. Jede Stiftung bekommt einen Datenbankeintrag mit
@@ -269,7 +269,7 @@ export default function PipelineMethodikPage() {
         </Card>
 
         <Card className="mb-4">
-          <h3 className="mb-2 font-semibold text-grey-dark">Stufe 2-3: Thematisches Screening</h3>
+          <h3 className="mb-2 heading-item">Stufe 2-3: Thematisches Screening</h3>
           <p className="mb-2 text-sm text-text-light">
             Der offizielle Stiftungszweck wird gegen unsere Themenbereiche abgeglichen:
             Arbeitsintegration, Kreislaufwirtschaft, digitale Bildung, soziale Integration,
@@ -284,7 +284,7 @@ export default function PipelineMethodikPage() {
         </Card>
 
         <Card className="mb-4">
-          <h3 className="mb-2 font-semibold text-grey-dark">Stufe 3-4: Fit-Bewertung und Tiefenrecherche</h3>
+          <h3 className="mb-2 heading-item">Stufe 3-4: Fit-Bewertung und Tiefenrecherche</h3>
           <p className="mb-2 text-sm text-text-light">
             Stiftungen mit thematischem Signal werden vertieft analysiert: Passt der Stiftungszweck
             wirklich zu unserer Mission? Dies geschieht durch KI-gestützte Analyse des Zwecktexts
@@ -297,7 +297,7 @@ export default function PipelineMethodikPage() {
         </Card>
 
         <Card className="mb-4">
-          <h3 className="mb-2 font-semibold text-grey-dark">Stufe 4-5: Prioritäts-Gate</h3>
+          <h3 className="mb-2 heading-item">Stufe 4-5: Prioritäts-Gate</h3>
           <p className="mb-2 text-sm text-text-light">
             Die Kombination aus Fit-Score und Bereitschafts-Score ergibt die Priorität.
             Nur Stiftungen mit Priorität P1-P3 bekommen eine generierte Gesuch-Seite.
@@ -341,7 +341,7 @@ export default function PipelineMethodikPage() {
         <h2 className="mb-4 heading-subsection">Prinzipien</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">Günstigstes Signal zuerst</h3>
+            <h3 className="mb-2 heading-item">Günstigstes Signal zuerst</h3>
             <p className="text-sm text-text-light">
               Jede Stufe ist billiger als die nächste. Keyword-Matching kostet nichts,
               KI-Analyse kostet wenig, Tiefenrecherche kostet am meisten. Wir eliminieren
@@ -349,7 +349,7 @@ export default function PipelineMethodikPage() {
             </p>
           </Card>
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">Nie verschlechtern</h3>
+            <h3 className="mb-2 heading-item">Nie verschlechtern</h3>
             <p className="text-sm text-text-light">
               Neue Daten können einen Fit-Score nur verbessern, nie verschlechtern.
               Prioritäten können nur steigen, nie sinken. Bereits recherchierte Stiftungen
@@ -357,7 +357,7 @@ export default function PipelineMethodikPage() {
             </p>
           </Card>
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">Inspizierbar</h3>
+            <h3 className="mb-2 heading-item">Inspizierbar</h3>
             <p className="text-sm text-text-light">
               Jeder Score und jede Stufe ist auf der Stiftungs-Detailseite einsehbar.
               Welche Checks bestanden haben, welche Felder fehlen, warum die Priorität
@@ -365,7 +365,7 @@ export default function PipelineMethodikPage() {
             </p>
           </Card>
           <Card>
-            <h3 className="mb-2 font-semibold text-grey-dark">Wiederholbar</h3>
+            <h3 className="mb-2 heading-item">Wiederholbar</h3>
             <p className="text-sm text-text-light">
               Der gesamte Trichter ist idempotent — er kann jederzeit erneut ausgeführt werden,
               ohne bestehende Daten zu beschädigen. Neue Register-Daten werden automatisch

@@ -261,7 +261,7 @@ export default function TeamPage() {
       {/* ========== DATENQUALITÄT ========== */}
       <section className="mb-8">
         <Card className="bg-bg-light border-l-4 border-l-border">
-          <h3 className="font-semibold text-grey-dark mb-3">Hinweis zur Datenqualität</h3>
+          <h3 className="heading-item mb-3">Hinweis zur Datenqualität</h3>
           <div className="space-y-2 text-sm text-text-muted">
             <div>
               <strong>Kernteam:</strong> {DATA_QUALITY_NOTE.kernteam}
