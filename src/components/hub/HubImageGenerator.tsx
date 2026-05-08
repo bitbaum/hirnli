@@ -32,7 +32,7 @@ export function HubImageGenerator() {
                 : 'border-border hover:border-success/20 bg-white'
             }`}
           >
-            <p className="text-sm font-semibold text-grey-dark">{space.space_name}</p>
+            <p className="heading-detail">{space.space_name}</p>
             <p className="text-xs text-text-light mt-1">{space.aspect_ratio}</p>
           </button>
         ))}

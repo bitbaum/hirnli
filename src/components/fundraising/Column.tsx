@@ -39,7 +39,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
       {/* Column header */}
       <div className="mb-3">
         <div className="mb-1 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-grey-dark">{status.label}</h2>
+          <h2 className="heading-detail">{status.label}</h2>
           <span className="rounded bg-bg-light px-1.5 py-0.5 text-xs font-medium text-text-light">
             {applications.length}
           </span>

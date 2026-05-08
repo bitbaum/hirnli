@@ -172,7 +172,7 @@ export default function FoundationListClient() {
 
       {/* Pipeline Overview — independent metrics, NOT sequential stages */}
       <Card padding={false} className="mb-6 space-y-4 p-4">
-        <h2 className="text-sm font-semibold text-grey-dark">Pipeline-Übersicht</h2>
+        <h2 className="heading-detail">Pipeline-Übersicht</h2>
 
         {/* Research progress — the one true completion metric */}
         <div>
@@ -196,7 +196,7 @@ export default function FoundationListClient() {
             return (
               <div key={level} className={`rounded-lg border ${pc.cardColor} px-3 py-2 text-center`}>
                 <div className={`text-lg font-bold tabular-nums ${pc.textColor}`}>{priorityDist[level]}</div>
-                <div className="text-sm font-semibold text-grey-dark">{pc.label}</div>
+                <div className="heading-detail">{pc.label}</div>
               </div>
             );
           })}

@@ -41,7 +41,7 @@ export default function FilterDrawer({ open, onClose, ...sidebarProps }: FilterD
       >
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-grey-dark">Filter</h2>
+          <h2 className="heading-detail">Filter</h2>
           <button
             onClick={onClose}
             className="rounded-lg p-1.5 text-text-muted hover:bg-bg-light hover:text-grey-dark"

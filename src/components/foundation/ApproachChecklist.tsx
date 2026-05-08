@@ -24,7 +24,7 @@ export default function ApproachChecklist({ steps, readiness }: ApproachChecklis
     <div className="space-y-4">
       {/* Approach Steps Timeline */}
       <Card>
-        <h4 className="mb-4 text-sm font-semibold text-grey-dark">Nächste Schritte</h4>
+        <h4 className="mb-4 heading-detail">Nächste Schritte</h4>
         <div className="space-y-3">
           {steps.map((step) => (
             <div key={step.order} className="flex gap-3">
@@ -55,7 +55,7 @@ export default function ApproachChecklist({ steps, readiness }: ApproachChecklis
 
       {/* Readiness Checklist */}
       <Card>
-        <h4 className="mb-3 text-sm font-semibold text-grey-dark">Bewerbungsbereitschaft</h4>
+        <h4 className="mb-3 heading-detail">Bewerbungsbereitschaft</h4>
         <div className="space-y-2">
           {readiness.map((item) => (
             <div key={item.label} className="flex items-start gap-2">

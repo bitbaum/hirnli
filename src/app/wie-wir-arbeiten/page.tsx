@@ -36,7 +36,7 @@ export default function WieWirArbeitenPage() {
               <p className="text-2xl font-bold text-primary md:text-3xl">
                 {m.value}
               </p>
-              <p className="text-sm font-semibold text-grey-dark">{m.label}</p>
+              <p className="heading-detail">{m.label}</p>
               <p className="mt-1 text-sm text-text-muted">{m.detail}</p>
             </Card>
           ))}

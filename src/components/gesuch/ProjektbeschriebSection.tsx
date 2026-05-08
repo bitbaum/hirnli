@@ -55,7 +55,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
       {/* Anecdotes — human stories after Ausgangslage (Gap #1) */}
       {dok.anecdotes.why.length > 0 && (
         <div className="mb-8 rounded border border-border bg-surface-alt p-4">
-          <p className="mb-2 text-sm font-semibold text-grey-dark">Aus der Praxis</p>
+          <p className="mb-2 heading-detail">Aus der Praxis</p>
           {dok.anecdotes.why.map((a) => (
             <p key={a.id} className="mb-2 text-sm leading-relaxed text-text italic">
               {a.template}
@@ -82,7 +82,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {dok.story.how.competencies.map((comp) => (
               <div key={comp.headline}>
-                <p className="mb-1 text-sm font-semibold text-grey-dark">{comp.headline}</p>
+                <p className="mb-1 heading-detail">{comp.headline}</p>
                 <ul className="text-sm text-text-light">
                   {comp.capabilities.slice(0, 4).map((c) => (
                     <li key={c}>• {c}</li>
@@ -122,7 +122,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         {/* Partner highlights — Stadt Zürich prominent mention (Gap #5) */}
         {dok.partnerHighlights.length > 0 && (
           <div className="mt-4 rounded border border-primary/20 bg-primary/5 p-4">
-            <p className="mb-2 text-sm font-semibold text-grey-dark">Referenz-Partnerschaften</p>
+            <p className="mb-2 heading-detail">Referenz-Partnerschaften</p>
             {dok.partnerHighlights.map((p) => (
               <div key={p.name}>
                 <p className="text-sm leading-relaxed text-text">

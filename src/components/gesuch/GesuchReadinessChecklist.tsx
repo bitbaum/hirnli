@@ -19,7 +19,7 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
   return (
     <div className="rounded-xl border border-border bg-bg-light p-4 print:hidden">
       <div className="flex items-center justify-between mb-3">
-        <p className="text-sm font-semibold text-grey-dark">Bereitschaft</p>
+        <p className="heading-detail">Bereitschaft</p>
         <Badge variant="raw" className={
           ready
             ? 'bg-success/10 text-success'

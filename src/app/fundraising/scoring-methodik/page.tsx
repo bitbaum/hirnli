@@ -232,7 +232,7 @@ export default function ScoringMethodikPage() {
 
           {/* Formula */}
           <div className="mb-4 rounded-lg bg-bg-light p-4">
-            <h4 className="mb-2 text-sm font-semibold text-grey-dark">Formel</h4>
+            <h4 className="mb-2 heading-detail">Formel</h4>
             <div className="space-y-1 font-mono text-sm text-text-light">
               <p>basis = fit_normiert × ({PRIORITY_FORMULA.baseFitFloor} + {PRIORITY_FORMULA.readinessScale} × bereitschaft / 100)</p>
               <p>priorität = min(100, basis × min(anwendbare_abzüge) + förder_bonus)</p>
@@ -245,7 +245,7 @@ export default function ScoringMethodikPage() {
 
           {/* Penalties */}
           <div className="mb-4">
-            <h4 className="mb-2 text-sm font-semibold text-grey-dark">Abzüge (härtester gilt)</h4>
+            <h4 className="mb-2 heading-detail">Abzüge (härtester gilt)</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -280,7 +280,7 @@ export default function ScoringMethodikPage() {
 
           {/* Grant bonus */}
           <div className="mb-4">
-            <h4 className="mb-2 text-sm font-semibold text-grey-dark">Förder-Bonus</h4>
+            <h4 className="mb-2 heading-detail">Förder-Bonus</h4>
             <p className="mb-2 text-sm text-text-light">
               Wenn der Förderbereich der Stiftung mit unserem Zielbetrag
               (CHF {formatNumber(PRIORITY_FORMULA.grantMatch.targetMin)}–{formatNumber(PRIORITY_FORMULA.grantMatch.targetMax)}) übereinstimmt:
@@ -294,7 +294,7 @@ export default function ScoringMethodikPage() {
 
           {/* P-levels */}
           <div>
-            <h4 className="mb-2 text-sm font-semibold text-grey-dark">
+            <h4 className="mb-2 heading-detail">
               Prioritätsstufen (aktuell über {total} Stiftungen)
             </h4>
             <div className="space-y-2">

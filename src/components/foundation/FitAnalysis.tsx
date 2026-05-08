@@ -72,7 +72,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
       {/* Fit narrative — explains WHY the fit is good/moderate/limited */}
       {fitNarrative && (
         <div className="mb-4 rounded-lg bg-bg-light p-4">
-          <h4 className="mb-2 text-sm font-semibold text-grey-dark">
+          <h4 className="mb-2 heading-detail">
             Warum passt diese Stiftung?
           </h4>
           <p className="text-sm leading-relaxed text-text-light">
@@ -82,14 +82,14 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
       )}
 
       <div className="space-y-3">
-        <h4 className="text-sm font-semibold text-grey-dark">Thematische Übereinstimmung</h4>
+        <h4 className="heading-detail">Thematische Übereinstimmung</h4>
         <ThemeBadgeList themeIds={f.themes} variant="detailed" />
       </div>
 
       {/* Theme alignments — how each theme connects to our org */}
       {themeAlignments && themeAlignments.length > 0 && (
         <div className="mt-4">
-          <h4 className="mb-3 text-sm font-semibold text-grey-dark">Thematische Brücken</h4>
+          <h4 className="mb-3 heading-detail">Thematische Brücken</h4>
           <div className="space-y-2">
             {themeAlignments.map((a) => (
               <div key={a.themeId} className="flex gap-3 rounded border border-border p-3">
@@ -117,7 +117,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
 
       {f.purposeSummary && (
         <div className="mt-4">
-          <h4 className="text-sm font-semibold text-grey-dark">Stiftungszweck</h4>
+          <h4 className="heading-detail">Stiftungszweck</h4>
           <p className="mt-1 text-sm text-text-light">{f.purposeSummary}</p>
         </div>
       )}

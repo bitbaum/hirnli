@@ -121,7 +121,7 @@ export default function BildungPage() {
                 </div>
               </div>
               <div className="mb-4">
-                <h4 className="text-sm font-semibold text-grey-dark mb-2">Fachgebiete:</h4>
+                <h4 className="heading-detail mb-2">Fachgebiete:</h4>
                 <div className="flex flex-wrap gap-2">
                   {bpl.fachgebiete?.map((fg) => (
                     <Badge key={fg} variant="outline" className="text-xs">

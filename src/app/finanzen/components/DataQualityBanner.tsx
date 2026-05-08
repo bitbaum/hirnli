@@ -10,7 +10,7 @@ export function DataQualityBanner() {
       <div className="flex items-start gap-3">
         <span className="mt-0.5 text-lg text-warning">&#9888;</span>
         <div>
-          <h3 className="text-sm font-semibold text-grey-dark">
+          <h3 className="heading-detail">
             Datenqualität & Transparenz
           </h3>
           <p className="mt-1 text-sm text-text-light">

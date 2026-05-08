@@ -29,7 +29,7 @@ export default function SpaceConcept() {
             <div key={space.area} className="border-l-4 border-primary/20 pl-4 py-2">
               <div className="flex items-baseline justify-between mb-1">
                 <strong className="text-base text-grey-dark">{space.area}</strong>
-                <span className="text-sm font-semibold text-grey-dark tabular-nums">{space.sqm} m²</span>
+                <span className="heading-detail tabular-nums">{space.sqm} m²</span>
               </div>
               <p className="text-sm text-text-muted m-0">{space.description}</p>
             </div>

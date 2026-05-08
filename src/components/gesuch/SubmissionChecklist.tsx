@@ -25,7 +25,7 @@ export default function SubmissionChecklist() {
 
   return (
     <div className="rounded-xl border border-border bg-bg-light p-4 print:hidden">
-      <p className="mb-3 text-sm font-semibold text-grey-dark">Checkliste vor Einreichung</p>
+      <p className="mb-3 heading-detail">Checkliste vor Einreichung</p>
       <div className="space-y-2">
         {ITEMS.map((item) => (
           <label key={item.id} className="flex items-center gap-2.5 cursor-pointer">

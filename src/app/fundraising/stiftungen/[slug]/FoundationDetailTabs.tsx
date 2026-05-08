@@ -88,18 +88,18 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                   <h3 className="mb-4 heading-card">Bewerbungsstrategie</h3>
                   <div className="space-y-4">
                     <div>
-                      <h4 className="text-sm font-semibold text-grey-dark">Stiftungstyp</h4>
+                      <h4 className="heading-detail">Stiftungstyp</h4>
                       <p className="mt-1 text-sm text-text-light">
                         <strong>Typ {typeLabel.short}:</strong> {typeLabel.desc}
                       </p>
                     </div>
                     <div>
-                      <h4 className="text-sm font-semibold text-grey-dark">Empfohlener Ansatz</h4>
+                      <h4 className="heading-detail">Empfohlener Ansatz</h4>
                       <p className="mt-1 text-sm text-text-light">{typeLabel.approach}</p>
                     </div>
                     {f.deadlines && f.deadlines.length > 0 && (
                       <div>
-                        <h4 className="text-sm font-semibold text-grey-dark">Eingabefristen</h4>
+                        <h4 className="heading-detail">Eingabefristen</h4>
                         <table className="mt-2 w-full text-sm">
                           <thead>
                             <tr className="border-b border-border">
@@ -120,19 +120,19 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                     )}
                     {f.responseTime && (
                       <div>
-                        <h4 className="text-sm font-semibold text-grey-dark">Antwortzeit</h4>
+                        <h4 className="heading-detail">Antwortzeit</h4>
                         <p className="mt-1 text-sm text-text-light">{f.responseTime}</p>
                       </div>
                     )}
                     {f.decisionCycle && (
                       <div>
-                        <h4 className="text-sm font-semibold text-grey-dark">Entscheidungszyklus</h4>
+                        <h4 className="heading-detail">Entscheidungszyklus</h4>
                         <p className="mt-1 text-sm text-text-light">{f.decisionCycle}</p>
                       </div>
                     )}
                     {f.applicationProcess && f.applicationProcess.length > 0 && (
                       <div>
-                        <h4 className="text-sm font-semibold text-grey-dark">Bewerbungsprozess</h4>
+                        <h4 className="heading-detail">Bewerbungsprozess</h4>
                         <ol className="mt-2 list-inside list-decimal space-y-1 text-sm text-text-light">
                           {f.applicationProcess.map((step, i) => (
                             <li key={i}>{step}</li>

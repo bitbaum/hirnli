@@ -29,7 +29,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
 
       {/* Activities */}
       <div className="mb-6">
-        <h3 className="mb-2 text-sm font-semibold text-grey-dark">Tätigkeitsfelder</h3>
+        <h3 className="mb-2 heading-detail">Tätigkeitsfelder</h3>
         <div className="grid grid-cols-1 gap-1 text-sm text-text-light sm:grid-cols-2">
           {dok.kurzportrait.activities.map((a) => (
             <p key={a}>• {a}</p>
@@ -39,7 +39,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
 
       {/* Unique selling points */}
       <div className="mb-6">
-        <h3 className="mb-2 text-sm font-semibold text-grey-dark">Alleinstellungsmerkmale</h3>
+        <h3 className="mb-2 heading-detail">Alleinstellungsmerkmale</h3>
         <div className="grid grid-cols-1 gap-1 text-sm text-text-light sm:grid-cols-2">
           {dok.kurzportrait.unique.map((u) => (
             <p key={u}>• {u}</p>

@@ -31,7 +31,7 @@ export default function ChartWrapper({ children, title, className = '' }: ChartW
 
   return (
     <Card padding={false} className={`p-4 ${className}`}>
-      {title && <h2 className="mb-3 text-sm font-semibold text-grey-dark">{title}</h2>}
+      {title && <h2 className="mb-3 heading-detail">{title}</h2>}
       <div className="h-72">
         {mounted ? (
           children

@@ -112,7 +112,7 @@ export default function CommunitySpaceCard({
           {/* SDGs */}
           {sdgs.length > 0 && (
             <div>
-              <h4 className="text-sm font-semibold text-grey-dark mb-2">SDG-Beitrag</h4>
+              <h4 className="heading-detail mb-2">SDG-Beitrag</h4>
               <div className="flex flex-wrap gap-2">
                 {sdgs.map((sdg, idx) => (
                   <span

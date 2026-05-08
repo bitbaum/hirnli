@@ -51,7 +51,7 @@ export default function StepSubmit({
           <div className="rounded-xl border border-border bg-bg-light p-5">
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-grey-dark text-sm">Vollständiges Gesuch (PDF)</p>
+                <p className="heading-detail">Vollständiges Gesuch (PDF)</p>
                 <p className="mt-0.5 text-sm text-text-muted">4 Seiten — Anschreiben, Projektbeschrieb, Budget, Kurzportrait</p>
               </div>
               <span className="text-xl">📄</span>
@@ -71,7 +71,7 @@ export default function StepSubmit({
           <div className="rounded-xl border border-border bg-bg-light p-5">
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-grey-dark text-sm">Kurzübersicht (1 Seite)</p>
+                <p className="heading-detail">Kurzübersicht (1 Seite)</p>
                 <p className="mt-0.5 text-sm text-text-muted">Concept Note — häufig als Ersteinreichung gefordert</p>
               </div>
               <span className="text-xl">📋</span>
@@ -91,7 +91,7 @@ export default function StepSubmit({
           <div className="rounded-xl border border-border bg-bg-light p-5">
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-grey-dark text-sm">Öffentlicher Link</p>
+                <p className="heading-detail">Öffentlicher Link</p>
                 <p className="mt-0.5 text-sm text-text-muted">Lesbare Landing Page — direkt an Stiftungs-Programme schicken</p>
               </div>
               <span className="text-xl">🔗</span>

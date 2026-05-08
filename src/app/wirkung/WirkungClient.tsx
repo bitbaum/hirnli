@@ -237,7 +237,7 @@ export default function WirkungClient() {
                     : 'border-l-4 border-l-border'
               }`}
             >
-              <h4 className="mb-1 text-sm font-semibold text-grey-dark">{step.label}</h4>
+              <h4 className="mb-1 heading-detail">{step.label}</h4>
               <p className="text-sm text-text-light">{step.desc}</p>
               <p className="mt-1 text-sm text-text-muted">&rarr; {step.impact}</p>
             </div>
