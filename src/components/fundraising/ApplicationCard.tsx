@@ -177,7 +177,7 @@ export function ApplicationCard({
                       fitScoreToDisplay(foundation.fitScore, false) === 3
                         ? 'bg-success/10 text-success'
                         : fitScoreToDisplay(foundation.fitScore, false) >= 2
-                          ? 'bg-amber-100 text-amber-700'
+                          ? 'bg-amber-bg text-amber-text'
                           : 'bg-bg-light text-text-muted'
                     }`}
                     title={`Fit-Score: ${foundation.fitScore}/10`}

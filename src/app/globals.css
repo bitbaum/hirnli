@@ -63,9 +63,25 @@
   --color-pillar-social: #14b8a6;    /* teal — aligns with theme-arbeit */
   --color-pillar-eco: #10b981;       /* green — aligns with theme-klima */
 
-  /* Shadows */
+  /* Extended palette — data visualization and tier chips (not UI states) */
+  --color-amber: #f59e0b;
+  --color-amber-bg: #fef3c7;
+  --color-amber-text: #b45309;
+
+  /* Shadows — override Tailwind v4 defaults so one edit resets all depth */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
   --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+
+  /* Border radius — override Tailwind v4 defaults so one edit resets all corners */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
 
   /* Font */
   --font-sans: var(--font-inter), 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -74,12 +90,59 @@
 
 /* ========================================
    GRADIENT TOKENS
+   All gradients live here — never inline in components.
    ======================================== */
 
-.gradient-hero-vision { background: linear-gradient(to bottom right, #1e3a5f, #2d5a87); }
+/* Hero backgrounds */
+.gradient-hero-vision       { background: linear-gradient(to bottom right, #1e3a5f, #2d5a87); }
 .gradient-hero-transparency { background: linear-gradient(to bottom right, #1e40af, #3b82f6, #10b981); }
-.gradient-hero-fundraising { background: linear-gradient(to bottom right, #059669, #047857, #065f46); }
-.gradient-hero-financial { background: linear-gradient(to bottom right, #1e40af, #4338ca); }
+.gradient-hero-fundraising  { background: linear-gradient(to bottom right, #059669, #047857, #065f46); }
+.gradient-hero-financial    { background: linear-gradient(to bottom right, #1e40af, #4338ca); }
+
+/* Brand accent bar (nav top stripe, dividers) */
+.gradient-brand { background: linear-gradient(to right, var(--color-revamp-blue), var(--color-revamp-green), var(--color-revamp-orange)); }
+
+/* Nav item highlight states */
+.gradient-nav-highlight { background: linear-gradient(to right, color-mix(in srgb, var(--color-accent) 8%, transparent), color-mix(in srgb, var(--color-warning) 8%, transparent)); }
+.gradient-nav-active    { background: linear-gradient(to right, color-mix(in srgb, var(--color-primary) 8%, transparent), color-mix(in srgb, var(--color-success) 8%, transparent)); }
+
+/* Subtle card tints */
+.gradient-card-success { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-success) 10%, transparent), color-mix(in srgb, var(--color-success) 15%, transparent)); }
+.gradient-card-primary { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-primary) 10%, transparent), color-mix(in srgb, var(--color-pillar-vision) 10%, transparent)); }
+
+/* ========================================
+   TYPOGRAPHY UTILITIES
+   Semantic heading scale — change here to retheme all headings.
+   ======================================== */
+
+@layer utilities {
+  .heading-page       { @apply text-3xl font-bold text-grey-dark; }
+  .heading-section    { @apply text-2xl font-bold text-grey-dark; }
+  .heading-subsection { @apply text-xl font-semibold text-grey-dark; }
+  .heading-card       { @apply text-lg font-semibold text-grey-dark; }
+  .heading-label      { @apply text-sm font-semibold uppercase tracking-wider text-text-muted; }
+}
+
+/* ========================================
+   INTERACTION UTILITIES
+   Consistent motion — change here to retheme all transitions.
+   ======================================== */
+
+@layer utilities {
+  .transition-standard { @apply transition-colors duration-200; }
+  .transition-hover    { @apply transition-all duration-200; }
+  .transition-reveal   { @apply transition-all duration-300 ease-out; }
+}
+
+/* ========================================
+   Z-INDEX UTILITIES
+   Stacking context SSOT — avoids magic numbers across files.
+   ======================================== */
+
+@layer utilities {
+  .z-backdrop { @apply z-40; }
+  .z-modal    { @apply z-50; }
+}
 
 /* ========================================
    BASE STYLES

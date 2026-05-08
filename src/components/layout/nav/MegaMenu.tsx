@@ -44,12 +44,12 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
         }`}
       >
         <div className="overflow-hidden rounded-xl border-2 border-success/20 bg-white shadow-2xl">
-          <div className="h-2 bg-gradient-to-r from-revamp-blue via-revamp-green to-revamp-orange"></div>
+          <div className="gradient-brand h-2"></div>
           <div className="grid grid-cols-2 gap-8 p-8">
             {item.sections?.map((section: NavSection) => (
               <div key={section.title} role="group" aria-label={section.title}>
                 <div className="mb-4 flex items-center gap-2">
-                  <div className="h-1 w-8 rounded-full bg-gradient-to-r from-revamp-blue to-revamp-green"></div>
+                  <div className="gradient-brand h-1 w-8 rounded-full"></div>
                   <span className="text-sm font-bold uppercase tracking-wider text-revamp-blue">
                     {section.title}
                   </span>
@@ -80,11 +80,11 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
                           role="menuitem"
                           className={`${NAV_ITEM_BASE} ${
                             link.highlight
-                              ? 'border-l-revamp-orange bg-gradient-to-r from-orange-50 to-yellow-50'
+                              ? 'border-l-revamp-orange gradient-nav-highlight'
                               : 'border-transparent'
                           } ${
                             isActive(link.href, pathname)
-                              ? 'border-l-revamp-blue bg-gradient-to-r from-blue-50 to-emerald-50'
+                              ? 'border-l-revamp-blue gradient-nav-active'
                               : ''
                           }`}
                         >
