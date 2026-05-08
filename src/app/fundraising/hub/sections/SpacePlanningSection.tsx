@@ -149,7 +149,7 @@ export default function SpacePlanningSection() {
         </div>
 
         <div className="text-sm text-text-light">
-          <p className="font-semibold text-grey-dark mb-2">Weitere Multi-Purpose-Konzepte:</p>
+          <h4 className="heading-detail mb-2">Weitere Multi-Purpose-Konzepte</h4>
           <ul className="space-y-1">
             <li>• <strong>Schulungsraum + Repair Café:</strong> Werktags Kurse, 1./3. Samstag öffentliche Reparaturen</li>
             <li>• <strong>Makerspace + Synth-Labor:</strong> Geteilte Werkbänke, unterschiedliche Nutzungszeiten</li>

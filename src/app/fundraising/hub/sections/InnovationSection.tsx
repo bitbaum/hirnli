@@ -25,7 +25,7 @@ export default function InnovationSection() {
             Offene Werkstatt: 3D-Drucker, Laser-Cutter, Lötarbeitsplätze. Vom Prototyp zum Produkt.
           </p>
           <div className="text-sm mb-3">
-            <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Ausstattung:</p>
+            <h4 className="heading-detail mb-2">Arbeitsplätze & Ausstattung</h4>
             <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>12× Werkbänke</strong> (je 6m²) für Elektronik-Projekte</li>
               <li>• <strong>6× Lötarbeitsplätze</strong> mit Absaugung</li>
@@ -55,7 +55,7 @@ export default function InnovationSection() {
             Robotik-Kits für Schulen, Arduino-Workshops, autonome Roboter bauen. MINT-Bildung hands-on.
           </p>
           <div className="text-sm mb-3">
-            <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Ausstattung:</p>
+            <h4 className="heading-detail mb-2">Arbeitsplätze & Ausstattung</h4>
             <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>10× Robotik-Arbeitsplätze</strong> (je 6m²)</li>
               <li>• <strong>30× Arduino/Raspberry Pi Kits</strong> (Leihgabe an Schulen)</li>
@@ -85,7 +85,7 @@ export default function InnovationSection() {
             Strukturierte Bildung: Linux-Kurse, AI Literacy, Programmieren lernen. Digital Literacy für alle.
           </p>
           <div className="text-sm mb-3">
-            <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Ausstattung:</p>
+            <h4 className="heading-detail mb-2">Arbeitsplätze & Ausstattung</h4>
             <ul className="space-y-1 text-text-light text-sm">
               <li>• <strong>20× Kursarbeitsplätze</strong> (Laptops, Monitore)</li>
               <li>• Whiteboard, Beamer, Präsentations-Setup</li>
@@ -115,7 +115,7 @@ export default function InnovationSection() {
           </p>
 
           <div className="text-sm mb-4">
-            <p className="font-semibold text-grey-dark mb-3">Mögliche Setups (aufsteigend):</p>
+            <h4 className="heading-detail mb-3">Mögliche Setups (aufsteigend)</h4>
 
             <div className="space-y-3">
               <div className="bg-chart-6/10 p-3 rounded-lg">

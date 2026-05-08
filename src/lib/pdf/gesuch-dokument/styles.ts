@@ -26,6 +26,7 @@ export const COLORS = {
   greenText: '#065F46',
   white: '#FFFFFF',
   danger: '#DC2626',
+  amber: '#F59E0B',  // --color-amber in globals.css
 } as const;
 
 export const styles = StyleSheet.create({

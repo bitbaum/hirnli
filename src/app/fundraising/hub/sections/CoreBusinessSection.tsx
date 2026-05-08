@@ -26,7 +26,7 @@ export default function CoreBusinessSection() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="font-semibold text-grey-dark mb-2">Flächen:</p>
+              <h4 className="heading-detail mb-2">Flächen:</h4>
               <ul className="space-y-1 text-text-light">
                 <li>• 50 m² Verkaufsfläche (20-30 Geräte ausgestellt)</li>
                 <li>• 15 m² Beratungs- & Kassenbereich</li>
@@ -34,7 +34,7 @@ export default function CoreBusinessSection() {
               </ul>
             </div>
             <div>
-              <p className="font-semibold text-grey-dark mb-2">Ausstattung:</p>
+              <h4 className="heading-detail mb-2">Ausstattung:</h4>
               <ul className="space-y-1 text-text-light">
                 <li>• Ausstellungsregale & Vitrinen</li>
                 <li>• Testgeräte für Kunden (Laptops ausprobieren)</li>
@@ -65,7 +65,7 @@ export default function CoreBusinessSection() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4">
             <div>
-              <p className="font-semibold text-grey-dark mb-2">Flächen & Zonen (ENTWURF):</p>
+              <h4 className="heading-detail mb-2">Flächen & Zonen (ENTWURF):</h4>
               <ul className="space-y-1 text-text-light">
                 <li>• <strong>70 m²</strong> Haupt-Werkstatt (6-8× Reparaturtische)</li>
                 <li>• <strong>30 m²</strong> Test & Data Wipe (10× Plätze parallel)</li>
@@ -74,7 +74,7 @@ export default function CoreBusinessSection() {
               </ul>
             </div>
             <div>
-              <p className="font-semibold text-grey-dark mb-2">Arbeitsplätze & Kapazität:</p>
+              <h4 className="heading-detail mb-2">Arbeitsplätze & Kapazität:</h4>
               <ul className="space-y-1 text-text-light">
                 <li>• <strong>6-8× Reparaturtische</strong> (kompakt, effizient)</li>
                 <li>• <strong>10× Test/Data-Wipe-Plätze</strong> (parallel)</li>

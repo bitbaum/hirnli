@@ -37,8 +37,7 @@ const CURRENT_REVENUE = CURRENT_YEAR_DATA.revenue;
 const P1P3_COUNT = STIFTUNGEN_DATA.filter(isActionablePriority).length;
 const TOTAL_SLIDES = 8;
 
-// Amber used for the "Solidarisch" pricing tier — not in shared COLORS
-const AMBER = '#F59E0B';
+const AMBER = COLORS.amber;
 
 // ---------------------------------------------------------------------------
 // Slide styles (landscape A4 = 842 × 595 pt)
