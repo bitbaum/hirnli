@@ -19,7 +19,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
-import { eq, and, gte, lte } from 'drizzle-orm';
+import { eq, and, gte, lte, isNotNull, count, sum } from 'drizzle-orm';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 import { getTodayISO, toISODateStr } from '@/lib/utils/format';
@@ -31,53 +31,47 @@ import { API_ERR_LOAD } from '@/lib/utils/errors';
  */
 export async function GET(_request: NextRequest) {
   try {
-    // Fetch all applications (we need them for various calculations)
-    const allApplications = await db
-      .select({
-        id: applications.id,
-        status: applications.status,
-        requestedAmount: applications.requestedAmount,
-        awardedAmount: applications.awardedAmount,
-        priorityLevel: applications.priorityLevel,
-        decisionExpected: applications.decisionExpected,
-        foundationId: applications.foundationId,
-      })
-      .from(applications);
+    // Single GROUP BY query for all aggregate stats — no full-table fetch
+    const [aggregates, statusRows, priorityRows] = await Promise.all([
+      db
+        .select({
+          total: count(),
+          totalRequested: sum(applications.requestedAmount),
+          totalAwarded: sum(applications.awardedAmount),
+        })
+        .from(applications),
 
-    // Calculate totals
-    const totalRequested = allApplications.reduce(
-      (sum, app) => sum + (app.requestedAmount || 0),
-      0
-    );
+      db
+        .select({
+          status: applications.status,
+          cnt: count(),
+        })
+        .from(applications)
+        .groupBy(applications.status),
 
-    const totalAwarded = allApplications.reduce(
-      (sum, app) => sum + (app.awardedAmount || 0),
-      0
-    );
+      db
+        .select({
+          priorityLevel: applications.priorityLevel,
+          cnt: count(),
+        })
+        .from(applications)
+        .where(isNotNull(applications.priorityLevel))
+        .groupBy(applications.priorityLevel),
+    ]);
 
-    // Count by status — app.status is typed ApplicationStatusId via Drizzle schema
-    const statusCounts: Partial<Record<ApplicationStatusId, number>> = {};
-    allApplications.forEach(app => {
-      statusCounts[app.status] = (statusCounts[app.status] || 0) + 1;
-    });
+    const { total, totalRequested, totalAwarded } = aggregates[0];
 
-    // Extract specific counts
-    const submitted = statusCounts.submitted || 0;
-    const accepted = statusCounts.accepted || 0;
-    const rejected = statusCounts.rejected || 0;
-    const pending = statusCounts.pending || 0;
+    const statusCounts = Object.fromEntries(
+      statusRows.map(r => [r.status, r.cnt])
+    ) as Partial<Record<ApplicationStatusId, number>>;
 
-    // Calculate success rate
+    const submitted = statusCounts.submitted ?? 0;
+    const accepted = statusCounts.accepted ?? 0;
+    const rejected = statusCounts.rejected ?? 0;
+    const pending = statusCounts.pending ?? 0;
+
     const totalDecided = accepted + rejected;
     const successRate = totalDecided > 0 ? Math.round((accepted / totalDecided) * 100) : 0;
-
-    // Count by priority
-    const priorityCounts: Record<number, number> = {};
-    allApplications.forEach(app => {
-      if (app.priorityLevel) {
-        priorityCounts[app.priorityLevel] = (priorityCounts[app.priorityLevel] || 0) + 1;
-      }
-    });
 
     // Upcoming deadlines (next 30 days)
     const today = getTodayISO();
@@ -99,33 +93,21 @@ export async function GET(_request: NextRequest) {
       )
       .orderBy(applications.decisionExpected);
 
-    // Build status distribution for chart
-    const byStatus = Object.entries(statusCounts).map(([status, count]) => ({
-      status,
-      count,
-    }));
-
-    // Build priority distribution
-    const byPriority = Object.entries(priorityCounts).map(([priority, count]) => ({
-      priority: parseInt(priority),
-      count,
-    }));
-
     return NextResponse.json({
       success: true,
       data: {
         totals: {
-          totalRequested,
-          totalAwarded,
+          totalRequested: totalRequested ?? 0,
+          totalAwarded: totalAwarded ?? 0,
           submitted,
           accepted,
           rejected,
           pending,
           successRate,
-          totalApplications: allApplications.length,
+          totalApplications: total,
         },
-        byStatus,
-        byPriority,
+        byStatus: statusRows.map(r => ({ status: r.status, count: r.cnt })),
+        byPriority: priorityRows.map(r => ({ priority: r.priorityLevel!, count: r.cnt })),
         upcomingDeadlines: upcomingDeadlines.map(item => ({
           id: item.application.id,
           foundationName: item.foundation?.name || 'Unknown',

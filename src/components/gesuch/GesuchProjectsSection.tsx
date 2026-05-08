@@ -19,7 +19,7 @@ export default function GesuchProjectsSection({ projects }: GesuchProjectsSectio
             <p className="mb-6 text-sm leading-relaxed text-text-light">{project.summary}</p>
             <div className="grid gap-4 md:grid-cols-3">
               <div>
-                <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">Ziele</h4>
+                <h4 className="mb-2 heading-xs-label text-primary">Ziele</h4>
                 <ul className="space-y-1">
                   {project.goals.map((g) => (
                     <li key={g} className="text-sm text-text-light">• {g}</li>
@@ -27,7 +27,7 @@ export default function GesuchProjectsSection({ projects }: GesuchProjectsSectio
                 </ul>
               </div>
               <div>
-                <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-accent">Aktivitäten</h4>
+                <h4 className="mb-2 heading-xs-label text-accent">Aktivitäten</h4>
                 <ul className="space-y-1">
                   {project.activities.map((a) => (
                     <li key={a} className="text-sm text-text-light">• {a}</li>
@@ -35,7 +35,7 @@ export default function GesuchProjectsSection({ projects }: GesuchProjectsSectio
                 </ul>
               </div>
               <div>
-                <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-secondary">Wirkung</h4>
+                <h4 className="mb-2 heading-xs-label text-secondary">Wirkung</h4>
                 <ul className="space-y-1">
                   {project.outcomes.map((o) => (
                     <li key={o} className="text-sm text-text-light">• {o}</li>

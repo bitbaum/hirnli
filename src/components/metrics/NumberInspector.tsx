@@ -54,7 +54,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
     <Modal isOpen={isOpen} onClose={onClose} title={data.label}>
       <div className="space-y-4">
         <div>
-          <h4 className="mb-1 text-xs font-semibold uppercase text-text-muted">Aktueller Wert</h4>
+          <h4 className="mb-1 heading-xs-label">Aktueller Wert</h4>
           <div className="heading-section">{data.value}</div>
           <Badge variant={typeInfo.variant} className="mt-1">
             {INSPECTOR_SOURCE_ICONS[typeInfo.variant]} {typeInfo.label}
@@ -62,7 +62,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
         </div>
 
         <div>
-          <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Woher kommt diese Zahl?</h4>
+          <h4 className="mb-2 heading-xs-label">Woher kommt diese Zahl?</h4>
           <div className="space-y-3 text-sm">
             <div className="flex items-start gap-2">
               <span className="text-lg">📊</span>
@@ -105,7 +105,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
 
         {data.formula && (
           <div>
-            <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Wie wird das berechnet?</h4>
+            <h4 className="mb-2 heading-xs-label">Wie wird das berechnet?</h4>
             <div className="rounded-lg bg-primary/10 border border-primary/20 px-4 py-3">
               <code className="block text-sm font-mono text-grey-dark whitespace-pre-wrap">{data.formula}</code>
             </div>
@@ -114,7 +114,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
 
         {data.description && (
           <div>
-            <h4 className="mb-2 text-xs font-semibold uppercase text-text-muted">Was bedeutet das?</h4>
+            <h4 className="mb-2 heading-xs-label">Was bedeutet das?</h4>
             <p className="text-sm text-text-light leading-relaxed">{data.description}</p>
           </div>
         )}

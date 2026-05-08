@@ -52,7 +52,7 @@ export interface FilterSidebarProps {
 
 /** Shared className for toggle chip buttons (preset, contact, trust level) */
 function chipClass(active: boolean, withGap = false): string {
-  return `inline-flex min-h-[44px] items-center justify-center${withGap ? ' gap-1' : ''} rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+  return `inline-flex min-h-11 items-center justify-center${withGap ? ' gap-1' : ''} rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
     active ? 'bg-primary text-white' : 'bg-grey-light text-grey-dark hover:bg-border'
   }`;
 }

@@ -58,7 +58,7 @@ function CopyButton({ text, label = 'Kopieren' }: { text: string; label?: string
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-1.5">
+    <p className="heading-xs-label mb-1.5">
       {children}
     </p>
   );

@@ -62,7 +62,7 @@ export default function SovereigntyPillar({
     <div
       className={`
         group relative rounded-xl border-2 p-5 text-center
-        transition-all duration-300 cursor-pointer
+        transition-reveal cursor-pointer
         ${colors.border} ${colors.bg}
         transform hover:scale-105 hover:shadow-lg
       `}

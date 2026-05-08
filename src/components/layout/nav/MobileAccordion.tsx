@@ -97,7 +97,7 @@ export default function MobileAccordion({
             ))}
             {item.sections?.map((section) => (
               <li key={section.title} className="mt-2">
-                <span className="text-xs font-semibold uppercase tracking-wider text-text-muted">
+                <span className="heading-xs-label">
                   {section.title}
                 </span>
                 <ul className="mt-1 space-y-1">

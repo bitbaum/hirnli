@@ -263,7 +263,7 @@ export function EditApplicationModal({
           {/* Outcome fields — only visible when relevant */}
           {isTerminalStatus(status) && (
             <div className="rounded-lg border border-border bg-bg-light p-4 space-y-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <p className="heading-xs-label">
                 Ergebnis
               </p>
               {status === 'accepted' && (

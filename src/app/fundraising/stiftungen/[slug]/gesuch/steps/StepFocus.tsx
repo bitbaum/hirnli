@@ -34,7 +34,7 @@ export default function StepFocus({
       <div className="rounded-xl border border-border bg-bg-light p-6">
         <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">Stiftung</p>
+            <p className="heading-xs-label">Stiftung</p>
             <h2 className="mt-1 text-xl font-bold text-grey-dark">{foundationName}</h2>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -68,7 +68,7 @@ export default function StepFocus({
       {/* Bridge preview */}
       {foundationBridge && (
         <div className="rounded-lg border-l-4 border-primary bg-primary/5 px-5 py-4">
-          <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">Partnerschafts-Brücke</p>
+          <p className="heading-xs-label text-primary mb-2">Partnerschafts-Brücke</p>
           <p className="text-sm text-text leading-relaxed">
             {foundationBridge.split(/\.\s+/).slice(0, 2).join('. ') + (foundationBridge.includes('. ') ? '.' : '')}
           </p>

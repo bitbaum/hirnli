@@ -144,6 +144,7 @@
   .heading-subsection { @apply text-xl font-semibold text-grey-dark; }
   .heading-card       { @apply text-lg font-semibold text-grey-dark; }
   .heading-label      { @apply text-sm font-semibold uppercase tracking-wider text-text-muted; }
+  .heading-xs-label   { @apply text-xs font-semibold uppercase tracking-wider text-text-muted; }
 }
 
 /* ========================================

@@ -275,7 +275,7 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
       <div className="space-y-4">
         {COLUMN_GROUPS.map((group) => (
           <div key={group.label}>
-            <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-text-muted">
+            <h4 className="mb-1.5 heading-xs-label">
               {group.label}
             </h4>
             <div className="space-y-0.5">

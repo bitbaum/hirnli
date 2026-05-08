@@ -244,7 +244,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             <h2 className="font-semibold text-grey-dark">Stiftung</h2>
             <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">Website</p>
+                <p className="heading-xs-label">Website</p>
                 {f?.websiteUrl ? (
                   <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
                     {f.websiteUrl}
@@ -252,15 +252,15 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
                 ) : '—'}
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">E-Mail</p>
+                <p className="heading-xs-label">E-Mail</p>
                 <p className="text-grey-dark">{f?.contact?.email ?? '—'}</p>
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">Fit Score</p>
+                <p className="heading-xs-label">Fit Score</p>
                 <p className="text-grey-dark">{foundation.fitScore != null ? `${foundation.fitScore} / 10` : '—'}</p>
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">Gesuch</p>
+                <p className="heading-xs-label">Gesuch</p>
                 <Link href={`/fundraising/stiftungen/${foundation.id}/gesuch`} className="text-primary hover:underline">
                   Gesuch öffnen →
                 </Link>

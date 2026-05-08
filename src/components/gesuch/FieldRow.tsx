@@ -81,7 +81,7 @@ export default function FieldRow({
       {/* Label row */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <label className="text-xs font-semibold uppercase tracking-wider text-text-muted">
+          <label className="heading-xs-label">
             {label}
           </label>
           {isModified && (
@@ -153,7 +153,7 @@ export default function FieldRow({
                 type="button"
                 disabled={aiLoading}
                 onClick={() => runAi(preset.instruction)}
-                className="min-h-[44px] rounded-full border border-primary/30 bg-white px-2.5 py-1 text-sm text-primary transition hover:bg-primary hover:text-white disabled:opacity-50"
+                className="min-h-11 rounded-full border border-primary/30 bg-white px-2.5 py-1 text-sm text-primary transition hover:bg-primary hover:text-white disabled:opacity-50"
               >
                 {preset.label}
               </button>

@@ -37,7 +37,7 @@ export default function CommunitySpaceCard({
   return (
     <div
       className={`
-        rounded-xl p-6 transition-all duration-300
+        rounded-xl p-6 transition-reveal
         ${borderStyle}
         ${isExpanded ? 'col-span-full' : ''}
       `}
