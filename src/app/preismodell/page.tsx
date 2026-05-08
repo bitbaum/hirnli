@@ -157,7 +157,7 @@ export default function PreismodellPage() {
       {/* Supporter CTA */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Werde Supporter</h2>
-        <Card className="border-2 border-pillar-vision bg-gradient-to-br from-pillar-vision/10 to-white">
+        <Card className="border-2 border-pillar-vision bg-pillar-vision/10">
           <div className="flex flex-wrap items-center gap-8">
             <div className="min-w-0 flex-1 sm:min-w-[280px]">
               <h3 className="mb-3 text-lg font-semibold text-pillar-vision">
