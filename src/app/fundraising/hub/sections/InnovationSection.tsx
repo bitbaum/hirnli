@@ -1,5 +1,5 @@
 import Card from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
+import HubCardHeader from './HubCardHeader';
 
 export default function InnovationSection() {
   return (
@@ -11,16 +11,7 @@ export default function InnovationSection() {
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-l-4 border-l-pillar-vision">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🛠️</div>
-              <div>
-                <h3 className="heading-card">Makerspace & Hackerspace</h3>
-                <p className="text-sm text-chart-5 font-medium">80 m² — Prototyping & Tüfteln</p>
-              </div>
-            </div>
-            <Badge color="purple">CHF 70&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🛠️" title="Makerspace & Hackerspace" subtitle="80 m² — Prototyping & Tüfteln" subtitleClassName="text-chart-5" badgeColor="purple" badgeText="CHF 70'000" />
           <p className="text-sm text-text-light mb-4">
             Offene Werkstatt: 3D-Drucker, Laser-Cutter, Lötarbeitsplätze. Vom Prototyp zum Produkt.
           </p>
@@ -41,16 +32,7 @@ export default function InnovationSection() {
         </Card>
 
         <Card className="border-l-4 border-l-pillar-digital">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🤖</div>
-              <div>
-                <h3 className="heading-card">Robotik-Labor</h3>
-                <p className="text-sm text-pillar-digital font-medium">60 m² — Arduino, Raspberry Pi, autonome Systeme</p>
-              </div>
-            </div>
-            <Badge color="indigo">CHF 50&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🤖" title="Robotik-Labor" subtitle="60 m² — Arduino, Raspberry Pi, autonome Systeme" subtitleClassName="text-pillar-digital" badgeColor="indigo" badgeText="CHF 50'000" />
           <p className="text-sm text-text-light mb-4">
             Robotik-Kits für Schulen, Arduino-Workshops, autonome Roboter bauen. MINT-Bildung hands-on.
           </p>
@@ -71,16 +53,7 @@ export default function InnovationSection() {
         </Card>
 
         <Card className="border-l-4 border-l-primary">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🎓</div>
-              <div>
-                <h3 className="heading-card">Schulungs- & Kursräume</h3>
-                <p className="text-sm text-primary font-medium">70 m² — Linux, AI, Coding für alle</p>
-              </div>
-            </div>
-            <Badge color="blue">CHF 45&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🎓" title="Schulungs- & Kursräume" subtitle="70 m² — Linux, AI, Coding für alle" subtitleClassName="text-primary" badgeColor="blue" badgeText="CHF 45'000" />
           <p className="text-sm text-text-light mb-4">
             Strukturierte Bildung: Linux-Kurse, AI Literacy, Programmieren lernen. Digital Literacy für alle.
           </p>
@@ -100,15 +73,7 @@ export default function InnovationSection() {
         </Card>
 
         <Card className="border-l-4 border-l-cyan">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🤖</div>
-              <div>
-                <h3 className="heading-card">AI Lab — Verschiedene Setups möglich</h3>
-                <p className="text-sm text-chart-6 font-medium">20-40 m² — Eigene GPUs, digitale Souveränität</p>
-              </div>
-            </div>
-          </div>
+          <HubCardHeader icon="🤖" title="AI Lab — Verschiedene Setups möglich" subtitle="20-40 m² — Eigene GPUs, digitale Souveränität" subtitleClassName="text-chart-6" />
           <p className="text-sm text-text-light mb-4">
             <strong>Vision:</strong> Nicht Cloud-abhängig. Eigene GPU-Infrastruktur für AI-Modelle trainieren, hosten, nutzen.
             GPUs können gekauft oder gespendet werden — <strong>verschiedene Setups möglich</strong>, je nach Budget & Spenden.

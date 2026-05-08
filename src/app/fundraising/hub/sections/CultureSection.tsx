@@ -1,5 +1,5 @@
 import Card from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
+import HubCardHeader from './HubCardHeader';
 
 export default function CultureSection() {
   return (
@@ -11,16 +11,7 @@ export default function CultureSection() {
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-l-4 border-l-danger">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🏛️</div>
-              <div>
-                <h3 className="heading-card">Computer History Museum</h3>
-                <p className="text-sm text-danger font-medium">60 m² — Technik-Geschichte zum Anfassen</p>
-              </div>
-            </div>
-            <Badge color="pink">CHF 50&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🏛️" title="Computer History Museum" subtitle="60 m² — Technik-Geschichte zum Anfassen" subtitleClassName="text-danger" badgeColor="pink" badgeText="CHF 50'000" />
           <p className="text-sm text-text-light mb-4">
             Von Commodore 64 bis zur ersten Cray: Computergeschichte als lebendiges Archiv.
             Zeigt, dass alte Hardware wertvoll ist — nicht Müll.
@@ -42,16 +33,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-chart-5">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🎹</div>
-              <div>
-                <h3 className="heading-card">Elektronische Musik & Synth-Labor</h3>
-                <p className="text-sm text-chart-5 font-medium">50 m² — Alte Elektronik wird Musik</p>
-              </div>
-            </div>
-            <Badge color="purple">CHF 40&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🎹" title="Elektronische Musik & Synth-Labor" subtitle="50 m² — Alte Elektronik wird Musik" subtitleClassName="text-chart-5" badgeColor="purple" badgeText="CHF 40'000" />
           <p className="text-sm text-text-light mb-4">
             Vintage-Synths restaurieren, Circuit-Bending lernen, Live-Konzerte veranstalten.
             Musik als Zugang zu Technologie.
@@ -73,16 +55,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-warning">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🎨</div>
-              <div>
-                <h3 className="heading-card">E-Waste-Art Studio</h3>
-                <p className="text-sm text-warning font-medium">40 m² — Elektroschrott wird Kunst</p>
-              </div>
-            </div>
-            <Badge color="orange">CHF 30&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🎨" title="E-Waste-Art Studio" subtitle="40 m² — Elektroschrott wird Kunst" subtitleClassName="text-warning" badgeColor="orange" badgeText="CHF 30'000" />
           <p className="text-sm text-text-light mb-4">
             Künstler:innen schaffen aus Platinen, Gehäusen, Komponenten Skulpturen & Installationen.
             Zeigt: Schrott = Ressource.
@@ -104,16 +77,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-pillar-social">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🎤</div>
-              <div>
-                <h3 className="heading-card">Event- & Multifunktionsraum</h3>
-                <p className="text-sm text-theme-arbeit font-medium">100 m² — Tags Workshops, abends Events</p>
-              </div>
-            </div>
-            <Badge color="teal">CHF 60&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🎤" title="Event- & Multifunktionsraum" subtitle="100 m² — Tags Workshops, abends Events" subtitleClassName="text-theme-arbeit" badgeColor="teal" badgeText="CHF 60'000" />
           <p className="text-sm text-text-light mb-4">
             Flexibler Raum für 50-80 Personen. Tags: Workshops, Co-Working. Abends: Konzerte, Film, Talks.
           </p>
@@ -135,16 +99,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-success">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">☕</div>
-              <div>
-                <h3 className="heading-card">Zero-Waste Community Kitchen</h3>
-                <p className="text-sm text-success font-medium">50 m² — Gemeinsam essen, gemeinsam lernen</p>
-              </div>
-            </div>
-            <Badge color="green">CHF 40&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="☕" title="Zero-Waste Community Kitchen" subtitle="50 m² — Gemeinsam essen, gemeinsam lernen" subtitleClassName="text-success" badgeColor="green" badgeText="CHF 40'000" />
           <p className="text-sm text-text-light mb-4">
             Fair-Trade-Café tags, Community-Kitchen abends. Niederschwelliger Treffpunkt — keine Konsumpflicht.
           </p>
@@ -165,16 +120,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-warning">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🔧</div>
-              <div>
-                <h3 className="heading-card">Repair Café</h3>
-                <p className="text-sm text-warning font-medium">30 m² — Community-Reparatur, 2×/Monat</p>
-              </div>
-            </div>
-            <Badge color="yellow">CHF 20&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🔧" title="Repair Café" subtitle="30 m² — Community-Reparatur, 2×/Monat" subtitleClassName="text-warning" badgeColor="yellow" badgeText="CHF 20'000" />
           <p className="text-sm text-text-light mb-4">
             Öffentliche Reparatur-Events: Bring dein kaputtes Gerät, wir helfen dir es zu reparieren.
             Lernen durch Tun.

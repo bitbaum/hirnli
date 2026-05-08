@@ -1,5 +1,5 @@
 import Card from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
+import HubCardHeader from './HubCardHeader';
 
 export default function CoreBusinessSection() {
   return (
@@ -10,16 +10,7 @@ export default function CoreBusinessSection() {
       </p>
       <div className="grid grid-cols-1 gap-6">
         <Card className="border-l-4 border-l-success">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🏪</div>
-              <div>
-                <h3 className="heading-card">Shop & Kundenbereich</h3>
-                <p className="text-sm text-success font-medium">80 m² — Verkauf, Beratung, Annahme</p>
-              </div>
-            </div>
-            <Badge color="emerald">CHF 35&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🏪" title="Shop & Kundenbereich" subtitle="80 m² — Verkauf, Beratung, Annahme" subtitleClassName="text-success" badgeColor="emerald" badgeText="CHF 35'000" />
           <p className="text-sm text-text-light mb-4">
             Erste Anlaufstelle für Kunden: Geräte kaufen, zur Reparatur bringen, beraten lassen.
             Heute: Kein dedizierter Verkaufsraum. Neu: Professioneller Shop mit Ausstellungsfläche.
@@ -49,16 +40,7 @@ export default function CoreBusinessSection() {
         </Card>
 
         <Card className="border-l-4 border-l-primary">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl" aria-hidden="true">🔧</div>
-              <div>
-                <h3 className="heading-card">Refurbishment-Werkstatt</h3>
-                <p className="text-sm text-primary font-medium">~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)</p>
-              </div>
-            </div>
-            <Badge color="blue">CHF 80&apos;000</Badge>
-          </div>
+          <HubCardHeader icon="🔧" title="Refurbishment-Werkstatt" subtitle="~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)" subtitleClassName="text-primary" badgeColor="blue" badgeText="CHF 80'000" />
           <p className="text-sm text-text-light mb-4">
             Das Herzstück: Hier entstehen refurbishte Geräte. <strong>Heute:</strong> 4 Tische, chaotisch, nur 1-2 in Nutzung.
             <strong> Neu:</strong> Strukturierte Prozesse (Triage → Data Wipe → Repair → Test → QA), nicht endlos Platz.
