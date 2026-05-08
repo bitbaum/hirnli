@@ -86,6 +86,12 @@ export const PROJECT_YEAR_RANGE = `${PROJECT_START}–${PROJECT_END}`;
 export const PROJECT_DURATION = `${PROJECT_END - PROJECT_START + 1} Jahre (${PROJECT_YEAR_RANGE})`;
 export const PROJECT_DURATION_LABEL = 'Aufbau → Wachstum → Verselbständigung';
 
+export const QUICK_ACTIONS = [
+  { href: '/fundraising/stiftungen', label: 'Stiftungen durchsuchen' },
+  { href: '/fundraising/applications', label: 'Pipeline öffnen' },
+  { href: '/fundraising/dashboard', label: 'Dashboard' },
+] as const;
+
 export const RESOURCES = [
   { href: '/api/documents/pitch-deck', label: 'Pitch Deck (PDF)', description: '8-Folien-Präsentation für Stiftungen', external: true },
   { href: '/api/documents/impact-report', label: 'Wirkungsbericht (PDF)', description: 'Jährlicher Impact-Report, 2 Seiten', external: true },

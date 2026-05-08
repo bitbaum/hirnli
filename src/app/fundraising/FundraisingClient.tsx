@@ -20,6 +20,7 @@ import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import {
   computePipelineStats,
+  QUICK_ACTIONS,
   HERO_STATS,
   RESOURCES,
   NEXT_STEPS,
@@ -58,27 +59,16 @@ export default function FundraisingClient() {
 
       {/* Quick actions */}
       <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <Link
-          href="/fundraising/stiftungen"
-          className="flex items-center justify-between rounded-xl border-2 border-border bg-bg-light px-5 py-4 font-semibold text-grey-dark transition-colors hover:bg-grey-light"
-        >
-          <span>Stiftungen durchsuchen</span>
-          <span aria-hidden="true">→</span>
-        </Link>
-        <Link
-          href="/fundraising/applications"
-          className="flex items-center justify-between rounded-xl border-2 border-border bg-bg-light px-5 py-4 font-semibold text-grey-dark transition-colors hover:bg-grey-light"
-        >
-          <span>Pipeline öffnen</span>
-          <span aria-hidden="true">→</span>
-        </Link>
-        <Link
-          href="/fundraising/dashboard"
-          className="flex items-center justify-between rounded-xl border-2 border-border bg-bg-light px-5 py-4 font-semibold text-grey-dark transition-colors hover:bg-grey-light"
-        >
-          <span>Dashboard</span>
-          <span aria-hidden="true">→</span>
-        </Link>
+        {QUICK_ACTIONS.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            className="flex items-center justify-between rounded-xl border-2 border-border bg-bg-light px-5 py-4 font-semibold text-grey-dark transition-colors hover:bg-grey-light"
+          >
+            <span>{label}</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        ))}
       </div>
 
       {/* THE STORY */}
