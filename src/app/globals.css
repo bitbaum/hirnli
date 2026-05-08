@@ -63,13 +63,19 @@
   --color-pillar-social: #14b8a6;    /* teal — aligns with theme-arbeit */
   --color-pillar-eco: #10b981;       /* green — aligns with theme-klima */
 
-  /* Extended palette — data visualization and tier chips (not UI states) */
+  /* Extended palette — data visualization and status chips (not UI states) */
   --color-amber: #f59e0b;
   --color-amber-bg: #fef3c7;
   --color-amber-text: #b45309;
   --color-yellow: #eab308;
   --color-yellow-bg: #fef9c3;
   --color-yellow-text: #854d0e;  /* 6.1:1 on yellow-bg */
+  --color-purple: #7c3aed;
+  --color-purple-bg: #ede9fe;
+  --color-purple-text: #4c1d95;  /* 10.7:1 on purple-bg */
+  --color-pink: #db2777;
+  --color-pink-bg: #fce7f3;
+  --color-pink-text: #831843;    /* 8.5:1 on pink-bg */
 
   /* Shadows — override Tailwind v4 defaults so one edit resets all depth */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
