@@ -14,7 +14,7 @@ interface ToCColumnData {
 export const TOC_COLUMNS: ToCColumnData[] = [
   {
     title: 'Inputs',
-    color: 'bg-blue-50 border-blue-300',
+    color: 'bg-primary/5 border-primary/20',
     titleColor: 'text-primary',
     items: [
       { label: 'Gebrauchte Hardware', status: 'missing' },
@@ -25,8 +25,8 @@ export const TOC_COLUMNS: ToCColumnData[] = [
   },
   {
     title: 'Aktivitäten',
-    color: 'bg-yellow-50 border-yellow-300',
-    titleColor: 'text-yellow-600',
+    color: 'bg-yellow-bg border-yellow/30',
+    titleColor: 'text-yellow-text',
     items: [
       { label: 'Refurbishment', status: 'missing' },
       { label: 'Linux-Installation', status: 'missing' },
@@ -36,8 +36,8 @@ export const TOC_COLUMNS: ToCColumnData[] = [
   },
   {
     title: 'Outputs',
-    color: 'bg-amber-50 border-amber-300',
-    titleColor: 'text-amber-600',
+    color: 'bg-amber-bg border-amber/30',
+    titleColor: 'text-amber-text',
     items: [
       { label: 'Verkaufte Geräte', status: 'estimated' },
       { label: 'Einnahmen', status: 'measured' },
@@ -47,7 +47,7 @@ export const TOC_COLUMNS: ToCColumnData[] = [
   },
   {
     title: 'Impact',
-    color: 'bg-emerald-50 border-emerald-300',
+    color: 'bg-success/5 border-success/20',
     titleColor: 'text-success',
     items: [
       { label: 'CO₂ vermieden', status: 'estimated' },

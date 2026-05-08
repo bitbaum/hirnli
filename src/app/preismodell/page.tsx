@@ -52,7 +52,7 @@ export default function PreismodellPage() {
           {PRICING_TIERS.map((tier) => (
             <Card
               key={tier.name}
-              className={`relative border-2 bg-gradient-to-br ${tier.borderColor} ${tier.bgGradient} transition-shadow hover:shadow-lg`}
+              className={`relative border-2 ${tier.borderColor} ${tier.bgColor} transition-shadow hover:shadow-lg`}
             >
               <Badge variant="raw" className={`absolute -top-3 right-4 px-3 py-0.5 font-semibold ${tier.badgeColor}`}>
                 {tier.badge}

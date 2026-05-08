@@ -9,7 +9,7 @@ export interface PricingTier {
   description: string;
   features: string[];
   borderColor: string;
-  bgGradient: string;
+  bgColor: string;
   priceColor: string;
   badgeColor: string;
 }
@@ -26,10 +26,10 @@ export const PRICING_TIERS: PricingTier[] = [
       'Unbürokratische Entscheidung',
       'Auch für Repair-Cafés',
     ],
-    borderColor: 'border-emerald-500',
-    bgGradient: 'from-emerald-50 to-white',
-    priceColor: 'text-emerald-500',
-    badgeColor: 'bg-emerald-500 text-white',
+    borderColor: 'border-success',
+    bgColor: 'bg-success-bg',
+    priceColor: 'text-success',
+    badgeColor: 'bg-success text-white',
   },
   {
     name: 'KulturLegi',
@@ -42,10 +42,10 @@ export const PRICING_TIERS: PricingTier[] = [
       'Für Working Poor',
       'Für Studierende mit KulturLegi',
     ],
-    borderColor: 'border-amber-500',
-    bgGradient: 'from-amber-50 to-white',
-    priceColor: 'text-amber-500',
-    badgeColor: 'bg-amber-500 text-white',
+    borderColor: 'border-amber',
+    bgColor: 'bg-amber-bg',
+    priceColor: 'text-amber-text',
+    badgeColor: 'bg-amber text-white',
   },
   {
     name: 'Normalpreis',
@@ -58,10 +58,10 @@ export const PRICING_TIERS: PricingTier[] = [
       'Qualitätsgeprüft',
       'Inkl. Linux-Installation',
     ],
-    borderColor: 'border-blue-500',
-    bgGradient: 'from-blue-50 to-white',
-    priceColor: 'text-blue-500',
-    badgeColor: 'bg-blue-500 text-white',
+    borderColor: 'border-primary',
+    bgColor: 'bg-primary/10',
+    priceColor: 'text-primary',
+    badgeColor: 'bg-primary text-white',
   },
   {
     name: 'Supporter',
@@ -75,7 +75,7 @@ export const PRICING_TIERS: PricingTier[] = [
       'Ermöglicht KulturLegi-Rabatte',
     ],
     borderColor: 'border-pillar-vision',
-    bgGradient: 'from-pillar-vision/10 to-white',
+    bgColor: 'bg-pillar-vision/10',
     priceColor: 'text-pillar-vision',
     badgeColor: 'bg-pillar-vision text-white',
   },

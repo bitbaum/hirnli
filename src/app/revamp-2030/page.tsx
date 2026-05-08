@@ -102,7 +102,7 @@ export default function Revamp2030Page() {
                   </ul>
                 </div>
               </div>
-              <div className="bg-gradient-to-br from-pillar-digital/10 to-primary/10 rounded-lg p-4">
+              <div className="gradient-card-digital rounded-lg p-4">
                 <p className="text-sm font-bold text-pillar-digital mb-2">Tech-Stack (produktionsreif):</p>
                 <p className="text-sm text-pillar-digital mb-2">
                   Next.js, TypeScript, PostgreSQL, Redis, Meilisearch, Auth.js, Payrexx —

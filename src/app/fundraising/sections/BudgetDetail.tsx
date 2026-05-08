@@ -104,7 +104,7 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
       </div>
 
       {/* Budget Summary */}
-      <Card className="border-success/20 bg-gradient-to-r from-success/10 to-success/15">
+      <Card className="border-success/20 gradient-card-success">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="text-2xl font-bold text-grey-dark">

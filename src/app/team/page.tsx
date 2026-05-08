@@ -182,7 +182,7 @@ export default function TeamPage() {
         </div>
 
         {/* Combined Effect */}
-        <Card className="mt-6 bg-gradient-to-br from-primary/10 to-pillar-vision/10 border-2 border-primary/20">
+        <Card className="mt-6 gradient-card-primary border-2 border-primary/20">
           <div className="text-center">
             <h3 className="text-xl font-bold text-grey-dark mb-4">Kombinierter Effekt</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -282,7 +282,7 @@ export default function TeamPage() {
 
       {/* ========== NEXT STEPS ========== */}
       <section className="mb-8">
-        <Card className="bg-gradient-to-br from-pillar-vision/10 to-primary/10 border-2 border-pillar-vision/20">
+        <Card className="gradient-card-primary border-2 border-pillar-vision/20">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-grey-dark mb-4">Mehr erfahren</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
