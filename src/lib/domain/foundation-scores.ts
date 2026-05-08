@@ -56,7 +56,7 @@ function foundationToReadinessInput(f: Foundation): Record<string, unknown> {
   };
 }
 
-interface ReadinessResult {
+export interface ReadinessResult {
   /** Composite score 0-100 */
   score: number;
   /** Per-dimension scores */
@@ -108,7 +108,7 @@ export function computeReadinessScore(f: Foundation): ReadinessResult {
 // Priority
 // ============================================================================
 
-interface PriorityResult {
+export interface PriorityResult {
   /** Composite score 0-100 */
   score: number;
   /** Component breakdown for inspection */

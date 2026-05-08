@@ -6,13 +6,12 @@ import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
-import { computeReadinessScore, computePriorityScore } from '@/lib/domain/foundation-scores';
 import { hasGesuchPage, tierAtLeast, getTierPromotionSteps, TIER_LABELS } from '@/lib/domain/foundation-helpers';
 import { getFoundationPresentation } from '@/lib/domain/foundation-presenter';
 import AddToPipelineButton from './AddToPipelineButton';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
 import { getResearchLinks } from '@/lib/config/research-links';
-import { getTrustLevel, TRUST_CONFIG } from '@/lib/config/trust-levels';
+import { TRUST_CONFIG } from '@/lib/config/trust-levels';
 import ProgressBar from '@/components/ui/ProgressBar';
 
 /** Dimension labels keyed by id for readiness bar display */
@@ -24,9 +23,7 @@ interface FoundationSidebarProps {
 
 export default function FoundationSidebar({ foundation: f }: FoundationSidebarProps) {
   const source = SOURCES[f.source];
-  const { tier, tierLabel, tierColor, fitLevel, readinessScore } = getFoundationPresentation(f);
-  const readiness = computeReadinessScore(f);
-  const priority = computePriorityScore(f, readiness.score);
+  const { tier, tierLabel, tierColor, fitLevel, readiness, priority, trustDisplay } = getFoundationPresentation(f);
   const gesuchReady = hasGesuchPage(f);
   const promotion = getTierPromotionSteps(f);
 
@@ -329,19 +326,13 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       <Card>
         <h3 className="heading-label mb-3">Recherche</h3>
         <div className="space-y-2 text-sm">
-          {(() => {
-            const trust = getTrustLevel(f);
-            const trustDisplay = TRUST_CONFIG[trust];
-            return (
-              <div className={`flex items-center gap-2 rounded px-2 py-1.5 ${trustDisplay.badgeClass}`}>
-                <span>●</span>
-                <div>
-                  <p className="font-semibold">{trustDisplay.label}</p>
-                  <p className="text-sm opacity-80">{trustDisplay.description}</p>
-                </div>
-              </div>
-            );
-          })()}
+          <div className={`flex items-center gap-2 rounded px-2 py-1.5 ${trustDisplay.badgeClass}`}>
+            <span>●</span>
+            <div>
+              <p className="font-semibold">{trustDisplay.label}</p>
+              <p className="text-sm opacity-80">{trustDisplay.description}</p>
+            </div>
+          </div>
           <div className="space-y-1 text-text-light">
             <p>Quelle: {source?.label || f.source}</p>
             <p>Tiefe: {f.researchDepth === 'deep' ? 'Tiefenrecherche' : f.researchDepth === 'standard' ? 'Standard' : 'Schnellanalyse'}</p>
