@@ -32,7 +32,7 @@ export default function Nav() {
 
   return (
     <nav className="border-b-2 border-success/10 bg-white shadow-sm">
-      <div className="h-1 bg-gradient-to-r from-revamp-blue via-revamp-green to-revamp-orange"></div>
+      <div className="gradient-brand h-1"></div>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
         <Link
           href="/"

@@ -71,7 +71,7 @@ export default function BildungPage() {
       {/* Vision: Train-the-Trainer */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Die Lösung: Train-the-Trainer</h2>
-        <div className="rounded-xl bg-gradient-to-br from-pillar-vision to-chart-5 p-8 text-white mb-6">
+        <div className="rounded-xl gradient-hero-bildung p-8 text-white mb-6">
           <div className="text-center mb-6">
             <div className="text-6xl font-bold mb-2">{PEOPLE_REACHED_PER_YEAR}</div>
             <div className="text-xl opacity-90">
@@ -270,7 +270,7 @@ export default function BildungPage() {
             </div>
           </Card>
 
-          <Card className="border-l-4 border-l-success bg-gradient-to-br from-success/10 to-success/15">
+          <Card className="border-l-4 border-l-success gradient-card-success">
             <h3 className="text-lg font-semibold text-success mb-4">Return on Investment</h3>
             <div className="space-y-3">
               <div className="bg-white rounded-lg p-3">
@@ -361,7 +361,7 @@ export default function BildungPage() {
             <Badge variant="warning">Limitiert durch Raumkapazität</Badge>
           </Card>
 
-          <Card className="border-l-4 border-l-success bg-gradient-to-br from-success/10 to-success/15">
+          <Card className="border-l-4 border-l-success gradient-card-success">
             <h3 className="text-lg font-semibold text-success mb-3">✅ Hub + Bildung = Exponentielles Wachstum</h3>
             <p className="text-sm text-success mb-4">
               Hub bietet <strong>Infrastruktur</strong> (Werkstatt, Schulungsräume, Equipment).
@@ -384,7 +384,7 @@ export default function BildungPage() {
 
       {/* Call to Action */}
       <section className="mb-8">
-        <div className="rounded-2xl bg-gradient-to-br from-pillar-vision to-chart-5 p-8 text-white text-center">
+        <div className="rounded-2xl gradient-hero-bildung p-8 text-white text-center">
           <h3 className="text-2xl font-bold mb-4">Unterstütze das Bildungsprogramm</h3>
           <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
             Mit <strong>CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier)}/Jahr über 3 Jahre</strong> (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm,

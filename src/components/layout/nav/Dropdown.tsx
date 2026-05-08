@@ -38,7 +38,7 @@ export default function Dropdown({ item, pathname }: { item: NavItem; pathname: 
         }`}
       >
         <div className="overflow-hidden rounded-xl border-2 border-primary/20 bg-white shadow-2xl">
-          <div className="h-2 bg-gradient-to-r from-revamp-blue to-revamp-green"></div>
+          <div className="gradient-brand h-2"></div>
           <div className="py-3">
             {item.children?.map((child) => (
               <Link
@@ -47,7 +47,7 @@ export default function Dropdown({ item, pathname }: { item: NavItem; pathname: 
                 role="menuitem"
                 className={`${NAV_ITEM_BASE} mx-2 my-1 ${
                   isActive(child.href, pathname)
-                    ? 'border-l-revamp-blue bg-gradient-to-r from-blue-50 to-emerald-50'
+                    ? 'border-l-revamp-blue gradient-nav-active'
                     : 'border-transparent'
                 }`}
               >

@@ -196,7 +196,7 @@ export default function WirkungClient() {
           <CardTitle>Datenabdeckung</CardTitle>
           <p className="text-sm text-text-muted">Wie viel unserer Wirkung können wir messen?</p>
         </CardHeader>
-        <ProgressBar percent={25} size="lg" color="bg-gradient-to-r from-warning to-warning" trackColor="bg-grey-light" label="Datenabdeckung: 25% der Wirkungsindikatoren messbar" />
+        <ProgressBar percent={25} size="lg" color="bg-warning" trackColor="bg-grey-light" label="Datenabdeckung: 25% der Wirkungsindikatoren messbar" />
         <div className="flex justify-between text-sm text-text-muted">
           <span>25% der Wirkungsindikatoren messbar</span>
           <span>Ziel: 75%</span>

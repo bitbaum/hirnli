@@ -36,7 +36,7 @@ export default function StrategiePage() {
       {/* Mission Statement */}
       <section className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-grey-dark">Mission</h2>
-        <Card className="border-l-4 border-l-success bg-gradient-to-br from-success/10 to-success/10">
+        <Card className="border-l-4 border-l-success bg-success/10">
           <p className="text-lg font-semibold text-success">
             {ORG_PROFILE.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und Lebensdauerverlängerung.
           </p>
@@ -84,7 +84,7 @@ export default function StrategiePage() {
             {SDG_DATA.map((sdg) => (
               <span
                 key={sdg.sdg}
-                className={`inline-block rounded-full bg-gradient-to-br ${SDG_COLORS[sdg.sdg]} px-4 py-2 text-sm font-semibold text-white`}
+                className={`inline-block rounded-full ${SDG_COLORS[sdg.sdg]} px-4 py-2 text-sm font-semibold text-white`}
               >
                 {sdg.sdg}
               </span>

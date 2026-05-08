@@ -117,7 +117,7 @@ export default function CommunitySpaceCard({
                 {sdgs.map((sdg, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1 bg-gradient-to-br from-primary to-primary text-white text-xs font-semibold rounded-full"
+                    className="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full"
                   >
                     {sdg}
                   </span>

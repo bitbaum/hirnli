@@ -119,6 +119,19 @@
 .gradient-card-success { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-success) 10%, transparent), color-mix(in srgb, var(--color-success) 15%, transparent)); }
 .gradient-card-primary { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-primary) 10%, transparent), color-mix(in srgb, var(--color-pillar-vision) 10%, transparent)); }
 .gradient-card-digital { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-pillar-digital) 10%, transparent), color-mix(in srgb, var(--color-primary) 10%, transparent)); }
+.gradient-card-art     { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-danger) 10%, transparent), color-mix(in srgb, var(--color-chart-5) 10%, transparent)); }
+
+/* Section hero gradients — full-color, white text on top */
+.gradient-hero-bildung    { background: linear-gradient(to bottom right, var(--color-pillar-vision), var(--color-chart-5)); }
+.gradient-hero-community  { background: linear-gradient(to bottom right, var(--color-pillar-digital), var(--color-chart-5), var(--color-danger)); }
+
+/* UN Sustainable Development Goal badge colors (official SDG palette approximations) */
+.gradient-sdg-4  { background: linear-gradient(to bottom right, #9b1c1c, #e02424); }
+.gradient-sdg-8  { background: linear-gradient(to bottom right, #6d1a36, #be185d); }
+.gradient-sdg-9  { background: linear-gradient(to bottom right, #c2410c, #ea580c); }
+.gradient-sdg-10 { background: linear-gradient(to bottom right, #9f1239, #e02424); }
+.gradient-sdg-12 { background: linear-gradient(to bottom right, #92400e, #d97706); }
+.gradient-sdg-13 { background: linear-gradient(to bottom right, #14532d, #166534); }
 
 /* ========================================
    TYPOGRAPHY UTILITIES

@@ -5,7 +5,7 @@ import Inspectable, { type InspectorHandle } from './Inspectable';
 
 export default function FinancialSituation({ inspector }: { inspector: InspectorHandle }) {
   return (
-    <Card className="mb-8 border-warning bg-gradient-to-r from-warning/10 to-warning/10">
+    <Card className="mb-8 border-warning bg-warning/10">
       <h3 className="mb-3 font-semibold text-warning">Die ehrliche Finanzlage</h3>
       <div className="space-y-2 text-sm text-warning">
         <p>

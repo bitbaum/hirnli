@@ -34,7 +34,7 @@ export default function CTABanner({
     <div
       className={
         isGradient
-          ? 'rounded-2xl bg-gradient-to-br from-grey-dark to-slate-700 p-8 text-white text-center'
+          ? 'rounded-2xl bg-grey-dark p-8 text-white text-center'
           : 'rounded-lg border border-border bg-bg-light p-8 text-center'
       }
     >

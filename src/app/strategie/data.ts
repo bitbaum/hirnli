@@ -119,12 +119,12 @@ export const SDG_DATA = [
 type SdgLabel = typeof SDG_DATA[number]['sdg'];
 
 export const SDG_COLORS: Record<SdgLabel, string> = {
-  'SDG 4': 'from-red-700 to-red-500',
-  'SDG 8': 'from-pink-800 to-pink-600',
-  'SDG 9': 'from-orange-600 to-orange-400',
-  'SDG 10': 'from-pink-700 to-red-500',
-  'SDG 12': 'from-yellow-700 to-yellow-500',
-  'SDG 13': 'from-green-700 to-green-600',
+  'SDG 4': 'gradient-sdg-4',
+  'SDG 8': 'gradient-sdg-8',
+  'SDG 9': 'gradient-sdg-9',
+  'SDG 10': 'gradient-sdg-10',
+  'SDG 12': 'gradient-sdg-12',
+  'SDG 13': 'gradient-sdg-13',
 };
 
 export type EwasteRow = { stat: string; description: string };

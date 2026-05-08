@@ -69,7 +69,7 @@ export function ImpactStoryCards({
       <div className="grid gap-6 md:grid-cols-3">
         {/* Ecological impact */}
         <Card padding={false}>
-          <div className="rounded-t-lg bg-gradient-to-r from-success to-success p-4 text-white">
+          <div className="rounded-t-lg bg-success p-4 text-white">
             <h3 className="font-semibold">Ökologische Wirkung</h3>
           </div>
           <div className="p-4">
@@ -91,7 +91,7 @@ export function ImpactStoryCards({
 
         {/* Resource conservation */}
         <Card padding={false}>
-          <div className="rounded-t-lg bg-gradient-to-r from-success to-success p-4 text-white">
+          <div className="rounded-t-lg bg-success p-4 text-white">
             <h3 className="font-semibold">Ressourcenschonung</h3>
           </div>
           <div className="p-4">
@@ -114,7 +114,7 @@ export function ImpactStoryCards({
 
         {/* Social impact */}
         <Card padding={false}>
-          <div className="rounded-t-lg bg-gradient-to-r from-chart-5 to-chart-5 p-4 text-white">
+          <div className="rounded-t-lg bg-chart-5 p-4 text-white">
             <h3 className="font-semibold">Soziale Integration</h3>
           </div>
           <div className="p-4">

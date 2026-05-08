@@ -22,7 +22,6 @@ const colorConfig = {
     bg: 'bg-success/10 hover:bg-success/15',
     text: 'text-success',
     textLight: 'text-success',
-    gradient: 'from-success to-success',
     ring: 'focus:ring-success',
   },
   blue: {
@@ -30,7 +29,6 @@ const colorConfig = {
     bg: 'bg-primary/10 hover:bg-primary/15',
     text: 'text-primary',
     textLight: 'text-primary',
-    gradient: 'from-primary to-primary',
     ring: 'focus:ring-primary',
   },
   violet: {
@@ -38,7 +36,6 @@ const colorConfig = {
     bg: 'bg-pillar-vision/10 hover:bg-pillar-vision/15',
     text: 'text-pillar-vision',
     textLight: 'text-pillar-vision',
-    gradient: 'from-pillar-vision to-pillar-vision',
     ring: 'focus:ring-pillar-vision',
   },
   amber: {
@@ -46,7 +43,6 @@ const colorConfig = {
     bg: 'bg-warning/10 hover:bg-warning/15',
     text: 'text-warning',
     textLight: 'text-warning',
-    gradient: 'from-warning to-warning',
     ring: 'focus:ring-warning',
   },
 };

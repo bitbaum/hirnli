@@ -104,7 +104,7 @@ export default function WieWirArbeitenPage() {
 
       {/* Principle: why cascading matters */}
       <section className="mb-12">
-        <Card className="border-l-4 border-l-primary bg-gradient-to-br from-bg-light to-bg-light">
+        <Card className="border-l-4 border-l-primary bg-bg-light">
           <h2 className="mb-4 text-xl font-bold text-grey-dark">
             Warum Kaskade statt Recycling?
           </h2>
