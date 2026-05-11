@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { PILLAR_COLORS, type PillarColorScheme } from '../pillar-colors';
 
 interface PillarDetailProps {
   icon: string;
   title: string;
   description: string;
-  colorScheme: 'emerald' | 'blue' | 'violet' | 'amber';
+  colorScheme: PillarColorScheme;
   activities: string[];
   whyItMatters: string;
   achievements: string[];
@@ -18,49 +19,6 @@ interface PillarDetailProps {
     reason: string;
   }>;
 }
-
-const colorConfig = {
-  emerald: {
-    border: 'border-success/20',
-    borderHover: 'hover:border-success',
-    bg: 'bg-success/10',
-    bgHover: 'hover:bg-success/15',
-    text: 'text-success',
-    textLight: 'text-success',
-    accent: 'bg-success',
-    ring: 'focus:ring-success',
-  },
-  blue: {
-    border: 'border-primary/20',
-    borderHover: 'hover:border-primary',
-    bg: 'bg-primary/10',
-    bgHover: 'hover:bg-primary/15',
-    text: 'text-primary',
-    textLight: 'text-primary',
-    accent: 'bg-primary',
-    ring: 'focus:ring-primary',
-  },
-  violet: {
-    border: 'border-pillar-vision/20',
-    borderHover: 'hover:border-pillar-vision/60',
-    bg: 'bg-pillar-vision/10',
-    bgHover: 'hover:bg-pillar-vision/15',
-    text: 'text-pillar-vision',
-    textLight: 'text-pillar-vision',
-    accent: 'bg-pillar-vision',
-    ring: 'focus:ring-pillar-vision',
-  },
-  amber: {
-    border: 'border-warning/20',
-    borderHover: 'hover:border-warning',
-    bg: 'bg-warning/10',
-    bgHover: 'hover:bg-warning/15',
-    text: 'text-warning',
-    textLight: 'text-warning',
-    accent: 'bg-warning',
-    ring: 'focus:ring-warning',
-  },
-};
 
 export default function PillarDetail({
   icon,
@@ -73,7 +31,7 @@ export default function PillarDetail({
   relatedPages = [],
 }: PillarDetailProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const colors = colorConfig[colorScheme];
+  const colors = PILLAR_COLORS[colorScheme];
 
   return (
     <div
@@ -90,7 +48,7 @@ export default function PillarDetail({
         <span className="text-5xl flex-shrink-0">{icon}</span>
         <div className="flex-1">
           <h3 className={`text-lg font-bold ${colors.text} mb-2`}>{title}</h3>
-          <p className={`text-sm ${colors.textLight}`}>{description}</p>
+          <p className={`text-sm ${colors.text}`}>{description}</p>
         </div>
       </div>
 
@@ -113,7 +71,7 @@ export default function PillarDetail({
               <span className={`w-1 h-4 ${colors.accent} rounded`} />
               Was wir tun
             </h4>
-            <ul className={`space-y-2 ${colors.textLight} text-sm`}>
+            <ul className={`space-y-2 ${colors.text} text-sm`}>
               {activities.map((activity, idx) => (
                 <li key={idx} className="flex items-start gap-2">
                   <span className="text-lg">→</span>
@@ -129,7 +87,7 @@ export default function PillarDetail({
               <span className={`w-1 h-4 ${colors.accent} rounded`} />
               Warum das wichtig ist
             </h4>
-            <p className={`text-sm ${colors.textLight} leading-relaxed`}>{whyItMatters}</p>
+            <p className={`text-sm ${colors.text} leading-relaxed`}>{whyItMatters}</p>
           </div>
 
           {/* Achievements */}
@@ -138,7 +96,7 @@ export default function PillarDetail({
               <span className={`w-1 h-4 ${colors.accent} rounded`} />
               Was wir erreicht haben
             </h4>
-            <ul className={`space-y-2 ${colors.textLight} text-sm`}>
+            <ul className={`space-y-2 ${colors.text} text-sm`}>
               {achievements.map((achievement, idx) => (
                 <li key={idx} className="flex items-start gap-2">
                   <span>✓</span>
@@ -167,7 +125,7 @@ export default function PillarDetail({
                     `}
                   >
                     <div className={`text-sm font-semibold ${colors.text}`}>{page.title}</div>
-                    <div className={`text-sm ${colors.textLight} mt-1`}>{page.reason}</div>
+                    <div className={`text-sm ${colors.text} mt-1`}>{page.reason}</div>
                   </Link>
                 ))}
               </div>

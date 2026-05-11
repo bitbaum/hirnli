@@ -730,4 +730,6 @@ export const CO2_TOTAL_TONNES = Math.round((LAPTOPS_REFURBISHED_COUNT * CO2_PER_
 // Average CO2 footprint of one economy flight Zürich–Berlin (~1 hour), in kg
 // Source: myclimate.org flight calculator (2024). Used to contextualize CO2 savings.
 export const CO2_PER_FLIGHT_ZRH_BER = 1500;
+// Average CO2 emitted per km by a car (incl. older fleet), in kg (~200 g/km).
+export const CO2_KG_PER_CAR_KM = 0.2;
 

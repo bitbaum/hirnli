@@ -7,6 +7,7 @@ import { SPACE_SUMMARY, HUB_SPACE_AREAS, STORAGE_AREA, LOADING_AREA } from '@/li
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
 import { MS_PER_DAY } from '@/lib/utils/time';
+import { formatCHF } from '@/lib/utils/format';
 
 // -- Derived data from STIFTUNGEN_DATA ----------------------------------------
 
@@ -294,6 +295,13 @@ export const REVENUE_STREAMS = [
 
 export const REVENUE_CURRENT_TOTAL = REVENUE_STREAMS.reduce((sum, r) => sum + r.current, 0);
 export const REVENUE_YEAR3_TOTAL = REVENUE_STREAMS.reduce((sum, r) => sum + r.year3, 0);
+
+// Display config for 3-year model cards (color scheme + description per year)
+export const THREE_YEAR_DISPLAY = [
+  { border: 'border-primary/20', text: 'text-primary', description: 'Aufbau: Hub-Einrichtung + Team-Rekrutierung' },
+  { border: 'border-pillar-vision/20', text: 'text-pillar-vision', description: 'Wachstum: Revenue steigt, Stiftungen sinken' },
+  { border: 'border-success/20', text: 'text-success', description: `Verselbständigung: Revenue ${formatCHF(REVENUE_YEAR3_TOTAL)}, Operations zunehmend selbsttragend` },
+] as const;
 
 export const NEXT_STEPS = [
   {

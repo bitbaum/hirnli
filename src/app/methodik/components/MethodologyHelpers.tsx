@@ -25,13 +25,8 @@ export function FormulaBox({ children }: { children: React.ReactNode }) {
 }
 
 export function ConfidenceBadge({ level }: { level: 'high' | 'medium' | 'low' }) {
-  const config = {
-    high: { label: 'Konfidenz: Hoch', variant: 'success' as const },
-    medium: { label: 'Konfidenz: Mittel', variant: 'warning' as const },
-    low: { label: 'Konfidenz: Niedrig', variant: 'danger' as const },
-  };
-  const { label, variant } = config[level];
-  return <Badge variant={variant}>{label}</Badge>;
+  const { label, variant } = CONFIDENCE_BADGE_MAP[level];
+  return <Badge variant={variant}>Konfidenz: {label}</Badge>;
 }
 
 export function MethodologySection({

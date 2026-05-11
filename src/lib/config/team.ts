@@ -120,6 +120,10 @@ export const TEAM_SALARIES = {
   _note: 'Alle Werte sind Budget-Ziele. Historische Kivitendo-Daten (2020-2023): CHF 30-48k/Jahr total Personal.',
 } as const;
 
+// Derived: total annual cost for both BPL positions incl. social charges
+export const BPL_TOTAL_COST_PER_YEAR =
+  (TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier;
+
 /**
  * Capacity Projections — DRAFT/ESTIMATES
  *

@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { PILLAR_COLORS, type PillarColorScheme } from '../pillar-colors';
 
 interface SovereigntyPillarProps {
   icon: string;
   title: string;
   description: string;
-  colorScheme: 'emerald' | 'blue' | 'violet' | 'amber';
+  colorScheme: PillarColorScheme;
   relatedPages?: Array<{
     title: string;
     href: string;
@@ -15,37 +16,6 @@ interface SovereigntyPillarProps {
   }>;
   achievements?: string[];
 }
-
-const colorConfig = {
-  emerald: {
-    border: 'border-success/20 hover:border-success',
-    bg: 'bg-success/10 hover:bg-success/15',
-    text: 'text-success',
-    textLight: 'text-success',
-    ring: 'focus:ring-success',
-  },
-  blue: {
-    border: 'border-primary/20 hover:border-primary',
-    bg: 'bg-primary/10 hover:bg-primary/15',
-    text: 'text-primary',
-    textLight: 'text-primary',
-    ring: 'focus:ring-primary',
-  },
-  violet: {
-    border: 'border-pillar-vision/20 hover:border-pillar-vision/60',
-    bg: 'bg-pillar-vision/10 hover:bg-pillar-vision/15',
-    text: 'text-pillar-vision',
-    textLight: 'text-pillar-vision',
-    ring: 'focus:ring-pillar-vision',
-  },
-  amber: {
-    border: 'border-warning/20 hover:border-warning',
-    bg: 'bg-warning/10 hover:bg-warning/15',
-    text: 'text-warning',
-    textLight: 'text-warning',
-    ring: 'focus:ring-warning',
-  },
-};
 
 export default function SovereigntyPillar({
   icon,
@@ -56,14 +26,14 @@ export default function SovereigntyPillar({
   achievements = [],
 }: SovereigntyPillarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const colors = colorConfig[colorScheme];
+  const colors = PILLAR_COLORS[colorScheme];
 
   return (
     <div
       className={`
         group relative rounded-xl border-2 p-5 text-center
         transition-reveal cursor-pointer
-        ${colors.border} ${colors.bg}
+        ${colors.border} ${colors.borderHover} ${colors.bg} ${colors.bgHover}
         transform hover:scale-105 hover:shadow-lg
       `}
       onClick={() => setIsExpanded(!isExpanded)}
@@ -82,10 +52,10 @@ export default function SovereigntyPillar({
         {icon}
       </span>
       <h3 className={`text-sm font-bold ${colors.text}`}>{title}</h3>
-      <p className={`mt-1 text-sm ${colors.textLight}`}>{description}</p>
+      <p className={`mt-1 text-sm ${colors.text}`}>{description}</p>
 
       {/* Expand indicator */}
-      <div className={`mt-3 text-xs ${colors.textLight} flex items-center justify-center gap-1`}>
+      <div className={`mt-3 text-xs ${colors.text} flex items-center justify-center gap-1`}>
         <span>{isExpanded ? '▲' : '▼'}</span>
         <span>{isExpanded ? 'Weniger' : 'Mehr'}</span>
       </div>
@@ -100,7 +70,7 @@ export default function SovereigntyPillar({
           {achievements.length > 0 && (
             <div>
               <h4 className={`text-sm font-semibold ${colors.text} mb-2`}>Was wir erreicht haben:</h4>
-              <ul className={`text-sm ${colors.textLight} space-y-1`}>
+              <ul className={`text-sm ${colors.text} space-y-1`}>
                 {achievements.map((achievement, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <span>✓</span>
@@ -127,7 +97,7 @@ export default function SovereigntyPillar({
                     `}
                   >
                     <div className={`text-sm font-semibold ${colors.text}`}>{page.title}</div>
-                    <div className={`text-sm ${colors.textLight} mt-0.5`}>{page.reason}</div>
+                    <div className={`text-sm ${colors.text} mt-0.5`}>{page.reason}</div>
                   </Link>
                 ))}
               </div>

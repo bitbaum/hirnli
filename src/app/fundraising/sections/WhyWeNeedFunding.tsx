@@ -10,7 +10,7 @@ import {
 } from '@/lib/config/projections';
 import {
   THREE_YEAR_MODEL,
-  REVENUE_YEAR3_TOTAL,
+  THREE_YEAR_DISPLAY,
   REDUCTION_PCT,
   PROJECT_START,
   SERVICES_PEAK_DISPLAY,
@@ -86,17 +86,12 @@ export default function WhyWeNeedFunding() {
             {THREE_YEAR_MODEL.map((year, i) => {
               const stiftungenAmt = year.stiftungen + year.einmalig;
               const stiftungenPct = Math.round((stiftungenAmt / year.total) * 100);
-              const colors = [
-                { border: 'border-primary/20', text: 'text-primary', bold: 'text-primary' },
-                { border: 'border-pillar-vision/20', text: 'text-pillar-vision', bold: 'text-pillar-vision' },
-                { border: 'border-success/20', text: 'text-success', bold: 'text-success' },
-              ];
-              const labels = ['Aufbau: Hub-Einrichtung + Team-Rekrutierung', 'Wachstum: Revenue steigt, Stiftungen sinken', `Verselbständigung: Revenue ${formatCHF(REVENUE_YEAR3_TOTAL)}, Operations zunehmend selbsttragend`];
+              const display = THREE_YEAR_DISPLAY[i];
               return (
-                <div key={year.year} className={`bg-white rounded-lg p-4 border-2 ${colors[i].border}`}>
-                  <div className={`text-sm ${colors[i].text} font-semibold`}>{year.year} ({PROJECT_START + i})</div>
-                  <div className={`text-2xl font-bold ${colors[i].bold} my-2`}>{formatCHF(stiftungenAmt)}</div>
-                  <div className="text-sm text-text-light">{stiftungenPct}% von Stiftungen<br/>{labels[i]}</div>
+                <div key={year.year} className={`bg-white rounded-lg p-4 border-2 ${display.border}`}>
+                  <div className={`text-sm ${display.text} font-semibold`}>{year.year} ({PROJECT_START + i})</div>
+                  <div className={`text-2xl font-bold ${display.text} my-2`}>{formatCHF(stiftungenAmt)}</div>
+                  <div className="text-sm text-text-light">{stiftungenPct}% von Stiftungen<br/>{display.description}</div>
                 </div>
               );
             })}

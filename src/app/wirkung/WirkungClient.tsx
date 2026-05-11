@@ -13,7 +13,7 @@ import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { formatCHF, formatNumber } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided, estimateEWastePrevented } from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
-import { CO2_PER_LAPTOP, AVG_DEVICE_PRICE, CO2_PER_FLIGHT_ZRH_BER, getNumericValue } from '@/lib/config/numbers';
+import { CO2_PER_LAPTOP, AVG_DEVICE_PRICE, CO2_PER_FLIGHT_ZRH_BER, CO2_KG_PER_CAR_KM, getNumericValue } from '@/lib/config/numbers';
 import { ImpactStoryCards } from './components';
 import { DATA_GAPS, WIRKUNG_NEXT_STEPS } from './data';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
@@ -40,7 +40,7 @@ export default function WirkungClient() {
   const lifeYears = deviceCount * lifespanExt;
 
   // CO2 equivalents for context
-  const carsKm = Math.round((co2Avoided * 1000) / 0.2); // ~200g CO2 per km
+  const carsKm = Math.round((co2Avoided * 1000) / CO2_KG_PER_CAR_KM);
   const flightsZurichBerlin = Math.round((co2Avoided * 1000) / CO2_PER_FLIGHT_ZRH_BER);
 
   return (
