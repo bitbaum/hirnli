@@ -33,7 +33,7 @@ export default function BildungBudgetSection() {
         </Card>
 
         <Card className="border-l-4 border-l-success gradient-card-success">
-          <h3 className="text-lg font-semibold text-success mb-4">Return on Investment</h3>
+          <h3 className="heading-card text-success mb-4">Return on Investment</h3>
           <div className="space-y-3">
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-success mb-1">Investition pro direkt Trainierter</div>

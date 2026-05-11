@@ -12,7 +12,7 @@ export default function ArtCultureSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <div className="bg-danger/10 rounded-lg p-4">
             <div className="text-2xl mb-2" aria-hidden="true">🎨</div>
-            <h3 className="text-sm font-semibold text-danger mb-2">E-Waste-Kunst</h3>
+            <h3 className="heading-detail text-danger mb-2">E-Waste-Kunst</h3>
             <p className="text-sm text-danger mb-2">
               Künstler:innen schaffen aus Platinen, Gehäusen und Komponenten Skulpturen und Installationen.
             </p>
@@ -25,7 +25,7 @@ export default function ArtCultureSection() {
 
           <div className="bg-danger/10 rounded-lg p-4">
             <div className="text-2xl mb-2" aria-hidden="true">🎹</div>
-            <h3 className="text-sm font-semibold text-danger mb-2">Elektronische Musik</h3>
+            <h3 className="heading-detail text-danger mb-2">Elektronische Musik</h3>
             <p className="text-sm text-danger mb-2">
               Vintage-Synths restaurieren, Circuit-Bending, Modular-Synthese — alte Elektronik wird Musik.
             </p>
@@ -38,7 +38,7 @@ export default function ArtCultureSection() {
 
           <div className="bg-danger/10 rounded-lg p-4">
             <div className="text-2xl mb-2" aria-hidden="true">🏛️</div>
-            <h3 className="text-sm font-semibold text-danger mb-2">Museum & Geschichte</h3>
+            <h3 className="heading-detail text-danger mb-2">Museum & Geschichte</h3>
             <p className="text-sm text-danger mb-2">
               Computergeschichte zum Anfassen: Von Commodore 64 bis zur ersten Cray.
             </p>

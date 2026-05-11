@@ -50,9 +50,9 @@ export function TriageSection() {
           <p className="mb-3 text-sm text-text-muted">
             <strong>Wer:</strong> Techniker/in
           </p>
-          <h4 className="mb-2 text-sm font-semibold">Visuelle Inspektion:</h4>
+          <h4 className="mb-2 heading-detail">Visuelle Inspektion:</h4>
           <Checklist items={VISUAL_INSPECTION} />
-          <h4 className="mb-2 mt-4 text-sm font-semibold">Komponenten prüfen:</h4>
+          <h4 className="mb-2 mt-4 heading-detail">Komponenten prüfen:</h4>
           <Checklist items={COMPONENT_CHECK} />
         </Card>
 
@@ -63,7 +63,7 @@ export function TriageSection() {
               <TimeBadge>15-30 Min</TimeBadge>
             </div>
           </CardHeader>
-          <h4 className="mb-2 text-sm font-semibold">Hardware-Tests:</h4>
+          <h4 className="mb-2 heading-detail">Hardware-Tests:</h4>
           <Checklist items={HARDWARE_TESTS} />
         </Card>
       </div>
@@ -117,9 +117,9 @@ export function RefurbishmentStepsSection() {
               <TimeBadge>15-30 Min</TimeBadge>
             </div>
           </CardHeader>
-          <h4 className="mb-2 text-sm font-semibold">Extern:</h4>
+          <h4 className="mb-2 heading-detail">Extern:</h4>
           <Checklist items={CLEANING_EXTERNAL} />
-          <h4 className="mb-2 mt-4 text-sm font-semibold">Intern (bei Bedarf):</h4>
+          <h4 className="mb-2 mt-4 heading-detail">Intern (bei Bedarf):</h4>
           <Checklist items={CLEANING_INTERNAL} />
         </Card>
 
@@ -131,11 +131,11 @@ export function RefurbishmentStepsSection() {
               <TimeBadge>10-30 Min</TimeBadge>
             </div>
           </CardHeader>
-          <h4 className="mb-1 text-sm font-semibold">RAM-Upgrade:</h4>
+          <h4 className="mb-1 heading-detail">RAM-Upgrade:</h4>
           <p className="mb-3 text-sm text-text-light">Minimum: 4 GB (besser 8 GB)</p>
-          <h4 className="mb-1 text-sm font-semibold">SSD-Upgrade:</h4>
+          <h4 className="mb-1 heading-detail">SSD-Upgrade:</h4>
           <p className="mb-3 text-sm text-text-light">Wenn Festplatte &lt; 250 GB oder defekt</p>
-          <h4 className="mb-1 text-sm font-semibold">Weitere:</h4>
+          <h4 className="mb-1 heading-detail">Weitere:</h4>
           <ul className="list-disc pl-5 text-sm text-text-light">
             <li>WiFi-Karte (wenn fehlend)</li>
             <li>Akku (wenn verfügbar)</li>
@@ -150,7 +150,7 @@ export function RefurbishmentStepsSection() {
               <TimeBadge>35-50 Min</TimeBadge>
             </div>
           </CardHeader>
-          <h4 className="mb-2 text-sm font-semibold">Standard-Distributionen:</h4>
+          <h4 className="mb-2 heading-detail">Standard-Distributionen:</h4>
           <div className="space-y-2">
             {LINUX_DISTROS.map((d) => (
               <div key={d.target} className="flex justify-between rounded bg-bg-light px-3 py-2 text-sm">

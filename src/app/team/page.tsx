@@ -125,7 +125,7 @@ export default function TeamPage() {
           ))}
         </div>
         <Card className="mt-4 bg-pillar-vision/10 border-l-4 border-pillar-vision">
-          <h3 className="font-semibold text-pillar-vision mb-2">Warum Bildungsprogrammleiter?</h3>
+          <h3 className="heading-item text-pillar-vision mb-2">Warum Bildungsprogrammleiter?</h3>
           <p className="text-sm text-pillar-vision mb-3">
             <strong>Train-the-Trainer Modell:</strong> 2 bezahlte BPL trainieren und managen
             Freiwillige, Praktikant:innen, Zivis und Integrationsprogramm-Teilnehmende.
