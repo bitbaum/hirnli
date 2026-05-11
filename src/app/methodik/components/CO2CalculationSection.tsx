@@ -50,7 +50,7 @@ export function CO2CalculationSection() {
         CO&#x2082; vermieden = SUM(Gewicht_kg &times; CO2_Faktor_kg_per_kg)
       </FormulaBox>
 
-      <h4 className="mb-2 mt-4 text-sm font-medium">Hersteller-spezifische CO&#x2082;-Werte (High Confidence):</h4>
+      <h4 className="mb-2 mt-4 heading-detail">Hersteller-spezifische CO&#x2082;-Werte (High Confidence):</h4>
       <Table
         columns={CO2_COLUMNS}
         data={CO2_DATA}
@@ -59,7 +59,7 @@ export function CO2CalculationSection() {
         className="mb-4"
       />
 
-      <h4 className="mb-2 mt-4 text-sm font-medium">Datenquellen (Peer-Reviewed Studien):</h4>
+      <h4 className="mb-2 mt-4 heading-detail">Datenquellen (Peer-Reviewed Studien):</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
         <li>
           <strong>MDPI Sustainability (2025):</strong>{' '}
@@ -84,7 +84,7 @@ export function CO2CalculationSection() {
         </li>
       </ul>
 
-      <h4 className="mb-2 mt-4 text-sm font-medium">Methodik:</h4>
+      <h4 className="mb-2 mt-4 heading-detail">Methodik:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
         <li><strong>Für bekannte Modelle:</strong> Direkte CO&#x2082;-Werte aus Hersteller-LCA-Reports (High Confidence)</li>
         <li><strong>Für unbekannte Modelle:</strong> Hersteller-Durchschnitt oder Kategorie-Durchschnitt (Medium Confidence)</li>
@@ -92,7 +92,7 @@ export function CO2CalculationSection() {
         <li>Alle Quellen sind direkt verlinkt und nachprüfbar</li>
       </ul>
 
-      <h4 className="mb-2 text-sm font-medium">Limitationen:</h4>
+      <h4 className="mb-2 heading-detail">Limitationen:</h4>
       <ul className="list-disc space-y-1 pl-6 text-sm text-danger">
         <li>Falls Geräteanzahl geschätzt wird, entsteht Unsicherheit (siehe Geräte-Berechnung)</li>
         <li>Nicht alle Käufer hätten neu gekauft (konservative Annahme)</li>

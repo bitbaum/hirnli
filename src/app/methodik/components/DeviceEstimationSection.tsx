@@ -24,14 +24,14 @@ export function DeviceEstimationSection() {
         Geschätzte Geräte = Warenverkauf (CHF) / Durchschnittspreis (CHF {AVG_DEVICE_PRICE})
       </FormulaBox>
 
-      <h4 className="mb-2 text-sm font-medium">Annahmen:</h4>
+      <h4 className="mb-2 heading-detail">Annahmen:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
         <li>Durchschnittspreis pro Gerät: <strong>CHF {AVG_DEVICE_PRICE}</strong></li>
         <li>Alle Einnahmen auf Konto 3100 sind Geräteverkäufe</li>
         <li>Keine Unterscheidung nach Gerätetyp</li>
       </ul>
 
-      <h4 className="mb-2 text-sm font-medium">Limitationen:</h4>
+      <h4 className="mb-2 heading-detail">Limitationen:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm text-danger">
         <li>Zubehör (Kabel, Tastaturen, Mäuse) ist mitgezählt</li>
         <li>Grosse Preisvariation (CHF 50 - 500)</li>

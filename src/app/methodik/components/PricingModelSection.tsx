@@ -22,7 +22,7 @@ export function PricingModelSection() {
         externen Standards und Vorstandsentscheidungen.
       </p>
 
-      <h4 className="mb-2 text-sm font-medium">6.1 Normalpreis (Marktvergleich)</h4>
+      <h4 className="mb-2 heading-detail">6.1 Normalpreis (Marktvergleich)</h4>
       <FormulaBox>
         <strong>Methode:</strong><br />
         Vergleich mit ähnlichen Angeboten auf Ricardo, Tutti, Revendo, eBay Kleinanzeigen
@@ -33,7 +33,7 @@ export function PricingModelSection() {
         <li><strong>Beispiel:</strong> ThinkPad X270 i5/8GB &rarr; Ricardo CHF 180-250 &rarr; Normalpreis CHF 200</li>
       </ul>
 
-      <h4 className="mb-2 text-sm font-medium">6.2 KulturLegi-Rabatt (50%)</h4>
+      <h4 className="mb-2 heading-detail">6.2 KulturLegi-Rabatt (50%)</h4>
       <FormulaBox>
         <strong>Formel:</strong><br />
         KulturLegi-Preis = Normalpreis &times; 0.5
@@ -49,7 +49,7 @@ export function PricingModelSection() {
         </li>
       </ul>
 
-      <h4 className="mb-2 text-sm font-medium">6.3 Supporter-Aufschlag (+20% bis +50%)</h4>
+      <h4 className="mb-2 heading-detail">6.3 Supporter-Aufschlag (+20% bis +50%)</h4>
       <FormulaBox>
         <strong>Formel:</strong><br />
         Supporter-Preis = Normalpreis &times; (1 + Aufschlag)<br />
@@ -62,7 +62,7 @@ export function PricingModelSection() {
         <li><strong>Buchung:</strong> Aufschlag wird separat auf Konto 3510 verbucht</li>
       </ul>
 
-      <h4 className="mb-2 text-sm font-medium">Preis-Beispiel vollständig nachvollziehbar:</h4>
+      <h4 className="mb-2 heading-detail">Preis-Beispiel vollständig nachvollziehbar:</h4>
       <Table
         columns={PRICING_COLUMNS}
         data={PRICING_EXAMPLE}

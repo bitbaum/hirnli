@@ -35,7 +35,7 @@ export function ToCColumn({
 }) {
   return (
     <div className={`rounded-lg border p-3 ${color}`}>
-      <h4 className={`mb-3 border-b pb-2 text-sm font-semibold ${titleColor}`}>{title}</h4>
+      <h4 className={`mb-3 border-b pb-2 heading-detail ${titleColor}`}>{title}</h4>
       <div className="space-y-2">
         {items.map((item) => (
           <div key={item.label} className="flex items-center justify-between rounded bg-white/70 px-2 py-1.5 text-sm">

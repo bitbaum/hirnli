@@ -22,13 +22,13 @@ export function EWasteSection() {
         E-Waste vermieden = Geschätzte Geräte &times; 5 kg/Gerät
       </FormulaBox>
 
-      <h4 className="mb-2 text-sm font-medium">Annahmen:</h4>
+      <h4 className="mb-2 heading-detail">Annahmen:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
         <li>Durchschnittliches Gerätegewicht: 5 kg (inkl. Peripherie)</li>
         <li>Jedes wiederverwendete Gerät vermeidet Entsorgung</li>
       </ul>
 
-      <h4 className="mb-2 text-sm font-medium">Limitationen:</h4>
+      <h4 className="mb-2 heading-detail">Limitationen:</h4>
       <ul className="list-disc space-y-1 pl-6 text-sm text-danger">
         <li>Gerätegewicht variiert stark (Laptop ~2kg, Desktop ~10kg)</li>
         <li>Nur das Gerät selbst, nicht Verpackung/Zubehör</li>
