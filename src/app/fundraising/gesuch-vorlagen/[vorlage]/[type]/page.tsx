@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { resolveTypeLabel } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
@@ -87,12 +88,9 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
 
         {/* Navigation links */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">
-          <Link
-            href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}/dokument`}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
-          >
+          <Button href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}/dokument`} size="lg">
             Formelles Gesuch-Dokument (PDF)
-          </Link>
+          </Button>
           <Link
             href="/fundraising/gesuch-vorlagen"
             className="py-3 text-sm text-primary hover:underline"

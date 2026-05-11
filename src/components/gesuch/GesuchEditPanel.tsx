@@ -6,6 +6,7 @@ import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { WhySection, TrackRecord } from '@/lib/schemas/story';
 import type { AnschreibenText } from '@/app/fundraising/stiftungen/[slug]/gesuch/GesuchPageClient';
 import FieldRow from './FieldRow';
+import { Button } from '@/components/ui/Button';
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
 
 interface GesuchEditPanelProps {
@@ -115,13 +116,9 @@ export default function GesuchEditPanel({
               >
                 Nein
               </button>
-              <button
-                type="button"
-                onClick={handleReset}
-                className="rounded-lg bg-danger px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-danger/80"
-              >
+              <Button variant="danger" size="sm" onClick={handleReset}>
                 Ja, zurücksetzen
-              </button>
+              </Button>
             </>
           ) : (
             <>
@@ -134,14 +131,9 @@ export default function GesuchEditPanel({
               >
                 Alles zurücksetzen
               </button>
-              <button
-                type="button"
-                onClick={handleSave}
-                disabled={saving || !dirty}
-                className="rounded-lg bg-primary px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary/80 disabled:opacity-50"
-              >
+              <Button variant="soft" size="sm" disabled={saving || !dirty} onClick={handleSave}>
                 {saving ? 'Speichern…' : 'Speichern'}
-              </button>
+              </Button>
             </>
           )}
         </div>

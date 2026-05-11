@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { HUB_IMAGE_PROMPTS, getMidjourneyPrompt, getDallEPrompt, getPromptConfig } from '@/lib/config/hub-image-prompts';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 
 export function HubImageGenerator() {
   const [selectedSpace, setSelectedSpace] = useState<string | null>(null);
@@ -69,18 +70,12 @@ export function HubImageGenerator() {
 
           {/* Copy Buttons */}
           <div className="flex gap-3 flex-wrap">
-            <button
-              onClick={() => handleCopyPrompt(selectedConfig.space_name, 'midjourney')}
-              className="rounded-lg bg-grey-dark px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
-            >
+            <Button onClick={() => handleCopyPrompt(selectedConfig.space_name, 'midjourney')}>
               {copiedPrompt === `${selectedConfig.space_name}-midjourney` ? '✓ Copied!' : '📋 Copy for Midjourney'}
-            </button>
-            <button
-              onClick={() => handleCopyPrompt(selectedConfig.space_name, 'dalle')}
-              className="rounded-lg bg-grey-dark px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
-            >
+            </Button>
+            <Button onClick={() => handleCopyPrompt(selectedConfig.space_name, 'dalle')}>
               {copiedPrompt === `${selectedConfig.space_name}-dalle` ? '✓ Copied!' : '📋 Copy for DALL-E 3'}
-            </button>
+            </Button>
           </div>
 
           {/* Suggested Tools */}

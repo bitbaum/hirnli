@@ -9,6 +9,7 @@ import FilterSidebar from '@/components/foundation/FilterSidebar';
 import FilterDrawer from '@/components/foundation/FilterDrawer';
 import FilterPill from '@/components/ui/FilterPill';
 import PipelineOverviewCard from '@/components/foundation/PipelineOverviewCard';
+import { Button } from '@/components/ui/Button';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import CsvExportModal from '@/components/foundation/CsvExportModal';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
@@ -294,12 +295,9 @@ export default function FoundationListClient() {
                         : 'Versuche, einzelne Filter zu entfernen.'}
                 </p>
                 {hasActiveFilters && (
-                  <button
-                    onClick={resetFilters}
-                    className="mt-3 rounded-lg bg-grey-dark px-4 py-2 text-sm font-medium text-white hover:bg-grey-dark/85"
-                  >
+                  <Button onClick={resetFilters} className="mt-3">
                     Alle Filter zurücksetzen
-                  </button>
+                  </Button>
                 )}
               </div>
             )}

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 
 export default function NotFound() {
   return (
@@ -9,12 +9,9 @@ export default function NotFound() {
       <p className="text-text-light mb-6 max-w-md">
         Die angeforderte Seite existiert nicht oder wurde verschoben.
       </p>
-      <Link
-        href="/"
-        className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-      >
+      <Button href="/" variant="soft">
         Zur Startseite
-      </Link>
+      </Button>
     </div>
   );
 }

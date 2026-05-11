@@ -22,6 +22,7 @@ import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId } from '@/lib/schemas/foundation';
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
 import Badge from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 
 interface StepReviewProps {
   slug: string;
@@ -137,13 +138,9 @@ export default function StepReview({
                 Verbindungssatz und Anschreiben werden auf {foundationName} massgeschneidert.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={onAutoDraft}
-              className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
-            >
+            <Button variant="soft" onClick={onAutoDraft}>
               KI-Entwurf erstellen
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -242,13 +239,9 @@ export default function StepReview({
         >
           ← Fokus ändern
         </button>
-        <button
-          type="button"
-          onClick={onNext}
-          className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
-        >
+        <Button variant="soft" size="lg" onClick={onNext}>
           Weiter — Einreichen →
-        </button>
+        </Button>
       </div>
 
       {/* Override version history drawer */}

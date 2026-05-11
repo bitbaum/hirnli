@@ -13,6 +13,7 @@ import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 import { NET_ERR_SAVE, API_ERR_SAVE } from '@/lib/utils/errors';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
+import { Button } from '@/components/ui/Button';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import { buildPatchPayload, initFieldsFromApplication, type ApplicationFormFields } from '@/hooks/useApplicationForm';
 
@@ -307,13 +308,9 @@ export function EditApplicationModal({
           >
             Abbrechen
           </button>
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="rounded-lg bg-grey-dark px-5 py-2 text-sm font-semibold text-white hover:bg-grey-dark/85 disabled:opacity-50"
-          >
+          <Button onClick={handleSave} disabled={isSaving}>
             {isSaving ? 'Speichern...' : 'Speichern'}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

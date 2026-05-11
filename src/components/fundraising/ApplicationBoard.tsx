@@ -8,7 +8,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
@@ -231,12 +230,9 @@ export function ApplicationBoard() {
           <div />
         )}
         <div className="flex gap-2 shrink-0">
-          <Link
-            href="/fundraising/stiftungen"
-            className="rounded-lg bg-grey-dark px-4 py-2 text-sm font-medium text-white hover:bg-grey-dark/85"
-          >
+          <Button href="/fundraising/stiftungen">
             + Gesuch hinzufügen
-          </Link>
+          </Button>
           <button
             onClick={fetchApplications}
             className="rounded-lg border border-border bg-white px-4 py-2 text-sm text-grey-dark hover:bg-bg-light"

@@ -17,6 +17,7 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
+import { Button } from '@/components/ui/Button';
 
 export interface SubmissionInfo {
   foundationName: string;
@@ -167,14 +168,9 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
       {info.applicationUrl && (
         <div>
           <SectionLabel>Online-Formular</SectionLabel>
-          <a
-            href={info.applicationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
-          >
+          <Button variant="soft" href={info.applicationUrl}>
             Formular öffnen ↗
-          </a>
+          </Button>
         </div>
       )}
 

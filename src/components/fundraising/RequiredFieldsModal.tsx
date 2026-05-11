@@ -9,6 +9,7 @@ import { useState } from 'react';
 import type { RequiredField, ApplicationStatusId } from '@/lib/config/application-statuses';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 import { NET_ERR_RETRY, API_ERR_SAVE } from '@/lib/utils/errors';
+import { Button } from '@/components/ui/Button';
 
 interface RequiredFieldsModalProps {
   applicationId: string;
@@ -109,13 +110,9 @@ export default function RequiredFieldsModal({
             >
               Abbrechen
             </button>
-            <button
-              type="submit"
-              disabled={submitting}
-              className="rounded-lg bg-grey-dark px-4 py-2 text-sm font-semibold text-white hover:bg-grey-dark/85 disabled:opacity-50"
-            >
+            <Button type="submit" disabled={submitting}>
               {submitting ? 'Speichern…' : 'Speichern'}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

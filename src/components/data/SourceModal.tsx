@@ -3,6 +3,7 @@
 import type { NumberSource } from '@/lib/config/numbers';
 import { CONFIDENCE_DISPLAY_LABELS, CONFIDENCE_COLORS } from '@/lib/config/numbers';
 import { formatDateCHLong } from '@/lib/utils/format';
+import { Button } from '@/components/ui/Button';
 
 interface SourceModalProps {
   data: NumberSource;
@@ -92,17 +93,12 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
           {/* Download Link */}
           {data.source.documentUrl && (
             <div>
-              <a
-                href={data.source.documentUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg bg-grey-dark px-4 py-2 text-white transition-colors hover:bg-grey-dark/85"
-              >
+              <Button href={data.source.documentUrl}>
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 Quelldokument ansehen (PDF)
-              </a>
+              </Button>
             </div>
           )}
 

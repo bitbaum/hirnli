@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { THEMES, resolveTypeLabel } from '@/lib/config/foundations';
@@ -102,12 +103,9 @@ export default async function GesuchVorlagePage({ params }: Props) {
 
         {/* Navigation links */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">
-          <Link
-            href={`/fundraising/gesuch-vorlagen/${type}/dokument`}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-grey-dark px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-grey-dark/85"
-          >
+          <Button href={`/fundraising/gesuch-vorlagen/${type}/dokument`} size="lg">
             Formelles Gesuch-Dokument (PDF)
-          </Link>
+          </Button>
           <Link
             href="/fundraising/gesuch-vorlagen"
             className="py-3 text-sm text-primary hover:underline"

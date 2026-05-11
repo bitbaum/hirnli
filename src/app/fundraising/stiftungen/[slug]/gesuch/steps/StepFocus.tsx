@@ -2,6 +2,7 @@ import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId } from '@/lib/schemas/foundation';
 import SchwerpunktSelector from '@/components/gesuch/SchwerpunktSelector';
 import Badge from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 
 interface StepFocusProps {
   foundationName: string;
@@ -77,13 +78,9 @@ export default function StepFocus({
 
       {/* Weiter CTA */}
       <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={onNext}
-          className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
-        >
+        <Button variant="soft" size="lg" onClick={onNext}>
           Weiter — Entwurf prüfen →
-        </button>
+        </Button>
       </div>
     </div>
   );
