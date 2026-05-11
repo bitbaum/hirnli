@@ -7,6 +7,7 @@ import { getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { groupLineItemsByCategory } from '@/lib/domain/budget-calculations';
 import { formatCHF } from '@/lib/utils/format';
 import LineItemDetail from './LineItemDetail';
+import Card from '@/components/ui/Card';
 
 /**
  * BudgetTable Component
@@ -52,7 +53,7 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
         const categoryTotal = categoryItems.reduce((sum, item) => sum + item.amount, 0);
 
         return (
-          <div key={category} className="bg-white rounded-lg border border-border p-5">
+          <Card key={category} padding={false} className="p-5">
             {/* Category header */}
             <div className="flex justify-between items-center mb-4 pb-3 border-b border-border">
               <h3 className="heading-card">
@@ -115,7 +116,7 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
                 </div>
               ))}
             </div>
-          </div>
+          </Card>
         );
       })}
     </div>

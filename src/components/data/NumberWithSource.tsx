@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { NUMBERS_REGISTRY } from '@/lib/config/numbers';
 import { formatCHF, formatNumber } from '@/lib/utils/format';
 import SourceModal from './SourceModal';
+import Card from '@/components/ui/Card';
 
 interface NumberWithSourceProps {
   numberKey: keyof typeof NUMBERS_REGISTRY;
@@ -109,9 +110,9 @@ export function NumberGrid({ numbers, columns = 3, size = 'md' }: NumberGridProp
   return (
     <div className={`grid ${gridCols[columns]} gap-6`}>
       {numbers.map((key) => (
-        <div key={key} className="bg-white rounded-lg p-6 shadow-sm border border-border">
+        <Card key={key}>
           <NumberWithSource numberKey={key} size={size} showLabel={true} />
-        </div>
+        </Card>
       ))}
     </div>
   );

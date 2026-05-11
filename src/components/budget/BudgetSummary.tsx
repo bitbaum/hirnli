@@ -1,6 +1,7 @@
 import type { BudgetScenario } from '@/lib/schemas/budget';
 import { calculate3YearTotals } from '@/lib/domain/budget-calculations';
 import { formatCHF } from '@/lib/utils/format';
+import Card from '@/components/ui/Card';
 
 /**
  * BudgetSummary Component
@@ -22,7 +23,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
   const { year1, year2, year3 } = scenario.threeYearModel;
 
   return (
-    <div className={`bg-white rounded-lg border border-border p-6 ${className}`}>
+    <Card className={className}>
       <h3 className="heading-card mb-4">3-Jahres-Finanzplan</h3>
 
       {/* Year-by-year breakdown */}
@@ -115,6 +116,6 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
           <span className="font-medium">Typ {scenario.targetFoundations.join(', ')}</span>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
