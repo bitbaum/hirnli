@@ -21,7 +21,7 @@ export default function SpacePlanningSection() {
         <div className="flex items-start justify-between mb-4">
           <div>
             <h3 className="heading-card mb-2">Gesamt-Raumkonzept</h3>
-            <p className="text-2xl font-bold text-primary">{SPACE_SUMMARY.total_with_circulation} m²</p>
+            <p className="heading-section text-primary">{SPACE_SUMMARY.total_with_circulation} m²</p>
           </div>
           <Badge color="blue">Realistisch</Badge>
         </div>

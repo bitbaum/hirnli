@@ -61,7 +61,7 @@ export default function VisionMetric({ value, label, source }: VisionMetricProps
           <div className="space-y-4">
             <div>
               <h4 className="heading-detail mb-2">Zielwert</h4>
-              <p className="text-2xl font-bold text-primary">{value}</p>
+              <p className="heading-section text-primary">{value}</p>
               <p className="text-sm text-text-light mt-1">{label}</p>
             </div>
 

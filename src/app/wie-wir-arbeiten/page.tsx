@@ -33,7 +33,7 @@ export default function WieWirArbeitenPage() {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {CASCADE_METRICS.map((m) => (
             <Card key={m.label} className="text-center">
-              <p className="text-2xl font-bold text-primary md:text-3xl">
+              <p className="heading-page text-primary">
                 {m.value}
               </p>
               <p className="heading-detail">{m.label}</p>
