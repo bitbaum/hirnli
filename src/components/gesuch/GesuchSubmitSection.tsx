@@ -12,12 +12,12 @@
 
 'use client';
 
-import { useState } from 'react';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 import { Button } from '@/components/ui/Button';
+import CopyButton from '@/components/ui/CopyButton';
 
 export interface SubmissionInfo {
   foundationName: string;
@@ -38,23 +38,6 @@ function daysUntil(dateStr: string): number | null {
   const now = new Date();
   now.setHours(0, 0, 0, 0);
   return Math.ceil((d.getTime() - now.getTime()) / MS_PER_DAY);
-}
-
-function CopyButton({ text, label = 'Kopieren' }: { text: string; label?: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      type="button"
-      onClick={async () => {
-        await navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }}
-      className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm font-medium text-text-muted hover:border-primary/40 hover:text-primary transition-colors"
-    >
-      {copied ? '✓ Kopiert' : label}
-    </button>
-  );
 }
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
