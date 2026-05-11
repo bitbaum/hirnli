@@ -10,3 +10,7 @@ export const FORM_INPUT_CLASS =
 
 export const FORM_LABEL_CLASS =
   'mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted';
+
+/** Accessible checkbox row: touch-friendly min-height, consistent label layout */
+export const FORM_CHECKBOX_LABEL_CLASS =
+  'flex min-h-11 cursor-pointer items-center gap-2 text-sm';

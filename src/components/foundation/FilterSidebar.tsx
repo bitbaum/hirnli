@@ -1,6 +1,6 @@
 'use client';
 
-import { FORM_INPUT_CLASS } from '@/lib/utils/form-classes';
+import { FORM_INPUT_CLASS, FORM_CHECKBOX_LABEL_CLASS } from '@/lib/utils/form-classes';
 import { Button } from '@/components/ui/Button';
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
@@ -10,9 +10,8 @@ import { DEFAULT_FILTERS, FILTER_PRESETS, findActivePreset } from '@/lib/domain/
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import type { FilterChip } from '@/lib/types/filter';
 import { fitDisplayLabel } from '@/lib/domain/fit-scoring';
-import CheckboxFilterGroup from './filters/CheckboxFilterGroup';
 import SchwerpunkteFilter from './filters/SchwerpunkteFilter';
-import TierFilter from './filters/TierFilter';
+import FilterSidebarAdvanced from './FilterSidebarAdvanced';
 
 interface SortOption {
   value: SortField;
@@ -87,10 +86,6 @@ export default function FilterSidebar({
 }: FilterSidebarProps) {
   const activePreset = findActivePreset(filters);
 
-  const isTopPriority = filters.priorityLevels.length === 2
-    && filters.priorityLevels.includes(1)
-    && filters.priorityLevels.includes(2);
-
   return (
     <div className="space-y-1">
       {/* ─── Quick Filters (always visible) ─── */}
@@ -154,7 +149,7 @@ export default function FilterSidebar({
           {([3, 2, 1, 0] as const).map((value) => {
             const isActive = filters.fit.includes(value);
             return (
-              <label key={value} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
+              <label key={value} className={FORM_CHECKBOX_LABEL_CLASS}>
                 <input
                   type="checkbox"
                   checked={isActive}
@@ -208,100 +203,19 @@ export default function FilterSidebar({
       </CollapsibleSection>
 
       {/* ─── Erweitert (collapsed by default) ─── */}
-
-      <CollapsibleSection title="Erweitert" defaultOpen={false} count={
-        (filters.statuses.length > 0 ? 1 : 0) +
-        (filters.types.length > 0 ? 1 : 0) +
-        (filters.priorityLevels.length > 0 ? 1 : 0) +
-        (filters.hideNoApplication ? 1 : 0) +
-        (filters.hideOperative ? 1 : 0) +
-        (filters.hideNetworks ? 1 : 0) +
-        (filters.minTier !== DEFAULT_FILTERS.minTier ? 1 : 0) || undefined
-      }>
-        <div className="space-y-4">
-          {/* Top-Priorität toggle */}
-          <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-text-muted">
-            <input
-              type="checkbox"
-              checked={isTopPriority}
-              onChange={() => {
-                if (isTopPriority) {
-                  // Clear both
-                  togglePriorityLevel(1);
-                  togglePriorityLevel(2);
-                } else {
-                  // Set P1+P2
-                  if (!filters.priorityLevels.includes(1)) togglePriorityLevel(1);
-                  if (!filters.priorityLevels.includes(2)) togglePriorityLevel(2);
-                  // Clear P3+P4 if set
-                  if (filters.priorityLevels.includes(3)) togglePriorityLevel(3);
-                  if (filters.priorityLevels.includes(4)) togglePriorityLevel(4);
-                }
-              }}
-              className="rounded border-border"
-            />
-            Top-Priorität (P1 + P2)
-          </label>
-
-          <CheckboxFilterGroup
-            title="Status"
-            chips={statusChips}
-            selected={filters.statuses}
-            onToggle={toggleStatus}
-          />
-
-          <CheckboxFilterGroup
-            title="Typ"
-            chips={typeChips}
-            selected={filters.types}
-            onToggle={toggleType}
-          />
-
-          {/* Boolean toggles */}
-          <div className="space-y-2">
-            <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-text-muted">
-              <input
-                type="checkbox"
-                checked={filters.hideNoApplication}
-                onChange={toggleHideNoApplication}
-                className="rounded border-border"
-              />
-              Mit Bewerbungsweg
-            </label>
-            <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-text-muted">
-              <input
-                type="checkbox"
-                checked={filters.hideOperative}
-                onChange={toggleHideOperative}
-                className="rounded border-border"
-              />
-              Operative ausblenden
-            </label>
-            <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-text-muted">
-              <input
-                type="checkbox"
-                checked={filters.hideNetworks}
-                onChange={toggleHideNetworks}
-                className="rounded border-border"
-              />
-              Netzwerke ausblenden
-            </label>
-          </div>
-
-          <TierFilter
-            activeTier={filters.minTier}
-            tierCounts={tierCounts}
-            onSelect={setMinTier}
-          />
-
-          <a
-            href="/fundraising/scoring-methodik"
-            className="block text-sm text-text-muted hover:text-primary"
-          >
-            Scoring-Methodik verstehen →
-          </a>
-        </div>
-      </CollapsibleSection>
+      <FilterSidebarAdvanced
+        filters={filters}
+        tierCounts={tierCounts}
+        statusChips={statusChips}
+        typeChips={typeChips}
+        toggleStatus={toggleStatus}
+        toggleType={toggleType}
+        togglePriorityLevel={togglePriorityLevel}
+        toggleHideNoApplication={toggleHideNoApplication}
+        toggleHideOperative={toggleHideOperative}
+        toggleHideNetworks={toggleHideNetworks}
+        setMinTier={setMinTier}
+      />
 
       {/* Reset */}
       {hasActiveFilters && (

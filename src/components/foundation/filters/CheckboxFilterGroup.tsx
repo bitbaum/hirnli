@@ -2,6 +2,7 @@
 
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
 import type { FilterChip } from '@/lib/types/filter';
+import { FORM_CHECKBOX_LABEL_CLASS } from '@/lib/utils/form-classes';
 
 interface CheckboxFilterGroupProps {
   title: string;
@@ -24,7 +25,7 @@ export default function CheckboxFilterGroup({
         {chips.map((chip) => {
           const isSelected = selected.includes(chip.id);
           return (
-            <label key={chip.id} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
+            <label key={chip.id} className={FORM_CHECKBOX_LABEL_CLASS}>
               <input
                 type="checkbox"
                 checked={isSelected}
