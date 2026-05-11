@@ -5,10 +5,12 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { resolveTypeLabel } from '@/lib/config/foundations';
 import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
-import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
-import ProjektbeschriebSection from '@/components/gesuch/ProjektbeschriebSection';
-import BudgetSection from '@/components/gesuch/BudgetSection';
-import KurzportraitSection from '@/components/gesuch/KurzportraitSection';
+import {
+  AnschreibenSection,
+  ProjektbeschriebSection,
+  BudgetSection,
+  KurzportraitSection,
+} from '@/components/gesuch/sections';
 
 interface Props {
   params: Promise<{ vorlage: string }>;

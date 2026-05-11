@@ -4,3 +4,7 @@ export { default as GesuchHowSection } from './GesuchHowSection';
 export { default as GesuchProjectsSection } from './GesuchProjectsSection';
 export { default as GesuchEvidenceSection } from './GesuchEvidenceSection';
 export { default as GesuchContactSection } from './GesuchContactSection';
+export { default as AnschreibenSection } from './AnschreibenSection';
+export { default as ProjektbeschriebSection } from './ProjektbeschriebSection';
+export { default as BudgetSection } from './BudgetSection';
+export { default as KurzportraitSection } from './KurzportraitSection';

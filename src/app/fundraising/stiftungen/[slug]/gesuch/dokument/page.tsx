@@ -6,10 +6,12 @@ import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
-import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
-import ProjektbeschriebSection from '@/components/gesuch/ProjektbeschriebSection';
-import BudgetSection from '@/components/gesuch/BudgetSection';
-import KurzportraitSection from '@/components/gesuch/KurzportraitSection';
+import {
+  AnschreibenSection,
+  ProjektbeschriebSection,
+  BudgetSection,
+  KurzportraitSection,
+} from '@/components/gesuch/sections';
 
 export const dynamic = 'force-dynamic';
 

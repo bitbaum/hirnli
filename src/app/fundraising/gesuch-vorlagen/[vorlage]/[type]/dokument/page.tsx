@@ -6,10 +6,12 @@ import { resolveTypeLabel } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
 import { SCHWERPUNKTE, isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
-import AnschreibenSection from '@/components/gesuch/AnschreibenSection';
-import ProjektbeschriebSection from '@/components/gesuch/ProjektbeschriebSection';
-import BudgetSection from '@/components/gesuch/BudgetSection';
-import KurzportraitSection from '@/components/gesuch/KurzportraitSection';
+import {
+  AnschreibenSection,
+  ProjektbeschriebSection,
+  BudgetSection,
+  KurzportraitSection,
+} from '@/components/gesuch/sections';
 
 interface Props {
   params: Promise<{ vorlage: string; type: string }>;
