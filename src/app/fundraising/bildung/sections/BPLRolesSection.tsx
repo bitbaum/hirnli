@@ -33,7 +33,7 @@ export default function BPLRolesSection() {
               </div>
             </div>
             <div className="bg-pillar-vision/10 rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-pillar-vision mb-2">Multiplikationseffekt:</h4>
+              <h4 className="heading-detail text-pillar-vision mb-2">Multiplikationseffekt:</h4>
               {bpl.name.includes('Hardware') ? (
                 <div className="text-sm text-pillar-vision space-y-1">
                   <p><strong>{MULTIPLICATION_EFFECT.hardware_bpl.direct_training} Techniker/Jahr</strong> direkt trainiert</p>

@@ -10,7 +10,7 @@ export default function BottleneckSection() {
         <div className="flex items-start gap-4">
           <span className="text-4xl flex-shrink-0" aria-hidden="true">⚠️</span>
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-warning mb-2">Aktueller Engpass</h3>
+            <h3 className="heading-card font-bold text-warning mb-2">Aktueller Engpass</h3>
             <div className="space-y-2 text-sm text-warning">
               <p>
                 <strong>{TEAM_MEMBERS.length} Personen im Team</strong> (Leitung, Techniker, Betrieb) — aber nur 3 in der Leitung (Vero, Dani, Andreas), keine dedizierte Bildungskapazität

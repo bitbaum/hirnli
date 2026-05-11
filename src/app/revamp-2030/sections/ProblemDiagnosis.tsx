@@ -10,7 +10,7 @@ export default function ProblemDiagnosis() {
         <div className="flex items-start gap-4">
           <span className="text-4xl flex-shrink-0" aria-hidden="true">⚠️</span>
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-danger mb-3">Unsere Kapazitäts-Grenzen (ehrliche Diagnose)</h3>
+            <h3 className="heading-card font-bold text-danger mb-3">Unsere Kapazitäts-Grenzen (ehrliche Diagnose)</h3>
             <div className="space-y-4 text-sm text-danger">
               <div>
                 <p className="font-semibold mb-2">Hardware-Refurbishment: Potential nicht ausgeschöpft</p>
