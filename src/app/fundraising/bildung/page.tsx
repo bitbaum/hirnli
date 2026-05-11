@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
+import Callout from '@/components/ui/Callout';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
@@ -163,7 +164,7 @@ export default function BildungPage() {
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Wie funktioniert Train-the-Trainer?</h2>
         <Card>
-          <div className="bg-primary/10 border-l-4 border-primary rounded-lg p-4 mb-6">
+          <Callout color="primary" className="mb-6">
             <p className="text-sm text-primary mb-2">
               <strong>Transparenz-Hinweis:</strong> Train-the-Trainer ist ein etabliertes Konzept in Bildung und Capacity Building
               (z.B. WHO, viele NGOs nutzen diesen Ansatz).
@@ -173,7 +174,7 @@ export default function BildungPage() {
               basierend auf unserer informellen Erfahrung und Schätzungen. <strong>Nicht empirisch gemessen.</strong>
               Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
             </p>
-          </div>
+          </Callout>
           <div className="space-y-6">
             {/* Stufe 1 */}
             <div className="flex items-start gap-4">

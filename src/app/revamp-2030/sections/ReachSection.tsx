@@ -1,5 +1,6 @@
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import Callout from '@/components/ui/Callout';
 import {
   DEVICES_PER_MONTH_CURRENT_DISPLAY,
   DEVICES_PER_MONTH_TARGET,
@@ -15,13 +16,13 @@ export default function ReachSection() {
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">Wie wir mehr Menschen erreichen</h2>
       <Card>
-        <div className="bg-primary/10 border-l-4 border-primary rounded-lg p-4 mb-6">
+        <Callout color="primary" className="mb-6">
           <p className="text-sm text-primary">
             <strong>Transparenz-Hinweis:</strong> Die Zahlen unten ({BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr, etc.) sind <strong>Projektionen</strong>,
             basierend auf Train-the-Trainer Konzept (etablierte Bildungsstrategie) und unserer informellen Erfahrung.
             <strong> Nicht empirisch gemessen.</strong> Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
           </p>
-        </div>
+        </Callout>
         <p className="text-sm text-text-light mb-6">
           Der Schlüssel: <strong>Organisation + Train-the-Trainer + Online-Content</strong>. Nicht einfach mehr Mitarbeitende einstellen.
         </p>

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
+import Callout from '@/components/ui/Callout';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import MetricCard from '@/components/metrics/MetricCard';
@@ -190,7 +191,7 @@ export default function FundraisingClient() {
               unsere B2B-Einnahmen stark reduziert.
             </p>
 
-            <div className="bg-warning/10 border-l-4 border-warning p-4 my-4">
+            <Callout color="warning" className="my-4">
               <p className="text-warning font-semibold mb-2">Warum wir nicht einfach &bdquo;mehr verkaufen&ldquo; können:</p>
               <ul className="text-warning space-y-2 mb-0">
                 <li>Unser Kivitendo-System braucht dringend eine Überarbeitung — aber uns fehlen die Ressourcen</li>
@@ -198,7 +199,7 @@ export default function FundraisingClient() {
                 <li>Problem ist nicht fehlende Geräte, sondern fehlende Organisation für Verkauf & Ausführung</li>
                 <li>Wir haben bereits zu viel Inventar in 2 Lagern — mehr Geräte helfen nicht</li>
               </ul>
-            </div>
+            </Callout>
 
             <p className="text-grey-dark leading-relaxed">
               <strong>Was wir brauchen:</strong> Nicht mehr Verkauf, sondern <strong>bessere Prozesse</strong> und

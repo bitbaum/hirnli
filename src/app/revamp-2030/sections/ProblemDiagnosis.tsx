@@ -1,5 +1,6 @@
 import Card from '@/components/ui/Card';
 import { REPAIR_TABLES_CURRENT } from '@/lib/config/projections';
+import Callout from '@/components/ui/Callout';
 
 export default function ProblemDiagnosis() {
   return (
@@ -36,7 +37,7 @@ export default function ProblemDiagnosis() {
                 </ul>
               </div>
 
-              <div className="bg-danger/10 border-l-4 border-danger p-3 my-3">
+              <Callout color="danger" className="my-3">
                 <p className="font-bold text-danger mb-1">Die Kernherausforderung:</p>
                 <p className="text-danger">
                   Unser Team leistet <strong>hervorragende Arbeit</strong>, aber die Kapazität ist begrenzt.
@@ -44,7 +45,7 @@ export default function ProblemDiagnosis() {
                   aber <strong>keine bezahlten Fachleute, die ausschliesslich Programme entwickeln, organisieren und skalieren</strong>.
                   Mehr Raum allein löst das nicht — wir brauchen <strong>dedizierte Bildungs- & Prozessleitung</strong>.
                 </p>
-              </div>
+              </Callout>
             </div>
           </div>
         </div>

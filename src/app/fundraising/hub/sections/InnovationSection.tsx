@@ -1,4 +1,5 @@
 import Card from '@/components/ui/Card';
+import Callout from '@/components/ui/Callout';
 import HubCardHeader from './HubCardHeader';
 
 export default function InnovationSection() {
@@ -113,13 +114,13 @@ export default function InnovationSection() {
             </div>
           </div>
 
-          <div className="bg-warning/10 border-l-4 border-warning p-3 text-sm text-warning mb-3">
+          <Callout color="warning" className="text-sm text-warning mb-3">
             <strong>Wichtig:</strong> Wir starten nicht mit Setup C. Wir bauen modular auf, basierend auf Spenden + verfügbarem Budget.
             Jedes Setup ist nützlich — auch Setup A ermöglicht AI Literacy Workshops und kleine Modelle.
             <br /><br />
             <strong>Realität:</strong> Enterprise GPUs sind teuer (A100: CHF 10-15k, H100: CHF 25-35k pro Stück).
             Setup C erfordert massive Corporate-Spenden oder schrittweisen Aufbau über mehrere Jahre.
-          </div>
+          </Callout>
 
           <div className="text-sm text-text-light pt-3 border-t border-border">
             <strong>Potenzielle Wirkung (je nach Setup):</strong> 20-60 Workshop-Teilnehmer/Monat, AI Hosting für 5-20 NGOs/KMUs, Hardware-Diagnostik-Automatisierung<br />

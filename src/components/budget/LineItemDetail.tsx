@@ -1,4 +1,5 @@
 import type { BudgetLineItem } from '@/lib/schemas/budget';
+import Callout from '@/components/ui/Callout';
 import { formatCHF, formatDateCH } from '@/lib/utils/format';
 import { CONFIDENCE_COLORS } from '@/lib/config/numbers';
 
@@ -21,7 +22,7 @@ interface LineItemDetailProps {
 
 export default function LineItemDetail({ item }: LineItemDetailProps) {
   return (
-    <div className="ml-8 p-4 bg-primary/10 rounded-lg border-l-4 border-primary space-y-3">
+    <Callout color="primary" className="ml-8 space-y-3">
       {/* Description */}
       <p className="text-sm text-grey-dark">{item.description}</p>
 
@@ -94,6 +95,6 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
           </div>
         )}
       </div>
-    </div>
+    </Callout>
   );
 }

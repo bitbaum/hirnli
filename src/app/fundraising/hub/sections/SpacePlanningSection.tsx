@@ -1,5 +1,6 @@
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import Callout from '@/components/ui/Callout';
 import {
   ZURICH_MARKET_DATA,
   SPACE_SUMMARY,
@@ -43,7 +44,7 @@ export default function SpacePlanningSection() {
           </div>
         </div>
 
-        <div className="bg-warning/10 border-l-4 border-warning p-4 text-sm">
+        <Callout color="warning" className="text-sm">
           <p className="font-semibold text-warning mb-2">Warum diese Grösse?</p>
           <p className="text-sm text-warning">
             Basiert auf Industrie-Standards: Auto-Werkstatt mit 2 Hebebühnen = 140-185m² (Baseline für Werkstatt-Dimensionierung).
@@ -51,7 +52,7 @@ export default function SpacePlanningSection() {
             Workshop-Räume optimal bei <strong>2,4-3,6m Deckenhöhe</strong> (Belüftung + Beleuchtung). Unsere Planung:
             <strong> ~{SPACE_SUMMARY.total_with_circulation}m² effizient genutzter Raum</strong>, nicht 1000m² ineffizient.
           </p>
-        </div>
+        </Callout>
       </Card>
 
       {/* Zürich Market Research */}
@@ -103,14 +104,14 @@ export default function SpacePlanningSection() {
           </div>
         </div>
 
-        <div className="bg-primary/10 border-l-4 border-primary p-4 text-sm">
+        <Callout color="primary" className="text-sm">
           <p className="font-semibold text-primary mb-1">Quelle & Methodik:</p>
           <p className="text-primary">
             Marktforschung basiert auf Homegate.ch, ImmoScout24, Comparis (Februar 2026). Kategorisierung:
             <strong> Agglomeration</strong> ({ZURICH_MARKET_DATA.agglomeration.locations.join(', ')}) vs. <strong>Stadt Zürich</strong> (Zentrale Lagen).
             Für detaillierte Quellenangaben siehe Methodik-Seite.
           </p>
-        </div>
+        </Callout>
       </Card>
 
       {/* Multi-Purpose Efficiency Strategy */}

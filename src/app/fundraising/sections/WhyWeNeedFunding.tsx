@@ -1,4 +1,5 @@
 import Card from '@/components/ui/Card';
+import Callout from '@/components/ui/Callout';
 import { TEAM_MEMBERS } from '@/app/team/data';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatCHF } from '@/lib/utils/format';
@@ -38,14 +39,14 @@ export default function WhyWeNeedFunding() {
             entsorgen alte Technologie — aber wir brauchen keine zusätzlichen Geräte, sondern bessere Prozesse.
           </p>
 
-          <div className="bg-warning/10 border-l-4 border-warning p-4 my-4">
+          <Callout color="warning" className="my-4">
             <p className="text-warning font-semibold mb-2">Das Problem in einem Satz:</p>
             <p className="text-warning mb-0">
               Wir haben {TEAM_MEMBERS.length} Menschen im Team (Techniker, Betrieb, Leitung) — aber zu wenig bezahlte Kapazität und keine
               dedizierte Bildungsstruktur, um Prozesse zu professionalisieren und das volle Potenzial auszuschöpfen.
               <br /><span className="text-sm mt-1 block">Leitung: Andreas, Veronica (Sozialpädagogin), Dani. Technik & Betrieb: Freiwillige, Praktikanten, Reintegrations-Teilnehmer.</span>
             </p>
-          </div>
+          </Callout>
 
           <h3 className="text-lg font-bold text-primary mt-6">Die Lösung: Professionalisierung + Bildung + Community</h3>
 

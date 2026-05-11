@@ -1,4 +1,5 @@
 import Card from '@/components/ui/Card';
+import Callout from '@/components/ui/Callout';
 import { DEVICES_PER_YEAR_TARGET_DISPLAY, DEVICES_PER_YEAR_CURRENT_DISPLAY } from '@/lib/config/projections';
 import {
   SPACE_PLAN,
@@ -36,7 +37,7 @@ export default function SpaceConcept() {
           ))}
         </div>
 
-        <div className="bg-success/10 border-l-4 border-success p-4 my-4">
+        <Callout color="success" className="my-4">
           <p className="font-semibold text-success mb-2">Warum so viel Raum?</p>
           <p className="text-success">
             Unser Ziel ist <strong>{DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell {DEVICES_PER_YEAR_CURRENT_DISPLAY}/Jahr geschätzt).
@@ -46,7 +47,7 @@ export default function SpaceConcept() {
             Plus: Workshops, Trainings, Events, und Community-Treffpunkt generieren neue Einnahmequellen,
             die langfristig unsere Unabhängigkeit sichern.
           </p>
-        </div>
+        </Callout>
 
         <p className="text-sm text-text-light">
           <strong>Gesamtfläche:</strong> {SPACE_PLAN_TOTAL} m² Nutzfläche + ~{SPACE_TOTAL_WITH_CIRCULATION - SPACE_PLAN_TOTAL} m² Verkehrsfläche (Flure, Treppen, Toiletten)

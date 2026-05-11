@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Callout from '@/components/ui/Callout';
 import { Button } from '@/components/ui/Button';
 
 interface CommunitySpaceCardProps {
@@ -128,11 +129,11 @@ export default function CommunitySpaceCard({
 
           {/* Estimated Cost */}
           {estimatedCost && (
-            <div className="bg-warning/10 border-l-4 border-warning rounded-lg p-4">
+            <Callout color="warning">
               <h4 className="text-sm font-semibold text-warning mb-1">Geschätzte Kosten</h4>
               <p className="text-lg font-bold text-warning">{estimatedCost}</p>
               <p className="text-sm text-warning mt-1">Einmalige Einrichtung + erstes Jahr Betrieb</p>
-            </div>
+            </Callout>
           )}
         </div>
       )}
