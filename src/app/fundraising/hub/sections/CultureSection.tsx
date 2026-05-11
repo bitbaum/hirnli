@@ -1,5 +1,7 @@
 import Card from '@/components/ui/Card';
 import HubCardHeader from './HubCardHeader';
+import { CULTURE_ASPIRATIONAL_COSTS } from '@/lib/config/hub-space-plan';
+import { formatCHF } from '@/lib/utils/format';
 
 export default function CultureSection() {
   return (
@@ -11,7 +13,7 @@ export default function CultureSection() {
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-l-4 border-l-danger">
-          <HubCardHeader icon="🏛️" title="Computer History Museum" subtitle="60 m² — Technik-Geschichte zum Anfassen" subtitleClassName="text-danger" badgeColor="pink" badgeText="CHF 50'000" />
+          <HubCardHeader icon="🏛️" title="Computer History Museum" subtitle="60 m² — Technik-Geschichte zum Anfassen" subtitleClassName="text-danger" badgeColor="pink" badgeText={formatCHF(CULTURE_ASPIRATIONAL_COSTS.computer_museum)} />
           <p className="text-sm text-text-light mb-4">
             Von Commodore 64 bis zur ersten Cray: Computergeschichte als lebendiges Archiv.
             Zeigt, dass alte Hardware wertvoll ist — nicht Müll.
@@ -33,7 +35,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-chart-5">
-          <HubCardHeader icon="🎹" title="Elektronische Musik & Synth-Labor" subtitle="50 m² — Alte Elektronik wird Musik" subtitleClassName="text-chart-5" badgeColor="purple" badgeText="CHF 40'000" />
+          <HubCardHeader icon="🎹" title="Elektronische Musik & Synth-Labor" subtitle="50 m² — Alte Elektronik wird Musik" subtitleClassName="text-chart-5" badgeColor="purple" badgeText={formatCHF(CULTURE_ASPIRATIONAL_COSTS.synth_lab)} />
           <p className="text-sm text-text-light mb-4">
             Vintage-Synths restaurieren, Circuit-Bending lernen, Live-Konzerte veranstalten.
             Musik als Zugang zu Technologie.
@@ -55,7 +57,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-warning">
-          <HubCardHeader icon="🎨" title="E-Waste-Art Studio" subtitle="40 m² — Elektroschrott wird Kunst" subtitleClassName="text-warning" badgeColor="orange" badgeText="CHF 30'000" />
+          <HubCardHeader icon="🎨" title="E-Waste-Art Studio" subtitle="40 m² — Elektroschrott wird Kunst" subtitleClassName="text-warning" badgeColor="orange" badgeText={formatCHF(CULTURE_ASPIRATIONAL_COSTS.ewaste_art_studio)} />
           <p className="text-sm text-text-light mb-4">
             Künstler:innen schaffen aus Platinen, Gehäusen, Komponenten Skulpturen & Installationen.
             Zeigt: Schrott = Ressource.
@@ -77,7 +79,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-pillar-social">
-          <HubCardHeader icon="🎤" title="Event- & Multifunktionsraum" subtitle="100 m² — Tags Workshops, abends Events" subtitleClassName="text-theme-arbeit" badgeColor="teal" badgeText="CHF 60'000" />
+          <HubCardHeader icon="🎤" title="Event- & Multifunktionsraum" subtitle="100 m² — Tags Workshops, abends Events" subtitleClassName="text-theme-arbeit" badgeColor="teal" badgeText={formatCHF(CULTURE_ASPIRATIONAL_COSTS.event_multifunction)} />
           <p className="text-sm text-text-light mb-4">
             Flexibler Raum für 50-80 Personen. Tags: Workshops, Co-Working. Abends: Konzerte, Film, Talks.
           </p>
@@ -99,7 +101,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-success">
-          <HubCardHeader icon="☕" title="Zero-Waste Community Kitchen" subtitle="50 m² — Gemeinsam essen, gemeinsam lernen" subtitleClassName="text-success" badgeColor="green" badgeText="CHF 40'000" />
+          <HubCardHeader icon="☕" title="Zero-Waste Community Kitchen" subtitle="50 m² — Gemeinsam essen, gemeinsam lernen" subtitleClassName="text-success" badgeColor="green" badgeText={formatCHF(CULTURE_ASPIRATIONAL_COSTS.community_kitchen)} />
           <p className="text-sm text-text-light mb-4">
             Fair-Trade-Café tags, Community-Kitchen abends. Niederschwelliger Treffpunkt — keine Konsumpflicht.
           </p>
@@ -120,7 +122,7 @@ export default function CultureSection() {
         </Card>
 
         <Card className="border-l-4 border-l-warning">
-          <HubCardHeader icon="🔧" title="Repair Café" subtitle="30 m² — Community-Reparatur, 2×/Monat" subtitleClassName="text-warning" badgeColor="yellow" badgeText="CHF 20'000" />
+          <HubCardHeader icon="🔧" title="Repair Café" subtitle="30 m² — Community-Reparatur, 2×/Monat" subtitleClassName="text-warning" badgeColor="yellow" badgeText={formatCHF(CULTURE_ASPIRATIONAL_COSTS.repair_cafe)} />
           <p className="text-sm text-text-light mb-4">
             Öffentliche Reparatur-Events: Bring dein kaputtes Gerät, wir helfen dir es zu reparieren.
             Lernen durch Tun.

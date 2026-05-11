@@ -370,6 +370,16 @@ export const TRAINING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Training & Co
 // Phase-2 / optional areas not included in main space plan totals
 export const ROBOTIK_LAB_COST_CHF = 50_000;
 
+// Culture & community aspirational spaces (phase-2 vision, not in main plan totals)
+export const CULTURE_ASPIRATIONAL_COSTS = {
+  computer_museum: 50_000,
+  synth_lab: 40_000,
+  ewaste_art_studio: 30_000,
+  event_multifunction: 60_000,
+  community_kitchen: 40_000,
+  repair_cafe: 20_000,
+} as const;
+
 const CIRCULATION_SQM = _sumSqm(_INFRA_AREAS);
 
 export const SPACE_SUMMARY = {
