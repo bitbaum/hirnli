@@ -17,6 +17,7 @@ import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
 import ActivityTimeline from '@/components/ui/ActivityTimeline';
 import DeleteConfirmBlock from '@/components/fundraising/DeleteConfirmBlock';
+import { ApplicationDateFields, ApplicationOutcomeFields } from '@/components/fundraising/ApplicationFormSections';
 import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 
 interface ApplicationDetailProps {
@@ -187,54 +188,26 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         {/* Timeline */}
         <Card className="space-y-5">
           <h2 className="heading-item">Timeline</h2>
-          <div className={FORM_GRID_2COL_CLASS}>
-            <div>
-              <label className={labelClass}>Kontaktdatum</label>
-              <input type="date" value={fields.contactDate} onChange={(e) => updateField('contactDate', e.target.value)} className={inputClass} />
-            </div>
-            <div>
-              <label className={labelClass}>Eingereicht am</label>
-              <input type="date" value={fields.submissionDate} onChange={(e) => updateField('submissionDate', e.target.value)} className={inputClass} />
-            </div>
-            <div>
-              <label className={labelClass}>Entscheidung erwartet</label>
-              <input type="date" value={fields.decisionExpected} onChange={(e) => updateField('decisionExpected', e.target.value)} className={inputClass} />
-            </div>
-            <div>
-              <label className={labelClass}>Entscheidung erhalten</label>
-              <input type="date" value={fields.decisionDate} onChange={(e) => updateField('decisionDate', e.target.value)} className={inputClass} />
-            </div>
-          </div>
+          <ApplicationDateFields
+            contactDate={fields.contactDate}
+            submissionDate={fields.submissionDate}
+            decisionExpected={fields.decisionExpected}
+            decisionDate={fields.decisionDate}
+            onChange={(field, value) => updateField(field, value)}
+          />
         </Card>
 
         {/* Outcome fields — only when relevant */}
         {isTerminalStatus(fields.status) && (
           <Card className="space-y-4">
             <h2 className="heading-item">Ergebnis</h2>
-            {fields.status === 'accepted' && (
-              <div>
-                <label className={labelClass}>Erfolgsfaktoren</label>
-                <textarea
-                  value={fields.successFactors}
-                  onChange={(e) => updateField('successFactors', e.target.value)}
-                  rows={3}
-                  placeholder="Was hat zum Erfolg beigetragen?"
-                  className={inputClass}
-                />
-              </div>
-            )}
-            {fields.status === 'rejected' && (
-              <div>
-                <label className={labelClass}>Ablehnungsgrund</label>
-                <textarea
-                  value={fields.rejectionReason}
-                  onChange={(e) => updateField('rejectionReason', e.target.value)}
-                  rows={3}
-                  placeholder="Warum wurde das Gesuch abgelehnt?"
-                  className={inputClass}
-                />
-              </div>
-            )}
+            <ApplicationOutcomeFields
+              status={fields.status}
+              successFactors={fields.successFactors}
+              rejectionReason={fields.rejectionReason}
+              onChange={(field, value) => updateField(field, value)}
+              rows={3}
+            />
           </Card>
         )}
 

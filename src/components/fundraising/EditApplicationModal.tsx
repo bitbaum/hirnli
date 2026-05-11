@@ -16,6 +16,7 @@ import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { Button } from '@/components/ui/Button';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import { buildPatchPayload, initFieldsFromApplication, type ApplicationFormFields } from '@/hooks/useApplicationForm';
+import { ApplicationDateFields, ApplicationOutcomeFields } from './ApplicationFormSections';
 
 interface EditApplicationModalProps {
   application: Application;
@@ -200,52 +201,16 @@ export function EditApplicationModal({
           </div>
 
           {/* Dates */}
-          <div className={FORM_GRID_2COL_CLASS}>
-            <div>
-              <label className={FORM_LABEL_CLASS}>
-                Kontaktdatum
-              </label>
-              <input
-                type="date"
-                value={contactDate}
-                onChange={(e) => setContactDate(e.target.value)}
-                className={FORM_INPUT_CLASS}
-              />
-            </div>
-            <div>
-              <label className={FORM_LABEL_CLASS}>
-                Eingereicht am
-              </label>
-              <input
-                type="date"
-                value={submissionDate}
-                onChange={(e) => setSubmissionDate(e.target.value)}
-                className={FORM_INPUT_CLASS}
-              />
-            </div>
-            <div>
-              <label className={FORM_LABEL_CLASS}>
-                Entscheidung erwartet
-              </label>
-              <input
-                type="date"
-                value={decisionExpected}
-                onChange={(e) => setDecisionExpected(e.target.value)}
-                className={FORM_INPUT_CLASS}
-              />
-            </div>
-            <div>
-              <label className={FORM_LABEL_CLASS}>
-                Entscheidung erhalten
-              </label>
-              <input
-                type="date"
-                value={decisionDate}
-                onChange={(e) => setDecisionDate(e.target.value)}
-                className={FORM_INPUT_CLASS}
-              />
-            </div>
-          </div>
+          <ApplicationDateFields
+            contactDate={contactDate}
+            submissionDate={submissionDate}
+            decisionExpected={decisionExpected}
+            decisionDate={decisionDate}
+            onChange={(field, value) => {
+              const map = { contactDate: setContactDate, submissionDate: setSubmissionDate, decisionExpected: setDecisionExpected, decisionDate: setDecisionDate };
+              map[field](value);
+            }}
+          />
 
           {/* Notes */}
           <div>
@@ -264,37 +229,16 @@ export function EditApplicationModal({
           {/* Outcome fields — only visible when relevant */}
           {isTerminalStatus(status) && (
             <div className="rounded-lg border border-border bg-bg-light p-4 space-y-4">
-              <p className="heading-xs-label">
-                Ergebnis
-              </p>
-              {status === 'accepted' && (
-                <div>
-                  <label className={FORM_LABEL_CLASS}>
-                    Erfolgsfaktoren
-                  </label>
-                  <textarea
-                    value={successFactors}
-                    onChange={(e) => setSuccessFactors(e.target.value)}
-                    rows={2}
-                    placeholder="Was hat zum Erfolg beigetragen?"
-                    className={FORM_INPUT_CLASS}
-                  />
-                </div>
-              )}
-              {status === 'rejected' && (
-                <div>
-                  <label className={FORM_LABEL_CLASS}>
-                    Ablehnungsgrund
-                  </label>
-                  <textarea
-                    value={rejectionReason}
-                    onChange={(e) => setRejectionReason(e.target.value)}
-                    rows={2}
-                    placeholder="Warum wurde das Gesuch abgelehnt?"
-                    className={FORM_INPUT_CLASS}
-                  />
-                </div>
-              )}
+              <p className="heading-xs-label">Ergebnis</p>
+              <ApplicationOutcomeFields
+                status={status}
+                successFactors={successFactors}
+                rejectionReason={rejectionReason}
+                onChange={(field, value) => {
+                  if (field === 'successFactors') setSuccessFactors(value);
+                  else setRejectionReason(value);
+                }}
+              />
             </div>
           )}
         </div>
