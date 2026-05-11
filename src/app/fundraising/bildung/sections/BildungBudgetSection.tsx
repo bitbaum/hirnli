@@ -37,21 +37,21 @@ export default function BildungBudgetSection() {
           <div className="space-y-3">
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-success mb-1">Investition pro direkt Trainierter</div>
-              <div className="text-2xl font-bold text-success">
+              <div className="heading-section text-success">
                 CHF {formatNumber(Math.round(BPL_TOTAL_COST_PER_YEAR / MULTIPLICATION_EFFECT.combined.direct_training))}
               </div>
               <div className="text-sm text-success">pro direkt trainierter Person/Jahr</div>
             </div>
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-success mb-1">Menschen erreicht (konservativ)</div>
-              <div className="text-2xl font-bold text-success">
+              <div className="heading-section text-success">
                 {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops}
               </div>
               <div className="text-sm text-success">Menschen/Jahr (direkt + Workshops)</div>
             </div>
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-success mb-1">Finanzierungsziel</div>
-              <div className="text-2xl font-bold text-success">3 Jahre</div>
+              <div className="heading-section text-success">3 Jahre</div>
               <div className="text-sm text-success">CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}/Jahr bis Selbsttragung</div>
             </div>
           </div>

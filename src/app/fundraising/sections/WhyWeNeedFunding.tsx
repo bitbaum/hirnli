@@ -90,7 +90,7 @@ export default function WhyWeNeedFunding() {
               return (
                 <div key={year.year} className={`bg-white rounded-lg p-4 border-2 ${display.border}`}>
                   <div className={`text-sm ${display.text} font-semibold`}>{year.year} ({PROJECT_START + i})</div>
-                  <div className={`text-2xl font-bold ${display.text} my-2`}>{formatCHF(stiftungenAmt)}</div>
+                  <div className={`heading-section ${display.text} my-2`}>{formatCHF(stiftungenAmt)}</div>
                   <div className="text-sm text-text-light">{stiftungenPct}% von Stiftungen<br/>{display.description}</div>
                 </div>
               );

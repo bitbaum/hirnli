@@ -24,11 +24,11 @@ export default function HubBildungSynergySection() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
             <div className="bg-white rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-success">{DEVICES_PER_YEAR_TARGET}</div>
+              <div className="heading-section text-success">{DEVICES_PER_YEAR_TARGET}</div>
               <div className="text-sm text-success">Geräte/Jahr (Hub)</div>
             </div>
             <div className="bg-white rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-success">{PEOPLE_REACHED_PER_YEAR}</div>
+              <div className="heading-section text-success">{PEOPLE_REACHED_PER_YEAR}</div>
               <div className="text-sm text-success">Menschen/Jahr (Bildung)</div>
             </div>
           </div>
