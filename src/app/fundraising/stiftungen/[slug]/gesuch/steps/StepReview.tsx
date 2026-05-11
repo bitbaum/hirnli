@@ -11,11 +11,13 @@ import GesuchEditPanel from '@/components/gesuch/GesuchEditPanel';
 import OverrideHistory from '@/components/gesuch/OverrideHistory';
 import GesuchReadinessChecklist from '@/components/gesuch/GesuchReadinessChecklist';
 import type { GesuchReadiness } from '@/lib/domain/gesuch-readiness';
-import GesuchWhySection from '@/components/gesuch/GesuchWhySection';
-import GesuchHowSection from '@/components/gesuch/GesuchHowSection';
-import GesuchProjectsSection from '@/components/gesuch/GesuchProjectsSection';
-import GesuchEvidenceSection from '@/components/gesuch/GesuchEvidenceSection';
-import GesuchContactSection from '@/components/gesuch/GesuchContactSection';
+import {
+  GesuchWhySection,
+  GesuchHowSection,
+  GesuchProjectsSection,
+  GesuchEvidenceSection,
+  GesuchContactSection,
+} from '@/components/gesuch/sections';
 import GesuchProcessSection from '@/components/gesuch/GesuchProcessSection';
 import SchwerpunktSelector from '@/components/gesuch/SchwerpunktSelector';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';

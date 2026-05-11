@@ -9,12 +9,14 @@
 
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
 import { extractPurposeCore } from '@/lib/domain/bridge-composer';
-import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
-import GesuchWhySection from '@/components/gesuch/GesuchWhySection';
-import GesuchHowSection from '@/components/gesuch/GesuchHowSection';
-import GesuchProjectsSection from '@/components/gesuch/GesuchProjectsSection';
-import GesuchEvidenceSection from '@/components/gesuch/GesuchEvidenceSection';
-import GesuchContactSection from '@/components/gesuch/GesuchContactSection';
+import {
+  GesuchHeroSection,
+  GesuchWhySection,
+  GesuchHowSection,
+  GesuchProjectsSection,
+  GesuchEvidenceSection,
+  GesuchContactSection,
+} from '@/components/gesuch/sections';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 interface GesuchShareViewProps {

@@ -7,12 +7,14 @@ import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { THEMES, resolveTypeLabel } from '@/lib/config/foundations';
 import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
-import GesuchHeroSection from '@/components/gesuch/GesuchHeroSection';
-import GesuchWhySection from '@/components/gesuch/GesuchWhySection';
-import GesuchHowSection from '@/components/gesuch/GesuchHowSection';
-import GesuchProjectsSection from '@/components/gesuch/GesuchProjectsSection';
-import GesuchEvidenceSection from '@/components/gesuch/GesuchEvidenceSection';
-import GesuchContactSection from '@/components/gesuch/GesuchContactSection';
+import {
+  GesuchHeroSection,
+  GesuchWhySection,
+  GesuchHowSection,
+  GesuchProjectsSection,
+  GesuchEvidenceSection,
+  GesuchContactSection,
+} from '@/components/gesuch/sections';
 
 interface Props {
   params: Promise<{ vorlage: string }>;
