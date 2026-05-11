@@ -7,7 +7,7 @@ import PageHeader from '@/components/layout/PageHeader';
 import FoundationCard from '@/components/foundation/FoundationCard';
 import FilterSidebar from '@/components/foundation/FilterSidebar';
 import FilterDrawer from '@/components/foundation/FilterDrawer';
-import FilterPill from '@/components/ui/FilterPill';
+import ActiveFilterPills from '@/components/foundation/ActiveFilterPills';
 import PipelineOverviewCard from '@/components/foundation/PipelineOverviewCard';
 import { Button } from '@/components/ui/Button';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
@@ -18,11 +18,9 @@ import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
 import { computeTierCounts, hasGesuchPage, hasGesuchDataGaps } from '@/lib/domain/foundation-helpers';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import type { SortField } from '@/lib/domain/foundation-filter';
-import { DEFAULT_FILTERS } from '@/lib/domain/foundation-filter';
 import { STATUS_CHIPS, TYPE_CHIPS, SORT_OPTIONS } from './data';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
-import { TRUST_CONFIG } from '@/lib/config/trust-levels';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 
 const LOAD_MORE_COUNT = 50;
@@ -179,58 +177,26 @@ export default function FoundationListClient() {
 
         <div>
           {/* Active filter pills */}
-          {hasActiveFilters && (
-            <div className="mb-3 flex flex-wrap items-center gap-1.5">
-              {filters.schwerpunkt && (
-                <FilterPill label={`SP: ${filters.schwerpunkt}`} onRemove={() => setSchwerpunkt(null)} />
-              )}
-              {filters.themes.map((t) => (
-                <FilterPill key={t} label={t} onRemove={() => toggleTheme(t)} />
-              ))}
-              {filters.statuses.map((s) => (
-                <FilterPill key={s} label={s} onRemove={() => toggleStatus(s)} />
-              ))}
-              {filters.types.map((t) => (
-                <FilterPill key={t} label={t} onRemove={() => toggleType(t)} />
-              ))}
-              {filters.fit.map((f) => (
-                <FilterPill key={f} label={`Fit ${f}`} onRemove={() => toggleFit(f)} />
-              ))}
-              {filters.priorityLevels.map((pl) => (
-                <FilterPill key={`pl-${pl}`} label={`P${pl}`} onRemove={() => togglePriorityLevel(pl)} />
-              ))}
-              {filters.hideNoApplication && (
-                <FilterPill label="Nur mit Bewerbungsweg" onRemove={toggleHideNoApplication} />
-              )}
-              {filters.hideOperative && (
-                <FilterPill label="Ohne Operative" onRemove={toggleHideOperative} />
-              )}
-              {filters.hideNetworks && (
-                <FilterPill label="Ohne Netzwerke" onRemove={toggleHideNetworks} />
-              )}
-              {filters.requireEmail && (
-                <FilterPill label="E-Mail" onRemove={toggleRequireEmail} />
-              )}
-              {filters.requirePhone && (
-                <FilterPill label="Telefon" onRemove={toggleRequirePhone} />
-              )}
-              {filters.requireAddress && (
-                <FilterPill label="Adresse" onRemove={toggleRequireAddress} />
-              )}
-              {filters.requireDataGaps && (
-                <FilterPill label="Lücken füllen" onRemove={toggleRequireDataGaps} />
-              )}
-              {filters.trustLevels.map((level) => (
-                <FilterPill key={level} label={TRUST_CONFIG[level].label} onRemove={() => toggleTrustLevel(level)} />
-              ))}
-              {filters.minTier !== DEFAULT_FILTERS.minTier && (
-                <FilterPill label={`Min: ${filters.minTier}`} onRemove={() => setMinTier(DEFAULT_FILTERS.minTier)} />
-              )}
-              <button onClick={resetFilters} className="text-sm text-text-muted hover:text-primary">
-                Alle zurücksetzen
-              </button>
-            </div>
-          )}
+          <ActiveFilterPills
+            filters={filters}
+            hasActiveFilters={hasActiveFilters}
+            setSchwerpunkt={setSchwerpunkt}
+            toggleTheme={toggleTheme}
+            toggleStatus={toggleStatus}
+            toggleType={toggleType}
+            toggleFit={toggleFit}
+            togglePriorityLevel={togglePriorityLevel}
+            toggleHideNoApplication={toggleHideNoApplication}
+            toggleHideOperative={toggleHideOperative}
+            toggleHideNetworks={toggleHideNetworks}
+            toggleRequireEmail={toggleRequireEmail}
+            toggleRequirePhone={toggleRequirePhone}
+            toggleRequireAddress={toggleRequireAddress}
+            toggleRequireDataGaps={toggleRequireDataGaps}
+            toggleTrustLevel={toggleTrustLevel}
+            setMinTier={setMinTier}
+            resetFilters={resetFilters}
+          />
 
           {/* Results summary + CSV export */}
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2 text-sm">

@@ -8,7 +8,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Button } from '@/components/ui/Button';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import {
@@ -25,8 +24,8 @@ import {
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
+import BoardHeaderStats from './BoardHeaderStats';
 import { KANBAN_COLUMNS, getStatusConfig, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
-import { formatCHF } from '@/lib/utils/format';
 import { NET_ERR_LOAD, NET_ERR_SAVE, API_ERR_LOAD } from '@/lib/utils/errors';
 import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
@@ -175,21 +174,6 @@ export function ApplicationBoard() {
     };
   });
 
-  const totalRequested = applications.reduce(
-    (sum, { application }) => sum + (application.requestedAmount || 0),
-    0,
-  );
-  const totalAwarded = applications.reduce(
-    (sum, { application }) => sum + (application.awardedAmount || 0),
-    0,
-  );
-  const submittedCount = applications.filter(
-    ({ application }) => application.status === 'submitted',
-  ).length;
-  const acceptedCount = applications.filter(
-    ({ application }) => application.status === 'accepted',
-  ).length;
-
   if (isLoading) {
     return <LoadingState label="Lade Gesuche..." className="h-64" />;
   }
@@ -201,41 +185,7 @@ export function ApplicationBoard() {
   return (
     <div className="space-y-4">
       {/* Header row: stats + actions */}
-      <div className="flex items-center justify-between gap-4">
-        {applications.length > 0 ? (
-          <div className="flex flex-wrap gap-6 text-sm text-grey-dark">
-            <span>
-              <span className="font-semibold text-grey-dark">{applications.length}</span> Gesuche
-            </span>
-            {totalAwarded > 0 && (
-              <span className="font-semibold text-success">
-                {formatCHF(totalAwarded)} zugesagt
-              </span>
-            )}
-            <span>
-              <span className="font-semibold text-grey-dark">{formatCHF(totalRequested)}</span> beantragt
-            </span>
-            {submittedCount > 0 && (
-              <span>
-                <span className="font-semibold text-grey-dark">{submittedCount}</span> eingereicht
-              </span>
-            )}
-            {acceptedCount > 0 && (
-              <span>
-                <span className="font-semibold text-success">{acceptedCount}</span> zugesagt
-              </span>
-            )}
-          </div>
-        ) : (
-          <div />
-        )}
-        <div className="flex gap-2 shrink-0">
-          <Button href="/fundraising/stiftungen">
-            + Gesuch hinzufügen
-          </Button>
-          <Button variant="secondary" onClick={fetchApplications}>↺</Button>
-        </div>
-      </div>
+      <BoardHeaderStats applications={applications} onRefresh={fetchApplications} />
 
       {/* Drag error banner — auto-dismisses after 5 s */}
       {dragError && (
