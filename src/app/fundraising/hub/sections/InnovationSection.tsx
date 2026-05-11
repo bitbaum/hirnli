@@ -1,6 +1,8 @@
 import Card from '@/components/ui/Card';
 import Callout from '@/components/ui/Callout';
 import HubCardHeader from './HubCardHeader';
+import { MAKERSPACE_AREA, ROBOTIK_LAB_COST_CHF, TRAINING_AREA } from '@/lib/config/hub-space-plan';
+import { formatCHF } from '@/lib/utils/format';
 
 export default function InnovationSection() {
   return (
@@ -12,7 +14,7 @@ export default function InnovationSection() {
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-l-4 border-l-pillar-vision">
-          <HubCardHeader icon="🛠️" title="Makerspace & Hackerspace" subtitle="80 m² — Prototyping & Tüfteln" subtitleClassName="text-chart-5" badgeColor="purple" badgeText="CHF 70'000" />
+          <HubCardHeader icon="🛠️" title="Makerspace & Hackerspace" subtitle="80 m² — Prototyping & Tüfteln" subtitleClassName="text-chart-5" badgeColor="purple" badgeText={formatCHF(MAKERSPACE_AREA.cost_estimate_chf)} />
           <p className="text-sm text-text-light mb-4">
             Offene Werkstatt: 3D-Drucker, Laser-Cutter, Lötarbeitsplätze. Vom Prototyp zum Produkt.
           </p>
@@ -33,7 +35,7 @@ export default function InnovationSection() {
         </Card>
 
         <Card className="border-l-4 border-l-pillar-digital">
-          <HubCardHeader icon="🤖" title="Robotik-Labor" subtitle="60 m² — Arduino, Raspberry Pi, autonome Systeme" subtitleClassName="text-pillar-digital" badgeColor="indigo" badgeText="CHF 50'000" />
+          <HubCardHeader icon="🤖" title="Robotik-Labor" subtitle="60 m² — Arduino, Raspberry Pi, autonome Systeme" subtitleClassName="text-pillar-digital" badgeColor="indigo" badgeText={formatCHF(ROBOTIK_LAB_COST_CHF)} />
           <p className="text-sm text-text-light mb-4">
             Robotik-Kits für Schulen, Arduino-Workshops, autonome Roboter bauen. MINT-Bildung hands-on.
           </p>
@@ -54,7 +56,7 @@ export default function InnovationSection() {
         </Card>
 
         <Card className="border-l-4 border-l-primary">
-          <HubCardHeader icon="🎓" title="Schulungs- & Kursräume" subtitle="70 m² — Linux, AI, Coding für alle" subtitleClassName="text-primary" badgeColor="blue" badgeText="CHF 45'000" />
+          <HubCardHeader icon="🎓" title="Schulungs- & Kursräume" subtitle="70 m² — Linux, AI, Coding für alle" subtitleClassName="text-primary" badgeColor="blue" badgeText={formatCHF(TRAINING_AREA.cost_estimate_chf)} />
           <p className="text-sm text-text-light mb-4">
             Strukturierte Bildung: Linux-Kurse, AI Literacy, Programmieren lernen. Digital Literacy für alle.
           </p>

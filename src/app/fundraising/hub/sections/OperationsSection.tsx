@@ -1,5 +1,7 @@
 import Card from '@/components/ui/Card';
 import { TEAM_MEMBERS } from '@/app/team/data';
+import { OFFICE_AREA, STORAGE_AREA, LOADING_AREA } from '@/lib/config/hub-space-plan';
+import { formatCHF } from '@/lib/utils/format';
 
 export default function OperationsSection() {
   return (
@@ -26,7 +28,7 @@ export default function OperationsSection() {
           <div className="pt-3 border-t border-border">
             <p className="text-sm text-text-light">
               <strong>Team:</strong> {TEAM_MEMBERS.length} Personen + 2 geplante BPL<br />
-              <strong>Kosten:</strong> CHF 40&apos;000
+              <strong>Kosten:</strong> {formatCHF(OFFICE_AREA.cost_estimate_chf)}
             </p>
           </div>
         </Card>
@@ -48,7 +50,7 @@ export default function OperationsSection() {
           <div className="pt-3 border-t border-border">
             <p className="text-sm text-text-light">
               <strong>Kapazität:</strong> 500+ Geräte gleichzeitig<br />
-              <strong>Kosten:</strong> CHF 35&apos;000
+              <strong>Kosten:</strong> {formatCHF(STORAGE_AREA.cost_estimate_chf)}
             </p>
           </div>
         </Card>
@@ -70,7 +72,7 @@ export default function OperationsSection() {
           <div className="pt-3 border-t border-border">
             <p className="text-sm text-text-light">
               <strong>Nutzung:</strong> Täglich (Lieferungen)<br />
-              <strong>Kosten:</strong> CHF 20&apos;000
+              <strong>Kosten:</strong> {formatCHF(LOADING_AREA.cost_estimate_chf)}
             </p>
           </div>
         </Card>

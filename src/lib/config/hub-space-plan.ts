@@ -358,8 +358,17 @@ const _CULTURE_AREAS = ['Event Space + Community Café (MULTI-PURPOSE)'] as cons
 const _INFRA_AREAS = ['Circulation, Corridors, Bathrooms'] as const;
 
 // Named exports for cross-module lookups (avoids string-keyed find() in consumers)
-export const STORAGE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Storage & Logistics');
-export const LOADING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Loading & Delivery Zone');
+export const SHOP_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Shop & Customer Area')!;
+export const WORKSHOP_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Refurbishment Workshop')!;
+export const OFFICE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Office & Meeting Spaces')!;
+export const STORAGE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Storage & Logistics')!;
+export const LOADING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Loading & Delivery Zone')!;
+export const MAKERSPACE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Makerspace & Hackerspace')!;
+export const AI_LAB_AREA = HUB_SPACE_AREAS.find(a => a.name === 'AI Lab (Server Room)')!;
+export const TRAINING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Training & Course Room')!;
+
+// Phase-2 / optional areas not included in main space plan totals
+export const ROBOTIK_LAB_COST_CHF = 50_000;
 
 const CIRCULATION_SQM = _sumSqm(_INFRA_AREAS);
 

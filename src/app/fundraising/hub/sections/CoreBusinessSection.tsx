@@ -1,5 +1,7 @@
 import Card from '@/components/ui/Card';
 import HubCardHeader from './HubCardHeader';
+import { SHOP_AREA, WORKSHOP_AREA } from '@/lib/config/hub-space-plan';
+import { formatCHF } from '@/lib/utils/format';
 
 export default function CoreBusinessSection() {
   return (
@@ -10,7 +12,7 @@ export default function CoreBusinessSection() {
       </p>
       <div className="grid grid-cols-1 gap-6">
         <Card className="border-l-4 border-l-success">
-          <HubCardHeader icon="🏪" title="Shop & Kundenbereich" subtitle="80 m² — Verkauf, Beratung, Annahme" subtitleClassName="text-success" badgeColor="emerald" badgeText="CHF 35'000" />
+          <HubCardHeader icon="🏪" title="Shop & Kundenbereich" subtitle="80 m² — Verkauf, Beratung, Annahme" subtitleClassName="text-success" badgeColor="emerald" badgeText={formatCHF(SHOP_AREA.cost_estimate_chf)} />
           <p className="text-sm text-text-light mb-4">
             Erste Anlaufstelle für Kunden: Geräte kaufen, zur Reparatur bringen, beraten lassen.
             Heute: Kein dedizierter Verkaufsraum. Neu: Professioneller Shop mit Ausstellungsfläche.
@@ -40,7 +42,7 @@ export default function CoreBusinessSection() {
         </Card>
 
         <Card className="border-l-4 border-l-primary">
-          <HubCardHeader icon="🔧" title="Refurbishment-Werkstatt" subtitle="~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)" subtitleClassName="text-primary" badgeColor="blue" badgeText="CHF 80'000" />
+          <HubCardHeader icon="🔧" title="Refurbishment-Werkstatt" subtitle="~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)" subtitleClassName="text-primary" badgeColor="blue" badgeText={formatCHF(WORKSHOP_AREA.cost_estimate_chf)} />
           <p className="text-sm text-text-light mb-4">
             Das Herzstück: Hier entstehen refurbishte Geräte. <strong>Heute:</strong> 4 Tische, chaotisch, nur 1-2 in Nutzung.
             <strong> Neu:</strong> Strukturierte Prozesse (Triage → Data Wipe → Repair → Test → QA), nicht endlos Platz.
