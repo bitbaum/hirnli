@@ -24,7 +24,7 @@ interface ApplicationDetailProps {
   };
 }
 
-import { FORM_INPUT_CLASS as inputClass, FORM_LABEL_CLASS as labelClass } from '@/lib/utils/form-classes';
+import { FORM_INPUT_CLASS as inputClass, FORM_LABEL_CLASS as labelClass, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
 
 export default function ApplicationDetailPage({ params }: ApplicationDetailProps) {
   const {
@@ -105,7 +105,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         <Card className="space-y-5">
           <h2 className="heading-item">Gesuchsinformationen</h2>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className={FORM_GRID_2COL_CLASS}>
             <div>
               <label className={labelClass}>Status</label>
               <select value={fields.status} onChange={(e) => updateField('status', e.target.value as ApplicationStatusId)} className={inputClass}>
@@ -125,7 +125,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className={FORM_GRID_2COL_CLASS}>
             <div>
               <label className={labelClass}>Beantragt (CHF)</label>
               <input
@@ -148,7 +148,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className={FORM_GRID_2COL_CLASS}>
             <div>
               <label className={labelClass}>Zuständig</label>
               <input
@@ -186,7 +186,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         {/* Timeline */}
         <Card className="space-y-5">
           <h2 className="heading-item">Timeline</h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className={FORM_GRID_2COL_CLASS}>
             <div>
               <label className={labelClass}>Kontaktdatum</label>
               <input type="date" value={fields.contactDate} onChange={(e) => updateField('contactDate', e.target.value)} className={inputClass} />

@@ -14,3 +14,6 @@ export const FORM_LABEL_CLASS =
 /** Accessible checkbox row: touch-friendly min-height, consistent label layout */
 export const FORM_CHECKBOX_LABEL_CLASS =
   'flex min-h-11 cursor-pointer items-center gap-2 text-sm';
+
+/** Responsive 2-column form field grid */
+export const FORM_GRID_2COL_CLASS = 'grid grid-cols-1 gap-4 sm:grid-cols-2';

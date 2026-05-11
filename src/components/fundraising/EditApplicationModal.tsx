@@ -10,7 +10,7 @@
 import { useState } from 'react';
 import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
-import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
+import { FORM_INPUT_CLASS, FORM_LABEL_CLASS, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
 import { NET_ERR_SAVE, API_ERR_SAVE } from '@/lib/utils/errors';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { Button } from '@/components/ui/Button';
@@ -109,7 +109,7 @@ export function EditApplicationModal({
           <ErrorAlert>{error}</ErrorAlert>
 
           {/* Status + Priority row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className={FORM_GRID_2COL_CLASS}>
             <div>
               <label className={FORM_LABEL_CLASS}>
                 Status
@@ -144,7 +144,7 @@ export function EditApplicationModal({
           </div>
 
           {/* Amounts row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className={FORM_GRID_2COL_CLASS}>
             <div>
               <label className={FORM_LABEL_CLASS}>
                 Beantragt (CHF)
@@ -172,7 +172,7 @@ export function EditApplicationModal({
           </div>
 
           {/* Assigned + Focus row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className={FORM_GRID_2COL_CLASS}>
             <div>
               <label className={FORM_LABEL_CLASS}>
                 Zuständig
@@ -200,7 +200,7 @@ export function EditApplicationModal({
           </div>
 
           {/* Dates */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className={FORM_GRID_2COL_CLASS}>
             <div>
               <label className={FORM_LABEL_CLASS}>
                 Kontaktdatum
