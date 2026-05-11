@@ -7,23 +7,20 @@ import PageHeader from '@/components/layout/PageHeader';
 import FoundationCard from '@/components/foundation/FoundationCard';
 import FilterSidebar from '@/components/foundation/FilterSidebar';
 import FilterDrawer from '@/components/foundation/FilterDrawer';
-import { STIFTUNGEN_DATA, PRIORITY_CONFIG } from '@/lib/config/foundations';
+import FilterPill from '@/components/ui/FilterPill';
+import PipelineOverviewCard from '@/components/foundation/PipelineOverviewCard';
+import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import CsvExportModal from '@/components/foundation/CsvExportModal';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
+import { usePipelineEntries } from '@/hooks/usePipelineEntries';
 import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
 import { computeTierCounts, hasGesuchPage, hasGesuchDataGaps } from '@/lib/domain/foundation-helpers';
-import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import type { SortField } from '@/lib/domain/foundation-filter';
 import { DEFAULT_FILTERS } from '@/lib/domain/foundation-filter';
-import {
-  STATUS_CHIPS,
-  TYPE_CHIPS,
-  SORT_OPTIONS,
-} from './data';
+import { STATUS_CHIPS, TYPE_CHIPS, SORT_OPTIONS } from './data';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
-import ProgressBar from '@/components/ui/ProgressBar';
 import { TRUST_CONFIG } from '@/lib/config/trust-levels';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 
@@ -60,7 +57,6 @@ export default function FoundationListClient() {
     resetFilters,
   } = useFoundationFilters(STIFTUNGEN_DATA);
 
-  // Progressive loading — reset to initial count when filters change
   const [visibleCount, setVisibleCount] = useState(LOAD_MORE_COUNT);
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- resets pagination when filters/sort change
@@ -71,68 +67,24 @@ export default function FoundationListClient() {
     setVisibleCount((prev) => prev + LOAD_MORE_COUNT);
   }, []);
 
-  // Mobile drawer state
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [csvModalOpen, setCsvModalOpen] = useState(false);
 
-  // Foundation slugs that already have a pipeline entry
-  const [pipelineSlugs, setPipelineSlugs] = useState<Set<string>>(new Set());
-  const [pipelineLoading, setPipelineLoading] = useState(true);
-  const [pipelineError, setPipelineError] = useState(false);
-  useEffect(() => {
-    fetch('/api/applications')
-      .then((r) => r.json())
-      .then((result) => {
-        if (result.success) {
-          const slugs = new Set<string>(
-            result.data
-              .map((item: { application: { foundationId: string } }) => item.application.foundationId)
-              .filter(Boolean),
-          );
-          setPipelineSlugs(slugs);
-        } else {
-          setPipelineError(true);
-        }
-      })
-      .catch((err) => {
-        console.error('Failed to load pipeline data:', err);
-        setPipelineError(true);
-      })
-      .finally(() => setPipelineLoading(false));
-  }, []);
+  const { pipelineSlugs, pipelineLoading, pipelineError } = usePipelineEntries();
 
-  // Research stats — computed once from the full dataset (static data)
   const researchStats = useMemo(() => computeResearchStats(STIFTUNGEN_DATA), []);
   const tierCounts = useMemo(() => computeTierCounts(STIFTUNGEN_DATA), []);
-
-  const highFitCount = filtered.filter((f) => fitScoreToDisplay(f.fitScore, false) === 3).length;
-  const openCount = filtered.filter(
-    (f) => f.status === 'open' || f.status === 'rolling',
-  ).length;
-
-  // Pipeline stats — computed once from full dataset (SSOT: hasGesuchPage)
-  const gesuchCount = useMemo(
-    () => STIFTUNGEN_DATA.filter(hasGesuchPage).length,
-    [],
-  );
-
-  // Data quality gaps: Gesuch-page foundations with thin research data
-  const gesuchGapCount = useMemo(
-    () => STIFTUNGEN_DATA.filter(f => hasGesuchPage(f) && hasGesuchDataGaps(f)).length,
-    [],
-  );
-
-  // Priority distribution — use stored priority (SSOT: DB → sync → generated file)
-  // computePriorityScore is not re-run here; sync script already recomputes and persists.
+  const gesuchCount = useMemo(() => STIFTUNGEN_DATA.filter(hasGesuchPage).length, []);
+  const gesuchGapCount = useMemo(() => STIFTUNGEN_DATA.filter(f => hasGesuchPage(f) && hasGesuchDataGaps(f)).length, []);
   const priorityDist = useMemo(() => {
     const counts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0 };
-    for (const f of STIFTUNGEN_DATA) {
-      counts[f.priority]++;
-    }
+    for (const f of STIFTUNGEN_DATA) counts[f.priority]++;
     return counts;
   }, []);
 
-  // Shared sidebar props
+  const highFitCount = filtered.filter((f) => fitScoreToDisplay(f.fitScore, false) === 3).length;
+  const openCount = filtered.filter((f) => f.status === 'open' || f.status === 'rolling').length;
+
   const sidebarProps = {
     filters,
     sort,
@@ -163,84 +115,21 @@ export default function FoundationListClient() {
 
   return (
     <div>
-      {/* Full-width header */}
       <PageHeader
         title="Stiftungen-Übersicht"
         subtitle={`${totalCount} Stiftungen · ${tierCounts.anwendungsbereit} bewerbungsbereit`}
         badge={`${filteredCount}/${totalCount}`}
       />
 
-      {/* Pipeline Overview — independent metrics, NOT sequential stages */}
-      <Card padding={false} className="mb-6 space-y-4 p-4">
-        <h2 className="heading-detail">Pipeline-Übersicht</h2>
-
-        {/* Research progress — the one true completion metric */}
-        <div>
-          <div className="mb-1.5 flex items-baseline justify-between">
-            <span className="text-sm font-medium text-grey-dark">Analyse-Fortschritt</span>
-            <span className="text-sm tabular-nums text-grey-dark">
-              <span className="font-semibold">{researchStats.researched}</span>
-              <span className="text-text-muted"> / {totalCount}</span>
-            </span>
-          </div>
-          <ProgressBar percent={researchStats.researchedPercent} size="md" color="bg-primary" label={`Analyse-Fortschritt: ${researchStats.researchedPercent}% abgeschlossen`} />
-          <p className="mt-1.5 text-sm text-text-muted">
-            Stiftungszweck und Fit manuell bewertet — {researchStats.researchedPercent}% abgeschlossen
-          </p>
-        </div>
-
-        {/* Priority distribution — computed from fit × readiness */}
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {([1, 2, 3, 4] as const).map((level) => {
-            const pc = PRIORITY_CONFIG[level];
-            return (
-              <div key={level} className={`rounded-lg border ${pc.cardColor} px-3 py-2 text-center`}>
-                <div className={`text-lg font-bold tabular-nums ${pc.textColor}`}>{priorityDist[level]}</div>
-                <div className="heading-detail">{pc.label}</div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Actionability metrics */}
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
-            <div className="text-2xl font-bold tabular-nums text-primary">{gesuchCount}</div>
-            <div className="text-sm font-medium text-grey-dark">Mit Gesuch</div>
-            <p className="mt-0.5 text-sm text-text-muted">
-              Gesuch-Seite generiert (P1–P3)
-            </p>
-          </div>
-          <div className="rounded-lg border border-success/20 bg-success-bg px-4 py-3">
-            <div className="text-2xl font-bold tabular-nums text-success">{tierCounts.anwendungsbereit}</div>
-            <div className="text-sm font-medium text-grey-dark">Bewerbungsbereit</div>
-            <p className="mt-0.5 text-sm text-text-muted">
-              Höchste Datenvollständigkeit (Bereitschafts-Score ≥{READINESS_ENGINE.display.thresholds[0].minScore})
-            </p>
-          </div>
-        </div>
-
-        {gesuchGapCount > 0 && (
-          <div className="flex items-center justify-between rounded-lg border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm">
-            <span>
-              <span className="font-semibold text-warning">{gesuchGapCount}</span>
-              {' '}von {gesuchCount} Gesuch-Seiten haben dünne Quelldaten —{' '}
-              researchNotes oder purposeSummary vervollständigen.
-            </span>
-            <button
-              onClick={() => applyPreset('mit-luecken')}
-              className="ml-3 shrink-0 rounded-md bg-warning/20 px-2.5 py-1 text-xs font-medium text-warning hover:bg-warning/30"
-            >
-              Zeigen →
-            </button>
-          </div>
-        )}
-
-        <p className="text-sm text-text-muted">
-          Priorität = Fit × Bereitschaft. Scores algorithmisch berechnet.{' '}
-          <a href="/fundraising/scoring-methodik" className="text-primary hover:underline">Methodik</a>
-        </p>
-      </Card>
+      <PipelineOverviewCard
+        researchStats={researchStats}
+        totalCount={totalCount}
+        gesuchCount={gesuchCount}
+        gesuchGapCount={gesuchGapCount}
+        tierCounts={tierCounts}
+        priorityDist={priorityDist}
+        onApplyPreset={applyPreset}
+      />
 
       {/* Mobile: search row + sort/filter row */}
       <div className="mb-4 space-y-2 md:hidden">
@@ -260,9 +149,7 @@ export default function FoundationListClient() {
             className="min-w-0 flex-1 rounded-lg border border-border px-2 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           >
             {SORT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
             ))}
           </select>
           <button
@@ -282,32 +169,22 @@ export default function FoundationListClient() {
         </div>
       </div>
 
-      {/* Mobile filter drawer */}
-      <FilterDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        {...sidebarProps}
-      />
+      <FilterDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} {...sidebarProps} />
 
       {/* Two-column layout: sidebar + results */}
       <div className="md:grid md:grid-cols-[280px_1fr] md:gap-6">
-        {/* Desktop sidebar */}
         <aside className="hidden md:block">
           <Card padding={false} className="sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto p-4">
             <FilterSidebar {...sidebarProps} />
           </Card>
         </aside>
 
-        {/* Results column */}
         <div>
           {/* Active filter pills */}
           {hasActiveFilters && (
             <div className="mb-3 flex flex-wrap items-center gap-1.5">
               {filters.schwerpunkt && (
-                <FilterPill
-                  label={`SP: ${filters.schwerpunkt}`}
-                  onRemove={() => setSchwerpunkt(null)}
-                />
+                <FilterPill label={`SP: ${filters.schwerpunkt}`} onRemove={() => setSchwerpunkt(null)} />
               )}
               {filters.themes.map((t) => (
                 <FilterPill key={t} label={t} onRemove={() => toggleTheme(t)} />
@@ -319,18 +196,10 @@ export default function FoundationListClient() {
                 <FilterPill key={t} label={t} onRemove={() => toggleType(t)} />
               ))}
               {filters.fit.map((f) => (
-                <FilterPill
-                  key={f}
-                  label={`Fit ${f}`}
-                  onRemove={() => toggleFit(f)}
-                />
+                <FilterPill key={f} label={`Fit ${f}`} onRemove={() => toggleFit(f)} />
               ))}
               {filters.priorityLevels.map((pl) => (
-                <FilterPill
-                  key={`pl-${pl}`}
-                  label={`P${pl}`}
-                  onRemove={() => togglePriorityLevel(pl)}
-                />
+                <FilterPill key={`pl-${pl}`} label={`P${pl}`} onRemove={() => togglePriorityLevel(pl)} />
               ))}
               {filters.hideNoApplication && (
                 <FilterPill label="Nur mit Bewerbungsweg" onRemove={toggleHideNoApplication} />
@@ -359,10 +228,7 @@ export default function FoundationListClient() {
               {filters.minTier !== DEFAULT_FILTERS.minTier && (
                 <FilterPill label={`Min: ${filters.minTier}`} onRemove={() => setMinTier(DEFAULT_FILTERS.minTier)} />
               )}
-              <button
-                onClick={resetFilters}
-                className="text-sm text-text-muted hover:text-primary"
-              >
+              <button onClick={resetFilters} className="text-sm text-text-muted hover:text-primary">
                 Alle zurücksetzen
               </button>
             </div>
@@ -396,10 +262,14 @@ export default function FoundationListClient() {
             </ErrorAlert>
           )}
 
-          {/* Foundation list */}
           <div className="space-y-3">
             {filtered.slice(0, visibleCount).map((f) => (
-              <FoundationCard key={f.slug} foundation={f} inPipeline={!pipelineLoading && pipelineSlugs.has(f.slug)} score={scoreMap.get(f.slug)} />
+              <FoundationCard
+                key={f.slug}
+                foundation={f}
+                inPipeline={!pipelineLoading && pipelineSlugs.has(f.slug)}
+                score={scoreMap.get(f.slug)}
+              />
             ))}
             {visibleCount < filteredCount && (
               <button
@@ -445,23 +315,5 @@ export default function FoundationListClient() {
         foundations={filtered}
       />
     </div>
-  );
-}
-
-/** Removable filter pill */
-function FilterPill({ label, onRemove }: { label: string; onRemove: () => void }) {
-  return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-grey-light px-2.5 py-1 text-xs font-medium text-grey-dark">
-      {label}
-      <button
-        onClick={onRemove}
-        className="ml-0.5 flex h-4 w-4 items-center justify-center rounded-full hover:bg-border"
-        aria-label={`Filter ${label} entfernen`}
-      >
-        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </span>
   );
 }

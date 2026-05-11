@@ -14,6 +14,7 @@
 
 import {
   SCORING_ENGINE,
+  FIT_DISPLAY,
   type MatchCondition,
   type MatchExpression,
   type WeightedCategoryMatchConfig,
@@ -267,4 +268,16 @@ export function fitScoreToDisplay(fitScore: number, isGated: boolean): 0 | 1 | 2
   }
 
   return display.defaultLevel as 0 | 1 | 2 | 3;
+}
+
+/** Full label for a fit level: stars + name + score range, e.g. "★★★ Exzellent (8-10)" */
+export function fitDisplayLabel(level: 0 | 1 | 2 | 3): string {
+  const fd = FIT_DISPLAY[level];
+  const threshold = SCORING_ENGINE.display.thresholds.find(t => t.level === level);
+  const nextThreshold = SCORING_ENGINE.display.thresholds.find(t => t.level === level + 1);
+  if (threshold) {
+    const max = nextThreshold ? nextThreshold.minScore - 1 : 10;
+    return `${fd.stars} ${fd.label} (${threshold.minScore}-${max})`;
+  }
+  return `${fd.stars} ${fd.label}`;
 }

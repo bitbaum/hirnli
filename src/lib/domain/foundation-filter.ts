@@ -97,6 +97,36 @@ export const FILTER_PRESETS: FilterPreset[] = [
   },
 ];
 
+/**
+ * Find which preset (if any) the current filter state matches.
+ * Returns undefined when the user has manually customised filters beyond any preset.
+ */
+export function findActivePreset(filters: FoundationFilters): FilterPreset | undefined {
+  return FILTER_PRESETS.find((preset) => {
+    const pf = preset.filters;
+    const matchesTier = pf.minTier ? filters.minTier === pf.minTier : filters.minTier === DEFAULT_FILTERS.minTier;
+    const matchesFit = pf.fit ? JSON.stringify(filters.fit) === JSON.stringify(pf.fit) : filters.fit.length === 0;
+    const matchesPriority = pf.priorityLevels
+      ? JSON.stringify(filters.priorityLevels) === JSON.stringify(pf.priorityLevels)
+      : filters.priorityLevels.length === 0;
+    const matchesEmail = pf.requireEmail ? filters.requireEmail === pf.requireEmail : !filters.requireEmail;
+    const matchesPhone = pf.requirePhone ? filters.requirePhone === pf.requirePhone : !filters.requirePhone;
+    const matchesAddress = pf.requireAddress ? filters.requireAddress === pf.requireAddress : !filters.requireAddress;
+    const matchesDataGaps = pf.requireDataGaps ? filters.requireDataGaps === pf.requireDataGaps : !filters.requireDataGaps;
+    const noOtherFilters =
+      filters.themes.length === 0 &&
+      filters.types.length === 0 &&
+      filters.statuses.length === 0 &&
+      !filters.schwerpunkt &&
+      !filters.hideOperative &&
+      !filters.hideNetworks &&
+      !filters.hideNoApplication &&
+      !filters.search;
+    return matchesTier && matchesFit && matchesPriority && matchesEmail && matchesPhone &&
+      matchesAddress && matchesDataGaps && noOtherFilters;
+  });
+}
+
 /** Filter foundations by criteria */
 export function filterFoundations(
   foundations: Foundation[],

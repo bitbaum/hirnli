@@ -5,11 +5,10 @@ import CollapsibleSection from '@/components/ui/CollapsibleSection';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { FoundationFilters, SortField, FilterPresetId } from '@/lib/domain/foundation-filter';
 import { TRUST_CONFIG, TRUST_LEVELS, type TrustLevel } from '@/lib/config/trust-levels';
-import { DEFAULT_FILTERS, FILTER_PRESETS } from '@/lib/domain/foundation-filter';
+import { DEFAULT_FILTERS, FILTER_PRESETS, findActivePreset } from '@/lib/domain/foundation-filter';
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import type { FilterChip } from '@/lib/types/filter';
-import { FIT_CONFIG } from '@/lib/config/foundations';
-import { SCORING_ENGINE } from '@/lib/config/fit-scoring';
+import { fitDisplayLabel } from '@/lib/domain/fit-scoring';
 import CheckboxFilterGroup from './filters/CheckboxFilterGroup';
 import SchwerpunkteFilter from './filters/SchwerpunkteFilter';
 import TierFilter from './filters/TierFilter';
@@ -57,17 +56,6 @@ function chipClass(active: boolean, withGap = false): string {
   }`;
 }
 
-/** Build fit level label from SSOT config */
-function fitLabel(level: 0 | 1 | 2 | 3): string {
-  const fd = FIT_CONFIG[level];
-  const threshold = SCORING_ENGINE.display.thresholds.find(t => t.level === level);
-  const nextThreshold = SCORING_ENGINE.display.thresholds.find(t => t.level === level + 1);
-  if (threshold) {
-    const max = nextThreshold ? nextThreshold.minScore - 1 : 10;
-    return `${fd.stars} ${fd.label} (${threshold.minScore}-${max})`;
-  }
-  return `${fd.stars} ${fd.label}`;
-}
 
 export default function FilterSidebar({
   filters,
@@ -96,29 +84,7 @@ export default function FilterSidebar({
   applyPreset,
   resetFilters,
 }: FilterSidebarProps) {
-  // Check if current filters match a preset
-  const activePreset = FILTER_PRESETS.find((preset) => {
-    const pf = preset.filters;
-    const matchesTier = pf.minTier ? filters.minTier === pf.minTier : filters.minTier === DEFAULT_FILTERS.minTier;
-    const matchesFit = pf.fit ? JSON.stringify(filters.fit) === JSON.stringify(pf.fit) : filters.fit.length === 0;
-    const matchesPriority = pf.priorityLevels
-      ? JSON.stringify(filters.priorityLevels) === JSON.stringify(pf.priorityLevels)
-      : filters.priorityLevels.length === 0;
-    const matchesEmail = pf.requireEmail ? filters.requireEmail === pf.requireEmail : !filters.requireEmail;
-    const matchesPhone = pf.requirePhone ? filters.requirePhone === pf.requirePhone : !filters.requirePhone;
-    const matchesAddress = pf.requireAddress ? filters.requireAddress === pf.requireAddress : !filters.requireAddress;
-    const matchesDataGaps = pf.requireDataGaps ? filters.requireDataGaps === pf.requireDataGaps : !filters.requireDataGaps;
-    const noOtherFilters =
-      filters.themes.length === 0 &&
-      filters.types.length === 0 &&
-      filters.statuses.length === 0 &&
-      !filters.schwerpunkt &&
-      !filters.hideOperative &&
-      !filters.hideNetworks &&
-      !filters.hideNoApplication &&
-      !filters.search;
-    return matchesTier && matchesFit && matchesPriority && matchesEmail && matchesPhone && matchesAddress && matchesDataGaps && noOtherFilters;
-  });
+  const activePreset = findActivePreset(filters);
 
   const isTopPriority = filters.priorityLevels.length === 2
     && filters.priorityLevels.includes(1)
@@ -195,7 +161,7 @@ export default function FilterSidebar({
                   className="rounded border-border"
                 />
                 <span className={isActive ? 'font-medium text-grey-dark' : 'text-text-muted'}>
-                  {fitLabel(value)}
+                  {fitDisplayLabel(value)}
                 </span>
               </label>
             );
