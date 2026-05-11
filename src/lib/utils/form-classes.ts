@@ -15,5 +15,9 @@ export const FORM_LABEL_CLASS =
 export const FORM_CHECKBOX_LABEL_CLASS =
   'flex min-h-11 cursor-pointer items-center gap-2 text-sm';
 
+/** Checkbox row with muted label text — used in filter sidebars */
+export const FORM_CHECKBOX_LABEL_MUTED_CLASS =
+  `${FORM_CHECKBOX_LABEL_CLASS} text-text-muted`;
+
 /** Responsive 2-column form field grid */
 export const FORM_GRID_2COL_CLASS = 'grid grid-cols-1 gap-4 sm:grid-cols-2';

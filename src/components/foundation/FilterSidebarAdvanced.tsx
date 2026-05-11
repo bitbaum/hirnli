@@ -7,7 +7,7 @@ import type { FoundationFilters } from '@/lib/domain/foundation-filter';
 import { DEFAULT_FILTERS } from '@/lib/domain/foundation-filter';
 import type { QualityTier } from '@/lib/schemas/foundation';
 import type { FilterChip } from '@/lib/types/filter';
-import { FORM_CHECKBOX_LABEL_CLASS } from '@/lib/utils/form-classes';
+import { FORM_CHECKBOX_LABEL_MUTED_CLASS } from '@/lib/utils/form-classes';
 
 interface FilterSidebarAdvancedProps {
   filters: FoundationFilters;
@@ -54,7 +54,7 @@ export default function FilterSidebarAdvanced({
     <CollapsibleSection title="Erweitert" defaultOpen={false} count={activeCount || undefined}>
       <div className="space-y-4">
         {/* Top-Priorität toggle */}
-        <label className={`${FORM_CHECKBOX_LABEL_CLASS} text-text-muted`}>
+        <label className={FORM_CHECKBOX_LABEL_MUTED_CLASS}>
           <input
             type="checkbox"
             checked={isTopPriority}
@@ -89,7 +89,7 @@ export default function FilterSidebarAdvanced({
         />
 
         <div className="space-y-2">
-          <label className={`${FORM_CHECKBOX_LABEL_CLASS} text-text-muted`}>
+          <label className={FORM_CHECKBOX_LABEL_MUTED_CLASS}>
             <input
               type="checkbox"
               checked={filters.hideNoApplication}
@@ -98,7 +98,7 @@ export default function FilterSidebarAdvanced({
             />
             Mit Bewerbungsweg
           </label>
-          <label className={`${FORM_CHECKBOX_LABEL_CLASS} text-text-muted`}>
+          <label className={FORM_CHECKBOX_LABEL_MUTED_CLASS}>
             <input
               type="checkbox"
               checked={filters.hideOperative}
@@ -107,7 +107,7 @@ export default function FilterSidebarAdvanced({
             />
             Operative ausblenden
           </label>
-          <label className={`${FORM_CHECKBOX_LABEL_CLASS} text-text-muted`}>
+          <label className={FORM_CHECKBOX_LABEL_MUTED_CLASS}>
             <input
               type="checkbox"
               checked={filters.hideNetworks}
