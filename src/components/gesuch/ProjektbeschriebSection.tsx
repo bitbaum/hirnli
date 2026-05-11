@@ -54,7 +54,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
 
       {/* Anecdotes — human stories after Ausgangslage (Gap #1) */}
       {dok.anecdotes.why.length > 0 && (
-        <div className="mb-8 rounded border border-border bg-surface-alt p-4">
+        <div className="mb-8 rounded border border-border bg-bg-light p-4">
           <p className="mb-2 heading-detail">Aus der Praxis</p>
           {dok.anecdotes.why.map((a) => (
             <p key={a.id} className="mb-2 text-sm leading-relaxed text-text italic">
@@ -105,7 +105,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
 
         {/* HOW anecdote (Gap #1) */}
         {dok.anecdotes.how.length > 0 && (
-          <div className="mt-4 rounded border border-border bg-surface-alt p-4">
+          <div className="mt-4 rounded border border-border bg-bg-light p-4">
             {dok.anecdotes.how.map((a) => (
               <p key={a.id} className="text-sm leading-relaxed text-text italic">
                 {a.template}

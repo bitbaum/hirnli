@@ -8,6 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { formatCHF } from '@/lib/utils/format';
@@ -86,19 +87,16 @@ export function FundraisingDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="heading-section">Fundraising Dashboard</h1>
-        <button
-          onClick={fetchDashboardData}
-          className="px-4 py-2 bg-bg-light text-grey-dark rounded hover:bg-grey-light text-sm"
-        >
+        <Button variant="secondary" size="sm" onClick={fetchDashboardData}>
           Aktualisieren
-        </button>
+        </Button>
       </div>
 
       {isEmpty ? (
         /* Empty state — pipeline has no applications yet */
         <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-24 text-center">
           <p className="heading-card mb-1">Pipeline ist leer</p>
-          <p className="text-sm text-text-muted mb-6 max-w-sm">
+          <p className="mb-6 max-w-sm text-sm text-text-muted">
             Sobald du Stiftungsgesuche startest, siehst du hier Kennzahlen,
             Fristen und den Überblick über den Fundraising-Fortschritt.
           </p>
@@ -110,7 +108,7 @@ export function FundraisingDashboard() {
       ) : (
         <>
           {/* KPI Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <KPICard
               label="Total beantragt"
               value={formatCHF(data.totals.totalRequested)}
@@ -140,56 +138,44 @@ export function FundraisingDashboard() {
           </div>
 
           {/* Charts and Deadlines */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white border border-border rounded-lg p-6">
-              <h2 className="heading-card mb-4">
-                Verteilung nach Status
-              </h2>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <Card>
+              <h2 className="heading-card mb-4">Verteilung nach Status</h2>
               <StatusDistributionChart data={data.byStatus} />
-            </div>
+            </Card>
 
-            <div className="bg-white border border-border rounded-lg p-6">
+            <Card>
               <h2 className="heading-card mb-4">
                 Anstehende Fristen ({DEADLINE_UPCOMING_DAYS} Tage)
               </h2>
               <div className="max-h-80 overflow-y-auto">
                 <UpcomingDeadlines deadlines={data.upcomingDeadlines} />
               </div>
-            </div>
+            </Card>
           </div>
 
           {/* Summary Stats */}
-          <div className="bg-white border border-border rounded-lg p-6">
-            <h2 className="heading-card mb-4">
-              Zusammenfassung
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Card>
+            <h2 className="heading-card mb-4">Zusammenfassung</h2>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
-                <div className="heading-page">
-                  {data.totals.totalApplications}
-                </div>
-                <div className="text-sm text-text-light">Gesamt Gesuche</div>
+                <div className="heading-page">{data.totals.totalApplications}</div>
+                <div className="text-sm text-text-muted">Gesamt Gesuche</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">
-                  {data.totals.submitted}
-                </div>
-                <div className="text-sm text-text-light">Eingereicht</div>
+                <div className="heading-page text-primary">{data.totals.submitted}</div>
+                <div className="text-sm text-text-muted">Eingereicht</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-success">
-                  {data.totals.accepted}
-                </div>
-                <div className="text-sm text-text-light">Angenommen</div>
+                <div className="heading-page text-success">{data.totals.accepted}</div>
+                <div className="text-sm text-text-muted">Angenommen</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-warning">
-                  {data.totals.pending}
-                </div>
-                <div className="text-sm text-text-light">Ausstehend</div>
+                <div className="heading-page text-warning">{data.totals.pending}</div>
+                <div className="text-sm text-text-muted">Ausstehend</div>
               </div>
             </div>
-          </div>
+          </Card>
         </>
       )}
     </div>
