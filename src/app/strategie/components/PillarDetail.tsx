@@ -47,7 +47,7 @@ export default function PillarDetail({
       <div className="flex items-start gap-4">
         <span className="text-5xl flex-shrink-0">{icon}</span>
         <div className="flex-1">
-          <h3 className={`text-lg font-bold ${colors.text} mb-2`}>{title}</h3>
+          <h3 className={`heading-card font-bold ${colors.text} mb-2`}>{title}</h3>
           <p className={`text-sm ${colors.text}`}>{description}</p>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default function PillarDetail({
         <div className="mt-6 space-y-6 animate-fadeIn">
           {/* Activities */}
           <div>
-            <h4 className={`text-sm font-bold ${colors.text} mb-3 flex items-center gap-2`}>
+            <h4 className={`heading-detail font-bold ${colors.text} mb-3 flex items-center gap-2`}>
               <span className={`w-1 h-4 ${colors.accent} rounded`} />
               Was wir tun
             </h4>
@@ -83,7 +83,7 @@ export default function PillarDetail({
 
           {/* Why It Matters */}
           <div>
-            <h4 className={`text-sm font-bold ${colors.text} mb-3 flex items-center gap-2`}>
+            <h4 className={`heading-detail font-bold ${colors.text} mb-3 flex items-center gap-2`}>
               <span className={`w-1 h-4 ${colors.accent} rounded`} />
               Warum das wichtig ist
             </h4>
@@ -92,7 +92,7 @@ export default function PillarDetail({
 
           {/* Achievements */}
           <div>
-            <h4 className={`text-sm font-bold ${colors.text} mb-3 flex items-center gap-2`}>
+            <h4 className={`heading-detail font-bold ${colors.text} mb-3 flex items-center gap-2`}>
               <span className={`w-1 h-4 ${colors.accent} rounded`} />
               Was wir erreicht haben
             </h4>
@@ -109,7 +109,7 @@ export default function PillarDetail({
           {/* Related Pages */}
           {relatedPages.length > 0 && (
             <div>
-              <h4 className={`text-sm font-bold ${colors.text} mb-3 flex items-center gap-2`}>
+              <h4 className={`heading-detail font-bold ${colors.text} mb-3 flex items-center gap-2`}>
                 <span className={`w-1 h-4 ${colors.accent} rounded`} />
                 Mehr erfahren
               </h4>

@@ -21,7 +21,7 @@ export function IncomeDataSection() {
         Sie werden direkt aus der Kivitendo-Buchhaltung exportiert.
       </p>
 
-      <h4 className="mb-2 text-sm font-medium">Kivitendo-Konten:</h4>
+      <h4 className="mb-2 heading-detail">Kivitendo-Konten:</h4>
       <Table
         columns={ACCOUNT_COLUMNS}
         data={ACCOUNTS}
@@ -30,7 +30,7 @@ export function IncomeDataSection() {
         className="mb-4"
       />
 
-      <h4 className="mb-2 text-sm font-medium">Verifizierung:</h4>
+      <h4 className="mb-2 heading-detail">Verifizierung:</h4>
       <p className="text-sm text-text-muted">
         Jeder Wert kann direkt in{' '}
         <code className="rounded bg-bg-light px-1">revamp-Einnahmen-2025.xlsx</code>{' '}

@@ -11,7 +11,7 @@ export function TransparencyPrinciplesSection() {
       <Card>
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
-            <h4 className="mb-3 font-medium">Was wir tun</h4>
+            <h4 className="mb-3 heading-detail">Was wir tun</h4>
             <ul className="list-disc space-y-1 pl-6 text-sm">
               <li>Nur echte Daten aus Kivitendo verwenden</li>
               <li>Jede Berechnung dokumentieren</li>
@@ -22,7 +22,7 @@ export function TransparencyPrinciplesSection() {
             </ul>
           </div>
           <div>
-            <h4 className="mb-3 font-medium">Was wir nicht tun</h4>
+            <h4 className="mb-3 heading-detail">Was wir nicht tun</h4>
             <ul className="list-disc space-y-1 pl-6 text-sm">
               <li>Keine erfundenen Zahlen</li>
               <li>Keine Schönfärberei</li>
