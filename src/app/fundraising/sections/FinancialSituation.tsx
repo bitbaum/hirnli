@@ -6,7 +6,7 @@ import Inspectable, { type InspectorHandle } from './Inspectable';
 export default function FinancialSituation({ inspector }: { inspector: InspectorHandle }) {
   return (
     <Card className="mb-8 border-warning bg-warning/10">
-      <h3 className="mb-3 font-semibold text-warning">Die ehrliche Finanzlage</h3>
+      <h3 className="mb-3 heading-card text-warning">Die ehrliche Finanzlage</h3>
       <div className="space-y-2 text-sm text-warning">
         <p>
           <strong>Was passiert ist:</strong> Der Verlust von B2B-Grosskunden hat unsere

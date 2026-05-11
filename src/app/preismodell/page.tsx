@@ -57,7 +57,7 @@ export default function PreismodellPage() {
               <Badge variant="raw" className={`absolute -top-3 right-4 px-3 py-0.5 font-semibold ${tier.badgeColor}`}>
                 {tier.badge}
               </Badge>
-              <h3 className="mb-1 text-lg font-bold">{tier.name}</h3>
+              <h3 className="mb-1 heading-card font-bold">{tier.name}</h3>
               <p className={`mb-3 text-xl font-bold ${tier.priceColor}`}>{tier.price}</p>
               <p className="mb-4 text-sm text-text-muted">{tier.description}</p>
               <ul className="space-y-2 border-t border-border pt-3">
@@ -100,7 +100,7 @@ export default function PreismodellPage() {
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Was ist KulturLegi?</h2>
         <Card className="border border-warning/30 bg-warning/10">
-          <h3 className="mb-3 text-lg font-semibold">Der Ausweis für Menschen mit wenig Geld</h3>
+          <h3 className="mb-3 heading-card">Der Ausweis für Menschen mit wenig Geld</h3>
           <p className="mb-4 text-sm">
             Die <strong>KulturLegi</strong> ist ein schweizweiter Ausweis der Caritas. Er berechtigt
             Menschen mit bescheidenem Einkommen zu Rabatten bei Kultur, Sport, Bildung -- und bei uns.
@@ -141,7 +141,7 @@ export default function PreismodellPage() {
               <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
                 {step.step}
               </div>
-              <h4 className="mb-1 font-semibold">{step.title}</h4>
+              <h4 className="mb-1 heading-item">{step.title}</h4>
               <p className="text-sm text-text-muted">{step.description}</p>
             </Card>
           ))}
@@ -160,7 +160,7 @@ export default function PreismodellPage() {
         <Card className="border-2 border-pillar-vision bg-pillar-vision/10">
           <div className="flex flex-wrap items-center gap-8">
             <div className="min-w-0 flex-1 sm:min-w-[280px]">
-              <h3 className="mb-3 text-lg font-semibold text-pillar-vision">
+              <h3 className="mb-3 heading-card text-pillar-vision">
                 Mehr zahlen, mehr ermöglichen
               </h3>
               <p className="mb-3 text-sm">

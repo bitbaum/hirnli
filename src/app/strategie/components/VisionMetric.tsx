@@ -60,33 +60,33 @@ export default function VisionMetric({ value, label, source }: VisionMetricProps
         >
           <div className="space-y-4">
             <div>
-              <h4 className="font-semibold text-sm text-grey-dark mb-2">Zielwert</h4>
+              <h4 className="heading-detail mb-2">Zielwert</h4>
               <p className="text-2xl font-bold text-primary">{value}</p>
               <p className="text-sm text-text-light mt-1">{label}</p>
             </div>
 
             <div>
-              <h4 className="font-semibold text-sm text-grey-dark mb-2">Methodik</h4>
+              <h4 className="heading-detail mb-2">Methodik</h4>
               <p className="text-sm text-text-light">{source.methodology}</p>
             </div>
 
             {source.confidence && (
               <div>
-                <h4 className="font-semibold text-sm text-grey-dark mb-2">Vertrauensniveau</h4>
+                <h4 className="heading-detail mb-2">Vertrauensniveau</h4>
                 <p className="text-sm text-text-light capitalize">{source.confidence}</p>
               </div>
             )}
 
             {source.lastVerified && (
               <div>
-                <h4 className="font-semibold text-sm text-grey-dark mb-2">Zuletzt geprüft</h4>
+                <h4 className="heading-detail mb-2">Zuletzt geprüft</h4>
                 <p className="text-sm text-text-light">{source.lastVerified}</p>
               </div>
             )}
 
             {source.notes && (
               <div>
-                <h4 className="font-semibold text-sm text-grey-dark mb-2">Notizen</h4>
+                <h4 className="heading-detail mb-2">Notizen</h4>
                 <p className="text-sm text-text-light">{source.notes}</p>
               </div>
             )}

@@ -17,7 +17,7 @@ export default function HubBildungSynergySection() {
         </Card>
 
         <Card className="border-l-4 border-l-success gradient-card-success">
-          <h3 className="text-lg font-semibold text-success mb-3">✅ Hub + Bildung = Exponentielles Wachstum</h3>
+          <h3 className="heading-card text-success mb-3">✅ Hub + Bildung = Exponentielles Wachstum</h3>
           <p className="text-sm text-success mb-4">
             Hub bietet <strong>Infrastruktur</strong> (Werkstatt, Schulungsräume, Equipment).
             Bildungsprogrammleiter:innen bieten <strong>Know-how-Multiplikation</strong> (Train-the-Trainer).
