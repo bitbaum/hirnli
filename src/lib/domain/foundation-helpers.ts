@@ -54,6 +54,15 @@ export const TIER_DESCRIPTIONS: Record<QualityTier, string> = {
   verzeichnet: 'Nur Name im System. Keine weiteren Daten.',
 };
 
+/** Pipeline capability per tier — what actions are unlocked at each level */
+export const TIER_CAPABILITIES: Record<QualityTier, string> = {
+  anwendungsbereit: 'Gesuch sofort einreichbar',
+  recherchiert: 'Gesuch generierbar (wenn Priorität stimmt)',
+  profiliert: 'Detail-Seite und Fit-Bewertung sichtbar',
+  erfasst: 'Grunddaten vorhanden, weitere Recherche nötig',
+  verzeichnet: 'Nur Name bekannt — keine Bewertung möglich',
+};
+
 // -- Tier counts ---------------------------------------------------------------
 
 /** Compute tier counts from a list of foundations */
