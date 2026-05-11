@@ -16,6 +16,7 @@ import { APPLICATION_STATUSES, getStatusConfig, isTerminalStatus, type Applicati
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
 import ActivityTimeline from '@/components/ui/ActivityTimeline';
+import DeleteConfirmBlock from '@/components/fundraising/DeleteConfirmBlock';
 import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 
 interface ApplicationDetailProps {
@@ -277,34 +278,14 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         {/* Actions */}
         <div className="flex items-center justify-between gap-4 pb-8">
           {/* Delete */}
-          <div>
-            {deleteConfirm ? (
-              <div className="rounded-lg border border-danger/20 bg-danger/10 px-4 py-2">
-                {deleteError ? (
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm text-danger">{deleteError}</span>
-                    <Button onClick={cancelDelete} variant="ghost" size="sm">Schliessen</Button>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium text-danger">Wirklich löschen?</span>
-                    <Button onClick={cancelDelete} variant="ghost" size="sm" disabled={isDeleting}>Nein</Button>
-                    <Button onClick={executeDelete} disabled={isDeleting} variant="danger" size="sm">
-                      {isDeleting ? '...' : 'Ja, löschen'}
-                    </Button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Button
-                onClick={confirmDelete}
-                variant="secondary"
-                className="border-danger/20 text-danger hover:bg-danger/10"
-              >
-                Gesuch löschen
-              </Button>
-            )}
-          </div>
+          <DeleteConfirmBlock
+            deleteConfirm={deleteConfirm}
+            deleteError={deleteError}
+            isDeleting={isDeleting}
+            confirmDelete={confirmDelete}
+            cancelDelete={cancelDelete}
+            executeDelete={executeDelete}
+          />
 
           {/* Save */}
           <Button
