@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from 'react';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId, Foundation } from '@/lib/schemas/foundation';
-import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
+import type { ComposedGesuch, AnschreibenText } from '@/lib/domain/gesuch-composer';
 import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import { buildDynamicOpening } from '@/lib/domain/anschreiben-composer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -22,12 +22,7 @@ import StepFocus from './steps/StepFocus';
 import StepReview from './steps/StepReview';
 import StepSubmit from './steps/StepSubmit';
 
-export interface AnschreibenText {
-  subject: string;
-  opening: string;
-  closing: string;
-  themeAlignment: string;
-}
+export type { AnschreibenText };
 
 interface GesuchPageClientProps {
   slug: string;

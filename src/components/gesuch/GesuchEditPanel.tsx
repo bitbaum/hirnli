@@ -4,8 +4,9 @@ import { useState } from 'react';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { WhySection, TrackRecord } from '@/lib/schemas/story';
-import type { AnschreibenText } from '@/app/fundraising/stiftungen/[slug]/gesuch/GesuchPageClient';
+import type { AnschreibenText } from '@/lib/domain/gesuch-composer';
 import FieldRow from './FieldRow';
+import GesuchAnschreibenFields from './GesuchAnschreibenFields';
 import { Button } from '@/components/ui/Button';
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
 
@@ -58,10 +59,6 @@ export default function GesuchEditPanel({
   const whySolution = overrides.why?.solution ?? generated.why?.solution ?? '';
   const howHeadline = overrides.how?.trackRecord?.headline ?? generated.trackRecord.headline ?? '';
   const howText = overrides.how?.trackRecord?.text ?? generated.trackRecord.text ?? '';
-  const anschreibenSubject = overrides.anschreiben?.subject ?? generated.anschreiben.subject;
-  const anschreibenOpening = overrides.anschreiben?.opening ?? generated.anschreiben.opening;
-  const anschreibenThemeAlignment = overrides.anschreiben?.themeAlignment ?? generated.anschreiben.themeAlignment;
-  const anschreibenClosing = overrides.anschreiben?.closing ?? generated.anschreiben.closing;
   // Shared props for all FieldRow instances (copy prompt support)
   const fieldShared = { foundationContext, schwerpunktLabel };
 
@@ -256,64 +253,14 @@ export default function GesuchEditPanel({
         </div>
 
         {/* 4. Anschreiben (Cover Letter) */}
-        <div className="border-t border-border pt-4">
-          <p className="mb-4 heading-xs-label">
-            Anschreiben (Begleitbrief)
-          </p>
-          <div className="space-y-4">
-            <FieldRow
-              {...fieldShared}
-              label="Betreff"
-              fieldDescription="Betreffzeile des Anschreibens — erscheint als Titel im Begleitbrief."
-              value={anschreibenSubject}
-              originalValue={generated.anschreiben.subject}
-              placeholder={generated.anschreiben.subject}
-              fieldPath="anschreiben.subject"
-              onAiRewrite={onAiRewrite}
-              onChange={(v) => patch({ anschreiben: { subject: v } })}
-              onBlur={onSaveIfDirty}
-            />
-            <FieldRow
-              {...fieldShared}
-              label="Einstieg"
-              fieldDescription="Erster Absatz des Anschreibens — erklärt, warum wir diese Stiftung kontaktieren."
-              value={anschreibenOpening}
-              originalValue={generated.anschreiben.opening}
-              placeholder={generated.anschreiben.opening}
-              fieldPath="anschreiben.opening"
-              multiline
-              onAiRewrite={onAiRewrite}
-              onChange={(v) => patch({ anschreiben: { opening: v } })}
-              onBlur={onSaveIfDirty}
-            />
-            <FieldRow
-              {...fieldShared}
-              label="Thematische Passung"
-              fieldDescription="Absatz im Anschreiben, der die inhaltliche Übereinstimmung mit dem Stiftungszweck aufzeigt."
-              value={anschreibenThemeAlignment}
-              originalValue={generated.anschreiben.themeAlignment}
-              placeholder={generated.anschreiben.themeAlignment}
-              fieldPath="anschreiben.themeAlignment"
-              multiline
-              onAiRewrite={onAiRewrite}
-              onChange={(v) => patch({ anschreiben: { themeAlignment: v } })}
-              onBlur={onSaveIfDirty}
-            />
-            <FieldRow
-              {...fieldShared}
-              label="Schluss"
-              fieldDescription="Abschlussabsatz des Anschreibens — Dank und Ausblick."
-              value={anschreibenClosing}
-              originalValue={generated.anschreiben.closing}
-              placeholder={generated.anschreiben.closing}
-              fieldPath="anschreiben.closing"
-              multiline
-              onAiRewrite={onAiRewrite}
-              onChange={(v) => patch({ anschreiben: { closing: v } })}
-              onBlur={onSaveIfDirty}
-            />
-          </div>
-        </div>
+        <GesuchAnschreibenFields
+          overrideAnschreiben={overrides.anschreiben}
+          generatedAnschreiben={generated.anschreiben}
+          fieldShared={fieldShared}
+          onAiRewrite={onAiRewrite}
+          onSaveIfDirty={onSaveIfDirty}
+          onPatch={(partial) => patch({ anschreiben: partial })}
+        />
       </div>
     </div>
   );

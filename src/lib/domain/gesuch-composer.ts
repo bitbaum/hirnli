@@ -282,13 +282,15 @@ function buildFoundationAddress(foundation: Foundation): string {
   return parts.join('\n');
 }
 
-/** Compute just the Anschreiben text fields (for the edit panel in step 2) */
-export function composeAnschreibenText(foundation: Foundation, schwerpunktId?: SchwerpunktId): {
+export interface AnschreibenText {
   subject: string;
   opening: string;
   closing: string;
   themeAlignment: string;
-} {
+}
+
+/** Compute just the Anschreiben text fields (for the edit panel in step 2) */
+export function composeAnschreibenText(foundation: Foundation, schwerpunktId?: SchwerpunktId): AnschreibenText {
   const template = ANSCHREIBEN_TEMPLATES[foundation.type];
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
