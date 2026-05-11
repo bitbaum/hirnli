@@ -100,7 +100,8 @@ export const NAV_STRUCTURE: {
         {
           title: 'Budget & Status',
           items: [
-            { text: 'Fundraising-Dashboard', href: '/fundraising', desc: '📊 Budget-Übersicht, Finanzierungsbedarf, Timeline' },
+            { text: 'Fundraising-Plan', href: '/fundraising', desc: '📊 Budget-Übersicht, Finanzierungsbedarf, Timeline' },
+            { text: 'Pipeline-Dashboard', href: '/fundraising/dashboard', desc: '📈 KPI-Übersicht: Eingereicht, Zugesagt, Erfolgsquote' },
           ],
         },
         {
