@@ -51,6 +51,7 @@ interface ButtonProps {
   onClick?: (e: React.MouseEvent) => void;
   target?: string;
   rel?: string;
+  title?: string;
 }
 
 export function Button({
@@ -65,6 +66,7 @@ export function Button({
   onClick,
   target,
   rel,
+  title,
 }: ButtonProps) {
   const classes = cls(
     BASE,
@@ -85,13 +87,14 @@ export function Button({
           target={target || (isExternal ? '_blank' : undefined)}
           rel={rel || ((isExternal || target) ? 'noopener noreferrer' : undefined)}
           onClick={onClick}
+          title={title}
         >
           {children}
         </a>
       );
     }
     return (
-      <Link href={href} className={classes} onClick={onClick}>
+      <Link href={href} className={classes} onClick={onClick} title={title}>
         {children}
       </Link>
     );
@@ -103,6 +106,7 @@ export function Button({
       className={classes}
       disabled={disabled}
       onClick={onClick}
+      title={title}
     >
       {children}
     </button>

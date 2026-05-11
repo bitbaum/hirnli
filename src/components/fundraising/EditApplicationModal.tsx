@@ -301,13 +301,9 @@ export function EditApplicationModal({
 
         {/* Footer */}
         <div className="flex items-center justify-end gap-3 border-t border-border px-6 py-4">
-          <button
-            onClick={onClose}
-            disabled={isSaving}
-            className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-medium text-text-muted hover:bg-bg-light disabled:opacity-50"
-          >
+          <Button variant="secondary" onClick={onClose} disabled={isSaving}>
             Abbrechen
-          </button>
+          </Button>
           <Button onClick={handleSave} disabled={isSaving}>
             {isSaving ? 'Speichern...' : 'Speichern'}
           </Button>

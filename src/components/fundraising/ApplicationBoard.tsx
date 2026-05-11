@@ -233,12 +233,7 @@ export function ApplicationBoard() {
           <Button href="/fundraising/stiftungen">
             + Gesuch hinzufügen
           </Button>
-          <button
-            onClick={fetchApplications}
-            className="rounded-lg border border-border bg-white px-4 py-2 text-sm text-grey-dark hover:bg-bg-light"
-          >
-            ↺
-          </button>
+          <Button variant="secondary" onClick={fetchApplications}>↺</Button>
         </div>
       </div>
 

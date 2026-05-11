@@ -1,6 +1,7 @@
 'use client';
 
 import { FORM_INPUT_CLASS } from '@/lib/utils/form-classes';
+import { Button } from '@/components/ui/Button';
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { FoundationFilters, SortField, FilterPresetId } from '@/lib/domain/foundation-filter';
@@ -305,12 +306,9 @@ export default function FilterSidebar({
       {/* Reset */}
       {hasActiveFilters && (
         <div className="pt-2">
-          <button
-            onClick={resetFilters}
-            className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm font-medium text-text-muted hover:bg-bg-light hover:text-grey-dark"
-          >
+          <Button variant="secondary" fullWidth onClick={resetFilters}>
             Alle Filter zurücksetzen
-          </button>
+          </Button>
         </div>
       )}
     </div>
