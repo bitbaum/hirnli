@@ -62,6 +62,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   }
 
   const statusConfig = getStatusConfig(fields.status);
+  const foundationDetail = foundation ? getFoundationBySlug(foundation.id) : null;
 
   return (
     <div className="min-h-screen bg-bg-light p-4 md:p-6">
@@ -237,23 +238,21 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         )}
 
         {/* Foundation info (read-only) */}
-        {foundation && (() => {
-          const f = getFoundationBySlug(foundation.id);
-          return (
+        {foundation && (
           <Card className="space-y-3">
             <h2 className="heading-item">Stiftung</h2>
             <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
               <div>
                 <p className="heading-xs-label">Website</p>
-                {f?.websiteUrl ? (
-                  <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
-                    {f.websiteUrl}
+                {foundationDetail?.websiteUrl ? (
+                  <a href={foundationDetail.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
+                    {foundationDetail.websiteUrl}
                   </a>
                 ) : '—'}
               </div>
               <div>
                 <p className="heading-xs-label">E-Mail</p>
-                <p className="text-grey-dark">{f?.contact?.email ?? '—'}</p>
+                <p className="text-grey-dark">{foundationDetail?.contact?.email ?? '—'}</p>
               </div>
               <div>
                 <p className="heading-xs-label">Fit Score</p>
@@ -267,8 +266,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               </div>
             </div>
           </Card>
-          );
-        })()}
+        )}
 
         {/* Activity log */}
         <Card className="space-y-3">

@@ -11,7 +11,7 @@ import {
   BILDUNGSPROGRAMMLEITER,
   MULTIPLICATION_EFFECT,
   TEAM_CAPACITY,
-  TEAM_SALARIES,
+  BPL_TOTAL_COST_PER_YEAR,
   DATA_QUALITY_NOTE,
 } from '@/lib/config/team';
 import { TEAM_MEMBERS, DEPARTMENTS } from './data';
@@ -142,7 +142,7 @@ export default function TeamPage() {
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Train-the-Trainer Multiplikator-Effekt</h2>
         <p className="mb-6 text-sm text-text-muted">
-          Wie 2 geplante Bildungsprogrammleiter (Budget-Ziel: CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) / 1000)}k/Jahr) durch Train-the-Trainer {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreichen sollen.
+          Wie 2 geplante Bildungsprogrammleiter (Budget-Ziel: CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR / 1000)}k/Jahr inkl. Sozialleistungen) durch Train-the-Trainer {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreichen sollen.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -199,8 +199,8 @@ export default function TeamPage() {
             </div>
             <div className="bg-white/70 rounded-lg p-4 text-sm text-left">
               <strong>Das ist der Kern des sozialen Unternehmensmodells:</strong><br />
-              Budget-Ziel: CHF {formatNumber((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) / 1000)}k/Jahr für 2× BPL → {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops} Menschen/Jahr erreichen (Prognose).<br />
-              Geplante Kosten pro direkt trainierter Person: CHF {Math.round((TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) / MULTIPLICATION_EFFECT.combined.direct_training)}
+              Budget-Ziel: CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR / 1000)}k/Jahr für 2× BPL (inkl. Sozialleistungen) → {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops} Menschen/Jahr erreichen (Prognose).<br />
+              Geplante Kosten pro direkt trainierter Person: CHF {Math.round(BPL_TOTAL_COST_PER_YEAR / MULTIPLICATION_EFFECT.combined.direct_training)}
             </div>
           </div>
         </Card>

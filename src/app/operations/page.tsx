@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
+import Callout from '@/components/ui/Callout';
 import Badge from '@/components/ui/Badge';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import Table from '@/components/ui/Table';
@@ -115,9 +116,9 @@ export default function OperationsPage() {
       {/* Step 3: Datenlöschung */}
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">3. Datenlöschung</h2>
-        <div className="mb-4 rounded-lg border-l-4 border-l-danger bg-danger/10 p-4">
+        <Callout color="danger" className="mb-4">
           <strong>WICHTIG:</strong> Dieser Schritt ist OBLIGATORISCH für alle Geräte mit Festplatten!
-        </div>
+        </Callout>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {DATA_WIPE_OPTIONS.map((opt) => (
             <Card key={opt.title}>
