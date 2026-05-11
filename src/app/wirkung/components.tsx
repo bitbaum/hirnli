@@ -70,7 +70,7 @@ export function ImpactStoryCards({
         {/* Ecological impact */}
         <Card padding={false}>
           <div className="rounded-t-lg bg-success p-4 text-white">
-            <h3 className="font-semibold">Ökologische Wirkung</h3>
+            <h3 className="heading-card text-white">Ökologische Wirkung</h3>
           </div>
           <div className="p-4">
             <div className="mb-2 text-3xl font-bold">~{co2Avoided} t</div>
@@ -92,7 +92,7 @@ export function ImpactStoryCards({
         {/* Resource conservation */}
         <Card padding={false}>
           <div className="rounded-t-lg bg-success p-4 text-white">
-            <h3 className="font-semibold">Ressourcenschonung</h3>
+            <h3 className="heading-card text-white">Ressourcenschonung</h3>
           </div>
           <div className="p-4">
             <div className="mb-2 text-3xl font-bold">~{formatNumber(eWaste)} kg</div>
@@ -115,7 +115,7 @@ export function ImpactStoryCards({
         {/* Social impact */}
         <Card padding={false}>
           <div className="rounded-t-lg bg-chart-5 p-4 text-white">
-            <h3 className="font-semibold">Soziale Integration</h3>
+            <h3 className="heading-card text-white">Soziale Integration</h3>
           </div>
           <div className="p-4">
             <div className="mb-2 text-3xl font-bold text-text-muted">?</div>

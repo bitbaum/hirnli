@@ -54,7 +54,7 @@ export default function StrategiePage() {
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Vision 2030</h2>
         <div className="gradient-hero-vision rounded-2xl p-8 text-white">
-          <h3 className="mb-2 text-xl font-bold">
+          <h3 className="mb-2 heading-subsection font-bold text-white">
             Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder Technologie ausgeschlossen.
           </h3>
           <p className="text-sm opacity-90 mb-6">
