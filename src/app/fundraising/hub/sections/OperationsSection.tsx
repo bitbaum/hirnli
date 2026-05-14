@@ -1,4 +1,5 @@
 import Card from '@/components/ui/Card';
+import HubCardFooter from './HubCardFooter';
 import { TEAM_MEMBERS } from '@/app/team/data';
 import { OFFICE_AREA, STORAGE_AREA, LOADING_AREA } from '@/lib/config/hub-space-plan';
 import { formatCHF } from '@/lib/utils/format';
@@ -25,12 +26,10 @@ export default function OperationsSection() {
             <li>• Pausenraum & Küche</li>
             <li>• Sanitäranlagen</li>
           </ul>
-          <div className="pt-3 border-t border-border">
-            <p className="text-sm text-text-light">
-              <strong>Team:</strong> {TEAM_MEMBERS.length} Personen + 2 geplante BPL<br />
-              <strong>Kosten:</strong> {formatCHF(OFFICE_AREA.cost_estimate_chf)}
-            </p>
-          </div>
+          <HubCardFooter items={[
+            { label: 'Team', value: `${TEAM_MEMBERS.length} Personen + 2 geplante BPL` },
+            { label: 'Kosten', value: formatCHF(OFFICE_AREA.cost_estimate_chf) },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-grey-medium">
@@ -47,12 +46,10 @@ export default function OperationsSection() {
             <li>• 30 m² Recycling-Staging (Elektroschrott)</li>
             <li>• 20 m² Versand & Verpackung</li>
           </ul>
-          <div className="pt-3 border-t border-border">
-            <p className="text-sm text-text-light">
-              <strong>Kapazität:</strong> 500+ Geräte gleichzeitig<br />
-              <strong>Kosten:</strong> {formatCHF(STORAGE_AREA.cost_estimate_chf)}
-            </p>
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '500+ Geräte gleichzeitig' },
+            { label: 'Kosten', value: formatCHF(STORAGE_AREA.cost_estimate_chf) },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-grey-medium">
@@ -69,12 +66,10 @@ export default function OperationsSection() {
             <li>• Temporäre Lagerung (24-48h)</li>
             <li>• Recycling-Abholung</li>
           </ul>
-          <div className="pt-3 border-t border-border">
-            <p className="text-sm text-text-light">
-              <strong>Nutzung:</strong> Täglich (Lieferungen)<br />
-              <strong>Kosten:</strong> {formatCHF(LOADING_AREA.cost_estimate_chf)}
-            </p>
-          </div>
+          <HubCardFooter items={[
+            { label: 'Nutzung', value: 'Täglich (Lieferungen)' },
+            { label: 'Kosten', value: formatCHF(LOADING_AREA.cost_estimate_chf) },
+          ]} />
         </Card>
       </div>
     </section>
