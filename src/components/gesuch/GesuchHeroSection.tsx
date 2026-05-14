@@ -23,7 +23,7 @@ export default function GesuchHeroSection({ subtitle, foundationName, descriptio
         <p className="mb-2 text-sm font-medium uppercase tracking-wider text-white/70">
           {subtitle}
         </p>
-        <h1 className="mb-4 text-2xl font-bold md:text-4xl">
+        <h1 className="mb-4 heading-section text-white md:text-4xl">
           {ORG_PROFILE.name} × {foundationName}
         </h1>
         {description && (

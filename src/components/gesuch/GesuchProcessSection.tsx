@@ -1,4 +1,5 @@
 import Card from '@/components/ui/Card';
+import Callout from '@/components/ui/Callout';
 import Badge from '@/components/ui/Badge';
 import { CASCADE_MODELS, CASCADE_SUMMARY } from '@/lib/config/value-cascade';
 import type { CascadeTier } from '@/lib/config/value-cascade';
@@ -70,11 +71,11 @@ export default function GesuchProcessSection({
       </div>
 
       {/* Insight callout */}
-      <div className="rounded-lg border-l-4 border-primary bg-primary/5 px-5 py-4">
+      <Callout color="primary" className="px-5">
         <p className="text-sm font-medium text-text leading-relaxed">
           {CASCADE_SUMMARY.insight}
         </p>
-      </div>
+      </Callout>
     </section>
   );
 }
