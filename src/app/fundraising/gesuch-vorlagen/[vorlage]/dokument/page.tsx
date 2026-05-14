@@ -59,7 +59,7 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
       {/* VORLAGE banner + print bar */}
       <div className="mb-8 space-y-3 print:hidden">
         <div className="rounded-lg border-2 border-warning bg-warning-bg p-4 text-center">
-          <p className="text-sm font-semibold text-warning">
+          <p className="heading-detail text-warning">
             {bannerTitle}
           </p>
           <p className="mt-1 text-sm text-text-light">

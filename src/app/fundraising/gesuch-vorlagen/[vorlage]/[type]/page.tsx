@@ -54,7 +54,7 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
     <div className="gesuch-page">
       {/* VORLAGE banner */}
       <div className="mb-4 rounded-lg border-2 border-warning bg-warning-bg p-4 text-center print:hidden">
-        <p className="text-sm font-semibold text-warning">
+        <p className="heading-detail text-warning">
           {bannerTitle}
         </p>
         <p className="mt-1 text-sm text-text-light">

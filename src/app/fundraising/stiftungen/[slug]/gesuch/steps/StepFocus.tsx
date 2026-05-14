@@ -3,6 +3,7 @@ import type { ThemeId } from '@/lib/schemas/foundation';
 import SchwerpunktSelector from '@/components/gesuch/SchwerpunktSelector';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
+import Callout from '@/components/ui/Callout';
 import { Button } from '@/components/ui/Button';
 
 interface StepFocusProps {
@@ -69,12 +70,12 @@ export default function StepFocus({
 
       {/* Bridge preview */}
       {foundationBridge && (
-        <div className="rounded-lg border-l-4 border-primary bg-primary/5 px-5 py-4">
+        <Callout color="primary" className="px-5">
           <p className="heading-xs-label text-primary mb-2">Partnerschafts-Brücke</p>
           <p className="text-sm text-text leading-relaxed">
             {foundationBridge.split(/\.\s+/).slice(0, 2).join('. ') + (foundationBridge.includes('. ') ? '.' : '')}
           </p>
-        </div>
+        </Callout>
       )}
 
       {/* Weiter CTA */}

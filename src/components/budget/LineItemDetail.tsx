@@ -29,7 +29,7 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
       {/* Sub-items breakdown */}
       {item.subItems && item.subItems.length > 0 && (
         <div>
-          <p className="text-sm font-semibold text-text-light mb-2">Zusammensetzung:</p>
+          <p className="heading-detail text-text-light mb-2">Zusammensetzung:</p>
           <div className="space-y-1">
             {item.subItems.map((sub, idx) => (
               <div key={idx} className="flex justify-between text-sm text-text-light">

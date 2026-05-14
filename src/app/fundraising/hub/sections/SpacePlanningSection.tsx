@@ -28,17 +28,17 @@ export default function SpacePlanningSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div className="bg-primary/10 p-3 rounded-lg">
-            <p className="text-sm font-semibold text-primary mb-1">Kerngeschäft</p>
+            <p className="heading-detail text-primary mb-1">Kerngeschäft</p>
             <p className="text-lg font-bold text-primary">{SPACE_SUMMARY.by_category.core_business.total_sqm} m²</p>
             <p className="text-sm text-primary">Shop + Werkstatt + Lager</p>
           </div>
           <div className="bg-chart-5/10 p-3 rounded-lg">
-            <p className="text-sm font-semibold text-chart-5 mb-1">Innovation & Bildung</p>
+            <p className="heading-detail text-chart-5 mb-1">Innovation & Bildung</p>
             <p className="text-lg font-bold text-chart-5">{SPACE_SUMMARY.by_category.innovation.total_sqm} m²</p>
             <p className="text-sm text-chart-5">Makerspace + AI Lab + Schulung</p>
           </div>
           <div className="bg-danger/10 p-3 rounded-lg">
-            <p className="text-sm font-semibold text-danger mb-1">Kultur & Community</p>
+            <p className="heading-detail text-danger mb-1">Kultur & Community</p>
             <p className="text-lg font-bold text-danger">{SPACE_SUMMARY.by_category.culture_community.total_sqm} m²</p>
             <p className="text-sm text-danger">Events + Café + Repair Café</p>
           </div>
@@ -66,7 +66,7 @@ export default function SpacePlanningSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="bg-success/10 p-4 rounded-lg">
-            <p className="text-sm font-semibold text-success mb-2">Agglomeration (empfohlen)</p>
+            <p className="heading-detail text-success mb-2">Agglomeration (empfohlen)</p>
             <p className="text-sm text-success mb-2">
               <strong>{ZURICH_MARKET_DATA.agglomeration.commercial_space_per_year}</strong> pro m²/Jahr
             </p>
@@ -85,7 +85,7 @@ export default function SpacePlanningSection() {
           </div>
 
           <div className="bg-primary/10 p-4 rounded-lg">
-            <p className="text-sm font-semibold text-primary mb-2">Stadt Zürich (teurer)</p>
+            <p className="heading-detail text-primary mb-2">Stadt Zürich (teurer)</p>
             <p className="text-sm text-primary mb-2">
               <strong>{ZURICH_MARKET_DATA.city_zurich.office_space_per_year}</strong> pro m²/Jahr
             </p>

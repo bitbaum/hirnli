@@ -36,7 +36,7 @@ export default function ReachSection() {
             <div className="bg-warning/10 rounded-lg p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm font-semibold text-warning mb-2">Hardware:</p>
+                  <p className="heading-detail text-warning mb-2">Hardware:</p>
                   <ul className="text-sm text-warning space-y-1">
                     <li>• {REPAIR_TABLES_CURRENT} Tische vorhanden, aber nur 1-2 genutzt (Reza + manchmal Freiwillige)</li>
                     <li>• Keine strukturierten Trainings, kein Zeitplan</li>
@@ -45,7 +45,7 @@ export default function ReachSection() {
                   </ul>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-warning mb-2">Software/AI:</p>
+                  <p className="heading-detail text-warning mb-2">Software/AI:</p>
                   <ul className="text-sm text-warning space-y-1">
                     <li>• Kernteam zu beschäftigt für systematische Bildung</li>
                     <li>• Keine Workshops, keine strukturierten Kurse</li>
@@ -66,7 +66,7 @@ export default function ReachSection() {
             <div className="bg-success/10 rounded-lg p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <p className="text-sm font-semibold text-success mb-2">Hardware (organisiert):</p>
+                  <p className="heading-detail text-success mb-2">Hardware (organisiert):</p>
                   <ul className="text-sm text-success space-y-1">
                     <li>• <strong>Hardware-BPL organisiert:</strong> Zeitpläne, Qualität, Prozesse</li>
                     <li>• Alle Tische genutzt (strukturierte Schichten, klare Verantwortlichkeiten)</li>
@@ -75,7 +75,7 @@ export default function ReachSection() {
                   </ul>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-success mb-2">Software/AI (strukturiert):</p>
+                  <p className="heading-detail text-success mb-2">Software/AI (strukturiert):</p>
                   <ul className="text-sm text-success space-y-1">
                     <li>• <strong>Software/AI-BPL organisiert:</strong> Curricula, Workshops, Events</li>
                     <li>• <strong>{BPL_SOFTWARE_PER_YEAR_DISPLAY} Entwickler/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
@@ -108,7 +108,7 @@ export default function ReachSection() {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                 <div>
-                  <p className="text-sm font-semibold text-primary mb-2">Hub bietet Infrastruktur:</p>
+                  <p className="heading-detail text-primary mb-2">Hub bietet Infrastruktur:</p>
                   <ul className="text-sm text-primary space-y-1">
                     <li>• Professioneller Schulungsraum = Video-Studio</li>
                     <li>• Werkstatt = Praxis-Aufnahmen für Tutorials</li>
@@ -117,7 +117,7 @@ export default function ReachSection() {
                   </ul>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-primary mb-2">BPL produzieren Content:</p>
+                  <p className="heading-detail text-primary mb-2">BPL produzieren Content:</p>
                   <ul className="text-sm text-primary space-y-1">
                     <li>• Video-Tutorials (Laptop-Reparatur Schritt-für-Schritt)</li>
                     <li>• Online-Kurse (AI Literacy, Linux-Grundlagen)</li>

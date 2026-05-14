@@ -84,7 +84,7 @@ export default function Revamp2030Page() {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div className="bg-pillar-digital/10 rounded-lg p-3">
-                  <p className="text-sm font-semibold text-pillar-digital mb-2">Was die Plattform bietet:</p>
+                  <p className="heading-detail text-pillar-digital mb-2">Was die Plattform bietet:</p>
                   <ul className="text-sm text-pillar-digital space-y-1 list-disc list-inside">
                     <li><strong>Community-Marktplatz:</strong> Gebrauchte IT transparent kaufen und verkaufen</li>
                     <li><strong>IT-Hilfe-Portal:</strong> Community-basierter Tech-Support</li>
@@ -93,7 +93,7 @@ export default function Revamp2030Page() {
                   </ul>
                 </div>
                 <div className="bg-pillar-digital/10 rounded-lg p-3">
-                  <p className="text-sm font-semibold text-pillar-digital mb-2">Warum das unsere Wirkung erhöht:</p>
+                  <p className="heading-detail text-pillar-digital mb-2">Warum das unsere Wirkung erhöht:</p>
                   <ul className="text-sm text-pillar-digital space-y-1 list-disc list-inside">
                     <li><strong>Messbarkeit:</strong> Systematische Erfassung statt Schätzungen — jedes Gerät, jeder Service-Kontakt wird dokumentiert</li>
                     <li><strong>Skalierung:</strong> Online-Marktplatz und Wissensportal erreichen Menschen weit über Zürich hinaus</li>

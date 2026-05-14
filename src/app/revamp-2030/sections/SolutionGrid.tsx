@@ -53,7 +53,7 @@ export default function SolutionGrid() {
               </p>
               <div className="space-y-3 mb-4">
                 <div className="bg-pillar-vision/10 rounded-lg p-3">
-                  <p className="text-sm font-semibold text-pillar-vision mb-1">Hardware-Bildungsprogrammleiter:in</p>
+                  <p className="heading-detail text-pillar-vision mb-1">Hardware-Bildungsprogrammleiter:in</p>
                   <ul className="text-sm text-pillar-vision space-y-1 list-disc list-inside">
                     <li>Organisiert Reparatur-Tische: Zeitpläne, Qualitätssicherung, Prozesse</li>
                     <li>Bildet Techniker aus (nicht nur reparieren, sondern auch trainieren lernen)</li>
@@ -62,7 +62,7 @@ export default function SolutionGrid() {
                   </ul>
                 </div>
                 <div className="bg-pillar-vision/10 rounded-lg p-3">
-                  <p className="text-sm font-semibold text-pillar-vision mb-1">Software/AI-Bildungsprogrammleiter:in</p>
+                  <p className="heading-detail text-pillar-vision mb-1">Software/AI-Bildungsprogrammleiter:in</p>
                   <ul className="text-sm text-pillar-vision space-y-1 list-disc list-inside">
                     <li>Organisiert Workshops: AI Literacy, Coding, Open Source</li>
                     <li>Bildet Entwickler aus, die dann selbst trainieren</li>
