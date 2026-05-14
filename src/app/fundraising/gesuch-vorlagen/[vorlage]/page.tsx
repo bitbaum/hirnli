@@ -15,6 +15,7 @@ import {
   GesuchEvidenceSection,
   GesuchContactSection,
 } from '@/components/gesuch/sections';
+import { VorlageBanner } from '@/components/gesuch/GesuchDocumentBanners';
 
 interface Props {
   params: Promise<{ vorlage: string }>;
@@ -68,15 +69,10 @@ export default async function GesuchVorlagePage({ params }: Props) {
   return (
     <div className="gesuch-page">
       {/* VORLAGE banner */}
-      <div className="mb-4 rounded-lg border-2 border-warning bg-warning-bg p-4 text-center print:hidden">
-        <p className="heading-detail text-warning">
-          {bannerTitle}
-        </p>
-        <p className="mt-1 text-sm text-text-light">
-          Dies ist eine generische Vorlage. Felder wie <span className="font-mono">[Name der Stiftung]</span> müssen
-          vor dem Versand durch die tatsächlichen Angaben ersetzt werden.
-        </p>
-      </div>
+      <VorlageBanner title={bannerTitle} className="mb-4 print:hidden">
+        Dies ist eine generische Vorlage. Felder wie <span className="font-mono">[Name der Stiftung]</span> müssen
+        vor dem Versand durch die tatsächlichen Angaben ersetzt werden.
+      </VorlageBanner>
 
       <GesuchHeroSection
         subtitle={heroSubtitle}

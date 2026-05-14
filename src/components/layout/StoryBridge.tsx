@@ -52,7 +52,7 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
                 </div>
               )}
               <div className="flex-1">
-                <div className="mb-1 font-semibold text-grey-dark group-hover:text-primary">
+                <div className="mb-1 heading-item group-hover:text-primary">
                   {bridge.title}
                 </div>
                 <div className="text-sm text-text-light">

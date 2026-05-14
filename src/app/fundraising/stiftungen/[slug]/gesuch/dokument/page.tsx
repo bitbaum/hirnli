@@ -12,6 +12,7 @@ import {
   BudgetSection,
   KurzportraitSection,
 } from '@/components/gesuch/sections';
+import { PrintTipBanner } from '@/components/gesuch/GesuchDocumentBanners';
 
 export const dynamic = 'force-dynamic';
 
@@ -67,26 +68,22 @@ export default async function GesuchDokumentPage({ params, searchParams }: Props
   return (
     <div className="gesuch-dokument mx-auto max-w-3xl">
       {/* Print instructions bar */}
-      <div className="mb-8 rounded-lg border border-primary/20 bg-primary/5 p-4 text-center text-sm text-text-light print:hidden">
-        <strong>Tipp:</strong> Drücken Sie Cmd+P (Mac) oder Ctrl+P (Windows/Linux) für eine saubere A4-PDF-Ausgabe,
-        oder öffnen Sie das PDF direkt.
-        <div className="mt-2 flex justify-center gap-4">
-          <a
-            href={`/api/pdf/gesuch/${slug}${schwerpunktId ? `?schwerpunkt=${schwerpunktId}` : ''}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-primary hover:underline"
-          >
-            PDF öffnen
-          </a>
-          <Link href={`/fundraising/stiftungen/${slug}/gesuch`} className="text-primary hover:underline">
-            Interaktive Seite
-          </Link>
-          <Link href={`/fundraising/stiftungen/${slug}`} className="text-primary hover:underline">
-            Stiftungsdetail
-          </Link>
-        </div>
-      </div>
+      <PrintTipBanner className="mb-8 print:hidden" suffix=", oder öffnen Sie das PDF direkt.">
+        <a
+          href={`/api/pdf/gesuch/${slug}${schwerpunktId ? `?schwerpunkt=${schwerpunktId}` : ''}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-primary hover:underline"
+        >
+          PDF öffnen
+        </a>
+        <Link href={`/fundraising/stiftungen/${slug}/gesuch`} className="text-primary hover:underline">
+          Interaktive Seite
+        </Link>
+        <Link href={`/fundraising/stiftungen/${slug}`} className="text-primary hover:underline">
+          Stiftungsdetail
+        </Link>
+      </PrintTipBanner>
 
       <AnschreibenSection dok={dok} />
       <ProjektbeschriebSection dok={dok} />

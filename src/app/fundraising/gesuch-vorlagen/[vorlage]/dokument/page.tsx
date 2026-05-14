@@ -11,6 +11,7 @@ import {
   BudgetSection,
   KurzportraitSection,
 } from '@/components/gesuch/sections';
+import { VorlageBanner, PrintTipBanner } from '@/components/gesuch/GesuchDocumentBanners';
 
 interface Props {
   params: Promise<{ vorlage: string }>;
@@ -58,25 +59,17 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
     <div className="gesuch-dokument mx-auto max-w-3xl">
       {/* VORLAGE banner + print bar */}
       <div className="mb-8 space-y-3 print:hidden">
-        <div className="rounded-lg border-2 border-warning bg-warning-bg p-4 text-center">
-          <p className="heading-detail text-warning">
-            {bannerTitle}
-          </p>
-          <p className="mt-1 text-sm text-text-light">
-            Platzhalterfelder wie <span className="font-mono">[Name der Stiftung]</span> vor dem Versand ersetzen.
-          </p>
-        </div>
-        <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-center text-sm text-text-light">
-          <strong>Tipp:</strong> Drücken Sie Cmd+P (Mac) oder Ctrl+P (Windows/Linux) für eine saubere A4-PDF-Ausgabe.
-          <div className="mt-2 flex justify-center gap-4">
-            <Link href={`/fundraising/gesuch-vorlagen/${type}`} className="text-primary hover:underline">
-              Interaktive Seite
-            </Link>
-            <Link href="/fundraising/gesuch-vorlagen" className="text-primary hover:underline">
-              Alle Vorlagen
-            </Link>
-          </div>
-        </div>
+        <VorlageBanner title={bannerTitle}>
+          Platzhalterfelder wie <span className="font-mono">[Name der Stiftung]</span> vor dem Versand ersetzen.
+        </VorlageBanner>
+        <PrintTipBanner>
+          <Link href={`/fundraising/gesuch-vorlagen/${type}`} className="text-primary hover:underline">
+            Interaktive Seite
+          </Link>
+          <Link href="/fundraising/gesuch-vorlagen" className="text-primary hover:underline">
+            Alle Vorlagen
+          </Link>
+        </PrintTipBanner>
       </div>
 
       <AnschreibenSection dok={dok} />

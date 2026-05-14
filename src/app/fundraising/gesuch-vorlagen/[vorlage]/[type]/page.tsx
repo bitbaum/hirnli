@@ -15,6 +15,7 @@ import {
   GesuchEvidenceSection,
   GesuchContactSection,
 } from '@/components/gesuch/sections';
+import { VorlageBanner } from '@/components/gesuch/GesuchDocumentBanners';
 
 interface Props {
   params: Promise<{ vorlage: string; type: string }>;
@@ -53,15 +54,10 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
   return (
     <div className="gesuch-page">
       {/* VORLAGE banner */}
-      <div className="mb-4 rounded-lg border-2 border-warning bg-warning-bg p-4 text-center print:hidden">
-        <p className="heading-detail text-warning">
-          {bannerTitle}
-        </p>
-        <p className="mt-1 text-sm text-text-light">
-          Schwerpunkt: <strong>{sp.label}</strong> |
-          Felder wie <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">[Name der Stiftung]</span> vor dem Versand ersetzen.
-        </p>
-      </div>
+      <VorlageBanner title={bannerTitle} className="mb-4 print:hidden">
+        Schwerpunkt: <strong>{sp.label}</strong> |
+        Felder wie <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">[Name der Stiftung]</span> vor dem Versand ersetzen.
+      </VorlageBanner>
 
       <GesuchHeroSection
         subtitle={`Partnerschaftsvorschlag \u2014 ${sp.shortLabel} (Typ ${typeLabel.short})`}

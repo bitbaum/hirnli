@@ -66,7 +66,7 @@ export function PlatformGuide() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
-                    <div className="font-semibold text-grey-dark group-hover:text-primary">
+                    <div className="heading-item group-hover:text-primary">
                       {s.title}
                     </div>
                     <span className="text-text-light group-hover:text-primary ml-2 flex-shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
