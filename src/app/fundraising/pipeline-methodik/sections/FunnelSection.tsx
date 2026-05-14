@@ -37,7 +37,7 @@ function FunnelStage({ number, title, question, count, countLabel, method, cost,
           </div>
         </div>
         <div className="text-right">
-          <span className="block text-2xl font-bold tabular-nums text-grey-dark">{count}</span>
+          <span className="block heading-section tabular-nums">{count}</span>
           <span className="text-xs text-text-muted">{countLabel}</span>
         </div>
       </div>

@@ -39,7 +39,7 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
           <strong>Aktuell:</strong> {formatCHF(REVENUE_CURRENT_TOTAL)}/Jahr
           (B2B Services + Geräteverkauf + Integration + Spenden)
         </p>
-        <p className="text-base font-semibold text-success mb-1">
+        <p className="heading-item text-success mb-1">
           <strong>Ziel Jahr 3:</strong> {formatCHF(REVENUE_YEAR3_TOTAL)}/Jahr (Prognose)
           — das wäre +{Math.round(((REVENUE_YEAR3_TOTAL - REVENUE_CURRENT_TOTAL) / REVENUE_CURRENT_TOTAL) * 100)}% Wachstum
         </p>

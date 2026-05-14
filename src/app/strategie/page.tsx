@@ -37,7 +37,7 @@ export default function StrategiePage() {
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Mission</h2>
         <Card className="border-l-4 border-l-success bg-success/10">
-          <p className="text-lg font-semibold text-success">
+          <p className="heading-card text-success">
             {ORG_PROFILE.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und Lebensdauerverlängerung.
           </p>
           <p className="mt-3 text-sm text-text-light">

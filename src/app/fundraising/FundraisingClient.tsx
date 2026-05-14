@@ -80,7 +80,7 @@ export default function FundraisingClient() {
           {HERO_STATS.map((item) => (
             <div key={item.label} className="rounded-xl bg-white/15 p-4 text-center">
               <div className="text-sm font-semibold">{item.label}</div>
-              <div className="text-2xl font-bold">{item.value}</div>
+              <div className="heading-section text-white">{item.value}</div>
               <div className="text-sm opacity-90">{item.sub}</div>
             </div>
           ))}

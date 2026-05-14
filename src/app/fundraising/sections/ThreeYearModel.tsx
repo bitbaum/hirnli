@@ -58,7 +58,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
                     : `${year.year}: Degressives Modell gemäss DEGRESSIVE_CONFIG.`,
                 }}
                 inspector={inspector}
-                className="mb-4 text-2xl font-bold tabular-nums text-grey-dark"
+                className="mb-4 heading-section tabular-nums"
               >
                 {formatCHF(year.total)}
               </Inspectable>

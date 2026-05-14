@@ -16,7 +16,7 @@ export default function CommunityTechSpaceSection() {
   return (
     <section id="community-tech-space" className="mb-8">
       <div className="mb-6 rounded-2xl gradient-hero-community p-6 text-white md:p-8">
-        <h2 className="text-2xl font-bold mb-4 md:text-3xl">Community Tech Space</h2>
+        <h2 className="heading-section mb-4 text-white md:text-3xl">Community Tech Space</h2>
         <p className="text-base mb-3 leading-relaxed md:text-lg">
           <strong className="text-warning">⏰ Deadline: Ende 2026</strong> — Wir müssen unser aktuelles Lokal verlassen.
         </p>
