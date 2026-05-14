@@ -69,7 +69,7 @@ function TimingBlock({ info }: { info: SubmissionInfo }) {
           <SectionLabel>Eingabeschluss</SectionLabel>
           {info.deadlineText && <p className="text-sm text-text">{info.deadlineText}</p>}
           {days !== null && (
-            <p className={`text-sm font-semibold ${deadlineUrgent ? 'text-danger' : 'text-text-muted'}`}>
+            <p className={`heading-detail ${deadlineUrgent ? 'text-danger' : 'text-text-muted'}`}>
               {days > 0
                 ? `Noch ${days} Tag${days === 1 ? '' : 'e'}`
                 : days === 0

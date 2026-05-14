@@ -96,7 +96,7 @@ export default function SovereigntyPillar({
                       ${colors.ring} focus:outline-none focus:ring-2
                     `}
                   >
-                    <div className={`text-sm font-semibold ${colors.text}`}>{page.title}</div>
+                    <div className={`heading-detail ${colors.text}`}>{page.title}</div>
                     <div className={`text-sm ${colors.text} mt-0.5`}>{page.reason}</div>
                   </Link>
                 ))}

@@ -14,7 +14,7 @@ function CompactTierCard({ tier }: { tier: CascadeTier }) {
     <div className={`rounded-lg border-l-4 ${tier.color.border} ${tier.color.bg} p-3`}>
       <div className="flex items-center gap-2 mb-1">
         <span className="text-lg">{tier.icon}</span>
-        <span className={`text-sm font-semibold ${tier.color.text}`}>
+        <span className={`heading-detail ${tier.color.text}`}>
           {tier.shortName}
         </span>
         <Badge variant="raw" className={`ml-auto ${tier.color.badgeBg} ${tier.color.badgeText}`}>
