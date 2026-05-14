@@ -213,7 +213,7 @@ export default function WirkungClient() {
           {DATA_GAPS.map((gap) => (
             <div key={gap.title} className="rounded-lg bg-white p-3 text-center">
               <div className="mb-1 text-2xl opacity-50">{gap.icon}</div>
-              <p className="text-sm font-semibold">{gap.title}</p>
+              <p className="heading-detail">{gap.title}</p>
               <p className="text-sm text-text-muted">{gap.desc}</p>
             </div>
           ))}

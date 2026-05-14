@@ -146,19 +146,19 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
 
               <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-3">
                 <div>
-                  <p className="mb-1 font-semibold text-primary">Ziele</p>
+                  <p className="mb-1 heading-detail text-primary">Ziele</p>
                   <ul className="text-text-light">
                     {project.goals.map((g) => <li key={g}>• {g}</li>)}
                   </ul>
                 </div>
                 <div>
-                  <p className="mb-1 font-semibold text-accent">Massnahmen</p>
+                  <p className="mb-1 heading-detail text-accent">Massnahmen</p>
                   <ul className="text-text-light">
                     {project.activities.map((a) => <li key={a}>• {a}</li>)}
                   </ul>
                 </div>
                 <div>
-                  <p className="mb-1 font-semibold text-secondary">Erwartete Wirkung</p>
+                  <p className="mb-1 heading-detail text-secondary">Erwartete Wirkung</p>
                   <ul className="text-text-light">
                     {project.outcomes.map((o) => <li key={o}>• {o}</li>)}
                   </ul>

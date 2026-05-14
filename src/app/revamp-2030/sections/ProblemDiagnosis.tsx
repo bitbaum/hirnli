@@ -13,7 +13,7 @@ export default function ProblemDiagnosis() {
             <h3 className="heading-card font-bold text-danger mb-3">Unsere Kapazitäts-Grenzen (ehrliche Diagnose)</h3>
             <div className="space-y-4 text-sm text-danger">
               <div>
-                <p className="font-semibold mb-2">Hardware-Refurbishment: Potential nicht ausgeschöpft</p>
+                <p className="heading-detail text-danger mb-2">Hardware-Refurbishment: Potential nicht ausgeschöpft</p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li><strong>{REPAIR_TABLES_CURRENT} Reparaturtische vorhanden</strong> — Kapazität für paralleles Arbeiten ist da</li>
                   <li>Engagiertes Team: Praktikanten, Freiwillige, Reintegrations-Mitarbeiter (GEP-Programm)</li>
@@ -27,7 +27,7 @@ export default function ProblemDiagnosis() {
               </div>
 
               <div>
-                <p className="font-semibold mb-2">Software/AI: Gute Fortschritte, aber zeitliche Engpässe</p>
+                <p className="heading-detail text-danger mb-2">Software/AI: Gute Fortschritte, aber zeitliche Engpässe</p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>Web-Entwicklung läuft aktiv — Team arbeitet fokussiert an internen Systemen (Kivitendo-Integration, Datenerfassung)</li>
                   <li>Effizienz-Systeme werden entwickelt (automatische Erfassung, Prozessoptimierung)</li>
