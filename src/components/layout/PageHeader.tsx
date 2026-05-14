@@ -13,7 +13,7 @@ export default function PageHeader({ title, subtitle, badge, variant = 'default'
   if (variant === 'hero') {
     return (
       <div className={`${heroGradient} mb-8 rounded-2xl p-8 text-white`}>
-        <h1 className="mb-2 text-2xl font-bold md:text-3xl">{title}</h1>
+        <h1 className="mb-2 heading-section text-white md:text-3xl">{title}</h1>
         {subtitle && <p className="text-lg opacity-90">{subtitle}</p>}
         {children}
       </div>
