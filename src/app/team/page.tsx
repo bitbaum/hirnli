@@ -188,12 +188,12 @@ export default function TeamPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <div className="text-sm text-text-muted mb-1">Direkt trainiert</div>
-                <div className="text-3xl font-bold text-primary">{MULTIPLICATION_EFFECT.combined.direct_training}</div>
+                <div className="heading-stat text-primary">{MULTIPLICATION_EFFECT.combined.direct_training}</div>
                 <div className="text-xs text-text-muted">Menschen/Jahr</div>
               </div>
               <div>
                 <div className="text-sm text-text-muted mb-1">Mit Workshops erreicht</div>
-                <div className="text-3xl font-bold text-pillar-vision">{MULTIPLICATION_EFFECT.combined.people_reached_with_workshops}</div>
+                <div className="heading-stat text-pillar-vision">{MULTIPLICATION_EFFECT.combined.people_reached_with_workshops}</div>
                 <div className="text-xs text-text-muted">Menschen/Jahr (konservativ)</div>
               </div>
             </div>

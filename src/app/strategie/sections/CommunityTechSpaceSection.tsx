@@ -25,15 +25,15 @@ export default function CommunityTechSpaceSection() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
           <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-            <div className="text-3xl font-bold">{HUB_SPACE_DISPLAY}</div>
+            <div className="heading-stat text-white">{HUB_SPACE_DISPLAY}</div>
             <div className="text-sm opacity-90">Werkstatt, Events, Schulung, Kultur</div>
           </div>
           <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-            <div className="text-3xl font-bold">3 Jahre</div>
+            <div className="heading-stat text-white">3 Jahre</div>
             <div className="text-sm opacity-90">Aufbauphase mit Stiftungsfinanzierung</div>
           </div>
           <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-            <div className="text-3xl font-bold">{DEVICES_PER_YEAR_TARGET_DISPLAY}</div>
+            <div className="heading-stat text-white">{DEVICES_PER_YEAR_TARGET_DISPLAY}</div>
             <div className="text-sm opacity-90">Geräte/Jahr Zielkapazität (Jahr 3)</div>
           </div>
         </div>

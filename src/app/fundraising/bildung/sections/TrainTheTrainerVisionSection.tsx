@@ -17,15 +17,15 @@ export default function TrainTheTrainerVisionSection() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white/10 rounded-lg p-4 text-center backdrop-blur">
-            <div className="text-3xl font-bold">2 VZÄ</div>
+            <div className="heading-stat text-white">2 VZÄ</div>
             <div className="text-sm opacity-90">Bildungsprogrammleiter:innen</div>
           </div>
           <div className="bg-white/10 rounded-lg p-4 text-center backdrop-blur">
-            <div className="text-3xl font-bold">{BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY}</div>
+            <div className="heading-stat text-white">{BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY}</div>
             <div className="text-sm opacity-90">Direkt trainiert/Jahr</div>
           </div>
           <div className="bg-white/10 rounded-lg p-4 text-center backdrop-blur">
-            <div className="text-3xl font-bold">{PEOPLE_REACHED_PER_YEAR}</div>
+            <div className="heading-stat text-white">{PEOPLE_REACHED_PER_YEAR}</div>
             <div className="text-sm opacity-90">Mit Workshops erreicht/Jahr</div>
           </div>
         </div>

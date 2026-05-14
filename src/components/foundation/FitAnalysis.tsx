@@ -24,7 +24,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
       {isUnassessed ? (
         <div className="mb-4 rounded-lg border border-border bg-bg-light p-4">
           <div className="flex items-center gap-3">
-            <span className="text-3xl font-bold text-text-muted">○○○</span>
+            <span className="heading-stat text-text-muted">○○○</span>
             <div>
               <span className="text-lg font-semibold text-text-muted">Noch nicht geprüft</span>
               <p className="text-sm text-text-light">
@@ -41,7 +41,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
         </div>
       ) : (
         <div className="mb-4 flex items-center gap-3">
-          <span className={`text-3xl font-bold ${fit.color}`}>{f.fitScore}/10</span>
+          <span className={`heading-stat ${fit.color}`}>{f.fitScore}/10</span>
           <div>
             <span className={`text-lg font-semibold ${fit.color}`}>{fit.label}</span>
             <p className="text-sm text-text-light">{fit.description}</p>

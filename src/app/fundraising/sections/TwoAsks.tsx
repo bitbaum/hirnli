@@ -69,7 +69,7 @@ export default function TwoAsks() {
         <div className="mt-2 text-lg text-grey-dark">
           Bessere Prozesse + strukturierte Bildung + diversifizierte Einnahmen
         </div>
-        <div className="mt-2 text-3xl font-bold text-primary">
+        <div className="mt-2 heading-stat text-primary">
           {DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr + {PEOPLE_REACHED_DISPLAY} trainiert
         </div>
         <div className="mt-3 text-sm text-text-light">

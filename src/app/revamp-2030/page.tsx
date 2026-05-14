@@ -46,7 +46,7 @@ export default function Revamp2030Page() {
       {/* Vision 2030 */}
       <section className="mb-8">
         <div className="gradient-hero-vision rounded-2xl p-8 text-white">
-          <h2 className="text-3xl font-bold mb-4">Vision 2030</h2>
+          <h2 className="heading-stat mb-4 text-white">Vision 2030</h2>
           <p className="text-xl mb-6 leading-relaxed">
             <strong>Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder Technologie ausgeschlossen.</strong>
           </p>

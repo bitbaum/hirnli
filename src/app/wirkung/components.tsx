@@ -73,7 +73,7 @@ export function ImpactStoryCards({
             <h3 className="heading-card text-white">Ökologische Wirkung</h3>
           </div>
           <div className="p-4">
-            <div className="mb-2 text-3xl font-bold">~{co2Avoided} t</div>
+            <div className="mb-2 heading-stat">~{co2Avoided} t</div>
             <p className="mb-2 text-sm text-text-muted">CO₂ vermieden durch Wiederverwendung</p>
             <Badge variant="estimated">Schätzung</Badge>
             <p className="mt-3 text-sm text-text-muted">
@@ -95,7 +95,7 @@ export function ImpactStoryCards({
             <h3 className="heading-card text-white">Ressourcenschonung</h3>
           </div>
           <div className="p-4">
-            <div className="mb-2 text-3xl font-bold">~{formatNumber(eWaste)} kg</div>
+            <div className="mb-2 heading-stat">~{formatNumber(eWaste)} kg</div>
             <p className="mb-2 text-sm text-text-muted">Elektroschrott vermieden</p>
             <Badge variant="estimated">Schätzung</Badge>
             <p className="mt-3 text-sm text-text-muted">
@@ -118,7 +118,7 @@ export function ImpactStoryCards({
             <h3 className="heading-card text-white">Soziale Integration</h3>
           </div>
           <div className="p-4">
-            <div className="mb-2 text-3xl font-bold text-text-muted">?</div>
+            <div className="mb-2 heading-stat text-text-muted">?</div>
             <p className="mb-2 text-sm text-text-muted">Praktikant:innen & Teilnehmende</p>
             <Badge variant="none">Nicht erfasst</Badge>
             <div className="mt-3 rounded-lg bg-danger/10 p-3">
