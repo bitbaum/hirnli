@@ -11,6 +11,7 @@ import {
   getCombinedSpaceCost,
   getSpaceCostDisplay,
 } from '@/lib/config/projections';
+import { CULTURE_ASPIRATIONAL_COSTS } from '@/lib/config/hub-space-plan';
 
 const HERO_STATS = [
   { value: HUB_SPACE_DISPLAY, label: 'Werkstatt, Events, Schulung, Kultur' },
@@ -137,7 +138,7 @@ export default function CommunityTechSpaceSection() {
             capacity="30-40 Besucher gleichzeitig"
             targetAudience="Schulklassen, Tech-Nostalgiker, Familien"
             sdgs={['SDG 4', 'SDG 11']}
-            estimatedCost="CHF 50'000 (Vitrinen, Ausstellungskonzept, Objekte)"
+            estimatedCost={`${formatCHF(CULTURE_ASPIRATIONAL_COSTS.computer_museum)} (Vitrinen, Ausstellungskonzept, Objekte)`}
           />
         </div>
       </div>
