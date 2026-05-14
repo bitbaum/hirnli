@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------------------
 
 import { AVG_DEVICE_PRICE } from '@/lib/config/numbers';
+import Callout from '@/components/ui/Callout';
 import { FormulaBox, MethodologySection } from './MethodologyHelpers';
 
 export function DeviceEstimationSection() {
@@ -39,12 +40,12 @@ export function DeviceEstimationSection() {
         <li>Durchschnittspreis ist Schätzung, nicht berechnet</li>
       </ul>
 
-      <div className="rounded-lg border-l-4 border-danger bg-danger-bg p-4">
+      <Callout color="danger">
         <p className="text-sm font-medium text-danger">
           KRITISCH: Stückzahlen sollten in Kivitendo erfasst werden.
           Das würde diese Schätzung überflüssig machen.
         </p>
-      </div>
+      </Callout>
     </MethodologySection>
   );
 }
