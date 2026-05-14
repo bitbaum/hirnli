@@ -12,6 +12,12 @@ import {
   getSpaceCostDisplay,
 } from '@/lib/config/projections';
 
+const HERO_STATS = [
+  { value: HUB_SPACE_DISPLAY, label: 'Werkstatt, Events, Schulung, Kultur' },
+  { value: '3 Jahre', label: 'Aufbauphase mit Stiftungsfinanzierung' },
+  { value: DEVICES_PER_YEAR_TARGET_DISPLAY, label: 'Geräte/Jahr Zielkapazität (Jahr 3)' },
+];
+
 export default function CommunityTechSpaceSection() {
   return (
     <section id="community-tech-space" className="mb-8">
@@ -24,18 +30,12 @@ export default function CommunityTechSpaceSection() {
           Das ist unsere Chance, etwas Grösseres zu schaffen: Ein Ort, an dem <strong>Nachhaltigkeit, Technologie und Gemeinschaft</strong> zusammenkommen.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-            <div className="heading-stat text-white">{HUB_SPACE_DISPLAY}</div>
-            <div className="text-sm opacity-90">Werkstatt, Events, Schulung, Kultur</div>
-          </div>
-          <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-            <div className="heading-stat text-white">3 Jahre</div>
-            <div className="text-sm opacity-90">Aufbauphase mit Stiftungsfinanzierung</div>
-          </div>
-          <div className="bg-white/10 rounded-lg p-4 backdrop-blur">
-            <div className="heading-stat text-white">{DEVICES_PER_YEAR_TARGET_DISPLAY}</div>
-            <div className="text-sm opacity-90">Geräte/Jahr Zielkapazität (Jahr 3)</div>
-          </div>
+          {HERO_STATS.map((stat) => (
+            <div key={stat.label} className="bg-white/10 rounded-lg p-4 backdrop-blur">
+              <div className="heading-stat text-white">{stat.value}</div>
+              <div className="text-sm opacity-90">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
