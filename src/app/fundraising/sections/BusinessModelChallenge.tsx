@@ -14,7 +14,7 @@ export default function BusinessModelChallenge() {
           </p>
 
           <Callout color="warning" className="my-4">
-            <p className="text-warning font-semibold mb-2">Warum wir nicht einfach &bdquo;mehr verkaufen&ldquo; können:</p>
+            <p className="heading-detail text-warning mb-2">Warum wir nicht einfach &bdquo;mehr verkaufen&ldquo; können:</p>
             <ul className="text-warning space-y-2 mb-0">
               <li>Unser Kivitendo-System braucht dringend eine Überarbeitung — aber uns fehlen die Ressourcen</li>
               <li>Web-Design-Praxis ist aus demselben Grund nicht funktionsfähig</li>

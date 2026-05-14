@@ -40,7 +40,7 @@ export default function WhyWeNeedFunding() {
           </p>
 
           <Callout color="warning" className="my-4">
-            <p className="text-warning font-semibold mb-2">Das Problem in einem Satz:</p>
+            <p className="heading-detail text-warning mb-2">Das Problem in einem Satz:</p>
             <p className="text-warning mb-0">
               Wir haben {TEAM_MEMBERS.length} Menschen im Team (Techniker, Betrieb, Leitung) — aber zu wenig bezahlte Kapazität und keine
               dedizierte Bildungsstruktur, um Prozesse zu professionalisieren und das volle Potenzial auszuschöpfen.

@@ -38,7 +38,7 @@ export default function SpaceConcept() {
         </div>
 
         <Callout color="success" className="my-4">
-          <p className="font-semibold text-success mb-2">Warum so viel Raum?</p>
+          <p className="heading-detail text-success mb-2">Warum so viel Raum?</p>
           <p className="text-success">
             Unser Ziel ist <strong>{DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr bis Ende Jahr 3</strong> (von aktuell {DEVICES_PER_YEAR_CURRENT_DISPLAY}/Jahr geschätzt).
             Dafür brauchen wir effizientere Infrastruktur und strukturierte Prozesse.

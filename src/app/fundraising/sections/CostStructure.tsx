@@ -30,7 +30,7 @@ export default function CostStructure() {
         </ul>
 
         <Callout color="danger" className="my-4">
-          <p className="font-semibold text-danger mb-2">Das Problem:</p>
+          <p className="heading-detail text-danger mb-2">Das Problem:</p>
           <p className="text-danger">
             Die Miete allein ({formatCHF(COST_STRUCTURE_2023.categories[0].amount)}) übersteigt unsere gesamten Einnahmen 2025 ({formatCHF(FINANCIAL_CONTEXT.total_2025)}).
             Die Ausgaben 2023 waren <strong>{Math.round((COST_STRUCTURE_2023.totalExpenses / COST_STRUCTURE_2023.totalRevenue) * 100)}% der Einnahmen</strong> — das ist nicht nachhaltig.
