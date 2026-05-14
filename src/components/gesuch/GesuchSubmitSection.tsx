@@ -17,6 +17,7 @@ import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 import { Button } from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
 import CopyButton from '@/components/ui/CopyButton';
 
 export interface SubmissionInfo {
@@ -56,7 +57,7 @@ function TimingBlock({ info }: { info: SubmissionInfo }) {
   if (!info.responseTime && !info.deadlineText && days === null) return null;
 
   return (
-    <div className="space-y-3 rounded-xl border border-border bg-bg-light p-4">
+    <Card variant="muted" padding={false} className="space-y-3 p-4">
       {info.responseTime && (
         <div>
           <SectionLabel>Antwortzeit</SectionLabel>
@@ -78,7 +79,7 @@ function TimingBlock({ info }: { info: SubmissionInfo }) {
           )}
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 

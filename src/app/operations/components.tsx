@@ -4,6 +4,7 @@
 
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import Callout from '@/components/ui/Callout';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import {
   VISUAL_INSPECTION, COMPONENT_CHECK, HARDWARE_TESTS, CATEGORIES,
@@ -201,9 +202,9 @@ export function WarehouseSection() {
           <CardHeader>
             <CardTitle>Kapazitäts-Regeln</CardTitle>
           </CardHeader>
-          <div className="mb-4 rounded-lg border-l-4 border-l-warning bg-warning/10 p-3">
+          <Callout color="warning" className="mb-4 p-3">
             <strong className="text-sm">Wenn Lager &gt; 200 Geräte:</strong>
-          </div>
+          </Callout>
           <ul className="list-disc space-y-2 pl-5 text-sm text-text-light">
             <li>Annahmestopp für &ldquo;Low Quality&rdquo;</li>
             <li>Sofortiger &ldquo;Sale&rdquo; (Rabattaktion)</li>

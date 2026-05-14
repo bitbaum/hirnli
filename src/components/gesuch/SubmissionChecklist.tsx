@@ -6,6 +6,7 @@
  */
 
 import { useState } from 'react';
+import Card from '@/components/ui/Card';
 
 const ITEMS = [
   { id: 'pdf', label: 'PDF heruntergeladen und geprüft' },
@@ -24,7 +25,7 @@ export default function SubmissionChecklist() {
   const allChecked = ITEMS.every((item) => checked[item.id]);
 
   return (
-    <div className="rounded-xl border border-border bg-bg-light p-4 print:hidden">
+    <Card variant="muted" padding={false} className="p-4 print:hidden">
       <p className="mb-3 heading-detail">Checkliste vor Einreichung</p>
       <div className="space-y-2">
         {ITEMS.map((item) => (
@@ -46,6 +47,6 @@ export default function SubmissionChecklist() {
           Alles bereit — Gesuch kann eingereicht werden.
         </p>
       )}
-    </div>
+    </Card>
   );
 }

@@ -1,16 +1,20 @@
+type CardVariant = 'default' | 'muted';
+
+const BASE: Record<CardVariant, string> = {
+  default: 'rounded-lg border border-border bg-white shadow-sm',
+  muted: 'rounded-xl border border-border bg-bg-light',
+};
+
 interface CardProps {
+  variant?: CardVariant;
   children: React.ReactNode;
   className?: string;
   padding?: boolean;
 }
 
-export default function Card({ children, className = '', padding = true }: CardProps) {
+export default function Card({ variant = 'default', children, className = '', padding = true }: CardProps) {
   return (
-    <div
-      className={`rounded-lg border border-border bg-white shadow-sm ${
-        padding ? 'p-6' : ''
-      } ${className}`}
-    >
+    <div className={`${BASE[variant]} ${padding ? 'p-6' : ''} ${className}`}>
       {children}
     </div>
   );

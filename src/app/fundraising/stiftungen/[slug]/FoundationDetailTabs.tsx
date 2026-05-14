@@ -1,6 +1,7 @@
 'use client';
 
 import Tabs from '@/components/ui/Tabs';
+import Callout from '@/components/ui/Callout';
 import FitAnalysis from '@/components/foundation/FitAnalysis';
 import ApproachChecklist from '@/components/foundation/ApproachChecklist';
 import Card from '@/components/ui/Card';
@@ -57,9 +58,9 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
   return (
     <>
       {showTrustWarning && (
-        <div className="mb-4 rounded-lg border border-warning/30 bg-warning/10 px-4 py-3 text-sm font-medium text-warning">
+        <Callout color="warning" className="mb-4 text-sm font-medium">
           Automatisch eingestuft — Fit-Score und Priorität basieren auf KI-Analyse, nicht auf manueller Recherche. Vor einer Bewerbung bitte über die Recherche-Links verifizieren.
-        </div>
+        </Callout>
       )}
       {banner && (
         <div className={`mb-4 rounded-lg border px-4 py-3 text-sm font-medium ${banner.className}`}>

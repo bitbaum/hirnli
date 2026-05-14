@@ -6,6 +6,7 @@ import GesuchSubmitSection from '@/components/gesuch/GesuchSubmitSection';
 import type { SubmissionInfo } from '@/components/gesuch/GesuchSubmitSection';
 import ActivityTimeline from '@/components/ui/ActivityTimeline';
 import SubmissionChecklist from '@/components/gesuch/SubmissionChecklist';
+import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 
 interface StepSubmitProps {
@@ -48,7 +49,7 @@ export default function StepSubmit({
           <h3 className="heading-item">Dokument erstellen</h3>
 
           {/* Full PDF */}
-          <div className="rounded-xl border border-border bg-bg-light p-5">
+          <Card variant="muted" padding={false} className="p-5">
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p className="heading-detail">Vollständiges Gesuch (PDF)</p>
@@ -65,10 +66,10 @@ export default function StepSubmit({
             >
               PDF öffnen
             </Button>
-          </div>
+          </Card>
 
           {/* One-pager PDF */}
-          <div className="rounded-xl border border-border bg-bg-light p-5">
+          <Card variant="muted" padding={false} className="p-5">
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p className="heading-detail">Kurzübersicht (1 Seite)</p>
@@ -85,10 +86,10 @@ export default function StepSubmit({
             >
               PDF öffnen
             </Button>
-          </div>
+          </Card>
 
           {/* Shareable link */}
-          <div className="rounded-xl border border-border bg-bg-light p-5">
+          <Card variant="muted" padding={false} className="p-5">
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p className="heading-detail">Öffentlicher Link</p>
@@ -110,7 +111,7 @@ export default function StepSubmit({
                 Setze <code className="rounded bg-bg px-1 py-0.5 font-mono">SHARE_SECRET</code> in den Umgebungsvariablen, um Links zu aktivieren.
               </p>
             )}
-          </div>
+          </Card>
 
           {/* Secondary: HTML preview */}
           <Link

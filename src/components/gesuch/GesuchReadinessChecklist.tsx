@@ -6,6 +6,7 @@
 
 import type { GesuchReadiness } from '@/lib/domain/gesuch-readiness';
 import Badge from '@/components/ui/Badge';
+import Card from '@/components/ui/Card';
 
 const GESUCH_SCORE_WARNING = 40;
 
@@ -17,7 +18,7 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
   const { score, checks, ready } = readiness;
 
   return (
-    <div className="rounded-xl border border-border bg-bg-light p-4 print:hidden">
+    <Card variant="muted" padding={false} className="p-4 print:hidden">
       <div className="flex items-center justify-between mb-3">
         <p className="heading-detail">Bereitschaft</p>
         <Badge variant="raw" className={
@@ -48,6 +49,6 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
           </div>
         ))}
       </div>
-    </div>
+    </Card>
   );
 }

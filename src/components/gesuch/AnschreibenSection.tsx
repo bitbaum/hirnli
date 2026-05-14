@@ -1,6 +1,7 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { formatCHF } from '@/lib/utils/format';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import Callout from '@/components/ui/Callout';
 
 interface AnschreibenSectionProps {
   dok: ComposedGesuchDokument;
@@ -22,9 +23,9 @@ export default function AnschreibenSection({ dok }: AnschreibenSectionProps) {
           {dok.anschreiben.foundationAddress}
         </div>
       ) : (
-        <div className="mb-6 rounded border border-warning/30 bg-warning/10 px-4 py-3 text-sm text-warning">
+        <Callout color="warning" className="mb-6 text-sm">
           ⚠ Adresse der Stiftung fehlt — bitte vor dem Versand in den Stiftungsdaten ergänzen.
-        </div>
+        </Callout>
       )}
 
       {/* Date */}
