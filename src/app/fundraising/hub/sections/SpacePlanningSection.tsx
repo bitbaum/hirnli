@@ -45,7 +45,7 @@ export default function SpacePlanningSection() {
         </div>
 
         <Callout color="warning" className="text-sm">
-          <p className="font-semibold text-warning mb-2">Warum diese Grösse?</p>
+          <p className="heading-detail text-warning mb-2">Warum diese Grösse?</p>
           <p className="text-sm text-warning">
             Basiert auf Industrie-Standards: Auto-Werkstatt mit 2 Hebebühnen = 140-185m² (Baseline für Werkstatt-Dimensionierung).
             Professionelle Reparatur-Arbeitsplätze benötigen <strong>12-18m²</strong> (Werkbank + Lagerfläche + Bewegungsraum).
@@ -105,7 +105,7 @@ export default function SpacePlanningSection() {
         </div>
 
         <Callout color="primary" className="text-sm">
-          <p className="font-semibold text-primary mb-1">Quelle & Methodik:</p>
+          <p className="heading-detail text-primary mb-1">Quelle & Methodik:</p>
           <p className="text-primary">
             Marktforschung basiert auf Homegate.ch, ImmoScout24, Comparis (Februar 2026). Kategorisierung:
             <strong> Agglomeration</strong> ({ZURICH_MARKET_DATA.agglomeration.locations.join(', ')}) vs. <strong>Stadt Zürich</strong> (Zentrale Lagen).
@@ -128,18 +128,18 @@ export default function SpacePlanningSection() {
         </p>
 
         <div className="bg-chart-5/10 p-4 rounded-lg mb-4">
-          <p className="font-semibold text-chart-5 mb-3">Event-Raum + Café (kombiniert 100m²)</p>
+          <p className="heading-detail text-chart-5 mb-3">Event-Raum + Café (kombiniert 100m²)</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
             <div className="bg-white p-3 rounded border border-chart-5/20">
-              <p className="font-semibold text-chart-5 mb-1">Werktag (9-17 Uhr)</p>
+              <p className="heading-detail text-chart-5 mb-1">Werktag (9-17 Uhr)</p>
               <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_day}</p>
             </div>
             <div className="bg-white p-3 rounded border border-chart-5/20">
-              <p className="font-semibold text-chart-5 mb-1">Abends (18-22 Uhr)</p>
+              <p className="heading-detail text-chart-5 mb-1">Abends (18-22 Uhr)</p>
               <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_evening}</p>
             </div>
             <div className="bg-white p-3 rounded border border-chart-5/20">
-              <p className="font-semibold text-chart-5 mb-1">1./3. Samstag</p>
+              <p className="heading-detail text-chart-5 mb-1">1./3. Samstag</p>
               <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.saturday_1st_3rd}</p>
             </div>
           </div>

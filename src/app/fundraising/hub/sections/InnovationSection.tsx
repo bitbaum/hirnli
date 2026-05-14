@@ -87,7 +87,7 @@ export default function InnovationSection() {
 
             <div className="space-y-3">
               <div className="bg-chart-6/10 p-3 rounded-lg">
-                <p className="font-semibold text-chart-6 mb-1">Setup A — Starter (CHF 15&apos;000-20&apos;000)</p>
+                <p className="heading-detail text-chart-6 mb-1">Setup A — Starter (CHF 15&apos;000-20&apos;000)</p>
                 <ul className="text-sm text-chart-6 space-y-1">
                   <li>• 2-4× Consumer GPUs (NVIDIA RTX 3090/4090, gebraucht oder gespendet)</li>
                   <li>• 1× Server-Rack mit Basis-Kühlung</li>
@@ -96,7 +96,7 @@ export default function InnovationSection() {
               </div>
 
               <div className="bg-chart-6/15 p-3 rounded-lg">
-                <p className="font-semibold text-chart-6 mb-1">Setup B — Professional (CHF 40&apos;000-60&apos;000)</p>
+                <p className="heading-detail text-chart-6 mb-1">Setup B — Professional (CHF 40&apos;000-60&apos;000)</p>
                 <ul className="text-sm text-chart-6 space-y-1">
                   <li>• 4-6× Professional GPUs (NVIDIA A40, teilweise gespendet von Unternehmen)</li>
                   <li>• 2× Server-Racks mit professioneller Kühlung</li>
@@ -105,7 +105,7 @@ export default function InnovationSection() {
               </div>
 
               <div className="bg-chart-6/20 p-3 rounded-lg">
-                <p className="font-semibold text-chart-6 mb-1">Setup C — Enterprise (CHF 100&apos;000-150&apos;000)</p>
+                <p className="heading-detail text-chart-6 mb-1">Setup C — Enterprise (CHF 100&apos;000-150&apos;000)</p>
                 <ul className="text-sm text-chart-6 space-y-1">
                   <li>• 8-12× NVIDIA A100 GPUs (Corporate-Spenden + Teilkauf, je CHF 10-15k)</li>
                   <li>• ODER 4-6× NVIDIA H100 GPUs (falls verfügbar, je CHF 25-35k)</li>

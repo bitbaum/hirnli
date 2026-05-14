@@ -154,7 +154,7 @@ export default function TeamPage() {
             </div>
             <div className="space-y-3 text-sm">
               <div className="bg-primary/10 rounded-lg p-3">
-                <div className="font-semibold text-primary mb-1">Direkte Ausbildung</div>
+                <div className="heading-detail text-primary mb-1">Direkte Ausbildung</div>
                 <div className="text-primary">{MULTIPLICATION_EFFECT.hardware_bpl.direct_training} Menschen/Jahr direkt trainiert</div>
               </div>
               <div className="bg-primary/15 rounded-lg p-3 border-l-4 border-primary">
@@ -171,7 +171,7 @@ export default function TeamPage() {
             </div>
             <div className="space-y-3 text-sm">
               <div className="bg-pillar-vision/10 rounded-lg p-3">
-                <div className="font-semibold text-pillar-vision mb-1">Direkte Ausbildung</div>
+                <div className="heading-detail text-pillar-vision mb-1">Direkte Ausbildung</div>
                 <div className="text-pillar-vision">{MULTIPLICATION_EFFECT.software_bpl.direct_training} Entwickler/Jahr direkt trainiert</div>
               </div>
               <div className="bg-pillar-vision/15 rounded-lg p-3 border-l-4 border-pillar-vision">

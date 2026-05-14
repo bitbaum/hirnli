@@ -68,7 +68,7 @@ export default function CoreBusinessSection() {
             </div>
           </div>
           <div className="bg-primary/10 rounded-lg p-4 text-sm">
-            <p className="font-semibold text-primary mb-2">Effizienz durch Prozesse, nicht durch Platz</p>
+            <p className="heading-detail text-primary mb-2">Effizienz durch Prozesse, nicht durch Platz</p>
             <p className="text-primary text-sm">
               Nicht 600m² Werkstatt, sondern <strong>klare Prozesse</strong> mit 2× Bildungsprogrammleitern.
               Sie organisieren Workflows, bilden Techniker aus, koordinieren Freiwillige & Reintegrations-Teilnehmer.
