@@ -75,7 +75,7 @@ export default function TwoAsks() {
         <div className="mt-3 text-sm text-text-light">
           {REVENUE_GROWTH_DISPLAY}
         </div>
-        <div className="mt-1 text-sm font-semibold text-pillar-vision">
+        <div className="mt-1 heading-detail text-pillar-vision">
           + {PEOPLE_REACHED_DISPLAY} in Tech-Bildung & Integration
         </div>
         <div className="mt-4 pt-4 border-t border-border">

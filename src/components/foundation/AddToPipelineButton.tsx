@@ -40,7 +40,7 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
   if (state === 'success') {
     return (
       <div className="space-y-3">
-        <p className="text-sm font-semibold text-success">
+        <p className="heading-detail text-success">
           ✓ {foundationName} zur Pipeline hinzugefügt
         </p>
 

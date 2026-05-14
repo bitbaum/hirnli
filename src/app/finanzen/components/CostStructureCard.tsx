@@ -59,7 +59,7 @@ export function CostStructureCard({ entry }: { entry: AnnualPLEntry }) {
             </div>
           );
         })}
-        <div className="flex items-center justify-between border-t border-border pt-2 text-sm font-semibold">
+        <div className="flex items-center justify-between border-t border-border pt-2 heading-detail">
           <span>Total Aufwand</span>
           <span>{formatCHF(total)}</span>
         </div>
