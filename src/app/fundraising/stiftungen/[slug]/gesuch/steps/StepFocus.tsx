@@ -2,6 +2,7 @@ import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId } from '@/lib/schemas/foundation';
 import SchwerpunktSelector from '@/components/gesuch/SchwerpunktSelector';
 import Badge from '@/components/ui/Badge';
+import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 
 interface StepFocusProps {
@@ -32,7 +33,7 @@ export default function StepFocus({
   return (
     <div className="space-y-8">
       {/* Foundation overview card */}
-      <div className="rounded-xl border border-border bg-bg-light p-6">
+      <Card variant="muted">
         <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="heading-xs-label">Stiftung</p>
@@ -53,7 +54,7 @@ export default function StepFocus({
         {tagline && (
           <p className="mt-2 text-sm italic text-text-muted">&bdquo;{tagline}&ldquo;</p>
         )}
-      </div>
+      </Card>
 
       {/* Schwerpunkt selector */}
       <div>

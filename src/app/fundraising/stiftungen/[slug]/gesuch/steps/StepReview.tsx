@@ -10,6 +10,7 @@ import type { AnschreibenText } from '../GesuchPageClient';
 import GesuchEditPanel from '@/components/gesuch/GesuchEditPanel';
 import OverrideHistory from '@/components/gesuch/OverrideHistory';
 import GesuchReadinessChecklist from '@/components/gesuch/GesuchReadinessChecklist';
+import Card from '@/components/ui/Card';
 import type { GesuchReadiness } from '@/lib/domain/gesuch-readiness';
 import {
   GesuchWhySection,
@@ -154,7 +155,7 @@ export default function StepReview({
       )}
 
       {/* Edit toggle toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-bg-light px-4 py-3 print:hidden">
+      <Card variant="muted" padding={false} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 print:hidden">
         <div className="flex items-center gap-2">
           {hasOverrides && (
             <Badge variant="primary" className="py-1">Angepasst</Badge>
@@ -184,7 +185,7 @@ export default function StepReview({
         >
           {editMode ? '✓ Bearbeitung beenden' : '✏ Anpassen'}
         </button>
-      </div>
+      </Card>
 
       {/* Edit panel (expandable) */}
       {editMode && (

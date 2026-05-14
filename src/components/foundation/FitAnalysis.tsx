@@ -26,7 +26,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
           <div className="flex items-center gap-3">
             <span className="heading-stat text-text-muted">○○○</span>
             <div>
-              <span className="text-lg font-semibold text-text-muted">Noch nicht geprüft</span>
+              <span className="heading-card text-text-muted">Noch nicht geprüft</span>
               <p className="text-sm text-text-light">
                 Diese Stiftung wurde nur automatisch aus dem ESA-Register gescreent.
                 Eine manuelle Bewertung steht noch aus.
@@ -43,7 +43,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
         <div className="mb-4 flex items-center gap-3">
           <span className={`heading-stat ${fit.color}`}>{f.fitScore}/10</span>
           <div>
-            <span className={`text-lg font-semibold ${fit.color}`}>{fit.label}</span>
+            <span className={`heading-card ${fit.color}`}>{fit.label}</span>
             <p className="text-sm text-text-light">{fit.description}</p>
           </div>
         </div>

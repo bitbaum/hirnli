@@ -38,7 +38,7 @@ export function GeschichteSection() {
             </ul>
           </div>
           <div className="min-w-[200px] flex-1">
-            <div className="flex h-full flex-col items-center justify-center rounded-xl border border-border bg-bg-light p-6 text-center">
+            <Card variant="muted" className="flex h-full flex-col items-center justify-center text-center">
               <span className="mb-3 text-4xl">🏢</span>
               <h3 className="heading-item">Heute</h3>
               <p className="mt-2 text-left text-sm text-text-light">
@@ -46,7 +46,7 @@ export function GeschichteSection() {
                 <strong>Lager:</strong> {ORG_PROFILE.warehouseAddress}<br /><br />
                 Werkstatt, Verkauf und Community-Treffpunkt unter einem Dach.
               </p>
-            </div>
+            </Card>
           </div>
         </div>
       </Card>

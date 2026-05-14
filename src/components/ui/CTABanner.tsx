@@ -41,8 +41,8 @@ export default function CTABanner({
       <Heading
         className={
           isGradient
-            ? 'text-2xl font-bold mb-4'
-            : 'text-2xl font-bold mb-4 text-grey-dark'
+            ? 'heading-section mb-4 text-white'
+            : 'heading-section mb-4'
         }
       >
         {title}
