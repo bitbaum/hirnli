@@ -85,7 +85,7 @@ export default function ReachSection() {
                 </div>
               </div>
               <div className="bg-white rounded-lg p-4 border-2 border-success/20">
-                <p className="text-sm font-bold text-success mb-2">Warum das funktioniert:</p>
+                <p className="heading-detail text-success mb-2">Warum das funktioniert:</p>
                 <p className="text-sm text-success">
                   <strong>Organisation + bezahlte Fachleute</strong> bedeuten: verlässliche Zeitpläne, strukturierte Programme,
                   systematisches Training. Freiwillige können kommen und gehen — aber die Struktur bleibt stabil.
@@ -127,7 +127,7 @@ export default function ReachSection() {
                 </div>
               </div>
               <div className="bg-white rounded-lg p-3">
-                <p className="text-sm font-bold text-primary mb-2">Zusätzliche Reichweite:</p>
+                <p className="heading-detail text-primary mb-2">Zusätzliche Reichweite:</p>
                 <p className="text-sm text-primary mb-2">
                   Ein gut produziertes Tutorial-Video kann <strong>100-1000+ Menschen erreichen</strong> — ohne zusätzlichen Zeitaufwand.
                   Online-Kurse skalieren unbegrenzt: 1× produzieren, 100× nutzen.

@@ -50,7 +50,7 @@ export default function ArtCultureSection() {
           </div>
         </div>
         <div className="gradient-card-art rounded-lg p-4">
-          <p className="text-sm font-bold text-chart-5 mb-2">Warum Kunst & Kultur zentral sind:</p>
+          <p className="heading-detail text-chart-5 mb-2">Warum Kunst & Kultur zentral sind:</p>
           <p className="text-sm text-chart-5 mb-3">
             Technik allein ändert kein Verhalten. <strong>Kunst macht Elektroschrott sichtbar, berührbar, wertvoll</strong>.
             Konzerte, Ausstellungen und Workshops erreichen Menschen, die nie zu einem Repair-Workshop kämen.

@@ -103,7 +103,7 @@ export default function Revamp2030Page() {
                 </div>
               </div>
               <div className="gradient-card-digital rounded-lg p-4">
-                <p className="text-sm font-bold text-pillar-digital mb-2">Tech-Stack (produktionsreif):</p>
+                <p className="heading-detail text-pillar-digital mb-2">Tech-Stack (produktionsreif):</p>
                 <p className="text-sm text-pillar-digital mb-2">
                   Next.js, TypeScript, PostgreSQL, Redis, Meilisearch, Auth.js, Payrexx —
                   professionelle Architektur mit {formatNumber(getNumericValue('PLATFORM_DB_MIGRATIONS'))} Datenbank-Migrationen und {formatNumber(getNumericValue('PLATFORM_API_ROUTES'))}+ API-Endpunkten.
