@@ -1,6 +1,7 @@
 import Card from '@/components/ui/Card';
 import Callout from '@/components/ui/Callout';
 import HubCardHeader from './HubCardHeader';
+import HubCardFooter from './HubCardFooter';
 import { MAKERSPACE_AREA, ROBOTIK_LAB_COST_CHF, TRAINING_AREA } from '@/lib/config/hub-space-plan';
 import { formatCHF } from '@/lib/utils/format';
 
@@ -28,10 +29,10 @@ export default function InnovationSection() {
               <li>• Tool Library: Werkzeugverleih (CHF 20/Tag)</li>
             </ul>
           </div>
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Kapazität:</strong> 20-30 Menschen gleichzeitig, 100+ Menschen/Monat<br />
-            <strong>Zielgruppe:</strong> Maker, Hobbyisten, Startups, Schüler
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '20-30 Menschen gleichzeitig, 100+ Menschen/Monat' },
+            { label: 'Zielgruppe', value: 'Maker, Hobbyisten, Startups, Schüler' },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-pillar-digital">
@@ -49,10 +50,10 @@ export default function InnovationSection() {
               <li>• Testfläche für autonome Navigation (20m²)</li>
             </ul>
           </div>
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Kapazität:</strong> 20 Kursplätze, 200+ Schüler/Jahr<br />
-            <strong>Zielgruppe:</strong> Schulklassen, Jugendliche, MINT-Interessierte
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '20 Kursplätze, 200+ Schüler/Jahr' },
+            { label: 'Zielgruppe', value: 'Schulklassen, Jugendliche, MINT-Interessierte' },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-primary">
@@ -69,10 +70,10 @@ export default function InnovationSection() {
               <li>• Netzwerk-Infrastruktur (Gigabit, VPN-Zugang)</li>
             </ul>
           </div>
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Kapazität:</strong> 20 Kursplätze, 500+ Teilnehmer/Jahr<br />
-            <strong>Zielgruppe:</strong> Geflüchtete, Arbeitslose, Quereinsteiger, Unternehmen (Corporate Training)
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '20 Kursplätze, 500+ Teilnehmer/Jahr' },
+            { label: 'Zielgruppe', value: 'Geflüchtete, Arbeitslose, Quereinsteiger, Unternehmen (Corporate Training)' },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-cyan">
@@ -124,10 +125,10 @@ export default function InnovationSection() {
             Setup C erfordert massive Corporate-Spenden oder schrittweisen Aufbau über mehrere Jahre.
           </Callout>
 
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Potenzielle Wirkung (je nach Setup):</strong> 20-60 Workshop-Teilnehmer/Monat, AI Hosting für 5-20 NGOs/KMUs, Hardware-Diagnostik-Automatisierung<br />
-            <strong>Zielgruppe:</strong> NGOs, KMUs, Entwickler, AI-Interessierte, Studierende
-          </div>
+          <HubCardFooter items={[
+            { label: 'Potenzielle Wirkung (je nach Setup)', value: '20-60 Workshop-Teilnehmer/Monat, AI Hosting für 5-20 NGOs/KMUs, Hardware-Diagnostik-Automatisierung' },
+            { label: 'Zielgruppe', value: 'NGOs, KMUs, Entwickler, AI-Interessierte, Studierende' },
+          ]} />
         </Card>
       </div>
     </section>

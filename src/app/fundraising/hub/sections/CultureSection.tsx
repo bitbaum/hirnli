@@ -1,5 +1,6 @@
 import Card from '@/components/ui/Card';
 import HubCardHeader from './HubCardHeader';
+import HubCardFooter from './HubCardFooter';
 import { CULTURE_ASPIRATIONAL_COSTS } from '@/lib/config/hub-space-plan';
 import { formatCHF } from '@/lib/utils/format';
 
@@ -28,10 +29,10 @@ export default function CultureSection() {
               <li>• Tech-Nostalgie-Events: &bdquo;Deine erste Konsole?&ldquo; (4×/Jahr)</li>
             </ul>
           </div>
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Kapazität:</strong> 30-40 Besucher gleichzeitig<br />
-            <strong>Zielgruppe:</strong> Schulklassen, Tech-Nostalgiker, Kulturinteressierte
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '30-40 Besucher gleichzeitig' },
+            { label: 'Zielgruppe', value: 'Schulklassen, Tech-Nostalgiker, Kulturinteressierte' },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-chart-5">
@@ -50,10 +51,10 @@ export default function CultureSection() {
               <li>• Circuit-Bending-Workshops (Spielzeug-Elektronik zu Instrumenten)</li>
             </ul>
           </div>
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Kapazität:</strong> 20-30 Konzertbesucher, 10 Workshop-Teilnehmer<br />
-            <strong>Zielgruppe:</strong> Musiker, Elektronik-Fans, Experimentelle Szene
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '20-30 Konzertbesucher, 10 Workshop-Teilnehmer' },
+            { label: 'Zielgruppe', value: 'Musiker, Elektronik-Fans, Experimentelle Szene' },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-warning">
@@ -72,10 +73,10 @@ export default function CultureSection() {
               <li>• Verkauf: 50% Künstler, 50% Hub (Revenue-Modell)</li>
             </ul>
           </div>
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Kapazität:</strong> 3 Resident Artists, 20 Workshop-Teilnehmer<br />
-            <strong>Zielgruppe:</strong> Künstler, Schulen, Kunstinteressierte
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '3 Resident Artists, 20 Workshop-Teilnehmer' },
+            { label: 'Zielgruppe', value: 'Künstler, Schulen, Kunstinteressierte' },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-pillar-social">
@@ -94,10 +95,10 @@ export default function CultureSection() {
               <li>• Corporate Events & Team-Buildings (Revenue)</li>
             </ul>
           </div>
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Kapazität:</strong> 50-80 Personen (Events), 20 Personen (Workshops)<br />
-            <strong>Zielgruppe:</strong> Tech-Community, Nachbarschaft, Unternehmen
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '50-80 Personen (Events), 20 Personen (Workshops)' },
+            { label: 'Zielgruppe', value: 'Tech-Community, Nachbarschaft, Unternehmen' },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-success">
@@ -115,10 +116,10 @@ export default function CultureSection() {
               <li>• Tech-Support-Sprechstunde (Di + Do 14-17 Uhr, kostenlos)</li>
             </ul>
           </div>
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Kapazität:</strong> 15-20 Sitzplätze (Café), 30 (Community-Dinner)<br />
-            <strong>Zielgruppe:</strong> Alle — niederschwelliger Zugang
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '15-20 Sitzplätze (Café), 30 (Community-Dinner)' },
+            { label: 'Zielgruppe', value: 'Alle — niederschwelliger Zugang' },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-warning">
@@ -137,10 +138,10 @@ export default function CultureSection() {
               <li>• Lernen durch Tun: Du reparierst, wir unterstützen</li>
             </ul>
           </div>
-          <div className="text-sm text-text-light pt-3 border-t border-border">
-            <strong>Kapazität:</strong> 30-40 Besucher/Event, 60-80 Menschen/Monat<br />
-            <strong>Zielgruppe:</strong> Jede:r mit kaputtem Gerät
-          </div>
+          <HubCardFooter items={[
+            { label: 'Kapazität', value: '30-40 Besucher/Event, 60-80 Menschen/Monat' },
+            { label: 'Zielgruppe', value: 'Jede:r mit kaputtem Gerät' },
+          ]} />
         </Card>
       </div>
     </section>

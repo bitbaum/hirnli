@@ -1,5 +1,6 @@
 import Card from '@/components/ui/Card';
 import HubCardHeader from './HubCardHeader';
+import HubCardFooter from './HubCardFooter';
 import { SHOP_AREA, WORKSHOP_AREA } from '@/lib/config/hub-space-plan';
 import { formatCHF } from '@/lib/utils/format';
 
@@ -36,9 +37,9 @@ export default function CoreBusinessSection() {
               </ul>
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-border text-sm text-text-light">
-            <strong>Zielgruppe:</strong> Privatkunden, KulturLegi, NGOs, Schulen
-          </div>
+          <HubCardFooter items={[
+            { label: 'Zielgruppe', value: 'Privatkunden, KulturLegi, NGOs, Schulen' },
+          ]} />
         </Card>
 
         <Card className="border-l-4 border-l-primary">
@@ -75,9 +76,9 @@ export default function CoreBusinessSection() {
               Plus: Sozialpädagogische Begleitung (Veronica) für nachhaltige Arbeitsintegration.
             </p>
           </div>
-          <div className="mt-4 pt-4 border-t border-border text-sm text-text-light">
-            <strong>Zielgruppe:</strong> Techniker (fest & Praktikanten), Reintegrations-Programme, Freiwillige, Schulungs-Teilnehmer
-          </div>
+          <HubCardFooter items={[
+            { label: 'Zielgruppe', value: 'Techniker (fest & Praktikanten), Reintegrations-Programme, Freiwillige, Schulungs-Teilnehmer' },
+          ]} />
         </Card>
       </div>
     </section>
