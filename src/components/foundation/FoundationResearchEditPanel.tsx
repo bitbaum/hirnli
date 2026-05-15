@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { patchFoundationResearch } from '@/lib/api/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
@@ -56,6 +57,7 @@ export default function FoundationResearchEditPanel({
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const hasContact = email.trim() || phone.trim();
 
@@ -76,6 +78,7 @@ export default function FoundationResearchEditPanel({
     if (result.success) {
       setSaved(true);
       setEditing(false);
+      router.refresh();
       setTimeout(() => setSaved(false), 3000);
     } else {
       setError(result.error ?? 'Fehler beim Speichern');
