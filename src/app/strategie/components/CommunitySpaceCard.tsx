@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Callout from '@/components/ui/Callout';
 import { Button } from '@/components/ui/Button';
+import { SDG_COLORS } from '../data';
 
 interface CommunitySpaceCardProps {
   icon: string;
@@ -118,7 +119,7 @@ export default function CommunitySpaceCard({
                 {sdgs.map((sdg, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full"
+                    className={`px-3 py-1 text-white text-xs font-semibold rounded-full ${SDG_COLORS[sdg as keyof typeof SDG_COLORS] ?? 'bg-primary'}`}
                   >
                     {sdg}
                   </span>

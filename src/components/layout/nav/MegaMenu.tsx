@@ -65,7 +65,7 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
                           role="menuitem"
                           className={`${NAV_ITEM_BASE} border-transparent`}
                         >
-                          <span className="font-semibold text-grey-dark group-hover/link:text-revamp-green">
+                          <span className="heading-item group-hover/link:text-revamp-green">
                             {link.text}
                           </span>
                           {link.desc && (

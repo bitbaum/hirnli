@@ -120,7 +120,7 @@ export default function DashboardClient() {
             <Card padding={false} className="flex items-start gap-3 p-4 transition-all hover:border-primary/30 hover:shadow-md">
               <span className="text-2xl">{link.icon}</span>
               <div>
-                <span className="font-semibold text-grey-dark">{link.title}</span>
+                <span className="heading-item">{link.title}</span>
                 <span className="block text-sm text-text-light">{link.desc}</span>
               </div>
             </Card>

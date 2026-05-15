@@ -98,7 +98,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
           <span className="font-bold text-success">{formatCHF(totals.eigenTotal)}</span>
         </div>
         <div className="flex justify-between pt-2 border-t border-border">
-          <span className="font-semibold text-grey-dark">Projektwert Total:</span>
+          <span className="heading-detail">Projektwert Total:</span>
           <span className="text-xl font-bold text-grey-dark">{formatCHF(totals.projectTotal)}</span>
         </div>
       </div>
