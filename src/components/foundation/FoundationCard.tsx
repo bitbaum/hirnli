@@ -4,6 +4,9 @@ import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { TYPE_LABELS, STATUS_LABELS, STATUS_BADGE_VARIANT, FIT_CONFIG, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { getFoundationPresentation } from '@/lib/domain/foundation-presenter';
+import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
+import { QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
+import { isRegistryUrl } from '@/lib/config/registry-domains';
 import ThemeBadgeList from './ThemeBadgeList';
 
 interface FoundationCardProps {
@@ -21,6 +24,20 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
   const priorityConfig = PRIORITY_CONFIG[f.priority];
   const priorityLabel = priorityConfig.label;
   const priorityIsOverride = f.priorityOverride ?? false;
+
+  const gapItems: string[] = [];
+  if (hasGesuchPage(f)) {
+    const purposeLen = f.purposeSummary?.length ?? 0;
+    const notesLen = f.researchNotes?.length ?? 0;
+    if (purposeLen < QUALITY_THRESHOLDS.purposeSummaryMinChars)
+      gapItems.push(`Zweck ${purposeLen}/${QUALITY_THRESHOLDS.purposeSummaryMinChars}`);
+    if (notesLen < QUALITY_THRESHOLDS.researchNotesMinChars)
+      gapItems.push(`Notizen ${notesLen}/${QUALITY_THRESHOLDS.researchNotesMinChars}`);
+    if (!f.contact?.email && !f.contact?.phone)
+      gapItems.push('Kontakt fehlt');
+    if (!f.websiteUrl || isRegistryUrl(f.websiteUrl))
+      gapItems.push('Website fehlt');
+  }
 
   return (
     <Link
@@ -88,6 +105,16 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
       {f.isOperative && (
         <div className="mt-2 rounded bg-warning-bg px-2 py-1 text-sm text-warning-text">
           Operative Stiftung — vergibt keine Fördergelder
+        </div>
+      )}
+
+      {gapItems.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1 border-t border-border pt-2">
+          {gapItems.map(item => (
+            <span key={item} className="rounded bg-amber-bg px-1.5 py-0.5 text-xs text-amber-text">
+              {item}
+            </span>
+          ))}
         </div>
       )}
     </Link>
