@@ -26,8 +26,8 @@ import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
 import BoardHeaderStats from './BoardHeaderStats';
 import { KANBAN_COLUMNS, getStatusConfig, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
-import { patchApplication } from '@/lib/api/applications';
-import { NET_ERR_LOAD, NET_ERR_SAVE, API_ERR_LOAD } from '@/lib/utils/errors';
+import { getApplications, patchApplication } from '@/lib/api/applications';
+import { NET_ERR_SAVE, API_ERR_LOAD } from '@/lib/utils/errors';
 import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
 import EmptyState from '@/components/ui/EmptyState';
@@ -48,23 +48,19 @@ export function ApplicationBoard() {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await fetch('/api/applications');
-      const result = await response.json();
+      const result = await getApplications();
       if (result.success) {
-        setApplications(result.data);
+        setApplications(result.data as ApplicationWithFoundation[]);
       } else {
         setError(result.error || API_ERR_LOAD);
       }
-    } catch (err) {
-      console.error('Failed to fetch applications:', err);
-      setError(NET_ERR_LOAD);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchApplications();
+    void fetchApplications();
   }, [fetchApplications]);
 
   // Auto-clear drag errors after 5 seconds

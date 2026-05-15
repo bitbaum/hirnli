@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
-import { patchApplication, deleteApplication } from '@/lib/api/applications';
-import { NET_ERR_LOAD, NET_ERR_DELETE, API_ERR_NOT_FOUND, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
+import { getApplication, patchApplication, deleteApplication } from '@/lib/api/applications';
+import { NET_ERR_DELETE, API_ERR_NOT_FOUND, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
 import { normalizeDateInput } from '@/lib/utils/format';
 
 export interface ApplicationFormFields {
@@ -92,17 +92,14 @@ export function useApplicationForm(id: string) {
     async function fetchApplication() {
       try {
         setIsLoading(true);
-        const response = await fetch(`/api/applications/${id}`);
-        const result = await response.json();
+        const result = await getApplication(id);
         if (result.success) {
-          setFoundation(result.data.foundation);
-          setFields(initFieldsFromApplication(result.data.application));
+          const d = result.data as { foundation: FoundationRow; application: Application };
+          setFoundation(d.foundation);
+          setFields(initFieldsFromApplication(d.application));
         } else {
           setError(result.error || API_ERR_NOT_FOUND);
         }
-      } catch (err) {
-        console.error('Failed to fetch application:', err);
-        setError(NET_ERR_LOAD);
       } finally {
         setIsLoading(false);
       }

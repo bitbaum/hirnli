@@ -6,7 +6,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
@@ -16,6 +16,7 @@ import { KPICard } from './KPICard';
 import { StatusDistributionChart } from './StatusDistributionChart';
 import { UpcomingDeadlines, type Deadline } from './UpcomingDeadlines';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
+import { getApplicationsDashboard } from '@/lib/api/applications';
 import { NET_ERR_LOAD } from '@/lib/utils/errors';
 import { DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 
@@ -49,28 +50,23 @@ export function FundraisingDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  async function fetchDashboardData() {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/applications/dashboard');
-      const result = await response.json();
-
+      const result = await getApplicationsDashboard();
       if (result.success) {
-        setData(result.data);
+        setData(result.data as DashboardData);
       } else {
         setError(result.error || NET_ERR_LOAD);
       }
-    } catch (err) {
-      console.error('Failed to fetch dashboard data:', err);
-      setError(NET_ERR_LOAD);
     } finally {
       setIsLoading(false);
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    void fetchDashboardData();
+  }, [fetchDashboardData]);
 
   if (isLoading) {
     return <LoadingState label="Lade Dashboard..." />;

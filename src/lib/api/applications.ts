@@ -57,3 +57,15 @@ export function getApplicationsByFoundation(
 ): Promise<ApplicationApiResponse> {
   return request(`/api/applications?foundationId=${encodeURIComponent(foundationId)}`);
 }
+
+export function getApplication(id: string): Promise<ApplicationApiResponse> {
+  return request(`/api/applications/${id}`);
+}
+
+export function getApplications(): Promise<ApplicationApiResponse> {
+  return request('/api/applications');
+}
+
+export function getApplicationsDashboard(): Promise<ApplicationApiResponse> {
+  return request('/api/applications/dashboard');
+}
