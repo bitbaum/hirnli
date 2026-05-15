@@ -242,7 +242,7 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
       {/* Data source info */}
       <Card>
         <div className="text-sm text-text-light">
-          <p className="font-medium text-grey-dark">Datenquelle</p>
+          <p className="heading-detail">Datenquelle</p>
           <p>Kivitendo Buchhaltung (Export: revamp-Einnahmen-{selectedYear}.xlsx)</p>
           <p className="mt-1 text-sm text-text-muted">
             Konten: 3100 Warenverkauf, 3400 Dienstleistungen, 3450 Integration, 3500 Spenden, 3510 Aufstockung

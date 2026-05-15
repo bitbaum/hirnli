@@ -158,7 +158,7 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
       {/* Data source */}
       <Card>
         <div className="text-sm text-text-light">
-          <p className="font-medium text-grey-dark">Datenquelle</p>
+          <p className="heading-detail">Datenquelle</p>
           <p>{DATA_QUALITY.source}</p>
           <p className="mt-1 text-sm text-text-muted">
             System: {DATA_QUALITY.sourceSystem} | Vollständig: {DATA_QUALITY.completeRange} | Unvollständig: {DATA_QUALITY.incompleteRange}
