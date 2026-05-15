@@ -163,7 +163,7 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
         <div className="rounded-lg border border-border overflow-hidden">
           {fieldMap.map(({ label, value }) => (
             <div key={label} className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-3 px-3 py-2 even:bg-bg-light border-b border-border last:border-0">
-              <span className="text-sm font-medium text-text-muted sm:shrink-0 sm:w-44">{label}</span>
+              <span className="heading-detail text-text-muted sm:shrink-0 sm:w-44">{label}</span>
               <span className="text-sm text-text sm:text-right">{value}</span>
             </div>
           ))}

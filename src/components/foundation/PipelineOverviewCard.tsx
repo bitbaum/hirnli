@@ -33,7 +33,7 @@ export default function PipelineOverviewCard({
 
       <div>
         <div className="mb-1.5 flex items-baseline justify-between">
-          <span className="text-sm font-medium text-grey-dark">Analyse-Fortschritt</span>
+          <span className="heading-detail">Analyse-Fortschritt</span>
           <span className="text-sm tabular-nums text-grey-dark">
             <span className="font-semibold">{researchStats.researched}</span>
             <span className="text-text-muted"> / {totalCount}</span>
@@ -65,12 +65,12 @@ export default function PipelineOverviewCard({
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
           <div className="heading-section tabular-nums text-primary">{gesuchCount}</div>
-          <div className="text-sm font-medium text-grey-dark">Mit Gesuch</div>
+          <div className="heading-detail">Mit Gesuch</div>
           <p className="mt-0.5 text-sm text-text-muted">Gesuch-Seite generiert (P1–P3)</p>
         </div>
         <div className="rounded-lg border border-success/20 bg-success-bg px-4 py-3">
           <div className="heading-section tabular-nums text-success">{tierCounts.anwendungsbereit}</div>
-          <div className="text-sm font-medium text-grey-dark">Bewerbungsbereit</div>
+          <div className="heading-detail">Bewerbungsbereit</div>
           <p className="mt-0.5 text-sm text-text-muted">
             Höchste Datenvollständigkeit (Bereitschafts-Score ≥{READINESS_ENGINE.display.thresholds[0].minScore})
           </p>

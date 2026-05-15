@@ -106,7 +106,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           )}
           {/* All research platforms */}
           <div className="border-t border-border pt-2">
-            <p className="mb-1.5 px-2 text-sm font-medium text-text-muted">Datenbanken & Register</p>
+            <p className="mb-1.5 px-2 heading-detail text-text-muted">Datenbanken & Register</p>
             {getResearchLinks(f).map((link) => (
               <a
                 key={link.id}

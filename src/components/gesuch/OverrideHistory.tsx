@@ -149,7 +149,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
                     <div className="pb-5 min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <p className="text-sm font-medium text-grey-dark">
+                          <p className="heading-detail">
                             {formatDateTimeCH(entry.timestamp)}
                           </p>
                           {fieldKeys.length > 0 && (

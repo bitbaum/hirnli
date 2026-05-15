@@ -89,7 +89,7 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
 
             {/* Content */}
             <div className="pb-4 min-w-0">
-              <p className="text-sm font-medium text-grey-dark">
+              <p className="heading-detail">
                 {ACTION_LABELS[entry.actionType] ?? entry.actionType}
               </p>
               {hasStatusChange && (

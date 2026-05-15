@@ -32,7 +32,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
               <div className="text-4xl font-bold text-primary mb-2">
                 {formattedValue}
               </div>
-              <div className="text-lg font-medium text-grey-dark">
+              <div className="heading-card">
                 {data.label}
               </div>
             </div>
@@ -50,7 +50,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
         <div className="p-6 space-y-6">
           {/* Confidence Badge */}
           <div>
-            <div className="text-sm font-medium text-grey-dark mb-2">
+            <div className="heading-detail mb-2">
               Verlässlichkeit
             </div>
             <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${CONFIDENCE_COLORS[data.source.confidence] ?? CONFIDENCE_COLORS.unknown}`}>
@@ -60,7 +60,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
 
           {/* Methodology */}
           <div>
-            <div className="text-sm font-medium text-grey-dark mb-2">
+            <div className="heading-detail mb-2">
               Methodik
             </div>
             <div className="text-text-light text-sm leading-relaxed">
@@ -71,7 +71,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
           {/* Calculation (if exists) */}
           {data.source.calculation && (
             <div>
-              <div className="text-sm font-medium text-grey-dark mb-2">
+              <div className="heading-detail mb-2">
                 Berechnung
               </div>
               <div className="bg-bg-light rounded-lg p-4 font-mono text-sm text-grey-dark">
@@ -82,7 +82,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
 
           {/* Last Verified */}
           <div>
-            <div className="text-sm font-medium text-grey-dark mb-2">
+            <div className="heading-detail mb-2">
               Zuletzt verifiziert
             </div>
             <div className="text-text-light text-sm">
