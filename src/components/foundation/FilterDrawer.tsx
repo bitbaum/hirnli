@@ -1,8 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import FilterSidebar from './FilterSidebar';
 import type { ComponentProps } from 'react';
+
+const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
 type FilterDrawerProps = ComponentProps<typeof FilterSidebar> & {
   open: boolean;
@@ -10,15 +12,34 @@ type FilterDrawerProps = ComponentProps<typeof FilterSidebar> & {
 };
 
 export default function FilterDrawer({ open, onClose, ...sidebarProps }: FilterDrawerProps) {
-  // Lock body scroll when drawer is open
+  const drawerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = '';
-      };
-    }
-  }, [open]);
+    if (!open) return;
+    const previousFocus = document.activeElement as HTMLElement;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key === 'Tab' && drawerRef.current) {
+        const els = drawerRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
+        if (!els.length) return;
+        const first = els[0];
+        const last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    requestAnimationFrame(() => drawerRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+      previousFocus?.focus();
+    };
+  }, [open, onClose]);
 
   return (
     <>
@@ -28,10 +49,12 @@ export default function FilterDrawer({ open, onClose, ...sidebarProps }: FilterD
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Drawer panel */}
       <div
+        ref={drawerRef}
         role="dialog"
         aria-modal="true"
         aria-label="Filter"
@@ -44,7 +67,7 @@ export default function FilterDrawer({ open, onClose, ...sidebarProps }: FilterD
           <h2 className="heading-detail">Filter</h2>
           <button
             onClick={onClose}
-            className="rounded-lg p-1.5 text-text-muted hover:bg-bg-light hover:text-grey-dark"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-text-muted hover:bg-bg-light hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             aria-label="Filter schliessen"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
