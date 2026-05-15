@@ -35,6 +35,7 @@ export default function SovereigntyPillar({
         transition-reveal cursor-pointer
         ${colors.border} ${colors.borderHover} ${colors.bg} ${colors.bgHover}
         transform hover:scale-105 hover:shadow-lg
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${colors.ring}
       `}
       onClick={() => setIsExpanded(!isExpanded)}
       role="button"
@@ -93,7 +94,7 @@ export default function SovereigntyPillar({
                     className={`
                       block p-2 rounded-lg bg-white/50 hover:bg-white
                       transition-standard
-                      ${colors.ring} focus:outline-none focus:ring-2
+                      ${colors.ring} focus-visible:outline-none focus-visible:ring-2
                     `}
                   >
                     <div className={`heading-detail ${colors.text}`}>{page.title}</div>

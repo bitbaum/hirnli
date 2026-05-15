@@ -16,7 +16,7 @@ export const PILLAR_COLORS: Record<PillarColorScheme, {
     bgHover: 'hover:bg-success/15',
     text: 'text-success',
     accent: 'bg-success',
-    ring: 'focus:ring-success',
+    ring: 'focus-visible:ring-success',
   },
   blue: {
     border: 'border-primary/20',
@@ -25,7 +25,7 @@ export const PILLAR_COLORS: Record<PillarColorScheme, {
     bgHover: 'hover:bg-primary/15',
     text: 'text-primary',
     accent: 'bg-primary',
-    ring: 'focus:ring-primary',
+    ring: 'focus-visible:ring-primary',
   },
   violet: {
     border: 'border-pillar-vision/20',
@@ -34,7 +34,7 @@ export const PILLAR_COLORS: Record<PillarColorScheme, {
     bgHover: 'hover:bg-pillar-vision/15',
     text: 'text-pillar-vision',
     accent: 'bg-pillar-vision',
-    ring: 'focus:ring-pillar-vision',
+    ring: 'focus-visible:ring-pillar-vision',
   },
   amber: {
     border: 'border-warning/20',
@@ -43,6 +43,6 @@ export const PILLAR_COLORS: Record<PillarColorScheme, {
     bgHover: 'hover:bg-warning/15',
     text: 'text-warning',
     accent: 'bg-warning',
-    ring: 'focus:ring-warning',
+    ring: 'focus-visible:ring-warning',
   },
 };

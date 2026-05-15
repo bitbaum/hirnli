@@ -29,7 +29,7 @@ export default function VisionMetric({ value, label, source }: VisionMetricProps
         className={`
           rounded-lg bg-white/10 p-4
           transition-hover
-          ${source ? 'cursor-pointer hover:bg-white/20 hover:scale-105' : ''}
+          ${source ? 'cursor-pointer hover:bg-white/20 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent' : ''}
         `}
         onClick={handleClick}
         role={source ? 'button' : undefined}

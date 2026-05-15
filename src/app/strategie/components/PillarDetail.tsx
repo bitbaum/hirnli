@@ -121,7 +121,7 @@ export default function PillarDetail({
                     className={`
                       block p-3 rounded-lg bg-white
                       hover:shadow-md transition-hover
-                      ${colors.ring} focus:outline-none focus:ring-2
+                      ${colors.ring} focus-visible:outline-none focus-visible:ring-2
                     `}
                   >
                     <div className={`heading-detail ${colors.text}`}>{page.title}</div>
