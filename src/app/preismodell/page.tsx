@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Callout from '@/components/ui/Callout';
 import PageHeader from '@/components/layout/PageHeader';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
@@ -90,9 +91,9 @@ export default function PreismodellPage() {
             <strong className="mb-1 block">Quellenangaben:</strong>
             <Badge variant="derived" className="mr-1">Marktdaten</Badge> = Vergleich Ricardo/Tutti/Revendo |{' '}
             <Badge variant="primary" className="mr-1">Vorstand</Badge> = Vorstandsentscheidung Januar 2025 |{' '}
-            <a href="/methodik#pricing-model" className="text-primary hover:underline">
+            <Link href="/methodik#pricing-model" className="text-primary hover:underline">
               Vollständige Methodik
-            </a>
+            </Link>
           </div>
         </Card>
       </section>
@@ -211,9 +212,9 @@ export default function PreismodellPage() {
           <div className="mt-4 rounded-lg border-l-4 border-primary bg-bg-light p-3 text-sm text-text-muted">
             <strong>Quelle aller Zielwerte:</strong>{' '}
             Vorstandsentscheidung Januar 2025. Basiert auf Schätzungen, nicht auf historischen Daten.{' '}
-            <a href="/methodik#pricing-model" className="text-primary hover:underline">
+            <Link href="/methodik#pricing-model" className="text-primary hover:underline">
               Vollständige Methodik
-            </a>
+            </Link>
           </div>
         </Card>
 

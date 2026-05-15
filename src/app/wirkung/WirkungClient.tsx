@@ -249,7 +249,7 @@ export default function WirkungClient() {
       {/* Cross-reference */}
       <div className="mb-8 text-sm text-text-muted">
         Wie diese Wirkung entsteht, beschreibt unsere{' '}
-        <a href="/strategie" className="font-medium text-primary hover:underline">Theory of Change auf der Strategie-Seite</a>.
+        <Link href="/strategie" className="font-medium text-primary hover:underline">Theory of Change auf der Strategie-Seite</Link>.
       </div>
 
       {/* Data source info */}

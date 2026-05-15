@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Card from '@/components/ui/Card';
 
 export default function StageDescriptionsSection() {
@@ -54,7 +55,7 @@ export default function StageDescriptionsSection() {
           erhalten aber kein Gesuch.
         </p>
         <p className="text-sm text-text-muted">
-          Algorithmisch berechnet. Details: <a href="/fundraising/scoring-methodik" className="underline">Scoring-Methodik</a>.
+          Algorithmisch berechnet. Details: <Link href="/fundraising/scoring-methodik" className="underline">Scoring-Methodik</Link>.
         </p>
       </Card>
     </section>

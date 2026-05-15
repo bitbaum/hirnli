@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import ProgressBar from '@/components/ui/ProgressBar';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
@@ -95,7 +96,7 @@ export default function PipelineOverviewCard({
 
       <p className="text-sm text-text-muted">
         Priorität = Fit × Bereitschaft. Scores algorithmisch berechnet.{' '}
-        <a href="/fundraising/scoring-methodik" className="text-primary-text hover:underline">Methodik</a>
+        <Link href="/fundraising/scoring-methodik" className="text-primary-text hover:underline">Methodik</Link>
       </p>
     </Card>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Callout from '@/components/ui/Callout';
@@ -187,7 +188,7 @@ export default function OperationsPage() {
               <CardTitle>Preisbestimmung</CardTitle>
             </CardHeader>
             <p className="mb-3 text-sm text-text-muted">
-              Basierend auf unserem <a href="/preismodell">Solidarischen 4-Stufen-Preismodell</a>
+              Basierend auf unserem <Link href="/preismodell">Solidarischen 4-Stufen-Preismodell</Link>
             </p>
             <h4 className="heading-detail mb-2">Faktoren:</h4>
             <ul className="list-disc space-y-1 pl-5 text-sm text-text-light">
