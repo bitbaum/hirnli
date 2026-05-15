@@ -9,12 +9,15 @@
 import Link from 'next/link';
 import { formatCHF, formatDateCH } from '@/lib/utils/format';
 import { DEADLINE_CRITICAL_DAYS, DEADLINE_WARNING_DAYS, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
+import { getStatusConfig } from '@/lib/config/application-statuses';
+import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 export interface Deadline {
   id: string;
   foundationName: string;
   decisionExpected: string;
   requestedAmount: number | null;
+  status: ApplicationStatusId;
   daysUntilDeadline: number;
 }
 
@@ -59,6 +62,11 @@ export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
                 <h3 className="heading-item">{deadline.foundationName}</h3>
               </div>
               <div className="text-sm space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className={`rounded-full border px-1.5 py-0.5 text-xs font-medium ${getStatusConfig(deadline.status).color}`}>
+                    {getStatusConfig(deadline.status).label}
+                  </span>
+                </div>
                 <div>
                   Entscheidung: <strong>{formatDateCH(deadline.decisionExpected)}</strong>
                 </div>

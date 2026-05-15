@@ -19,7 +19,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
-import { eq, and, gte, lte, isNotNull, count, sum } from 'drizzle-orm';
+import { eq, and, gte, lte, isNotNull, inArray, count, sum } from 'drizzle-orm';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 import { getTodayISO, toISODateStr } from '@/lib/utils/format';
@@ -88,7 +88,8 @@ export async function GET(_request: NextRequest) {
         and(
           gte(applications.decisionExpected, today),
           lte(applications.decisionExpected, in30Days),
-          eq(applications.status, 'pending')
+          // All active post-submission statuses that may have a decision date
+          inArray(applications.status, ['submitted', 'pending', 'followup'])
         )
       )
       .orderBy(applications.decisionExpected);
@@ -113,6 +114,7 @@ export async function GET(_request: NextRequest) {
           foundationName: item.foundation?.name || 'Unknown',
           decisionExpected: item.application.decisionExpected,
           requestedAmount: item.application.requestedAmount,
+          status: item.application.status,
           daysUntilDeadline: Math.ceil(
             (new Date(item.application.decisionExpected!).getTime() - Date.now()) / MS_PER_DAY
           ),
