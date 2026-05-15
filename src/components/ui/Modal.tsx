@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { useFocusTrap } from '@/lib/utils/a11y';
+import { CloseButton } from './CloseButton';
 
 interface ModalProps {
   isOpen: boolean;
@@ -34,13 +35,7 @@ export default function Modal({ isOpen, onClose, title, children, className }: M
       >
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
           <h3 className="heading-card">{title}</h3>
-          <button
-            onClick={onClose}
-            aria-label="Schliessen"
-            className="rounded text-2xl text-text-muted hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-          >
-            &times;
-          </button>
+          <CloseButton onClick={onClose} />
         </div>
         <div className="px-6 py-4">{children}</div>
       </div>

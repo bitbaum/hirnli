@@ -19,6 +19,7 @@ import { buildPatchPayload, initFieldsFromApplication, type ApplicationFormField
 import { ApplicationDateFields, ApplicationOutcomeFields } from './ApplicationFormSections';
 
 import { useFocusTrap } from '@/lib/utils/a11y';
+import { CloseButton } from '@/components/ui/CloseButton';
 
 interface EditApplicationModalProps {
   application: Application;
@@ -108,13 +109,7 @@ export function EditApplicationModal({
             <h2 className="heading-card">Gesuch bearbeiten</h2>
             <p className="text-sm text-text-muted">{foundation?.name ?? application.foundationId}</p>
           </div>
-          <button
-            onClick={onClose}
-            className="flex h-11 w-11 items-center justify-center rounded-lg text-text-muted hover:bg-bg-light hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            aria-label="Schliessen"
-          >
-            ✕
-          </button>
+          <CloseButton onClick={onClose} />
         </div>
 
         {/* Body — scrollable */}

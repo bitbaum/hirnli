@@ -9,6 +9,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useFocusTrap } from '@/lib/utils/a11y';
+import { CloseButton } from '@/components/ui/CloseButton';
 
 const ACTIVITY_LOG_LIMIT = 50;
 
@@ -111,14 +112,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <h2 className="heading-item">Versionshistorie</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Schliessen"
-            className="flex h-11 w-11 items-center justify-center rounded-lg text-text-muted hover:bg-bg-light hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-          >
-            ✕
-          </button>
+          <CloseButton onClick={onClose} />
         </div>
 
         {restoreError && (

@@ -5,6 +5,7 @@ import type { NumberSource } from '@/lib/config/numbers';
 import { CONFIDENCE_DISPLAY_LABELS, CONFIDENCE_COLORS } from '@/lib/config/numbers';
 import { formatDateCHLong } from '@/lib/utils/format';
 import { Button } from '@/components/ui/Button';
+import { CloseButton } from '@/components/ui/CloseButton';
 import { useFocusTrap } from '@/lib/utils/a11y';
 
 interface SourceModalProps {
@@ -45,13 +46,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
                 {data.label}
               </div>
             </div>
-            <button
-              onClick={onClose}
-              className="flex h-11 w-11 items-center justify-center rounded text-2xl text-text-muted hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Schliessen"
-            >
-              ×
-            </button>
+            <CloseButton onClick={onClose} />
           </div>
         </div>
 
