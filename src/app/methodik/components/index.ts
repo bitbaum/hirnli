@@ -1,11 +1,9 @@
-export { FormulaBox, ConfidenceBadge, MethodologySection } from './MethodologyHelpers';
 export { IncomeDataSection } from './IncomeDataSection';
 export { SelfFinancingSection } from './SelfFinancingSection';
 export { DeviceEstimationSection } from './DeviceEstimationSection';
-export { CO2CalculationSection, CO2_COLUMNS } from './CO2CalculationSection';
+export { CO2CalculationSection } from './CO2CalculationSection';
 export { EWasteSection } from './EWasteSection';
 export { PricingModelSection } from './PricingModelSection';
-export { DataGapsSection, DATA_GAP_COLUMNS } from './DataGapsSection';
-export { IntegrityReportSection, computeTransparencyStats, buildIntegrityRows } from './IntegrityReportSection';
+export { DataGapsSection } from './DataGapsSection';
+export { IntegrityReportSection } from './IntegrityReportSection';
 export { TransparencyPrinciplesSection } from './TransparencyPrinciplesSection';
-export { CONFIDENCE_BADGE_MAP } from './MethodologyHelpers';
