@@ -11,10 +11,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, inArray } from 'drizzle-orm';
 import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
 import type { Application, FoundationRow } from '@/lib/db/schema';
+
+const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map(s => [s.id, s.label]));
 import { toISODateStr } from '@/lib/utils/format';
 import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
 
@@ -74,7 +77,8 @@ export async function GET(request: NextRequest) {
         .where(
           and(
             eq(applications.decisionExpected, targetDateStr),
-            eq(applications.status, 'pending')
+            // All active post-submission statuses that may have a decision date
+            inArray(applications.status, ['submitted', 'pending', 'followup'])
           )
         );
 
@@ -192,6 +196,7 @@ function formatEmailBody(
       <li style="margin: 10px 0;">
         <strong>${item.foundation?.name || 'Unknown'}</strong><br>
         <span style="color: #6B7280; font-size: 14px;">
+          Status: ${STATUS_LABEL[item.application.status] ?? item.application.status}<br>
           Betrag: ${formatCHF(item.application.requestedAmount)}<br>
           Entscheidung: ${item.application.decisionExpected}
         </span>
