@@ -276,6 +276,9 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           foundationId={f.slug}
           initialPurposeSummary={f.purposeSummary ?? ''}
           initialResearchNotes={f.researchNotes ?? ''}
+          initialEmail={f.contact?.email ?? ''}
+          initialPhone={f.contact?.phone ?? ''}
+          initialAddress={f.contact?.address ?? ''}
         />
       </Card>
     </div>

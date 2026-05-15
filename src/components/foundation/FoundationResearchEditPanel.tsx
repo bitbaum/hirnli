@@ -12,6 +12,9 @@ interface Props {
   foundationId: string;
   initialPurposeSummary: string;
   initialResearchNotes: string;
+  initialEmail: string;
+  initialPhone: string;
+  initialAddress: string;
 }
 
 function CharCounter({ value, min, compact }: { value: string; min: number; compact?: boolean }) {
@@ -25,13 +28,24 @@ function CharCounter({ value, min, compact }: { value: string; min: number; comp
   );
 }
 
-export default function FoundationResearchEditPanel({ foundationId, initialPurposeSummary, initialResearchNotes }: Props) {
+export default function FoundationResearchEditPanel({
+  foundationId,
+  initialPurposeSummary,
+  initialResearchNotes,
+  initialEmail,
+  initialPhone,
+  initialAddress,
+}: Props) {
   const [editing, setEditing] = useState(false);
   const [purpose, setPurpose] = useState(initialPurposeSummary);
   const [notes, setNotes] = useState(initialResearchNotes);
+  const [email, setEmail] = useState(initialEmail);
+  const [phone, setPhone] = useState(initialPhone);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const hasContact = email.trim() || phone.trim();
 
   async function handleSave() {
     setSaving(true);
@@ -40,6 +54,7 @@ export default function FoundationResearchEditPanel({ foundationId, initialPurpo
     const result = await patchFoundationResearch(foundationId, {
       purposeSummary: purpose,
       researchNotes: notes,
+      contact: { email: email.trim(), phone: phone.trim(), address: initialAddress },
     });
     setSaving(false);
     if (result.success) {
@@ -54,6 +69,8 @@ export default function FoundationResearchEditPanel({ foundationId, initialPurpo
   function handleCancel() {
     setPurpose(initialPurposeSummary);
     setNotes(initialResearchNotes);
+    setEmail(initialEmail);
+    setPhone(initialPhone);
     setEditing(false);
     setError(null);
   }
@@ -67,6 +84,12 @@ export default function FoundationResearchEditPanel({ foundationId, initialPurpo
           <span>·</span>
           <CharCounter value={notes} min={NOTES_MIN} compact />
           <span>Notizen</span>
+          {!hasContact && (
+            <>
+              <span>·</span>
+              <span className="text-warning-text">✗ Kontakt</span>
+            </>
+          )}
         </div>
         <div className="flex items-center gap-2">
           {saved && <span className="text-xs text-success-text">Gespeichert ✓</span>}
@@ -109,6 +132,29 @@ export default function FoundationResearchEditPanel({ foundationId, initialPurpo
           placeholder="Warum passt diese Stiftung? Besonderheiten, Förderhistorie, Hinweise zur Bewerbung..."
           className={FORM_INPUT_CLASS}
         />
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className={FORM_LABEL_CLASS}>E-Mail</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="kontakt@stiftung.ch"
+            className={FORM_INPUT_CLASS}
+          />
+        </div>
+        <div>
+          <label className={FORM_LABEL_CLASS}>Telefon</label>
+          <input
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="+41 44 123 45 67"
+            className={FORM_INPUT_CLASS}
+          />
+        </div>
       </div>
 
       {error && (

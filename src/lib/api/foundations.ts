@@ -10,7 +10,11 @@ interface FoundationApiResponse {
 
 export async function patchFoundationResearch(
   id: string,
-  fields: { purposeSummary?: string; researchNotes?: string },
+  fields: {
+    purposeSummary?: string;
+    researchNotes?: string;
+    contact?: { email: string; phone: string; address: string };
+  },
 ): Promise<FoundationApiResponse> {
   try {
     const res = await fetch(`/api/foundations/${id}`, {
