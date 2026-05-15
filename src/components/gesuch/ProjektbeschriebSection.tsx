@@ -73,7 +73,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {dok.story.how.track_record.proof_points.map((pp) => (
             <div key={pp.label} className="rounded border border-border p-2 text-center">
-              <p className="text-lg font-bold text-primary">{pp.value}</p>
+              <p className="heading-stat-sm text-primary">{pp.value}</p>
               <p className="text-sm text-text-muted">{pp.label}</p>
             </div>
           ))}

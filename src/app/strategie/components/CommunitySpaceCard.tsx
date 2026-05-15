@@ -131,7 +131,7 @@ export default function CommunitySpaceCard({
           {estimatedCost && (
             <Callout color="warning">
               <h4 className="heading-detail text-warning mb-1">Geschätzte Kosten</h4>
-              <p className="text-lg font-bold text-warning">{estimatedCost}</p>
+              <p className="heading-stat-sm text-warning">{estimatedCost}</p>
               <p className="text-sm text-warning mt-1">Einmalige Einrichtung + erstes Jahr Betrieb</p>
             </Callout>
           )}

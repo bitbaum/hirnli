@@ -32,7 +32,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
         <div className="p-4 bg-primary/10 rounded-lg">
           <div className="flex justify-between items-start mb-2">
             <h4 className="heading-item">Jahr 1</h4>
-            <span className="text-lg font-bold text-primary">{formatCHF(totals.y1Total)}</span>
+            <span className="heading-stat-sm text-primary">{formatCHF(totals.y1Total)}</span>
           </div>
           <div className="text-sm space-y-1 text-text-light">
             <div className="flex justify-between">
@@ -54,7 +54,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
         <div className="p-4 bg-bg-light rounded-lg">
           <div className="flex justify-between items-start mb-2">
             <h4 className="heading-item">Jahr 2</h4>
-            <span className="text-lg font-bold text-grey-dark">{formatCHF(totals.y2Total)}</span>
+            <span className="heading-stat-sm">{formatCHF(totals.y2Total)}</span>
           </div>
           <div className="text-sm space-y-1 text-text-light">
             <div className="flex justify-between">
@@ -72,7 +72,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
         <div className="p-4 bg-bg-light rounded-lg">
           <div className="flex justify-between items-start mb-2">
             <h4 className="heading-item">Jahr 3</h4>
-            <span className="text-lg font-bold text-grey-dark">{formatCHF(totals.y3Total)}</span>
+            <span className="heading-stat-sm">{formatCHF(totals.y3Total)}</span>
           </div>
           <div className="text-sm space-y-1 text-text-light">
             <div className="flex justify-between">

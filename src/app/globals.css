@@ -141,6 +141,7 @@
 
 @layer utilities {
   .heading-stat       { @apply text-3xl font-bold text-grey-dark; }
+  .heading-stat-sm    { @apply text-lg font-bold text-grey-dark; }
   .heading-page       { @apply text-xl font-bold text-grey-dark md:text-3xl; }
   .heading-section    { @apply text-2xl font-bold text-grey-dark; }
   .heading-subsection { @apply text-xl font-semibold text-grey-dark; }
