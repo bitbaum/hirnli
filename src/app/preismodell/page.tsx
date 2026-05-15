@@ -11,7 +11,7 @@ import { PRICING_TIERS, PRICE_EXAMPLES, KPI_DATA, PROCESS_STEPS, FAQ_ITEMS } fro
 import { PRICE_EXAMPLE_COLUMNS, KPI_COLUMNS } from './components';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
-import UnifiedNumberDisplay from '@/components/data/UnifiedNumberDisplay';
+import { NumberWithSource } from '@/components/data/NumberWithSource';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 
@@ -192,9 +192,9 @@ export default function PreismodellPage() {
         </h2>
 
         <MetricGrid columns={4} className="mb-6">
-          <UnifiedNumberDisplay numberKey="GRATIS_QUOTE_TARGET" size="md" showLabel={true} />
-          <UnifiedNumberDisplay numberKey="KULTURLEGI_QUOTE_TARGET" size="md" showLabel={true} />
-          <UnifiedNumberDisplay numberKey="SUPPORTER_QUOTE_TARGET" size="md" showLabel={true} />
+          <NumberWithSource numberKey="GRATIS_QUOTE_TARGET" size="md" showLabel={true} />
+          <NumberWithSource numberKey="KULTURLEGI_QUOTE_TARGET" size="md" showLabel={true} />
+          <NumberWithSource numberKey="SUPPORTER_QUOTE_TARGET" size="md" showLabel={true} />
           <MetricCard label="Aufstockungen" value="Konto 3510" subtitle="Quelldaten" sourceType="live" />
         </MetricGrid>
 

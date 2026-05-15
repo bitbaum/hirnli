@@ -16,7 +16,7 @@ import {
 } from './data';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
-import UnifiedNumberDisplay from '@/components/data/UnifiedNumberDisplay';
+import { NumberWithSource } from '@/components/data/NumberWithSource';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export const metadata: Metadata = {
@@ -41,10 +41,10 @@ export default function OperationsPage() {
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Operative Kennzahlen</h2>
         <MetricGrid columns={4}>
-          <UnifiedNumberDisplay numberKey="DEVICES_PER_MONTH_CURRENT" size="md" showLabel={true} />
-          <UnifiedNumberDisplay numberKey="TIME_PER_DEVICE" size="md" showLabel={true} />
-          <UnifiedNumberDisplay numberKey="STORAGE_DAYS_TARGET" size="md" showLabel={true} />
-          <UnifiedNumberDisplay numberKey="RECYCLING_RATE_TARGET" size="md" showLabel={true} />
+          <NumberWithSource numberKey="DEVICES_PER_MONTH_CURRENT" size="md" showLabel={true} />
+          <NumberWithSource numberKey="TIME_PER_DEVICE" size="md" showLabel={true} />
+          <NumberWithSource numberKey="STORAGE_DAYS_TARGET" size="md" showLabel={true} />
+          <NumberWithSource numberKey="RECYCLING_RATE_TARGET" size="md" showLabel={true} />
         </MetricGrid>
         <p className="mt-2 text-sm text-text-muted">
           <Badge variant="estimated">KPI</Badge>{' '}
