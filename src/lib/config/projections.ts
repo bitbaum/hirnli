@@ -87,7 +87,9 @@ export const REPAIR_TABLES_CURRENT =
   getNumericValue('REPAIR_TABLES_CURRENT'); // 4
 const SWISS_FOUNDATIONS_UNIVERSE =
   getNumericValue('SWISS_FOUNDATIONS_UNIVERSE'); // 16900
-export const SWISS_FOUNDATIONS_DISPLAY = `~${SWISS_FOUNDATIONS_UNIVERSE.toLocaleString('de-CH')}`; // '~16'900'
+// Use a literal apostrophe separator instead of toLocaleString to guarantee
+// identical output on the Node.js server and in the browser (avoids hydration mismatch).
+export const SWISS_FOUNDATIONS_DISPLAY = `~${String(SWISS_FOUNDATIONS_UNIVERSE).replace(/\B(?=(\d{3})+(?!\d))/g, '’')}`; // '~16’900'
 
 // -- Experience ----------------------------------------------------------------
 
