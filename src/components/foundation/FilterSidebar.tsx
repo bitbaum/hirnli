@@ -6,7 +6,7 @@ import CollapsibleSection from '@/components/ui/CollapsibleSection';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { FoundationFilters, SortField, FilterPresetId } from '@/lib/domain/foundation-filter';
 import { TRUST_CONFIG, TRUST_LEVELS, type TrustLevel } from '@/lib/config/trust-levels';
-import { DEFAULT_FILTERS, FILTER_PRESETS, findActivePreset } from '@/lib/domain/foundation-filter';
+import { FILTER_PRESETS, findActivePreset } from '@/lib/domain/foundation-filter';
 import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import type { FilterChip } from '@/lib/types/filter';
 import { fitDisplayLabel } from '@/lib/domain/fit-scoring';

@@ -28,6 +28,3 @@ export const BRANDING = {
     mono: '"Consolas", "Monaco", monospace',
   },
 } as const;
-
-// Type exports
-type BrandingConfig = typeof BRANDING;

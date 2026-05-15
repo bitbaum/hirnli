@@ -13,7 +13,7 @@ const financialRowSchema = z.object({
 export type FinancialRow = z.infer<typeof financialRowSchema>;
 
 // Year data container
-const yearDataSchema = z.object({
+export const yearDataSchema = z.object({
   year: z.number(),
   source: z.string(),
   imported_at: z.string(),
@@ -22,7 +22,7 @@ const yearDataSchema = z.object({
 export type YearData = z.infer<typeof yearDataSchema>;
 
 // Monthly aggregate (computed from raw rows)
-const monthlyAggregateSchema = z.object({
+export const monthlyAggregateSchema = z.object({
   period: z.string(),
   year: z.number(),
   month: z.number(),
@@ -46,7 +46,7 @@ const sourceInfoSchema = z.object({
 export type SourceInfo = z.infer<typeof sourceInfoSchema>;
 
 // Sum with source (for traceable calculations)
-const sumWithSourceSchema = z.object({
+export const sumWithSourceSchema = z.object({
   value: z.number(),
   source: sourceInfoSchema,
   calculation: z.object({

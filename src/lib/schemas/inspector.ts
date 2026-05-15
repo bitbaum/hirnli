@@ -12,7 +12,7 @@ export const INSPECTOR_SOURCE_ICONS: Record<InspectorSourceType, string> = {
 };
 
 // Data shape for the NumberInspector modal
-const inspectorDataSchema = z.object({
+export const inspectorDataSchema = z.object({
   label: z.string(),
   value: z.string(),
   sourceType: InspectorSourceType,

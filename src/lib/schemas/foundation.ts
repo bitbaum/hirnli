@@ -69,8 +69,6 @@ export const RESEARCH_METHOD_RANK: Record<ApplicationResearchMethod, number> = {
   'unknown':         0,  // Legacy, provenance unknown
 };
 
-// Methods considered "researched" — won't appear in the research queue
-const RESEARCHED_METHODS: ApplicationResearchMethod[] = ['chatgpt-agent', 'claude-agent', 'manual'];
 
 // Sentinel stored in optional text fields (deadlineText, amount.text) when the
 // field is known to exist but the specific value is undetermined.
@@ -78,7 +76,7 @@ const RESEARCHED_METHODS: ApplicationResearchMethod[] = ['chatgpt-agent', 'claud
 export const UNKNOWN_FIELD = 'Unbekannt';
 
 // Theme definition
-const themeSchema = z.object({
+export const themeSchema = z.object({
   id: ThemeId,
   label: z.string(),
   icon: z.string(),
@@ -88,7 +86,7 @@ const themeSchema = z.object({
 export type Theme = z.infer<typeof themeSchema>;
 
 // Source definition
-const sourceSchema = z.object({
+export const sourceSchema = z.object({
   id: SourceId,
   label: z.string(),
   url: z.string().optional(),
@@ -231,7 +229,7 @@ const analysisSchema = z.object({
   // -- Identity (for multi-org support) ---------------------------------------
   orgId: z.string().default('revamp-it'),
 });
-type FoundationAnalysis = z.infer<typeof analysisSchema>;
+export type FoundationAnalysis = z.infer<typeof analysisSchema>;
 
 // ===========================================================================
 // Composed: Foundation — Merged view (registry + analysis)
@@ -256,7 +254,7 @@ export const foundationSchema = _foundationRaw;
 export type Foundation = z.output<typeof foundationSchema>;
 
 // Type labels
-const typeLabelSchema = z.object({
+export const typeLabelSchema = z.object({
   short: z.string(),
   long: z.string(),
   desc: z.string(),
@@ -265,7 +263,7 @@ const typeLabelSchema = z.object({
 export type TypeLabel = z.infer<typeof typeLabelSchema>;
 
 // Status labels
-const statusLabelSchema = z.object({
+export const statusLabelSchema = z.object({
   text: z.string(),
   class: z.string(),
   desc: z.string(),

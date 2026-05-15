@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { escapeCSV } from '@/lib/utils/csv';
 import { getTodayISO } from '@/lib/utils/format';
-import { type CsvColumn, COLUMN_GROUPS, ALL_COLUMNS, DEFAULT_IDS } from './csv-export-columns';
+import { COLUMN_GROUPS, ALL_COLUMNS, DEFAULT_IDS } from './csv-export-columns';
 
 // ---------------------------------------------------------------------------
 // Coverage indicator

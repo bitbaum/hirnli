@@ -1,16 +1,14 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
-import { hasGesuchPage, tierAtLeast, TIER_LABELS } from '@/lib/domain/foundation-helpers';
+import { hasGesuchPage, tierAtLeast } from '@/lib/domain/foundation-helpers';
 import { getFoundationPresentation } from '@/lib/domain/foundation-presenter';
 import AddToPipelineButton from './AddToPipelineButton';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
 import { getResearchLinks } from '@/lib/config/research-links';
-import { TRUST_CONFIG } from '@/lib/config/trust-levels';
 import FoundationScoresCard from './FoundationScoresCard';
 
 interface FoundationSidebarProps {

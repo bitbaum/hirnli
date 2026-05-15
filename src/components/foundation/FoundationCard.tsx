@@ -16,7 +16,7 @@ interface FoundationCardProps {
 export default function FoundationCard({ foundation: f, inPipeline, score }: FoundationCardProps) {
   const statusLabel = STATUS_LABELS[f.status];
   const typeLabel = TYPE_LABELS[f.type];
-  const { tier, tierLabel, tierColor, fitLevel, trust, trustDisplay } = getFoundationPresentation(f);
+  const { tierLabel, tierColor, fitLevel, trustDisplay } = getFoundationPresentation(f);
   // Use stored priority (SSOT) — label/color from config, override flag from field
   const priorityConfig = PRIORITY_CONFIG[f.priority];
   const priorityLabel = priorityConfig.label;

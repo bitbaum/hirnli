@@ -6,49 +6,6 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SOCIAL_DISPLAY } from '@/lib/config/stories';
 
 // ---------------------------------------------------------------------------
-// Theory of Change column component
-// ---------------------------------------------------------------------------
-
-export type ToCItemStatus = 'measured' | 'estimated' | 'missing';
-
-interface ToCItem {
-  label: string;
-  status: ToCItemStatus;
-}
-
-const STATUS_INDICATOR: Record<ToCItemStatus, string> = {
-  measured: 'bg-success',
-  estimated: 'bg-warning',
-  missing: 'bg-grey-medium',
-};
-
-function ToCColumn({
-  title,
-  color,
-  titleColor,
-  items,
-}: {
-  title: string;
-  color: string;
-  titleColor: string;
-  items: ToCItem[];
-}) {
-  return (
-    <div className={`rounded-lg border p-3 ${color}`}>
-      <h4 className={`mb-3 border-b pb-2 heading-detail ${titleColor}`}>{title}</h4>
-      <div className="space-y-2">
-        {items.map((item) => (
-          <div key={item.label} className="flex items-center justify-between rounded bg-white/70 px-2 py-1.5 text-sm">
-            <span>{item.label}</span>
-            <span className={`h-2 w-2 rounded-full ${STATUS_INDICATOR[item.status]}`} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Impact story cards (ecological, resource conservation, social)
 // ---------------------------------------------------------------------------
 
