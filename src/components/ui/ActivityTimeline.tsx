@@ -8,7 +8,10 @@
 
 import { useState, useEffect } from 'react';
 import { formatDateTimeCH } from '@/lib/utils/format';
+import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
 import type { ActivityLogEntryJSON } from '@/lib/db/schema';
+
+const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map(s => [s.id, s.label]));
 
 const ACTION_LABELS: Record<string, string> = {
   created: 'Erstellt',
@@ -94,7 +97,7 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
               </p>
               {hasStatusChange && (
                 <p className="text-sm text-text-muted">
-                  {oldStatus} → {newStatus}
+                  {STATUS_LABEL[oldStatus] ?? oldStatus} → {STATUS_LABEL[newStatus] ?? newStatus}
                 </p>
               )}
               <p className="text-sm text-text-light">
