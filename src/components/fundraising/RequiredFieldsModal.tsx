@@ -10,6 +10,7 @@ import type { RequiredField, ApplicationStatusId } from '@/lib/config/applicatio
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 import { NET_ERR_RETRY, API_ERR_SAVE } from '@/lib/utils/errors';
 import { Button } from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
 
 interface RequiredFieldsModalProps {
   applicationId: string;
@@ -67,50 +68,41 @@ export default function RequiredFieldsModal({
   }
 
   return (
-    <>
-      {/* Backdrop */}
-      <div className="fixed inset-0 z-40 bg-black/30" onClick={onCancel} />
+    <Modal isOpen={true} onClose={onCancel} title="Pflichtfelder ergänzen" className="max-w-sm">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <p className="text-sm text-text-muted">
+          Für diesen Statuswechsel werden zusätzliche Angaben benötigt.
+        </p>
 
-      {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl space-y-4"
-        >
-          <h3 className="heading-item">Pflichtfelder ergänzen</h3>
-          <p className="text-sm text-text-muted">
-            Für diesen Statuswechsel werden zusätzliche Angaben benötigt.
-          </p>
-
-          {missingFields.map((field) => (
-            <div key={field.field}>
-              <label className={FORM_LABEL_CLASS}>
-                {field.label}
-              </label>
-              <input
-                type={field.type === 'number' ? 'number' : field.type === 'date' ? 'date' : 'text'}
-                value={values[field.field] ?? ''}
-                onChange={(e) => setValues((prev) => ({ ...prev, [field.field]: e.target.value }))}
-                className={FORM_INPUT_CLASS}
-                required
-              />
-            </div>
-          ))}
-
-          {error && (
-            <p className="text-sm text-danger">{error}</p>
-          )}
-
-          <div className="flex items-center justify-end gap-3 pt-2">
-            <Button variant="ghost" type="button" onClick={onCancel} disabled={submitting}>
-              Abbrechen
-            </Button>
-            <Button type="submit" disabled={submitting}>
-              {submitting ? 'Speichern…' : 'Speichern'}
-            </Button>
+        {missingFields.map((field) => (
+          <div key={field.field}>
+            <label className={FORM_LABEL_CLASS} htmlFor={`required-field-${field.field}`}>
+              {field.label}
+            </label>
+            <input
+              id={`required-field-${field.field}`}
+              type={field.type === 'number' ? 'number' : field.type === 'date' ? 'date' : 'text'}
+              value={values[field.field] ?? ''}
+              onChange={(e) => setValues((prev) => ({ ...prev, [field.field]: e.target.value }))}
+              className={FORM_INPUT_CLASS}
+              required
+            />
           </div>
-        </form>
-      </div>
-    </>
+        ))}
+
+        {error && (
+          <p className="text-sm text-danger-text">{error}</p>
+        )}
+
+        <div className="flex items-center justify-end gap-3 pt-2">
+          <Button variant="ghost" type="button" onClick={onCancel} disabled={submitting}>
+            Abbrechen
+          </Button>
+          <Button type="submit" disabled={submitting}>
+            {submitting ? 'Speichern…' : 'Speichern'}
+          </Button>
+        </div>
+      </form>
+    </Modal>
   );
 }

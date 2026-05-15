@@ -1,9 +1,12 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import type { NumberSource } from '@/lib/config/numbers';
 import { CONFIDENCE_DISPLAY_LABELS, CONFIDENCE_COLORS } from '@/lib/config/numbers';
 import { formatDateCHLong } from '@/lib/utils/format';
 import { Button } from '@/components/ui/Button';
+
+const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
 interface SourceModalProps {
   data: NumberSource;
@@ -16,12 +19,44 @@ interface SourceModalProps {
  * Shows source, methodology, confidence, and links for any number.
  */
 export default function SourceModal({ data, formattedValue, onClose }: SourceModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement as HTMLElement;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key === 'Tab' && modalRef.current) {
+        const els = modalRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
+        if (!els.length) return;
+        const first = els[0];
+        const last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    requestAnimationFrame(() => modalRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+      previousFocus?.focus();
+    };
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={data.label}
         className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -38,7 +73,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
             </div>
             <button
               onClick={onClose}
-              className="text-text-muted hover:text-text text-2xl leading-none"
+              className="flex h-11 w-11 items-center justify-center rounded text-2xl text-text-muted hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               aria-label="Schliessen"
             >
               ×

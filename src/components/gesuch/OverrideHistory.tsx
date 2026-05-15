@@ -7,9 +7,11 @@
  * with changed fields, and allows rollback to a previous version.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const ACTIVITY_LOG_LIMIT = 50;
+const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+
 import { formatDateTimeCH } from '@/lib/utils/format';
 import { NET_ERR_RETRY } from '@/lib/utils/errors';
 import type { GesuchOverridesData, ActivityLogEntryJSON } from '@/lib/db/schema';
@@ -47,6 +49,35 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
   const [error, setError] = useState(false);
   const [restoring, setRestoring] = useState<string | null>(null);
   const [restoreError, setRestoreError] = useState<string | null>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
+
+  // Focus trap, Escape key, scroll lock
+  useEffect(() => {
+    if (!open) return;
+    const previousFocus = document.activeElement as HTMLElement;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key === 'Tab' && drawerRef.current) {
+        const els = drawerRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
+        if (!els.length) return;
+        const first = els[0];
+        const last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    requestAnimationFrame(() => drawerRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+      previousFocus?.focus();
+    };
+  }, [open, onClose]);
 
   useEffect(() => {
     if (!open) return;
@@ -95,23 +126,30 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 z-40 bg-black/30" onClick={onClose} />
+      <div className="fixed inset-0 z-40 bg-black/30" onClick={onClose} aria-hidden="true" />
 
       {/* Drawer */}
-      <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto bg-white shadow-xl">
+      <div
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Versionshistorie"
+        className="fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto bg-white shadow-xl"
+      >
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <h2 className="heading-item">Versionshistorie</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-text-muted hover:bg-bg-light hover:text-grey-dark"
+            aria-label="Schliessen"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-text-muted hover:bg-bg-light hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             ✕
           </button>
         </div>
 
         {restoreError && (
-          <div className="border-b border-danger/20 bg-danger/10 px-5 py-3 text-sm text-danger">
+          <div className="border-b border-danger/20 bg-danger/10 px-5 py-3 text-sm text-danger-text">
             {restoreError}
           </div>
         )}
