@@ -10,11 +10,12 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   padding?: boolean;
+  id?: string;
 }
 
-export default function Card({ variant = 'default', children, className = '', padding = true }: CardProps) {
+export default function Card({ variant = 'default', children, className = '', padding = true, id }: CardProps) {
   return (
-    <div className={`${BASE[variant]} ${padding ? 'p-6' : ''} ${className}`}>
+    <div id={id} className={`${BASE[variant]} ${padding ? 'p-6' : ''} ${className}`}>
       {children}
     </div>
   );

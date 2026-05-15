@@ -253,7 +253,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
       </Card>
 
       {/* Research Info + Trust Level */}
-      <Card>
+      <Card id="recherche">
         <h3 className="heading-label mb-3">Recherche</h3>
         <div className="space-y-2 text-sm">
           <div className={`flex items-center gap-2 rounded px-2 py-1.5 ${trustDisplay.badgeClass}`}>

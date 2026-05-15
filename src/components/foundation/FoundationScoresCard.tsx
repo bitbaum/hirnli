@@ -78,6 +78,12 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
               </li>
             ))}
           </ul>
+          <a
+            href="#recherche"
+            className="mt-2 flex items-center gap-1 text-xs text-primary-text hover:underline"
+          >
+            Daten ergänzen →
+          </a>
         </div>
       )}
     </Card>
