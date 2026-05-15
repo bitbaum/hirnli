@@ -82,8 +82,7 @@ export default function PipelineOverviewCard({
         <div className="flex items-center justify-between rounded-lg border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm">
           <span>
             <span className="font-semibold text-warning-text">{gesuchGapCount}</span>
-            {' '}von {gesuchCount} Gesuch-Seiten haben dünne Quelldaten —{' '}
-            researchNotes oder purposeSummary vervollständigen.
+            {' '}von {gesuchCount} Gesuch-Seiten haben dünne Quelldaten — Notizen, Zweck, Kontakt oder Website vervollständigen.
           </span>
           <button
             onClick={() => onApplyPreset('mit-luecken')}
