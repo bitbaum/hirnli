@@ -20,12 +20,12 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border text-left text-sm text-text-muted">
-              <th className="pb-2 font-medium">Jahr</th>
-              <th className="pb-2 text-right font-medium">Einnahmen</th>
-              <th className="pb-2 text-right font-medium">Aufwand</th>
-              <th className="pb-2 text-right font-medium">Ergebnis</th>
-              <th className="pb-2 text-right font-medium">Marge</th>
-              <th className="pb-2 text-center font-medium">Status</th>
+              <th scope="col" className="pb-2 font-medium">Jahr</th>
+              <th scope="col" className="pb-2 text-right font-medium">Einnahmen</th>
+              <th scope="col" className="pb-2 text-right font-medium">Aufwand</th>
+              <th scope="col" className="pb-2 text-right font-medium">Ergebnis</th>
+              <th scope="col" className="pb-2 text-right font-medium">Marge</th>
+              <th scope="col" className="pb-2 text-center font-medium">Status</th>
             </tr>
           </thead>
           <tbody>

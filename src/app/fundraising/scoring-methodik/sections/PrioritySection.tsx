@@ -39,9 +39,9 @@ export default function PrioritySection({ priorityCounts, priorityAvg }: Props) 
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="pb-2 pr-4 font-medium text-text-muted">Bedingung</th>
-                  <th className="pb-2 text-right font-medium text-text-muted">Multiplikator</th>
-                  <th className="pb-2 text-right font-medium text-text-muted">Effekt</th>
+                  <th scope="col" className="pb-2 pr-4 font-medium text-text-muted">Bedingung</th>
+                  <th scope="col" className="pb-2 text-right font-medium text-text-muted">Multiplikator</th>
+                  <th scope="col" className="pb-2 text-right font-medium text-text-muted">Effekt</th>
                 </tr>
               </thead>
               <tbody className="text-text-light">

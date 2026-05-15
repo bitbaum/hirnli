@@ -66,11 +66,11 @@ export default function MeineGesuchePage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-bg-light text-left">
-                <th className="px-4 py-3 font-semibold text-text-muted">Stiftung</th>
-                <th className="px-4 py-3 font-semibold text-text-muted">Status</th>
-                <th className="px-4 py-3 font-semibold text-text-muted hidden sm:table-cell">Felder</th>
-                <th className="px-4 py-3 font-semibold text-text-muted hidden sm:table-cell">Zuletzt</th>
-                <th className="px-4 py-3" />
+                <th scope="col" className="px-4 py-3 font-semibold text-text-muted">Stiftung</th>
+                <th scope="col" className="px-4 py-3 font-semibold text-text-muted">Status</th>
+                <th scope="col" className="px-4 py-3 font-semibold text-text-muted hidden sm:table-cell">Felder</th>
+                <th scope="col" className="px-4 py-3 font-semibold text-text-muted hidden sm:table-cell">Zuletzt</th>
+                <th scope="col" className="px-4 py-3" />
               </tr>
             </thead>
             <tbody>

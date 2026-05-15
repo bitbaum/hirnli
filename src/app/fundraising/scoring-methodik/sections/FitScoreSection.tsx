@@ -13,9 +13,9 @@ export default function FitScoreSection() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border text-left">
-                <th className="pb-2 pr-4 heading-item">Dimension</th>
-                <th className="pb-2 pr-4 heading-item">Bereich</th>
-                <th className="pb-2 heading-item">Beschreibung</th>
+                <th scope="col" className="pb-2 pr-4 heading-item">Dimension</th>
+                <th scope="col" className="pb-2 pr-4 heading-item">Bereich</th>
+                <th scope="col" className="pb-2 heading-item">Beschreibung</th>
               </tr>
             </thead>
             <tbody className="text-text-light">

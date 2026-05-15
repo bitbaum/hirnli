@@ -66,13 +66,13 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
       <table className="mb-6 w-full text-sm">
         <thead>
           <tr className="border-b-2 border-grey-dark text-left">
-            <th className="pb-2 font-semibold" />
+            <th scope="col" className="pb-2 font-semibold" />
             {dok.budget.threeYearModel.map((y) => (
-              <th key={y.year} className="pb-2 text-right font-semibold">
+              <th key={y.year} scope="col" className="pb-2 text-right font-semibold">
                 {y.year}<br /><span className="text-sm font-normal text-text-muted">{y.label}</span>
               </th>
             ))}
-            <th className="pb-2 text-right font-semibold">Total</th>
+            <th scope="col" className="pb-2 text-right font-semibold">Total</th>
           </tr>
         </thead>
         <tbody>
@@ -125,9 +125,9 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
       <table className="mb-6 w-full text-sm">
         <thead>
           <tr className="border-b-2 border-grey-dark text-left">
-            <th className="pb-2 font-semibold">Position</th>
-            <th className="pb-2 text-right font-semibold">Betrag</th>
-            <th className="pb-2 text-right font-semibold">%</th>
+            <th scope="col" className="pb-2 font-semibold">Position</th>
+            <th scope="col" className="pb-2 text-right font-semibold">Betrag</th>
+            <th scope="col" className="pb-2 text-right font-semibold">%</th>
           </tr>
         </thead>
         <tbody>

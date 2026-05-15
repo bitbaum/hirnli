@@ -36,8 +36,8 @@ export default function ReadinessSection({ readinessAvg }: Props) {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="pb-2 pr-4 font-medium text-text-muted">Check</th>
-                    <th className="pb-2 text-right font-medium text-text-muted">Punkte</th>
+                    <th scope="col" className="pb-2 pr-4 font-medium text-text-muted">Check</th>
+                    <th scope="col" className="pb-2 text-right font-medium text-text-muted">Punkte</th>
                   </tr>
                 </thead>
                 <tbody className="text-text-light">

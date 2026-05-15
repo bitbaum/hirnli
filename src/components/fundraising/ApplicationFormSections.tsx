@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
@@ -19,23 +20,24 @@ export function ApplicationDateFields({
   decisionDate,
   onChange,
 }: ApplicationDateFieldsProps) {
+  const id = useId();
   return (
     <div className={FORM_GRID_2COL_CLASS}>
       <div>
-        <label className={FORM_LABEL_CLASS}>Kontaktdatum</label>
-        <input type="date" value={contactDate} onChange={(e) => onChange('contactDate', e.target.value)} className={FORM_INPUT_CLASS} />
+        <label htmlFor={`${id}-contact-date`} className={FORM_LABEL_CLASS}>Kontaktdatum</label>
+        <input id={`${id}-contact-date`} type="date" value={contactDate} onChange={(e) => onChange('contactDate', e.target.value)} className={FORM_INPUT_CLASS} />
       </div>
       <div>
-        <label className={FORM_LABEL_CLASS}>Eingereicht am</label>
-        <input type="date" value={submissionDate} onChange={(e) => onChange('submissionDate', e.target.value)} className={FORM_INPUT_CLASS} />
+        <label htmlFor={`${id}-submission-date`} className={FORM_LABEL_CLASS}>Eingereicht am</label>
+        <input id={`${id}-submission-date`} type="date" value={submissionDate} onChange={(e) => onChange('submissionDate', e.target.value)} className={FORM_INPUT_CLASS} />
       </div>
       <div>
-        <label className={FORM_LABEL_CLASS}>Entscheidung erwartet</label>
-        <input type="date" value={decisionExpected} onChange={(e) => onChange('decisionExpected', e.target.value)} className={FORM_INPUT_CLASS} />
+        <label htmlFor={`${id}-decision-expected`} className={FORM_LABEL_CLASS}>Entscheidung erwartet</label>
+        <input id={`${id}-decision-expected`} type="date" value={decisionExpected} onChange={(e) => onChange('decisionExpected', e.target.value)} className={FORM_INPUT_CLASS} />
       </div>
       <div>
-        <label className={FORM_LABEL_CLASS}>Entscheidung erhalten</label>
-        <input type="date" value={decisionDate} onChange={(e) => onChange('decisionDate', e.target.value)} className={FORM_INPUT_CLASS} />
+        <label htmlFor={`${id}-decision-date`} className={FORM_LABEL_CLASS}>Entscheidung erhalten</label>
+        <input id={`${id}-decision-date`} type="date" value={decisionDate} onChange={(e) => onChange('decisionDate', e.target.value)} className={FORM_INPUT_CLASS} />
       </div>
     </div>
   );
@@ -56,12 +58,14 @@ export function ApplicationOutcomeFields({
   onChange,
   rows = 2,
 }: ApplicationOutcomeFieldsProps) {
+  const id = useId();
   return (
     <>
       {status === 'accepted' && (
         <div>
-          <label className={FORM_LABEL_CLASS}>Erfolgsfaktoren</label>
+          <label htmlFor={`${id}-success-factors`} className={FORM_LABEL_CLASS}>Erfolgsfaktoren</label>
           <textarea
+            id={`${id}-success-factors`}
             value={successFactors}
             onChange={(e) => onChange('successFactors', e.target.value)}
             rows={rows}
@@ -72,8 +76,9 @@ export function ApplicationOutcomeFields({
       )}
       {status === 'rejected' && (
         <div>
-          <label className={FORM_LABEL_CLASS}>Ablehnungsgrund</label>
+          <label htmlFor={`${id}-rejection-reason`} className={FORM_LABEL_CLASS}>Ablehnungsgrund</label>
           <textarea
+            id={`${id}-rejection-reason`}
             value={rejectionReason}
             onChange={(e) => onChange('rejectionReason', e.target.value)}
             rows={rows}

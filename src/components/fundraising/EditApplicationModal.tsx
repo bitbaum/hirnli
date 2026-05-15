@@ -7,7 +7,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect, useId } from 'react';
 import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
@@ -17,6 +17,8 @@ import { Button } from '@/components/ui/Button';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import { buildPatchPayload, initFieldsFromApplication, type ApplicationFormFields } from '@/hooks/useApplicationForm';
 import { ApplicationDateFields, ApplicationOutcomeFields } from './ApplicationFormSections';
+
+const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
 interface EditApplicationModalProps {
   application: Application;
@@ -33,6 +35,8 @@ export function EditApplicationModal({
 }: EditApplicationModalProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const id = useId();
 
   // Form state — initialised from application via shared utility
   const init = initFieldsFromApplication(application);
@@ -49,6 +53,32 @@ export function EditApplicationModal({
   const [decisionDate, setDecisionDate] = useState(init.decisionDate);
   const [rejectionReason, setRejectionReason] = useState(init.rejectionReason);
   const [successFactors, setSuccessFactors] = useState(init.successFactors);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement as HTMLElement;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key === 'Tab' && modalRef.current) {
+        const els = modalRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
+        if (!els.length) return;
+        const first = els[0];
+        const last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    requestAnimationFrame(() => modalRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+      previousFocus?.focus();
+    };
+  }, [onClose]);
 
   async function handleSave() {
     setIsSaving(true);
@@ -89,7 +119,13 @@ export function EditApplicationModal({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl">
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Gesuch bearbeiten"
+        className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl"
+      >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
           <div>
@@ -98,7 +134,7 @@ export function EditApplicationModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-2 text-text-muted hover:bg-bg-light hover:text-grey-dark"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-text-muted hover:bg-bg-light hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             aria-label="Schliessen"
           >
             ✕
@@ -112,10 +148,11 @@ export function EditApplicationModal({
           {/* Status + Priority row */}
           <div className={FORM_GRID_2COL_CLASS}>
             <div>
-              <label className={FORM_LABEL_CLASS}>
+              <label htmlFor={`${id}-status`} className={FORM_LABEL_CLASS}>
                 Status
               </label>
               <select
+                id={`${id}-status`}
                 value={status}
                 onChange={(e) => setStatus(e.target.value as ApplicationStatusId)}
                 className={FORM_INPUT_CLASS}
@@ -128,10 +165,11 @@ export function EditApplicationModal({
               </select>
             </div>
             <div>
-              <label className={FORM_LABEL_CLASS}>
+              <label htmlFor={`${id}-priority`} className={FORM_LABEL_CLASS}>
                 Priorität
               </label>
               <select
+                id={`${id}-priority`}
                 value={priorityLevel}
                 onChange={(e) => setPriorityLevel(e.target.value)}
                 className={FORM_INPUT_CLASS}
@@ -147,10 +185,11 @@ export function EditApplicationModal({
           {/* Amounts row */}
           <div className={FORM_GRID_2COL_CLASS}>
             <div>
-              <label className={FORM_LABEL_CLASS}>
+              <label htmlFor={`${id}-requested`} className={FORM_LABEL_CLASS}>
                 Beantragt (CHF)
               </label>
               <input
+                id={`${id}-requested`}
                 type="number"
                 value={requestedAmount}
                 onChange={(e) => setRequestedAmount(e.target.value)}
@@ -159,10 +198,11 @@ export function EditApplicationModal({
               />
             </div>
             <div>
-              <label className={FORM_LABEL_CLASS}>
+              <label htmlFor={`${id}-awarded`} className={FORM_LABEL_CLASS}>
                 Zugesagt (CHF)
               </label>
               <input
+                id={`${id}-awarded`}
                 type="number"
                 value={awardedAmount}
                 onChange={(e) => setAwardedAmount(e.target.value)}
@@ -175,10 +215,11 @@ export function EditApplicationModal({
           {/* Assigned + Focus row */}
           <div className={FORM_GRID_2COL_CLASS}>
             <div>
-              <label className={FORM_LABEL_CLASS}>
+              <label htmlFor={`${id}-assigned-to`} className={FORM_LABEL_CLASS}>
                 Zuständig
               </label>
               <input
+                id={`${id}-assigned-to`}
                 type="text"
                 value={assignedTo}
                 onChange={(e) => setAssignedTo(e.target.value)}
@@ -187,10 +228,11 @@ export function EditApplicationModal({
               />
             </div>
             <div>
-              <label className={FORM_LABEL_CLASS}>
+              <label htmlFor={`${id}-project-focus`} className={FORM_LABEL_CLASS}>
                 Projektfokus
               </label>
               <input
+                id={`${id}-project-focus`}
                 type="text"
                 value={projectFocus}
                 onChange={(e) => setProjectFocus(e.target.value)}
@@ -214,10 +256,11 @@ export function EditApplicationModal({
 
           {/* Notes */}
           <div>
-            <label className={FORM_LABEL_CLASS}>
+            <label htmlFor={`${id}-notes`} className={FORM_LABEL_CLASS}>
               Notizen
             </label>
             <textarea
+              id={`${id}-notes`}
               value={customizationNotes}
               onChange={(e) => setCustomizationNotes(e.target.value)}
               rows={3}

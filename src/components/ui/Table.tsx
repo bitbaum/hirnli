@@ -31,6 +31,7 @@ export default function Table<T>({
             {columns.map((col) => (
               <th
                 key={col.key}
+                scope="col"
                 className={`${cellPadding} text-left heading-xs-label ${
                   col.align === 'right' ? 'text-right' : col.align === 'center' ? 'text-center' : ''
                 } ${col.className || ''}`}
