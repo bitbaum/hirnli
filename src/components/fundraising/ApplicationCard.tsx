@@ -148,12 +148,20 @@ export function ApplicationCard({
             </div>
           )}
 
-          {/* Dates row */}
+          {/* Dates row — show submissionDate once submitted, contactDate before */}
           <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-sm">
-            {application.contactDate && (
-              <span className="text-text-muted" title="Kontaktdatum">
-                📅 {formatDateCH(application.contactDate)}
-              </span>
+            {['submitted', 'pending', 'followup', 'accepted'].includes(application.status) ? (
+              application.submissionDate && (
+                <span className="text-text-muted" title="Eingereicht am">
+                  📤 {formatDateCH(application.submissionDate)}
+                </span>
+              )
+            ) : (
+              application.contactDate && (
+                <span className="text-text-muted" title="Kontaktdatum">
+                  📅 {formatDateCH(application.contactDate)}
+                </span>
+              )
             )}
             {application.decisionExpected && (
               <span className={deadlineColor()} title="Entscheidung erwartet">

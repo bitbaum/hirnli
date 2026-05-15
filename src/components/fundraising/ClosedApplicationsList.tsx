@@ -47,9 +47,11 @@ export function ClosedApplicationsList({ applications }: ClosedApplicationsListP
                   </Link>
                 </div>
                 <div className="flex items-center gap-4 shrink-0 text-sm text-text-muted">
-                  {application.requestedAmount != null && (
+                  {application.status === 'accepted' && application.awardedAmount != null ? (
+                    <span className="font-medium text-success-text">{formatCHF(application.awardedAmount)} zugesagt</span>
+                  ) : application.requestedAmount != null ? (
                     <span>{formatCHF(application.requestedAmount)}</span>
-                  )}
+                  ) : null}
                   {application.decisionDate && (
                     <span>{formatDateCH(application.decisionDate)}</span>
                   )}
