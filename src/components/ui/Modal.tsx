@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useCallback, useRef } from 'react';
+import { useRef } from 'react';
+import { useFocusTrap } from '@/lib/utils/a11y';
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,59 +12,9 @@ interface ModalProps {
   className?: string;
 }
 
-const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
-
 export default function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
-
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-        return;
-      }
-
-      // Focus trap: cycle Tab within modal
-      if (e.key === 'Tab' && dialogRef.current) {
-        const focusable = dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
-        if (focusable.length === 0) return;
-
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    },
-    [onClose],
-  );
-
-  useEffect(() => {
-    if (isOpen) {
-      previousFocusRef.current = document.activeElement as HTMLElement;
-      document.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-
-      // Focus first focusable element (or the close button)
-      requestAnimationFrame(() => {
-        const first = dialogRef.current?.querySelector<HTMLElement>(FOCUSABLE);
-        first?.focus();
-      });
-    }
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-
-      // Restore focus to previously focused element
-      previousFocusRef.current?.focus();
-    };
-  }, [isOpen, handleKeyDown]);
+  useFocusTrap(dialogRef, onClose, isOpen);
 
   if (!isOpen) return null;
 

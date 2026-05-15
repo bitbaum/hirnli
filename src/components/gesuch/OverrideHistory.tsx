@@ -8,9 +8,9 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
+import { useFocusTrap } from '@/lib/utils/a11y';
 
 const ACTIVITY_LOG_LIMIT = 50;
-const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
 import { formatDateTimeCH } from '@/lib/utils/format';
 import { NET_ERR_RETRY } from '@/lib/utils/errors';
@@ -50,34 +50,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
   const [restoring, setRestoring] = useState<string | null>(null);
   const [restoreError, setRestoreError] = useState<string | null>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
-
-  // Focus trap, Escape key, scroll lock
-  useEffect(() => {
-    if (!open) return;
-    const previousFocus = document.activeElement as HTMLElement;
-    document.body.style.overflow = 'hidden';
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onClose(); return; }
-      if (e.key === 'Tab' && drawerRef.current) {
-        const els = drawerRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
-        if (!els.length) return;
-        const first = els[0];
-        const last = els[els.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    requestAnimationFrame(() => drawerRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-      previousFocus?.focus();
-    };
-  }, [open, onClose]);
+  useFocusTrap(drawerRef, onClose, open);
 
   useEffect(() => {
     if (!open) return;

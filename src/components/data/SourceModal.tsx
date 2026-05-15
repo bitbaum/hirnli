@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import type { NumberSource } from '@/lib/config/numbers';
 import { CONFIDENCE_DISPLAY_LABELS, CONFIDENCE_COLORS } from '@/lib/config/numbers';
 import { formatDateCHLong } from '@/lib/utils/format';
 import { Button } from '@/components/ui/Button';
-
-const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+import { useFocusTrap } from '@/lib/utils/a11y';
 
 interface SourceModalProps {
   data: NumberSource;
@@ -20,32 +19,7 @@ interface SourceModalProps {
  */
 export default function SourceModal({ data, formattedValue, onClose }: SourceModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const previousFocus = document.activeElement as HTMLElement;
-    document.body.style.overflow = 'hidden';
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onClose(); return; }
-      if (e.key === 'Tab' && modalRef.current) {
-        const els = modalRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
-        if (!els.length) return;
-        const first = els[0];
-        const last = els[els.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    requestAnimationFrame(() => modalRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-      previousFocus?.focus();
-    };
-  }, [onClose]);
+  useFocusTrap(modalRef, onClose);
 
   return (
     <div

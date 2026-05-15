@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import FilterSidebar from './FilterSidebar';
 import type { ComponentProps } from 'react';
-
-const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+import { useFocusTrap } from '@/lib/utils/a11y';
 
 type FilterDrawerProps = ComponentProps<typeof FilterSidebar> & {
   open: boolean;
@@ -13,33 +12,7 @@ type FilterDrawerProps = ComponentProps<typeof FilterSidebar> & {
 
 export default function FilterDrawer({ open, onClose, ...sidebarProps }: FilterDrawerProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const previousFocus = document.activeElement as HTMLElement;
-    document.body.style.overflow = 'hidden';
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onClose(); return; }
-      if (e.key === 'Tab' && drawerRef.current) {
-        const els = drawerRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
-        if (!els.length) return;
-        const first = els[0];
-        const last = els[els.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    requestAnimationFrame(() => drawerRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-      previousFocus?.focus();
-    };
-  }, [open, onClose]);
+  useFocusTrap(drawerRef, onClose, open);
 
   return (
     <>

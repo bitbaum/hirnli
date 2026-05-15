@@ -7,7 +7,7 @@
 
 'use client';
 
-import { useState, useRef, useEffect, useId } from 'react';
+import { useState, useRef, useId } from 'react';
 import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
@@ -18,7 +18,7 @@ import type { Application, FoundationRow } from '@/lib/db/schema';
 import { buildPatchPayload, initFieldsFromApplication, type ApplicationFormFields } from '@/hooks/useApplicationForm';
 import { ApplicationDateFields, ApplicationOutcomeFields } from './ApplicationFormSections';
 
-const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+import { useFocusTrap } from '@/lib/utils/a11y';
 
 interface EditApplicationModalProps {
   application: Application;
@@ -54,31 +54,7 @@ export function EditApplicationModal({
   const [rejectionReason, setRejectionReason] = useState(init.rejectionReason);
   const [successFactors, setSuccessFactors] = useState(init.successFactors);
 
-  useEffect(() => {
-    const previousFocus = document.activeElement as HTMLElement;
-    document.body.style.overflow = 'hidden';
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onClose(); return; }
-      if (e.key === 'Tab' && modalRef.current) {
-        const els = modalRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
-        if (!els.length) return;
-        const first = els[0];
-        const last = els[els.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    requestAnimationFrame(() => modalRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-      previousFocus?.focus();
-    };
-  }, [onClose]);
+  useFocusTrap(modalRef, onClose);
 
   async function handleSave() {
     setIsSaving(true);
