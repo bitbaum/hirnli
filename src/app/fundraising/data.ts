@@ -160,7 +160,7 @@ const Y1_EIGEN = MODERATE_SCENARIO.threeYearModel.year1.eigenleistung;
 //   Total budget (stiftungen + eigen) decreases each year as eigen grows,
 //   modelling progressive self-sufficiency. This is the standard Swiss
 //   degressive funding model for 3-year foundation grants.
-export const DEGRESSIVE_CONFIG = {
+const DEGRESSIVE_CONFIG = {
   year2: { stiftungenPct: 0.745, eigenGrowth: 40_000 },   // 74.5% of Y1 stiftungen; eigen: 100k + 40k = 140k
   year3: { stiftungenPct: 0.478, eigenGrowth: 95_000 },   // 47.8% of Y1 stiftungen; eigen: 100k + 95k = 195k
 } as const;

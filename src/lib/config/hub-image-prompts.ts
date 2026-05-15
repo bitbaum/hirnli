@@ -7,7 +7,7 @@
  * Last Updated: 2026-02-13
  */
 
-export interface ImagePrompt {
+interface ImagePrompt {
   space_name: string;
   prompt: string;
   negative_prompt?: string;
@@ -122,7 +122,7 @@ export function getPromptConfig(spaceName: string) {
 /**
  * Generate a complete prompt string for a specific space
  */
-export function getFullPrompt(spaceName: string): string {
+function getFullPrompt(spaceName: string): string {
   const config = getPromptConfig(spaceName);
   if (!config) return '';
 

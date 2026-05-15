@@ -371,29 +371,3 @@ export const NOT_RECOMMENDED = [
 ] as const;
 
 // ============================================================================
-// FOUNDATION DATABASES - For finding more foundations
-// ============================================================================
-
-export const DATABASES = [
-  {
-    name: 'Fundraiso.ch',
-    url: 'https://www.fundraiso.ch/de/page/stiftungsverzeichnis-schweiz',
-    count: "13'300+",
-    cost: 'Basis: Gratis / Pro: Abo',
-    description: 'T\u00E4glich aktualisierte Datenbank aller gemeinn\u00FCtzigen Stiftungen der Schweiz',
-  },
-  {
-    name: 'Spheriq (ex StiftungSchweiz)',
-    url: 'https://app.spheriq.ch',
-    count: "~14'000",
-    cost: 'Login erforderlich / Premium: Abo',
-    description: 'Beste Filteroptionen: SDGs, Wirkungsart, Themengebiet, Zielgruppe. Rebranded von StiftungSchweiz (Feb 2026)',
-  },
-  {
-    name: 'Eidg. Stiftungsaufsicht (ESA)',
-    url: 'https://www.esa.admin.ch/de/stiftungsverzeichnis',
-    count: "~5'400",
-    cost: 'Gratis',
-    description: 'Offizielles Bundesregister der Stiftungen unter Bundesaufsicht. Excel-Download mit UID, Zweck, Kanton',
-  },
-] as const;
