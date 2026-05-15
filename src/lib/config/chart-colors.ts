@@ -12,6 +12,7 @@ export const CHART_COLORS = {
   amber: '#F39C12',
   concrete: '#95A5A6',
   silver: '#BDC3C7',
+  white: '#ffffff',
 } as const;
 
 /** Ordered array for multi-dataset charts */
