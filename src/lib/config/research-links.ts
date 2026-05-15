@@ -10,7 +10,7 @@
 
 import type { Foundation } from '../schemas/foundation';
 
-export interface ResearchLink {
+interface ResearchLink {
   /** Platform identifier */
   id: string;
   /** Display label */

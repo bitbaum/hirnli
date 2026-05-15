@@ -11,7 +11,7 @@ import { SOCIAL_DISPLAY } from '@/lib/config/stories';
 
 export type ToCItemStatus = 'measured' | 'estimated' | 'missing';
 
-export interface ToCItem {
+interface ToCItem {
   label: string;
   status: ToCItemStatus;
 }
@@ -22,7 +22,7 @@ const STATUS_INDICATOR: Record<ToCItemStatus, string> = {
   missing: 'bg-grey-medium',
 };
 
-export function ToCColumn({
+function ToCColumn({
   title,
   color,
   titleColor,

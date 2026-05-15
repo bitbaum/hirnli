@@ -1,8 +1,8 @@
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
-export type ApplicationDateField = 'contactDate' | 'submissionDate' | 'decisionExpected' | 'decisionDate';
-export type ApplicationOutcomeField = 'successFactors' | 'rejectionReason';
+type ApplicationDateField = 'contactDate' | 'submissionDate' | 'decisionExpected' | 'decisionDate';
+type ApplicationOutcomeField = 'successFactors' | 'rejectionReason';
 
 interface ApplicationDateFieldsProps {
   contactDate: string;

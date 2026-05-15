@@ -7,7 +7,7 @@ import Table from '@/components/ui/Table';
 import type { DataGapRow } from '../data';
 import { DATA_GAPS } from '../data';
 
-export const DATA_GAP_COLUMNS = [
+const DATA_GAP_COLUMNS = [
   { key: 'dataPoint', header: 'Datenpunkt' },
   {
     key: 'priority',

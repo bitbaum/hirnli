@@ -17,8 +17,8 @@ export const FoundationType = z.enum(['A', 'B', 'C', 'D', 'network']);
 export type FoundationType = z.infer<typeof FoundationType>;
 
 // Research depth — computed from data completeness
-export const ResearchDepth = z.enum(['rapid', 'standard', 'deep']);
-export type ResearchDepth = z.infer<typeof ResearchDepth>;
+const ResearchDepth = z.enum(['rapid', 'standard', 'deep']);
+type ResearchDepth = z.infer<typeof ResearchDepth>;
 
 // Quality tier — computed deterministically from data signals (never stored)
 export const QualityTier = z.enum([
@@ -48,7 +48,7 @@ export type ApplicationMethod = z.infer<typeof ApplicationMethod>;
 
 // Research method — tracks HOW application info was verified
 // Used to assess data quality and prioritize re-research
-export const ApplicationResearchMethod = z.enum([
+const ApplicationResearchMethod = z.enum([
   'chatgpt-agent',   // ChatGPT actually visited the foundation's website (highest quality)
   'claude-agent',    // Claude internal Agent with WebSearch/WebFetch tools (good, no JS rendering)
   'chatgpt-search',  // ChatGPT used search/training data (may not reflect current state)
@@ -56,7 +56,7 @@ export const ApplicationResearchMethod = z.enum([
   'manual',          // Human-verified directly
   'unknown',         // Provenance not tracked (legacy data)
 ]);
-export type ApplicationResearchMethod = z.infer<typeof ApplicationResearchMethod>;
+type ApplicationResearchMethod = z.infer<typeof ApplicationResearchMethod>;
 
 // Quality rank for each research method — higher = more trustworthy data
 // SSOT: import this wherever upgrade logic or queue filtering is needed
@@ -70,7 +70,7 @@ export const RESEARCH_METHOD_RANK: Record<ApplicationResearchMethod, number> = {
 };
 
 // Methods considered "researched" — won't appear in the research queue
-export const RESEARCHED_METHODS: ApplicationResearchMethod[] = ['chatgpt-agent', 'claude-agent', 'manual'];
+const RESEARCHED_METHODS: ApplicationResearchMethod[] = ['chatgpt-agent', 'claude-agent', 'manual'];
 
 // Sentinel stored in optional text fields (deadlineText, amount.text) when the
 // field is known to exist but the specific value is undetermined.
@@ -78,7 +78,7 @@ export const RESEARCHED_METHODS: ApplicationResearchMethod[] = ['chatgpt-agent',
 export const UNKNOWN_FIELD = 'Unbekannt';
 
 // Theme definition
-export const themeSchema = z.object({
+const themeSchema = z.object({
   id: ThemeId,
   label: z.string(),
   icon: z.string(),
@@ -88,7 +88,7 @@ export const themeSchema = z.object({
 export type Theme = z.infer<typeof themeSchema>;
 
 // Source definition
-export const sourceSchema = z.object({
+const sourceSchema = z.object({
   id: SourceId,
   label: z.string(),
   url: z.string().optional(),
@@ -134,7 +134,7 @@ const criteriaSchema = z.object({
 // ===========================================================================
 // Data that survives org swaps and can be bulk-imported from ESA/Zefix/Fundraiso.
 
-export const registrySchema = z.object({
+const registrySchema = z.object({
   // Identity
   slug: z.string(),
   name: z.string(),
@@ -204,7 +204,7 @@ export type FoundationRegistry = z.infer<typeof registrySchema>;
 // ===========================================================================
 // Fields that differ per organization analyzing the same foundation.
 
-export const analysisSchema = z.object({
+const analysisSchema = z.object({
   // -- Scoring (see CLAUDE.md § Scoring Model) --------------------------------
   // fitScore is the ONLY stored fit metric. Display stars computed via getFitLevel().
   fitScore: z.number().min(0).max(10).default(0),
@@ -231,7 +231,7 @@ export const analysisSchema = z.object({
   // -- Identity (for multi-org support) ---------------------------------------
   orgId: z.string().default('revamp-it'),
 });
-export type FoundationAnalysis = z.infer<typeof analysisSchema>;
+type FoundationAnalysis = z.infer<typeof analysisSchema>;
 
 // ===========================================================================
 // Composed: Foundation — Merged view (registry + analysis)
@@ -256,7 +256,7 @@ export const foundationSchema = _foundationRaw;
 export type Foundation = z.output<typeof foundationSchema>;
 
 // Type labels
-export const typeLabelSchema = z.object({
+const typeLabelSchema = z.object({
   short: z.string(),
   long: z.string(),
   desc: z.string(),
@@ -265,7 +265,7 @@ export const typeLabelSchema = z.object({
 export type TypeLabel = z.infer<typeof typeLabelSchema>;
 
 // Status labels
-export const statusLabelSchema = z.object({
+const statusLabelSchema = z.object({
   text: z.string(),
   class: z.string(),
   desc: z.string(),

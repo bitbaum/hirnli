@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Evidence citation
-export const evidenceSchema = z.object({
+const evidenceSchema = z.object({
   title: z.string(),
   year: z.number(),
   claim: z.string(),
@@ -10,7 +10,7 @@ export const evidenceSchema = z.object({
 export type Evidence = z.infer<typeof evidenceSchema>;
 
 // WHY section (Page 1 of Gesuch)
-export const whySectionSchema = z.object({
+const whySectionSchema = z.object({
   headline: z.string(),
   hook: z.string(),
   problem: z.string(),
@@ -22,7 +22,7 @@ export const whySectionSchema = z.object({
 export type WhySection = z.infer<typeof whySectionSchema>;
 
 // HOW competency section
-export const competencySectionSchema = z.object({
+const competencySectionSchema = z.object({
   headline: z.string(),
   capabilities: z.array(z.string()),
   partners: z.array(z.string()).optional(),
@@ -31,7 +31,7 @@ export const competencySectionSchema = z.object({
 export type CompetencySection = z.infer<typeof competencySectionSchema>;
 
 // Project template
-export const projectSchema = z.object({
+const projectSchema = z.object({
   title: z.string(),
   subtitle: z.string(),
   summary: z.string(),
@@ -44,24 +44,24 @@ export const projectSchema = z.object({
 export type Project = z.infer<typeof projectSchema>;
 
 // Budget line item
-export const budgetLineItemSchema = z.object({
+const budgetLineItemSchema = z.object({
   item: z.string(),
   amount: z.string(),
   percent: z.string(),
   note: z.string(),
 });
-export type BudgetLineItem = z.infer<typeof budgetLineItemSchema>;
+type BudgetLineItem = z.infer<typeof budgetLineItemSchema>;
 
 // Proof point (track record evidence)
-export const proofPointSchema = z.object({
+const proofPointSchema = z.object({
   label: z.string(),
   value: z.string(),
   metric_id: z.string().optional(),
 });
-export type ProofPoint = z.infer<typeof proofPointSchema>;
+type ProofPoint = z.infer<typeof proofPointSchema>;
 
 // Track record
-export const trackRecordSchema = z.object({
+const trackRecordSchema = z.object({
   headline: z.string(),
   text: z.string(),
   proof_points: z.array(proofPointSchema),
@@ -69,7 +69,7 @@ export const trackRecordSchema = z.object({
 export type TrackRecord = z.infer<typeof trackRecordSchema>;
 
 // Core facts
-export const coreFacts = z.object({
+const coreFacts = z.object({
   organization: z.object({
     name: z.string(),
     legalForm: z.string(),
@@ -104,7 +104,7 @@ export const coreFacts = z.object({
 export type CoreFacts = z.infer<typeof coreFacts>;
 
 // Anecdote template (placeholder text with [bracket markers])
-export const anecdoteSchema = z.object({
+const anecdoteSchema = z.object({
   id: z.string(),
   template: z.string(),
   themes: z.array(z.string()),
@@ -113,7 +113,7 @@ export const anecdoteSchema = z.object({
 export type Anecdote = z.infer<typeof anecdoteSchema>;
 
 // Photo slot placeholder
-export const photoSlotSchema = z.object({
+const photoSlotSchema = z.object({
   id: z.string(),
   description: z.string(),
   placement: z.enum(['why', 'how', 'projects', 'kurzportrait']),

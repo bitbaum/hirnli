@@ -7,7 +7,7 @@ import type { CO2Row } from '../data';
 import { CO2_DATA } from '../data';
 import { FormulaBox, MethodologySection } from './MethodologyHelpers';
 
-export const CO2_COLUMNS = [
+const CO2_COLUMNS = [
   { key: 'manufacturer', header: 'Hersteller' },
   { key: 'model', header: 'Modell' },
   {

@@ -10,7 +10,7 @@ import { z } from 'zod';
  */
 
 // Source attribution - every budget number needs this
-export const BudgetSourceSchema = z.object({
+const BudgetSourceSchema = z.object({
   methodology: z.string().min(1, 'Methodology is required'),
   calculation: z.string().optional(),
   marketResearch: z.string().optional(),
@@ -26,7 +26,7 @@ const ThemeLabelSchema = z.object({
 });
 
 // Atomic unit: single budget line item
-export const BudgetLineItemSchema = z.object({
+const BudgetLineItemSchema = z.object({
   id: z.string().min(1),
   label: z.string().min(1),
   description: z.string().min(1),
@@ -45,7 +45,7 @@ export const BudgetLineItemSchema = z.object({
 });
 
 // Scenario: collection of line items with 3-year financial model
-export const BudgetScenarioSchema = z.object({
+const BudgetScenarioSchema = z.object({
   id: z.enum(['minimal', 'moderate', 'maximum']),
   label: z.string().min(1),
   description: z.string().min(1),
@@ -74,7 +74,7 @@ export const BudgetScenarioSchema = z.object({
 });
 
 // Eigenleistung (volunteer value) configuration
-export const EigenleistungConfigSchema = z.object({
+const EigenleistungConfigSchema = z.object({
   label: z.string(),
   description: z.string(),
   ratePerHour: z.number().min(0),
@@ -88,7 +88,7 @@ export const EigenleistungConfigSchema = z.object({
  * TypeScript types derived from Zod schemas
  * NEVER define these separately - always infer from schema
  */
-export type BudgetSource = z.infer<typeof BudgetSourceSchema>;
+type BudgetSource = z.infer<typeof BudgetSourceSchema>;
 export type BudgetLineItem = z.infer<typeof BudgetLineItemSchema>;
 export type BudgetScenario = z.infer<typeof BudgetScenarioSchema>;
 export type EigenleistungConfig = z.infer<typeof EigenleistungConfigSchema>;

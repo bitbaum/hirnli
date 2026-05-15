@@ -7,7 +7,7 @@
 
 import { z } from 'zod';
 
-export const themeMetadataSchema = z.object({
+const themeMetadataSchema = z.object({
   id: z.string(),
   label: z.string(),
   icon: z.string(),

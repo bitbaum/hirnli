@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Raw financial row from Kivitendo export
-export const financialRowSchema = z.object({
+const financialRowSchema = z.object({
   year: z.number(),
   month: z.number().min(1).max(12),
   account_code: z.string(),
@@ -13,7 +13,7 @@ export const financialRowSchema = z.object({
 export type FinancialRow = z.infer<typeof financialRowSchema>;
 
 // Year data container
-export const yearDataSchema = z.object({
+const yearDataSchema = z.object({
   year: z.number(),
   source: z.string(),
   imported_at: z.string(),
@@ -22,7 +22,7 @@ export const yearDataSchema = z.object({
 export type YearData = z.infer<typeof yearDataSchema>;
 
 // Monthly aggregate (computed from raw rows)
-export const monthlyAggregateSchema = z.object({
+const monthlyAggregateSchema = z.object({
   period: z.string(),
   year: z.number(),
   month: z.number(),
@@ -36,7 +36,7 @@ export const monthlyAggregateSchema = z.object({
 export type MonthlyAggregate = z.infer<typeof monthlyAggregateSchema>;
 
 // Source info for traceability
-export const sourceInfoSchema = z.object({
+const sourceInfoSchema = z.object({
   file: z.string(),
   system: z.string(),
   importedAt: z.string(),
@@ -46,7 +46,7 @@ export const sourceInfoSchema = z.object({
 export type SourceInfo = z.infer<typeof sourceInfoSchema>;
 
 // Sum with source (for traceable calculations)
-export const sumWithSourceSchema = z.object({
+const sumWithSourceSchema = z.object({
   value: z.number(),
   source: sourceInfoSchema,
   calculation: z.object({

@@ -214,7 +214,7 @@ export const STATUS_BADGE_VARIANT: Record<FoundationStatus, 'success' | 'warning
 // for our fundraising strategy? Lower number = higher priority.
 // Determines resource allocation and whether a Gesuch page is generated (≤ 2).
 
-export interface PriorityConfig {
+interface PriorityConfig {
   label: string;
   description: string;
   /** Short action label for dropdowns (e.g. 'Jetzt', 'Bald') */

@@ -17,7 +17,7 @@ import type { ThemeKey } from '@/lib/config/stories';
 import type { ThemeId } from '@/lib/schemas/foundation';
 import { THEME_COLORS } from '@/lib/config/chart-colors';
 
-export interface Schwerpunkt {
+interface Schwerpunkt {
   id: string;
   label: string;
   shortLabel: string;

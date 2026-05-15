@@ -17,7 +17,7 @@ interface IntegrityRow {
   isVerifiable: boolean;
 }
 
-export function computeTransparencyStats(NumberSources: Record<string, { name: string; category: string; source?: { type?: string; confidence?: string; path?: string; account?: string }; formula?: { dependencies?: string[] } }>) {
+function computeTransparencyStats(NumberSources: Record<string, { name: string; category: string; source?: { type?: string; confidence?: string; path?: string; account?: string }; formula?: { dependencies?: string[] } }>) {
   const metrics = Object.values(NumberSources);
   const total = metrics.length;
   const clickable = metrics.filter((m) => m.source?.path || m.formula).length;
@@ -31,7 +31,7 @@ export function computeTransparencyStats(NumberSources: Record<string, { name: s
   return { total, clickable, verifiable, highConfidence };
 }
 
-export function buildIntegrityRows(NumberSources: Record<string, { name: string; category: string; source?: { type?: string; confidence?: string; path?: string; account?: string }; formula?: { dependencies?: string[] } }>): IntegrityRow[] {
+function buildIntegrityRows(NumberSources: Record<string, { name: string; category: string; source?: { type?: string; confidence?: string; path?: string; account?: string }; formula?: { dependencies?: string[] } }>): IntegrityRow[] {
   return Object.entries(NumberSources).map(([key, m]) => ({
     id: key,
     name: m.name,

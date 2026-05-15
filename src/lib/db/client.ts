@@ -43,4 +43,4 @@ export const db = new Proxy({} as ReturnType<typeof drizzle<typeof schema>>, {
   },
 });
 
-export type Database = typeof db;
+type Database = typeof db;

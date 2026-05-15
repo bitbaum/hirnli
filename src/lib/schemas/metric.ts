@@ -11,10 +11,10 @@ export const Confidence = z.enum(['high', 'medium', 'low']);
 export type Confidence = z.infer<typeof Confidence>;
 
 // Format types
-export const MetricFormat = z.enum([
+const MetricFormat = z.enum([
   'CHF', 'percent', 'integer', 'tonnes', 'kg', 'range',
 ]);
-export type MetricFormat = z.infer<typeof MetricFormat>;
+type MetricFormat = z.infer<typeof MetricFormat>;
 
 // Validation rule
 const validationRuleSchema = z.object({

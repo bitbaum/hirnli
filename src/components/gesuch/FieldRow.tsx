@@ -5,7 +5,7 @@ import { AI_PRESETS } from '@/lib/config/ai-presets';
 import { buildExternalPrompt } from '@/lib/domain/prompt-builder';
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
 
-export interface FieldRowProps {
+interface FieldRowProps {
   label: string;
   fieldDescription: string;
   value: string;

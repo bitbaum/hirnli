@@ -18,7 +18,7 @@ interface SortOption {
   label: string;
 }
 
-export interface FilterSidebarProps {
+interface FilterSidebarProps {
   filters: FoundationFilters;
   sort: SortField;
   hasActiveFilters: boolean;
