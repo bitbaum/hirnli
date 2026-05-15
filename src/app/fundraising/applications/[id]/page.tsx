@@ -93,12 +93,17 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             )}
           </div>
 
-          {/* Status badge */}
-          <span
-            className={`shrink-0 rounded-lg border px-3 py-1 text-sm font-semibold ${statusConfig?.color ?? 'bg-bg-light text-grey-dark border-border'}`}
-          >
-            {statusConfig?.label ?? fields.status}
-          </span>
+          {/* Status badge + save shortcut */}
+          <div className="flex shrink-0 items-center gap-2">
+            <span
+              className={`rounded-lg border px-3 py-1 text-sm font-semibold ${statusConfig?.color ?? 'bg-bg-light text-grey-dark border-border'}`}
+            >
+              {statusConfig?.label ?? fields.status}
+            </span>
+            <Button onClick={save} disabled={isSaving} size="sm">
+              {isSaving ? 'Speichern...' : 'Speichern'}
+            </Button>
+          </div>
         </div>
 
         {/* Save error */}
