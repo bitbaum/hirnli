@@ -84,7 +84,6 @@ export const BUDGET_SUMMARY = {
 export const PROJECT_START = 2026;
 export const PROJECT_END = 2028;
 export const PROJECT_YEAR_RANGE = `${PROJECT_START}–${PROJECT_END}`;
-export const PROJECT_DURATION = `${PROJECT_END - PROJECT_START + 1} Jahre (${PROJECT_YEAR_RANGE})`;
 export const PROJECT_DURATION_LABEL = 'Aufbau → Wachstum → Verselbständigung';
 
 export const QUICK_ACTIONS = [
@@ -197,8 +196,8 @@ export const THREE_YEAR_MODEL = [
 export const STIFTUNGEN_3Y_TOTAL = THREE_YEAR_MODEL.reduce((sum, y) => sum + y.stiftungen + y.einmalig, 0);
 export const EIGEN_3Y_TOTAL = THREE_YEAR_MODEL.reduce((sum, y) => sum + y.eigen, 0);
 export const PROJECT_3Y_TOTAL = THREE_YEAR_MODEL.reduce((sum, y) => sum + y.total, 0);
-export const STIFTUNGEN_Y1 = THREE_YEAR_MODEL[0].stiftungen + THREE_YEAR_MODEL[0].einmalig;
-export const STIFTUNGEN_Y3 = THREE_YEAR_MODEL[2].stiftungen;
+const STIFTUNGEN_Y1 = THREE_YEAR_MODEL[0].stiftungen + THREE_YEAR_MODEL[0].einmalig;
+const STIFTUNGEN_Y3 = THREE_YEAR_MODEL[2].stiftungen;
 export const REDUCTION_PCT = Math.round((1 - STIFTUNGEN_Y3 / STIFTUNGEN_Y1) * 100);
 
 // -- Financial context — verified against Kivitendo Erfolgsrechnung 2026-02-11 --

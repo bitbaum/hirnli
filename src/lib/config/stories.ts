@@ -161,7 +161,7 @@ export const GESUCH_TEXT = {
 // ============================================================================
 // EVIDENCE - Scientific citations (for evidenzbasiert arguments)
 // ============================================================================
-export const EVIDENCE: Record<string, Record<string, Evidence>> = {
+const EVIDENCE: Record<string, Record<string, Evidence>> = {
   climate: {
     ipcc_ar6: {
       title: 'IPCC Sixth Assessment Report',
@@ -289,7 +289,7 @@ export const WHY: Record<ThemeKey, WhySection> = {
 // ============================================================================
 // HOW - Competencies and track record (Page 2 of Gesuch)
 // ============================================================================
-export const HOW: HowSection = {
+const HOW: HowSection = {
   // Core competencies (same for all foundations, different emphasis)
   track_record: {
     headline: `Über ${ORG_PROFILE.yearsActive} Jahre Erfahrung`,
