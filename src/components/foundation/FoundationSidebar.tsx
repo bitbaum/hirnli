@@ -283,6 +283,9 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           initialAmountMin={f.amount.min}
           initialAmountMax={f.amount.max}
           initialAmountText={f.amount.text}
+          initialAnnualBudget={f.annualBudget ?? ''}
+          initialGrantExpenditure={f.grantExpenditure ?? ''}
+          initialPastGrantees={f.pastGrantees ?? []}
         />
       </Card>
     </div>

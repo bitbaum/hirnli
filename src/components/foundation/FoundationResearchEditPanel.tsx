@@ -20,6 +20,9 @@ interface Props {
   initialAmountMin: number | null;
   initialAmountMax: number | null;
   initialAmountText: string;
+  initialAnnualBudget: string;
+  initialGrantExpenditure: string;
+  initialPastGrantees: string[];
 }
 
 function CharCounter({ value, min, compact }: { value: string; min: number; compact?: boolean }) {
@@ -44,6 +47,9 @@ export default function FoundationResearchEditPanel({
   initialAmountMin,
   initialAmountMax,
   initialAmountText,
+  initialAnnualBudget,
+  initialGrantExpenditure,
+  initialPastGrantees,
 }: Props) {
   const [editing, setEditing] = useState(false);
   const [purpose, setPurpose] = useState(initialPurposeSummary);
@@ -54,6 +60,9 @@ export default function FoundationResearchEditPanel({
   const [amountMin, setAmountMin] = useState<string>(initialAmountMin !== null ? String(initialAmountMin) : '');
   const [amountMax, setAmountMax] = useState<string>(initialAmountMax !== null ? String(initialAmountMax) : '');
   const [amountText, setAmountText] = useState(initialAmountText === 'Unbekannt' ? '' : initialAmountText);
+  const [annualBudget, setAnnualBudget] = useState(initialAnnualBudget);
+  const [grantExpenditure, setGrantExpenditure] = useState(initialGrantExpenditure);
+  const [pastGrantees, setPastGrantees] = useState(initialPastGrantees.join('\n'));
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -67,12 +76,16 @@ export default function FoundationResearchEditPanel({
     setError(null);
     const parsedMin = amountMin.trim() !== '' ? Number(amountMin) : null;
     const parsedMax = amountMax.trim() !== '' ? Number(amountMax) : null;
+    const granteeList = pastGrantees.split('\n').map(s => s.trim()).filter(Boolean);
     const result = await patchFoundationResearch(foundationId, {
       purposeSummary: purpose,
       researchNotes: notes,
       contact: { email: email.trim(), phone: phone.trim(), address: initialAddress },
       websiteUrl: websiteUrl.trim() || undefined,
       amount: { min: parsedMin, max: parsedMax, text: amountText.trim() },
+      annualBudget: annualBudget.trim() || undefined,
+      grantExpenditure: grantExpenditure.trim() || undefined,
+      pastGrantees: granteeList.length > 0 ? granteeList : undefined,
     });
     setSaving(false);
     if (result.success) {
@@ -94,6 +107,9 @@ export default function FoundationResearchEditPanel({
     setAmountMin(initialAmountMin !== null ? String(initialAmountMin) : '');
     setAmountMax(initialAmountMax !== null ? String(initialAmountMax) : '');
     setAmountText(initialAmountText === 'Unbekannt' ? '' : initialAmountText);
+    setAnnualBudget(initialAnnualBudget);
+    setGrantExpenditure(initialGrantExpenditure);
+    setPastGrantees(initialPastGrantees.join('\n'));
     setEditing(false);
     setError(null);
   }
@@ -217,6 +233,40 @@ export default function FoundationResearchEditPanel({
           />
         </div>
         <p className="mt-1 text-xs text-text-muted">Min · Max · Anzeigetext</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className={FORM_LABEL_CLASS}>Jahresbudget</label>
+          <input
+            type="text"
+            value={annualBudget}
+            onChange={(e) => setAnnualBudget(e.target.value)}
+            placeholder="z.B. CHF 5M/Jahr"
+            className={FORM_INPUT_CLASS}
+          />
+        </div>
+        <div>
+          <label className={FORM_LABEL_CLASS}>Förderausgaben</label>
+          <input
+            type="text"
+            value={grantExpenditure}
+            onChange={(e) => setGrantExpenditure(e.target.value)}
+            placeholder="z.B. CHF 2M/Jahr"
+            className={FORM_INPUT_CLASS}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className={FORM_LABEL_CLASS}>Frühere Förderprojekte</label>
+        <textarea
+          value={pastGrantees}
+          onChange={(e) => setPastGrantees(e.target.value)}
+          rows={2}
+          placeholder="Eine Organisation pro Zeile (z.B. ETH Zürich, EPFL)"
+          className={FORM_INPUT_CLASS}
+        />
       </div>
 
       {error && (

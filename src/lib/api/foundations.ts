@@ -16,6 +16,9 @@ export async function patchFoundationResearch(
     contact?: { email: string; phone: string; address: string };
     websiteUrl?: string;
     amount?: { min: number | null; max: number | null; text: string };
+    annualBudget?: string;
+    grantExpenditure?: string;
+    pastGrantees?: string[];
   },
 ): Promise<FoundationApiResponse> {
   try {
