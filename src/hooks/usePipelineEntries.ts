@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getApplications } from '@/lib/api/applications';
 
 interface PipelineEntriesState {
   pipelineSlugs: Set<string>;
@@ -14,13 +15,12 @@ export function usePipelineEntries(): PipelineEntriesState {
   const [pipelineError, setPipelineError] = useState(false);
 
   useEffect(() => {
-    fetch('/api/applications')
-      .then((r) => r.json())
+    getApplications()
       .then((result) => {
         if (result.success) {
           const slugs = new Set<string>(
-            result.data
-              .map((item: { application: { foundationId: string } }) => item.application.foundationId)
+            (result.data as Array<{ application: { foundationId: string } }>)
+              .map((item) => item.application.foundationId)
               .filter(Boolean),
           );
           setPipelineSlugs(slugs);
@@ -28,10 +28,7 @@ export function usePipelineEntries(): PipelineEntriesState {
           setPipelineError(true);
         }
       })
-      .catch((err) => {
-        console.error('Failed to load pipeline data:', err);
-        setPipelineError(true);
-      })
+      .catch(() => setPipelineError(true))
       .finally(() => setPipelineLoading(false));
   }, []);
 
