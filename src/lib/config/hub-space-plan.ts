@@ -364,7 +364,6 @@ export const OFFICE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Office & Meetin
 export const STORAGE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Storage & Logistics')!;
 export const LOADING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Loading & Delivery Zone')!;
 export const MAKERSPACE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Makerspace & Hackerspace')!;
-export const AI_LAB_AREA = HUB_SPACE_AREAS.find(a => a.name === 'AI Lab (Server Room)')!;
 export const TRAINING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Training & Course Room')!;
 
 // Phase-2 / optional areas not included in main space plan totals
