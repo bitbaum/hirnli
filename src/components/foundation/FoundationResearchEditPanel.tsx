@@ -14,13 +14,13 @@ interface Props {
   initialResearchNotes: string;
 }
 
-function CharCounter({ value, min }: { value: string; min: number }) {
+function CharCounter({ value, min, compact }: { value: string; min: number; compact?: boolean }) {
   const len = value.trim().length;
   const ok = len >= min;
   const close = len >= min * 0.7 && !ok;
   return (
     <span className={`text-xs tabular-nums ${ok ? 'text-success-text' : close ? 'text-warning-text' : 'text-text-muted'}`}>
-      {ok ? `✓ ${len}` : `${len} / ${min}`}
+      {ok ? `✓ ${len}` : compact ? `${len}` : `${len} / ${min}`}
     </span>
   );
 }
@@ -62,10 +62,10 @@ export default function FoundationResearchEditPanel({ foundationId, initialPurpo
     return (
       <div className="flex items-center justify-between pt-1">
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          <CharCounter value={purpose} min={PURPOSE_MIN} />
+          <CharCounter value={purpose} min={PURPOSE_MIN} compact />
           <span>Zweck</span>
           <span>·</span>
-          <CharCounter value={notes} min={NOTES_MIN} />
+          <CharCounter value={notes} min={NOTES_MIN} compact />
           <span>Notizen</span>
         </div>
         <div className="flex items-center gap-2">
