@@ -10,7 +10,7 @@ import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
 
-export interface ReadinessCheck {
+interface ReadinessCheck {
   id: string;
   label: string;
   passed: boolean;

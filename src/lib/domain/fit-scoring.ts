@@ -29,7 +29,7 @@ import {
 // Types
 // ============================================================================
 
-export interface FitScoreInput {
+interface FitScoreInput {
   themes: string[];
   canton: string;
   city: string;
@@ -37,7 +37,7 @@ export interface FitScoreInput {
   isFunder: boolean;
 }
 
-export interface FitResult {
+interface FitResult {
   /** Composite score (sum of all dimensions) */
   fitScore: number;
   /** Per-dimension scores keyed by dimension id */
@@ -52,7 +52,7 @@ export interface CheckDetail {
 }
 
 /** Result from evaluating any engine (fit, readiness, etc.) */
-export interface EngineResult {
+interface EngineResult {
   score: number;
   dimensions: Record<string, number>;
   /** Per-check details (only populated for additiveChecks dimensions) */

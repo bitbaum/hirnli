@@ -19,7 +19,7 @@ import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financi
 
 export type DocumentFormat = 'PDF' | 'CSV' | 'Excel' | 'Markdown';
 export type DocumentAction = 'print' | 'download' | 'external';
-export type DocumentCategory = 'gesuch' | 'vorlage' | 'export' | 'quelle' | 'bericht';
+type DocumentCategory = 'gesuch' | 'vorlage' | 'export' | 'quelle' | 'bericht';
 
 export interface Document {
   id: string;

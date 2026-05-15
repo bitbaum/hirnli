@@ -53,7 +53,7 @@ export const ZURICH_MARKET_DATA = {
 // Detailed Space Requirements with Justifications
 // ---------------------------------------------------------------------------
 
-export interface SpaceArea {
+interface SpaceArea {
   name: string;
   sqm_min: number;
   sqm_max: number;

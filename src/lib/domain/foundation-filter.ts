@@ -8,7 +8,7 @@ import { SCHWERPUNKTE } from '../config/schwerpunkte';
 import { getQualityTier, tierAtLeast, getFitLevel, hasGesuchPage, hasGesuchDataGaps } from './foundation-helpers';
 import { getTrustLevel, type TrustLevel } from '../config/trust-levels';
 
-export type ThemeLogic = 'or' | 'and';
+type ThemeLogic = 'or' | 'and';
 
 export interface FoundationFilters {
   themes: ThemeId[];
@@ -56,7 +56,7 @@ export const DEFAULT_FILTERS: FoundationFilters = {
 
 export type FilterPresetId = 'bewerbungsbereit' | 'hoher-fit' | 'mit-email' | 'mit-luecken' | 'alle';
 
-export interface FilterPreset {
+interface FilterPreset {
   id: FilterPresetId;
   label: string;
   description: string;
@@ -205,7 +205,7 @@ export function filterFoundations(
 }
 
 export type SortField = 'priority' | 'fit' | 'name' | 'deadline';
-export type SortDirection = 'asc' | 'desc';
+type SortDirection = 'asc' | 'desc';
 
 /** Sort foundations */
 export function sortFoundations(

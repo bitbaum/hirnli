@@ -82,7 +82,7 @@ export function computeTierCounts(foundations: Foundation[]): Record<QualityTier
 
 // -- Promotion steps -----------------------------------------------------------
 
-export interface TierPromotion {
+interface TierPromotion {
   currentTier: QualityTier;
   nextTier: QualityTier | null;
   /** Top improvements from readiness score — sorted by impact */

@@ -13,7 +13,7 @@ import { getTrustLevel, TRUST_CONFIG } from '@/lib/config/trust-levels';
 import { TIER_LABELS, TIER_COLORS } from './foundation-helpers';
 import type { TrustLevel } from '@/lib/config/trust-levels';
 
-export interface FoundationPresentation {
+interface FoundationPresentation {
   tier: QualityTier;
   tierLabel: string;
   tierColor: string;

@@ -42,7 +42,7 @@ interface AccountSource {
 }
 
 /** Extends the schema MonthlyAggregate with internal source tracking. */
-export interface MonthlyRow extends MonthlyAggregate {
+interface MonthlyRow extends MonthlyAggregate {
   _sources: AccountSource[];
 }
 
@@ -67,7 +67,7 @@ const COLUMN_MAP: Record<string, string> = {
 // FinanceDataSet
 // ---------------------------------------------------------------------------
 
-export class FinanceDataSet {
+class FinanceDataSet {
   private readonly data: MonthlyRow[];
   private readonly _year: number | null;
   private readonly _metadata: DataMetadata;

@@ -16,7 +16,7 @@ const navLinkSchema = z.object({
   external: z.boolean().optional(),
   highlight: z.boolean().optional(),
 });
-export type NavLink = z.infer<typeof navLinkSchema>;
+type NavLink = z.infer<typeof navLinkSchema>;
 
 const navSectionSchema = z.object({
   title: z.string(),
@@ -29,7 +29,7 @@ const navChildSchema = z.object({
   href: z.string(),
   desc: z.string().optional(),
 });
-export type NavChild = z.infer<typeof navChildSchema>;
+type NavChild = z.infer<typeof navChildSchema>;
 
 const _navItemSchema = z.object({
   text: z.string(),

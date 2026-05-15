@@ -3,7 +3,7 @@ import { isResearched } from './foundation-helpers';
 import { QUALITY_THRESHOLDS } from '../config/fit-scoring';
 import { isRegistryUrl } from '../config/registry-domains';
 
-export interface QualityViolation {
+interface QualityViolation {
   slug: string;
   issues: string[];
 }

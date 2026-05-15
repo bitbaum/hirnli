@@ -31,25 +31,25 @@ import { THEME_HIERARCHY } from './schwerpunkte';
 
 // --- Match conditions (used by tieredLookup) ---
 
-export interface MatchConditionEq {
+interface MatchConditionEq {
   field: string;
   op: 'eq';
   value: string | number | boolean;
 }
 
-export interface MatchConditionIn {
+interface MatchConditionIn {
   field: string;
   op: 'in';
   values: readonly string[];
 }
 
-export interface MatchConditionContainsAny {
+interface MatchConditionContainsAny {
   field: string;
   op: 'containsAny';
   values: readonly string[];
 }
 
-export interface MatchConditionTruthy {
+interface MatchConditionTruthy {
   field: string;
   op: 'truthy';
 }
@@ -103,7 +103,7 @@ export interface AdditiveChecksConfig {
   }[];
 }
 
-export type ComputeConfig =
+type ComputeConfig =
   | WeightedCategoryMatchConfig
   | TieredLookupConfig
   | DirectMapConfig
@@ -121,7 +121,7 @@ export interface ScoringDimensionConfig<T extends ComputeConfig = ComputeConfig>
 }
 
 /** Dimension floor: if a dimension scores below `ifBelow`, cap composite at `capTotal` */
-export interface DimensionFloor {
+interface DimensionFloor {
   dimensionId: string;
   ifBelow: number;
   capTotal: number;

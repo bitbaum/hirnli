@@ -9,7 +9,7 @@
  * Last Updated: 2026-02-13
  */
 
-export interface TeamMember {
+interface TeamMember {
   name: string;
   role: string;
   vza: number; // Vollzeitäquivalent (0.0 - 1.0)

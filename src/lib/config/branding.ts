@@ -42,4 +42,4 @@ export const BRANDING = {
 } as const;
 
 // Type exports
-export type BrandingConfig = typeof BRANDING;
+type BrandingConfig = typeof BRANDING;

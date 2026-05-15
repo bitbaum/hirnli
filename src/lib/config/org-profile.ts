@@ -81,4 +81,4 @@ export const ORG_PROFILE = {
   ],
 } as const;
 
-export type OrgProfile = typeof ORG_PROFILE;
+type OrgProfile = typeof ORG_PROFILE;
