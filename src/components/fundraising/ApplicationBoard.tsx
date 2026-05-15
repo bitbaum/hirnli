@@ -26,6 +26,7 @@ import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
 import BoardHeaderStats from './BoardHeaderStats';
 import { KANBAN_COLUMNS, getStatusConfig, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
+import { patchApplication } from '@/lib/api/applications';
 import { NET_ERR_LOAD, NET_ERR_SAVE, API_ERR_LOAD } from '@/lib/utils/errors';
 import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
@@ -137,16 +138,11 @@ export function ApplicationBoard() {
       );
 
     try {
-      const response = await fetch(`/api/applications/${applicationId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus }),
-      });
-      const result = await response.json();
+      const result = await patchApplication(applicationId, { status: newStatus });
       if (!result.success) {
         revert();
         // Show required fields modal on 422, inline error for everything else
-        if (response.status === 422 && result.missingFields) {
+        if (result.httpStatus === 422 && result.missingFields) {
           setRequiredFieldsModal({
             applicationId,
             targetStatus: newStatus,

@@ -8,7 +8,8 @@
 import { useState } from 'react';
 import type { RequiredField, ApplicationStatusId } from '@/lib/config/application-statuses';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
-import { NET_ERR_RETRY, API_ERR_SAVE } from '@/lib/utils/errors';
+import { patchApplication } from '@/lib/api/applications';
+import { API_ERR_SAVE } from '@/lib/utils/errors';
 import { Button } from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
 
@@ -49,19 +50,12 @@ export default function RequiredFieldsModal({
     }
 
     try {
-      const res = await fetch(`/api/applications/${applicationId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const result = await res.json();
+      const result = await patchApplication(applicationId, payload);
       if (result.success) {
         onSuccess();
       } else {
         setError(result.error || API_ERR_SAVE);
       }
-    } catch {
-      setError(NET_ERR_RETRY);
     } finally {
       setSubmitting(false);
     }

@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
-import { NET_ERR_LOAD, NET_ERR_SAVE, NET_ERR_DELETE, API_ERR_NOT_FOUND, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
+import { patchApplication, deleteApplication } from '@/lib/api/applications';
+import { NET_ERR_LOAD, NET_ERR_DELETE, API_ERR_NOT_FOUND, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
 import { normalizeDateInput } from '@/lib/utils/format';
 
 export interface ApplicationFormFields {
@@ -120,20 +121,12 @@ export function useApplicationForm(id: string) {
     setIsSaving(true);
     setSaveError(null);
     try {
-      const response = await fetch(`/api/applications/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(buildPatchPayload(fields)),
-      });
-      const result = await response.json();
+      const result = await patchApplication(id, buildPatchPayload(fields));
       if (result.success) {
-        setFoundation(result.data.foundation);
+        setFoundation((result.data as { foundation: FoundationRow }).foundation);
       } else {
         setSaveError(result.error || API_ERR_SAVE);
       }
-    } catch (err) {
-      console.error('Failed to save application:', err);
-      setSaveError(NET_ERR_SAVE);
     } finally {
       setIsSaving(false);
     }
@@ -146,8 +139,7 @@ export function useApplicationForm(id: string) {
     setIsDeleting(true);
     setDeleteError(null);
     try {
-      const response = await fetch(`/api/applications/${id}`, { method: 'DELETE' });
-      const result = await response.json();
+      const result = await deleteApplication(id);
       if (result.success) {
         router.push('/fundraising/applications');
       } else {

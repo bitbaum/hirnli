@@ -11,6 +11,7 @@ import { useState, useRef, useId } from 'react';
 import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
+import { patchApplication } from '@/lib/api/applications';
 import { NET_ERR_SAVE, API_ERR_SAVE } from '@/lib/utils/errors';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { Button } from '@/components/ui/Button';
@@ -68,19 +69,13 @@ export function EditApplicationModal({
       };
       const payload = buildPatchPayload(fields);
 
-      const response = await fetch(`/api/applications/${application.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
+      const result = await patchApplication(application.id, payload);
       if (!result.success) {
         setError(result.error || API_ERR_SAVE);
         return;
       }
 
-      onSaved(result.data.application);
+      onSaved((result.data as { application: Application }).application);
       onClose();
     } catch (err) {
       console.error('Failed to save application:', err);

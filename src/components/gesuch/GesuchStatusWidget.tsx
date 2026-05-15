@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { getStatusConfig, isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { computeFollowUpDate } from '@/lib/utils/parse-response-time';
 import { formatDateCHLong, getTodayISO } from '@/lib/utils/format';
-import { NET_ERR_RETRY } from '@/lib/utils/errors';
+import { createApplication, patchApplication, getApplicationsByFoundation } from '@/lib/api/applications';
 
 interface GesuchStatusWidgetProps {
   slug: string;
@@ -41,12 +41,10 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
   const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/applications?foundationId=${slug}`)
-      .then((r) => r.json())
+    getApplicationsByFoundation(slug)
       .then((d) => {
-        const active = (d.data ?? []).find(
-          (row: ApplicationRow) =>
-            isActiveApplication(row.application.status),
+        const active = (d.data as ApplicationRow[] ?? []).find(
+          (row) => isActiveApplication(row.application.status),
         );
         if (active) {
           setAppId(active.application.id);
@@ -65,20 +63,13 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
     setAdding(true);
     setAddError(null);
     try {
-      const r = await fetch('/api/applications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ foundationId: slug, status: 'draft' }),
-      });
-      const d = await r.json();
+      const d = await createApplication(slug, 'draft');
       if (d.success) {
-        setAppId(d.data.id);
+        setAppId((d.data as { id: string }).id);
         setStatus('draft');
       } else {
         setAddError(d.error ?? 'Konnte nicht zur Pipeline hinzugefügt werden');
       }
-    } catch {
-      setAddError(NET_ERR_RETRY);
     } finally {
       setAdding(false);
     }
@@ -91,25 +82,18 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
     try {
       const today = getTodayISO();
       const decisionExpected = computeFollowUpDate(today, responseTime);
-      const r = await fetch(`/api/applications/${appId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status: 'submitted',
-          submissionDate: today,
-          decisionExpected,
-          documentsSent: ['gesuch-pdf', shareToken ? 'share-link' : null].filter(Boolean),
-        }),
+      const d = await patchApplication(appId, {
+        status: 'submitted',
+        submissionDate: today,
+        decisionExpected,
+        documentsSent: ['gesuch-pdf', shareToken ? 'share-link' : null].filter(Boolean),
       });
-      const d = await r.json();
       if (d.success) {
         setStatus('submitted');
         setFollowUpDate(decisionExpected);
       } else {
         setMarkError(d.error ?? 'Fehler beim Markieren als gesendet');
       }
-    } catch {
-      setMarkError(NET_ERR_RETRY);
     } finally {
       setMarking(false);
     }

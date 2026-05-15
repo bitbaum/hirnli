@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { createApplication, getApplicationsByFoundation } from '@/lib/api/applications';
 import { isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
@@ -9,18 +10,12 @@ import { buildAIContext, type FoundationAIContext } from '@/lib/domain/ai-contex
 /** Fire-and-forget: ensure a pipeline entry exists for this foundation */
 async function ensurePipelineEntry(slug: string) {
   try {
-    const res = await fetch(`/api/applications?foundationId=${slug}`);
-    const data = await res.json();
-    const active = (data.data ?? []).find(
-      (row: { application: { status: ApplicationStatusId } }) =>
-        isActiveApplication(row.application.status),
+    const data = await getApplicationsByFoundation(slug);
+    const active = (data.data as { application: { status: ApplicationStatusId } }[] ?? []).find(
+      (row) => isActiveApplication(row.application.status),
     );
     if (!active) {
-      await fetch('/api/applications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ foundationId: slug, status: 'draft' }),
-      });
+      await createApplication(slug, 'draft');
     }
   } catch {
     // Non-critical — don't block the save flow

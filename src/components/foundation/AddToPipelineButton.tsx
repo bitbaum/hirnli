@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { createApplication } from '@/lib/api/applications';
 import { Button } from '@/components/ui/Button';
 
 interface Props {
@@ -19,15 +20,9 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
     setError(null);
 
     try {
-      const res = await fetch('/api/applications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ foundationId, status: 'prospect' }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || `Fehler ${res.status}`);
+      const res = await createApplication(foundationId, 'prospect');
+      if (!res.success) {
+        throw new Error(res.error || `Fehler ${res.httpStatus}`);
       }
 
       setState('success');

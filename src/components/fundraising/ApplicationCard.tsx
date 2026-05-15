@@ -8,6 +8,7 @@
 'use client';
 
 import { useState } from 'react';
+import { deleteApplication } from '@/lib/api/applications';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import Link from 'next/link';
@@ -67,8 +68,7 @@ export function ApplicationCard({
     setIsDeleting(true);
     setDeleteError(null);
     try {
-      const res = await fetch(`/api/applications/${application.id}`, { method: 'DELETE' });
-      const result = await res.json();
+      const result = await deleteApplication(application.id);
       if (result.success) {
         onDeleted(application.id);
       } else {
