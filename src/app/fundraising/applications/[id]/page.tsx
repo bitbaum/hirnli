@@ -19,6 +19,7 @@ import ActivityTimeline from '@/components/ui/ActivityTimeline';
 import DeleteConfirmBlock from '@/components/fundraising/DeleteConfirmBlock';
 import { ApplicationDateFields, ApplicationOutcomeFields } from '@/components/fundraising/ApplicationFormSections';
 import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
+import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 
 interface ApplicationDetailProps {
   params: {
@@ -216,6 +217,28 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           <Card className="space-y-3">
             <h2 className="heading-item">Stiftung</h2>
             <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+              {foundationDetail?.applicationUrl && (
+                <div className="sm:col-span-2">
+                  <p className="heading-xs-label">Bewerbungsportal</p>
+                  <a href={foundationDetail.applicationUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
+                    {foundationDetail.applicationUrl}
+                  </a>
+                </div>
+              )}
+              {!foundationDetail?.applicationUrl && foundationDetail?.contact?.email && (
+                <div className="sm:col-span-2">
+                  <p className="heading-xs-label">Bewerbung per E-Mail</p>
+                  <a href={`mailto:${foundationDetail.contact.email}`} className="text-primary hover:underline">
+                    {foundationDetail.contact.email}
+                  </a>
+                </div>
+              )}
+              {foundationDetail?.deadlineText && foundationDetail.deadlineText !== UNKNOWN_FIELD && (
+                <div>
+                  <p className="heading-xs-label">Eingabeschluss</p>
+                  <p className="text-grey-dark">{foundationDetail.deadlineText}</p>
+                </div>
+              )}
               <div>
                 <p className="heading-xs-label">Website</p>
                 {foundationDetail?.websiteUrl ? (
@@ -223,10 +246,6 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
                     {foundationDetail.websiteUrl}
                   </a>
                 ) : '—'}
-              </div>
-              <div>
-                <p className="heading-xs-label">E-Mail</p>
-                <p className="text-grey-dark">{foundationDetail?.contact?.email ?? '—'}</p>
               </div>
               <div>
                 <p className="heading-xs-label">Fit Score</p>
