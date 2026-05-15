@@ -97,7 +97,7 @@ describe('researched count', () => {
     ];
     const stats = computeResearchStats(foundations);
     expect(stats.researched).toBe(2);
-    expect(stats.researchedPercent).toBe(67); // Math.round(2/3*100)
+    expect(stats.researchedPercent).toBe(66); // Math.floor(2/3*100) — floor so 100% only shows when truly complete
   });
 
   it('returns 0 researched for minimal/empty foundations', () => {

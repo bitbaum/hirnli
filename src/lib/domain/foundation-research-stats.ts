@@ -161,7 +161,7 @@ export function computeResearchStats(
   return {
     total,
     researched,
-    researchedPercent: Math.round((researched / total) * 100),
+    researchedPercent: Math.floor((researched / total) * 100),
     stale,
     avgCompleteness: Math.round(totalCompleteness / total),
     qualityDistribution: quality,
