@@ -86,7 +86,7 @@ export interface CsvColumn {
   getValue: (f: Foundation) => string;
 }
 
-export interface ColumnGroup {
+interface ColumnGroup {
   label: string;
   columns: CsvColumn[];
 }
