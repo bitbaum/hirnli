@@ -12,6 +12,7 @@ import { isActiveApplication, type ApplicationStatusId } from '@/lib/config/appl
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { buildAIContext, type FoundationAIContext } from '@/lib/domain/ai-context';
+import { rewriteGesuchSection } from '@/lib/api/ai-gesuch-section';
 
 /** Fire-and-forget: ensure a pipeline entry exists for this foundation */
 async function ensurePipelineEntry(slug: string) {
@@ -185,24 +186,15 @@ export function useGesuchOverrides(
         ? buildAIContext(foundation)
         : undefined;
 
-      try {
-        const res = await fetch('/api/ai/gesuch-section', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            instruction,
-            currentText,
-            fieldPath,
-            fieldDescription,
-            foundationContext,
-          }),
-        });
-        const result = await res.json();
-        if (!result.success) return null;
-        return result.data.rewritten;
-      } catch {
-        return null;
-      }
+      const result = await rewriteGesuchSection({
+        instruction,
+        currentText,
+        fieldPath,
+        fieldDescription,
+        foundationContext,
+      });
+      if (!result.success || !result.data) return null;
+      return result.data.rewritten;
     },
     [foundation],
   );
