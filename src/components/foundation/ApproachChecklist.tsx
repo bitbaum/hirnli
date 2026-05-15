@@ -40,7 +40,7 @@ export default function ApproachChecklist({ steps, readiness }: ApproachChecklis
               </div>
               <div className="flex-1 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-grey-dark">{step.action}</span>
+                  <span className="heading-detail">{step.action}</span>
                   <Badge variant="raw" className={STATUS_STYLES[step.status]}>
                     {STATUS_LABELS[step.status]}
                   </Badge>

@@ -108,7 +108,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-bg-light text-left">
-              <th className="px-4 py-2.5 font-semibold text-grey-dark" />
+              <th className="px-4 py-2.5 heading-detail" />
               {THREE_YEAR_MODEL.map((y) => (
                 <th key={y.year} className="px-4 py-2.5 text-right font-semibold text-grey-dark">{y.year}</th>
               ))}

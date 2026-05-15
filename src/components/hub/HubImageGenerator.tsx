@@ -56,7 +56,7 @@ export function HubImageGenerator() {
 
           {/* Full Prompt */}
           <div className="bg-bg-light p-4 rounded-lg mb-4">
-            <p className="text-xs font-semibold text-grey-dark mb-2">AI Generation Prompt:</p>
+            <p className="heading-xs-label mb-2">AI Generation Prompt:</p>
             <p className="text-sm text-text-light leading-relaxed whitespace-pre-wrap">{selectedConfig.prompt}</p>
           </div>
 
@@ -80,7 +80,7 @@ export function HubImageGenerator() {
 
           {/* Suggested Tools */}
           <div className="mt-4 pt-4 border-t border-border">
-            <p className="text-xs font-semibold text-grey-dark mb-2">Recommended AI Tools:</p>
+            <p className="heading-xs-label mb-2">Recommended AI Tools:</p>
             <div className="flex gap-2 flex-wrap">
               {selectedConfig.suggested_tools.map((tool) => (
                 <span key={tool} className="text-xs px-2 py-1 bg-bg-light text-grey-dark rounded">

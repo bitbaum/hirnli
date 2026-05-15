@@ -25,7 +25,7 @@ export default function SimilarFoundations({ similar }: SimilarFoundationsProps)
             className="block rounded-lg border border-border p-3 transition-colors hover:border-primary/30 hover:no-underline"
           >
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-grey-dark">{f.name}</span>
+              <span className="heading-detail">{f.name}</span>
               <span className={`text-xs font-bold ${FIT_CONFIG[fitLevel].color}`}>
                 {FIT_CONFIG[fitLevel].stars}
               </span>

@@ -25,7 +25,7 @@ export default function ThemeBadgeList({ themeIds, size = 'md', variant = 'inlin
                 {theme.icon}
               </span>
               <div>
-                <span className="text-sm font-medium text-grey-dark">{theme.label}</span>
+                <span className="heading-detail">{theme.label}</span>
                 <span className="block text-sm text-text-muted">{theme.description}</span>
               </div>
             </div>
