@@ -18,11 +18,11 @@ export default function BoardHeaderStats({ applications, onRefresh }: BoardHeade
     (sum, { application }) => sum + (application.awardedAmount || 0),
     0,
   );
-  const submittedCount = applications.filter(
-    ({ application }) => application.status === 'submitted',
+  const atFoundationsCount = applications.filter(
+    ({ application }) => ['submitted', 'pending', 'followup'].includes(application.status),
   ).length;
-  const acceptedCount = applications.filter(
-    ({ application }) => application.status === 'accepted',
+  const followupCount = applications.filter(
+    ({ application }) => application.status === 'followup',
   ).length;
 
   return (
@@ -40,14 +40,14 @@ export default function BoardHeaderStats({ applications, onRefresh }: BoardHeade
           <span>
             <span className="font-semibold text-grey-dark">{formatCHF(totalRequested)}</span> beantragt
           </span>
-          {submittedCount > 0 && (
+          {atFoundationsCount > 0 && (
             <span>
-              <span className="font-semibold text-grey-dark">{submittedCount}</span> eingereicht
+              <span className="font-semibold text-grey-dark">{atFoundationsCount}</span> bei Stiftungen
             </span>
           )}
-          {acceptedCount > 0 && (
-            <span>
-              <span className="font-semibold text-success">{acceptedCount}</span> zugesagt
+          {followupCount > 0 && (
+            <span className="font-semibold text-warning-text">
+              {followupCount} Nachfassen
             </span>
           )}
         </div>
