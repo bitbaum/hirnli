@@ -16,7 +16,7 @@ export default function TrackRecord({ inspector }: { inspector: InspectorHandle 
 
   return (
     <section className="mb-8">
-      <h2 className="mb-4 heading-card">Leistungsausweis (verifiziert)</h2>
+      <h2 className="mb-4 heading-subsection">Leistungsausweis (verifiziert)</h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {items.map((item) => (
           <Inspectable

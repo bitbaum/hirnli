@@ -130,7 +130,7 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
 
       {/* Category breakdown cards */}
       <section className="mb-8">
-        <h2 className="mb-4 heading-card">Einnahmen nach Kategorie</h2>
+        <h2 className="mb-4 heading-subsection">Einnahmen nach Kategorie</h2>
         <MetricGrid columns={3}>
           {REVENUE_CATEGORIES.map((cat) => {
             const amount = totals[cat.key];
