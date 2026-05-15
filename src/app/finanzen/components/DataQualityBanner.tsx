@@ -1,24 +1,22 @@
-// ---------------------------------------------------------------------------
-// DataQualityBanner — transparent data quality warning
-// ---------------------------------------------------------------------------
-
 import { DATA_QUALITY } from '../data';
 
-export function DataQualityBanner() {
+interface DataQualityBannerProps {
+  className?: string;
+}
+
+export function DataQualityBanner({ className = 'mb-6' }: DataQualityBannerProps) {
   return (
-    <div className="mb-6 rounded-lg border border-warning/30 bg-warning-bg/20 p-4">
+    <div className={`rounded-lg border-2 border-warning/50 bg-warning-bg/30 p-4 ${className}`}>
       <div className="flex items-start gap-3">
-        <span className="mt-0.5 text-lg text-warning">&#9888;</span>
+        <span className="mt-0.5 text-xl text-warning">&#9888;</span>
         <div>
-          <h3 className="heading-detail">
-            Datenqualität & Transparenz
-          </h3>
+          <h3 className="heading-detail">Wichtig: Eingeschränkte Datenverfügbarkeit</h3>
           <p className="mt-1 text-sm text-text-light">
-            <strong>Vollständige Erfolgsrechnung:</strong> {DATA_QUALITY.completeRange} (Einnahmen + Aufwände).{' '}
+            <strong>Vollständige P&L (Einnahmen + Aufwände):</strong> {DATA_QUALITY.completeRange}.{' '}
             <strong>Nur Einnahmen:</strong> {DATA_QUALITY.incompleteRange} — Aufwände wurden im Buchhaltungssystem nicht verbucht.
           </p>
           <p className="mt-1 text-sm text-text-muted">
-            Quelle: {DATA_QUALITY.source}
+            Quelle: {DATA_QUALITY.source}. {DATA_QUALITY.caveat}
           </p>
         </div>
       </div>

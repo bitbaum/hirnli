@@ -15,7 +15,7 @@ import {
   AVG_REVENUE,
   DATA_QUALITY,
 } from '../data';
-import { InsightCard, ProfitLossTable, CostStructureCard } from '../components';
+import { InsightCard, ProfitLossTable, CostStructureCard, DataQualityBanner } from '../components';
 import type { InspectorHandle } from '@/app/fundraising/sections/Inspectable';
 
 const AnnualTrendChart = dynamic(() => import('@/components/charts/AnnualTrendChart'), {
@@ -26,24 +26,7 @@ const AnnualTrendChart = dynamic(() => import('@/components/charts/AnnualTrendCh
 export default function OverviewTab({ inspector }: { inspector: InspectorHandle }) {
   return (
     <div>
-      {/* Data quality banner */}
-      <div className="mb-6 rounded-lg border-2 border-warning/50 bg-warning-bg/30 p-4">
-        <div className="flex items-start gap-3">
-          <span className="mt-0.5 text-xl text-warning">&#9888;</span>
-          <div>
-            <h3 className="heading-detail">
-              Wichtig: Eingeschränkte Datenverfügbarkeit
-            </h3>
-            <p className="mt-1 text-sm text-text-light">
-              <strong>Vollständige P&L (Einnahmen + Aufwände):</strong> {DATA_QUALITY.completeRange}.{' '}
-              <strong>Nur Einnahmen:</strong> {DATA_QUALITY.incompleteRange} — Aufwände wurden im Buchhaltungssystem nicht verbucht.
-            </p>
-            <p className="mt-1 text-sm text-text-muted">
-              Quelle: {DATA_QUALITY.source}. {DATA_QUALITY.caveat}
-            </p>
-          </div>
-        </div>
-      </div>
+      <DataQualityBanner />
 
       {/* Summary metrics */}
       <MetricGrid columns={4} className="mb-8">
