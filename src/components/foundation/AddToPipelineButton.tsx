@@ -8,11 +8,12 @@ import { Button } from '@/components/ui/Button';
 interface Props {
   foundationId: string;
   foundationName: string;
+  onConflict?: () => void;
 }
 
 const STEPS = ['Hinzugefügt', 'Gesuch schreiben', 'PDF generieren', 'Einreichen'];
 
-export default function AddToPipelineButton({ foundationId, foundationName }: Props) {
+export default function AddToPipelineButton({ foundationId, foundationName, onConflict }: Props) {
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'conflict' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
   const [existingId, setExistingId] = useState<string | null>(null);
@@ -26,6 +27,7 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
       if (active) {
         setExistingId(active.application.id);
         setState('conflict');
+        onConflict?.();
       }
     });
   }, [foundationId]);
@@ -39,6 +41,7 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
       if (res.httpStatus === 409) {
         setExistingId(res.existingId ?? null);
         setState('conflict');
+        onConflict?.();
         return;
       }
       if (!res.success) {

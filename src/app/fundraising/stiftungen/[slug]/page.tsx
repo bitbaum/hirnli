@@ -4,9 +4,8 @@ import { getFoundationBySlug, generateFoundationParams } from '@/lib/domain/foun
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { generateFitNarrative, generateThemeAlignments, generateApproachSteps, getApplicationReadiness } from '@/lib/domain/foundation-contextualization';
 import { findSimilarFoundations } from '@/lib/domain/foundation-recommendations';
-import { Button } from '@/components/ui/Button';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
-import AddToPipelineButton from '@/components/foundation/AddToPipelineButton';
+import MobileFoundationActions from '@/components/foundation/MobileFoundationActions';
 import FoundationHeader from '@/components/foundation/FoundationHeader';
 import FoundationSidebar from '@/components/foundation/FoundationSidebar';
 import SimilarFoundations from '@/components/foundation/SimilarFoundations';
@@ -55,24 +54,11 @@ export default async function FoundationDetailPage({ params }: Props) {
       <FoundationHeader foundation={foundation} />
 
       {/* Mobile quick actions — visible below lg where sidebar is hidden */}
-      <div className="mb-4 flex flex-wrap gap-2 lg:hidden">
-        <AddToPipelineButton foundationId={foundation.slug} foundationName={foundation.name} />
-        {gesuchReady && (
-          <>
-            <Button href={`/fundraising/stiftungen/${foundation.slug}/gesuch`} size="sm">
-              Gesuch öffnen
-            </Button>
-            <Button
-              href={`/api/pdf/gesuch/${foundation.slug}`}
-              variant="secondary"
-              size="sm"
-              target="_blank"
-            >
-              PDF
-            </Button>
-          </>
-        )}
-      </div>
+      <MobileFoundationActions
+        foundationId={foundation.slug}
+        foundationName={foundation.name}
+        gesuchReady={gesuchReady}
+      />
 
       <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
         <div>
