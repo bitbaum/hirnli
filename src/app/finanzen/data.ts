@@ -38,7 +38,7 @@ export const EXPENSE_CATEGORIES = [
   { key: 'uebrig' as const, label: 'Übriger Betrieb', codes: '6100–6900, 8xxx', color: CHART_COLORS.silver },
 ] as const;
 
-export type ExpenseCategoryKey = typeof EXPENSE_CATEGORIES[number]['key'];
+type ExpenseCategoryKey = typeof EXPENSE_CATEGORIES[number]['key'];
 
 // ---------------------------------------------------------------------------
 // Annual P&L data (Erfolgsrechnung 2018-2025)
@@ -120,15 +120,6 @@ export const CUMULATIVE_RESULT = COMPLETE_YEARS.reduce((sum, y) => sum + y.resul
 /** Total device-sale revenue across all tracked years — SSOT for ~1600+ device count estimate */
 export const CUMULATIVE_WARENVERKAUF = ANNUAL_PL.reduce((sum, y) => sum + y.revenueDetail.warenverkauf, 0);
 
-// Financial year range constants — canonical source is lib/config/financial-constants.ts
-// Re-exported here for backward compatibility with app/ consumers.
-export {
-  FINANCIAL_YEAR_START,
-  FINANCIAL_YEAR_END,
-  FINANCIAL_YEAR_COUNT,
-  FINANCIAL_YEAR_RANGE,
-  FINANCIAL_YEAR_LABEL,
-} from '@/lib/config/financial-constants';
 export const AVG_REVENUE = Math.round(
   COMPLETE_YEARS.reduce((sum, y) => sum + y.revenue, 0) / COMPLETE_YEARS.length,
 );
