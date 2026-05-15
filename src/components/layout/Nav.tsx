@@ -35,7 +35,7 @@ export default function Nav() {
   }, [mobileOpen, closeMobile]);
 
   return (
-    <nav className="border-b-2 border-success/10 bg-white shadow-sm">
+    <nav aria-label="Hauptnavigation" className="border-b-2 border-success/10 bg-white shadow-sm">
       <div className="gradient-brand h-1"></div>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
         <Link

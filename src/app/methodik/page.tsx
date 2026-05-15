@@ -96,7 +96,7 @@ export default function MethodikPage() {
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Inhaltsverzeichnis</h2>
         <Card>
-          <nav>
+          <nav aria-label="Inhaltsverzeichnis">
             <ul className="divide-y divide-border">
               {TOC_ITEMS.map((item) => (
                 <li key={item.id} className="py-2">

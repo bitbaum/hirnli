@@ -27,8 +27,9 @@ export default function RootLayout({
   return (
     <html lang="de-CH" className={inter.variable}>
       <body className="flex min-h-screen flex-col antialiased">
+        <a href="#main-content" className="skip-link">Zum Hauptinhalt springen</a>
         <Nav />
-        <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
+        <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
           {children}
         </main>
         <Footer />
