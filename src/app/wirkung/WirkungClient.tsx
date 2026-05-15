@@ -16,6 +16,7 @@ import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import { CO2_PER_LAPTOP, AVG_DEVICE_PRICE, CO2_PER_FLIGHT_ZRH_BER, CO2_KG_PER_CAR_KM, getNumericValue } from '@/lib/config/numbers';
 import { ImpactStoryCards } from './components';
 import { DATA_GAPS, WIRKUNG_NEXT_STEPS } from './data';
+import Callout from '@/components/ui/Callout';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
@@ -60,13 +61,13 @@ export default function WirkungClient() {
         connection="Wirkung = finanziert durch Solidarisches Preismodell + Stiftungsgelder (siehe Finanzen)."
       />
 
-      <Card className="mb-6 bg-success/10 border-l-4 border-success">
+      <Callout color="success" className="mb-6">
         <p className="text-sm">
           <strong>Diese Seite zeigt:</strong> Impact-Kennzahlen (was bewirken wir?)<br />
           <strong>Finanzierung ansehen:</strong> <Link href="/finanzen" className="text-success hover:underline font-medium">Finanzseite</Link>
           {' '}zeigt, woher das Budget kommt.
         </p>
-      </Card>
+      </Callout>
 
       <YearSelector
         years={availableYears}
@@ -76,11 +77,11 @@ export default function WirkungClient() {
       />
 
       {/* Transparency note */}
-      <div className="mb-6 rounded-lg border-l-4 border-l-warning bg-warning-bg/30 p-4 text-sm text-text-light">
+      <Callout color="warning" className="mb-6 text-sm text-text-light">
         <strong className="text-grey-dark">Transparenz:</strong> Die meisten Wirkungszahlen sind{' '}
         <Badge variant="estimated">Schätzungen</Badge>{' '}
         basierend auf Finanzdaten. Wir zeigen offen, was wir wissen und was wir schätzen.
-      </div>
+      </Callout>
 
       {/* Hero impact metrics */}
       <MetricGrid columns={4} className="mb-8">
