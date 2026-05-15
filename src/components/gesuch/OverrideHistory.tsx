@@ -17,6 +17,7 @@ import { formatDateTimeCH } from '@/lib/utils/format';
 import { NET_ERR_RETRY } from '@/lib/utils/errors';
 import type { GesuchOverridesData, ActivityLogEntryJSON } from '@/lib/db/schema';
 import { restoreGesuchOverride } from '@/lib/api/gesuch-overrides';
+import { getActivityLog } from '@/lib/api/activity-log';
 
 interface OverrideHistoryProps {
   slug: string;
@@ -59,10 +60,9 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
     setLoading(true);
     setError(false);
     const entityId = variantKey && variantKey !== 'auto' ? `${slug}::${variantKey}` : slug;
-    fetch(`/api/activity-log?entityId=${entityId}&entityType=gesuch_override&limit=${ACTIVITY_LOG_LIMIT}`)
-      .then((r) => r.json())
+    getActivityLog(entityId, 'gesuch_override', ACTIVITY_LOG_LIMIT)
       .then((d) => {
-        if (d.success) setEntries(d.data);
+        if (d.success) setEntries(d.data ?? []);
         else setError(true);
       })
       .catch(() => setError(true))

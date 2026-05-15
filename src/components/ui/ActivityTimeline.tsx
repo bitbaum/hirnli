@@ -9,6 +9,7 @@
 import { useState, useEffect } from 'react';
 import { formatDateTimeCH } from '@/lib/utils/format';
 import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
+import { getActivityLog } from '@/lib/api/activity-log';
 import type { ActivityLogEntryJSON } from '@/lib/db/schema';
 
 const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map(s => [s.id, s.label]));
@@ -47,10 +48,9 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- resets error state before new fetch
     setError(false);
-    fetch(`/api/activity-log?entityId=${entityId}&entityType=${entityType}&limit=${limit}`)
-      .then((r) => r.json())
+    getActivityLog(entityId, entityType, limit)
       .then((d) => {
-        if (d.success) setEntries(d.data);
+        if (d.success) setEntries(d.data ?? []);
         else setError(true);
       })
       .catch(() => setError(true))
