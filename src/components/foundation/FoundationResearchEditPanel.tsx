@@ -52,7 +52,7 @@ export default function FoundationResearchEditPanel({
   const [websiteUrl, setWebsiteUrl] = useState(initialWebsiteUrl);
   const [amountMin, setAmountMin] = useState<string>(initialAmountMin !== null ? String(initialAmountMin) : '');
   const [amountMax, setAmountMax] = useState<string>(initialAmountMax !== null ? String(initialAmountMax) : '');
-  const [amountText, setAmountText] = useState(initialAmountText);
+  const [amountText, setAmountText] = useState(initialAmountText === 'Unbekannt' ? '' : initialAmountText);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -90,7 +90,7 @@ export default function FoundationResearchEditPanel({
     setWebsiteUrl(initialWebsiteUrl);
     setAmountMin(initialAmountMin !== null ? String(initialAmountMin) : '');
     setAmountMax(initialAmountMax !== null ? String(initialAmountMax) : '');
-    setAmountText(initialAmountText);
+    setAmountText(initialAmountText === 'Unbekannt' ? '' : initialAmountText);
     setEditing(false);
     setError(null);
   }
