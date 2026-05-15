@@ -16,11 +16,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations, activityLog } from '@/lib/db/schema';
-import { and, count, desc, eq } from 'drizzle-orm';
+import { and, count, desc, eq, notInArray } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { STATUS_IDS } from '@/lib/config/application-statuses';
-import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_NOT_FOUND } from '@/lib/utils/errors';
+import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_NOT_FOUND, API_ERR_CONFLICT } from '@/lib/utils/errors';
 
 // Validation schema for creating applications
 const createApplicationSchema = z.object({
@@ -149,6 +149,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { success: false, error: API_ERR_NOT_FOUND },
         { status: 404 }
+      );
+    }
+
+    // Reject duplicate — one active application per foundation at a time
+    const existing = await db
+      .select({ id: applications.id })
+      .from(applications)
+      .where(and(
+        eq(applications.foundationId, data.foundationId),
+        notInArray(applications.status, ['rejected', 'withdrawn']),
+      ))
+      .limit(1);
+
+    if (existing.length > 0) {
+      return NextResponse.json(
+        { success: false, error: API_ERR_CONFLICT, existingId: existing[0].id },
+        { status: 409 }
       );
     }
 

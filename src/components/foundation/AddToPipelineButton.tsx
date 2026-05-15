@@ -12,8 +12,9 @@ interface Props {
 const STEPS = ['Hinzugefügt', 'Gesuch schreiben', 'PDF generieren', 'Einreichen'];
 
 export default function AddToPipelineButton({ foundationId, foundationName }: Props) {
-  const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [state, setState] = useState<'idle' | 'loading' | 'success' | 'conflict' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [existingId, setExistingId] = useState<string | null>(null);
 
   async function handleClick() {
     setState('loading');
@@ -21,15 +22,39 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
 
     try {
       const res = await createApplication(foundationId, 'prospect');
+      if (res.httpStatus === 409) {
+        setExistingId((res as unknown as Record<string, unknown>).existingId as string ?? null);
+        setState('conflict');
+        return;
+      }
       if (!res.success) {
         throw new Error(res.error || `Fehler ${res.httpStatus}`);
       }
-
       setState('success');
     } catch (err) {
       setState('error');
       setError(err instanceof Error ? err.message : 'Unbekannter Fehler');
     }
+  }
+
+  if (state === 'conflict') {
+    return (
+      <div className="space-y-2">
+        <p className="text-sm text-warning-text">
+          {foundationName} ist bereits in der Pipeline.
+        </p>
+        <div className="flex flex-col gap-2">
+          {existingId && (
+            <Button href={`/fundraising/applications/${existingId}`} fullWidth>
+              Gesuch öffnen →
+            </Button>
+          )}
+          <Button href="/fundraising/applications" variant="secondary" fullWidth>
+            Pipeline ansehen
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   if (state === 'success') {
