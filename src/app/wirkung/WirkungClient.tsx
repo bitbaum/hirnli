@@ -255,7 +255,7 @@ export default function WirkungClient() {
       {/* Data source info */}
       <Card>
         <div className="text-sm text-text-light">
-          <p className="font-medium text-grey-dark">Datenquellen</p>
+          <p className="heading-detail">Datenquellen</p>
           <p>Umweltwirkung: BAFU Ökobilanz-Studie | Finanzdaten: Kivitendo Buchhaltung</p>
           <p className="mt-1 text-sm text-text-muted">
             Quelldaten: 01_Management/B_Finanzen/revamp-Einnahmen-{selectedYear}.xlsx

@@ -67,7 +67,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
             <div className="flex items-start gap-2">
               <span className="text-lg">📊</span>
               <div className="flex-1">
-                <div className="font-medium text-grey-dark">Datenquelle</div>
+                <div className="heading-detail">Datenquelle</div>
                 <div className="text-text-light">{friendlySource}</div>
               </div>
             </div>
@@ -75,7 +75,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
               <div className="flex items-start gap-2">
                 <span className="text-lg">🏦</span>
                 <div className="flex-1">
-                  <div className="font-medium text-grey-dark">Buchungskonto</div>
+                  <div className="heading-detail">Buchungskonto</div>
                   <div className="text-text-light">{data.account}</div>
                 </div>
               </div>
@@ -84,7 +84,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
               <div className="flex items-start gap-2">
                 <span className="text-lg">📅</span>
                 <div className="flex-1">
-                  <div className="font-medium text-grey-dark">Zuletzt aktualisiert</div>
+                  <div className="heading-detail">Zuletzt aktualisiert</div>
                   <div className="text-text-light">{data.updated}</div>
                 </div>
               </div>
@@ -93,7 +93,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
               <div className="flex items-start gap-2">
                 <span className="text-lg">🎯</span>
                 <div className="flex-1">
-                  <div className="font-medium text-grey-dark">Verlässlichkeit</div>
+                  <div className="heading-detail">Verlässlichkeit</div>
                   <div className="text-text-light">
                     {CONFIDENCE_DISPLAY_LABELS[data.confidence as keyof typeof CONFIDENCE_DISPLAY_LABELS] ?? data.confidence}
                   </div>

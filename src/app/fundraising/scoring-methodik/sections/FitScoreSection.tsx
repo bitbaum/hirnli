@@ -20,17 +20,17 @@ export default function FitScoreSection() {
             </thead>
             <tbody className="text-text-light">
               <tr className="border-b border-border/50">
-                <td className="py-2 pr-4 font-medium text-grey-dark">Thematisch</td>
+                <td className="py-2 pr-4 heading-detail">Thematisch</td>
                 <td className="py-2 pr-4 tabular-nums">0-4</td>
                 <td className="py-2">Gewichtete Übereinstimmung der Förderthemen mit unseren Schwerpunkten</td>
               </tr>
               <tr className="border-b border-border/50">
-                <td className="py-2 pr-4 font-medium text-grey-dark">Geografisch</td>
+                <td className="py-2 pr-4 heading-detail">Geografisch</td>
                 <td className="py-2 pr-4 tabular-nums">0-3</td>
                 <td className="py-2">Zürich → Schweiz → DACH → International (Stufenmodell)</td>
               </tr>
               <tr>
-                <td className="py-2 pr-4 font-medium text-grey-dark">Zugang</td>
+                <td className="py-2 pr-4 heading-detail">Zugang</td>
                 <td className="py-2 pr-4 tabular-nums">0-3</td>
                 <td className="py-2">Bewerbungsweg, Annahmestatus und Vereinbarkeit</td>
               </tr>

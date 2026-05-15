@@ -147,12 +147,12 @@ export default function PreismodellPage() {
             </Card>
           ))}
         </div>
-        <Card className="border-l-4 border-l-primary bg-primary/10">
+        <Callout color="primary">
           <p className="text-sm">
             <strong>Kein Papierkram:</strong> Wir setzen auf Vertrauen. Die meisten Menschen sind ehrlich.
             Die wenigen, die das System ausnutzen könnten, sind der Preis für ein unbürokratisches System.
           </p>
-        </Card>
+        </Callout>
       </section>
 
       {/* Supporter CTA */}
