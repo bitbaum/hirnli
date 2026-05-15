@@ -56,6 +56,7 @@ export default function FoundationResearchEditPanel({
   const [notes, setNotes] = useState(initialResearchNotes);
   const [email, setEmail] = useState(initialEmail);
   const [phone, setPhone] = useState(initialPhone);
+  const [address, setAddress] = useState(initialAddress);
   const [websiteUrl, setWebsiteUrl] = useState(initialWebsiteUrl);
   const [amountMin, setAmountMin] = useState<string>(initialAmountMin !== null ? String(initialAmountMin) : '');
   const [amountMax, setAmountMax] = useState<string>(initialAmountMax !== null ? String(initialAmountMax) : '');
@@ -80,7 +81,7 @@ export default function FoundationResearchEditPanel({
     const result = await patchFoundationResearch(foundationId, {
       purposeSummary: purpose,
       researchNotes: notes,
-      contact: { email: email.trim(), phone: phone.trim(), address: initialAddress },
+      contact: { email: email.trim(), phone: phone.trim(), address: address.trim() },
       websiteUrl: websiteUrl.trim() || undefined,
       amount: { min: parsedMin, max: parsedMax, text: amountText.trim() },
       annualBudget: annualBudget.trim() || undefined,
@@ -103,6 +104,7 @@ export default function FoundationResearchEditPanel({
     setNotes(initialResearchNotes);
     setEmail(initialEmail);
     setPhone(initialPhone);
+    setAddress(initialAddress);
     setWebsiteUrl(initialWebsiteUrl);
     setAmountMin(initialAmountMin !== null ? String(initialAmountMin) : '');
     setAmountMax(initialAmountMax !== null ? String(initialAmountMax) : '');
@@ -194,6 +196,17 @@ export default function FoundationResearchEditPanel({
             className={FORM_INPUT_CLASS}
           />
         </div>
+      </div>
+
+      <div>
+        <label className={FORM_LABEL_CLASS}>Adresse</label>
+        <input
+          type="text"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Musterstrasse 1, 8000 Zürich"
+          className={FORM_INPUT_CLASS}
+        />
       </div>
 
       <div>
