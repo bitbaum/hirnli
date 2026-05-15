@@ -31,6 +31,7 @@ import { NET_ERR_SAVE, API_ERR_LOAD } from '@/lib/utils/errors';
 import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
 import EmptyState from '@/components/ui/EmptyState';
+import { ClosedApplicationsList } from './ClosedApplicationsList';
 
 export function ApplicationBoard() {
   const [applications, setApplications] = useState<ApplicationWithFoundation[]>([]);
@@ -158,11 +159,15 @@ export function ApplicationBoard() {
     ? applications.find((a) => a.application.id === activeId)
     : null;
 
+  const kanbanStatuses = new Set(KANBAN_COLUMNS as readonly string[]);
+  const boardApplications = applications.filter((a) => kanbanStatuses.has(a.application.status));
+  const closedApplications = applications.filter((a) => !kanbanStatuses.has(a.application.status));
+
   const applicationsByStatus = KANBAN_COLUMNS.map((statusId) => {
     const statusConfig = getStatusConfig(statusId);
     return {
       status: statusConfig,
-      applications: applications.filter((a) => a.application.status === statusId),
+      applications: boardApplications.filter((a) => a.application.status === statusId),
     };
   });
 
@@ -176,8 +181,8 @@ export function ApplicationBoard() {
 
   return (
     <div className="space-y-4">
-      {/* Header row: stats + actions */}
-      <BoardHeaderStats applications={applications} onRefresh={fetchApplications} />
+      {/* Header row: stats + actions — only counts active (board-visible) applications */}
+      <BoardHeaderStats applications={boardApplications} onRefresh={fetchApplications} />
 
       {/* Drag error banner — auto-dismisses after 5 s */}
       {dragError && (
@@ -196,7 +201,7 @@ export function ApplicationBoard() {
       )}
 
       {/* Empty state */}
-      {applications.length === 0 ? (
+      {boardApplications.length === 0 && closedApplications.length === 0 ? (
         <EmptyState
           title="Noch keine Gesuche"
           description="Wähle eine Stiftung aus der Liste und klicke auf «Gesuch starten», um sie in die Pipeline aufzunehmen."
@@ -242,6 +247,9 @@ export function ApplicationBoard() {
           </DragOverlay>
         </DndContext>
       )}
+
+      {/* Rejected / withdrawn applications — collapsed by default */}
+      <ClosedApplicationsList applications={closedApplications} />
 
       {/* Required fields modal for status transitions */}
       {requiredFieldsModal && (
