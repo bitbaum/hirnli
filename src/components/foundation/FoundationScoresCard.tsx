@@ -72,9 +72,9 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
           </p>
           <ul className="mt-1 space-y-0.5">
             {promotion.improvements.slice(0, 3).map((imp) => (
-              <li key={imp.label} className="flex items-center justify-between text-sm text-text-muted">
-                <span>{imp.label}</span>
-                <span className="tabular-nums text-primary-text">+{imp.points}</span>
+              <li key={imp.label} className="flex items-start justify-between gap-2 text-sm text-text-muted">
+                <span className="min-w-0">{imp.label}</span>
+                <span className="shrink-0 tabular-nums text-primary-text">+{imp.points}</span>
               </li>
             ))}
           </ul>

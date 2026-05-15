@@ -375,8 +375,8 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
       ],
       config: {
         checks: [
-          { label: 'Förderbereich bekannt (min/max)', match: { field: 'hasAmountRange', op: 'eq', value: true }, score: 10 },
-          { label: 'Jahresbudget oder Förderausgaben', match: { field: 'hasBudgetOrExpenditure', op: 'eq', value: true }, score: 5 },
+          { label: 'Förderbereich (min/max)', match: { field: 'hasAmountRange', op: 'eq', value: true }, score: 10 },
+          { label: 'Jahresbudget bekannt', match: { field: 'hasBudgetOrExpenditure', op: 'eq', value: true }, score: 5 },
           { label: 'Stiftungsvermögen bekannt', match: { field: 'hasCapital', op: 'eq', value: true }, score: 3 },
           { label: 'Kleinprojekte-Info', match: { field: 'hasSmallProjects', op: 'eq', value: true }, score: 2 },
         ],
@@ -398,7 +398,7 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
       ],
       config: {
         checks: [
-          { label: 'Eigene Website (nicht Zefix/UID)', match: { field: 'hasOwnWebsite', op: 'eq', value: true }, score: 5 },
+          { label: 'Eigene Website', match: { field: 'hasOwnWebsite', op: 'eq', value: true }, score: 5 },
           { label: 'Gründungsjahr bekannt', match: { field: 'hasFounded', op: 'eq', value: true }, score: 3 },
           { label: 'Stiftungsrat bekannt', match: { field: 'hasBoardMembers', op: 'eq', value: true }, score: 3 },
           { label: 'Adresse vorhanden', match: { field: 'hasAddress', op: 'eq', value: true }, score: 2 },
