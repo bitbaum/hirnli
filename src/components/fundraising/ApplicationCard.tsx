@@ -13,7 +13,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import Link from 'next/link';
 import { EditApplicationModal } from './EditApplicationModal';
-import { getPriorityColor } from '@/lib/config/application-statuses';
+import { getPriorityColor, isTerminalStatus } from '@/lib/config/application-statuses';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import { formatCHF, formatDateCH } from '@/lib/utils/format';
 import { MS_PER_DAY, DEADLINE_CRITICAL_DAYS, DEADLINE_WARNING_DAYS } from '@/lib/utils/time';
@@ -189,6 +189,19 @@ export function ApplicationCard({
               {application.assignedTo && (
                 <span className="text-sm text-text-muted">{application.assignedTo}</span>
               )}
+            </div>
+          )}
+
+          {/* Gesuch shortcut — direct link for active applications */}
+          {foundation && !isTerminalStatus(application.status) && application.status !== 'onhold' && (
+            <div className="mt-2 border-t border-border pt-2">
+              <Link
+                href={`/fundraising/stiftungen/${foundation.id}/gesuch`}
+                className="text-xs text-primary-text hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Gesuch öffnen →
+              </Link>
             </div>
           )}
 
