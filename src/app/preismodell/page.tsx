@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Callout from '@/components/ui/Callout';
 import PageHeader from '@/components/layout/PageHeader';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
@@ -216,7 +217,7 @@ export default function PreismodellPage() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-warning bg-warning/10">
+        <Callout color="warning">
           <p className="text-sm">
             <strong>Daten-Limitierung:</strong> Aktuell erfassen wir nur die Aufstockungen (Konto 3510 in Kivitendo).
             Die Gratis-, KulturLegi- und Supporter-Quoten sind noch nicht systematisch messbar.
@@ -224,7 +225,7 @@ export default function PreismodellPage() {
           <p className="mt-2 text-sm">
             <strong>Nächster Schritt:</strong> Kassensystem erweitern, um Preisstufe pro Verkauf zu erfassen.
           </p>
-        </Card>
+        </Callout>
       </section>
 
       {/* FAQ */}
