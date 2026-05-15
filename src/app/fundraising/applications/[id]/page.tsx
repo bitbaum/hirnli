@@ -7,6 +7,7 @@
 
 'use client';
 
+import { use } from 'react';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
@@ -22,14 +23,13 @@ import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 
 interface ApplicationDetailProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 import { FORM_INPUT_CLASS as inputClass, FORM_LABEL_CLASS as labelClass, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
 
 export default function ApplicationDetailPage({ params }: ApplicationDetailProps) {
+  const { id } = use(params);
   const {
     foundation,
     fields,
@@ -45,7 +45,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
     confirmDelete,
     cancelDelete,
     executeDelete,
-  } = useApplicationForm(params.id);
+  } = useApplicationForm(id);
 
   if (isLoading) {
     return <LoadingState label="Lade Gesuch..." className="min-h-screen bg-bg-light" />;
@@ -264,7 +264,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
         {/* Activity log */}
         <Card className="space-y-3">
           <h2 className="heading-item">Aktivitäten</h2>
-          <ActivityTimeline entityId={params.id} entityType="application" />
+          <ActivityTimeline entityId={id} entityType="application" />
         </Card>
 
         {/* Actions */}
