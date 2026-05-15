@@ -2,7 +2,7 @@
 // Pricing tiers
 // ---------------------------------------------------------------------------
 
-export interface PricingTier {
+interface PricingTier {
   name: string;
   badge: string;
   price: string;

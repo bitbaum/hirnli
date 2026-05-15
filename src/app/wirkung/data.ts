@@ -11,7 +11,7 @@ interface ToCColumnData {
   items: { label: string; status: ToCItemStatus }[];
 }
 
-export const TOC_COLUMNS: ToCColumnData[] = [
+const TOC_COLUMNS: ToCColumnData[] = [
   {
     title: 'Inputs',
     color: 'bg-primary/5 border-primary/20',

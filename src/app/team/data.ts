@@ -4,7 +4,7 @@
  * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
  */
 /** Display-oriented team member for the team page (distinct from TeamMember in lib/config/team.ts) */
-export interface TeamMemberDisplay {
+interface TeamMemberDisplay {
   id: string;
   name: string;
   fachgebiete: string[];
