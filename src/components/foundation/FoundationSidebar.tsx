@@ -279,6 +279,10 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           initialEmail={f.contact?.email ?? ''}
           initialPhone={f.contact?.phone ?? ''}
           initialAddress={f.contact?.address ?? ''}
+          initialWebsiteUrl={f.websiteUrl ?? ''}
+          initialAmountMin={f.amount.min}
+          initialAmountMax={f.amount.max}
+          initialAmountText={f.amount.text}
         />
       </Card>
     </div>

@@ -15,6 +15,10 @@ interface Props {
   initialEmail: string;
   initialPhone: string;
   initialAddress: string;
+  initialWebsiteUrl: string;
+  initialAmountMin: number | null;
+  initialAmountMax: number | null;
+  initialAmountText: string;
 }
 
 function CharCounter({ value, min, compact }: { value: string; min: number; compact?: boolean }) {
@@ -35,12 +39,20 @@ export default function FoundationResearchEditPanel({
   initialEmail,
   initialPhone,
   initialAddress,
+  initialWebsiteUrl,
+  initialAmountMin,
+  initialAmountMax,
+  initialAmountText,
 }: Props) {
   const [editing, setEditing] = useState(false);
   const [purpose, setPurpose] = useState(initialPurposeSummary);
   const [notes, setNotes] = useState(initialResearchNotes);
   const [email, setEmail] = useState(initialEmail);
   const [phone, setPhone] = useState(initialPhone);
+  const [websiteUrl, setWebsiteUrl] = useState(initialWebsiteUrl);
+  const [amountMin, setAmountMin] = useState<string>(initialAmountMin !== null ? String(initialAmountMin) : '');
+  const [amountMax, setAmountMax] = useState<string>(initialAmountMax !== null ? String(initialAmountMax) : '');
+  const [amountText, setAmountText] = useState(initialAmountText);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -51,10 +63,14 @@ export default function FoundationResearchEditPanel({
     setSaving(true);
     setSaved(false);
     setError(null);
+    const parsedMin = amountMin.trim() !== '' ? Number(amountMin) : null;
+    const parsedMax = amountMax.trim() !== '' ? Number(amountMax) : null;
     const result = await patchFoundationResearch(foundationId, {
       purposeSummary: purpose,
       researchNotes: notes,
       contact: { email: email.trim(), phone: phone.trim(), address: initialAddress },
+      websiteUrl: websiteUrl.trim() || undefined,
+      amount: { min: parsedMin, max: parsedMax, text: amountText.trim() },
     });
     setSaving(false);
     if (result.success) {
@@ -71,6 +87,10 @@ export default function FoundationResearchEditPanel({
     setNotes(initialResearchNotes);
     setEmail(initialEmail);
     setPhone(initialPhone);
+    setWebsiteUrl(initialWebsiteUrl);
+    setAmountMin(initialAmountMin !== null ? String(initialAmountMin) : '');
+    setAmountMax(initialAmountMax !== null ? String(initialAmountMax) : '');
+    setAmountText(initialAmountText);
     setEditing(false);
     setError(null);
   }
@@ -155,6 +175,45 @@ export default function FoundationResearchEditPanel({
             className={FORM_INPUT_CLASS}
           />
         </div>
+      </div>
+
+      <div>
+        <label className={FORM_LABEL_CLASS}>Website</label>
+        <input
+          type="url"
+          value={websiteUrl}
+          onChange={(e) => setWebsiteUrl(e.target.value)}
+          placeholder="https://www.stiftung.ch"
+          className={FORM_INPUT_CLASS}
+        />
+      </div>
+
+      <div>
+        <label className={FORM_LABEL_CLASS}>Förderbereich (CHF)</label>
+        <div className="grid grid-cols-3 gap-2">
+          <input
+            type="number"
+            value={amountMin}
+            onChange={(e) => setAmountMin(e.target.value)}
+            placeholder="Min"
+            className={FORM_INPUT_CLASS}
+          />
+          <input
+            type="number"
+            value={amountMax}
+            onChange={(e) => setAmountMax(e.target.value)}
+            placeholder="Max"
+            className={FORM_INPUT_CLASS}
+          />
+          <input
+            type="text"
+            value={amountText}
+            onChange={(e) => setAmountText(e.target.value)}
+            placeholder="z.B. bis CHF 50000"
+            className={FORM_INPUT_CLASS}
+          />
+        </div>
+        <p className="mt-1 text-xs text-text-muted">Min · Max · Anzeigetext</p>
       </div>
 
       {error && (
