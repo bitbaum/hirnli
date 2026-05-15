@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { createApplication } from '@/lib/api/applications';
+import { useState, useEffect } from 'react';
+import { createApplication, getApplicationsByFoundation } from '@/lib/api/applications';
+import { isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { Button } from '@/components/ui/Button';
 
 interface Props {
@@ -16,6 +17,19 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
   const [error, setError] = useState<string | null>(null);
   const [existingId, setExistingId] = useState<string | null>(null);
 
+  // Pre-check: if an active application already exists, show conflict state immediately
+  useEffect(() => {
+    getApplicationsByFoundation(foundationId).then((res) => {
+      if (!res.success) return;
+      const active = (res.data as Array<{ application: { id: string; status: ApplicationStatusId } }> ?? [])
+        .find((row) => isActiveApplication(row.application.status));
+      if (active) {
+        setExistingId(active.application.id);
+        setState('conflict');
+      }
+    });
+  }, [foundationId]);
+
   async function handleClick() {
     setState('loading');
     setError(null);
@@ -23,7 +37,7 @@ export default function AddToPipelineButton({ foundationId, foundationName }: Pr
     try {
       const res = await createApplication(foundationId, 'prospect');
       if (res.httpStatus === 409) {
-        setExistingId((res as unknown as Record<string, unknown>).existingId as string ?? null);
+        setExistingId(res.existingId ?? null);
         setState('conflict');
         return;
       }

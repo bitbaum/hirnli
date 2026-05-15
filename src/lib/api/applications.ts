@@ -10,6 +10,7 @@ export interface ApplicationApiResponse<T = unknown> {
   data?: T;
   error?: string;
   missingFields?: RequiredField[];
+  existingId?: string;
   httpStatus: number;
 }
 
