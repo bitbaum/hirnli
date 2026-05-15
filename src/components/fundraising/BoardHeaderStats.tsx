@@ -37,9 +37,11 @@ export default function BoardHeaderStats({ applications, onRefresh }: BoardHeade
               {formatCHF(totalAwarded)} zugesagt
             </span>
           )}
-          <span>
-            <span className="font-semibold text-grey-dark">{formatCHF(totalRequested)}</span> beantragt
-          </span>
+          {totalRequested > 0 && (
+            <span>
+              <span className="font-semibold text-grey-dark">{formatCHF(totalRequested)}</span> beantragt
+            </span>
+          )}
           {atFoundationsCount > 0 && (
             <span>
               <span className="font-semibold text-grey-dark">{atFoundationsCount}</span> bei Stiftungen
