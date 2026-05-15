@@ -23,14 +23,14 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
           <span className="text-xs font-bold tabular-nums">
             {priority.label}
             {priority.isOverride && (
-              <span className="ml-1 rounded bg-warning/10 px-1 py-0.5 text-xs font-medium text-warning">manuell</span>
+              <span className="ml-1 rounded bg-warning/10 px-1 py-0.5 text-xs font-medium text-warning-text">manuell</span>
             )}
           </span>
         </div>
         <ProgressBar percent={priority.score} size="sm" color="bg-primary" label={`Priorität: ${priority.score}%`} />
         <p className="mt-1 text-sm text-text-muted">{priority.description}</p>
         {priority.components.penaltyReason && (
-          <p className="mt-0.5 text-sm text-warning">{priority.components.penaltyReason}</p>
+          <p className="mt-0.5 text-sm text-warning-text">{priority.components.penaltyReason}</p>
         )}
       </div>
 
@@ -74,7 +74,7 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
             {promotion.improvements.slice(0, 3).map((imp) => (
               <li key={imp.label} className="flex items-center justify-between text-sm text-text-muted">
                 <span>{imp.label}</span>
-                <span className="tabular-nums text-primary">+{imp.points}</span>
+                <span className="tabular-nums text-primary-text">+{imp.points}</span>
               </li>
             ))}
           </ul>

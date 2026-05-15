@@ -25,8 +25,8 @@ interface UpcomingDeadlinesProps {
 export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
 
   const getUrgencyColor = (days: number) => {
-    if (days <= DEADLINE_CRITICAL_DAYS) return 'bg-danger/10 border-danger/20 text-danger';
-    if (days <= DEADLINE_WARNING_DAYS) return 'bg-warning/10 border-warning/20 text-warning';
+    if (days <= DEADLINE_CRITICAL_DAYS) return 'bg-danger/10 border-danger/20 text-danger-text';
+    if (days <= DEADLINE_WARNING_DAYS) return 'bg-warning/10 border-warning/20 text-warning-text';
     return 'bg-bg-light border-border text-text-muted';
   };
 

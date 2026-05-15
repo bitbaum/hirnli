@@ -37,7 +37,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
               >
                 {priorityLabel}
                 {priorityIsOverride && (
-                  <span className="rounded bg-warning/10 px-0.5 text-xs font-medium text-warning">M</span>
+                  <span className="rounded bg-warning/10 px-0.5 text-xs font-medium text-warning-text">M</span>
                 )}
               </span>
             </span>
@@ -86,7 +86,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
       </div>
 
       {f.isOperative && (
-        <div className="mt-2 rounded bg-warning-bg px-2 py-1 text-sm text-warning">
+        <div className="mt-2 rounded bg-warning-bg px-2 py-1 text-sm text-warning-text">
           Operative Stiftung — vergibt keine Fördergelder
         </div>
       )}

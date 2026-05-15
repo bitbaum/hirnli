@@ -163,15 +163,15 @@ export function FundraisingDashboard() {
                 <div className="text-sm text-text-muted">Gesamt Gesuche</div>
               </div>
               <div className="text-center">
-                <div className="heading-page text-primary">{data.totals.submitted}</div>
+                <div className="heading-page text-primary-text">{data.totals.submitted}</div>
                 <div className="text-sm text-text-muted">Eingereicht</div>
               </div>
               <div className="text-center">
-                <div className="heading-page text-success">{data.totals.accepted}</div>
+                <div className="heading-page text-success-text">{data.totals.accepted}</div>
                 <div className="text-sm text-text-muted">Angenommen</div>
               </div>
               <div className="text-center">
-                <div className="heading-page text-warning">{data.totals.pending}</div>
+                <div className="heading-page text-warning-text">{data.totals.pending}</div>
                 <div className="text-sm text-text-muted">Ausstehend</div>
               </div>
             </div>

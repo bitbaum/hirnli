@@ -27,7 +27,7 @@ export function ErrorAlert({
 
   return (
     <div className={`rounded-lg border border-danger/20 bg-danger/10 px-4 py-3${className ? ` ${className}` : ''}`}>
-      <p className="text-sm text-danger">{children ?? `Fehler: ${error}`}</p>
+      <p className="text-sm text-danger-text">{children ?? `Fehler: ${error}`}</p>
       {onRetry && (
         <Button
           onClick={onRetry}
@@ -43,7 +43,7 @@ export function ErrorAlert({
           href={backLink.href}
           variant="ghost"
           size="sm"
-          className="mt-2 text-primary"
+          className="mt-2 text-primary-text"
         >
           {backLink.label}
         </Button>

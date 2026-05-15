@@ -58,8 +58,8 @@ export function ApplicationCard({
     const days = Math.ceil(
       (new Date(application.decisionExpected).getTime() - Date.now()) / MS_PER_DAY,
     );
-    if (days <= DEADLINE_CRITICAL_DAYS) return 'text-danger font-semibold';
-    if (days <= DEADLINE_WARNING_DAYS) return 'text-warning';
+    if (days <= DEADLINE_CRITICAL_DAYS) return 'text-danger-text font-semibold';
+    if (days <= DEADLINE_WARNING_DAYS) return 'text-warning-text';
     return 'text-text-muted';
   };
 
@@ -175,7 +175,7 @@ export function ApplicationCard({
                   <span
                     className={`rounded px-1.5 py-0.5 text-xs font-medium ${
                       fitScoreToDisplay(foundation.fitScore, false) === 3
-                        ? 'bg-success/10 text-success'
+                        ? 'bg-success/10 text-success-text'
                         : fitScoreToDisplay(foundation.fitScore, false) >= 2
                           ? 'bg-amber-bg text-amber-text'
                           : 'bg-bg-light text-text-muted'
@@ -197,7 +197,7 @@ export function ApplicationCard({
             <div className="mt-3 rounded-lg bg-danger/10 px-3 py-2 text-sm">
               {deleteError ? (
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-danger">{deleteError}</span>
+                  <span className="text-danger-text">{deleteError}</span>
                   <button
                     onClick={() => { setDeleteConfirm(false); setDeleteError(null); }}
                     className="rounded px-2 py-0.5 text-xs text-text-light hover:bg-bg-light"
@@ -207,7 +207,7 @@ export function ApplicationCard({
                 </div>
               ) : (
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-danger">Wirklich löschen?</span>
+                  <span className="font-medium text-danger-text">Wirklich löschen?</span>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setDeleteConfirm(false)}

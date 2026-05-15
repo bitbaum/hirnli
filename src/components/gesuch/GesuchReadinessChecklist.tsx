@@ -23,10 +23,10 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
         <p className="heading-detail">Bereitschaft</p>
         <Badge variant="raw" className={
           ready
-            ? 'bg-success/10 text-success'
+            ? 'bg-success/10 text-success-text'
             : score >= GESUCH_SCORE_WARNING
-              ? 'bg-warning/10 text-warning'
-              : 'bg-danger/10 text-danger'
+              ? 'bg-warning/10 text-warning-text'
+              : 'bg-danger/10 text-danger-text'
         }>
           {score}%
         </Badge>
@@ -35,7 +35,7 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
       <div className="space-y-1.5">
         {checks.map((check) => (
           <div key={check.id} className="flex items-start gap-2">
-            <span className={`mt-0.5 text-xs ${check.passed ? 'text-success' : 'text-text-light'}`}>
+            <span className={`mt-0.5 text-xs ${check.passed ? 'text-success-text' : 'text-text-light'}`}>
               {check.passed ? '✓' : '○'}
             </span>
             <div className="min-w-0">

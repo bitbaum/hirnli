@@ -64,12 +64,12 @@ export default function PipelineOverviewCard({
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
-          <div className="heading-section tabular-nums text-primary">{gesuchCount}</div>
+          <div className="heading-section tabular-nums text-primary-text">{gesuchCount}</div>
           <div className="heading-detail">Mit Gesuch</div>
           <p className="mt-0.5 text-sm text-text-muted">Gesuch-Seite generiert (P1–P3)</p>
         </div>
         <div className="rounded-lg border border-success/20 bg-success-bg px-4 py-3">
-          <div className="heading-section tabular-nums text-success">{tierCounts.anwendungsbereit}</div>
+          <div className="heading-section tabular-nums text-success-text">{tierCounts.anwendungsbereit}</div>
           <div className="heading-detail">Bewerbungsbereit</div>
           <p className="mt-0.5 text-sm text-text-muted">
             Höchste Datenvollständigkeit (Bereitschafts-Score ≥{READINESS_ENGINE.display.thresholds[0].minScore})
@@ -80,13 +80,13 @@ export default function PipelineOverviewCard({
       {gesuchGapCount > 0 && (
         <div className="flex items-center justify-between rounded-lg border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm">
           <span>
-            <span className="font-semibold text-warning">{gesuchGapCount}</span>
+            <span className="font-semibold text-warning-text">{gesuchGapCount}</span>
             {' '}von {gesuchCount} Gesuch-Seiten haben dünne Quelldaten —{' '}
             researchNotes oder purposeSummary vervollständigen.
           </span>
           <button
             onClick={() => onApplyPreset('mit-luecken')}
-            className="ml-3 shrink-0 rounded-md bg-warning/20 px-2.5 py-1 text-xs font-medium text-warning hover:bg-warning/30"
+            className="ml-3 shrink-0 rounded-md bg-warning/20 px-2.5 py-1 text-xs font-medium text-warning-text hover:bg-warning/30"
           >
             Zeigen →
           </button>
@@ -95,7 +95,7 @@ export default function PipelineOverviewCard({
 
       <p className="text-sm text-text-muted">
         Priorität = Fit × Bereitschaft. Scores algorithmisch berechnet.{' '}
-        <a href="/fundraising/scoring-methodik" className="text-primary hover:underline">Methodik</a>
+        <a href="/fundraising/scoring-methodik" className="text-primary-text hover:underline">Methodik</a>
       </p>
     </Card>
   );

@@ -100,12 +100,12 @@ export default function GesuchEditPanel({
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
-          {saved && <span className="text-sm font-medium text-success">Gespeichert ✓</span>}
-          {saveError && <span className="text-sm font-medium text-danger">{saveError}</span>}
+          {saved && <span className="text-sm font-medium text-success-text">Gespeichert ✓</span>}
+          {saveError && <span className="text-sm font-medium text-danger-text">{saveError}</span>}
           {dirty && !saved && !saveError && !resetConfirm && <span className="text-sm text-text-muted">Ungespeichert</span>}
           {resetConfirm ? (
             <>
-              <span className="text-sm font-medium text-danger">Wirklich zurücksetzen?</span>
+              <span className="text-sm font-medium text-danger-text">Wirklich zurücksetzen?</span>
               <button
                 type="button"
                 onClick={() => setResetConfirm(false)}

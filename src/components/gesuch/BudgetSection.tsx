@@ -93,11 +93,11 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
             </td>
           </tr>
           <tr className="border-b border-border bg-success/10">
-            <td className="py-1.5 font-medium text-success">Eigenleistung {ORG_PROFILE.name}</td>
+            <td className="py-1.5 font-medium text-success-text">Eigenleistung {ORG_PROFILE.name}</td>
             {dok.budget.threeYearModel.map((y) => (
-              <td key={y.year} className="py-1.5 text-right text-success">{formatCHF(y.eigen)}</td>
+              <td key={y.year} className="py-1.5 text-right text-success-text">{formatCHF(y.eigen)}</td>
             ))}
-            <td className="py-1.5 text-right font-medium text-success">{formatCHF(dok.budget.eigen3yTotal)}</td>
+            <td className="py-1.5 text-right font-medium text-success-text">{formatCHF(dok.budget.eigen3yTotal)}</td>
           </tr>
           <tr className="border-b-2 border-grey-dark font-bold">
             <td className="py-2">Total pro Jahr</td>

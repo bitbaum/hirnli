@@ -45,7 +45,7 @@ export default function StepIndicator({ currentStep, onNavigate }: StepIndicator
                     isCurrent
                       ? 'border-primary bg-primary text-white'
                       : isDone
-                        ? 'border-primary bg-primary/10 text-primary'
+                        ? 'border-primary bg-primary/10 text-primary-text'
                         : 'border-border bg-bg text-text-muted group-hover:border-primary/40 group-hover:text-primary'
                   }`}
                 >
@@ -56,9 +56,9 @@ export default function StepIndicator({ currentStep, onNavigate }: StepIndicator
                 <span
                   className={`text-xs font-medium whitespace-nowrap ${
                     isCurrent
-                      ? 'text-primary'
+                      ? 'text-primary-text'
                       : isDone
-                        ? 'text-primary/70'
+                        ? 'text-primary-text/70'
                         : 'text-text-muted group-hover:text-primary'
                   }`}
                 >

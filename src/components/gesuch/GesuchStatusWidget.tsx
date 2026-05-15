@@ -130,7 +130,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
 
   // Fetch failed — don't show "add to pipeline" (could create duplicates)
   if (fetchError) {
-    return <p className="text-sm text-danger">Pipeline-Status konnte nicht geladen werden.</p>;
+    return <p className="text-sm text-danger-text">Pipeline-Status konnte nicht geladen werden.</p>;
   }
 
   // No application yet
@@ -150,7 +150,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
           )}
           Zu Pipeline hinzufügen
         </button>
-        {addError && <p className="text-sm text-danger">{addError}</p>}
+        {addError && <p className="text-sm text-danger-text">{addError}</p>}
       </div>
     );
   }
@@ -189,7 +189,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
             )}
             Als gesendet markieren
           </button>
-          {markError && <p className="text-sm text-danger">{markError}</p>}
+          {markError && <p className="text-sm text-danger-text">{markError}</p>}
         </div>
       )}
 
