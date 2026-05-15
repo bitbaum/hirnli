@@ -56,7 +56,7 @@ export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-lg">{getUrgencyIcon(deadline.daysUntilDeadline)}</span>
-                <h3 className="font-medium">{deadline.foundationName}</h3>
+                <h3 className="heading-item">{deadline.foundationName}</h3>
               </div>
               <div className="text-sm space-y-1">
                 <div>
