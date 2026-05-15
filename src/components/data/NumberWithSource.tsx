@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { NUMBERS_REGISTRY } from '@/lib/config/numbers';
 import { formatCHF, formatNumber } from '@/lib/utils/format';
 import SourceModal from './SourceModal';
-import Card from '@/components/ui/Card';
 
 interface NumberWithSourceProps {
   numberKey: keyof typeof NUMBERS_REGISTRY;
@@ -79,75 +78,6 @@ export function NumberWithSource({
             <span className="text-xs text-primary">i</span>
           </div>
         </div>
-      </button>
-
-      {isModalOpen && (
-        <SourceModal data={data} formattedValue={formattedValue} onClose={() => setIsModalOpen(false)} />
-      )}
-    </>
-  );
-}
-
-/**
- * NumberGrid - Display multiple numbers in a grid
- *
- * Usage:
- *   <NumberGrid numbers={['CO2_SAVED_PER_LAPTOP', 'LAPTOPS_REFURBISHED_TOTAL']} />
- */
-interface NumberGridProps {
-  numbers: Array<keyof typeof NUMBERS_REGISTRY>;
-  columns?: 2 | 3 | 4;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-}
-
-export function NumberGrid({ numbers, columns = 3, size = 'md' }: NumberGridProps) {
-  const gridCols = {
-    2: 'grid-cols-1 md:grid-cols-2',
-    3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-    4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-  };
-
-  return (
-    <div className={`grid ${gridCols[columns]} gap-6`}>
-      {numbers.map((key) => (
-        <Card key={key}>
-          <NumberWithSource numberKey={key} size={size} showLabel={true} />
-        </Card>
-      ))}
-    </div>
-  );
-}
-
-/**
- * InlineNumber - Use in running text
- *
- * Usage:
- *   We save <InlineNumber numberKey="CO2_SAVED_PER_LAPTOP" /> per laptop.
- */
-interface InlineNumberProps {
-  numberKey: keyof typeof NUMBERS_REGISTRY;
-}
-
-export function InlineNumber({ numberKey }: InlineNumberProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const data = NUMBERS_REGISTRY[numberKey];
-
-  if (!data) return null;
-
-  const formattedValue = typeof data.value === 'number' && data.category === 'financial'
-    ? formatCHF(data.value)
-    : typeof data.value === 'number'
-      ? formatNumber(data.value)
-      : String(data.value);
-
-  return (
-    <>
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="font-semibold text-primary hover:underline cursor-pointer"
-        aria-label={`Quelle anzeigen für ${data.label}`}
-      >
-        {formattedValue}
       </button>
 
       {isModalOpen && (
