@@ -10,6 +10,7 @@ import AddToPipelineButton from './AddToPipelineButton';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
 import { getResearchLinks } from '@/lib/config/research-links';
 import FoundationScoresCard from './FoundationScoresCard';
+import FoundationResearchEditPanel from './FoundationResearchEditPanel';
 
 interface FoundationSidebarProps {
   foundation: Foundation;
@@ -271,6 +272,11 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             <p className="rounded bg-bg-light p-2 text-sm text-text-light">{f.researchNotes}</p>
           )}
         </div>
+        <FoundationResearchEditPanel
+          foundationId={f.slug}
+          initialPurposeSummary={f.purposeSummary ?? ''}
+          initialResearchNotes={f.researchNotes ?? ''}
+        />
       </Card>
     </div>
   );
