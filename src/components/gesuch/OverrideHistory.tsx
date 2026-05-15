@@ -16,6 +16,7 @@ const ACTIVITY_LOG_LIMIT = 50;
 import { formatDateTimeCH } from '@/lib/utils/format';
 import { NET_ERR_RETRY } from '@/lib/utils/errors';
 import type { GesuchOverridesData, ActivityLogEntryJSON } from '@/lib/db/schema';
+import { restoreGesuchOverride } from '@/lib/api/gesuch-overrides';
 
 interface OverrideHistoryProps {
   slug: string;
@@ -78,12 +79,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
       if (!details.overrides) return;
 
       setRestoring(entry.id);
-      const res = await fetch(`/api/gesuch-overrides/${slug}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(details.overrides),
-      });
-      const result = await res.json();
+      const result = await restoreGesuchOverride(slug, details.overrides);
       if (result.success) {
         onRestore(details.overrides);
         onClose();

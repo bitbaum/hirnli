@@ -2,6 +2,12 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { createApplication, getApplicationsByFoundation } from '@/lib/api/applications';
+import {
+  getGesuchOverrideVariants,
+  getGesuchOverride,
+  putGesuchOverride,
+  deleteGesuchOverride,
+} from '@/lib/api/gesuch-overrides';
 import { isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
@@ -68,12 +74,10 @@ export function useGesuchOverrides(
 
   // Fetch drafted variants list on mount
   useEffect(() => {
-    fetch(`/api/gesuch-overrides/${slug}/variants`)
-      .then((r) => r.json())
+    getGesuchOverrideVariants(slug)
       .then((result) => {
         if (result.success) setDraftedVariants(result.data ?? []);
-      })
-      .catch((err) => console.warn('variants fetch failed (display-only):', err));
+      });
   }, [slug]);
 
   // Load overrides for current variant — auto-draft if none exist
@@ -83,12 +87,10 @@ export function useGesuchOverrides(
     setDirty(false);
     setLoadError(false);
 
-    const url = `/api/gesuch-overrides/${slug}?variant=${encodeURIComponent(variantKey)}`;
-    fetch(url)
-      .then((r) => r.json())
+    getGesuchOverride(slug, variantKey)
       .then((result) => {
         if (result.success && result.data) {
-          const saved = result.data.overrides as GesuchOverridesData;
+          const saved = result.data.overrides;
           setOverrides(saved);
           setSavedOverrides(saved);
         } else if (result.success) {
@@ -99,8 +101,7 @@ export function useGesuchOverrides(
         } else {
           setLoadError(true);
         }
-      })
-      .catch(() => setLoadError(true));
+      });
   }, [slug, variantKey, foundation]);
 
   const toggleEditMode = useCallback(() => {
@@ -128,19 +129,12 @@ export function useGesuchOverrides(
 
   const save = useCallback(async () => {
     const current = overridesRef.current;
-    const url = `/api/gesuch-overrides/${slug}?variant=${encodeURIComponent(variantKey)}`;
     setSaving(true);
     try {
-      const res = await fetch(url, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(current),
-      });
-      const result = await res.json();
+      const result = await putGesuchOverride(slug, variantKey, current);
       if (result.success) {
         setSavedOverrides(current);
         setDirty(false);
-        // Update drafted variants list
         setDraftedVariants((prev) =>
           prev.includes(variantKey) ? prev : [...prev, variantKey]
         );
@@ -163,10 +157,9 @@ export function useGesuchOverrides(
   }, [dirty, save]);
 
   const reset = useCallback(async () => {
-    const url = `/api/gesuch-overrides/${slug}?variant=${encodeURIComponent(variantKey)}`;
     setSaving(true);
     try {
-      await fetch(url, { method: 'DELETE' });
+      await deleteGesuchOverride(slug, variantKey);
       setOverrides({});
       setSavedOverrides({});
       setDirty(false);

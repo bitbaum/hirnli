@@ -14,7 +14,8 @@ import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { formatDateCH } from '@/lib/utils/format';
-import { NET_ERR_LOAD, API_ERR_LOAD } from '@/lib/utils/errors';
+import { API_ERR_LOAD } from '@/lib/utils/errors';
+import { listGesuchOverrides } from '@/lib/api/gesuch-overrides';
 import EmptyState from '@/components/ui/EmptyState';
 
 interface GesuchOverviewRow {
@@ -33,13 +34,11 @@ export default function MeineGesuchePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/gesuch-overrides')
-      .then((r) => r.json())
+    listGesuchOverrides()
       .then((d) => {
-        if (d.success) setRows(d.data);
+        if (d.success) setRows(d.data as GesuchOverviewRow[]);
         else setError(d.error ?? API_ERR_LOAD);
       })
-      .catch(() => setError(NET_ERR_LOAD))
       .finally(() => setLoading(false));
   }, []);
 
