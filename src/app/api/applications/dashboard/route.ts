@@ -69,6 +69,7 @@ export async function GET(_request: NextRequest) {
     const accepted = statusCounts.accepted ?? 0;
     const rejected = statusCounts.rejected ?? 0;
     const pending = statusCounts.pending ?? 0;
+    const followup = statusCounts.followup ?? 0;
 
     const totalDecided = accepted + rejected;
     const successRate = totalDecided > 0 ? Math.round((accepted / totalDecided) * 100) : 0;
@@ -104,6 +105,7 @@ export async function GET(_request: NextRequest) {
           accepted,
           rejected,
           pending,
+          followup,
           successRate,
           totalApplications: total,
         },

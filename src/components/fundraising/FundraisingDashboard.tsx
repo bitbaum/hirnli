@@ -31,6 +31,7 @@ interface DashboardData {
     accepted: number;
     rejected: number;
     pending: number;
+    followup: number;
     successRate: number;
     totalApplications: number;
   };
@@ -77,6 +78,7 @@ export function FundraisingDashboard() {
   }
 
   const isEmpty = data.totals.totalApplications === 0;
+  const inDecision = data.totals.submitted + data.totals.pending + data.totals.followup;
 
   return (
     <div className="space-y-6">
@@ -118,11 +120,15 @@ export function FundraisingDashboard() {
               color="green"
             />
             <KPICard
-              label="Eingereicht"
-              value={data.totals.submitted}
-              icon="📤"
-              color="orange"
-              subtitle={`${data.totals.pending} ausstehend`}
+              label="In Entscheidung"
+              value={inDecision}
+              icon={data.totals.followup > 0 ? '⚠️' : '📤'}
+              color={data.totals.followup > 0 ? 'orange' : 'blue'}
+              subtitle={
+                data.totals.followup > 0
+                  ? `${data.totals.followup} Nachfassen erforderlich`
+                  : 'bei Stiftungen in Prüfung'
+              }
             />
             <KPICard
               label="Erfolgsquote"
@@ -159,16 +165,20 @@ export function FundraisingDashboard() {
                 <div className="text-sm text-text-muted">Gesamt Gesuche</div>
               </div>
               <div className="text-center">
-                <div className="heading-page text-primary-text">{data.totals.submitted}</div>
-                <div className="text-sm text-text-muted">Eingereicht</div>
+                <div className="heading-page text-primary-text">
+                  {data.totals.submitted + data.totals.pending + data.totals.followup}
+                </div>
+                <div className="text-sm text-text-muted">In Entscheidung</div>
               </div>
               <div className="text-center">
                 <div className="heading-page text-success-text">{data.totals.accepted}</div>
                 <div className="text-sm text-text-muted">Angenommen</div>
               </div>
               <div className="text-center">
-                <div className="heading-page text-warning-text">{data.totals.pending}</div>
-                <div className="text-sm text-text-muted">Ausstehend</div>
+                <div className={`heading-page ${data.totals.followup > 0 ? 'text-warning-text' : 'text-text-muted'}`}>
+                  {data.totals.followup}
+                </div>
+                <div className="text-sm text-text-muted">Nachfassen</div>
               </div>
             </div>
           </Card>
