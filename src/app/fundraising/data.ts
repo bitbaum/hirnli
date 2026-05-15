@@ -82,7 +82,7 @@ export const BUDGET_SUMMARY = {
 // Eigen-total = eigenleistung across all 3 years
 
 export const PROJECT_START = 2026;
-export const PROJECT_END = 2028;
+const PROJECT_END = 2028;
 export const PROJECT_YEAR_RANGE = `${PROJECT_START}–${PROJECT_END}`;
 export const PROJECT_DURATION_LABEL = 'Aufbau → Wachstum → Verselbständigung';
 

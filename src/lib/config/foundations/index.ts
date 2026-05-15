@@ -16,7 +16,6 @@ export {
   PRIORITY_CONFIG,
   FIT_CONFIG,
   NOT_RECOMMENDED,
-  DATABASES,
   APPLICATION_METHOD_LABELS,
 } from './metadata';
 
@@ -28,7 +27,7 @@ export const STIFTUNGEN_DATA: Foundation[] = STIFTUNGEN_GENERATED;
 // Run quality gate lazily to avoid circular dependency:
 // foundations/index → foundation-quality → foundation-helpers → foundations/index
 let _qualityGateRan = false;
-export async function runQualityGate(): Promise<void> {
+async function runQualityGate(): Promise<void> {
   if (_qualityGateRan) return;
   _qualityGateRan = true;
   // Dynamic import() breaks the cycle — module is fully initialized by the time this runs
