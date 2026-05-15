@@ -141,7 +141,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
           type="button"
           onClick={addToPipeline}
           disabled={adding}
-          className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors self-start"
+          className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         >
           {adding ? (
             <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
@@ -180,7 +180,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
             type="button"
             onClick={markAsSubmitted}
             disabled={marking}
-            className="flex items-center gap-2 self-start rounded-lg bg-pillar-digital px-4 py-2 text-sm font-semibold text-white hover:bg-pillar-digital/85 disabled:opacity-50 transition-colors"
+            className="flex items-center gap-2 self-start rounded-lg bg-pillar-digital px-4 py-2 text-sm font-semibold text-white hover:bg-pillar-digital/85 disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pillar-digital focus-visible:ring-offset-2"
           >
             {marking ? (
               <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />

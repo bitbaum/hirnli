@@ -201,7 +201,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
                             type="button"
                             onClick={() => handleRestore(entry)}
                             disabled={restoring === entry.id}
-                            className="shrink-0 rounded-md border border-border px-2.5 py-1 text-sm font-medium text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors"
+                            className="shrink-0 rounded-md border border-border px-2.5 py-1 text-sm font-medium text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                           >
                             {restoring === entry.id ? '…' : 'Wiederherstellen'}
                           </button>

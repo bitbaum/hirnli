@@ -9,7 +9,7 @@ export default function FilterPill({ label, onRemove }: Props) {
       {label}
       <button
         onClick={onRemove}
-        className="ml-0.5 flex h-4 w-4 items-center justify-center rounded-full hover:bg-border"
+        className="ml-0.5 flex h-6 w-6 items-center justify-center rounded-full hover:bg-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
         aria-label={`Filter ${label} entfernen`}
       >
         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

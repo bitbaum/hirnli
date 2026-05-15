@@ -41,7 +41,7 @@ export default function SchwerpunktSelector({
       {/* Auto pill */}
       <button
         onClick={() => onSelect(null)}
-        className={`rounded-full ${pillSize} font-medium transition-all ${
+        className={`rounded-full ${pillSize} font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
           active === null
             ? 'bg-grey-dark text-white shadow-sm'
             : 'border border-border text-text-muted hover:border-grey-dark hover:text-grey-dark'
@@ -61,7 +61,7 @@ export default function SchwerpunktSelector({
           <button
             key={id}
             onClick={() => onSelect(isActive ? null : id)}
-            className={`rounded-full ${pillSize} font-medium transition-all ${
+            className={`rounded-full ${pillSize} font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               isActive
                 ? 'text-white shadow-sm'
                 : hasOverlap

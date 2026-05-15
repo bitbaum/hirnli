@@ -88,7 +88,7 @@ export default function FieldRow({
             <button
               type="button"
               onClick={() => onChange(originalValue)}
-              className="text-sm text-text-muted hover:text-danger"
+              className="inline-flex min-h-[44px] items-center rounded text-sm text-text-muted hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               title="Auf Original zurücksetzen"
             >
               ↩ zurücksetzen
@@ -100,7 +100,7 @@ export default function FieldRow({
             <button
               type="button"
               onClick={copyPrompt}
-              className="flex items-center gap-1 rounded px-2 py-0.5 text-sm text-text-muted transition hover:text-primary"
+              className="flex min-h-[44px] items-center gap-1 rounded px-2 text-sm text-text-muted transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               title="Prompt für externes KI-Tool kopieren"
             >
               {copied ? '✓ Kopiert' : '📋 Prompt'}
@@ -109,7 +109,7 @@ export default function FieldRow({
           <button
             type="button"
             onClick={() => { setShowAi((v) => !v); setAiError(''); }}
-            className={`flex items-center gap-1 rounded px-2 py-0.5 text-sm transition ${
+            className={`flex min-h-[44px] items-center gap-1 rounded px-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               showAi ? 'bg-primary/10 text-primary-text' : 'text-text-muted hover:text-primary'
             }`}
             title="KI-Überarbeitung"

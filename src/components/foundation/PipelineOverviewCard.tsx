@@ -86,7 +86,7 @@ export default function PipelineOverviewCard({
           </span>
           <button
             onClick={() => onApplyPreset('mit-luecken')}
-            className="ml-3 shrink-0 rounded-md bg-warning/20 px-2.5 py-1 text-xs font-medium text-warning-text hover:bg-warning/30"
+            className="ml-3 shrink-0 rounded-md bg-warning/20 px-2.5 py-1 text-xs font-medium text-warning-text hover:bg-warning/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             Zeigen →
           </button>
