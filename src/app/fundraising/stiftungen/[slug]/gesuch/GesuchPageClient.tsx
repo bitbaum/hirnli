@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId, Foundation } from '@/lib/schemas/foundation';
 import type { ComposedGesuch, AnschreibenText } from '@/lib/domain/gesuch-composer';
@@ -35,13 +35,6 @@ interface GesuchPageClientProps {
   generatedAnschreiben: AnschreibenText;
 }
 
-function initStep(): 1 | 2 | 3 {
-  if (typeof window === 'undefined') return 1;
-  const param = new URLSearchParams(window.location.search).get('step');
-  const n = parseInt(param ?? '1', 10);
-  return (n === 2 || n === 3 ? n : 1) as 1 | 2 | 3;
-}
-
 export default function GesuchPageClient({
   slug,
   foundationThemes,
@@ -52,7 +45,13 @@ export default function GesuchPageClient({
   shareToken,
   generatedAnschreiben,
 }: GesuchPageClientProps) {
-  const [step, setStep] = useState<1 | 2 | 3>(initStep);
+  // Start at 1 for SSR; read URL on client after hydration to avoid mismatch.
+  const [step, setStep] = useState<1 | 2 | 3>(1);
+  useEffect(() => {
+    const param = new URLSearchParams(window.location.search).get('step');
+    const n = parseInt(param ?? '1', 10);
+    if (n === 2 || n === 3) setStep(n as 2 | 3);
+  }, []);
   const [activeSchwerpunkt, setActiveSchwerpunkt] = useState<SchwerpunktId | null>(null);
   const editPanelRef = useRef<HTMLDivElement>(null);
 
