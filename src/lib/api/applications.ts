@@ -30,11 +30,12 @@ async function request<T>(
 export function createApplication(
   foundationId: string,
   status: string,
+  priorityLevel?: number,
 ): Promise<ApplicationApiResponse> {
   return request('/api/applications', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ foundationId, status }),
+    body: JSON.stringify({ foundationId, status, ...(priorityLevel != null ? { priorityLevel } : {}) }),
   });
 }
 

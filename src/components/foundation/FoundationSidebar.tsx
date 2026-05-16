@@ -137,7 +137,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         <h3 className="heading-label mb-3">Gesuch</h3>
         {gesuchReady ? (
           <div className="space-y-4">
-            <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
+            <AddToPipelineButton foundationId={f.slug} foundationName={f.name} priorityLevel={f.priority} />
 
             <div className="space-y-2 border-t border-border pt-3">
               <p className="heading-xs-label">Dokumente</p>
@@ -165,7 +165,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           </div>
         ) : (
           <div className="space-y-2">
-            <AddToPipelineButton foundationId={f.slug} foundationName={f.name} />
+            <AddToPipelineButton foundationId={f.slug} foundationName={f.name} priorityLevel={f.priority} />
             <p className="text-sm text-text-muted">
               {!tierAtLeast(tier, 'recherchiert')
                 ? 'Gesuch benötigt höhere Bereitschaft (min. Tier Recherchiert).'

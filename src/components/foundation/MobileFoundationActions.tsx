@@ -8,9 +8,10 @@ interface Props {
   foundationId: string;
   foundationName: string;
   gesuchReady: boolean;
+  priorityLevel?: number;
 }
 
-export default function MobileFoundationActions({ foundationId, foundationName, gesuchReady }: Props) {
+export default function MobileFoundationActions({ foundationId, foundationName, gesuchReady, priorityLevel }: Props) {
   const [inPipeline, setInPipeline] = useState(false);
 
   return (
@@ -18,6 +19,7 @@ export default function MobileFoundationActions({ foundationId, foundationName, 
       <AddToPipelineButton
         foundationId={foundationId}
         foundationName={foundationName}
+        priorityLevel={priorityLevel}
         onConflict={() => setInPipeline(true)}
       />
       {gesuchReady && !inPipeline && (

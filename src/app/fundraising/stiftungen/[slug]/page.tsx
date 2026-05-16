@@ -58,6 +58,7 @@ export default async function FoundationDetailPage({ params }: Props) {
         foundationId={foundation.slug}
         foundationName={foundation.name}
         gesuchReady={gesuchReady}
+        priorityLevel={foundation.priority}
       />
 
       <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
