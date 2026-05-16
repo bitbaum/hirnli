@@ -14,9 +14,9 @@ export function P1SuggestionStrip({ trackedIds, onAdded }: Props) {
   const [adding, setAdding] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const untracked = STIFTUNGEN_DATA.filter(
-    (f) => f.priority === 1 && !trackedIds.has(f.slug),
-  );
+  const untracked = STIFTUNGEN_DATA
+    .filter((f) => f.priority === 1 && !trackedIds.has(f.slug))
+    .sort((a, b) => b.fitScore - a.fitScore);
 
   if (untracked.length === 0) return null;
 
