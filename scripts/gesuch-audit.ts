@@ -20,6 +20,7 @@ import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
 import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
 import { composeGesuch } from '../src/lib/domain/gesuch-composer';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
+import { isRegistryUrl } from '../src/lib/config/registry-domains';
 
 // ============================================================================
 // CLI args
@@ -113,8 +114,8 @@ function main() {
       issues.push(`Purpose summary thin (${foundation.purposeSummary?.length || 0} chars, need 150+)`);
     }
 
-    // Check 7: Website URL present and not just Zefix
-    if (!foundation.websiteUrl || foundation.websiteUrl.includes('zefix.ch')) {
+    // Check 7: Website URL present and not a registry/directory site
+    if (!foundation.websiteUrl || isRegistryUrl(foundation.websiteUrl)) {
       issues.push(`No real website URL`);
     }
 
