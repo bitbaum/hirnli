@@ -451,11 +451,10 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
   server components would eliminate the sync layer (not urgent, but architecturally cleaner)
 - 1 P3 truly unreachable (alice-ackermann: phone-only, no appUrl, no email) — also the only
   remaining APPLICATION URL gap. Run `npm run audit` for the live list.
-- 57 Gesuch documents have data-quality issues per `gesuch-audit` (run `npx tsx scripts/gesuch-audit.ts`):
-  16 P2 and 41 P3 — thin researchNotes (<250 chars), thin purposeSummary (<150 chars),
+- 48 Gesuch documents have data-quality issues per `gesuch-audit` (run `npx tsx scripts/gesuch-audit.ts`):
+  7 P2 and 41 P3 — thin researchNotes (<250 chars), thin purposeSummary (<150 chars),
   missing email/phone, or no real websiteUrl — needs per-foundation research enrichment, not a code fix.
-  The pipeline overview shows ~60 (hasGesuchDataGaps uses isRegistryUrl which catches more registries than
-  the audit script's zefix-only check). P1 gesuch pages: 20/20 perfect (P2: 59/75=79%, P3: 76/117=65%).
+  P1 gesuch pages: 20/20 perfect (P2: 68/75=91%, P3: 76/117=65%).
   Use `/fundraising/stiftungen?gaps=1` or the "Lücken füllen" preset to find them.
 
 ---
@@ -867,5 +866,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-05-05 — run `npm run audit` for live pipeline stats (P1=20/P2=78/P3=142=240, generated=1,683, archived=1,117, P2/P3 appUrl=100%/96%; Gesuch P1=20/20 perfect, P2=59/75=79%, P3=76/117=65%)
+**Last Updated:** 2026-05-16 — run `npm run audit` for live pipeline stats (P1=20/P2=78/P3=142=240, generated=1,683, archived=1,117, P2/P3 appUrl=100%/96%; Gesuch P1=20/20 perfect, P2=68/75=91%, P3=76/117=65%)
 **Maintainer:** Revamp-IT Team
