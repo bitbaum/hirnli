@@ -19,8 +19,8 @@ import { useApplicationForm } from '@/hooks/useApplicationForm';
 import ActivityTimeline from '@/components/ui/ActivityTimeline';
 import DeleteConfirmBlock from '@/components/fundraising/DeleteConfirmBlock';
 import { ApplicationDateFields, ApplicationOutcomeFields } from '@/components/fundraising/ApplicationFormSections';
+import ApplicationFoundationCard from '@/components/fundraising/ApplicationFoundationCard';
 import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
-import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 
 interface ApplicationDetailProps {
   params: Promise<{ id: string }>;
@@ -225,64 +225,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
 
         {/* Foundation info (read-only) */}
         {foundation && (
-          <Card className="space-y-3">
-            <h2 className="heading-item">Stiftung</h2>
-            <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
-              {foundationDetail?.applicationUrl && (
-                <div className="sm:col-span-2">
-                  <p className="heading-xs-label">
-                    {!foundationDetail.applicationUrl.startsWith('mailto:')
-                      ? 'Bewerbungsportal'
-                      : ['contact', 'direct', 'personal'].includes(foundationDetail.applicationMethod ?? '')
-                        ? 'Anfrage per E-Mail'
-                        : 'Bewerbung per E-Mail'}
-                  </p>
-                  <a
-                    href={foundationDetail.applicationUrl}
-                    target={foundationDetail.applicationUrl.startsWith('mailto:') ? undefined : '_blank'}
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline break-all"
-                  >
-                    {foundationDetail.applicationUrl.startsWith('mailto:')
-                      ? foundationDetail.applicationUrl.replace('mailto:', '')
-                      : foundationDetail.applicationUrl}
-                  </a>
-                </div>
-              )}
-              {!foundationDetail?.applicationUrl && foundationDetail?.contact?.email && (
-                <div className="sm:col-span-2">
-                  <p className="heading-xs-label">Bewerbung per E-Mail</p>
-                  <a href={`mailto:${foundationDetail.contact.email}`} className="text-primary hover:underline">
-                    {foundationDetail.contact.email}
-                  </a>
-                </div>
-              )}
-              {foundationDetail?.deadlineText && foundationDetail.deadlineText !== UNKNOWN_FIELD && (
-                <div>
-                  <p className="heading-xs-label">Eingabeschluss</p>
-                  <p className="text-grey-dark">{foundationDetail.deadlineText}</p>
-                </div>
-              )}
-              <div>
-                <p className="heading-xs-label">Website</p>
-                {foundationDetail?.websiteUrl ? (
-                  <a href={foundationDetail.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
-                    {foundationDetail.websiteUrl}
-                  </a>
-                ) : '—'}
-              </div>
-              <div>
-                <p className="heading-xs-label">Fit Score</p>
-                <p className="text-grey-dark">{foundation.fitScore != null ? `${foundation.fitScore} / 10` : '—'}</p>
-              </div>
-              <div>
-                <p className="heading-xs-label">Gesuch</p>
-                <Link href={`/fundraising/stiftungen/${foundation.id}/gesuch`} className="text-primary hover:underline">
-                  Gesuch öffnen →
-                </Link>
-              </div>
-            </div>
-          </Card>
+          <ApplicationFoundationCard foundation={foundation} foundationDetail={foundationDetail} />
         )}
 
         {/* Activity log */}
