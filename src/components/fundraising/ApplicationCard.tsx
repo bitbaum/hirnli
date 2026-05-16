@@ -115,7 +115,7 @@ export function ApplicationCard({
           <div className="flex shrink-0 items-center gap-1">
             <button
               onClick={() => setShowEdit(true)}
-              className="flex h-11 w-11 items-center justify-center rounded text-text-muted hover:bg-bg-light hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="flex h-7 w-7 items-center justify-center rounded text-text-muted hover:bg-bg-light hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               title="Bearbeiten"
               aria-label="Gesuch bearbeiten"
             >
@@ -123,7 +123,7 @@ export function ApplicationCard({
             </button>
             <button
               onClick={() => setDeleteConfirm(!deleteConfirm)}
-              className="flex h-11 w-11 items-center justify-center rounded text-text-muted hover:bg-danger/10 hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="flex h-7 w-7 items-center justify-center rounded text-text-muted hover:bg-danger/10 hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               title="Löschen"
               aria-label="Gesuch löschen"
             >
