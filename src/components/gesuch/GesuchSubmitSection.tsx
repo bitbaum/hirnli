@@ -151,9 +151,11 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
     <div className="space-y-4">
       {info.applicationUrl && (
         <div>
-          <SectionLabel>Online-Formular</SectionLabel>
+          <SectionLabel>{info.applicationUrl.startsWith('mailto:') ? 'Bewerbung per E-Mail' : 'Online-Formular'}</SectionLabel>
           <Button variant="soft" href={info.applicationUrl}>
-            Formular öffnen ↗
+            {info.applicationUrl.startsWith('mailto:')
+              ? `${info.applicationUrl.replace('mailto:', '')} ✉`
+              : 'Formular öffnen ↗'}
           </Button>
         </div>
       )}

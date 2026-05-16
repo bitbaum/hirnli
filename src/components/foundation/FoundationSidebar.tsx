@@ -98,9 +98,14 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             </div>
           )}
           {f.applicationUrl && (
-            <a href={f.applicationUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center justify-between rounded bg-primary/5 px-2 py-2.5 font-semibold text-primary hover:bg-primary/10 hover:underline">
-              <span>Gesuch einreichen</span>
-              <span className="text-xs">↗</span>
+            <a
+              href={f.applicationUrl}
+              target={f.applicationUrl.startsWith('mailto:') ? undefined : '_blank'}
+              rel="noopener noreferrer"
+              className="flex min-h-11 items-center justify-between rounded bg-primary/5 px-2 py-2.5 font-semibold text-primary hover:bg-primary/10 hover:underline"
+            >
+              <span>{f.applicationUrl.startsWith('mailto:') ? 'Gesuch per E-Mail' : 'Gesuch einreichen'}</span>
+              <span className="text-xs">{f.applicationUrl.startsWith('mailto:') ? '✉' : '↗'}</span>
             </a>
           )}
           {/* All research platforms */}

@@ -224,9 +224,18 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
               {foundationDetail?.applicationUrl && (
                 <div className="sm:col-span-2">
-                  <p className="heading-xs-label">Bewerbungsportal</p>
-                  <a href={foundationDetail.applicationUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
-                    {foundationDetail.applicationUrl}
+                  <p className="heading-xs-label">
+                    {foundationDetail.applicationUrl.startsWith('mailto:') ? 'Bewerbung per E-Mail' : 'Bewerbungsportal'}
+                  </p>
+                  <a
+                    href={foundationDetail.applicationUrl}
+                    target={foundationDetail.applicationUrl.startsWith('mailto:') ? undefined : '_blank'}
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline break-all"
+                  >
+                    {foundationDetail.applicationUrl.startsWith('mailto:')
+                      ? foundationDetail.applicationUrl.replace('mailto:', '')
+                      : foundationDetail.applicationUrl}
                   </a>
                 </div>
               )}
