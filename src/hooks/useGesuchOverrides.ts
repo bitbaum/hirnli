@@ -90,11 +90,17 @@ export function useGesuchOverrides(
 
     getGesuchOverride(slug, variantKey)
       .then((result) => {
-        if (result.success && result.data) {
+        const hasOverrides =
+          result.success &&
+          result.data != null &&
+          Object.keys(result.data.overrides).length > 0;
+
+        if (hasOverrides && result.data) {
           const saved = result.data.overrides;
           setOverrides(saved);
           setSavedOverrides(saved);
         } else if (result.success) {
+          // No row or empty row → auto-draft
           if (foundation && !autoTriggeredVariants.current.has(variantKey)) {
             autoTriggeredVariants.current.add(variantKey);
             setNeedsAutoDraft(true);
@@ -128,13 +134,12 @@ export function useGesuchOverrides(
     setDirty(true);
   }, []);
 
-  const save = useCallback(async () => {
-    const current = overridesRef.current;
+  const saveData = useCallback(async (data: GesuchOverridesData) => {
     setSaving(true);
     try {
-      const result = await putGesuchOverride(slug, variantKey, current);
+      const result = await putGesuchOverride(slug, variantKey, data);
       if (result.success) {
-        setSavedOverrides(current);
+        setSavedOverrides(data);
         setDirty(false);
         setDraftedVariants((prev) =>
           prev.includes(variantKey) ? prev : [...prev, variantKey]
@@ -150,6 +155,10 @@ export function useGesuchOverrides(
       setSaving(false);
     }
   }, [slug, variantKey]);
+
+  const save = useCallback(async () => {
+    await saveData(overridesRef.current);
+  }, [saveData]);
 
   const saveIfDirty = useCallback(async () => {
     if (dirty) {
@@ -256,21 +265,43 @@ export function useGesuchOverrides(
           }),
         ]);
 
-      if (bridgeResult) updateField({ foundationBridge: bridgeResult });
-      if (openingResult) updateField({ anschreiben: { opening: openingResult } });
-      if (alignResult) updateField({ anschreiben: { themeAlignment: alignResult } });
-      if (whyResult) updateField({ why: { problem: whyResult } });
-      if (howResult) updateField({ how: { trackRecord: { text: howResult } } });
+      // Build the full overrides object locally — do NOT rely on overridesRef.current
+      // after updateField() calls, since setState is batched and the ref only updates
+      // at render time. Calling save() here would write {} instead of the draft content.
+      const draftOverrides: GesuchOverridesData = { ...overridesRef.current };
+      if (bridgeResult) {
+        draftOverrides.foundationBridge = bridgeResult;
+        updateField({ foundationBridge: bridgeResult });
+      }
+      if (openingResult || alignResult) {
+        draftOverrides.anschreiben = {
+          ...draftOverrides.anschreiben,
+          ...(openingResult ? { opening: openingResult } : {}),
+          ...(alignResult ? { themeAlignment: alignResult } : {}),
+        };
+        if (openingResult) updateField({ anschreiben: { opening: openingResult } });
+        if (alignResult) updateField({ anschreiben: { themeAlignment: alignResult } });
+      }
+      if (whyResult) {
+        draftOverrides.why = { ...draftOverrides.why, problem: whyResult };
+        updateField({ why: { problem: whyResult } });
+      }
+      if (howResult) {
+        draftOverrides.how = {
+          trackRecord: { ...(draftOverrides.how?.trackRecord ?? {}), text: howResult },
+        };
+        updateField({ how: { trackRecord: { text: howResult } } });
+      }
 
       try {
-        await save();
+        await saveData(draftOverrides);
       } catch {
         setAutoDraftError(true);
       }
     } finally {
       setAutoDraftLoading(false);
     }
-  }, [foundation, schwerpunktLabel, aiRewrite, updateField, save]);
+  }, [foundation, schwerpunktLabel, aiRewrite, updateField, saveData]);
 
   // Auto-trigger AI personalization on first visit to each variant
   useEffect(() => {
