@@ -32,6 +32,7 @@ import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
 import EmptyState from '@/components/ui/EmptyState';
 import { ClosedApplicationsList } from './ClosedApplicationsList';
+import { P1SuggestionStrip } from './P1SuggestionStrip';
 
 export function ApplicationBoard() {
   const [applications, setApplications] = useState<ApplicationWithFoundation[]>([]);
@@ -159,6 +160,8 @@ export function ApplicationBoard() {
     ? applications.find((a) => a.application.id === activeId)
     : null;
 
+  const trackedIds = new Set(applications.map((a) => a.application.foundationId));
+
   const kanbanStatuses = new Set(KANBAN_COLUMNS as readonly string[]);
   const boardApplications = applications.filter((a) => kanbanStatuses.has(a.application.status));
   const closedApplications = applications.filter((a) => !kanbanStatuses.has(a.application.status));
@@ -183,6 +186,9 @@ export function ApplicationBoard() {
     <div className="space-y-4">
       {/* Header row: stats + actions — only counts active (board-visible) applications */}
       <BoardHeaderStats applications={boardApplications} onRefresh={fetchApplications} />
+
+      {/* P1 foundations not yet tracked — surface the gap */}
+      <P1SuggestionStrip trackedIds={trackedIds} onAdded={fetchApplications} />
 
       {/* Drag error banner — auto-dismisses after 5 s */}
       {dragError && (
