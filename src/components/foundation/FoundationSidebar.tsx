@@ -104,7 +104,13 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               rel="noopener noreferrer"
               className="flex min-h-11 items-center justify-between rounded bg-primary/5 px-2 py-2.5 font-semibold text-primary hover:bg-primary/10 hover:underline"
             >
-              <span>{f.applicationUrl.startsWith('mailto:') ? 'Gesuch per E-Mail' : 'Gesuch einreichen'}</span>
+              <span>
+                {!f.applicationUrl.startsWith('mailto:')
+                  ? 'Gesuch einreichen'
+                  : ['contact', 'direct', 'personal'].includes(f.applicationMethod ?? '')
+                    ? 'Anfrage per E-Mail'
+                    : 'Gesuch per E-Mail'}
+              </span>
               <span className="text-xs">{f.applicationUrl.startsWith('mailto:') ? '✉' : '↗'}</span>
             </a>
           )}

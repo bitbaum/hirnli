@@ -231,7 +231,11 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
               {foundationDetail?.applicationUrl && (
                 <div className="sm:col-span-2">
                   <p className="heading-xs-label">
-                    {foundationDetail.applicationUrl.startsWith('mailto:') ? 'Bewerbung per E-Mail' : 'Bewerbungsportal'}
+                    {!foundationDetail.applicationUrl.startsWith('mailto:')
+                      ? 'Bewerbungsportal'
+                      : ['contact', 'direct', 'personal'].includes(foundationDetail.applicationMethod ?? '')
+                        ? 'Anfrage per E-Mail'
+                        : 'Bewerbung per E-Mail'}
                   </p>
                   <a
                     href={foundationDetail.applicationUrl}
