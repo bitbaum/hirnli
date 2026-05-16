@@ -7,7 +7,7 @@
 
 'use client';
 
-import { use } from 'react';
+import { use, useEffect } from 'react';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
@@ -46,6 +46,12 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
     cancelDelete,
     executeDelete,
   } = useApplicationForm(id);
+
+  useEffect(() => {
+    if (foundation?.name) {
+      document.title = `${foundation.name} | Gesuch — Revamp-Info`;
+    }
+  }, [foundation?.name]);
 
   if (isLoading) {
     return <LoadingState label="Lade Gesuch..." className="min-h-screen bg-bg-light" />;
