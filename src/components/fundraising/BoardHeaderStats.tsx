@@ -57,7 +57,7 @@ export default function BoardHeaderStats({ applications, onRefresh }: BoardHeade
         <div />
       )}
       <div className="flex gap-2 shrink-0">
-        <Button href="/fundraising/stiftungen">
+        <Button href="/fundraising/stiftungen?pl=1,2">
           + Gesuch hinzufügen
         </Button>
         <Button variant="secondary" onClick={onRefresh}>↺</Button>
