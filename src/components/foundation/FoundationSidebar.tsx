@@ -59,15 +59,11 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               <dd className="font-medium text-grey-dark">{f.grantExpenditure}</dd>
             </div>
           )}
-          {f.applicationMethod && f.applicationMethod !== 'unknown' && (
-            APPLICATION_METHOD_LABELS[f.applicationMethod] !== null && (
-              <div>
-                <dt className="text-text-muted">Bewerbungsweg</dt>
-                <dd className="font-medium text-grey-dark">
-                  {APPLICATION_METHOD_LABELS[f.applicationMethod]}
-                </dd>
-              </div>
-            )
+          {f.applicationMethod && f.applicationMethod !== 'unknown' && APPLICATION_METHOD_LABELS[f.applicationMethod] && (
+            <div>
+              <dt className="text-text-muted">Bewerbungsweg</dt>
+              <dd className="font-medium text-grey-dark">{APPLICATION_METHOD_LABELS[f.applicationMethod]}</dd>
+            </div>
           )}
           <div>
             <dt className="text-text-muted">Fit-Score</dt>
@@ -200,7 +196,6 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         </Card>
       )}
 
-      {/* Contact */}
       {/* Contact — always show all channels, mark missing with search link */}
       <Card>
         <h3 className="heading-label mb-3">Kontakt</h3>
