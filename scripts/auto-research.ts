@@ -47,9 +47,10 @@ const DRY_RUN = args.includes('--dry-run');
 const LIMIT = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10) || Infinity;
 const OFFSET = parseInt(args.find(a => a.startsWith('--offset='))?.split('=')[1] || '0', 10) || 0;
 const DELAY_MS = parseInt(args.find(a => a.startsWith('--delay='))?.split('=')[1] || '2000', 10);
+const MODEL_OVERRIDE = args.find(a => a.startsWith('--model='))?.split('=')[1];
 
 if (!inputFile) {
-  console.error('Usage: npx tsx scripts/auto-research.ts <triage-file.json> [--dry-run] [--limit=N] [--offset=N]');
+  console.error('Usage: npx tsx scripts/auto-research.ts <triage-file.json> [--dry-run] [--limit=N] [--offset=N] [--model=<model>]');
   process.exit(1);
 }
 
@@ -264,6 +265,7 @@ async function main() {
       maxTokens: 2048,
       temperature: 0.3,
       timeoutMs: 60_000,
+      ...(MODEL_OVERRIDE ? { model: MODEL_OVERRIDE } : {}),
     });
 
     if (!groqResult.ok) {
