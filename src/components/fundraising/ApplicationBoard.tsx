@@ -27,6 +27,7 @@ import { ApplicationCard } from './ApplicationCard';
 import BoardHeaderStats from './BoardHeaderStats';
 import { KANBAN_COLUMNS, getStatusConfig, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
 import { getApplications, patchApplication } from '@/lib/api/applications';
+import { UI_TIMINGS } from '@/lib/config/ui-timings';
 import { NET_ERR_SAVE, API_ERR_LOAD } from '@/lib/utils/errors';
 import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
 import RequiredFieldsModal from './RequiredFieldsModal';
@@ -68,7 +69,7 @@ export function ApplicationBoard() {
   // Auto-clear drag errors after 5 seconds
   useEffect(() => {
     if (!dragError) return;
-    const t = setTimeout(() => setDragError(null), 5000);
+    const t = setTimeout(() => setDragError(null), UI_TIMINGS.dragErrorDismiss);
     return () => clearTimeout(t);
   }, [dragError]);
 

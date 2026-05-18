@@ -15,6 +15,8 @@ import { eq, and, inArray } from 'drizzle-orm';
 import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
+import { EMAIL_COLORS } from '@/lib/config/email-colors';
+import { formatCHF } from '@/lib/utils/format';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 
 const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map(s => [s.id, s.label]));
@@ -134,9 +136,9 @@ function formatEmailBody(
   }>
 ): string {
   const urgencyColors = {
-    high: '#DC2626',
-    medium: '#F59E0B',
-    low: '#10B981',
+    high: EMAIL_COLORS.urgencyHigh,
+    medium: EMAIL_COLORS.urgencyMedium,
+    low: EMAIL_COLORS.urgencyLow,
   };
 
   const urgencyLabels = {
@@ -151,14 +153,7 @@ function formatEmailBody(
     low: notifications.filter(n => n.urgency === 'low'),
   };
 
-  const formatCHF = (amount: number | null) => {
-    if (!amount) return '—';
-    return new Intl.NumberFormat('de-CH', {
-      style: 'currency',
-      currency: 'CHF',
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
+  const formatAmount = (amount: number | null) => amount ? formatCHF(amount) : '—';
 
   let html = `
 <!DOCTYPE html>
@@ -167,11 +162,11 @@ function formatEmailBody(
   <meta charset="utf-8">
   <title>Deadline Erinnerungen</title>
 </head>
-<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <h1 style="color: #1F2937; border-bottom: 3px solid #3B82F6; padding-bottom: 10px;">
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: ${EMAIL_COLORS.text}; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <h1 style="color: ${EMAIL_COLORS.textDark}; border-bottom: 3px solid ${EMAIL_COLORS.primary}; padding-bottom: 10px;">
     ⏰ Fundraising Deadline Erinnerungen
   </h1>
-  <p style="font-size: 16px; color: #4B5563;">
+  <p style="font-size: 16px; color: ${EMAIL_COLORS.textLight};">
     ${notifications.length} Gesuche mit anstehenden Fristen:
   </p>
 `;
@@ -184,7 +179,7 @@ function formatEmailBody(
     const label = urgencyLabels[urgencyKey];
 
     html += `
-  <div style="margin: 20px 0; padding: 15px; border-left: 4px solid ${color}; background-color: #F9FAFB;">
+  <div style="margin: 20px 0; padding: 15px; border-left: 4px solid ${color}; background-color: ${EMAIL_COLORS.bgLight};">
     <h2 style="margin: 0 0 10px 0; color: ${color}; font-size: 18px;">
       ${label} (${items[0].daysUntil} Tag${items[0].daysUntil > 1 ? 'e' : ''})
     </h2>
@@ -195,9 +190,9 @@ function formatEmailBody(
       html += `
       <li style="margin: 10px 0;">
         <strong>${item.foundation?.name || 'Unknown'}</strong><br>
-        <span style="color: #6B7280; font-size: 14px;">
+        <span style="color: ${EMAIL_COLORS.textMuted}; font-size: 14px;">
           Status: ${STATUS_LABEL[item.application.status] ?? item.application.status}<br>
-          Betrag: ${formatCHF(item.application.requestedAmount)}<br>
+          Betrag: ${formatAmount(item.application.requestedAmount)}<br>
           Entscheidung: ${item.application.decisionExpected}
         </span>
       </li>
@@ -211,13 +206,13 @@ function formatEmailBody(
   }
 
   html += `
-  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
-    <p style="font-size: 14px; color: #6B7280;">
-      <a href="${ORG_PROFILE.platform.url}/fundraising/dashboard" style="color: #3B82F6; text-decoration: none;">
+  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid ${EMAIL_COLORS.border};">
+    <p style="font-size: 14px; color: ${EMAIL_COLORS.textMuted};">
+      <a href="${ORG_PROFILE.platform.url}/fundraising/dashboard" style="color: ${EMAIL_COLORS.primary}; text-decoration: none;">
         Dashboard öffnen →
       </a>
     </p>
-    <p style="font-size: 12px; color: #9CA3AF;">
+    <p style="font-size: 12px; color: ${EMAIL_COLORS.textFaint};">
       Diese Nachricht wurde automatisch von ${ORG_PROFILE.name} Fundraising System generiert.
     </p>
   </div>

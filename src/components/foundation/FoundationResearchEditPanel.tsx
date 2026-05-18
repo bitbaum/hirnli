@@ -5,9 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { patchFoundationResearch } from '@/lib/api/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
-
-const PURPOSE_MIN = 150;
-const NOTES_MIN = 250;
+import { QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
+import { UI_TIMINGS } from '@/lib/config/ui-timings';
 
 interface Props {
   foundationId: string;
@@ -93,7 +92,7 @@ export default function FoundationResearchEditPanel({
       setSaved(true);
       setEditing(false);
       router.refresh();
-      setTimeout(() => setSaved(false), 3000);
+      setTimeout(() => setSaved(false), UI_TIMINGS.savedIndicatorLong);
     } else {
       setError(result.error ?? 'Fehler beim Speichern');
     }
@@ -120,10 +119,10 @@ export default function FoundationResearchEditPanel({
     return (
       <div className="flex items-center justify-between pt-1">
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          <CharCounter value={purpose} min={PURPOSE_MIN} compact />
+          <CharCounter value={purpose} min={QUALITY_THRESHOLDS.purposeSummaryMinChars} compact />
           <span>Zweck</span>
           <span>·</span>
-          <CharCounter value={notes} min={NOTES_MIN} compact />
+          <CharCounter value={notes} min={QUALITY_THRESHOLDS.researchNotesMinChars} compact />
           <span>Notizen</span>
           {!hasContact && (
             <>
@@ -150,7 +149,7 @@ export default function FoundationResearchEditPanel({
       <div>
         <div className="flex items-center justify-between mb-1">
           <label className={FORM_LABEL_CLASS}>Stiftungszweck</label>
-          <CharCounter value={purpose} min={PURPOSE_MIN} />
+          <CharCounter value={purpose} min={QUALITY_THRESHOLDS.purposeSummaryMinChars} />
         </div>
         <textarea
           value={purpose}
@@ -164,7 +163,7 @@ export default function FoundationResearchEditPanel({
       <div>
         <div className="flex items-center justify-between mb-1">
           <label className={FORM_LABEL_CLASS}>Recherche-Notizen</label>
-          <CharCounter value={notes} min={NOTES_MIN} />
+          <CharCounter value={notes} min={QUALITY_THRESHOLDS.researchNotesMinChars} />
         </div>
         <textarea
           value={notes}

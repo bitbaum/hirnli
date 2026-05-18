@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { UI_TIMINGS } from '@/lib/config/ui-timings';
 
 interface CopyButtonProps {
   text: string;
@@ -15,7 +16,7 @@ export default function CopyButton({ text, label = 'Kopieren' }: CopyButtonProps
       onClick={async () => {
         await navigator.clipboard.writeText(text);
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        setTimeout(() => setCopied(false), UI_TIMINGS.copySuccess);
       }}
       className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm font-medium text-text-muted hover:border-primary/40 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
     >

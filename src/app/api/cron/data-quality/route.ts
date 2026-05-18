@@ -16,6 +16,7 @@ import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatDateCH, toISODateStr } from '@/lib/utils/format';
 import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
+import { EMAIL_COLORS } from '@/lib/config/email-colors';
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -245,9 +246,9 @@ export async function GET(request: NextRequest) {
  */
 function formatQualityReport(issues: DataQualityIssue[]): string {
   const severityColors = {
-    high: '#DC2626',
-    medium: '#F59E0B',
-    low: '#10B981',
+    high: EMAIL_COLORS.urgencyHigh,
+    medium: EMAIL_COLORS.urgencyMedium,
+    low: EMAIL_COLORS.urgencyLow,
   };
 
   const severityLabels = {
@@ -263,11 +264,11 @@ function formatQualityReport(issues: DataQualityIssue[]): string {
   <meta charset="utf-8">
   <title>Datenqualität Report</title>
 </head>
-<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <h1 style="color: #1F2937; border-bottom: 3px solid #F59E0B; padding-bottom: 10px;">
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: ${EMAIL_COLORS.text}; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <h1 style="color: ${EMAIL_COLORS.textDark}; border-bottom: 3px solid ${EMAIL_COLORS.urgencyMedium}; padding-bottom: 10px;">
     📊 Datenqualität Report
   </h1>
-  <p style="font-size: 16px; color: #4B5563;">
+  <p style="font-size: 16px; color: ${EMAIL_COLORS.textLight};">
     ${issues.length} Qualitätsprobleme gefunden:
   </p>
 `;
@@ -277,7 +278,7 @@ function formatQualityReport(issues: DataQualityIssue[]): string {
     const label = severityLabels[issue.severity];
 
     html += `
-  <div style="margin: 20px 0; padding: 15px; border-left: 4px solid ${color}; background-color: #F9FAFB;">
+  <div style="margin: 20px 0; padding: 15px; border-left: 4px solid ${color}; background-color: ${EMAIL_COLORS.bgLight};">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <h2 style="margin: 0; color: ${color}; font-size: 18px;">
         ${label}
@@ -286,20 +287,20 @@ function formatQualityReport(issues: DataQualityIssue[]): string {
         ${issue.count}
       </span>
     </div>
-    <p style="margin: 10px 0; font-size: 14px; color: #1F2937;">
+    <p style="margin: 10px 0; font-size: 14px; color: ${EMAIL_COLORS.textDark};">
       <strong>${issue.message}</strong>
     </p>
 `;
 
     if (issue.items && issue.items.length > 0) {
-      html += `<ul style="margin: 10px 0; padding-left: 20px; font-size: 13px; color: #6B7280;">`;
+      html += `<ul style="margin: 10px 0; padding-left: 20px; font-size: 13px; color: ${EMAIL_COLORS.textMuted};">`;
       for (const item of issue.items) {
         html += `<li style="margin: 5px 0;">${item.name}${item.detail ? ` — ${item.detail}` : ''}</li>`;
       }
       html += `</ul>`;
 
       if (issue.count > 10) {
-        html += `<p style="font-size: 12px; color: #9CA3AF; font-style: italic;">... und ${issue.count - 10} weitere</p>`;
+        html += `<p style="font-size: 12px; color: ${EMAIL_COLORS.textFaint}; font-style: italic;">... und ${issue.count - 10} weitere</p>`;
       }
     }
 
@@ -307,13 +308,13 @@ function formatQualityReport(issues: DataQualityIssue[]): string {
   }
 
   html += `
-  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
-    <p style="font-size: 14px; color: #6B7280;">
-      <a href="${ORG_PROFILE.platform.url}/fundraising/dashboard" style="color: #3B82F6; text-decoration: none;">
+  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid ${EMAIL_COLORS.border};">
+    <p style="font-size: 14px; color: ${EMAIL_COLORS.textMuted};">
+      <a href="${ORG_PROFILE.platform.url}/fundraising/dashboard" style="color: ${EMAIL_COLORS.primary}; text-decoration: none;">
         Dashboard öffnen →
       </a>
     </p>
-    <p style="font-size: 12px; color: #9CA3AF;">
+    <p style="font-size: 12px; color: ${EMAIL_COLORS.textFaint};">
       Diese Nachricht wurde automatisch vom ${ORG_PROFILE.name} Fundraising System generiert.
     </p>
   </div>

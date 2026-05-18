@@ -16,11 +16,7 @@ import {
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { COLORS, pdfFormatCHF, pdfTodayCH } from '@/lib/pdf/gesuch-dokument/styles';
 
-// Template-specific tokens not in the shared COLORS object
-const TEMPLATE_BLUE = '#3B82F6';   // Tailwind blue-500 — header/highlight accent
-const FOOTER_GRAY  = '#9CA3AF';   // Tailwind gray-400 — footer text
-const EMPHASIS_BG  = '#DCFCE7';   // Tailwind green-100 — narrative highlight box
-const EMPHASIS_FG  = '#166534';   // Tailwind green-800 — narrative highlight text
+const { templateBlue: TEMPLATE_BLUE, footerGray: FOOTER_GRAY, emphasisBg: EMPHASIS_BG, emphasisFg: EMPHASIS_FG } = COLORS;
 
 const styles = StyleSheet.create({
   page: {

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import ProgressBar from '@/components/ui/ProgressBar';
-import { PRIORITY_CONFIG } from '@/lib/config/foundations';
+import { PRIORITY_CONFIG, PRIORITY_LEVELS } from '@/lib/config/foundations';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import type { QualityTier } from '@/lib/schemas/foundation';
 import type { FilterPresetId } from '@/lib/domain/foundation-filter';
@@ -52,7 +52,7 @@ export default function PipelineOverviewCard({
       </div>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {([1, 2, 3, 4] as const).map((level) => {
+        {PRIORITY_LEVELS.map((level) => {
           const pc = PRIORITY_CONFIG[level];
           return (
             <div key={level} className={`rounded-lg border ${pc.cardColor} px-3 py-2 text-center`}>

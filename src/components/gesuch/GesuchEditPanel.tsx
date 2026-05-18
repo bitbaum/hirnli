@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { UI_TIMINGS } from '@/lib/config/ui-timings';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { WhySection, TrackRecord } from '@/lib/schemas/story';
 import type { AnschreibenText } from '@/lib/domain/gesuch-composer';
@@ -71,7 +72,7 @@ export default function GesuchEditPanel({
     try {
       await onSave();
       setSaved(true);
-      setTimeout(() => setSaved(false), 2500);
+      setTimeout(() => setSaved(false), UI_TIMINGS.savedIndicator);
     } catch {
       setSaveError('Speichern fehlgeschlagen — bitte erneut versuchen.');
     }

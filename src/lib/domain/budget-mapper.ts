@@ -9,6 +9,10 @@ import type { Foundation } from '@/lib/schemas/foundation';
 import { getScenario } from '@/lib/domain/budget-calculations';
 import type { BudgetScenario } from '@/lib/schemas/budget';
 
+const GRANT_TIER_SMALL = 20_000;   // Below this → minimal scenario
+const GRANT_TIER_MEDIUM = 50_000;  // Below this → moderate; above → maximum
+const MIN_REQUEST_AMOUNT = 5_000;  // Floor for computed request amounts
+
 /**
  * Map foundation to budget scenario.
  *
@@ -20,9 +24,9 @@ export function getScenarioForFoundation(foundation: Foundation): BudgetScenario
 
   const maxGrant = foundation.amount.max;
   if (maxGrant !== null) {
-    if (maxGrant < 20_000) {
+    if (maxGrant < GRANT_TIER_SMALL) {
       scenarioId = 'minimal';
-    } else if (maxGrant <= 50_000) {
+    } else if (maxGrant <= GRANT_TIER_MEDIUM) {
       scenarioId = 'moderate';
     } else {
       scenarioId = 'maximum';
@@ -53,5 +57,5 @@ export function computeRequestedAmount(foundation: Foundation, scenario: BudgetS
   if (max && max <= gap) return max;
   if (max && min) return Math.min(Math.round((min + max) / 2), gap);
   if (min) return Math.min(min * 2, gap);
-  return Math.max(5000, Math.round(gap * 0.2 / 5000) * 5000);
+  return Math.max(MIN_REQUEST_AMOUNT, Math.round(gap * 0.2 / MIN_REQUEST_AMOUNT) * MIN_REQUEST_AMOUNT);
 }

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { UI_TIMINGS } from '@/lib/config/ui-timings';
 
 export default function ShareButton() {
   const [copied, setCopied] = useState(false);
@@ -9,7 +10,7 @@ export default function ShareButton() {
   function handleCopy() {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), UI_TIMINGS.copySuccess);
     });
   }
 

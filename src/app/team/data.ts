@@ -1,39 +1,6 @@
 /**
  * ORG-SPECIFIC: Content written for Revamp-IT.
- * To support a new org, rewrite this file's content.
- * Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
+ * To support a new org, rewrite lib/config/team.ts TEAM_MEMBERS + DEPARTMENTS.
+ * This file is a re-export shim so page-local imports continue to work.
  */
-/** Display-oriented team member for the team page (distinct from TeamMember in lib/config/team.ts) */
-interface TeamMemberDisplay {
-  id: string;
-  name: string;
-  fachgebiete: string[];
-  bereich: 'Leitung' | 'Technik' | 'Betrieb';
-  capacity?: string;
-}
-
-export const TEAM_MEMBERS: TeamMemberDisplay[] = [
-  // Leitung
-  { id: 'PER-0001', name: 'Andreas', fachgebiete: ['Geschäftsführung', 'Strategie'], bereich: 'Leitung' },
-  { id: 'PER-0002', name: 'Daniel', fachgebiete: ['Elektrotechnik', 'Software Engineering', 'Betrieb'], bereich: 'Leitung' },
-  { id: 'PER-0003', name: 'Veronica', fachgebiete: ['Sozialpädagogik', 'HR', 'Fundraising'], bereich: 'Leitung' },
-  // Technik
-  { id: 'PER-0004', name: 'Cem', fachgebiete: ['Software Engineering', 'Kivitendo'], bereich: 'Technik' },
-  { id: 'PER-0005', name: 'George', fachgebiete: ['Software Engineering', 'Fundraising', 'Betrieb', 'Systementwicklung'], bereich: 'Technik', capacity: '60%' },
-  { id: 'PER-0006', name: 'Michael', fachgebiete: ['Technik'], bereich: 'Technik' }, // Vero ergänzt
-  { id: 'PER-0007', name: 'Mike', fachgebiete: ['Open Source', 'Linux'], bereich: 'Technik' },
-  { id: 'PER-0008', name: 'Reza', fachgebiete: ['Reparatur', 'Technik'], bereich: 'Technik' },
-  { id: 'PER-0009', name: 'Romeo', fachgebiete: ['Reparatur'], bereich: 'Technik' },
-  { id: 'PER-0010', name: 'Sili', fachgebiete: ['Reparatur', 'Software Engineering', 'Kivitendo'], bereich: 'Technik' },
-  { id: 'PER-0011', name: 'Simeon', fachgebiete: ['Technik'], bereich: 'Technik' }, // Vero ergänzt
-  { id: 'PER-0012', name: 'Winchester', fachgebiete: ['3D-Modellierung'], bereich: 'Technik' }, // Vero ergänzt
-  // Betrieb
-  { id: 'PER-0013', name: 'Heinz', fachgebiete: ['Betrieb', 'Geräte-Annahme'], bereich: 'Betrieb' },
-  { id: 'PER-0014', name: 'Bruno', fachgebiete: ['Betrieb'], bereich: 'Betrieb' }, // Vero ergänzt
-];
-
-export const DEPARTMENTS = [
-  { name: 'Leitung', icon: '👔', borderColor: 'border-l-pillar-vision' },
-  { name: 'Technik', icon: '🔧', borderColor: 'border-l-primary' },
-  { name: 'Betrieb', icon: '📦', borderColor: 'border-l-success' },
-] as const;
+export { TEAM_MEMBERS, DEPARTMENTS, type TeamMemberDisplay } from '@/lib/config/team';

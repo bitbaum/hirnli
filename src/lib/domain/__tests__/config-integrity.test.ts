@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
-import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG, APPLICATION_METHOD_LABELS, SOURCES, FIT_CONFIG, THEMES } from '@/lib/config/foundations';
+import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG, PRIORITY_LEVELS, APPLICATION_METHOD_LABELS, SOURCES, FIT_CONFIG, THEMES } from '@/lib/config/foundations';
 import type { FoundationStatus } from '@/lib/schemas/foundation';
 import { FoundationType, ApplicationMethod, SourceId, ThemeId } from '@/lib/schemas/foundation';
 import { TRUST_CONFIG } from '@/lib/config/trust-levels';
@@ -70,7 +70,7 @@ describe('application-statuses config integrity', () => {
 
 describe('getPriorityColor', () => {
   it('returns a non-empty string for each valid priority level (1-4)', () => {
-    for (const level of [1, 2, 3, 4]) {
+    for (const level of PRIORITY_LEVELS) {
       const result = getPriorityColor(level);
       expect(typeof result).toBe('string');
       expect(result.length).toBeGreaterThan(0);
@@ -210,7 +210,6 @@ describe('foundation type config integrity', () => {
 });
 
 describe('priority config integrity', () => {
-  const PRIORITY_LEVELS = [1, 2, 3, 4];
 
   it('PRIORITY_CONFIG covers all priority levels 1-4', () => {
     for (const level of PRIORITY_LEVELS) {

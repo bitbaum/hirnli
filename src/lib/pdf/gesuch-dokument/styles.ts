@@ -8,7 +8,16 @@
 import { StyleSheet } from '@react-pdf/renderer';
 import { CHART_COLORS } from '@/lib/config/chart-colors';
 
-// Design tokens matching the HTML dokument page
+/**
+ * Design tokens for PDF generation (@react-pdf/renderer).
+ * CSS variables are not supported in react-pdf, so raw hex values are required.
+ * Values should stay in sync with globals.css semantic tokens.
+ *
+ * templateBlue  → Tailwind blue-500  — header/highlight accent
+ * footerGray    → Tailwind gray-400  — footer text
+ * emphasisBg    → Tailwind green-100 — narrative highlight box background
+ * emphasisFg    → Tailwind green-800 — narrative highlight box text
+ */
 export const COLORS = {
   text: '#1F2937',
   textMuted: '#6B7280',
@@ -26,7 +35,11 @@ export const COLORS = {
   greenText: '#065F46',
   white: '#FFFFFF',
   danger: '#DC2626',
-  amber: '#F59E0B',  // --color-amber in globals.css
+  amber: '#F59E0B',       // --color-amber in globals.css
+  templateBlue: '#3B82F6', // Tailwind blue-500 — header/highlight accent
+  footerGray: '#9CA3AF',   // Tailwind gray-400 — footer text
+  emphasisBg: '#DCFCE7',   // Tailwind green-100 — narrative highlight bg
+  emphasisFg: '#166534',   // Tailwind green-800 — narrative highlight text
 } as const;
 
 export const styles = StyleSheet.create({

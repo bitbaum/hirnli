@@ -14,6 +14,8 @@ export {
   STATUS_LABELS,
   STATUS_BADGE_VARIANT,
   PRIORITY_CONFIG,
+  PRIORITY_LEVELS,
+  type PriorityLevel,
   FIT_CONFIG,
   APPLICATION_METHOD_LABELS,
 } from './metadata';

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { AI_PRESETS } from '@/lib/config/ai-presets';
 import { buildExternalPrompt } from '@/lib/domain/prompt-builder';
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
+import { UI_TIMINGS } from '@/lib/config/ui-timings';
 
 interface FieldRowProps {
   label: string;
@@ -57,7 +58,7 @@ export default function FieldRow({
     });
     navigator.clipboard.writeText(prompt).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      setTimeout(() => setCopied(false), UI_TIMINGS.copySuccessShort);
     });
   };
 

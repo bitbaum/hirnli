@@ -227,6 +227,10 @@ interface PriorityConfig {
   cardColor: string;
 }
 
+/** All valid priority levels — use instead of hardcoding [1, 2, 3, 4] */
+export const PRIORITY_LEVELS = [1, 2, 3, 4] as const;
+export type PriorityLevel = (typeof PRIORITY_LEVELS)[number];
+
 export const PRIORITY_CONFIG: Record<number, PriorityConfig> = {
   1: {
     label: 'P1',
