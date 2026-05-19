@@ -46,7 +46,7 @@ export default function ApplicationFoundationCard({ foundation, foundationDetail
         {foundationDetail?.deadlineText && foundationDetail.deadlineText !== UNKNOWN_FIELD && (
           <div>
             <p className="heading-xs-label">Eingabeschluss</p>
-            <p className="text-grey-dark">{foundationDetail.deadlineText}</p>
+            <p className="text-text-primary">{foundationDetail.deadlineText}</p>
           </div>
         )}
         <div>
@@ -59,7 +59,7 @@ export default function ApplicationFoundationCard({ foundation, foundationDetail
         </div>
         <div>
           <p className="heading-xs-label">Fit Score</p>
-          <p className="text-grey-dark">{foundation.fitScore != null ? `${foundation.fitScore} / 10` : '—'}</p>
+          <p className="text-text-primary">{foundation.fitScore != null ? `${foundation.fitScore} / 10` : '—'}</p>
         </div>
         <div>
           <p className="heading-xs-label">Gesuch</p>

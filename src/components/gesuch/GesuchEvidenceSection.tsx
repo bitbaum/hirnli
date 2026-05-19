@@ -13,11 +13,11 @@ export default function GesuchEvidenceSection({ evidence }: GesuchEvidenceSectio
       <h2 className="mb-6 heading-page">Wissenschaftliche Grundlagen</h2>
       <div className="grid gap-4 md:grid-cols-2">
         {evidence.map((ev) => (
-          <Card key={ev.title} className="bg-bg-light">
+          <Card key={ev.title} className="bg-surface-raised">
             <p className="mb-2 heading-detail">
               {ev.title} ({ev.year})
             </p>
-            <p className="mb-3 text-sm text-text-light">{ev.claim}</p>
+            <p className="mb-3 text-sm text-text-secondary">{ev.claim}</p>
             <a
               href={ev.url}
               target="_blank"

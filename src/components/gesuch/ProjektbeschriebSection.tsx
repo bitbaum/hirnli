@@ -54,7 +54,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
 
       {/* Anecdotes — human stories after Ausgangslage (Gap #1) */}
       {dok.anecdotes.why.length > 0 && (
-        <div className="mb-8 rounded border border-border bg-bg-light p-4">
+        <div className="mb-8 rounded border border-border-default bg-surface-raised p-4">
           <p className="mb-2 heading-detail">Aus der Praxis</p>
           {dok.anecdotes.why.map((a) => (
             <p key={a.id} className="mb-2 text-sm leading-relaxed text-text italic">
@@ -72,7 +72,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         </p>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {dok.story.how.track_record.proof_points.map((pp) => (
-            <div key={pp.label} className="rounded border border-border p-2 text-center">
+            <div key={pp.label} className="rounded border border-border-default p-2 text-center">
               <p className="heading-stat-sm text-primary">{pp.value}</p>
               <p className="text-sm text-text-muted">{pp.label}</p>
             </div>
@@ -83,7 +83,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
             {dok.story.how.competencies.map((comp) => (
               <div key={comp.headline}>
                 <p className="mb-1 heading-detail">{comp.headline}</p>
-                <ul className="text-sm text-text-light">
+                <ul className="text-sm text-text-secondary">
                   {comp.capabilities.slice(0, 4).map((c) => (
                     <li key={c}>• {c}</li>
                   ))}
@@ -105,7 +105,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
 
         {/* HOW anecdote (Gap #1) */}
         {dok.anecdotes.how.length > 0 && (
-          <div className="mt-4 rounded border border-border bg-bg-light p-4">
+          <div className="mt-4 rounded border border-border-default bg-surface-raised p-4">
             {dok.anecdotes.how.map((a) => (
               <p key={a.id} className="text-sm leading-relaxed text-text italic">
                 {a.template}
@@ -142,24 +142,24 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
           {dok.story.projects.map((project) => (
             <div key={project.title} className="mb-6">
               <p className="mb-1 heading-item">{project.title}</p>
-              <p className="mb-3 text-sm text-text-light">{project.summary}</p>
+              <p className="mb-3 text-sm text-text-secondary">{project.summary}</p>
 
               <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-3">
                 <div>
                   <p className="mb-1 heading-detail text-primary">Ziele</p>
-                  <ul className="text-text-light">
+                  <ul className="text-text-secondary">
                     {project.goals.map((g) => <li key={g}>• {g}</li>)}
                   </ul>
                 </div>
                 <div>
                   <p className="mb-1 heading-detail text-accent">Massnahmen</p>
-                  <ul className="text-text-light">
+                  <ul className="text-text-secondary">
                     {project.activities.map((a) => <li key={a}>• {a}</li>)}
                   </ul>
                 </div>
                 <div>
                   <p className="mb-1 heading-detail text-secondary">Erwartete Wirkung</p>
-                  <ul className="text-text-light">
+                  <ul className="text-text-secondary">
                     {project.outcomes.map((o) => <li key={o}>• {o}</li>)}
                   </ul>
                 </div>

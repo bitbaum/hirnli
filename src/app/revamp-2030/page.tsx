@@ -45,25 +45,25 @@ export default function Revamp2030Page() {
 
       {/* Vision 2030 */}
       <section className="mb-8">
-        <div className="gradient-hero-vision rounded-2xl p-8 text-white">
-          <h2 className="heading-stat mb-4 text-white">Vision 2030</h2>
-          <p className="text-xl mb-6 leading-relaxed">
-            <strong>Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder Technologie ausgeschlossen.</strong>
+        <Card variant="muted">
+          <h2 className="heading-stat mb-3">Vision 2030</h2>
+          <p className="text-lg mb-4 font-semibold text-text-primary leading-snug">
+            Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder Technologie ausgeschlossen.
           </p>
-          <p className="text-lg mb-6 leading-relaxed opacity-90">
+          <p className="text-base mb-4 text-text-secondary leading-relaxed">
             Bis 2030 wollen wir durch <strong>bessere Prozesse und Bildungsprogramme</strong> mehr Menschen befähigen
             und effizienter refurbishen — nicht durch endlosen Raum, sondern durch klare Organisation.
           </p>
-          <div className="bg-white/10 rounded-lg p-4 backdrop-blur mb-4">
-            <p className="text-sm opacity-90">
+          <div className="rounded-lg border border-border-default-subtle bg-surface-base p-4">
+            <p className="text-sm text-text-secondary">
               <strong>Realistische Ziele (Jahr 3):</strong> ~{DEVICES_PER_MONTH_TARGET} Geräte/Monat (durch effiziente Prozesse, nicht durch endlos Raum).
               Menschen-Wirkung: {PEOPLE_REACHED_DISPLAY} durch Train-the-Trainer + Workshops (konservative Schätzung).
             </p>
-            <p className="text-sm opacity-75 mt-2">
+            <p className="text-xs text-text-tertiary mt-2">
               Aktuelle Kapazität nicht systematisch getrackt — Zahlen sind Schätzungen. Systematische Erfassung ab 2026 geplant.
             </p>
           </div>
-        </div>
+        </Card>
       </section>
 
       <ProblemDiagnosis />
@@ -76,7 +76,7 @@ export default function Revamp2030Page() {
           <div className="flex items-start gap-4">
             <span className="text-4xl" aria-hidden="true">🌐</span>
             <div className="flex-1">
-              <p className="text-sm text-text-light mb-4">
+              <p className="text-sm text-text-secondary mb-4">
                 Revamp-IT ist nicht nur eine Werkstatt — <strong>wir entwickeln eigene Software</strong>.
                 Unsere Community-Plattform (<a href="https://revampit.vercel.app" target="_blank" rel="noopener noreferrer" className="text-pillar-digital hover:text-pillar-digital underline">revampit.vercel.app</a>)
                 ist eine produktionsreife Full-Stack-Anwendung mit {formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, {formatNumber(getNumericValue('PLATFORM_COMPONENTS'))} Komponenten und
@@ -102,13 +102,13 @@ export default function Revamp2030Page() {
                   </ul>
                 </div>
               </div>
-              <div className="gradient-card-digital rounded-lg p-4">
+              <div className="rounded-lg border border-border-default-subtle bg-surface-raised p-4">
                 <p className="heading-detail text-pillar-digital mb-2">Tech-Stack (produktionsreif):</p>
-                <p className="text-sm text-pillar-digital mb-2">
+                <p className="text-sm text-text-secondary mb-2">
                   Next.js, TypeScript, PostgreSQL, Redis, Meilisearch, Auth.js, Payrexx —
                   professionelle Architektur mit {formatNumber(getNumericValue('PLATFORM_DB_MIGRATIONS'))} Datenbank-Migrationen und {formatNumber(getNumericValue('PLATFORM_API_ROUTES'))}+ API-Endpunkten.
                 </p>
-                <p className="text-sm text-pillar-digital">
+                <p className="text-sm text-text-secondary">
                   <strong>Das beweist:</strong> Wir haben nicht nur die handwerkliche Kompetenz, Geräte zu reparieren —
                   wir haben auch die technische Kompetenz, die digitale Infrastruktur dafür selbst zu bauen.
                   Stiftungen investieren nicht in eine Werkstatt. Sie investieren in eine Organisation, die Technologie versteht und einsetzt.
@@ -129,21 +129,21 @@ export default function Revamp2030Page() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="border-l-4 border-l-danger">
             <h3 className="heading-item mb-2">🚨 Das Problem</h3>
-            <p className="text-sm text-text-light">
+            <p className="text-sm text-text-secondary">
               Einnahmen von {REVENUE_DECLINE_DISPLAY} gefallen — B2B-Kunden verloren, Dienstleistungen eingebrochen.
               Das eigentliche Problem: <strong>Fehlende Organisation für Verkauf & Ausführung</strong>, nicht fehlende Kapazität.
             </p>
           </Card>
           <Card className="border-l-4 border-l-amber">
             <h3 className="heading-item mb-2">🎯 Die Lösung</h3>
-            <p className="text-sm text-text-light">
+            <p className="text-sm text-text-secondary">
               Nicht mehr Raum, sondern <strong>bessere Prozesse + bezahlte Bildungsprogrammleiter</strong>.
               Sie organisieren Workflows, bilden Techniker aus, koordinieren Freiwillige & Reintegrations-Teilnehmer.
             </p>
           </Card>
           <Card className="border-l-4 border-l-success">
             <h3 className="heading-item mb-2">💪 Wir sind bereit</h3>
-            <p className="text-sm text-text-light">
+            <p className="text-sm text-text-secondary">
               {YEARS_EXPERIENCE_DISPLAY}. Soziale Mission mit sozialpädagogischem Fokus (Veronica).
               Wir wissen genau, was fehlt: <strong>Organisation, Struktur, bezahlte Fachleute</strong>.
             </p>

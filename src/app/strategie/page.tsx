@@ -36,11 +36,11 @@ export default function StrategiePage() {
       {/* Mission Statement */}
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Mission</h2>
-        <Card className="border-l-4 border-l-success bg-success/10">
-          <p className="heading-card text-success">
+        <Card className="border-l-4 border-l-success">
+          <p className="heading-card text-success-text">
             {ORG_PROFILE.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und Lebensdauerverlängerung.
           </p>
-          <p className="mt-3 text-sm text-text-light">
+          <p className="mt-3 text-sm text-text-secondary">
             Wir retten gebrauchte Computer vor dem Elektroschrott, indem wir sie mit Linux und Open-Source-Software
             wiederbeleben. Gleichzeitig schaffen wir Zugang zu bezahlbarer Technologie, fördern digitale Kompetenzen
             und unterstützen Menschen bei der beruflichen Wiedereingliederung.
@@ -53,14 +53,14 @@ export default function StrategiePage() {
       {/* Vision 2030 */}
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Vision 2030</h2>
-        <div className="gradient-hero-vision rounded-2xl p-8 text-white">
-          <h3 className="mb-2 heading-subsection font-bold text-white">
+        <Card variant="muted">
+          <h3 className="mb-1 heading-item">
             Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder Technologie ausgeschlossen.
           </h3>
-          <p className="text-sm opacity-90 mb-6">
-            💡 Klicke auf die Metriken, um Details zur Datenquelle und Methodik zu sehen.
+          <p className="text-xs text-text-tertiary mb-5">
+            Klicke auf die Metriken, um Details zur Datenquelle und Methodik zu sehen.
           </p>
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {VISION_TARGETS.map((target) => (
               <VisionMetric
                 key={target.value}
@@ -70,7 +70,7 @@ export default function StrategiePage() {
               />
             ))}
           </div>
-        </div>
+        </Card>
       </section>
 
       <SovereigntySection />

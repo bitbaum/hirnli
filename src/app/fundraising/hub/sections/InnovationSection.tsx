@@ -9,19 +9,19 @@ export default function InnovationSection() {
   return (
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">🚀 Innovation, Makerspace & Bildung</h2>
-      <p className="text-sm text-text-light mb-6">
+      <p className="text-sm text-text-secondary mb-6">
         Nächste Stufe: Nicht nur reparieren, sondern <strong>experimentieren, prototypen, lernen</strong>.
         Makerspace, Robotik, Schulungen. Hier entsteht Know-how.
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-l-4 border-l-pillar-vision">
           <HubCardHeader icon="🛠️" title="Makerspace & Hackerspace" subtitle="80 m² — Prototyping & Tüfteln" subtitleClassName="text-chart-5" badgeColor="purple" badgeText={formatCHF(MAKERSPACE_AREA.cost_estimate_chf)} />
-          <p className="text-sm text-text-light mb-4">
+          <p className="text-sm text-text-secondary mb-4">
             Offene Werkstatt: 3D-Drucker, Laser-Cutter, Lötarbeitsplätze. Vom Prototyp zum Produkt.
           </p>
           <div className="text-sm mb-3">
             <h4 className="heading-detail mb-2">Arbeitsplätze & Ausstattung</h4>
-            <ul className="space-y-1 text-text-light text-sm">
+            <ul className="space-y-1 text-text-secondary text-sm">
               <li>• <strong>12× Werkbänke</strong> (je 6m²) für Elektronik-Projekte</li>
               <li>• <strong>6× Lötarbeitsplätze</strong> mit Absaugung</li>
               <li>• <strong>4× 3D-Drucker</strong> (FDM & Resin)</li>
@@ -37,12 +37,12 @@ export default function InnovationSection() {
 
         <Card className="border-l-4 border-l-pillar-digital">
           <HubCardHeader icon="🤖" title="Robotik-Labor" subtitle="60 m² — Arduino, Raspberry Pi, autonome Systeme" subtitleClassName="text-pillar-digital" badgeColor="indigo" badgeText={formatCHF(ROBOTIK_LAB_COST_CHF)} />
-          <p className="text-sm text-text-light mb-4">
+          <p className="text-sm text-text-secondary mb-4">
             Robotik-Kits für Schulen, Arduino-Workshops, autonome Roboter bauen. MINT-Bildung hands-on.
           </p>
           <div className="text-sm mb-3">
             <h4 className="heading-detail mb-2">Arbeitsplätze & Ausstattung</h4>
-            <ul className="space-y-1 text-text-light text-sm">
+            <ul className="space-y-1 text-text-secondary text-sm">
               <li>• <strong>10× Robotik-Arbeitsplätze</strong> (je 6m²)</li>
               <li>• <strong>30× Arduino/Raspberry Pi Kits</strong> (Leihgabe an Schulen)</li>
               <li>• <strong>8× Roboter-Chassis</strong> für autonome Projekte</li>
@@ -58,12 +58,12 @@ export default function InnovationSection() {
 
         <Card className="border-l-4 border-l-primary">
           <HubCardHeader icon="🎓" title="Schulungs- & Kursräume" subtitle="70 m² — Linux, AI, Coding für alle" subtitleClassName="text-primary" badgeColor="blue" badgeText={formatCHF(TRAINING_AREA.cost_estimate_chf)} />
-          <p className="text-sm text-text-light mb-4">
+          <p className="text-sm text-text-secondary mb-4">
             Strukturierte Bildung: Linux-Kurse, AI Literacy, Programmieren lernen. Digital Literacy für alle.
           </p>
           <div className="text-sm mb-3">
             <h4 className="heading-detail mb-2">Arbeitsplätze & Ausstattung</h4>
-            <ul className="space-y-1 text-text-light text-sm">
+            <ul className="space-y-1 text-text-secondary text-sm">
               <li>• <strong>20× Kursarbeitsplätze</strong> (Laptops, Monitore)</li>
               <li>• Whiteboard, Beamer, Präsentations-Setup</li>
               <li>• Flexible Tische (Gruppen- oder Einzelarbeit)</li>
@@ -78,7 +78,7 @@ export default function InnovationSection() {
 
         <Card className="border-l-4 border-l-cyan">
           <HubCardHeader icon="🤖" title="AI Lab — Verschiedene Setups möglich" subtitle="20-40 m² — Eigene GPUs, digitale Souveränität" subtitleClassName="text-chart-6" />
-          <p className="text-sm text-text-light mb-4">
+          <p className="text-sm text-text-secondary mb-4">
             <strong>Vision:</strong> Nicht Cloud-abhängig. Eigene GPU-Infrastruktur für AI-Modelle trainieren, hosten, nutzen.
             GPUs können gekauft oder gespendet werden — <strong>verschiedene Setups möglich</strong>, je nach Budget & Spenden.
           </p>

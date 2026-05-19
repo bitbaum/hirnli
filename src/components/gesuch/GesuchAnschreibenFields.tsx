@@ -33,7 +33,7 @@ export default function GesuchAnschreibenFields({
   const closing = overrideAnschreiben?.closing ?? generatedAnschreiben.closing;
 
   return (
-    <div className="border-t border-border pt-4">
+    <div className="border-t border-border-default pt-4">
       <p className="mb-4 heading-xs-label">Anschreiben (Begleitbrief)</p>
       <div className="space-y-4">
         <FieldRow

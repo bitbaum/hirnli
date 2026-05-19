@@ -22,19 +22,19 @@ const HERO_STATS = [
 export default function CommunityTechSpaceSection() {
   return (
     <section id="community-tech-space" className="mb-8">
-      <div className="mb-6 rounded-2xl gradient-hero-community p-6 text-white md:p-8">
-        <h2 className="heading-section mb-4 text-white md:text-3xl">Community Tech Space</h2>
-        <p className="text-base mb-3 leading-relaxed md:text-lg">
-          <strong className="text-warning">⏰ Deadline: Ende 2026</strong> — Wir müssen unser aktuelles Lokal verlassen.
+      <div className="mb-6 rounded-xl border border-border-default bg-surface-raised p-6 md:p-8">
+        <h2 className="heading-section mb-3 md:text-3xl">Community Tech Space</h2>
+        <p className="text-base mb-2 leading-relaxed">
+          <span className="font-semibold text-warning-text">Deadline: Ende 2026</span> — Wir müssen unser aktuelles Lokal verlassen.
         </p>
-        <p className="text-base mb-4 leading-relaxed md:text-lg">
+        <p className="text-base mb-5 text-text-secondary leading-relaxed">
           Das ist unsere Chance, etwas Grösseres zu schaffen: Ein Ort, an dem <strong>Nachhaltigkeit, Technologie und Gemeinschaft</strong> zusammenkommen.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {HERO_STATS.map((stat) => (
-            <div key={stat.label} className="bg-white/10 rounded-lg p-4 backdrop-blur">
-              <div className="heading-stat text-white">{stat.value}</div>
-              <div className="text-sm opacity-90">{stat.label}</div>
+            <div key={stat.label} className="rounded-lg border border-border-default-subtle bg-surface-base p-4">
+              <div className="heading-stat">{stat.value}</div>
+              <div className="text-xs text-text-secondary mt-0.5">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -43,7 +43,7 @@ export default function CommunityTechSpaceSection() {
       {/* Core Spaces */}
       <div className="mb-8">
         <h3 className="heading-section mb-4">Kernbereiche</h3>
-        <p className="text-sm text-text-light mb-6">
+        <p className="text-sm text-text-secondary mb-6">
           Fünf Bereiche, die direkt aus unserer heutigen Arbeit wachsen. Zusammen bilden sie den Kern des Community Tech Space.
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -146,7 +146,7 @@ export default function CommunityTechSpaceSection() {
       {/* Expansion Spaces */}
       <div className="mb-8">
         <h3 className="heading-section mb-4">Mögliche Erweiterungen</h3>
-        <p className="text-sm text-text-light mb-6">
+        <p className="text-sm text-text-secondary mb-6">
           Vier Programmbereiche, die den Hub einzigartig machen könnten. Sie nutzen die Kernbereiche (Werkstatt, Begegnungsraum, Museum) als Infrastruktur — abhängig von Funding und Community-Interesse.
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

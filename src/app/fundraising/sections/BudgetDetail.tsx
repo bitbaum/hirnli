@@ -20,7 +20,7 @@ function BudgetLineItemCard({ item, borderColor }: { item: BudgetLineItem; borde
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline justify-between gap-2">
             <h4 className="heading-item">{item.label}</h4>
-            <span className="shrink-0 font-bold text-grey-dark">{formatCHF(item.amount)}</span>
+            <span className="shrink-0 font-bold text-text-primary">{formatCHF(item.amount)}</span>
           </div>
           <p className="mt-1 text-sm text-text-muted">{item.description}</p>
           {item.subItems && item.subItems.length > 0 && (
@@ -28,7 +28,7 @@ function BudgetLineItemCard({ item, borderColor }: { item: BudgetLineItem; borde
               {item.subItems.map((sub, idx) => (
                 <li key={idx} className="flex justify-between text-sm">
                   <span className="text-text-muted">{sub.label}</span>
-                  <span className="text-grey-dark">{formatCHF(sub.amount)}</span>
+                  <span className="text-text-primary">{formatCHF(sub.amount)}</span>
                 </li>
               ))}
             </ul>
@@ -104,7 +104,7 @@ export default function BudgetDetail({ inspector }: { inspector: InspectorHandle
       </div>
 
       {/* Budget Summary */}
-      <Card className="border-success/20 gradient-card-success">
+      <Card className="border-border-default">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="heading-section">

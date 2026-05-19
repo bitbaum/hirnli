@@ -54,7 +54,7 @@ export default async function GesuchDokumentPage({ params, searchParams }: Props
         <h1 className="mb-4 heading-section">
           Gesuch-Dokument für {dok.foundation.name}
         </h1>
-        <p className="mb-6 text-text-light">{dok.readyReason}</p>
+        <p className="mb-6 text-text-secondary">{dok.readyReason}</p>
         <Link
           href={`/fundraising/stiftungen/${slug}`}
           className="text-sm text-primary hover:underline"

@@ -55,11 +55,11 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
         return (
           <Card key={category} padding={false} className="p-5">
             {/* Category header */}
-            <div className="flex justify-between items-center mb-4 pb-3 border-b border-border">
+            <div className="flex justify-between items-center mb-4 pb-3 border-b border-border-default">
               <h3 className="heading-card">
                 {BUDGET_CATEGORY_LABELS[category]}
               </h3>
-              <span className="text-sm font-medium text-text-light">
+              <span className="text-sm font-medium text-text-secondary">
                 Total: {formatCHF(categoryTotal)}
               </span>
             </div>
@@ -70,20 +70,20 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
                 <div key={item.id}>
                   {/* Line item row (clickable) */}
                   <div
-                    className="flex justify-between items-center p-3 hover:bg-bg-light rounded-md cursor-pointer transition-colors"
+                    className="flex justify-between items-center p-3 hover:bg-surface-raised rounded-md cursor-pointer transition-colors"
                     onClick={() => toggleItem(item.id)}
                   >
                     <div className="flex items-center gap-3">
                       {item.icon && <span className="text-xl">{item.icon}</span>}
                       <div>
-                        <span className="font-medium text-grey-dark">{item.label}</span>
+                        <span className="font-medium text-text-primary">{item.label}</span>
                         {item.isOptional && (
                           <span className="ml-2 text-xs text-text-muted italic">(optional)</span>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="font-semibold text-grey-dark">{formatCHF(item.amount)}</span>
+                      <span className="font-semibold text-text-primary">{formatCHF(item.amount)}</span>
                       <span
                         className={`text-xs px-2 py-1 rounded ${
                           item.type === 'einmalig'

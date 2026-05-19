@@ -104,9 +104,9 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
         role="dialog"
         aria-modal="true"
         aria-label="Versionshistorie"
-        className="fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto bg-white shadow-xl"
+        className="fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto bg-surface-base shadow-lg"
       >
-        <div className="flex items-center justify-between border-b border-border px-5 py-4">
+        <div className="flex items-center justify-between border-b border-border-default px-5 py-4">
           <h2 className="heading-item">Versionshistorie</h2>
           <CloseButton onClick={onClose} />
         </div>
@@ -120,7 +120,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
         <div className="p-5">
           {loading ? (
             <div className="flex items-center gap-2 text-sm text-text-muted py-4">
-              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-border border-t-primary" />
+              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-border-default border-t-primary" />
               Lade Versionen…
             </div>
           ) : error ? (
@@ -164,7 +164,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
                             type="button"
                             onClick={() => handleRestore(entry)}
                             disabled={restoring === entry.id}
-                            className="shrink-0 rounded-md border border-border px-2.5 py-1 text-sm font-medium text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                            className="shrink-0 rounded-md border border-border-default px-2.5 py-1 text-sm font-medium text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                           >
                             {restoring === entry.id ? '…' : 'Wiederherstellen'}
                           </button>

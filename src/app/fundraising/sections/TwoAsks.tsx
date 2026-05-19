@@ -19,10 +19,10 @@ export default function TwoAsks() {
             <span className="text-4xl" aria-hidden="true">🏢</span>
             <div className="flex-1">
               <h3 className="heading-card">1. Community Tech Hub (Raum)</h3>
-              <p className="mt-2 text-sm text-text-light">
+              <p className="mt-2 text-sm text-text-secondary">
                 <strong>{HUB_SPACE_DISPLAY}:</strong> Werkstatt, AI Lab, Event Space, Shop, Offices — alles unter einem Dach
               </p>
-              <p className="mt-2 text-sm text-text-light">
+              <p className="mt-2 text-sm text-text-secondary">
                 <strong>Ergebnis:</strong> Effizientere Prozesse, mehr parallele Arbeitsplätze, neue Einnahmequellen
               </p>
               <Link
@@ -41,13 +41,13 @@ export default function TwoAsks() {
             <span className="text-4xl" aria-hidden="true">👥</span>
             <div className="flex-1">
               <h3 className="heading-card">2. Bildungsprogrammleiter (Team)</h3>
-              <p className="mt-2 text-sm text-text-light">
+              <p className="mt-2 text-sm text-text-secondary">
                 <strong>2× neue Stellen:</strong> Hardware-BPL + Software/AI-BPL
               </p>
-              <p className="mt-2 text-sm text-text-light">
+              <p className="mt-2 text-sm text-text-secondary">
                 <strong>Train-the-Trainer:</strong> Strukturierte Ausbildung statt informellem Wissenstransfer
               </p>
-              <p className="mt-2 text-sm text-text-light">
+              <p className="mt-2 text-sm text-text-secondary">
                 <strong>Ergebnis:</strong> {PEOPLE_REACHED_DISPLAY} erreicht (Techniker + Entwickler + Workshop-Teilnehmer)
               </p>
               <Link
@@ -62,23 +62,23 @@ export default function TwoAsks() {
       </div>
 
       {/* Combined Effect */}
-      <div className="mt-6 rounded-lg border-2 border-dashed border-border bg-white/50 p-6 text-center">
+      <div className="mt-6 rounded-lg border-2 border-dashed border-border-default bg-surface-base/50 p-6 text-center">
         <div className="text-sm font-medium uppercase tracking-wider text-text-muted">
           Kombinierter Effekt: Hub + Menschen
         </div>
-        <div className="mt-2 text-lg text-grey-dark">
+        <div className="mt-2 text-lg text-text-primary">
           Bessere Prozesse + strukturierte Bildung + diversifizierte Einnahmen
         </div>
         <div className="mt-2 heading-stat text-primary">
           {DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr + {PEOPLE_REACHED_DISPLAY} trainiert
         </div>
-        <div className="mt-3 text-sm text-text-light">
+        <div className="mt-3 text-sm text-text-secondary">
           {REVENUE_GROWTH_DISPLAY}
         </div>
         <div className="mt-1 heading-detail text-pillar-vision">
           + {PEOPLE_REACHED_DISPLAY} in Tech-Bildung & Integration
         </div>
-        <div className="mt-4 pt-4 border-t border-border">
+        <div className="mt-4 pt-4 border-t border-border-default">
           <Button href="/fundraising/hub" size="md">
             <span>📖</span>
             <span>Detaillierte Hub-Planung ansehen</span>

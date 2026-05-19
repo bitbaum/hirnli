@@ -262,7 +262,7 @@ export const PRIORITY_CONFIG: Record<number, PriorityConfig> = {
     description: 'Niedrige Priorität — Beziehung pflegen',
     color: 'bg-grey-light text-text-muted',
     textColor: 'text-text-muted',
-    cardColor: 'border-border bg-bg-light',
+    cardColor: 'border-border-default bg-surface-raised',
   },
 };
 

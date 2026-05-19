@@ -14,7 +14,7 @@ interface CascadeDiagramProps {
 
 export function CascadeDiagram({ tiers }: CascadeDiagramProps) {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg bg-bg-light p-4">
+    <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg bg-surface-raised p-4">
       {tiers.map((tier, i) => (
         <div key={tier.id} className="flex items-center gap-2">
           <div
@@ -66,14 +66,14 @@ export function TierDetailCard({ tier }: TierDetailCardProps) {
       <p className="mb-2 text-sm font-medium italic text-text-muted">
         {tier.tagline}
       </p>
-      <p className="mb-4 text-sm leading-relaxed text-text-light">
+      <p className="mb-4 text-sm leading-relaxed text-text-secondary">
         {tier.description}
       </p>
       <ul className="space-y-1.5">
         {tier.technicalDetails.map((detail) => (
           <li
             key={detail}
-            className="flex items-start gap-2 text-sm text-text-light"
+            className="flex items-start gap-2 text-sm text-text-secondary"
           >
             <span className="mt-0.5 text-secondary">&#10003;</span>
             {detail}

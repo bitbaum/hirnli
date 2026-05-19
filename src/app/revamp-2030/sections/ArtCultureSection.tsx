@@ -5,7 +5,7 @@ export default function ArtCultureSection() {
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">Kunst, Kultur & Musik: Elektroschrott neu denken</h2>
       <Card className="border-l-4 border-l-danger">
-        <p className="text-sm text-text-light mb-4">
+        <p className="text-sm text-text-secondary mb-4">
           Revamp 2030 ist nicht nur Technik — <strong>Kunst und Kultur sind zentral</strong>, um
           unsere Beziehung zu Elektronik zu verändern und weggeworfene Geräte neu zu bewerten.
         </p>
@@ -49,7 +49,7 @@ export default function ArtCultureSection() {
             </ul>
           </div>
         </div>
-        <div className="gradient-card-art rounded-lg p-4">
+        <div className="rounded-lg border border-border-default-subtle bg-surface-raised p-4">
           <p className="heading-detail text-chart-5 mb-2">Warum Kunst & Kultur zentral sind:</p>
           <p className="text-sm text-chart-5 mb-3">
             Technik allein ändert kein Verhalten. <strong>Kunst macht Elektroschrott sichtbar, berührbar, wertvoll</strong>.

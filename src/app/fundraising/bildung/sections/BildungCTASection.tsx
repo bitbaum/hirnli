@@ -6,30 +6,30 @@ import { formatNumber } from '@/lib/utils/format';
 export default function BildungCTASection() {
   return (
     <section className="mb-8">
-      <div className="rounded-2xl gradient-hero-bildung p-8 text-white text-center">
-        <h2 className="heading-section text-white mb-4">Unterstütze das Bildungsprogramm</h2>
-        <p className="text-lg mb-6 leading-relaxed max-w-3xl mx-auto">
+      <div className="rounded-xl border border-border-default bg-surface-raised p-8 text-center">
+        <h2 className="heading-section mb-3">Unterstütze das Bildungsprogramm</h2>
+        <p className="text-base mb-6 text-text-secondary leading-relaxed max-w-3xl mx-auto">
           Mit <strong>CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}/Jahr über 3 Jahre</strong> (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm,
           das {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreicht.
         </p>
-        <div className="flex flex-col justify-center gap-4 sm:flex-row">
+        <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Link
             href="/fundraising"
-            className="rounded-lg bg-white px-8 py-4 font-bold text-grey-dark shadow-lg transition-colors hover:bg-bg-light"
+            className="rounded-lg bg-text-primary px-6 py-3 text-sm font-semibold text-surface-base transition-colors hover:bg-text-secondary"
           >
-            📊 Fundraising-Übersicht
+            Fundraising-Übersicht
           </Link>
           <Link
             href="/fundraising/stiftungen"
-            className="rounded-lg border-2 border-white bg-grey-dark px-8 py-4 font-bold text-white transition-colors hover:bg-grey-dark/85"
+            className="rounded-lg border border-border-default bg-surface-base px-6 py-3 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-raised"
           >
-            🏛️ Passende Stiftungen finden
+            Passende Stiftungen finden
           </Link>
           <Link
             href="/revamp-2030"
-            className="rounded-lg border-2 border-white bg-grey-dark px-8 py-4 font-bold text-white transition-colors hover:bg-grey-dark/85"
+            className="rounded-lg border border-border-default bg-surface-base px-6 py-3 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-raised"
           >
-            🚀 Gesamtstrategie 2030
+            Gesamtstrategie 2030
           </Link>
         </div>
       </div>

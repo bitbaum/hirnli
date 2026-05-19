@@ -113,7 +113,7 @@ function EmailBlock({ info }: { info: SubmissionInfo }) {
             <SectionLabel>Begleit-E-Mail</SectionLabel>
             <CopyButton text={info.emailBody} label="Text kopieren" />
           </div>
-          <pre className="whitespace-pre-wrap rounded-lg border border-border bg-bg p-4 text-sm leading-relaxed text-text font-sans">
+          <pre className="whitespace-pre-wrap rounded-lg border border-border-default bg-bg p-4 text-sm leading-relaxed text-text font-sans">
             {info.emailBody}
           </pre>
           <p className="mt-1.5 text-sm text-text-muted">
@@ -162,9 +162,9 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
 
       <div>
         <SectionLabel>Was du wo einträgst</SectionLabel>
-        <div className="rounded-lg border border-border overflow-hidden">
+        <div className="rounded-lg border border-border-default overflow-hidden">
           {fieldMap.map(({ label, value }) => (
-            <div key={label} className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-3 px-3 py-2 even:bg-bg-light border-b border-border last:border-0">
+            <div key={label} className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-3 px-3 py-2 even:bg-surface-raised border-b border-border-default last:border-0">
               <span className="heading-detail text-text-muted sm:shrink-0 sm:w-44">{label}</span>
               <span className="text-sm text-text sm:text-right">{value}</span>
             </div>
@@ -191,7 +191,7 @@ function PostBlock({ info }: { info: SubmissionInfo }) {
           <SectionLabel>Postadresse</SectionLabel>
           <CopyButton text={fullAddress} label="Adresse kopieren" />
         </div>
-        <pre className="whitespace-pre-wrap rounded-lg border border-border bg-bg p-4 text-sm font-sans text-text leading-relaxed">
+        <pre className="whitespace-pre-wrap rounded-lg border border-border-default bg-bg p-4 text-sm font-sans text-text leading-relaxed">
           {fullAddress}
         </pre>
       </div>
@@ -256,7 +256,7 @@ export default function GesuchSubmitSection({ info }: { info: SubmissionInfo }) 
     <div className="space-y-4 print:hidden">
       {methodLabel && (
         <div className="flex items-center gap-2">
-          <span className="rounded-full border border-border bg-bg-light px-2.5 py-0.5 text-xs font-medium text-text-muted">
+          <span className="rounded-full border border-border-default bg-surface-raised px-2.5 py-0.5 text-xs font-medium text-text-muted">
             {methodLabel}
           </span>
         </div>

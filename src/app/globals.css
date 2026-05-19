@@ -1,44 +1,70 @@
 @import "tailwindcss";
 
+/* ─── Dark-mode variant ────────────────────────────────────────────────────── */
+@custom-variant dark (&:is(.dark *));
+
 /* ========================================
    DESIGN TOKENS - Revamp-IT Brand Colors
    Source: Brand_Identity.md
    ======================================== */
 
 @theme inline {
-  /* Revamp-IT Primary Colors */
+  /* Revamp-IT brand primitives — raw values, used only in semantic tokens below */
   --color-revamp-green: #2ECC71;
   --color-revamp-blue: #3498DB;
   --color-revamp-orange: #E67E22;
 
-  /* Greys */
+  /* Greyscale primitives */
   --color-grey-dark: #2C3E50;
   --color-grey-medium: #7F8C8D;
   --color-grey-light: #ECF0F1;
 
-  /* Semantic Colors */
+  /* ─── Semantic UI Colors ─── */
+  /* Brand accent — primary interactive blue */
   --color-primary: #3498DB;
   --color-primary-light: #5DADE2;
   --color-secondary: #2ECC71;
   --color-accent: #E67E22;
 
+  /* Status palette — the only chromatic colors in general UI */
   --color-success: #2ECC71;
   --color-success-bg: #D5F5E3;
-  --color-success-text: #166534;  /* 6.1:1 on success-bg */
+  --color-success-text: #166534;    /* 6.1:1 on success-bg */
   --color-warning: #E67E22;
   --color-warning-bg: #FDEBD0;
-  --color-warning-text: #7C3200;  /* 7.8:1 on warning-bg */
+  --color-warning-text: #7C3200;    /* 7.8:1 on warning-bg */
   --color-danger: #E74C3C;
   --color-danger-bg: #FADBD8;
-  --color-danger-text: #7F1D1D;   /* 7.7:1 on danger-bg */
-  --color-primary-text: #1A5C8A;  /* 6.5:1 on primary/10 bg */
+  --color-danger-text: #7F1D1D;     /* 7.7:1 on danger-bg */
+  --color-primary-text: #1A5C8A;    /* 6.5:1 on primary/10 bg */
 
-  --color-text: #2C3E50;
-  --color-text-light: #546270;    /* was #657687 — darkened for 4.9:1 on bg-light */
-  --color-text-muted: #5A6672;    /* was #697882 — darkened for 5.1:1 on bg-light */
-  --color-bg: #FFFFFF;
-  --color-bg-light: #ECF0F1;
-  --color-border: #D5D8DC;
+  /* ─── Semantic surface / text / border tokens ─── */
+  /* Components MUST use these — never bg-white, text-grey-dark directly. */
+  /* Light values are set in :root below; dark values in .dark below.     */
+
+  /* Surfaces */
+  --color-surface-page:    var(--surface-page);
+  --color-surface-base:    var(--surface-base);
+  --color-surface-raised:  var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+
+  /* Text hierarchy */
+  --color-text-primary:   var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary:  var(--text-tertiary);
+  --color-text-muted:     var(--text-muted-sem);  /* -sem suffix avoids collision */
+
+  /* Borders */
+  --color-border-subtle:   var(--border-subtle);
+  --color-border-default:  var(--border-default);
+  --color-border-strong:   var(--border-strong);
+
+  /* Legacy aliases — kept for gradual migration, point to semantic vars */
+  --color-text: var(--text-primary);
+  --color-text-light: var(--text-secondary);
+  --color-bg: var(--surface-base);
+  --color-bg-light: var(--surface-raised);
+  --color-border: var(--border-default);
 
   /* Chart Colors */
   --color-chart-1: #3498DB;
@@ -48,7 +74,7 @@
   --color-chart-5: #9B59B6;
   --color-chart-6: #1ABC9C;
 
-  /* Theme Colors (foundation themes) */
+  /* Theme Colors (foundation themes — data display only) */
   --color-theme-klima: #10b981;
   --color-theme-kreislauf: #059669;
   --color-theme-sozial: #8b5cf6;
@@ -57,34 +83,35 @@
   --color-theme-zuerich: #ef4444;
   --color-theme-arbeit: #14b8a6;
 
-  /* Pillar Colors (strategic pillars — used on vision/strategy pages) */
-  --color-pillar-vision: #8b5cf6;    /* violet — aligns with theme-sozial */
-  --color-pillar-digital: #6366f1;   /* indigo — aligns with theme-digital */
-  --color-pillar-social: #14b8a6;    /* teal — aligns with theme-arbeit */
-  --color-pillar-eco: #10b981;       /* green — aligns with theme-klima */
+  /* Pillar Colors (vision/strategy pages) */
+  --color-pillar-vision: #8b5cf6;
+  --color-pillar-digital: #6366f1;
+  --color-pillar-social: #14b8a6;
+  --color-pillar-eco: #10b981;
 
-  /* Extended palette — data visualization and status chips (not UI states) */
+  /* Extended palette — data visualization and status chips (not general UI) */
   --color-amber: #f59e0b;
   --color-amber-bg: #fef3c7;
   --color-amber-text: #b45309;
   --color-yellow: #eab308;
   --color-yellow-bg: #fef9c3;
-  --color-yellow-text: #854d0e;  /* 6.1:1 on yellow-bg */
+  --color-yellow-text: #854d0e;
   --color-purple: #7c3aed;
   --color-purple-bg: #ede9fe;
-  --color-purple-text: #4c1d95;  /* 10.7:1 on purple-bg */
+  --color-purple-text: #4c1d95;
   --color-pink: #db2777;
   --color-pink-bg: #fce7f3;
-  --color-pink-text: #831843;    /* 8.5:1 on pink-bg */
+  --color-pink-text: #831843;
   --color-cyan: #06b6d4;
 
-  /* Shadows — override Tailwind v4 defaults so one edit resets all depth */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-  --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+  /* Shadows — thin, low-noise */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-lg: 0 2px 6px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+  --shadow-xl: 0 4px 12px rgba(0,0,0,0.08), 0 16px 40px rgba(0,0,0,0.08);
+  --shadow-panel: var(--panel-shadow);
 
-  /* Border radius — override Tailwind v4 defaults so one edit resets all corners */
+  /* Border radius */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
@@ -98,33 +125,90 @@
   --font-mono: 'Consolas', 'Monaco', monospace;
 }
 
+/* ─── Light mode ────────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+  /* Surfaces */
+  --surface-page:    #F7F8FA;
+  --surface-base:    #FFFFFF;
+  --surface-raised:  #F0F2F5;
+  --surface-overlay: #E8EAED;
+  /* Text */
+  --text-primary:    #111827;
+  --text-secondary:  #374151;
+  --text-tertiary:   #6B7280;
+  --text-muted-sem:  #9CA3AF;
+  /* Borders */
+  --border-subtle:   rgba(0,0,0,0.06);
+  --border-default:  rgba(0,0,0,0.10);
+  --border-strong:   rgba(0,0,0,0.22);
+  /* Panel shadow */
+  --panel-shadow:    0 1px 2px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.06);
+}
+
+/* ─── Dark mode ─────────────────────────────────────────────────────────────── */
+.dark {
+  color-scheme: dark;
+  /* Surfaces */
+  --surface-page:    #0B0C0E;
+  --surface-base:    #111214;
+  --surface-raised:  #1A1C1F;
+  --surface-overlay: #222528;
+  /* Text */
+  --text-primary:    #F0F2F5;
+  --text-secondary:  #C9CDD4;
+  --text-tertiary:   #8C939D;
+  --text-muted-sem:  #56606B;
+  /* Borders */
+  --border-subtle:   rgba(255,255,255,0.06);
+  --border-default:  rgba(255,255,255,0.10);
+  --border-strong:   rgba(255,255,255,0.22);
+  /* Panel shadow */
+  --panel-shadow:    0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(255,255,255,0.07);
+  /* Override status backgrounds for dark mode readability */
+  --color-success-bg: rgba(34,197,94,0.12);
+  --color-success-text: #4ade80;
+  --color-warning-bg: rgba(251,146,60,0.12);
+  --color-warning-text: #fb923c;
+  --color-danger-bg: rgba(248,113,113,0.12);
+  --color-danger-text: #f87171;
+}
+
 /* ========================================
    GRADIENT TOKENS
-   All gradients live here — never inline in components.
+   Minimal set: brand stripe + SDG badges only.
+   Hero/card gradients removed — use surface tokens instead.
    ======================================== */
 
-/* Hero backgrounds */
-.gradient-hero-vision       { background: linear-gradient(to bottom right, #1e3a5f, #2d5a87); }
-.gradient-hero-transparency { background: linear-gradient(to bottom right, #1e40af, #3b82f6, #10b981); }
-.gradient-hero-fundraising  { background: linear-gradient(to bottom right, #059669, #047857, #065f46); }
-.gradient-hero-financial    { background: linear-gradient(to bottom right, #1e40af, #4338ca); }
-
-/* Brand accent bar (nav top stripe, dividers) */
+/* Brand accent bar — used only in logo/branding contexts */
 .gradient-brand { background: linear-gradient(to right, var(--color-revamp-blue), var(--color-revamp-green), var(--color-revamp-orange)); }
 
+/* Neutral hero sections — replaces all gradient-hero-* classes */
+/* White text on a near-black surface; works in both light and dark. */
+.hero-section {
+  background-color: var(--color-grey-dark);
+  color: #FFFFFF;
+}
+
+/* Subtle section highlight — replaces gradient-card-* classes */
+.section-tint-success { background-color: var(--color-success-bg); }
+.section-tint-primary { background-color: color-mix(in srgb, var(--color-primary) 6%, transparent); }
+
+/* Legacy aliases — keep class names working but neutralised */
+.gradient-hero-vision       { background-color: var(--color-grey-dark); color: #FFFFFF; }
+.gradient-hero-transparency { background-color: var(--color-grey-dark); color: #FFFFFF; }
+.gradient-hero-fundraising  { background-color: var(--color-grey-dark); color: #FFFFFF; }
+.gradient-hero-financial    { background-color: var(--color-grey-dark); color: #FFFFFF; }
+.gradient-hero-bildung      { background-color: var(--color-grey-dark); color: #FFFFFF; }
+.gradient-hero-community    { background-color: var(--color-grey-dark); color: #FFFFFF; }
+.gradient-card-success      { background-color: var(--color-success-bg); }
+.gradient-card-primary      { background-color: color-mix(in srgb, var(--color-primary) 6%, transparent); }
+.gradient-card-digital      { background-color: color-mix(in srgb, var(--color-pillar-digital) 6%, transparent); }
+.gradient-card-art          { background-color: color-mix(in srgb, var(--color-danger) 6%, transparent); }
+
 /* Nav item highlight states */
-.gradient-nav-highlight { background: linear-gradient(to right, color-mix(in srgb, var(--color-accent) 8%, transparent), color-mix(in srgb, var(--color-warning) 8%, transparent)); }
-.gradient-nav-active    { background: linear-gradient(to right, color-mix(in srgb, var(--color-primary) 8%, transparent), color-mix(in srgb, var(--color-success) 8%, transparent)); }
-
-/* Subtle card tints */
-.gradient-card-success { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-success) 10%, transparent), color-mix(in srgb, var(--color-success) 15%, transparent)); }
-.gradient-card-primary { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-primary) 10%, transparent), color-mix(in srgb, var(--color-pillar-vision) 10%, transparent)); }
-.gradient-card-digital { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-pillar-digital) 10%, transparent), color-mix(in srgb, var(--color-primary) 10%, transparent)); }
-.gradient-card-art     { background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-danger) 10%, transparent), color-mix(in srgb, var(--color-chart-5) 10%, transparent)); }
-
-/* Section hero gradients — full-color, white text on top */
-.gradient-hero-bildung    { background: linear-gradient(to bottom right, var(--color-pillar-vision), var(--color-chart-5)); }
-.gradient-hero-community  { background: linear-gradient(to bottom right, var(--color-pillar-digital), var(--color-chart-5), var(--color-danger)); }
+.gradient-nav-highlight { background-color: color-mix(in srgb, var(--color-accent) 8%, transparent); }
+.gradient-nav-active    { background-color: color-mix(in srgb, var(--color-primary) 8%, transparent); }
 
 /* UN Sustainable Development Goal badge colors (official SDG palette approximations) */
 .gradient-sdg-4  { background: linear-gradient(to bottom right, #9b1c1c, #e02424); }
@@ -137,19 +221,20 @@
 /* ========================================
    TYPOGRAPHY UTILITIES
    Semantic heading scale — change here to retheme all headings.
+   Uses semantic text tokens so headings adapt to dark mode.
    ======================================== */
 
 @layer utilities {
-  .heading-stat       { @apply text-3xl font-bold text-grey-dark; }
-  .heading-stat-sm    { @apply text-lg font-bold text-grey-dark; }
-  .heading-page       { @apply text-xl font-bold text-grey-dark md:text-3xl; }
-  .heading-section    { @apply text-2xl font-bold text-grey-dark; }
-  .heading-subsection { @apply text-xl font-semibold text-grey-dark; }
-  .heading-card       { @apply text-lg font-semibold text-grey-dark; }
-  .heading-item       { @apply text-base font-semibold text-grey-dark; }
-  .heading-detail     { @apply text-sm font-semibold text-grey-dark; }
-  .heading-label      { @apply text-sm font-semibold uppercase tracking-wider text-text-muted; }
-  .heading-xs-label   { @apply text-xs font-semibold uppercase tracking-wider text-text-muted; }
+  .heading-stat       { @apply text-3xl font-bold text-text-primary; }
+  .heading-stat-sm    { @apply text-lg font-bold text-text-primary; }
+  .heading-page       { @apply text-xl font-bold text-text-primary md:text-3xl; }
+  .heading-section    { @apply text-2xl font-bold text-text-primary; }
+  .heading-subsection { @apply text-xl font-semibold text-text-primary; }
+  .heading-card       { @apply text-lg font-semibold text-text-primary; }
+  .heading-item       { @apply text-base font-semibold text-text-primary; }
+  .heading-detail     { @apply text-sm font-semibold text-text-primary; }
+  .heading-label      { @apply text-sm font-semibold uppercase tracking-wider text-text-tertiary; }
+  .heading-xs-label   { @apply text-xs font-semibold uppercase tracking-wider text-text-tertiary; }
 }
 
 /* ========================================
@@ -204,9 +289,10 @@
 
 body {
   font-family: var(--font-sans);
-  color: var(--color-text);
-  background: var(--color-bg);
+  color: var(--color-text-primary);
+  background: var(--color-surface-page);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 200ms ease, color 150ms ease;
 }
 
 /* In Tailwind v4, utilities are in @layer utilities. Unlayered rules beat

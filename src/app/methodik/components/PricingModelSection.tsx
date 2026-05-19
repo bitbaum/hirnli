@@ -17,7 +17,7 @@ export function PricingModelSection() {
       confidence="medium"
       confidenceNote="(Entscheidungen dokumentiert, Marktvergleich nicht automatisiert)"
     >
-      <p className="mb-4 text-sm text-text-light">
+      <p className="mb-4 text-sm text-text-secondary">
         Das solidarische Preismodell basiert auf einer Kombination aus Marktdaten,
         externen Standards und Vorstandsentscheidungen.
       </p>

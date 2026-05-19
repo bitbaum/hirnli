@@ -38,7 +38,7 @@ export const KPI_COLUMNS = [
     key: 'formula',
     header: 'Formel',
     render: (row: KPIRow) => (
-      <code className="rounded bg-bg-light px-1 text-xs">{row.formula}</code>
+      <code className="rounded bg-surface-raised px-1 text-xs">{row.formula}</code>
     ),
   },
   { key: 'target', header: 'Zielwert' },

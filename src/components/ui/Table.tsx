@@ -27,7 +27,7 @@ export default function Table<T>({
     <div className={`overflow-x-auto ${className}`}>
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b-2 border-border">
+          <tr className="border-b-2 border-border-default">
             {columns.map((col) => (
               <th
                 key={col.key}
@@ -43,7 +43,7 @@ export default function Table<T>({
         </thead>
         <tbody>
           {data.map((row) => (
-            <tr key={keyExtractor(row)} className="border-b border-border last:border-0 hover:bg-bg-light">
+            <tr key={keyExtractor(row)} className="border-b border-border-default last:border-0 hover:bg-surface-raised">
               {columns.map((col) => (
                 <td
                   key={col.key}

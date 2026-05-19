@@ -20,7 +20,7 @@ function CoverageBar({ percent }: { percent: number }) {
         {[0, 1, 2, 3, 4].map((i) => (
           <span
             key={i}
-            className={`h-2 w-1.5 rounded-sm ${i < filled ? 'bg-primary' : 'bg-bg-light'}`}
+            className={`h-2 w-1.5 rounded-sm ${i < filled ? 'bg-primary' : 'bg-surface-raised'}`}
           />
         ))}
       </span>
@@ -106,7 +106,7 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
       {/* Count + quick toggles */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <p className="text-sm text-text-muted">
-          <span className="font-semibold text-grey-dark">{foundations.length}</span> Stiftungen (aktueller Filter)
+          <span className="font-semibold text-text-primary">{foundations.length}</span> Stiftungen (aktueller Filter)
         </p>
         <div className="flex gap-1">
           <Button variant="ghost" size="sm" onClick={selectAll}>Alle</Button>
@@ -129,15 +129,15 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
                 return (
                   <label
                     key={col.id}
-                    className="flex min-h-11 cursor-pointer items-center gap-2 rounded-md px-2 text-sm hover:bg-bg-light"
+                    className="flex min-h-11 cursor-pointer items-center gap-2 rounded-md px-2 text-sm hover:bg-surface-raised"
                   >
                     <input
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggle(col.id)}
-                      className="rounded border-border"
+                      className="rounded border-border-default"
                     />
-                    <span className={`flex-1 ${checked ? 'font-medium text-grey-dark' : 'text-text-muted'}`}>
+                    <span className={`flex-1 ${checked ? 'font-medium text-text-primary' : 'text-text-muted'}`}>
                       {col.label}
                     </span>
                     <CoverageBar percent={pct} />
@@ -150,7 +150,7 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
       </div>
 
       {/* Footer */}
-      <div className="mt-6 flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-6 flex flex-col gap-3 border-t border-border-default pt-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-text-muted">
           {selectedCount} {selectedCount === 1 ? 'Spalte' : 'Spalten'} ausgewählt
         </p>

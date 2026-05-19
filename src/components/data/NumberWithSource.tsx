@@ -67,7 +67,7 @@ export function NumberWithSource({
             {formattedValue}
           </div>
           {showLabel && (
-            <div className="text-sm text-text-light mt-1">
+            <div className="text-sm text-text-secondary mt-1">
               {data.label}
             </div>
           )}

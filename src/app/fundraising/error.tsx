@@ -13,7 +13,7 @@ export default function FundraisingError({
       <h2 className="heading-section mb-3">
         Fundraising konnte nicht geladen werden
       </h2>
-      <p className="text-text-light mb-6 max-w-md">
+      <p className="text-text-secondary mb-6 max-w-md">
         Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut oder laden Sie die Seite neu.
       </p>
       <Button variant="soft" onClick={reset}>

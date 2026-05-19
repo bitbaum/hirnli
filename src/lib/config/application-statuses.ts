@@ -18,7 +18,7 @@ export const APPLICATION_STATUSES = [
     id: 'prospect',
     label: 'Interessant',
     description: 'Potenzielle Stiftungen, die wir ansprechen wollen',
-    color: 'bg-bg-light text-grey-dark border-border',
+    color: 'bg-surface-raised text-text-primary border-border-default',
     chartColor: { bg: 'rgba(156, 163, 175, 0.6)', border: 'rgba(156, 163, 175, 1)' },
     requiredFields: NO_REQUIRED_FIELDS,
   },
@@ -96,7 +96,7 @@ export const APPLICATION_STATUSES = [
     id: 'withdrawn',
     label: 'Zurückgezogen',
     description: 'Gesuch von uns zurückgezogen',
-    color: 'bg-bg-light text-text-light border-border',
+    color: 'bg-surface-raised text-text-secondary border-border-default',
     chartColor: { bg: 'rgba(203, 213, 225, 0.6)', border: 'rgba(203, 213, 225, 1)' },
     requiredFields: NO_REQUIRED_FIELDS,
   },
@@ -104,7 +104,7 @@ export const APPLICATION_STATUSES = [
     id: 'onhold',
     label: 'Pausiert',
     description: 'Gesuch pausiert — wird später weiterverfolgt',
-    color: 'bg-grey-light text-text-muted border-border',
+    color: 'bg-surface-raised text-text-muted border-border-default',
     chartColor: { bg: 'rgba(100, 116, 139, 0.6)', border: 'rgba(100, 116, 139, 1)' },
     requiredFields: NO_REQUIRED_FIELDS,
   },
@@ -117,7 +117,7 @@ export const STATUS_IDS = APPLICATION_STATUSES.map(s => s.id) as [ApplicationSta
 
 import { PRIORITY_CONFIG } from './foundations';
 
-const PRIORITY_COLOR_DEFAULT = 'bg-bg-light text-text-muted';
+const PRIORITY_COLOR_DEFAULT = 'bg-surface-raised text-text-muted';
 
 export function getPriorityColor(level: number | null): string {
   if (level === null) return PRIORITY_COLOR_DEFAULT;

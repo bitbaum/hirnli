@@ -52,7 +52,7 @@ export default async function GesuchPage({ params }: Props) {
           <h1 className="mb-4 heading-section">
             Gesuch für {autoGesuch.foundation.name}
           </h1>
-          <p className="mb-6 text-text-light">{autoGesuch.readyReason}</p>
+          <p className="mb-6 text-text-secondary">{autoGesuch.readyReason}</p>
           <Button href={`/fundraising/stiftungen/${slug}`} size="lg">
             Zurück zur Stiftungsseite
           </Button>

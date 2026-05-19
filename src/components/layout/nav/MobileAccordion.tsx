@@ -26,7 +26,7 @@ export default function MobileAccordion({
       <li>
         <Link
           href={item.href || '#'}
-          className="flex min-h-11 items-center py-2 text-sm font-medium text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          className="flex min-h-11 items-center py-2 text-sm font-medium text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           onClick={onNavigate}
         >
           {item.icon && <span className="mr-2">{item.icon}</span>}
@@ -42,14 +42,14 @@ export default function MobileAccordion({
         {item.href ? (
           <Link
             href={item.href}
-            className="flex min-h-11 flex-1 items-center py-2 text-sm font-medium text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="flex min-h-11 flex-1 items-center py-2 text-sm font-medium text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             onClick={onNavigate}
           >
             {item.icon && <span className="mr-2">{item.icon}</span>}
             {item.text}
           </Link>
         ) : (
-          <span className="flex min-h-11 flex-1 items-center py-2 text-sm font-medium text-grey-dark">
+          <span className="flex min-h-11 flex-1 items-center py-2 text-sm font-medium text-text-primary">
             {item.icon && <span className="mr-2">{item.icon}</span>}
             {item.text}
           </span>
@@ -58,7 +58,7 @@ export default function MobileAccordion({
           onClick={onToggle}
           aria-expanded={expanded}
           aria-controls={panelId}
-          className="flex min-h-11 min-w-11 items-center justify-center rounded text-text-muted hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded text-text-muted hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           aria-label={`${item.text} ${expanded ? 'zuklappen' : 'aufklappen'}`}
         >
           <span
@@ -87,7 +87,7 @@ export default function MobileAccordion({
                   className={`block min-h-11 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                     isActive(child.href, pathname)
                       ? 'font-medium text-primary'
-                      : 'text-text-light'
+                      : 'text-text-secondary'
                   }`}
                   onClick={onNavigate}
                 >
@@ -110,7 +110,7 @@ export default function MobileAccordion({
                           className={`block min-h-11 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                             isActive(link.href, pathname)
                               ? 'font-medium text-primary'
-                              : 'text-text-light'
+                              : 'text-text-secondary'
                           }`}
                           onClick={onNavigate}
                         >

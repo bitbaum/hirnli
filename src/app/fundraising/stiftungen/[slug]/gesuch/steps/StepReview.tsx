@@ -150,7 +150,7 @@ export default function StepReview({
       {autoDraftLoading && (
         <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 p-5 print:hidden">
           <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-          <span className="text-sm text-grey-dark">KI-Entwurf wird erstellt…</span>
+          <span className="text-sm text-text-primary">KI-Entwurf wird erstellt…</span>
         </div>
       )}
 
@@ -162,14 +162,14 @@ export default function StepReview({
           )}
           <Link
             href={`/fundraising/stiftungen/${slug}/gesuch/dokument`}
-            className="rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary"
+            className="rounded-lg border border-border-default px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary"
           >
             HTML-Vorschau
           </Link>
           <button
             type="button"
             onClick={() => setHistoryOpen(true)}
-            className="rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary"
+            className="rounded-lg border border-border-default px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary"
           >
             Versionshistorie
           </button>
@@ -180,7 +180,7 @@ export default function StepReview({
           className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
             editMode
               ? 'bg-primary/10 text-primary ring-1 ring-primary/30'
-              : 'border border-border text-text-muted hover:border-primary/40 hover:text-primary'
+              : 'border border-border-default text-text-muted hover:border-primary/40 hover:text-primary'
           }`}
         >
           {editMode ? '✓ Bearbeitung beenden' : '✏ Anpassen'}
@@ -234,7 +234,7 @@ export default function StepReview({
       <GesuchReadinessChecklist readiness={readiness} />
 
       {/* Navigation */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 print:hidden">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border-default pt-6 print:hidden">
         <button
           type="button"
           onClick={onPrev}

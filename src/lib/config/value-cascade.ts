@@ -107,8 +107,8 @@ export const CASCADE_TIERS: Record<string, CascadeTier> = {
     shortName: 'Recycling',
     icon: '♻️',
     color: {
-      border: 'border-border',
-      bg: 'bg-bg-light',
+      border: 'border-border-default',
+      bg: 'bg-surface-raised',
       text: 'text-text-muted',
       badgeBg: 'bg-grey-light',
       badgeText: 'text-text-muted',
@@ -161,8 +161,8 @@ export const CASCADE_TIERS: Record<string, CascadeTier> = {
     shortName: 'Recycling',
     icon: '♻️',
     color: {
-      border: 'border-border',
-      bg: 'bg-bg-light',
+      border: 'border-border-default',
+      bg: 'bg-surface-raised',
       text: 'text-text-muted',
       badgeBg: 'bg-grey-light',
       badgeText: 'text-text-muted',

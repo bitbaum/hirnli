@@ -41,7 +41,7 @@ export default function StepFocus({
             <h2 className="mt-1 heading-subsection">{foundationName}</h2>
           </div>
           <div className="flex flex-wrap gap-2">
-            <span className="rounded-full border border-border bg-bg px-2.5 py-0.5 text-xs font-medium text-text-muted">
+            <span className="rounded-full border border-border-default bg-bg px-2.5 py-0.5 text-xs font-medium text-text-muted">
               Typ {foundationType}
             </span>
             {fitScore != null && (

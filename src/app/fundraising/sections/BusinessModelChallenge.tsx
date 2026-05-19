@@ -8,7 +8,7 @@ export default function BusinessModelChallenge() {
       <h2 className="mb-4 heading-subsection">Die Geschäftsmodell-Herausforderung</h2>
       <Card>
         <div className="prose prose-sm max-w-none">
-          <p className="text-grey-dark leading-relaxed">
+          <p className="text-text-primary leading-relaxed">
             <strong>Unsere aktuelle Situation:</strong> Wir haben 2 grosse Kivitendo-Kunden verloren. Das hat
             unsere B2B-Einnahmen stark reduziert.
           </p>
@@ -23,13 +23,13 @@ export default function BusinessModelChallenge() {
             </ul>
           </Callout>
 
-          <p className="text-grey-dark leading-relaxed">
+          <p className="text-text-primary leading-relaxed">
             <strong>Was wir brauchen:</strong> Nicht mehr Verkauf, sondern <strong>bessere Prozesse</strong> und
             <strong> diversifizierte Einnahmen</strong> (Tech-Bildung, Workshops, AI Lab Services, Corporate Training,
             Community Events).
           </p>
 
-          <p className="text-grey-dark leading-relaxed mb-0">
+          <p className="text-text-primary leading-relaxed mb-0">
             Detaillierte Finanzdaten sind verfügbar im{' '}
             <Link href="/finanzen" className="underline">Finanzen-Bereich</Link> — alle Zahlen aus Kivitendo,
             klickbar mit Quellenangabe.

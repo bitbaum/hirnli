@@ -33,8 +33,8 @@ export default function CommunitySpaceCard({
   const [isExpanded, setIsExpanded] = useState(false);
 
   const borderStyle = type === 'core'
-    ? 'border-2 border-primary bg-white shadow-md hover:shadow-xl'
-    : 'border border-dashed border-border bg-bg-light/50 hover:bg-bg-light';
+    ? 'border-2 border-primary bg-surface-base shadow-panel hover:shadow-md'
+    : 'border border-dashed border-border-default bg-surface-raised/50 hover:bg-surface-raised';
 
   return (
     <div
@@ -51,7 +51,7 @@ export default function CommunitySpaceCard({
           <div className="flex items-start justify-between gap-2">
             <div>
               <h3 className="heading-card">{title}</h3>
-              <p className="text-sm text-text-light mt-1">{tagline}</p>
+              <p className="text-sm text-text-secondary mt-1">{tagline}</p>
             </div>
             {type === 'core' && (
               <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full whitespace-nowrap">
@@ -59,7 +59,7 @@ export default function CommunitySpaceCard({
               </span>
             )}
           </div>
-          <p className="text-sm text-grey-dark mt-3 leading-relaxed">{description}</p>
+          <p className="text-sm text-text-primary mt-3 leading-relaxed">{description}</p>
         </div>
       </div>
 
@@ -77,7 +77,7 @@ export default function CommunitySpaceCard({
 
       {/* Expanded Content */}
       {isExpanded && (
-        <div className="mt-6 pt-6 border-t border-border space-y-6">
+        <div className="mt-6 pt-6 border-t border-border-default space-y-6">
           {/* Activities */}
           {activities.length > 0 && (
             <div>
@@ -86,7 +86,7 @@ export default function CommunitySpaceCard({
               </h4>
               <ul className="space-y-2">
                 {activities.map((activity, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-sm text-grey-dark">
+                  <li key={idx} className="flex items-start gap-3 text-sm text-text-primary">
                     <span className="text-primary font-bold mt-0.5">→</span>
                     <span>{activity}</span>
                   </li>

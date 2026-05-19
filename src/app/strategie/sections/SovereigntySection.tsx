@@ -15,7 +15,7 @@ export default function SovereigntySection() {
     <section id="souveraenitat" className="mb-8">
       <h2 className="mb-4 heading-subsection">Unser Weg: Souveränität auf jeder Ebene</h2>
       <Card>
-        <p className="mb-6 text-sm text-text-light">
+        <p className="mb-6 text-sm text-text-secondary">
           Von Anfang an ging es um Unabhängigkeit — von geplanter Obsoleszenz, von Lizenzkosten, von Abhängigkeit.
           Dieser Weg führt konsequent weiter:
         </p>

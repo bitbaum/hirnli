@@ -6,7 +6,7 @@
  */
 
 export const FORM_INPUT_CLASS =
-  'w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
+  'w-full rounded-lg border border-border-default px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
 
 export const FORM_LABEL_CLASS =
   'mb-1 block text-xs font-semibold uppercase tracking-wide text-text-muted';

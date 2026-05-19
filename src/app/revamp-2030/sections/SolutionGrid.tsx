@@ -12,14 +12,14 @@ export default function SolutionGrid() {
             <span className="text-4xl" aria-hidden="true">🏢</span>
             <div className="flex-1">
               <h3 className="heading-card mb-2">1. Revamp Hub — Infrastruktur & Raum</h3>
-              <p className="text-sm text-text-light mb-3">
+              <p className="text-sm text-text-secondary mb-3">
                 <strong>Was wir heute haben:</strong> Laden + Lager (genaue Quadratmeter werden im Rahmen unserer Data-Strategie dokumentiert).
                 Verteilt auf 2 Standorte, suboptimal organisiert.
               </p>
-              <p className="text-sm text-text-light mb-3">
+              <p className="text-sm text-text-secondary mb-3">
                 <strong>Was wir brauchen:</strong> {HUB_SPACE_DISPLAY} zentraler Hub mit:
               </p>
-              <ul className="text-sm text-text-light space-y-1 list-disc list-inside mb-4">
+              <ul className="text-sm text-text-secondary space-y-1 list-disc list-inside mb-4">
                 <li>Professionelle Werkstatt (mehr Tische, Testinfrastruktur, bessere Organisation)</li>
                 <li>Schulungsräume für strukturierte Trainings</li>
                 <li>Event-/Kulturraum (Kunst, Musik, Community)</li>
@@ -47,7 +47,7 @@ export default function SolutionGrid() {
             <span className="text-4xl" aria-hidden="true">🎓</span>
             <div className="flex-1">
               <h3 className="heading-card mb-2">2. Bildungsprogrammleiter:innen — Organisation & Multiplikation</h3>
-              <p className="text-sm text-text-light mb-3">
+              <p className="text-sm text-text-secondary mb-3">
                 <strong>Das ist der eigentliche Game-Changer:</strong> Zwei <strong>bezahlte Fachleute</strong>, die
                 professionell organisieren, trainieren und Programme leiten.
               </p>

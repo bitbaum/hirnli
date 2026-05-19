@@ -28,9 +28,9 @@ export default function BoardHeaderStats({ applications, onRefresh }: BoardHeade
   return (
     <div className="flex items-center justify-between gap-4">
       {applications.length > 0 ? (
-        <div className="flex flex-wrap gap-6 text-sm text-grey-dark">
+        <div className="flex flex-wrap gap-6 text-sm text-text-primary">
           <span>
-            <span className="font-semibold text-grey-dark">{applications.length}</span> Gesuche
+            <span className="font-semibold text-text-primary">{applications.length}</span> Gesuche
           </span>
           {totalAwarded > 0 && (
             <span className="font-semibold text-success">
@@ -39,12 +39,12 @@ export default function BoardHeaderStats({ applications, onRefresh }: BoardHeade
           )}
           {totalRequested > 0 && (
             <span>
-              <span className="font-semibold text-grey-dark">{formatCHF(totalRequested)}</span> beantragt
+              <span className="font-semibold text-text-primary">{formatCHF(totalRequested)}</span> beantragt
             </span>
           )}
           {atFoundationsCount > 0 && (
             <span>
-              <span className="font-semibold text-grey-dark">{atFoundationsCount}</span> bei Stiftungen
+              <span className="font-semibold text-text-primary">{atFoundationsCount}</span> bei Stiftungen
             </span>
           )}
           {followupCount > 0 && (

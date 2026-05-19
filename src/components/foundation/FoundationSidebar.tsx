@@ -32,42 +32,42 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           {f.amount.text && f.amount.text !== UNKNOWN_FIELD && (
             <div>
               <dt className="text-text-muted">Förderbetrag</dt>
-              <dd className="font-medium text-grey-dark">{f.amount.text}</dd>
+              <dd className="font-medium text-text-primary">{f.amount.text}</dd>
             </div>
           )}
           {f.deadlineText && f.deadlineText !== UNKNOWN_FIELD && (
             <div>
               <dt className="text-text-muted">Bewerbungsfrist</dt>
-              <dd className="font-medium text-grey-dark">{f.deadlineText}</dd>
+              <dd className="font-medium text-text-primary">{f.deadlineText}</dd>
             </div>
           )}
           {f.capital && (
             <div>
               <dt className="text-text-muted">Vermögen</dt>
-              <dd className="font-medium text-grey-dark">{f.capital}</dd>
+              <dd className="font-medium text-text-primary">{f.capital}</dd>
             </div>
           )}
           {f.annualBudget && (
             <div>
               <dt className="text-text-muted">Jahresbudget</dt>
-              <dd className="font-medium text-grey-dark">{f.annualBudget}</dd>
+              <dd className="font-medium text-text-primary">{f.annualBudget}</dd>
             </div>
           )}
           {f.grantExpenditure && (
             <div>
               <dt className="text-text-muted">Förderausgaben</dt>
-              <dd className="font-medium text-grey-dark">{f.grantExpenditure}</dd>
+              <dd className="font-medium text-text-primary">{f.grantExpenditure}</dd>
             </div>
           )}
           {f.applicationMethod && f.applicationMethod !== 'unknown' && APPLICATION_METHOD_LABELS[f.applicationMethod] && (
             <div>
               <dt className="text-text-muted">Bewerbungsweg</dt>
-              <dd className="font-medium text-grey-dark">{APPLICATION_METHOD_LABELS[f.applicationMethod]}</dd>
+              <dd className="font-medium text-text-primary">{APPLICATION_METHOD_LABELS[f.applicationMethod]}</dd>
             </div>
           )}
           <div>
             <dt className="text-text-muted">Fit-Score</dt>
-            <dd className="font-medium text-grey-dark">
+            <dd className="font-medium text-text-primary">
               {fitLevel === 0
                 ? <span className="text-text-muted">○○○ <span className="sr-only">Fit-Score:</span> Nicht geprüft</span>
                 : <><span aria-label={`Fit-Score: ${f.fitScore} von 10, ${fitLevel} von 3 Sternen`}>{FIT_CONFIG[fitLevel].stars}</span> ({f.fitScore}/10)</>
@@ -83,7 +83,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         <div className="space-y-1.5 text-sm">
           {/* Foundation website (if verified) */}
           {f.websiteUrl && !isRegistryUrl(f.websiteUrl) ? (
-            <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-primary hover:bg-bg-light hover:underline">
+            <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-primary hover:bg-surface-raised hover:underline">
               <span className="font-medium">Website</span>
               <span className="text-xs text-text-muted">↗</span>
             </a>
@@ -111,7 +111,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
             </a>
           )}
           {/* All research platforms */}
-          <div className="border-t border-border pt-2">
+          <div className="border-t border-border-default pt-2">
             <p className="mb-1.5 px-2 heading-detail text-text-muted">Datenbanken & Register</p>
             {getResearchLinks(f).map((link) => (
               <a
@@ -119,7 +119,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-text-muted hover:bg-bg-light hover:text-primary"
+                className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-text-muted hover:bg-surface-raised hover:text-primary"
               >
                 <span className="flex items-center gap-1.5">
                   {link.official && <span className="text-xs text-primary/60" title="Offizielles Register">●</span>}
@@ -139,7 +139,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           <div className="space-y-4">
             <AddToPipelineButton foundationId={f.slug} foundationName={f.name} priorityLevel={f.priority} />
 
-            <div className="space-y-2 border-t border-border pt-3">
+            <div className="space-y-2 border-t border-border-default pt-3">
               <p className="heading-xs-label">Dokumente</p>
               <Button
                 href={`/fundraising/stiftungen/${f.slug}/gesuch`}
@@ -186,7 +186,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-text-muted hover:bg-bg-light hover:text-primary"
+                className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-text-muted hover:bg-surface-raised hover:text-primary"
               >
                 <span>{link.label || SOURCES[link.source]?.label || link.source}</span>
                 <span className="text-xs">↗</span>
@@ -223,7 +223,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           {f.contact?.phone ? (
             <div className="flex items-start gap-2">
               <span className="mt-0.5 text-text-muted">T</span>
-              <a href={`tel:${f.contact.phone.replace(/\s/g, '')}`} className="text-grey-dark hover:underline">
+              <a href={`tel:${f.contact.phone.replace(/\s/g, '')}`} className="text-text-primary hover:underline">
                 {f.contact.phone}
               </a>
             </div>
@@ -242,7 +242,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           {f.contact?.address ? (
             <div className="flex items-start gap-2">
               <span className="mt-0.5 text-text-muted">A</span>
-              <span className="text-grey-dark">{f.contact.address}</span>
+              <span className="text-text-primary">{f.contact.address}</span>
             </div>
           ) : (
             <div className="flex items-start gap-2 text-text-muted">
@@ -269,13 +269,13 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               <p className="text-sm opacity-80">{trustDisplay.description}</p>
             </div>
           </div>
-          <div className="space-y-1 text-text-light">
+          <div className="space-y-1 text-text-secondary">
             <p>Quelle: {source?.label || f.source}</p>
             <p>Tiefe: {f.researchDepth === 'deep' ? 'Tiefenrecherche' : f.researchDepth === 'standard' ? 'Standard' : 'Schnellanalyse'}</p>
             <p>Recherchiert: {f.researchDate}</p>
           </div>
           {f.researchNotes && (
-            <p className="rounded bg-bg-light p-2 text-sm text-text-light">{f.researchNotes}</p>
+            <p className="rounded bg-surface-raised p-2 text-sm text-text-secondary">{f.researchNotes}</p>
           )}
         </div>
         <FoundationResearchEditPanel

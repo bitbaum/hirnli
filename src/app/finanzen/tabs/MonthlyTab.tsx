@@ -241,7 +241,7 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
 
       {/* Data source info */}
       <Card>
-        <div className="text-sm text-text-light">
+        <div className="text-sm text-text-secondary">
           <p className="heading-detail">Datenquelle</p>
           <p>Kivitendo Buchhaltung (Export: revamp-Einnahmen-{selectedYear}.xlsx)</p>
           <p className="mt-1 text-sm text-text-muted">

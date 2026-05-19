@@ -34,7 +34,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
             <h4 className="heading-item">Jahr 1</h4>
             <span className="heading-stat-sm text-primary">{formatCHF(totals.y1Total)}</span>
           </div>
-          <div className="text-sm space-y-1 text-text-light">
+          <div className="text-sm space-y-1 text-text-secondary">
             <div className="flex justify-between">
               <span>Einmalige Kosten:</span>
               <span className="font-medium">{formatCHF(year1.einmalig)}</span>
@@ -51,17 +51,17 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
         </div>
 
         {/* Year 2 */}
-        <div className="p-4 bg-bg-light rounded-lg">
+        <div className="p-4 bg-surface-raised rounded-lg">
           <div className="flex justify-between items-start mb-2">
             <h4 className="heading-item">Jahr 2</h4>
             <span className="heading-stat-sm">{formatCHF(totals.y2Total)}</span>
           </div>
-          <div className="text-sm space-y-1 text-text-light">
+          <div className="text-sm space-y-1 text-text-secondary">
             <div className="flex justify-between">
               <span>Jährliche Kosten:</span>
               <span className="font-medium">{formatCHF(year2.jaehrlich)}</span>
             </div>
-            <div className="flex justify-between text-success pt-1 border-t border-border">
+            <div className="flex justify-between text-success pt-1 border-t border-border-default">
               <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year2.eigenleistung)}</span>
             </div>
@@ -69,17 +69,17 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
         </div>
 
         {/* Year 3 */}
-        <div className="p-4 bg-bg-light rounded-lg">
+        <div className="p-4 bg-surface-raised rounded-lg">
           <div className="flex justify-between items-start mb-2">
             <h4 className="heading-item">Jahr 3</h4>
             <span className="heading-stat-sm">{formatCHF(totals.y3Total)}</span>
           </div>
-          <div className="text-sm space-y-1 text-text-light">
+          <div className="text-sm space-y-1 text-text-secondary">
             <div className="flex justify-between">
               <span>Jährliche Kosten:</span>
               <span className="font-medium">{formatCHF(year3.jaehrlich)}</span>
             </div>
-            <div className="flex justify-between text-success pt-1 border-t border-border">
+            <div className="flex justify-between text-success pt-1 border-t border-border-default">
               <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year3.eigenleistung)}</span>
             </div>
@@ -88,23 +88,23 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
       </div>
 
       {/* Grand totals */}
-      <div className="pt-4 border-t-2 border-border space-y-2">
+      <div className="pt-4 border-t-2 border-border-default space-y-2">
         <div className="flex justify-between text-sm">
-          <span className="text-text-light">Stiftungen Total (3 Jahre):</span>
+          <span className="text-text-secondary">Stiftungen Total (3 Jahre):</span>
           <span className="font-bold text-primary">{formatCHF(totals.stiftungenTotal)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-light">Eigenleistung Total (bewertete Freiwilligenarbeit):</span>
+          <span className="text-text-secondary">Eigenleistung Total (bewertete Freiwilligenarbeit):</span>
           <span className="font-bold text-success">{formatCHF(totals.eigenTotal)}</span>
         </div>
-        <div className="flex justify-between pt-2 border-t border-border">
+        <div className="flex justify-between pt-2 border-t border-border-default">
           <span className="heading-detail">Projektwert Total:</span>
-          <span className="text-xl font-bold text-grey-dark">{formatCHF(totals.projectTotal)}</span>
+          <span className="text-xl font-bold text-text-primary">{formatCHF(totals.projectTotal)}</span>
         </div>
       </div>
 
       {/* Space requirement */}
-      <div className="mt-4 pt-4 border-t border-border text-sm text-text-light">
+      <div className="mt-4 pt-4 border-t border-border-default text-sm text-text-secondary">
         <div className="flex justify-between">
           <span>Raumbedarf:</span>
           <span className="font-medium">

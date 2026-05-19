@@ -37,7 +37,7 @@ export function CO2CalculationSection() {
       confidence="high"
       confidenceNote="(Hersteller-LCA-Reports für bekannte Modelle)"
     >
-      <p className="mb-4 text-sm text-text-light">
+      <p className="mb-4 text-sm text-text-secondary">
         Die CO&#x2082;-Ersparnis wird basierend auf <strong>Hersteller-spezifischen Life Cycle Assessment (LCA) Reports</strong> berechnet.
       </p>
 

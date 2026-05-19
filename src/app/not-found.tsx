@@ -6,7 +6,7 @@ export default function NotFound() {
       <h2 className="heading-section mb-3">
         Seite nicht gefunden
       </h2>
-      <p className="text-text-light mb-6 max-w-md">
+      <p className="text-text-secondary mb-6 max-w-md">
         Die angeforderte Seite existiert nicht oder wurde verschoben.
       </p>
       <Button href="/" variant="soft">

@@ -110,7 +110,7 @@ export default function GesuchEditPanel({
               <button
                 type="button"
                 onClick={() => setResetConfirm(false)}
-                className="rounded-lg px-3 py-1.5 text-sm text-text-muted transition hover:bg-bg-light"
+                className="rounded-lg px-3 py-1.5 text-sm text-text-muted transition hover:bg-surface-raised"
               >
                 Nein
               </button>
@@ -124,7 +124,7 @@ export default function GesuchEditPanel({
                 type="button"
                 onClick={() => setResetConfirm(true)}
                 disabled={saving}
-                className="rounded-lg px-3 py-1.5 text-sm text-text-muted transition hover:bg-bg-light hover:text-danger disabled:opacity-50"
+                className="rounded-lg px-3 py-1.5 text-sm text-text-muted transition hover:bg-surface-raised hover:text-danger disabled:opacity-50"
                 title="Alle Änderungen verwerfen und auf generierten Text zurücksetzen"
               >
                 Alles zurücksetzen
@@ -156,7 +156,7 @@ export default function GesuchEditPanel({
         {/* 2. Why section */}
         {generated.why && (
           <>
-            <div className="border-t border-border pt-4">
+            <div className="border-t border-border-default pt-4">
               <p className="mb-4 heading-xs-label">
                 Warum-Abschnitt
               </p>
@@ -220,7 +220,7 @@ export default function GesuchEditPanel({
         )}
 
         {/* 3. How / Track Record */}
-        <div className="border-t border-border pt-4">
+        <div className="border-t border-border-default pt-4">
           <p className="mb-4 heading-xs-label">
             Wie-Abschnitt (Track Record)
           </p>

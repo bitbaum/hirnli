@@ -58,7 +58,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
         </Badge>
       </div>
 
-      <p className="text-sm text-text-light mb-4">
+      <p className="text-sm text-text-secondary mb-4">
         {document.description}
       </p>
 
@@ -75,7 +75,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
         )}
       </div>
 
-      <div className="flex items-center justify-between pt-3 border-t border-border">
+      <div className="flex items-center justify-between pt-3 border-t border-border-default">
         <span className="text-sm font-medium text-primary group-hover:text-primary-light transition-colors flex items-center gap-2">
           <span>{actionIcon}</span>
           <span>{actionLabel}</span>

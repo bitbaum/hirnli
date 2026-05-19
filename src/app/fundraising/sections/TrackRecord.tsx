@@ -30,9 +30,9 @@ export default function TrackRecord({ inspector }: { inspector: InspectorHandle 
               description: item.sub,
             }}
             inspector={inspector}
-            className="block rounded-xl border border-border bg-white p-3 text-center transition-shadow hover:shadow-sm"
+            className="block rounded-xl border border-border-default bg-surface-base p-3 text-center transition-shadow hover:shadow-sm"
           >
-            <div className="text-xl font-bold tabular-nums text-grey-dark">{item.value}</div>
+            <div className="text-xl font-bold tabular-nums text-text-primary">{item.value}</div>
             <div className="text-sm font-medium text-text-muted">{item.label}</div>
             <div className="text-sm text-text-muted">{item.sub}</div>
           </Inspectable>

@@ -32,11 +32,11 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
         role="dialog"
         aria-modal="true"
         aria-label={data.label}
-        className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-auto"
+        className="bg-surface-base rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-border p-6">
+        <div className="sticky top-0 bg-surface-base border-b border-border-default p-6">
           <div className="flex items-start justify-between">
             <div>
               <div className="text-4xl font-bold text-primary mb-2">
@@ -67,7 +67,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
             <div className="heading-detail mb-2">
               Methodik
             </div>
-            <div className="text-text-light text-sm leading-relaxed">
+            <div className="text-text-secondary text-sm leading-relaxed">
               {data.source.methodology}
             </div>
           </div>
@@ -78,7 +78,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
               <div className="heading-detail mb-2">
                 Berechnung
               </div>
-              <div className="bg-bg-light rounded-lg p-4 font-mono text-sm text-grey-dark">
+              <div className="bg-surface-raised rounded-lg p-4 font-mono text-sm text-text-primary">
                 {data.source.calculation}
               </div>
             </div>
@@ -89,7 +89,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
             <div className="heading-detail mb-2">
               Zuletzt verifiziert
             </div>
-            <div className="text-text-light text-sm">
+            <div className="text-text-secondary text-sm">
               {formatDateCHLong(data.source.lastVerified)}
             </div>
           </div>
@@ -125,7 +125,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 bg-bg-light border-t border-border p-4 text-center">
+        <div className="sticky bottom-0 bg-surface-raised border-t border-border-default p-4 text-center">
           <p className="text-sm text-text-muted">
             Alle Zahlen auf dieser Seite sind klickbar und vollständig nachvollziehbar.
           </p>

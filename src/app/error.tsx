@@ -13,7 +13,7 @@ export default function GlobalError({
       <h2 className="heading-section mb-3">
         Etwas ist schiefgelaufen
       </h2>
-      <p className="text-text-light mb-6 max-w-md">
+      <p className="text-text-secondary mb-6 max-w-md">
         Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
       </p>
       <Button variant="soft" onClick={reset}>

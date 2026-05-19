@@ -14,7 +14,7 @@ export function SelfFinancingSection() {
       confidence="high"
       confidenceNote="(Berechnung aus Quelldaten)"
     >
-      <p className="mb-4 text-sm text-text-light">
+      <p className="mb-4 text-sm text-text-secondary">
         Der Eigenfinanzierungsgrad zeigt, wie viel der Einnahmen durch eigene
         Wirtschaftstätigkeit erwirtschaftet wird (ohne Spenden).
       </p>

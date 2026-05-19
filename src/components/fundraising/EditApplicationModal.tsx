@@ -96,10 +96,10 @@ export function EditApplicationModal({
         role="dialog"
         aria-modal="true"
         aria-label="Gesuch bearbeiten"
-        className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl"
+        className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-surface-base shadow-lg"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border-default px-6 py-4">
           <div>
             <h2 className="heading-card">Gesuch bearbeiten</h2>
             <p className="text-sm text-text-muted">{foundation?.name ?? application.foundationId}</p>
@@ -237,7 +237,7 @@ export function EditApplicationModal({
 
           {/* Outcome fields — only visible when relevant */}
           {isTerminalStatus(status) && (
-            <div className="rounded-lg border border-border bg-bg-light p-4 space-y-4">
+            <div className="rounded-lg border border-border-default bg-surface-raised p-4 space-y-4">
               <p className="heading-xs-label">Ergebnis</p>
               <ApplicationOutcomeFields
                 status={status}
@@ -253,7 +253,7 @@ export function EditApplicationModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 border-t border-border px-6 py-4">
+        <div className="flex items-center justify-end gap-3 border-t border-border-default px-6 py-4">
           <Button variant="secondary" onClick={onClose} disabled={isSaving}>
             Abbrechen
           </Button>

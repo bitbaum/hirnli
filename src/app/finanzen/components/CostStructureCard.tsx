@@ -59,14 +59,14 @@ export function CostStructureCard({ entry }: { entry: AnnualPLEntry }) {
             </div>
           );
         })}
-        <div className="flex items-center justify-between border-t border-border pt-2 heading-detail">
+        <div className="flex items-center justify-between border-t border-border-default pt-2 heading-detail">
           <span>Total Aufwand</span>
           <span>{formatCHF(total)}</span>
         </div>
       </div>
 
       {/* Context */}
-      <div className="mt-3 rounded-lg bg-danger-bg/20 p-3 text-sm text-text-light">
+      <div className="mt-3 rounded-lg bg-danger-bg/20 p-3 text-sm text-text-secondary">
         <strong>Ergebnis {entry.year}:</strong>{' '}
         <span className={entry.result >= 0 ? 'text-success' : 'text-danger'}>
           {formatCHF(entry.result)}

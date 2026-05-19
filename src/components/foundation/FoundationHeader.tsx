@@ -22,7 +22,7 @@ export default function FoundationHeader({ foundation: f }: FoundationHeaderProp
               {statusLabel.text}
             </Badge>
           </div>
-          <p className="mt-2 text-lg text-text-light">{f.tagline}</p>
+          <p className="mt-2 text-lg text-text-secondary">{f.tagline}</p>
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <Badge variant="default">{typeLabel.short}: {typeLabel.long}</Badge>
             <span className="text-sm text-text-muted">{f.region}</span>

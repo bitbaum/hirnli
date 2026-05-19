@@ -182,7 +182,7 @@ export default function TeamPage() {
         </div>
 
         {/* Combined Effect */}
-        <Card className="mt-6 gradient-card-primary border-2 border-primary/20">
+        <Card className="mt-6 bg-surface-raised border-border-default">
           <div className="text-center">
             <h3 className="heading-subsection mb-4">Kombinierter Effekt</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -197,7 +197,7 @@ export default function TeamPage() {
                 <div className="text-xs text-text-muted">Menschen/Jahr (konservativ)</div>
               </div>
             </div>
-            <div className="bg-white/70 rounded-lg p-4 text-sm text-left">
+            <div className="bg-surface-raised rounded-lg p-4 text-sm text-left">
               <strong>Das ist der Kern des sozialen Unternehmensmodells:</strong><br />
               Budget-Ziel: CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR / 1000)}k/Jahr für 2× BPL (inkl. Sozialleistungen) → {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops} Menschen/Jahr erreichen (Prognose).<br />
               Geplante Kosten pro direkt trainierter Person: CHF {Math.round(BPL_TOTAL_COST_PER_YEAR / MULTIPLICATION_EFFECT.combined.direct_training)}
@@ -260,7 +260,7 @@ export default function TeamPage() {
 
       {/* ========== DATENQUALITÄT ========== */}
       <section className="mb-8">
-        <Card className="bg-bg-light border-l-4 border-l-border">
+        <Card className="bg-surface-raised border-l-4 border-l-border">
           <h3 className="heading-item mb-3">Hinweis zur Datenqualität</h3>
           <div className="space-y-2 text-sm text-text-muted">
             <div>
@@ -272,7 +272,7 @@ export default function TeamPage() {
             <div>
               <strong>Warum das OK ist:</strong> {DATA_QUALITY_NOTE.why_this_is_ok}
             </div>
-            <div className="pt-2 border-t border-border text-sm">
+            <div className="pt-2 border-t border-border-default text-sm">
               <strong>Frühere Datenquelle:</strong> {DATA_QUALITY_NOTE.previous_source}<br />
               <strong>Aktuelle Datenquelle:</strong> {DATA_QUALITY_NOTE.current_source}
             </div>
@@ -282,7 +282,7 @@ export default function TeamPage() {
 
       {/* ========== NEXT STEPS ========== */}
       <section className="mb-8">
-        <Card className="gradient-card-primary border-2 border-pillar-vision/20">
+        <Card className="bg-surface-raised border-border-default">
           <div className="text-center">
             <h2 className="heading-section mb-4">Mehr erfahren</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

@@ -25,12 +25,12 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
     : 'md:grid-cols-2 lg:grid-cols-3';
 
   return (
-    <div className="mt-12 border-t border-border pt-8">
+    <div className="mt-12 border-t border-border-default pt-8">
       <div className="mb-6 text-center">
         <h2 className="heading-subsection">
           Weitere Zusammenhänge erkunden
         </h2>
-        <p className="mt-1 text-sm text-text-light">
+        <p className="mt-1 text-sm text-text-secondary">
           Verbinde alle Punkte – folge der Geschichte
         </p>
       </div>
@@ -40,7 +40,7 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
           <Link
             key={bridge.href}
             href={bridge.href}
-            className="group block rounded-lg border border-border bg-white p-5 transition-all hover:border-primary hover:shadow-md"
+            className="group block rounded-lg border border-border-default bg-surface-base p-5 transition-all hover:border-primary hover:shadow-md"
           >
             <div className="flex items-start gap-3">
               {bridge.icon && (
@@ -55,7 +55,7 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
                 <div className="mb-1 heading-item group-hover:text-primary">
                   {bridge.title}
                 </div>
-                <div className="text-sm text-text-light">
+                <div className="text-sm text-text-secondary">
                   {bridge.reason}
                 </div>
               </div>

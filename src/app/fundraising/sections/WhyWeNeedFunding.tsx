@@ -24,16 +24,16 @@ export default function WhyWeNeedFunding() {
         <div className="prose prose-sm max-w-none">
           <h2 className="text-xl font-bold text-primary mt-0">Die Situation: Warum wir Stiftungen brauchen</h2>
 
-          <p className="text-grey-dark leading-relaxed">
+          <p className="text-text-primary leading-relaxed">
             Seit {ORG_PROFILE.founded} reparieren und verkaufen wir refurbished Computer. <strong>Aber unser aktuelles Geschäftsmodell ist nicht nachhaltig.</strong>
           </p>
 
-          <p className="text-grey-dark leading-relaxed">
+          <p className="text-text-primary leading-relaxed">
             <strong>Die Herausforderung:</strong> Unsere Einnahmen sind von {REVENUE_PEAK_DISPLAY} ({REVENUE_PEAK_YEAR.year}) auf {REVENUE_CURRENT_DISPLAY} (2025) gefallen — B2B-Hosting-Kunden verloren,
             Dienstleistungen von {SERVICES_PEAK_DISPLAY} auf {SERVICES_CURRENT_DISPLAY} geschrumpft. Das aktuelle Modell — abhängig von wenigen Einzelkunden — ist fragil.
           </p>
 
-          <p className="text-grey-dark leading-relaxed">
+          <p className="text-text-primary leading-relaxed">
             <strong>Das eigentliche Problem:</strong> Nicht fehlende Refurbishment-Kapazität, sondern <strong>fehlende Organisation
             für Verkauf und Ausführung</strong>. Wir haben bereits zu viel Inventar in 2 Lagern. Viele Organisationen in Zürich
             entsorgen alte Technologie — aber wir brauchen keine zusätzlichen Geräte, sondern bessere Prozesse.
@@ -50,11 +50,11 @@ export default function WhyWeNeedFunding() {
 
           <h3 className="text-lg font-bold text-primary mt-6">Die Lösung: Professionalisierung + Bildung + Community</h3>
 
-          <p className="text-grey-dark leading-relaxed">
+          <p className="text-text-primary leading-relaxed">
             Statt nur Refurbishment zu skalieren, wollen wir unser Modell <strong>transformieren</strong>:
           </p>
 
-          <ul className="text-grey-dark space-y-2">
+          <ul className="text-text-primary space-y-2">
             <li>
               <strong>Professionelle Prozesse:</strong> 2 Bildungsprogrammleiter organisieren Refurbishment-Workflows,
               bilden Techniker aus (mit sozialpädagogischer Begleitung durch Veronica)
@@ -69,7 +69,7 @@ export default function WhyWeNeedFunding() {
             </li>
           </ul>
 
-          <p className="text-grey-dark leading-relaxed">
+          <p className="text-text-primary leading-relaxed">
             <strong>Warum Stiftungen?</strong> Weil wir eine soziale Mission haben, keine Silicon-Valley-Startup-Mentalität.
             Wir arbeiten mit Reintegrations-Programmen (z.B. GEP), Freiwilligen, Praktikanten. Professionalisierung braucht
             Ressourcen — und die kommen nicht aus Verkaufserlösen allein.
@@ -77,7 +77,7 @@ export default function WhyWeNeedFunding() {
 
           <h3 className="text-lg font-bold text-primary mt-6">Was wir von Stiftungen brauchen</h3>
 
-          <p className="text-grey-dark leading-relaxed mb-0">
+          <p className="text-text-primary leading-relaxed mb-0">
             Wir brauchen <strong>Anschubfinanzierung für 3 Jahre</strong>, um Hub + Team aufzubauen.
             Danach sind wir selbsttragend (Operations durch Revenue finanziert).
           </p>
@@ -88,16 +88,16 @@ export default function WhyWeNeedFunding() {
               const stiftungenPct = Math.round((stiftungenAmt / year.total) * 100);
               const display = THREE_YEAR_DISPLAY[i];
               return (
-                <div key={year.year} className={`bg-white rounded-lg p-4 border-2 ${display.border}`}>
+                <div key={year.year} className={`bg-surface-base rounded-lg p-4 border-2 ${display.border}`}>
                   <div className={`text-sm ${display.text} font-semibold`}>{year.year} ({PROJECT_START + i})</div>
                   <div className={`heading-section ${display.text} my-2`}>{formatCHF(stiftungenAmt)}</div>
-                  <div className="text-sm text-text-light">{stiftungenPct}% von Stiftungen<br/>{display.description}</div>
+                  <div className="text-sm text-text-secondary">{stiftungenPct}% von Stiftungen<br/>{display.description}</div>
                 </div>
               );
             })}
           </div>
 
-          <p className="text-grey-dark leading-relaxed mt-4 mb-0">
+          <p className="text-text-primary leading-relaxed mt-4 mb-0">
             <strong>Degressives Modell:</strong> Je mehr wir wachsen, desto weniger Stiftungsgelder brauchen wir.
             Jahr 1 → Jahr 3: <strong>-{REDUCTION_PCT}% weniger Stiftungsgelder</strong>. Ab Jahr 4: Nur noch Impact-Finanzierung
             (kostenlose Geräte, Stipendien), keine Betriebskosten mehr.

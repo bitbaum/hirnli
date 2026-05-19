@@ -30,11 +30,11 @@ export function HubImageGenerator() {
             className={`p-3 rounded-lg border-2 text-left transition-all ${
               selectedSpace === space.space_name
                 ? 'border-success bg-success/10'
-                : 'border-border hover:border-success/20 bg-white'
+                : 'border-border-default hover:border-success/20 bg-white'
             }`}
           >
             <p className="heading-detail">{space.space_name}</p>
-            <p className="text-xs text-text-light mt-1">{space.aspect_ratio}</p>
+            <p className="text-xs text-text-secondary mt-1">{space.aspect_ratio}</p>
           </button>
         ))}
       </div>
@@ -55,9 +55,9 @@ export function HubImageGenerator() {
           </div>
 
           {/* Full Prompt */}
-          <div className="bg-bg-light p-4 rounded-lg mb-4">
+          <div className="bg-surface-raised p-4 rounded-lg mb-4">
             <p className="heading-xs-label mb-2">AI Generation Prompt:</p>
-            <p className="text-sm text-text-light leading-relaxed whitespace-pre-wrap">{selectedConfig.prompt}</p>
+            <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{selectedConfig.prompt}</p>
           </div>
 
           {/* Negative Prompt */}
@@ -79,11 +79,11 @@ export function HubImageGenerator() {
           </div>
 
           {/* Suggested Tools */}
-          <div className="mt-4 pt-4 border-t border-border">
+          <div className="mt-4 pt-4 border-t border-border-default">
             <p className="heading-xs-label mb-2">Recommended AI Tools:</p>
             <div className="flex gap-2 flex-wrap">
               {selectedConfig.suggested_tools.map((tool) => (
-                <span key={tool} className="text-xs px-2 py-1 bg-bg-light text-grey-dark rounded">
+                <span key={tool} className="text-xs px-2 py-1 bg-surface-raised text-text-primary rounded">
                   {tool}
                 </span>
               ))}

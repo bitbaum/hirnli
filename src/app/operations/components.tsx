@@ -15,7 +15,7 @@ export function Checklist({ items }: { items: readonly string[] }) {
   return (
     <ul className="space-y-2">
       {items.map((item) => (
-        <li key={item} className="flex items-start gap-2 border-b border-border pb-2 text-sm last:border-0">
+        <li key={item} className="flex items-start gap-2 border-b border-border-default pb-2 text-sm last:border-0">
           <span className="text-text-muted">☐</span>
           <span>{item}</span>
         </li>
@@ -74,7 +74,7 @@ export function TriageSection() {
         <CardHeader>
           <CardTitle>Kategorisierung – Entscheidungsbaum</CardTitle>
         </CardHeader>
-        <pre className="overflow-x-auto rounded-lg bg-bg-light p-4 font-mono text-sm">
+        <pre className="overflow-x-auto rounded-lg bg-surface-raised p-4 font-mono text-sm">
 {`Gerät funktioniert vollständig?
 ├─ JA → Kategorie A (Refurbishment)
 │
@@ -133,11 +133,11 @@ export function RefurbishmentStepsSection() {
             </div>
           </CardHeader>
           <h4 className="mb-1 heading-detail">RAM-Upgrade:</h4>
-          <p className="mb-3 text-sm text-text-light">Minimum: 4 GB (besser 8 GB)</p>
+          <p className="mb-3 text-sm text-text-secondary">Minimum: 4 GB (besser 8 GB)</p>
           <h4 className="mb-1 heading-detail">SSD-Upgrade:</h4>
-          <p className="mb-3 text-sm text-text-light">Wenn Festplatte &lt; 250 GB oder defekt</p>
+          <p className="mb-3 text-sm text-text-secondary">Wenn Festplatte &lt; 250 GB oder defekt</p>
           <h4 className="mb-1 heading-detail">Weitere:</h4>
-          <ul className="list-disc pl-5 text-sm text-text-light">
+          <ul className="list-disc pl-5 text-sm text-text-secondary">
             <li>WiFi-Karte (wenn fehlend)</li>
             <li>Akku (wenn verfügbar)</li>
           </ul>
@@ -154,13 +154,13 @@ export function RefurbishmentStepsSection() {
           <h4 className="mb-2 heading-detail">Standard-Distributionen:</h4>
           <div className="space-y-2">
             {LINUX_DISTROS.map((d) => (
-              <div key={d.target} className="flex justify-between rounded bg-bg-light px-3 py-2 text-sm">
+              <div key={d.target} className="flex justify-between rounded bg-surface-raised px-3 py-2 text-sm">
                 <span className="text-text-muted">{d.target}</span>
                 <span className="font-medium">{d.distro}</span>
               </div>
             ))}
           </div>
-          <p className="mt-3 text-sm text-text-light">
+          <p className="mt-3 text-sm text-text-secondary">
             <strong>Default:</strong> Linux Mint (Cinnamon)
           </p>
         </Card>
@@ -183,15 +183,15 @@ export function WarehouseSection() {
             <CardTitle>Lagerdauer-Regeln</CardTitle>
           </CardHeader>
           <div className="space-y-3">
-            <div className="flex items-center justify-between rounded bg-bg-light px-4 py-3 text-sm">
+            <div className="flex items-center justify-between rounded bg-surface-raised px-4 py-3 text-sm">
               <strong>&lt; 30 Tage</strong>
               <span className="text-success">Ziel: Normaler Umschlag</span>
             </div>
-            <div className="flex items-center justify-between rounded bg-bg-light px-4 py-3 text-sm">
+            <div className="flex items-center justify-between rounded bg-surface-raised px-4 py-3 text-sm">
               <strong>&gt; 3 Monate</strong>
               <span className="text-warning">Preis reduzieren</span>
             </div>
-            <div className="flex items-center justify-between rounded bg-bg-light px-4 py-3 text-sm">
+            <div className="flex items-center justify-between rounded bg-surface-raised px-4 py-3 text-sm">
               <strong>&gt; 6 Monate</strong>
               <span className="text-danger">Spenden oder Recyclen</span>
             </div>
@@ -205,7 +205,7 @@ export function WarehouseSection() {
           <Callout color="warning" className="mb-4 p-3">
             <strong className="text-sm">Wenn Lager &gt; 200 Geräte:</strong>
           </Callout>
-          <ul className="list-disc space-y-2 pl-5 text-sm text-text-light">
+          <ul className="list-disc space-y-2 pl-5 text-sm text-text-secondary">
             <li>Annahmestopp für &ldquo;Low Quality&rdquo;</li>
             <li>Sofortiger &ldquo;Sale&rdquo; (Rabattaktion)</li>
             <li>Geräte spenden an Partner</li>

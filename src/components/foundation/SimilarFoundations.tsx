@@ -22,7 +22,7 @@ export default function SimilarFoundations({ similar }: SimilarFoundationsProps)
           <Link
             key={f.slug}
             href={`/fundraising/stiftungen/${f.slug}`}
-            className="block rounded-lg border border-border p-3 transition-colors hover:border-primary/30 hover:no-underline"
+            className="block rounded-lg border border-border-default p-3 transition-colors hover:border-primary/30 hover:no-underline"
           >
             <div className="flex items-center justify-between">
               <span className="heading-detail">{f.name}</span>

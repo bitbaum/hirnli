@@ -60,11 +60,11 @@ export default function OperationsPage() {
           <CardHeader>
             <CardTitle className="text-center">Von Spende bis Verkauf</CardTitle>
           </CardHeader>
-          <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg bg-bg-light p-6">
+          <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg bg-surface-raised p-6">
             {PROCESS_STEPS.map((step, i) => (
               <div key={step.number} className="flex items-center gap-2">
                 <div className={`rounded-lg p-3 text-center shadow-sm ${
-                  step.active ? 'bg-primary text-white' : 'bg-white'
+                  step.active ? 'bg-primary text-white' : 'bg-surface-base'
                 }`}>
                   <span className="block text-xl font-bold">{step.number}</span>
                   <span className="text-sm">{step.name}</span>
@@ -136,7 +136,7 @@ export default function OperationsPage() {
         </div>
         <Card className="mt-4 bg-success/10">
           <h4 className="heading-detail">Dokumentation:</h4>
-          <p className="mt-1 text-sm text-text-light">
+          <p className="mt-1 text-sm text-text-secondary">
             Lösch-Zertifikat ausdrucken und bei Gerät archivieren. Wichtig für Corporate Spender!
           </p>
         </Card>
@@ -166,7 +166,7 @@ export default function OperationsPage() {
             <h4 className="heading-detail mb-2 mt-4">Dokumentation:</h4>
             <div className="space-y-2 text-sm">
               {['QA-Status → Pass / Fail', 'QA-Datum → [Datum]', 'QA-Techniker → [Name]', 'Bemerkungen → [Notizen]'].map((item) => (
-                <div key={item} className="flex justify-between rounded bg-bg-light px-3 py-2">
+                <div key={item} className="flex justify-between rounded bg-surface-raised px-3 py-2">
                   <span className="text-text-muted">{item.split(' → ')[0]}</span>
                   <span>{item.split(' → ')[1]}</span>
                 </div>
@@ -191,7 +191,7 @@ export default function OperationsPage() {
               Basierend auf unserem <Link href="/preismodell">Solidarischen 4-Stufen-Preismodell</Link>
             </p>
             <h4 className="heading-detail mb-2">Faktoren:</h4>
-            <ul className="list-disc space-y-1 pl-5 text-sm text-text-light">
+            <ul className="list-disc space-y-1 pl-5 text-sm text-text-secondary">
               <li>Alter des Geräts</li>
               <li>CPU-Performance</li>
               <li>RAM-Grösse</li>
@@ -238,7 +238,7 @@ export default function OperationsPage() {
             compact
           />
           {/* Summary row */}
-          <div className="mt-2 flex justify-between rounded bg-bg-light px-3 py-3 text-sm font-bold">
+          <div className="mt-2 flex justify-between rounded bg-surface-raised px-3 py-3 text-sm font-bold">
             <span>TOTAL (aktiv)</span>
             <span>~2-3 Stunden</span>
           </div>
@@ -256,7 +256,7 @@ export default function OperationsPage() {
           {TOOLS.map((tool) => (
             <Card key={tool.title} className="border-l-4 border-l-primary">
               <h4 className="heading-item mb-3">{tool.icon} {tool.title}</h4>
-              <ul className="list-disc space-y-1 pl-5 text-sm text-text-light">
+              <ul className="list-disc space-y-1 pl-5 text-sm text-text-secondary">
                 {tool.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}

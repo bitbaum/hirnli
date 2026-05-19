@@ -68,7 +68,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
               <span className="text-lg">📊</span>
               <div className="flex-1">
                 <div className="heading-detail">Datenquelle</div>
-                <div className="text-text-light">{friendlySource}</div>
+                <div className="text-text-secondary">{friendlySource}</div>
               </div>
             </div>
             {data.account && (
@@ -76,7 +76,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
                 <span className="text-lg">🏦</span>
                 <div className="flex-1">
                   <div className="heading-detail">Buchungskonto</div>
-                  <div className="text-text-light">{data.account}</div>
+                  <div className="text-text-secondary">{data.account}</div>
                 </div>
               </div>
             )}
@@ -85,7 +85,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
                 <span className="text-lg">📅</span>
                 <div className="flex-1">
                   <div className="heading-detail">Zuletzt aktualisiert</div>
-                  <div className="text-text-light">{data.updated}</div>
+                  <div className="text-text-secondary">{data.updated}</div>
                 </div>
               </div>
             )}
@@ -94,7 +94,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
                 <span className="text-lg">🎯</span>
                 <div className="flex-1">
                   <div className="heading-detail">Verlässlichkeit</div>
-                  <div className="text-text-light">
+                  <div className="text-text-secondary">
                     {CONFIDENCE_DISPLAY_LABELS[data.confidence as keyof typeof CONFIDENCE_DISPLAY_LABELS] ?? data.confidence}
                   </div>
                 </div>
@@ -107,7 +107,7 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
           <div>
             <h4 className="mb-2 heading-xs-label">Wie wird das berechnet?</h4>
             <div className="rounded-lg bg-primary/10 border border-primary/20 px-4 py-3">
-              <code className="block text-sm font-mono text-grey-dark whitespace-pre-wrap">{data.formula}</code>
+              <code className="block text-sm font-mono text-text-primary whitespace-pre-wrap">{data.formula}</code>
             </div>
           </div>
         )}
@@ -115,12 +115,12 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
         {data.description && (
           <div>
             <h4 className="mb-2 heading-xs-label">Was bedeutet das?</h4>
-            <p className="text-sm text-text-light leading-relaxed">{data.description}</p>
+            <p className="text-sm text-text-secondary leading-relaxed">{data.description}</p>
           </div>
         )}
 
         {/* Transparency Footer */}
-        <div className="pt-4 border-t border-border">
+        <div className="pt-4 border-t border-border-default">
           <div className="flex items-start gap-2 text-sm text-text-muted">
             <span className="text-sm">✓</span>
             <p>

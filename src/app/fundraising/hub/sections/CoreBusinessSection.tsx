@@ -8,20 +8,20 @@ export default function CoreBusinessSection() {
   return (
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">🏪 Das Kerngeschäft: Shop & Refurbishment</h2>
-      <p className="text-sm text-text-light mb-6">
+      <p className="text-sm text-text-secondary mb-6">
         Wo alles beginnt: Kunden bringen Geräte, wir reparieren & verkaufen sie. Das ist unser Fundament.
       </p>
       <div className="grid grid-cols-1 gap-6">
         <Card className="border-l-4 border-l-success">
           <HubCardHeader icon="🏪" title="Shop & Kundenbereich" subtitle="80 m² — Verkauf, Beratung, Annahme" subtitleClassName="text-success" badgeColor="emerald" badgeText={formatCHF(SHOP_AREA.cost_estimate_chf)} />
-          <p className="text-sm text-text-light mb-4">
+          <p className="text-sm text-text-secondary mb-4">
             Erste Anlaufstelle für Kunden: Geräte kaufen, zur Reparatur bringen, beraten lassen.
             Heute: Kein dedizierter Verkaufsraum. Neu: Professioneller Shop mit Ausstellungsfläche.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <h4 className="heading-detail mb-2">Flächen:</h4>
-              <ul className="space-y-1 text-text-light">
+              <ul className="space-y-1 text-text-secondary">
                 <li>• 50 m² Verkaufsfläche (20-30 Geräte ausgestellt)</li>
                 <li>• 15 m² Beratungs- & Kassenbereich</li>
                 <li>• 15 m² Annahme & Triage (Geräte-Eingang)</li>
@@ -29,7 +29,7 @@ export default function CoreBusinessSection() {
             </div>
             <div>
               <h4 className="heading-detail mb-2">Ausstattung:</h4>
-              <ul className="space-y-1 text-text-light">
+              <ul className="space-y-1 text-text-secondary">
                 <li>• Ausstellungsregale & Vitrinen</li>
                 <li>• Testgeräte für Kunden (Laptops ausprobieren)</li>
                 <li>• Kassensystem & Inventarverwaltung</li>
@@ -44,14 +44,14 @@ export default function CoreBusinessSection() {
 
         <Card className="border-l-4 border-l-primary">
           <HubCardHeader icon="🔧" title="Refurbishment-Werkstatt" subtitle="~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)" subtitleClassName="text-primary" badgeColor="blue" badgeText={formatCHF(WORKSHOP_AREA.cost_estimate_chf)} />
-          <p className="text-sm text-text-light mb-4">
+          <p className="text-sm text-text-secondary mb-4">
             Das Herzstück: Hier entstehen refurbishte Geräte. <strong>Heute:</strong> 4 Tische, chaotisch, nur 1-2 in Nutzung.
             <strong> Neu:</strong> Strukturierte Prozesse (Triage → Data Wipe → Repair → Test → QA), nicht endlos Platz.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4">
             <div>
               <h4 className="heading-detail mb-2">Flächen & Zonen (ENTWURF):</h4>
-              <ul className="space-y-1 text-text-light">
+              <ul className="space-y-1 text-text-secondary">
                 <li>• <strong>70 m²</strong> Haupt-Werkstatt (6-8× Reparaturtische)</li>
                 <li>• <strong>30 m²</strong> Test & Data Wipe (10× Plätze parallel)</li>
                 <li>• <strong>30 m²</strong> Quality Assurance & Verpackung</li>
@@ -60,7 +60,7 @@ export default function CoreBusinessSection() {
             </div>
             <div>
               <h4 className="heading-detail mb-2">Arbeitsplätze & Kapazität:</h4>
-              <ul className="space-y-1 text-text-light">
+              <ul className="space-y-1 text-text-secondary">
                 <li>• <strong>6-8× Reparaturtische</strong> (kompakt, effizient)</li>
                 <li>• <strong>10× Test/Data-Wipe-Plätze</strong> (parallel)</li>
                 <li>• <strong>Personal:</strong> 2-4 Techniker gleichzeitig</li>

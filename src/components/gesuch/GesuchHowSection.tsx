@@ -12,7 +12,7 @@ export default function GesuchHowSection({ trackRecord, competencies }: GesuchHo
       <h2 className="mb-6 heading-page">
         {trackRecord.headline}
       </h2>
-      <p className="mb-6 text-base leading-relaxed text-text-light md:text-lg">
+      <p className="mb-6 text-base leading-relaxed text-text-secondary md:text-lg">
         {trackRecord.text}
       </p>
 
@@ -33,7 +33,7 @@ export default function GesuchHowSection({ trackRecord, competencies }: GesuchHo
             <h3 className="mb-3 heading-card">{comp.headline}</h3>
             <ul className="space-y-1">
               {comp.capabilities.map((cap) => (
-                <li key={cap} className="flex items-start gap-2 text-sm text-text-light">
+                <li key={cap} className="flex items-start gap-2 text-sm text-text-secondary">
                   <span className="mt-0.5 text-secondary">&#10003;</span>
                   {cap}
                 </li>

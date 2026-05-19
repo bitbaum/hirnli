@@ -39,7 +39,7 @@ export default function BudgetSection() {
       <Card className="mb-6 border-l-4 border-l-primary">
         <div className="mb-4">
           <h3 className="heading-card mb-2">{scenario.label}</h3>
-          <p className="text-sm text-text-light">{scenario.description}</p>
+          <p className="text-sm text-text-secondary">{scenario.description}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div className="bg-primary/10 p-3 rounded-lg">

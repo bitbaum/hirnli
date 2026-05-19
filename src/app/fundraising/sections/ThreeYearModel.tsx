@@ -38,7 +38,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
           const stiftungenPct = Math.round((stiftungenAmt / year.total) * 100);
           const eigenPct = Math.round((year.eigen / year.total) * 100);
           return (
-            <div key={year.year} className={`rounded-2xl border p-5 ${i === 0 ? 'border-pillar-vision/30 bg-pillar-vision/5' : i === 2 ? 'border-success/20 bg-success/10' : 'border-border bg-white'}`}>
+            <div key={year.year} className={`rounded-2xl border p-5 ${i === 0 ? 'border-pillar-vision/30 bg-pillar-vision/5' : i === 2 ? 'border-success/20 bg-success/10' : 'border-border-default bg-surface-base'}`}>
               <div className="mb-1 flex items-baseline justify-between">
                 <span className="text-sm font-bold text-text-muted">{year.year}</span>
                 <Badge variant={i === 0 ? 'primary' : i === 2 ? 'success' : 'warning'}>{year.label}</Badge>
@@ -91,7 +91,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
               </div>
 
               {/* Percentage callout */}
-              <div className="mt-3 rounded-lg bg-white/80 px-3 py-2 text-center text-sm">
+              <div className="mt-3 rounded-lg bg-surface-base/80 px-3 py-2 text-center text-sm">
                 <span className="font-semibold text-pillar-vision">{stiftungenPct}%</span>
                 <span className="text-text-muted"> Stiftungen</span>
                 <span className="mx-1.5 text-text-muted">/</span>
@@ -104,19 +104,19 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
       </div>
 
       {/* 3-year summary table */}
-      <div className="mt-4 overflow-x-auto rounded-xl border border-border">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-border-default">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border bg-bg-light text-left">
+            <tr className="border-b border-border-default bg-surface-raised text-left">
               <th scope="col" className="px-4 py-2.5 heading-detail" />
               {THREE_YEAR_MODEL.map((y) => (
                 <th key={y.year} scope="col" className="px-4 py-2.5 text-right heading-detail">{y.year}</th>
               ))}
-              <th scope="col" className="px-4 py-2.5 text-right font-bold text-grey-dark">3-Jahres-Total</th>
+              <th scope="col" className="px-4 py-2.5 text-right font-bold text-text-primary">3-Jahres-Total</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-border">
+            <tr className="border-b border-border-default">
               <td className="px-4 py-2 text-text-muted">Einmalige Investitionen</td>
               {THREE_YEAR_MODEL.map((y) => (
                 <td key={y.year} className="px-4 py-2 text-right tabular-nums">{y.einmalig > 0 ? formatCHF(y.einmalig) : '—'}</td>
@@ -127,7 +127,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
                 </Inspectable>
               </td>
             </tr>
-            <tr className="border-b border-border">
+            <tr className="border-b border-border-default">
               <td className="px-4 py-2">
                 <span className="flex items-center gap-1.5">
                   <span className="inline-block h-2 w-2 rounded-full bg-pillar-vision" />
@@ -139,7 +139,7 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
               ))}
               <td className="px-4 py-2 text-right tabular-nums font-medium text-pillar-vision">{formatCHF(THREE_YEAR_MODEL.reduce((s, y) => s + y.stiftungen, 0))}</td>
             </tr>
-            <tr className="border-b border-border bg-success/10">
+            <tr className="border-b border-border-default bg-success/10">
               <td className="px-4 py-2">
                 <span className="flex items-center gap-1.5">
                   <span className="inline-block h-2 w-2 rounded-full bg-success" />

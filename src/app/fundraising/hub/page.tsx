@@ -29,12 +29,12 @@ export default function HubPage() {
       <section className="mb-8">
         <Card className="border-l-4 border-l-primary">
           <h2 className="heading-section mb-4">Der Revamp Hub: Prozesse professionalisieren, Menschen befähigen</h2>
-          <p className="text-base text-text-light mb-4 leading-relaxed">
+          <p className="text-base text-text-secondary mb-4 leading-relaxed">
             <strong>Das Kernproblem heute:</strong> Nicht fehlende Fläche, sondern fehlende Organisation.
             Wir haben zu viel Inventar in 2 Lagern, aber keine effizienten Verkaufs- und Refurbishment-Prozesse.
             4 Reparaturtische vorhanden, meist nur 1-2 in Nutzung. Unstrukturierte Workflows.
           </p>
-          <p className="text-base text-text-light mb-6 leading-relaxed">
+          <p className="text-base text-text-secondary mb-6 leading-relaxed">
             <strong>Die Lösung:</strong> {HUB_SPACE_DISPLAY} effizienter, gut organisierter Raum. Nicht endlos Platz —
             sondern <strong>strukturierte Prozesse</strong> mit 2 Bildungsprogrammleitern + sozialpädagogischer Begleitung (Veronica).
             Plus: Tech-Bildung, AI Lab, Makerspace — damit Menschen nicht nur konsumieren, sondern lernen und gestalten.
@@ -54,7 +54,7 @@ export default function HubPage() {
       {/* AI Image Generation */}
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">🎨 Hub visualisieren: AI-Bilder generieren</h2>
-        <p className="text-sm text-text-light mb-6">
+        <p className="text-sm text-text-secondary mb-6">
           Erstelle professionelle Visualisierungen der verschiedenen Hub-Bereiche mit AI-Bildgenerierung.
           Wähle einen Raum, kopiere den Prompt, und generiere in Midjourney, DALL-E 3 oder Stable Diffusion.
         </p>

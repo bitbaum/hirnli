@@ -17,7 +17,7 @@ export default function FourPillarsSection() {
   return (
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">Vier Säulen unserer Arbeit</h2>
-      <p className="mb-6 text-sm text-text-light">
+      <p className="mb-6 text-sm text-text-secondary">
         Unsere Mission ruht auf vier gleichwertigen Säulen. Klicke auf «Mehr erfahren», um zu sehen,
         was wir konkret tun, warum es wichtig ist und was wir erreicht haben.
       </p>

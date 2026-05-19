@@ -48,7 +48,7 @@ export default function CountdownTimer({ deadline, label, className = '' }: Coun
     );
   }
 
-  const urgentClass = timeLeft.days < DEADLINE_CRITICAL_DAYS ? 'text-danger' : timeLeft.days < DEADLINE_UPCOMING_DAYS ? 'text-warning' : 'text-grey-dark';
+  const urgentClass = timeLeft.days < DEADLINE_CRITICAL_DAYS ? 'text-danger' : timeLeft.days < DEADLINE_UPCOMING_DAYS ? 'text-warning' : 'text-text-primary';
 
   return (
     <div className={`text-center ${className}`}>

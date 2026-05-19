@@ -121,7 +121,7 @@ export default function DashboardClient() {
               <span className="text-2xl">{link.icon}</span>
               <div>
                 <span className="heading-item">{link.title}</span>
-                <span className="block text-sm text-text-light">{link.desc}</span>
+                <span className="block text-sm text-text-secondary">{link.desc}</span>
               </div>
             </Card>
           </Link>

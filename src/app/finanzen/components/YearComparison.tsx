@@ -47,7 +47,7 @@ export function YearComparison({
         {rows.map((row) => {
           const change = row.previous > 0 ? calcGrowth(row.previous, row.current) : 0;
           return (
-            <div key={row.label} className="flex items-center justify-between border-b border-border pb-3 last:border-0">
+            <div key={row.label} className="flex items-center justify-between border-b border-border-default pb-3 last:border-0">
               <span className="text-sm">{row.label}</span>
               <div className="flex items-center gap-4">
                 <span className="text-xs text-text-muted">{formatCHF(row.previous)}</span>

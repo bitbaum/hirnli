@@ -10,7 +10,7 @@ export function VorlageBanner({ title, className = '', children }: VorlageBanner
   return (
     <div className={`rounded-lg border-2 border-warning bg-warning-bg p-4 text-center ${className}`}>
       <p className="heading-detail text-warning">{title}</p>
-      <p className="mt-1 text-sm text-text-light">{children}</p>
+      <p className="mt-1 text-sm text-text-secondary">{children}</p>
     </div>
   );
 }
@@ -23,7 +23,7 @@ interface PrintTipBannerProps {
 
 export function PrintTipBanner({ children, className = '', suffix = '.' }: PrintTipBannerProps) {
   return (
-    <div className={`rounded-lg border border-primary/20 bg-primary/5 p-4 text-center text-sm text-text-light ${className}`}>
+    <div className={`rounded-lg border border-primary/20 bg-primary/5 p-4 text-center text-sm text-text-secondary ${className}`}>
       <strong>Tipp:</strong> Drücken Sie Cmd+P (Mac) oder Ctrl+P (Windows/Linux) für eine saubere A4-PDF-Ausgabe{suffix}
       <div className="mt-2 flex justify-center gap-4">
         {children}

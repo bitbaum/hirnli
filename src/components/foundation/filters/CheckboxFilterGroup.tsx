@@ -30,9 +30,9 @@ export default function CheckboxFilterGroup({
                 type="checkbox"
                 checked={isSelected}
                 onChange={() => onToggle(chip.id)}
-                className="rounded border-border"
+                className="rounded border-border-default"
               />
-              <span className={isSelected ? 'font-medium text-grey-dark' : 'text-text-muted'}>
+              <span className={isSelected ? 'font-medium text-text-primary' : 'text-text-muted'}>
                 {chip.icon && <span className="mr-1">{chip.icon}</span>}
                 {chip.label}
               </span>

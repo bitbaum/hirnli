@@ -54,12 +54,12 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   }, [foundation?.name]);
 
   if (isLoading) {
-    return <LoadingState label="Lade Gesuch..." className="min-h-screen bg-bg-light" />;
+    return <LoadingState label="Lade Gesuch..." className="min-h-screen bg-surface-raised" />;
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-bg-light p-6">
+      <div className="min-h-screen bg-surface-raised p-6">
         <div className="mx-auto max-w-3xl">
           <ErrorAlert
             error={error}
@@ -74,7 +74,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   const foundationDetail = foundation ? getFoundationBySlug(foundation.id) : null;
 
   return (
-    <div className="min-h-screen bg-bg-light p-4 md:p-6">
+    <div className="min-h-screen bg-surface-raised p-4 md:p-6">
       <div className="mx-auto max-w-3xl space-y-5">
 
         {/* Header */}
@@ -102,7 +102,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           {/* Status badge + save shortcut */}
           <div className="flex shrink-0 items-center gap-2">
             <span
-              className={`rounded-lg border px-3 py-1 text-sm font-semibold ${statusConfig?.color ?? 'bg-bg-light text-grey-dark border-border'}`}
+              className={`rounded-lg border px-3 py-1 text-sm font-semibold ${statusConfig?.color ?? 'bg-surface-raised text-text-primary border-border-default'}`}
             >
               {statusConfig?.label ?? fields.status}
             </span>

@@ -20,9 +20,9 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       {/* Facts grid */}
       <div className="mb-6 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
         {dok.kurzportrait.facts.map((fact) => (
-          <div key={fact.label} className="flex justify-between border-b border-border py-1.5 text-sm">
+          <div key={fact.label} className="flex justify-between border-b border-border-default py-1.5 text-sm">
             <span className="text-text-muted">{fact.label}</span>
-            <span className="font-medium text-grey-dark">{fact.value}</span>
+            <span className="font-medium text-text-primary">{fact.value}</span>
           </div>
         ))}
       </div>
@@ -30,7 +30,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       {/* Activities */}
       <div className="mb-6">
         <h3 className="mb-2 heading-detail">Tätigkeitsfelder</h3>
-        <div className="grid grid-cols-1 gap-1 text-sm text-text-light sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-1 text-sm text-text-secondary sm:grid-cols-2">
           {dok.kurzportrait.activities.map((a) => (
             <p key={a}>• {a}</p>
           ))}
@@ -40,7 +40,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       {/* Unique selling points */}
       <div className="mb-6">
         <h3 className="mb-2 heading-detail">Alleinstellungsmerkmale</h3>
-        <div className="grid grid-cols-1 gap-1 text-sm text-text-light sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-1 text-sm text-text-secondary sm:grid-cols-2">
           {dok.kurzportrait.unique.map((u) => (
             <p key={u}>• {u}</p>
           ))}
@@ -53,14 +53,14 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       ))}
 
       {/* Online presence */}
-      <div className="rounded border border-border p-4 text-sm">
+      <div className="rounded border border-border-default p-4 text-sm">
         <p className="mb-1 heading-detail">Online-Transparenz</p>
-        <p className="text-text-light">
+        <p className="text-text-secondary">
           Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar
           unter <a href={ORG_PROFILE.platform.url} className="text-primary">{ORG_PROFILE.platform.url.replace('https://', '')}</a>.
           Jede Zahl ist bis zur Quelle nachvollziehbar.
         </p>
-        <p className="mt-2 text-text-light">
+        <p className="mt-2 text-text-secondary">
           Personalisierte Projektübersicht: <a href={dok.landingPageUrl} className="text-primary">{dok.landingPageUrl}</a>
         </p>
       </div>

@@ -8,7 +8,7 @@ export default function OperationsSection() {
   return (
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">💼 Betrieb & Infrastruktur</h2>
-      <p className="text-sm text-text-light mb-6">
+      <p className="text-sm text-text-secondary mb-6">
         Was im Hintergrund läuft: Büros, Lager, Logistik. Nicht glamourös, aber essentiell.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -17,10 +17,10 @@ export default function OperationsSection() {
             <div className="text-2xl" aria-hidden="true">💼</div>
             <h3 className="heading-item">Offices & Sozialräume</h3>
           </div>
-          <p className="text-sm text-text-light mb-3">
+          <p className="text-sm text-text-secondary mb-3">
             <strong>100 m²</strong> für Geschäftsleitung, Koordination, Meetings, Pausenraum, Sozialräume.
           </p>
-          <ul className="text-sm text-text-light space-y-1 mb-3">
+          <ul className="text-sm text-text-secondary space-y-1 mb-3">
             <li>• 5× Büroarbeitsplätze (Kernteam + 2× BPL)</li>
             <li>• 1× Meetingraum (8 Personen)</li>
             <li>• Pausenraum & Küche</li>
@@ -37,10 +37,10 @@ export default function OperationsSection() {
             <div className="text-2xl" aria-hidden="true">📦</div>
             <h3 className="heading-item">Lager & Logistik</h3>
           </div>
-          <p className="text-sm text-text-light mb-3">
+          <p className="text-sm text-text-secondary mb-3">
             <strong>150 m²</strong> für Eingang/Triage, Ersatzteile, Fertigware, Recycling-Staging.
           </p>
-          <ul className="text-sm text-text-light space-y-1 mb-3">
+          <ul className="text-sm text-text-secondary space-y-1 mb-3">
             <li>• 60 m² Eingang & Triage (Geräte-Annahme)</li>
             <li>• 40 m² Fertigwaren-Lager (verkaufsfertig)</li>
             <li>• 30 m² Recycling-Staging (Elektroschrott)</li>
@@ -57,10 +57,10 @@ export default function OperationsSection() {
             <div className="text-2xl" aria-hidden="true">🚚</div>
             <h3 className="heading-item">Lade- & Anlieferzone</h3>
           </div>
-          <p className="text-sm text-text-light mb-3">
+          <p className="text-sm text-text-secondary mb-3">
             <strong>50 m²</strong> für Wareneingang, LKW-Zufahrt, Palette-Handling.
           </p>
-          <ul className="text-sm text-text-light space-y-1 mb-3">
+          <ul className="text-sm text-text-secondary space-y-1 mb-3">
             <li>• Rampe für LKW-Anlieferung</li>
             <li>• Paletten-Handling (Hubwagen)</li>
             <li>• Temporäre Lagerung (24-48h)</li>

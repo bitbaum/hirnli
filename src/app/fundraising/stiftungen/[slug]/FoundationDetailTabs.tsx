@@ -29,11 +29,11 @@ const TIER_BANNER: Record<QualityTier, { text: string; className: string } | nul
   },
   erfasst: {
     text: 'Nur Registerdaten verfügbar — Recherche ausstehend',
-    className: 'border-border bg-grey-light text-text-muted',
+    className: 'border-border-default bg-grey-light text-text-muted',
   },
   verzeichnet: {
     text: 'Nur im Verzeichnis erfasst — keine weiteren Daten',
-    className: 'border-border bg-grey-light text-text-muted',
+    className: 'border-border-default bg-grey-light text-text-muted',
   },
 };
 
@@ -65,7 +65,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
       {banner && (
         <div className={`mb-4 rounded-lg border px-4 py-3 text-sm font-medium ${banner.className}`}>
           {banner.text}
-          <span className="ml-2 rounded-full bg-white/50 px-2 py-0.5 text-xs font-bold uppercase">
+          <span className="ml-2 rounded-full bg-surface-raised/50 px-2 py-0.5 text-xs font-bold uppercase">
             {TIER_LABELS[tier]}
           </span>
         </div>
@@ -90,27 +90,27 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                   <div className="space-y-4">
                     <div>
                       <h4 className="heading-detail">Stiftungstyp</h4>
-                      <p className="mt-1 text-sm text-text-light">
+                      <p className="mt-1 text-sm text-text-secondary">
                         <strong>Typ {typeLabel.short}:</strong> {typeLabel.desc}
                       </p>
                     </div>
                     <div>
                       <h4 className="heading-detail">Empfohlener Ansatz</h4>
-                      <p className="mt-1 text-sm text-text-light">{typeLabel.approach}</p>
+                      <p className="mt-1 text-sm text-text-secondary">{typeLabel.approach}</p>
                     </div>
                     {f.deadlines && f.deadlines.length > 0 && (
                       <div>
                         <h4 className="heading-detail">Eingabefristen</h4>
                         <table className="mt-2 w-full text-sm">
                           <thead>
-                            <tr className="border-b border-border">
+                            <tr className="border-b border-border-default">
                               <th scope="col" className="py-2 text-left text-sm font-semibold text-text-muted">Eingabe bis</th>
                               <th scope="col" className="py-2 text-left text-sm font-semibold text-text-muted">Antwort</th>
                             </tr>
                           </thead>
                           <tbody>
                             {f.deadlines.map((d, i) => (
-                              <tr key={i} className="border-b border-border">
+                              <tr key={i} className="border-b border-border-default">
                                 <td className="py-2">{d.date}</td>
                                 <td className="py-2">{d.response}</td>
                               </tr>
@@ -122,19 +122,19 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                     {f.responseTime && (
                       <div>
                         <h4 className="heading-detail">Antwortzeit</h4>
-                        <p className="mt-1 text-sm text-text-light">{f.responseTime}</p>
+                        <p className="mt-1 text-sm text-text-secondary">{f.responseTime}</p>
                       </div>
                     )}
                     {f.decisionCycle && (
                       <div>
                         <h4 className="heading-detail">Entscheidungszyklus</h4>
-                        <p className="mt-1 text-sm text-text-light">{f.decisionCycle}</p>
+                        <p className="mt-1 text-sm text-text-secondary">{f.decisionCycle}</p>
                       </div>
                     )}
                     {f.applicationProcess && f.applicationProcess.length > 0 && (
                       <div>
                         <h4 className="heading-detail">Bewerbungsprozess</h4>
-                        <ol className="mt-2 list-inside list-decimal space-y-1 text-sm text-text-light">
+                        <ol className="mt-2 list-inside list-decimal space-y-1 text-sm text-text-secondary">
                           {f.applicationProcess.map((step, i) => (
                             <li key={i}>{step}</li>
                           ))}
@@ -159,14 +159,14 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                   {f.purposeSummary && (
                     <div>
                       <h4 className="heading-item">Stiftungszweck</h4>
-                      <p className="mt-1 text-text-light">{f.purposeSummary}</p>
+                      <p className="mt-1 text-text-secondary">{f.purposeSummary}</p>
                     </div>
                   )}
                   {f.criteria && (
                     <div>
                       <h4 className="heading-item">Förderkriterien</h4>
-                      {f.criteria.nature && <p className="mt-1 text-text-light">{f.criteria.nature}</p>}
-                      {f.criteria.education && <p className="mt-1 text-text-light">{f.criteria.education}</p>}
+                      {f.criteria.nature && <p className="mt-1 text-text-secondary">{f.criteria.nature}</p>}
+                      {f.criteria.education && <p className="mt-1 text-text-secondary">{f.criteria.education}</p>}
                     </div>
                   )}
                   {f.sdgs && f.sdgs.length > 0 && (
@@ -174,7 +174,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                       <h4 className="heading-item">SDGs</h4>
                       <div className="mt-1 flex gap-2">
                         {f.sdgs.map((sdg) => (
-                          <span key={sdg} className="rounded bg-bg-light px-2 py-1 text-xs font-medium">
+                          <span key={sdg} className="rounded bg-surface-raised px-2 py-1 text-xs font-medium">
                             SDG {sdg}
                           </span>
                         ))}
@@ -186,7 +186,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                       <h4 className="heading-item">Stiftungsrat</h4>
                       <div className="mt-2 space-y-1">
                         {f.boardMembers.map((m) => (
-                          <div key={m.name} className="flex items-baseline justify-between border-b border-border py-1">
+                          <div key={m.name} className="flex items-baseline justify-between border-b border-border-default py-1">
                             <span className="text-text">{m.name}</span>
                             <span className="text-sm text-text-muted">{m.role}</span>
                           </div>
@@ -199,7 +199,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                       <h4 className="heading-item">Bisherige Förderempfänger</h4>
                       <div className="mt-2 flex flex-wrap gap-2">
                         {f.pastGrantees.map((g) => (
-                          <span key={g} className="rounded bg-bg-light px-2 py-1 text-xs">{g}</span>
+                          <span key={g} className="rounded bg-surface-raised px-2 py-1 text-xs">{g}</span>
                         ))}
                       </div>
                     </div>
@@ -209,7 +209,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                       {f.supervisoryAuthority && (
                         <div>
                           <h4 className="heading-item">Aufsichtsbehörde</h4>
-                          <p className="mt-1 text-text-light">{f.supervisoryAuthority}</p>
+                          <p className="mt-1 text-text-secondary">{f.supervisoryAuthority}</p>
                         </div>
                       )}
                       {f.memberships && f.memberships.length > 0 && (
@@ -227,13 +227,13 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                   {f.uid && (
                     <div>
                       <h4 className="heading-item">UID</h4>
-                      <p className="mt-1 font-mono text-text-light">{f.uid}</p>
+                      <p className="mt-1 font-mono text-text-secondary">{f.uid}</p>
                     </div>
                   )}
                   {f.researchNotes && (
                     <div>
                       <h4 className="heading-item">Recherche-Notizen</h4>
-                      <p className="mt-1 text-text-light">{f.researchNotes}</p>
+                      <p className="mt-1 text-text-secondary">{f.researchNotes}</p>
                     </div>
                   )}
                 </div>

@@ -24,13 +24,13 @@ export default function CollapsibleSection({
   const panelId = `${base}-panel`;
 
   return (
-    <div className="border-b border-border pb-3">
+    <div className="border-b border-border-default pb-3">
       <button
         id={buttonId}
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-controls={panelId}
-        className="flex min-h-11 w-full items-center justify-between py-2 text-left heading-xs-label hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        className="flex min-h-11 w-full items-center justify-between py-2 text-left heading-xs-label hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >
         <span className="flex items-center gap-1.5">
           {title}

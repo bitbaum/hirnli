@@ -34,26 +34,14 @@ export default function CTABanner({
     <div
       className={
         isGradient
-          ? 'rounded-2xl bg-grey-dark p-8 text-white text-center'
-          : 'rounded-lg border border-border bg-bg-light p-8 text-center'
+          ? 'rounded-xl border border-border-default-subtle bg-surface-raised p-8 text-center'
+          : 'rounded-xl border border-border-default bg-surface-raised p-8 text-center'
       }
     >
-      <Heading
-        className={
-          isGradient
-            ? 'heading-section mb-4 text-white'
-            : 'heading-section mb-4'
-        }
-      >
+      <Heading className="heading-section mb-3">
         {title}
       </Heading>
-      <p
-        className={
-          isGradient
-            ? 'text-lg mb-6 leading-relaxed max-w-3xl mx-auto text-white/90'
-            : 'text-base mb-6 leading-relaxed max-w-3xl mx-auto text-text-light'
-        }
-      >
+      <p className="text-base mb-6 leading-relaxed max-w-3xl mx-auto text-text-secondary">
         {description}
       </p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -63,15 +51,8 @@ export default function CTABanner({
             <Button
               key={link.href}
               href={link.href}
-              variant={isGradient ? 'secondary' : (isPrimary ? 'primary' : 'secondary')}
+              variant={isPrimary ? 'primary' : 'secondary'}
               size="lg"
-              className={
-                isGradient
-                  ? isPrimary
-                    ? 'bg-white text-grey-dark hover:bg-white/90 border-0'
-                    : 'border-white/50 bg-white/15 text-white hover:bg-white/25'
-                  : ''
-              }
             >
               {link.label}
             </Button>

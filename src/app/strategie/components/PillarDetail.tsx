@@ -57,7 +57,7 @@ export default function PillarDetail({
         variant="ghost"
         fullWidth
         onClick={() => setIsExpanded(!isExpanded)}
-        className={`mt-4 bg-white hover:shadow-md ${colors.text}`}
+        className={`mt-4 bg-surface-base hover:shadow-md ${colors.text}`}
       >
         {isExpanded ? '▲ Weniger anzeigen' : '▼ Mehr erfahren'}
       </Button>
@@ -119,7 +119,7 @@ export default function PillarDetail({
                     key={idx}
                     href={page.href}
                     className={`
-                      block p-3 rounded-lg bg-white
+                      block p-3 rounded-lg bg-surface-base
                       hover:shadow-md transition-hover
                       ${colors.ring} focus-visible:outline-none focus-visible:ring-2
                     `}

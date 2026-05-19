@@ -19,7 +19,7 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
       <div className="hidden sm:block">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border text-left text-sm text-text-muted">
+            <tr className="border-b border-border-default text-left text-sm text-text-muted">
               <th scope="col" className="pb-2 font-medium">Jahr</th>
               <th scope="col" className="pb-2 text-right font-medium">Einnahmen</th>
               <th scope="col" className="pb-2 text-right font-medium">Aufwand</th>
@@ -36,7 +36,7 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
               return (
                 <tr
                   key={row.year}
-                  className={`border-b border-border/50 ${!row.isComplete ? 'opacity-60' : ''}`}
+                  className={`border-b border-border-default/50 ${!row.isComplete ? 'opacity-60' : ''}`}
                 >
                   <td className="py-2.5 font-medium">
                     {row.year}
@@ -88,7 +88,7 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
         {data.map((row) => (
           <div
             key={row.year}
-            className={`rounded-lg border border-border/50 p-3 ${!row.isComplete ? 'opacity-60' : ''}`}
+            className={`rounded-lg border border-border-default/50 p-3 ${!row.isComplete ? 'opacity-60' : ''}`}
           >
             <div className="flex items-center justify-between">
               <span className="font-semibold">{row.year}</span>

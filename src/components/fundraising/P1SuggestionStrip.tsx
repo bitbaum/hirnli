@@ -54,7 +54,7 @@ export function P1SuggestionStrip({ trackedIds, onAdded }: Props) {
               <div className="flex min-w-0 items-center gap-3">
                 <a
                   href={`/fundraising/stiftungen/${f.slug}`}
-                  className="truncate text-sm font-medium text-grey-dark hover:underline"
+                  className="truncate text-sm font-medium text-text-primary hover:underline"
                 >
                   {f.name}
                 </a>

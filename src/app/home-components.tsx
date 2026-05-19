@@ -7,6 +7,7 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 import {
   HERO,
@@ -21,30 +22,25 @@ import {
 
 export function HeroSection() {
   return (
-    <section className="mb-12">
-      <div className="gradient-hero-transparency rounded-2xl p-6 text-white md:p-12">
-        <h1 className="text-3xl font-bold mb-3 md:text-5xl">{HERO.name}</h1>
-        <p className="text-lg mb-4 md:text-xl leading-relaxed opacity-95 max-w-2xl">
-          {HERO.story}
-        </p>
-        <p className="text-base mb-1 opacity-80">{HERO.context}</p>
-        <p className="text-sm mb-8 opacity-70">{HERO.platformNote}</p>
+    <section className="mb-12 border-b border-border-default-subtle pb-10">
+      <h1 className="text-3xl font-bold tracking-tight text-text-primary mb-3 md:text-5xl md:leading-tight">
+        {HERO.name}
+      </h1>
+      <p className="text-lg text-text-secondary leading-relaxed max-w-2xl mb-2">
+        {HERO.story}
+      </p>
+      <p className="text-sm text-text-tertiary mb-6">{HERO.context}</p>
 
-        <div className="flex flex-wrap gap-3">
-          {HERO.ctas.map((cta) => (
-            <Link
-              key={cta.href}
-              href={cta.href}
-              className={`inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors shadow-sm ${
-                cta.variant === 'primary'
-                  ? 'bg-white text-grey-dark hover:bg-white/90'
-                  : 'border border-white/80 bg-grey-dark/40 text-white backdrop-blur-sm hover:bg-grey-dark/60'
-              }`}
-            >
-              {cta.label} &rarr;
-            </Link>
-          ))}
-        </div>
+      <div className="flex flex-wrap gap-3">
+        {HERO.ctas.map((cta) => (
+          <Button
+            key={cta.href}
+            href={cta.href}
+            variant={cta.variant === 'primary' ? 'primary' : 'secondary'}
+          >
+            {cta.label} →
+          </Button>
+        ))}
       </div>
     </section>
   );
@@ -69,9 +65,9 @@ export function PlatformGuide() {
                     <div className="heading-item group-hover:text-primary">
                       {s.title}
                     </div>
-                    <span className="text-text-light group-hover:text-primary ml-2 flex-shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+                    <span className="text-text-tertiary group-hover:text-primary ml-2 flex-shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
                   </div>
-                  <p className="text-sm text-text-light">{s.description}</p>
+                  <p className="text-sm text-text-secondary">{s.description}</p>
                 </div>
               </div>
             </Card>
@@ -100,7 +96,7 @@ export function PillarGrid() {
                 </div>
                 <div>
                   <h3 className="heading-card mb-1">{s.label}</h3>
-                  <p className="text-sm text-text-light mb-2">{s.description}</p>
+                  <p className="text-sm text-text-secondary mb-2">{s.description}</p>
                   <Badge color="gray">{s.pillar}</Badge>
                 </div>
               </div>
@@ -119,7 +115,7 @@ export function TransparencyBlock() {
     <section className="mb-12">
       <Card className="border-l-4 border-l-primary">
         <h2 className="heading-subsection mb-2">{TRANSPARENCY.heading}</h2>
-        <p className="text-base text-text-light mb-4">{TRANSPARENCY.lead}</p>
+        <p className="text-base text-text-secondary mb-4">{TRANSPARENCY.lead}</p>
         <div className="flex flex-wrap gap-3">
           {TRANSPARENCY.points.map((point) => (
             <Badge key={point} variant="primary" className="gap-1.5 px-3 py-1 text-sm">

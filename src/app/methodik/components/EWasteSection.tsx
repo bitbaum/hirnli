@@ -13,7 +13,7 @@ export function EWasteSection() {
       badgeVariant="estimated"
       confidence="low"
     >
-      <p className="mb-4 text-sm text-text-light">
+      <p className="mb-4 text-sm text-text-secondary">
         Die E-Waste-Ersparnis wird ebenfalls aus der geschätzten Geräteanzahl abgeleitet.
       </p>
 

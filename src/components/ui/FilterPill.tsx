@@ -5,7 +5,7 @@ interface Props {
 
 export default function FilterPill({ label, onRemove }: Props) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-grey-light px-2.5 py-1 text-xs font-medium text-grey-dark">
+    <span className="inline-flex items-center gap-1 rounded-full bg-grey-light px-2.5 py-1 text-xs font-medium text-text-primary">
       {label}
       <button
         onClick={onRemove}

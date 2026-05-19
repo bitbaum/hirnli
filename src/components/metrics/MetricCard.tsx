@@ -34,7 +34,7 @@ export default function MetricCard({
         )}
       </div>
       <div className="heading-section">{value}</div>
-      {subtitle && <div className="mt-1 text-sm text-text-light">{subtitle}</div>}
+      {subtitle && <div className="mt-1 text-sm text-text-secondary">{subtitle}</div>}
       {trend && (
         <div
           className={`mt-2 text-sm font-medium ${
@@ -52,7 +52,7 @@ export default function MetricCard({
   if (onClick) {
     return (
       <div
-        className={`rounded-lg border border-border bg-white shadow-sm p-4 cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
+        className={`rounded-lg border border-border-default bg-surface-base shadow-panel p-4 cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
         onClick={onClick}
         tabIndex={0}
         role="button"

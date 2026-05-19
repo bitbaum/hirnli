@@ -8,7 +8,7 @@ export default function ScoringArchitectureSection() {
         <Card>
           <div className="mb-2 text-2xl">🎯</div>
           <h3 className="mb-1 heading-item">Fit-Score (0-10)</h3>
-          <p className="text-sm text-text-light">
+          <p className="text-sm text-text-secondary">
             Passt diese Stiftung zu unserer Mission? Thematische, geografische und
             Zugangs-Übereinstimmung.
           </p>
@@ -17,7 +17,7 @@ export default function ScoringArchitectureSection() {
         <Card>
           <div className="mb-2 text-2xl">📊</div>
           <h3 className="mb-1 heading-item">Bereitschaft (0-100)</h3>
-          <p className="text-sm text-text-light">
+          <p className="text-sm text-text-secondary">
             Können wir ein massgeschneidertes Gesuch schreiben? Misst die
             Vollständigkeit unserer Recherche-Daten.
           </p>
@@ -26,7 +26,7 @@ export default function ScoringArchitectureSection() {
         <Card>
           <div className="mb-2 text-2xl">⚡</div>
           <h3 className="mb-1 heading-item">Priorität (0-100)</h3>
-          <p className="text-sm text-text-light">
+          <p className="text-sm text-text-secondary">
             Sollten wir jetzt Aufwand investieren? Kombiniert Fit und Bereitschaft
             zu einer handlungsorientierten Empfehlung.
           </p>

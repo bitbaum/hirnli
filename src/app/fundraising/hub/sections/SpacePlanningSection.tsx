@@ -12,7 +12,7 @@ export default function SpacePlanningSection() {
   return (
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">📐 Raumplanung: Wie gross? Warum? Was kostet es?</h2>
-      <p className="text-sm text-text-light mb-6">
+      <p className="text-sm text-text-secondary mb-6">
         Detaillierte Begründung für jede Fläche — basierend auf Industrie-Standards, Zürich-Marktforschung und Multi-Purpose-Strategie.
       </p>
 
@@ -123,22 +123,22 @@ export default function SpacePlanningSection() {
           <Badge color="purple">Platzsparend</Badge>
         </div>
 
-        <p className="text-sm text-text-light mb-4">
+        <p className="text-sm text-text-secondary mb-4">
           Nicht jede Funktion braucht einen eigenen Raum 24/7. Durch intelligente Zeit-Nutzung sparen wir <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong>.
         </p>
 
         <div className="bg-chart-5/10 p-4 rounded-lg mb-4">
           <p className="heading-detail text-chart-5 mb-3">Event-Raum + Café (kombiniert 100m²)</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-            <div className="bg-white p-3 rounded border border-chart-5/20">
+            <div className="bg-surface-base p-3 rounded border border-chart-5/20">
               <p className="heading-detail text-chart-5 mb-1">Werktag (9-17 Uhr)</p>
               <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_day}</p>
             </div>
-            <div className="bg-white p-3 rounded border border-chart-5/20">
+            <div className="bg-surface-base p-3 rounded border border-chart-5/20">
               <p className="heading-detail text-chart-5 mb-1">Abends (18-22 Uhr)</p>
               <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_evening}</p>
             </div>
-            <div className="bg-white p-3 rounded border border-chart-5/20">
+            <div className="bg-surface-base p-3 rounded border border-chart-5/20">
               <p className="heading-detail text-chart-5 mb-1">1./3. Samstag</p>
               <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.saturday_1st_3rd}</p>
             </div>
@@ -149,7 +149,7 @@ export default function SpacePlanningSection() {
           </p>
         </div>
 
-        <div className="text-sm text-text-light">
+        <div className="text-sm text-text-secondary">
           <h4 className="heading-detail mb-2">Weitere Multi-Purpose-Konzepte</h4>
           <ul className="space-y-1">
             <li>• <strong>Schulungsraum + Repair Café:</strong> Werktags Kurse, 1./3. Samstag öffentliche Reparaturen</li>

@@ -37,9 +37,8 @@ export default function Dropdown({ item, pathname }: { item: NavItem; pathname: 
             : 'invisible opacity-0 -translate-y-1'
         }`}
       >
-        <div className="overflow-hidden rounded-xl border-2 border-primary/20 bg-white shadow-2xl">
-          <div className="gradient-brand h-2"></div>
-          <div className="py-3">
+        <div className="overflow-hidden rounded-xl border border-border-default bg-surface-base shadow-lg">
+          <div className="py-2">
             {item.children?.map((child) => (
               <Link
                 key={child.href}
@@ -55,7 +54,7 @@ export default function Dropdown({ item, pathname }: { item: NavItem; pathname: 
                   className={`font-semibold group-hover/link:text-revamp-green ${
                     isActive(child.href, pathname)
                       ? 'text-revamp-blue'
-                      : 'text-grey-dark'
+                      : 'text-text-primary'
                   }`}
                 >
                   {child.text}

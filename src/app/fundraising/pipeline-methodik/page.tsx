@@ -23,7 +23,7 @@ export default function PipelineMethodikPage() {
         title="Pipeline-Methodik"
         subtitle="Wie wir aus tausenden Schweizer Stiftungen die richtigen finden"
       />
-      <p className="mb-8 text-sm text-text-light">
+      <p className="mb-8 text-sm text-text-secondary">
         Die Schweiz hat über {SWISS_FOUNDATIONS_DISPLAY} eingetragene Stiftungen. Wir können nicht alle recherchieren —
         das wäre Jahre an Arbeit. Stattdessen nutzen wir einen mehrstufigen Trichter: jede Stufe ist
         günstiger als die nächste und eliminiert Stiftungen, die eine klare Frage nicht bestehen.

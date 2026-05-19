@@ -43,14 +43,12 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
             : 'invisible opacity-0 -translate-y-1'
         }`}
       >
-        <div className="overflow-hidden rounded-xl border-2 border-success/20 bg-white shadow-2xl">
-          <div className="gradient-brand h-2"></div>
-          <div className="grid grid-cols-2 gap-8 p-8">
+        <div className="overflow-hidden rounded-xl border border-border-default bg-surface-base shadow-lg">
+          <div className="grid grid-cols-2 gap-8 p-6">
             {item.sections?.map((section: NavSection) => (
               <div key={section.title} role="group" aria-label={section.title}>
-                <div className="mb-4 flex items-center gap-2">
-                  <div className="gradient-brand h-1 w-8 rounded-full"></div>
-                  <span className="text-sm font-bold uppercase tracking-wider text-revamp-blue">
+                <div className="mb-3">
+                  <span className="heading-xs-label">
                     {section.title}
                   </span>
                 </div>
@@ -92,7 +90,7 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
                             className={`font-semibold group-hover/link:text-revamp-green ${
                               link.highlight
                                 ? 'text-revamp-orange'
-                                : 'text-grey-dark'
+                                : 'text-text-primary'
                             } ${
                               isActive(link.href, pathname)
                                 ? 'text-revamp-blue'

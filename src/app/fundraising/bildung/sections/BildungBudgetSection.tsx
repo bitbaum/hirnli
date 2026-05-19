@@ -13,16 +13,16 @@ export default function BildungBudgetSection() {
         <Card className="border-l-4 border-l-primary">
           <h3 className="heading-card mb-4">Personalkosten (pro Jahr)</h3>
           <div className="space-y-3">
-            <div className="flex justify-between items-center pb-2 border-b border-border">
-              <span className="text-sm text-text-light">Hardware-BPL (1 VZÄ)</span>
+            <div className="flex justify-between items-center pb-2 border-b border-border-default">
+              <span className="text-sm text-text-secondary">Hardware-BPL (1 VZÄ)</span>
               <span className="heading-item">CHF {formatNumber(TEAM_SALARIES.hardware_bpl)}</span>
             </div>
-            <div className="flex justify-between items-center pb-2 border-b border-border">
-              <span className="text-sm text-text-light">Software/AI-BPL (1 VZÄ)</span>
+            <div className="flex justify-between items-center pb-2 border-b border-border-default">
+              <span className="text-sm text-text-secondary">Software/AI-BPL (1 VZÄ)</span>
               <span className="heading-item">CHF {formatNumber(TEAM_SALARIES.software_bpl)}</span>
             </div>
-            <div className="flex justify-between items-center pb-2 border-b border-border">
-              <span className="text-sm text-text-light">Sozialabgaben (20%)</span>
+            <div className="flex justify-between items-center pb-2 border-b border-border-default">
+              <span className="text-sm text-text-secondary">Sozialabgaben (20%)</span>
               <span className="heading-item">CHF {formatNumber(bplSocialCharges)}</span>
             </div>
             <div className="flex justify-between items-center pt-2 bg-primary/10 rounded-lg p-3">
@@ -32,24 +32,24 @@ export default function BildungBudgetSection() {
           </div>
         </Card>
 
-        <Card className="border-l-4 border-l-success gradient-card-success">
+        <Card className="border-l-4 border-l-success">
           <h3 className="heading-card text-success mb-4">Return on Investment</h3>
           <div className="space-y-3">
-            <div className="bg-white rounded-lg p-3">
+            <div className="bg-surface-base rounded-lg p-3">
               <div className="text-sm text-success mb-1">Investition pro direkt Trainierter</div>
               <div className="heading-section text-success">
                 CHF {formatNumber(Math.round(BPL_TOTAL_COST_PER_YEAR / MULTIPLICATION_EFFECT.combined.direct_training))}
               </div>
               <div className="text-sm text-success">pro direkt trainierter Person/Jahr</div>
             </div>
-            <div className="bg-white rounded-lg p-3">
+            <div className="bg-surface-base rounded-lg p-3">
               <div className="text-sm text-success mb-1">Menschen erreicht (konservativ)</div>
               <div className="heading-section text-success">
                 {MULTIPLICATION_EFFECT.combined.people_reached_with_workshops}
               </div>
               <div className="text-sm text-success">Menschen/Jahr (direkt + Workshops)</div>
             </div>
-            <div className="bg-white rounded-lg p-3">
+            <div className="bg-surface-base rounded-lg p-3">
               <div className="text-sm text-success mb-1">Finanzierungsziel</div>
               <div className="heading-section text-success">3 Jahre</div>
               <div className="text-sm text-success">CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}/Jahr bis Selbsttragung</div>

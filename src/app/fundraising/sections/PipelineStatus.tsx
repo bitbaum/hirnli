@@ -20,7 +20,7 @@ export default function PipelineStatus() {
             <Link
               key={status}
               href={`/fundraising/stiftungen?status=${status}`}
-              className="block rounded-lg bg-bg-light p-4 text-center transition-shadow hover:shadow-md"
+              className="block rounded-lg bg-surface-raised p-4 text-center transition-shadow hover:shadow-md"
             >
               <Badge variant={STATUS_BADGE_VARIANT[status]} className="mb-2">
                 {STATUS_LABELS[status].text}

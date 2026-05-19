@@ -16,10 +16,10 @@ export function ClosedApplicationsList({ applications }: ClosedApplicationsListP
   if (applications.length === 0) return null;
 
   return (
-    <div className="mt-6 border-t border-border pt-4">
+    <div className="mt-6 border-t border-border-default pt-4">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between text-sm font-medium text-text-muted hover:text-grey-dark transition-colors"
+        className="flex w-full items-center justify-between text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
         aria-expanded={isOpen}
       >
         <span>Abgeschlossene Gesuche ({applications.length})</span>
@@ -33,7 +33,7 @@ export function ClosedApplicationsList({ applications }: ClosedApplicationsListP
             return (
               <div
                 key={application.id}
-                className="flex items-center justify-between gap-4 rounded-lg border border-border bg-bg-light px-4 py-2.5"
+                className="flex items-center justify-between gap-4 rounded-lg border border-border-default bg-surface-raised px-4 py-2.5"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium border ${status.color}`}>

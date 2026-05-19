@@ -16,7 +16,7 @@ export const metadata = {
 
 export default function ApplicationsPage() {
   return (
-    <div className="min-h-screen bg-bg-light p-6">
+    <div className="min-h-screen bg-surface-raised p-6">
       <PageHeader
         title="Gesuch-Pipeline"
         subtitle="Stiftungsgesuche verwalten und nachverfolgen"

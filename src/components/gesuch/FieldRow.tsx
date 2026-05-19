@@ -128,7 +128,7 @@ export default function FieldRow({
           onBlur={onBlur}
           placeholder={placeholder}
           rows={4}
-          className="block w-full resize-y rounded-md border border-border bg-bg-light px-3 py-2 text-sm text-text-light outline-none transition focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary"
+          className="block w-full resize-y rounded-md border border-border-default bg-surface-raised px-3 py-2 text-sm text-text-primary outline-none transition focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary"
         />
       ) : (
         <input
@@ -137,7 +137,7 @@ export default function FieldRow({
           onChange={(e) => onChange(e.target.value)}
           onBlur={onBlur}
           placeholder={placeholder}
-          className="block w-full rounded-md border border-border bg-bg-light px-3 py-2 text-sm text-text-light outline-none transition focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary"
+          className="block w-full rounded-md border border-border-default bg-surface-raised px-3 py-2 text-sm text-text-primary outline-none transition focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary"
         />
       )}
       {/* Field location hint */}
@@ -154,7 +154,7 @@ export default function FieldRow({
                 type="button"
                 disabled={aiLoading}
                 onClick={() => runAi(preset.instruction)}
-                className="min-h-11 rounded-full border border-primary/30 bg-white px-2.5 py-1 text-sm text-primary-text transition hover:bg-primary hover:text-white disabled:opacity-50"
+                className="min-h-11 rounded-full border border-primary/30 bg-surface-base px-2.5 py-1 text-sm text-primary-text transition hover:bg-primary hover:text-white disabled:opacity-50"
               >
                 {preset.label}
               </button>
@@ -172,7 +172,7 @@ export default function FieldRow({
                 if (e.key === 'Escape') setShowAi(false);
               }}
               placeholder="Eigene Anweisung, z.B. «Auf Winterthur-Fokus anpassen»"
-              className="min-w-0 flex-1 rounded bg-white px-2.5 py-1.5 text-sm text-text-light outline-none ring-1 ring-border focus-visible:ring-primary"
+              className="min-w-0 flex-1 rounded bg-surface-raised px-2.5 py-1.5 text-sm text-text-secondary outline-none ring-1 ring-border focus-visible:ring-primary"
               autoFocus
             />
             <button

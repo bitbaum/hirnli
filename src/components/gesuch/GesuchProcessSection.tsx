@@ -21,7 +21,7 @@ function CompactTierCard({ tier }: { tier: CascadeTier }) {
           {tier.catchRate}
         </Badge>
       </div>
-      <p className="text-sm leading-relaxed text-text-light">{tier.tagline}</p>
+      <p className="text-sm leading-relaxed text-text-secondary">{tier.tagline}</p>
     </div>
   );
 }
@@ -36,7 +36,7 @@ export default function GesuchProcessSection({
       <h2 className="mb-6 heading-page">
         {CASCADE_SUMMARY.headline}
       </h2>
-      <p className="mb-6 text-base leading-relaxed text-text-light">
+      <p className="mb-6 text-base leading-relaxed text-text-secondary">
         {CASCADE_SUMMARY.body}
       </p>
 

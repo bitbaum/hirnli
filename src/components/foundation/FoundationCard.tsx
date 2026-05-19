@@ -42,7 +42,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
   return (
     <Link
       href={`/fundraising/stiftungen/${f.slug}`}
-      className="block rounded-lg border border-border bg-white p-4 transition-all hover:border-primary/30 hover:shadow-md hover:no-underline"
+      className="block rounded-lg border border-border-default bg-surface-base p-4 transition-all hover:border-primary/30 hover:shadow-md hover:no-underline"
     >
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex-1">
@@ -74,7 +74,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
               </Badge>
             )}
           </div>
-          <p className="mt-1 text-sm text-text-light">{f.tagline}</p>
+          <p className="mt-1 text-sm text-text-secondary">{f.tagline}</p>
         </div>
         <div className="flex items-center gap-2 sm:ml-4 sm:flex-col sm:items-end sm:gap-1">
           <Badge variant={STATUS_BADGE_VARIANT[f.status]}>
@@ -109,7 +109,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
       )}
 
       {gapItems.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1 border-t border-border pt-2">
+        <div className="mt-2 flex flex-wrap gap-1 border-t border-border-default pt-2">
           {gapItems.map(item => (
             <span key={item} className="rounded bg-amber-bg px-1.5 py-0.5 text-xs text-amber-text">
               {item}

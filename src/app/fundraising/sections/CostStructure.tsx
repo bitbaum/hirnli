@@ -49,7 +49,7 @@ export default function CostStructure() {
           einen nachhaltigen Betrieb aufbauen.
         </p>
 
-        <div className="mt-4 pt-4 border-t border-border text-sm text-text-muted not-prose">
+        <div className="mt-4 pt-4 border-t border-border-default text-sm text-text-muted not-prose">
           <strong>Datenquelle:</strong> {COST_STRUCTURE_2023.source}. Alle Zahlen verifiziert 11.02.2026.
         </div>
       </Card>

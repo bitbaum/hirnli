@@ -29,7 +29,7 @@ export default function SpaceConcept() {
           {SPACE_PLAN.map((space) => (
             <div key={space.area} className="border-l-4 border-primary/20 pl-4 py-2">
               <div className="flex items-baseline justify-between mb-1">
-                <strong className="text-base text-grey-dark">{space.area}</strong>
+                <strong className="text-base text-text-primary">{space.area}</strong>
                 <span className="heading-detail tabular-nums">{space.sqm} m²</span>
               </div>
               <p className="text-sm text-text-muted m-0">{space.description}</p>
@@ -49,7 +49,7 @@ export default function SpaceConcept() {
           </p>
         </Callout>
 
-        <p className="text-sm text-text-light">
+        <p className="text-sm text-text-secondary">
           <strong>Gesamtfläche:</strong> {SPACE_PLAN_TOTAL} m² Nutzfläche + ~{SPACE_TOTAL_WITH_CIRCULATION - SPACE_PLAN_TOTAL} m² Verkehrsfläche (Flure, Treppen, Toiletten)
           = ~{SPACE_TOTAL_WITH_CIRCULATION} m² Total.
         </p>

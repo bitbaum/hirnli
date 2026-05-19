@@ -10,6 +10,7 @@ import { NAV_LINK_BASE, activeClasses, isActive } from './nav/nav-utils';
 import MegaMenu from './nav/MegaMenu';
 import Dropdown from './nav/Dropdown';
 import MobileAccordion from './nav/MobileAccordion';
+import { ThemeToggle } from './ThemeToggle';
 
 export default function Nav() {
   const pathname = usePathname();
@@ -35,9 +36,8 @@ export default function Nav() {
   }, [mobileOpen, closeMobile]);
 
   return (
-    <nav aria-label="Hauptnavigation" className="border-b-2 border-success/10 bg-white shadow-sm">
-      <div className="gradient-brand h-1"></div>
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+    <nav aria-label="Hauptnavigation" className="sticky top-0 z-30 border-b border-border-default bg-surface-base/95 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <Link
           href="/"
           className="group flex items-center gap-3 transition-all hover:opacity-80 hover:no-underline"
@@ -71,7 +71,7 @@ export default function Nav() {
         </button>
 
         {/* Desktop nav */}
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-0.5 lg:flex">
           {NAV_STRUCTURE.items.map((item) => {
             if (item.mega) {
               return <MegaMenu key={item.text} item={item} pathname={pathname} />;
@@ -91,6 +91,7 @@ export default function Nav() {
               </li>
             );
           })}
+          <li><ThemeToggle /></li>
         </ul>
       </div>
 
@@ -102,7 +103,7 @@ export default function Nav() {
             onClick={closeMobile}
             aria-hidden="true"
           />
-          <div className="fixed inset-x-0 top-[calc(4.25rem+4px)] z-50 max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-border bg-white px-4 py-4 lg:hidden">
+          <div className="fixed inset-x-0 top-[calc(3.5rem+1px)] z-50 max-h-[calc(100vh-3.5rem)] overflow-y-auto border-t border-border-default bg-surface-base px-4 py-4 lg:hidden">
             <ul className="space-y-1">
               {NAV_STRUCTURE.items.map((item) => (
                 <MobileAccordion

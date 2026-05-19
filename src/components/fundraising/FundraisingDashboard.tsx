@@ -92,7 +92,7 @@ export function FundraisingDashboard() {
 
       {isEmpty ? (
         /* Empty state — pipeline has no applications yet */
-        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg-light py-24 text-center">
+        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border-default bg-surface-raised py-24 text-center">
           <p className="heading-card mb-1">Pipeline ist leer</p>
           <p className="mb-6 max-w-sm text-sm text-text-muted">
             Sobald du Stiftungsgesuche startest, siehst du hier Kennzahlen,

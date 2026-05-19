@@ -15,7 +15,7 @@ export function DeviceEstimationSection() {
       badgeVariant="estimated"
       confidence="low"
     >
-      <p className="mb-4 text-sm text-text-light">
+      <p className="mb-4 text-sm text-text-secondary">
         Da keine Stückzahlen in Kivitendo erfasst werden, schätzen wir die
         Geräteanzahl aus den Einnahmen.
       </p>

@@ -35,15 +35,15 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
       <div className="space-y-1.5">
         {checks.map((check) => (
           <div key={check.id} className="flex items-start gap-2">
-            <span className={`mt-0.5 text-xs ${check.passed ? 'text-success-text' : 'text-text-light'}`}>
+            <span className={`mt-0.5 text-xs ${check.passed ? 'text-success-text' : 'text-text-secondary'}`}>
               {check.passed ? '✓' : '○'}
             </span>
             <div className="min-w-0">
-              <p className={`text-sm ${check.passed ? 'text-grey-dark' : 'text-text-muted'}`}>
+              <p className={`text-sm ${check.passed ? 'text-text-primary' : 'text-text-muted'}`}>
                 {check.label}
               </p>
               {!check.passed && (
-                <p className="text-sm text-text-light mt-0.5">{check.hint}</p>
+                <p className="text-sm text-text-secondary mt-0.5">{check.hint}</p>
               )}
             </div>
           </div>

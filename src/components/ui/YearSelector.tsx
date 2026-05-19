@@ -17,7 +17,7 @@ export default function YearSelector({ years, selected, onChange, className = ''
           onClick={() => onChange(year)}
           variant={selected === year ? 'soft' : 'ghost'}
           size="sm"
-          className={selected === year ? '' : 'bg-grey-light text-grey-dark hover:bg-border'}
+          className={selected === year ? '' : 'bg-surface-raised text-text-primary hover:bg-border'}
         >
           {year}
         </Button>

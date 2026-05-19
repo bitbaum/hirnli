@@ -157,7 +157,7 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
 
       {/* Data source */}
       <Card>
-        <div className="text-sm text-text-light">
+        <div className="text-sm text-text-secondary">
           <p className="heading-detail">Datenquelle</p>
           <p>{DATA_QUALITY.source}</p>
           <p className="mt-1 text-sm text-text-muted">

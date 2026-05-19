@@ -106,7 +106,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
   if (appId === undefined) {
     return (
       <div className="flex items-center gap-2 text-sm text-text-muted">
-        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-border border-t-primary" />
+        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-border-default border-t-primary" />
         Pipeline wird geladen…
       </div>
     );
@@ -125,7 +125,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
           type="button"
           onClick={addToPipeline}
           disabled={adding}
-          className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          className="flex items-center gap-2 rounded-lg border border-border-default px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         >
           {adding ? (
             <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />

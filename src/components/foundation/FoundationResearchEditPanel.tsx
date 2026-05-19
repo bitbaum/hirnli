@@ -145,7 +145,7 @@ export default function FoundationResearchEditPanel({
   }
 
   return (
-    <div className="mt-3 space-y-3 border-t border-border pt-3">
+    <div className="mt-3 space-y-3 border-t border-border-default pt-3">
       <div>
         <div className="flex items-center justify-between mb-1">
           <label className={FORM_LABEL_CLASS}>Stiftungszweck</label>

@@ -23,7 +23,7 @@ function TemplateCard({ slug, title, description, subtitle }: {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h3 className="heading-card">{title}</h3>
-          <p className="mt-1 text-sm text-text-light">{description}</p>
+          <p className="mt-1 text-sm text-text-secondary">{description}</p>
           {subtitle && (
             <p className="mt-2 text-sm text-text-muted">{subtitle}</p>
           )}
@@ -48,7 +48,7 @@ export default function GesuchVorlagenPage() {
     <div className="mx-auto max-w-4xl">
       <div className="mb-8">
         <h1 className="mb-4 heading-page">Gesuch-Vorlagen</h1>
-        <p className="mb-2 text-lg text-text-light">
+        <p className="mb-2 text-lg text-text-secondary">
           Vorlagen nach Schwerpunkt (themenspezifisch) und Stiftungstyp (tonspezifisch).
         </p>
         <p className="text-sm text-text-muted">
@@ -61,7 +61,7 @@ export default function GesuchVorlagenPage() {
       {/* Section 1: Nach Schwerpunkt (primary — the new way) */}
       <section className="mb-10">
         <h2 className="mb-2 heading-subsection">Nach Schwerpunkt</h2>
-        <p className="mb-4 text-sm text-text-light">
+        <p className="mb-4 text-sm text-text-secondary">
           Wählen Sie den thematischen Schwerpunkt, der zur Stiftung passt.
           Gleiches Budget, unterschiedliche Framing — die Stiftung sieht genau die Aktivitäten,
           die ihrem Förderzweck entsprechen.
@@ -92,7 +92,7 @@ export default function GesuchVorlagenPage() {
                         </Link>
                         <Link
                           href={`/fundraising/gesuch-vorlagen/${id}/${type}/dokument`}
-                          className="rounded-md border border-border px-2 py-1.5 text-sm text-text-muted hover:bg-bg-light"
+                          className="rounded-md border border-border-default px-2 py-1.5 text-sm text-text-muted hover:bg-surface-raised"
                           title={`${sp.shortLabel} × ${typeLabel.long} (Dokument)`}
                         >
                           PDF
@@ -113,7 +113,7 @@ export default function GesuchVorlagenPage() {
       {/* Section 2: Universelle Vorlage */}
       <section className="mb-10">
         <h2 className="mb-2 heading-subsection">Universelle Vorlage</h2>
-        <p className="mb-4 text-sm text-text-light">
+        <p className="mb-4 text-sm text-text-secondary">
           Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen.
           Sie enthält das gesamte {ORG_PROFILE.name}-Profil mit allen Schwerpunkten.
         </p>
@@ -127,7 +127,7 @@ export default function GesuchVorlagenPage() {
       {/* Section 3: Nach Stiftungstyp (legacy) */}
       <section className="mb-10">
         <h2 className="mb-2 heading-subsection">Nach Stiftungstyp</h2>
-        <p className="mb-4 text-sm text-text-light">
+        <p className="mb-4 text-sm text-text-secondary">
           Klassische Vorlagen nur nach Typ — wenn Sie den Schwerpunkt noch nicht kennen,
           aber den Stiftungstyp schon. Inkl. D (Corporate) und Netzwerk.
         </p>
@@ -135,9 +135,9 @@ export default function GesuchVorlagenPage() {
           {TYPE_TEMPLATE_KEYS.map((type) => {
             const label = TYPE_LABELS[type];
             return (
-              <div key={type} className="rounded border border-border bg-white p-3">
+              <div key={type} className="rounded border border-border-default bg-surface-base p-3">
                 <p className="font-bold text-primary">{label.short}</p>
-                <p className="text-sm text-text-light">{label.long}</p>
+                <p className="text-sm text-text-secondary">{label.long}</p>
               </div>
             );
           })}
@@ -158,8 +158,8 @@ export default function GesuchVorlagenPage() {
         </div>
       </section>
 
-      <div className="mt-8 rounded-lg bg-bg-light p-6 text-center">
-        <p className="mb-3 text-sm text-text-light">
+      <div className="mt-8 rounded-lg bg-surface-raised p-6 text-center">
+        <p className="mb-3 text-sm text-text-secondary">
           Für massgeschneiderte Gesuche mit stiftungsspezifischer Argumentation:
         </p>
         <Link

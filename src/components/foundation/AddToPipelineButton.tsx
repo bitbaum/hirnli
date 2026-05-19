@@ -88,7 +88,7 @@ export default function AddToPipelineButton({ foundationId, foundationName, prio
             <span key={step} className="flex items-center gap-1">
               <span className={i === 0
                 ? 'rounded bg-success-bg px-2 py-0.5 font-semibold text-success-text'
-                : 'rounded bg-bg-light px-2 py-0.5 text-text-muted'
+                : 'rounded bg-surface-raised px-2 py-0.5 text-text-muted'
               }>
                 {i === 0 ? `✓ ${step}` : step}
               </span>

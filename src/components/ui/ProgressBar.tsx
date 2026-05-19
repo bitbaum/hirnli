@@ -18,7 +18,7 @@ interface ProgressBarProps {
   size?: keyof typeof SIZE_CLASSES;
   /** Fill color class (default: bg-primary) */
   color?: string;
-  /** Track color class (default: bg-bg-light) */
+  /** Track color class (default: bg-surface-raised) */
   trackColor?: string;
   /** Accessible label */
   label?: string;
@@ -28,7 +28,7 @@ export default function ProgressBar({
   percent,
   size = 'sm',
   color = 'bg-primary',
-  trackColor = 'bg-bg-light',
+  trackColor = 'bg-surface-raised',
   label,
 }: ProgressBarProps) {
   const clamped = Math.max(0, Math.min(100, percent));

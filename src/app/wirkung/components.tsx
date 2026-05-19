@@ -36,9 +36,9 @@ export function ImpactStoryCards({
             <p className="mt-3 text-sm text-text-muted">
               <strong>Berechnung:</strong> {CO2_PER_LAPTOP} kg CO₂ pro Laptop ({CO2_NEW_LAPTOP_MANUFACTURE} kg Produktion − {CO2_REFURBISH_COST} kg Refurbishment)
             </p>
-            <div className="mt-3 rounded-lg bg-bg-light p-3">
+            <div className="mt-3 rounded-lg bg-surface-raised p-3">
               <h4 className="mb-2 heading-xs-label">Das entspricht etwa:</h4>
-              <ul className="space-y-1 text-sm text-text-light">
+              <ul className="space-y-1 text-sm text-text-secondary">
                 <li>🚗 {formatNumber(carsKm)} km Autofahrt</li>
                 <li>✈️ {flightsZurichBerlin} Flüge Zürich-Berlin</li>
               </ul>
@@ -58,9 +58,9 @@ export function ImpactStoryCards({
             <p className="mt-3 text-sm text-text-muted">
               <strong>Berechnung:</strong> ~5 kg Durchschnittsgewicht pro Gerät
             </p>
-            <div className="mt-3 rounded-lg bg-bg-light p-3">
+            <div className="mt-3 rounded-lg bg-surface-raised p-3">
               <h4 className="mb-2 heading-xs-label">Enthält wertvolle Rohstoffe:</h4>
-              <ul className="space-y-1 text-sm text-text-light">
+              <ul className="space-y-1 text-sm text-text-secondary">
                 <li>⚡ Seltene Erden</li>
                 <li>🪨 Kobalt & Lithium</li>
                 <li>🔧 Kupfer & Aluminium</li>
@@ -80,7 +80,7 @@ export function ImpactStoryCards({
             <Badge variant="none">Nicht erfasst</Badge>
             <div className="mt-3 rounded-lg bg-danger/10 p-3">
               <h4 className="mb-2 heading-xs-label">{`Historisch (seit ${ORG_PROFILE.milestones.integrationProgram}):`}</h4>
-              <ul className="space-y-1 text-sm text-text-light">
+              <ul className="space-y-1 text-sm text-text-secondary">
                 <li>👥 <strong>{SOCIAL_DISPLAY.practitioners_total}</strong> Praktikant:innen</li>
                 <li>✓ <strong>{SOCIAL_DISPLAY.success_rate}</strong> Erfolgsquote</li>
                 <li>🏠 <strong>{SOCIAL_DISPLAY.capacity}</strong> Plätze verfügbar</li>

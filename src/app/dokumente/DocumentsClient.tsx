@@ -46,7 +46,7 @@ function DocumentSection({
         <h2 className="heading-section mb-2">
           {title} {query && `(${docs.length} Ergebnisse)`}
         </h2>
-        <p className="text-sm text-text-light">{subtitle}</p>
+        <p className="text-sm text-text-secondary">{subtitle}</p>
       </div>
       {docs.length === 0 ? (
         <Card className="text-center py-12">
@@ -100,7 +100,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
       </p>
 
       {/* Tabs */}
-      <div className="flex gap-1 border-b border-border">
+      <div className="flex gap-1 border-b border-border-default">
         {tabs.map((tab) => (
           <Button
             key={tab.id}
@@ -110,7 +110,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
             className={`rounded-none ${
               activeTab === tab.id
                 ? 'border-b-2 border-primary text-primary'
-                : 'text-text-light'
+                : 'text-text-secondary'
             }`}
           >
             {tab.icon && <span className="mr-1.5">{tab.icon}</span>}
@@ -127,7 +127,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
           placeholder="Dokumente durchsuchen..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="w-full px-4 py-2 border border-border-default rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
         />
       </div>
 

@@ -27,7 +27,7 @@ export function DataGapsSection() {
         <CardHeader>
           <CardTitle>7. Datenlücken</CardTitle>
         </CardHeader>
-        <p className="mb-4 text-sm text-text-light">
+        <p className="mb-4 text-sm text-text-secondary">
           Folgende Daten fehlen komplett und können nicht einmal geschätzt werden:
         </p>
         <Table

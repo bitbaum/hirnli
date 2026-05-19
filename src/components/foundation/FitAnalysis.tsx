@@ -22,12 +22,12 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
       <h3 className="mb-4 heading-card">Fit-Analyse</h3>
 
       {isUnassessed ? (
-        <div className="mb-4 rounded-lg border border-border bg-bg-light p-4">
+        <div className="mb-4 rounded-lg border border-border-default bg-surface-raised p-4">
           <div className="flex items-center gap-3">
             <span className="heading-stat text-text-muted">○○○</span>
             <div>
               <span className="heading-card text-text-muted">Noch nicht geprüft</span>
-              <p className="text-sm text-text-light">
+              <p className="text-sm text-text-secondary">
                 Diese Stiftung wurde nur automatisch aus dem ESA-Register gescreent.
                 Eine manuelle Bewertung steht noch aus.
               </p>
@@ -44,17 +44,17 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
           <span className={`heading-stat ${fit.color}`}>{f.fitScore}/10</span>
           <div>
             <span className={`heading-card ${fit.color}`}>{fit.label}</span>
-            <p className="text-sm text-text-light">{fit.description}</p>
+            <p className="text-sm text-text-secondary">{fit.description}</p>
           </div>
         </div>
       )}
 
       {/* Methodology — how the score is determined */}
-      <details className="mb-4 rounded-lg border border-border">
-        <summary className="cursor-pointer px-4 py-2 text-sm font-medium text-text-muted hover:text-grey-dark">
+      <details className="mb-4 rounded-lg border border-border-default">
+        <summary className="cursor-pointer px-4 py-2 text-sm font-medium text-text-muted hover:text-text-primary">
           Wie wird der Fit-Score berechnet?
         </summary>
-        <div className="border-t border-border px-4 py-3 text-sm text-text-light space-y-1">
+        <div className="border-t border-border-default px-4 py-3 text-sm text-text-secondary space-y-1">
           <p>Der Fit-Score basiert auf drei Dimensionen (0–10 Punkte):</p>
           <ul className="list-inside list-disc space-y-0.5 ml-1">
             <li><strong>Thematischer Fit (0–4)</strong> — Übereinstimmung unserer Kernthemen mit den Förderbereichen</li>
@@ -71,11 +71,11 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
 
       {/* Fit narrative — explains WHY the fit is good/moderate/limited */}
       {fitNarrative && (
-        <div className="mb-4 rounded-lg bg-bg-light p-4">
+        <div className="mb-4 rounded-lg bg-surface-raised p-4">
           <h4 className="mb-2 heading-detail">
             Warum passt diese Stiftung?
           </h4>
-          <p className="text-sm leading-relaxed text-text-light">
+          <p className="text-sm leading-relaxed text-text-secondary">
             {fitNarrative.text}
           </p>
         </div>
@@ -92,11 +92,11 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
           <h4 className="mb-3 heading-detail">Thematische Brücken</h4>
           <div className="space-y-2">
             {themeAlignments.map((a) => (
-              <div key={a.themeId} className="flex gap-3 rounded border border-border p-3">
+              <div key={a.themeId} className="flex gap-3 rounded border border-border-default p-3">
                 <span className="text-lg">{a.icon}</span>
                 <div>
                   <span className="text-xs font-semibold text-primary">{a.themeLabel}</span>
-                  <p className="mt-0.5 text-sm text-text-light">{a.revampConnection}</p>
+                  <p className="mt-0.5 text-sm text-text-secondary">{a.revampConnection}</p>
                 </div>
               </div>
             ))}
@@ -109,7 +109,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
           <p className="text-sm font-medium text-warning">
             Achtung: Operative Stiftung
           </p>
-          <p className="mt-1 text-sm text-text-light">
+          <p className="mt-1 text-sm text-text-secondary">
             Diese Stiftung betreibt eigene Programme und vergibt in der Regel keine Fördergelder an externe Projekte.
           </p>
         </div>
@@ -118,7 +118,7 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
       {f.purposeSummary && (
         <div className="mt-4">
           <h4 className="heading-detail">Stiftungszweck</h4>
-          <p className="mt-1 text-sm text-text-light">{f.purposeSummary}</p>
+          <p className="mt-1 text-sm text-text-secondary">{f.purposeSummary}</p>
         </div>
       )}
     </Card>

@@ -35,7 +35,7 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
 
       {/* Revenue narrative */}
       <div className="mb-6 rounded-xl border border-success/20 bg-success/10 p-4">
-        <p className="text-sm text-grey-dark mb-2">
+        <p className="text-sm text-text-primary mb-2">
           <strong>Aktuell:</strong> {formatCHF(REVENUE_CURRENT_TOTAL)}/Jahr
           (B2B Services + Geräteverkauf + Integration + Spenden)
         </p>
@@ -64,7 +64,7 @@ export default function RevenueStreamsSection({ inspector }: { inspector: Inspec
               <div className="mt-2 flex items-baseline gap-3">
                 <div>
                   <div className="text-sm text-text-muted">Heute</div>
-                  <div className="text-lg font-bold tabular-nums text-grey-dark">{formatCHF(stream.current)}</div>
+                  <div className="text-lg font-bold tabular-nums text-text-primary">{formatCHF(stream.current)}</div>
                 </div>
                 <span className="text-text-muted" aria-hidden="true">&rarr;</span>
                 <div>

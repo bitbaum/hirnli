@@ -24,15 +24,15 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
   return (
     <Callout color="primary" className="ml-8 space-y-3">
       {/* Description */}
-      <p className="text-sm text-grey-dark">{item.description}</p>
+      <p className="text-sm text-text-primary">{item.description}</p>
 
       {/* Sub-items breakdown */}
       {item.subItems && item.subItems.length > 0 && (
         <div>
-          <p className="heading-detail text-text-light mb-2">Zusammensetzung:</p>
+          <p className="heading-detail text-text-secondary mb-2">Zusammensetzung:</p>
           <div className="space-y-1">
             {item.subItems.map((sub, idx) => (
-              <div key={idx} className="flex justify-between text-sm text-text-light">
+              <div key={idx} className="flex justify-between text-sm text-text-secondary">
                 <span className="flex-1">• {sub.label}</span>
                 <span className="font-medium ml-2">{formatCHF(sub.amount)}</span>
               </div>
@@ -55,26 +55,26 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
       {/* Source metadata */}
       <div className="text-sm space-y-1.5 pt-2 border-t border-primary/20">
         <div>
-          <strong className="text-grey-dark">Quelle:</strong>{' '}
-          <span className="text-text-light">{item.source.methodology}</span>
+          <strong className="text-text-primary">Quelle:</strong>{' '}
+          <span className="text-text-secondary">{item.source.methodology}</span>
         </div>
 
         {item.source.calculation && (
           <div>
-            <strong className="text-grey-dark">Kalkulation:</strong>{' '}
-            <span className="text-text-light">{item.source.calculation}</span>
+            <strong className="text-text-primary">Kalkulation:</strong>{' '}
+            <span className="text-text-secondary">{item.source.calculation}</span>
           </div>
         )}
 
         {item.source.marketResearch && (
           <div>
-            <strong className="text-grey-dark">Marktforschung:</strong>{' '}
-            <span className="text-text-light">{item.source.marketResearch}</span>
+            <strong className="text-text-primary">Marktforschung:</strong>{' '}
+            <span className="text-text-secondary">{item.source.marketResearch}</span>
           </div>
         )}
 
         <div className="flex items-center gap-2">
-          <strong className="text-grey-dark">Konfidenz:</strong>
+          <strong className="text-text-primary">Konfidenz:</strong>
           <span
             className={`px-2 py-0.5 rounded text-xs font-medium ${CONFIDENCE_COLORS[item.source.confidence]}`}
           >
@@ -83,8 +83,8 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
         </div>
 
         <div>
-          <strong className="text-grey-dark">Verifiziert:</strong>{' '}
-          <span className="text-text-light">
+          <strong className="text-text-primary">Verifiziert:</strong>{' '}
+          <span className="text-text-secondary">
             {formatDateCH(item.source.lastVerified)}
           </span>
         </div>

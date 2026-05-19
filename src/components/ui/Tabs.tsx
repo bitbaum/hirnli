@@ -24,7 +24,7 @@ export default function Tabs({ tabs, defaultTab, children, className = '' }: Tab
 
   return (
     <div className={className}>
-      <div className="flex gap-1 border-b border-border" role="tablist">
+      <div className="flex gap-1 border-b border-border-default" role="tablist">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
@@ -38,7 +38,7 @@ export default function Tabs({ tabs, defaultTab, children, className = '' }: Tab
               className={`min-h-11 px-4 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                 isActive
                   ? 'border-b-2 border-primary text-primary'
-                  : 'text-text-light hover:text-grey-dark'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               {tab.icon && <span className="mr-1.5">{tab.icon}</span>}

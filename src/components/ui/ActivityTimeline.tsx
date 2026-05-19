@@ -60,7 +60,7 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
   if (loading) {
     return (
       <div className="flex items-center gap-2 text-sm text-text-muted py-2">
-        <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-border border-t-primary" />
+        <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-border-default border-t-primary" />
         Lade Aktivitäten…
       </div>
     );
@@ -100,7 +100,7 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
                   {STATUS_LABEL[oldStatus] ?? oldStatus} → {STATUS_LABEL[newStatus] ?? newStatus}
                 </p>
               )}
-              <p className="text-sm text-text-light">
+              <p className="text-sm text-text-secondary">
                 {formatDateTimeCH(entry.timestamp)}
               </p>
             </div>

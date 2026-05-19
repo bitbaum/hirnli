@@ -35,7 +35,7 @@ export default function PipelineOverviewCard({
       <div>
         <div className="mb-1.5 flex items-baseline justify-between">
           <span className="heading-detail">Analyse-Fortschritt</span>
-          <span className="text-sm tabular-nums text-grey-dark">
+          <span className="text-sm tabular-nums text-text-primary">
             <span className="font-semibold">{researchStats.researched}</span>
             <span className="text-text-muted"> / {totalCount}</span>
           </span>

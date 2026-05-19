@@ -15,13 +15,13 @@ type Size = 'sm' | 'md' | 'lg';
 
 const VARIANT_CLASSES: Record<Variant, string> = {
   primary:
-    'bg-grey-dark text-white hover:bg-grey-dark/85 active:bg-grey-dark/75',
+    'bg-text-primary text-surface-base hover:bg-text-secondary active:bg-text-secondary/90',
   secondary:
-    'border border-border bg-white text-grey-dark hover:bg-bg-light active:bg-grey-light',
+    'border border-border-default bg-surface-base text-text-primary hover:bg-surface-raised active:bg-surface-overlay',
   soft:
     'bg-primary text-white hover:bg-primary/90 active:bg-primary/80',
   ghost:
-    'text-text hover:bg-bg-light active:bg-grey-light',
+    'text-text-primary hover:bg-surface-raised active:bg-surface-overlay',
   danger:
     'bg-danger text-white hover:bg-danger/90 active:bg-danger/80',
 };

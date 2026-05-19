@@ -34,9 +34,9 @@ export default function SubmissionChecklist() {
               type="checkbox"
               checked={!!checked[item.id]}
               onChange={() => toggle(item.id)}
-              className="h-4 w-4 rounded border-border text-primary focus:ring-primary/30"
+              className="h-4 w-4 rounded border-border-default text-primary focus:ring-primary/30"
             />
-            <span className={`text-sm ${checked[item.id] ? 'text-grey-dark line-through' : 'text-text'}`}>
+            <span className={`text-sm ${checked[item.id] ? 'text-text-primary line-through' : 'text-text'}`}>
               {item.label}
             </span>
           </label>

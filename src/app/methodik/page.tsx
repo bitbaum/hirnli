@@ -39,7 +39,7 @@ export default function MethodikPage() {
         connection="Diese Methodik erklärt, wie wir alle Zahlen in Finanzen, Wirkung und Operations berechnen."
       />
 
-      <p className="mb-8 text-sm text-text-light">
+      <p className="mb-8 text-sm text-text-secondary">
         Jede Zahl im Dashboard ist hier erklärt und nachvollziehbar dokumentiert.
       </p>
 
@@ -63,14 +63,14 @@ export default function MethodikPage() {
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">Datenfluss</h2>
         <Card>
-          <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg bg-bg-light p-4">
+          <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg bg-surface-raised p-4">
             {PIPELINE_STEPS.map((step, i) => (
               <div key={step.label} className="flex items-center gap-2">
                 <div
                   className={`min-w-[80px] rounded-lg p-3 text-center text-sm ${
                     step.highlight
                       ? 'bg-primary font-semibold text-white'
-                      : 'bg-white'
+                      : 'bg-surface-base'
                   }`}
                 >
                   <span className="mb-1 block text-xs text-text-muted">{step.icon}</span>
@@ -83,8 +83,8 @@ export default function MethodikPage() {
             ))}
           </div>
           <p className="mt-4 text-center text-sm text-text-muted">
-            Quelldatei: <code className="rounded bg-bg-light px-1">revamp-Einnahmen-2025.xlsx</code> |
-            Dokumentation: <code className="rounded bg-bg-light px-1">DATA_ARCHITECTURE.md</code> im{' '}
+            Quelldatei: <code className="rounded bg-surface-raised px-1">revamp-Einnahmen-2025.xlsx</code> |
+            Dokumentation: <code className="rounded bg-surface-raised px-1">DATA_ARCHITECTURE.md</code> im{' '}
             <a href={ORG_PROFILE.cloudUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
               Nextcloud
             </a>

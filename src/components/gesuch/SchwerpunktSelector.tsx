@@ -44,7 +44,7 @@ export default function SchwerpunktSelector({
         className={`rounded-full ${pillSize} font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
           active === null
             ? 'bg-grey-dark text-white shadow-sm'
-            : 'border border-border text-text-muted hover:border-grey-dark hover:text-grey-dark'
+            : 'border border-border-default text-text-muted hover:border-grey-dark hover:text-text-primary'
         }`}
       >
         Auto{draftedSet.has('auto') && <span className="ml-1 text-success">●</span>}
@@ -65,8 +65,8 @@ export default function SchwerpunktSelector({
               isActive
                 ? 'text-white shadow-sm'
                 : hasOverlap
-                  ? 'border-2 text-grey-dark hover:shadow-sm'
-                  : 'border border-border text-text-muted hover:border-grey-dark hover:text-grey-dark'
+                  ? 'border-2 text-text-primary hover:shadow-sm'
+                  : 'border border-border-default text-text-muted hover:border-grey-dark hover:text-text-primary'
             }`}
             style={
               isActive

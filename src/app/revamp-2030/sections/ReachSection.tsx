@@ -23,7 +23,7 @@ export default function ReachSection() {
             <strong> Nicht empirisch gemessen.</strong> Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
           </p>
         </Callout>
-        <p className="text-sm text-text-light mb-6">
+        <p className="text-sm text-text-secondary mb-6">
           Der Schlüssel: <strong>Organisation + Train-the-Trainer + Online-Content</strong>. Nicht einfach mehr Mitarbeitende einstellen.
         </p>
         <div className="space-y-6">
@@ -84,7 +84,7 @@ export default function ReachSection() {
                   </ul>
                 </div>
               </div>
-              <div className="bg-white rounded-lg p-4 border-2 border-success/20">
+              <div className="bg-surface-base rounded-lg p-4 border-2 border-success/20">
                 <p className="heading-detail text-success mb-2">Warum das funktioniert:</p>
                 <p className="text-sm text-success">
                   <strong>Organisation + bezahlte Fachleute</strong> bedeuten: verlässliche Zeitpläne, strukturierte Programme,
@@ -126,7 +126,7 @@ export default function ReachSection() {
                   </ul>
                 </div>
               </div>
-              <div className="bg-white rounded-lg p-3">
+              <div className="bg-surface-base rounded-lg p-3">
                 <p className="heading-detail text-primary mb-2">Zusätzliche Reichweite:</p>
                 <p className="text-sm text-primary mb-2">
                   Ein gut produziertes Tutorial-Video kann <strong>100-1000+ Menschen erreichen</strong> — ohne zusätzlichen Zeitaufwand.

@@ -145,5 +145,5 @@ export const DATA_GAPS: DataGapRow[] = [
   { dataPoint: 'Gerätetypen', priority: 'Hoch', priorityColor: 'text-warning', whyImportant: 'CO\u2082 und E-Waste variieren stark', howToFix: 'Kategorien definieren' },
   { dataPoint: 'Workshop-Teilnehmer', priority: 'Mittel', priorityColor: 'text-text-muted', whyImportant: 'Soziale Wirkung messen', howToFix: 'Anmeldeliste führen' },
   { dataPoint: 'Freiwilligenstunden', priority: 'Mittel', priorityColor: 'text-text-muted', whyImportant: 'Soziale Wirkung messen', howToFix: 'Zeiterfassung einführen' },
-  { dataPoint: 'Linux-Installationen', priority: 'Niedrig', priorityColor: 'text-text-light', whyImportant: 'Software-Wirkung messen', howToFix: 'Bei Verkauf notieren' },
+  { dataPoint: 'Linux-Installationen', priority: 'Niedrig', priorityColor: 'text-text-secondary', whyImportant: 'Software-Wirkung messen', howToFix: 'Bei Verkauf notieren' },
 ];

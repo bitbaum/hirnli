@@ -148,7 +148,7 @@ export default function StepSubmit({
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center gap-4 border-t border-border pt-6 print:hidden">
+      <div className="flex items-center gap-4 border-t border-border-default pt-6 print:hidden">
         <Button
           onClick={onPrev}
           variant="ghost"

@@ -52,7 +52,7 @@ interface FilterSidebarProps {
 /** Shared className for toggle chip buttons (preset, contact, trust level) */
 function chipClass(active: boolean, withGap = false): string {
   return `inline-flex min-h-11 items-center justify-center${withGap ? ' gap-1' : ''} rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-    active ? 'bg-primary text-white' : 'bg-grey-light text-grey-dark hover:bg-border'
+    active ? 'bg-primary text-white' : 'bg-surface-raised text-text-primary hover:bg-border'
   }`;
 }
 
@@ -91,7 +91,7 @@ export default function FilterSidebar({
       {/* ─── Quick Filters (always visible) ─── */}
 
       {/* Presets */}
-      <div className="flex flex-wrap gap-1.5 border-b border-border pb-3">
+      <div className="flex flex-wrap gap-1.5 border-b border-border-default pb-3">
         {FILTER_PRESETS.map((preset) => {
           const isActive = activePreset?.id === preset.id;
           return (
@@ -120,7 +120,7 @@ export default function FilterSidebar({
       </div>
 
       {/* Sort */}
-      <div className="border-b border-border pb-3">
+      <div className="border-b border-border-default pb-3">
         <select
           aria-label="Sortierung"
           value={sort}
@@ -154,9 +154,9 @@ export default function FilterSidebar({
                   type="checkbox"
                   checked={isActive}
                   onChange={() => toggleFit(value)}
-                  className="rounded border-border"
+                  className="rounded border-border-default"
                 />
-                <span className={isActive ? 'font-medium text-grey-dark' : 'text-text-muted'}>
+                <span className={isActive ? 'font-medium text-text-primary' : 'text-text-muted'}>
                   {fitDisplayLabel(value)}
                 </span>
               </label>

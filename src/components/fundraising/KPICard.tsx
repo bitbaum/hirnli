@@ -22,20 +22,20 @@ export function KPICard({ label, value, icon, color = 'blue', trend, subtitle }:
     green: 'bg-success/10 border-success/20 text-success-text',
     orange: 'bg-warning/10 border-warning/20 text-warning-text',
     red: 'bg-danger/10 border-danger/20 text-danger-text',
-    gray: 'bg-bg-light border-border text-grey-dark',
+    gray: 'bg-surface-raised border-border-default text-text-primary',
   };
 
   return (
     <div className={`border rounded-lg p-6 ${colorClasses[color]}`}>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-text-light">{label}</span>
+        <span className="text-sm font-medium text-text-secondary">{label}</span>
         {icon && <span className="text-2xl">{icon}</span>}
       </div>
 
       <div className="text-3xl font-bold mb-1">{value}</div>
 
       {subtitle && (
-        <p className="text-sm text-text-light">{subtitle}</p>
+        <p className="text-sm text-text-secondary">{subtitle}</p>
       )}
 
       {trend && (

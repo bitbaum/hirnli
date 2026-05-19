@@ -87,7 +87,7 @@ export function ApplicationCard({
         ref={setNodeRef}
         style={style}
         {...attributes}
-        className="group relative mb-3 rounded-lg border border-border bg-white shadow-sm transition-shadow hover:shadow-md"
+        className="group relative mb-3 rounded-lg border border-border-default bg-surface-base shadow-panel transition-shadow hover:shadow-md"
       >
         {/* Top bar: drag handle + foundation name + actions */}
         <div className="flex items-start gap-2 p-3 pb-0">
@@ -115,7 +115,7 @@ export function ApplicationCard({
           <div className="flex shrink-0 items-center gap-1">
             <button
               onClick={() => setShowEdit(true)}
-              className="flex h-7 w-7 items-center justify-center rounded text-text-muted hover:bg-bg-light hover:text-grey-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="flex h-7 w-7 items-center justify-center rounded text-text-muted hover:bg-surface-raised hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               title="Bearbeiten"
               aria-label="Gesuch bearbeiten"
             >
@@ -186,7 +186,7 @@ export function ApplicationCard({
                         ? 'bg-success/10 text-success-text'
                         : fitScoreToDisplay(foundation.fitScore, false) >= 2
                           ? 'bg-amber-bg text-amber-text'
-                          : 'bg-bg-light text-text-muted'
+                          : 'bg-surface-raised text-text-muted'
                     }`}
                     title={`Fit-Score: ${foundation.fitScore}/10`}
                   >
@@ -202,7 +202,7 @@ export function ApplicationCard({
 
           {/* Gesuch shortcut — direct link for active applications */}
           {foundation && !isTerminalStatus(application.status) && application.status !== 'onhold' && (
-            <div className="mt-2 border-t border-border pt-2">
+            <div className="mt-2 border-t border-border-default pt-2">
               <Link
                 href={`/fundraising/stiftungen/${foundation.id}/gesuch`}
                 className="text-xs text-primary-text hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
@@ -221,7 +221,7 @@ export function ApplicationCard({
                   <span className="text-danger-text">{deleteError}</span>
                   <button
                     onClick={() => { setDeleteConfirm(false); setDeleteError(null); }}
-                    className="rounded px-2 py-0.5 text-xs text-text-light hover:bg-bg-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+                    className="rounded px-2 py-0.5 text-xs text-text-secondary hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
                   >
                     Schliessen
                   </button>
@@ -232,7 +232,7 @@ export function ApplicationCard({
                   <div className="flex gap-2">
                     <button
                       onClick={() => setDeleteConfirm(false)}
-                      className="rounded px-2 py-0.5 text-xs text-text-light hover:bg-bg-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+                      className="rounded px-2 py-0.5 text-xs text-text-secondary hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
                       disabled={isDeleting}
                     >
                       Nein

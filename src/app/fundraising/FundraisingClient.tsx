@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
+import Card from '@/components/ui/Card';
 import NumberInspector from '@/components/metrics/NumberInspector';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
@@ -46,10 +47,10 @@ export default function FundraisingClient() {
           <Link
             key={href}
             href={href}
-            className="flex items-center justify-between rounded-xl border-2 border-border bg-bg-light px-5 py-4 font-semibold text-grey-dark transition-colors hover:bg-grey-light"
+            className="flex items-center justify-between rounded-lg border border-border-default bg-surface-base px-5 py-4 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-raised"
           >
             <span>{label}</span>
-            <span aria-hidden="true">→</span>
+            <span aria-hidden="true" className="text-text-tertiary">→</span>
           </Link>
         ))}
       </div>
@@ -57,39 +58,41 @@ export default function FundraisingClient() {
       <WhyWeNeedFunding />
       <TwoAsks />
 
-      {/* Vision Hero */}
-      <section className="gradient-hero-fundraising mb-8 rounded-2xl p-4 text-white md:p-8">
-        <h2 className="mb-2 text-xl font-bold md:text-2xl">Community Tech Hub {PROJECT_YEAR_RANGE}</h2>
-        <p className="mb-2 text-lg italic opacity-90">
-          &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
-        </p>
-        <p className="mb-4 opacity-95">
-          Seit {ORG_PROFILE.founded} verbinden wir Kreislaufwirtschaft, Arbeitsintegration und Tech-Bildung unter
-          einem Dach. Auf{' '}
-          <Inspectable
-            data={inspectSpace}
-            inspector={inspector}
-            className="underline decoration-dotted decoration-1 underline-offset-2 hover:decoration-solid"
-          >
-            {SPACE_TOTAL_WITH_CIRCULATION} m²
-          </Inspectable>
-          {' '}bauen wir Werkstatt, Makerspace, AI Lab, Event-/Kulturraum
-          und Museum — ein Ort für nachhaltige Technologie, souveräne KI und Community.
-        </p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {HERO_STATS.map((item) => (
-            <div key={item.label} className="rounded-xl bg-white/15 p-4 text-center">
-              <div className="text-sm font-semibold">{item.label}</div>
-              <div className="heading-section text-white">{item.value}</div>
-              <div className="text-sm opacity-90">{item.sub}</div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 text-center">
-          <Link href="/strategie#community-tech-space" className="text-sm font-medium text-chart-6 hover:underline">
-            Vollständige Vision & Strategie &rarr;
-          </Link>
-        </div>
+      {/* Vision Section */}
+      <section className="mb-8">
+        <Card variant="muted">
+          <h2 className="mb-1 heading-subsection">Community Tech Hub {PROJECT_YEAR_RANGE}</h2>
+          <p className="mb-3 text-base italic text-text-secondary">
+            &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
+          </p>
+          <p className="mb-4 text-sm text-text-secondary">
+            Seit {ORG_PROFILE.founded} verbinden wir Kreislaufwirtschaft, Arbeitsintegration und Tech-Bildung unter
+            einem Dach. Auf{' '}
+            <Inspectable
+              data={inspectSpace}
+              inspector={inspector}
+              className="underline decoration-dotted decoration-1 underline-offset-2 hover:decoration-solid"
+            >
+              {SPACE_TOTAL_WITH_CIRCULATION} m²
+            </Inspectable>
+            {' '}bauen wir Werkstatt, Makerspace, AI Lab, Event-/Kulturraum
+            und Museum — ein Ort für nachhaltige Technologie, souveräne KI und Community.
+          </p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {HERO_STATS.map((item) => (
+              <div key={item.label} className="rounded-lg border border-border-default-subtle bg-surface-base p-4 text-center">
+                <div className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">{item.label}</div>
+                <div className="heading-section mt-1">{item.value}</div>
+                <div className="text-xs text-text-secondary mt-0.5">{item.sub}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4">
+            <Link href="/strategie#community-tech-space" className="text-sm font-medium text-primary hover:underline">
+              Vollständige Vision & Strategie →
+            </Link>
+          </div>
+        </Card>
       </section>
 
       <TrackRecord inspector={inspector} />

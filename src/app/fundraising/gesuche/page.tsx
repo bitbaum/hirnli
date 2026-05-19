@@ -60,10 +60,10 @@ export default function MeineGesuchePage() {
           action={{ label: 'Stiftungen durchsuchen →', href: '/fundraising/stiftungen' }}
         />
       ) : (
-        <div className="rounded-xl border border-border overflow-hidden">
+        <div className="rounded-xl border border-border-default overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border bg-bg-light text-left">
+              <tr className="border-b border-border-default bg-surface-raised text-left">
                 <th scope="col" className="px-4 py-3 font-semibold text-text-muted">Stiftung</th>
                 <th scope="col" className="px-4 py-3 font-semibold text-text-muted">Status</th>
                 <th scope="col" className="px-4 py-3 font-semibold text-text-muted hidden sm:table-cell">Felder</th>
@@ -78,11 +78,11 @@ export default function MeineGesuchePage() {
                   : null;
 
                 return (
-                  <tr key={row.foundationId} className="border-b border-border last:border-0 hover:bg-bg-light/50">
+                  <tr key={row.foundationId} className="border-b border-border-default last:border-0 hover:bg-surface-raised/50">
                     <td className="px-4 py-3">
                       <Link
                         href={`/fundraising/stiftungen/${row.foundationId}/gesuch`}
-                        className="font-medium text-grey-dark hover:text-primary"
+                        className="font-medium text-text-primary hover:text-primary"
                       >
                         {row.foundationName}
                       </Link>
@@ -93,7 +93,7 @@ export default function MeineGesuchePage() {
                           {statusConfig.label}
                         </span>
                       ) : (
-                        <span className="text-sm text-text-light">—</span>
+                        <span className="text-sm text-text-secondary">—</span>
                       )}
                     </td>
                     <td className="px-4 py-3 text-text-muted hidden sm:table-cell">

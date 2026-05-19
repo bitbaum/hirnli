@@ -77,8 +77,8 @@ export default function WirkungClient() {
       />
 
       {/* Transparency note */}
-      <Callout color="warning" className="mb-6 text-sm text-text-light">
-        <strong className="text-grey-dark">Transparenz:</strong> Die meisten Wirkungszahlen sind{' '}
+      <Callout color="warning" className="mb-6 text-sm text-text-secondary">
+        <strong className="text-text-primary">Transparenz:</strong> Die meisten Wirkungszahlen sind{' '}
         <Badge variant="estimated">Schätzungen</Badge>{' '}
         basierend auf Finanzdaten. Wir zeigen offen, was wir wissen und was wir schätzen.
       </Callout>
@@ -212,7 +212,7 @@ export default function WirkungClient() {
         </CardHeader>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {DATA_GAPS.map((gap) => (
-            <div key={gap.title} className="rounded-lg bg-white p-3 text-center">
+            <div key={gap.title} className="rounded-lg bg-surface-base p-3 text-center">
               <div className="mb-1 text-2xl opacity-50">{gap.icon}</div>
               <p className="heading-detail">{gap.title}</p>
               <p className="text-sm text-text-muted">{gap.desc}</p>
@@ -239,7 +239,7 @@ export default function WirkungClient() {
               }`}
             >
               <h4 className="mb-1 heading-detail">{step.label}</h4>
-              <p className="text-sm text-text-light">{step.desc}</p>
+              <p className="text-sm text-text-secondary">{step.desc}</p>
               <p className="mt-1 text-sm text-text-muted">&rarr; {step.impact}</p>
             </div>
           ))}
@@ -254,7 +254,7 @@ export default function WirkungClient() {
 
       {/* Data source info */}
       <Card>
-        <div className="text-sm text-text-light">
+        <div className="text-sm text-text-secondary">
           <p className="heading-detail">Datenquellen</p>
           <p>Umweltwirkung: BAFU Ökobilanz-Studie | Finanzdaten: Kivitendo Buchhaltung</p>
           <p className="mt-1 text-sm text-text-muted">

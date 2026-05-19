@@ -74,7 +74,7 @@ export function MonthlyBreakdownTable({
 
       {/* Totals row */}
       {monthlyData.length > 0 && (
-        <div className="mt-2 flex items-center justify-between border-t-2 border-border bg-bg-light px-3 py-2 text-sm font-bold">
+        <div className="mt-2 flex items-center justify-between border-t-2 border-border-default bg-surface-raised px-3 py-2 text-sm font-bold">
           <span>TOTAL</span>
           <div className="flex gap-6">
             <span>{formatCHF(totals.warenverkauf)}</span>

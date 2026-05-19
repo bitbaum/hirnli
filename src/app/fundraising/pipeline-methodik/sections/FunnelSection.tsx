@@ -18,7 +18,7 @@ function FunnelStage({ number, title, question, count, countLabel, method, cost,
   detail?: string;
 }) {
   return (
-    <div className={`rounded-lg border border-border/50 p-4 ${color}`}>
+    <div className={`rounded-lg border border-border-default/50 p-4 ${color}`}>
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <div className="mb-1 flex items-center gap-2">
@@ -29,7 +29,7 @@ function FunnelStage({ number, title, question, count, countLabel, method, cost,
           </div>
           <p className="mb-2 text-sm italic text-text-muted">&laquo;{question}&raquo;</p>
           {detail && (
-            <p className="mb-2 text-sm text-text-light">{detail}</p>
+            <p className="mb-2 text-sm text-text-secondary">{detail}</p>
           )}
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-text-muted">
             <span>Methode: {method}</span>
@@ -58,7 +58,7 @@ export default function FunnelSection({ s }: Props) {
           countLabel="im Handelsregister (Zefix)"
           method="Zefix + ESA Register-Import"
           cost="Gratis"
-          color="bg-bg-light"
+          color="bg-surface-raised"
         />
         <FunnelStage
           number={1}
@@ -68,7 +68,7 @@ export default function FunnelSection({ s }: Props) {
           countLabel="mit Basisdaten importiert"
           method="Automatischer Import aus Zefix und ESA"
           cost="Gratis"
-          color="bg-bg-light"
+          color="bg-surface-raised"
           detail={`${formatNumber(s.withPurpose)} haben einen Stiftungszweck (ESA). ${formatNumber(s.total - s.withPurpose)} haben nur einen Namen (Zefix).`}
         />
         <FunnelStage

@@ -34,7 +34,7 @@ export default function WhyThisMatters({ purpose, connection }: WhyThisMattersPr
           </div>
           {isExpanded ? (
             <div className="space-y-2">
-              <p className="text-base text-grey-dark">
+              <p className="text-base text-text-primary">
                 {purpose}
               </p>
               <p className="text-sm text-primary">

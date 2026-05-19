@@ -48,7 +48,7 @@ export default function WieWirArbeitenPage() {
         <h2 className="mb-2 heading-section">
           Unsere Methode
         </h2>
-        <p className="mb-6 text-base text-text-light">
+        <p className="mb-6 text-base text-text-secondary">
           Jedes gespendete Gerät durchläuft eine mehrstufige Kaskade. Ziel: Maximale
           Wertschöpfung, minimaler Abfall.
         </p>
@@ -78,7 +78,7 @@ export default function WieWirArbeitenPage() {
         <h2 className="mb-2 heading-section">
           Was der Community Tech Space ermöglicht
         </h2>
-        <p className="mb-6 text-base text-text-light">
+        <p className="mb-6 text-base text-text-secondary">
           Mit einem eigenen Hub entsteht ein neuer Pfad für Geräte, die bisher direkt
           ins Recycling gingen. Vintage-Hardware und Kunst reduzieren den Abfall
           weiter.
@@ -86,7 +86,7 @@ export default function WieWirArbeitenPage() {
 
         <FutureVisionBlock>
           {/* Future flow diagram */}
-          <Card className="mb-8 border-0 bg-white/80">
+          <Card className="mb-8 border-0 bg-surface-base/80">
             <h3 className="mb-4 heading-card">
               {CASCADE_MODELS.future.label}
             </h3>
@@ -104,11 +104,11 @@ export default function WieWirArbeitenPage() {
 
       {/* Principle: why cascading matters */}
       <section className="mb-12">
-        <Card className="border-l-4 border-l-primary bg-bg-light">
+        <Card className="border-l-4 border-l-primary bg-surface-raised">
           <h2 className="mb-4 heading-subsection">
             Warum Kaskade statt Recycling?
           </h2>
-          <p className="text-base leading-relaxed text-text-light">
+          <p className="text-base leading-relaxed text-text-secondary">
             Recycling zerstört die Struktur eines Geräts, um Rohstoffe zurückzugewinnen.
             Das ist besser als Deponie — aber es vernichtet die Wertschöpfung, die in der
             Montage steckt. Unsere Kaskade kehrt das um: Zuerst wird die höchstmögliche

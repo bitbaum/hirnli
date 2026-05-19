@@ -75,7 +75,7 @@ export default function GesuchShareView({
         />
 
         {/* Viewer-facing footer note */}
-        <div className="border-t border-border pt-6 text-center">
+        <div className="border-t border-border-default pt-6 text-center">
           <p className="text-sm text-text-muted">
             Diese Seite wurde von {ORG_PROFILE.name} erstellt und ist ausschliesslich für{' '}
             {gesuch.foundation.name} bestimmt.

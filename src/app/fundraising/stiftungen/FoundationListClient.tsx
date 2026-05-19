@@ -145,7 +145,7 @@ export default function FoundationListClient() {
             aria-label="Sortierung"
             value={sort}
             onChange={(e) => setSort(e.target.value as SortField)}
-            className="min-w-0 flex-1 rounded-lg border border-border px-2 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="min-w-0 flex-1 rounded-lg border border-border-default px-2 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -240,13 +240,13 @@ export default function FoundationListClient() {
             {visibleCount < filteredCount && (
               <button
                 onClick={showMore}
-                className="w-full rounded-lg border border-border bg-bg-light py-3 text-sm font-medium text-text-muted hover:bg-border/50"
+                className="w-full rounded-lg border border-border-default bg-surface-raised py-3 text-sm font-medium text-text-muted hover:bg-border/50"
               >
                 Mehr anzeigen ({Math.min(LOAD_MORE_COUNT, filteredCount - visibleCount)} weitere von {filteredCount})
               </button>
             )}
             {filtered.length === 0 && (
-              <div className="rounded-lg border border-border bg-bg-light p-8 text-center">
+              <div className="rounded-lg border border-border-default bg-surface-raised p-8 text-center">
                 <p className="text-text-muted">
                   Keine Stiftungen gefunden für die aktuelle Filterauswahl.
                 </p>

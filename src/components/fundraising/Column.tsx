@@ -40,7 +40,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
       <div className="mb-3">
         <div className="mb-1 flex items-center justify-between">
           <h2 className="heading-detail">{status.label}</h2>
-          <span className="rounded bg-bg-light px-1.5 py-0.5 text-xs font-medium text-text-light">
+          <span className="rounded bg-surface-raised px-1.5 py-0.5 text-xs font-medium text-text-secondary">
             {applications.length}
           </span>
         </div>
@@ -54,7 +54,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
       <div
         ref={setNodeRef}
         className={`flex-1 rounded-lg p-2 transition-colors ${
-          isOver ? 'bg-primary/10 ring-2 ring-primary/20' : 'bg-bg-light ring-2 ring-border'
+          isOver ? 'bg-primary/10 ring-2 ring-primary/20' : 'bg-surface-raised ring-2 ring-border'
         }`}
       >
         <SortableContext

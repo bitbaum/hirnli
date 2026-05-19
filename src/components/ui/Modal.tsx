@@ -31,9 +31,9 @@ export default function Modal({ isOpen, onClose, title, children, className }: M
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className={`max-h-[80vh] w-full overflow-y-auto rounded-lg bg-white shadow-xl ${className ?? 'max-w-lg'}`}
+        className={`max-h-[80vh] w-full overflow-y-auto rounded-lg bg-surface-base shadow-lg ${className ?? 'max-w-lg'}`}
       >
-        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border-default px-6 py-4">
           <h3 className="heading-card">{title}</h3>
           <CloseButton onClick={onClose} />
         </div>

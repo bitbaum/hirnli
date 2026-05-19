@@ -35,12 +35,12 @@ export default function PreismodellPage() {
       />
 
       {/* Grundsatz */}
-      <Card className="mb-8 border-l-4 border-l-primary bg-bg-light">
+      <Card className="mb-8 border-l-4 border-l-primary bg-surface-raised">
         <p className="text-lg">
           <strong>Unser Grundsatz:</strong> IT-Zugang ist ein Grundrecht. Niemand soll wegen Geld
           keinen funktionierenden Computer haben.
         </p>
-        <p className="mt-3 text-sm text-text-light">
+        <p className="mt-3 text-sm text-text-secondary">
           <strong>Wichtig:</strong> Wir bieten <strong>kostenlose Laptops</strong> an soziale Organisationen
           wie AOZ, Caritas, Solinetz für deren Klient:innen. Dies wird durch Stiftungsgelder finanziert.
           Zahlende Kund:innen finanzieren unsere Betriebskosten (Operations).
@@ -62,7 +62,7 @@ export default function PreismodellPage() {
               <h3 className="mb-1 heading-card font-bold">{tier.name}</h3>
               <p className={`mb-3 text-xl font-bold ${tier.priceColor}`}>{tier.price}</p>
               <p className="mb-4 text-sm text-text-muted">{tier.description}</p>
-              <ul className="space-y-2 border-t border-border pt-3">
+              <ul className="space-y-2 border-t border-border-default pt-3">
                 {tier.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm">
                     <span className="text-success">&#10003;</span>
@@ -87,7 +87,7 @@ export default function PreismodellPage() {
             keyExtractor={(row) => row.tier}
             compact
           />
-          <div className="mt-4 rounded-lg border-l-4 border-primary bg-bg-light p-3 text-sm text-text-muted">
+          <div className="mt-4 rounded-lg border-l-4 border-primary bg-surface-raised p-3 text-sm text-text-muted">
             <strong className="mb-1 block">Quellenangaben:</strong>
             <Badge variant="derived" className="mr-1">Marktdaten</Badge> = Vergleich Ricardo/Tutti/Revendo |{' '}
             <Badge variant="primary" className="mr-1">Vorstand</Badge> = Vorstandsentscheidung Januar 2025 |{' '}
@@ -123,7 +123,7 @@ export default function PreismodellPage() {
               <Badge variant="primary">Vorstand</Badge>
             </li>
           </ul>
-          <div className="rounded-lg border-l-4 border-primary bg-white p-3 text-sm text-text-muted">
+          <div className="rounded-lg border-l-4 border-primary bg-surface-base p-3 text-sm text-text-muted">
             <strong>Quelle Einkommensgrenze:</strong>{' '}
             Die CHF 2&apos;600/Monat stammen von{' '}
             <a href="https://www.kulturlegi.ch/ueber-uns/faq/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
@@ -209,7 +209,7 @@ export default function PreismodellPage() {
             keyExtractor={(row) => row.kpi}
             compact
           />
-          <div className="mt-4 rounded-lg border-l-4 border-primary bg-bg-light p-3 text-sm text-text-muted">
+          <div className="mt-4 rounded-lg border-l-4 border-primary bg-surface-raised p-3 text-sm text-text-muted">
             <strong>Quelle aller Zielwerte:</strong>{' '}
             Vorstandsentscheidung Januar 2025. Basiert auf Schätzungen, nicht auf historischen Daten.{' '}
             <Link href="/methodik#pricing-model" className="text-primary hover:underline">
@@ -255,7 +255,7 @@ export default function PreismodellPage() {
             Umsetzung und Kommunikation findest du hier:
           </p>
           <p className="mt-2">
-            <code className="rounded bg-bg-light px-2 py-1 text-sm">
+            <code className="rounded bg-surface-raised px-2 py-1 text-sm">
               01_Management/B_Finanzen/Preismodell_Solidaritaet.md
             </code>
           </p>

@@ -35,7 +35,7 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
       </div>
 
       {/* Readiness */}
-      <div className="mb-3 border-t border-border pt-3">
+      <div className="mb-3 border-t border-border-default pt-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-text-muted">Bereitschaft</span>
           <div className="flex items-center gap-1.5">
@@ -66,7 +66,7 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
 
       {/* Top improvements */}
       {promotion.improvements.length > 0 && (
-        <div className="border-t border-border pt-3">
+        <div className="border-t border-border-default pt-3">
           <p className="heading-xs-label">
             {promotion.nextTier ? `Nächste Stufe: ${TIER_LABELS[promotion.nextTier]}` : 'Nächste Verbesserungen'}
           </p>

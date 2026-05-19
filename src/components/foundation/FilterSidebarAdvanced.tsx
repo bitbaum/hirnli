@@ -69,7 +69,7 @@ export default function FilterSidebarAdvanced({
                 if (filters.priorityLevels.includes(4)) togglePriorityLevel(4);
               }
             }}
-            className="rounded border-border"
+            className="rounded border-border-default"
           />
           Top-Priorität (P1 + P2)
         </label>
@@ -94,7 +94,7 @@ export default function FilterSidebarAdvanced({
               type="checkbox"
               checked={filters.hideNoApplication}
               onChange={toggleHideNoApplication}
-              className="rounded border-border"
+              className="rounded border-border-default"
             />
             Mit Bewerbungsweg
           </label>
@@ -103,7 +103,7 @@ export default function FilterSidebarAdvanced({
               type="checkbox"
               checked={filters.hideOperative}
               onChange={toggleHideOperative}
-              className="rounded border-border"
+              className="rounded border-border-default"
             />
             Operative ausblenden
           </label>
@@ -112,7 +112,7 @@ export default function FilterSidebarAdvanced({
               type="checkbox"
               checked={filters.hideNetworks}
               onChange={toggleHideNetworks}
-              className="rounded border-border"
+              className="rounded border-border-default"
             />
             Netzwerke ausblenden
           </label>

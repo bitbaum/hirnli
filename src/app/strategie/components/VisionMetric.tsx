@@ -27,9 +27,9 @@ export default function VisionMetric({ value, label, source }: VisionMetricProps
     <>
       <div
         className={`
-          rounded-lg bg-white/10 p-4
+          rounded-lg bg-surface-overlay p-4
           transition-hover
-          ${source ? 'cursor-pointer hover:bg-white/20 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent' : ''}
+          ${source ? 'cursor-pointer hover:bg-surface-raised/50 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent' : ''}
         `}
         onClick={handleClick}
         role={source ? 'button' : undefined}
@@ -62,32 +62,32 @@ export default function VisionMetric({ value, label, source }: VisionMetricProps
             <div>
               <h4 className="heading-detail mb-2">Zielwert</h4>
               <p className="heading-section text-primary">{value}</p>
-              <p className="text-sm text-text-light mt-1">{label}</p>
+              <p className="text-sm text-text-secondary mt-1">{label}</p>
             </div>
 
             <div>
               <h4 className="heading-detail mb-2">Methodik</h4>
-              <p className="text-sm text-text-light">{source.methodology}</p>
+              <p className="text-sm text-text-secondary">{source.methodology}</p>
             </div>
 
             {source.confidence && (
               <div>
                 <h4 className="heading-detail mb-2">Vertrauensniveau</h4>
-                <p className="text-sm text-text-light capitalize">{source.confidence}</p>
+                <p className="text-sm text-text-secondary capitalize">{source.confidence}</p>
               </div>
             )}
 
             {source.lastVerified && (
               <div>
                 <h4 className="heading-detail mb-2">Zuletzt geprüft</h4>
-                <p className="text-sm text-text-light">{source.lastVerified}</p>
+                <p className="text-sm text-text-secondary">{source.lastVerified}</p>
               </div>
             )}
 
             {source.notes && (
               <div>
                 <h4 className="heading-detail mb-2">Notizen</h4>
-                <p className="text-sm text-text-light">{source.notes}</p>
+                <p className="text-sm text-text-secondary">{source.notes}</p>
               </div>
             )}
           </div>

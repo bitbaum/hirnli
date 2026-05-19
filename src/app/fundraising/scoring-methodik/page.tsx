@@ -23,7 +23,7 @@ export default function ScoringMethodikPage() {
         title="Scoring-Methodik"
         subtitle="Algorithmische Bewertung von Stiftungen — drei Ebenen, komplett inspizierbar"
       />
-      <p className="mb-8 text-sm text-text-light">
+      <p className="mb-8 text-sm text-text-secondary">
         Jeder Score wird algorithmisch aus den vorhandenen Stiftungsdaten berechnet.
         Keine manuellen Noten, keine Black Boxes. Alle Gewichte und Schwellenwerte
         sind konfigurierbar und hier vollständig dokumentiert.

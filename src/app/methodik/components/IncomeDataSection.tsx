@@ -16,7 +16,7 @@ export function IncomeDataSection() {
       badgeVariant="success"
       confidence="high"
     >
-      <p className="mb-4 text-sm text-text-light">
+      <p className="mb-4 text-sm text-text-secondary">
         Die Einnahmen-Daten sind die einzigen direkten Quelldaten im Dashboard.
         Sie werden direkt aus der Kivitendo-Buchhaltung exportiert.
       </p>
@@ -33,7 +33,7 @@ export function IncomeDataSection() {
       <h4 className="mb-2 heading-detail">Verifizierung:</h4>
       <p className="text-sm text-text-muted">
         Jeder Wert kann direkt in{' '}
-        <code className="rounded bg-bg-light px-1">revamp-Einnahmen-2025.xlsx</code>{' '}
+        <code className="rounded bg-surface-raised px-1">revamp-Einnahmen-2025.xlsx</code>{' '}
         nachgeschlagen werden. Die Datei enthält monatliche Werte für jedes Konto.
       </p>
     </MethodologySection>
