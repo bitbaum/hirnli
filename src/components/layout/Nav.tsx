@@ -120,6 +120,10 @@ export default function Nav() {
                 />
               ))}
             </ul>
+            <div className="mt-4 flex items-center justify-between border-t border-border-subtle pt-4">
+              <span className="text-sm text-text-secondary">Erscheinungsbild</span>
+              <ThemeToggle />
+            </div>
           </div>
         </>
       )}

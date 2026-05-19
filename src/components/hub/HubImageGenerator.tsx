@@ -30,7 +30,7 @@ export function HubImageGenerator() {
             className={`p-3 rounded-lg border-2 text-left transition-all ${
               selectedSpace === space.space_name
                 ? 'border-success bg-success/10'
-                : 'border-border-default hover:border-success/20 bg-white'
+                : 'border-border-default hover:border-success/20 bg-surface-base'
             }`}
           >
             <p className="heading-detail">{space.space_name}</p>
