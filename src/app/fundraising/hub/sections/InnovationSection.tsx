@@ -15,7 +15,7 @@ export default function InnovationSection() {
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-l-4 border-l-pillar-vision">
-          <HubCardHeader icon="🛠️" title="Makerspace & Hackerspace" subtitle="80 m² — Prototyping & Tüfteln" subtitleClassName="text-chart-5" badgeColor="purple" badgeText={formatCHF(MAKERSPACE_AREA.cost_estimate_chf)} />
+          <HubCardHeader icon="🛠️" title="Makerspace & Hackerspace" subtitle={`${MAKERSPACE_AREA.sqm_recommended} m² — Prototyping & Tüfteln`} subtitleClassName="text-chart-5" badgeColor="purple" badgeText={formatCHF(MAKERSPACE_AREA.cost_estimate_chf)} />
           <p className="text-sm text-text-secondary mb-4">
             Offene Werkstatt: 3D-Drucker, Laser-Cutter, Lötarbeitsplätze. Vom Prototyp zum Produkt.
           </p>
@@ -57,7 +57,7 @@ export default function InnovationSection() {
         </Card>
 
         <Card className="border-l-4 border-l-primary">
-          <HubCardHeader icon="🎓" title="Schulungs- & Kursräume" subtitle="70 m² — Linux, AI, Coding für alle" subtitleClassName="text-primary" badgeColor="blue" badgeText={formatCHF(TRAINING_AREA.cost_estimate_chf)} />
+          <HubCardHeader icon="🎓" title="Schulungs- & Kursräume" subtitle={`${TRAINING_AREA.sqm_recommended} m² — Linux, AI, Coding für alle`} subtitleClassName="text-primary" badgeColor="blue" badgeText={formatCHF(TRAINING_AREA.cost_estimate_chf)} />
           <p className="text-sm text-text-secondary mb-4">
             Strukturierte Bildung: Linux-Kurse, AI Literacy, Programmieren lernen. Digital Literacy für alle.
           </p>

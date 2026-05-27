@@ -46,15 +46,19 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- resets error state before new fetch
+    let cancelled = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- resets loading/error before new fetch
     setError(false);
+    setLoading(true);
     getActivityLog(entityId, entityType, limit)
       .then((d) => {
+        if (cancelled) return;
         if (d.success) setEntries(d.data ?? []);
         else setError(true);
       })
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
+      .catch(() => { if (!cancelled) setError(true); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [entityId, entityType, limit]);
 
   if (loading) {

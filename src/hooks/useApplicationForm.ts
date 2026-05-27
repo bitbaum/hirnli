@@ -89,10 +89,12 @@ export function useApplicationForm(id: string) {
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     async function fetchApplication() {
       try {
         setIsLoading(true);
         const result = await getApplication(id);
+        if (cancelled) return;
         if (result.success) {
           const d = result.data as { foundation: FoundationRow; application: Application };
           setFoundation(d.foundation);
@@ -101,10 +103,11 @@ export function useApplicationForm(id: string) {
           setError(result.error || API_ERR_NOT_FOUND);
         }
       } finally {
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     }
     fetchApplication();
+    return () => { cancelled = true; };
   }, [id]);
 
   const updateField = useCallback(<K extends keyof ApplicationFormFields>(

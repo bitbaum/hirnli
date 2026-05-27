@@ -11,23 +11,15 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { getStatusConfig, isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import { computeFollowUpDate } from '@/lib/utils/parse-response-time';
 import { formatDateCHLong, getTodayISO } from '@/lib/utils/format';
-import { createApplication, patchApplication, getApplicationsByFoundation } from '@/lib/api/applications';
+import { createApplication, patchApplication, findActiveApplication } from '@/lib/api/applications';
 
 interface GesuchStatusWidgetProps {
   slug: string;
   responseTime?: string;
   shareToken?: string;
-}
-
-interface ApplicationRow {
-  application: {
-    id: string;
-    status: ApplicationStatusId;
-    submissionDate?: string | null;
-  };
 }
 
 export default function GesuchStatusWidget({ slug, responseTime, shareToken }: GesuchStatusWidgetProps) {
@@ -41,11 +33,10 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
   const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
-    getApplicationsByFoundation(slug)
-      .then((d) => {
-        const active = (d.data as ApplicationRow[] ?? []).find(
-          (row) => isActiveApplication(row.application.status),
-        );
+    let cancelled = false;
+    findActiveApplication(slug)
+      .then((active) => {
+        if (cancelled) return;
         if (active) {
           setAppId(active.application.id);
           setStatus(active.application.status);
@@ -54,9 +45,11 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
         }
       })
       .catch(() => {
+        if (cancelled) return;
         setFetchError(true);
         setAppId(null);
       });
+    return () => { cancelled = true; };
   }, [slug]);
 
   async function addToPipeline() {

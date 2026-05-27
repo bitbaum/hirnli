@@ -5,7 +5,10 @@ import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { SOURCES, FIT_CONFIG, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import { hasGesuchPage, tierAtLeast } from '@/lib/domain/foundation-helpers';
-import { getFoundationPresentation } from '@/lib/domain/foundation-presenter';
+import {
+  getFoundationPresentation,
+  getApplicationUrlContext,
+} from '@/lib/domain/foundation-presenter';
 import AddToPipelineButton from './AddToPipelineButton';
 import { isRegistryUrl } from '@/lib/config/registry-domains';
 import { getResearchLinks } from '@/lib/config/research-links';
@@ -93,23 +96,23 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               <span className="text-sm italic">nicht bekannt</span>
             </div>
           )}
-          {f.applicationUrl && (
-            <a
-              href={f.applicationUrl}
-              target={f.applicationUrl.startsWith('mailto:') ? undefined : '_blank'}
-              rel="noopener noreferrer"
-              className="flex min-h-11 items-center justify-between rounded bg-primary/5 px-2 py-2.5 font-semibold text-primary hover:bg-primary/10 hover:underline"
-            >
-              <span>
-                {!f.applicationUrl.startsWith('mailto:')
-                  ? 'Gesuch einreichen'
-                  : ['contact', 'direct', 'personal'].includes(f.applicationMethod ?? '')
-                    ? 'Anfrage per E-Mail'
-                    : 'Gesuch per E-Mail'}
-              </span>
-              <span className="text-xs">{f.applicationUrl.startsWith('mailto:') ? '✉' : '↗'}</span>
-            </a>
-          )}
+          {f.applicationUrl && (() => {
+            const ctx = getApplicationUrlContext(f.applicationUrl, f.applicationMethod);
+            const label = !ctx.isEmail
+              ? 'Gesuch einreichen'
+              : ctx.isPersonalContact ? 'Anfrage per E-Mail' : 'Gesuch per E-Mail';
+            return (
+              <a
+                href={f.applicationUrl}
+                target={ctx.target}
+                rel="noopener noreferrer"
+                className="flex min-h-11 items-center justify-between rounded bg-primary/5 px-2 py-2.5 font-semibold text-primary hover:bg-primary/10 hover:underline"
+              >
+                <span>{label}</span>
+                <span className="text-xs">{ctx.isEmail ? '✉' : '↗'}</span>
+              </a>
+            );
+          })()}
           {/* All research platforms */}
           <div className="border-t border-border-default pt-2">
             <p className="mb-1.5 px-2 heading-detail text-text-muted">Datenbanken & Register</p>

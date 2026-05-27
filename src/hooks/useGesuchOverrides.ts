@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { createApplication, getApplicationsByFoundation } from '@/lib/api/applications';
+import { createApplication, findActiveApplication } from '@/lib/api/applications';
 import {
   getGesuchOverrideVariants,
   getGesuchOverride,
   putGesuchOverride,
   deleteGesuchOverride,
 } from '@/lib/api/gesuch-overrides';
-import { isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { buildAIContext, type FoundationAIContext } from '@/lib/domain/ai-context';
@@ -17,13 +16,8 @@ import { rewriteGesuchSection } from '@/lib/api/ai-gesuch-section';
 /** Fire-and-forget: ensure a pipeline entry exists for this foundation */
 async function ensurePipelineEntry(slug: string) {
   try {
-    const data = await getApplicationsByFoundation(slug);
-    const active = (data.data as { application: { status: ApplicationStatusId } }[] ?? []).find(
-      (row) => isActiveApplication(row.application.status),
-    );
-    if (!active) {
-      await createApplication(slug, 'draft');
-    }
+    const active = await findActiveApplication(slug);
+    if (!active) await createApplication(slug, 'draft');
   } catch {
     // Non-critical — don't block the save flow
   }
@@ -60,7 +54,6 @@ export function useGesuchOverrides(
   schwerpunktLabel?: string,
 ): UseGesuchOverridesReturn {
   const [overrides, setOverrides] = useState<GesuchOverridesData>({});
-  const [, setSavedOverrides] = useState<GesuchOverridesData>({});
   const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
@@ -73,32 +66,36 @@ export function useGesuchOverrides(
   const [needsAutoDraft, setNeedsAutoDraft] = useState(false);
   const autoTriggeredVariants = useRef(new Set<string>());
 
-  // Fetch drafted variants list on mount
+  // Fetch drafted variants list on mount — ignore stale responses if slug changes
   useEffect(() => {
+    let cancelled = false;
     getGesuchOverrideVariants(slug)
       .then((result) => {
+        if (cancelled) return;
         if (result.success) setDraftedVariants(result.data ?? []);
       });
+    return () => { cancelled = true; };
   }, [slug]);
 
-  // Load overrides for current variant — auto-draft if none exist
+  // Load overrides for current variant — auto-draft if none exist.
+  // The `cancelled` guard prevents a stale response from overwriting state if
+  // slug/variantKey changes mid-flight.
   useEffect(() => {
+    let cancelled = false;
     setOverrides({});
-    setSavedOverrides({});
     setDirty(false);
     setLoadError(false);
 
     getGesuchOverride(slug, variantKey)
       .then((result) => {
+        if (cancelled) return;
         const hasOverrides =
           result.success &&
           result.data != null &&
           Object.keys(result.data.overrides).length > 0;
 
         if (hasOverrides && result.data) {
-          const saved = result.data.overrides;
-          setOverrides(saved);
-          setSavedOverrides(saved);
+          setOverrides(result.data.overrides);
         } else if (result.success) {
           // No row or empty row → auto-draft
           if (foundation && !autoTriggeredVariants.current.has(variantKey)) {
@@ -109,6 +106,7 @@ export function useGesuchOverrides(
           setLoadError(true);
         }
       });
+    return () => { cancelled = true; };
   }, [slug, variantKey, foundation]);
 
   const toggleEditMode = useCallback(() => {
@@ -139,7 +137,6 @@ export function useGesuchOverrides(
     try {
       const result = await putGesuchOverride(slug, variantKey, data);
       if (result.success) {
-        setSavedOverrides(data);
         setDirty(false);
         setDraftedVariants((prev) =>
           prev.includes(variantKey) ? prev : [...prev, variantKey]
@@ -171,7 +168,6 @@ export function useGesuchOverrides(
     try {
       await deleteGesuchOverride(slug, variantKey);
       setOverrides({});
-      setSavedOverrides({});
       setDirty(false);
       setDraftedVariants((prev) => prev.filter((v) => v !== variantKey));
     } finally {
@@ -313,7 +309,6 @@ export function useGesuchOverrides(
 
   const restoreOverrides = useCallback((restored: GesuchOverridesData) => {
     setOverrides(restored);
-    setSavedOverrides(restored);
     setDirty(false);
   }, []);
 

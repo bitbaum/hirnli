@@ -46,10 +46,13 @@ export default function GesuchPageClient({
   generatedAnschreiben,
 }: GesuchPageClientProps) {
   // Start at 1 for SSR; read URL on client after hydration to avoid mismatch.
+  // The setState-in-effect rule is wrong here — we *must* defer URL read until after
+  // hydration, since `window.location` is unavailable on the server (see commit 10948bc).
   const [step, setStep] = useState<1 | 2 | 3>(1);
   useEffect(() => {
     const param = new URLSearchParams(window.location.search).get('step');
     const n = parseInt(param ?? '1', 10);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (n === 2 || n === 3) setStep(n as 2 | 3);
   }, []);
   const [activeSchwerpunkt, setActiveSchwerpunkt] = useState<SchwerpunktId | null>(null);

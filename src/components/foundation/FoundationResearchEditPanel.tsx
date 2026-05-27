@@ -7,6 +7,7 @@ import { patchFoundationResearch } from '@/lib/api/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS } from '@/lib/utils/form-classes';
 import { QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
 import { UI_TIMINGS } from '@/lib/config/ui-timings';
+import { API_ERR_SAVE } from '@/lib/utils/errors';
 
 interface Props {
   foundationId: string;
@@ -94,7 +95,7 @@ export default function FoundationResearchEditPanel({
       router.refresh();
       setTimeout(() => setSaved(false), UI_TIMINGS.savedIndicatorLong);
     } else {
-      setError(result.error ?? 'Fehler beim Speichern');
+      setError(result.error ?? API_ERR_SAVE);
     }
   }
 

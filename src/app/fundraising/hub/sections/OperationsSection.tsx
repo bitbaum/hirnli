@@ -18,7 +18,7 @@ export default function OperationsSection() {
             <h3 className="heading-item">Offices & Sozialräume</h3>
           </div>
           <p className="text-sm text-text-secondary mb-3">
-            <strong>100 m²</strong> für Geschäftsleitung, Koordination, Meetings, Pausenraum, Sozialräume.
+            <strong>{OFFICE_AREA.sqm_recommended} m²</strong> für Geschäftsleitung, Koordination, Meetings, Pausenraum, Sozialräume.
           </p>
           <ul className="text-sm text-text-secondary space-y-1 mb-3">
             <li>• 5× Büroarbeitsplätze (Kernteam + 2× BPL)</li>
@@ -38,7 +38,7 @@ export default function OperationsSection() {
             <h3 className="heading-item">Lager & Logistik</h3>
           </div>
           <p className="text-sm text-text-secondary mb-3">
-            <strong>150 m²</strong> für Eingang/Triage, Ersatzteile, Fertigware, Recycling-Staging.
+            <strong>{STORAGE_AREA.sqm_recommended} m²</strong> für Eingang/Triage, Ersatzteile, Fertigware, Recycling-Staging.
           </p>
           <ul className="text-sm text-text-secondary space-y-1 mb-3">
             <li>• 60 m² Eingang & Triage (Geräte-Annahme)</li>
@@ -58,7 +58,7 @@ export default function OperationsSection() {
             <h3 className="heading-item">Lade- & Anlieferzone</h3>
           </div>
           <p className="text-sm text-text-secondary mb-3">
-            <strong>50 m²</strong> für Wareneingang, LKW-Zufahrt, Palette-Handling.
+            <strong>{LOADING_AREA.sqm_recommended} m²</strong> für Wareneingang, LKW-Zufahrt, Palette-Handling.
           </p>
           <ul className="text-sm text-text-secondary space-y-1 mb-3">
             <li>• Rampe für LKW-Anlieferung</li>

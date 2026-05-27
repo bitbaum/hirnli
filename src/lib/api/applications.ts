@@ -3,7 +3,17 @@
  * All functions return { success, data?, error?, missingFields?, httpStatus }.
  */
 
-import type { RequiredField } from '@/lib/config/application-statuses';
+import { isActiveApplication, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
+import { NET_ERR_LOAD } from '@/lib/utils/errors';
+
+/** Minimal shape returned by /api/applications?foundationId=... — every consumer needs id+status */
+export interface FoundationApplicationRow {
+  application: {
+    id: string;
+    status: ApplicationStatusId;
+    submissionDate?: string | null;
+  };
+}
 
 export interface ApplicationApiResponse<T = unknown> {
   success: boolean;
@@ -23,7 +33,7 @@ async function request<T>(
     const json = await res.json();
     return { ...json, httpStatus: res.status };
   } catch {
-    return { success: false, error: 'Netzwerkfehler', httpStatus: 0 };
+    return { success: false, error: NET_ERR_LOAD, httpStatus: 0 };
   }
 }
 
@@ -58,6 +68,19 @@ export function getApplicationsByFoundation(
   foundationId: string,
 ): Promise<ApplicationApiResponse> {
   return request(`/api/applications?foundationId=${encodeURIComponent(foundationId)}`);
+}
+
+/**
+ * Fetch the active (non-terminal, non-onhold) application for a foundation, if any.
+ * Centralizes the type assertion + filter that 3+ components otherwise duplicate.
+ */
+export async function findActiveApplication(
+  foundationId: string,
+): Promise<FoundationApplicationRow | null> {
+  const result = await getApplicationsByFoundation(foundationId);
+  if (!result.success) return null;
+  const rows = (result.data as FoundationApplicationRow[] | undefined) ?? [];
+  return rows.find((row) => isActiveApplication(row.application.status)) ?? null;
 }
 
 export function getApplication(id: string): Promise<ApplicationApiResponse> {

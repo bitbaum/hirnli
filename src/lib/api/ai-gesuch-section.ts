@@ -1,4 +1,5 @@
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
+import { NET_ERR_LOAD } from '@/lib/utils/errors';
 
 export interface GesuchSectionApiResponse {
   success: boolean;
@@ -21,5 +22,5 @@ export function rewriteGesuchSection(params: RewriteSectionParams): Promise<Gesu
     body: JSON.stringify(params),
   })
     .then((r) => r.json() as Promise<GesuchSectionApiResponse>)
-    .catch((): GesuchSectionApiResponse => ({ success: false, error: 'Netzwerkfehler' }));
+    .catch((): GesuchSectionApiResponse => ({ success: false, error: NET_ERR_LOAD }));
 }

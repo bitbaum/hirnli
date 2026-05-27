@@ -57,16 +57,19 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
 
   useEffect(() => {
     if (!open) return;
+    let cancelled = false;
     setLoading(true);
     setError(false);
     const entityId = variantKey && variantKey !== 'auto' ? `${slug}::${variantKey}` : slug;
     getActivityLog(entityId, 'gesuch_override', ACTIVITY_LOG_LIMIT)
       .then((d) => {
+        if (cancelled) return;
         if (d.success) setEntries(d.data ?? []);
         else setError(true);
       })
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
+      .catch(() => { if (!cancelled) setError(true); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [slug, open, variantKey]);
 
   if (!open) return null;

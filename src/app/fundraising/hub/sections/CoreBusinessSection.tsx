@@ -13,7 +13,7 @@ export default function CoreBusinessSection() {
       </p>
       <div className="grid grid-cols-1 gap-6">
         <Card className="border-l-4 border-l-success">
-          <HubCardHeader icon="🏪" title="Shop & Kundenbereich" subtitle="80 m² — Verkauf, Beratung, Annahme" subtitleClassName="text-success" badgeColor="emerald" badgeText={formatCHF(SHOP_AREA.cost_estimate_chf)} />
+          <HubCardHeader icon="🏪" title="Shop & Kundenbereich" subtitle={`${SHOP_AREA.sqm_recommended} m² — Verkauf, Beratung, Annahme`} subtitleClassName="text-success" badgeColor="emerald" badgeText={formatCHF(SHOP_AREA.cost_estimate_chf)} />
           <p className="text-sm text-text-secondary mb-4">
             Erste Anlaufstelle für Kunden: Geräte kaufen, zur Reparatur bringen, beraten lassen.
             Heute: Kein dedizierter Verkaufsraum. Neu: Professioneller Shop mit Ausstellungsfläche.
@@ -43,7 +43,7 @@ export default function CoreBusinessSection() {
         </Card>
 
         <Card className="border-l-4 border-l-primary">
-          <HubCardHeader icon="🔧" title="Refurbishment-Werkstatt" subtitle="~150 m² — Effiziente Reparatur, Test & QA (ENTWURF)" subtitleClassName="text-primary" badgeColor="blue" badgeText={formatCHF(WORKSHOP_AREA.cost_estimate_chf)} />
+          <HubCardHeader icon="🔧" title="Refurbishment-Werkstatt" subtitle={`~${WORKSHOP_AREA.sqm_recommended} m² — Effiziente Reparatur, Test & QA (ENTWURF)`} subtitleClassName="text-primary" badgeColor="blue" badgeText={formatCHF(WORKSHOP_AREA.cost_estimate_chf)} />
           <p className="text-sm text-text-secondary mb-4">
             Das Herzstück: Hier entstehen refurbishte Geräte. <strong>Heute:</strong> 4 Tische, chaotisch, nur 1-2 in Nutzung.
             <strong> Neu:</strong> Strukturierte Prozesse (Triage → Data Wipe → Repair → Test → QA), nicht endlos Platz.

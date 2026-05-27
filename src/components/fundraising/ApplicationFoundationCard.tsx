@@ -3,6 +3,7 @@ import Card from '@/components/ui/Card';
 import type { FoundationRow } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
+import { getApplicationUrlContext } from '@/lib/domain/foundation-presenter';
 
 interface ApplicationFoundationCardProps {
   foundation: FoundationRow;
@@ -14,27 +15,25 @@ export default function ApplicationFoundationCard({ foundation, foundationDetail
     <Card className="space-y-3">
       <h2 className="heading-item">Stiftung</h2>
       <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
-        {foundationDetail?.applicationUrl && (
-          <div className="sm:col-span-2">
-            <p className="heading-xs-label">
-              {!foundationDetail.applicationUrl.startsWith('mailto:')
-                ? 'Bewerbungsportal'
-                : ['contact', 'direct', 'personal'].includes(foundationDetail.applicationMethod ?? '')
-                  ? 'Anfrage per E-Mail'
-                  : 'Bewerbung per E-Mail'}
-            </p>
-            <a
-              href={foundationDetail.applicationUrl}
-              target={foundationDetail.applicationUrl.startsWith('mailto:') ? undefined : '_blank'}
-              rel="noopener noreferrer"
-              className="text-primary hover:underline break-all"
-            >
-              {foundationDetail.applicationUrl.startsWith('mailto:')
-                ? foundationDetail.applicationUrl.replace('mailto:', '')
-                : foundationDetail.applicationUrl}
-            </a>
-          </div>
-        )}
+        {foundationDetail?.applicationUrl && (() => {
+          const ctx = getApplicationUrlContext(foundationDetail.applicationUrl, foundationDetail.applicationMethod);
+          const label = !ctx.isEmail
+            ? 'Bewerbungsportal'
+            : ctx.isPersonalContact ? 'Anfrage per E-Mail' : 'Bewerbung per E-Mail';
+          return (
+            <div className="sm:col-span-2">
+              <p className="heading-xs-label">{label}</p>
+              <a
+                href={foundationDetail.applicationUrl}
+                target={ctx.target}
+                rel="noopener noreferrer"
+                className="text-primary hover:underline break-all"
+              >
+                {ctx.displayValue}
+              </a>
+            </div>
+          );
+        })()}
         {!foundationDetail?.applicationUrl && foundationDetail?.contact?.email && (
           <div className="sm:col-span-2">
             <p className="heading-xs-label">Bewerbung per E-Mail</p>

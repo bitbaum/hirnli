@@ -2,6 +2,8 @@
  * Foundation API client — thin wrapper over /api/foundations/[id]
  */
 
+import { API_ERR_SAVE, NET_ERR_RETRY } from '@/lib/utils/errors';
+
 interface FoundationApiResponse {
   success: boolean;
   data?: unknown;
@@ -28,9 +30,9 @@ export async function patchFoundationResearch(
       body: JSON.stringify({ configData: fields }),
     });
     const data = await res.json();
-    if (!res.ok) return { success: false, error: data.error ?? 'Fehler beim Speichern' };
+    if (!res.ok) return { success: false, error: data.error ?? API_ERR_SAVE };
     return { success: true, data: data.data };
   } catch {
-    return { success: false, error: 'Netzwerkfehler — bitte erneut versuchen' };
+    return { success: false, error: NET_ERR_RETRY };
   }
 }

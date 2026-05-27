@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { createApplication, getApplicationsByFoundation } from '@/lib/api/applications';
-import { isActiveApplication, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import { useState, useEffect, useRef } from 'react';
+import { createApplication, findActiveApplication } from '@/lib/api/applications';
 import { Button } from '@/components/ui/Button';
 
 interface Props {
@@ -19,18 +18,23 @@ export default function AddToPipelineButton({ foundationId, foundationName, prio
   const [error, setError] = useState<string | null>(null);
   const [existingId, setExistingId] = useState<string | null>(null);
 
-  // Pre-check: if an active application already exists, show conflict state immediately
+  // Stash latest onConflict in a ref so the effect can call it without re-running
+  // when the parent passes a fresh callback reference.
+  const onConflictRef = useRef(onConflict);
+  onConflictRef.current = onConflict;
+
+  // Pre-check: if an active application already exists, show conflict state immediately.
+  // The cancelled flag prevents a stale response from clobbering state if foundationId changes
+  // mid-flight.
   useEffect(() => {
-    getApplicationsByFoundation(foundationId).then((res) => {
-      if (!res.success) return;
-      const active = (res.data as Array<{ application: { id: string; status: ApplicationStatusId } }> ?? [])
-        .find((row) => isActiveApplication(row.application.status));
-      if (active) {
-        setExistingId(active.application.id);
-        setState('conflict');
-        onConflict?.();
-      }
+    let cancelled = false;
+    findActiveApplication(foundationId).then((active) => {
+      if (cancelled || !active) return;
+      setExistingId(active.application.id);
+      setState('conflict');
+      onConflictRef.current?.();
     });
+    return () => { cancelled = true; };
   }, [foundationId]);
 
   async function handleClick() {

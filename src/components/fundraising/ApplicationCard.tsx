@@ -179,20 +179,21 @@ export function ApplicationCard({
                     P{application.priorityLevel}
                   </span>
                 )}
-                {foundation?.fitScore != null && foundation.fitScore > 0 && (
-                  <span
-                    className={`rounded px-1.5 py-0.5 text-xs font-medium ${
-                      fitScoreToDisplay(foundation.fitScore, false) === 3
-                        ? 'bg-success/10 text-success-text'
-                        : fitScoreToDisplay(foundation.fitScore, false) >= 2
-                          ? 'bg-amber-bg text-amber-text'
-                          : 'bg-surface-raised text-text-muted'
-                    }`}
-                    title={`Fit-Score: ${foundation.fitScore}/10`}
-                  >
-                    Fit {foundation.fitScore}/10
-                  </span>
-                )}
+                {foundation?.fitScore != null && foundation.fitScore > 0 && (() => {
+                  const level = fitScoreToDisplay(foundation.fitScore, false);
+                  const cls =
+                    level === 3 ? 'bg-success/10 text-success-text'
+                    : level >= 2 ? 'bg-amber-bg text-amber-text'
+                    : 'bg-surface-raised text-text-muted';
+                  return (
+                    <span
+                      className={`rounded px-1.5 py-0.5 text-xs font-medium ${cls}`}
+                      title={`Fit-Score: ${foundation.fitScore}/10`}
+                    >
+                      Fit {foundation.fitScore}/10
+                    </span>
+                  );
+                })()}
               </div>
               {application.assignedTo && (
                 <span className="text-sm text-text-muted">{application.assignedTo}</span>

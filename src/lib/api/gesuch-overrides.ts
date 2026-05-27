@@ -4,6 +4,7 @@
  */
 
 import type { GesuchOverridesData } from '@/lib/db/schema';
+import { NET_ERR_LOAD } from '@/lib/utils/errors';
 
 export interface GesuchOverridesApiResponse<T = unknown> {
   success: boolean;
@@ -19,7 +20,7 @@ async function request<T>(
     const res = await fetch(url, init);
     return await res.json();
   } catch {
-    return { success: false, error: 'Netzwerkfehler' };
+    return { success: false, error: NET_ERR_LOAD };
   }
 }
 

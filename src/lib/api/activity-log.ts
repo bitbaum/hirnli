@@ -1,4 +1,5 @@
 import type { ActivityLogEntryJSON } from '@/lib/db/schema';
+import { NET_ERR_LOAD } from '@/lib/utils/errors';
 
 export interface ActivityLogApiResponse {
   success: boolean;
@@ -18,5 +19,5 @@ export function getActivityLog(
   });
   return fetch(`/api/activity-log?${params}`)
     .then((r) => r.json() as Promise<ActivityLogApiResponse>)
-    .catch((): ActivityLogApiResponse => ({ success: false, error: 'Netzwerkfehler' }));
+    .catch((): ActivityLogApiResponse => ({ success: false, error: NET_ERR_LOAD }));
 }
