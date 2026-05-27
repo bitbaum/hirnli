@@ -2,9 +2,12 @@
  * Gesuch Overrides API
  *
  * GET    /api/gesuch-overrides/[slug]   — Get overrides for a foundation
- * PUT    /api/gesuch-overrides/[slug]   — Create or replace overrides (upsert)
- * PATCH  /api/gesuch-overrides/[slug]   — Merge partial overrides
+ * PUT    /api/gesuch-overrides/[slug]   — Create or replace overrides (atomic upsert)
  * DELETE /api/gesuch-overrides/[slug]   — Remove all overrides (reset to generated)
+ *
+ * Note on merging: the client (useGesuchOverrides.updateField) deep-merges
+ * patches locally and then calls PUT with the full payload, so no server-side
+ * merge endpoint is needed — and avoiding one keeps the API race-free.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -41,23 +44,6 @@ async function logOverrideSave(slug: string, variant: string, overrides: GesuchO
   } catch {
     // Non-critical — don't fail the save if logging fails
   }
-}
-
-function deepMerge(base: GesuchOverridesData, patch: GesuchOverridesData): GesuchOverridesData {
-  const result: GesuchOverridesData = { ...base };
-  if (patch.foundationBridge !== undefined) result.foundationBridge = patch.foundationBridge;
-  if (patch.why) result.why = { ...base.why, ...patch.why };
-  if (patch.how) {
-    result.how = {
-      ...base.how,
-      trackRecord:
-        patch.how.trackRecord !== undefined
-          ? { ...(base.how?.trackRecord ?? {}), ...patch.how.trackRecord }
-          : base.how?.trackRecord,
-    };
-  }
-  if (patch.anschreiben) result.anschreiben = { ...base.anschreiben, ...patch.anschreiben };
-  return result;
 }
 
 /**
@@ -118,100 +104,28 @@ export async function PUT(
   }
 
   try {
-    const existing = await db
-      .select({ id: gesuchOverrides.id })
-      .from(gesuchOverrides)
-      .where(and(
-        eq(gesuchOverrides.foundationId, slug),
-        eq(gesuchOverrides.orgId, ORG_ID),
-        eq(gesuchOverrides.variantKey, variant),
-      ))
-      .limit(1);
-
-    if (existing.length > 0) {
-      await db
-        .update(gesuchOverrides)
-        .set({ overrides: parsed.data, updatedAt: new Date() })
-        .where(eq(gesuchOverrides.id, existing[0].id));
-    } else {
-      await db.insert(gesuchOverrides).values({
+    // Atomic upsert — eliminates the SELECT-then-INSERT-or-UPDATE race that two
+    // concurrent saves could exploit to create duplicate rows. Targets the unique
+    // constraint added in migration 0004.
+    await db
+      .insert(gesuchOverrides)
+      .values({
         id: nanoid(),
         foundationId: slug,
         orgId: ORG_ID,
         variantKey: variant,
         overrides: parsed.data,
+      })
+      .onConflictDoUpdate({
+        target: [gesuchOverrides.foundationId, gesuchOverrides.orgId, gesuchOverrides.variantKey],
+        set: { overrides: parsed.data, updatedAt: new Date() },
       });
-    }
 
     logOverrideSave(slug, variant, parsed.data);
 
     return NextResponse.json({ success: true, data: { overrides: parsed.data } });
   } catch (err) {
     console.error('PUT gesuch-overrides error:', err);
-    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
-  }
-}
-
-/**
- * PATCH /api/gesuch-overrides/[slug]
- * Deep-merge partial overrides into existing. Body: Partial<GesuchOverridesData>
- */
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
-  const { slug } = await params;
-  const variant = getVariant(request);
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ success: false, error: API_ERR_BAD_REQUEST }, { status: 400 });
-  }
-
-  const parsed = gesuchOverridesSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { success: false, error: API_ERR_VALIDATION, details: parsed.error.flatten() },
-      { status: 400 }
-    );
-  }
-
-  try {
-    const existing = await db
-      .select()
-      .from(gesuchOverrides)
-      .where(and(
-        eq(gesuchOverrides.foundationId, slug),
-        eq(gesuchOverrides.orgId, ORG_ID),
-        eq(gesuchOverrides.variantKey, variant),
-      ))
-      .limit(1);
-
-    const existingParsed = gesuchOverridesSchema.safeParse(existing[0]?.overrides ?? {});
-    const currentOverrides: GesuchOverridesData = existingParsed.success ? existingParsed.data : {};
-    const merged = deepMerge(currentOverrides, parsed.data);
-
-    if (existing.length > 0) {
-      await db
-        .update(gesuchOverrides)
-        .set({ overrides: merged, updatedAt: new Date() })
-        .where(eq(gesuchOverrides.id, existing[0].id));
-    } else {
-      await db.insert(gesuchOverrides).values({
-        id: nanoid(),
-        foundationId: slug,
-        orgId: ORG_ID,
-        variantKey: variant,
-        overrides: merged,
-      });
-    }
-
-    logOverrideSave(slug, variant, merged);
-
-    return NextResponse.json({ success: true, data: { overrides: merged } });
-  } catch (err) {
-    console.error('PATCH gesuch-overrides error:', err);
     return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
   }
 }

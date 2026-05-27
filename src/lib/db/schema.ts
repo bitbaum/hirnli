@@ -10,7 +10,7 @@
  * Schema serves Ground Truth #2: State defines behavior, one source of truth.
  */
 
-import { text, integer, boolean, jsonb, pgTable, timestamp } from 'drizzle-orm/pg-core';
+import { text, integer, boolean, jsonb, pgTable, timestamp, unique } from 'drizzle-orm/pg-core';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 /**
@@ -162,7 +162,13 @@ export const gesuchOverrides = pgTable('fundraising_gesuch_overrides', {
   overrides: jsonb('overrides').notNull().default({}),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
-});
+}, (table) => ({
+  // Lookups + concurrent-write safety: ON CONFLICT in PUT/PATCH targets this.
+  // Without this, two concurrent saves can both see "no existing row" and create duplicates.
+  uniqueByFoundationOrgVariant: unique('gesuch_overrides_unique_foundation_org_variant').on(
+    table.foundationId, table.orgId, table.variantKey,
+  ),
+}));
 
 export type GesuchOverride = typeof gesuchOverrides.$inferSelect;
 export type NewGesuchOverride = typeof gesuchOverrides.$inferInsert;
