@@ -16,6 +16,7 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
+import { getApplicationUrlContext } from '@/lib/domain/foundation-presenter';
 import { Button } from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import CopyButton from '@/components/ui/CopyButton';
@@ -149,16 +150,17 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
 
   return (
     <div className="space-y-4">
-      {info.applicationUrl && (
-        <div>
-          <SectionLabel>{info.applicationUrl.startsWith('mailto:') ? 'Bewerbung per E-Mail' : 'Online-Formular'}</SectionLabel>
-          <Button variant="soft" href={info.applicationUrl}>
-            {info.applicationUrl.startsWith('mailto:')
-              ? `${info.applicationUrl.replace('mailto:', '')} ✉`
-              : 'Formular öffnen ↗'}
-          </Button>
-        </div>
-      )}
+      {info.applicationUrl && (() => {
+        const ctx = getApplicationUrlContext(info.applicationUrl, info.applicationMethod);
+        return (
+          <div>
+            <SectionLabel>{ctx.isEmail ? 'Bewerbung per E-Mail' : 'Online-Formular'}</SectionLabel>
+            <Button variant="soft" href={info.applicationUrl}>
+              {ctx.isEmail ? `${ctx.displayValue} ✉` : 'Formular öffnen ↗'}
+            </Button>
+          </div>
+        );
+      })()}
 
       <div>
         <SectionLabel>Was du wo einträgst</SectionLabel>

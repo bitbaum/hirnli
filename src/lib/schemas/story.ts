@@ -43,15 +43,6 @@ export const projectSchema = z.object({
 });
 export type Project = z.infer<typeof projectSchema>;
 
-// Budget line item
-export const budgetLineItemSchema = z.object({
-  item: z.string(),
-  amount: z.string(),
-  percent: z.string(),
-  note: z.string(),
-});
-export type BudgetLineItem = z.infer<typeof budgetLineItemSchema>;
-
 // Proof point (track record evidence)
 export const proofPointSchema = z.object({
   label: z.string(),
