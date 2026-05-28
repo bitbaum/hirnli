@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Link from 'next/link';
 import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchStatusWidget from '@/components/gesuch/GesuchStatusWidget';
@@ -8,6 +7,7 @@ import ActivityTimeline from '@/components/ui/ActivityTimeline';
 import SubmissionChecklist from '@/components/gesuch/SubmissionChecklist';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 
 interface StepSubmitProps {
   slug: string;
@@ -28,15 +28,12 @@ export default function StepSubmit({
   shareToken,
   onPrev,
 }: StepSubmitProps) {
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopyToClipboard();
 
-  async function copyShareLink() {
+  function copyShareLink() {
     if (!shareToken) return;
     const schwerpunktQuery = activeSchwerpunkt ? `?s=${activeSchwerpunkt}` : '';
-    const url = `${window.location.origin}/gesuch/share/${shareToken}${schwerpunktQuery}`;
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    copy(`${window.location.origin}/gesuch/share/${shareToken}${schwerpunktQuery}`);
   }
 
   const schwerpunktParam = activeSchwerpunkt ? `?schwerpunkt=${activeSchwerpunkt}` : '';

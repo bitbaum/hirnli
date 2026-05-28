@@ -1,21 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { UI_TIMINGS } from '@/lib/config/ui-timings';
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 
 export default function ShareButton() {
-  const [copied, setCopied] = useState(false);
-
-  function handleCopy() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), UI_TIMINGS.copySuccess);
-    });
-  }
+  const { copied, copy } = useCopyToClipboard();
 
   return (
-    <Button variant="secondary" size="sm" onClick={handleCopy}>
+    <Button variant="secondary" size="sm" onClick={() => copy(window.location.href)}>
       {copied ? '✓ Link kopiert' : '🔗 Seite teilen'}
     </Button>
   );

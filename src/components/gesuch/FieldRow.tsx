@@ -5,6 +5,7 @@ import { AI_PRESETS } from '@/lib/config/ai-presets';
 import { buildExternalPrompt } from '@/lib/domain/prompt-builder';
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
 import { UI_TIMINGS } from '@/lib/config/ui-timings';
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import Spinner from '@/components/ui/Spinner';
 
 interface FieldRowProps {
@@ -45,7 +46,7 @@ export default function FieldRow({
   const [aiLoading, setAiLoading] = useState(false);
   const [showAi, setShowAi] = useState(false);
   const [aiError, setAiError] = useState('');
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopyToClipboard({ resetAfter: UI_TIMINGS.copySuccessShort });
 
   const isModified = value !== originalValue;
 
@@ -57,10 +58,7 @@ export default function FieldRow({
       fieldDescription,
       currentText: value,
     });
-    navigator.clipboard.writeText(prompt).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), UI_TIMINGS.copySuccessShort);
-    });
+    copy(prompt);
   };
 
   const runAi = async (instruction: string) => {

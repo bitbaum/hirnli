@@ -5,16 +5,15 @@ import { HUB_IMAGE_PROMPTS, getMidjourneyPrompt, getDallEPrompt, getPromptConfig
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 
 export function HubImageGenerator() {
   const [selectedSpace, setSelectedSpace] = useState<string | null>(null);
-  const [copiedPrompt, setCopiedPrompt] = useState<string | null>(null);
+  const { copied: copiedPrompt, copy } = useCopyToClipboard();
 
-  const handleCopyPrompt = async (spaceName: string, format: 'midjourney' | 'dalle') => {
+  const handleCopyPrompt = (spaceName: string, format: 'midjourney' | 'dalle') => {
     const prompt = format === 'midjourney' ? getMidjourneyPrompt(spaceName) : getDallEPrompt(spaceName);
-    await navigator.clipboard.writeText(prompt);
-    setCopiedPrompt(`${spaceName}-${format}`);
-    setTimeout(() => setCopiedPrompt(null), 2000);
+    copy(prompt, `${spaceName}-${format}`);
   };
 
   const selectedConfig = selectedSpace ? getPromptConfig(selectedSpace) : null;
