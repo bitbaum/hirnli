@@ -6,10 +6,13 @@
 import { isActiveApplication, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
 import { NET_ERR_LOAD } from '@/lib/utils/errors';
 
-/** Minimal shape returned by /api/applications?foundationId=... — every consumer needs id+status */
+/** Minimal shape returned by /api/applications? endpoints — every consumer needs at least
+ *  id, status, foundationId. submissionDate is here because GesuchStatusWidget
+ *  reads it on the same payload. */
 export interface FoundationApplicationRow {
   application: {
     id: string;
+    foundationId: string;
     status: ApplicationStatusId;
     submissionDate?: string | null;
   };
