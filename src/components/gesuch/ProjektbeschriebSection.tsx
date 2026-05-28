@@ -121,7 +121,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
 
         {/* Partner highlights — Stadt Zürich prominent mention (Gap #5) */}
         {dok.partnerHighlights.length > 0 && (
-          <div className="mt-4 rounded border border-primary/20 bg-primary/5 p-4">
+          <div className="mt-4 rounded border border-accent-border bg-accent-soft p-4">
             <p className="mb-2 heading-detail">Referenz-Partnerschaften</p>
             {dok.partnerHighlights.map((p) => (
               <div key={p.name}>

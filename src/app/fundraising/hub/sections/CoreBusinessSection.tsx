@@ -68,7 +68,7 @@ export default function CoreBusinessSection() {
               </ul>
             </div>
           </div>
-          <div className="bg-primary/10 rounded-lg p-4 text-sm">
+          <div className="bg-accent-muted rounded-lg p-4 text-sm">
             <p className="heading-detail text-primary mb-2">Effizienz durch Prozesse, nicht durch Platz</p>
             <p className="text-primary text-sm">
               Nicht 600m² Werkstatt, sondern <strong>klare Prozesse</strong> mit 2× Bildungsprogrammleitern.

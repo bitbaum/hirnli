@@ -45,7 +45,7 @@ export default function StepIndicator({ currentStep, onNavigate }: StepIndicator
                     isCurrent
                       ? 'border-primary bg-primary text-white'
                       : isDone
-                        ? 'border-primary bg-primary/10 text-primary-text'
+                        ? 'border-primary bg-accent-muted text-primary-text'
                         : 'border-border-default bg-bg text-text-muted group-hover:border-primary/40 group-hover:text-primary'
                   }`}
                 >

@@ -74,7 +74,7 @@ export function NumberWithSource({
           {/* Underline indicator */}
           <div className="h-0.5 bg-primary opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
           {/* Info icon */}
-          <div className="absolute -top-1 -right-1 w-5 h-5 bg-primary/10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute -top-1 -right-1 w-5 h-5 bg-accent-muted rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <span className="text-xs text-primary">i</span>
           </div>
         </div>

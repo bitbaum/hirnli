@@ -27,7 +27,7 @@ export default function SpacePlanningSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div className="bg-primary/10 p-3 rounded-lg">
+          <div className="bg-accent-muted p-3 rounded-lg">
             <p className="heading-detail text-primary mb-1">Kerngeschäft</p>
             <p className="heading-stat-sm text-primary">{SPACE_SUMMARY.by_category.core_business.total_sqm} m²</p>
             <p className="text-sm text-primary">Shop + Werkstatt + Lager</p>
@@ -84,7 +84,7 @@ export default function SpacePlanningSection() {
             </div>
           </div>
 
-          <div className="bg-primary/10 p-4 rounded-lg">
+          <div className="bg-accent-muted p-4 rounded-lg">
             <p className="heading-detail text-primary mb-2">Stadt Zürich (teurer)</p>
             <p className="text-sm text-primary mb-2">
               <strong>{ZURICH_MARKET_DATA.city_zurich.office_space_per_year}</strong> pro m²/Jahr
@@ -92,7 +92,7 @@ export default function SpacePlanningSection() {
             <p className="text-sm text-primary mb-3">
               Zentrale Lagen (Kreis 4/5, Zürich West)
             </p>
-            <div className="pt-3 border-t border-primary/20">
+            <div className="pt-3 border-t border-accent-border">
               <p className="text-sm text-primary mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
               <p className="heading-stat-sm text-primary">
                 CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.min)} - {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.max)} /Jahr

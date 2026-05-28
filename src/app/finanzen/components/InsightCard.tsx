@@ -14,7 +14,7 @@ export function InsightCard({
   const colors = {
     success: 'border-l-4 border-l-success bg-success-bg/30',
     warning: 'border-l-4 border-l-warning bg-warning-bg/30',
-    info: 'border-l-4 border-l-primary bg-primary/5',
+    info: 'border-l-4 border-l-primary bg-accent-soft',
   };
 
   return (

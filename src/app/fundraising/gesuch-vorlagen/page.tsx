@@ -85,7 +85,7 @@ export default function GesuchVorlagenPage() {
                       <div key={type} className="flex gap-1">
                         <Link
                           href={`/fundraising/gesuch-vorlagen/${id}/${type}`}
-                          className="rounded-md bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary hover:bg-primary/20"
+                          className="rounded-md bg-accent-muted px-3 py-1.5 text-sm font-semibold text-primary hover:bg-accent-strong"
                           title={`${sp.shortLabel} × ${typeLabel.long}`}
                         >
                           {typeLabel.short}

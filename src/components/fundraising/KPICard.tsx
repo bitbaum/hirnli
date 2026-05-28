@@ -18,7 +18,7 @@ interface KPICardProps {
 
 export function KPICard({ label, value, icon, color = 'blue', trend, subtitle }: KPICardProps) {
   const colorClasses = {
-    blue: 'bg-primary/10 border-primary/20 text-primary-text',
+    blue: 'bg-accent-muted border-accent-border text-primary-text',
     green: 'bg-success/10 border-success/20 text-success-text',
     orange: 'bg-warning/10 border-warning/20 text-warning-text',
     red: 'bg-danger/10 border-danger/20 text-danger-text',

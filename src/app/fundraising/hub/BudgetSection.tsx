@@ -42,7 +42,7 @@ export default function BudgetSection() {
           <p className="text-sm text-text-secondary">{scenario.description}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div className="bg-primary/10 p-3 rounded-lg">
+          <div className="bg-accent-muted p-3 rounded-lg">
             <p className="heading-detail text-primary mb-1">Raumbedarf</p>
             <p className="heading-stat-sm text-primary">
               {scenario.spaceRequirement.min_sqm}–{scenario.spaceRequirement.max_sqm} m²
@@ -82,7 +82,7 @@ export default function BudgetSection() {
       </div>
 
       {/* Transparency Note */}
-      <Card className="bg-primary/10 border-l-4 border-l-primary">
+      <Card className="bg-accent-muted border-l-4 border-l-primary">
         <p className="text-sm text-primary mb-2">
           <strong>💡 Transparenz:</strong> Jede Zahl ist klickbar und zeigt Quelle, Methodik und
           Konfidenz-Level.

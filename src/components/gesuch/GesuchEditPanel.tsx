@@ -88,7 +88,7 @@ export default function GesuchEditPanel({
   }
 
   return (
-    <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 print:hidden">
+    <div className="rounded-2xl border border-accent-border bg-accent-soft p-6 print:hidden">
       {/* Header — stacks vertically on mobile */}
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div>

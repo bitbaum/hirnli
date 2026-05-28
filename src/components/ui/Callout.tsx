@@ -4,7 +4,7 @@ type CalloutColor = 'warning' | 'primary' | 'success' | 'danger';
 
 const COLOR_CLASSES: Record<CalloutColor, string> = {
   warning: 'bg-warning/10 border-warning',
-  primary: 'bg-primary/10 border-primary',
+  primary: 'bg-accent-muted border-primary',
   success: 'bg-success/10 border-success',
   danger:  'bg-danger/10 border-danger',
 };

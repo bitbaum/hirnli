@@ -54,7 +54,7 @@ export default function CommunitySpaceCard({
               <p className="text-sm text-text-secondary mt-1">{tagline}</p>
             </div>
             {type === 'core' && (
-              <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full whitespace-nowrap">
+              <span className="px-3 py-1 bg-accent-muted text-primary text-xs font-semibold rounded-full whitespace-nowrap">
                 Kernbereich
               </span>
             )}
@@ -98,7 +98,7 @@ export default function CommunitySpaceCard({
           {/* Capacity & Audience */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {capacity && (
-              <div className="bg-primary/10 rounded-lg p-4">
+              <div className="bg-accent-muted rounded-lg p-4">
                 <h4 className="heading-detail text-primary mb-2">Kapazität</h4>
                 <p className="text-sm text-primary">{capacity}</p>
               </div>

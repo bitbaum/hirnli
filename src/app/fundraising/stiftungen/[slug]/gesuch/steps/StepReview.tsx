@@ -133,7 +133,7 @@ export default function StepReview({
 
       {/* Auto-draft CTA — shown when no overrides exist yet */}
       {!hasOverrides && !autoDraftLoading && (
-        <div className="rounded-xl border border-primary/20 bg-primary/5 p-5 print:hidden">
+        <div className="rounded-xl border border-accent-border bg-accent-soft p-5 print:hidden">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="heading-detail">Automatischer KI-Entwurf</p>
@@ -148,7 +148,7 @@ export default function StepReview({
         </div>
       )}
       {autoDraftLoading && (
-        <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 p-5 print:hidden">
+        <div className="flex items-center gap-3 rounded-xl border border-accent-border bg-accent-soft p-5 print:hidden">
           <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
           <span className="text-sm text-text-primary">KI-Entwurf wird erstellt…</span>
         </div>
@@ -179,7 +179,7 @@ export default function StepReview({
           onClick={onToggleEdit}
           className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
             editMode
-              ? 'bg-primary/10 text-primary ring-1 ring-primary/30'
+              ? 'bg-accent-muted text-primary ring-1 ring-primary/30'
               : 'border border-border-default text-text-muted hover:border-primary/40 hover:text-primary'
           }`}
         >

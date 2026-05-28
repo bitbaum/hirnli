@@ -102,7 +102,7 @@ export default function ReachSection() {
               <Badge variant="info">Bonus: Online Content</Badge>
               Noch mehr Reichweite ohne zusätzliche Personalkosten
             </h3>
-            <div className="bg-primary/10 rounded-lg p-4">
+            <div className="bg-accent-muted rounded-lg p-4">
               <p className="text-sm text-primary mb-3">
                 <strong>Hub + Bildungsprogrammleiter:innen ermöglichen auch Online-Content-Produktion:</strong>
               </p>

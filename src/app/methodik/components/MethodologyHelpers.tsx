@@ -18,7 +18,7 @@ export const CONFIDENCE_BADGE_MAP: Record<NumberConfidence | Confidence, { label
 
 export function FormulaBox({ children }: { children: React.ReactNode }) {
   return (
-    <div className="my-4 rounded-lg border border-primary/20 bg-primary/10 p-4 font-mono text-sm">
+    <div className="my-4 rounded-lg border border-accent-border bg-accent-muted p-4 font-mono text-sm">
       {children}
     </div>
   );

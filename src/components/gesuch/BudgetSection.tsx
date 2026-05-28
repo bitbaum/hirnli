@@ -118,7 +118,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
 
       {/* Budget detail by line item (Jahr 1) */}
       <h3 className="mb-3 heading-card">Budgetdetail Jahr 1 ({formatCHF(year1Total)})</h3>
-      <div className="mb-4 text-sm text-text-muted bg-primary/10 p-3 rounded">
+      <div className="mb-4 text-sm text-text-muted bg-accent-muted p-3 rounded">
         <strong>Szenario:</strong> {dok.budget.scenario.label} — {dok.budget.scenario.description}
       </div>
       <div className="overflow-x-auto">

@@ -153,7 +153,7 @@ export default function TeamPage() {
               <h3 className="heading-card">Hardware-BPL</h3>
             </div>
             <div className="space-y-3 text-sm">
-              <div className="bg-primary/10 rounded-lg p-3">
+              <div className="bg-accent-muted rounded-lg p-3">
                 <div className="heading-detail text-primary mb-1">Direkte Ausbildung</div>
                 <div className="text-primary">{MULTIPLICATION_EFFECT.hardware_bpl.direct_training} Menschen/Jahr direkt trainiert</div>
               </div>

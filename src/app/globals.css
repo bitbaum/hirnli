@@ -26,6 +26,16 @@
   --color-secondary: #2ECC71;
   --color-accent: #E67E22;
 
+  /* Accent tints — the canonical names for the 5% / 10% / 20% primary overlays
+     that components otherwise hand-roll as `bg-primary/5`, `bg-primary/10`,
+     `bg-primary/20`. Use `bg-accent-soft`, `bg-accent-muted`,
+     `bg-accent-strong` instead so design changes propagate from one place. */
+  --color-accent-soft:   color-mix(in srgb, var(--color-primary) 5%,  transparent);
+  --color-accent-muted:  color-mix(in srgb, var(--color-primary) 10%, transparent);
+  --color-accent-strong: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  /* Border-on-accent tint used by Callout / WhyThisMatters / PipelineOverviewCard */
+  --color-accent-border: color-mix(in srgb, var(--color-primary) 20%, transparent);
+
   /* Status palette — the only chromatic colors in general UI */
   --color-success: #2ECC71;
   --color-success-bg: #D5F5E3;

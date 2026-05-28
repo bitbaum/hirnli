@@ -20,7 +20,7 @@ import {
 export default function WhyWeNeedFunding() {
   return (
     <section className="mb-8">
-      <Card className="border-l-4 border-l-primary bg-primary/10">
+      <Card className="border-l-4 border-l-primary bg-accent-muted">
         <div className="prose prose-sm max-w-none">
           <h2 className="text-xl font-bold text-primary mt-0">Die Situation: Warum wir Stiftungen brauchen</h2>
 

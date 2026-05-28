@@ -29,7 +29,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
       {/* Year-by-year breakdown */}
       <div className="space-y-4 mb-6">
         {/* Year 1 */}
-        <div className="p-4 bg-primary/10 rounded-lg">
+        <div className="p-4 bg-accent-muted rounded-lg">
           <div className="flex justify-between items-start mb-2">
             <h4 className="heading-item">Jahr 1</h4>
             <span className="heading-stat-sm text-primary">{formatCHF(totals.y1Total)}</span>
@@ -43,7 +43,7 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
               <span>Jährliche Kosten:</span>
               <span className="font-medium">{formatCHF(year1.jaehrlich)}</span>
             </div>
-            <div className="flex justify-between text-success pt-1 border-t border-primary/20">
+            <div className="flex justify-between text-success pt-1 border-t border-accent-border">
               <span>+ Eigenleistung (kein Cash):</span>
               <span className="font-medium">{formatCHF(year1.eigenleistung)}</span>
             </div>

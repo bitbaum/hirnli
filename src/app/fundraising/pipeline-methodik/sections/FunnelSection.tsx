@@ -79,7 +79,7 @@ export default function FunnelSection({ s }: Props) {
           countLabel="mit mindestens einem passenden Thema"
           method="Keyword-Matching auf dem offiziellen Stiftungszweck (ESA)"
           cost="Gratis"
-          color="bg-primary/5"
+          color="bg-accent-soft"
           detail="Stiftungszwecke wie «Förderung der medizinischen Grundlagenforschung» werden automatisch aussortiert. Zwecke mit Begriffen wie Arbeitsintegration, Kreislaufwirtschaft, Bildung etc. bleiben."
         />
         <FunnelStage
@@ -90,7 +90,7 @@ export default function FunnelSection({ s }: Props) {
           countLabel="mit berechnetem Fit-Score"
           method="Algorithmisch (Themen × Geografie × Zugang) oder KI-gestützte Analyse"
           cost="Gering (KI) bis gratis (Algorithmus)"
-          color="bg-primary/10"
+          color="bg-accent-muted"
           detail={`${s.highFit} mit exzellentem Fit (★★★), ${s.mediumFit} mit gutem Fit (★★☆). Details: Scoring-Methodik.`}
         />
         <FunnelStage
@@ -101,7 +101,7 @@ export default function FunnelSection({ s }: Props) {
           countLabel="Bereitschafts-Tier ≥ Recherchiert"
           method="Website-Recherche, Kontaktdaten, Förderbereich, Fristen"
           cost="Mittel (Web-Scraping + KI-Analyse)"
-          color="bg-primary/10"
+          color="bg-accent-muted"
           detail={`Voraussetzung: Stiftungszweck dokumentiert, Kontaktdaten vorhanden, Themen zugeordnet, Website verifiziert. Aktuell ${s.withContact} mit Kontaktdaten, ${s.withWebsite} mit eigener Website.`}
         />
         <FunnelStage

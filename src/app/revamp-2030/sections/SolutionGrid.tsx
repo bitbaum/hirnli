@@ -26,7 +26,7 @@ export default function SolutionGrid() {
                 <li>Makerspace & AI Lab</li>
                 <li>Besser organisiertes Lager</li>
               </ul>
-              <div className="bg-primary/10 rounded-lg p-3 mb-3">
+              <div className="bg-accent-muted rounded-lg p-3 mb-3">
                 <p className="text-sm text-primary">
                   <strong>Warum das hilft:</strong> Mehr Raum bedeutet mehr parallele Arbeitsstationen, bessere Trennung
                   (Verkauf/Werkstatt/Schulung), weniger Chaos. <strong>Aber:</strong> Raum allein reicht nicht — siehe Punkt 2.

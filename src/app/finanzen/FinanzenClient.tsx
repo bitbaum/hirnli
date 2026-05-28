@@ -79,7 +79,7 @@ export default function FinanzenClient() {
         </div>
       </Card>
 
-      <Card className="mb-6 bg-primary/10 border-l-4 border-primary">
+      <Card className="mb-6 bg-accent-muted border-l-4 border-primary">
         <p className="text-sm">
           <strong>Diese Seite zeigt:</strong> Einnahmen & Ausgaben (woher kommt das Geld?)<br />
           <strong>Impact ansehen:</strong> <Link href="/wirkung" className="text-primary hover:underline font-medium">Wirkungsseite</Link>

@@ -54,7 +54,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
       <div
         ref={setNodeRef}
         className={`flex-1 rounded-lg p-2 transition-colors ${
-          isOver ? 'bg-primary/10 ring-2 ring-primary/20' : 'bg-surface-raised ring-2 ring-border'
+          isOver ? 'bg-accent-muted ring-2 ring-primary/20' : 'bg-surface-raised ring-2 ring-border'
         }`}
       >
         <SortableContext

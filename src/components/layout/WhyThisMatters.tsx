@@ -19,7 +19,7 @@ export default function WhyThisMatters({ purpose, connection }: WhyThisMattersPr
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
-    <div className="mb-8 rounded-lg border border-primary/20 bg-primary/10">
+    <div className="mb-8 rounded-lg border border-accent-border bg-accent-muted">
       <Button
         onClick={() => setIsExpanded(!isExpanded)}
         variant="ghost"

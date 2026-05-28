@@ -106,7 +106,7 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                 href={f.applicationUrl}
                 target={ctx.target}
                 rel="noopener noreferrer"
-                className="flex min-h-11 items-center justify-between rounded bg-primary/5 px-2 py-2.5 font-semibold text-primary hover:bg-primary/10 hover:underline"
+                className="flex min-h-11 items-center justify-between rounded bg-accent-soft px-2 py-2.5 font-semibold text-primary hover:bg-accent-muted hover:underline"
               >
                 <span>{label}</span>
                 <span className="text-xs">{ctx.isEmail ? '✉' : '↗'}</span>

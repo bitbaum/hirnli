@@ -33,7 +33,7 @@ export default function SchwerpunkteFilter({
               onClick={() => onSelect(isActive ? null : id)}
               className={`flex min-h-11 w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-sm transition-all ${
                 isActive
-                  ? 'bg-primary/10 font-semibold text-primary ring-1 ring-primary/30'
+                  ? 'bg-accent-muted font-semibold text-primary ring-1 ring-primary/30'
                   : 'text-text-muted hover:bg-surface-raised'
               }`}
             >

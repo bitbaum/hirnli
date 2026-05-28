@@ -94,7 +94,7 @@ export function HubImageGenerator() {
 
       {/* Instructions */}
       {!selectedSpace && (
-        <Card className="bg-primary/10 border-l-4 border-l-primary">
+        <Card className="bg-accent-muted border-l-4 border-l-primary">
           <h3 className="heading-item text-primary mb-2">How to Generate Hub Visualizations</h3>
           <ol className="text-sm text-primary space-y-2 list-decimal list-inside">
             <li><strong>Select a space</strong> from the grid above</li>
@@ -102,7 +102,7 @@ export function HubImageGenerator() {
             <li><strong>Paste into the AI tool</strong> and generate the image</li>
             <li><strong>Download the result</strong> and add to your presentations/documents</li>
           </ol>
-          <div className="mt-4 pt-4 border-t border-primary/20">
+          <div className="mt-4 pt-4 border-t border-accent-border">
             <p className="text-sm text-primary">
               <strong>Free options:</strong> Use Midjourney free trial, DALL-E 3 via ChatGPT Plus, or Stable Diffusion (free, open-source).
               <br />

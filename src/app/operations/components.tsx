@@ -26,7 +26,7 @@ export function Checklist({ items }: { items: readonly string[] }) {
 
 export function TimeBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block rounded bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+    <span className="inline-block rounded bg-accent-muted px-2 py-0.5 text-xs font-medium text-primary">
       {children}
     </span>
   );

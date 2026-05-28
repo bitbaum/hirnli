@@ -27,7 +27,7 @@ export default function SpaceConcept() {
 
         <div className="space-y-3 not-prose">
           {SPACE_PLAN.map((space) => (
-            <div key={space.area} className="border-l-4 border-primary/20 pl-4 py-2">
+            <div key={space.area} className="border-l-4 border-accent-border pl-4 py-2">
               <div className="flex items-baseline justify-between mb-1">
                 <strong className="text-base text-text-primary">{space.area}</strong>
                 <span className="heading-detail tabular-nums">{space.sqm} m²</span>

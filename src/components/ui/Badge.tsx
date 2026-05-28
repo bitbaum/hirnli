@@ -1,14 +1,14 @@
 const VARIANTS = {
   default: 'bg-surface-raised text-text-primary',
-  primary: 'bg-primary/10 text-primary-text',
+  primary: 'bg-accent-muted text-primary-text',
   success: 'bg-success-bg text-success-text',
   warning: 'bg-warning-bg text-warning-text',
   danger: 'bg-danger-bg text-danger-text',
-  info: 'bg-primary/10 text-primary-text',
+  info: 'bg-accent-muted text-primary-text',
   outline: 'border border-border-default bg-transparent text-text-tertiary',
   // Data source badges
   live: 'bg-success-bg text-success-text',
-  derived: 'bg-primary/10 text-primary-text',
+  derived: 'bg-accent-muted text-primary-text',
   estimated: 'bg-warning-bg text-warning-text',
   none: 'bg-surface-raised text-text-tertiary',
   // No color applied — pass full color classes via className
@@ -16,7 +16,7 @@ const VARIANTS = {
 } as const;
 
 const COLORS = {
-  blue: 'bg-primary/10 text-primary-text',
+  blue: 'bg-accent-muted text-primary-text',
   green: 'bg-success-bg text-success-text',
   emerald: 'bg-success-bg text-success-text',
   purple: 'bg-pillar-vision/15 text-pillar-vision',

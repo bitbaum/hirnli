@@ -111,7 +111,7 @@ export default function FieldRow({
             type="button"
             onClick={() => { setShowAi((v) => !v); setAiError(''); }}
             className={`flex min-h-[44px] items-center gap-1 rounded px-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-              showAi ? 'bg-primary/10 text-primary-text' : 'text-text-muted hover:text-primary'
+              showAi ? 'bg-accent-muted text-primary-text' : 'text-text-muted hover:text-primary'
             }`}
             title="KI-Überarbeitung"
           >
@@ -145,7 +145,7 @@ export default function FieldRow({
 
       {/* AI panel */}
       {showAi && (
-        <div className="rounded-md border border-primary/20 bg-primary/5 p-3 space-y-2">
+        <div className="rounded-md border border-accent-border bg-accent-soft p-3 space-y-2">
           {/* Quick presets */}
           <div className="flex flex-wrap gap-1.5">
             {AI_PRESETS.map((preset) => (

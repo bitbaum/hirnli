@@ -64,7 +64,7 @@ export default function PipelineOverviewCard({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
+        <div className="rounded-lg border border-accent-border bg-accent-soft px-4 py-3">
           <div className="heading-section tabular-nums text-primary-text">{gesuchCount}</div>
           <div className="heading-detail">Mit Gesuch</div>
           <p className="mt-0.5 text-sm text-text-muted">Gesuch-Seite generiert (P1–P3)</p>

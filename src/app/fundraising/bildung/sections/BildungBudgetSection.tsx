@@ -25,7 +25,7 @@ export default function BildungBudgetSection() {
               <span className="text-sm text-text-secondary">Sozialabgaben (20%)</span>
               <span className="heading-item">CHF {formatNumber(bplSocialCharges)}</span>
             </div>
-            <div className="flex justify-between items-center pt-2 bg-primary/10 rounded-lg p-3">
+            <div className="flex justify-between items-center pt-2 bg-accent-muted rounded-lg p-3">
               <span className="text-base font-bold text-primary">Total pro Jahr</span>
               <span className="text-xl font-bold text-primary">CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}</span>
             </div>

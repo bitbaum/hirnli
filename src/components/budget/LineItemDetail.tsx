@@ -53,7 +53,7 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
       )}
 
       {/* Source metadata */}
-      <div className="text-sm space-y-1.5 pt-2 border-t border-primary/20">
+      <div className="text-sm space-y-1.5 pt-2 border-t border-accent-border">
         <div>
           <strong className="text-text-primary">Quelle:</strong>{' '}
           <span className="text-text-secondary">{item.source.methodology}</span>

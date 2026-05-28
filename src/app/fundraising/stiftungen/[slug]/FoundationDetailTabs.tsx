@@ -217,7 +217,7 @@ export default function FoundationDetailTabs({ foundation: f, fitNarrative, them
                           <h4 className="heading-item">Mitgliedschaften</h4>
                           <div className="mt-1 flex flex-wrap gap-1">
                             {f.memberships.map((m) => (
-                              <span key={m} className="rounded bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">{m}</span>
+                              <span key={m} className="rounded bg-accent-muted px-2 py-0.5 text-xs font-medium text-primary">{m}</span>
                             ))}
                           </div>
                         </div>

@@ -23,7 +23,7 @@ interface PrintTipBannerProps {
 
 export function PrintTipBanner({ children, className = '', suffix = '.' }: PrintTipBannerProps) {
   return (
-    <div className={`rounded-lg border border-primary/20 bg-primary/5 p-4 text-center text-sm text-text-secondary ${className}`}>
+    <div className={`rounded-lg border border-accent-border bg-accent-soft p-4 text-center text-sm text-text-secondary ${className}`}>
       <strong>Tipp:</strong> Drücken Sie Cmd+P (Mac) oder Ctrl+P (Windows/Linux) für eine saubere A4-PDF-Ausgabe{suffix}
       <div className="mt-2 flex justify-center gap-4">
         {children}

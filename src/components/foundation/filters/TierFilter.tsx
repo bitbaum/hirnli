@@ -29,7 +29,7 @@ export default function TierFilter({ activeTier, tierCounts, onSelect }: TierFil
               onClick={() => onSelect(tier)}
               className={`flex min-h-11 w-full flex-col rounded-lg px-2.5 py-2 text-left transition-all ${
                 isActive
-                  ? 'bg-primary/10 ring-1 ring-primary/30'
+                  ? 'bg-accent-muted ring-1 ring-primary/30'
                   : 'hover:bg-surface-raised'
               }`}
             >
