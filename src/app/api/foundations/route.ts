@@ -38,8 +38,8 @@ export async function GET(request: NextRequest) {
     const priority = searchParams.get('priority');
     const includeArchived = searchParams.get('archived') === 'true';
     const includeAll = searchParams.get('includeAll') === 'true';
-    const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10) || 50, 100);
-    const offset = parseInt(searchParams.get('offset') || '0', 10) || 0;
+    const limit = Math.min(Math.max(1, parseInt(searchParams.get('limit') || '50', 10) || 50), 100);
+    const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10) || 0);
 
     // Build filter conditions
     const conditions = [];
@@ -50,7 +50,9 @@ export async function GET(request: NextRequest) {
 
     if (fitMin) {
       const minScore = parseInt(fitMin, 10);
-      if (!isNaN(minScore)) conditions.push(gte(foundations.fitScore, minScore));
+      // Clamp to the valid fitScore range so a value like -999 or 9999 can't
+      // produce a query that's meaningless or that bypasses pagination logic.
+      if (!isNaN(minScore)) conditions.push(gte(foundations.fitScore, Math.min(10, Math.max(0, minScore))));
     }
 
     if (priority) {

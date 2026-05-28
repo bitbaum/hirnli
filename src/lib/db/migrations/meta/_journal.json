@@ -15,6 +15,34 @@
       "when": 1743552000000,
       "tag": "0001_add_contact_address",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1775634207000,
+      "tag": "0002_ssot_cleanup",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1775724709000,
+      "tag": "0003_flat_column_sync_trigger",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1779912491000,
+      "tag": "0004_gesuch_overrides_unique",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1779965402000,
+      "tag": "0005_hot_path_indexes",
+      "breakpoints": true
     }
   ]
 }

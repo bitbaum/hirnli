@@ -53,8 +53,8 @@ export async function GET(request: NextRequest) {
     const foundationId = searchParams.get('foundationId');
     const assignedTo = searchParams.get('assignedTo');
     const priority = searchParams.get('priority');
-    const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10) || 50, 100);
-    const offset = parseInt(searchParams.get('offset') || '0', 10) || 0;
+    const limit = Math.min(Math.max(1, parseInt(searchParams.get('limit') || '50', 10) || 50), 100);
+    const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10) || 0);
 
     // Build filter conditions
     const conditions = [];
