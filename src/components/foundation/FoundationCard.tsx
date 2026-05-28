@@ -45,7 +45,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
       className="block rounded-lg border border-border-default bg-surface-base p-4 transition-all hover:border-primary/30 hover:shadow-md hover:no-underline"
     >
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1">
               <span className={`text-xs ${trustDisplay.dotColor}`} title={trustDisplay.label}>●</span>

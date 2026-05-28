@@ -22,6 +22,8 @@ Thumbs.db
 
 # Screenshots & reference images (root-level only — public/ PNGs are tracked)
 /*.png
+/*.jpg
+/*.jpeg
 
 # Playwright MCP
 .playwright-mcp/

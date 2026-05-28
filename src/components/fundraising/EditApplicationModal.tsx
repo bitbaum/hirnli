@@ -88,7 +88,7 @@ export function EditApplicationModal({
   return (
     /* Backdrop */
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-3 sm:p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
@@ -96,19 +96,19 @@ export function EditApplicationModal({
         role="dialog"
         aria-modal="true"
         aria-label="Gesuch bearbeiten"
-        className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-surface-base shadow-lg"
+        className="flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-surface-base shadow-lg sm:max-h-[90vh]"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border-default px-6 py-4">
-          <div>
+        <div className="flex items-center justify-between border-b border-border-default px-4 py-3 sm:px-6 sm:py-4">
+          <div className="min-w-0">
             <h2 className="heading-card">Gesuch bearbeiten</h2>
-            <p className="text-sm text-text-muted">{foundation?.name ?? application.foundationId}</p>
+            <p className="truncate text-sm text-text-muted">{foundation?.name ?? application.foundationId}</p>
           </div>
           <CloseButton onClick={onClose} />
         </div>
 
         {/* Body — scrollable */}
-        <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-5 sm:px-6 sm:py-5">
           <ErrorAlert>{error}</ErrorAlert>
 
           {/* Status + Priority row */}
@@ -253,7 +253,7 @@ export function EditApplicationModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 border-t border-border-default px-6 py-4">
+        <div className="flex items-center justify-end gap-2 border-t border-border-default px-4 py-3 sm:gap-3 sm:px-6 sm:py-4">
           <Button variant="secondary" onClick={onClose} disabled={isSaving}>
             Abbrechen
           </Button>

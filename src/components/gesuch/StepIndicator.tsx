@@ -52,9 +52,9 @@ export default function StepIndicator({ currentStep, onNavigate }: StepIndicator
                   {isDone ? '✓' : step.n}
                 </span>
 
-                {/* Label */}
+                {/* Label — wraps on narrow screens so steps don't overflow on 375px-wide viewports */}
                 <span
-                  className={`text-xs font-medium whitespace-nowrap ${
+                  className={`max-w-[6.5rem] text-center text-xs font-medium leading-tight sm:max-w-none sm:whitespace-nowrap ${
                     isCurrent
                       ? 'text-primary-text'
                       : isDone

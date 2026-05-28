@@ -35,7 +35,7 @@ export function Column({ status, applications, onDeleted, onUpdated }: ColumnPro
   );
 
   return (
-    <div className="flex min-w-[200px] flex-col">
+    <div className="flex min-w-[180px] flex-col">
       {/* Column header */}
       <div className="mb-3">
         <div className="mb-1 flex items-center justify-between">

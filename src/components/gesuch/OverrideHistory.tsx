@@ -109,18 +109,18 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
         aria-label="Versionshistorie"
         className="fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto bg-surface-base shadow-lg"
       >
-        <div className="flex items-center justify-between border-b border-border-default px-5 py-4">
+        <div className="flex items-center justify-between border-b border-border-default px-4 sm:px-5 py-4">
           <h2 className="heading-item">Versionshistorie</h2>
           <CloseButton onClick={onClose} />
         </div>
 
         {restoreError && (
-          <div className="border-b border-danger/20 bg-danger/10 px-5 py-3 text-sm text-danger-text">
+          <div className="border-b border-danger/20 bg-danger/10 px-4 sm:px-5 py-3 text-sm text-danger-text">
             {restoreError}
           </div>
         )}
 
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
           {loading ? (
             <div className="flex items-center gap-2 text-sm text-text-muted py-4">
               <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-border-default border-t-primary" />

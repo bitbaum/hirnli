@@ -223,10 +223,10 @@ export function ApplicationBoard() {
           onDragEnd={handleDragEnd}
         >
           {/* Horizontally scrollable kanban */}
-          <div className="overflow-x-auto pb-4">
+          <div className="-mx-4 overflow-x-auto overscroll-x-contain px-4 pb-4 sm:mx-0 sm:px-0">
             <div
-              className="grid gap-4"
-              style={{ gridTemplateColumns: `repeat(${KANBAN_COLUMNS.length}, minmax(200px, 1fr))` }}
+              className="grid gap-3 sm:gap-4"
+              style={{ gridTemplateColumns: `repeat(${KANBAN_COLUMNS.length}, minmax(180px, 1fr))` }}
             >
               {applicationsByStatus.map(({ status, applications: colApps }) => (
                 <Column
