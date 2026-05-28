@@ -1,92 +1,161 @@
-# Revamp-Info
+# Revamp-Info — Fundraising Intelligence Platform
 
-Fundraising intelligence platform for Revamp-IT — foundation research,
-Gesuch generation, financial transparency, and impact dashboards.
+> Turn 16,900 Swiss foundations into 240 actionable applications, then generate
+> a tailored Gesuch for each one in seconds.
 
-## What This Is
+Internal SaaS used by [Revamp-IT](https://revampit.ch) to find the right foundation
+funders, build per-foundation fit narratives, and ship professional German-language
+applications (Gesuche) that stand out from the templated norm. The platform is
+designed to be multi-tenant from day one — Revamp-IT is just the first tenant.
 
-Internal Next.js app for the Revamp-IT team that helps present the org
-compellingly to potential funders, find the right foundations, and
-generate professional application documents.
+[Live](https://revamp-info.vercel.app) · [Architecture & Conventions](./CLAUDE.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
 
-The full vision, scoring model, data flow, and engineering principles
-live in [`/CLAUDE.md`](./CLAUDE.md). This file is just the quick start.
+---
 
-## Stack
+## The funnel (live — run `npm run audit`)
 
-- **Next.js 16** (App Router) — TypeScript, Tailwind v4
-- **PostgreSQL** (Neon) via **Drizzle ORM** — write SSOT for foundation data
-- **Zod 4** — schema validation, type derivation
-- **Chart.js** + `@react-pdf/renderer` — financial dashboards + Gesuch PDFs
-- **Vercel** — auto-deploy on push to `main`
+```
+        Swiss universe (Zefix)            16,900
+                ↓
+        In DB (active)                    15,506   — minus 1,117 archived
+                ↓ LLM-triaged              13,823 stay rapid/unverified
+        Generated (sync-eligible)          1,683
+                ↓ scored & researched
+        Actionable (P1–P3)                   240   — P1=20, P2=78, P3=142
+                ↓ assembled
+        Gesuch pages (P1–P3)                 212   — 199 quality-perfect (94%)
+```
 
-## Quick Start
+| Tier | Count | Coverage |
+|------|-------|----------|
+| P1 (perfect fit) | 20 | 20/20 Gesuche perfect · 100% appUrl · 95% email |
+| P2 (good fit) | 78 | 70/75 Gesuche perfect · 100% appUrl · 97% email |
+| P3 (possible fit) | 142 | 109/117 Gesuche perfect · 96% appUrl · 89% email |
+| P4 (network / D-list) | 1,443 | LLM-triaged from Zefix purpose text |
+
+The remaining 13 imperfect Gesuche need verified external research (email or
+real website) — automated enrichment is forbidden after the 2026-04-07 incident
+where guessed URLs were 54% wrong. See data-integrity rules in [CLAUDE.md](./CLAUDE.md).
+
+---
+
+## The product
+
+1. **INGEST** — Zefix register + ESA + Fundraiso + StiftungSchweiz feeds, deduped
+   into one Foundation entity per legal Stiftung. DB-write SSOT, Zod-validated.
+2. **TRIAGE** — Groq-hosted LLM scores every active row from raw Zefix text
+   alone, producing a `fitScore` (0–10) + `priority` (P1–P4). 14,919 rapid-triaged.
+3. **RESEARCH** — Operator-driven deep research for promising candidates pulls
+   websites, grant ranges, deadlines, past grantees, contact channels.
+4. **PRESENT** — Each foundation gets a public-feeling detail page that doubles
+   as a relationship tool: fit analysis, trust badge, sources, recherche links.
+5. **GENERATE** — Per-foundation × per-Schwerpunkt × per-template Gesuch composer
+   produces: 4-page Gesuch PDF, one-pager concept note, shareable HMAC landing
+   page, pitch deck (8-slide A4 landscape), and 2-page impact report — all from
+   one Foundation entry + ORG_PROFILE config.
+
+---
+
+## Engineering at a glance
+
+| Signal | Value |
+|--------|-------|
+| Tests | **850 pass** across 38 files (Vitest) |
+| Type safety | **0 errors**, **0 `any`**, **0 `@ts-ignore`** in `src/` |
+| Lint | **0 errors** (ESLint flat config) |
+| Mobile | Verified on iPhone SE (375×667) via Playwright |
+| Race conditions | 6 fetch-in-useEffect sites guarded, 1 DB TOCTOU closed with unique constraint |
+| Design tokens | All in `globals.css` (`@theme inline`) — zero hex literals in components |
+| Dark mode | Fully wired via `next-themes` + semantic two-tier token system |
+| Deploy | Auto-deploy to Vercel on push to `main`, build < 3 min |
+
+Every page that ships data shows a click-to-inspect "where did this number come
+from" modal. Every metric traces back to a `NUMBERS_REGISTRY` entry with source,
+formula, and confidence level. No black boxes.
+
+---
+
+## Tech stack
+
+- **Next.js 16** App Router · **TypeScript** strict
+- **PostgreSQL** (Neon, HTTP edge driver) · **Drizzle ORM** — schema is SSOT
+- **Zod 4** — types derived via `z.infer<>`, never defined separately
+- **Tailwind v4** — design tokens via `@theme inline` in `globals.css`
+- **Chart.js** for finance dashboards · **`@react-pdf/renderer`** for PDFs
+- **Groq** (Llama 3.x) — LLM triage + rewrite (configurable, rate-limit aware)
+- **Vercel** — auto-deploy from `main`, Edge runtime where applicable
+
+---
+
+## Quick start
 
 ```bash
 npm install
-npm run dev          # http://localhost:3000  (runs npm run sync first)
+npm run dev          # http://localhost:3000  (pre-runs sync: DB → generated TS)
+npm test             # 850 tests
+npm run audit        # live pipeline + Gesuch funnel report
+npm run build        # production build, auto-syncs first
 ```
 
-## Common Commands
+Internal routes (`/fundraising/*`, `/api/*`) are gated by HTTP Basic Auth via
+[`src/middleware.ts`](./src/middleware.ts) — set `INTERNAL_PASSWORD` in Vercel
+env vars. `/gesuch/share/[token]` is intentionally public with HMAC-SHA256
+tokens for sending foundation-specific content to program officers.
 
-| Command | What it does |
-|---------|---|
-| `npm run dev` | Start dev server (auto-syncs DB → generated TS) |
-| `npm run build` | Production build (auto-syncs first) |
-| `npm test` | Run Vitest suite |
-| `npm run lint` | ESLint |
-| `npm run sync` | DB → `stiftungen-generated.ts` |
-| `npm run audit` | Pipeline funnel + gap report |
-| `npm run validate:foundations` | Schema + duplicate + quality validation |
+---
 
-`scripts/README.md` lists all 28+ pipeline tools and their npm aliases.
-
-## Routes
+## Repository structure
 
 ```
-/                          Dashboard
-/finanzen                  Financial deep dive (8-year P&L)
-/wirkung                   Impact metrics
-/methodik                  Methodology & transparency
-/preismodell               Solidarity pricing
-/strategie                 Vision, mission, SDGs
-/team                      Team & capacity
-/operations                SOPs & processes
-/dokumente                 Document library
-/wie-wir-arbeiten          Impact methodology
-/revamp-2030               Vision 2030
-/fundraising/              Fundraising hub
-  ├── stiftungen           Foundation list + [slug] detail + /gesuch
-  ├── applications         Pipeline kanban + tracking
-  ├── hub                  Hub/space planning
-  ├── bildung              Education program
-  ├── scoring-methodik     Scoring transparency
-  └── gesuch-vorlagen      Gesuch templates
-/gesuch/share/[token]      Public Gesuch share page (HMAC token)
+src/
+├── app/                # Next.js App Router (28 page routes)
+├── components/         # UI: layout, foundation, fundraising, gesuch, charts, ui
+├── lib/
+│   ├── schemas/        # Zod — SSOT for every type
+│   ├── config/         # Foundations, stories, metrics, numbers, themes (org-specific)
+│   ├── db/             # Drizzle schema + migrations + Neon HTTP client
+│   ├── domain/         # Pure business logic (scoring, composing, filtering)
+│   ├── pdf/            # @react-pdf/renderer templates (Gesuch, pitch deck, impact)
+│   └── utils/          # Format, errors, share-token, a11y, slug
+└── hooks/              # useFinancialData, useFoundationFilters, useGesuchOverrides
+
+scripts/                # 23 pipeline scripts (ingest, triage, research, audit)
+docs/                   # KNOWLEDGE_ARCHITECTURE, DATABASE_SETUP, design guides
+research/               # Pipeline notes + drafts (gitignored except notes)
+org-context/            # New-org onboarding inputs (per-tenant)
+public/documents/       # Source documents (anonymised) — SSOT for displayed numbers
 ```
 
-## Authentication
+---
 
-`src/middleware.ts` gates internal routes (`/fundraising/*`, `/api/*`)
-behind HTTP Basic Auth. Set `INTERNAL_PASSWORD` in Vercel env vars; if
-unset, all routes are open (local dev). The browser handles the prompt
-— no login page, no sessions.
+## Project status
 
-`/gesuch/share/[token]` is intentionally public — the controlled
-channel for sending foundation-specific content to program officers.
+| Phase | Status | What it means |
+|-------|--------|---------------|
+| **1 — Revamp-IT MVP** | ✅ Shipped | Dashboards, foundation list, Gesuch workflow, pipeline kanban |
+| **2 — Document generation** | ✅ Shipped | Gesuch PDF (4-page), one-pager, share landing, pitch deck (8-slide), impact report |
+| **3 — Multi-tenant (Hirnli)** | 🚧 Designed | New org clones repo + drops 19 ORG-SPECIFIC files in `org-context/<name>/`. Auth via Clerk replaces middleware password. |
 
-## Deployment
+The architecture is multi-tenant-by-construction: the foundation **registry**
+layer (universal Swiss-foundation facts) is independent from the **analysis**
+layer (one org's fit scores and research notes), so adding a tenant means
+rewriting analysis + branding, not re-doing the registry.
 
-Push to `main` → Vercel auto-deploys. Live at <https://revamp-info.vercel.app>.
-
-## Related Projects
-
-- [**revampit.vercel.app**](https://revampit.vercel.app) — public website + shop + services
-- **This site** — internal dashboards, research, and Gesuch generation
+---
 
 ## Documentation
 
-- [`CLAUDE.md`](./CLAUDE.md) — full product vision, scoring model, schema, data flow, conventions
-- [`scripts/README.md`](./scripts/README.md) — pipeline scripts reference
-- [`org-context/_template/README.md`](./org-context/_template/README.md) — multi-tenant onboarding (Phase 3)
-- `research/PIPELINE-LEARNINGS.md` — historical pipeline notes
+- **[`CLAUDE.md`](./CLAUDE.md)** — full product vision, scoring model, schema, data flow, conventions
+- **[`scripts/README.md`](./scripts/README.md)** — pipeline tools (23 scripts + 18 npm aliases)
+- **[`org-context/_template/README.md`](./org-context/_template/README.md)** — multi-tenant onboarding checklist
+- **[`docs/KNOWLEDGE_ARCHITECTURE.md`](./docs/KNOWLEDGE_ARCHITECTURE.md)** — 3-tier SSOT governance
+- **[`docs/DATABASE_SETUP.md`](./docs/DATABASE_SETUP.md)** — Neon + Drizzle local-dev setup
+- **[`docs/AUDIT_REPORT.md`](./docs/AUDIT_REPORT.md)** — 2026-03 baseline codebase audit
+- **[`public/documents/README.md`](./public/documents/README.md)** — anonymised source document library
+
+---
+
+## License
+
+Proprietary. © Revamp-IT. All rights reserved.
+See [`LICENSE`](./LICENSE).
