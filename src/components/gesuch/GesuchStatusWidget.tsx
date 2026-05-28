@@ -15,6 +15,7 @@ import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/applicat
 import { computeFollowUpDate } from '@/lib/utils/parse-response-time';
 import { formatDateCHLong, getTodayISO } from '@/lib/utils/format';
 import { createApplication, patchApplication, findActiveApplication } from '@/lib/api/applications';
+import Spinner from '@/components/ui/Spinner';
 
 interface GesuchStatusWidgetProps {
   slug: string;
@@ -99,7 +100,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
   if (appId === undefined) {
     return (
       <div className="flex items-center gap-2 text-sm text-text-muted">
-        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-border-default border-t-primary" />
+        <Spinner label="Pipeline wird geladen…" />
         Pipeline wird geladen…
       </div>
     );
@@ -120,11 +121,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
           disabled={adding}
           className="flex items-center gap-2 rounded-lg border border-border-default px-4 py-2 text-sm text-text-muted hover:border-primary/40 hover:text-primary disabled:opacity-50 transition-colors self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         >
-          {adding ? (
-            <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
-          ) : (
-            '+'
-          )}
+          {adding ? <Spinner size="sm" tone="current" label="Wird hinzugefügt…" /> : '+'}
           Zu Pipeline hinzufügen
         </button>
         {addError && <p className="text-sm text-danger-text">{addError}</p>}
@@ -159,11 +156,7 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
             disabled={marking}
             className="flex items-center gap-2 self-start rounded-lg bg-pillar-digital px-4 py-2 text-sm font-semibold text-white hover:bg-pillar-digital/85 disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pillar-digital focus-visible:ring-offset-2"
           >
-            {marking ? (
-              <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-            ) : (
-              '✓'
-            )}
+            {marking ? <Spinner size="sm" tone="on-accent" label="Markierung läuft…" /> : '✓'}
             Als gesendet markieren
           </button>
           {markError && <p className="text-sm text-danger-text">{markError}</p>}

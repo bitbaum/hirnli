@@ -5,6 +5,7 @@ import { AI_PRESETS } from '@/lib/config/ai-presets';
 import { buildExternalPrompt } from '@/lib/domain/prompt-builder';
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
 import { UI_TIMINGS } from '@/lib/config/ui-timings';
+import Spinner from '@/components/ui/Spinner';
 
 interface FieldRowProps {
   label: string;
@@ -183,7 +184,7 @@ export default function FieldRow({
             >
               {aiLoading ? (
                 <span className="flex items-center gap-1">
-                  <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  <Spinner size="xs" tone="on-accent" label="Wird überarbeitet…" />
                   Wird überarbeitet…
                 </span>
               ) : (

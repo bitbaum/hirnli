@@ -11,6 +11,7 @@ import { formatDateTimeCH } from '@/lib/utils/format';
 import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
 import { getActivityLog } from '@/lib/api/activity-log';
 import type { ActivityLogEntryJSON } from '@/lib/db/schema';
+import Spinner from './Spinner';
 
 const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map(s => [s.id, s.label]));
 
@@ -64,7 +65,7 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
   if (loading) {
     return (
       <div className="flex items-center gap-2 text-sm text-text-muted py-2">
-        <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-border-default border-t-primary" />
+        <Spinner size="xs" label="Lade Aktivitäten…" />
         Lade Aktivitäten…
       </div>
     );

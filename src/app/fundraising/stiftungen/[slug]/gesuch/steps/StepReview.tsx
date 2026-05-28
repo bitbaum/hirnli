@@ -11,6 +11,7 @@ import GesuchEditPanel from '@/components/gesuch/GesuchEditPanel';
 import OverrideHistory from '@/components/gesuch/OverrideHistory';
 import GesuchReadinessChecklist from '@/components/gesuch/GesuchReadinessChecklist';
 import Card from '@/components/ui/Card';
+import Spinner from '@/components/ui/Spinner';
 import type { GesuchReadiness } from '@/lib/domain/gesuch-readiness';
 import {
   GesuchWhySection,
@@ -149,7 +150,7 @@ export default function StepReview({
       )}
       {autoDraftLoading && (
         <div className="flex items-center gap-3 rounded-xl border border-accent-border bg-accent-soft p-5 print:hidden">
-          <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          <Spinner tone="accent" label="KI-Entwurf wird erstellt…" />
           <span className="text-sm text-text-primary">KI-Entwurf wird erstellt…</span>
         </div>
       )}

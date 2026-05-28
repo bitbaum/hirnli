@@ -11,6 +11,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useFocusTrap } from '@/lib/utils/a11y';
 import { CloseButton } from '@/components/ui/CloseButton';
 import Backdrop from '@/components/ui/Backdrop';
+import Spinner from '@/components/ui/Spinner';
 
 const ACTIVITY_LOG_LIMIT = 50;
 
@@ -123,7 +124,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
         <div className="p-4 sm:p-5">
           {loading ? (
             <div className="flex items-center gap-2 text-sm text-text-muted py-4">
-              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-border-default border-t-primary" />
+              <Spinner label="Lade Versionen…" />
               Lade Versionen…
             </div>
           ) : error ? (
