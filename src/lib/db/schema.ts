@@ -10,7 +10,7 @@
  * Schema serves Ground Truth #2: State defines behavior, one source of truth.
  */
 
-import { text, integer, boolean, jsonb, pgTable, timestamp, unique } from 'drizzle-orm/pg-core';
+import { text, integer, boolean, jsonb, pgTable, timestamp, unique, index } from 'drizzle-orm/pg-core';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 /**
@@ -50,7 +50,14 @@ export const foundations = pgTable('fundraising_foundations', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
   archived: boolean('archived').default(false),
-});
+}, (table) => ({
+  // The sync script filters by `archived = false AND data_confidence != 'unverified'`
+  // on every run; the audit script filters by `priority` and `data_confidence` too.
+  // These indexes turn the 16k-row scan into millisecond lookups as the table grows.
+  byOrgArchived: index('fund_foundations_org_archived_idx').on(table.orgId, table.archived),
+  byPriority:    index('fund_foundations_priority_idx').on(table.priority),
+  byConfidence:  index('fund_foundations_data_confidence_idx').on(table.dataConfidence),
+}));
 
 /**
  * Applications Table - Track all outreach
@@ -93,7 +100,12 @@ export const applications = pgTable('fundraising_applications', {
   // Admin
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
-});
+}, (table) => ({
+  // The Kanban + dashboard queries filter by status and join by foundation_id;
+  // the application-detail route reads by id (already PK).
+  byFoundation: index('fund_applications_foundation_idx').on(table.foundationId),
+  byStatus:     index('fund_applications_status_idx').on(table.status),
+}));
 
 /**
  * Customization Rules Table - Personalization engine
@@ -144,7 +156,11 @@ export const activityLog = pgTable('fundraising_activity_log', {
 
   // When
   timestamp: timestamp('timestamp', { withTimezone: true }).defaultNow(),
-});
+}, (table) => ({
+  // OverrideHistory + ActivityTimeline filter by (entityId, entityType) and
+  // order by timestamp DESC. The composite covers the WHERE and the ORDER BY.
+  byEntity: index('fund_activity_log_entity_idx').on(table.entityType, table.entityId, table.timestamp),
+}));
 
 /**
  * Gesuch Overrides Table - Per-foundation × per-variant content customizations
