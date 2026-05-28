@@ -1,8 +1,12 @@
 /**
- * Shared helpers for Next.js route handlers — consolidate the boilerplate
+ * Server-side helpers for Next.js route handlers — consolidate the boilerplate
  * that every `} catch (error) { console.error(...); return NextResponse.json(
  * { success: false, error: API_ERR_X }, { status: 500 }); }` block was
  * reproducing across 15+ sites.
+ *
+ * Client-side `apiFetch` helper lives in `client-fetch.ts` (separate module
+ * so route-handler-only imports don't accidentally pull `NextResponse` into
+ * the client bundle).
  */
 
 import { NextResponse } from 'next/server';
@@ -45,3 +49,4 @@ export function apiClientError(
   if (details !== undefined) body.details = details;
   return NextResponse.json(body, { status });
 }
+

@@ -4,7 +4,7 @@
  */
 
 import { isActiveApplication, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
-import { NET_ERR_LOAD } from '@/lib/utils/errors';
+import { apiFetch, type BaseApiResponse } from './client-fetch';
 
 /** Minimal shape returned by /api/applications? endpoints — every consumer needs at least
  *  id, status, foundationId. submissionDate is here because GesuchStatusWidget
@@ -18,26 +18,17 @@ export interface FoundationApplicationRow {
   };
 }
 
-export interface ApplicationApiResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
+export interface ApplicationApiResponse<T = unknown> extends BaseApiResponse<T> {
   missingFields?: RequiredField[];
   existingId?: string;
   httpStatus: number;
 }
 
-async function request<T>(
+function request<T = unknown>(
   url: string,
-  init: RequestInit = {},
+  init?: RequestInit,
 ): Promise<ApplicationApiResponse<T>> {
-  try {
-    const res = await fetch(url, init);
-    const json = await res.json();
-    return { ...json, httpStatus: res.status };
-  } catch {
-    return { success: false, error: NET_ERR_LOAD, httpStatus: 0 };
-  }
+  return apiFetch<T>(url, init, { trackStatus: true });
 }
 
 export function createApplication(

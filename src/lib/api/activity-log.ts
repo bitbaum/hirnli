@@ -1,11 +1,7 @@
 import type { ActivityLogEntryJSON } from '@/lib/db/schema';
-import { NET_ERR_LOAD } from '@/lib/utils/errors';
+import { apiFetch, type BaseApiResponse } from './client-fetch';
 
-export interface ActivityLogApiResponse {
-  success: boolean;
-  data?: ActivityLogEntryJSON[];
-  error?: string;
-}
+export type ActivityLogApiResponse = BaseApiResponse<ActivityLogEntryJSON[]>;
 
 export function getActivityLog(
   entityId: string,
@@ -17,7 +13,5 @@ export function getActivityLog(
     entityType,
     limit: String(limit),
   });
-  return fetch(`/api/activity-log?${params}`)
-    .then((r) => r.json() as Promise<ActivityLogApiResponse>)
-    .catch((): ActivityLogApiResponse => ({ success: false, error: NET_ERR_LOAD }));
+  return apiFetch<ActivityLogEntryJSON[]>(`/api/activity-log?${params}`);
 }

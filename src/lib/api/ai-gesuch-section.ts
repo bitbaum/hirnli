@@ -1,11 +1,7 @@
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
-import { NET_ERR_LOAD } from '@/lib/utils/errors';
+import { apiFetch, type BaseApiResponse } from './client-fetch';
 
-export interface GesuchSectionApiResponse {
-  success: boolean;
-  data?: { rewritten: string };
-  error?: string;
-}
+export type GesuchSectionApiResponse = BaseApiResponse<{ rewritten: string }>;
 
 export interface RewriteSectionParams {
   instruction: string;
@@ -16,11 +12,9 @@ export interface RewriteSectionParams {
 }
 
 export function rewriteGesuchSection(params: RewriteSectionParams): Promise<GesuchSectionApiResponse> {
-  return fetch('/api/ai/gesuch-section', {
+  return apiFetch<{ rewritten: string }>('/api/ai/gesuch-section', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
-  })
-    .then((r) => r.json() as Promise<GesuchSectionApiResponse>)
-    .catch((): GesuchSectionApiResponse => ({ success: false, error: NET_ERR_LOAD }));
+  });
 }
