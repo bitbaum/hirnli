@@ -21,6 +21,7 @@ import { ApplicationDateFields, ApplicationOutcomeFields } from './ApplicationFo
 
 import { useFocusTrap } from '@/lib/utils/a11y';
 import { CloseButton } from '@/components/ui/CloseButton';
+import Backdrop from '@/components/ui/Backdrop';
 
 interface EditApplicationModalProps {
   application: Application;
@@ -86,11 +87,7 @@ export function EditApplicationModal({
   }
 
   return (
-    /* Backdrop */
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-3 sm:p-4"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
+    <Backdrop onClose={onClose} tone="darker" layer="modal" centered>
       <div
         ref={modalRef}
         role="dialog"
@@ -262,6 +259,6 @@ export function EditApplicationModal({
           </Button>
         </div>
       </div>
-    </div>
+    </Backdrop>
   );
 }

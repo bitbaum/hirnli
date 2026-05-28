@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { useFocusTrap } from '@/lib/utils/a11y';
 import { CloseButton } from './CloseButton';
+import Backdrop from './Backdrop';
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,12 +21,7 @@ export default function Modal({ isOpen, onClose, title, children, className }: M
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
+    <Backdrop onClose={onClose} tone="darker" layer="modal" centered paddingClassName="p-4">
       <div
         ref={dialogRef}
         role="dialog"
@@ -39,6 +35,6 @@ export default function Modal({ isOpen, onClose, title, children, className }: M
         </div>
         <div className="px-4 py-3 sm:px-6 sm:py-4">{children}</div>
       </div>
-    </div>
+    </Backdrop>
   );
 }

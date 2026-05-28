@@ -10,6 +10,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useFocusTrap } from '@/lib/utils/a11y';
 import { CloseButton } from '@/components/ui/CloseButton';
+import Backdrop from '@/components/ui/Backdrop';
 
 const ACTIVITY_LOG_LIMIT = 50;
 
@@ -98,8 +99,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
 
   return (
     <>
-      {/* Backdrop */}
-      <div className="fixed inset-0 z-40 bg-black/30" onClick={onClose} aria-hidden="true" />
+      <Backdrop onClose={onClose} />
 
       {/* Drawer */}
       <div
@@ -107,7 +107,7 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
         role="dialog"
         aria-modal="true"
         aria-label="Versionshistorie"
-        className="fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto bg-surface-base shadow-lg"
+        className="fixed inset-y-0 right-0 z-modal w-full max-w-md overflow-y-auto bg-surface-base shadow-lg"
       >
         <div className="flex items-center justify-between border-b border-border-default px-4 sm:px-5 py-4">
           <h2 className="heading-item">Versionshistorie</h2>

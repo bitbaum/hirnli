@@ -6,6 +6,7 @@ import { CONFIDENCE_DISPLAY_LABELS, CONFIDENCE_COLORS } from '@/lib/config/numbe
 import { formatDateCHLong } from '@/lib/utils/format';
 import { Button } from '@/components/ui/Button';
 import { CloseButton } from '@/components/ui/CloseButton';
+import Backdrop from '@/components/ui/Backdrop';
 import { useFocusTrap } from '@/lib/utils/a11y';
 
 interface SourceModalProps {
@@ -23,17 +24,13 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
   useFocusTrap(modalRef, onClose);
 
   return (
-    <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      onClick={onClose}
-    >
+    <Backdrop onClose={onClose} tone="darker" layer="modal" centered paddingClassName="p-4">
       <div
         ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-label={data.label}
         className="bg-surface-base rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-auto"
-        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="sticky top-0 bg-surface-base border-b border-border-default p-6">
@@ -131,6 +128,6 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
           </p>
         </div>
       </div>
-    </div>
+    </Backdrop>
   );
 }

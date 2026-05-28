@@ -5,6 +5,7 @@ import FilterSidebar from './FilterSidebar';
 import type { ComponentProps } from 'react';
 import { useFocusTrap } from '@/lib/utils/a11y';
 import { CloseButton } from '@/components/ui/CloseButton';
+import Backdrop from '@/components/ui/Backdrop';
 
 type FilterDrawerProps = ComponentProps<typeof FilterSidebar> & {
   open: boolean;
@@ -17,14 +18,7 @@ export default function FilterDrawer({ open, onClose, ...sidebarProps }: FilterD
 
   return (
     <>
-      {/* Backdrop */}
-      <div
-        className={`fixed inset-0 z-40 bg-black/30 transition-opacity duration-300 ${
-          open ? 'opacity-100' : 'pointer-events-none opacity-0'
-        }`}
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <Backdrop onClose={onClose} open={open} />
 
       {/* Drawer panel */}
       <div
@@ -32,7 +26,7 @@ export default function FilterDrawer({ open, onClose, ...sidebarProps }: FilterD
         role="dialog"
         aria-modal="true"
         aria-label="Filter"
-        className={`fixed inset-y-0 left-0 z-50 w-[300px] max-w-[85vw] overflow-y-auto bg-surface-base px-4 py-4 shadow-xl transition-transform duration-300 ${
+        className={`fixed inset-y-0 left-0 z-modal w-[300px] max-w-[85vw] overflow-y-auto bg-surface-base px-4 py-4 shadow-xl transition-transform duration-300 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

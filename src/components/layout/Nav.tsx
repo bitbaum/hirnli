@@ -11,6 +11,7 @@ import MegaMenu from './nav/MegaMenu';
 import Dropdown from './nav/Dropdown';
 import MobileAccordion from './nav/MobileAccordion';
 import { ThemeToggle } from './ThemeToggle';
+import Backdrop from '@/components/ui/Backdrop';
 
 export default function Nav() {
   const pathname = usePathname();
@@ -98,12 +99,8 @@ export default function Nav() {
       {/* Mobile backdrop + nav */}
       {mobileOpen && (
         <>
-          <div
-            className="fixed inset-0 z-40 bg-black/30 lg:hidden"
-            onClick={closeMobile}
-            aria-hidden="true"
-          />
-          <div className="fixed inset-x-0 top-[calc(3.5rem+1px)] z-50 max-h-[calc(100vh-3.5rem)] overflow-y-auto border-t border-border-default bg-surface-base px-4 py-4 lg:hidden">
+          <Backdrop onClose={closeMobile} className="lg:hidden" />
+          <div className="fixed inset-x-0 top-[calc(3.5rem+1px)] z-modal max-h-[calc(100vh-3.5rem)] overflow-y-auto border-t border-border-default bg-surface-base px-4 py-4 lg:hidden">
             <ul className="space-y-1">
               {NAV_STRUCTURE.items.map((item) => (
                 <MobileAccordion

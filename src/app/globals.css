@@ -59,12 +59,10 @@
   --color-border-default:  var(--border-default);
   --color-border-strong:   var(--border-strong);
 
-  /* Legacy aliases — kept for gradual migration, point to semantic vars */
+  /* Short-form aliases — `text-text` / `bg-bg` are the shorthand for the
+     canonical text-primary / surface-base utilities (799 + 5 call-sites). */
   --color-text: var(--text-primary);
-  --color-text-light: var(--text-secondary);
   --color-bg: var(--surface-base);
-  --color-bg-light: var(--surface-raised);
-  --color-border: var(--border-default);
 
   /* Chart Colors */
   --color-chart-1: #3498DB;
@@ -175,36 +173,12 @@
 }
 
 /* ========================================
-   GRADIENT TOKENS
-   Minimal set: brand stripe + SDG badges only.
-   Hero/card gradients removed — use surface tokens instead.
+   BRAND & SDG GRADIENTS
+   Brand stripe + SDG badges only. Other gradients live in components.
    ======================================== */
 
 /* Brand accent bar — used only in logo/branding contexts */
 .gradient-brand { background: linear-gradient(to right, var(--color-revamp-blue), var(--color-revamp-green), var(--color-revamp-orange)); }
-
-/* Neutral hero sections — replaces all gradient-hero-* classes */
-/* White text on a near-black surface; works in both light and dark. */
-.hero-section {
-  background-color: var(--color-grey-dark);
-  color: #FFFFFF;
-}
-
-/* Subtle section highlight — replaces gradient-card-* classes */
-.section-tint-success { background-color: var(--color-success-bg); }
-.section-tint-primary { background-color: color-mix(in srgb, var(--color-primary) 6%, transparent); }
-
-/* Legacy aliases — keep class names working but neutralised */
-.gradient-hero-vision       { background-color: var(--color-grey-dark); color: #FFFFFF; }
-.gradient-hero-transparency { background-color: var(--color-grey-dark); color: #FFFFFF; }
-.gradient-hero-fundraising  { background-color: var(--color-grey-dark); color: #FFFFFF; }
-.gradient-hero-financial    { background-color: var(--color-grey-dark); color: #FFFFFF; }
-.gradient-hero-bildung      { background-color: var(--color-grey-dark); color: #FFFFFF; }
-.gradient-hero-community    { background-color: var(--color-grey-dark); color: #FFFFFF; }
-.gradient-card-success      { background-color: var(--color-success-bg); }
-.gradient-card-primary      { background-color: color-mix(in srgb, var(--color-primary) 6%, transparent); }
-.gradient-card-digital      { background-color: color-mix(in srgb, var(--color-pillar-digital) 6%, transparent); }
-.gradient-card-art          { background-color: color-mix(in srgb, var(--color-danger) 6%, transparent); }
 
 /* Nav item highlight states */
 .gradient-nav-highlight { background-color: color-mix(in srgb, var(--color-accent) 8%, transparent); }
