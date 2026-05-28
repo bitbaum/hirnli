@@ -21,6 +21,7 @@ import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { STATUS_IDS } from '@/lib/config/application-statuses';
 import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_NOT_FOUND, API_ERR_CONFLICT } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 // Validation schema for creating applications
 const createApplicationSchema = z.object({
@@ -107,11 +108,7 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('GET /api/applications error:', error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_LOAD },
-      { status: 500 }
-    );
+    return apiError('GET /api/applications', error, API_ERR_LOAD);
   }
 }
 
@@ -197,10 +194,6 @@ export async function POST(request: NextRequest) {
     );
 
   } catch (error) {
-    console.error('POST /api/applications error:', error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_SAVE },
-      { status: 500 }
-    );
+    return apiError('POST /api/applications', error, API_ERR_SAVE);
   }
 }

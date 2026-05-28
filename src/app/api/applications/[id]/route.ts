@@ -15,6 +15,7 @@ import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { STATUS_IDS, getStatusConfig } from '@/lib/config/application-statuses';
 import { API_ERR_NOT_FOUND, API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 // Validation schema for updates
 const updateApplicationSchema = z.object({
@@ -75,11 +76,7 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error(`GET /api/applications/${id} error:`, error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_LOAD },
-      { status: 500 }
-    );
+    return apiError(`GET /api/applications/${id}`, error, API_ERR_LOAD);
   }
 }
 
@@ -199,11 +196,7 @@ export async function PATCH(
     });
 
   } catch (error) {
-    console.error(`PATCH /api/applications/${id} error:`, error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_SAVE },
-      { status: 500 }
-    );
+    return apiError(`PATCH /api/applications/${id}`, error, API_ERR_SAVE);
   }
 }
 
@@ -257,10 +250,6 @@ export async function DELETE(
     });
 
   } catch (error) {
-    console.error(`DELETE /api/applications/${id} error:`, error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_DELETE },
-      { status: 500 }
-    );
+    return apiError(`DELETE /api/applications/${id}`, error, API_ERR_DELETE);
   }
 }

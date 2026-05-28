@@ -11,6 +11,7 @@ import {
 } from '@/lib/domain/personalization-engine';
 import { z } from 'zod';
 import { API_ERR_VALIDATION, API_ERR_PROCESS } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 // Request schema
 const applySchema = z.object({
@@ -56,13 +57,6 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('POST /api/customizations/apply error:', error);
-    return NextResponse.json(
-      {
-        success: false,
-        error: API_ERR_PROCESS,
-      },
-      { status: 500 }
-    );
+    return apiError('POST /api/customizations/apply', error, API_ERR_PROCESS);
   }
 }

@@ -6,6 +6,7 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { arrayToCSV } from '@/lib/utils/csv';
 import { MS_PER_DAY } from '@/lib/utils/time';
 import { API_ERR_EXPORT } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 const filePrefix = ORG_PROFILE.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -96,7 +97,6 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error('Fundraising pipeline export error:', error);
-    return NextResponse.json({ success: false, error: API_ERR_EXPORT }, { status: 500 });
+    return apiError('Fundraising pipeline export', error, API_ERR_EXPORT);
   }
 }

@@ -17,6 +17,7 @@ import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatDateCH, toISODateStr } from '@/lib/utils/format';
 import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
 import { EMAIL_COLORS } from '@/lib/config/email-colors';
+import { apiError } from '@/lib/api/route-helpers';
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -233,11 +234,7 @@ export async function GET(request: NextRequest) {
       issues,
     });
   } catch (error) {
-    console.error('Data quality cron error:', error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_CRON },
-      { status: 500 }
-    );
+    return apiError('Data quality cron', error, API_ERR_CRON);
   }
 }
 

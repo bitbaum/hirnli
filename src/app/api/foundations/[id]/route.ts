@@ -15,6 +15,7 @@ import { nanoid } from 'nanoid';
 import { foundationSchema } from '@/lib/schemas/foundation';
 import { updateFoundationSchema } from '@/lib/schemas/foundation-api';
 import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_NOT_FOUND } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 /**
  * GET /api/foundations/[id]
@@ -46,11 +47,7 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error(`GET /api/foundations/${id} error:`, error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_LOAD },
-      { status: 500 }
-    );
+    return apiError('GET /api/foundations/${id}', error, API_ERR_LOAD);
   }
 }
 
@@ -136,11 +133,7 @@ export async function PUT(
       data: updated[0],
     });
   } catch (error) {
-    console.error(`PUT /api/foundations/${id} error:`, error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_SAVE },
-      { status: 500 }
-    );
+    return apiError('PUT /api/foundations/${id}', error, API_ERR_SAVE);
   }
 }
 
@@ -232,11 +225,7 @@ export async function PATCH(
     });
 
   } catch (error) {
-    console.error(`PATCH /api/foundations/${id} error:`, error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_SAVE },
-      { status: 500 }
-    );
+    return apiError('PATCH /api/foundations/${id}', error, API_ERR_SAVE);
   }
 }
 
@@ -292,10 +281,6 @@ export async function DELETE(
     });
 
   } catch (error) {
-    console.error(`DELETE /api/foundations/${id} error:`, error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_SAVE },
-      { status: 500 }
-    );
+    return apiError('DELETE /api/foundations/${id}', error, API_ERR_SAVE);
   }
 }

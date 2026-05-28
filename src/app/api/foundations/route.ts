@@ -22,6 +22,7 @@ import { toSlug } from '@/lib/utils/slug';
 import { createFoundationSchema } from '@/lib/schemas/foundation-api';
 import { getTodayISO } from '@/lib/utils/format';
 import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_CONFLICT } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 /**
  * GET /api/foundations
@@ -92,11 +93,7 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('GET /api/foundations error:', error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_LOAD },
-      { status: 500 }
-    );
+    return apiError('GET /api/foundations', error, API_ERR_LOAD);
   }
 }
 
@@ -160,10 +157,6 @@ export async function POST(request: NextRequest) {
     );
 
   } catch (error) {
-    console.error('POST /api/foundations error:', error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_SAVE },
-      { status: 500 }
-    );
+    return apiError('POST /api/foundations', error, API_ERR_SAVE);
   }
 }

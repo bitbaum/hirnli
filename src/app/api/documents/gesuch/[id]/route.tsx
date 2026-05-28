@@ -19,6 +19,7 @@ import { CO2_PER_LAPTOP, CO2_TOTAL_TONNES, NUMBERS_REGISTRY } from '@/lib/config
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { getTodayISO } from '@/lib/utils/format';
 import { API_ERR_NOT_FOUND, API_ERR_PROCESS, API_ERR_FOUNDATION_NOT_FOUND } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 import { streamToBuffer, sanitizeFoundationFilename } from '@/lib/pdf/utils';
 
 /**
@@ -125,13 +126,6 @@ export async function POST(
       },
     });
   } catch (error) {
-    console.error('PDF generation error:', error);
-    return NextResponse.json(
-      {
-        success: false,
-        error: API_ERR_PROCESS,
-      },
-      { status: 500 }
-    );
+    return apiError('GET /api/documents/gesuch/[id]', error, API_ERR_PROCESS);
   }
 }

@@ -22,6 +22,7 @@ import type { Application, FoundationRow } from '@/lib/db/schema';
 const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map(s => [s.id, s.label]));
 import { toISODateStr } from '@/lib/utils/format';
 import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 // Initialize Resend (requires RESEND_API_KEY in env)
 const resend = process.env.RESEND_API_KEY
@@ -116,11 +117,7 @@ export async function GET(request: NextRequest) {
       })),
     });
   } catch (error) {
-    console.error('Deadline reminder cron error:', error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_CRON },
-      { status: 500 }
-    );
+    return apiError('Deadline reminder cron', error, API_ERR_CRON);
   }
 }
 

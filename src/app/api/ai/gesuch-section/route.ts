@@ -26,6 +26,7 @@ import {
   API_ERR_AI_TIMEOUT,
   API_ERR_INTERNAL,
 } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
@@ -239,7 +240,6 @@ export async function POST(request: NextRequest) {
         { status: 504 },
       );
     }
-    console.error('AI gesuch-section error:', err);
-    return NextResponse.json({ success: false, error: API_ERR_INTERNAL }, { status: 500 });
+    return apiError('AI gesuch-section', err, API_ERR_INTERNAL);
   }
 }

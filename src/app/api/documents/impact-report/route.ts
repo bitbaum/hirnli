@@ -14,6 +14,7 @@ import { ImpactReportPDF } from '@/lib/pdf/impact-report';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { API_ERR_PDF } from '@/lib/utils/errors';
 import { streamToBuffer } from '@/lib/pdf/utils';
+import { apiError } from '@/lib/api/route-helpers';
 
 export async function GET() {
   try {
@@ -35,10 +36,6 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error('Impact report generation error:', error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_PDF },
-      { status: 500 }
-    );
+    return apiError('Impact report generation', error, API_ERR_PDF);
   }
 }

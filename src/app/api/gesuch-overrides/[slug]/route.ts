@@ -18,6 +18,7 @@ import { eq, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { API_ERR_DB, API_ERR_VALIDATION, API_ERR_BAD_REQUEST } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 const ORG_ID = ORG_PROFILE.orgId;
 
@@ -73,8 +74,7 @@ export async function GET(
 
     return NextResponse.json({ success: true, data: { overrides: rows[0].overrides } });
   } catch (err) {
-    console.error('GET gesuch-overrides error:', err);
-    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
+    return apiError('GET gesuch-overrides', err, API_ERR_DB);
   }
 }
 
@@ -125,8 +125,7 @@ export async function PUT(
 
     return NextResponse.json({ success: true, data: { overrides: parsed.data } });
   } catch (err) {
-    console.error('PUT gesuch-overrides error:', err);
-    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
+    return apiError('PUT gesuch-overrides', err, API_ERR_DB);
   }
 }
 
@@ -151,7 +150,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true, data: null });
   } catch (err) {
-    console.error('DELETE gesuch-overrides error:', err);
-    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
+    return apiError('DELETE gesuch-overrides', err, API_ERR_DB);
   }
 }

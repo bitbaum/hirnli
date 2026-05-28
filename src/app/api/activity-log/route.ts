@@ -11,6 +11,7 @@ import { db } from '@/lib/db/client';
 import { activityLog } from '@/lib/db/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { API_ERR_VALIDATION, API_ERR_DB } from '@/lib/utils/errors';
+import { apiError } from '@/lib/api/route-helpers';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -40,7 +41,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true, data: entries });
   } catch (err) {
-    console.error('GET activity-log error:', err);
-    return NextResponse.json({ success: false, error: API_ERR_DB }, { status: 500 });
+    return apiError('GET activity-log', err, API_ERR_DB);
   }
 }

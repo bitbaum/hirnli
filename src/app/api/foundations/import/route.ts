@@ -14,6 +14,7 @@ import { foundations } from '@/lib/db/schema';
 import { z } from 'zod';
 import { toSlug } from '@/lib/utils/slug';
 import { getTodayISO } from '@/lib/utils/format';
+import { apiError } from '@/lib/api/route-helpers';
 import {
   API_ERR_SAVE,
   API_ERR_IMPORT_NO_FILE,
@@ -225,10 +226,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('POST /api/foundations/import error:', error);
-    return NextResponse.json(
-      { success: false, error: API_ERR_SAVE },
-      { status: 500 }
-    );
+    return apiError('POST /api/foundations/import', error, API_ERR_SAVE);
   }
 }
