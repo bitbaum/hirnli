@@ -106,7 +106,10 @@ export function ApplicationCard({
             className="min-w-0 flex-1"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="heading-detail leading-snug hover:text-primary transition-colors line-clamp-2">
+            <h3
+              title={foundation?.name ?? 'Unbekannte Stiftung'}
+              className="heading-detail leading-snug hover:text-primary transition-colors line-clamp-2"
+            >
               {foundation?.name ?? 'Unbekannte Stiftung'}
             </h3>
           </Link>
