@@ -64,7 +64,7 @@ export default function FinanzenClient() {
         <h3 className="heading-item mb-2">Warum jetzt? Die Ausgangslage ehrlich</h3>
         <div className="text-sm text-text-secondary space-y-2">
           <p>
-            Unsere Einnahmen sind von <strong>CHF {formatCHF(PEAK_REVENUE)}</strong> ({PEAK_YEAR}) auf <strong>{formatCHF(CURRENT_YEAR_DATA.revenue)}</strong> ({CURRENT_YEAR_DATA.year}) gefallen — ein Rückgang von über 50%.
+            Unsere Einnahmen sind von <strong>{formatCHF(PEAK_REVENUE)}</strong> ({PEAK_YEAR}) auf <strong>{formatCHF(CURRENT_YEAR_DATA.revenue)}</strong> ({CURRENT_YEAR_DATA.year}) gefallen — ein Rückgang von über 50%.
             Der Haupttreiber: Verlust von B2B-Hosting-Kunden (Dienstleistungen von {formatCHF(Math.max(...COMPLETE_YEARS.map(y => y.revenueDetail.dienstleistungen)))} auf {formatCHF(CURRENT_YEAR_DATA.revenueDetail.dienstleistungen)}).
           </p>
           <p>
