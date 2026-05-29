@@ -14,10 +14,14 @@
   --color-revamp-blue: #3498DB;
   --color-revamp-orange: #E67E22;
 
-  /* Greyscale primitives */
-  --color-grey-dark: #2C3E50;
+  /* Greyscale primitives. `grey-light` goes through var() so PRIORITY_CONFIG[4]'s
+     P4 card background flips to a dark surface in dark mode instead of staying
+     bright. `grey-dark` and `grey-medium` are deliberate brand greys that look
+     the same in both modes (used only on the brand stripe + dark hero
+     `.hero-section`) so they stay literal. */
+  --color-grey-dark:   #2C3E50;
   --color-grey-medium: #7F8C8D;
-  --color-grey-light: #ECF0F1;
+  --color-grey-light:  var(--grey-light);
 
   /* ─── Semantic UI Colors ─── */
   /* Brand accent — primary interactive blue */
@@ -36,17 +40,22 @@
   /* Border-on-accent tint used by Callout / WhyThisMatters / PipelineOverviewCard */
   --color-accent-border: color-mix(in srgb, var(--color-primary) 20%, transparent);
 
-  /* Status palette — the only chromatic colors in general UI */
-  --color-success: #2ECC71;
-  --color-success-bg: #D5F5E3;
-  --color-success-text: #166534;    /* 6.1:1 on success-bg */
-  --color-warning: #E67E22;
-  --color-warning-bg: #FDEBD0;
-  --color-warning-text: #7C3200;    /* 7.8:1 on warning-bg */
-  --color-danger: #E74C3C;
-  --color-danger-bg: #FADBD8;
-  --color-danger-text: #7F1D1D;     /* 7.7:1 on danger-bg */
-  --color-primary-text: #1A5C8A;    /* 6.5:1 on primary/10 bg */
+  /* Status palette — the only chromatic colors in general UI.
+     The bg + text tokens go through var() indirection so the `.dark` overrides
+     below actually apply. (Tailwind v4's `@theme inline` bakes literal hex
+     values into utility classes at build time; using a hex here would mean
+     `bg-success-bg` always resolves to the light-mode hex, and the dark-mode
+     override on `--color-success-bg` would silently no-op.) */
+  --color-success:      #2ECC71;
+  --color-success-bg:   var(--success-bg);
+  --color-success-text: var(--success-text);
+  --color-warning:      #E67E22;
+  --color-warning-bg:   var(--warning-bg);
+  --color-warning-text: var(--warning-text);
+  --color-danger:       #E74C3C;
+  --color-danger-bg:    var(--danger-bg);
+  --color-danger-text:  var(--danger-text);
+  --color-primary-text: var(--primary-text);
 
   /* ─── Semantic surface / text / border tokens ─── */
   /* Components MUST use these — never bg-white, text-grey-dark directly. */
@@ -97,20 +106,24 @@
   --color-pillar-social: #14b8a6;
   --color-pillar-eco: #10b981;
 
-  /* Extended palette — data visualization and status chips (not general UI) */
-  --color-amber: #f59e0b;
-  --color-amber-bg: #fef3c7;
-  --color-amber-text: #b45309;
-  --color-yellow: #eab308;
-  --color-yellow-bg: #fef9c3;
-  --color-yellow-text: #854d0e;
-  --color-purple: #7c3aed;
-  --color-purple-bg: #ede9fe;
-  --color-purple-text: #4c1d95;
-  --color-pink: #db2777;
-  --color-pink-bg: #fce7f3;
-  --color-pink-text: #831843;
-  --color-cyan: #06b6d4;
+  /* Extended palette — data visualization and status chips (not general UI).
+     Same indirection rule as the status palette: `bg` and `text` go through
+     var() so dark-mode overrides apply at runtime. The vivid base colors
+     (`--color-amber`, etc.) stay literal since they're used for icons,
+     borders, and chart series where the same hue reads in both modes. */
+  --color-amber:        #f59e0b;
+  --color-amber-bg:     var(--amber-bg);
+  --color-amber-text:   var(--amber-text);
+  --color-yellow:       #eab308;
+  --color-yellow-bg:    var(--yellow-bg);
+  --color-yellow-text:  var(--yellow-text);
+  --color-purple:       #7c3aed;
+  --color-purple-bg:    var(--purple-bg);
+  --color-purple-text:  var(--purple-text);
+  --color-pink:         #db2777;
+  --color-pink-bg:      var(--pink-bg);
+  --color-pink-text:    var(--pink-text);
+  --color-cyan:         #06b6d4;
 
   /* Shadows — thin, low-noise */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
@@ -152,6 +165,29 @@
   --border-strong:   rgba(0,0,0,0.22);
   /* Panel shadow */
   --panel-shadow:    0 1px 2px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.06);
+
+  /* Status palette — light mode. Contrast ratios noted from the prior
+     `@theme inline` block stay accurate. */
+  --success-bg:    #D5F5E3;
+  --success-text:  #166534;        /* 6.1:1 on success-bg */
+  --warning-bg:    #FDEBD0;
+  --warning-text:  #7C3200;        /* 7.8:1 on warning-bg */
+  --danger-bg:     #FADBD8;
+  --danger-text:   #7F1D1D;        /* 7.7:1 on danger-bg  */
+  --primary-text:  #1A5C8A;        /* 6.5:1 on accent-muted bg */
+
+  /* Extended palette — light mode (data viz + status chips) */
+  --amber-bg:    #fef3c7;
+  --amber-text:  #b45309;
+  --yellow-bg:   #fef9c3;
+  --yellow-text: #854d0e;
+  --purple-bg:   #ede9fe;
+  --purple-text: #4c1d95;
+  --pink-bg:     #fce7f3;
+  --pink-text:   #831843;
+
+  /* Greyscale soft surface — PRIORITY_CONFIG[4]'s P4 card uses this */
+  --grey-light:  #ECF0F1;
 }
 
 /* ─── Dark mode ─────────────────────────────────────────────────────────────── */
@@ -173,13 +209,32 @@
   --border-strong:   rgba(255,255,255,0.22);
   /* Panel shadow */
   --panel-shadow:    0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(255,255,255,0.07);
-  /* Override status backgrounds for dark mode readability */
-  --color-success-bg: rgba(34,197,94,0.12);
-  --color-success-text: #4ade80;
-  --color-warning-bg: rgba(251,146,60,0.12);
-  --color-warning-text: #fb923c;
-  --color-danger-bg: rgba(248,113,113,0.12);
-  --color-danger-text: #f87171;
+
+  /* Status palette — dark mode. Subtle tinted surfaces (12% alpha on the
+     status hue) + a brighter text colour so the chip pops against the dark
+     surface but doesn't blow out. */
+  --success-bg:    rgba(34, 197, 94,  0.14);
+  --success-text:  #4ade80;
+  --warning-bg:    rgba(251, 146, 60, 0.14);
+  --warning-text:  #fb923c;
+  --danger-bg:     rgba(248, 113, 113, 0.14);
+  --danger-text:   #f87171;
+  --primary-text:  #7CC5F1;        /* brighter than light-mode #1A5C8A so it reads on dark accent-muted */
+
+  /* Extended palette — dark mode. Same 12-15% alpha tints + brightened text. */
+  --amber-bg:    rgba(245, 158, 11, 0.14);
+  --amber-text:  #fbbf24;
+  --yellow-bg:   rgba(234, 179, 8,  0.14);
+  --yellow-text: #facc15;
+  --purple-bg:   rgba(124, 58, 237, 0.16);
+  --purple-text: #c4b5fd;
+  --pink-bg:     rgba(219, 39, 119, 0.14);
+  --pink-text:   #f9a8d4;
+
+  /* `grey-light` dark equivalent — a flat dark surface that sits between
+     surface-base and surface-raised so P4 cards stay distinguishable but
+     don't pop the way a P1/P2 tinted card should. */
+  --grey-light:  #1F2125;
 }
 
 /* ========================================

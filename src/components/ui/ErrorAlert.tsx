@@ -2,8 +2,11 @@
  * Shared error alert component.
  *
  * Two modes:
- *   <ErrorAlert error={msg} onRetry={fn} />     — "Fehler: {msg}" with optional retry/back
- *   <ErrorAlert className="mb-4">{msg}</ErrorAlert> — renders children directly, no prefix
+ *   <ErrorAlert error={msg} onRetry={fn} />     — renders the message as-is,
+ *     with optional retry/back. (The API_ERR_* constants in lib/utils/errors
+ *     already read as complete sentences — "Fehler beim Laden", "Ungültige
+ *     Anfrage" — so no auto-prefix is added.)
+ *   <ErrorAlert className="mb-4">{msg}</ErrorAlert> — renders children directly.
  *
  * Renders nothing when both error and children are falsy.
  */
@@ -26,8 +29,8 @@ export function ErrorAlert({
   if (!error && !children) return null;
 
   return (
-    <div className={`rounded-lg border border-danger/20 bg-danger/10 px-4 py-3${className ? ` ${className}` : ''}`}>
-      <p className="text-sm text-danger-text">{children ?? `Fehler: ${error}`}</p>
+    <div className={`rounded-lg border border-danger/20 bg-danger-bg px-4 py-3${className ? ` ${className}` : ''}`}>
+      <p className="text-sm text-danger-text">{children ?? error}</p>
       {onRetry && (
         <Button
           onClick={onRetry}
