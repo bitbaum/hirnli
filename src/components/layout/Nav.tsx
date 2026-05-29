@@ -100,7 +100,7 @@ export default function Nav() {
       {mobileOpen && (
         <>
           <Backdrop onClose={closeMobile} className="lg:hidden" />
-          <div className="fixed inset-x-0 top-[calc(3.5rem+1px)] z-modal max-h-[calc(100vh-3.5rem)] overflow-y-auto border-t border-border-default bg-surface-base px-4 py-4 lg:hidden">
+          <div className="fixed inset-x-0 top-[calc(var(--nav-height)+1px)] z-modal max-h-[calc(100vh-var(--nav-height))] overflow-y-auto border-t border-border-default bg-surface-base px-4 py-4 lg:hidden">
             <ul className="space-y-1">
               {NAV_STRUCTURE.items.map((item) => (
                 <MobileAccordion

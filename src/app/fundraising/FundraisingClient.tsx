@@ -80,7 +80,7 @@ export default function FundraisingClient() {
           </p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {HERO_STATS.map((item) => (
-              <div key={item.label} className="rounded-lg border border-border-default-subtle bg-surface-base p-4 text-center">
+              <div key={item.label} className="rounded-lg border border-border-subtle bg-surface-base p-4 text-center">
                 <div className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">{item.label}</div>
                 <div className="heading-section mt-1">{item.value}</div>
                 <div className="text-xs text-text-secondary mt-0.5">{item.sub}</div>

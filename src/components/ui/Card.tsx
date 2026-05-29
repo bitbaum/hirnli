@@ -2,7 +2,7 @@ type CardVariant = 'default' | 'muted';
 
 const BASE: Record<CardVariant, string> = {
   default: 'rounded-lg border border-border-default bg-surface-base shadow-panel',
-  muted: 'rounded-xl border border-border-default-subtle bg-surface-raised',
+  muted: 'rounded-xl border border-border-subtle bg-surface-raised',
 };
 
 interface CardProps {

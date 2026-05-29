@@ -49,7 +49,7 @@ export default function ArtCultureSection() {
             </ul>
           </div>
         </div>
-        <div className="rounded-lg border border-border-default-subtle bg-surface-raised p-4">
+        <div className="rounded-lg border border-border-subtle bg-surface-raised p-4">
           <p className="heading-detail text-chart-5 mb-2">Warum Kunst & Kultur zentral sind:</p>
           <p className="text-sm text-chart-5 mb-3">
             Technik allein ändert kein Verhalten. <strong>Kunst macht Elektroschrott sichtbar, berührbar, wertvoll</strong>.

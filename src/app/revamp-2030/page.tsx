@@ -54,7 +54,7 @@ export default function Revamp2030Page() {
             Bis 2030 wollen wir durch <strong>bessere Prozesse und Bildungsprogramme</strong> mehr Menschen befähigen
             und effizienter refurbishen — nicht durch endlosen Raum, sondern durch klare Organisation.
           </p>
-          <div className="rounded-lg border border-border-default-subtle bg-surface-base p-4">
+          <div className="rounded-lg border border-border-subtle bg-surface-base p-4">
             <p className="text-sm text-text-secondary">
               <strong>Realistische Ziele (Jahr 3):</strong> ~{DEVICES_PER_MONTH_TARGET} Geräte/Monat (durch effiziente Prozesse, nicht durch endlos Raum).
               Menschen-Wirkung: {PEOPLE_REACHED_DISPLAY} durch Train-the-Trainer + Workshops (konservative Schätzung).
@@ -102,7 +102,7 @@ export default function Revamp2030Page() {
                   </ul>
                 </div>
               </div>
-              <div className="rounded-lg border border-border-default-subtle bg-surface-raised p-4">
+              <div className="rounded-lg border border-border-subtle bg-surface-raised p-4">
                 <p className="heading-detail text-pillar-digital mb-2">Tech-Stack (produktionsreif):</p>
                 <p className="text-sm text-text-secondary mb-2">
                   Next.js, TypeScript, PostgreSQL, Redis, Meilisearch, Auth.js, Payrexx —

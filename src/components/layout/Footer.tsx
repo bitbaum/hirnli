@@ -5,7 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-border-default-subtle bg-surface-raised">
+    <footer className="mt-auto border-t border-border-subtle bg-surface-raised">
       <div className="mx-auto max-w-7xl px-4 py-6 text-center text-sm text-text-tertiary">
         <p>{BRAND_NAME} &copy; {currentYear} &ndash; Interne Wissensbasis von {ORG_PROFILE.name}</p>
         <div className="mt-2 flex justify-center gap-4">

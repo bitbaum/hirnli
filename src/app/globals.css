@@ -132,6 +132,12 @@
   --shadow-xl: 0 4px 12px rgba(0,0,0,0.08), 0 16px 40px rgba(0,0,0,0.08);
   --shadow-panel: var(--panel-shadow);
 
+  /* Layout heights — single source for sticky-nav math (mobile drawer offset,
+     viewport-height-minus-nav clamps, etc.). 3.5rem matches the Nav.tsx
+     row padding (py-3 → 0.75rem × 2) + content rough height (≈2rem),
+     yielding `top: 0` at the sticky boundary. */
+  --nav-height: 3.5rem;
+
   /* Border radius */
   --radius-sm: 4px;
   --radius-md: 6px;

@@ -24,7 +24,7 @@ export default function TrainTheTrainerVisionSection() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {HERO_STATS.map((stat) => (
-            <div key={stat.label} className="rounded-lg border border-border-default-subtle bg-surface-base p-4 text-center">
+            <div key={stat.label} className="rounded-lg border border-border-subtle bg-surface-base p-4 text-center">
               <div className="heading-stat">{stat.value}</div>
               <div className="text-xs text-text-secondary mt-0.5">{stat.label}</div>
             </div>
