@@ -12,13 +12,11 @@
  * - DATABASE_URL: postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require
  */
 
-import { drizzle } from 'drizzle-orm/neon-http';
-import { neon } from '@neondatabase/serverless';
-import type { NeonQueryFunction } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
 import * as schema from './schema';
 
 let _db: ReturnType<typeof drizzle<typeof schema>> | null = null;
-let _sql: NeonQueryFunction<false, false> | null = null;
 
 function getDb() {
   if (!_db) {
@@ -28,8 +26,7 @@ function getDb() {
         'DATABASE_URL is not set. Required for database operations.'
       );
     }
-    _sql = neon(url);
-    _db = drizzle(_sql, { schema });
+    _db = drizzle(new Pool({ connectionString: url }), { schema });
   }
   return _db;
 }

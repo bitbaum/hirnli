@@ -24,7 +24,7 @@ if (process.env.SKIP_SYNC === 'true') {
 
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
-import { neon } from '@neondatabase/serverless';
+import { Pool } from 'pg';
 import { foundationSchema } from '../lib/schemas/foundation';
 import type { Foundation } from '../lib/schemas/foundation';
 import { computePriorityScore } from '../lib/domain/foundation-scores';
@@ -32,7 +32,7 @@ import { computePriorityScore } from '../lib/domain/foundation-scores';
 const OUTPUT_PATH = resolve(__dirname, '../lib/config/foundations/stiftungen-generated.ts');
 
 async function syncFoundations() {
-  const sql = neon(process.env.DATABASE_URL!);
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL! });
 
   console.log('\nSyncing foundations from DB...\n');
 
@@ -42,14 +42,14 @@ async function syncFoundations() {
   //
   // Previous filter used needsResearch flag — replaced with data_confidence
   // column (set by set-confidence.ts migration) for clearer semantics.
-  const rows = await sql`
+  const { rows } = await pool.query(`
     SELECT id, config_data
     FROM fundraising_foundations
     WHERE config_data IS NOT NULL
       AND (archived = false OR archived IS NULL)
       AND (data_confidence IS NULL OR data_confidence != 'unverified')
     ORDER BY id
-  `;
+  `);
 
   console.log(`  Found ${rows.length} foundations (rapid name-only excluded)`);
 
@@ -99,11 +99,12 @@ async function syncFoundations() {
     console.log(`  Recomputed priority for ${priorityUpdates} foundations`);
     // Write corrected priorities back to DB (trigger syncs flat column)
     for (const f of valid as Foundation[]) {
-      await sql`
-        UPDATE fundraising_foundations
-        SET config_data = jsonb_set(config_data, '{priority}', ${JSON.stringify(f.priority)}::jsonb)
-        WHERE id = ${f.slug} AND (config_data->>'priority')::int != ${f.priority}
-      `;
+      await pool.query(
+        `UPDATE fundraising_foundations
+         SET config_data = jsonb_set(config_data, '{priority}', $1::jsonb)
+         WHERE id = $2 AND (config_data->>'priority')::int != $3`,
+        [JSON.stringify(f.priority), f.slug, f.priority]
+      );
     }
   }
 
@@ -132,6 +133,9 @@ export const STIFTUNGEN_GENERATED: Foundation[] = JSON.parse('${jsonData.replace
   console.log(`  Valid: ${valid.length} foundations`);
   console.log(`  Invalid: ${invalid.length} foundations (skipped)`);
   console.log(`\nSync complete.\n`);
+
+  // pg keeps the event loop alive — without this the prebuild never exits
+  await pool.end();
 }
 
 syncFoundations().catch((err) => {
