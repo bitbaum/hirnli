@@ -8,7 +8,7 @@ funders, build per-foundation fit narratives, and ship professional German-langu
 applications (Gesuche) that stand out from the templated norm. The platform is
 designed to be multi-tenant from day one — Revamp-IT is just the first tenant.
 
-[Live](https://revamp-info.vercel.app) · [Architecture & Conventions](./CLAUDE.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
+[Live](https://revamp-info.orangecat.ch) · [Architecture & Conventions](./CLAUDE.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
 
 ---
 
@@ -67,7 +67,7 @@ where guessed URLs were 54% wrong. See data-integrity rules in [CLAUDE.md](./CLA
 | Race conditions | 6 fetch-in-useEffect sites guarded, 1 DB TOCTOU closed with unique constraint |
 | Design tokens | All in `globals.css` (`@theme inline`) — zero hex literals in components |
 | Dark mode | Fully wired via `next-themes` + semantic two-tier token system |
-| Deploy | Auto-deploy to Vercel on push to `main`, build < 3 min |
+| Deploy | Self-hosted on Hetzner (Caddy + Next.js `standalone` output) |
 
 Every page that ships data shows a click-to-inspect "where did this number come
 from" modal. Every metric traces back to a `NUMBERS_REGISTRY` entry with source,
@@ -78,12 +78,12 @@ formula, and confidence level. No black boxes.
 ## Tech stack
 
 - **Next.js 16** App Router · **TypeScript** strict
-- **PostgreSQL** (Neon, HTTP edge driver) · **Drizzle ORM** — schema is SSOT
+- **PostgreSQL** (self-hosted, `node-postgres` driver) · **Drizzle ORM** — schema is SSOT
 - **Zod 4** — types derived via `z.infer<>`, never defined separately
 - **Tailwind v4** — design tokens via `@theme inline` in `globals.css`
 - **Chart.js** for finance dashboards · **`@react-pdf/renderer`** for PDFs
 - **Groq** (Llama 3.x) — LLM triage + rewrite (configurable, rate-limit aware)
-- **Vercel** — auto-deploy from `main`, Edge runtime where applicable
+- **Hetzner** — self-hosted behind Caddy, Next.js `standalone` server output
 
 ---
 
@@ -98,8 +98,8 @@ npm run build        # production build, auto-syncs first
 ```
 
 Internal routes (`/fundraising/*`, `/api/*`) are gated by HTTP Basic Auth via
-[`src/middleware.ts`](./src/middleware.ts) — set `INTERNAL_PASSWORD` in Vercel
-env vars. `/gesuch/share/[token]` is intentionally public with HMAC-SHA256
+[`src/middleware.ts`](./src/middleware.ts) — set `INTERNAL_PASSWORD` in the
+server environment. `/gesuch/share/[token]` is intentionally public with HMAC-SHA256
 tokens for sending foundation-specific content to program officers.
 
 ---
@@ -113,7 +113,7 @@ src/
 ├── lib/
 │   ├── schemas/        # Zod — SSOT for every type
 │   ├── config/         # Foundations, stories, metrics, numbers, themes (org-specific)
-│   ├── db/             # Drizzle schema + migrations + Neon HTTP client
+│   ├── db/             # Drizzle schema + migrations + Postgres client
 │   ├── domain/         # Pure business logic (scoring, composing, filtering)
 │   ├── pdf/            # @react-pdf/renderer templates (Gesuch, pitch deck, impact)
 │   └── utils/          # Format, errors, share-token, a11y, slug
@@ -149,7 +149,7 @@ rewriting analysis + branding, not re-doing the registry.
 - **[`scripts/README.md`](./scripts/README.md)** — pipeline tools (23 scripts + 18 npm aliases)
 - **[`org-context/_template/README.md`](./org-context/_template/README.md)** — multi-tenant onboarding checklist
 - **[`docs/KNOWLEDGE_ARCHITECTURE.md`](./docs/KNOWLEDGE_ARCHITECTURE.md)** — 3-tier SSOT governance
-- **[`docs/DATABASE_SETUP.md`](./docs/DATABASE_SETUP.md)** — Neon + Drizzle local-dev setup
+- **[`docs/DATABASE_SETUP.md`](./docs/DATABASE_SETUP.md)** — PostgreSQL + Drizzle local-dev setup
 - **[`docs/AUDIT_REPORT.md`](./docs/AUDIT_REPORT.md)** — 2026-03 baseline codebase audit
 - **[`public/documents/README.md`](./public/documents/README.md)** — anonymised source document library
 

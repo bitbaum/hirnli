@@ -1,7 +1,7 @@
 /**
- * Database Client - Neon PostgreSQL Connection
+ * Database Client - PostgreSQL Connection
  *
- * Uses the shared revampit Neon DB via HTTP (edge-compatible).
+ * Uses the shared revampit Postgres DB via a `node-postgres` connection pool.
  * Tables are prefixed with `fundraising_` to avoid conflicts.
  *
  * Lazy initialization: the connection is created on first use, not at import
@@ -9,7 +9,7 @@
  * generation) — the error only fires when a route actually handles a request.
  *
  * Environment Variables Required:
- * - DATABASE_URL: postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require
+ * - DATABASE_URL: postgresql://user:pass@host:5432/dbname
  */
 
 import { drizzle } from 'drizzle-orm/node-postgres';

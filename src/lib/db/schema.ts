@@ -1,11 +1,11 @@
 /**
  * Database Schema - Single Source of Truth
  *
- * All tables defined with Drizzle ORM for PostgreSQL (Neon).
+ * All tables defined with Drizzle ORM for PostgreSQL.
  * Types are automatically derived from schema (never define separately).
  *
  * Table names prefixed with `fundraising_` to avoid conflicts with
- * revampit's existing tables in the shared Neon database.
+ * revampit's existing tables in the shared database.
  *
  * Schema serves Ground Truth #2: State defines behavior, one source of truth.
  */

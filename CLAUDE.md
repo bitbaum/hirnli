@@ -132,7 +132,7 @@ PUBLIC (anyone)                          INTERNAL (org team, password)
 ```
 
 **How auth works:** `src/middleware.ts` checks HTTP Basic Auth on protected routes.
-Set `INTERNAL_PASSWORD` in Vercel environment variables. If unset, all routes are open
+Set `INTERNAL_PASSWORD` in the server environment. If unset, all routes are open
 (local dev). The browser handles the prompt — no login page, no sessions, no accounts.
 
 **The share-page contract:** `/gesuch/share/[token]` is intentionally public. It's the
@@ -178,7 +178,7 @@ judgments into the registry layer.
 ```
 ESA / Zefix / Research scripts
         ↓ write via scripts/foundation-upsert.ts
-  PostgreSQL (Neon) — fundraising_foundations table — WRITE SSOT
+  PostgreSQL (self-hosted) — fundraising_foundations table — WRITE SSOT
   config_data JSONB column holds all Foundation domain fields
         ↓ npm run sync  (prebuild, also runs before dev server)
   src/lib/config/foundations/stiftungen-generated.ts — READ-ONLY build cache
@@ -338,7 +338,7 @@ Next.js 16 + TypeScript + Tailwind CSS v4
 ├── Tailwind CSS v4       → Utility-first styling with design tokens
 ├── Zod 4                 → Schema validation, SSOT for types
 ├── Chart.js + react-chartjs-2 → Financial visualizations
-└── Vercel                → Hosting (auto-deploy from git push)
+└── Hetzner               → Hosting (self-hosted behind Caddy, Next.js standalone)
 ```
 
 ### File Structure
@@ -399,7 +399,7 @@ revamp-info/
 
 ```
 Kivitendo (Accounting)  →  CSV Export       →  lib/data/financial.ts (embedded)        →  Dashboard
-Research scripts        →  DB (Neon/Drizzle) →  npm run sync  →  stiftungen-generated.ts →  [slug] route
+Research scripts        →  DB (Postgres/Drizzle) →  npm run sync  →  stiftungen-generated.ts →  [slug] route
 Impact Methodology      →  lib/config/metrics.ts                                        →  Inspectable metrics
 Narrative Content       →  lib/config/stories.ts                                        →  Foundation stories
 ```
@@ -700,7 +700,7 @@ export DATABASE_URL=$(grep DATABASE_URL .env.local | cut -d= -f2-)
 npx drizzle-kit generate   # creates src/lib/db/migrations/<timestamp>_<name>.sql
 
 # 3. Apply to DB
-npx drizzle-kit push       # pushes schema diff to Neon DB
+npx drizzle-kit push       # pushes schema diff to the Postgres DB
 ```
 
 **Rules:**

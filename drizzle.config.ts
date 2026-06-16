@@ -1,7 +1,7 @@
 /**
  * Drizzle Kit Configuration
  *
- * Targets the shared revampit Neon PostgreSQL database.
+ * Targets the shared revampit (self-hosted) PostgreSQL database.
  * All tables are prefixed with `fundraising_` in schema.ts.
  */
 
