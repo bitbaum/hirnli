@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project uses **PostgreSQL** (hosted on **Neon**) with **Drizzle ORM**.
+This project uses **PostgreSQL** (self-hosted) with **Drizzle ORM**.
 The DB is the write SSOT for all foundation data — see
 [`/CLAUDE.md`](./CLAUDE.md) §"Foundation Database Model" for the full
 data flow.
@@ -11,15 +11,15 @@ data flow.
 
 - Node.js 20+
 - npm
-- A Neon DATABASE_URL (get one from <https://neon.tech/> — free tier
-  available, or ask the team for the shared dev URL)
+- A PostgreSQL `DATABASE_URL` (ask the team for the shared dev connection
+  string, or point at a local Postgres instance)
 
 ## Step 1 — Configure Environment
 
 Create `.env.local` in the project root:
 
 ```env
-DATABASE_URL=postgres://user:pass@host.neon.tech/dbname?sslmode=require
+DATABASE_URL=postgres://user:pass@host:5432/dbname
 INTERNAL_PASSWORD=...    # optional; HTTP Basic auth for /fundraising/*
 SHARE_SECRET=...         # required for /gesuch/share/[token] HMAC tokens
 ```
@@ -63,7 +63,7 @@ export DATABASE_URL=$(grep DATABASE_URL .env.local | cut -d= -f2-)
 npx drizzle-kit generate    # writes src/lib/db/migrations/<timestamp>_<name>.sql
 
 # 3. Apply to the DB
-npx drizzle-kit push        # pushes diff to Neon
+npx drizzle-kit push        # pushes diff to the Postgres DB
 ```
 
 Migration files are commits-of-record — always commit them. Review the
@@ -75,7 +75,7 @@ push output before confirming any DROP statements.
 npx drizzle-kit studio    # opens visual browser at https://local.drizzle.studio
 ```
 
-Or query directly via `psql "$DATABASE_URL"` or the Neon web console.
+Or query directly via `psql "$DATABASE_URL"`.
 
 ## Common Operations
 
@@ -111,4 +111,4 @@ unexpected DROP statements.
 - `DATABASE_URL` includes credentials — keep secret
 - `SHARE_SECRET` controls who can generate /gesuch/share/[token] URLs
 - Internal routes are gated by HTTP Basic Auth (see `src/middleware.ts`);
-  set `INTERNAL_PASSWORD` in Vercel env to enforce it in production
+  set `INTERNAL_PASSWORD` in the server environment to enforce it in production
