@@ -122,5 +122,10 @@ export const NAV_STRUCTURE: {
       icon: '📦',
       href: '/dokumente',
     },
+    {
+      text: 'Plattform',
+      icon: '🧭',
+      href: '/plattform',
+    },
   ],
 };
