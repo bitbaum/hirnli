@@ -2,6 +2,7 @@ import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { FIT_CONFIG } from '@/lib/config/foundations';
+import { SCORING_ENGINE } from '@/lib/config/fit-scoring';
 import { getFitLevel } from '@/lib/domain/foundation-helpers';
 import ThemeBadgeList from './ThemeBadgeList';
 import type { FitNarrative, ThemeAlignment } from '@/lib/domain/foundation-contextualization';
@@ -57,9 +58,11 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
         <div className="border-t border-border-default px-4 py-3 text-sm text-text-secondary space-y-1">
           <p>Der Fit-Score basiert auf drei Dimensionen (0–10 Punkte):</p>
           <ul className="list-inside list-disc space-y-0.5 ml-1">
-            <li><strong>Thematischer Fit (0–4)</strong> — Übereinstimmung unserer Kernthemen mit den Förderbereichen</li>
-            <li><strong>Geographischer Fit (0–3)</strong> — Zürich=3, Nachbarkantone=2, Schweizweit=1</li>
-            <li><strong>Zugangs-Fit (0–3)</strong> — Offene Bewerbung=3, E-Mail=2, Einladung=1</li>
+            {SCORING_ENGINE.dimensions.map((d) => (
+              <li key={d.id}>
+                <strong>{d.label} (0–{d.maxScore})</strong> — {d.description}
+              </li>
+            ))}
           </ul>
           <p className="text-text-muted mt-1">7–10 = Exzellent (★★★), 4–6 = Gut (★★☆), 1–3 = Gering (★☆☆)</p>
           {isUnassessed && (

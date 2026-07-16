@@ -11,7 +11,7 @@
 // to avoid a circular dependency (numbers.ts imports ORG_PROFILE).
 import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';
 
-const _FOUNDED = 2003;
+const _FOUNDED = SHARED_ORG_NUMBERS.FOUNDING_YEAR;
 const _INTEGRATION_PROGRAM_YEAR = 2009; // Praktikums-/Integrationsprogramm start
 const _YEARS_ACTIVE = new Date().getFullYear() - _FOUNDED;
 
@@ -38,7 +38,7 @@ export const ORG_PROFILE = {
   platform: {
     name: 'Revamp-Info',
     tagline: 'Fundraising Hub',
-    url: 'https://revamp-info.vercel.app',
+    url: 'https://revamp-info.orangecat.ch',
   },
 
   // Key program milestones (years)

@@ -114,6 +114,8 @@ type ComputeConfig =
 export interface ScoringDimensionConfig<T extends ComputeConfig = ComputeConfig> {
   id: string;
   label: string;
+  /** One-line human explanation of how this dimension scores — rendered in the UI methodology box (SSOT: keep in sync with `config`) */
+  description: string;
   maxScore: number;
   computeType: 'weightedCategoryMatch' | 'tieredLookup' | 'directMap' | 'additiveChecks';
   inputFields: readonly string[];
@@ -156,6 +158,7 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
     {
       id: 'thematic',
       label: 'Thematischer Fit',
+      description: 'Übereinstimmung unserer Kernthemen mit den Förderbereichen',
       maxScore: 4,
       computeType: 'weightedCategoryMatch',
       inputFields: ['themes'],
@@ -186,6 +189,7 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
     {
       id: 'geographic',
       label: 'Geographischer Fit',
+      description: 'Zürich=3, Nachbarkantone=2, Schweizweit=1',
       maxScore: 3,
       computeType: 'tieredLookup',
       inputFields: ['canton', 'city'],
@@ -221,6 +225,7 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
     {
       id: 'access',
       label: 'Zugangs-Fit',
+      description: 'Offene Bewerbung=3, E-Mail=2, Einladung=1',
       maxScore: 3,
       computeType: 'directMap',
       inputFields: ['applicationMethod', 'isFunder'],
@@ -319,6 +324,7 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
     {
       id: 'tailoring',
       label: 'Massschneiderung',
+      description: 'Können wir einen stiftungsspezifischen Pitch schreiben? (Zweck, Fit-Analyse, Themen)',
       maxScore: 35,
       computeType: 'additiveChecks',
       inputFields: [
@@ -343,6 +349,7 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
     {
       id: 'actionability',
       label: 'Handlungsfähigkeit',
+      description: 'Können wir tatsächlich einreichen? (Kontakt, Bewerbungs-URL, Methode)',
       maxScore: 30,
       computeType: 'additiveChecks',
       inputFields: [
@@ -367,6 +374,7 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
     {
       id: 'financial',
       label: 'Finanzielle Klarheit',
+      description: 'Können wir ein realistisches Budget vorschlagen? (Förderbereich, Jahresbudget)',
       maxScore: 20,
       computeType: 'additiveChecks',
       inputFields: [
@@ -390,6 +398,7 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
     {
       id: 'profile',
       label: 'Stiftungsprofil',
+      description: 'Haben wir genug Kontext für Glaubwürdigkeit? (Gründung, Organe, Website)',
       maxScore: 15,
       computeType: 'additiveChecks',
       inputFields: [

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { apiFetch } from './client-fetch';
 import { NET_ERR_LOAD } from '@/lib/utils/errors';
 

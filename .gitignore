@@ -28,9 +28,12 @@ Thumbs.db
 # Playwright MCP
 .playwright-mcp/
 
-# Vercel
-.vercel
+# Env files (secrets never in git)
 .env*.local
+
+# Pipeline script outputs (derived data, regenerable)
+scripts/output/
+scripts/esa-stiftungsverzeichnis.xlsx
 
 # Research drafts (too large for git, already ingested into DB)
 research/drafts/
