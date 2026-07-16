@@ -54,10 +54,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const foundation = getFoundationBySlug(slug);
   if (!foundation) return { title: 'Nicht gefunden' };
 
+  const title = `${ORG_PROFILE.name} × ${foundation.name}`;
+  const description = `Partnerschaftsvorschlag von ${ORG_PROFILE.name} für ${foundation.name}`;
   return {
-    title: `${ORG_PROFILE.name} × ${foundation.name}`,
-    description: `Partnerschaftsvorschlag von ${ORG_PROFILE.name} für ${foundation.name}`,
+    title,
+    description,
     robots: { index: false, follow: false },
+    // Program officers receive this link directly — the preview must look
+    // deliberate, not like a bare URL.
+    openGraph: { title, description, type: 'article' },
+    twitter: { card: 'summary_large_image', title, description },
   };
 }
 

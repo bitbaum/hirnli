@@ -23,6 +23,9 @@ import {
 export function HeroSection() {
   return (
     <section className="mb-12 border-b border-border-subtle pb-10">
+      <p className="mb-3 text-sm font-medium uppercase tracking-wider text-primary-text">
+        {HERO.platformNote}
+      </p>
       <h1 className="text-3xl font-bold tracking-tight text-text-primary mb-3 md:text-5xl md:leading-tight">
         {HERO.name}
       </h1>

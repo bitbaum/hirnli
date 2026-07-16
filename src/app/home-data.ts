@@ -11,8 +11,8 @@ import { FINANCIAL_YEAR_LABEL } from '@/lib/config/financial-constants';
 // -- Page Metadata -----------------------------------------------------------
 
 export const PAGE_META = {
-  title: `${ORG_PROFILE.name} — Fundraising-Werkzeuge`,
-  description: `Stiftungsrecherche, Gesuch-Vorlagen und belegbare Wirkungsdaten für ${ORG_PROFILE.name}.`,
+  title: `${ORG_PROFILE.name} — Transparentes Fundraising`,
+  description: `Wirkung, Finanzen und Strategie von ${ORG_PROFILE.name} — jede Zahl belegbar. Plus Stiftungsrecherche und Gesuch-Generierung auf einer Plattform.`,
 };
 
 // -- Section 1: Hero ---------------------------------------------------------
@@ -31,7 +31,7 @@ export const HERO = {
 
 // -- Section 2: Platform guide -----------------------------------------------
 
-export const GUIDE_HEADING = 'Ihre Werkzeuge';
+export const GUIDE_HEADING = 'Was diese Plattform kann';
 
 export const GUIDE_SECTIONS = [
   {

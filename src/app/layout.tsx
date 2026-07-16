@@ -9,12 +9,30 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
+const SITE_TITLE = `${ORG_PROFILE.name} — Transparentes Fundraising`;
+const SITE_DESCRIPTION =
+  'Alle Zahlen, alle Quellen, komplett nachvollziehbar: Finanzen, Wirkung und Strategie — plus Stiftungsrecherche und Gesuch-Generierung auf einer Plattform.';
+
 export const metadata: Metadata = {
+  // Absolute base for OG images and canonical URLs (link previews need absolute URLs)
+  metadataBase: new URL(ORG_PROFILE.platform.url),
   title: {
-    default: `${BRANDING.siteName} — Transparenz-Hub für ${ORG_PROFILE.name} Fundraising`,
+    default: SITE_TITLE,
     template: `%s — ${BRANDING.siteName}`,
   },
-  description: 'Fundraising Intelligence Platform: Alle Daten, alle Quellen, komplett transparent. Finanzen, Wirkung, Strategie, Stiftungen.',
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: 'website',
+    siteName: BRANDING.siteName,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    locale: 'de_CH',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
   icons: {
     icon: '/favicon.ico',
   },
