@@ -10,14 +10,6 @@ export default function Footer() {
         <p>{BRAND_NAME} &copy; {currentYear} &ndash; Interne Wissensbasis von {ORG_PROFILE.name}</p>
         <div className="mt-2 flex justify-center gap-4">
           <a
-            href="https://github.com/g-but/revamp-info"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-primary"
-          >
-            GitHub
-          </a>
-          <a
             href={ORG_PROFILE.website}
             target="_blank"
             rel="noopener noreferrer"
