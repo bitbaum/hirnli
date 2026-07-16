@@ -18,8 +18,9 @@
  *   - /api/documents/**         — document generation (Gesuch PDFs with internal context)
  *
  * Auth method: HTTP Basic Auth — browser handles the prompt.
- * Set INTERNAL_PASSWORD in Vercel environment variables.
- * If unset, all routes are open (local dev convenience).
+ * Set INTERNAL_PASSWORD in the server environment (/opt/revamp-info/app/.env).
+ * If unset: open in development, FAIL CLOSED in production (503) — an
+ * unconfigured production box must never expose the internal pipeline.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -49,8 +50,15 @@ function unauthorized() {
 export function middleware(request: NextRequest) {
   const password = process.env.INTERNAL_PASSWORD;
 
-  // No password set → open (local dev, or intentionally public deployment)
-  if (!password) return NextResponse.next();
+  // No password set → open in dev only; production fails closed.
+  if (!password) {
+    if (process.env.NODE_ENV === 'production') {
+      return new NextResponse('Interner Bereich nicht konfiguriert (INTERNAL_PASSWORD fehlt)', {
+        status: 503,
+      });
+    }
+    return NextResponse.next();
+  }
 
   const { pathname } = request.nextUrl;
 
