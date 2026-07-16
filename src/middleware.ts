@@ -19,8 +19,12 @@
  *
  * Auth method: HTTP Basic Auth — browser handles the prompt.
  * Set INTERNAL_PASSWORD in the server environment (/opt/revamp-info/app/.env).
- * If unset: open in development, FAIL CLOSED in production (503) — an
- * unconfigured production box must never expose the internal pipeline.
+ *
+ * Modes:
+ *   INTERNAL_PASSWORD set   → internal routes require Basic Auth
+ *   INTERNAL_AUTH=off       → everything public (explicit choice, e.g. demo phase)
+ *   neither (development)   → open (local convenience)
+ *   neither (production)    → 503 — misconfiguration must never silently expose data
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -49,6 +53,9 @@ function unauthorized() {
 
 export function middleware(request: NextRequest) {
   const password = process.env.INTERNAL_PASSWORD;
+
+  // Explicitly public (demo phase) — the org's deliberate choice, not a default.
+  if (process.env.INTERNAL_AUTH === 'off') return NextResponse.next();
 
   // No password set → open in dev only; production fails closed.
   if (!password) {
