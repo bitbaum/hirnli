@@ -46,7 +46,8 @@ Afterwards verify the public URL: `curl -sI https://revamp-info.orangecat.ch`.
 | Var | Purpose |
 |-----|---------|
 | `DATABASE_URL` | Shared revampit Postgres (localhost) |
-| `INTERNAL_PASSWORD` | HTTP Basic Auth for `/fundraising/**` + internal APIs. **Required in production — middleware fails closed (503) without it.** |
+| `INTERNAL_PASSWORD` | HTTP Basic Auth for `/fundraising/**` + internal APIs when set. |
+| `INTERNAL_AUTH` | `off` = everything public (explicit demo-phase choice, currently active). If neither this nor `INTERNAL_PASSWORD` is set, production fails closed (503 on internal routes). |
 | `SHARE_SECRET` | HMAC key for public `/gesuch/share/[token]` pages. Rotating it invalidates every previously sent share link. |
 | `CRON_SECRET` | Bearer token the appcron timers send to `/api/cron/*` |
 | `GROQ_API_KEY` | LLM rewrite endpoint (`/api/ai/gesuch-section`) |

@@ -68,7 +68,7 @@ where guessed URLs were 54% wrong. See data-integrity rules in [CLAUDE.md](./CLA
 | Race conditions | 6 fetch-in-useEffect sites guarded, 1 DB TOCTOU closed with unique constraint |
 | Design tokens | All in `globals.css` (`@theme inline`) — zero hex literals in components |
 | Dark mode | Fully wired via `next-themes` + semantic two-tier token system |
-| Security | Internal routes fail closed in production; HMAC share tokens; security headers on every response |
+| Security | Explicit auth modes (Basic Auth / public demo / fail-closed default); HMAC share tokens; security headers on every response |
 | Multi-tenant | `org_id` on all 5 DB tables; org identity behind `ORG_PROFILE` config |
 | Deploy | Self-hosted on Hetzner (Caddy + Next.js `standalone` output) — [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) |
 
@@ -100,10 +100,12 @@ npm run audit        # live pipeline + Gesuch funnel report
 npm run build        # production build, auto-syncs first
 ```
 
-Internal routes (`/fundraising/*`, `/api/*`) are gated by HTTP Basic Auth via
+Internal routes (`/fundraising/*`, `/api/*`) support HTTP Basic Auth via
 [`src/middleware.ts`](./src/middleware.ts) — set `INTERNAL_PASSWORD` in the
-server environment. `/gesuch/share/[token]` is intentionally public with HMAC-SHA256
-tokens for sending foundation-specific content to program officers.
+server environment, or `INTERNAL_AUTH=off` for a fully public deployment
+(the current demo-phase setting). `/gesuch/share/[token]` is always public,
+with HMAC-SHA256 tokens for sending foundation-specific content to program
+officers.
 
 ---
 
