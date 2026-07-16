@@ -32,7 +32,7 @@ import { config } from 'dotenv';
 config({ path: '.env.local' });
 
 import { mkdirSync, writeFileSync } from 'fs';
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 import { fetchSpheriqProfile } from './lib/directory-fetcher';
 import { searchFoundationWebsite } from './lib/web-search';
 import { verifyWebsite } from './lib/website-verifier';
@@ -41,7 +41,6 @@ import { reconcileContacts, type ContactCandidate } from './lib/source-reconcile
 import { extractWebContent } from './lib/web-extract';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
 
-const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
 const LIMIT = parseInt(process.argv.find(a => a.startsWith('--limit='))?.split('=')[1] || '0');
 const DELAY_MS = 500;

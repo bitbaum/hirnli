@@ -23,7 +23,7 @@ config({ path: '.env.local' });
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
+import { sql, type SqlClient } from './lib/db';
 import { execSync } from 'child_process';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import {
@@ -147,7 +147,7 @@ function generateResearchNotes(entry: EsaEntry, themes: string[], type: string, 
 // ============================================================================
 
 async function upsertEntry(
-  sql: NeonQueryFunction<false, false>,
+  sql: SqlClient,
   entry: EsaEntry,
 ): Promise<{ success: boolean; depth: ResearchDepth }> {
   const slug = toSlug(entry.name);
@@ -304,7 +304,6 @@ async function main() {
       process.exit(1);
     }
 
-    const sql = neon(process.env.DATABASE_URL);
     let success = 0;
     let errors = 0;
     let withThemes = 0;

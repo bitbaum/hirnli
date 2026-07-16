@@ -34,7 +34,7 @@ config({ path: '.env.local' });
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 import { classifyThemes, scoreFunderOperator, classifyType } from './lib/theme-classifier';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
@@ -208,7 +208,6 @@ async function loadFoundationsFromDB(): Promise<DBRow[]> {
     console.error('DATABASE_URL not set. Check .env.local');
     process.exit(1);
   }
-  const sql = neon(process.env.DATABASE_URL);
   const rows = await sql`
     SELECT id, name, config_data
     FROM fundraising_foundations

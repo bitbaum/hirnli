@@ -31,7 +31,7 @@ config({ path: '.env.local' });
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 import { fetchRaw, stripHtml } from './lib/web-extract';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
 import { extractContactData, type ExtractedContact } from './lib/contact-extractor';
@@ -246,7 +246,6 @@ async function main() {
     process.exit(1);
   }
 
-  const sql = neon(process.env.DATABASE_URL);
 
   // Load discovered URLs if provided
   const discoveredUrls = new Map<string, string>();

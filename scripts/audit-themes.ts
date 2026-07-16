@@ -4,13 +4,13 @@
  * Analyzes whether assigned themes match the foundation's official purpose.
  * Flags suspicious assignments for manual review.
  *
- * Run with: npx tsx src/scripts/audit-themes.ts
+ * Run with: npx tsx scripts/audit-themes.ts
  */
 
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 
 interface ThemeDefinition {
   id: string;
@@ -111,12 +111,24 @@ function checkThemeMatch(theme: string, purpose: string): { matches: boolean; re
 }
 
 async function auditThemes() {
-  const sql = neon(process.env.DATABASE_URL!);
 
   console.log('\n📊 Auditing theme assignments for P1+P2 foundations...\n');
 
   // Fetch P1 and P2 foundations with themes
-  const rows = await sql`
+  type FoundationRow = {
+    id: string;
+    name: string;
+    priority: number | null;
+    config_data: {
+      themes?: string[];
+      officialPurpose?: string;
+      purposeSummary?: string;
+      researchNotes?: string;
+      region?: string;
+      contact?: { address?: string } | null;
+    } | null;
+  };
+  const rows = await sql<FoundationRow>`
     SELECT
       id,
       name,

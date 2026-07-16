@@ -23,9 +23,8 @@
  *   npx tsx scripts/dedupe-by-uid.ts
  */
 import { config } from 'dotenv'; config({ path: '.env.local' });
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 
-const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
 
 type Foundation = {

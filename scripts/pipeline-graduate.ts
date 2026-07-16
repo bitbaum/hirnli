@@ -38,7 +38,7 @@ config({ path: '.env.local' });
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
+import { sql, type SqlClient } from './lib/db';
 import { execSync } from 'child_process';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import {
@@ -111,7 +111,7 @@ interface TriageResult {
 // PHASE 1: KEYWORD SCREEN (0 tokens)
 // ============================================================================
 
-async function phase1KeywordScreen(sql: NeonQueryFunction<false, false>): Promise<ScreenCandidate[]> {
+async function phase1KeywordScreen(sql: SqlClient): Promise<ScreenCandidate[]> {
   console.log('\n━━━ Phase 1: Keyword Screen (0 tokens) ━━━━━━━━━━━━━━━━━━━━━━━');
 
   // Read rapid foundations that have officialPurpose
@@ -341,7 +341,7 @@ function buildTriagePrompt(candidate: ScreenCandidate): string {
 }
 
 async function phase2LlmTriage(
-  sql: NeonQueryFunction<false, false>,
+  sql: SqlClient,
   candidates: ScreenCandidate[],
 ): Promise<TriageResult[]> {
   console.log('\n━━━ Phase 2: LLM Triage (cheap, ~500 tokens each) ━━━━━━━━━━━');
@@ -514,7 +514,7 @@ async function phase2LlmTriage(
 // ============================================================================
 
 async function phase3Upsert(
-  sql: NeonQueryFunction<false, false>,
+  sql: SqlClient,
   triageResults: TriageResult[],
 ): Promise<number> {
   console.log('\n━━━ Phase 3: Upsert + Sync ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -661,7 +661,6 @@ async function main() {
     process.exit(1);
   }
 
-  const sql = neon(process.env.DATABASE_URL);
 
   // Ingest-only mode: just close the loop on pending drafts
   if (INGEST_ONLY) {

@@ -1,15 +1,18 @@
 /**
- * Sync shared org numbers from revampit's Neon DB
+ * Sync shared org numbers from revampit's PostgreSQL DB (shared, self-hosted)
  *
  * Reads the 9 overlapping entries from the org_numbers table and generates
  * a TypeScript file that NUMBERS_REGISTRY imports. This ensures both projects
  * share the same source of truth for these values.
  *
  * Usage: npm run sync-numbers
- * Requires: DATABASE_URL env var pointing to revampit's Neon PostgreSQL
+ * Requires: DATABASE_URL env var pointing to the shared revampit PostgreSQL
  *
  * Run this 1-2x/year during number audits, then commit the generated file.
  */
+
+import { config } from 'dotenv'
+config({ path: '.env.local' })
 
 import { Pool } from 'pg'
 import { writeFileSync } from 'fs'
@@ -19,7 +22,7 @@ const DATABASE_URL = process.env.DATABASE_URL
 
 if (!DATABASE_URL) {
   console.error('DATABASE_URL environment variable is required.')
-  console.error('Set it to revampit\'s Neon PostgreSQL connection string.')
+  console.error('Set it to the shared revampit PostgreSQL connection string.')
   console.error('Example: DATABASE_URL=postgresql://... npx tsx scripts/sync-org-numbers.ts')
   process.exit(1)
 }
@@ -97,7 +100,7 @@ async function sync() {
 
     const now = new Date().toISOString().split('T')[0]
     const output = `// AUTO-GENERATED — DO NOT EDIT MANUALLY
-// Source: org_numbers table (Neon PostgreSQL)
+// Source: org_numbers table (shared revampit PostgreSQL)
 // Last synced: ${now}
 // Run: npm run sync-numbers
 

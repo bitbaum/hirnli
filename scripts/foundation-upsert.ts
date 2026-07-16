@@ -22,7 +22,7 @@ config({ path: '.env.local' });
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 import { ResearchDraftSchema } from './lib/research-types';
 import type { Foundation, FoundationRegistry } from '../src/lib/schemas/foundation';
 import { computeFitScore } from '../src/lib/domain/fit-scoring';
@@ -59,7 +59,6 @@ async function main() {
     process.exit(1);
   }
 
-  const sql = neon(process.env.DATABASE_URL);
   let success = 0;
   let errors = 0;
   const depthCounts: Record<ResearchDepth, number> = { rapid: 0, standard: 0, deep: 0 };

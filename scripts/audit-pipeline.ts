@@ -8,11 +8,10 @@
  * Run it after any sync/rescore and copy the output to update those docs.
  */
 import { config } from 'dotenv'; config({ path: '.env.local' });
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
 import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
-const sql = neon(process.env.DATABASE_URL!);
 
 async function main() {
   // ── 1. Funnel counts ──────────────────────────────────────────────────────
@@ -39,7 +38,7 @@ async function main() {
   `;
 
   // ── 2. Priority breakdown (sync-eligible only — matches generated file) ──
-  const prios = await sql`
+  const prios = await sql<{ priority: number; total: string | number; with_app_url: string | number; with_web_url: string | number; with_email: string | number }>`
     SELECT
       priority,
       COUNT(*)                                                                          AS total,
@@ -109,10 +108,10 @@ async function main() {
   console.log(`  deep     (human-verified) ..........  ${totals.depth_deep}`);
   console.log(``);
 
-  const p1 = prios.find(r => r.priority === 1) ?? { total:0, with_app_url:0, with_web_url:0, with_email:0 };
-  const p2 = prios.find(r => r.priority === 2) ?? { total:0, with_app_url:0, with_web_url:0, with_email:0 };
-  const p3 = prios.find(r => r.priority === 3) ?? { total:0, with_app_url:0, with_web_url:0, with_email:0 };
-  const p4 = prios.find(r => r.priority === 4) ?? { total:0, with_app_url:0, with_web_url:0, with_email:0 };
+  const p1 = prios.find(r => r.priority === 1) ?? { priority: 1, total: 0, with_app_url: 0, with_web_url: 0, with_email: 0 };
+  const p2 = prios.find(r => r.priority === 2) ?? { priority: 2, total: 0, with_app_url: 0, with_web_url: 0, with_email: 0 };
+  const p3 = prios.find(r => r.priority === 3) ?? { priority: 3, total: 0, with_app_url: 0, with_web_url: 0, with_email: 0 };
+  const p4 = prios.find(r => r.priority === 4) ?? { priority: 4, total: 0, with_app_url: 0, with_web_url: 0, with_email: 0 };
   const p13total = Number(p1.total) + Number(p2.total) + Number(p3.total);
 
   const pct = (n: number | string, d: number | string) =>

@@ -9,7 +9,7 @@ config({ path: '.env.local' });
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 import { computeFitScore } from '../src/lib/domain/fit-scoring.js';
 import { ThemeId } from '../src/lib/schemas/foundation.js';
 
@@ -35,7 +35,6 @@ async function main() {
     process.exit(1);
   }
 
-  const sql = neon(process.env.DATABASE_URL!);
   const raw = JSON.parse(fs.readFileSync(INPUT_FILE, 'utf-8'));
   const entries: TriageEntry[] = Array.isArray(raw) ? raw : raw.items;
 

@@ -4,14 +4,13 @@
  * Runs batches 39-94 (claude-agent results from 2026-04-22).
  */
 import { config } from 'dotenv'; config({ path: '.env.local' });
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 import { readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
 import { RESEARCH_METHOD_RANK as _RESEARCH_METHOD_RANK } from '../src/lib/schemas/foundation';
 const RESEARCH_METHOD_RANK = _RESEARCH_METHOD_RANK as Record<string, number>;
 
-const sql = neon(process.env.DATABASE_URL!);
 const DRY_RUN = process.argv.includes('--dry-run');
 
 const RESULTS_DIR = resolve(__dirname, '../research/chatgpt-results');

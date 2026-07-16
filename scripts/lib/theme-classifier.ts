@@ -4,7 +4,7 @@
  * Single source of truth for theme keyword rules.
  *
  * Used by: scripts/{zhaw-ingest, bulk-enrich, zefix-ingest,
- * foundation-research-queue-v2, pipeline-incremental, pipeline-graduate}.
+ * foundation-research-queue, pipeline-incremental, pipeline-graduate}.
  */
 
 import type { ThemeId } from '../../src/lib/schemas/foundation';

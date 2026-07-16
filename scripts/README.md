@@ -23,8 +23,8 @@ here is operations.
 | `npm run zefix:download` | `zefix-download.ts` | Pull Zefix register data |
 | `npm run zefix:ingest` | `zefix-ingest.ts` | Bulk-import from Zefix snapshot |
 | `npm run zhaw:ingest` | `zhaw-ingest.ts` | ZHAW register-text ingest |
-| `npm run screen` | `foundation-screen-v3.1.ts` | Phase-1 LLM screening |
-| `npm run research:queue` | `foundation-research-queue-v2.ts` | Build research candidate queue |
+| `npm run screen` | `foundation-screen.ts` | Phase-1 LLM screening |
+| `npm run research:queue` | `foundation-research-queue.ts` | Build research candidate queue |
 | `npm run research:foundation` | `foundation-research-assistant.ts` | Per-foundation research prompt |
 | `npm run research:batch` | `foundation-batch-research.ts` | Batch research prompt set |
 | `npm run pipeline:incremental` | `pipeline-incremental.ts` | Incremental graduation pass |
@@ -45,10 +45,13 @@ here is operations.
 | `web-enrich.ts` | Website-scrape contact extraction (used by `lib/contact-extractor.ts`) |
 | `research-agent.ts` | 4-phase manual enrichment (DISCOVER → VERIFY → EXTRACT → RECONCILE) |
 | `new-org.sh` | Bootstrap onboarding for a new tenant org |
+| `audit-themes.ts` | Audit theme assignments for P1+P2 foundations |
+| `set-confidence.ts` | Set `data_confidence` from research depth (supports `--dry-run`) |
 
 ## Library code
 
 `scripts/lib/` holds shared helpers:
+- `db.ts` — pg-backed `sql` tagged-template client (all scripts connect through this; needs the DB tunnel from a dev machine — see `docs/DEPLOYMENT.md`)
 - `groq-client.ts` — Groq API wrapper for LLM calls
 - `theme-classifier.ts` — Keyword-based theme classification (SSOT for theme rules)
 - `contact-extractor.ts` — Email/phone extraction patterns

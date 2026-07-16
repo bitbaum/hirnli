@@ -12,14 +12,14 @@
  * Many automated-research foundations have been enriched by claude-agent batches, adding
  * themes and purposeSummary. Those should remain 'ai-assessed', not be demoted.
  *
- * Run with: npx tsx src/scripts/set-confidence.ts
- * Dry run:  npx tsx src/scripts/set-confidence.ts --dry-run
+ * Run with: npx tsx scripts/set-confidence.ts
+ * Dry run:  npx tsx scripts/set-confidence.ts --dry-run
  */
 
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 
@@ -32,7 +32,6 @@ interface ConfidenceStats {
 }
 
 async function setConfidence() {
-  const sql = neon(process.env.DATABASE_URL!);
 
   console.log(`\n📊 Setting data confidence levels... (${DRY_RUN ? 'DRY RUN' : 'LIVE'})\n`);
 

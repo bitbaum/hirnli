@@ -18,9 +18,9 @@
  *   (operatives are excluded, not penalized)
  *
  * Usage:
- *   npx tsx scripts/foundation-research-queue-v2.ts
- *   npx tsx scripts/foundation-research-queue-v2.ts --limit=100
- *   npx tsx scripts/foundation-research-queue-v2.ts --min-ev=2.0
+ *   npx tsx scripts/foundation-research-queue.ts
+ *   npx tsx scripts/foundation-research-queue.ts --limit=100
+ *   npx tsx scripts/foundation-research-queue.ts --min-ev=2.0
  *
  * Output:
  *   research/queue-v2-YYYY-MM-DD.json
@@ -31,7 +31,7 @@ config({ path: '.env.local' });
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { neon } from '@neondatabase/serverless';
+import { sql } from './lib/db';
 import { scoreFunderOperator } from './lib/theme-classifier';
 import type { Foundation } from '../src/lib/schemas/foundation';
 
@@ -248,7 +248,6 @@ async function main() {
     console.error('DATABASE_URL not set. Check .env.local');
     process.exit(1);
   }
-  const sql = neon(process.env.DATABASE_URL);
   const rows = await sql`
     SELECT id, name, config_data
     FROM fundraising_foundations
