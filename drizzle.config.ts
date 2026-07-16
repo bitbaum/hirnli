@@ -5,6 +5,9 @@
  * All tables are prefixed with `fundraising_` in schema.ts.
  */
 
+import { config } from 'dotenv';
+config({ path: '.env.local' });
+
 import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({

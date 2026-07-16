@@ -97,6 +97,9 @@ export const applications = pgTable('fundraising_applications', {
   assignedTo: text('assigned_to'), // Team member responsible
   priorityLevel: integer('priority_level'), // 1-4 (1 = highest)
 
+  // Multi-org support — applications belong to the org that filed them
+  orgId: text('org_id').notNull().default('revamp-it'),
+
   // Admin
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
@@ -105,6 +108,7 @@ export const applications = pgTable('fundraising_applications', {
   // the application-detail route reads by id (already PK).
   byFoundation: index('fund_applications_foundation_idx').on(table.foundationId),
   byStatus:     index('fund_applications_status_idx').on(table.status),
+  byOrg:        index('fund_applications_org_idx').on(table.orgId),
 }));
 
 /**
@@ -130,9 +134,14 @@ export const customizationRules = pgTable('fundraising_customization_rules', {
   priority: integer('priority').default(50), // Higher = applied first
   active: boolean('active').default(true),
 
+  // Multi-org support — rules are authored per org
+  orgId: text('org_id').notNull().default('revamp-it'),
+
   // Admin
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-});
+}, (table) => ({
+  byOrg: index('fund_customization_rules_org_idx').on(table.orgId),
+}));
 
 /**
  * Activity Log Table - Full audit trail
@@ -154,12 +163,16 @@ export const activityLog = pgTable('fundraising_activity_log', {
   // Who did it
   performedBy: text('performed_by'), // User/system identifier
 
+  // Multi-org support — every audit entry is scoped to the acting org
+  orgId: text('org_id').notNull().default('revamp-it'),
+
   // When
   timestamp: timestamp('timestamp', { withTimezone: true }).defaultNow(),
 }, (table) => ({
   // OverrideHistory + ActivityTimeline filter by (entityId, entityType) and
   // order by timestamp DESC. The composite covers the WHERE and the ORDER BY.
   byEntity: index('fund_activity_log_entity_idx').on(table.entityType, table.entityId, table.timestamp),
+  byOrg:    index('fund_activity_log_org_idx').on(table.orgId),
 }));
 
 /**

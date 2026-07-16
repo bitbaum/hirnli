@@ -43,6 +43,13 @@
       "when": 1779965402000,
       "tag": "0005_hot_path_indexes",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1784205600000,
+      "tag": "0006_org_id_tenancy",
+      "breakpoints": true
     }
   ]
 }

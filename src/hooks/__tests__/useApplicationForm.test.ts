@@ -26,6 +26,7 @@ function makeApp(overrides: Partial<Application> = {}): Application {
     documentsSent: null,
     assignedTo: null,
     priorityLevel: null,
+    orgId: 'revamp-it',
     createdAt: new Date('2026-01-01'),
     updatedAt: new Date('2026-01-01'),
     ...overrides,
