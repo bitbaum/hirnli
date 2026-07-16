@@ -9,7 +9,7 @@ rewrite the 19 ORG-SPECIFIC files for a new organization.
 2. Drop your documents into `org-context/<your-org>/`
 3. Ask Claude Code: "Onboard this org using the docs in org-context/<your-org>"
 4. Claude reads everything, rewrites the 19 files, runs the pipeline
-5. Push to Vercel — done
+5. Deploy to the box — done (see docs/DEPLOYMENT.md)
 
 ## What Documents to Provide
 
@@ -68,7 +68,7 @@ Claude reads all documents and rewrites these 19 ORG-SPECIFIC files:
 ### After Rewriting
 - Run `scripts/new-org.sh` or manually: reseed foundation DB with new research
 - `npm run sync && npm run build`
-- Push to Vercel
+- Deploy (see docs/DEPLOYMENT.md)
 
 ## Directory Structure
 

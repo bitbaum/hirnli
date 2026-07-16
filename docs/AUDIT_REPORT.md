@@ -183,7 +183,7 @@ Minimal dead code. A few stale migration scripts remain:
 
 ### Foundation Pipeline (9/10)
 
-Correct data flow: DB (Neon) -> `npm run sync` -> `stiftungen-generated.ts` -> UI. Quality gate at build time. Two-layer schema (registry vs analysis) properly separated.
+Correct data flow: DB (self-hosted PostgreSQL) -> `npm run sync` -> `stiftungen-generated.ts` -> UI. Quality gate at build time. Two-layer schema (registry vs analysis) properly separated.
 
 ### Scoring Model (10/10)
 

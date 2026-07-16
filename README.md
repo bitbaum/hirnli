@@ -60,14 +60,17 @@ where guessed URLs were 54% wrong. See data-integrity rules in [CLAUDE.md](./CLA
 
 | Signal | Value |
 |--------|-------|
-| Tests | **850 pass** across 38 files (Vitest) |
+| Tests | **869 pass** across 40 files (Vitest) |
 | Type safety | **0 errors**, **0 `any`**, **0 `@ts-ignore`** in `src/` |
 | Lint | **0 errors** (ESLint flat config) |
+| CI | Typecheck + lint + build on every push (GitHub Actions) |
 | Mobile | Verified on iPhone SE (375×667) via Playwright |
 | Race conditions | 6 fetch-in-useEffect sites guarded, 1 DB TOCTOU closed with unique constraint |
 | Design tokens | All in `globals.css` (`@theme inline`) — zero hex literals in components |
 | Dark mode | Fully wired via `next-themes` + semantic two-tier token system |
-| Deploy | Self-hosted on Hetzner (Caddy + Next.js `standalone` output) |
+| Security | Internal routes fail closed in production; HMAC share tokens; security headers on every response |
+| Multi-tenant | `org_id` on all 5 DB tables; org identity behind `ORG_PROFILE` config |
+| Deploy | Self-hosted on Hetzner (Caddy + Next.js `standalone` output) — [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) |
 
 Every page that ships data shows a click-to-inspect "where did this number come
 from" modal. Every metric traces back to a `NUMBERS_REGISTRY` entry with source,
@@ -149,6 +152,7 @@ rewriting analysis + branding, not re-doing the registry.
 - **[`scripts/README.md`](./scripts/README.md)** — pipeline tools (23 scripts + 18 npm aliases)
 - **[`org-context/_template/README.md`](./org-context/_template/README.md)** — multi-tenant onboarding checklist
 - **[`docs/KNOWLEDGE_ARCHITECTURE.md`](./docs/KNOWLEDGE_ARCHITECTURE.md)** — 3-tier SSOT governance
+- **[`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md)** — self-hosted Hetzner deploy procedure, env, crons, migrations
 - **[`docs/DATABASE_SETUP.md`](./docs/DATABASE_SETUP.md)** — PostgreSQL + Drizzle local-dev setup
 - **[`docs/AUDIT_REPORT.md`](./docs/AUDIT_REPORT.md)** — 2026-03 baseline codebase audit
 - **[`public/documents/README.md`](./public/documents/README.md)** — anonymised source document library

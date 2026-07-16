@@ -9,8 +9,8 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 **What:** Fundraising intelligence platform (currently Revamp-IT specific, future: universal)
 **Core:** Ingest project data → Present beautifully → Find funders → Profile fit → Generate documents
 **Stack:** Next.js 16 + TypeScript + Tailwind CSS v4 + Chart.js + Zod 4
-**Deploy:** Push to main → Vercel auto-deploys
-**URL:** https://revamp-info.vercel.app
+**Deploy:** `~/dev/fleetcrown/scripts/hetzner/deploy.sh revamp-info` (self-hosted Hetzner, see docs/DEPLOYMENT.md)
+**URL:** https://revamp-info.orangecat.ch
 
 ## First Principles
 
@@ -87,11 +87,11 @@ src/
 # Local dev
 npm run dev
 
-# Build
+# Build (prebuild syncs DB -> generated TS; needs DB tunnel or SKIP_SYNC=true)
 npm run build
 
-# Deploy (auto via Vercel on push)
-git push
+# Deploy (build locally -> rsync artifact -> restart; see docs/DEPLOYMENT.md)
+~/dev/fleetcrown/scripts/hetzner/deploy.sh revamp-info
 ```
 
 ## Adding a Foundation

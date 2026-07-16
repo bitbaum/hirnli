@@ -346,7 +346,7 @@ Next.js 16 + TypeScript + Tailwind CSS v4
 ```
 revamp-info/
 ├── CLAUDE.md                          # THIS FILE — product vision + engineering guide
-├── vercel.json                        # Deployment config (headers, redirects)
+├── next.config.ts                     # Standalone output, security headers, redirects
 ├── src/
 │   ├── app/                           # Next.js App Router (28 page routes)
 │   │   ├── layout.tsx                 # Root layout (Nav + Footer)
@@ -850,13 +850,13 @@ similar). The internal/external page boundary stays the same — only the auth m
 │                     REVAMP-IT ECOSYSTEM                      │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
-│  Kivitendo (Accounting)      revamp-info.vercel.app         │
+│  Kivitendo (Accounting)      revamp-info.orangecat.ch       │
 │  ──────────────────────      ─────────────────────────      │
 │  • Source financials         • Fundraising intelligence       │
 │  • Invoice/revenue data      • Foundation research            │
 │  • Export → CSV → site       • Impact dashboards              │
 │                                                              │
-│  Nextcloud (File Storage)    revampit.vercel.app             │
+│  Nextcloud (File Storage)    revampit.orangecat.ch          │
 │  ────────────────────────    ────────────────────            │
 │  • Team documents            • Public website                 │
 │  • KPI frameworks            • Shop, services                 │
