@@ -116,6 +116,10 @@ export function searchFoundations(
   activeThemes?: ThemeId[],
   fuseInstance?: Fuse<Foundation>,
 ): ScoredFoundation[] {
+  // Leere Suche = keine Resultate. Nicht der Library überlassen —
+  // fuse.js hat dieses Verhalten zwischen Versionen geändert (7.1 → 7.5).
+  if (query.trim() === '') return [];
+
   const fuse = fuseInstance ?? createSearchIndex(foundations);
   const results = fuse.search(query);
 
