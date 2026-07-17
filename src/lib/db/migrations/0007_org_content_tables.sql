@@ -34,3 +34,10 @@ CREATE TABLE IF NOT EXISTS "org_scoring" (
 );
 
 CREATE INDEX IF NOT EXISTS "org_content_org_idx" ON "org_content" ("org_id");
+
+-- The app connects as the revampit role (shared DB) — it owns these tables
+-- like it owns the fundraising_* tables. Without this, hand-applied
+-- migrations (run as postgres) leave tables the app cannot write.
+ALTER TABLE "org_profiles" OWNER TO revampit;
+ALTER TABLE "org_content"  OWNER TO revampit;
+ALTER TABLE "org_scoring"  OWNER TO revampit;
