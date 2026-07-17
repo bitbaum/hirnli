@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getTranslations } from 'next-intl/server';
 import Nav from '@/components/layout/Nav';
+import { LocaleNotice } from '@/components/layout/LocaleNotice';
 import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import { BRANDING } from '@/lib/config/branding';
@@ -38,22 +41,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const t = await getTranslations('common');
   return (
-    <html lang="de-CH" className={inter.variable} suppressHydrationWarning>
+    <html lang={locale === 'de' ? 'de-CH' : locale} className={inter.variable} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col antialiased">
+        <NextIntlClientProvider>
         <ThemeProvider>
-          <a href="#main-content" className="skip-link">Zum Hauptinhalt springen</a>
+          <a href="#main-content" className="skip-link">{t('skipLink')}</a>
           <Nav />
+          <LocaleNotice />
           <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
             {children}
           </main>
           <Footer />
         </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

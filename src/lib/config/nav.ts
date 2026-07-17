@@ -7,123 +7,144 @@ import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financi
 
 // ---------------------------------------------------------------------------
 // Nav schemas (SSOT for navigation types)
+//
+// i18n: config carries STRUCTURE (msg keys, hrefs, icons, interpolation
+// values); every visible string lives in messages/{de,fr,en}.json under the
+// `nav` namespace. useNavStructure() resolves msg → text/desc at render time,
+// so menu components stay locale-agnostic.
 // ---------------------------------------------------------------------------
 
+const msgValuesSchema = z.record(z.string(), z.union([z.string(), z.number()]));
+
 const navLinkSchema = z.object({
-  text: z.string(),
+  msg: z.string(), // key in messages nav.<msg>.{label,desc}
   href: z.string(),
-  desc: z.string().optional(),
+  values: msgValuesSchema.optional(),
+  hasDesc: z.boolean().optional(),
   external: z.boolean().optional(),
   highlight: z.boolean().optional(),
 });
-export type NavLink = z.infer<typeof navLinkSchema>;
+export type NavLinkConfig = z.infer<typeof navLinkSchema>;
 
 const navSectionSchema = z.object({
-  title: z.string(),
+  msg: z.string(),
   items: z.array(navLinkSchema),
 });
-export type NavSection = z.infer<typeof navSectionSchema>;
-
-const navChildSchema = z.object({
-  text: z.string(),
-  href: z.string(),
-  desc: z.string().optional(),
-});
-export type NavChild = z.infer<typeof navChildSchema>;
+export type NavSectionConfig = z.infer<typeof navSectionSchema>;
 
 const _navItemSchema = z.object({
-  text: z.string(),
+  msg: z.string(),
   href: z.string().optional(),
   icon: z.string().optional(),
-  children: z.array(navChildSchema).optional(),
+  children: z.array(navLinkSchema).optional(),
   mega: z.boolean().optional(),
   sections: z.array(navSectionSchema).optional(),
 });
-export type NavItem = z.infer<typeof _navItemSchema>;
+export type NavItemConfig = z.infer<typeof _navItemSchema>;
+
+// Resolved shapes (what the menu components render)
+export interface NavLink {
+  text: string;
+  href: string;
+  desc?: string;
+  external?: boolean;
+  highlight?: boolean;
+}
+export interface NavSection {
+  title: string;
+  items: NavLink[];
+}
+export type NavChild = NavLink;
+export interface NavItem {
+  text: string;
+  href?: string;
+  icon?: string;
+  children?: NavLink[];
+  mega?: boolean;
+  sections?: NavSection[];
+}
 
 // ---------------------------------------------------------------------------
-// Brand name (re-export from branding config for backward compatibility)
+// Brand name (platform brand via branding.ts — see platform-brand.ts SSOT)
 // ---------------------------------------------------------------------------
 
 export const BRAND_NAME = BRANDING.siteName;
 
 // ---------------------------------------------------------------------------
-// Navigation structure (SSOT)
+// Navigation structure (SSOT) — strings live in message catalogs
 // ---------------------------------------------------------------------------
 
 export const NAV_STRUCTURE: {
   logo: { text: string; href: string };
-  items: NavItem[];
+  items: NavItemConfig[];
 } = {
   logo: { text: BRAND_NAME, href: '/' },
   items: [
     {
-      text: 'Über uns',
+      msg: 'ueberUns',
       icon: '🏢',
       children: [
-        { text: 'Mission & Strategie', href: '/strategie', desc: 'Warum wir existieren & was wir erreichen wollen' },
-        { text: 'Team', href: '/team', desc: 'Wer wir sind & wie wir arbeiten' },
-        { text: 'Wie wir arbeiten', href: '/wie-wir-arbeiten', desc: 'Die Wertschöpfungskaskade — maximale Wertschöpfung pro Gerät' },
-        { text: `Finanzen ${FINANCIAL_YEAR_RANGE}`, href: '/finanzen', desc: `Transparente Einnahmen & Ausgaben (${FINANCIAL_YEAR_LABEL})` },
-        { text: 'Wirkung & Impact', href: '/wirkung', desc: 'CO₂ eingespart, Geräte refurbiert, Menschen erreicht' },
-        { text: 'Preismodell', href: '/preismodell', desc: 'Solidarische Preise (4 Stufen nach Einkommen)' },
-        { text: 'Methodik', href: '/methodik', desc: 'Wie wir messen & berechnen (Transparenzreport)' },
+        { msg: 'strategie', href: '/strategie', hasDesc: true },
+        { msg: 'team', href: '/team', hasDesc: true },
+        { msg: 'wieWirArbeiten', href: '/wie-wir-arbeiten', hasDesc: true },
+        { msg: 'finanzen', href: '/finanzen', hasDesc: true, values: { range: FINANCIAL_YEAR_RANGE, label: FINANCIAL_YEAR_LABEL } },
+        { msg: 'wirkung', href: '/wirkung', hasDesc: true },
+        { msg: 'preismodell', href: '/preismodell', hasDesc: true },
+        { msg: 'methodik', href: '/methodik', hasDesc: true },
       ],
     },
     {
-      text: 'Zukunft 2030',
+      msg: 'zukunft',
       icon: '🚀',
       href: '/revamp-2030',
       mega: true,
       sections: [
         {
-          title: 'Vision',
-          items: [
-            { text: 'Revamp 2030 — Die Vision', href: '/revamp-2030', desc: 'Wo wir 2030 stehen wollen: Hub, Bildung, Impact' },
-          ],
+          msg: 'vision',
+          items: [{ msg: 'revamp2030', href: '/revamp-2030', hasDesc: true }],
         },
         {
-          title: 'Konkrete Projekte (2026-2028)',
+          msg: 'projekte',
           items: [
-            { text: `Hub ${HUB_SPACE_DISPLAY}`, href: '/fundraising/hub', desc: '🏢 Werkstatt + AI Lab + Hackerspace + Kulturraum', highlight: true },
-            { text: 'Bildungsprogramm', href: '/fundraising/bildung', desc: '🎓 2× Programmleiter für Train-the-Trainer & Workshops' },
+            { msg: 'hub', href: '/fundraising/hub', hasDesc: true, highlight: true, values: { space: HUB_SPACE_DISPLAY } },
+            { msg: 'bildung', href: '/fundraising/bildung', hasDesc: true },
           ],
         },
       ],
     },
     {
-      text: 'Fundraising',
+      msg: 'fundraising',
       icon: '🎯',
       href: '/fundraising',
       mega: true,
       sections: [
         {
-          title: 'Budget & Status',
+          msg: 'budgetStatus',
           items: [
-            { text: 'Fundraising-Plan', href: '/fundraising', desc: '📊 Budget-Übersicht, Finanzierungsbedarf, Timeline' },
-            { text: 'Pipeline-Dashboard', href: '/fundraising/dashboard', desc: '📈 KPI-Übersicht: Eingereicht, Zugesagt, Erfolgsquote' },
+            { msg: 'plan', href: '/fundraising', hasDesc: true },
+            { msg: 'dashboard', href: '/fundraising/dashboard', hasDesc: true },
           ],
         },
         {
-          title: 'Stiftungen',
+          msg: 'stiftungenSection',
           items: [
-            { text: `${STIFTUNGEN_DATA.length} Stiftungen`, href: '/fundraising/stiftungen', desc: '🔍 Mit Fit-Score, Themen, Deadlines, Beträgen' },
-            { text: 'Gesuch-Vorlagen', href: '/fundraising/gesuch-vorlagen', desc: `📝 ${TEMPLATE_TYPES.length} Referenz-Vorlagen nach Typ (A/B/C/D)` },
-            { text: 'Meine Gesuche', href: '/fundraising/gesuche', desc: '📝 Bearbeitete Gesuch-Entwürfe im Überblick' },
-            { text: 'Gesuch-Pipeline', href: '/fundraising/applications', desc: '📋 Stiftungsgesuche verwalten und nachverfolgen' },
-            { text: 'Scoring-Methodik', href: '/fundraising/scoring-methodik', desc: '⚙️ Wie Fit, Bereitschaft und Priorität berechnet werden' },
-            { text: 'Pipeline-Methodik', href: '/fundraising/pipeline-methodik', desc: `🔬 Wie wir aus ${SWISS_FOUNDATIONS_DISPLAY} Stiftungen die richtigen finden` },
+            { msg: 'stiftungen', href: '/fundraising/stiftungen', hasDesc: true, values: { count: STIFTUNGEN_DATA.length } },
+            { msg: 'vorlagen', href: '/fundraising/gesuch-vorlagen', hasDesc: true, values: { count: TEMPLATE_TYPES.length } },
+            { msg: 'gesuche', href: '/fundraising/gesuche', hasDesc: true },
+            { msg: 'pipeline', href: '/fundraising/applications', hasDesc: true },
+            { msg: 'scoring', href: '/fundraising/scoring-methodik', hasDesc: true },
+            { msg: 'pipelineMethodik', href: '/fundraising/pipeline-methodik', hasDesc: true, values: { universe: SWISS_FOUNDATIONS_DISPLAY } },
           ],
         },
       ],
     },
     {
-      text: 'Dokumente',
+      msg: 'dokumente',
       icon: '📦',
       href: '/dokumente',
     },
     {
-      text: 'Plattform',
+      msg: 'plattform',
       icon: '🧭',
       href: '/plattform',
     },

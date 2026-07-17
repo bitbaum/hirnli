@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 // Security headers for every response (formerly in vercel.json — the app is
 // self-hosted now, so Next.js itself must apply them; Caddy only proxies).
@@ -27,6 +30,7 @@ const LEGACY_REDIRECTS = [
   { source: "/pages/fundraising", destination: "/fundraising" },
   { source: "/pages/fundraising/stiftungen", destination: "/fundraising/stiftungen" },
   { source: "/pages/fundraising/stiftungen/:slug", destination: "/fundraising/stiftungen/:slug" },
+  { source: "/en/platform", destination: "/plattform" },
 ].map((r) => ({ ...r, permanent: true }));
 
 const nextConfig: NextConfig = {
@@ -43,4 +47,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

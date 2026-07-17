@@ -45,17 +45,9 @@ export default function PlatformPageView({ locale }: { locale: PlatformLocale })
     <>
       {/* Hero — YC style: overline, one big claim, one paragraph, two CTAs */}
       <section className="mb-14 border-b border-border-subtle pb-10 pt-2">
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <p className="text-sm font-medium uppercase tracking-wider text-primary-text">
-            {c.hero.overline}
-          </p>
-          <Link
-            href={c.langSwitch.href}
-            className="inline-flex min-h-11 items-center rounded-full border border-border-default px-4 text-sm text-text-secondary hover:bg-surface-raised"
-          >
-            {c.langSwitch.label}
-          </Link>
-        </div>
+        <p className="mb-4 text-sm font-medium uppercase tracking-wider text-primary-text">
+          {c.hero.overline}
+        </p>
         <h1 className="mb-4 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-text-primary md:text-5xl md:leading-[1.1]">
           {c.hero.title}
         </h1>

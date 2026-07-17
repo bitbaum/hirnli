@@ -1,0 +1,44 @@
+{
+  "common": {
+    "skipLink": "Zum Hauptinhalt springen",
+    "menu": "Menü",
+    "appearance": "Erscheinungsbild",
+    "language": "Sprache",
+    "themeToDark": "Zu dunklem Modus wechseln",
+    "themeToLight": "Zu hellem Modus wechseln",
+    "mainNav": "Hauptnavigation",
+    "contentNotice": "Die Inhalte dieser Seite sind derzeit auf Deutsch verfügbar. Übersetzungen folgen."
+  },
+  "footer": {
+    "tagline": "Transparenz-Hub von {org}"
+  },
+  "nav": {
+    "ueberUns": { "label": "Über uns" },
+    "strategie": { "label": "Mission & Strategie", "desc": "Warum wir existieren & was wir erreichen wollen" },
+    "team": { "label": "Team", "desc": "Wer wir sind & wie wir arbeiten" },
+    "wieWirArbeiten": { "label": "Wie wir arbeiten", "desc": "Die Wertschöpfungskaskade — maximale Wertschöpfung pro Gerät" },
+    "finanzen": { "label": "Finanzen {range}", "desc": "Transparente Einnahmen & Ausgaben ({label})" },
+    "wirkung": { "label": "Wirkung & Impact", "desc": "CO₂ eingespart, Geräte refurbiert, Menschen erreicht" },
+    "preismodell": { "label": "Preismodell", "desc": "Solidarische Preise (4 Stufen nach Einkommen)" },
+    "methodik": { "label": "Methodik", "desc": "Wie wir messen & berechnen (Transparenzreport)" },
+    "zukunft": { "label": "Zukunft 2030" },
+    "vision": { "label": "Vision" },
+    "revamp2030": { "label": "Revamp 2030 — Die Vision", "desc": "Wo wir 2030 stehen wollen: Hub, Bildung, Impact" },
+    "projekte": { "label": "Konkrete Projekte (2026–2028)" },
+    "hub": { "label": "Hub {space}", "desc": "🏢 Werkstatt + AI Lab + Hackerspace + Kulturraum" },
+    "bildung": { "label": "Bildungsprogramm", "desc": "🎓 2× Programmleiter für Train-the-Trainer & Workshops" },
+    "fundraising": { "label": "Fundraising" },
+    "budgetStatus": { "label": "Budget & Status" },
+    "plan": { "label": "Fundraising-Plan", "desc": "📊 Budget-Übersicht, Finanzierungsbedarf, Timeline" },
+    "dashboard": { "label": "Pipeline-Dashboard", "desc": "📈 KPI-Übersicht: Eingereicht, Zugesagt, Erfolgsquote" },
+    "stiftungenSection": { "label": "Stiftungen" },
+    "stiftungen": { "label": "{count} Stiftungen", "desc": "🔍 Mit Fit-Score, Themen, Deadlines, Beträgen" },
+    "vorlagen": { "label": "Gesuch-Vorlagen", "desc": "📝 {count} Referenz-Vorlagen nach Typ (A/B/C/D)" },
+    "gesuche": { "label": "Meine Gesuche", "desc": "📝 Bearbeitete Gesuch-Entwürfe im Überblick" },
+    "pipeline": { "label": "Gesuch-Pipeline", "desc": "📋 Stiftungsgesuche verwalten und nachverfolgen" },
+    "scoring": { "label": "Scoring-Methodik", "desc": "⚙️ Wie Fit, Bereitschaft und Priorität berechnet werden" },
+    "pipelineMethodik": { "label": "Pipeline-Methodik", "desc": "🔬 Wie wir aus {universe} Stiftungen die richtigen finden" },
+    "dokumente": { "label": "Dokumente" },
+    "plattform": { "label": "Plattform" }
+  }
+}

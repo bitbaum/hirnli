@@ -4,17 +4,21 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
-import { NAV_STRUCTURE } from '@/lib/config/nav';
 import { BRANDING } from '@/lib/config/branding';
+import { useTranslations } from 'next-intl';
+import { useNavStructure } from './nav/useNavStructure';
 import { NAV_LINK_BASE, activeClasses, isActive } from './nav/nav-utils';
 import MegaMenu from './nav/MegaMenu';
 import Dropdown from './nav/Dropdown';
 import MobileAccordion from './nav/MobileAccordion';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageToggle } from './LanguageToggle';
 import Backdrop from '@/components/ui/Backdrop';
 
 export default function Nav() {
   const pathname = usePathname();
+  const t = useTranslations('common');
+  const items = useNavStructure();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
 
@@ -37,7 +41,7 @@ export default function Nav() {
   }, [mobileOpen, closeMobile]);
 
   return (
-    <nav aria-label="Hauptnavigation" className="sticky top-0 z-30 border-b border-border-default bg-surface-base/95 backdrop-blur-sm">
+    <nav aria-label={t('mainNav')} className="sticky top-0 z-30 border-b border-border-default bg-surface-base/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <Link
           href="/"
@@ -65,7 +69,7 @@ export default function Nav() {
         <button
           className="flex min-h-11 min-w-11 items-center justify-center rounded text-2xl lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
+          aria-label={t('menu')}
           aria-expanded={mobileOpen}
         >
           {mobileOpen ? '\u2715' : '\u2630'}
@@ -73,7 +77,7 @@ export default function Nav() {
 
         {/* Desktop nav */}
         <ul className="hidden items-center gap-0.5 lg:flex">
-          {NAV_STRUCTURE.items.map((item) => {
+          {items.map((item) => {
             if (item.mega) {
               return <MegaMenu key={item.text} item={item} pathname={pathname} />;
             }
@@ -92,6 +96,7 @@ export default function Nav() {
               </li>
             );
           })}
+          <li><LanguageToggle /></li>
           <li><ThemeToggle /></li>
         </ul>
       </div>
@@ -102,7 +107,7 @@ export default function Nav() {
           <Backdrop onClose={closeMobile} className="lg:hidden" />
           <div className="fixed inset-x-0 top-[calc(var(--nav-height)+1px)] z-modal max-h-[calc(100vh-var(--nav-height))] overflow-y-auto border-t border-border-default bg-surface-base px-4 py-4 lg:hidden">
             <ul className="space-y-1">
-              {NAV_STRUCTURE.items.map((item) => (
+              {items.map((item) => (
                 <MobileAccordion
                   key={item.text}
                   item={item}
@@ -118,7 +123,11 @@ export default function Nav() {
               ))}
             </ul>
             <div className="mt-4 flex items-center justify-between border-t border-border-subtle pt-4">
-              <span className="text-sm text-text-secondary">Erscheinungsbild</span>
+              <span className="text-sm text-text-secondary">{t('language')}</span>
+              <LanguageToggle />
+            </div>
+            <div className="mt-2 flex items-center justify-between pt-2">
+              <span className="text-sm text-text-secondary">{t('appearance')}</span>
               <ThemeToggle />
             </div>
           </div>

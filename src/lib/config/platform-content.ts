@@ -15,7 +15,7 @@
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SWISS_FOUNDATIONS_DISPLAY } from '@/lib/config/projections';
 
-export type PlatformLocale = 'de' | 'en';
+export type PlatformLocale = 'de' | 'fr' | 'en';
 
 interface Cta {
   label: string;
@@ -39,7 +39,6 @@ export interface RoadmapPhase {
 
 export interface PlatformContent {
   meta: { title: string; description: string };
-  langSwitch: { label: string; href: string };
   hero: {
     overline: string;
     title: string;
@@ -88,7 +87,6 @@ const de: PlatformContent = {
     description:
       'Was diese Fundraising-Plattform ist, wie sie funktioniert, für wen sie gebaut wurde — und wann sie für weitere Organisationen offen ist.',
   },
-  langSwitch: { label: 'English', href: '/en/platform' },
   hero: {
     overline: 'Die Plattform',
     title: 'Die richtigen Stiftungen finden. Mit Belegen überzeugen.',
@@ -301,7 +299,6 @@ const en: PlatformContent = {
     description:
       'A fundraising intelligence platform: from the Swiss foundation register to a submission-ready grant application in minutes — and a roadmap to multi-tenant.',
   },
-  langSwitch: { label: 'Deutsch', href: '/plattform' },
   hero: {
     overline: 'The Platform',
     title: 'Find the right foundations. Apply with evidence.',
@@ -503,7 +500,219 @@ const en: PlatformContent = {
   },
 };
 
-export const PLATFORM_CONTENT: Record<PlatformLocale, PlatformContent> = { de, en };
+
+// ---------------------------------------------------------------------------
+// Français
+// ---------------------------------------------------------------------------
+
+const fr: PlatformContent = {
+  meta: {
+    title: 'La plateforme',
+    description:
+      "Une plateforme d'intelligence pour la levée de fonds : du registre suisse des fondations à une demande prête à soumettre en quelques minutes — avec une feuille de route vers le multi-organisations.",
+  },
+  hero: {
+    overline: 'La plateforme',
+    title: 'Trouver les bonnes fondations. Convaincre avec des preuves.',
+    lead: `Une plateforme d'intelligence pour la levée de fonds : elle passe au crible l'ensemble du registre suisse des fondations (${SWISS_FOUNDATIONS_DISPLAY} entrées), identifie les fondations donatrices qui correspondent vraiment, et génère pour chacune une demande sur mesure, appuyée par des preuves — en quelques minutes au lieu de plusieurs jours.`,
+    context: `Développée par et pour ${ORG_PROFILE.name} — première organisation sur la plateforme.`,
+    ctas: [
+      { label: 'Parcourir les fondations', href: '/fundraising/stiftungen' },
+      { label: 'Voir la feuille de route', href: '#roadmap' },
+    ],
+  },
+  problem: {
+    heading: 'Le problème',
+    lead: "La levée de fonds auprès des fondations est un problème d'information — des deux côtés.",
+    sides: [
+      {
+        title: 'Pour les organisations à but non lucratif',
+        points: [
+          `${SWISS_FOUNDATIONS_DISPLAY} fondations en Suisse — lesquelles financent ce que vous faites ? Le découvrir représente des semaines de recherche manuelle.`,
+          'Sans recherche, il ne reste que la demande type : le même modèle envoyé à tout le monde.',
+          "Les petites équipes n'ont ni le temps ni le budget pour une recherche professionnelle.",
+        ],
+      },
+      {
+        title: 'Pour les fondations donatrices',
+        points: [
+          "Des centaines de demandes par an — la plupart génériques, beaucoup hors du but de la fondation.",
+          'De bons projets passent inaperçus parce que la demande ne démontre jamais la correspondance.',
+          "L'examen coûte du temps : chiffres non documentés, sources manquantes, aucun contexte.",
+        ],
+      },
+    ],
+  },
+  how: {
+    heading: 'Comment ça marche',
+    lead: 'Cinq étapes — du registre brut au document prêt à signer.',
+    steps: [
+      {
+        title: 'Collecter',
+        description: `L'ensemble du registre suisse des fondations (Zefix, ESA) est importé et dédupliqué — ${SWISS_FOUNDATIONS_DISPLAY} entrées comme base, actualisées en continu.`,
+      },
+      {
+        title: 'Trier',
+        description:
+          "Un modèle de langage évalue chaque but statutaire : la fondation correspond-elle sur le plan thématique, géographique et de l'accès ? Résultat : un score de fit (0–10) et une priorité (P1–P4) pour chaque fondation active.",
+      },
+      {
+        title: 'Rechercher',
+        description:
+          "Les candidates prometteuses font l'objet d'une recherche approfondie : site web, montants, délais, financements passés, canaux de contact. Les données devinées sont interdites — un contact ne compte qu'une fois vérifié.",
+      },
+      {
+        title: 'Présenter',
+        description:
+          "Chaque fondation recherchée reçoit sa propre page de profil avec analyse de correspondance : pourquoi sommes-nous faits l'un pour l'autre ? La page sert à la fois d'outil de travail et de présentation à la fondation.",
+      },
+      {
+        title: 'Générer',
+        description:
+          "Un clic par fondation produit un dossier complet : demande de quatre pages en PDF, lettre d'accompagnement, one-pager, pitch deck et page web partageable — le ton adapté au type de fondation, le contenu à son but.",
+      },
+    ],
+  },
+  funnel: {
+    heading: 'L’entonnoir — en direct',
+    lead: 'Ces chiffres viennent directement de la base de données, pas d’une brochure.',
+    labels: {
+      universe: 'fondations au registre suisse',
+      analyzed: 'analysées et évaluées',
+      actionable: 'candidates priorisées (P1–P3)',
+      gesuchReady: 'pages de demande générées',
+    },
+  },
+  market: {
+    heading: 'Le marché',
+    lead: "La Suisse a la plus forte densité de fondations d'Europe — et aucun outil qui oriente systématiquement les organisations vers les bons bailleurs.",
+    stats: [
+      { value: '13 782', label: 'fondations d’utilité publique actives (fin 2025)' },
+      { value: 'CHF 159,6 mrd', label: 'fortune cumulée des fondations' },
+      { value: '~CHF 6 mrd', label: 'distribués chaque année par les fondations donatrices' },
+    ],
+    source: `Source : ${MARKET_SOURCE}`,
+  },
+  audiences: {
+    heading: 'Pour qui',
+    items: [
+      {
+        title: 'Organisations à but non lucratif',
+        description:
+          "Les organisations qui dépendent de dons mais n'ont pas d'équipe de levée de fonds. La plateforme prend en charge la recherche et la génération de documents — l'organisation garde le jugement et la relation.",
+      },
+      {
+        title: 'Professionnels de la levée de fonds',
+        description:
+          "La plateforme opérationnalise le métier classique : typologie des fondations (A/B/C/D) avec le ton approprié, priorisation par fit et préparation, gestion de pipeline propre plutôt que des tableurs.",
+      },
+      {
+        title: 'Fondations donatrices',
+        description:
+          'Les fondations en profitent indirectement : elles reçoivent des demandes qui correspondent vraiment à leur but, avec des chiffres sourcés et vérifiables — au lieu de courriers en série.',
+      },
+    ],
+  },
+  principles: {
+    heading: 'Les principes',
+    items: [
+      {
+        title: 'Chaque chiffre traçable',
+        description:
+          'Chaque indicateur remonte à sa source — un clic montre origine, formule et niveau de confiance. Pas de boîte noire, pas d’embellissement.',
+      },
+      {
+        title: "L'IA trie, l'humain décide",
+        description:
+          "Le modèle de langage fait le gros du travail (lire et pré-trier des milliers de buts statutaires). La vérification, la touche finale et la décision de soumettre restent humaines.",
+      },
+      {
+        title: 'Montrer le fit, pas mendier',
+        description:
+          "Chaque demande argumente du point de vue de la fondation : qu'y gagne-t-elle ? L'analyse de correspondance prouve l'adéquation avant de demander de l'argent.",
+      },
+    ],
+  },
+  roadmap: {
+    heading: 'Feuille de route',
+    lead: "D'un utilisateur à une plateforme — par étapes claires et honnêtes.",
+    statusLabels: { live: 'En ligne', progress: 'En cours', target: 'Objectif' },
+    valueLabel: 'Valeur',
+    phases: [
+      {
+        name: "Prouver l'outil",
+        timeframe: 'T3 2026 — maintenant',
+        status: 'progress',
+        description: `${ORG_PROFILE.name} soumet les premières demandes priorisées (fondations P1). Chaque réponse alimente le scoring et les textes.`,
+        value: "Un taux de succès documenté plutôt qu'une affirmation — l'étude de cas qui porte tout le reste.",
+      },
+      {
+        name: 'Deuxième organisation',
+        timeframe: 'T4 2026',
+        status: 'target',
+        description:
+          "Une deuxième organisation est intégrée manuellement (playbook documenté : documents de contexte en entrée, analyse spécifique en sortie).",
+        value:
+          "Preuve de l'architecture : le registre est recherché une fois et sert à tous — chaque nouvelle organisation démarre avec l'ensemble des données vérifiées.",
+      },
+      {
+        name: 'Plateforme multi-organisations',
+        timeframe: 'S1 2027',
+        status: 'target',
+        description:
+          "Comptes d'organisation avec connexion propre, données strictement séparées (org_id existe déjà sur chaque table), onboarding en libre-service, produit entièrement trilingue DE/FR/EN.",
+        value:
+          "L'outil interne devient un produit : toute organisation suisse peut s'inscrire et travailler le jour même avec des fondations priorisées.",
+      },
+      {
+        name: 'Le réseau',
+        timeframe: '2027+',
+        status: 'target',
+        description:
+          "Les résultats des soumissions (accords, refus, motifs) alimentent le scoring, anonymisés. À terme : une interface pour les fondations elles-mêmes.",
+        value:
+          'Chaque demande rend la plateforme plus précise sur qui finance quoi — un avantage de données qui se cumule.',
+      },
+    ],
+    disclaimer: 'Les horizons sont des objectifs, pas des promesses — ils bougent si la phase 1 nous apprend autre chose.',
+  },
+  businessModel: {
+    heading: 'Modèle économique',
+    points: [
+      `Aujourd'hui : outil interne de ${ORG_PROFILE.name} — gratuit, affûté sur notre propre levée de fonds.`,
+      "Dès le multi-organisations : abonnement par organisation couvrant l'analyse, la génération de documents et le pipeline — le registre recherché reste une base commune.",
+      'Plus tard : services additionnels comme la recherche assistée, des intégrations pour consultants et des analyses pour fondations.',
+    ],
+  },
+  seeIt: {
+    heading: 'Voir par vous-même',
+    lead: 'La plateforme est en ligne — tous les espaces sont librement accessibles.',
+    links: [
+      {
+        href: '/fundraising/stiftungen',
+        title: 'Parcourir les fondations',
+        description: 'La base évaluée avec filtres, scores de fit et priorités. (Interface en allemand)',
+      },
+      {
+        href: '/fundraising/stiftungen/mercator/gesuch',
+        title: 'Voir naître une demande',
+        description: 'Exemple Fondation Mercator : du domaine prioritaire au document fini en trois étapes. (Interface en allemand)',
+      },
+      {
+        href: '/fundraising/scoring-methodik',
+        title: 'Examiner la méthodologie',
+        description: 'Comment fit, préparation et priorité sont calculés — en toute transparence. (Interface en allemand)',
+      },
+    ],
+  },
+  outlook: {
+    heading: "Une organisation aujourd'hui — conçue pour plusieurs",
+    body: `La plateforme sépare proprement le registre universel des fondations de l'analyse propre à chaque organisation (scores de fit, éléments narratifs, budgets). ${ORG_PROFILE.name} est la première organisation à l'utiliser ; l'architecture est conçue dès le départ pour en accueillir d'autres.`,
+    ctaLabel: 'La plateforme vous intéresse pour votre organisation ?',
+  },
+};
+
+export const PLATFORM_CONTENT: Record<PlatformLocale, PlatformContent> = { de, en, fr };
 
 /** Contact target for the platform CTA (shared across locales) */
 export const PLATFORM_CONTACT_EMAIL = ORG_PROFILE.fundraisingEmail;

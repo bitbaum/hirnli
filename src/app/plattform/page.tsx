@@ -1,12 +1,15 @@
 import type { Metadata } from 'next';
+import { getLocale } from 'next-intl/server';
 import PlatformPageView from '@/components/platform/PlatformPageView';
-import { PLATFORM_CONTENT } from '@/lib/config/platform-content';
+import { PLATFORM_CONTENT, type PlatformLocale } from '@/lib/config/platform-content';
 
-export const metadata: Metadata = {
-  title: PLATFORM_CONTENT.de.meta.title,
-  description: PLATFORM_CONTENT.de.meta.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = (await getLocale()) as PlatformLocale;
+  const meta = PLATFORM_CONTENT[locale].meta;
+  return { title: meta.title, description: meta.description, openGraph: { title: meta.title, description: meta.description } };
+}
 
-export default function PlattformPage() {
-  return <PlatformPageView locale="de" />;
+export default async function PlattformPage() {
+  const locale = (await getLocale()) as PlatformLocale;
+  return <PlatformPageView locale={locale} />;
 }
