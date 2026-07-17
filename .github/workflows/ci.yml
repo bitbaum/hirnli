@@ -1,3 +1,9 @@
+# Golden CI floor — see dotfiles/templates/ci/README.md.
+# revamp-info: npm + vitest. Was gating tsc+lint+build but NOT running the vitest
+# suite — this adds the missing Test gate and the Swiss-German umlaut lint.
+# Build uses the repo's own SKIP_SYNC escape hatch: `prebuild` runs a DB sync
+# (tsx sync-foundations.ts) that isn't hermetic; the generated data file is
+# committed, so SKIP_SYNC=true compiles the real Next.js build without a DB.
 name: CI
 
 on:
@@ -5,31 +11,40 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: npm
 
-      - run: npm ci
-
-      - name: TypeScript check
-        run: npx tsc --noEmit
+      - name: Install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
 
+      - name: Swiss-German umlaut lint (ß → ss)
+        run: npm run lint:umlauts
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Test
+        run: npm run test
+
       - name: Build
-        run: npm run build
         env:
-          # Sync needs DB access — skip prebuild in CI, just test the Next.js build
-          # The generated file is already committed
           SKIP_SYNC: "true"
+        run: npm run build
