@@ -49,6 +49,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     hideNetworks: searchParams.get('hideNet') === '1',
     hideNoApplication: searchParams.get('hideNoApp') === '1',
     requireEmail: searchParams.get('email') === '1',
+    requireGesuch: searchParams.get('gesuch') === '1',
     requirePhone: searchParams.get('phone') === '1',
     requireAddress: searchParams.get('addr') === '1',
     requireDataGaps: searchParams.get('gaps') === '1',
@@ -141,6 +142,10 @@ export function useFoundationFilters(foundations: Foundation[]) {
   const toggleRequireEmail = useCallback(() => {
     updateParams({ email: filters.requireEmail ? null : '1' });
   }, [filters.requireEmail, updateParams]);
+
+  const toggleRequireGesuch = useCallback(() => {
+    updateParams({ gesuch: filters.requireGesuch ? null : '1' });
+  }, [filters.requireGesuch, updateParams]);
 
   const toggleRequirePhone = useCallback(() => {
     updateParams({ phone: filters.requirePhone ? null : '1' });
@@ -302,6 +307,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     toggleHideOperative,
     toggleHideNetworks,
     toggleRequireEmail,
+    toggleRequireGesuch,
     toggleRequirePhone,
     toggleRequireAddress,
     toggleRequireDataGaps,

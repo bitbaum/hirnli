@@ -26,6 +26,8 @@ export interface FoundationFilters {
   requirePhone: boolean;
   requireAddress: boolean;
   requireDataGaps: boolean;
+  /** Only foundations with a generated Gesuch page (the "Mit Gesuch" tile) */
+  requireGesuch: boolean;
   trustLevels: TrustLevel[];
   minTier: QualityTier;
 }
@@ -46,6 +48,7 @@ export const DEFAULT_FILTERS: FoundationFilters = {
   requirePhone: false,
   requireAddress: false,
   requireDataGaps: false,
+  requireGesuch: false,
   trustLevels: [],
   minTier: 'profiliert',
 };
@@ -114,6 +117,7 @@ export function findActivePreset(filters: FoundationFilters): FilterPreset | und
     const matchesAddress = pf.requireAddress ? filters.requireAddress === pf.requireAddress : !filters.requireAddress;
     const matchesDataGaps = pf.requireDataGaps ? filters.requireDataGaps === pf.requireDataGaps : !filters.requireDataGaps;
     const noOtherFilters =
+      !filters.requireGesuch &&
       filters.themes.length === 0 &&
       filters.types.length === 0 &&
       filters.statuses.length === 0 &&
@@ -184,6 +188,7 @@ export function filterFoundations(
 
     // Data gap filter — show only Gesuch-eligible foundations with incomplete source data
     if (filters.requireDataGaps && !(hasGesuchPage(f) && hasGesuchDataGaps(f))) return false;
+    if (filters.requireGesuch && !hasGesuchPage(f)) return false;
 
     // Trust level filter
     if (filters.trustLevels.length > 0) {

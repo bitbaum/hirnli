@@ -21,6 +21,7 @@ interface ActiveFilterPillsProps {
   toggleHideOperative: () => void;
   toggleHideNetworks: () => void;
   toggleRequireEmail: () => void;
+  toggleRequireGesuch: () => void;
   toggleRequirePhone: () => void;
   toggleRequireAddress: () => void;
   toggleRequireDataGaps: () => void;
@@ -42,6 +43,7 @@ export default function ActiveFilterPills({
   toggleHideOperative,
   toggleHideNetworks,
   toggleRequireEmail,
+  toggleRequireGesuch,
   toggleRequirePhone,
   toggleRequireAddress,
   toggleRequireDataGaps,
@@ -79,6 +81,9 @@ export default function ActiveFilterPills({
       )}
       {filters.hideNetworks && (
         <FilterPill label="Ohne Netzwerke" onRemove={toggleHideNetworks} />
+      )}
+      {filters.requireGesuch && (
+        <FilterPill label="Mit Gesuch" onRemove={toggleRequireGesuch} />
       )}
       {filters.requireEmail && (
         <FilterPill label="E-Mail" onRemove={toggleRequireEmail} />

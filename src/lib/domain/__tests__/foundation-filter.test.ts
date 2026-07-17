@@ -314,3 +314,16 @@ describe('FILTER_PRESETS', () => {
     }
   });
 });
+
+describe('requireGesuch filter', () => {
+  it('keeps only foundations with a generated Gesuch page', () => {
+    const data = [
+      // hasGesuchPage: tier ≥ recherchiert + actionable priority + themes
+      makeFoundation({ slug: 'gesuch-ready', priority: 1, themes: ['kreislaufwirtschaft'] }),
+      makeFoundation({ slug: 'no-themes', priority: 1, themes: [] }),
+      makeFoundation({ slug: 'p4-network', priority: 4, themes: ['kreislaufwirtschaft'] }),
+    ];
+    const result = filterFoundations(data, filters({ requireGesuch: true }));
+    expect(result.map(f => f.slug)).toEqual(['gesuch-ready']);
+  });
+});

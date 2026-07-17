@@ -18,12 +18,14 @@ import { computeResearchStats } from '@/lib/domain/foundation-research-stats';
 import { computeTierCounts, hasGesuchPage, hasGesuchDataGaps } from '@/lib/domain/foundation-helpers';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import type { SortField } from '@/lib/domain/foundation-filter';
+import { findActivePreset } from '@/lib/domain/foundation-filter';
+import { Pagination } from '@/components/ui/Pagination';
 import { STATUS_CHIPS, TYPE_CHIPS, SORT_OPTIONS } from './data';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 
-const LOAD_MORE_COUNT = 50;
+const PAGE_SIZE = 25;
 
 export default function FoundationListClient() {
   const {
@@ -46,6 +48,7 @@ export default function FoundationListClient() {
     toggleHideOperative,
     toggleHideNetworks,
     toggleRequireEmail,
+    toggleRequireGesuch,
     toggleRequirePhone,
     toggleRequireAddress,
     toggleRequireDataGaps,
@@ -56,14 +59,20 @@ export default function FoundationListClient() {
     resetFilters,
   } = useFoundationFilters(STIFTUNGEN_DATA);
 
-  const [visibleCount, setVisibleCount] = useState(LOAD_MORE_COUNT);
+  const [page, setPage] = useState(1);
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- resets pagination when filters/sort change
-    setVisibleCount(LOAD_MORE_COUNT);
+    setPage(1);
   }, [filters, sort]);
 
-  const showMore = useCallback(() => {
-    setVisibleCount((prev) => prev + LOAD_MORE_COUNT);
+  const pageCount = Math.max(1, Math.ceil(filteredCount / PAGE_SIZE));
+  const currentPage = Math.min(page, pageCount);
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+
+  const goToPage = useCallback((next: number) => {
+    setPage(next);
+    // Back to the top of the results, not the page top (the overview stays visible)
+    document.getElementById('stiftungen-liste')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -128,6 +137,11 @@ export default function FoundationListClient() {
         tierCounts={tierCounts}
         priorityDist={priorityDist}
         onApplyPreset={applyPreset}
+        activePriorityLevels={filters.priorityLevels}
+        requireGesuch={filters.requireGesuch}
+        activePresetId={findActivePreset(filters)?.id}
+        onTogglePriority={togglePriorityLevel}
+        onToggleRequireGesuch={toggleRequireGesuch}
       />
 
       {/* Mobile: search row + sort/filter row */}
@@ -190,6 +204,7 @@ export default function FoundationListClient() {
             toggleHideOperative={toggleHideOperative}
             toggleHideNetworks={toggleHideNetworks}
             toggleRequireEmail={toggleRequireEmail}
+            toggleRequireGesuch={toggleRequireGesuch}
             toggleRequirePhone={toggleRequirePhone}
             toggleRequireAddress={toggleRequireAddress}
             toggleRequireDataGaps={toggleRequireDataGaps}
@@ -199,11 +214,10 @@ export default function FoundationListClient() {
           />
 
           {/* Results summary + CSV export */}
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 text-sm">
+          <div id="stiftungen-liste" className="mb-4 flex scroll-mt-4 flex-wrap items-center justify-between gap-2 text-sm">
             <span className="text-text-muted">
-              {visibleCount < filteredCount
-                ? `${Math.min(visibleCount, filteredCount)} von ${filteredCount} angezeigt`
-                : `${filteredCount} von ${totalCount} Stiftungen`}
+              {`${filteredCount} von ${totalCount} Stiftungen`}
+              {pageCount > 1 && ` · Seite ${currentPage}/${pageCount}`}
               {highFitCount > 0 && ` | ${highFitCount} mit hohem Fit`}
               {openCount > 0 && ` | ${openCount} offen`}
             </span>
@@ -229,7 +243,7 @@ export default function FoundationListClient() {
           )}
 
           <div className="space-y-3">
-            {filtered.slice(0, visibleCount).map((f) => (
+            {filtered.slice(pageStart, pageStart + PAGE_SIZE).map((f) => (
               <FoundationCard
                 key={f.slug}
                 foundation={f}
@@ -237,14 +251,6 @@ export default function FoundationListClient() {
                 score={scoreMap.get(f.slug)}
               />
             ))}
-            {visibleCount < filteredCount && (
-              <button
-                onClick={showMore}
-                className="w-full rounded-lg border border-border-default bg-surface-raised py-3 text-sm font-medium text-text-muted hover:bg-border/50"
-              >
-                Mehr anzeigen ({Math.min(LOAD_MORE_COUNT, filteredCount - visibleCount)} weitere von {filteredCount})
-              </button>
-            )}
             {filtered.length === 0 && (
               <div className="rounded-lg border border-border-default bg-surface-raised p-8 text-center">
                 <p className="text-text-muted">
@@ -267,6 +273,8 @@ export default function FoundationListClient() {
               </div>
             )}
           </div>
+
+          <Pagination page={currentPage} pageCount={pageCount} onPageChange={goToPage} />
 
           <StoryBridge bridges={STORY_BRIDGES.stiftungen || []} />
         </div>

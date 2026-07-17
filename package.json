@@ -14,6 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "verify": "npm run lint && npm run lint:umlauts && npm run typecheck && npm run test",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",

@@ -4,6 +4,8 @@ import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { FIT_CONFIG } from '@/lib/config/foundations';
 import { SCORING_ENGINE } from '@/lib/config/fit-scoring';
 import { getFitLevel } from '@/lib/domain/foundation-helpers';
+import { explainFitScore } from '@/lib/domain/fit-scoring';
+import ProgressBar from '@/components/ui/ProgressBar';
 import ThemeBadgeList from './ThemeBadgeList';
 import type { FitNarrative, ThemeAlignment } from '@/lib/domain/foundation-contextualization';
 
@@ -17,6 +19,9 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
   const fitLevel = getFitLevel(f);
   const fit = FIT_CONFIG[fitLevel];
   const isUnassessed = fitLevel === 0;
+  const explanation = explainFitScore({ themes: f.themes, applicationMethod: f.applicationMethod, // isFunder lives only in the ingest pipeline; false here means unknown-method funder
+    // fallbacks reconcile as inconsistent → honest fallback text instead of wrong numbers
+    isFunder: false, fitScore: f.fitScore });
 
   return (
     <Card>
@@ -41,12 +46,41 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
           )}
         </div>
       ) : (
-        <div className="mb-4 flex items-center gap-3">
-          <span className={`heading-stat ${fit.color}`}>{f.fitScore}/10</span>
-          <div>
-            <span className={`heading-card ${fit.color}`}>{fit.label}</span>
-            <p className="text-sm text-text-secondary">{fit.description}</p>
+        <div className="mb-4">
+          <div className="flex items-center gap-3">
+            <span className={`heading-stat ${fit.color}`}>{f.fitScore}/10</span>
+            <div>
+              <span className={`heading-card ${fit.color}`}>{fit.label}</span>
+              <p className="text-sm text-text-secondary">{fit.description}</p>
+            </div>
           </div>
+
+          {/* Where the score comes from — per-dimension, computed, no magic */}
+          {explanation.consistent ? (
+            <div className="mt-3 space-y-2 rounded-lg border border-border-default p-3">
+              {explanation.dimensions.map((d) => (
+                <div key={d.id}>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-text-secondary">{d.label}</span>
+                    <span className="font-semibold tabular-nums text-text-primary">
+                      {d.score}/{d.max}
+                    </span>
+                  </div>
+                  <ProgressBar
+                    percent={d.max > 0 ? ((d.score ?? 0) / d.max) * 100 : 0}
+                    size="xs"
+                    color="bg-primary/60"
+                    label={`${d.label}: ${d.score} von ${d.max}`}
+                  />
+                  <p className="mt-0.5 text-xs text-text-muted">{d.description}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-2 text-xs text-text-muted">
+              Bewertet aus Registerdaten bei der Erfassung — Aufschlüsselung siehe Methodik unten.
+            </p>
+          )}
         </div>
       )}
 

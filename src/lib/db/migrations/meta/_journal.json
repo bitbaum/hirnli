@@ -50,6 +50,13 @@
       "when": 1784205600000,
       "tag": "0006_org_id_tenancy",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1784292000000,
+      "tag": "0007_org_content_tables",
+      "breakpoints": true
     }
   ]
 }

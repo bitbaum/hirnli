@@ -17,6 +17,12 @@ interface Props {
   tierCounts: Record<QualityTier, number>;
   priorityDist: Record<number, number>;
   onApplyPreset: (id: FilterPresetId) => void;
+  /** Every tile is a filter — the numbers you see are the rows you get */
+  activePriorityLevels: number[];
+  requireGesuch: boolean;
+  activePresetId?: FilterPresetId;
+  onTogglePriority: (level: number) => void;
+  onToggleRequireGesuch: () => void;
 }
 
 export default function PipelineOverviewCard({
@@ -27,7 +33,15 @@ export default function PipelineOverviewCard({
   tierCounts,
   priorityDist,
   onApplyPreset,
+  activePriorityLevels,
+  requireGesuch,
+  activePresetId,
+  onTogglePriority,
+  onToggleRequireGesuch,
 }: Props) {
+  const TILE_INTERACTIVE =
+    'w-full cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2';
+  const ACTIVE_RING = 'ring-2 ring-primary ring-offset-1';
   return (
     <Card padding={false} className="mb-6 space-y-4 p-4">
       <h2 className="heading-detail">Pipeline-Übersicht</h2>
@@ -54,28 +68,48 @@ export default function PipelineOverviewCard({
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {PRIORITY_LEVELS.map((level) => {
           const pc = PRIORITY_CONFIG[level];
+          const active = activePriorityLevels.includes(level);
           return (
-            <div key={level} className={`rounded-lg border ${pc.cardColor} px-3 py-2 text-center`}>
+            <button
+              key={level}
+              type="button"
+              onClick={() => onTogglePriority(level)}
+              aria-pressed={active}
+              title={active ? `Filter ${pc.label} entfernen` : `Nur ${pc.label} anzeigen`}
+              className={`rounded-lg border ${pc.cardColor} min-h-11 px-3 py-2 text-center ${TILE_INTERACTIVE} ${active ? ACTIVE_RING : ''}`}
+            >
               <div className={`text-lg font-bold tabular-nums ${pc.textColor}`}>{priorityDist[level]}</div>
               <div className="heading-detail">{pc.label}</div>
-            </div>
+            </button>
           );
         })}
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-lg border border-accent-border bg-accent-soft px-4 py-3">
+        <button
+          type="button"
+          onClick={onToggleRequireGesuch}
+          aria-pressed={requireGesuch}
+          title={requireGesuch ? 'Filter «Mit Gesuch» entfernen' : 'Nur Stiftungen mit Gesuch-Seite anzeigen'}
+          className={`rounded-lg border border-accent-border bg-accent-soft px-4 py-3 text-left ${TILE_INTERACTIVE} ${requireGesuch ? ACTIVE_RING : ''}`}
+        >
           <div className="heading-section tabular-nums text-primary-text">{gesuchCount}</div>
           <div className="heading-detail">Mit Gesuch</div>
-          <p className="mt-0.5 text-sm text-text-muted">Gesuch-Seite generiert (P1–P3)</p>
-        </div>
-        <div className="rounded-lg border border-success/20 bg-success-bg px-4 py-3">
+          <p className="mt-0.5 text-sm text-text-muted">Gesuch-Seite generiert (P1–P3) — klicken zum Filtern</p>
+        </button>
+        <button
+          type="button"
+          onClick={() => onApplyPreset('bewerbungsbereit')}
+          aria-pressed={activePresetId === 'bewerbungsbereit'}
+          title="Nur bewerbungsbereite Stiftungen anzeigen"
+          className={`rounded-lg border border-success/20 bg-success-bg px-4 py-3 text-left ${TILE_INTERACTIVE} ${activePresetId === 'bewerbungsbereit' ? ACTIVE_RING : ''}`}
+        >
           <div className="heading-section tabular-nums text-success-text">{tierCounts.anwendungsbereit}</div>
           <div className="heading-detail">Bewerbungsbereit</div>
           <p className="mt-0.5 text-sm text-text-muted">
-            Höchste Datenvollständigkeit (Bereitschafts-Score ≥{READINESS_ENGINE.display.thresholds[0].minScore})
+            Höchste Datenvollständigkeit (Bereitschafts-Score ≥{READINESS_ENGINE.display.thresholds[0].minScore}) — klicken zum Filtern
           </p>
-        </div>
+        </button>
       </div>
 
       {gesuchGapCount > 0 && (

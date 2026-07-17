@@ -248,6 +248,77 @@ export function computeFitScore(input: FitScoreInput): FitResult {
 }
 
 /**
+ * Explain a stored fit score as a per-dimension breakdown — SSOT for the
+ * "why 9/10?" question on foundation detail pages.
+ *
+ * Thematic and access dimensions are recomputed EXACTLY from foundation data
+ * (themes, applicationMethod). The geographic dimension was scored from
+ * registry data (canton/city) at ingest time and is not stored on the app-side
+ * Foundation object — it is derived arithmetically (stored − thematic −
+ * access) and validated against the dimension's max. If the arithmetic does
+ * not reconcile (composite caps, data drift), `consistent` is false and the
+ * UI must fall back to showing only the stored composite — never invented
+ * numbers.
+ */
+export interface FitDimensionExplanation {
+  id: string;
+  label: string;
+  description: string;
+  max: number;
+  /** null when the value cannot be honestly determined */
+  score: number | null;
+  method: 'exact' | 'derived';
+}
+
+export interface FitScoreExplanation {
+  dimensions: FitDimensionExplanation[];
+  consistent: boolean;
+}
+
+export function explainFitScore(f: {
+  themes: string[];
+  applicationMethod: string;
+  isFunder: boolean;
+  fitScore: number;
+}): FitScoreExplanation {
+  // Geographic inputs empty → that dimension scores 0 here; thematic + access are exact.
+  const result = evaluateEngine(SCORING_ENGINE, {
+    themes: f.themes,
+    canton: '',
+    city: '',
+    applicationMethod: f.applicationMethod,
+    isFunder: f.isFunder,
+  } as unknown as InputRecord);
+
+  const dimensions: FitDimensionExplanation[] = [];
+  let exactSum = 0;
+  let derivedDim: FitDimensionExplanation | null = null;
+
+  for (const dim of SCORING_ENGINE.dimensions) {
+    const base = { id: dim.id, label: dim.label, description: dim.description, max: dim.maxScore };
+    if (dim.id === 'geographic') {
+      derivedDim = { ...base, score: null, method: 'derived' };
+      dimensions.push(derivedDim);
+    } else {
+      const score = result.dimensions[dim.id] ?? 0;
+      exactSum += score;
+      dimensions.push({ ...base, score, method: 'exact' });
+    }
+  }
+
+  let consistent = false;
+  if (derivedDim) {
+    const residual = f.fitScore - exactSum;
+    if (residual >= 0 && residual <= derivedDim.max) {
+      derivedDim.score = residual;
+      consistent = true;
+    }
+  }
+
+  return { dimensions, consistent };
+}
+
+/**
  * Map fitScore → display fit level (0-3 stars).
  * When isGated=true (tier < profiliert), returns the configured gateLevel (0 = unassessed).
  * Reads thresholds from SCORING_ENGINE.display config.
