@@ -2,14 +2,27 @@
  * Foundation Data — Runtime DB Read Layer
  *
  * Replaces the old build-time `npm run sync` → stiftungen-generated.ts cache.
- * DB is the only source of truth now; reads go through a tag-cached query so
- * the 1,683-row dataset isn't re-fetched on every request.
+ * DB is the only source of truth now; reads go through unstable_cache so the
+ * 1,683-row dataset benefits from in-process caching instead of hitting the
+ * DB on every request.
+ *
+ * KNOWN LIMITATION: the serialized payload (~3.6MB) exceeds Next's 2MB
+ * per-entry cap for its persistent/on-disk cache handler — confirmed via a
+ * real `npm run build` (see "Failed to set Next.js data cache ... items over
+ * 2MB can not be cached"). The call still succeeds and returns correct data;
+ * unstable_cache's in-memory layer still helps within a single running
+ * process, but the entry won't survive across server restarts/build workers,
+ * so a cold process pays a full DB query + Zod-parse on first request. This
+ * is a light query (1,683 rows, indexed) so it's an accepted tradeoff, not a
+ * correctness issue. A custom cache handler (next.config `cacheHandler`)
+ * would remove the 2MB cap if this becomes a real perf problem.
  *
  * Revalidates on a 1h TTL. A write (scripts/foundation-upsert.ts, POST
- * /api/foundations) won't be reflected until then, or until the app restarts —
- * Next 16's revalidateTag requires a cache-profile argument that unstable_cache
- * (a legacy, non-"use cache" primitive) doesn't cleanly interact with; not
- * worth the complexity for a low-frequency, human-triggered write path.
+ * /api/foundations) won't be reflected until then, or until the process
+ * restarts — Next 16's revalidateTag requires a cache-profile argument that
+ * unstable_cache (a legacy, non-"use cache" primitive) doesn't cleanly
+ * interact with; not worth the complexity for a low-frequency, human-
+ * triggered write path.
  */
 
 import { unstable_cache } from 'next/cache';
