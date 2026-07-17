@@ -1,11 +1,32 @@
-# Hirnli Replatform Plan
+# Platform Replatform Plan ("Hirnli" — working candidate name)
 
-**Status:** Proposed 2026-07-17 · Awaiting George's sign-off on the open decisions in §7
-**Decision that triggered this:** The platform's public name is **Hirnli**. Revamp-IT is
-an organization that serves as the proof of concept for Hirnli — not the brand of the
-platform. The whole product must be trilingual (DE/FR/EN) with a language switch as
-elegant as the theme toggle, and the single-tenant chrome must give way to a real
-platform architecture. Mobile-first is paramount on every surface.
+**Status:** Proposed 2026-07-17, revised same day after George's scope clarification.
+**Direction:** The platform and the tenant are separate identities. Revamp-IT is an
+organization that serves as the proof of concept — not the brand of the platform.
+The whole product must be trilingual (DE/FR/EN) with a language switch as elegant as
+the theme toggle, and the single-tenant chrome must give way to a real platform
+architecture. Mobile-first is paramount on every surface.
+
+**Naming:** The product name is NOT decided ("Hirnli" is a candidate). Therefore the
+brand is a config value, not a constant sprinkled through code:
+`src/lib/config/platform-brand.ts` (PLATFORM_BRAND) is the ONLY place the platform's
+name/tagline exist — implemented 2026-07-17. Renaming the platform = editing that one
+file. Tenant identity (ORG_PROFILE) and platform identity are now fully separated
+(the tenant's instance URL is `ORG_PROFILE.siteUrl`; the platform never borrows the
+tenant's name and vice versa). Everywhere this doc says "Hirnli", read
+"PLATFORM_BRAND.name".
+
+**Scope — stage 1 (now):** Fundraising for Revamp-IT via donations/foundation grants.
+100% focus on making it perfect for tenant #1, while every architectural choice keeps
+the register/tenant separation clean so opening registration to other organizations
+later requires no rework.
+
+**Long-term vision (explicit NON-goal for now):** the platform eventually aids any
+form of financing — donations, lending, investment — analytics- and modeling-first
+(adjacent to OrangeCat's thesis). We do NOT build for this today (YAGNI); we only
+avoid architectural decisions that would preclude it. Concretely that costs us
+nothing: the register/analysis split, org-scoped data, and config-driven scoring are
+the same foundations either way.
 
 ---
 
@@ -194,7 +215,7 @@ pages and inside its Gesuch documents (foundations fund Revamp-IT, not Hirnli).
 ## 6. Phasing (no big bang; every phase ships)
 
 **Phase A — Brand + language shell** (~2–4 focused days)
-1. Rescind the "Hirnli stays hidden" rule in CLAUDE.md; add naming guide.
+1. Update CLAUDE.md naming section: name undecided, PLATFORM_BRAND is the SSOT and sole rename point; codename-secrecy rule replaced by "working title until decided".
 2. Register `hirnli.orangecat.ch` in Caddy → same app; host-routing middleware.
 3. next-intl scaffold; locale-prefix routing with redirects; language switcher in nav
    (elegant, paired with theme toggle).
@@ -228,9 +249,9 @@ pages and inside its Gesuch documents (foundations fund Revamp-IT, not Hirnli).
 
 ## 7. Open decisions for George
 
-1. **hirnli.ch + trademark check** — name is Swiss-quirky and memorable ("little
-   brain"); verify domain availability and that no conflicting mark exists before
-   public push beyond orangecat.ch subdomain.
+1. **Name decision** — "Hirnli" (Swiss-quirky, "little brain") vs alternatives; when
+   decided: domain availability + trademark check, then rename = one edit in
+   platform-brand.ts. Until then the working title ships.
 2. **FR reviewer** — who does native-quality review of French copy?
 3. **Default locale of Hirnli marketing** — proposal: EN default (investors/advisors),
    DE/FR one click away. Tenant sites default to the org's language (revamp-it: DE).

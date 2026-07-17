@@ -15,7 +15,7 @@ const SITE_DESCRIPTION =
 
 export const metadata: Metadata = {
   // Absolute base for OG images and canonical URLs (link previews need absolute URLs)
-  metadataBase: new URL(ORG_PROFILE.platform.url),
+  metadataBase: new URL(ORG_PROFILE.siteUrl),
   title: {
     default: SITE_TITLE,
     template: `%s — ${BRANDING.siteName}`,

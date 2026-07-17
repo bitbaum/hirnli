@@ -307,7 +307,7 @@ function formatQualityReport(issues: DataQualityIssue[]): string {
   html += `
   <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid ${EMAIL_COLORS.border};">
     <p style="font-size: 14px; color: ${EMAIL_COLORS.textMuted};">
-      <a href="${ORG_PROFILE.platform.url}/fundraising/dashboard" style="color: ${EMAIL_COLORS.primary}; text-decoration: none;">
+      <a href="${ORG_PROFILE.siteUrl}/fundraising/dashboard" style="color: ${EMAIL_COLORS.primary}; text-decoration: none;">
         Dashboard öffnen →
       </a>
     </p>

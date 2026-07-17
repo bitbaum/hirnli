@@ -8,6 +8,7 @@
  */
 
 import { ORG_PROFILE } from './org-profile';
+import { PLATFORM_BRAND } from './platform-brand';
 
 export const BRANDING = {
   // Logo assets
@@ -19,8 +20,8 @@ export const BRANDING = {
   },
 
   // Site identity
-  siteName: ORG_PROFILE.platform.name,
-  siteTagline: ORG_PROFILE.platform.tagline,
+  siteName: PLATFORM_BRAND.name,
+  siteTagline: PLATFORM_BRAND.tagline,
 
   // Typography
   fonts: {

@@ -362,6 +362,6 @@ export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: Sc
       activities: CORE_FACTS.activities,
       unique: CORE_FACTS.unique,
     },
-    landingPageUrl: `${ORG_PROFILE.platform.url}/fundraising/stiftungen/${foundation.slug}/gesuch`,
+    landingPageUrl: `${ORG_PROFILE.siteUrl}/fundraising/stiftungen/${foundation.slug}/gesuch`,
   };
 }

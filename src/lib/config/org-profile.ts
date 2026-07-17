@@ -34,12 +34,9 @@ export const ORG_PROFILE = {
   warehouseAddress: 'Badenerstrasse 816, 8048 Zürich',
   taxExemption: 'Steuerbefreit gemäss Kanton Zürich',
 
-  // Platform identity
-  platform: {
-    name: 'Revamp-Info',
-    tagline: 'Fundraising Hub',
-    url: 'https://revamp-info.orangecat.ch',
-  },
+  // This tenant's deployed site URL (used in Gesuch documents, share links,
+  // cron emails). Platform identity lives in platform-brand.ts — NOT here.
+  siteUrl: 'https://revamp-info.orangecat.ch',
 
   // Key program milestones (years)
   milestones: {

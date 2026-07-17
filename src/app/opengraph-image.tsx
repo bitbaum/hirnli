@@ -11,6 +11,7 @@
 
 import { ImageResponse } from 'next/og';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 
 export const alt = `${ORG_PROFILE.name} — Transparentes Fundraising`;
@@ -53,10 +54,10 @@ export default function OpenGraphImage() {
             }}
           />
           <div style={{ fontSize: 30, color: GREEN, fontWeight: 700 }}>
-            {ORG_PROFILE.platform.name}
+            {PLATFORM_BRAND.name}
           </div>
           <div style={{ fontSize: 30, color: '#9CA3AF' }}>
-            {ORG_PROFILE.platform.tagline}
+            {PLATFORM_BRAND.tagline}
           </div>
         </div>
 

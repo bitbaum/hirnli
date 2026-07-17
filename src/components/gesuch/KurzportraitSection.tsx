@@ -57,7 +57,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
         <p className="mb-1 heading-detail">Online-Transparenz</p>
         <p className="text-text-secondary">
           Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar
-          unter <a href={ORG_PROFILE.platform.url} className="text-primary">{ORG_PROFILE.platform.url.replace('https://', '')}</a>.
+          unter <a href={ORG_PROFILE.siteUrl} className="text-primary">{ORG_PROFILE.siteUrl.replace('https://', '')}</a>.
           Jede Zahl ist bis zur Quelle nachvollziehbar.
         </p>
         <p className="mt-2 text-text-secondary">
