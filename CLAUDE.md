@@ -12,13 +12,22 @@ Revamp-IT's survival depends on foundation grants — this platform exists to fi
 
 ## Platform Identity
 
-### Internal Codename: Hirnli
+### Platform Naming (SSOT: platform-brand.ts)
 
-This platform will eventually be released as a standalone SaaS product. Internal codename: **Hirnli**. This name is not public and must not appear anywhere in the UI, docs, or external-facing content. The only branding deployed is Revamp-IT's.
+The platform will be released as a standalone SaaS product. Its final name is
+**undecided** — "Hirnli" is a candidate (2026-07-17). Working title: "Revamp-Info".
 
-**Why Hirnli stays hidden for now:** We are proving the concept with Revamp-IT as the first and only tenant. Once we've shown it works end-to-end — quality Gesuch generation, foundation pipeline management, measurable fundraising outcomes — we open it to other orgs. Premature branding creates premature expectations.
+**The rule:** the platform's name/tagline exist in exactly ONE file —
+`src/lib/config/platform-brand.ts` (PLATFORM_BRAND). Renaming the product is a
+one-file edit. If a rename would require touching anything else, that is an SSOT
+violation to fix. Never hardcode the platform name in components, docs pages, or
+content. Tenant identity (ORG_PROFILE) is separate and never supplies the
+platform's name.
 
-**When the name becomes relevant:** When we implement multi-tenancy (Phase 3). At that point, orgs sign up, add context documents, and get their own deployed instance. The platform name matters then, not before.
+**Architecture:** three chromes via route groups — `(tenant)` = org site,
+`(platform)` = product pages, `(share)` = chrome-less share pages. See
+`docs/HIRNLI-REPLATFORM-PLAN.md` for the multi-tenant path (registry:
+`src/lib/tenant/registry.ts`).
 
 ### What This Is
 
