@@ -22,8 +22,6 @@ import {
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { COMPLETE_YEARS, CURRENT_YEAR_DATA, PEAK_REVENUE, PEAK_YEAR } from '@/app/(tenant)/finanzen/data';
 import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
-import { isActionablePriority } from '@/lib/domain/foundation-helpers';
 
 // ---------------------------------------------------------------------------
 // Styles
@@ -173,9 +171,6 @@ const s = StyleSheet.create({
 const CURRENT_YEAR = CURRENT_YEAR_DATA.year;
 const CURRENT_REVENUE = CURRENT_YEAR_DATA.revenue;
 
-// Count P1-P3 from STIFTUNGEN_DATA
-const P1P3_COUNT = STIFTUNGEN_DATA.filter(isActionablePriority).length;
-
 // ---------------------------------------------------------------------------
 // Sub-components
 // ---------------------------------------------------------------------------
@@ -314,7 +309,7 @@ function Page1() {
 // Page 2: Social + Pipeline + Contact
 // ---------------------------------------------------------------------------
 
-function Page2() {
+function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: number }) {
   return (
     <Page size="A4" style={s.page}>
       {/* Header (compact repeat) */}
@@ -375,17 +370,17 @@ function Page2() {
       <SectionTitle>🔍 Stiftungsrecherche & Fundraising</SectionTitle>
 
       <Text style={[s.body, { marginBottom: 6 }]}>
-        Wir haben {STIFTUNGEN_DATA.length} Schweizer Stiftungen systematisch recherchiert
+        Wir haben {totalCount} Schweizer Stiftungen systematisch recherchiert
         und bewertet — mit Fit-Score, Förderbereichen und Bewerbungsstatus.
       </Text>
 
       <View style={s.metricGrid}>
         <View style={s.metricBox}>
-          <Text style={s.metricValue}>{STIFTUNGEN_DATA.length}</Text>
+          <Text style={s.metricValue}>{totalCount}</Text>
           <Text style={s.metricLabel}>Recherchierte Stiftungen</Text>
         </View>
         <View style={s.metricBox}>
-          <Text style={s.metricValue}>{P1P3_COUNT}</Text>
+          <Text style={s.metricValue}>{p1p3Count}</Text>
           <Text style={s.metricLabel}>Priorität P1–P3 (aktiv verfolgbar)</Text>
         </View>
         <View style={s.metricBox}>
@@ -460,7 +455,7 @@ function Page2() {
 // Main export
 // ---------------------------------------------------------------------------
 
-export function ImpactReportPDF() {
+export function ImpactReportPDF({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: number }) {
   return (
     <Document
       title={`Wirkungsbericht ${CURRENT_YEAR} — ${ORG_PROFILE.name}`}
@@ -470,7 +465,7 @@ export function ImpactReportPDF() {
       creator={`${ORG_PROFILE.name} — revamp-info`}
     >
       <Page1 />
-      <Page2 />
+      <Page2 totalCount={totalCount} p1p3Count={p1p3Count} />
     </Document>
   );
 }

@@ -4,7 +4,6 @@
 
 import { QualityTier } from '@/lib/schemas/foundation';
 import type { Foundation } from '@/lib/schemas/foundation';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { computeReadinessScore } from './foundation-scores';
 import { fitScoreToDisplay } from './fit-scoring';
 import { QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
@@ -134,13 +133,6 @@ export function getFitLevel(f: Foundation): 0 | 1 | 2 | 3 {
   return fitScoreToDisplay(f.fitScore, isGated);
 }
 
-// -- Foundation lookup ---------------------------------------------------------
-
-/** Look up a foundation by its URL slug */
-export function getFoundationBySlug(slug: string): Foundation | undefined {
-  return STIFTUNGEN_DATA.find((f) => f.slug === slug);
-}
-
 // -- Static param generation ---------------------------------------------------
 
 /**
@@ -148,8 +140,8 @@ export function getFoundationBySlug(slug: string): Foundation | undefined {
  * Pre-generates profiliert+ tiers.
  * Lower tiers (verzeichnet, erfasst) are rendered dynamically (dynamicParams = true).
  */
-export function generateFoundationParams(): { slug: string }[] {
-  return STIFTUNGEN_DATA
+export function generateFoundationParams(foundations: Foundation[]): { slug: string }[] {
+  return foundations
     .filter((f) => tierAtLeast(getQualityTier(f), 'profiliert'))
     .map((f) => ({ slug: f.slug }));
 }
@@ -172,8 +164,8 @@ export function hasGesuchPage(f: Foundation): boolean {
 }
 
 /** Generate static params for gesuch-ready foundations only */
-export function generateGesuchParams(): { slug: string }[] {
-  return STIFTUNGEN_DATA
+export function generateGesuchParams(foundations: Foundation[]): { slug: string }[] {
+  return foundations
     .filter(hasGesuchPage)
     .map((f) => ({ slug: f.slug }));
 }

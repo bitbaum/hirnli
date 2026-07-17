@@ -4,6 +4,12 @@ import {
   exportRevenueHistory,
   exportFinancialData,
 } from '../data-exporters';
+import { makeFoundation } from './fixtures';
+
+const TEST_FOUNDATIONS = [
+  makeFoundation(),
+  makeFoundation({ slug: 'other-stiftung', name: 'Other, Stiftung "AG"', themes: ['digitale-bildung', 'digitale-souveraenitaet'] }),
+];
 
 // ---------------------------------------------------------------------------
 // CSV structure helpers
@@ -56,12 +62,12 @@ function parseCSV(csv: string): string[][] {
 
 describe('exportFoundationList', () => {
   it('returns a non-empty string', () => {
-    const csv = exportFoundationList();
+    const csv = exportFoundationList(TEST_FOUNDATIONS);
     expect(csv.length).toBeGreaterThan(0);
   });
 
   it('first line is the header row', () => {
-    const csv = exportFoundationList();
+    const csv = exportFoundationList(TEST_FOUNDATIONS);
     const firstLine = csv.split('\n')[0];
     expect(firstLine).toContain('Name');
     expect(firstLine).toContain('Fit-Score');
@@ -69,20 +75,20 @@ describe('exportFoundationList', () => {
   });
 
   it('header has exactly 9 columns', () => {
-    const csv = exportFoundationList();
+    const csv = exportFoundationList(TEST_FOUNDATIONS);
     const headerCells = parseCSV(csv)[0];
     expect(headerCells).toHaveLength(9);
   });
 
   it('has at least one data row after the header', () => {
-    const csv = exportFoundationList();
+    const csv = exportFoundationList(TEST_FOUNDATIONS);
     const lines = csv.split('\n');
     // At minimum: header + 1 data row
     expect(lines.length).toBeGreaterThanOrEqual(2);
   });
 
   it('each data row has the same number of columns as the header', () => {
-    const csv = exportFoundationList();
+    const csv = exportFoundationList(TEST_FOUNDATIONS);
     const rows = parseCSV(csv);
     const headerLen = rows[0].length;
     for (let i = 1; i < rows.length; i++) {
@@ -91,7 +97,7 @@ describe('exportFoundationList', () => {
   });
 
   it('Fit-Score column has the format <n>/10', () => {
-    const csv = exportFoundationList();
+    const csv = exportFoundationList(TEST_FOUNDATIONS);
     const rows = parseCSV(csv);
     // Fit-Score is column index 6 (0-based)
     for (let i = 1; i < rows.length; i++) {
@@ -202,7 +208,7 @@ describe('exportFinancialData', () => {
 
 describe('CSV escaping', () => {
   it('produces output that does not break on semicolons (themes join)', () => {
-    const csv = exportFoundationList();
+    const csv = exportFoundationList(TEST_FOUNDATIONS);
     // Themes column uses '; ' as separator — verify it doesn't break row structure
     const rows = parseCSV(csv);
     const headerLen = rows[0].length;
@@ -213,7 +219,7 @@ describe('CSV escaping', () => {
   });
 
   it('produces parseable output even if names contain special chars', () => {
-    const csv = exportFoundationList();
+    const csv = exportFoundationList(TEST_FOUNDATIONS);
     // Should not throw and should have consistent column count
     expect(() => parseCSV(csv)).not.toThrow();
     const rows = parseCSV(csv);

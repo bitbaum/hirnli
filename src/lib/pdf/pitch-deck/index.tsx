@@ -21,8 +21,6 @@ import {
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { COMPLETE_YEARS, CUMULATIVE_WARENVERKAUF, CURRENT_YEAR_DATA, PEAK_REVENUE, PEAK_YEAR } from '@/app/(tenant)/finanzen/data';
 import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
-import { isActionablePriority } from '@/lib/domain/foundation-helpers';
 import {
   DEVICES_PER_YEAR_TARGET,
   DEVICES_PER_YEAR_CURRENT,
@@ -34,7 +32,6 @@ import {
 
 const CURRENT_YEAR = CURRENT_YEAR_DATA.year;
 const CURRENT_REVENUE = CURRENT_YEAR_DATA.revenue;
-const P1P3_COUNT = STIFTUNGEN_DATA.filter(isActionablePriority).length;
 const TOTAL_SLIDES = 8;
 
 const AMBER = COLORS.amber;
@@ -543,7 +540,7 @@ function Slide5Financials() {
 // Slide 6: The Ask — Community Tech Hub
 // ---------------------------------------------------------------------------
 
-function Slide6TheAsk() {
+function Slide6TheAsk({ p1p3Count }: { p1p3Count: number }) {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
       <SlideHeader title="Vision 2028: Community Tech Hub" sub="Was wir aufbauen" />
@@ -575,7 +572,7 @@ function Slide6TheAsk() {
             <Bullet>Kreislaufwirtschaft im Zeitgeist — politischer Rückenwind</Bullet>
 
             <View style={[s.metricBox, { marginTop: 12 }]}>
-              <Text style={s.metricValue}>{P1P3_COUNT}</Text>
+              <Text style={s.metricValue}>{p1p3Count}</Text>
               <Text style={s.metricLabel}>Passende Stiftungen identifiziert</Text>
               <Text style={s.metricSub}>
                 P1–P3 mit Fit-Score analysiert und bewertet
@@ -690,7 +687,7 @@ function Slide8Contact() {
 // Main export
 // ---------------------------------------------------------------------------
 
-export function PitchDeckPDF() {
+export function PitchDeckPDF({ p1p3Count }: { p1p3Count: number }) {
   return (
     <Document
       title={`Pitch Deck ${CURRENT_YEAR} — ${ORG_PROFILE.name}`}
@@ -704,7 +701,7 @@ export function PitchDeckPDF() {
       <Slide3Solution />
       <Slide4Impact />
       <Slide5Financials />
-      <Slide6TheAsk />
+      <Slide6TheAsk p1p3Count={p1p3Count} />
       <Slide7WhyUs />
       <Slide8Contact />
     </Document>

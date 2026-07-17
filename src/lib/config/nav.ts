@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { BRANDING } from './branding';
-import { STIFTUNGEN_DATA } from './foundations';
 import { TEMPLATE_TYPES } from './gesuch-templates';
 import { HUB_SPACE_DISPLAY, SWISS_FOUNDATIONS_DISPLAY } from './projections';
 import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
@@ -74,10 +73,12 @@ export const BRAND_NAME = BRANDING.siteName;
 // Navigation structure (SSOT) — strings live in message catalogs
 // ---------------------------------------------------------------------------
 
-export const NAV_STRUCTURE: {
+/** Built at render time — the Stiftungen count comes from the DB read layer, not a module-scope import. */
+export function buildNavStructure(stiftungenCount: number): {
   logo: { text: string; href: string };
   items: NavItemConfig[];
-} = {
+} {
+  return {
   logo: { text: BRAND_NAME, href: '/' },
   items: [
     {
@@ -128,7 +129,7 @@ export const NAV_STRUCTURE: {
         {
           msg: 'stiftungenSection',
           items: [
-            { msg: 'stiftungen', href: '/fundraising/stiftungen', hasDesc: true, values: { count: STIFTUNGEN_DATA.length } },
+            { msg: 'stiftungen', href: '/fundraising/stiftungen', hasDesc: true, values: { count: stiftungenCount } },
             { msg: 'vorlagen', href: '/fundraising/gesuch-vorlagen', hasDesc: true, values: { count: TEMPLATE_TYPES.length } },
             { msg: 'gesuche', href: '/fundraising/gesuche', hasDesc: true },
             { msg: 'pipeline', href: '/fundraising/applications', hasDesc: true },
@@ -149,4 +150,5 @@ export const NAV_STRUCTURE: {
       href: '/plattform',
     },
   ],
-};
+  };
+}

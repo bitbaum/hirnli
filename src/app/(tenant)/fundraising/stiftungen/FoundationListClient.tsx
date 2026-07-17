@@ -10,7 +10,7 @@ import FilterDrawer from '@/components/foundation/FilterDrawer';
 import ActiveFilterPills from '@/components/foundation/ActiveFilterPills';
 import PipelineOverviewCard from '@/components/foundation/PipelineOverviewCard';
 import { Button } from '@/components/ui/Button';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import type { Foundation } from '@/lib/schemas/foundation';
 import CsvExportModal from '@/components/foundation/CsvExportModal';
 import { useFoundationFilters } from '@/hooks/useFoundationFilters';
 import { usePipelineEntries } from '@/hooks/usePipelineEntries';
@@ -27,7 +27,7 @@ import { ErrorAlert } from '@/components/ui/ErrorAlert';
 
 const PAGE_SIZE = 25;
 
-export default function FoundationListClient() {
+export default function FoundationListClient({ foundations }: { foundations: Foundation[] }) {
   const {
     filters,
     sort,
@@ -57,7 +57,7 @@ export default function FoundationListClient() {
     togglePriorityLevel,
     applyPreset,
     resetFilters,
-  } = useFoundationFilters(STIFTUNGEN_DATA);
+  } = useFoundationFilters(foundations);
 
   const [page, setPage] = useState(1);
   useEffect(() => {
@@ -80,15 +80,15 @@ export default function FoundationListClient() {
 
   const { pipelineSlugs, pipelineLoading, pipelineError } = usePipelineEntries();
 
-  const researchStats = useMemo(() => computeResearchStats(STIFTUNGEN_DATA), []);
-  const tierCounts = useMemo(() => computeTierCounts(STIFTUNGEN_DATA), []);
-  const gesuchCount = useMemo(() => STIFTUNGEN_DATA.filter(hasGesuchPage).length, []);
-  const gesuchGapCount = useMemo(() => STIFTUNGEN_DATA.filter(f => hasGesuchPage(f) && hasGesuchDataGaps(f)).length, []);
+  const researchStats = useMemo(() => computeResearchStats(foundations), [foundations]);
+  const tierCounts = useMemo(() => computeTierCounts(foundations), [foundations]);
+  const gesuchCount = useMemo(() => foundations.filter(hasGesuchPage).length, [foundations]);
+  const gesuchGapCount = useMemo(() => foundations.filter(f => hasGesuchPage(f) && hasGesuchDataGaps(f)).length, [foundations]);
   const priorityDist = useMemo(() => {
     const counts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0 };
-    for (const f of STIFTUNGEN_DATA) counts[f.priority]++;
+    for (const f of foundations) counts[f.priority]++;
     return counts;
-  }, []);
+  }, [foundations]);
 
   const highFitCount = filtered.filter((f) => fitScoreToDisplay(f.fitScore, false) === 3).length;
   const openCount = filtered.filter((f) => f.status === 'open' || f.status === 'rolling').length;
@@ -98,7 +98,7 @@ export default function FoundationListClient() {
     sort,
     hasActiveFilters,
     tierCounts,
-    foundations: STIFTUNGEN_DATA,
+    foundations: foundations,
     statusChips: STATUS_CHIPS,
     typeChips: TYPE_CHIPS,
     sortOptions: SORT_OPTIONS,

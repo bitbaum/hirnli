@@ -19,7 +19,7 @@
  */
 
 import * as readline from 'readline';
-import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
+import { getAllFoundations } from './lib/foundations';
 import { slugify } from './lib/utilities';
 import type { Foundation, FoundationType, FoundationStatus, SourceId, ThemeId, ApplicationMethod } from '../src/lib/schemas/foundation';
 
@@ -38,21 +38,21 @@ function question(prompt: string): Promise<string> {
 // VALIDATION HELPERS
 // ============================================================================
 
-function checkDuplicates(slug: string, name: string, uid?: string) {
+function checkDuplicates(foundations: Foundation[], slug: string, name: string, uid?: string) {
   const issues: string[] = [];
 
   // Check slug
-  if (STIFTUNGEN_DATA.some((f) => f.slug === slug)) {
+  if (foundations.some((f) => f.slug === slug)) {
     issues.push(`❌ Slug "${slug}" already exists`);
   }
 
   // Check UID
-  if (uid && STIFTUNGEN_DATA.some((f) => f.uid === uid)) {
+  if (uid && foundations.some((f) => f.uid === uid)) {
     issues.push(`❌ UID "${uid}" already exists`);
   }
 
   // Check exact name
-  if (STIFTUNGEN_DATA.some((f) => f.name === name)) {
+  if (foundations.some((f) => f.name === name)) {
     issues.push(`❌ Foundation name "${name}" already exists`);
   }
 
@@ -63,7 +63,7 @@ function checkDuplicates(slug: string, name: string, uid?: string) {
 // INTERACTIVE PROMPTS
 // ============================================================================
 
-async function promptForEntry(): Promise<Partial<Foundation>> {
+async function promptForEntry(foundations: Foundation[]): Promise<Partial<Foundation>> {
   console.log('\n📝 Foundation Entry Generator\n');
 
   const name = await question('Foundation name: ');
@@ -71,7 +71,7 @@ async function promptForEntry(): Promise<Partial<Foundation>> {
   const slug = (await question(`Slug (${suggestedSlug}): `)) || suggestedSlug;
 
   // Check duplicates early
-  const duplicates = checkDuplicates(slug, name);
+  const duplicates = checkDuplicates(foundations, slug, name);
   if (duplicates.length > 0) {
     console.log('\n⚠️  Duplicate check failed:\n');
     duplicates.forEach((d) => console.log(`  ${d}`));
@@ -237,7 +237,8 @@ function generateTypeScriptCode(entry: Partial<Foundation>): string {
 // ============================================================================
 
 async function main() {
-  const entry = await promptForEntry();
+  const foundations = await getAllFoundations();
+  const entry = await promptForEntry(foundations);
 
   console.log('\n✅ Generated TypeScript entry:\n');
   console.log('─'.repeat(80));

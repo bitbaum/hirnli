@@ -1,7 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
-import { STIFTUNGEN_DATA, STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG, PRIORITY_LEVELS, APPLICATION_METHOD_LABELS, SOURCES, FIT_CONFIG, THEMES } from '@/lib/config/foundations';
-import type { FoundationStatus } from '@/lib/schemas/foundation';
+import { STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG, PRIORITY_LEVELS, APPLICATION_METHOD_LABELS, SOURCES, FIT_CONFIG, THEMES } from '@/lib/config/foundations';
+// Not @/lib/db/foundations-repo — that one wraps reads in unstable_cache,
+// which requires a live Next.js server context and throws under vitest.
+import { getAllFoundations } from '../../../../scripts/lib/foundations';
+import type { Foundation, FoundationStatus } from '@/lib/schemas/foundation';
 import { FoundationType, ApplicationMethod, SourceId, ThemeId } from '@/lib/schemas/foundation';
 import { TRUST_CONFIG } from '@/lib/config/trust-levels';
 import { WHY, ANSCHREIBEN_TEMPLATES, THEME_ID_TO_STORY_KEY } from '@/lib/config/stories';
@@ -226,13 +229,21 @@ describe('priority config integrity', () => {
   });
 });
 
-describe('foundation data integrity', () => {
-  it('STIFTUNGEN_DATA has entries', () => {
-    expect(STIFTUNGEN_DATA.length).toBeGreaterThan(100);
+// DB-backed since the generated-cache file was removed — needs DATABASE_URL
+// (SSH tunnel per docs/DEPLOYMENT.md). Skips cleanly in CI, which has no DB.
+describe.skipIf(!process.env.DATABASE_URL)('foundation data integrity', () => {
+  let data: Foundation[];
+
+  beforeAll(async () => {
+    data = await getAllFoundations();
+  });
+
+  it('has entries', () => {
+    expect(data.length).toBeGreaterThan(100);
   });
 
   it('every foundation has required fields', () => {
-    for (const f of STIFTUNGEN_DATA.slice(0, 50)) {
+    for (const f of data.slice(0, 50)) {
       expect(f.slug).toBeTruthy();
       expect(f.name).toBeTruthy();
       expect(f.type).toBeTruthy();
@@ -241,13 +252,13 @@ describe('foundation data integrity', () => {
   });
 
   it('no duplicate slugs', () => {
-    const slugs = STIFTUNGEN_DATA.map(f => f.slug);
+    const slugs = data.map(f => f.slug);
     const unique = new Set(slugs);
     expect(unique.size).toBe(slugs.length);
   });
 
   it('readiness scores are deterministic (same input → same output)', () => {
-    const sample = STIFTUNGEN_DATA.slice(0, 10);
+    const sample = data.slice(0, 10);
     for (const f of sample) {
       const r1 = computeReadinessScore(f);
       const r2 = computeReadinessScore(f);
@@ -257,7 +268,7 @@ describe('foundation data integrity', () => {
   });
 
   it('priority scores are deterministic', () => {
-    const sample = STIFTUNGEN_DATA.slice(0, 10);
+    const sample = data.slice(0, 10);
     for (const f of sample) {
       const p1 = computePriorityScore(f);
       const p2 = computePriorityScore(f);
@@ -267,9 +278,9 @@ describe('foundation data integrity', () => {
   });
 
   it('quality violations are within acceptable range', () => {
-    const violations = validateFoundationQuality(STIFTUNGEN_DATA);
+    const violations = validateFoundationQuality(data);
     // Some violations are expected (data isn't perfect), but shouldn't be excessive
-    const violationRate = violations.length / STIFTUNGEN_DATA.length;
+    const violationRate = violations.length / data.length;
     // Many foundations are auto-imported with minimal data, so violation rate
     // among researched ones can be high. Just verify the check runs without error.
     expect(violationRate).toBeLessThan(0.8);

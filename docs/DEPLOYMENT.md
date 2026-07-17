@@ -33,8 +33,11 @@ restart → health check). The box cannot build (OOM); always build off-box.
 
 What it does:
 1. Sources `.env.selfhost.local`, opens an SSH tunnel so build-time DB access
-   (the `prebuild` sync + SSG) hits the box's Postgres.
-2. `SELF_HOST=1 npm run build` (runs `npm run sync` first — DB → `stiftungen-generated.ts`).
+   (the static-params pre-render for foundation detail/gesuch pages) hits the
+   box's Postgres.
+2. `SELF_HOST=1 npm run build` — foundation data itself is read at runtime
+   through a cached DB read layer (`src/lib/db/foundations-repo.ts`), not
+   regenerated at build time.
 3. Stages `.next/standalone` + `.next/static` + `public/`, rsyncs to
    `/opt/revamp-info/app/` (never touches `.env` / `launch.sh` on the box).
 4. `systemctl restart revamp-info-app`, then checks `http://localhost:4012/`.
@@ -65,7 +68,7 @@ Postgres only listens on the box's localhost. Tunnel first:
 ```bash
 ssh -N -L 15432:127.0.0.1:5432 root@167.233.22.31 &
 # .env.local DATABASE_URL points at 127.0.0.1:15432
-npm run sync    # refresh generated foundation cache from prod DB
+npm run dev     # foundation pages read live from DB through the cached read layer
 npm run audit   # live pipeline funnel report
 ```
 
@@ -87,8 +90,9 @@ Never edit an applied migration; always add a new numbered file plus a
 ## CI
 
 `.github/workflows/ci.yml` runs typecheck + lint + build on every push/PR.
-CI has no DB access, so the build runs with `SKIP_SYNC=true` and uses the
-committed `stiftungen-generated.ts`.
+CI has no DB access — the build succeeds regardless (foundation data is read
+at runtime, not build time); pages that call `getAllFoundations()` will just
+return an empty array if a DB is genuinely unreachable at runtime.
 
 ## Ops quick reference
 

@@ -7,11 +7,11 @@
  * Last Updated: 2026-02-13
  */
 
-import { STIFTUNGEN_DATA } from './foundations';
 import { TEMPLATE_TYPES, TEMPLATE_FOUNDATIONS, TEMPLATE_LABELS } from './gesuch-templates';
 import { TYPE_LABELS } from './foundations/metadata';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
+import type { Foundation } from '@/lib/schemas/foundation';
 
 // ---------------------------------------------------------------------------
 // Document Types
@@ -35,22 +35,25 @@ export interface Document {
 }
 
 // ---------------------------------------------------------------------------
-// Foundation Gesuche (Personalized Applications)
+// Foundation Gesuche (Personalized Applications) — built at render time from
+// the DB read layer, not a module-scope constant.
 // ---------------------------------------------------------------------------
 
-const FOUNDATION_GESUCHE: Document[] = STIFTUNGEN_DATA
-  .filter(hasGesuchPage)
-  .map((foundation): Document => ({
-    id: `gesuch-${foundation.slug}`,
-    title: `Gesuch ${foundation.name}`,
-    description: `Personalisiertes Gesuch für ${foundation.name} — ${foundation.themes.join(', ')}`,
-    format: 'PDF',
-    category: 'gesuch',
-    action: 'download',
-    href: `/api/pdf/gesuch/${foundation.slug}`,
-    size: '~5 Seiten',
-    badge: `Fit ${foundation.fitScore}/10`,
-  }));
+function buildFoundationGesuche(foundations: Foundation[]): Document[] {
+  return foundations
+    .filter(hasGesuchPage)
+    .map((foundation): Document => ({
+      id: `gesuch-${foundation.slug}`,
+      title: `Gesuch ${foundation.name}`,
+      description: `Personalisiertes Gesuch für ${foundation.name} — ${foundation.themes.join(', ')}`,
+      format: 'PDF',
+      category: 'gesuch',
+      action: 'download',
+      href: `/api/pdf/gesuch/${foundation.slug}`,
+      size: '~5 Seiten',
+      badge: `Fit ${foundation.fitScore}/10`,
+    }));
+}
 
 // ---------------------------------------------------------------------------
 // Template Gesuche (Reference Templates)
@@ -82,44 +85,46 @@ const TEMPLATE_GESUCHE: Document[] = TEMPLATE_TYPES.map((templateType): Document
 // ---------------------------------------------------------------------------
 
 // Generated exports (computed from live data)
-const DATA_EXPORTS: Document[] = [
-  {
-    id: 'export-financial',
-    title: `Finanzdaten ${FINANCIAL_YEAR_RANGE}`,
-    description: 'Komplette Einnahmen & Ausgaben nach Jahr und Kategorie — generiert aus Kivitendo-Quelldaten',
-    format: 'CSV',
-    category: 'export',
-    action: 'download',
-    href: '/api/export/financial',
-    size: '~200 KB',
-    badge: FINANCIAL_YEAR_LABEL,
-    lastUpdated: '2026-02-13',
-  },
-  {
-    id: 'export-foundations',
-    title: 'Stiftungsliste',
-    description: `Alle ${STIFTUNGEN_DATA.length} recherchierten Stiftungen mit Fit-Score, Themen, Status, Deadlines — live generiert aus STIFTUNGEN_DATA`,
-    format: 'CSV',
-    category: 'export',
-    action: 'download',
-    href: '/api/export/foundations',
-    size: '~50 KB',
-    badge: `${STIFTUNGEN_DATA.length} Stiftungen`,
-    lastUpdated: '2026-02-13',
-  },
-  {
-    id: 'export-revenue',
-    title: 'Einnahmen-Historie',
-    description: `Jahresumsätze ${FINANCIAL_YEAR_RANGE} aufgeschlüsselt nach Einnahmequellen — generiert aus Kivitendo-Quelldaten`,
-    format: 'CSV',
-    category: 'export',
-    action: 'download',
-    href: '/api/export/revenue',
-    size: '~10 KB',
-    badge: FINANCIAL_YEAR_LABEL,
-    lastUpdated: '2026-02-13',
-  },
-];
+function buildDataExports(foundationCount: number): Document[] {
+  return [
+    {
+      id: 'export-financial',
+      title: `Finanzdaten ${FINANCIAL_YEAR_RANGE}`,
+      description: 'Komplette Einnahmen & Ausgaben nach Jahr und Kategorie — generiert aus Kivitendo-Quelldaten',
+      format: 'CSV',
+      category: 'export',
+      action: 'download',
+      href: '/api/export/financial',
+      size: '~200 KB',
+      badge: FINANCIAL_YEAR_LABEL,
+      lastUpdated: '2026-02-13',
+    },
+    {
+      id: 'export-foundations',
+      title: 'Stiftungsliste',
+      description: `Alle ${foundationCount} recherchierten Stiftungen mit Fit-Score, Themen, Status, Deadlines — live generiert aus der Foundation-DB`,
+      format: 'CSV',
+      category: 'export',
+      action: 'download',
+      href: '/api/export/foundations',
+      size: '~50 KB',
+      badge: `${foundationCount} Stiftungen`,
+      lastUpdated: '2026-02-13',
+    },
+    {
+      id: 'export-revenue',
+      title: 'Einnahmen-Historie',
+      description: `Jahresumsätze ${FINANCIAL_YEAR_RANGE} aufgeschlüsselt nach Einnahmequellen — generiert aus Kivitendo-Quelldaten`,
+      format: 'CSV',
+      category: 'export',
+      action: 'download',
+      href: '/api/export/revenue',
+      size: '~10 KB',
+      badge: FINANCIAL_YEAR_LABEL,
+      lastUpdated: '2026-02-13',
+    },
+  ];
+}
 
 // Source files (original data from Kivitendo, anonymized for public access)
 const SOURCE_FILES: Document[] = [
@@ -208,19 +213,27 @@ const BERICHTE: Document[] = [
 // Exports
 // ---------------------------------------------------------------------------
 
-export const DOCUMENTS = {
-  berichte: BERICHTE,
-  gesuche: FOUNDATION_GESUCHE,
-  vorlagen: TEMPLATE_GESUCHE,
-  exports: DATA_EXPORTS,
-  quellen: SOURCE_FILES,
-};
+/** Built at render time — the gesuche + exports lists depend on live foundation data. */
+export function buildDocuments(foundations: Foundation[]) {
+  const gesuche = buildFoundationGesuche(foundations);
+  const exports = buildDataExports(foundations.length);
 
-export const DOCUMENT_STATS = {
-  berichteCount: BERICHTE.length,
-  gesucheCount: FOUNDATION_GESUCHE.length,
-  vorlagenCount: TEMPLATE_GESUCHE.length,
-  exportsCount: DATA_EXPORTS.length,
-  quellenCount: SOURCE_FILES.length,
-  totalCount: BERICHTE.length + FOUNDATION_GESUCHE.length + TEMPLATE_GESUCHE.length + DATA_EXPORTS.length + SOURCE_FILES.length,
-};
+  const documents = {
+    berichte: BERICHTE,
+    gesuche,
+    vorlagen: TEMPLATE_GESUCHE,
+    exports,
+    quellen: SOURCE_FILES,
+  };
+
+  const stats = {
+    berichteCount: BERICHTE.length,
+    gesucheCount: gesuche.length,
+    vorlagenCount: TEMPLATE_GESUCHE.length,
+    exportsCount: exports.length,
+    quellenCount: SOURCE_FILES.length,
+    totalCount: BERICHTE.length + gesuche.length + TEMPLATE_GESUCHE.length + exports.length + SOURCE_FILES.length,
+  };
+
+  return { documents, stats };
+}

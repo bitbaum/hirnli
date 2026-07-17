@@ -22,7 +22,11 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
+import { getAllFoundations } from './lib/foundations';
+import type { Foundation } from '../src/lib/schemas/foundation';
+
+/** Populated once at the start of main() before any screening happens. */
+let existingFoundations: Foundation[] = [];
 import { NOT_RECOMMENDED } from '../src/lib/config/foundations/metadata';
 
 interface Candidate {
@@ -167,12 +171,12 @@ function levenshteinDistance(a: string, b: string): number {
 // ============================================================================
 
 /**
- * Filter 1: Duplicate in STIFTUNGEN_DATA
+ * Filter 1: Duplicate in the foundation DB
  */
 function isDuplicateInDB(candidate: Candidate): boolean {
   const normalized = normalizeName(candidate.name);
 
-  for (const foundation of STIFTUNGEN_DATA) {
+  for (const foundation of existingFoundations) {
     const dbNormalized = normalizeName(foundation.name);
 
     if (dbNormalized === normalized) {
@@ -573,7 +577,7 @@ function screenCandidate(
   esaRegister: ESARegister
 ): ScreeningResult {
 
-  // Filter 1: Duplicate in STIFTUNGEN_DATA
+  // Filter 1: Duplicate in the foundation DB
   if (isDuplicateInDB(candidate)) {
     return {
       candidate,
@@ -803,11 +807,13 @@ function processBatch(candidates: Candidate[], esaRegister: ESARegister): Screen
 // MAIN
 // ============================================================================
 
-function main() {
+async function main() {
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('  Foundation Screening v3.1');
   console.log('  Gap fixes + smart tiering (core themes, geography, focus)');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  existingFoundations = await getAllFoundations();
 
   // Load ESA register
   const esaRegister = loadESARegister();
@@ -851,4 +857,7 @@ function main() {
   console.log('\n✅ Screening v3.1 complete!\n');
 }
 
-main();
+main().catch((err) => {
+  console.error('Screening failed:', err);
+  process.exit(1);
+});

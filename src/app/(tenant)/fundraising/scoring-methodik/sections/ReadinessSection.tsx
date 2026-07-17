@@ -3,17 +3,17 @@ import Badge from '@/components/ui/Badge';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS, computeTierCounts } from '@/lib/domain/foundation-helpers';
 import { TIER_FROM_LEVEL } from '@/lib/domain/foundation-scores';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
-import type { QualityTier } from '@/lib/schemas/foundation';
+import type { Foundation, QualityTier } from '@/lib/schemas/foundation';
 import type { AdditiveChecksConfig } from '@/lib/config/fit-scoring';
 
 interface Props {
   readinessAvg: number;
+  foundations: Foundation[];
 }
 
-export default function ReadinessSection({ readinessAvg }: Props) {
-  const total = STIFTUNGEN_DATA.length;
-  const tierCounts = computeTierCounts(STIFTUNGEN_DATA);
+export default function ReadinessSection({ readinessAvg, foundations }: Props) {
+  const total = foundations.length;
+  const tierCounts = computeTierCounts(foundations);
 
   return (
     <section className="mb-10">

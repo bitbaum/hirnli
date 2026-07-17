@@ -9,7 +9,7 @@
  *   4. Parses response into ResearchDraft JSON
  *   5. Writes drafts to research/auto-research/YYYY-MM-DD/
  *
- * Drafts feed directly into foundation-upsert.ts → npm run sync → npm run build
+ * Drafts feed directly into foundation-upsert.ts — pages read live, no sync step
  *
  * Usage:
  *   npx tsx scripts/auto-research.ts research/triage/2026-03-05.json
@@ -327,8 +327,6 @@ async function main() {
     console.log(`\nNext steps:`);
     console.log(`  1. Review drafts: ls ${outDir}`);
     console.log(`  2. Upsert: npx tsx scripts/foundation-upsert.ts ${outDir}`);
-    console.log(`  3. Sync:   npm run sync`);
-    console.log(`  4. Build:  npm run build`);
 
     // Write summary file
     const summaryFile = path.join(outDir, '_summary.json');

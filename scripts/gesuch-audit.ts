@@ -16,7 +16,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
+import { getAllFoundations } from './lib/foundations';
 import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
 import { composeGesuch } from '../src/lib/domain/gesuch-composer';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
@@ -46,8 +46,9 @@ interface AuditIssue {
 // Main
 // ============================================================================
 
-function main() {
-  const gesuchFoundations = STIFTUNGEN_DATA.filter(f => {
+async function main() {
+  const foundations = await getAllFoundations();
+  const gesuchFoundations = foundations.filter(f => {
     if (!hasGesuchPage(f)) return false;
     if (PRIORITY_FILTER > 0) {
       const computed = computePriorityScore(f);
@@ -191,4 +192,7 @@ function main() {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error('Gesuch audit failed:', err);
+  process.exit(1);
+});

@@ -15,10 +15,10 @@ import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 import Backdrop from '@/components/ui/Backdrop';
 
-export default function Nav() {
+export default function Nav({ stiftungenCount }: { stiftungenCount: number }) {
   const pathname = usePathname();
   const t = useTranslations('common');
-  const items = useNavStructure();
+  const items = useNavStructure(stiftungenCount);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
 

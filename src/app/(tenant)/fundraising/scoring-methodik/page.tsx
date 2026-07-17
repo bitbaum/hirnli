@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
 import { computePriorityDistribution, computeReadinessDistribution } from '@/lib/domain/scoring-stats';
+import { getAllFoundations } from '@/lib/db/foundations-repo';
 import ScoringArchitectureSection from './sections/ScoringArchitectureSection';
 import FitScoreSection from './sections/FitScoreSection';
 import ReadinessSection from './sections/ReadinessSection';
@@ -13,9 +14,10 @@ export const metadata: Metadata = {
   description: 'Wie Fit, Bereitschaft und Priorität algorithmisch berechnet werden',
 };
 
-export default function ScoringMethodikPage() {
-  const priorityDist = computePriorityDistribution();
-  const readinessDist = computeReadinessDistribution();
+export default async function ScoringMethodikPage() {
+  const foundations = await getAllFoundations();
+  const priorityDist = computePriorityDistribution(foundations);
+  const readinessDist = computeReadinessDistribution(foundations);
 
   return (
     <>
@@ -30,12 +32,13 @@ export default function ScoringMethodikPage() {
       </p>
       <ScoringArchitectureSection />
       <FitScoreSection />
-      <ReadinessSection readinessAvg={readinessDist.avg} />
+      <ReadinessSection readinessAvg={readinessDist.avg} foundations={foundations} />
       <PrioritySection
         priorityCounts={priorityDist.counts}
         priorityAvg={priorityDist.avg}
+        total={foundations.length}
       />
-      <GesuchGateSection />
+      <GesuchGateSection foundations={foundations} />
       <DesignPrinciplesSection />
     </>
   );

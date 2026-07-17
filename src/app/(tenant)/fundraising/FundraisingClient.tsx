@@ -25,8 +25,9 @@ import RevenueStreamsSection from './sections/RevenueStreams';
 import PipelineStatus from './sections/PipelineStatus';
 import KeyResources from './sections/KeyResources';
 import NextSteps from './sections/NextSteps';
+import type { Foundation } from '@/lib/schemas/foundation';
 
-export default function FundraisingClient() {
+export default function FundraisingClient({ foundations }: { foundations: Foundation[] }) {
   const inspector = useNumberInspector();
 
   const inspectSpace = NumberSources.space_total
@@ -96,7 +97,7 @@ export default function FundraisingClient() {
       </section>
 
       <TrackRecord inspector={inspector} />
-      <PipelineMetrics />
+      <PipelineMetrics foundations={foundations} />
       <FinancialSituation inspector={inspector} />
       <BusinessModelChallenge />
       <CostStructure />
@@ -104,8 +105,8 @@ export default function FundraisingClient() {
       <SpaceConcept />
       <BudgetDetail inspector={inspector} />
       <RevenueStreamsSection inspector={inspector} />
-      <PipelineStatus />
-      <KeyResources />
+      <PipelineStatus foundations={foundations} />
+      <KeyResources foundationCount={foundations.length} />
       <NextSteps />
 
       <NumberInspector isOpen={inspector.isOpen} onClose={inspector.close} data={inspector.data} />

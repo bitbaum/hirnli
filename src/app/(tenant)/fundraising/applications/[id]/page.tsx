@@ -20,7 +20,6 @@ import ActivityTimeline from '@/components/ui/ActivityTimeline';
 import DeleteConfirmBlock from '@/components/fundraising/DeleteConfirmBlock';
 import { ApplicationDateFields, ApplicationOutcomeFields } from '@/components/fundraising/ApplicationFormSections';
 import ApplicationFoundationCard from '@/components/fundraising/ApplicationFoundationCard';
-import { getFoundationBySlug } from '@/lib/domain/foundation-helpers';
 
 interface ApplicationDetailProps {
   params: Promise<{ id: string }>;
@@ -32,6 +31,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   const { id } = use(params);
   const {
     foundation,
+    foundationDetail,
     fields,
     updateField,
     isLoading,
@@ -71,7 +71,6 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   }
 
   const statusConfig = getStatusConfig(fields.status);
-  const foundationDetail = foundation ? getFoundationBySlug(foundation.id) : null;
 
   return (
     <div className="min-h-screen bg-surface-raised p-4 md:p-6">

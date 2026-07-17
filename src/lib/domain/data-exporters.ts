@@ -7,7 +7,7 @@
 
 import { loadFinancialData } from '@/lib/data/financial';
 import { FINANCIAL_YEAR_START, FINANCIAL_YEAR_END } from '@/lib/config/financial-constants';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import type { Foundation } from '@/lib/schemas/foundation';
 import { REVENUE_HISTORY } from '@/app/(tenant)/fundraising/data';
 import { arrayToCSV } from '@/lib/utils/csv';
 
@@ -39,7 +39,7 @@ export function exportFinancialData(): string {
 // Foundation List Export
 // ---------------------------------------------------------------------------
 
-export function exportFoundationList(): string {
+export function exportFoundationList(foundations: Foundation[]): string {
   const headers = [
     'Name',
     'Typ',
@@ -52,7 +52,7 @@ export function exportFoundationList(): string {
     'URL',
   ];
 
-  const rows = STIFTUNGEN_DATA.map((foundation) => [
+  const rows = foundations.map((foundation) => [
     foundation.name,
     foundation.type,
     foundation.themes.join('; '),

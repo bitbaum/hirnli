@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import {
-  NAV_STRUCTURE,
+  buildNavStructure,
   type NavItem,
   type NavItemConfig,
   type NavLink,
@@ -15,10 +15,11 @@ import {
  * fully localized NavItems. Menu components render the resolved shape and
  * stay locale-agnostic; strings live only in messages/{locale}.json.
  */
-export function useNavStructure(): NavItem[] {
+export function useNavStructure(stiftungenCount: number): NavItem[] {
   const t = useTranslations('nav');
 
   return useMemo(() => {
+    const NAV_STRUCTURE = buildNavStructure(stiftungenCount);
     const link = (l: NavLinkConfig): NavLink => ({
       text: t(`${l.msg}.label`, l.values),
       desc: l.hasDesc ? t(`${l.msg}.desc`, l.values) : undefined,
@@ -40,5 +41,5 @@ export function useNavStructure(): NavItem[] {
     });
 
     return NAV_STRUCTURE.items.map(item);
-  }, [t]);
+  }, [t, stiftungenCount]);
 }

@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
-import { RESOURCES } from '../data';
+import { buildResources } from '../data';
 
-export default function KeyResources() {
+export default function KeyResources({ foundationCount }: { foundationCount: number }) {
+  const resources = buildResources(foundationCount);
   return (
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">Wichtige Ressourcen</h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {RESOURCES.map((resource) => (
+        {resources.map((resource) => (
           <Link
             key={resource.href}
             href={resource.href}

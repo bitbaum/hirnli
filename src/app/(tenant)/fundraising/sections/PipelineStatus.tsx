@@ -3,11 +3,11 @@ import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { STATUS_LABELS, STATUS_BADGE_VARIANT } from '@/lib/config/foundations';
-import type { FoundationStatus } from '@/lib/schemas/foundation';
+import type { Foundation, FoundationStatus } from '@/lib/schemas/foundation';
 import { computePipelineStats } from '../data';
 
-export default function PipelineStatus() {
-  const stats = computePipelineStats();
+export default function PipelineStatus({ foundations }: { foundations: Foundation[] }) {
+  const stats = computePipelineStats(foundations);
 
   return (
     <Card className="mb-8">

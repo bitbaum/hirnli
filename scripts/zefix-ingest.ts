@@ -7,7 +7,7 @@
  * by name (Zefix has no purpose text), and upserts new entries.
  *
  * Usage:
- *   npx tsx scripts/zefix-ingest.ts [--dry-run] [--limit N] [--skip-sync]
+ *   npx tsx scripts/zefix-ingest.ts [--dry-run] [--limit N]
  *   npm run zefix:ingest
  *
  * Requires: research/zefix-register-*.json (from zefix-download.ts)
@@ -19,7 +19,6 @@ config({ path: '.env.local' });
 import * as fs from 'fs';
 import * as path from 'path';
 import { sql, type SqlClient } from './lib/db';
-import { execSync } from 'child_process';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import {
   classifyThemes,
@@ -253,7 +252,6 @@ async function upsertEntry(
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const skipSync = args.includes('--skip-sync');
   const limitArg = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
 
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -283,17 +281,16 @@ async function main() {
   const excluded = active.length - charitable.length;
   console.log(`  Charitable: ${charitable.length} (excluded ${excluded} pension/non-charitable)`);
 
-  // 4. Read existing slugs + UIDs from stiftungen-generated.ts
-  const genPath = path.join(process.cwd(), 'src', 'lib', 'config', 'foundations', 'stiftungen-generated.ts');
-  const genContent = fs.readFileSync(genPath, 'utf-8');
-  const existingSlugs = new Set<string>();
-  for (const m of genContent.matchAll(/"slug":\s*"([^"]+)"/g)) {
-    existingSlugs.add(m[1]);
-  }
-  const existingUids = new Set<string>();
-  for (const m of genContent.matchAll(/"uid":\s*"([^"]+)"/g)) {
-    if (m[1] && m[1] !== '' && m[1] !== 'CHE-XXX.XXX.XXX') existingUids.add(m[1]);
-  }
+  // 4. Read existing slugs + UIDs + names from the foundation DB
+  const existingRows = await sql<{ id: string; name: string; uid: string | null }>`
+    SELECT id, name, config_data->>'uid' AS uid FROM fundraising_foundations
+  `;
+  const existingSlugs = new Set(existingRows.map((r) => r.id));
+  const existingUids = new Set(
+    existingRows
+      .map((r) => r.uid)
+      .filter((uid): uid is string => !!uid && uid !== 'CHE-XXX.XXX.XXX')
+  );
   console.log(`  Existing in DB: ${existingSlugs.size} slugs, ${existingUids.size} UIDs`);
 
   // 5. Build normalized-name index for fuzzy dedup
@@ -308,8 +305,8 @@ async function main() {
   }
 
   const existingNormNames = new Set<string>();
-  for (const m of genContent.matchAll(/"name":\s*"([^"]+)"/g)) {
-    existingNormNames.add(normalizeName(m[1]));
+  for (const r of existingRows) {
+    existingNormNames.add(normalizeName(r.name));
   }
 
   // 6. Cross-reference: skip already in DB
@@ -400,16 +397,6 @@ async function main() {
   }
 
   console.log(`\n  Upserted: ${success}, Errors: ${errors}, With themes: ${withThemes}`);
-
-  // 8. Sync
-  if (!skipSync && success > 0) {
-    console.log('\n  Running sync...');
-    try {
-      execSync('npm run sync', { stdio: 'inherit', cwd: process.cwd() });
-    } catch {
-      console.error('  Sync failed. Run manually: npm run sync');
-    }
-  }
 
   console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('  Done!\n');

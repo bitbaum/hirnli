@@ -17,8 +17,8 @@
  *     Input: Phase 1 candidates
  *     Output: enriched foundations with fitScore, themes, purposeSummary
  *
- *   Phase 3: UPSERT + SYNC (close the loop)
- *     Write results back to DB, run sync to regenerate config
+ *   Phase 3: UPSERT (close the loop)
+ *     Write results back to DB — pages read live, no sync step
  *     Also ingests any pending auto-research drafts from disk
  *
  * Idempotent: tracks processed slugs per run date. Safe to re-run.
@@ -30,7 +30,6 @@
  *   npx tsx scripts/pipeline-graduate.ts --dry-run           # Preview, no writes
  *   npx tsx scripts/pipeline-graduate.ts --limit=50          # Cap LLM calls
  *   npx tsx scripts/pipeline-graduate.ts --ingest-only       # Just ingest pending drafts
- *   npx tsx scripts/pipeline-graduate.ts --skip-sync         # Don't run sync after
  */
 
 import { config } from 'dotenv';
@@ -58,7 +57,6 @@ import { ThemeId } from '../src/lib/schemas/foundation';
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
-const SKIP_SYNC = args.includes('--skip-sync');
 const INGEST_ONLY = args.includes('--ingest-only');
 const PHASE_ARG = parseInt(args.find(a => a.startsWith('--phase='))?.split('=')[1] || '0', 10);
 const LIMIT = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10) || Infinity;
@@ -599,17 +597,6 @@ async function phase3Upsert(
           console.error(`    Upsert failed for ${dir}`);
         }
       }
-    }
-  }
-
-  // Part C: Sync
-  const totalUpdated = updated + (pendingDirs.length > 0 ? 1 : 0);
-  if (!SKIP_SYNC && totalUpdated > 0 && !DRY_RUN) {
-    console.log('\n  C) Running sync...');
-    try {
-      execSync('npm run sync', { stdio: 'inherit', cwd: process.cwd() });
-    } catch {
-      console.error('  Sync failed. Run manually: npm run sync');
     }
   }
 

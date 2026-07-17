@@ -14,7 +14,7 @@
  *
  * Pipeline:
  *   1. Read ZHAW dataset (184 entries)
- *   2. Read existing slugs from stiftungen-generated.ts
+ *   2. Read existing slugs from the foundation DB
  *   3. For NEW entries: generate drafts with ZHAW's rich data
  *   4. For EXISTING entries: enrich with ZHAW contact data
  *   5. Write all to research/drafts/YYYY-MM-DD/
@@ -23,6 +23,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { sql } from './lib/db';
 import { computeFitScore } from '../src/lib/domain/fit-scoring';
 import {
   classifyThemes,
@@ -344,7 +345,7 @@ function enrichExistingDraft(draftPath: string, zhaw: ZhawFoundation): { enriche
 // MAIN
 // ============================================================================
 
-function main() {
+async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const limitArg = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
@@ -362,14 +363,9 @@ function main() {
   const zhawData: ZhawData = JSON.parse(fs.readFileSync(zhawPath, 'utf-8'));
   console.log(`\n  ZHAW foundations: ${zhawData.foundations.length}`);
 
-  // 2. Read existing slugs from stiftungen-generated.ts
-  const genPath = path.join(process.cwd(), 'src', 'lib', 'config', 'foundations', 'stiftungen-generated.ts');
-  const genContent = fs.readFileSync(genPath, 'utf-8');
-  const existingSlugs = new Set<string>();
-  const slugMatches = genContent.matchAll(/"slug":\s*"([^"]+)"/g);
-  for (const m of slugMatches) {
-    existingSlugs.add(m[1]);
-  }
+  // 2. Read existing slugs from the foundation DB (id column IS the slug)
+  const existingRows = await sql<{ id: string }>`SELECT id FROM fundraising_foundations`;
+  const existingSlugs = new Set(existingRows.map((r) => r.id));
   console.log(`  Existing in DB: ${existingSlugs.size} slugs`);
 
   // 3. Prepare output directory
@@ -436,9 +432,11 @@ function main() {
     console.log(`  Output: ${outDir}/`);
     console.log(`\n  Next steps:`);
     console.log(`    npx tsx scripts/foundation-upsert.ts ${outDir}/`);
-    console.log(`    npm run sync && npm run build`);
   }
   console.log('  Done!\n');
 }
 
-main();
+main().catch((err) => {
+  console.error('ZHAW ingest failed:', err);
+  process.exit(1);
+});

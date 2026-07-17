@@ -20,7 +20,7 @@
  *   1 = Validation failures found
  */
 
-import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
+import { getAllFoundations } from './lib/foundations';
 import type { Foundation } from '../src/lib/schemas/foundation';
 import { ApplicationMethod } from '../src/lib/schemas/foundation';
 import { validateFoundationQuality } from '../src/lib/domain/foundation-quality';
@@ -58,10 +58,10 @@ function addIssue(issue: ValidationIssue) {
  * boolean. The script-level wrapper just flattens the violation list into
  * the addIssue interface.
  */
-function validateAllQualityGates() {
-  const violations = validateFoundationQuality(STIFTUNGEN_DATA);
+function validateAllQualityGates(foundations: Foundation[]) {
+  const violations = validateFoundationQuality(foundations);
   for (const { slug, issues } of violations) {
-    const foundation = STIFTUNGEN_DATA.find((f) => f.slug === slug);
+    const foundation = foundations.find((f) => f.slug === slug);
     const name = foundation?.name ?? slug;
     for (const message of issues) {
       addIssue({
@@ -323,19 +323,20 @@ function validateSchema(foundation: Foundation) {
 // MAIN VALIDATION RUNNER
 // ============================================================================
 
-function main() {
+async function main() {
   console.log('🔍 Validating foundation data...\n');
-  console.log(`📊 Total foundations: ${STIFTUNGEN_DATA.length}\n`);
+  const foundations = await getAllFoundations();
+  console.log(`📊 Total foundations: ${foundations.length}\n`);
 
   // Run validations
-  for (const foundation of STIFTUNGEN_DATA) {
+  for (const foundation of foundations) {
     validateSchema(foundation);
     validateCompleteness(foundation);
   }
 
   // Quality-gate runs once across the dataset (delegates to domain SSOT)
-  validateAllQualityGates();
-  validateDuplicates(STIFTUNGEN_DATA);
+  validateAllQualityGates(foundations);
+  validateDuplicates(foundations);
 
   // Report results
   const errors = issues.filter((i) => i.severity === 'error');
@@ -389,4 +390,7 @@ function main() {
   process.exit(errors.length > 0 ? 1 : 0);
 }
 
-main();
+main().catch((err) => {
+  console.error('Validation failed:', err);
+  process.exit(1);
+});

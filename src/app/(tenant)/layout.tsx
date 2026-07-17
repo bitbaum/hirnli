@@ -6,11 +6,13 @@
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
 import { LocaleNotice } from '@/components/layout/LocaleNotice';
+import { getAllFoundations } from '@/lib/db/foundations-repo';
 
-export default function TenantLayout({ children }: { children: React.ReactNode }) {
+export default async function TenantLayout({ children }: { children: React.ReactNode }) {
+  const foundations = await getAllFoundations();
   return (
     <>
-      <Nav />
+      <Nav stiftungenCount={foundations.length} />
       <LocaleNotice />
       <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
         {children}

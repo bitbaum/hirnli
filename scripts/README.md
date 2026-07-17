@@ -5,8 +5,8 @@ manage the research pipeline. UI/domain code lives in `src/`; everything
 here is operations.
 
 > **The DB is the write SSOT.** Foundation data flows: research → DB
-> (`fundraising_foundations.config_data`) → `npm run sync` →
-> `src/lib/config/foundations/stiftungen-generated.ts` → UI. See
+> (`fundraising_foundations.config_data`) → `src/lib/db/foundations-repo.ts`
+> (cached DB read layer, `unstable_cache`, 1h TTL) → UI. See
 > `/CLAUDE.md` for the full data-flow diagram.
 
 ---
@@ -15,7 +15,6 @@ here is operations.
 
 | Command | Script | Purpose |
 |---------|--------|---------|
-| `npm run sync` | `src/scripts/sync-foundations.ts` | DB → generated TS file (runs as prebuild/predev) |
 | `npm run audit` | `audit-pipeline.ts` | Pipeline funnel + gap report |
 | `npm run validate:foundations` | `foundation-validate.ts` | Schema + duplicate + quality validation |
 | `npm run foundation:add` | `foundation-add.ts` | Interactive entry generator |
@@ -66,9 +65,7 @@ research:queue → research:batch      │       │
   → ChatGPT/Claude → research/chatgpt-results/batch*.json
   → bulk-import-batches.ts           ┘       │
                                              ↓
-                                       npm run sync
-                                             ↓
-                           src/lib/config/foundations/stiftungen-generated.ts
+                          src/lib/db/foundations-repo.ts (cached read layer)
                                              ↓
                                             UI
 ```

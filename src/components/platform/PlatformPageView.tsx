@@ -10,7 +10,7 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import type { Foundation } from '@/lib/schemas/foundation';
 import { SWISS_FOUNDATIONS_DISPLAY } from '@/lib/config/projections';
 import { computeFunnelStats } from '@/lib/domain/pipeline-stats';
 import {
@@ -29,14 +29,14 @@ function SectionHeading({ heading, lead }: { heading: string; lead?: string }) {
   );
 }
 
-export default function PlatformPageView({ locale }: { locale: PlatformLocale }) {
+export default function PlatformPageView({ locale, foundations }: { locale: PlatformLocale; foundations: Foundation[] }) {
   const c = PLATFORM_CONTENT[locale];
-  const stats = computeFunnelStats();
+  const stats = computeFunnelStats(foundations);
   const actionable = stats.pCounts[1] + stats.pCounts[2] + stats.pCounts[3];
 
   const funnelStats = [
     { value: SWISS_FOUNDATIONS_DISPLAY, label: c.funnel.labels.universe },
-    { value: String(STIFTUNGEN_DATA.length), label: c.funnel.labels.analyzed },
+    { value: String(foundations.length), label: c.funnel.labels.analyzed },
     { value: String(actionable), label: c.funnel.labels.actionable },
     { value: String(stats.gesuchReady), label: c.funnel.labels.gesuchReady },
   ];

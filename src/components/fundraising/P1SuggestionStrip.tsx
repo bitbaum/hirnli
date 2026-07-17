@@ -1,21 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import type { Foundation } from '@/lib/schemas/foundation';
 import { createApplication } from '@/lib/api/applications';
 
 interface Props {
+  /** Priority-1 foundations only — fetched once server-side and passed down */
+  p1Foundations: Foundation[];
   trackedIds: Set<string>;
   onAdded: () => void;
 }
 
-export function P1SuggestionStrip({ trackedIds, onAdded }: Props) {
+export function P1SuggestionStrip({ p1Foundations, trackedIds, onAdded }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [adding, setAdding] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const untracked = STIFTUNGEN_DATA
-    .filter((f) => f.priority === 1 && !trackedIds.has(f.slug))
+  const untracked = p1Foundations
+    .filter((f) => !trackedIds.has(f.slug))
     .sort((a, b) => b.fitScore - a.fitScore);
 
   if (untracked.length === 0) return null;

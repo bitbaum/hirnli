@@ -1,15 +1,15 @@
 import Card from '@/components/ui/Card';
 import { PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
-import { STIFTUNGEN_DATA, PRIORITY_CONFIG } from '@/lib/config/foundations';
+import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { formatNumber } from '@/lib/utils/format';
 
 interface Props {
   priorityCounts: Record<1 | 2 | 3 | 4, number>;
   priorityAvg: number;
+  total: number;
 }
 
-export default function PrioritySection({ priorityCounts, priorityAvg }: Props) {
-  const total = STIFTUNGEN_DATA.length;
+export default function PrioritySection({ priorityCounts, priorityAvg, total }: Props) {
 
   return (
     <section className="mb-10">

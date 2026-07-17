@@ -30,12 +30,17 @@ import { getApplications, patchApplication } from '@/lib/api/applications';
 import { UI_TIMINGS } from '@/lib/config/ui-timings';
 import { NET_ERR_SAVE, API_ERR_LOAD } from '@/lib/utils/errors';
 import type { Application, ApplicationWithFoundation } from '@/lib/db/schema';
+import type { Foundation } from '@/lib/schemas/foundation';
 import RequiredFieldsModal from './RequiredFieldsModal';
 import EmptyState from '@/components/ui/EmptyState';
 import { ClosedApplicationsList } from './ClosedApplicationsList';
 import { P1SuggestionStrip } from './P1SuggestionStrip';
 
-export function ApplicationBoard() {
+interface Props {
+  p1Foundations: Foundation[];
+}
+
+export function ApplicationBoard({ p1Foundations }: Props) {
   const [applications, setApplications] = useState<ApplicationWithFoundation[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -189,7 +194,7 @@ export function ApplicationBoard() {
       <BoardHeaderStats applications={boardApplications} onRefresh={fetchApplications} />
 
       {/* P1 foundations not yet tracked — surface the gap */}
-      <P1SuggestionStrip trackedIds={trackedIds} onAdded={fetchApplications} />
+      <P1SuggestionStrip p1Foundations={p1Foundations} trackedIds={trackedIds} onAdded={fetchApplications} />
 
       {/* Drag error banner — auto-dismisses after 5 s */}
       {dragError && (

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import PlatformPageView from '@/components/platform/PlatformPageView';
 import { PLATFORM_CONTENT, type PlatformLocale } from '@/lib/config/platform-content';
+import { getAllFoundations } from '@/lib/db/foundations-repo';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = (await getLocale()) as PlatformLocale;
@@ -10,6 +11,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PlattformPage() {
-  const locale = (await getLocale()) as PlatformLocale;
-  return <PlatformPageView locale={locale} />;
+  const [locale, foundations] = await Promise.all([
+    getLocale() as Promise<PlatformLocale>,
+    getAllFoundations(),
+  ]);
+  return <PlatformPageView locale={locale} foundations={foundations} />;
 }

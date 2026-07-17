@@ -28,16 +28,11 @@ SHARE_SECRET=...         # required for /gesuch/share/[token] HMAC tokens
 
 ## Step 2 — Verify connection
 
-The first `npm run dev` runs `npm run sync` (the `predev` hook), which
-queries the DB. If that succeeds you're done. The expected output ends
-with:
-
-```
-  Valid: <N> foundations
-  Invalid: 0 foundations (skipped)
-
-Sync complete.
-```
+Run `npm run dev` and load `/fundraising/stiftungen` — foundation pages read
+live from the DB through a cached read layer (`src/lib/db/foundations-repo.ts`,
+`unstable_cache`, 1h TTL). If the page loads with foundation cards, the
+connection works. Check the terminal for `[foundations-repo] DB unreachable`
+if it doesn't.
 
 ## Tables (5)
 
@@ -85,9 +80,6 @@ npm run audit
 
 # Schema + duplicate + quality validation
 npm run validate:foundations
-
-# Regenerate the read-only TS cache (DB → src/lib/config/foundations/stiftungen-generated.ts)
-npm run sync
 ```
 
 ## Troubleshooting
@@ -96,10 +88,10 @@ npm run sync
 Verify `.env.local` exists in project root and `DATABASE_URL` is set.
 Restart the dev server.
 
-**Sync reports `Invalid: <N> foundations (skipped)`**
-A row's `config_data` JSONB doesn't match the Zod schema. Run
-`npm run sync 2>&1 | grep "Invalid:"` then look at the warnings just
-above for the validation errors.
+**Terminal shows `[foundations-repo] invalid config_data for <slug>, skipped`**
+That row's `config_data` JSONB doesn't match the Zod schema
+(`src/lib/schemas/foundation.ts`) — it's excluded from reads (not thrown),
+logged so it can be fixed at the source.
 
 **`drizzle-kit push --dry-run` is not supported**
 True for v0.31.9 — review the actual `push` output. Cancel if you see

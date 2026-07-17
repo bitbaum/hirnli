@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
-import { getFoundationBySlug, generateGesuchParams } from '@/lib/domain/foundation-helpers';
+import { generateGesuchParams } from '@/lib/domain/foundation-helpers';
+import { getAllFoundations, getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuch, composeAnschreibenText } from '@/lib/domain/gesuch-composer';
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
 import { computeShareToken } from '@/lib/utils/share-token';
@@ -11,17 +12,20 @@ import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import GesuchPageClient from './GesuchPageClient';
 
+// Allow foundations promoted to P1-P3 between deploys to render on-demand
+export const dynamicParams = true;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return generateGesuchParams();  // Only priority 1-2 foundations
+  return generateGesuchParams(await getAllFoundations());  // Only priority 1-3 foundations
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const foundation = getFoundationBySlug(slug);
+  const foundation = await getFoundationBySlug(slug);
   if (!foundation) return { title: 'Stiftung nicht gefunden' };
   return {
     title: `Gesuch — ${ORG_PROFILE.name} × ${foundation.name}`,
@@ -36,7 +40,7 @@ function getPrimaryColor(gesuch: ComposedGesuch): string {
 
 export default async function GesuchPage({ params }: Props) {
   const { slug } = await params;
-  const foundation = getFoundationBySlug(slug);
+  const foundation = await getFoundationBySlug(slug);
 
   if (!foundation) {
     notFound();

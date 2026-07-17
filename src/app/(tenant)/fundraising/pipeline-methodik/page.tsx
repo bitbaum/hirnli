@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
 import { computeFunnelStats } from '@/lib/domain/pipeline-stats';
+import { getAllFoundations } from '@/lib/db/foundations-repo';
 import { SWISS_FOUNDATIONS_DISPLAY } from '@/lib/config/projections';
 import FunnelSection from './sections/FunnelSection';
 import DataSourcesSection from './sections/DataSourcesSection';
@@ -14,8 +15,8 @@ export const metadata: Metadata = {
   description: `Wie wir aus ${SWISS_FOUNDATIONS_DISPLAY} Schweizer Stiftungen die richtigen finden`,
 };
 
-export default function PipelineMethodikPage() {
-  const s = computeFunnelStats();
+export default async function PipelineMethodikPage() {
+  const s = computeFunnelStats(await getAllFoundations());
 
   return (
     <>

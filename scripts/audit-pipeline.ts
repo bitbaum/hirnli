@@ -9,11 +9,12 @@
  */
 import { config } from 'dotenv'; config({ path: '.env.local' });
 import { sql } from './lib/db';
-import { STIFTUNGEN_DATA } from '../src/lib/config/foundations/index';
+import { getAllFoundations } from './lib/foundations';
 import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 
 async function main() {
+  const foundations = await getAllFoundations();
   // ── 1. Funnel counts ──────────────────────────────────────────────────────
   const [totals] = await sql`
     SELECT
@@ -156,8 +157,8 @@ async function main() {
     }
   }
 
-  // ── 5. Gesuch quality (from generated TS file) ───────────────────────────
-  const gesuchFoundations = STIFTUNGEN_DATA.filter(f => hasGesuchPage(f));
+  // ── 5. Gesuch quality ─────────────────────────────────────────────────────
+  const gesuchFoundations = foundations.filter(f => hasGesuchPage(f));
   let gesuchPerfect = 0;
   const gesuchIssues: { p: number; issues: string[] }[] = [];
   for (const f of gesuchFoundations) {

@@ -111,7 +111,7 @@ Each foundation detail page is not just research for us — it's a **presentatio
 Foundation data, themes, story components, and metrics are all in **TypeScript config files**, not hardcoded in components:
 
 ```
-lib/config/foundations.ts  → Foundation entries (SSOT — count derived at runtime via STIFTUNGEN_DATA.length)
+lib/db/foundations-repo.ts → Foundation entries (SSOT — DB read layer, cached via unstable_cache)
 lib/config/stories.ts      → Narrative building blocks (SSOT)
 lib/config/metrics.ts      → Metric metadata (SSOT)
 lib/data/financial.ts      → Financial data + FinanceDataSet class
@@ -189,11 +189,10 @@ ESA / Zefix / Research scripts
         ↓ write via scripts/foundation-upsert.ts
   PostgreSQL (self-hosted) — fundraising_foundations table — WRITE SSOT
   config_data JSONB column holds all Foundation domain fields
-        ↓ npm run sync  (prebuild, also runs before dev server)
-  src/lib/config/foundations/stiftungen-generated.ts — READ-ONLY build cache
-  (Never edit this file manually — it is always overwritten by sync)
-        ↓ import STIFTUNGEN_DATA
-  All UI pages (in-memory filtering, static generation at build time)
+        ↓ read via src/lib/db/foundations-repo.ts (getAllFoundations/getFoundationBySlug)
+  Cached with unstable_cache (tag 'foundations', 1h TTL — writes appear within the hour)
+        ↓
+  All UI pages (Server Components fetch once, pass down; client components take props)
 ```
 
 **Foundation funnel (verified 2026-05-05 — run `npm run audit` for live numbers):**
@@ -203,7 +202,7 @@ ESA / Zefix / Research scripts
 | Swiss universe | ~16,900 | Zefix commercial register | All registered Swiss foundations |
 | In DB (active) | 15,506 | `fundraising_foundations` (archived=1,117 excluded) | Active pipeline entries |
 | Rapid (LLM-triaged) | ~14,919 | (DB, excluded if data_confidence='unverified') | Zefix text + LLM triage only, always P4 |
-| Generated | 1,683 | `stiftungen-generated.ts` | data_confidence ≠ 'unverified', non-archived, Zod valid |
+| Read layer | 1,683 | `getAllFoundations()` | data_confidence ≠ 'unverified', non-archived, Zod valid |
 | P1-P3 (actionable) | 240 | (standard/deep depth only) | Researched + scored, never rapid (P1=20, P2=78, P3=142) |
 | Detail pages | varies | (tier ≥ profiliert) | Have foundation profile page |
 | Gesuch pages | varies | (tier ≥ recherchiert, P1-P3) | Can generate Gesuch documents |
@@ -218,10 +217,8 @@ config_data and was never read by the app. All foundation data lives in config_d
 **Adding a foundation to the pipeline:**
 1. Research the foundation and prepare its data
 2. Run `npx tsx scripts/foundation-upsert.ts` (or direct DB insert) with config_data
-3. Run `npm run sync` to regenerate `stiftungen-generated.ts`
-4. `npm run build` picks up the new entry — dynamic route handles rendering automatically
-
-**Never** add entries by hand-editing `stiftungen-generated.ts`. It is overwritten on every sync.
+3. Pages pick it up within the cache's 1h TTL (`src/lib/db/foundations-repo.ts`)
+   — no rebuild needed. Restart the app for immediate effect if needed sooner.
 
 ### Two Foundation Types (do not confuse)
 
@@ -230,8 +227,9 @@ config_data and was never read by the app. All foundation data lives in config_d
 | `Foundation` | `src/lib/schemas/foundation.ts` | Zod domain type, ~56 rich fields | UI, Gesuch generation, ~30 consumers |
 | `FoundationRow` | `src/lib/db/schema.ts` | Drizzle `$inferSelect`, 13 columns | API routes, DB queries, ~15 consumers |
 
-`Foundation` is derived from `FoundationRow.config_data` JSONB during `npm run sync`.
-When importing, check which layer you're in: DB API routes use `FoundationRow`; UI/domain code uses `Foundation`.
+`Foundation` is parsed from `FoundationRow.config_data` JSONB at read time
+(`foundationSchema.safeParse` in `foundations-repo.ts`). When importing, check
+which layer you're in: DB API routes use `FoundationRow`; UI/domain code uses `Foundation`.
 
 **DB columns (13 total, after SSOT cleanup 2026-04-08):**
 `id`, `name`, `fit_score`, `priority`, `research_depth`, `research_date`,
@@ -327,12 +325,11 @@ search-replace). See file headers for details.
 1. Edit `org-profile.ts` with new org identity
 2. Rewrite `stories.ts` narratives
 3. Rewrite THEMES in `metadata.ts` + ThemeId enum in `foundation.ts`
-4. Reseed foundation DB (new research, fit scores, priorities)
-5. Run `npm run sync` to regenerate config
-6. Rewrite NOT_RECOMMENDED, schwerpunkte, budget-scenarios
-7. Rewrite page content (/revamp-2030, /strategie, /team)
-8. Update branding (logo, colors if needed)
-9. `npm run build` must pass
+4. Reseed foundation DB (new research, fit scores, priorities) — pages read live, no sync step
+5. Rewrite NOT_RECOMMENDED, schwerpunkte, budget-scenarios
+6. Rewrite page content (/revamp-2030, /strategie, /team)
+7. Update branding (logo, colors if needed)
+8. `npm run build` must pass
 
 ---
 
@@ -408,7 +405,7 @@ revamp-info/
 
 ```
 Kivitendo (Accounting)  →  CSV Export       →  lib/data/financial.ts (embedded)        →  Dashboard
-Research scripts        →  DB (Postgres/Drizzle) →  npm run sync  →  stiftungen-generated.ts →  [slug] route
+Research scripts        →  DB (Postgres/Drizzle) →  lib/db/foundations-repo.ts (cached) →  [slug] route
 Impact Methodology      →  lib/config/metrics.ts                                        →  Inspectable metrics
 Narrative Content       →  lib/config/stories.ts                                        →  Foundation stories
 ```
@@ -420,7 +417,7 @@ Narrative Content       →  lib/config/stories.ts                              
 | Navigation | `components/layout/Nav.tsx` | App-wide nav via layout.tsx |
 | Footer | `components/layout/Footer.tsx` | Footer via layout.tsx |
 | Formatting | `lib/utils/format.ts` | CHF, %, number, date formatting |
-| Foundation Data | `lib/config/foundations/` | STIFTUNGEN_DATA (generated from DB via `npm run sync`) |
+| Foundation Data | `lib/db/foundations-repo.ts` | getAllFoundations()/getFoundationBySlug() — cached DB read layer |
 | Story Blocks | `lib/config/stories.ts` | WHY/HOW/WHAT/EVIDENCE narratives |
 | Number Metadata | `lib/config/metrics.ts` | Source, formula, confidence per metric |
 | Org Identity | `lib/config/org-profile.ts` | ORG_PROFILE — all programmatic org references |
@@ -456,8 +453,6 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 
 ### Remaining
 
-- Generated TS file (`stiftungen-generated.ts`) is a second copy of DB data — moving to
-  server components would eliminate the sync layer (not urgent, but architecturally cleaner)
 - 1 P3 truly unreachable (alice-ackermann: phone-only, no appUrl, no email) — also the only
   remaining APPLICATION URL gap. Run `npm run audit` for the live list.
 - 13 Gesuch documents have data-quality issues per `gesuch-audit` (run `npx tsx scripts/gesuch-audit.ts`):
@@ -679,23 +674,24 @@ npm run audit
 
 ### Adding a Foundation
 
-**DB is write SSOT. Never hand-edit `stiftungen-generated.ts`.**
+**DB is write SSOT.** Reads are live — no generated file, no sync step.
 
 1. Research the foundation; prepare config_data with all required fields
 2. Run `npx tsx scripts/foundation-upsert.ts --slug=<slug>` (or use the API: `POST /api/foundations`)
-3. Run `npm run sync` → regenerates `stiftungen-generated.ts`
-4. Run `npm run build` → `generateStaticParams()` picks up the new slug automatically
+3. The page appears within the read layer's 1h cache TTL (`src/lib/db/foundations-repo.ts`)
+   — no rebuild needed. `generateStaticParams()` pre-renders it on the next deploy; until
+   then `dynamicParams = true` serves it on-demand.
 
 **Research quality** is derived from readiness tier (computed at runtime from data completeness).
 `isResearched(f)` returns true when tier >= profiliert. Key data signals:
 purposeSummary (150+ chars), researchNotes (250+ chars), contact, themes, websiteUrl.
-Quality gate in `foundation-quality.ts` warns at build time about violations.
+Quality gate in `foundation-quality.ts` runs on each cache refresh and warns about violations.
 
 **Gesuch pages are only generated** for entries with tier >= recherchiert AND priority P1-P3
 (see `generateGesuchParams()` in `foundation-helpers.ts`).
 
 **NEVER hardcode foundation/template counts** in UI text or documentation. Always derive from
-`STIFTUNGEN_DATA.length` or equivalent. Counts go stale the moment a new foundation is added.
+`getAllFoundations()`'s result length or equivalent. Counts go stale the moment a new foundation is added.
 
 ### Schema Changes (Migrations)
 

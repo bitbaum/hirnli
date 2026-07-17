@@ -7,15 +7,14 @@
  *   esa-bulk-ingest → foundation-upsert → sync
  *
  * Usage:
- *   npx tsx scripts/pipeline-incremental.ts [--dry-run] [--limit N] [--skip-sync]
+ *   npx tsx scripts/pipeline-incremental.ts [--dry-run] [--limit N]
  *   npm run pipeline:incremental
  *
  * Steps:
  *   1. Read ESA register (source of truth for Swiss foundations)
- *   2. Read existing slugs + UIDs from DB (via stiftungen-generated.ts)
+ *   2. Read existing slugs + UIDs from the foundation DB
  *   3. Generate drafts for missing entries
  *   4. Upsert new drafts directly to DB
- *   5. Run sync to regenerate stiftungen-generated.ts
  */
 
 import { config } from 'dotenv';
@@ -24,7 +23,6 @@ config({ path: '.env.local' });
 import * as fs from 'fs';
 import * as path from 'path';
 import { sql, type SqlClient } from './lib/db';
-import { execSync } from 'child_process';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import {
   classifyThemes,
@@ -237,7 +235,6 @@ async function upsertEntry(
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const skipSync = args.includes('--skip-sync');
   const limitArg = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
 
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -253,17 +250,16 @@ async function main() {
   const register: EsaRegister = JSON.parse(fs.readFileSync(esaPath, 'utf-8'));
   console.log(`\n  ESA register: ${register.foundations.length} entries`);
 
-  // 2. Read existing slugs from stiftungen-generated.ts
-  const genPath = path.join(process.cwd(), 'src', 'lib', 'config', 'foundations', 'stiftungen-generated.ts');
-  const genContent = fs.readFileSync(genPath, 'utf-8');
-  const existingSlugs = new Set<string>();
-  for (const m of genContent.matchAll(/"slug":\s*"([^"]+)"/g)) {
-    existingSlugs.add(m[1]);
-  }
-  const existingUids = new Set<string>();
-  for (const m of genContent.matchAll(/"uid":\s*"([^"]+)"/g)) {
-    if (m[1] && m[1] !== '' && m[1] !== 'CHE-XXX.XXX.XXX') existingUids.add(m[1]);
-  }
+  // 2. Read existing slugs + UIDs from the foundation DB
+  const existingRows = await sql<{ id: string; uid: string | null }>`
+    SELECT id, config_data->>'uid' AS uid FROM fundraising_foundations
+  `;
+  const existingSlugs = new Set(existingRows.map((r) => r.id));
+  const existingUids = new Set(
+    existingRows
+      .map((r) => r.uid)
+      .filter((uid): uid is string => !!uid && uid !== 'CHE-XXX.XXX.XXX')
+  );
   console.log(`  Existing in DB: ${existingSlugs.size} slugs`);
 
   // 3. Filter to missing entries
@@ -325,16 +321,6 @@ async function main() {
     }
 
     console.log(`\n  Upserted: ${success}, Errors: ${errors}, With themes: ${withThemes}`);
-
-    // 5. Sync
-    if (!skipSync && success > 0) {
-      console.log('\n  Running sync...');
-      try {
-        execSync('npm run sync', { stdio: 'inherit', cwd: process.cwd() });
-      } catch {
-        console.error('  Sync failed. Run manually: npm run sync');
-      }
-    }
   } else {
     let withThemes = 0;
     for (const entry of toProcess) {

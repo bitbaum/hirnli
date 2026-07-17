@@ -23,7 +23,6 @@
  *
  * Next:
  *   npx tsx scripts/foundation-upsert.ts research/web-enrichment/YYYY-MM-DD/
- *   npm run sync && npm run build
  */
 
 import { config } from 'dotenv';
@@ -392,7 +391,6 @@ async function main() {
     console.log(`\nWrote ${written} enrichment drafts to: research/web-enrichment/${today}/`);
     console.log('\nNext steps:');
     console.log(`  npx tsx scripts/foundation-upsert.ts research/web-enrichment/${today}/`);
-    console.log('  npm run sync && npm run build');
   } else if (dryRun) {
     console.log('\n  DRY RUN — no files written.');
   } else {

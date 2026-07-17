@@ -146,6 +146,5 @@ async function main() {
   }
 
   console.log(`\nTotal: ${totalWritten} written, ${totalSkipped} skipped, ${totalNotFound} not found`);
-  if (!DRY_RUN && totalWritten > 0) console.log('\nRun npm run sync to regenerate stiftungen-generated.ts');
 }
 main().catch(console.error);

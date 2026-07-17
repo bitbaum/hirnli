@@ -11,7 +11,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { renderToStream } from '@react-pdf/renderer';
-import { getFoundationBySlug, hasGesuchPage } from '@/lib/domain/foundation-helpers';
+import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
+import { getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchDokumentPDF from '@/lib/pdf/gesuch-dokument';
@@ -28,7 +29,7 @@ export async function GET(
   try {
     const { slug } = await params;
 
-    const foundation = getFoundationBySlug(slug);
+    const foundation = await getFoundationBySlug(slug);
     if (!foundation) {
       return NextResponse.json(
         { success: false, error: API_ERR_FOUNDATION_NOT_FOUND },

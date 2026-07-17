@@ -1,12 +1,16 @@
 import Card from '@/components/ui/Card';
 import { READINESS_ENGINE, PRIORITY_FORMULA } from '@/lib/config/fit-scoring';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { TIER_FROM_LEVEL } from '@/lib/domain/foundation-scores';
+import type { Foundation } from '@/lib/schemas/foundation';
 
-export default function GesuchGateSection() {
-  const total = STIFTUNGEN_DATA.length;
-  const gesuchCount = STIFTUNGEN_DATA.filter(hasGesuchPage).length;
+interface Props {
+  foundations: Foundation[];
+}
+
+export default function GesuchGateSection({ foundations }: Props) {
+  const total = foundations.length;
+  const gesuchCount = foundations.filter(hasGesuchPage).length;
   const recherchiertMinScore = READINESS_ENGINE.display.thresholds.find(
     (t) => TIER_FROM_LEVEL[t.level] === 'recherchiert'
   )?.minScore;

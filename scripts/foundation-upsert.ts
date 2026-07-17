@@ -24,8 +24,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { sql } from './lib/db';
 import { ResearchDraftSchema } from './lib/research-types';
-import type { Foundation, FoundationRegistry } from '../src/lib/schemas/foundation';
+import { foundationSchema, type Foundation, type FoundationRegistry } from '../src/lib/schemas/foundation';
 import { computeFitScore } from '../src/lib/domain/fit-scoring';
+import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 
 // ============================================================================
 // RESEARCH DEPTH — Computed from data completeness
@@ -149,9 +150,10 @@ async function main() {
       applicationMethod: a.applicationMethod,
       isFunder: a.isFunder,
     });
-    // Priority is NOT computed here — it's derived by sync script via
-    // computePriorityScore() which uses fitScore + readiness + penalties.
-    // Pipeline sets P4 as default; sync corrects to the real value.
+    // Priority placeholder for the initial write — computePriorityScore() needs
+    // readiness inputs (contact, applicationUrl, etc.) that may only exist on the
+    // DB's current merged row, not in this partial draft. Corrected below, after
+    // the upsert, from the actual post-merge config_data (see readBackAndFixPriority).
     const computedPriority = 4;
 
     // --- Layer 2: Merged configData (backward compat for sync pipeline) ---
@@ -200,7 +202,26 @@ async function main() {
           updated_at = ${now}
       `;
 
-      console.log(`  ${draft.name} → DB (newFit=${fitScore}, newP=${computedPriority}, depth=${researchDepth})`);
+      // Correct priority from the real post-merge row — the placeholder above
+      // can't account for readiness inputs (contact, applicationUrl, etc.) that
+      // may only exist on the row's prior config_data, not this partial draft.
+      let finalPriority = computedPriority;
+      const [row] = await sql<{ config_data: unknown }>`
+        SELECT config_data FROM fundraising_foundations WHERE id = ${draft.slug}
+      `;
+      const merged = row && foundationSchema.safeParse(row.config_data);
+      if (merged && merged.success) {
+        finalPriority = computePriorityScore(merged.data).level;
+        if (finalPriority !== computedPriority) {
+          await sql`
+            UPDATE fundraising_foundations
+            SET config_data = jsonb_set(config_data, '{priority}', to_jsonb(${finalPriority}))
+            WHERE id = ${draft.slug}
+          `;
+        }
+      }
+
+      console.log(`  ${draft.name} → DB (newFit=${fitScore}, newP=${finalPriority}, depth=${researchDepth})`);
       success++;
     } catch (err) {
       console.error(`  ${draft.name}: ${err instanceof Error ? err.message : err}`);

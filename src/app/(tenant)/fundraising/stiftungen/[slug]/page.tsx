@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getFoundationBySlug, generateFoundationParams } from '@/lib/domain/foundation-helpers';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
+import { generateFoundationParams } from '@/lib/domain/foundation-helpers';
+import { getAllFoundations, getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { generateFitNarrative, generateThemeAlignments, generateApproachSteps, getApplicationReadiness } from '@/lib/domain/foundation-contextualization';
 import { findSimilarFoundations } from '@/lib/domain/foundation-recommendations';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
@@ -19,12 +19,12 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return generateFoundationParams();
+  return generateFoundationParams(await getAllFoundations());
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const foundation = getFoundationBySlug(slug);
+  const foundation = await getFoundationBySlug(slug);
   if (!foundation) return { title: 'Stiftung nicht gefunden' };
   return {
     title: foundation.name,
@@ -34,7 +34,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function FoundationDetailPage({ params }: Props) {
   const { slug } = await params;
-  const foundation = getFoundationBySlug(slug);
+  const [foundation, allFoundations] = await Promise.all([
+    getFoundationBySlug(slug),
+    getAllFoundations(),
+  ]);
 
   if (!foundation) {
     notFound();
@@ -45,7 +48,7 @@ export default async function FoundationDetailPage({ params }: Props) {
   const themeAlignments = generateThemeAlignments(foundation);
   const approachSteps = generateApproachSteps(foundation);
   const readiness = getApplicationReadiness(foundation);
-  const similar = findSimilarFoundations(foundation, STIFTUNGEN_DATA, 5);
+  const similar = findSimilarFoundations(foundation, allFoundations, 5);
 
   const gesuchReady = hasGesuchPage(foundation);
 

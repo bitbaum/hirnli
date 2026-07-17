@@ -16,6 +16,14 @@ import { z } from 'zod';
 import { STATUS_IDS, getStatusConfig } from '@/lib/config/application-statuses';
 import { API_ERR_NOT_FOUND, API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
+import { foundationSchema } from '@/lib/schemas/foundation';
+
+/** Parse the joined foundation row's configData into the rich Foundation shape, if valid. */
+function toFoundationDetail(row: { configData: unknown } | null) {
+  if (!row) return null;
+  const parsed = foundationSchema.safeParse(row.configData);
+  return parsed.success ? parsed.data : null;
+}
 
 // Validation schema for updates
 const updateApplicationSchema = z.object({
@@ -72,7 +80,7 @@ export async function GET(
 
     return NextResponse.json({
       success: true,
-      data: result[0],
+      data: { ...result[0], foundationDetail: toFoundationDetail(result[0].foundation) },
     });
 
   } catch (error) {
@@ -192,7 +200,7 @@ export async function PATCH(
 
     return NextResponse.json({
       success: true,
-      data: updated[0],
+      data: { ...updated[0], foundationDetail: toFoundationDetail(updated[0].foundation) },
     });
 
   } catch (error) {

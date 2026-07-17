@@ -87,7 +87,7 @@ src/
 # Local dev
 npm run dev
 
-# Build (prebuild syncs DB -> generated TS; needs DB tunnel or SKIP_SYNC=true)
+# Build (no DB access needed — foundation data is read at runtime, not build time)
 npm run build
 
 # Deploy (build locally -> rsync artifact -> restart; see docs/DEPLOYMENT.md)
@@ -96,8 +96,7 @@ npm run build
 
 ## Adding a Foundation
 
-**DB is write SSOT. Never hand-edit `stiftungen-generated.ts`.**
+**DB is write SSOT.** Reads are live via `src/lib/db/foundations-repo.ts` — no generated file.
 
 1. Run `npx tsx scripts/foundation-upsert.ts --slug=<slug>` with config_data
-2. Run `npm run sync` → regenerates `stiftungen-generated.ts`
-3. Run `npm run build` → dynamic route picks up the new slug automatically
+2. Page appears within the read layer's 1h cache TTL — no rebuild needed

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Application, FoundationRow } from '@/lib/db/schema';
+import type { Foundation } from '@/lib/schemas/foundation';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { getApplication, patchApplication, deleteApplication } from '@/lib/api/applications';
 import { NET_ERR_DELETE, API_ERR_NOT_FOUND, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
@@ -79,6 +80,7 @@ export function buildPatchPayload(fields: ApplicationFormFields) {
 export function useApplicationForm(id: string) {
   const router = useRouter();
   const [foundation, setFoundation] = useState<FoundationRow | null>(null);
+  const [foundationDetail, setFoundationDetail] = useState<Foundation | null>(null);
   const [fields, setFields] = useState<ApplicationFormFields>(EMPTY_FIELDS);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -96,8 +98,9 @@ export function useApplicationForm(id: string) {
         const result = await getApplication(id);
         if (cancelled) return;
         if (result.success) {
-          const d = result.data as { foundation: FoundationRow; application: Application };
+          const d = result.data as { foundation: FoundationRow; foundationDetail: Foundation | null; application: Application };
           setFoundation(d.foundation);
+          setFoundationDetail(d.foundationDetail);
           setFields(initFieldsFromApplication(d.application));
         } else {
           setError(result.error || API_ERR_NOT_FOUND);
@@ -123,7 +126,9 @@ export function useApplicationForm(id: string) {
     try {
       const result = await patchApplication(id, buildPatchPayload(fields));
       if (result.success) {
-        setFoundation((result.data as { foundation: FoundationRow }).foundation);
+        const d = result.data as { foundation: FoundationRow; foundationDetail: Foundation | null };
+        setFoundation(d.foundation);
+        setFoundationDetail(d.foundationDetail);
       } else {
         setSaveError(result.error || API_ERR_SAVE);
       }
@@ -154,6 +159,7 @@ export function useApplicationForm(id: string) {
 
   return {
     foundation,
+    foundationDetail,
     fields,
     updateField,
     isLoading,

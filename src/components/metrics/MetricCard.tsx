@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
 import { formatPercent } from '@/lib/utils/format';
@@ -10,9 +11,13 @@ interface MetricCardProps {
   trend?: { value: number; label?: string };
   sourceType?: 'live' | 'derived' | 'estimated' | 'none';
   onClick?: () => void;
+  /** Navigates instead of firing a handler — renders as a real link, same interactive styling as onClick */
+  href?: string;
   className?: string;
 }
 
+const INTERACTIVE_TILE =
+  'rounded-lg border border-border-default bg-surface-base shadow-panel p-4 cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2';
 
 export default function MetricCard({
   label,
@@ -21,6 +26,7 @@ export default function MetricCard({
   trend,
   sourceType,
   onClick,
+  href,
   className = '',
 }: MetricCardProps) {
   const content = (
@@ -49,10 +55,18 @@ export default function MetricCard({
     </>
   );
 
+  if (href) {
+    return (
+      <Link href={href} className={`block ${INTERACTIVE_TILE} ${className}`}>
+        {content}
+      </Link>
+    );
+  }
+
   if (onClick) {
     return (
       <div
-        className={`rounded-lg border border-border-default bg-surface-base shadow-panel p-4 cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
+        className={`${INTERACTIVE_TILE} ${className}`}
         onClick={onClick}
         tabIndex={0}
         role="button"

@@ -15,8 +15,8 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
-import { getFoundationBySlug, hasGesuchPage } from '@/lib/domain/foundation-helpers';
+import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
+import { getAllFoundations, getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import { SCHWERPUNKT_IDS, SCHWERPUNKTE, isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
@@ -30,8 +30,9 @@ interface Props {
 }
 
 /** All gesuch-eligible foundation slugs — used for token resolution */
-function gesuchSlugs(): string[] {
-  return STIFTUNGEN_DATA.filter(hasGesuchPage).map((f) => f.slug);
+async function gesuchSlugs(): Promise<string[]> {
+  const all = await getAllFoundations();
+  return all.filter(hasGesuchPage).map((f) => f.slug);
 }
 
 export async function generateStaticParams() {
@@ -41,17 +42,18 @@ export async function generateStaticParams() {
   if (!secret) return [];
 
   const { computeShareToken } = await import('@/lib/utils/share-token');
-  return gesuchSlugs()
+  const slugs = await gesuchSlugs();
+  return slugs
     .map((slug) => ({ token: computeShareToken(slug) }))
     .filter((p): p is { token: string } => p.token !== null);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { token } = await params;
-  const slug = resolveShareToken(token, gesuchSlugs());
+  const slug = resolveShareToken(token, await gesuchSlugs());
   if (!slug) return { title: 'Nicht gefunden' };
 
-  const foundation = getFoundationBySlug(slug);
+  const foundation = await getFoundationBySlug(slug);
   if (!foundation) return { title: 'Nicht gefunden' };
 
   const title = `${ORG_PROFILE.name} × ${foundation.name}`;
@@ -72,10 +74,10 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
   const { s: schwerpunktParam } = await searchParams;
 
   // Resolve token → slug (404 on invalid token)
-  const slug = resolveShareToken(token, gesuchSlugs());
+  const slug = resolveShareToken(token, await gesuchSlugs());
   if (!slug) notFound();
 
-  const foundation = getFoundationBySlug(slug);
+  const foundation = await getFoundationBySlug(slug);
   if (!foundation || !hasGesuchPage(foundation)) notFound();
 
   // If a specific schwerpunkt is requested via ?s= param, try it first

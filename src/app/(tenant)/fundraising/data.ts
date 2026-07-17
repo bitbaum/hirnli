@@ -1,17 +1,16 @@
-import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { CORE_FACTS, SOCIAL_DISPLAY } from '@/lib/config/stories';
 import { getScenario, getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SPACE_SUMMARY, HUB_SPACE_AREAS, STORAGE_AREA, LOADING_AREA } from '@/lib/config/hub-space-plan';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
-import type { FoundationStatus } from '@/lib/schemas/foundation';
+import type { Foundation, FoundationStatus } from '@/lib/schemas/foundation';
 import { MS_PER_DAY } from '@/lib/utils/time';
 import { formatCHF } from '@/lib/utils/format';
 
-// -- Derived data from STIFTUNGEN_DATA ----------------------------------------
+// -- Derived data from foundation data ----------------------------------------
 
-export function computePipelineStats() {
+export function computePipelineStats(foundations: Foundation[]) {
   const statusCounts: Record<FoundationStatus, number> = {
     open: 0,
     closed: 0,
@@ -25,7 +24,7 @@ export function computePipelineStats() {
   const now = new Date();
   const threeMonths = new Date(now.getTime() + 90 * MS_PER_DAY);
 
-  for (const f of STIFTUNGEN_DATA) {
+  for (const f of foundations) {
     statusCounts[f.status]++;
 
     // Exclude fitScore=0 (unassessed) from average
@@ -43,10 +42,10 @@ export function computePipelineStats() {
   }
 
   const avgFit = fitCount > 0 ? totalFit / fitCount : 0;
-  const highFitCount = STIFTUNGEN_DATA.filter((f) => fitScoreToDisplay(f.fitScore, false) === 3).length;
+  const highFitCount = foundations.filter((f) => fitScoreToDisplay(f.fitScore, false) === 3).length;
 
   return {
-    total: STIFTUNGEN_DATA.length,
+    total: foundations.length,
     statusCounts,
     avgFit,
     highFitCount,
@@ -92,14 +91,17 @@ export const QUICK_ACTIONS = [
   { href: '/fundraising/dashboard', label: 'Dashboard' },
 ] as const;
 
-export const RESOURCES = [
-  { href: '/api/documents/pitch-deck', label: 'Pitch Deck (PDF)', description: '8-Folien-Präsentation für Stiftungen', external: true },
-  { href: '/api/documents/impact-report', label: 'Wirkungsbericht (PDF)', description: 'Jährlicher Impact-Report, 2 Seiten', external: true },
-  { href: '/wirkung', label: 'Impact-Zahlen', description: 'Interaktive Wirkungsseite mit Quellen', external: false },
-  { href: '/fundraising/stiftungen', label: 'Stiftungen', description: `${STIFTUNGEN_DATA.length} Förderer mit Fit-Score`, external: false },
-  { href: '/finanzen', label: 'Finanzdaten', description: 'Kivitendo-Daten visualisiert', external: false },
-  { href: '/dokumente', label: 'Alle Dokumente', description: 'Gesuche, Vorlagen, Exporte', external: false },
-] as const;
+/** Built at render time — foundation count comes from the DB read layer, not a module-scope import. */
+export function buildResources(foundationCount: number) {
+  return [
+    { href: '/api/documents/pitch-deck', label: 'Pitch Deck (PDF)', description: '8-Folien-Präsentation für Stiftungen', external: true },
+    { href: '/api/documents/impact-report', label: 'Wirkungsbericht (PDF)', description: 'Jährlicher Impact-Report, 2 Seiten', external: true },
+    { href: '/wirkung', label: 'Impact-Zahlen', description: 'Interaktive Wirkungsseite mit Quellen', external: false },
+    { href: '/fundraising/stiftungen', label: 'Stiftungen', description: `${foundationCount} Förderer mit Fit-Score`, external: false },
+    { href: '/finanzen', label: 'Finanzdaten', description: 'Kivitendo-Daten visualisiert', external: false },
+    { href: '/dokumente', label: 'Alle Dokumente', description: 'Gesuche, Vorlagen, Exporte', external: false },
+  ] as const;
+}
 
 // -- HERO_STATS — derived from CORE_FACTS (SSOT) -----------------------------
 
