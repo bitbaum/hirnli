@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import type { AnnualPLEntry } from '@/app/finanzen/data';
+import type { AnnualPLEntry } from '@/app/(tenant)/finanzen/data';
 import { FINANCIAL_YEAR_LABEL } from '@/lib/config/financial-constants';
 import { formatCHF } from '@/lib/utils/format';
 import { CHART_COLORS } from '@/lib/config/chart-colors';

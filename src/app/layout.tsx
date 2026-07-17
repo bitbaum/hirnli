@@ -2,9 +2,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
-import Nav from '@/components/layout/Nav';
-import { LocaleNotice } from '@/components/layout/LocaleNotice';
-import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import { BRANDING } from '@/lib/config/branding';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -54,12 +51,7 @@ export default async function RootLayout({
         <NextIntlClientProvider>
         <ThemeProvider>
           <a href="#main-content" className="skip-link">{t('skipLink')}</a>
-          <Nav />
-          <LocaleNotice />
-          <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
-            {children}
-          </main>
-          <Footer />
+          {children}
         </ThemeProvider>
         </NextIntlClientProvider>
       </body>

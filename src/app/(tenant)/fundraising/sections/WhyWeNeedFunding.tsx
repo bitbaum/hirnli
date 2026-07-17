@@ -1,6 +1,6 @@
 import Card from '@/components/ui/Card';
 import Callout from '@/components/ui/Callout';
-import { TEAM_MEMBERS } from '@/app/team/data';
+import { TEAM_MEMBERS } from '@/app/(tenant)/team/data';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatCHF } from '@/lib/utils/format';
 import {

@@ -11,7 +11,7 @@ import {
   DEVICES_PER_MONTH_TARGET,
   DEVICES_PER_YEAR_CURRENT_DISPLAY,
 } from '@/lib/config/projections';
-import { CUMULATIVE_WARENVERKAUF } from '@/app/finanzen/data';
+import { CUMULATIVE_WARENVERKAUF } from '@/app/(tenant)/finanzen/data';
 
 export default function FourPillarsSection() {
   return (

@@ -1,5 +1,5 @@
 import Card from '@/components/ui/Card';
-import { TEAM_MEMBERS } from '@/app/team/data';
+import { TEAM_MEMBERS } from '@/app/(tenant)/team/data';
 import { PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
 
 export default function BottleneckSection() {

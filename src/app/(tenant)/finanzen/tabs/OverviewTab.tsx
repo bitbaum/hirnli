@@ -16,7 +16,7 @@ import {
   DATA_QUALITY,
 } from '../data';
 import { InsightCard, ProfitLossTable, CostStructureCard, DataQualityBanner } from '../components';
-import type { InspectorHandle } from '@/app/fundraising/sections/Inspectable';
+import type { InspectorHandle } from '@/app/(tenant)/fundraising/sections/Inspectable';
 
 const AnnualTrendChart = dynamic(() => import('@/components/charts/AnnualTrendChart'), {
   ssr: false,

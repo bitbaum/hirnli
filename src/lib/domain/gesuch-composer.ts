@@ -42,7 +42,7 @@ import {
   EIGEN_3Y_TOTAL,
   PROJECT_3Y_TOTAL,
   PROJECT_DURATION_LABEL,
-} from '@/app/fundraising/data';
+} from '@/app/(tenant)/fundraising/data';
 
 // Extracted domain modules
 import { buildFoundationBridge, buildSecondaryRelevance } from './bridge-composer';

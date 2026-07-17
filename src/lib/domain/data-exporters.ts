@@ -8,7 +8,7 @@
 import { loadFinancialData } from '@/lib/data/financial';
 import { FINANCIAL_YEAR_START, FINANCIAL_YEAR_END } from '@/lib/config/financial-constants';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
-import { REVENUE_HISTORY } from '@/app/fundraising/data';
+import { REVENUE_HISTORY } from '@/app/(tenant)/fundraising/data';
 import { arrayToCSV } from '@/lib/utils/csv';
 
 // ---------------------------------------------------------------------------

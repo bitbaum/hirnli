@@ -16,7 +16,7 @@ import {
   YearComparison,
   MonthlyBreakdownTable,
 } from '../components';
-import type { InspectorHandle } from '@/app/fundraising/sections/Inspectable';
+import type { InspectorHandle } from '@/app/(tenant)/fundraising/sections/Inspectable';
 import type { useFinancialData } from '@/hooks/useFinancialData';
 
 const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {

@@ -1,6 +1,6 @@
 import Card from '@/components/ui/Card';
 import HubCardFooter from './HubCardFooter';
-import { TEAM_MEMBERS } from '@/app/team/data';
+import { TEAM_MEMBERS } from '@/app/(tenant)/team/data';
 import { OFFICE_AREA, STORAGE_AREA, LOADING_AREA } from '@/lib/config/hub-space-plan';
 import { formatCHF } from '@/lib/utils/format';
 

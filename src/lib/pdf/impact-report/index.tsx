@@ -20,7 +20,7 @@ import {
   LAPTOPS_REFURBISHED_COUNT,
 } from '@/lib/config/numbers';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
-import { COMPLETE_YEARS, CURRENT_YEAR_DATA, PEAK_REVENUE, PEAK_YEAR } from '@/app/finanzen/data';
+import { COMPLETE_YEARS, CURRENT_YEAR_DATA, PEAK_REVENUE, PEAK_YEAR } from '@/app/(tenant)/finanzen/data';
 import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
 import { STIFTUNGEN_DATA } from '@/lib/config/foundations';
 import { isActionablePriority } from '@/lib/domain/foundation-helpers';

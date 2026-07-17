@@ -12,7 +12,7 @@
 
 import { NUMBERS_REGISTRY, getNumericValue } from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { REVENUE_HISTORY } from '@/app/fundraising/data';
+import { REVENUE_HISTORY } from '@/app/(tenant)/fundraising/data';
 import { HUB_SPACE_AREAS } from '@/lib/config/hub-space-plan';
 import { formatCHF } from '@/lib/utils/format';
 
