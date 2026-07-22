@@ -187,7 +187,7 @@ export default function WirkungClient() {
           />
         </MetricGrid>
         <p className="mt-4 text-sm text-text-muted">
-          Plattform: <a href="https://revampit.vercel.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">revampit.vercel.app</a> — Next.js, TypeScript, PostgreSQL, Open Source
+          Plattform: <a href="https://revampit.orangecat.ch" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">revampit.orangecat.ch</a> — Next.js, TypeScript, PostgreSQL, Open Source
         </p>
       </Card>
 

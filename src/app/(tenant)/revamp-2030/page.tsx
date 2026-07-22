@@ -78,7 +78,7 @@ export default function Revamp2030Page() {
             <div className="flex-1">
               <p className="text-sm text-text-secondary mb-4">
                 Revamp-IT ist nicht nur eine Werkstatt — <strong>wir entwickeln eigene Software</strong>.
-                Unsere Community-Plattform (<a href="https://revampit.vercel.app" target="_blank" rel="noopener noreferrer" className="text-pillar-digital hover:text-pillar-digital underline">revampit.vercel.app</a>)
+                Unsere Community-Plattform (<a href="https://revampit.orangecat.ch" target="_blank" rel="noopener noreferrer" className="text-pillar-digital hover:text-pillar-digital underline">revampit.orangecat.ch</a>)
                 ist eine produktionsreife Full-Stack-Anwendung mit {formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, {formatNumber(getNumericValue('PLATFORM_COMPONENTS'))} Komponenten und
                 {' '}{formatNumber(getNumericValue('PLATFORM_PAGES'))} Seiten — eigenentwickelt, Open Source.
               </p>

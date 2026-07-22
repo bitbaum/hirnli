@@ -221,7 +221,7 @@ const EVIDENCE: Record<string, Record<string, Evidence>> = {
       title: 'Revamp-IT Community Platform (Open Source)',
       year: 2026,
       claim: `Produktionsreife Full-Stack-Plattform mit ${formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien, eigenentwickelt als Open Source`,
-      url: 'https://revampit.vercel.app',
+      url: 'https://revampit.orangecat.ch',
     },
   },
 };

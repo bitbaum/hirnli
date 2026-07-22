@@ -599,7 +599,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     category: 'operations',
   },
 
-  // Community Platform (revampit.vercel.app)
+  // Community Platform (revampit.orangecat.ch)
   PLATFORM_CODEBASE_FILES: {
     value: 1302,
     label: 'TypeScript-Dateien in der Community-Plattform',
