@@ -1,34 +1,21 @@
-Copyright (c) 2024-2026 Revamp-IT and contributors.
-All rights reserved.
+MIT License
 
-This software, including all source code, documentation, configuration files,
-data schemas, design tokens, pipeline scripts, generated documents, and
-associated assets in this repository (the "Software"), is the proprietary
-and confidential property of Revamp-IT.
+Copyright (c) 2026 Mao Nakamoto
 
-The Software is licensed only to authorised contributors under written
-agreement with Revamp-IT. Without such an agreement, no part of the
-Software may be:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-  - copied, reproduced, or transmitted in any form;
-  - reverse-engineered, decompiled, or disassembled;
-  - used to develop a competing product or service;
-  - distributed, sublicensed, sold, leased, or rented;
-  - modified, adapted, or used to create derivative works;
-  - hosted, deployed, or made available to third parties.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-The Software is provided "AS IS", without warranty of any kind, express
-or implied, including but not limited to the warranties of merchantability,
-fitness for a particular purpose, and noninfringement. In no event shall
-Revamp-IT or the copyright holders be liable for any claim, damages, or
-other liability, whether in an action of contract, tort, or otherwise,
-arising from, out of, or in connection with the Software or the use or
-other dealings in the Software.
-
-For licensing inquiries, contact: info@revampit.ch
-
----
-
-Third-party dependencies are licensed under their respective licenses;
-see `node_modules/<package>/LICENSE` for details. The proprietary scope
-above applies only to first-party code authored within this repository.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

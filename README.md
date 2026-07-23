@@ -1,14 +1,14 @@
-# Revamp-Info — Fundraising Intelligence Platform
+# Hirnli — Fundraising Intelligence Platform
 
-> Turn 16,900 Swiss foundations into 240 actionable applications, then generate
-> a tailored Gesuch for each one in seconds.
+> Turn thousands of Swiss foundations into a focused, actionable pipeline, then
+> generate a tailored Gesuch for each one in seconds.
 
-Internal SaaS used by [Revamp-IT](https://revampit.ch) to find the right foundation
-funders, build per-foundation fit narratives, and ship professional German-language
-applications (Gesuche) that stand out from the templated norm. The platform is
-designed to be multi-tenant from day one — Revamp-IT is just the first tenant.
+Hirnli helps mission-driven organizations find the right foundation funders, build
+per-foundation fit narratives, and ship professional German-language applications
+(Gesuche) that stand out from the templated norm. Multi-tenant by design — each
+organization runs its own branded instance.
 
-[Live](https://revamp-info.orangecat.ch) · [Architecture & Conventions](./CLAUDE.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
+[Architecture & Conventions](./CLAUDE.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
 
 ---
 
