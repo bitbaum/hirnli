@@ -679,8 +679,9 @@ npm run audit
 1. Research the foundation; prepare config_data with all required fields
 2. Run `npx tsx scripts/foundation-upsert.ts --slug=<slug>` (or use the API: `POST /api/foundations`)
 3. The page appears within the read layer's 1h cache TTL (`src/lib/db/foundations-repo.ts`)
-   — no rebuild needed. `generateStaticParams()` pre-renders it on the next deploy; until
-   then `dynamicParams = true` serves it on-demand.
+   — no rebuild needed. Foundation pages are `force-dynamic` (rendered per request): the
+   root layout reads the locale cookie (next-intl), so no route can be statically
+   prerendered — an SSG attempt 500s at request time with DYNAMIC_SERVER_USAGE.
 
 **Research quality** is derived from readiness tier (computed at runtime from data completeness).
 `isResearched(f)` returns true when tier >= profiliert. Key data signals:
@@ -688,7 +689,7 @@ purposeSummary (150+ chars), researchNotes (250+ chars), contact, themes, websit
 Quality gate in `foundation-quality.ts` runs on each cache refresh and warns about violations.
 
 **Gesuch pages are only generated** for entries with tier >= recherchiert AND priority P1-P3
-(see `generateGesuchParams()` in `foundation-helpers.ts`).
+(see `hasGesuchPage()` in `foundation-helpers.ts`).
 
 **NEVER hardcode foundation/template counts** in UI text or documentation. Always derive from
 `getAllFoundations()`'s result length or equivalent. Counts go stale the moment a new foundation is added.

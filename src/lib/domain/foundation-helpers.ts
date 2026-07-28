@@ -133,22 +133,9 @@ export function getFitLevel(f: Foundation): 0 | 1 | 2 | 3 {
   return fitScoreToDisplay(f.fitScore, isGated);
 }
 
-// -- Static param generation ---------------------------------------------------
-
-/**
- * Generate static params for foundation detail pages.
- * Pre-generates profiliert+ tiers.
- * Lower tiers (verzeichnet, erfasst) are rendered dynamically (dynamicParams = true).
- */
-export function generateFoundationParams(foundations: Foundation[]): { slug: string }[] {
-  return foundations
-    .filter((f) => tierAtLeast(getQualityTier(f), 'profiliert'))
-    .map((f) => ({ slug: f.slug }));
-}
-
 /**
  * Check if a foundation qualifies for a gesuch page.
- * SSOT for the gesuch gate — used by both generateGesuchParams() and FoundationSidebar.
+ * SSOT for the gesuch gate — used by the gesuch route and FoundationSidebar.
  * Requires tier >= recherchiert AND computed priority P1-P3 AND at least one theme.
  * P3 ("watch for timing") still gets a Gesuch for when the timing is right.
  * P4 ("maintain relationship") does not.
@@ -161,13 +148,6 @@ export function hasGesuchPage(f: Foundation): boolean {
   // No themes = composeGesuch returns ready=false; skip Gesuch generation
   if (!f.themes || f.themes.length === 0) return false;
   return true;
-}
-
-/** Generate static params for gesuch-ready foundations only */
-export function generateGesuchParams(foundations: Foundation[]): { slug: string }[] {
-  return foundations
-    .filter(hasGesuchPage)
-    .map((f) => ({ slug: f.slug }));
 }
 
 /**

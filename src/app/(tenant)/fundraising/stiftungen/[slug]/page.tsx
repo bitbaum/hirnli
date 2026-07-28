@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { generateFoundationParams } from '@/lib/domain/foundation-helpers';
 import { getAllFoundations, getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { generateFitNarrative, generateThemeAlignments, generateApproachSteps, getApplicationReadiness } from '@/lib/domain/foundation-contextualization';
 import { findSimilarFoundations } from '@/lib/domain/foundation-recommendations';
@@ -11,15 +10,13 @@ import FoundationSidebar from '@/components/foundation/FoundationSidebar';
 import SimilarFoundations from '@/components/foundation/SimilarFoundations';
 import FoundationDetailTabs from './FoundationDetailTabs';
 
-// Allow directory-tier foundations to be rendered dynamically (not pre-generated)
-export const dynamicParams = true;
+// Must be dynamic: the root layout reads the locale cookie (next-intl), so no
+// route can be statically prerendered — an SSG attempt here 500s at request
+// time with DYNAMIC_SERVER_USAGE. Per-request cost is one cached DB read.
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  return generateFoundationParams(await getAllFoundations());
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
