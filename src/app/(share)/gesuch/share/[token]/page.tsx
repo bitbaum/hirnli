@@ -35,18 +35,10 @@ async function gesuchSlugs(): Promise<string[]> {
   return all.filter(hasGesuchPage).map((f) => f.slug);
 }
 
-export async function generateStaticParams() {
-  // Only generate share pages for foundations that also have gesuch pages.
-  // SHARE_SECRET may not be set at build time — handle gracefully.
-  const secret = process.env.SHARE_SECRET;
-  if (!secret) return [];
-
-  const { computeShareToken } = await import('@/lib/utils/share-token');
-  const slugs = await gesuchSlugs();
-  return slugs
-    .map((slug) => ({ token: computeShareToken(slug) }))
-    .filter((p): p is { token: string } => p.token !== null);
-}
+// Must be dynamic: the root layout reads the locale cookie (next-intl) and
+// this page reads searchParams, so it can't be statically prerendered — an
+// SSG attempt 500s at request time with DYNAMIC_SERVER_USAGE.
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { token } = await params;

@@ -38,24 +38,21 @@ import { validateFoundationQuality } from '@/lib/domain/foundation-quality';
 export const FOUNDATIONS_CACHE_TAG = 'foundations';
 
 async function fetchAllFoundations(): Promise<Foundation[]> {
-  let rows: { configData: unknown }[];
-  try {
-    rows = await db
-      .select({ configData: foundations.configData })
-      .from(foundations)
-      .where(
-        and(
-          eq(foundations.archived, false),
-          or(isNull(foundations.dataConfidence), ne(foundations.dataConfidence, 'unverified'))
-        )
-      );
-  } catch (err) {
-    console.error(
-      '[foundations-repo] DB unreachable — is the SSH tunnel open? See docs/DEPLOYMENT.md',
-      err
+  // No try/catch here: a DB failure must THROW so unstable_cache never stores
+  // the failure. A caught-and-returned [] is a tiny value that — unlike the
+  // >2MB real dataset — fits the disk cache and gets served for the full 1h
+  // TTL. Observed: a DATABASE_URL-less build cached [] into .next/cache and
+  // `next start` then rendered every page empty. The graceful fallback lives
+  // in getAllFoundations(), OUTSIDE the cache wrapper.
+  const rows: { configData: unknown }[] = await db
+    .select({ configData: foundations.configData })
+    .from(foundations)
+    .where(
+      and(
+        eq(foundations.archived, false),
+        or(isNull(foundations.dataConfidence), ne(foundations.dataConfidence, 'unverified'))
+      )
     );
-    return [];
-  }
 
   const valid: Foundation[] = [];
   for (const row of rows) {
@@ -89,7 +86,15 @@ const cachedFetchAllFoundations = unstable_cache(fetchAllFoundations, ['foundati
 
 /** All active, sufficiently-confident foundations. Cached; use for bulk aggregation/filtering. */
 export async function getAllFoundations(): Promise<Foundation[]> {
-  return cachedFetchAllFoundations();
+  try {
+    return await cachedFetchAllFoundations();
+  } catch (err) {
+    console.error(
+      '[foundations-repo] DB unreachable — is the SSH tunnel open? See docs/DEPLOYMENT.md',
+      err
+    );
+    return [];
+  }
 }
 
 /** Look up a single foundation by its URL slug. */

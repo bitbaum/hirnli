@@ -2,8 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
-import { generateGesuchParams } from '@/lib/domain/foundation-helpers';
-import { getAllFoundations, getFoundationBySlug } from '@/lib/db/foundations-repo';
+import { getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuch, composeAnschreibenText } from '@/lib/domain/gesuch-composer';
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
 import { computeShareToken } from '@/lib/utils/share-token';
@@ -12,15 +11,13 @@ import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import GesuchPageClient from './GesuchPageClient';
 
-// Allow foundations promoted to P1-P3 between deploys to render on-demand
-export const dynamicParams = true;
+// Must be dynamic: the root layout reads the locale cookie (next-intl), so no
+// route can be statically prerendered — an SSG attempt here 500s at request
+// time with DYNAMIC_SERVER_USAGE. Per-request cost is one cached DB read.
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  return generateGesuchParams(await getAllFoundations());  // Only priority 1-3 foundations
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
