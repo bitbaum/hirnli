@@ -1,0 +1,54 @@
+# Auto-merge — nobody is in the merge loop.
+#
+# Green, ready PRs merge themselves and deploy themselves. The owner does not
+# review PRs, and background-job agent sessions are barred from merging by hand,
+# so the policy lives in scripts/ci/auto-merge-sweep.sh (read it — it defines
+# exactly what "ready" means and how a PR is held back).
+#
+# Two triggers, deliberately:
+#   workflow_run — merges within seconds of CI going green (the common path).
+#   schedule     — a safety net. Catches PRs whose checks finished while this
+#                  workflow was failing/disabled, and PRs whose last check was
+#                  an external status that reported after CI. Without it, a PR
+#                  that went green "off-cycle" waits forever.
+#
+# To stop all of this: delete this file, or add a `hold` label to a PR.
+
+name: Auto-merge
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types: [completed]
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write # merge the PR
+  pull-requests: write # read PR state, delete the branch
+  actions: write # dispatch the re-arm workflows
+
+# Never let two sweeps merge concurrently — they would race on the same PRs.
+concurrency:
+  group: auto-merge
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Merge every green, ready PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
+          CI_WORKFLOW: ci.yml
+          # Everything that runs on push and therefore would NOT fire after a
+          # merge made with the default GITHUB_TOKEN. Keep this in sync when a
+          # push-triggered workflow is added.
+          REARM_WORKFLOWS: ci.yml deploy.yml
+        run: bash scripts/ci/auto-merge-sweep.sh
