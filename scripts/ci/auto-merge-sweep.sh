@@ -20,8 +20,8 @@
 # a red or pending PR simply waits, and a draft waits forever. To hold a ready
 # PR back, mark it a draft or add one of the hold labels below.
 #
-# ONE PR PER SWEEP, AND ONLY ONTO A GREEN BASE
-# --------------------------------------------
+# ONE PR PER SWEEP, OLDEST FIRST, AND ONLY ONTO A GREEN BASE
+# ----------------------------------------------------------
 # A PR's checks prove *that PR against the base it branched from* — not against
 # the other PRs sitting next to it. Merging a batch in one pass would put a
 # combination onto the base that nothing ever built. So this script merges at
@@ -98,7 +98,16 @@ fi
 
 merged_any=0
 
-for number in $(printf '%s' "$prs_json" | jq -r '.[].number'); do
+# OLDEST FIRST. `gh pr list` returns newest-first, and this loop merges the
+# first eligible PR and stops — so the newest green PR wins every sweep and an
+# older one can wait indefinitely. Observed in maonakamoto/fleetcrown on
+# 2026-08-06: two consecutive sweeps merged the two newest PRs while three
+# older green ones were never even evaluated. With several agent sessions
+# opening PRs continuously, "newest wins" is starvation, and it starves the PR
+# whose checks were proven against the most now-stale base.
+#
+# PR numbers increase monotonically with creation, so sorting ascending is FIFO.
+for number in $(printf '%s' "$prs_json" | jq -r 'sort_by(.number) | .[].number'); do
   pr=$(printf '%s' "$prs_json" | jq -c --argjson n "$number" '.[] | select(.number == $n)')
   title=$(printf '%s' "$pr" | jq -r '.title')
 
