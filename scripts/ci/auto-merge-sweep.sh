@@ -66,6 +66,12 @@ base_sha=$(gh api "repos/${REPO}/commits/${BASE_BRANCH}" --jq '.sha')
 base_ci=$(gh run list --repo "$REPO" --workflow "$CI_WORKFLOW" --branch "$BASE_BRANCH" --limit 1 \
   --json databaseId,status,conclusion,headSha --jq '.[0] // empty')
 
+# Declared before the branch that can skip it: `set -u` is on and the merge
+# site below always reads it. A base branch with no CI history takes the
+# "proceeding" path, and an assignment living only in the else-branch made
+# the entire sweep die with "base_red_jobs: unbound variable".
+base_red_jobs=""
+
 if [ -z "$base_ci" ]; then
   echo "[auto-merge] no CI history for ${BASE_BRANCH} — proceeding"
 else
@@ -96,7 +102,6 @@ else
   # post-merge base is better than the pre-merge base. Still refused: a PR that
   # does not cover the failing jobs, one that covers only some of them, and a
   # base failure whose jobs cannot be identified at all.
-  base_red_jobs=""
   if [ "$base_conclusion" != "success" ]; then
     base_run_id=$(printf '%s' "${base_ci}" | jq -r '.databaseId')
     base_red_jobs=$(gh run view "${base_run_id}" --repo "$REPO" --json jobs \
