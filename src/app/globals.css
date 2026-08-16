@@ -24,8 +24,17 @@
   --color-grey-light:  var(--grey-light);
 
   /* ─── Semantic UI Colors ─── */
-  /* Brand accent — primary interactive blue */
-  --color-primary: #3498DB;
+  /* Brand accent — primary interactive blue.
+     Deliberately DARKER than --color-revamp-blue. The brand primitive stays
+     #3498DB, but as INTERACTIVE text it is 3.15:1 on white and 2.97:1 on the
+     tinted card surface — below the 4.5 AA floor — and as a button fill it is
+     3.15:1 under white, so it failed in both directions at once. It coloured
+     every link on the site: the four hub cards, the three strategy cards, the
+     skip-link, the footer's revamp-it.ch.
+     #2471A3 is the same blue three steps down: 5.30:1 on white, 4.98:1 on the
+     tinted surface, 5.30:1 under white text. The primitive above is untouched
+     because the brand did not change — only the role that has to be readable. */
+  --color-primary: #2471A3;
   --color-primary-light: #5DADE2;
   --color-secondary: #2ECC71;
   --color-accent: #E67E22;
