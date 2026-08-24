@@ -46,3 +46,6 @@ theme-audit-report.json
 
 # Claude Code runtime files
 .claude/scheduled_tasks.lock
+
+# Per-session agent worktrees — scratch, never part of the repo.
+.claude/worktrees/
