@@ -29,7 +29,10 @@ import {
 import { apiError } from '@/lib/api/route-helpers';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const GROQ_MODEL = 'llama-3.3-70b-versatile';
+// Retired with the rest of Groq's llama-3.x family — this route answered 404
+// with a valid key, which surfaces to the user as "AI unavailable". Verified
+// live 2026-08-27; checked daily by dotfiles' model-pin audit.
+const GROQ_MODEL = 'openai/gpt-oss-120b';
 
 /** Build system prompt from ORG_PROFILE config (no hardcoded metrics) */
 function buildSystemPrompt(): string {

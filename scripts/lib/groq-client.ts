@@ -6,20 +6,53 @@
  *
  * Configuration:
  *   GROQ_API_KEY in .env.local (loaded by caller via dotenv)
- *   Model: llama-3.3-70b-versatile (fast, cheap, good for batch work)
+ *   Model: see GROQ_MODELS below — never spell an id out at a call site
  */
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const GROQ_MODEL = 'llama-3.3-70b-versatile';
+// Groq retired the entire llama-3.x family, so the previous default
+// `llama-3.3-70b-versatile` returned 404 on every call with a valid key.
+// Verified present in the live catalogue on 2026-08-27, and now checked daily
+// by dotfiles/scripts/ci/model-pin-audit.mjs.
+const GROQ_MODEL = 'openai/gpt-oss-120b';
 const DEFAULT_TIMEOUT_MS = 60_000;
 const DEFAULT_MAX_TOKENS = 2048;
 const DEFAULT_TEMPERATURE = 0.3;
 
-/** Available models with different rate limits */
+/**
+ * Model ALIASES — a size role, resolved to a live id by `resolveModel` below.
+ *
+ * Both previous ids were retired together when Groq withdrew the llama-3.x
+ * family, so every alias here pointed at a 404.
+ *
+ * The old keys `70b` and `8b` are kept because they are a CLI contract:
+ * `pipeline-graduate.ts --model=8b` is typed by a human, and silently changing
+ * what that accepts is a worse failure than an inaccurate key name. They now
+ * describe a ROLE (bigger / faster) rather than a parameter count.
+ */
 export const GROQ_MODELS = {
-  '70b': 'llama-3.3-70b-versatile',     // 12k TPM, best quality
-  '8b': 'llama-3.1-8b-instant',          // 20k TPM, faster, good for triage
+  large: 'openai/gpt-oss-120b',
+  small: 'openai/gpt-oss-20b',
+  /** @deprecated size-named aliases, kept so existing --model= flags keep working */
+  '70b': 'openai/gpt-oss-120b',
+  '8b': 'openai/gpt-oss-20b',
 } as const;
+
+/**
+ * Turn whatever a caller passed into an id the vendor will accept.
+ *
+ * This exists because an alias was being sent to Groq verbatim.
+ * `website-verifier.ts` calls `callGroqJSON(..., { model: '8b' })`, and `model`
+ * went straight into the request body — so every verification request asked
+ * Groq for a model literally named "8b" and was refused. The alias table above
+ * had existed the whole time; nothing consulted it.
+ *
+ * An unrecognised value is passed through untouched, so naming a real id
+ * directly still works.
+ */
+export function resolveModel(model: string): string {
+  return (GROQ_MODELS as Record<string, string>)[model] ?? model;
+}
 
 export interface GroqMessage {
   role: 'system' | 'user' | 'assistant';
@@ -32,7 +65,7 @@ export interface GroqOptions {
   timeoutMs?: number;
   /** If true, attempt to parse response as JSON */
   json?: boolean;
-  /** Override model (default: llama-3.3-70b-versatile) */
+  /** Override model: an id, or an alias from GROQ_MODELS ('large' / 'small') */
   model?: string;
 }
 
@@ -70,7 +103,9 @@ export async function callGroq(
 
   try {
     const body: Record<string, unknown> = {
-      model,
+      // Resolved, not passed through: a caller naming a size alias must not
+      // have that alias sent to the vendor as if it were a model id.
+      model: resolveModel(model),
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
