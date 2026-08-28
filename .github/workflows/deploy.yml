@@ -1,7 +1,7 @@
 name: Deploy
 
 # Push to main → deploy revamp-info.orangecat.ch to bitbaum. All the logic lives
-# in one place: catomean/fleetcrown/.github/workflows/selfhost-deploy.yml
+# in one place: bitbaum/fleetcrown/.github/workflows/selfhost-deploy.yml
 # (docs: docs/infrastructure/self-host-cd.md there). It waits for this commit's
 # own CI to go green before anything reaches the box.
 #
@@ -15,7 +15,7 @@ on:
 
 jobs:
   deploy:
-    uses: catomean/fleetcrown/.github/workflows/selfhost-deploy.yml@main
+    uses: bitbaum/fleetcrown/.github/workflows/selfhost-deploy.yml@main
     with:
       app: revamp-info
     secrets: inherit
