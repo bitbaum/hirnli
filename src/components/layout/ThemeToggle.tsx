@@ -12,8 +12,8 @@ export function ThemeToggle() {
   // SSR-safe hydration gate: render a placeholder until the client mounts so the icon
   // doesn't flip on first paint based on a guessed theme. The setState-in-effect lint
   // rule is overly aggressive here — this is the documented Next.js + next-themes idiom.
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
