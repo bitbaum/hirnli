@@ -24,7 +24,15 @@ interface ThemeDefinition {
 const THEME_DEFINITIONS: ThemeDefinition[] = [
   {
     id: 'klima',
-    keywords: ['klima', 'klimaschutz', 'co2', 'emission', 'treibhausgas', 'nachhaltigkeit', 'energie'],
+    keywords: [
+      'klima',
+      'klimaschutz',
+      'co2',
+      'emission',
+      'treibhausgas',
+      'nachhaltigkeit',
+      'energie',
+    ],
     excludeKeywords: [],
   },
   {
@@ -35,12 +43,30 @@ const THEME_DEFINITIONS: ThemeDefinition[] = [
   {
     id: 'soziale-integration',
     // partizipation = direct synonym for Teilhabe in German social-integration contexts
-    keywords: ['integration', 'sozial', 'benachteiligt', 'inklusion', 'gemeinschaft', 'teilhabe', 'zusammenleben', 'partizipation'],
+    keywords: [
+      'integration',
+      'sozial',
+      'benachteiligt',
+      'inklusion',
+      'gemeinschaft',
+      'teilhabe',
+      'zusammenleben',
+      'partizipation',
+    ],
     excludeKeywords: [],
   },
   {
     id: 'digitale-bildung',
-    keywords: ['digital', 'bildung', 'schul', 'ausbildung', 'lern', 'pädagog', 'unterricht', 'medien'],
+    keywords: [
+      'digital',
+      'bildung',
+      'schul',
+      'ausbildung',
+      'lern',
+      'pädagog',
+      'unterricht',
+      'medien',
+    ],
     excludeKeywords: ['medizinstudium', 'medizinische ausbildung'], // avoid medical school false positives; 'medizin' alone is too broad (fires on velux "medizinische Gebiete" which correctly has digitale-bildung)
   },
   {
@@ -57,7 +83,16 @@ const THEME_DEFINITIONS: ThemeDefinition[] = [
   },
   {
     id: 'arbeitsintegration',
-    keywords: ['arbeit', 'beschäftig', 'arbeitslos', 'beruf', 'job', 'arbeitsvermittl', 'arbeitseinglieder', 'arbeitsplätz'],
+    keywords: [
+      'arbeit',
+      'beschäftig',
+      'arbeitslos',
+      'beruf',
+      'job',
+      'arbeitsvermittl',
+      'arbeitseinglieder',
+      'arbeitsplätz',
+    ],
     excludeKeywords: [],
   },
 ];
@@ -73,7 +108,7 @@ interface SuspiciousAssignment {
 }
 
 function checkThemeMatch(theme: string, purpose: string): { matches: boolean; reason: string } {
-  const themeDef = THEME_DEFINITIONS.find(t => t.id === theme);
+  const themeDef = THEME_DEFINITIONS.find((t) => t.id === theme);
   if (!themeDef) {
     return { matches: true, reason: 'Unknown theme (skipped)' };
   }
@@ -84,34 +119,31 @@ function checkThemeMatch(theme: string, purpose: string): { matches: boolean; re
   if (themeDef.excludeKeywords) {
     for (const exclude of themeDef.excludeKeywords) {
       if (purposeLower.includes(exclude.toLowerCase())) {
-        return { 
-          matches: false, 
-          reason: `Contains excluded keyword '${exclude}'` 
+        return {
+          matches: false,
+          reason: `Contains excluded keyword '${exclude}'`,
         };
       }
     }
   }
 
   // Check if ANY keyword matches
-  const matchedKeywords = themeDef.keywords.filter(kw => 
-    purposeLower.includes(kw.toLowerCase())
-  );
+  const matchedKeywords = themeDef.keywords.filter((kw) => purposeLower.includes(kw.toLowerCase()));
 
   if (matchedKeywords.length === 0) {
-    return { 
-      matches: false, 
-      reason: `No matching keywords (expected: ${themeDef.keywords.join(', ')})` 
+    return {
+      matches: false,
+      reason: `No matching keywords (expected: ${themeDef.keywords.join(', ')})`,
     };
   }
 
-  return { 
-    matches: true, 
-    reason: `Matched: ${matchedKeywords.join(', ')}` 
+  return {
+    matches: true,
+    reason: `Matched: ${matchedKeywords.join(', ')}`,
   };
 }
 
 async function auditThemes() {
-
   console.log('\n📊 Auditing theme assignments for P1+P2 foundations...\n');
 
   // Fetch P1 and P2 foundations with themes
@@ -162,7 +194,8 @@ async function auditThemes() {
     const purposeSummary = (row.config_data?.purposeSummary ?? '') as string;
     const researchNotes = (row.config_data?.researchNotes ?? '') as string;
     const region = (row.config_data?.region ?? '') as string;
-    const address = ((row.config_data?.contact as { address?: string } | null)?.address ?? '') as string;
+    const address = ((row.config_data?.contact as { address?: string } | null)?.address ??
+      '') as string;
     const haystack = [officialPurpose, purposeSummary, researchNotes, region, address]
       .filter(Boolean)
       .join(' ');
@@ -183,8 +216,9 @@ async function auditThemes() {
           priority: row.priority ?? 0,
           theme,
           reason: check.reason,
-          officialPurpose: (purposeSummary || officialPurpose).slice(0, 200)
-            + ((purposeSummary || officialPurpose).length > 200 ? '...' : ''),
+          officialPurpose:
+            (purposeSummary || officialPurpose).slice(0, 200) +
+            ((purposeSummary || officialPurpose).length > 200 ? '...' : ''),
           allThemes: themes,
         });
         totalSuspicious++;
@@ -195,7 +229,9 @@ async function auditThemes() {
   console.log(`✅ Audit complete:`);
   console.log(`   Total theme assignments: ${totalThemeAssignments}`);
   console.log(`   Suspicious assignments:  ${totalSuspicious}`);
-  console.log(`   Suspicious rate:         ${((totalSuspicious / totalThemeAssignments) * 100).toFixed(1)}%\n`);
+  console.log(
+    `   Suspicious rate:         ${((totalSuspicious / totalThemeAssignments) * 100).toFixed(1)}%\n`,
+  );
 
   if (suspicious.length === 0) {
     console.log('🎉 No suspicious theme assignments found!\n');
@@ -214,7 +250,8 @@ async function auditThemes() {
   console.log('📋 Suspicious assignments by theme:\n');
   for (const [theme, items] of byTheme.entries()) {
     console.log(`\n🔴 ${theme} (${items.length} suspicious):\n`);
-    for (const item of items.slice(0, 3)) { // Show first 3 per theme
+    for (const item of items.slice(0, 3)) {
+      // Show first 3 per theme
       console.log(`   ${item.foundationName} (P${item.priority})`);
       console.log(`   ID: ${item.foundationId}`);
       console.log(`   All themes: ${item.allThemes.join(', ')}`);

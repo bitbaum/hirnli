@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
           error: API_ERR_VALIDATION,
           details: validation.error.flatten(),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

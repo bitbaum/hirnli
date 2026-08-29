@@ -48,12 +48,19 @@ export default function CountdownTimer({ deadline, label, className = '' }: Coun
     );
   }
 
-  const urgentClass = timeLeft.days < DEADLINE_CRITICAL_DAYS ? 'text-danger' : timeLeft.days < DEADLINE_UPCOMING_DAYS ? 'text-warning' : 'text-text-primary';
+  const urgentClass =
+    timeLeft.days < DEADLINE_CRITICAL_DAYS
+      ? 'text-danger'
+      : timeLeft.days < DEADLINE_UPCOMING_DAYS
+        ? 'text-warning'
+        : 'text-text-primary';
 
   return (
     <div className={`text-center ${className}`}>
       {label && <span className="mb-1 block text-sm text-text-muted">{label}</span>}
-      <div className={`flex items-center justify-center gap-2 font-mono text-lg font-bold ${urgentClass}`}>
+      <div
+        className={`flex items-center justify-center gap-2 font-mono text-lg font-bold ${urgentClass}`}
+      >
         <div className="flex flex-col items-center">
           <span>{timeLeft.days}</span>
           <span className="text-xs font-normal text-text-muted">Tage</span>

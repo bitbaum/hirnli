@@ -10,8 +10,8 @@ export default function StageDescriptionsSection() {
         <h3 className="mb-2 heading-item">Stufe 1-2: Register-Import</h3>
         <p className="mb-2 text-sm text-text-secondary">
           Automatischer Import aller Stiftungen aus dem Zefix-Handelsregister und dem
-          ESA-Stiftungsverzeichnis. Jede Stiftung bekommt einen Datenbankeintrag mit
-          Name, UID und — falls von ESA vorhanden — dem offiziellen Stiftungszweck.
+          ESA-Stiftungsverzeichnis. Jede Stiftung bekommt einen Datenbankeintrag mit Name, UID und —
+          falls von ESA vorhanden — dem offiziellen Stiftungszweck.
         </p>
         <p className="text-sm text-text-muted">
           Vollständig automatisiert. Wird periodisch aktualisiert.
@@ -23,13 +23,13 @@ export default function StageDescriptionsSection() {
         <p className="mb-2 text-sm text-text-secondary">
           Der offizielle Stiftungszweck wird gegen unsere Themenbereiche abgeglichen:
           Arbeitsintegration, Kreislaufwirtschaft, digitale Bildung, soziale Integration,
-          Jugendförderung, Klimaschutz, Region Zürich. Parallel wird erkannt, ob die
-          Stiftung eine Förderstiftung (vergibt Gelder) oder eine operative Stiftung
-          (betreibt eigene Einrichtungen) ist.
+          Jugendförderung, Klimaschutz, Region Zürich. Parallel wird erkannt, ob die Stiftung eine
+          Förderstiftung (vergibt Gelder) oder eine operative Stiftung (betreibt eigene
+          Einrichtungen) ist.
         </p>
         <p className="text-sm text-text-muted">
-          Keyword-Matching auf dem Stiftungszweck. Keine KI-Kosten.
-          Eliminiert Stiftungen ohne thematische Überschneidung (z.B. Medizinforschung, Kunst, Oper).
+          Keyword-Matching auf dem Stiftungszweck. Keine KI-Kosten. Eliminiert Stiftungen ohne
+          thematische Überschneidung (z.B. Medizinforschung, Kunst, Oper).
         </p>
       </Card>
 
@@ -37,9 +37,9 @@ export default function StageDescriptionsSection() {
         <h3 className="mb-2 heading-item">Stufe 3-4: Fit-Bewertung und Tiefenrecherche</h3>
         <p className="mb-2 text-sm text-text-secondary">
           Stiftungen mit thematischem Signal werden vertieft analysiert: Passt der Stiftungszweck
-          wirklich zu unserer Mission? Dies geschieht durch KI-gestützte Analyse des Zwecktexts
-          oder — bei vorhandener Website — durch Scraping und Auswertung der Stiftungs-Website.
-          Dabei werden Kontaktdaten, Förderbereiche, Fristen und Bewerbungswege extrahiert.
+          wirklich zu unserer Mission? Dies geschieht durch KI-gestützte Analyse des Zwecktexts oder
+          — bei vorhandener Website — durch Scraping und Auswertung der Stiftungs-Website. Dabei
+          werden Kontaktdaten, Förderbereiche, Fristen und Bewerbungswege extrahiert.
         </p>
         <p className="text-sm text-text-muted">
           KI-gestützt (LLM-Analyse). Moderate Kosten. Nur für Stiftungen mit positivem Screening.
@@ -49,13 +49,16 @@ export default function StageDescriptionsSection() {
       <Card className="mb-4">
         <h3 className="mb-2 heading-item">Stufe 4-5: Prioritäts-Gate</h3>
         <p className="mb-2 text-sm text-text-secondary">
-          Die Kombination aus Fit-Score und Bereitschafts-Score ergibt die Priorität.
-          Nur Stiftungen mit Priorität P1-P3 bekommen eine generierte Gesuch-Seite.
-          P4-Stiftungen bleiben in der Datenbank für spätere Beziehungspflege,
-          erhalten aber kein Gesuch.
+          Die Kombination aus Fit-Score und Bereitschafts-Score ergibt die Priorität. Nur Stiftungen
+          mit Priorität P1-P3 bekommen eine generierte Gesuch-Seite. P4-Stiftungen bleiben in der
+          Datenbank für spätere Beziehungspflege, erhalten aber kein Gesuch.
         </p>
         <p className="text-sm text-text-muted">
-          Algorithmisch berechnet. Details: <Link href="/fundraising/scoring-methodik" className="underline">Scoring-Methodik</Link>.
+          Algorithmisch berechnet. Details:{' '}
+          <Link href="/fundraising/scoring-methodik" className="underline">
+            Scoring-Methodik
+          </Link>
+          .
         </p>
       </Card>
     </section>

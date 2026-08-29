@@ -21,10 +21,7 @@ export default async function ApplicationsPage() {
 
   return (
     <div className="min-h-screen bg-surface-raised p-6">
-      <PageHeader
-        title="Gesuch-Pipeline"
-        subtitle="Stiftungsgesuche verwalten und nachverfolgen"
-      />
+      <PageHeader title="Gesuch-Pipeline" subtitle="Stiftungsgesuche verwalten und nachverfolgen" />
       <ApplicationBoard p1Foundations={p1Foundations} />
     </div>
   );

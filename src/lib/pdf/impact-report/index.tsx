@@ -20,7 +20,12 @@ import {
   LAPTOPS_REFURBISHED_COUNT,
 } from '@/lib/config/numbers';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
-import { COMPLETE_YEARS, CURRENT_YEAR_DATA, PEAK_REVENUE, PEAK_YEAR } from '@/app/(tenant)/finanzen/data';
+import {
+  COMPLETE_YEARS,
+  CURRENT_YEAR_DATA,
+  PEAK_REVENUE,
+  PEAK_YEAR,
+} from '@/app/(tenant)/finanzen/data';
 import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
 
 // ---------------------------------------------------------------------------
@@ -235,17 +240,20 @@ function Page1() {
       {completeYears.map((yr) => (
         <View key={yr.year} style={yr.year === PEAK_YEAR ? s.tableRowHighlight : s.tableRow}>
           <Text style={s.colYear}>
-            {yr.year}{yr.year === PEAK_YEAR ? ' ★' : ''}
+            {yr.year}
+            {yr.year === PEAK_YEAR ? ' ★' : ''}
           </Text>
           <Text style={s.colRevenue}>{pdfFormatCHF(yr.revenue)}</Text>
           <Text style={s.colExpenses}>{pdfFormatCHF(yr.expenses)}</Text>
           <Text style={[s.colResult, yr.result >= 0 ? s.positive : s.negative]}>
-            {yr.result >= 0 ? '+' : ''}{pdfFormatCHF(yr.result)}
+            {yr.result >= 0 ? '+' : ''}
+            {pdfFormatCHF(yr.result)}
           </Text>
         </View>
       ))}
       <Text style={[s.muted, { marginTop: 3, marginBottom: 6 }]}>
-        ★ Rekordjahr. Alle Zahlen aus Kivitendo Erfolgsrechnung. Aufwände 2024–2025 noch nicht vollständig verbucht.
+        ★ Rekordjahr. Alle Zahlen aus Kivitendo Erfolgsrechnung. Aufwände 2024–2025 noch nicht
+        vollständig verbucht.
       </Text>
 
       {/* Revenue summary metrics */}
@@ -269,7 +277,9 @@ function Page1() {
 
       <View style={s.metricGrid}>
         <View style={s.metricBoxGreen}>
-          <Text style={s.metricValueGreen}>~{LAPTOPS_REFURBISHED_COUNT.toLocaleString('de-CH')}+</Text>
+          <Text style={s.metricValueGreen}>
+            ~{LAPTOPS_REFURBISHED_COUNT.toLocaleString('de-CH')}+
+          </Text>
           <Text style={s.metricLabel}>Geräte refurbisht (seit {FINANCIAL_YEAR_START})</Text>
         </View>
         <View style={s.metricBoxGreen}>
@@ -287,7 +297,8 @@ function Page1() {
         <Text style={s.body}>
           Jeder neue Laptop verursacht ~{CO2_NEW_LAPTOP_MANUFACTURE} kg CO₂ bei der Herstellung.
           Refurbishing kostet nur ~{CO2_REFURBISH_COST} kg. Netto-Einsparung:{' '}
-          <Text style={s.bold}>{CO2_PER_LAPTOP} kg CO₂ pro Gerät</Text> — Quelle: Fraunhofer IZM 2023.
+          <Text style={s.bold}>{CO2_PER_LAPTOP} kg CO₂ pro Gerät</Text> — Quelle: Fraunhofer IZM
+          2023.
         </Text>
         <Text style={s.body}>
           Aktuelle Kapazität: ~{SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT} Geräte/Jahr.
@@ -298,7 +309,9 @@ function Page1() {
       {/* Footer */}
       <View style={s.footer} fixed>
         <Text>{ORG_PROFILE.website}</Text>
-        <Text>Wirkungsbericht {CURRENT_YEAR} · {ORG_PROFILE.name}</Text>
+        <Text>
+          Wirkungsbericht {CURRENT_YEAR} · {ORG_PROFILE.name}
+        </Text>
         <Text>Seite 1 / 2</Text>
       </View>
     </Page>
@@ -339,8 +352,8 @@ function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: numbe
           <View style={s.infoBox}>
             <Text style={[s.body, s.bold]}>Bildung & Befähigung</Text>
             <Text style={s.body}>
-              Wir vermitteln technische Kompetenzen, die in einer digitalisierten
-              Arbeitswelt entscheidend sind:
+              Wir vermitteln technische Kompetenzen, die in einer digitalisierten Arbeitswelt
+              entscheidend sind:
             </Text>
             <Bullet>Linux-Einführungskurse (Deutsch & Englisch)</Bullet>
             <Bullet>Repair-Workshops: Selbst reparieren lernen</Bullet>
@@ -370,8 +383,8 @@ function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: numbe
       <SectionTitle>🔍 Stiftungsrecherche & Fundraising</SectionTitle>
 
       <Text style={[s.body, { marginBottom: 6 }]}>
-        Wir haben {totalCount} Schweizer Stiftungen systematisch recherchiert
-        und bewertet — mit Fit-Score, Förderbereichen und Bewerbungsstatus.
+        Wir haben {totalCount} Schweizer Stiftungen systematisch recherchiert und bewertet — mit
+        Fit-Score, Förderbereichen und Bewerbungsstatus.
       </Text>
 
       <View style={s.metricGrid}>
@@ -427,7 +440,9 @@ function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: numbe
           <Text style={[s.body, s.bold]}>{ORG_PROFILE.name}</Text>
           <Text style={s.body}>{ORG_PROFILE.address}</Text>
           <Text style={s.body}>
-            {ORG_PROFILE.phone}{'  '}·{'  '}{ORG_PROFILE.email}
+            {ORG_PROFILE.phone}
+            {'  '}·{'  '}
+            {ORG_PROFILE.email}
           </Text>
           <Text style={s.body}>{ORG_PROFILE.website}</Text>
         </View>
@@ -444,7 +459,9 @@ function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: numbe
       {/* Footer */}
       <View style={s.footer} fixed>
         <Text>{ORG_PROFILE.website}</Text>
-        <Text>Wirkungsbericht {CURRENT_YEAR} · {ORG_PROFILE.name}</Text>
+        <Text>
+          Wirkungsbericht {CURRENT_YEAR} · {ORG_PROFILE.name}
+        </Text>
         <Text>Seite 2 / 2</Text>
       </View>
     </Page>
@@ -455,7 +472,13 @@ function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: numbe
 // Main export
 // ---------------------------------------------------------------------------
 
-export function ImpactReportPDF({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: number }) {
+export function ImpactReportPDF({
+  totalCount,
+  p1p3Count,
+}: {
+  totalCount: number;
+  p1p3Count: number;
+}) {
   return (
     <Document
       title={`Wirkungsbericht ${CURRENT_YEAR} — ${ORG_PROFILE.name}`}

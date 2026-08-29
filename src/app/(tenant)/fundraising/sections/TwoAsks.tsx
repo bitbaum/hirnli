@@ -16,14 +16,18 @@ export default function TwoAsks() {
         {/* Hub */}
         <Card className="border-l-4 border-l-primary">
           <div className="flex items-start gap-4">
-            <span className="text-4xl" aria-hidden="true">🏢</span>
+            <span className="text-4xl" aria-hidden="true">
+              🏢
+            </span>
             <div className="flex-1">
               <h3 className="heading-card">1. Community Tech Hub (Raum)</h3>
               <p className="mt-2 text-sm text-text-secondary">
-                <strong>{HUB_SPACE_DISPLAY}:</strong> Werkstatt, AI Lab, Event Space, Shop, Offices — alles unter einem Dach
+                <strong>{HUB_SPACE_DISPLAY}:</strong> Werkstatt, AI Lab, Event Space, Shop, Offices
+                — alles unter einem Dach
               </p>
               <p className="mt-2 text-sm text-text-secondary">
-                <strong>Ergebnis:</strong> Effizientere Prozesse, mehr parallele Arbeitsplätze, neue Einnahmequellen
+                <strong>Ergebnis:</strong> Effizientere Prozesse, mehr parallele Arbeitsplätze, neue
+                Einnahmequellen
               </p>
               <Link
                 href="/fundraising/hub"
@@ -38,17 +42,21 @@ export default function TwoAsks() {
         {/* Menschen */}
         <Card className="border-l-4 border-l-pillar-vision">
           <div className="flex items-start gap-4">
-            <span className="text-4xl" aria-hidden="true">👥</span>
+            <span className="text-4xl" aria-hidden="true">
+              👥
+            </span>
             <div className="flex-1">
               <h3 className="heading-card">2. Bildungsprogrammleiter (Team)</h3>
               <p className="mt-2 text-sm text-text-secondary">
                 <strong>2× neue Stellen:</strong> Hardware-BPL + Software/AI-BPL
               </p>
               <p className="mt-2 text-sm text-text-secondary">
-                <strong>Train-the-Trainer:</strong> Strukturierte Ausbildung statt informellem Wissenstransfer
+                <strong>Train-the-Trainer:</strong> Strukturierte Ausbildung statt informellem
+                Wissenstransfer
               </p>
               <p className="mt-2 text-sm text-text-secondary">
-                <strong>Ergebnis:</strong> {PEOPLE_REACHED_DISPLAY} erreicht (Techniker + Entwickler + Workshop-Teilnehmer)
+                <strong>Ergebnis:</strong> {PEOPLE_REACHED_DISPLAY} erreicht (Techniker + Entwickler
+                + Workshop-Teilnehmer)
               </p>
               <Link
                 href="/fundraising/bildung"
@@ -72,9 +80,7 @@ export default function TwoAsks() {
         <div className="mt-2 heading-stat text-primary">
           {DEVICES_PER_YEAR_TARGET_DISPLAY} Geräte/Jahr + {PEOPLE_REACHED_DISPLAY} trainiert
         </div>
-        <div className="mt-3 text-sm text-text-secondary">
-          {REVENUE_GROWTH_DISPLAY}
-        </div>
+        <div className="mt-3 text-sm text-text-secondary">{REVENUE_GROWTH_DISPLAY}</div>
         <div className="mt-1 heading-detail text-pillar-vision">
           + {PEOPLE_REACHED_DISPLAY} in Tech-Bildung & Integration
         </div>

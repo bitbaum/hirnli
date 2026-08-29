@@ -18,8 +18,8 @@ export default function BoardHeaderStats({ applications, onRefresh }: BoardHeade
     (sum, { application }) => sum + (application.awardedAmount || 0),
     0,
   );
-  const atFoundationsCount = applications.filter(
-    ({ application }) => ['submitted', 'pending', 'followup'].includes(application.status),
+  const atFoundationsCount = applications.filter(({ application }) =>
+    ['submitted', 'pending', 'followup'].includes(application.status),
   ).length;
   const followupCount = applications.filter(
     ({ application }) => application.status === 'followup',
@@ -33,34 +33,32 @@ export default function BoardHeaderStats({ applications, onRefresh }: BoardHeade
             <span className="font-semibold text-text-primary">{applications.length}</span> Gesuche
           </span>
           {totalAwarded > 0 && (
-            <span className="font-semibold text-success">
-              {formatCHF(totalAwarded)} zugesagt
-            </span>
+            <span className="font-semibold text-success">{formatCHF(totalAwarded)} zugesagt</span>
           )}
           {totalRequested > 0 && (
             <span>
-              <span className="font-semibold text-text-primary">{formatCHF(totalRequested)}</span> beantragt
+              <span className="font-semibold text-text-primary">{formatCHF(totalRequested)}</span>{' '}
+              beantragt
             </span>
           )}
           {atFoundationsCount > 0 && (
             <span>
-              <span className="font-semibold text-text-primary">{atFoundationsCount}</span> bei Stiftungen
+              <span className="font-semibold text-text-primary">{atFoundationsCount}</span> bei
+              Stiftungen
             </span>
           )}
           {followupCount > 0 && (
-            <span className="font-semibold text-warning-text">
-              {followupCount} Nachfassen
-            </span>
+            <span className="font-semibold text-warning-text">{followupCount} Nachfassen</span>
           )}
         </div>
       ) : (
         <div />
       )}
       <div className="flex gap-2 shrink-0">
-        <Button href="/fundraising/stiftungen?pl=1,2">
-          + Gesuch hinzufügen
+        <Button href="/fundraising/stiftungen?pl=1,2">+ Gesuch hinzufügen</Button>
+        <Button variant="secondary" onClick={onRefresh}>
+          ↺
         </Button>
-        <Button variant="secondary" onClick={onRefresh}>↺</Button>
       </div>
     </div>
   );

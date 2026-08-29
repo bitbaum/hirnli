@@ -84,9 +84,7 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
     if (activeCols.length === 0) return;
 
     const header = activeCols.map((c) => escapeCSV(c.label));
-    const rows = foundations.map((f) =>
-      activeCols.map((c) => escapeCSV(c.getValue(f))).join(','),
-    );
+    const rows = foundations.map((f) => activeCols.map((c) => escapeCSV(c.getValue(f))).join(','));
 
     const csv = '\uFEFF' + [header.join(','), ...rows].join('\r\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -106,12 +104,19 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
       {/* Count + quick toggles */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <p className="text-sm text-text-muted">
-          <span className="font-semibold text-text-primary">{foundations.length}</span> Stiftungen (aktueller Filter)
+          <span className="font-semibold text-text-primary">{foundations.length}</span> Stiftungen
+          (aktueller Filter)
         </p>
         <div className="flex gap-1">
-          <Button variant="ghost" size="sm" onClick={selectAll}>Alle</Button>
-          <Button variant="ghost" size="sm" onClick={selectNone}>Keine</Button>
-          <Button variant="ghost" size="sm" onClick={selectDefaults}>Standard</Button>
+          <Button variant="ghost" size="sm" onClick={selectAll}>
+            Alle
+          </Button>
+          <Button variant="ghost" size="sm" onClick={selectNone}>
+            Keine
+          </Button>
+          <Button variant="ghost" size="sm" onClick={selectDefaults}>
+            Standard
+          </Button>
         </div>
       </div>
 
@@ -119,9 +124,7 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
       <div className="space-y-4">
         {COLUMN_GROUPS.map((group) => (
           <div key={group.label}>
-            <h4 className="mb-1.5 heading-xs-label">
-              {group.label}
-            </h4>
+            <h4 className="mb-1.5 heading-xs-label">{group.label}</h4>
             <div className="space-y-0.5">
               {group.columns.map((col) => {
                 const checked = selected.has(col.id);
@@ -137,7 +140,9 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
                       onChange={() => toggle(col.id)}
                       className="rounded border-border-default"
                     />
-                    <span className={`flex-1 ${checked ? 'font-medium text-text-primary' : 'text-text-muted'}`}>
+                    <span
+                      className={`flex-1 ${checked ? 'font-medium text-text-primary' : 'text-text-muted'}`}
+                    >
                       {col.label}
                     </span>
                     <CoverageBar percent={pct} />
@@ -158,12 +163,7 @@ export default function CsvExportModal({ isOpen, onClose, foundations }: CsvExpo
           <Button variant="secondary" size="sm" onClick={onClose}>
             Abbrechen
           </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            disabled={selectedCount === 0}
-            onClick={handleExport}
-          >
+          <Button variant="primary" size="sm" disabled={selectedCount === 0} onClick={handleExport}>
             Herunterladen
           </Button>
         </div>

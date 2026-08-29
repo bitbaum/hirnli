@@ -28,7 +28,7 @@ export default function PipelineStatus({ foundations }: { foundations: Foundatio
               <div className="heading-section">{count}</div>
               <div className="text-sm text-text-muted">{STATUS_LABELS[status].desc}</div>
             </Link>
-          )
+          ),
         )}
       </div>
       <div className="mt-4 text-center">

@@ -25,10 +25,14 @@ export function validateFoundationQuality(data: Foundation[]): QualityViolation[
 
     const { purposeSummaryMinChars, researchNotesMinChars } = QUALITY_THRESHOLDS;
     if (!f.purposeSummary || f.purposeSummary.length < purposeSummaryMinChars) {
-      issues.push(`purposeSummary missing or too short (${f.purposeSummary?.length ?? 0} chars, min ${purposeSummaryMinChars})`);
+      issues.push(
+        `purposeSummary missing or too short (${f.purposeSummary?.length ?? 0} chars, min ${purposeSummaryMinChars})`,
+      );
     }
     if (!f.researchNotes || f.researchNotes.length < researchNotesMinChars) {
-      issues.push(`researchNotes missing or too short (${f.researchNotes?.length ?? 0} chars, min ${researchNotesMinChars})`);
+      issues.push(
+        `researchNotes missing or too short (${f.researchNotes?.length ?? 0} chars, min ${researchNotesMinChars})`,
+      );
     }
     if (!f.contact || (!f.contact.email && !f.contact.phone && !f.contact.address)) {
       issues.push('contact missing (need at least email, phone, or address)');

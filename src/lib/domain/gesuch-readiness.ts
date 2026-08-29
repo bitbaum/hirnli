@@ -32,14 +32,18 @@ export function computeGesuchReadiness(
     {
       id: 'bridge',
       label: 'Verbindungssatz personalisiert',
-      passed: Boolean(overrides.foundationBridge && overrides.foundationBridge.length > QUALITY_THRESHOLDS.minContentChars),
+      passed: Boolean(
+        overrides.foundationBridge &&
+        overrides.foundationBridge.length > QUALITY_THRESHOLDS.minContentChars,
+      ),
       hint: 'Im Bearbeitungsmodus den Verbindungssatz anpassen oder KI-Entwurf nutzen.',
     },
     {
       id: 'anschreiben',
       label: 'Anschreiben angepasst',
       passed: Boolean(
-        overrides.anschreiben?.opening && overrides.anschreiben.opening.length > QUALITY_THRESHOLDS.minContentChars,
+        overrides.anschreiben?.opening &&
+        overrides.anschreiben.opening.length > QUALITY_THRESHOLDS.minContentChars,
       ),
       hint: 'Eröffnungsabsatz des Anschreibens auf die Stiftung zuschneiden.',
     },

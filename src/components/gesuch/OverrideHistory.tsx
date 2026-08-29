@@ -31,24 +31,39 @@ interface OverrideHistoryProps {
 
 type ActivityEntry = Pick<ActivityLogEntryJSON, 'id' | 'actionDetails' | 'timestamp'>;
 
-
 /** Extract override keys that have non-empty values */
 function getFieldKeys(overrides: GesuchOverridesData): string[] {
   const keys: string[] = [];
   if (overrides.foundationBridge) keys.push('Verbindungssatz');
-  if (overrides.why?.headline || overrides.why?.hook || overrides.why?.problem || overrides.why?.solution) {
+  if (
+    overrides.why?.headline ||
+    overrides.why?.hook ||
+    overrides.why?.problem ||
+    overrides.why?.solution
+  ) {
     keys.push('Warum-Abschnitt');
   }
   if (overrides.how?.trackRecord?.headline || overrides.how?.trackRecord?.text) {
     keys.push('Track Record');
   }
-  if (overrides.anschreiben?.subject || overrides.anschreiben?.opening || overrides.anschreiben?.themeAlignment || overrides.anschreiben?.closing) {
+  if (
+    overrides.anschreiben?.subject ||
+    overrides.anschreiben?.opening ||
+    overrides.anschreiben?.themeAlignment ||
+    overrides.anschreiben?.closing
+  ) {
     keys.push('Anschreiben');
   }
   return keys;
 }
 
-export default function OverrideHistory({ slug, variantKey, open, onClose, onRestore }: OverrideHistoryProps) {
+export default function OverrideHistory({
+  slug,
+  variantKey,
+  open,
+  onClose,
+  onRestore,
+}: OverrideHistoryProps) {
   const [entries, setEntries] = useState<ActivityEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -69,9 +84,15 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
         if (d.success) setEntries(d.data ?? []);
         else setError(true);
       })
-      .catch(() => { if (!cancelled) setError(true); })
-      .finally(() => { if (!cancelled) setLoading(false); });
-    return () => { cancelled = true; };
+      .catch(() => {
+        if (!cancelled) setError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [slug, open, variantKey]);
 
   if (!open) return null;
@@ -128,7 +149,9 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
               Lade Versionen…
             </div>
           ) : error ? (
-            <p className="text-sm text-text-muted py-4">Versionshistorie konnte nicht geladen werden.</p>
+            <p className="text-sm text-text-muted py-4">
+              Versionshistorie konnte nicht geladen werden.
+            </p>
           ) : entries.length === 0 ? (
             <p className="text-sm text-text-muted py-4">Noch keine gespeicherten Versionen.</p>
           ) : (
@@ -138,7 +161,9 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
                 try {
                   const details = JSON.parse(entry.actionDetails ?? '{}');
                   overrides = details.overrides ?? null;
-                } catch { /* ignore */ }
+                } catch {
+                  /* ignore */
+                }
 
                 const fieldKeys = overrides ? getFieldKeys(overrides) : [];
 
@@ -146,7 +171,9 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
                   <div key={entry.id} className="flex gap-3">
                     {/* Timeline dot + line */}
                     <div className="flex flex-col items-center">
-                      <div className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${i === 0 ? 'bg-primary' : 'bg-border'}`} />
+                      <div
+                        className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${i === 0 ? 'bg-primary' : 'bg-border'}`}
+                      />
                       {i < entries.length - 1 && <div className="w-px flex-1 bg-border" />}
                     </div>
 
@@ -154,13 +181,9 @@ export default function OverrideHistory({ slug, variantKey, open, onClose, onRes
                     <div className="pb-5 min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <p className="heading-detail">
-                            {formatDateTimeCH(entry.timestamp)}
-                          </p>
+                          <p className="heading-detail">{formatDateTimeCH(entry.timestamp)}</p>
                           {fieldKeys.length > 0 && (
-                            <p className="text-sm text-text-muted mt-0.5">
-                              {fieldKeys.join(', ')}
-                            </p>
+                            <p className="text-sm text-text-muted mt-0.5">{fieldKeys.join(', ')}</p>
                           )}
                         </div>
                         {overrides && i > 0 && (

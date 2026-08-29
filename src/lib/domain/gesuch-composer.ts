@@ -20,7 +20,16 @@ import { isResearched, isActionablePriority } from './foundation-helpers';
 import type { ThemeKey } from '@/lib/config/stories';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatDateDE } from '@/lib/utils/format';
-import type { Evidence, WhySection, CompetencySection, Project, CoreFacts, TrackRecord, Anecdote, PhotoSlot } from '@/lib/schemas/story';
+import type {
+  Evidence,
+  WhySection,
+  CompetencySection,
+  Project,
+  CoreFacts,
+  TrackRecord,
+  Anecdote,
+  PhotoSlot,
+} from '@/lib/schemas/story';
 import {
   composeStory,
   THEME_ID_TO_STORY_KEY,
@@ -137,7 +146,7 @@ function mapFoundationThemes(foundation: Foundation) {
   const mappedThemes = [...new Set(foundation.themes.map((id) => THEME_ID_TO_STORY_KEY[id]))];
 
   const sorted = [...mappedThemes].sort(
-    (a, b) => THEME_PRIORITY.indexOf(b) - THEME_PRIORITY.indexOf(a)
+    (a, b) => THEME_PRIORITY.indexOf(b) - THEME_PRIORITY.indexOf(a),
   );
 
   return { primary: sorted[0], secondary: sorted.slice(1), all: mappedThemes };
@@ -150,7 +159,10 @@ function mapSchwerpunktThemes(schwerpunktId: SchwerpunktId) {
   return { primary, secondary, all: schwerpunkt.storyThemes };
 }
 
-function collectThemeMetadata(foundation: Foundation, schwerpunktId?: SchwerpunktId): ThemeMetadata[] {
+function collectThemeMetadata(
+  foundation: Foundation,
+  schwerpunktId?: SchwerpunktId,
+): ThemeMetadata[] {
   // When a Schwerpunkt is selected, prefer themes matching the Schwerpunkt's focus.
   if (schwerpunktId) {
     const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
@@ -200,7 +212,10 @@ function buildFoundationInfo(foundation: Foundation) {
 // composeGesuch — Landing page content
 // ============================================================================
 
-export function composeGesuch(foundation: Foundation, schwerpunktId?: SchwerpunktId): ComposedGesuch {
+export function composeGesuch(
+  foundation: Foundation,
+  schwerpunktId?: SchwerpunktId,
+): ComposedGesuch {
   const typeLabel = TYPE_LABELS[foundation.type];
   const mapped = schwerpunktId
     ? mapSchwerpunktThemes(schwerpunktId)
@@ -226,7 +241,12 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
       foundationBridge: '',
       themes: { primary: 'klima', secondary: [], all: [] },
       secondaryThemeRelevance: [],
-      story: { why: undefined, how: { track_record: { headline: '', text: '', proof_points: [] }, competencies: [] }, projects: [], evidence: [] },
+      story: {
+        why: undefined,
+        how: { track_record: { headline: '', text: '', proof_points: [] }, competencies: [] },
+        projects: [],
+        evidence: [],
+      },
       organization: CORE_FACTS,
       approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
       anecdotes: { why: [], how: [] },
@@ -241,9 +261,7 @@ export function composeGesuch(foundation: Foundation, schwerpunktId?: Schwerpunk
   const primaryThemeId = (Object.keys(THEME_ID_TO_STORY_KEY) as ThemeId[]).find(
     (id) => THEME_ID_TO_STORY_KEY[id] === mapped.primary,
   );
-  const primaryThemeLabel = primaryThemeId
-    ? THEMES[primaryThemeId].label
-    : mapped.primary;
+  const primaryThemeLabel = primaryThemeId ? THEMES[primaryThemeId].label : mapped.primary;
 
   const whyAnecdotes = getAnecdotes(mapped.primary, 'why').slice(0, 2);
   const howAnecdotes = getAnecdotes(mapped.primary, 'how').slice(0, 1);
@@ -290,7 +308,10 @@ export interface AnschreibenText {
 }
 
 /** Compute just the Anschreiben text fields (for the edit panel in step 2) */
-export function composeAnschreibenText(foundation: Foundation, schwerpunktId?: SchwerpunktId): AnschreibenText {
+export function composeAnschreibenText(
+  foundation: Foundation,
+  schwerpunktId?: SchwerpunktId,
+): AnschreibenText {
   const template = ANSCHREIBEN_TEMPLATES[foundation.type];
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
@@ -302,7 +323,10 @@ export function composeAnschreibenText(foundation: Foundation, schwerpunktId?: S
   };
 }
 
-export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: SchwerpunktId): ComposedGesuchDokument {
+export function composeGesuchDokument(
+  foundation: Foundation,
+  schwerpunktId?: SchwerpunktId,
+): ComposedGesuchDokument {
   const gesuch = composeGesuch(foundation, schwerpunktId);
   const template = ANSCHREIBEN_TEMPLATES[foundation.type];
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
@@ -341,9 +365,7 @@ export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: Sc
       stiftungen3yTotal: STIFTUNGEN_3Y_TOTAL,
       eigen3yTotal: EIGEN_3Y_TOTAL,
       project3yTotal: PROJECT_3Y_TOTAL,
-      primaryThemeKey: schwerpunktId
-        ? SCHWERPUNKTE[schwerpunktId].storyThemes[0]
-        : undefined,
+      primaryThemeKey: schwerpunktId ? SCHWERPUNKTE[schwerpunktId].storyThemes[0] : undefined,
     },
     kurzportrait: {
       facts: [
@@ -351,12 +373,21 @@ export function composeGesuchDokument(foundation: Foundation, schwerpunktId?: Sc
         { label: 'Rechtsform', value: CORE_FACTS.organization.legalForm },
         { label: 'Gegründet', value: String(CORE_FACTS.organization.founded) },
         { label: 'Standort', value: CORE_FACTS.organization.address },
-        { label: 'Kernteam', value: `${CORE_FACTS.organization.team_size} Festangestellte + Freelancer` },
+        {
+          label: 'Kernteam',
+          value: `${CORE_FACTS.organization.team_size} Festangestellte + Freelancer`,
+        },
         { label: 'Website', value: CORE_FACTS.organization.website },
         { label: 'Gemeinnützigkeit', value: 'Verein — alle Einnahmen fliessen in die Mission' },
-        { label: 'Praktikant:innen betreut', value: `${SOCIAL_DISPLAY.practitioners_total} seit Gründung` },
+        {
+          label: 'Praktikant:innen betreut',
+          value: `${SOCIAL_DISPLAY.practitioners_total} seit Gründung`,
+        },
         { label: 'Wiedereingliederungsquote', value: SOCIAL_DISPLAY.success_rate },
-        { label: 'CO₂-Einsparung pro Laptop', value: `${CORE_FACTS.metrics.environmental.co2_per_laptop} kg` },
+        {
+          label: 'CO₂-Einsparung pro Laptop',
+          value: `${CORE_FACTS.metrics.environmental.co2_per_laptop} kg`,
+        },
         { label: 'Reuse-Rate', value: `${CORE_FACTS.metrics.environmental.reuse_rate}%` },
       ],
       activities: CORE_FACTS.activities,

@@ -48,12 +48,15 @@ const importedFoundationSchema = z.object({
   source: z.string().optional().nullable(),
 
   pastGrantees: z.array(z.string()).optional(),
-  boardMembers: z.array(z.object({
-    name: z.string(),
-    role: z.string(),
-  })).optional(),
+  boardMembers: z
+    .array(
+      z.object({
+        name: z.string(),
+        role: z.string(),
+      }),
+    )
+    .optional(),
 });
-
 
 /**
  * Parse grant range text to extract min/max
@@ -89,10 +92,7 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file') as File;
 
     if (!file) {
-      return NextResponse.json(
-        { success: false, error: API_ERR_IMPORT_NO_FILE },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: API_ERR_IMPORT_NO_FILE }, { status: 400 });
     }
 
     // Validate file size (max 10 MB)
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
         { success: false, error: API_ERR_IMPORT_FILE_TOO_LARGE },
-        { status: 413 }
+        { status: 413 },
       );
     }
 
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
     if (file.type && !['application/json', 'text/plain', ''].includes(file.type)) {
       return NextResponse.json(
         { success: false, error: API_ERR_IMPORT_FILE_TYPE },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
     } catch {
       return NextResponse.json(
         { success: false, error: API_ERR_IMPORT_JSON_INVALID },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -128,10 +128,7 @@ export async function POST(request: NextRequest) {
     const batch = Array.isArray(parsed) ? parsed : parsed.foundations || [];
 
     if (!Array.isArray(batch) || batch.length === 0) {
-      return NextResponse.json(
-        { success: false, error: API_ERR_IMPORT_EMPTY },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: API_ERR_IMPORT_EMPTY }, { status: 400 });
     }
 
     // Validate all foundations
@@ -146,18 +143,18 @@ export async function POST(request: NextRequest) {
         errors.push({
           index: i,
           name: batch[i]?.name || 'unknown',
-          error: validation.error.flatten()
+          error: validation.error.flatten(),
         });
       }
     }
 
     // Get existing foundation IDs (slugs) for deduplication
     const existingFoundations = await db.select({ id: foundations.id }).from(foundations);
-    const existingSlugs = new Set(existingFoundations.map(f => f.id));
+    const existingSlugs = new Set(existingFoundations.map((f) => f.id));
 
     // Filter out duplicates by slug and handle within-batch collisions
     const seenSlugs = new Set<string>();
-    const newFoundations = validated.filter(f => {
+    const newFoundations = validated.filter((f) => {
       const slug = toSlug(f.name);
       if (existingSlugs.has(slug) || seenSlugs.has(slug)) return false;
       seenSlugs.add(slug);
@@ -176,7 +173,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Transform and insert — all domain data goes into configData JSONB
-    const transformed = newFoundations.map(f => {
+    const transformed = newFoundations.map((f) => {
       const { min, max } = parseGrantRange(f.grantRange || '');
       const slug = toSlug(f.name);
 
@@ -224,7 +221,6 @@ export async function POST(request: NextRequest) {
       errorDetails: errors.length > 0 ? errors.slice(0, 10) : undefined, // Only return first 10 errors
       message: `Successfully imported ${transformed.length} foundations`,
     });
-
   } catch (error) {
     return apiError('POST /api/foundations/import', error, API_ERR_SAVE);
   }

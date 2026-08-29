@@ -42,8 +42,7 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 0, max: 200000 }],
     },
     documentation: {
-      description:
-        'Gesamteinnahmen aus allen Geschäftsbereichen im Jahr 2025',
+      description: 'Gesamteinnahmen aus allen Geschäftsbereichen im Jahr 2025',
       drivers: [
         'Anzahl verkaufter Geräte',
         'Durchschnittlicher Verkaufspreis',
@@ -80,15 +79,8 @@ export const NumberSources: Record<string, Metric> = {
     },
     documentation: {
       description: 'Einnahmen aus dem Verkauf refurbished IT-Geräte',
-      drivers: [
-        'Anzahl gespendeter Geräte',
-        'Kapazität für Aufbereitung',
-        'Nachfrage',
-      ],
-      improvements: [
-        'Partnerschaften mit Unternehmen',
-        'Online-Präsenz ausbauen',
-      ],
+      drivers: ['Anzahl gespendeter Geräte', 'Kapazität für Aufbereitung', 'Nachfrage'],
+      improvements: ['Partnerschaften mit Unternehmen', 'Online-Präsenz ausbauen'],
       link: '/methodik#income-data',
     },
   },
@@ -114,13 +106,9 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 0, max: 100000 }],
     },
     documentation: {
-      description:
-        'Einnahmen aus IT-Dienstleistungen (Reparaturen, Consulting, Web-Development)',
+      description: 'Einnahmen aus IT-Dienstleistungen (Reparaturen, Consulting, Web-Development)',
       drivers: ['Bekanntheitsgrad', 'Verfügbare Fachkräfte', 'Qualität'],
-      improvements: [
-        'Reparatur-Café bewerben',
-        'Web-Development-Aufträge akquirieren',
-      ],
+      improvements: ['Reparatur-Café bewerben', 'Web-Development-Aufträge akquirieren'],
       link: '/methodik#income-data',
     },
   },
@@ -210,30 +198,20 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'derived',
       confidence: 'high',
-      dependencies: [
-        'financial_warenverkauf_2025',
-        'financial_dienstleistungen_2025',
-      ],
+      dependencies: ['financial_warenverkauf_2025', 'financial_dienstleistungen_2025'],
     },
     formula: {
       type: 'custom',
       expression: 'warenverkauf + dienstleistungen + integration',
-      dependencies: [
-        'financial_warenverkauf_2025',
-        'financial_dienstleistungen_2025',
-      ],
+      dependencies: ['financial_warenverkauf_2025', 'financial_dienstleistungen_2025'],
     },
     validation: {
       rules: [{ type: 'range', min: 0, max: 200000 }],
     },
     documentation: {
-      description:
-        'Summe aller Einnahmen aus eigener Wirtschaftstätigkeit (ohne Spenden)',
+      description: 'Summe aller Einnahmen aus eigener Wirtschaftstätigkeit (ohne Spenden)',
       drivers: ['Warenverkauf', 'Dienstleistungen', 'Integration'],
-      improvements: [
-        'Mehr Geräte verkaufen',
-        'Dienstleistungen ausbauen',
-      ],
+      improvements: ['Mehr Geräte verkaufen', 'Dienstleistungen ausbauen'],
       link: '/methodik#income-data',
     },
   },
@@ -258,13 +236,9 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 0, max: 100000 }],
     },
     documentation: {
-      description:
-        'Einnahmen aus Spenden (Konto 3500) und Aufstockungen (Konto 3510)',
+      description: 'Einnahmen aus Spenden (Konto 3500) und Aufstockungen (Konto 3510)',
       drivers: ['Fundraising-Aktivitäten', 'Supporter-Aufschläge'],
-      improvements: [
-        'Fundraising verstärken',
-        'Supporter-Programm ausbauen',
-      ],
+      improvements: ['Fundraising verstärken', 'Supporter-Programm ausbauen'],
       link: '/methodik#income-data',
     },
   },
@@ -304,10 +278,7 @@ export const NumberSources: Record<string, Metric> = {
         'Grosse Preisvariation (CHF 50-500)',
         'Durchschnittspreis ist Schätzung',
       ],
-      improvements: [
-        'WICHTIG: Stückzahlen in Kivitendo erfassen',
-        'Artikelkategorien einführen',
-      ],
+      improvements: ['WICHTIG: Stückzahlen in Kivitendo erfassen', 'Artikelkategorien einführen'],
       link: '/methodik#device-estimation',
     },
   },
@@ -338,14 +309,8 @@ export const NumberSources: Record<string, Metric> = {
     documentation: {
       description:
         'Berechnet aus geschätzter Geräteanzahl. Basiert auf wissenschaftlichen LCA-Studien.',
-      limitations: [
-        'Geräteanzahl ist Schätzung',
-        'Durchschnittswert, nicht gerätespezifisch',
-      ],
-      improvements: [
-        'Exakte Gerätezahlen erfassen',
-        'Gerätespezifische CO2-Werte verwenden',
-      ],
+      limitations: ['Geräteanzahl ist Schätzung', 'Durchschnittswert, nicht gerätespezifisch'],
+      improvements: ['Exakte Gerätezahlen erfassen', 'Gerätespezifische CO2-Werte verwenden'],
       link: '/methodik#co2-calculation',
     },
   },
@@ -373,8 +338,7 @@ export const NumberSources: Record<string, Metric> = {
       ],
     },
     documentation: {
-      description:
-        'Geschätztes Gewicht der vermiedenen Elektroschrott-Entsorgung',
+      description: 'Geschätztes Gewicht der vermiedenen Elektroschrott-Entsorgung',
       limitations: [
         'Gerätegewicht variiert stark (Laptop ~2kg, Desktop ~10kg)',
         'Basiert auf Geräteschätzung',
@@ -416,14 +380,8 @@ export const NumberSources: Record<string, Metric> = {
     documentation: {
       description:
         'Zielwert für erfolgreiche Wiedereingliederungen. Follow-up 6-12 Monate nach Programmabschluss. Erfolgreich = Festanstellung, Ausbildung oder Selbständigkeit.',
-      limitations: [
-        'Aktuell nicht systematisch erfasst',
-        'Historische Schätzung: ~40%',
-      ],
-      improvements: [
-        'Integrations-Tracking einführen',
-        'Follow-up-System etablieren',
-      ],
+      limitations: ['Aktuell nicht systematisch erfasst', 'Historische Schätzung: ~40%'],
+      improvements: ['Integrations-Tracking einführen', 'Follow-up-System etablieren'],
       link: '/methodik',
     },
   },
@@ -448,16 +406,9 @@ export const NumberSources: Record<string, Metric> = {
       ],
     },
     documentation: {
-      description:
-        `Geschätzte Anzahl Praktikant:innen seit Beginn des Integrationsprogramms ${ORG_PROFILE.milestones.integrationProgram}. Exakte Zahl nicht systematisch erfasst.`,
-      limitations: [
-        'Nicht systematisch getrackt',
-        'Schätzung basierend auf Erinnerungen',
-      ],
-      improvements: [
-        'Rückwirkende Erfassung (wenn möglich)',
-        'Systematisches Tracking einführen',
-      ],
+      description: `Geschätzte Anzahl Praktikant:innen seit Beginn des Integrationsprogramms ${ORG_PROFILE.milestones.integrationProgram}. Exakte Zahl nicht systematisch erfasst.`,
+      limitations: ['Nicht systematisch getrackt', 'Schätzung basierend auf Erinnerungen'],
+      improvements: ['Rückwirkende Erfassung (wenn möglich)', 'Systematisches Tracking einführen'],
       link: '/wirkung',
     },
   },
@@ -477,8 +428,7 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 5, max: 15 }],
     },
     documentation: {
-      description:
-        'Anzahl gleichzeitig verfügbarer Integrationsplätze für Praktikant:innen.',
+      description: 'Anzahl gleichzeitig verfügbarer Integrationsplätze für Praktikant:innen.',
       limitations: ['Abhängig von Raumkapazität und Betreuung'],
       improvements: ['Kapazität dokumentieren', 'Auslastung tracken'],
       link: '/wirkung',
@@ -533,7 +483,8 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 100000, max: 300000 }],
     },
     documentation: {
-      description: '4 einmalige Investitionsmodule: Standort-Umzug, Werkstatt/Makerspace, IT-Infrastruktur/AI Lab, Museum/Kulturraum.',
+      description:
+        '4 einmalige Investitionsmodule: Standort-Umzug, Werkstatt/Makerspace, IT-Infrastruktur/AI Lab, Museum/Kulturraum.',
       link: '/fundraising',
     },
   },
@@ -557,7 +508,8 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 200000, max: 500000 }],
     },
     documentation: {
-      description: '3 jährliche Kostenmodule: Bildungsleitung (2 Stellen), Standort-Betrieb, Bildungs-/Community-Programm.',
+      description:
+        '3 jährliche Kostenmodule: Bildungsleitung (2 Stellen), Standort-Betrieb, Bildungs-/Community-Programm.',
       link: '/fundraising',
     },
   },
@@ -578,7 +530,8 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 50000, max: 200000 }],
     },
     documentation: {
-      description: 'Eigenleistung Revamp-IT: Erlöse Geräteverkauf, IT-Dienstleistungen, bestehende Infrastruktur und Freiwilligenarbeit.',
+      description:
+        'Eigenleistung Revamp-IT: Erlöse Geräteverkauf, IT-Dienstleistungen, bestehende Infrastruktur und Freiwilligenarbeit.',
       link: '/fundraising',
     },
   },
@@ -602,7 +555,8 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 1000000, max: 2500000 }],
     },
     documentation: {
-      description: 'Summe aller 3 Jahresbudgets. Jahr 1 = BUDGET_LINE_ITEMS total + Eigenleistung. Jahr 2-3 = degressives Modell.',
+      description:
+        'Summe aller 3 Jahresbudgets. Jahr 1 = BUDGET_LINE_ITEMS total + Eigenleistung. Jahr 2-3 = degressives Modell.',
       link: '/fundraising',
     },
   },
@@ -626,7 +580,8 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 500000, max: 1500000 }],
     },
     documentation: {
-      description: 'Gesamte Stiftungsfinanzierung über 3 Jahre (einmalig + jährlich degressiv). Sinkt von ~568k (J1) auf ~180k (J3).',
+      description:
+        'Gesamte Stiftungsfinanzierung über 3 Jahre (einmalig + jährlich degressiv). Sinkt von ~568k (J1) auf ~180k (J3).',
       link: '/fundraising',
     },
   },
@@ -650,7 +605,8 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 300000, max: 800000 }],
     },
     documentation: {
-      description: 'Eigenleistung über 3 Jahre — wachsend durch neue Einnahmequellen (Kurse, Repair Café, AI Hosting).',
+      description:
+        'Eigenleistung über 3 Jahre — wachsend durch neue Einnahmequellen (Kurse, Repair Café, AI Hosting).',
       link: '/fundraising',
     },
   },
@@ -698,7 +654,8 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 200000, max: 500000 }],
     },
     documentation: {
-      description: 'Prognostizierte Einnahmen in Jahr 3 — diversifiziert durch 6 Einnahmequellen statt primär Geräteverkauf.',
+      description:
+        'Prognostizierte Einnahmen in Jahr 3 — diversifiziert durch 6 Einnahmequellen statt primär Geräteverkauf.',
       link: '/fundraising',
     },
   },
@@ -722,7 +679,8 @@ export const NumberSources: Record<string, Metric> = {
       rules: [{ type: 'range', min: 500, max: 800 }],
     },
     documentation: {
-      description: 'Nutzfläche (~590 m²) plus ~60 m² Verkehrsfläche = ~650 m² Gesamtfläche. Abgeleitet aus hub-space-plan.ts.',
+      description:
+        'Nutzfläche (~590 m²) plus ~60 m² Verkehrsfläche = ~650 m² Gesamtfläche. Abgeleitet aus hub-space-plan.ts.',
       link: '/fundraising',
     },
   },
@@ -731,7 +689,6 @@ export const NumberSources: Record<string, Metric> = {
 // ---------------------------------------------------------------------------
 // Helper functions
 // ---------------------------------------------------------------------------
-
 
 // ---------------------------------------------------------------------------
 // Metric → InspectorData bridge
@@ -759,8 +716,7 @@ export function metricToInspectorData(
     formula?: string;
   },
 ): InspectorData {
-  const yearReplace = (s: string) =>
-    options?.year ? s.replace(/2025/g, String(options.year)) : s;
+  const yearReplace = (s: string) => (options?.year ? s.replace(/2025/g, String(options.year)) : s);
 
   return {
     label: yearReplace(metric.name),
@@ -768,9 +724,9 @@ export function metricToInspectorData(
     sourceType: SOURCE_TYPE_MAP[metric.source.type] ?? 'none',
     source: yearReplace(metric.source.path ?? 'Berechnet'),
     account: metric.source.account,
-    formula: options?.formula ?? (metric.formula ? yearReplace(metric.formula.expression) : undefined),
+    formula:
+      options?.formula ?? (metric.formula ? yearReplace(metric.formula.expression) : undefined),
     confidence: metric.source.confidence,
     description: yearReplace(metric.documentation.description),
   };
 }
-

@@ -1,7 +1,12 @@
 'use client';
 
 import CollapsibleSection from '@/components/ui/CollapsibleSection';
-import { QUALITY_TIERS, TIER_LABELS, TIER_COLORS, TIER_DESCRIPTIONS } from '@/lib/domain/foundation-helpers';
+import {
+  QUALITY_TIERS,
+  TIER_LABELS,
+  TIER_COLORS,
+  TIER_DESCRIPTIONS,
+} from '@/lib/domain/foundation-helpers';
 import { formatNumber } from '@/lib/utils/format';
 import type { QualityTier } from '@/lib/schemas/foundation';
 
@@ -28,14 +33,16 @@ export default function TierFilter({ activeTier, tierCounts, onSelect }: TierFil
               key={tier}
               onClick={() => onSelect(tier)}
               className={`flex min-h-11 w-full flex-col rounded-lg px-2.5 py-2 text-left transition-all ${
-                isActive
-                  ? 'bg-accent-muted ring-1 ring-primary/30'
-                  : 'hover:bg-surface-raised'
+                isActive ? 'bg-accent-muted ring-1 ring-primary/30' : 'hover:bg-surface-raised'
               }`}
             >
               <span className="flex w-full items-center justify-between">
-                <span className={`flex items-center gap-2 text-sm ${isActive ? 'font-semibold text-primary' : 'text-text-muted'}`}>
-                  <span className={`inline-block h-2 w-2 shrink-0 rounded-full ${TIER_COLORS[tier].split(' ')[0]}`} />
+                <span
+                  className={`flex items-center gap-2 text-sm ${isActive ? 'font-semibold text-primary' : 'text-text-muted'}`}
+                >
+                  <span
+                    className={`inline-block h-2 w-2 shrink-0 rounded-full ${TIER_COLORS[tier].split(' ')[0]}`}
+                  />
                   {TIER_LABELS[tier]}
                 </span>
                 <span className="text-xs tabular-nums text-text-muted">{formatNumber(count)}</span>
@@ -48,9 +55,7 @@ export default function TierFilter({ activeTier, tierCounts, onSelect }: TierFil
             </button>
           );
         })}
-        <p className="mt-1 text-sm text-text-muted">
-          Zeigt alle Stiftungen ab gewählter Stufe.
-        </p>
+        <p className="mt-1 text-sm text-text-muted">Zeigt alle Stiftungen ab gewählter Stufe.</p>
       </div>
     </CollapsibleSection>
   );

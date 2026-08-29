@@ -18,32 +18,51 @@ export function GeschichteSection() {
       <Card>
         <div className="flex flex-wrap gap-8">
           <div className="min-w-0 flex-[2] sm:min-w-[300px]">
-            <h3 className="mt-0 heading-card text-primary">Gegründet Dezember {ORG_PROFILE.founded}</h3>
+            <h3 className="mt-0 heading-card text-primary">
+              Gegründet Dezember {ORG_PROFILE.founded}
+            </h3>
             <p className="mt-2 text-sm text-text-secondary">
-              Revamp-IT wurde im Dezember {ORG_PROFILE.founded} in Zürich gegründet – geboren aus einer einfachen Beobachtung:
-              Immer mehr brauchbare Computer landeten im Müll. &ldquo;Da muss etwas passieren&rdquo;, war der Gedanke,
-              der alles ins Rollen brachte.
+              Revamp-IT wurde im Dezember {ORG_PROFILE.founded} in Zürich gegründet – geboren aus
+              einer einfachen Beobachtung: Immer mehr brauchbare Computer landeten im Müll.
+              &ldquo;Da muss etwas passieren&rdquo;, war der Gedanke, der alles ins Rollen brachte.
             </p>
             <p className="mt-2 text-sm text-text-secondary">
               In der Toni Molkerei in Zürich-West – in einem alten Käsekeller – begannen die Gründer
-              Michel, Eckhardt und Andreas, sich mit der Reparatur und Lebensverlängerung von Computern
-              zu beschäftigen. Schritt für Schritt hat sich daraus ein Verein entwickelt, der sich auf{' '}
-              <strong>Kreislaufwirtschaft, digitale Teilhabe und Open-Source-Technologie</strong> konzentriert.
+              Michel, Eckhardt und Andreas, sich mit der Reparatur und Lebensverlängerung von
+              Computern zu beschäftigen. Schritt für Schritt hat sich daraus ein Verein entwickelt,
+              der sich auf{' '}
+              <strong>Kreislaufwirtschaft, digitale Teilhabe und Open-Source-Technologie</strong>{' '}
+              konzentriert.
             </p>
             <h4 className="mt-4 heading-detail">Drei Themen von Anfang an:</h4>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-text-secondary">
-              <li><strong>Hardware und Reparatur</strong> – die Freude daran, Geräte zu reparieren und länger nutzbar zu machen</li>
-              <li><strong>Freie und Open-Source-Software</strong> – insbesondere Linux, um ältere Geräte ohne zusätzliche Lizenzkosten weiter zu betreiben</li>
-              <li><strong>Soziale Wirkung</strong> – die Überzeugung, dass Technologie Menschen unterstützen soll, statt sie auszuschliessen</li>
+              <li>
+                <strong>Hardware und Reparatur</strong> – die Freude daran, Geräte zu reparieren und
+                länger nutzbar zu machen
+              </li>
+              <li>
+                <strong>Freie und Open-Source-Software</strong> – insbesondere Linux, um ältere
+                Geräte ohne zusätzliche Lizenzkosten weiter zu betreiben
+              </li>
+              <li>
+                <strong>Soziale Wirkung</strong> – die Überzeugung, dass Technologie Menschen
+                unterstützen soll, statt sie auszuschliessen
+              </li>
             </ul>
           </div>
           <div className="min-w-[200px] flex-1">
-            <Card variant="muted" className="flex h-full flex-col items-center justify-center text-center">
+            <Card
+              variant="muted"
+              className="flex h-full flex-col items-center justify-center text-center"
+            >
               <span className="mb-3 text-4xl">🏢</span>
               <h3 className="heading-item">Heute</h3>
               <p className="mt-2 text-left text-sm text-text-secondary">
-                <strong>Laden:</strong> {ORG_PROFILE.address}<br />
-                <strong>Lager:</strong> {ORG_PROFILE.warehouseAddress}<br /><br />
+                <strong>Laden:</strong> {ORG_PROFILE.address}
+                <br />
+                <strong>Lager:</strong> {ORG_PROFILE.warehouseAddress}
+                <br />
+                <br />
                 Werkstatt, Verkauf und Community-Treffpunkt unter einem Dach.
               </p>
             </Card>
@@ -60,9 +79,15 @@ export function KontaktSection() {
       <h2 className="mb-4 heading-subsection">Kontakt</h2>
       <Card className="text-center">
         <h3 className="mb-3 heading-card">{ORG_PROFILE.name}</h3>
-        <p className="text-sm"><strong>Adresse:</strong> {ORG_PROFILE.address}</p>
-        <p className="text-sm"><strong>Telefon:</strong> {ORG_PROFILE.phone}</p>
-        <p className="text-sm"><strong>E-Mail:</strong> {ORG_PROFILE.email}</p>
+        <p className="text-sm">
+          <strong>Adresse:</strong> {ORG_PROFILE.address}
+        </p>
+        <p className="text-sm">
+          <strong>Telefon:</strong> {ORG_PROFILE.phone}
+        </p>
+        <p className="text-sm">
+          <strong>E-Mail:</strong> {ORG_PROFILE.email}
+        </p>
         <p className="text-sm">
           <strong>Web:</strong>{' '}
           <a href={ORG_PROFILE.website} target="_blank" rel="noopener noreferrer">

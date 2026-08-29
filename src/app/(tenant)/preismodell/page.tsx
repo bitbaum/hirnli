@@ -41,9 +41,10 @@ export default function PreismodellPage() {
           keinen funktionierenden Computer haben.
         </p>
         <p className="mt-3 text-sm text-text-secondary">
-          <strong>Wichtig:</strong> Wir bieten <strong>kostenlose Laptops</strong> an soziale Organisationen
-          wie AOZ, Caritas, Solinetz für deren Klient:innen. Dies wird durch Stiftungsgelder finanziert.
-          Zahlende Kund:innen finanzieren unsere Betriebskosten (Operations).
+          <strong>Wichtig:</strong> Wir bieten <strong>kostenlose Laptops</strong> an soziale
+          Organisationen wie AOZ, Caritas, Solinetz für deren Klient:innen. Dies wird durch
+          Stiftungsgelder finanziert. Zahlende Kund:innen finanzieren unsere Betriebskosten
+          (Operations).
         </p>
       </Card>
 
@@ -56,7 +57,10 @@ export default function PreismodellPage() {
               key={tier.name}
               className={`relative border-2 ${tier.borderColor} ${tier.bgColor} transition-shadow hover:shadow-lg`}
             >
-              <Badge variant="raw" className={`absolute -top-3 right-4 px-3 py-0.5 font-semibold ${tier.badgeColor}`}>
+              <Badge
+                variant="raw"
+                className={`absolute -top-3 right-4 px-3 py-0.5 font-semibold ${tier.badgeColor}`}
+              >
                 {tier.badge}
               </Badge>
               <h3 className="mb-1 heading-card font-bold">{tier.name}</h3>
@@ -77,9 +81,7 @@ export default function PreismodellPage() {
 
       {/* Preisbeispiel */}
       <section className="mb-8">
-        <h2 className="mb-4 heading-subsection">
-          Preisbeispiel: Laptop (Normalpreis CHF 200)
-        </h2>
+        <h2 className="mb-4 heading-subsection">Preisbeispiel: Laptop (Normalpreis CHF 200)</h2>
         <Card>
           <Table
             columns={PRICE_EXAMPLE_COLUMNS}
@@ -89,8 +91,14 @@ export default function PreismodellPage() {
           />
           <div className="mt-4 rounded-lg border-l-4 border-primary bg-surface-raised p-3 text-sm text-text-muted">
             <strong className="mb-1 block">Quellenangaben:</strong>
-            <Badge variant="derived" className="mr-1">Marktdaten</Badge> = Vergleich Ricardo/Tutti/Revendo |{' '}
-            <Badge variant="primary" className="mr-1">Vorstand</Badge> = Vorstandsentscheidung Januar 2025 |{' '}
+            <Badge variant="derived" className="mr-1">
+              Marktdaten
+            </Badge>{' '}
+            = Vergleich Ricardo/Tutti/Revendo |{' '}
+            <Badge variant="primary" className="mr-1">
+              Vorstand
+            </Badge>{' '}
+            = Vorstandsentscheidung Januar 2025 |{' '}
             <Link href="/methodik#pricing-model" className="text-primary hover:underline">
               Vollständige Methodik
             </Link>
@@ -105,16 +113,22 @@ export default function PreismodellPage() {
           <h3 className="mb-3 heading-card">Der Ausweis für Menschen mit wenig Geld</h3>
           <p className="mb-4 text-sm">
             Die <strong>KulturLegi</strong> ist ein schweizweiter Ausweis der Caritas. Er berechtigt
-            Menschen mit bescheidenem Einkommen zu Rabatten bei Kultur, Sport, Bildung -- und bei uns.
+            Menschen mit bescheidenem Einkommen zu Rabatten bei Kultur, Sport, Bildung -- und bei
+            uns.
           </p>
           <ul className="mb-4 space-y-2 text-sm">
             <li>
-              <strong>Berechtigt:</strong> Personen mit Einkommen unter ca. CHF 2&apos;600/Monat (Einzelperson){' '}
-              <Badge variant="primary">Externe Quelle</Badge>
+              <strong>Berechtigt:</strong> Personen mit Einkommen unter ca. CHF 2&apos;600/Monat
+              (Einzelperson) <Badge variant="primary">Externe Quelle</Badge>
             </li>
             <li>
               <strong>Mehr Info:</strong>{' '}
-              <a href="https://www.kulturlegi.ch" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              <a
+                href="https://www.kulturlegi.ch"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
                 kulturlegi.ch
               </a>
             </li>
@@ -124,9 +138,13 @@ export default function PreismodellPage() {
             </li>
           </ul>
           <div className="rounded-lg border-l-4 border-primary bg-surface-base p-3 text-sm text-text-muted">
-            <strong>Quelle Einkommensgrenze:</strong>{' '}
-            Die CHF 2&apos;600/Monat stammen von{' '}
-            <a href="https://www.kulturlegi.ch/ueber-uns/faq/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            <strong>Quelle Einkommensgrenze:</strong> Die CHF 2&apos;600/Monat stammen von{' '}
+            <a
+              href="https://www.kulturlegi.ch/ueber-uns/faq/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
               kulturlegi.ch FAQ
             </a>
             . Der genaue Betrag kann je nach Kanton und Haushaltsgrösse variieren.
@@ -150,8 +168,9 @@ export default function PreismodellPage() {
         </div>
         <Callout color="primary">
           <p className="text-sm">
-            <strong>Kein Papierkram:</strong> Wir setzen auf Vertrauen. Die meisten Menschen sind ehrlich.
-            Die wenigen, die das System ausnutzen könnten, sind der Preis für ein unbürokratisches System.
+            <strong>Kein Papierkram:</strong> Wir setzen auf Vertrauen. Die meisten Menschen sind
+            ehrlich. Die wenigen, die das System ausnutzen könnten, sind der Preis für ein
+            unbürokratisches System.
           </p>
         </Callout>
       </section>
@@ -174,7 +193,8 @@ export default function PreismodellPage() {
                 <li>Workshops für Kinder aus einkommensschwachen Familien</li>
               </ul>
               <p className="text-sm text-text-muted">
-                <strong>Empfohlen:</strong> +20% bis +50% auf den Normalpreis<br />
+                <strong>Empfohlen:</strong> +20% bis +50% auf den Normalpreis
+                <br />
                 Bei einem CHF 200 Laptop sind das nur CHF 40 - 100 mehr.
               </p>
             </div>
@@ -188,30 +208,28 @@ export default function PreismodellPage() {
 
       {/* Monitoring KPIs */}
       <section className="mb-8">
-        <h2 className="mb-4 heading-subsection">
-          Monitoring: Wie erfolgreich ist das Modell?
-        </h2>
+        <h2 className="mb-4 heading-subsection">Monitoring: Wie erfolgreich ist das Modell?</h2>
 
         <MetricGrid columns={4} className="mb-6">
           <NumberWithSource numberKey="GRATIS_QUOTE_TARGET" size="md" showLabel={true} />
           <NumberWithSource numberKey="KULTURLEGI_QUOTE_TARGET" size="md" showLabel={true} />
           <NumberWithSource numberKey="SUPPORTER_QUOTE_TARGET" size="md" showLabel={true} />
-          <MetricCard label="Aufstockungen" value="Konto 3510" subtitle="Quelldaten" sourceType="live" />
+          <MetricCard
+            label="Aufstockungen"
+            value="Konto 3510"
+            subtitle="Quelldaten"
+            sourceType="live"
+          />
         </MetricGrid>
 
         <Card className="mb-4">
           <CardHeader>
             <CardTitle>Berechnung der Zielwerte</CardTitle>
           </CardHeader>
-          <Table
-            columns={KPI_COLUMNS}
-            data={KPI_DATA}
-            keyExtractor={(row) => row.kpi}
-            compact
-          />
+          <Table columns={KPI_COLUMNS} data={KPI_DATA} keyExtractor={(row) => row.kpi} compact />
           <div className="mt-4 rounded-lg border-l-4 border-primary bg-surface-raised p-3 text-sm text-text-muted">
-            <strong>Quelle aller Zielwerte:</strong>{' '}
-            Vorstandsentscheidung Januar 2025. Basiert auf Schätzungen, nicht auf historischen Daten.{' '}
+            <strong>Quelle aller Zielwerte:</strong> Vorstandsentscheidung Januar 2025. Basiert auf
+            Schätzungen, nicht auf historischen Daten.{' '}
             <Link href="/methodik#pricing-model" className="text-primary hover:underline">
               Vollständige Methodik
             </Link>
@@ -220,11 +238,13 @@ export default function PreismodellPage() {
 
         <Callout color="warning">
           <p className="text-sm">
-            <strong>Daten-Limitierung:</strong> Aktuell erfassen wir nur die Aufstockungen (Konto 3510 in Kivitendo).
-            Die Gratis-, KulturLegi- und Supporter-Quoten sind noch nicht systematisch messbar.
+            <strong>Daten-Limitierung:</strong> Aktuell erfassen wir nur die Aufstockungen (Konto
+            3510 in Kivitendo). Die Gratis-, KulturLegi- und Supporter-Quoten sind noch nicht
+            systematisch messbar.
           </p>
           <p className="mt-2 text-sm">
-            <strong>Nächster Schritt:</strong> Kassensystem erweitern, um Preisstufe pro Verkauf zu erfassen.
+            <strong>Nächster Schritt:</strong> Kassensystem erweitern, um Preisstufe pro Verkauf zu
+            erfassen.
           </p>
         </Callout>
       </section>
@@ -251,15 +271,17 @@ export default function PreismodellPage() {
         <h2 className="mb-4 heading-subsection">Dokumentation</h2>
         <Card>
           <p className="text-sm">
-            Das vollständige Preismodell-Dokument mit allen Details zu Buchhaltung,
-            Umsetzung und Kommunikation findest du hier:
+            Das vollständige Preismodell-Dokument mit allen Details zu Buchhaltung, Umsetzung und
+            Kommunikation findest du hier:
           </p>
           <p className="mt-2">
             <code className="rounded bg-surface-raised px-2 py-1 text-sm">
               01_Management/B_Finanzen/Preismodell_Solidaritaet.md
             </code>
           </p>
-          <Button href={ORG_PROFILE.cloudUrl} target="_blank" className="mt-4">Im Nextcloud öffnen</Button>
+          <Button href={ORG_PROFILE.cloudUrl} target="_blank" className="mt-4">
+            Im Nextcloud öffnen
+          </Button>
         </Card>
       </section>
 

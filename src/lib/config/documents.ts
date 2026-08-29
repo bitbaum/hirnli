@@ -40,19 +40,17 @@ export interface Document {
 // ---------------------------------------------------------------------------
 
 function buildFoundationGesuche(foundations: Foundation[]): Document[] {
-  return foundations
-    .filter(hasGesuchPage)
-    .map((foundation): Document => ({
-      id: `gesuch-${foundation.slug}`,
-      title: `Gesuch ${foundation.name}`,
-      description: `Personalisiertes Gesuch für ${foundation.name} — ${foundation.themes.join(', ')}`,
-      format: 'PDF',
-      category: 'gesuch',
-      action: 'download',
-      href: `/api/pdf/gesuch/${foundation.slug}`,
-      size: '~5 Seiten',
-      badge: `Fit ${foundation.fitScore}/10`,
-    }));
+  return foundations.filter(hasGesuchPage).map((foundation): Document => ({
+    id: `gesuch-${foundation.slug}`,
+    title: `Gesuch ${foundation.name}`,
+    description: `Personalisiertes Gesuch für ${foundation.name} — ${foundation.themes.join(', ')}`,
+    format: 'PDF',
+    category: 'gesuch',
+    action: 'download',
+    href: `/api/pdf/gesuch/${foundation.slug}`,
+    size: '~5 Seiten',
+    badge: `Fit ${foundation.fitScore}/10`,
+  }));
 }
 
 // ---------------------------------------------------------------------------
@@ -63,9 +61,8 @@ const TEMPLATE_GESUCHE: Document[] = TEMPLATE_TYPES.map((templateType): Document
   const foundation = TEMPLATE_FOUNDATIONS[templateType];
 
   // Get proper label: TYPE_LABELS for A/B/C/D/network, TEMPLATE_LABELS for generisch
-  const label = templateType === 'generisch'
-    ? TEMPLATE_LABELS.generisch.long
-    : TYPE_LABELS[templateType].long;
+  const label =
+    templateType === 'generisch' ? TEMPLATE_LABELS.generisch.long : TYPE_LABELS[templateType].long;
 
   return {
     id: `vorlage-${templateType}`,
@@ -90,7 +87,8 @@ function buildDataExports(foundationCount: number): Document[] {
     {
       id: 'export-financial',
       title: `Finanzdaten ${FINANCIAL_YEAR_RANGE}`,
-      description: 'Komplette Einnahmen & Ausgaben nach Jahr und Kategorie — generiert aus Kivitendo-Quelldaten',
+      description:
+        'Komplette Einnahmen & Ausgaben nach Jahr und Kategorie — generiert aus Kivitendo-Quelldaten',
       format: 'CSV',
       category: 'export',
       action: 'download',
@@ -131,7 +129,8 @@ const SOURCE_FILES: Document[] = [
   {
     id: 'source-trial-balance',
     title: 'Summen & Saldenliste (Kivitendo)',
-    description: 'Original Erfolgsrechnung aus Kivitendo — Kontensalden per 31.12.2026. Basis für alle Finanzdaten auf dieser Seite.',
+    description:
+      'Original Erfolgsrechnung aus Kivitendo — Kontensalden per 31.12.2026. Basis für alle Finanzdaten auf dieser Seite.',
     format: 'CSV',
     category: 'quelle',
     action: 'download',
@@ -143,7 +142,8 @@ const SOURCE_FILES: Document[] = [
   {
     id: 'source-chart-accounts',
     title: 'Kontenplan (Kivitendo)',
-    description: 'Kontenplan-Struktur aus Kivitendo — zeigt alle Konten und ihre Hierarchie. Wichtig für Transparenz der Buchführung.',
+    description:
+      'Kontenplan-Struktur aus Kivitendo — zeigt alle Konten und ihre Hierarchie. Wichtig für Transparenz der Buchführung.',
     format: 'CSV',
     category: 'quelle',
     action: 'download',
@@ -155,7 +155,8 @@ const SOURCE_FILES: Document[] = [
   {
     id: 'source-consolidated-workbook',
     title: 'Konsolidierte Finanzdaten 2007-2025 (Excel)',
-    description: '13-Sheet Excel mit allen Finanzdaten: P&L, Bilanz, Top Kunden, Einkauf, etc. — ANONYMISIERT (Kundennamen ersetzt) mit Datenqualitäts-Warnungen und Quellenangaben pro Sheet.',
+    description:
+      '13-Sheet Excel mit allen Finanzdaten: P&L, Bilanz, Top Kunden, Einkauf, etc. — ANONYMISIERT (Kundennamen ersetzt) mit Datenqualitäts-Warnungen und Quellenangaben pro Sheet.',
     format: 'Excel',
     category: 'quelle',
     action: 'download',
@@ -167,7 +168,8 @@ const SOURCE_FILES: Document[] = [
   {
     id: 'source-excel-readme',
     title: 'README: Konsolidierte Finanzdaten',
-    description: 'Umfassende Dokumentation der Excel-Datei: Inhalt, Erstellung, Anonymisierung, Datenqualitäts-Warnungen, Quellenangaben. BITTE ZUERST LESEN.',
+    description:
+      'Umfassende Dokumentation der Excel-Datei: Inhalt, Erstellung, Anonymisierung, Datenqualitäts-Warnungen, Quellenangaben. BITTE ZUERST LESEN.',
     format: 'Markdown',
     category: 'quelle',
     action: 'download',
@@ -198,7 +200,8 @@ const BERICHTE: Document[] = [
   {
     id: 'pitch-deck-2025',
     title: 'Pitch Deck 2025',
-    description: 'Präsentationsdeck für Stiftungen & Förderer — 8 Folien, Querformat A4. Problem, Lösung, Impact, Finanzen, Hub-Vision. Aus Live-Daten generiert.',
+    description:
+      'Präsentationsdeck für Stiftungen & Förderer — 8 Folien, Querformat A4. Problem, Lösung, Impact, Finanzen, Hub-Vision. Aus Live-Daten generiert.',
     format: 'PDF',
     category: 'bericht',
     action: 'download',
@@ -232,7 +235,12 @@ export function buildDocuments(foundations: Foundation[]) {
     vorlagenCount: TEMPLATE_GESUCHE.length,
     exportsCount: exports.length,
     quellenCount: SOURCE_FILES.length,
-    totalCount: BERICHTE.length + gesuche.length + TEMPLATE_GESUCHE.length + exports.length + SOURCE_FILES.length,
+    totalCount:
+      BERICHTE.length +
+      gesuche.length +
+      TEMPLATE_GESUCHE.length +
+      exports.length +
+      SOURCE_FILES.length,
   };
 
   return { documents, stats };

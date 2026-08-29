@@ -78,9 +78,7 @@ describe('Convenience exports', () => {
   });
 
   it('CO2_TOTAL_TONNES is derived correctly from LAPTOPS_REFURBISHED_COUNT × CO2_PER_LAPTOP / 1000', () => {
-    expect(CO2_TOTAL_TONNES).toBe(
-      Math.round((LAPTOPS_REFURBISHED_COUNT * CO2_PER_LAPTOP) / 1000)
-    );
+    expect(CO2_TOTAL_TONNES).toBe(Math.round((LAPTOPS_REFURBISHED_COUNT * CO2_PER_LAPTOP) / 1000));
   });
 
   it('CO2_TOTAL_TONNES is a positive integer', () => {

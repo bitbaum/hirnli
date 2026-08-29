@@ -56,7 +56,7 @@ describe('computeGesuchReadiness', () => {
 
   it('all checks pass for complete data', () => {
     const result = computeGesuchReadiness(makeGesuch(), makeOverrides(), makeFoundation());
-    expect(result.checks.every(c => c.passed)).toBe(true);
+    expect(result.checks.every((c) => c.passed)).toBe(true);
     expect(result.score).toBe(100);
     expect(result.ready).toBe(true);
   });
@@ -74,7 +74,10 @@ describe('computeGesuchReadiness', () => {
 
   it('ready=false when too few checks pass', () => {
     const result = computeGesuchReadiness(
-      makeGesuch({ themes: { primary: null, secondary: [], all: [] }, story: { why: '', how: '', projects: [], evidence: '' } } as unknown as ComposedGesuch),
+      makeGesuch({
+        themes: { primary: null, secondary: [], all: [] },
+        story: { why: '', how: '', projects: [], evidence: '' },
+      } as unknown as ComposedGesuch),
       makeOverrides({ foundationBridge: '', anschreiben: undefined }),
       makeFoundation({ contact: undefined, applicationMethod: 'unknown' }),
     );
@@ -87,7 +90,7 @@ describe('computeGesuchReadiness', () => {
       makeOverrides({ foundationBridge: 'Too short' }),
       makeFoundation(),
     );
-    const bridge = result.checks.find(c => c.id === 'bridge');
+    const bridge = result.checks.find((c) => c.id === 'bridge');
     expect(bridge?.passed).toBe(false);
   });
 
@@ -97,7 +100,7 @@ describe('computeGesuchReadiness', () => {
       makeOverrides({ anschreiben: undefined }),
       makeFoundation(),
     );
-    const anschreiben = result.checks.find(c => c.id === 'anschreiben');
+    const anschreiben = result.checks.find((c) => c.id === 'anschreiben');
     expect(anschreiben?.passed).toBe(false);
   });
 
@@ -107,14 +110,14 @@ describe('computeGesuchReadiness', () => {
       makeOverrides(),
       makeFoundation({ contact: { email: 'a@b.ch' }, websiteUrl: '' }),
     );
-    expect(withEmail.checks.find(c => c.id === 'contact')?.passed).toBe(true);
+    expect(withEmail.checks.find((c) => c.id === 'contact')?.passed).toBe(true);
 
     const withWebsite = computeGesuchReadiness(
       makeGesuch(),
       makeOverrides(),
       makeFoundation({ contact: undefined, websiteUrl: 'https://test.ch' }),
     );
-    expect(withWebsite.checks.find(c => c.id === 'contact')?.passed).toBe(true);
+    expect(withWebsite.checks.find((c) => c.id === 'contact')?.passed).toBe(true);
   });
 
   it('method check fails for unknown', () => {
@@ -123,7 +126,7 @@ describe('computeGesuchReadiness', () => {
       makeOverrides(),
       makeFoundation({ applicationMethod: 'unknown' }),
     );
-    expect(result.checks.find(c => c.id === 'method')?.passed).toBe(false);
+    expect(result.checks.find((c) => c.id === 'method')?.passed).toBe(false);
   });
 
   it('each check has id, label, and hint', () => {

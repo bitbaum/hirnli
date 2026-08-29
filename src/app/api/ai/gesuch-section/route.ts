@@ -18,7 +18,11 @@ import { z } from 'zod';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { resolveTypeLabel } from '@/lib/config/foundations/metadata';
-import { API_ERR_BAD_REQUEST, API_ERR_AI_NOT_CONFIGURED, API_ERR_AI_UNAVAILABLE } from '@/lib/utils/errors';
+import {
+  API_ERR_BAD_REQUEST,
+  API_ERR_AI_NOT_CONFIGURED,
+  API_ERR_AI_UNAVAILABLE,
+} from '@/lib/utils/errors';
 import { callGroq } from '../../../../../scripts/lib/groq-client';
 import { recordLLMFailure, recordLLMSuccess } from '@/lib/llm-health';
 
@@ -67,24 +71,28 @@ const requestSchema = z.object({
   currentText: z.string().min(1),
   fieldPath: z.string().optional(),
   fieldDescription: z.string().optional(),
-  foundationContext: z.object({
-    name: z.string(),
-    purpose: z.string().optional(),
-    type: z.string().optional(),
-    themes: z.array(z.string()).optional(),
-    fitScore: z.number().optional(),
-    priority: z.number().optional(),
-    tagline: z.string().optional(),
-    researchNotes: z.string().optional(),
-    pastGrantees: z.array(z.string()).optional(),
-    grantRange: z.object({ min: z.number().optional(), max: z.number().optional() }).optional(),
-    applicationProcess: z.string().optional(),
-    deadline: z.string().optional(),
-    deadlineText: z.string().optional(),
-    criteria: z.object({ nature: z.string().optional(), education: z.string().optional() }).optional(),
-    partners: z.array(z.string()).optional(),
-    sdgs: z.array(z.number()).optional(),
-  }).optional(),
+  foundationContext: z
+    .object({
+      name: z.string(),
+      purpose: z.string().optional(),
+      type: z.string().optional(),
+      themes: z.array(z.string()).optional(),
+      fitScore: z.number().optional(),
+      priority: z.number().optional(),
+      tagline: z.string().optional(),
+      researchNotes: z.string().optional(),
+      pastGrantees: z.array(z.string()).optional(),
+      grantRange: z.object({ min: z.number().optional(), max: z.number().optional() }).optional(),
+      applicationProcess: z.string().optional(),
+      deadline: z.string().optional(),
+      deadlineText: z.string().optional(),
+      criteria: z
+        .object({ nature: z.string().optional(), education: z.string().optional() })
+        .optional(),
+      partners: z.array(z.string()).optional(),
+      sdgs: z.array(z.number()).optional(),
+    })
+    .optional(),
 });
 
 type RequestBody = z.infer<typeof requestSchema>;
@@ -163,10 +171,7 @@ function buildUserMessage(body: RequestBody): string {
 export async function POST(request: NextRequest) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    return NextResponse.json(
-      { success: false, error: API_ERR_AI_NOT_CONFIGURED },
-      { status: 503 },
-    );
+    return NextResponse.json({ success: false, error: API_ERR_AI_NOT_CONFIGURED }, { status: 503 });
   }
 
   let rawBody: unknown;
@@ -178,10 +183,7 @@ export async function POST(request: NextRequest) {
 
   const parsed = requestSchema.safeParse(rawBody);
   if (!parsed.success) {
-    return NextResponse.json(
-      { success: false, error: API_ERR_BAD_REQUEST },
-      { status: 400 },
-    );
+    return NextResponse.json({ success: false, error: API_ERR_BAD_REQUEST }, { status: 400 });
   }
   const body = parsed.data;
 

@@ -7,7 +7,12 @@ interface YearSelectorProps {
   className?: string;
 }
 
-export default function YearSelector({ years, selected, onChange, className = '' }: YearSelectorProps) {
+export default function YearSelector({
+  years,
+  selected,
+  onChange,
+  className = '',
+}: YearSelectorProps) {
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <span className="text-sm text-text-muted">Jahr:</span>

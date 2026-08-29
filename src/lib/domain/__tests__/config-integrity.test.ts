@@ -1,6 +1,21 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { SCORING_ENGINE, READINESS_ENGINE, PRIORITY_FORMULA, QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
-import { STATUS_LABELS, STATUS_BADGE_VARIANT, TYPE_LABELS, PRIORITY_CONFIG, PRIORITY_LEVELS, APPLICATION_METHOD_LABELS, SOURCES, FIT_CONFIG, THEMES } from '@/lib/config/foundations';
+import {
+  SCORING_ENGINE,
+  READINESS_ENGINE,
+  PRIORITY_FORMULA,
+  QUALITY_THRESHOLDS,
+} from '@/lib/config/fit-scoring';
+import {
+  STATUS_LABELS,
+  STATUS_BADGE_VARIANT,
+  TYPE_LABELS,
+  PRIORITY_CONFIG,
+  PRIORITY_LEVELS,
+  APPLICATION_METHOD_LABELS,
+  SOURCES,
+  FIT_CONFIG,
+  THEMES,
+} from '@/lib/config/foundations';
 // Not @/lib/db/foundations-repo — that one wraps reads in unstable_cache,
 // which requires a live Next.js server context and throws under vitest.
 import { getAllFoundations } from '../../../../scripts/lib/foundations';
@@ -9,14 +24,28 @@ import { FoundationType, ApplicationMethod, SourceId, ThemeId } from '@/lib/sche
 import { TRUST_CONFIG } from '@/lib/config/trust-levels';
 import { WHY, ANSCHREIBEN_TEMPLATES, THEME_ID_TO_STORY_KEY } from '@/lib/config/stories';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
-import { APPLICATION_STATUSES, KANBAN_COLUMNS, isActiveApplication, isTerminalStatus, getPriorityColor } from '@/lib/config/application-statuses';
-import { NumberConfidence, CONFIDENCE_COLORS, CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
+import {
+  APPLICATION_STATUSES,
+  KANBAN_COLUMNS,
+  isActiveApplication,
+  isTerminalStatus,
+  getPriorityColor,
+} from '@/lib/config/application-statuses';
+import {
+  NumberConfidence,
+  CONFIDENCE_COLORS,
+  CONFIDENCE_DISPLAY_LABELS,
+} from '@/lib/config/numbers';
 import { Confidence } from '@/lib/schemas/metric';
 import { computeReadinessScore, computePriorityScore } from '../foundation-scores';
 import { validateFoundationQuality } from '../foundation-quality';
 import {
-  TEMPLATE_TYPES, TEMPLATE_FOUNDATIONS, TYPE_TEMPLATE_KEYS,
-  SCHWERPUNKT_TEMPLATE_TYPES, getTemplateFoundation, getSchwerpunktTemplate,
+  TEMPLATE_TYPES,
+  TEMPLATE_FOUNDATIONS,
+  TYPE_TEMPLATE_KEYS,
+  SCHWERPUNKT_TEMPLATE_TYPES,
+  getTemplateFoundation,
+  getSchwerpunktTemplate,
 } from '@/lib/config/gesuch-templates';
 import { SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 
@@ -39,7 +68,7 @@ describe('application-statuses config integrity', () => {
     const kanbanSet = new Set(KANBAN_COLUMNS);
     for (const s of APPLICATION_STATUSES) {
       if (isActiveApplication(s.id)) {
-        expect(kanbanSet.has(s.id as typeof KANBAN_COLUMNS[number])).toBe(true);
+        expect(kanbanSet.has(s.id as (typeof KANBAN_COLUMNS)[number])).toBe(true);
       }
     }
   });
@@ -53,8 +82,9 @@ describe('application-statuses config integrity', () => {
     expect(isTerminalStatus('accepted')).toBe(true);
     expect(isTerminalStatus('rejected')).toBe(true);
     // All non-terminal statuses must return false
-    const nonTerminal = APPLICATION_STATUSES.map(s => s.id)
-      .filter(id => id !== 'accepted' && id !== 'rejected');
+    const nonTerminal = APPLICATION_STATUSES.map((s) => s.id).filter(
+      (id) => id !== 'accepted' && id !== 'rejected',
+    );
     for (const id of nonTerminal) {
       expect(isTerminalStatus(id)).toBe(false);
     }
@@ -63,8 +93,9 @@ describe('application-statuses config integrity', () => {
   it('isActiveApplication returns false only for rejected and withdrawn', () => {
     expect(isActiveApplication('rejected')).toBe(false);
     expect(isActiveApplication('withdrawn')).toBe(false);
-    const active = APPLICATION_STATUSES.map(s => s.id)
-      .filter(id => id !== 'rejected' && id !== 'withdrawn');
+    const active = APPLICATION_STATUSES.map((s) => s.id).filter(
+      (id) => id !== 'rejected' && id !== 'withdrawn',
+    );
     for (const id of active) {
       expect(isActiveApplication(id)).toBe(true);
     }
@@ -143,8 +174,9 @@ describe('scoring config integrity', () => {
 
   it('PRIORITY_FORMULA display thresholds are in descending order', () => {
     for (let i = 1; i < PRIORITY_FORMULA.display.length; i++) {
-      expect(PRIORITY_FORMULA.display[i - 1].minScore)
-        .toBeGreaterThan(PRIORITY_FORMULA.display[i].minScore);
+      expect(PRIORITY_FORMULA.display[i - 1].minScore).toBeGreaterThan(
+        PRIORITY_FORMULA.display[i].minScore,
+      );
     }
   });
 
@@ -156,7 +188,7 @@ describe('scoring config integrity', () => {
 
 describe('budget config integrity', () => {
   it('has at least 3 scenarios (minimal, moderate, maximum)', () => {
-    const ids = BUDGET_SCENARIOS.map(s => s.id);
+    const ids = BUDGET_SCENARIOS.map((s) => s.id);
     expect(ids).toContain('minimal');
     expect(ids).toContain('moderate');
     expect(ids).toContain('maximum');
@@ -213,7 +245,6 @@ describe('foundation type config integrity', () => {
 });
 
 describe('priority config integrity', () => {
-
   it('PRIORITY_CONFIG covers all priority levels 1-4', () => {
     for (const level of PRIORITY_LEVELS) {
       expect(PRIORITY_CONFIG[level]).toBeTruthy();
@@ -252,7 +283,7 @@ describe.skipIf(!process.env.DATABASE_URL)('foundation data integrity', () => {
   });
 
   it('no duplicate slugs', () => {
-    const slugs = data.map(f => f.slug);
+    const slugs = data.map((f) => f.slug);
     const unique = new Set(slugs);
     expect(unique.size).toBe(slugs.length);
   });

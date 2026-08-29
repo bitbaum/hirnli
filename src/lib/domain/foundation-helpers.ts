@@ -13,9 +13,10 @@ import { isRegistryUrl } from '@/lib/config/registry-domains';
 export const QUALITY_TIERS: QualityTier[] = [...QualityTier.options];
 
 /** Ordered tier ranks for comparisons — derived from schema order */
-const TIER_RANK = Object.fromEntries(
-  QualityTier.options.map((tier, i) => [tier, i + 1])
-) as Record<QualityTier, number>;
+const TIER_RANK = Object.fromEntries(QualityTier.options.map((tier, i) => [tier, i + 1])) as Record<
+  QualityTier,
+  number
+>;
 
 /** Check if a tier meets a minimum threshold */
 export function tierAtLeast(tier: QualityTier, minimum: QualityTier): boolean {
@@ -95,7 +96,7 @@ export function getTierPromotionSteps(f: Foundation): TierPromotion {
 
   // Find next tier
   const currentRank = TIER_RANK[currentTier];
-  const nextTier = QUALITY_TIERS.find(t => TIER_RANK[t] === currentRank + 1) ?? null;
+  const nextTier = QUALITY_TIERS.find((t) => TIER_RANK[t] === currentRank + 1) ?? null;
 
   return {
     currentTier,
@@ -157,8 +158,10 @@ export function hasGesuchPage(f: Foundation): boolean {
  */
 export function hasGesuchDataGaps(f: Foundation): boolean {
   const lacksContact = !f.contact?.email && !f.contact?.phone;
-  const thinResearchNotes = !f.researchNotes || f.researchNotes.length < QUALITY_THRESHOLDS.researchNotesMinChars;
-  const thinPurposeSummary = !f.purposeSummary || f.purposeSummary.length < QUALITY_THRESHOLDS.purposeSummaryMinChars;
+  const thinResearchNotes =
+    !f.researchNotes || f.researchNotes.length < QUALITY_THRESHOLDS.researchNotesMinChars;
+  const thinPurposeSummary =
+    !f.purposeSummary || f.purposeSummary.length < QUALITY_THRESHOLDS.purposeSummaryMinChars;
   const lacksWebsite = !f.websiteUrl || isRegistryUrl(f.websiteUrl);
   return lacksContact || thinResearchNotes || thinPurposeSummary || lacksWebsite;
 }

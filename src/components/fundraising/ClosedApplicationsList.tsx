@@ -36,7 +36,9 @@ export function ClosedApplicationsList({ applications }: ClosedApplicationsListP
                 className="flex items-center justify-between gap-4 rounded-lg border border-border-default bg-surface-raised px-4 py-2.5"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium border ${status.color}`}>
+                  <span
+                    className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium border ${status.color}`}
+                  >
                     {status.label}
                   </span>
                   <Link
@@ -48,7 +50,9 @@ export function ClosedApplicationsList({ applications }: ClosedApplicationsListP
                 </div>
                 <div className="flex items-center gap-4 shrink-0 text-sm text-text-muted">
                   {application.status === 'accepted' && application.awardedAmount != null ? (
-                    <span className="font-medium text-success-text">{formatCHF(application.awardedAmount)} zugesagt</span>
+                    <span className="font-medium text-success-text">
+                      {formatCHF(application.awardedAmount)} zugesagt
+                    </span>
                   ) : application.requestedAmount != null ? (
                     <span>{formatCHF(application.requestedAmount)}</span>
                   ) : null}

@@ -118,11 +118,7 @@ export default function FilterSidebarAdvanced({
           </label>
         </div>
 
-        <TierFilter
-          activeTier={filters.minTier}
-          tierCounts={tierCounts}
-          onSelect={setMinTier}
-        />
+        <TierFilter activeTier={filters.minTier} tierCounts={tierCounts} onSelect={setMinTier} />
 
         <a
           href="/fundraising/scoring-methodik"

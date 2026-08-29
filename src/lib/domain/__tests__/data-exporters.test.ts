@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import {
-  exportFoundationList,
-  exportRevenueHistory,
-  exportFinancialData,
-} from '../data-exporters';
+import { exportFoundationList, exportRevenueHistory, exportFinancialData } from '../data-exporters';
 import { makeFoundation } from './fixtures';
 
 const TEST_FOUNDATIONS = [
   makeFoundation(),
-  makeFoundation({ slug: 'other-stiftung', name: 'Other, Stiftung "AG"', themes: ['digitale-bildung', 'digitale-souveraenitaet'] }),
+  makeFoundation({
+    slug: 'other-stiftung',
+    name: 'Other, Stiftung "AG"',
+    themes: ['digitale-bildung', 'digitale-souveraenitaet'],
+  }),
 ];
 
 // ---------------------------------------------------------------------------

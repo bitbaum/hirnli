@@ -50,8 +50,8 @@ async function fetchAllFoundations(): Promise<Foundation[]> {
     .where(
       and(
         eq(foundations.archived, false),
-        or(isNull(foundations.dataConfidence), ne(foundations.dataConfidence, 'unverified'))
-      )
+        or(isNull(foundations.dataConfidence), ne(foundations.dataConfidence, 'unverified')),
+      ),
     );
 
   const valid: Foundation[] = [];
@@ -61,7 +61,9 @@ async function fetchAllFoundations(): Promise<Foundation[]> {
       valid.push(parsed.data);
     } else {
       const id = (row.configData as { slug?: string } | null)?.slug ?? '(unknown slug)';
-      console.warn(`[foundations-repo] invalid config_data for ${id}, skipped: ${parsed.error.issues[0]?.message}`);
+      console.warn(
+        `[foundations-repo] invalid config_data for ${id}, skipped: ${parsed.error.issues[0]?.message}`,
+      );
     }
   }
   valid.sort((a, b) => a.slug.localeCompare(b.slug));
@@ -71,7 +73,7 @@ async function fetchAllFoundations(): Promise<Foundation[]> {
     if (violations.length > 0) {
       const msg = violations.map((v) => `  ${v.slug}: ${v.issues.join('; ')}`).join('\n');
       console.warn(
-        `[Foundation Quality Gate] ${violations.length} researched entries (tier >= profiliert) have quality issues:\n${msg}`
+        `[Foundation Quality Gate] ${violations.length} researched entries (tier >= profiliert) have quality issues:\n${msg}`,
       );
     }
   }
@@ -91,7 +93,7 @@ export async function getAllFoundations(): Promise<Foundation[]> {
   } catch (err) {
     console.error(
       '[foundations-repo] DB unreachable — is the SSH tunnel open? See docs/DEPLOYMENT.md',
-      err
+      err,
     );
     return [];
   }

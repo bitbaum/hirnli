@@ -10,9 +10,7 @@ export default function FundraisingError({
 }) {
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center px-4 text-center">
-      <h2 className="heading-section mb-3">
-        Fundraising konnte nicht geladen werden
-      </h2>
+      <h2 className="heading-section mb-3">Fundraising konnte nicht geladen werden</h2>
       <p className="text-text-secondary mb-6 max-w-md">
         Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut oder laden Sie die Seite neu.
       </p>

@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { formatCHF } from '@/lib/utils/format';
 import { CHART_PALETTE, CHART_COLORS } from '@/lib/config/chart-colors';

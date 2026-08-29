@@ -28,7 +28,10 @@ export function getLineItemsForScenario(scenarioId: string): BudgetLineItem[] {
 }
 
 /** Get themed label for a budget line item (Robert Rule III: same cost, different framing) */
-export function getThemedLabel(item: BudgetLineItem, themeKey?: ThemeKey): { label: string; description: string } {
+export function getThemedLabel(
+  item: BudgetLineItem,
+  themeKey?: ThemeKey,
+): { label: string; description: string } {
   if (themeKey && item.themeLabels?.[themeKey]) {
     return item.themeLabels[themeKey];
   }
@@ -62,7 +65,9 @@ export function calculate3YearTotals(scenario: BudgetScenario) {
 /**
  * Group line items by category
  */
-export function groupLineItemsByCategory(items: BudgetLineItem[]): Map<BudgetCategory, BudgetLineItem[]> {
+export function groupLineItemsByCategory(
+  items: BudgetLineItem[],
+): Map<BudgetCategory, BudgetLineItem[]> {
   const grouped = new Map<BudgetCategory, BudgetLineItem[]>();
 
   for (const item of items) {

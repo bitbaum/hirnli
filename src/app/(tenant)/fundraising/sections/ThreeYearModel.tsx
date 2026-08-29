@@ -2,33 +2,48 @@ import Badge from '@/components/ui/Badge';
 import { formatCHF } from '@/lib/utils/format';
 import { EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
-import {
-  THREE_YEAR_MODEL,
-  BUDGET_EINMALIG_TOTAL,
-  EIGEN_3Y_TOTAL,
-  PROJECT_3Y_TOTAL,
-} from '../data';
+import { THREE_YEAR_MODEL, BUDGET_EINMALIG_TOTAL, EIGEN_3Y_TOTAL, PROJECT_3Y_TOTAL } from '../data';
 import Inspectable, { type InspectorHandle } from './Inspectable';
 
 export default function ThreeYearModel({ inspector }: { inspector: InspectorHandle }) {
   const inspectProject3Y = NumberSources.project_3y_total
     ? metricToInspectorData(NumberSources.project_3y_total, formatCHF(PROJECT_3Y_TOTAL))
-    : { label: 'Gesamtprojekt 3 Jahre', value: formatCHF(PROJECT_3Y_TOTAL), sourceType: 'derived' as const, source: 'fundraising/data.ts → THREE_YEAR_MODEL', formula: 'SUM(THREE_YEAR_MODEL[].total)', confidence: 'Hoch', description: 'Summe aller 3 Jahresbudgets.' };
+    : {
+        label: 'Gesamtprojekt 3 Jahre',
+        value: formatCHF(PROJECT_3Y_TOTAL),
+        sourceType: 'derived' as const,
+        source: 'fundraising/data.ts → THREE_YEAR_MODEL',
+        formula: 'SUM(THREE_YEAR_MODEL[].total)',
+        confidence: 'Hoch',
+        description: 'Summe aller 3 Jahresbudgets.',
+      };
 
   const inspectEigen3Y = NumberSources.eigen_3y_total
     ? metricToInspectorData(NumberSources.eigen_3y_total, formatCHF(EIGEN_3Y_TOTAL))
-    : { label: 'Eigenleistung 3 Jahre', value: formatCHF(EIGEN_3Y_TOTAL), sourceType: 'derived' as const, source: 'fundraising/data.ts → THREE_YEAR_MODEL', confidence: 'Hoch' };
+    : {
+        label: 'Eigenleistung 3 Jahre',
+        value: formatCHF(EIGEN_3Y_TOTAL),
+        sourceType: 'derived' as const,
+        source: 'fundraising/data.ts → THREE_YEAR_MODEL',
+        confidence: 'Hoch',
+      };
 
   const inspectEinmalig = NumberSources.budget_einmalig
     ? metricToInspectorData(NumberSources.budget_einmalig, formatCHF(BUDGET_EINMALIG_TOTAL))
-    : { label: 'Einmalige Investitionen', value: formatCHF(BUDGET_EINMALIG_TOTAL), sourceType: 'derived' as const, source: 'BUDGET_MODULES', confidence: 'Hoch' };
+    : {
+        label: 'Einmalige Investitionen',
+        value: formatCHF(BUDGET_EINMALIG_TOTAL),
+        sourceType: 'derived' as const,
+        source: 'BUDGET_MODULES',
+        confidence: 'Hoch',
+      };
 
   return (
     <section className="mb-8">
       <h2 className="mb-2 heading-subsection">3-Jahres-Modell: Weg zur Selbständigkeit</h2>
       <p className="mb-6 text-sm text-text-muted">
-        Einmalige Investitionen nur im Jahr 1. Stiftungsgelder sinken jedes Jahr.
-        Eigenleistung (bewertete Freiwilligenarbeit, kein Cash) wächst durch Community-Aufbau.
+        Einmalige Investitionen nur im Jahr 1. Stiftungsgelder sinken jedes Jahr. Eigenleistung
+        (bewertete Freiwilligenarbeit, kein Cash) wächst durch Community-Aufbau.
       </p>
 
       {/* Year cards with visual bars */}
@@ -38,10 +53,15 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
           const stiftungenPct = Math.round((stiftungenAmt / year.total) * 100);
           const eigenPct = Math.round((year.eigen / year.total) * 100);
           return (
-            <div key={year.year} className={`rounded-2xl border p-5 ${i === 0 ? 'border-pillar-vision/30 bg-pillar-vision/5' : i === 2 ? 'border-success/20 bg-success/10' : 'border-border-default bg-surface-base'}`}>
+            <div
+              key={year.year}
+              className={`rounded-2xl border p-5 ${i === 0 ? 'border-pillar-vision/30 bg-pillar-vision/5' : i === 2 ? 'border-success/20 bg-success/10' : 'border-border-default bg-surface-base'}`}
+            >
               <div className="mb-1 flex items-baseline justify-between">
                 <span className="text-sm font-bold text-text-muted">{year.year}</span>
-                <Badge variant={i === 0 ? 'primary' : i === 2 ? 'success' : 'warning'}>{year.label}</Badge>
+                <Badge variant={i === 0 ? 'primary' : i === 2 ? 'success' : 'warning'}>
+                  {year.label}
+                </Badge>
               </div>
               <Inspectable
                 data={{
@@ -49,13 +69,15 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
                   value: formatCHF(year.total),
                   sourceType: 'derived',
                   source: 'fundraising/data.ts → THREE_YEAR_MODEL',
-                  formula: i === 0
-                    ? `BUDGET_EINMALIG_TOTAL (${formatCHF(year.einmalig)}) + BUDGET_JAEHRLICH_TOTAL (${formatCHF(year.stiftungen)}) + Eigenleistung (${formatCHF(year.eigen)})`
-                    : `Stiftungen (${formatCHF(year.stiftungen)}) + Eigenleistung (${formatCHF(year.eigen)})`,
+                  formula:
+                    i === 0
+                      ? `BUDGET_EINMALIG_TOTAL (${formatCHF(year.einmalig)}) + BUDGET_JAEHRLICH_TOTAL (${formatCHF(year.stiftungen)}) + Eigenleistung (${formatCHF(year.eigen)})`
+                      : `Stiftungen (${formatCHF(year.stiftungen)}) + Eigenleistung (${formatCHF(year.eigen)})`,
                   confidence: 'Hoch',
-                  description: i === 0
-                    ? 'Jahr 1: Vollständig aus BUDGET_MODULES abgeleitet.'
-                    : `${year.year}: Degressives Modell gemäss DEGRESSIVE_CONFIG.`,
+                  description:
+                    i === 0
+                      ? 'Jahr 1: Vollständig aus BUDGET_MODULES abgeleitet.'
+                      : `${year.year}: Degressives Modell gemäss DEGRESSIVE_CONFIG.`,
                 }}
                 inspector={inspector}
                 className="mb-4 heading-section tabular-nums"
@@ -110,16 +132,22 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
             <tr className="border-b border-border-default bg-surface-raised text-left">
               <th scope="col" className="px-4 py-2.5 heading-detail" />
               {THREE_YEAR_MODEL.map((y) => (
-                <th key={y.year} scope="col" className="px-4 py-2.5 text-right heading-detail">{y.year}</th>
+                <th key={y.year} scope="col" className="px-4 py-2.5 text-right heading-detail">
+                  {y.year}
+                </th>
               ))}
-              <th scope="col" className="px-4 py-2.5 text-right font-bold text-text-primary">3-Jahres-Total</th>
+              <th scope="col" className="px-4 py-2.5 text-right font-bold text-text-primary">
+                3-Jahres-Total
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr className="border-b border-border-default">
               <td className="px-4 py-2 text-text-muted">Einmalige Investitionen</td>
               {THREE_YEAR_MODEL.map((y) => (
-                <td key={y.year} className="px-4 py-2 text-right tabular-nums">{y.einmalig > 0 ? formatCHF(y.einmalig) : '—'}</td>
+                <td key={y.year} className="px-4 py-2 text-right tabular-nums">
+                  {y.einmalig > 0 ? formatCHF(y.einmalig) : '—'}
+                </td>
               ))}
               <td className="px-4 py-2 text-right tabular-nums font-medium">
                 <Inspectable data={inspectEinmalig} inspector={inspector}>
@@ -135,9 +163,13 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
                 </span>
               </td>
               {THREE_YEAR_MODEL.map((y) => (
-                <td key={y.year} className="px-4 py-2 text-right tabular-nums text-pillar-vision">{formatCHF(y.stiftungen)}</td>
+                <td key={y.year} className="px-4 py-2 text-right tabular-nums text-pillar-vision">
+                  {formatCHF(y.stiftungen)}
+                </td>
               ))}
-              <td className="px-4 py-2 text-right tabular-nums font-medium text-pillar-vision">{formatCHF(THREE_YEAR_MODEL.reduce((s, y) => s + y.stiftungen, 0))}</td>
+              <td className="px-4 py-2 text-right tabular-nums font-medium text-pillar-vision">
+                {formatCHF(THREE_YEAR_MODEL.reduce((s, y) => s + y.stiftungen, 0))}
+              </td>
             </tr>
             <tr className="border-b border-border-default bg-success/10">
               <td className="px-4 py-2">
@@ -147,7 +179,9 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
                 </span>
               </td>
               {THREE_YEAR_MODEL.map((y) => (
-                <td key={y.year} className="px-4 py-2 text-right tabular-nums text-success">{formatCHF(y.eigen)}</td>
+                <td key={y.year} className="px-4 py-2 text-right tabular-nums text-success">
+                  {formatCHF(y.eigen)}
+                </td>
               ))}
               <td className="px-4 py-2 text-right tabular-nums font-medium text-success">
                 <Inspectable data={inspectEigen3Y} inspector={inspector}>
@@ -158,7 +192,9 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
             <tr className="border-t-2 border-grey-dark font-bold">
               <td className="px-4 py-2.5">Total</td>
               {THREE_YEAR_MODEL.map((y) => (
-                <td key={y.year} className="px-4 py-2.5 text-right tabular-nums">{formatCHF(y.total)}</td>
+                <td key={y.year} className="px-4 py-2.5 text-right tabular-nums">
+                  {formatCHF(y.total)}
+                </td>
               ))}
               <td className="px-4 py-2.5 text-right tabular-nums">
                 <Inspectable data={inspectProject3Y} inspector={inspector}>
@@ -171,8 +207,9 @@ export default function ThreeYearModel({ inspector }: { inspector: InspectorHand
       </div>
 
       <p className="mt-3 text-sm text-text-muted italic">
-        * Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF {EIGENLEISTUNG_CONFIG.ratePerHour}/h, NGO-Standard), kein Cashflow.
-        Jahr 3 setzt ~6.857 Freiwilligen-Stunden voraus (~3.4 Vollzeit-Äquivalente).
+        * Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF{' '}
+        {EIGENLEISTUNG_CONFIG.ratePerHour}/h, NGO-Standard), kein Cashflow. Jahr 3 setzt ~6.857
+        Freiwilligen-Stunden voraus (~3.4 Vollzeit-Äquivalente).
       </p>
     </section>
   );

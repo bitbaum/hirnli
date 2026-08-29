@@ -9,7 +9,11 @@ interface ThemeBadgeListProps {
   variant?: 'inline' | 'detailed';
 }
 
-export default function ThemeBadgeList({ themeIds, size = 'md', variant = 'inline' }: ThemeBadgeListProps) {
+export default function ThemeBadgeList({
+  themeIds,
+  size = 'md',
+  variant = 'inline',
+}: ThemeBadgeListProps) {
   if (variant === 'detailed') {
     return (
       <>
@@ -35,9 +39,7 @@ export default function ThemeBadgeList({ themeIds, size = 'md', variant = 'inlin
     );
   }
 
-  const sizeClasses = size === 'sm'
-    ? 'px-2 py-0.5 text-xs'
-    : 'px-3 py-1 text-sm font-medium';
+  const sizeClasses = size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-3 py-1 text-sm font-medium';
 
   return (
     <>

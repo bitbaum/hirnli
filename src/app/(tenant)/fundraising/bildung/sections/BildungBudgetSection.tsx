@@ -27,7 +27,9 @@ export default function BildungBudgetSection() {
             </div>
             <div className="flex justify-between items-center pt-2 bg-accent-muted rounded-lg p-3">
               <span className="text-base font-bold text-primary">Total pro Jahr</span>
-              <span className="text-xl font-bold text-primary">CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}</span>
+              <span className="text-xl font-bold text-primary">
+                CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}
+              </span>
             </div>
           </div>
         </Card>
@@ -38,7 +40,12 @@ export default function BildungBudgetSection() {
             <div className="bg-surface-base rounded-lg p-3">
               <div className="text-sm text-success mb-1">Investition pro direkt Trainierter</div>
               <div className="heading-section text-success">
-                CHF {formatNumber(Math.round(BPL_TOTAL_COST_PER_YEAR / MULTIPLICATION_EFFECT.combined.direct_training))}
+                CHF{' '}
+                {formatNumber(
+                  Math.round(
+                    BPL_TOTAL_COST_PER_YEAR / MULTIPLICATION_EFFECT.combined.direct_training,
+                  ),
+                )}
               </div>
               <div className="text-sm text-success">pro direkt trainierter Person/Jahr</div>
             </div>
@@ -52,7 +59,9 @@ export default function BildungBudgetSection() {
             <div className="bg-surface-base rounded-lg p-3">
               <div className="text-sm text-success mb-1">Finanzierungsziel</div>
               <div className="heading-section text-success">3 Jahre</div>
-              <div className="text-sm text-success">CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}/Jahr bis Selbsttragung</div>
+              <div className="text-sm text-success">
+                CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}/Jahr bis Selbsttragung
+              </div>
             </div>
           </div>
         </Card>

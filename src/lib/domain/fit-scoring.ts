@@ -81,7 +81,7 @@ function evaluateCondition(input: InputRecord, cond: MatchCondition): boolean {
     case 'containsAny': {
       if (typeof value !== 'string') return false;
       const lower = value.toLowerCase();
-      return cond.values.some(v => lower.includes(v));
+      return cond.values.some((v) => lower.includes(v));
     }
 
     case 'truthy':
@@ -91,7 +91,7 @@ function evaluateCondition(input: InputRecord, cond: MatchCondition): boolean {
 
 function evaluateMatch(input: InputRecord, match: MatchExpression): boolean {
   if ('type' in match && match.type === 'or') {
-    return match.conditions.some(c => evaluateCondition(input, c));
+    return match.conditions.some((c) => evaluateCondition(input, c));
   }
   return evaluateCondition(input, match as MatchCondition);
 }
@@ -100,13 +100,16 @@ function evaluateMatch(input: InputRecord, match: MatchExpression): boolean {
 // Compute type registry — one pure function per type
 // ============================================================================
 
-function evaluateWeightedCategoryMatch(input: InputRecord, config: WeightedCategoryMatchConfig): number {
-  const tags = Object.values(input).find(v => Array.isArray(v)) as string[] | undefined;
+function evaluateWeightedCategoryMatch(
+  input: InputRecord,
+  config: WeightedCategoryMatchConfig,
+): number {
+  const tags = Object.values(input).find((v) => Array.isArray(v)) as string[] | undefined;
   if (!tags || tags.length === 0) return 0;
 
   let total = 0;
   for (const cat of config.categories) {
-    const hits = tags.filter(t => (cat.members as readonly string[]).includes(t)).length;
+    const hits = tags.filter((t) => (cat.members as readonly string[]).includes(t)).length;
     total += Math.min(hits * cat.weight, cat.cap);
   }
 
@@ -150,7 +153,7 @@ function evaluateAdditiveChecks(input: InputRecord, config: AdditiveChecksConfig
 
 /** Get per-check details for additiveChecks (for UI inspection) */
 function getAdditiveCheckDetails(input: InputRecord, config: AdditiveChecksConfig): CheckDetail[] {
-  return config.checks.map(check => ({
+  return config.checks.map((check) => ({
     label: check.label,
     passed: evaluateMatch(input, check.match),
     points: check.score,
@@ -158,7 +161,10 @@ function getAdditiveCheckDetails(input: InputRecord, config: AdditiveChecksConfi
 }
 
 const COMPUTE_REGISTRY: Record<string, (input: InputRecord, config: never) => number> = {
-  weightedCategoryMatch: evaluateWeightedCategoryMatch as (input: InputRecord, config: never) => number,
+  weightedCategoryMatch: evaluateWeightedCategoryMatch as (
+    input: InputRecord,
+    config: never,
+  ) => number,
   tieredLookup: evaluateTieredLookup as (input: InputRecord, config: never) => number,
   directMap: evaluateDirectMap as (input: InputRecord, config: never) => number,
   additiveChecks: evaluateAdditiveChecks as (input: InputRecord, config: never) => number,
@@ -344,8 +350,8 @@ export function fitScoreToDisplay(fitScore: number, isGated: boolean): 0 | 1 | 2
 /** Full label for a fit level: stars + name + score range, e.g. "★★★ Exzellent (8-10)" */
 export function fitDisplayLabel(level: 0 | 1 | 2 | 3): string {
   const fd = FIT_DISPLAY[level];
-  const threshold = SCORING_ENGINE.display.thresholds.find(t => t.level === level);
-  const nextThreshold = SCORING_ENGINE.display.thresholds.find(t => t.level === level + 1);
+  const threshold = SCORING_ENGINE.display.thresholds.find((t) => t.level === level);
+  const nextThreshold = SCORING_ENGINE.display.thresholds.find((t) => t.level === level + 1);
   if (threshold) {
     const max = nextThreshold ? nextThreshold.minScore - 1 : 10;
     return `${fd.stars} ${fd.label} (${threshold.minScore}-${max})`;

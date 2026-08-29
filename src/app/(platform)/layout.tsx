@@ -20,7 +20,9 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
             <span className="text-base font-bold tracking-tight text-text-primary">
               {PLATFORM_BRAND.name}
             </span>
-            <span className="hidden text-sm text-text-muted sm:inline">{PLATFORM_BRAND.tagline}</span>
+            <span className="hidden text-sm text-text-muted sm:inline">
+              {PLATFORM_BRAND.tagline}
+            </span>
           </Link>
           <div className="flex items-center gap-1">
             <Link

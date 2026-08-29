@@ -1,20 +1,30 @@
 import { describe, it, expect } from 'vitest';
-import { extractPurposeCore, buildFoundationBridge, buildSecondaryRelevance } from '../bridge-composer';
+import {
+  extractPurposeCore,
+  buildFoundationBridge,
+  buildSecondaryRelevance,
+} from '../bridge-composer';
 import { makeFoundation } from './fixtures';
 
 describe('extractPurposeCore', () => {
   it('strips ESA prefix format', () => {
-    const result = extractPurposeCore('Stiftung Muster (Zürich, ZH): , Förderung von Bildungsprojekten.');
+    const result = extractPurposeCore(
+      'Stiftung Muster (Zürich, ZH): , Förderung von Bildungsprojekten.',
+    );
     expect(result).toBe('Förderung von Bildungsprojekten');
   });
 
   it('strips statute prefix format', () => {
-    const result = extractPurposeCore('Zweck der Stiftung ist: - Förderung nachhaltiger Projekte - Bildungsarbeit');
+    const result = extractPurposeCore(
+      'Zweck der Stiftung ist: - Förderung nachhaltiger Projekte - Bildungsarbeit',
+    );
     expect(result).toBe('Förderung nachhaltiger Projekte');
   });
 
   it('handles double-prefix format', () => {
-    const result = extractPurposeCore('Name (City): Zweck der Stiftung ist: - Unterstützung sozialer Projekte');
+    const result = extractPurposeCore(
+      'Name (City): Zweck der Stiftung ist: - Unterstützung sozialer Projekte',
+    );
     expect(result).toBe('Unterstützung sozialer Projekte');
   });
 
@@ -24,7 +34,9 @@ describe('extractPurposeCore', () => {
   });
 
   it('takes first bullet if no period before it', () => {
-    const result = extractPurposeCore('Förderung der Nachhaltigkeit - Bildungsprojekte - Sozialarbeit');
+    const result = extractPurposeCore(
+      'Förderung der Nachhaltigkeit - Bildungsprojekte - Sozialarbeit',
+    );
     expect(result).toBe('Förderung der Nachhaltigkeit');
   });
 
@@ -52,7 +64,10 @@ describe('buildFoundationBridge', () => {
   });
 
   it('mentions foundation name when purposeSummary exists', () => {
-    const f = makeFoundation({ name: 'Drosos Stiftung', purposeSummary: 'Fördert Umweltprojekte.' });
+    const f = makeFoundation({
+      name: 'Drosos Stiftung',
+      purposeSummary: 'Fördert Umweltprojekte.',
+    });
     const result = buildFoundationBridge(f, 'Kreislaufwirtschaft');
     expect(result).toContain('Drosos Stiftung');
     expect(result).toContain('Revamp-IT');

@@ -55,8 +55,11 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
     <div className="gesuch-page">
       {/* VORLAGE banner */}
       <VorlageBanner title={bannerTitle} className="mb-4 print:hidden">
-        Schwerpunkt: <strong>{sp.label}</strong> |
-        Felder wie <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">[Name der Stiftung]</span> vor dem Versand ersetzen.
+        Schwerpunkt: <strong>{sp.label}</strong> | Felder wie{' '}
+        <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">
+          [Name der Stiftung]
+        </span>{' '}
+        vor dem Versand ersetzen.
       </VorlageBanner>
 
       <GesuchHeroSection
@@ -79,10 +82,7 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
 
         <GesuchEvidenceSection evidence={gesuch.story.evidence} />
 
-        <GesuchContactSection
-          foundationName="Ihre Stiftung"
-          organization={gesuch.organization}
-        />
+        <GesuchContactSection foundationName="Ihre Stiftung" organization={gesuch.organization} />
 
         {/* Navigation links */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">

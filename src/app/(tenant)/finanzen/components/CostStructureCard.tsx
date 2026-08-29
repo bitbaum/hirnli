@@ -70,19 +70,17 @@ export function CostStructureCard({ entry }: { entry: AnnualPLEntry }) {
         <strong>Ergebnis {entry.year}:</strong>{' '}
         <span className={entry.result >= 0 ? 'text-success' : 'text-danger'}>
           {formatCHF(entry.result)}
-        </span>
-        {' '}bei {formatCHF(entry.revenue)} Einnahmen.
+        </span>{' '}
+        bei {formatCHF(entry.revenue)} Einnahmen.
         {entry.year === 2023 && (
           <span className="ml-1">
-            Miete macht {((detail.miete / total) * 100).toFixed(0)}% der Kosten aus —
-            der grösste Kostentreiber.
+            Miete macht {((detail.miete / total) * 100).toFixed(0)}% der Kosten aus — der grösste
+            Kostentreiber.
           </span>
         )}
       </div>
 
-      {entry.note && (
-        <p className="mt-2 text-sm text-text-muted">⚠ {entry.note}</p>
-      )}
+      {entry.note && <p className="mt-2 text-sm text-text-muted">⚠ {entry.note}</p>}
     </Card>
   );
 }

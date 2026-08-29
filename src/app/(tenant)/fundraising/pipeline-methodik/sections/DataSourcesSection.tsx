@@ -9,19 +9,23 @@ export default function DataSourcesSection() {
         <Card>
           <h3 className="mb-2 heading-item">Zefix (Handelsregister)</h3>
           <p className="mb-2 text-sm text-text-secondary">
-            Offizielles Schweizer Handelsregister. Enthält alle eingetragenen Stiftungen
-            mit Name, UID und Sitz. Keine Informationen über Stiftungszweck oder Tätigkeit.
+            Offizielles Schweizer Handelsregister. Enthält alle eingetragenen Stiftungen mit Name,
+            UID und Sitz. Keine Informationen über Stiftungszweck oder Tätigkeit.
           </p>
-          <p className="text-sm text-text-muted">{SWISS_FOUNDATIONS_DISPLAY} Stiftungen. Quelle: zefix.ch</p>
+          <p className="text-sm text-text-muted">
+            {SWISS_FOUNDATIONS_DISPLAY} Stiftungen. Quelle: zefix.ch
+          </p>
         </Card>
         <Card>
           <h3 className="mb-2 heading-item">ESA (Eidg. Stiftungsaufsicht)</h3>
           <p className="mb-2 text-sm text-text-secondary">
-            Bundesaufsicht über Stiftungen. Enthält den offiziellen Stiftungszweck —
-            die rechtliche Zweckbeschreibung, die bei der Gründung festgelegt wurde.
-            Dies ist unser wichtigstes Signal für die Erstbewertung.
+            Bundesaufsicht über Stiftungen. Enthält den offiziellen Stiftungszweck — die rechtliche
+            Zweckbeschreibung, die bei der Gründung festgelegt wurde. Dies ist unser wichtigstes
+            Signal für die Erstbewertung.
           </p>
-          <p className="text-sm text-text-muted">~5&apos;400 Stiftungen mit Zwecktext. Quelle: esa.admin.ch</p>
+          <p className="text-sm text-text-muted">
+            ~5&apos;400 Stiftungen mit Zwecktext. Quelle: esa.admin.ch
+          </p>
         </Card>
       </div>
     </section>

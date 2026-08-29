@@ -29,19 +29,19 @@ import { THEME_COLORS } from '@/lib/config/chart-colors';
 // Human-readable labels for ApplicationMethod enum values.
 // Hide when value is 'unknown' or 'none' (no useful info to show).
 export const APPLICATION_METHOD_LABELS: Record<ApplicationMethod, string | null> = {
-  email:       'Per E-Mail',
-  online:      'Online-Formular',
-  post:        'Per Post',
-  contact:     'Auf Anfrage',
-  direct:      'Direkte Kontaktaufnahme',
-  personal:    'Persönliches Gespräch',
+  email: 'Per E-Mail',
+  online: 'Online-Formular',
+  post: 'Per Post',
+  contact: 'Auf Anfrage',
+  direct: 'Direkte Kontaktaufnahme',
+  personal: 'Persönliches Gespräch',
   partnership: 'Partnerschaft',
   via_partner: 'Über Partner',
-  membership:  'Mitgliedschaft',
-  contract:    'Vertrag',
-  none:        null,   // no open applications — shown as warning elsewhere
-  unknown:     null,   // no data — hide rather than display "unknown"
-  invitation:  'Nur auf Einladung',
+  membership: 'Mitgliedschaft',
+  contract: 'Vertrag',
+  none: null, // no open applications — shown as warning elsewhere
+  unknown: null, // no data — hide rather than display "unknown"
+  invitation: 'Nur auf Einladung',
 };
 
 // ============================================================================
@@ -195,12 +195,19 @@ export function resolveTypeLabel(type: string): TypeLabel | undefined {
 export const STATUS_LABELS: Record<FoundationStatus, StatusLabel> = {
   open: { text: 'Offen', class: 'open', desc: 'Bewerbungen werden angenommen' },
   closed: { text: 'Geschlossen', class: 'closed', desc: 'Aktuell keine Bewerbungen m\u00F6glich' },
-  soon: { text: '\u00D6ffnet bald', class: 'soon', desc: 'Bewerbungsportal \u00F6ffnet demn\u00E4chst' },
+  soon: {
+    text: '\u00D6ffnet bald',
+    class: 'soon',
+    desc: 'Bewerbungsportal \u00F6ffnet demn\u00E4chst',
+  },
   rolling: { text: 'Laufend', class: 'rolling', desc: 'Jederzeit bewerbbar' },
 } as const satisfies Record<FoundationStatus, StatusLabel>;
 
 /** Badge variant for each foundation status \u2014 single source instead of inline ternary chains. */
-export const STATUS_BADGE_VARIANT: Record<FoundationStatus, 'success' | 'warning' | 'danger' | 'primary'> = {
+export const STATUS_BADGE_VARIANT: Record<
+  FoundationStatus,
+  'success' | 'warning' | 'danger' | 'primary'
+> = {
   open: 'success',
   rolling: 'primary',
   soon: 'warning',
@@ -277,101 +284,328 @@ export { FIT_DISPLAY as FIT_CONFIG } from '../fit-scoring';
 // ============================================================================
 
 export const NOT_RECOMMENDED = [
-  { name: 'Avina Stiftung', reason: 'Nur Ern\u00E4hrung/Food - "Soziale Projekte" explizit ausgeschlossen (best\u00E4tigt Feb 2026)' },
-  { name: 'Velux Stiftung', reason: 'Nur akademische Forschung (Tageslicht, Wald, Alter) - nur Uni-Angestellte (best\u00E4tigt Feb 2026)' },
+  {
+    name: 'Avina Stiftung',
+    reason:
+      'Nur Ern\u00E4hrung/Food - "Soziale Projekte" explizit ausgeschlossen (best\u00E4tigt Feb 2026)',
+  },
+  {
+    name: 'Velux Stiftung',
+    reason:
+      'Nur akademische Forschung (Tageslicht, Wald, Alter) - nur Uni-Angestellte (best\u00E4tigt Feb 2026)',
+  },
   { name: 'Stiftung Walder', reason: 'Nur Projekte f\u00FCr Senioren (65+)' },
-  { name: 'Pestalozzi-Stiftung', reason: 'F\u00FChrt eigene Programme, keine externe F\u00F6rderung' },
-  { name: 'UBS Optimus Foundation', reason: 'Aktuell geschlossen f\u00FCr Bewerbungen, globaler Fokus' },
+  {
+    name: 'Pestalozzi-Stiftung',
+    reason: 'F\u00FChrt eigene Programme, keine externe F\u00F6rderung',
+  },
+  {
+    name: 'UBS Optimus Foundation',
+    reason: 'Aktuell geschlossen f\u00FCr Bewerbungen, globaler Fokus',
+  },
   { name: 'Swiss Re Foundation', reason: 'Nur Entwicklungsl\u00E4nder' },
-  { name: 'Coop Nachhaltigkeitsfonds', reason: 'Stark auf Food fokussiert, "Kerngesch\u00E4ft-Verbindung" n\u00F6tig' },
-  { name: 'Ernst Schmidheiny Stiftung', reason: 'Aufgel\u00F6st (Liquidation abgeschlossen Okt 2023)' },
+  {
+    name: 'Coop Nachhaltigkeitsfonds',
+    reason: 'Stark auf Food fokussiert, "Kerngesch\u00E4ft-Verbindung" n\u00F6tig',
+  },
+  {
+    name: 'Ernst Schmidheiny Stiftung',
+    reason: 'Aufgel\u00F6st (Liquidation abgeschlossen Okt 2023)',
+  },
   { name: 'Arcas Foundation', reason: 'Aufgel\u00F6st 2022, keine Antr\u00E4ge mehr m\u00F6glich' },
   { name: 'Christoph Merian Stiftung', reason: 'Nur Stadt Basel - geografische Beschr\u00E4nkung' },
-  { name: 'Volkart Stiftung', reason: 'Sozialbereich nur auf Einladung, aktuell geschlossen f\u00FCr Gesuche' },
-  { name: 'Stiftung Wegweiser', reason: 'Nur Bildungsinstitutionen f\u00FCr Jugendpers\u00F6nlichkeitsentwicklung - zu enge Nische' },
-  { name: 'Roger Federer Foundation', reason: 'Keine externen Antr\u00E4ge, nur Fr\u00FChkindliche Bildung' },
-  { name: 'Jacobs Foundation', reason: 'Keine unaufgeforderten Antr\u00E4ge, forschungsorientiert' },
+  {
+    name: 'Volkart Stiftung',
+    reason: 'Sozialbereich nur auf Einladung, aktuell geschlossen f\u00FCr Gesuche',
+  },
+  {
+    name: 'Stiftung Wegweiser',
+    reason:
+      'Nur Bildungsinstitutionen f\u00FCr Jugendpers\u00F6nlichkeitsentwicklung - zu enge Nische',
+  },
+  {
+    name: 'Roger Federer Foundation',
+    reason: 'Keine externen Antr\u00E4ge, nur Fr\u00FChkindliche Bildung',
+  },
+  {
+    name: 'Jacobs Foundation',
+    reason: 'Keine unaufgeforderten Antr\u00E4ge, forschungsorientiert',
+  },
   { name: 'Oak Foundation', reason: 'Kein passendes Programm, sehr tiefe Annahmequote' },
-  { name: 'Z Zurich Foundation', reason: 'Kein offener Antragsprozess - w\u00E4hlt Partner selbst aus' },
-  { name: 'STI Stiftung (Biel)', reason: 'Nur Startups im Espace Mittelland, Darlehen statt Grants' },
+  {
+    name: 'Z Zurich Foundation',
+    reason: 'Kein offener Antragsprozess - w\u00E4hlt Partner selbst aus',
+  },
+  {
+    name: 'STI Stiftung (Biel)',
+    reason: 'Nur Startups im Espace Mittelland, Darlehen statt Grants',
+  },
   { name: 'IKEA Stiftung Schweiz', reason: 'Nur Design/Architektur/Kunsthandwerk' },
-  { name: 'Werner Siemens-Stiftung', reason: 'Nur universitäre Mega-Forschung (CHF 5-15 Mio. pro Projekt) - falscher Massstab' },
-  { name: 'SIG For Better Foundation', reason: 'Corporate Stiftung für Lebensmittelverpackung/Food Waste - Fokus Entwicklungsländer' },
-  { name: 'Blue Earth Foundation', reason: 'Nimmt keine externen Gesuche an - operiert über Blue Earth Capital (Impact Investor)' },
+  {
+    name: 'Werner Siemens-Stiftung',
+    reason: 'Nur universitäre Mega-Forschung (CHF 5-15 Mio. pro Projekt) - falscher Massstab',
+  },
+  {
+    name: 'SIG For Better Foundation',
+    reason: 'Corporate Stiftung für Lebensmittelverpackung/Food Waste - Fokus Entwicklungsländer',
+  },
+  {
+    name: 'Blue Earth Foundation',
+    reason: 'Nimmt keine externen Gesuche an - operiert über Blue Earth Capital (Impact Investor)',
+  },
   { name: 'Stiftung für Bevölkerung, Migration und Umwelt', reason: 'Aufgelöst Mai 2020' },
-  { name: 'Innovationsstiftung SZKB', reason: 'VC für Tech-Startups (CHF 300k-2M Eigenkapital/Darlehen) - Kt. Schwyz Fokus' },
-  { name: 'Gemeinnütziger Fonds Bildung (Kanton Zürich)', reason: 'Aufgelöst Ende 2023 — Bildungsförderung an Swisslos Gemeinnützigen Fonds richten' },
+  {
+    name: 'Innovationsstiftung SZKB',
+    reason: 'VC für Tech-Startups (CHF 300k-2M Eigenkapital/Darlehen) - Kt. Schwyz Fokus',
+  },
+  {
+    name: 'Gemeinnütziger Fonds Bildung (Kanton Zürich)',
+    reason: 'Aufgelöst Ende 2023 — Bildungsförderung an Swisslos Gemeinnützigen Fonds richten',
+  },
   // Batch 6: ESA candidate research (false positives)
-  { name: 'Bridging Nations Stiftung', reason: 'Kunst/kulturelle Diplomatie/interreligiöser Dialog - kein Technologie/IT-Bezug' },
-  { name: 'SEFA KAYA FOUNDATION', reason: 'Nur Entwicklungsländer mit hoher Armut - kein Schweiz-Inland' },
-  { name: 'UTIL Stiftung', reason: 'Fokus Asien (Social Impact Investor) - nicht für Schweizer Projekte' },
-  { name: 'Stiftung Horyzon', reason: 'Operatives Hilfswerk (YMCA/YWCA) nur in Entwicklungsländern - keine externe Förderung' },
-  { name: 'Arco Foundation (Winterthur)', reason: 'Dachstiftung/Donor-Advised Fund - nimmt explizit keine Gesuche an' },
-  { name: 'Fondation e-Sankt Moritz', reason: 'E-Mobilität/Transport-Fokus + primär Vermögensverwaltung' },
-  { name: 'Schilling-Stiftung', reason: 'Nord-Süd-Entwicklungszusammenarbeit (Mikrokredite Bauern/Fischer) - nicht CH-Inland' },
-  { name: 'Stiftung Fritz Bösch', reason: 'Individuelle Stipendien nur für Bewohner:innen Lyss (BE) unter 20 Jahren' },
-  { name: 'Marigold Philanthropic Foundation', reason: 'Biodiversität/Ökosystem-Restaurierung - kein IT/Digital/Kreislaufwirtschaft' },
-  { name: 'Stiftung Symphasis', reason: 'Geschlossener Partnerkreis - nimmt grundsätzlich keine Gesuche an' },
-  { name: 'Hamasil Stiftung', reason: 'Nimmt prinzipiell keine Gesuche an - sucht proaktiv Langzeit-Partner' },
-  { name: 'Fondation Botnar', reason: 'Schweiz nur für Forschungsprojekte - Einladung only - kein offener Antragsprozess' },
+  {
+    name: 'Bridging Nations Stiftung',
+    reason: 'Kunst/kulturelle Diplomatie/interreligiöser Dialog - kein Technologie/IT-Bezug',
+  },
+  {
+    name: 'SEFA KAYA FOUNDATION',
+    reason: 'Nur Entwicklungsländer mit hoher Armut - kein Schweiz-Inland',
+  },
+  {
+    name: 'UTIL Stiftung',
+    reason: 'Fokus Asien (Social Impact Investor) - nicht für Schweizer Projekte',
+  },
+  {
+    name: 'Stiftung Horyzon',
+    reason: 'Operatives Hilfswerk (YMCA/YWCA) nur in Entwicklungsländern - keine externe Förderung',
+  },
+  {
+    name: 'Arco Foundation (Winterthur)',
+    reason: 'Dachstiftung/Donor-Advised Fund - nimmt explizit keine Gesuche an',
+  },
+  {
+    name: 'Fondation e-Sankt Moritz',
+    reason: 'E-Mobilität/Transport-Fokus + primär Vermögensverwaltung',
+  },
+  {
+    name: 'Schilling-Stiftung',
+    reason: 'Nord-Süd-Entwicklungszusammenarbeit (Mikrokredite Bauern/Fischer) - nicht CH-Inland',
+  },
+  {
+    name: 'Stiftung Fritz Bösch',
+    reason: 'Individuelle Stipendien nur für Bewohner:innen Lyss (BE) unter 20 Jahren',
+  },
+  {
+    name: 'Marigold Philanthropic Foundation',
+    reason: 'Biodiversität/Ökosystem-Restaurierung - kein IT/Digital/Kreislaufwirtschaft',
+  },
+  {
+    name: 'Stiftung Symphasis',
+    reason: 'Geschlossener Partnerkreis - nimmt grundsätzlich keine Gesuche an',
+  },
+  {
+    name: 'Hamasil Stiftung',
+    reason: 'Nimmt prinzipiell keine Gesuche an - sucht proaktiv Langzeit-Partner',
+  },
+  {
+    name: 'Fondation Botnar',
+    reason: 'Schweiz nur für Forschungsprojekte - Einladung only - kein offener Antragsprozess',
+  },
   // Leopold Bachmann Stiftung → in STIFTUNGEN_DATA (slug: leopold-bachmann)
   // Batch 7: ESA Zürich candidates
-  { name: 'Hulda und Gustav Zumsteg-Stiftung', reason: 'Kunst/Gastronomie/Textil - kein IT/Digital/Sozial-Bezug' },
-  { name: 'Annette Ringier-Stiftung', reason: 'Nur benannte Partnerorganisationen + Ringier-Mitarbeiter-Wohlfahrt' },
-  { name: 'STIFTUNG ACCENTUS', reason: 'Akzeptiert keine unaufgeforderten Bewerbungen - fester Partnerkreis' },
-  { name: 'Rudolf und Romilda Kaegi-Stiftung', reason: 'Keine unaufgeforderten Gesuche + Biodiversität/Bergregionen/Behinderung' },
-  { name: 'Juerg Walter Meier-Stiftung', reason: 'Nur Alleinerziehende/Behinderte - keine Bildungsfinanzierung - sehr bescheiden' },
-  { name: 'Jean Anderson Studenten SOS Stiftung', reason: 'Stipendienfonds für Einzelpersonen (ETH/UZH) - nicht für Organisationen' },
-  { name: 'ROKPA Unterstützungs-Stiftung', reason: 'Operativ (ROKPA International) - nur Himalaya/Südafrika' },
+  {
+    name: 'Hulda und Gustav Zumsteg-Stiftung',
+    reason: 'Kunst/Gastronomie/Textil - kein IT/Digital/Sozial-Bezug',
+  },
+  {
+    name: 'Annette Ringier-Stiftung',
+    reason: 'Nur benannte Partnerorganisationen + Ringier-Mitarbeiter-Wohlfahrt',
+  },
+  {
+    name: 'STIFTUNG ACCENTUS',
+    reason: 'Akzeptiert keine unaufgeforderten Bewerbungen - fester Partnerkreis',
+  },
+  {
+    name: 'Rudolf und Romilda Kaegi-Stiftung',
+    reason: 'Keine unaufgeforderten Gesuche + Biodiversität/Bergregionen/Behinderung',
+  },
+  {
+    name: 'Juerg Walter Meier-Stiftung',
+    reason: 'Nur Alleinerziehende/Behinderte - keine Bildungsfinanzierung - sehr bescheiden',
+  },
+  {
+    name: 'Jean Anderson Studenten SOS Stiftung',
+    reason: 'Stipendienfonds für Einzelpersonen (ETH/UZH) - nicht für Organisationen',
+  },
+  {
+    name: 'ROKPA Unterstützungs-Stiftung',
+    reason: 'Operativ (ROKPA International) - nur Himalaya/Südafrika',
+  },
   { name: 'HC FAMILY FOUNDATION', reason: 'Geografischer Fokus: Argentinien und Uruguay' },
-  { name: 'PEMOL-Baumann-Stiftung', reason: 'Libertäre Werte + Landwirtschaft + Alternativmedizin - Falschmatch (politische Souveränität)' },
+  {
+    name: 'PEMOL-Baumann-Stiftung',
+    reason:
+      'Libertäre Werte + Landwirtschaft + Alternativmedizin - Falschmatch (politische Souveränität)',
+  },
   // Batch 7: ESA non-ZH candidates
   { name: 'Swiss Osteopath', reason: 'Nur Gesundheit/Osteopathie - kein IT/Sozial-Bezug' },
-  { name: 'Cartago Foundation', reason: 'Budget erschöpft - kann keine weiteren Projekte unterstützen' },
-  { name: '3hf Stiftung Schweiz', reason: 'Operativ, Aktivitäten werden reduziert - nur noch Naturpädagogik (Bienenschule)' },
-  { name: 'TrustBridge Global Foundation', reason: 'Dachstiftung/Donor-Advised-Fund-Plattform - kein Förderer' },
-  { name: 'We Share Forward Foundation', reason: 'Landwirtschaft/Gesundheit/Nahrung SDGs - Afrika/Ukraine-Fokus' },
-  { name: 'AMBUHL MANDELBAUM FOUNDATION', reason: 'In Liquidation/Konkurs (August 2025) - kein Vermögen mehr' },
-  { name: 'Stiftung Bildungswerkstatt Bergwald', reason: 'Operativ (Waldpädagogik) - keine externen Projektförderung' },
-  { name: 'Integrated Sustainable Development Foundation', reason: 'Nur informelle Siedlungen in Afrika (Khayelitsha) - kein Schweiz-Fokus' },
-  { name: 'Heinrich Renggli Stiftung', reason: 'Behinderung, Tierschutz, Altenpflege - kein IT/Digital/Kreislauf' },
-  { name: 'Ernesto Bertarelli Stiftung', reason: 'Marine Wissenschaft + Gstaad Community - Familienphilanthropie ohne IT-Bezug' },
-  { name: 'Qhubeka Stiftung', reason: 'Operativ - stellt Fahrräder in Afrika her - kein Schweiz-Projektfokus' },
+  {
+    name: 'Cartago Foundation',
+    reason: 'Budget erschöpft - kann keine weiteren Projekte unterstützen',
+  },
+  {
+    name: '3hf Stiftung Schweiz',
+    reason: 'Operativ, Aktivitäten werden reduziert - nur noch Naturpädagogik (Bienenschule)',
+  },
+  {
+    name: 'TrustBridge Global Foundation',
+    reason: 'Dachstiftung/Donor-Advised-Fund-Plattform - kein Förderer',
+  },
+  {
+    name: 'We Share Forward Foundation',
+    reason: 'Landwirtschaft/Gesundheit/Nahrung SDGs - Afrika/Ukraine-Fokus',
+  },
+  {
+    name: 'AMBUHL MANDELBAUM FOUNDATION',
+    reason: 'In Liquidation/Konkurs (August 2025) - kein Vermögen mehr',
+  },
+  {
+    name: 'Stiftung Bildungswerkstatt Bergwald',
+    reason: 'Operativ (Waldpädagogik) - keine externen Projektförderung',
+  },
+  {
+    name: 'Integrated Sustainable Development Foundation',
+    reason: 'Nur informelle Siedlungen in Afrika (Khayelitsha) - kein Schweiz-Fokus',
+  },
+  {
+    name: 'Heinrich Renggli Stiftung',
+    reason: 'Behinderung, Tierschutz, Altenpflege - kein IT/Digital/Kreislauf',
+  },
+  {
+    name: 'Ernesto Bertarelli Stiftung',
+    reason: 'Marine Wissenschaft + Gstaad Community - Familienphilanthropie ohne IT-Bezug',
+  },
+  {
+    name: 'Qhubeka Stiftung',
+    reason: 'Operativ - stellt Fahrräder in Afrika her - kein Schweiz-Projektfokus',
+  },
   // Batch 7: Well-known Swiss foundations
   { name: 'Hatt-Bucher-Stiftung', reason: 'Nur Seniorenbetreuung/Altenpflege (65+)' },
-  { name: 'Daetwyler Stiftung', reason: 'Primär Kanton Uri + Kultur - geografisch/thematisch nicht passend' },
+  {
+    name: 'Daetwyler Stiftung',
+    reason: 'Primär Kanton Uri + Kultur - geografisch/thematisch nicht passend',
+  },
   { name: 'Helmut Horten Stiftung', reason: 'Nur medizinische Grundlagenforschung' },
-  { name: 'Limmat Stiftung', reason: 'Religiöse Ausrichtung (Opus Dei) - nicht passend für unabhängiges Sozialunternehmen' },
+  {
+    name: 'Limmat Stiftung',
+    reason: 'Religiöse Ausrichtung (Opus Dei) - nicht passend für unabhängiges Sozialunternehmen',
+  },
   { name: 'Gottfried Keller-Stiftung', reason: 'Nur bildende Kunst für Museen' },
-  { name: 'Stiftung Denk an mich', reason: 'Nur Freizeit/Ferien für Menschen mit Behinderung - zu enge Nische' },
-  { name: 'Walter Haefner Stiftung', reason: 'Kein offener Antragsprozess - primär Forschung und Kultur' },
-  { name: 'Empiris Stiftung', reason: 'Dachstiftung für Wissenschaft - kein offener Antragsprozess' },
-  { name: 'Stiftung Edith Maryon', reason: 'Nur Immobilien/Landentspekulation - kein IT/Bildungs/Integrationsbezug' },
+  {
+    name: 'Stiftung Denk an mich',
+    reason: 'Nur Freizeit/Ferien für Menschen mit Behinderung - zu enge Nische',
+  },
+  {
+    name: 'Walter Haefner Stiftung',
+    reason: 'Kein offener Antragsprozess - primär Forschung und Kultur',
+  },
+  {
+    name: 'Empiris Stiftung',
+    reason: 'Dachstiftung für Wissenschaft - kein offener Antragsprozess',
+  },
+  {
+    name: 'Stiftung Edith Maryon',
+    reason: 'Nur Immobilien/Landentspekulation - kein IT/Bildungs/Integrationsbezug',
+  },
   { name: 'MAVA Foundation', reason: 'Förderaktivitäten beendet (Sunsetting 2022)' },
-  { name: 'Stiftung IPT', reason: 'Operativ - Dienstleister für berufliche Integration, kein Förderer' },
+  {
+    name: 'Stiftung IPT',
+    reason: 'Operativ - Dienstleister für berufliche Integration, kein Förderer',
+  },
   // Batch 7: Final research
-  { name: 'Kathrin Schweizer-Stiftung', reason: 'Derzeit keine Gesuche - Neuorientierung der Stiftung bis auf Weiteres' },
-  { name: 'Stiftung Alpenblick Gstaad', reason: 'Operativ - betreibt eigenes Ferienhaus für benachteiligte Familien' },
-  { name: 'Maria und Rudolf Laederach Stiftung', reason: 'Keine Gesuche - Vergabe nur durch Stiftungsrat - Fokus Kakaobauern/Ghana' },
-  { name: 'Ursula Joshi Stiftung', reason: 'Keine offene Bewerbung - Vergabe nur durch Stiftungsrat - Fokus Indien' },
-  { name: 'EDUCA SWISS', reason: 'Individuelle Bildungskredite - kein Förderprogramm für Organisationen' },
+  {
+    name: 'Kathrin Schweizer-Stiftung',
+    reason: 'Derzeit keine Gesuche - Neuorientierung der Stiftung bis auf Weiteres',
+  },
+  {
+    name: 'Stiftung Alpenblick Gstaad',
+    reason: 'Operativ - betreibt eigenes Ferienhaus für benachteiligte Familien',
+  },
+  {
+    name: 'Maria und Rudolf Laederach Stiftung',
+    reason: 'Keine Gesuche - Vergabe nur durch Stiftungsrat - Fokus Kakaobauern/Ghana',
+  },
+  {
+    name: 'Ursula Joshi Stiftung',
+    reason: 'Keine offene Bewerbung - Vergabe nur durch Stiftungsrat - Fokus Indien',
+  },
+  {
+    name: 'EDUCA SWISS',
+    reason: 'Individuelle Bildungskredite - kein Förderprogramm für Organisationen',
+  },
   // Batch 8: IT/tech social enterprise funders (a9847fa)
-  { name: 'Paradies-Stiftung für soziale Innovation', reason: 'Nimmt keine Gesuche an - Stiftungsrat wählt proaktiv aus' },
-  { name: 'Stiftung für angepasste Technologie und Sozialökologie', reason: 'Operativ (Ökozentrum) - kein Förderprogramm für externe Projekte' },
-  { name: 'Beatrice Ederer-Weber Stiftung', reason: 'Nur Behinderung/Innovation und Tierschutz - zu enge Nische für Revamp-IT' },
+  {
+    name: 'Paradies-Stiftung für soziale Innovation',
+    reason: 'Nimmt keine Gesuche an - Stiftungsrat wählt proaktiv aus',
+  },
+  {
+    name: 'Stiftung für angepasste Technologie und Sozialökologie',
+    reason: 'Operativ (Ökozentrum) - kein Förderprogramm für externe Projekte',
+  },
+  {
+    name: 'Beatrice Ederer-Weber Stiftung',
+    reason: 'Nur Behinderung/Innovation und Tierschutz - zu enge Nische für Revamp-IT',
+  },
   // Batch 9: Fundraiso discovery Phase 3 exclusions (Feb 2026, ad6ef8d)
-  { name: 'reSPact Foundation', reason: 'Operativ - führt eigene Nachhaltigkeitsprojekte, keine externe Förderung' },
-  { name: 'Malia Stiftung', reason: 'Operativ - Arbeitsintegrationsdienste in Altstätten SG, nicht Zürich, kein Förderer' },
-  { name: 'Heinrich & Erna Walder-Bachmann Stiftung', reason: 'Operativ - betreibt Seniorenwohnungen, keine Jugendförderung' },
-  { name: 'Brockenhaus Reimal Stiftung', reason: 'Operativ - Brockenhaus für Arbeitsintegration (ähnlich Revamp-IT Modell), kein Förderer' },
-  { name: 'Schweizer Jugend forscht', reason: 'Operativ - führt eigenes Jugend-Wissenschaftsprogramm, keine externe Projektförderung' },
-  { name: 'Lucie Gunst-Stiftung', reason: 'Standort Luzern nicht Zürich + Thema Denkmalpflege, nicht Jugend/IT' },
-  { name: 'Zurich Community Trust', reason: 'Birmingham UK, nicht Zürich Schweiz - komplett falscher Eintrag auf Fundraiso' },
-  { name: 'Stiftung Kreislaufwirtschaft Schweiz', reason: 'Existiert nicht - kein Eintrag in ESA oder offiziellem Register' },
-  { name: 'Rutz-Möbius-Stiftung', reason: 'Existiert nicht - nicht auffindbar in öffentlichen Datenbanken' },
-  { name: 'Iris & Matthias Mettler-Hofer Stiftung', reason: 'Existiert nicht - kein Eintrag in ESA oder Zefix' },
-  { name: 'Stiftung Zukunftsfähig', reason: 'Existiert nicht - kein Eintrag in ESA oder offiziellen Registern' },
-  { name: 'Stiftung für Wissenschaft und Gesellschaft', reason: 'Existiert nicht unter diesem Namen - möglicherweise Science et Cité (operativ)' },
+  {
+    name: 'reSPact Foundation',
+    reason: 'Operativ - führt eigene Nachhaltigkeitsprojekte, keine externe Förderung',
+  },
+  {
+    name: 'Malia Stiftung',
+    reason: 'Operativ - Arbeitsintegrationsdienste in Altstätten SG, nicht Zürich, kein Förderer',
+  },
+  {
+    name: 'Heinrich & Erna Walder-Bachmann Stiftung',
+    reason: 'Operativ - betreibt Seniorenwohnungen, keine Jugendförderung',
+  },
+  {
+    name: 'Brockenhaus Reimal Stiftung',
+    reason:
+      'Operativ - Brockenhaus für Arbeitsintegration (ähnlich Revamp-IT Modell), kein Förderer',
+  },
+  {
+    name: 'Schweizer Jugend forscht',
+    reason: 'Operativ - führt eigenes Jugend-Wissenschaftsprogramm, keine externe Projektförderung',
+  },
+  {
+    name: 'Lucie Gunst-Stiftung',
+    reason: 'Standort Luzern nicht Zürich + Thema Denkmalpflege, nicht Jugend/IT',
+  },
+  {
+    name: 'Zurich Community Trust',
+    reason: 'Birmingham UK, nicht Zürich Schweiz - komplett falscher Eintrag auf Fundraiso',
+  },
+  {
+    name: 'Stiftung Kreislaufwirtschaft Schweiz',
+    reason: 'Existiert nicht - kein Eintrag in ESA oder offiziellem Register',
+  },
+  {
+    name: 'Rutz-Möbius-Stiftung',
+    reason: 'Existiert nicht - nicht auffindbar in öffentlichen Datenbanken',
+  },
+  {
+    name: 'Iris & Matthias Mettler-Hofer Stiftung',
+    reason: 'Existiert nicht - kein Eintrag in ESA oder Zefix',
+  },
+  {
+    name: 'Stiftung Zukunftsfähig',
+    reason: 'Existiert nicht - kein Eintrag in ESA oder offiziellen Registern',
+  },
+  {
+    name: 'Stiftung für Wissenschaft und Gesellschaft',
+    reason: 'Existiert nicht unter diesem Namen - möglicherweise Science et Cité (operativ)',
+  },
 ] as const;
 
 // ============================================================================

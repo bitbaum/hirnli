@@ -14,11 +14,14 @@ export default function OperationsSection() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="border-l-4 border-l-grey-medium">
           <div className="flex items-center gap-3 mb-3">
-            <div className="text-2xl" aria-hidden="true">💼</div>
+            <div className="text-2xl" aria-hidden="true">
+              💼
+            </div>
             <h3 className="heading-item">Offices & Sozialräume</h3>
           </div>
           <p className="text-sm text-text-secondary mb-3">
-            <strong>{OFFICE_AREA.sqm_recommended} m²</strong> für Geschäftsleitung, Koordination, Meetings, Pausenraum, Sozialräume.
+            <strong>{OFFICE_AREA.sqm_recommended} m²</strong> für Geschäftsleitung, Koordination,
+            Meetings, Pausenraum, Sozialräume.
           </p>
           <ul className="text-sm text-text-secondary space-y-1 mb-3">
             <li>• 5× Büroarbeitsplätze (Kernteam + 2× BPL)</li>
@@ -26,19 +29,24 @@ export default function OperationsSection() {
             <li>• Pausenraum & Küche</li>
             <li>• Sanitäranlagen</li>
           </ul>
-          <HubCardFooter items={[
-            { label: 'Team', value: `${TEAM_MEMBERS.length} Personen + 2 geplante BPL` },
-            { label: 'Kosten', value: formatCHF(OFFICE_AREA.cost_estimate_chf) },
-          ]} />
+          <HubCardFooter
+            items={[
+              { label: 'Team', value: `${TEAM_MEMBERS.length} Personen + 2 geplante BPL` },
+              { label: 'Kosten', value: formatCHF(OFFICE_AREA.cost_estimate_chf) },
+            ]}
+          />
         </Card>
 
         <Card className="border-l-4 border-l-grey-medium">
           <div className="flex items-center gap-3 mb-3">
-            <div className="text-2xl" aria-hidden="true">📦</div>
+            <div className="text-2xl" aria-hidden="true">
+              📦
+            </div>
             <h3 className="heading-item">Lager & Logistik</h3>
           </div>
           <p className="text-sm text-text-secondary mb-3">
-            <strong>{STORAGE_AREA.sqm_recommended} m²</strong> für Eingang/Triage, Ersatzteile, Fertigware, Recycling-Staging.
+            <strong>{STORAGE_AREA.sqm_recommended} m²</strong> für Eingang/Triage, Ersatzteile,
+            Fertigware, Recycling-Staging.
           </p>
           <ul className="text-sm text-text-secondary space-y-1 mb-3">
             <li>• 60 m² Eingang & Triage (Geräte-Annahme)</li>
@@ -46,19 +54,24 @@ export default function OperationsSection() {
             <li>• 30 m² Recycling-Staging (Elektroschrott)</li>
             <li>• 20 m² Versand & Verpackung</li>
           </ul>
-          <HubCardFooter items={[
-            { label: 'Kapazität', value: '500+ Geräte gleichzeitig' },
-            { label: 'Kosten', value: formatCHF(STORAGE_AREA.cost_estimate_chf) },
-          ]} />
+          <HubCardFooter
+            items={[
+              { label: 'Kapazität', value: '500+ Geräte gleichzeitig' },
+              { label: 'Kosten', value: formatCHF(STORAGE_AREA.cost_estimate_chf) },
+            ]}
+          />
         </Card>
 
         <Card className="border-l-4 border-l-grey-medium">
           <div className="flex items-center gap-3 mb-3">
-            <div className="text-2xl" aria-hidden="true">🚚</div>
+            <div className="text-2xl" aria-hidden="true">
+              🚚
+            </div>
             <h3 className="heading-item">Lade- & Anlieferzone</h3>
           </div>
           <p className="text-sm text-text-secondary mb-3">
-            <strong>{LOADING_AREA.sqm_recommended} m²</strong> für Wareneingang, LKW-Zufahrt, Palette-Handling.
+            <strong>{LOADING_AREA.sqm_recommended} m²</strong> für Wareneingang, LKW-Zufahrt,
+            Palette-Handling.
           </p>
           <ul className="text-sm text-text-secondary space-y-1 mb-3">
             <li>• Rampe für LKW-Anlieferung</li>
@@ -66,10 +79,12 @@ export default function OperationsSection() {
             <li>• Temporäre Lagerung (24-48h)</li>
             <li>• Recycling-Abholung</li>
           </ul>
-          <HubCardFooter items={[
-            { label: 'Nutzung', value: 'Täglich (Lieferungen)' },
-            { label: 'Kosten', value: formatCHF(LOADING_AREA.cost_estimate_chf) },
-          ]} />
+          <HubCardFooter
+            items={[
+              { label: 'Nutzung', value: 'Täglich (Lieferungen)' },
+              { label: 'Kosten', value: formatCHF(LOADING_AREA.cost_estimate_chf) },
+            ]}
+          />
         </Card>
       </div>
     </section>

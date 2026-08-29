@@ -4,15 +4,25 @@ import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { TYPE_LABELS } from '@/lib/config/foundations';
-import { TYPE_TEMPLATE_KEYS, TEMPLATE_LABELS, SCHWERPUNKT_TEMPLATE_TYPES } from '@/lib/config/gesuch-templates';
+import {
+  TYPE_TEMPLATE_KEYS,
+  TEMPLATE_LABELS,
+  SCHWERPUNKT_TEMPLATE_TYPES,
+} from '@/lib/config/gesuch-templates';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 
 export const metadata: Metadata = {
   title: `Gesuch-Vorlagen — ${ORG_PROFILE.name}`,
-  description: 'Gesuch-Vorlagen nach Schwerpunkt und Stiftungstyp — themenspezifische und typbasierte Referenzvorlagen',
+  description:
+    'Gesuch-Vorlagen nach Schwerpunkt und Stiftungstyp — themenspezifische und typbasierte Referenzvorlagen',
 };
 
-function TemplateCard({ slug, title, description, subtitle }: {
+function TemplateCard({
+  slug,
+  title,
+  description,
+  subtitle,
+}: {
   slug: string;
   title: string;
   description: string;
@@ -24,9 +34,7 @@ function TemplateCard({ slug, title, description, subtitle }: {
         <div>
           <h3 className="heading-card">{title}</h3>
           <p className="mt-1 text-sm text-text-secondary">{description}</p>
-          {subtitle && (
-            <p className="mt-2 text-sm text-text-muted">{subtitle}</p>
-          )}
+          {subtitle && <p className="mt-2 text-sm text-text-muted">{subtitle}</p>}
         </div>
         <div className="flex shrink-0 gap-2">
           <Button href={`/fundraising/gesuch-vorlagen/${slug}`} variant="soft">
@@ -53,8 +61,11 @@ export default function GesuchVorlagenPage() {
         </p>
         <p className="text-sm text-text-muted">
           Jede Vorlage zeigt die richtige Struktur, den passenden Ton und relevante Inhalte.
-          Platzhalter wie <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">[Name der Stiftung]</span> ersetzen
-          Sie mit echten Angaben.
+          Platzhalter wie{' '}
+          <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">
+            [Name der Stiftung]
+          </span>{' '}
+          ersetzen Sie mit echten Angaben.
         </p>
       </div>
 
@@ -62,9 +73,9 @@ export default function GesuchVorlagenPage() {
       <section className="mb-10">
         <h2 className="mb-2 heading-subsection">Nach Schwerpunkt</h2>
         <p className="mb-4 text-sm text-text-secondary">
-          Wählen Sie den thematischen Schwerpunkt, der zur Stiftung passt.
-          Gleiches Budget, unterschiedliche Framing — die Stiftung sieht genau die Aktivitäten,
-          die ihrem Förderzweck entsprechen.
+          Wählen Sie den thematischen Schwerpunkt, der zur Stiftung passt. Gleiches Budget,
+          unterschiedliche Framing — die Stiftung sieht genau die Aktivitäten, die ihrem Förderzweck
+          entsprechen.
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           {SCHWERPUNKT_IDS.map((id) => {
@@ -114,22 +125,18 @@ export default function GesuchVorlagenPage() {
       <section className="mb-10">
         <h2 className="mb-2 heading-subsection">Universelle Vorlage</h2>
         <p className="mb-4 text-sm text-text-secondary">
-          Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen.
-          Sie enthält das gesamte {ORG_PROFILE.name}-Profil mit allen Schwerpunkten.
+          Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen. Sie
+          enthält das gesamte {ORG_PROFILE.name}-Profil mit allen Schwerpunkten.
         </p>
-        <TemplateCard
-          slug="generisch"
-          title={generisch.long}
-          description={generisch.desc}
-        />
+        <TemplateCard slug="generisch" title={generisch.long} description={generisch.desc} />
       </section>
 
       {/* Section 3: Nach Stiftungstyp (legacy) */}
       <section className="mb-10">
         <h2 className="mb-2 heading-subsection">Nach Stiftungstyp</h2>
         <p className="mb-4 text-sm text-text-secondary">
-          Klassische Vorlagen nur nach Typ — wenn Sie den Schwerpunkt noch nicht kennen,
-          aber den Stiftungstyp schon. Inkl. D (Corporate) und Netzwerk.
+          Klassische Vorlagen nur nach Typ — wenn Sie den Schwerpunkt noch nicht kennen, aber den
+          Stiftungstyp schon. Inkl. D (Corporate) und Netzwerk.
         </p>
         <div className="mb-4 grid gap-2 text-sm md:grid-cols-5">
           {TYPE_TEMPLATE_KEYS.map((type) => {

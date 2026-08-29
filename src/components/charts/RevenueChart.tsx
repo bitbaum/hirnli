@@ -17,7 +17,16 @@ import { formatCHF, formatMonthShort } from '@/lib/utils/format';
 import { CHART_COLORS } from '@/lib/config/chart-colors';
 import ChartWrapper from './ChartWrapper';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 interface RevenueChartProps {
   data: MonthlyAggregate[];
@@ -25,7 +34,11 @@ interface RevenueChartProps {
   className?: string;
 }
 
-export default function RevenueChart({ data, title = 'Einnahmen nach Monat', className }: RevenueChartProps) {
+export default function RevenueChart({
+  data,
+  title = 'Einnahmen nach Monat',
+  className,
+}: RevenueChartProps) {
   const labels = data.map((d) => formatMonthShort(d.period));
 
   const chartData = {

@@ -27,7 +27,8 @@ import { isRegistryUrl } from '../src/lib/config/registry-domains';
 // ============================================================================
 
 const args = process.argv.slice(2);
-const PRIORITY_FILTER = parseInt(args.find(a => a.startsWith('--priority='))?.split('=')[1] || '0', 10) || 0;
+const PRIORITY_FILTER =
+  parseInt(args.find((a) => a.startsWith('--priority='))?.split('=')[1] || '0', 10) || 0;
 const JSON_OUTPUT = args.includes('--json');
 
 // ============================================================================
@@ -48,7 +49,7 @@ interface AuditIssue {
 
 async function main() {
   const foundations = await getAllFoundations();
-  const gesuchFoundations = foundations.filter(f => {
+  const gesuchFoundations = foundations.filter((f) => {
     if (!hasGesuchPage(f)) return false;
     if (PRIORITY_FILTER > 0) {
       const computed = computePriorityScore(f);
@@ -77,8 +78,11 @@ async function main() {
     // Check 2: Does foundationBridge mention the foundation name?
     if (composed.ready) {
       const bridge = composed.foundationBridge.toLowerCase();
-      const nameParts = foundation.name.toLowerCase().split(/[\s-]+/).filter(p => p.length > 3);
-      const mentionsFoundation = nameParts.some(part => bridge.includes(part));
+      const nameParts = foundation.name
+        .toLowerCase()
+        .split(/[\s-]+/)
+        .filter((p) => p.length > 3);
+      const mentionsFoundation = nameParts.some((part) => bridge.includes(part));
       if (!mentionsFoundation) {
         issues.push(`Bridge text does not mention foundation name (generic bridge)`);
       }
@@ -107,12 +111,16 @@ async function main() {
 
     // Check 5: Research notes quality
     if (!foundation.researchNotes || foundation.researchNotes.length < 250) {
-      issues.push(`Research notes thin (${foundation.researchNotes?.length || 0} chars, need 250+)`);
+      issues.push(
+        `Research notes thin (${foundation.researchNotes?.length || 0} chars, need 250+)`,
+      );
     }
 
     // Check 6: Purpose summary quality
     if (!foundation.purposeSummary || foundation.purposeSummary.length < 150) {
-      issues.push(`Purpose summary thin (${foundation.purposeSummary?.length || 0} chars, need 150+)`);
+      issues.push(
+        `Purpose summary thin (${foundation.purposeSummary?.length || 0} chars, need 150+)`,
+      );
     }
 
     // Check 7: Website URL present and not a registry/directory site
@@ -123,11 +131,11 @@ async function main() {
     // Compute quality score (100 = perfect, 0 = terrible)
     let score = 100;
     if (!composed.ready) score -= 50;
-    if (issues.some(i => i.includes('Bridge text'))) score -= 15;
-    if (issues.some(i => i.includes('No contact'))) score -= 10;
-    if (issues.some(i => i.includes('Research notes thin'))) score -= 10;
-    if (issues.some(i => i.includes('Purpose summary thin'))) score -= 10;
-    if (issues.some(i => i.includes('No real website'))) score -= 5;
+    if (issues.some((i) => i.includes('Bridge text'))) score -= 15;
+    if (issues.some((i) => i.includes('No contact'))) score -= 10;
+    if (issues.some((i) => i.includes('Research notes thin'))) score -= 10;
+    if (issues.some((i) => i.includes('Purpose summary thin'))) score -= 10;
+    if (issues.some((i) => i.includes('No real website'))) score -= 5;
     score = Math.max(0, score);
 
     if (issues.length > 0) {
@@ -149,13 +157,20 @@ async function main() {
     const outDir = path.resolve('research/audit');
     if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
     const outFile = path.join(outDir, `${today}.json`);
-    fs.writeFileSync(outFile, JSON.stringify({
-      date: today,
-      totalChecked: gesuchFoundations.length,
-      totalIssues: auditResults.length,
-      perfect: gesuchFoundations.length - auditResults.length,
-      results: auditResults,
-    }, null, 2));
+    fs.writeFileSync(
+      outFile,
+      JSON.stringify(
+        {
+          date: today,
+          totalChecked: gesuchFoundations.length,
+          totalIssues: auditResults.length,
+          perfect: gesuchFoundations.length - auditResults.length,
+          results: auditResults,
+        },
+        null,
+        2,
+      ),
+    );
     console.log(`Audit written to: ${outFile}`);
     return;
   }
@@ -166,7 +181,7 @@ async function main() {
 
   // Group by priority
   for (const p of [1, 2, 3]) {
-    const items = auditResults.filter(r => r.priority === p);
+    const items = auditResults.filter((r) => r.priority === p);
     if (items.length === 0) continue;
 
     console.log(`--- P${p} (${items.length} with issues) ---`);
@@ -181,7 +196,7 @@ async function main() {
 
   // Customization candidates (P1/P2 foundations with generic bridges)
   const needsCustomization = auditResults.filter(
-    r => r.priority <= 2 && r.issues.some(i => i.includes('Bridge text'))
+    (r) => r.priority <= 2 && r.issues.some((i) => i.includes('Bridge text')),
   );
   if (needsCustomization.length > 0) {
     console.log(`=== CUSTOMIZATION NEEDED (${needsCustomization.length} P1/P2 foundations) ===`);

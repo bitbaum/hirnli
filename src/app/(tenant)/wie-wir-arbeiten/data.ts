@@ -5,8 +5,7 @@
  */
 
 export const PAGE_TITLE = 'Wie wir arbeiten';
-export const PAGE_SUBTITLE =
-  'Die Wertschöpfungskaskade — maximale Wertschöpfung pro Gerät';
+export const PAGE_SUBTITLE = 'Die Wertschöpfungskaskade — maximale Wertschöpfung pro Gerät';
 
 export const WHY_THIS_MATTERS = {
   purpose:

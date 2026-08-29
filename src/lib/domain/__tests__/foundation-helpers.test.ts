@@ -124,7 +124,7 @@ describe('computeTierCounts', () => {
 
   it('returns all zeros for empty array', () => {
     const counts = computeTierCounts([]);
-    expect(Object.values(counts).every(c => c === 0)).toBe(true);
+    expect(Object.values(counts).every((c) => c === 0)).toBe(true);
   });
 });
 
@@ -193,7 +193,9 @@ describe('hasGesuchDataGaps', () => {
   });
 
   it('returns true when websiteUrl is a registry URL', () => {
-    const f = makeFoundation({ websiteUrl: 'https://www.zefix.ch/de/search/entity/list?mainSearch=CHE-123' });
+    const f = makeFoundation({
+      websiteUrl: 'https://www.zefix.ch/de/search/entity/list?mainSearch=CHE-123',
+    });
     expect(hasGesuchDataGaps(f)).toBe(true);
   });
 

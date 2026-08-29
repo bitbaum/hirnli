@@ -26,9 +26,13 @@ import { THEMES } from '@/lib/config/foundations';
 export function extractPurposeCore(purposeSummary: string): string {
   // Strip "FoundationName (Location): " prefix if present (ESA format)
   const colonIdx = purposeSummary.indexOf(': ');
-  let stripped = colonIdx > -1
-    ? purposeSummary.slice(colonIdx + 2).replace(/^,\s*/, '').trim()
-    : purposeSummary;
+  let stripped =
+    colonIdx > -1
+      ? purposeSummary
+          .slice(colonIdx + 2)
+          .replace(/^,\s*/, '')
+          .trim()
+      : purposeSummary;
 
   // Handle double-prefix: "Zweck der Stiftung ist: - Bullet 1..." or similar statute preambles.
   // If no period appears before a ": - " pattern, the whole prefix is a heading — strip it.

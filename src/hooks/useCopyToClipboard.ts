@@ -28,9 +28,12 @@ export function useCopyToClipboard(options: UseCopyToClipboardOptions = {}) {
 
   // Ensure a pending reset-timer is cleared on unmount so setCopied isn't
   // called after the component is gone.
-  useEffect(() => () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-  }, []);
+  useEffect(
+    () => () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    },
+    [],
+  );
 
   const copy = useCallback(
     /**

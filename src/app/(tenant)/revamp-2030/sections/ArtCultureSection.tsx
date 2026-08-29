@@ -11,10 +11,13 @@ export default function ArtCultureSection() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <div className="bg-danger/10 rounded-lg p-4">
-            <div className="text-2xl mb-2" aria-hidden="true">🎨</div>
+            <div className="text-2xl mb-2" aria-hidden="true">
+              🎨
+            </div>
             <h3 className="heading-detail text-danger mb-2">E-Waste-Kunst</h3>
             <p className="text-sm text-danger mb-2">
-              Künstler:innen schaffen aus Platinen, Gehäusen und Komponenten Skulpturen und Installationen.
+              Künstler:innen schaffen aus Platinen, Gehäusen und Komponenten Skulpturen und
+              Installationen.
             </p>
             <ul className="text-sm text-danger space-y-1 list-disc list-inside">
               <li>Resident Artists (3-6 Monate Atelierplatz)</li>
@@ -24,10 +27,13 @@ export default function ArtCultureSection() {
           </div>
 
           <div className="bg-danger/10 rounded-lg p-4">
-            <div className="text-2xl mb-2" aria-hidden="true">🎹</div>
+            <div className="text-2xl mb-2" aria-hidden="true">
+              🎹
+            </div>
             <h3 className="heading-detail text-danger mb-2">Elektronische Musik</h3>
             <p className="text-sm text-danger mb-2">
-              Vintage-Synths restaurieren, Circuit-Bending, Modular-Synthese — alte Elektronik wird Musik.
+              Vintage-Synths restaurieren, Circuit-Bending, Modular-Synthese — alte Elektronik wird
+              Musik.
             </p>
             <ul className="text-sm text-danger space-y-1 list-disc list-inside">
               <li>Synth-Restaurierung (Roland, Korg, Moog)</li>
@@ -37,7 +43,9 @@ export default function ArtCultureSection() {
           </div>
 
           <div className="bg-danger/10 rounded-lg p-4">
-            <div className="text-2xl mb-2" aria-hidden="true">🏛️</div>
+            <div className="text-2xl mb-2" aria-hidden="true">
+              🏛️
+            </div>
             <h3 className="heading-detail text-danger mb-2">Museum & Geschichte</h3>
             <p className="text-sm text-danger mb-2">
               Computergeschichte zum Anfassen: Von Commodore 64 bis zur ersten Cray.
@@ -52,12 +60,15 @@ export default function ArtCultureSection() {
         <div className="rounded-lg border border-border-subtle bg-surface-raised p-4">
           <p className="heading-detail text-chart-5 mb-2">Warum Kunst & Kultur zentral sind:</p>
           <p className="text-sm text-chart-5 mb-3">
-            Technik allein ändert kein Verhalten. <strong>Kunst macht Elektroschrott sichtbar, berührbar, wertvoll</strong>.
-            Konzerte, Ausstellungen und Workshops erreichen Menschen, die nie zu einem Repair-Workshop kämen.
-            Sie beeinflussen Kultur und Wahrnehmung: &bdquo;Elektroschrott ist nicht Müll — es ist Ressource, Geschichte, Potenzial.&ldquo;
+            Technik allein ändert kein Verhalten.{' '}
+            <strong>Kunst macht Elektroschrott sichtbar, berührbar, wertvoll</strong>. Konzerte,
+            Ausstellungen und Workshops erreichen Menschen, die nie zu einem Repair-Workshop kämen.
+            Sie beeinflussen Kultur und Wahrnehmung: &bdquo;Elektroschrott ist nicht Müll — es ist
+            Ressource, Geschichte, Potenzial.&ldquo;
           </p>
           <p className="text-sm text-chart-5">
-            <strong>Das ist Impact auf einer anderen Ebene:</strong> Nicht nur Geräte retten, sondern
+            <strong>Das ist Impact auf einer anderen Ebene:</strong> Nicht nur Geräte retten,
+            sondern
             <strong> wie Menschen über Technologie denken verändern</strong>.
           </p>
         </div>

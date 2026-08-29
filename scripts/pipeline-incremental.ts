@@ -62,7 +62,7 @@ import type { ResearchDepth } from './lib/utilities';
 function generatePurposeSummary(entry: EsaEntry): string {
   const cleanPurpose = entry.purpose.replace(/\s+/g, ' ').trim();
   const location = entry.canton ? `${entry.city}, Kanton ${entry.canton}` : entry.city || 'Schweiz';
-  const clauses = cleanPurpose.split(/[.;]/).filter(s => s.trim().length > 20);
+  const clauses = cleanPurpose.split(/[.;]/).filter((s) => s.trim().length > 20);
   const firstClause = clauses[0]?.trim() || cleanPurpose.substring(0, 200);
 
   let summary = `${entry.name} (${location}): ${firstClause}.`;
@@ -76,8 +76,12 @@ function generatePurposeSummary(entry: EsaEntry): string {
     if (third && third.length > 15) summary += ` ${third}.`;
   }
   if (summary.length < 150 && cleanPurpose.length > firstClause.length) {
-    const rest = cleanPurpose.substring(firstClause.length + 1).replace(/^[.;\s]+/, '').trim();
-    if (rest.length > 10) summary += ` ${rest.substring(0, Math.max(150 - summary.length + 80, 120))}`;
+    const rest = cleanPurpose
+      .substring(firstClause.length + 1)
+      .replace(/^[.;\s]+/, '')
+      .trim();
+    if (rest.length > 10)
+      summary += ` ${rest.substring(0, Math.max(150 - summary.length + 80, 120))}`;
   }
   if (summary.length < 150) {
     summary += ` Die Stiftung hat Sitz in ${location} und ist im ESA-Stiftungsverzeichnis eingetragen.`;
@@ -86,7 +90,13 @@ function generatePurposeSummary(entry: EsaEntry): string {
   return summary.substring(0, 600);
 }
 
-function generateResearchNotes(entry: EsaEntry, themes: string[], type: string, funder: number, operator: number): string {
+function generateResearchNotes(
+  entry: EsaEntry,
+  themes: string[],
+  type: string,
+  funder: number,
+  operator: number,
+): string {
   const purposeLower = entry.purpose.toLowerCase();
   const parts: string[] = [];
 
@@ -94,13 +104,16 @@ function generateResearchNotes(entry: EsaEntry, themes: string[], type: string, 
   if (purposeLower.includes('förderung')) activities.push('Förderung');
   if (purposeLower.includes('forschung')) activities.push('Forschung');
   if (purposeLower.includes('unterstützung')) activities.push('Unterstützung');
-  if (purposeLower.includes('ausbildung') || purposeLower.includes('bildung')) activities.push('Bildung');
+  if (purposeLower.includes('ausbildung') || purposeLower.includes('bildung'))
+    activities.push('Bildung');
   if (purposeLower.includes('projekt')) activities.push('Projektarbeit');
   if (purposeLower.includes('stipend')) activities.push('Stipendien');
   if (purposeLower.includes('sozial')) activities.push('Sozialarbeit');
 
   if (activities.length > 0) {
-    parts.push(`${entry.name}: Tätigkeitsschwerpunkte gemäss Stiftungszweck — ${activities.slice(0, 4).join(', ')}.`);
+    parts.push(
+      `${entry.name}: Tätigkeitsschwerpunkte gemäss Stiftungszweck — ${activities.slice(0, 4).join(', ')}.`,
+    );
   } else {
     parts.push(`${entry.name}: Stiftung mit Sitz in ${entry.city || 'der Schweiz'}.`);
   }
@@ -115,7 +128,9 @@ function generateResearchNotes(entry: EsaEntry, themes: string[], type: string, 
   }
 
   if (themes.length > 0) {
-    parts.push(`Thematische Anknüpfungspunkte: ${themes.map(t => THEME_LABELS[t] || t).join(', ')}.`);
+    parts.push(
+      `Thematische Anknüpfungspunkte: ${themes.map((t) => THEME_LABELS[t] || t).join(', ')}.`,
+    );
   } else {
     parts.push('Keine direkten thematischen Anknüpfungspunkte für Revamp-IT erkannt.');
   }
@@ -135,7 +150,9 @@ function generateResearchNotes(entry: EsaEntry, themes: string[], type: string, 
   };
   if (strategies[type]) parts.push(strategies[type]);
 
-  parts.push('Automatisch aus ESA-Register importiert. Manuelle Recherche für Website, Kontaktdaten und aktuelle Förderprioritäten empfohlen.');
+  parts.push(
+    'Automatisch aus ESA-Register importiert. Manuelle Recherche für Website, Kontaktdaten und aktuelle Förderprioritäten empfohlen.',
+  );
 
   return parts.join(' ');
 }
@@ -158,8 +175,11 @@ async function upsertEntry(
   const isFunder = funder > operator;
 
   const { fitScore } = computeFitScore({
-    themes, canton: entry.canton || '', city: entry.city || '',
-    applicationMethod, isFunder,
+    themes,
+    canton: entry.canton || '',
+    city: entry.city || '',
+    applicationMethod,
+    isFunder,
   });
   const researchDepth: ResearchDepth = 'rapid';
   const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
@@ -235,7 +255,7 @@ async function upsertEntry(
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const limitArg = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
+  const limitArg = parseInt(args.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
 
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('  Pipeline Incremental — Diff ESA → generate → upsert → sync');
@@ -258,7 +278,7 @@ async function main() {
   const existingUids = new Set(
     existingRows
       .map((r) => r.uid)
-      .filter((uid): uid is string => !!uid && uid !== 'CHE-XXX.XXX.XXX')
+      .filter((uid): uid is string => !!uid && uid !== 'CHE-XXX.XXX.XXX'),
   );
   console.log(`  Existing in DB: ${existingSlugs.size} slugs`);
 

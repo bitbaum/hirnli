@@ -12,12 +12,21 @@ const SPHERIQ_BASE = 'https://app.spheriq.ch/organisation';
 const SPHERIQ_PHONE = '+41 61 278 93 83'; // Spheriq's own phone, filter it
 
 const NOISE_EMAILS = new Set([
-  'office@spheriq.ch', 'support@spheriq.ch', 'kontakt@freihandlabor.com',
+  'office@spheriq.ch',
+  'support@spheriq.ch',
+  'kontakt@freihandlabor.com',
 ]);
 const NOISE_DOMAINS = new Set([
-  'spheriq.ch', 'stiftungschweiz.ch', 'google.com', 'facebook.com',
-  'twitter.com', 'linkedin.com', 'sentry.io', 'wixpress.com',
-  'example.com', 'wordpress.com',
+  'spheriq.ch',
+  'stiftungschweiz.ch',
+  'google.com',
+  'facebook.com',
+  'twitter.com',
+  'linkedin.com',
+  'sentry.io',
+  'wixpress.com',
+  'example.com',
+  'wordpress.com',
 ]);
 
 export interface DirectoryResult {
@@ -57,14 +66,21 @@ function parseSpheriqHtml(html: string): Omit<DirectoryResult, 'source' | 'profi
     if (href.startsWith('mailto:') && !result.email) {
       const email = href.replace('mailto:', '').toLowerCase();
       if (!isNoiseEmail(email)) result.email = email;
-    } else if (href.startsWith('http') && !href.includes('spheriq') && !href.includes('stiftungschweiz')) {
+    } else if (
+      href.startsWith('http') &&
+      !href.includes('spheriq') &&
+      !href.includes('stiftungschweiz')
+    ) {
       if (!result.website) result.website = href;
     }
   }
 
   // 3. Phone — from contact section, not Spheriq footer
-  const phoneMatches = html.match(/(?:\+41|0041)[\s.]?\(?\d?\)?[\s./\-]?\d{2}[\s./\-]?\d{3}[\s./\-]?\d{2}[\s./\-]?\d{2}/g) || [];
-  const unique = [...new Set(phoneMatches.map(p => p.trim()))].filter(p => p !== SPHERIQ_PHONE);
+  const phoneMatches =
+    html.match(
+      /(?:\+41|0041)[\s.]?\(?\d?\)?[\s./\-]?\d{2}[\s./\-]?\d{3}[\s./\-]?\d{2}[\s./\-]?\d{2}/g,
+    ) || [];
+  const unique = [...new Set(phoneMatches.map((p) => p.trim()))].filter((p) => p !== SPHERIQ_PHONE);
   if (unique.length > 0) result.phone = unique[0];
 
   return result;
@@ -87,7 +103,10 @@ async function fetchWithTimeout(url: string, timeoutMs = 8000): Promise<Response
 }
 
 /** Fetch a foundation's Spheriq profile. Tries slug first, falls back to UID search. */
-export async function fetchSpheriqProfile(slug: string, uid?: string): Promise<DirectoryResult | null> {
+export async function fetchSpheriqProfile(
+  slug: string,
+  uid?: string,
+): Promise<DirectoryResult | null> {
   // Try direct slug match
   const directRes = await fetchWithTimeout(`${SPHERIQ_BASE}/${slug}`);
   if (directRes?.ok) {
@@ -106,7 +125,9 @@ export async function fetchSpheriqProfile(slug: string, uid?: string): Promise<D
 
   // Fallback: search by UID (more reliable slug matching)
   if (uid) {
-    const searchRes = await fetchWithTimeout(`https://stiftungen.stiftungschweiz.ch/search?q=${encodeURIComponent(uid)}`);
+    const searchRes = await fetchWithTimeout(
+      `https://stiftungen.stiftungschweiz.ch/search?q=${encodeURIComponent(uid)}`,
+    );
     if (searchRes?.ok && searchRes.url.includes('/organisation/')) {
       const html = await searchRes.text();
       const data = parseSpheriqHtml(html);

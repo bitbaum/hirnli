@@ -32,7 +32,6 @@ interface ConfidenceStats {
 }
 
 async function setConfidence() {
-
   console.log(`\n📊 Setting data confidence levels... (${DRY_RUN ? 'DRY RUN' : 'LIVE'})\n`);
 
   const stats: ConfidenceStats = {
@@ -45,8 +44,10 @@ async function setConfidence() {
 
   if (DRY_RUN) {
     // Count what WOULD change, without updating
-    const [deep] = await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations WHERE research_depth='deep' AND (data_confidence IS NULL OR data_confidence != 'human-verified')`;
-    const [standard] = await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations WHERE research_depth='standard' AND (data_confidence IS NULL OR data_confidence != 'ai-assessed')`;
+    const [deep] =
+      await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations WHERE research_depth='deep' AND (data_confidence IS NULL OR data_confidence != 'human-verified')`;
+    const [standard] =
+      await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations WHERE research_depth='standard' AND (data_confidence IS NULL OR data_confidence != 'ai-assessed')`;
     const [enrichedRapid] = await sql`
       SELECT COUNT(*) as cnt FROM fundraising_foundations
       WHERE research_depth='rapid'
@@ -78,7 +79,9 @@ async function setConfidence() {
     RETURNING 1
   `;
   stats.deepToVerified = r1.length;
-  console.log(`✅ Set ${stats.deepToVerified} foundations to 'human-verified' (research_depth=deep)`);
+  console.log(
+    `✅ Set ${stats.deepToVerified} foundations to 'human-verified' (research_depth=deep)`,
+  );
 
   // Rule 2: standard → ai-assessed
   const r2 = await sql`
@@ -89,7 +92,9 @@ async function setConfidence() {
     RETURNING 1
   `;
   stats.standardToAiAssessed = r2.length;
-  console.log(`✅ Set ${stats.standardToAiAssessed} foundations to 'ai-assessed' (research_depth=standard)`);
+  console.log(
+    `✅ Set ${stats.standardToAiAssessed} foundations to 'ai-assessed' (research_depth=standard)`,
+  );
 
   // Rule 3: rapid + has applicationResearchMethod set → ai-assessed
   // (these were explicitly researched by claude-agent/chatgpt-agent etc.)
@@ -103,7 +108,9 @@ async function setConfidence() {
     RETURNING 1
   `;
   stats.enrichedRapidToAiAssessed = r3.length;
-  console.log(`✅ Set ${stats.enrichedRapidToAiAssessed} foundations to 'ai-assessed' (enriched rapid)`);
+  console.log(
+    `✅ Set ${stats.enrichedRapidToAiAssessed} foundations to 'ai-assessed' (enriched rapid)`,
+  );
 
   // Rule 4: rapid + no enrichment signal + not yet assessed → unverified
   // Only marks NULL entries — never demotes existing ai-assessed foundations.
@@ -119,10 +126,13 @@ async function setConfidence() {
     RETURNING 1
   `;
   stats.unenrichedRapidToUnverified = r4.length;
-  console.log(`✅ Set ${stats.unenrichedRapidToUnverified} foundations to 'unverified' (unenriched rapid)`);
+  console.log(
+    `✅ Set ${stats.unenrichedRapidToUnverified} foundations to 'unverified' (unenriched rapid)`,
+  );
 
   // Count remaining NULL (should be ~0 after running all rules)
-  const [nullResult] = await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations WHERE data_confidence IS NULL`;
+  const [nullResult] =
+    await sql`SELECT COUNT(*) as cnt FROM fundraising_foundations WHERE data_confidence IS NULL`;
   stats.unchanged = Number(nullResult.cnt);
 
   console.log(`\n📈 Summary:`);

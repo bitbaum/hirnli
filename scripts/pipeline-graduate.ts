@@ -58,11 +58,13 @@ import { ThemeId } from '../src/lib/schemas/foundation';
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
 const INGEST_ONLY = args.includes('--ingest-only');
-const PHASE_ARG = parseInt(args.find(a => a.startsWith('--phase='))?.split('=')[1] || '0', 10);
-const LIMIT = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10) || Infinity;
-const DELAY_MS = parseInt(args.find(a => a.startsWith('--delay='))?.split('=')[1] || '2000', 10);
-const MODEL_ARG = args.find(a => a.startsWith('--model='))?.split('=')[1] || '';
-const GROQ_MODEL_OVERRIDE = MODEL_ARG === '8b' ? GROQ_MODELS['8b'] : MODEL_ARG === '70b' ? GROQ_MODELS['70b'] : undefined;
+const PHASE_ARG = parseInt(args.find((a) => a.startsWith('--phase='))?.split('=')[1] || '0', 10);
+const LIMIT =
+  parseInt(args.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0', 10) || Infinity;
+const DELAY_MS = parseInt(args.find((a) => a.startsWith('--delay='))?.split('=')[1] || '2000', 10);
+const MODEL_ARG = args.find((a) => a.startsWith('--model='))?.split('=')[1] || '';
+const GROQ_MODEL_OVERRIDE =
+  MODEL_ARG === '8b' ? GROQ_MODELS['8b'] : MODEL_ARG === '70b' ? GROQ_MODELS['70b'] : undefined;
 
 // ============================================================================
 // TYPES
@@ -113,7 +115,7 @@ async function phase1KeywordScreen(sql: SqlClient): Promise<ScreenCandidate[]> {
   console.log('\n━━━ Phase 1: Keyword Screen (0 tokens) ━━━━━━━━━━━━━━━━━━━━━━━');
 
   // Read rapid foundations that have officialPurpose
-  const rows = await sql`
+  const rows = (await sql`
     SELECT
       f.id,
       f.name,
@@ -126,14 +128,12 @@ async function phase1KeywordScreen(sql: SqlClient): Promise<ScreenCandidate[]> {
     WHERE f.research_depth = 'rapid'
       AND f.archived = false
     ORDER BY f.id
-  ` as RapidFoundation[];
+  `) as RapidFoundation[];
 
   console.log(`  Rapid foundations in DB: ${rows.length}`);
 
   // Filter: must have some purpose text to screen
-  const withPurpose = rows.filter(r =>
-    r.official_purpose && r.official_purpose.length > 30
-  );
+  const withPurpose = rows.filter((r) => r.official_purpose && r.official_purpose.length > 30);
   console.log(`  With officialPurpose (>30 chars): ${withPurpose.length}`);
 
   // Keyword classify each one
@@ -175,7 +175,11 @@ async function phase1KeywordScreen(sql: SqlClient): Promise<ScreenCandidate[]> {
     // Compute fit score
     const applicationMethod = detectApplicationMethod(purpose);
     const { fitScore } = computeFitScore({
-      themes, canton, city, applicationMethod, isFunder,
+      themes,
+      canton,
+      city,
+      applicationMethod,
+      isFunder,
     });
 
     candidates.push({
@@ -196,7 +200,7 @@ async function phase1KeywordScreen(sql: SqlClient): Promise<ScreenCandidate[]> {
   // Deduplicate by slug (LEFT JOIN can produce duplicates)
   const seen = new Set<string>();
   const duplicates = candidates.length;
-  const deduped = candidates.filter(c => {
+  const deduped = candidates.filter((c) => {
     if (seen.has(c.slug)) return false;
     seen.add(c.slug);
     return true;
@@ -217,9 +221,9 @@ async function phase1KeywordScreen(sql: SqlClient): Promise<ScreenCandidate[]> {
   console.log(`  Candidates surviving keyword screen: ${deduped.length}`);
 
   // Stats breakdown
-  const withThemes = deduped.filter(c => c.themes.length > 0).length;
-  const highFit = deduped.filter(c => c.fitScore >= 4).length;
-  const funderCount = deduped.filter(c => c.isFunder).length;
+  const withThemes = deduped.filter((c) => c.themes.length > 0).length;
+  const highFit = deduped.filter((c) => c.fitScore >= 4).length;
+  const funderCount = deduped.filter((c) => c.isFunder).length;
 
   console.log(`    With themes: ${withThemes}`);
   console.log(`    FitScore ≥ 4: ${highFit}`);
@@ -232,14 +236,21 @@ async function phase1KeywordScreen(sql: SqlClient): Promise<ScreenCandidate[]> {
 
   const phase1File = path.join(outDir, `phase1-${today}.json`);
   if (!DRY_RUN) {
-    fs.writeFileSync(phase1File, JSON.stringify({
-      date: today,
-      totalRapid: rows.length,
-      withPurpose: withPurpose.length,
-      eliminated: eliminated + operativeOnly,
-      candidates: deduped.length,
-      items: deduped,
-    }, null, 2));
+    fs.writeFileSync(
+      phase1File,
+      JSON.stringify(
+        {
+          date: today,
+          totalRapid: rows.length,
+          withPurpose: withPurpose.length,
+          eliminated: eliminated + operativeOnly,
+          candidates: deduped.length,
+          items: deduped,
+        },
+        null,
+        2,
+      ),
+    );
     console.log(`  Results written to: ${phase1File}`);
   }
 
@@ -259,18 +270,25 @@ function saveResults(outDir: string, today: string, results: TriageResult[]): vo
   if (fs.existsSync(resultsFile)) {
     const existing = JSON.parse(fs.readFileSync(resultsFile, 'utf-8')) as { items: TriageResult[] };
     const existingSlugs = new Set(existing.items.map((r: TriageResult) => r.slug));
-    const newResults = results.filter(r => !existingSlugs.has(r.slug));
+    const newResults = results.filter((r) => !existingSlugs.has(r.slug));
     allResults = [...existing.items, ...newResults];
   }
-  fs.writeFileSync(resultsFile, JSON.stringify({
-    date: today,
-    total: allResults.length,
-    items: allResults,
-  }, null, 2));
+  fs.writeFileSync(
+    resultsFile,
+    JSON.stringify(
+      {
+        date: today,
+        total: allResults.length,
+        items: allResults,
+      },
+      null,
+      2,
+    ),
+  );
 }
 
 const AVAILABLE_THEMES = Object.values(THEMES)
-  .map(t => `  "${t.id}": ${t.label} — ${t.description}`)
+  .map((t) => `  "${t.id}": ${t.label} — ${t.description}`)
   .join('\n');
 
 const TRIAGE_SYSTEM_PROMPT = `Du bist ein Schweizer Stiftungsexperte. Bewerte STRENG, ob diese Stiftung für Revamp-IT relevant ist.
@@ -326,7 +344,7 @@ WICHTIG:
 function buildTriagePrompt(candidate: ScreenCandidate): string {
   const lines = [
     `# ${candidate.name}`,
-    `Bisherige Themen (Keyword): ${candidate.themes.map(t => THEME_LABELS[t] || t).join(', ') || 'keine'}`,
+    `Bisherige Themen (Keyword): ${candidate.themes.map((t) => THEME_LABELS[t] || t).join(', ') || 'keine'}`,
     `Keyword-FitScore: ${candidate.fitScore}/10`,
     `Funder-Signal: ${candidate.funderScore} (Operator: ${candidate.operatorScore})`,
     '',
@@ -358,14 +376,15 @@ async function phase2LlmTriage(
 
   // Filter: only candidates worth an LLM call
   // Must have themes OR high funder score
-  const triageable = candidates.filter(c =>
-    (c.themes.length > 0 || c.funderScore >= 2) &&
-    !processedSlugs.has(c.slug)
+  const triageable = candidates.filter(
+    (c) => (c.themes.length > 0 || c.funderScore >= 2) && !processedSlugs.has(c.slug),
   );
 
   const toProcess = triageable.slice(0, Math.min(triageable.length, LIMIT));
   console.log(`  Candidates to triage: ${triageable.length}`);
-  console.log(`  Processing this run: ${toProcess.length}${LIMIT < Infinity ? ` (limit=${LIMIT})` : ''}`);
+  console.log(
+    `  Processing this run: ${toProcess.length}${LIMIT < Infinity ? ` (limit=${LIMIT})` : ''}`,
+  );
 
   if (toProcess.length === 0) {
     console.log('  Nothing to process.');
@@ -395,10 +414,12 @@ async function phase2LlmTriage(
     const prompt = buildTriagePrompt(candidate);
 
     console.log(`  ${progress} ${candidate.name}...`);
-    const groqResult = await callGroqJSON<Record<string, unknown>>(
-      TRIAGE_SYSTEM_PROMPT, prompt,
-      { maxTokens: 512, temperature: 0.2, timeoutMs: 30_000, model: GROQ_MODEL_OVERRIDE },
-    );
+    const groqResult = await callGroqJSON<Record<string, unknown>>(TRIAGE_SYSTEM_PROMPT, prompt, {
+      maxTokens: 512,
+      temperature: 0.2,
+      timeoutMs: 30_000,
+      model: GROQ_MODEL_OVERRIDE,
+    });
 
     if (!groqResult.ok) {
       console.error(`    ERROR: ${groqResult.error}`);
@@ -407,7 +428,9 @@ async function phase2LlmTriage(
       if (groqResult.error?.includes('429') || groqResult.error?.includes('Rate limit')) {
         const isDaily = groqResult.error?.includes('per day') || groqResult.error?.includes('TPD');
         if (isDaily) {
-          console.error('  Daily token limit reached. Stopping Phase 2. Try --model=8b or wait until tomorrow.');
+          console.error(
+            '  Daily token limit reached. Stopping Phase 2. Try --model=8b or wait until tomorrow.',
+          );
           break;
         }
         rateLimitHits++;
@@ -432,8 +455,8 @@ async function phase2LlmTriage(
 
     // Extract and validate themes
     const rawThemes = Array.isArray(raw.themes) ? raw.themes : candidate.themes;
-    const validThemes = rawThemes.filter((t: unknown) =>
-      typeof t === 'string' && VALID_THEME_IDS.has(t)
+    const validThemes = rawThemes.filter(
+      (t: unknown) => typeof t === 'string' && VALID_THEME_IDS.has(t),
     ) as string[];
 
     // Compute real fitScore from LLM themes (algorithmic)
@@ -450,7 +473,10 @@ async function phase2LlmTriage(
     // LLM's contextual assessment (0-3 scale → map to 0-10)
     // 0→0, 1→4, 2→6, 3→8  (conservative: LLM "3" doesn't auto-become 10)
     const LLM_FIT_MAP = [0, 4, 6, 8] as const;
-    const suggestedFit = typeof raw.suggestedFit === 'number' ? Math.min(3, Math.max(0, Math.round(raw.suggestedFit))) : 0;
+    const suggestedFit =
+      typeof raw.suggestedFit === 'number'
+        ? Math.min(3, Math.max(0, Math.round(raw.suggestedFit)))
+        : 0;
     const _llmScore = LLM_FIT_MAP[suggestedFit] ?? 0; // kept for reference; algo score used below
 
     // Use algorithmic score — LLM themes already feed into algo via computeFitScore.
@@ -482,7 +508,9 @@ async function phase2LlmTriage(
     rateLimitHits = 0; // Reset after successful call
 
     const fitLabel = fitScore >= 7 ? '★★★' : fitScore >= 4 ? '★★☆' : '★☆☆';
-    console.log(`    → fit=${fitScore} ${fitLabel}, P${priority}, themes=[${validThemes.join(',')}], funder=${isFunder}`);
+    console.log(
+      `    → fit=${fitScore} ${fitLabel}, P${priority}, themes=[${validThemes.join(',')}], funder=${isFunder}`,
+    );
 
     // Save progress every 25 results (avoid losing work on interrupts)
     if (!DRY_RUN && success % 25 === 0) {
@@ -496,7 +524,9 @@ async function phase2LlmTriage(
     }
   }
 
-  console.log(`\n  Phase 2 complete: ${success} triaged, ${errors} errors, ${tokensUsed} tokens used`);
+  console.log(
+    `\n  Phase 2 complete: ${success} triaged, ${errors} errors, ${tokensUsed} tokens used`,
+  );
 
   // Final save
   if (!DRY_RUN) {
@@ -511,10 +541,7 @@ async function phase2LlmTriage(
 // PHASE 3: UPSERT + SYNC (close the loop)
 // ============================================================================
 
-async function phase3Upsert(
-  sql: SqlClient,
-  triageResults: TriageResult[],
-): Promise<number> {
+async function phase3Upsert(sql: SqlClient, triageResults: TriageResult[]): Promise<number> {
   console.log('\n━━━ Phase 3: Upsert + Sync ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
   const now = new Date().toISOString();
@@ -622,7 +649,7 @@ function findPendingAutoResearch(): string[] {
     // Has results but not yet upserted
     if (fs.existsSync(summaryFile) && !fs.existsSync(upsertedMarker)) {
       // Check there are actual draft files (not just summary)
-      const drafts = fs.readdirSync(dir).filter(f => f.endsWith('.json') && !f.startsWith('_'));
+      const drafts = fs.readdirSync(dir).filter((f) => f.endsWith('.json') && !f.startsWith('_'));
       if (drafts.length > 0) {
         pending.push(dir);
       }
@@ -647,7 +674,6 @@ async function main() {
     console.error('  DATABASE_URL not set. Check .env.local');
     process.exit(1);
   }
-
 
   // Ingest-only mode: just close the loop on pending drafts
   if (INGEST_ONLY) {
@@ -696,8 +722,8 @@ async function main() {
     console.log(`  Phase 1: ${candidates.length} candidates from keyword screen`);
   }
   if (triageResults.length > 0) {
-    const highFit = triageResults.filter(r => r.fitScore >= 4).length;
-    const p1p2 = triageResults.filter(r => r.priority <= 2).length;
+    const highFit = triageResults.filter((r) => r.fitScore >= 4).length;
+    const p1p2 = triageResults.filter((r) => r.priority <= 2).length;
     console.log(`  Phase 2: ${triageResults.length} triaged via LLM`);
     console.log(`    FitScore ≥ 4: ${highFit}`);
     console.log(`    P1 + P2: ${p1p2}`);

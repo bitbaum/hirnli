@@ -32,9 +32,7 @@ export default function Dropdown({ item, pathname }: { item: NavItem; pathname: 
         id={menuId}
         role="menu"
         className={`absolute left-0 top-full z-50 w-72 pt-3 transition-hover ${
-          open
-            ? 'visible opacity-100 translate-y-0'
-            : 'invisible opacity-0 -translate-y-1'
+          open ? 'visible opacity-100 translate-y-0' : 'invisible opacity-0 -translate-y-1'
         }`}
       >
         <div className="overflow-hidden rounded-xl border border-border-default bg-surface-base shadow-lg">
@@ -52,17 +50,13 @@ export default function Dropdown({ item, pathname }: { item: NavItem; pathname: 
               >
                 <span
                   className={`font-semibold group-hover/link:text-revamp-green ${
-                    isActive(child.href, pathname)
-                      ? 'text-revamp-blue'
-                      : 'text-text-primary'
+                    isActive(child.href, pathname) ? 'text-revamp-blue' : 'text-text-primary'
                   }`}
                 >
                   {child.text}
                 </span>
                 {child.desc && (
-                  <span className="mt-0.5 block text-sm text-text-muted">
-                    {child.desc}
-                  </span>
+                  <span className="mt-0.5 block text-sm text-text-muted">{child.desc}</span>
                 )}
               </Link>
             ))}

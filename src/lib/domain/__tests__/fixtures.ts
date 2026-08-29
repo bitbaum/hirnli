@@ -21,7 +21,8 @@ export function makeFoundation(overrides: Partial<Foundation> = {}): Foundation 
     amount: { min: 10000, max: 50000, text: '10k-50k CHF' },
     source: 'manual',
     sourceLinks: [{ source: 'manual', url: 'https://test.ch' }],
-    purposeSummary: 'Die Stiftung fördert Projekte in den Bereichen Umwelt, Bildung und soziale Integration mit Schwerpunkt auf nachhaltige Entwicklung in der Schweiz. Sie unterstützt innovative Ansätze.',
+    purposeSummary:
+      'Die Stiftung fördert Projekte in den Bereichen Umwelt, Bildung und soziale Integration mit Schwerpunkt auf nachhaltige Entwicklung in der Schweiz. Sie unterstützt innovative Ansätze.',
     boardMembers: [{ name: 'Max Muster', role: 'Präsident' }],
     pastGrantees: ['Org A', 'Org B'],
     applicationProcess: ['Gesuch einreichen', 'Prüfung', 'Entscheid'],
@@ -32,7 +33,8 @@ export function makeFoundation(overrides: Partial<Foundation> = {}): Foundation 
     type: 'A',
     themes: ['kreislaufwirtschaft', 'soziale-integration'],
     tagline: 'Fördert Nachhaltigkeit und Bildung',
-    researchNotes: 'Gut recherchierte Stiftung mit klarem Profil. Die Stiftung hat eine lange Tradition der Förderung von Projekten in den Bereichen Umwelt und Bildung. Direkter Kontakt möglich. Ansprechperson bekannt. Regelmässige Vergabesitzungen vierteljährlich. Gute Passung.',
+    researchNotes:
+      'Gut recherchierte Stiftung mit klarem Profil. Die Stiftung hat eine lange Tradition der Förderung von Projekten in den Bereichen Umwelt und Bildung. Direkter Kontakt möglich. Ansprechperson bekannt. Regelmässige Vergabesitzungen vierteljährlich. Gute Passung.',
     researchDate: '2026-01-15',
     researchDepth: 'deep',
     ...overrides,

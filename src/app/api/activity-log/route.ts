@@ -20,22 +20,14 @@ export async function GET(request: NextRequest) {
   const limit = Math.min(parseInt(searchParams.get('limit') ?? '20', 10), 100);
 
   if (!entityId || !entityType) {
-    return NextResponse.json(
-      { success: false, error: API_ERR_VALIDATION },
-      { status: 400 },
-    );
+    return NextResponse.json({ success: false, error: API_ERR_VALIDATION }, { status: 400 });
   }
 
   try {
     const entries = await db
       .select()
       .from(activityLog)
-      .where(
-        and(
-          eq(activityLog.entityId, entityId),
-          eq(activityLog.entityType, entityType),
-        ),
-      )
+      .where(and(eq(activityLog.entityId, entityId), eq(activityLog.entityType, entityType)))
       .orderBy(desc(activityLog.timestamp))
       .limit(limit);
 

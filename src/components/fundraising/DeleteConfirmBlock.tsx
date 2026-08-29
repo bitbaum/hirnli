@@ -36,12 +36,16 @@ export default function DeleteConfirmBlock({
       {deleteError ? (
         <div className="flex items-center gap-3">
           <span className="text-sm text-danger">{deleteError}</span>
-          <Button onClick={cancelDelete} variant="ghost" size="sm">Schliessen</Button>
+          <Button onClick={cancelDelete} variant="ghost" size="sm">
+            Schliessen
+          </Button>
         </div>
       ) : (
         <div className="flex items-center gap-3">
           <span className="text-sm font-medium text-danger">Wirklich löschen?</span>
-          <Button onClick={cancelDelete} variant="ghost" size="sm" disabled={isDeleting}>Nein</Button>
+          <Button onClick={cancelDelete} variant="ghost" size="sm" disabled={isDeleting}>
+            Nein
+          </Button>
           <Button onClick={executeDelete} disabled={isDeleting} variant="danger" size="sm">
             {isDeleting ? '...' : 'Ja, löschen'}
           </Button>

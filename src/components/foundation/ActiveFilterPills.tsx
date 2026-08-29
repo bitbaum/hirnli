@@ -79,29 +79,26 @@ export default function ActiveFilterPills({
       {filters.hideOperative && (
         <FilterPill label="Ohne Operative" onRemove={toggleHideOperative} />
       )}
-      {filters.hideNetworks && (
-        <FilterPill label="Ohne Netzwerke" onRemove={toggleHideNetworks} />
-      )}
-      {filters.requireGesuch && (
-        <FilterPill label="Mit Gesuch" onRemove={toggleRequireGesuch} />
-      )}
-      {filters.requireEmail && (
-        <FilterPill label="E-Mail" onRemove={toggleRequireEmail} />
-      )}
-      {filters.requirePhone && (
-        <FilterPill label="Telefon" onRemove={toggleRequirePhone} />
-      )}
-      {filters.requireAddress && (
-        <FilterPill label="Adresse" onRemove={toggleRequireAddress} />
-      )}
+      {filters.hideNetworks && <FilterPill label="Ohne Netzwerke" onRemove={toggleHideNetworks} />}
+      {filters.requireGesuch && <FilterPill label="Mit Gesuch" onRemove={toggleRequireGesuch} />}
+      {filters.requireEmail && <FilterPill label="E-Mail" onRemove={toggleRequireEmail} />}
+      {filters.requirePhone && <FilterPill label="Telefon" onRemove={toggleRequirePhone} />}
+      {filters.requireAddress && <FilterPill label="Adresse" onRemove={toggleRequireAddress} />}
       {filters.requireDataGaps && (
         <FilterPill label="Lücken füllen" onRemove={toggleRequireDataGaps} />
       )}
       {filters.trustLevels.map((level) => (
-        <FilterPill key={level} label={TRUST_CONFIG[level].label} onRemove={() => toggleTrustLevel(level)} />
+        <FilterPill
+          key={level}
+          label={TRUST_CONFIG[level].label}
+          onRemove={() => toggleTrustLevel(level)}
+        />
       ))}
       {filters.minTier !== DEFAULT_FILTERS.minTier && (
-        <FilterPill label={`Min: ${filters.minTier}`} onRemove={() => setMinTier(DEFAULT_FILTERS.minTier)} />
+        <FilterPill
+          label={`Min: ${filters.minTier}`}
+          onRemove={() => setMinTier(DEFAULT_FILTERS.minTier)}
+        />
       )}
       <button onClick={resetFilters} className="text-sm text-text-muted hover:text-primary">
         Alle zurücksetzen

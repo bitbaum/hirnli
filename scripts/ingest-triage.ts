@@ -14,7 +14,7 @@ import { computeFitScore } from '../src/lib/domain/fit-scoring.js';
 import { ThemeId } from '../src/lib/schemas/foundation.js';
 
 const DRY_RUN = process.argv.includes('--dry-run');
-const INPUT_FILE = process.argv.find(a => !a.startsWith('-') && a.endsWith('.json'));
+const INPUT_FILE = process.argv.find((a) => !a.startsWith('-') && a.endsWith('.json'));
 
 const VALID_THEME_IDS: Set<string> = new Set(ThemeId.options);
 
@@ -56,7 +56,7 @@ async function main() {
 
   for (const entry of entries) {
     // Validate themes
-    const validThemes = entry.themes.filter(t => VALID_THEME_IDS.has(t));
+    const validThemes = entry.themes.filter((t) => VALID_THEME_IDS.has(t));
 
     // Skip entries without useful data
     if (!entry.purposeSummary || entry.purposeSummary.length < 30) {
@@ -148,12 +148,18 @@ async function main() {
     const existing = JSON.parse(fs.readFileSync(resultsFile, 'utf-8'));
     const existingSlugs = new Set(existing.items.map((r: any) => r.slug));
     const newItems = entries
-      .filter(e => !existingSlugs.has(e.slug) && e.purposeSummary?.length >= 30)
-      .map(e => ({
+      .filter((e) => !existingSlugs.has(e.slug) && e.purposeSummary?.length >= 30)
+      .map((e) => ({
         slug: e.slug,
         name: e.name,
-        fitScore: computeFitScore({ themes: e.themes.filter(t => VALID_THEME_IDS.has(t)), canton: '', city: '', applicationMethod: e.applicationMethod || 'unknown', isFunder: e.isFunder }).fitScore,
-        themes: e.themes.filter(t => VALID_THEME_IDS.has(t)),
+        fitScore: computeFitScore({
+          themes: e.themes.filter((t) => VALID_THEME_IDS.has(t)),
+          canton: '',
+          city: '',
+          applicationMethod: e.applicationMethod || 'unknown',
+          isFunder: e.isFunder,
+        }).fitScore,
+        themes: e.themes.filter((t) => VALID_THEME_IDS.has(t)),
         purposeSummary: e.purposeSummary,
         researchNotes: e.researchNotes || '',
         isFunder: e.isFunder,
@@ -166,4 +172,7 @@ async function main() {
   console.log(`\nDone: ${upserted} upserted, ${skipped} skipped, ${errors} errors`);
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

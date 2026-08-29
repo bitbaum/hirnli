@@ -53,7 +53,7 @@ describe('ANNUAL_PL', () => {
   });
 
   it('all years are distinct', () => {
-    const years = ANNUAL_PL.map(y => y.year);
+    const years = ANNUAL_PL.map((y) => y.year);
     expect(new Set(years).size).toBe(years.length);
   });
 });
@@ -64,7 +64,7 @@ describe('ANNUAL_PL', () => {
 
 describe('COMPLETE_YEARS', () => {
   it('is a subset of ANNUAL_PL', () => {
-    const allYears = new Set(ANNUAL_PL.map(y => y.year));
+    const allYears = new Set(ANNUAL_PL.map((y) => y.year));
     for (const yr of COMPLETE_YEARS) {
       expect(allYears.has(yr.year)).toBe(true);
     }
@@ -95,7 +95,7 @@ describe('CURRENT_YEAR_DATA', () => {
   });
 
   it('has year equal to the maximum year in ANNUAL_PL', () => {
-    const maxYear = Math.max(...ANNUAL_PL.map(y => y.year));
+    const maxYear = Math.max(...ANNUAL_PL.map((y) => y.year));
     expect(CURRENT_YEAR_DATA.year).toBe(maxYear);
   });
 
@@ -110,12 +110,12 @@ describe('CURRENT_YEAR_DATA', () => {
 
 describe('PEAK_REVENUE and PEAK_YEAR', () => {
   it('PEAK_REVENUE is the maximum revenue across all years', () => {
-    const max = Math.max(...ANNUAL_PL.map(y => y.revenue));
+    const max = Math.max(...ANNUAL_PL.map((y) => y.revenue));
     expect(PEAK_REVENUE).toBe(max);
   });
 
   it('PEAK_YEAR is the year with PEAK_REVENUE', () => {
-    const peakEntry = ANNUAL_PL.find(y => y.revenue === PEAK_REVENUE);
+    const peakEntry = ANNUAL_PL.find((y) => y.revenue === PEAK_REVENUE);
     expect(peakEntry).toBeDefined();
     expect(PEAK_YEAR).toBe(peakEntry!.year);
   });
@@ -184,8 +184,8 @@ describe('AVG_REVENUE', () => {
   });
 
   it('is within the range of min and max annual revenue', () => {
-    const min = Math.min(...ANNUAL_PL.map(y => y.revenue));
-    const max = Math.max(...ANNUAL_PL.map(y => y.revenue));
+    const min = Math.min(...ANNUAL_PL.map((y) => y.revenue));
+    const max = Math.max(...ANNUAL_PL.map((y) => y.revenue));
     expect(AVG_REVENUE).toBeGreaterThanOrEqual(min);
     expect(AVG_REVENUE).toBeLessThanOrEqual(max);
   });

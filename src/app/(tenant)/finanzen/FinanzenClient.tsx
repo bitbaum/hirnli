@@ -17,13 +17,7 @@ import ShareButton from '@/components/ui/ShareButton';
 import { useFinancialData } from '@/hooks/useFinancialData';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { formatCHF, calcGrowth } from '@/lib/utils/format';
-import {
-  COMPLETE_YEARS,
-  CURRENT_YEAR_DATA,
-  PEAK_REVENUE,
-  PEAK_YEAR,
-  DATA_QUALITY,
-} from './data';
+import { COMPLETE_YEARS, CURRENT_YEAR_DATA, PEAK_REVENUE, PEAK_YEAR, DATA_QUALITY } from './data';
 import { FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
 import OverviewTab from './tabs/OverviewTab';
 import MonthlyTab from './tabs/MonthlyTab';
@@ -37,9 +31,8 @@ export default function FinanzenClient() {
   const financialData = useFinancialData();
   const inspector = useNumberInspector();
   const prevYear = useFinancialData(financialData.selectedYear - 1);
-  const growth = prevYear.totals.total > 0
-    ? calcGrowth(prevYear.totals.total, financialData.totals.total)
-    : 0;
+  const growth =
+    prevYear.totals.total > 0 ? calcGrowth(prevYear.totals.total, financialData.totals.total) : 0;
 
   return (
     <div>
@@ -64,26 +57,35 @@ export default function FinanzenClient() {
         <h3 className="heading-item mb-2">Warum jetzt? Die Ausgangslage ehrlich</h3>
         <div className="text-sm text-text-secondary space-y-2">
           <p>
-            Unsere Einnahmen sind von <strong>{formatCHF(PEAK_REVENUE)}</strong> ({PEAK_YEAR}) auf <strong>{formatCHF(CURRENT_YEAR_DATA.revenue)}</strong> ({CURRENT_YEAR_DATA.year}) gefallen — ein Rückgang von über 50%.
-            Der Haupttreiber: Verlust von B2B-Hosting-Kunden (Dienstleistungen von {formatCHF(Math.max(...COMPLETE_YEARS.map(y => y.revenueDetail.dienstleistungen)))} auf {formatCHF(CURRENT_YEAR_DATA.revenueDetail.dienstleistungen)}).
+            Unsere Einnahmen sind von <strong>{formatCHF(PEAK_REVENUE)}</strong> ({PEAK_YEAR}) auf{' '}
+            <strong>{formatCHF(CURRENT_YEAR_DATA.revenue)}</strong> ({CURRENT_YEAR_DATA.year})
+            gefallen — ein Rückgang von über 50%. Der Haupttreiber: Verlust von B2B-Hosting-Kunden
+            (Dienstleistungen von{' '}
+            {formatCHF(Math.max(...COMPLETE_YEARS.map((y) => y.revenueDetail.dienstleistungen)))}{' '}
+            auf {formatCHF(CURRENT_YEAR_DATA.revenueDetail.dienstleistungen)}).
           </p>
           <p>
-            Das aktuelle Modell — abhängig von wenigen grossen Einzelkunden — ist <strong>fragil</strong>.
-            Stiftungsgelder sind keine Wachstumsinvestition, sondern ermöglichen die <strong>Diversifizierung</strong>,
-            die Revamp-IT zum langfristigen Überleben braucht.
+            Das aktuelle Modell — abhängig von wenigen grossen Einzelkunden — ist{' '}
+            <strong>fragil</strong>. Stiftungsgelder sind keine Wachstumsinvestition, sondern
+            ermöglichen die <strong>Diversifizierung</strong>, die Revamp-IT zum langfristigen
+            Überleben braucht.
           </p>
           <p className="text-sm text-text-muted">
-            Alle Zahlen aus Kivitendo Buchhaltung. Vollständige P&L nur für {DATA_QUALITY.completeRange} verfügbar.
-            Seit 2024 wurden keine Aufwände verbucht.
+            Alle Zahlen aus Kivitendo Buchhaltung. Vollständige P&L nur für{' '}
+            {DATA_QUALITY.completeRange} verfügbar. Seit 2024 wurden keine Aufwände verbucht.
           </p>
         </div>
       </Card>
 
       <Card className="mb-6 bg-accent-muted border-l-4 border-primary">
         <p className="text-sm">
-          <strong>Diese Seite zeigt:</strong> Einnahmen & Ausgaben (woher kommt das Geld?)<br />
-          <strong>Impact ansehen:</strong> <Link href="/wirkung" className="text-primary hover:underline font-medium">Wirkungsseite</Link>
-          {' '}zeigt, was wir mit dem Geld bewirken.
+          <strong>Diese Seite zeigt:</strong> Einnahmen & Ausgaben (woher kommt das Geld?)
+          <br />
+          <strong>Impact ansehen:</strong>{' '}
+          <Link href="/wirkung" className="text-primary hover:underline font-medium">
+            Wirkungsseite
+          </Link>{' '}
+          zeigt, was wir mit dem Geld bewirken.
         </p>
       </Card>
 

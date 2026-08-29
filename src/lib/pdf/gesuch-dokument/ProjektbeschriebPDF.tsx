@@ -31,8 +31,9 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
         <Text style={styles.h3}>1. Zusammenfassung</Text>
         {dok.foundation.purposeSummary && (
           <Text style={styles.paragraph}>
-            Die {dok.foundation.name} fördert {extractPurposeCore(dok.foundation.purposeSummary!).toLowerCase()}.
-            {' '}{ORG_PROFILE.name} adressiert dieses Anliegen direkt:
+            Die {dok.foundation.name} fördert{' '}
+            {extractPurposeCore(dok.foundation.purposeSummary!).toLowerCase()}. {ORG_PROFILE.name}{' '}
+            adressiert dieses Anliegen direkt:
           </Text>
         )}
         <Text style={styles.paragraph}>
@@ -57,7 +58,9 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
       {/* Anecdotes */}
       {dok.anecdotes.why.length > 0 && (
         <View style={[styles.highlightBox, styles.mb12]}>
-          <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>Aus der Praxis</Text>
+          <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>
+            Aus der Praxis
+          </Text>
           {dok.anecdotes.why.map((a) => (
             <Text key={a.id} style={[styles.paragraph, { fontStyle: 'italic' }]}>
               {a.template}
@@ -75,12 +78,22 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
         {dok.story.how.track_record.proof_points.length > 0 && (
           <View style={[styles.row, { flexWrap: 'wrap', marginBottom: 8 }]}>
             {dok.story.how.track_record.proof_points.map((pp) => (
-              <View key={pp.label} style={{
-                width: '25%',
-                paddingVertical: 4,
-                paddingHorizontal: 4,
-              }}>
-                <Text style={{ fontSize: 14, fontWeight: 'bold', color: COLORS.primary, textAlign: 'center' }}>
+              <View
+                key={pp.label}
+                style={{
+                  width: '25%',
+                  paddingVertical: 4,
+                  paddingHorizontal: 4,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 'bold',
+                    color: COLORS.primary,
+                    textAlign: 'center',
+                  }}
+                >
                   {pp.value}
                 </Text>
                 <Text style={{ fontSize: 7, color: COLORS.textMuted, textAlign: 'center' }}>
@@ -101,12 +114,14 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
                 </Text>
                 {comp.capabilities.slice(0, 4).map((c) => (
                   <Text key={c} style={[styles.small, { color: COLORS.textLight }]}>
-                    {'\u2022  '}{c}
+                    {'\u2022  '}
+                    {c}
                   </Text>
                 ))}
                 {comp.evidence && comp.evidence.length > 0 && (
                   <Text style={[styles.muted, { marginTop: 2 }]}>
-                    Quellen: {comp.evidence
+                    Quellen:{' '}
+                    {comp.evidence
                       .map((key) => findEvidence(key))
                       .filter((e): e is NonNullable<typeof e> => e !== null)
                       .map((e) => `${e.title} (${e.year})`)
@@ -159,34 +174,52 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
               <View style={[styles.row, { marginTop: 4 }]}>
                 {/* Ziele */}
                 <View style={{ width: '33%', paddingRight: 4 }}>
-                  <Text style={[styles.small, { fontWeight: 'bold', color: COLORS.primary, marginBottom: 2 }]}>
+                  <Text
+                    style={[
+                      styles.small,
+                      { fontWeight: 'bold', color: COLORS.primary, marginBottom: 2 },
+                    ]}
+                  >
                     Ziele
                   </Text>
                   {project.goals.map((g) => (
                     <Text key={g} style={[styles.small, { color: COLORS.textLight }]}>
-                      {'\u2022  '}{g}
+                      {'\u2022  '}
+                      {g}
                     </Text>
                   ))}
                 </View>
                 {/* Massnahmen */}
                 <View style={{ width: '33%', paddingHorizontal: 4 }}>
-                  <Text style={[styles.small, { fontWeight: 'bold', color: COLORS.accent, marginBottom: 2 }]}>
+                  <Text
+                    style={[
+                      styles.small,
+                      { fontWeight: 'bold', color: COLORS.accent, marginBottom: 2 },
+                    ]}
+                  >
                     Massnahmen
                   </Text>
                   {project.activities.map((a) => (
                     <Text key={a} style={[styles.small, { color: COLORS.textLight }]}>
-                      {'\u2022  '}{a}
+                      {'\u2022  '}
+                      {a}
                     </Text>
                   ))}
                 </View>
                 {/* Erwartete Wirkung */}
                 <View style={{ width: '33%', paddingLeft: 4 }}>
-                  <Text style={[styles.small, { fontWeight: 'bold', color: COLORS.secondary, marginBottom: 2 }]}>
+                  <Text
+                    style={[
+                      styles.small,
+                      { fontWeight: 'bold', color: COLORS.secondary, marginBottom: 2 },
+                    ]}
+                  >
                     Erwartete Wirkung
                   </Text>
                   {project.outcomes.map((o) => (
                     <Text key={o} style={[styles.small, { color: COLORS.textLight }]}>
-                      {'\u2022  '}{o}
+                      {'\u2022  '}
+                      {o}
                     </Text>
                   ))}
                 </View>

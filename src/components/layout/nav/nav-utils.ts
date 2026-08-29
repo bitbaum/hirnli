@@ -5,9 +5,7 @@ export const NAV_ITEM_BASE =
   'group/link block rounded-md px-3 py-2 text-sm transition-colors hover:bg-surface-raised hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary';
 
 export function activeClasses(active: boolean) {
-  return active
-    ? 'bg-surface-raised text-text-primary font-semibold'
-    : '';
+  return active ? 'bg-surface-raised text-text-primary font-semibold' : '';
 }
 
 export function isActive(href: string | undefined, pathname: string): boolean {

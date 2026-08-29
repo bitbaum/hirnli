@@ -42,8 +42,7 @@ const REVENUE_YEAR3 = getNumericValue('YEAR3_REVENUE_TOTAL'); // 195_000
 export const REVENUE_CURRENT_DISPLAY = formatCHFk(REVENUE_CURRENT); // 'CHF 60k'
 const REVENUE_YEAR3_DISPLAY = formatCHFk(REVENUE_YEAR3); // 'CHF 195k'
 
-export const REVENUE_GROWTH_DISPLAY =
-  `Von ${REVENUE_CURRENT_DISPLAY} (aktuell, 2025) → ${REVENUE_YEAR3_DISPLAY} Revenue (Ziel Jahr 3, 2028)`;
+export const REVENUE_GROWTH_DISPLAY = `Von ${REVENUE_CURRENT_DISPLAY} (aktuell, 2025) → ${REVENUE_YEAR3_DISPLAY} Revenue (Ziel Jahr 3, 2028)`;
 
 // Peak revenue year — derived from REVENUE_HISTORY
 export const REVENUE_PEAK_YEAR = REVENUE_HISTORY.reduce(
@@ -53,13 +52,13 @@ export const REVENUE_PEAK_YEAR = REVENUE_HISTORY.reduce(
 export const REVENUE_PEAK_DISPLAY = formatCHFk(REVENUE_PEAK_YEAR.amount); // 'CHF 140k'
 
 /** Revenue decline narrative: "CHF 140k (2021) auf CHF 60k (2025)" */
-export const REVENUE_DECLINE_DISPLAY =
-  `${REVENUE_PEAK_DISPLAY} (${REVENUE_PEAK_YEAR.year}) auf ${REVENUE_CURRENT_DISPLAY} (2025)`;
+export const REVENUE_DECLINE_DISPLAY = `${REVENUE_PEAK_DISPLAY} (${REVENUE_PEAK_YEAR.year}) auf ${REVENUE_CURRENT_DISPLAY} (2025)`;
 
 // -- Devices -------------------------------------------------------------------
 
-export const DEVICES_PER_MONTH_CURRENT_DISPLAY =
-  String(NUMBERS_REGISTRY.DEVICES_PER_MONTH_CURRENT.value); // '~12-15'
+export const DEVICES_PER_MONTH_CURRENT_DISPLAY = String(
+  NUMBERS_REGISTRY.DEVICES_PER_MONTH_CURRENT.value,
+); // '~12-15'
 
 export const DEVICES_PER_MONTH_TARGET = getNumericValue('DEVICES_PER_MONTH_TARGET');
 export const DEVICES_PER_YEAR_TARGET = DEVICES_PER_MONTH_TARGET * 12; // 480
@@ -69,24 +68,25 @@ export const DEVICES_PER_YEAR_CURRENT_DISPLAY = `~${DEVICES_PER_YEAR_CURRENT}`; 
 
 // -- People --------------------------------------------------------------------
 
-export const PEOPLE_REACHED_PER_YEAR =
-  String(NUMBERS_REGISTRY.PEOPLE_REACHED_PER_YEAR_WITH_2BPL.value); // '40-60'
+export const PEOPLE_REACHED_PER_YEAR = String(
+  NUMBERS_REGISTRY.PEOPLE_REACHED_PER_YEAR_WITH_2BPL.value,
+); // '40-60'
 export const PEOPLE_REACHED_DISPLAY = `${PEOPLE_REACHED_PER_YEAR} Menschen/Jahr`;
 
 // -- BPL Reach (ranges from numbers.ts) ----------------------------------------
 
-export const BPL_HARDWARE_PER_YEAR_DISPLAY =
-  String(NUMBERS_REGISTRY.BPL_HARDWARE_TECHNICIANS_PER_YEAR.value); // '8-12'
-export const BPL_SOFTWARE_PER_YEAR_DISPLAY =
-  String(NUMBERS_REGISTRY.BPL_SOFTWARE_DEVELOPERS_PER_YEAR.value); // '6-10'
-export const BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY =
-  String(NUMBERS_REGISTRY.BPL_DIRECT_TRAINED_PER_YEAR.value); // '18'
-export const PEOPLE_REACHED_CURRENT_DISPLAY =
-  String(NUMBERS_REGISTRY.PEOPLE_REACHED_CURRENT.value); // '~5'
-export const REPAIR_TABLES_CURRENT =
-  getNumericValue('REPAIR_TABLES_CURRENT'); // 4
-const SWISS_FOUNDATIONS_UNIVERSE =
-  getNumericValue('SWISS_FOUNDATIONS_UNIVERSE'); // 16900
+export const BPL_HARDWARE_PER_YEAR_DISPLAY = String(
+  NUMBERS_REGISTRY.BPL_HARDWARE_TECHNICIANS_PER_YEAR.value,
+); // '8-12'
+export const BPL_SOFTWARE_PER_YEAR_DISPLAY = String(
+  NUMBERS_REGISTRY.BPL_SOFTWARE_DEVELOPERS_PER_YEAR.value,
+); // '6-10'
+export const BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY = String(
+  NUMBERS_REGISTRY.BPL_DIRECT_TRAINED_PER_YEAR.value,
+); // '18'
+export const PEOPLE_REACHED_CURRENT_DISPLAY = String(NUMBERS_REGISTRY.PEOPLE_REACHED_CURRENT.value); // '~5'
+export const REPAIR_TABLES_CURRENT = getNumericValue('REPAIR_TABLES_CURRENT'); // 4
+const SWISS_FOUNDATIONS_UNIVERSE = getNumericValue('SWISS_FOUNDATIONS_UNIVERSE'); // 16900
 // Use a literal apostrophe separator instead of toLocaleString to guarantee
 // identical output on the Node.js server and in the browser (avoids hydration mismatch).
 export const SWISS_FOUNDATIONS_DISPLAY = `~${String(SWISS_FOUNDATIONS_UNIVERSE).replace(/\B(?=(\d{3})+(?!\d))/g, '’')}`; // '~16’900'

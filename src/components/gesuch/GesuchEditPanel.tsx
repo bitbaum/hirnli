@@ -97,13 +97,16 @@ export default function GesuchEditPanel({
             <span className="ml-2 text-sm font-normal text-text-muted">→ {foundationName}</span>
           </h2>
           <p className="mt-1 text-sm text-text-muted">
-            Änderungen überschreiben den generierten Text. PDF und HTML-Vorschau verwenden die gespeicherte Version.
+            Änderungen überschreiben den generierten Text. PDF und HTML-Vorschau verwenden die
+            gespeicherte Version.
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           {saved && <span className="text-sm font-medium text-success-text">Gespeichert ✓</span>}
           {saveError && <span className="text-sm font-medium text-danger-text">{saveError}</span>}
-          {dirty && !saved && !saveError && !resetConfirm && <span className="text-sm text-text-muted">Ungespeichert</span>}
+          {dirty && !saved && !saveError && !resetConfirm && (
+            <span className="text-sm text-text-muted">Ungespeichert</span>
+          )}
           {resetConfirm ? (
             <>
               <span className="text-sm font-medium text-danger-text">Wirklich zurücksetzen?</span>
@@ -145,7 +148,10 @@ export default function GesuchEditPanel({
           fieldDescription={`Erscheint im Hero-Bereich des Gesuchs — erklärt, warum Stiftung und ${ORG_PROFILE.name} zusammenpassen.`}
           value={bridge}
           originalValue={generated.foundationBridge ?? ''}
-          placeholder={generated.foundationBridge ?? 'Verbindungssatz zwischen Stiftungszweck und unserer Mission'}
+          placeholder={
+            generated.foundationBridge ??
+            'Verbindungssatz zwischen Stiftungszweck und unserer Mission'
+          }
           fieldPath="foundationBridge"
           multiline
           onAiRewrite={onAiRewrite}
@@ -157,9 +163,7 @@ export default function GesuchEditPanel({
         {generated.why && (
           <>
             <div className="border-t border-border-default pt-4">
-              <p className="mb-4 heading-xs-label">
-                Warum-Abschnitt
-              </p>
+              <p className="mb-4 heading-xs-label">Warum-Abschnitt</p>
               <div className="space-y-4">
                 <FieldRow
                   {...fieldShared}
@@ -221,9 +225,7 @@ export default function GesuchEditPanel({
 
         {/* 3. How / Track Record */}
         <div className="border-t border-border-default pt-4">
-          <p className="mb-4 heading-xs-label">
-            Wie-Abschnitt (Track Record)
-          </p>
+          <p className="mb-4 heading-xs-label">Wie-Abschnitt (Track Record)</p>
           <div className="space-y-4">
             <FieldRow
               {...fieldShared}

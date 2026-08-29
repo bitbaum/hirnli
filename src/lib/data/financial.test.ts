@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  AVAILABLE_YEARS,
-  CURRENT_FINANCIAL_YEAR,
-  loadFinancialData,
-} from './financial';
+import { AVAILABLE_YEARS, CURRENT_FINANCIAL_YEAR, loadFinancialData } from './financial';
 
 // ---------------------------------------------------------------------------
 // AVAILABLE_YEARS / CURRENT_FINANCIAL_YEAR

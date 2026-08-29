@@ -22,9 +22,7 @@ function getDb() {
   if (!_db) {
     const url = process.env.DATABASE_URL;
     if (!url) {
-      throw new Error(
-        'DATABASE_URL is not set. Required for database operations.'
-      );
+      throw new Error('DATABASE_URL is not set. Required for database operations.');
     }
     _db = drizzle(new Pool({ connectionString: url }), { schema });
   }

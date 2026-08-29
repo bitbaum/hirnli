@@ -110,8 +110,15 @@ describe('evaluateEngine', () => {
 
   it('dimension scores do not exceed maxScore', () => {
     const result = evaluateEngine(SCORING_ENGINE, {
-      themes: ['kreislaufwirtschaft', 'arbeitsintegration', 'digitale-bildung',
-        'soziale-integration', 'klima', 'zuerich', 'digitale-souveraenitaet'],
+      themes: [
+        'kreislaufwirtschaft',
+        'arbeitsintegration',
+        'digitale-bildung',
+        'soziale-integration',
+        'klima',
+        'zuerich',
+        'digitale-souveraenitaet',
+      ],
       canton: 'ZH',
       city: 'Zürich',
       applicationMethod: 'email',
@@ -131,7 +138,12 @@ import { explainFitScore } from '../fit-scoring';
 describe('explainFitScore', () => {
   it('reconstructs a consistent breakdown that sums to the stored score', () => {
     // themes [] → thematic 0; method online → access 3; stored 5 → geographic 2 (≤3)
-    const result = explainFitScore({ themes: [], applicationMethod: 'online', isFunder: false, fitScore: 5 });
+    const result = explainFitScore({
+      themes: [],
+      applicationMethod: 'online',
+      isFunder: false,
+      fitScore: 5,
+    });
     const byId = Object.fromEntries(result.dimensions.map((d) => [d.id, d]));
     expect(result.consistent).toBe(true);
     expect(byId.access.score).toBe(3);
@@ -144,7 +156,12 @@ describe('explainFitScore', () => {
 
   it('flags inconsistent when the residual exceeds the geographic max', () => {
     // themes [] → thematic 0; unknown method → access 0; stored 9 → residual 9 > geo max 3
-    const result = explainFitScore({ themes: [], applicationMethod: 'unknown', isFunder: false, fitScore: 9 });
+    const result = explainFitScore({
+      themes: [],
+      applicationMethod: 'unknown',
+      isFunder: false,
+      fitScore: 9,
+    });
     expect(result.consistent).toBe(false);
     const geo = result.dimensions.find((d) => d.id === 'geographic');
     expect(geo?.score).toBeNull();
@@ -152,7 +169,12 @@ describe('explainFitScore', () => {
 
   it('flags inconsistent when the residual is negative', () => {
     // online access alone = 3 > stored 2 → residual negative
-    const result = explainFitScore({ themes: [], applicationMethod: 'online', isFunder: false, fitScore: 2 });
+    const result = explainFitScore({
+      themes: [],
+      applicationMethod: 'online',
+      isFunder: false,
+      fitScore: 2,
+    });
     expect(result.consistent).toBe(false);
   });
 });

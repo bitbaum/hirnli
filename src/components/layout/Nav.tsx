@@ -41,7 +41,10 @@ export default function Nav({ stiftungenCount }: { stiftungenCount: number }) {
   }, [mobileOpen, closeMobile]);
 
   return (
-    <nav aria-label={t('mainNav')} className="sticky top-0 z-30 border-b border-border-default bg-surface-base/95 backdrop-blur-sm">
+    <nav
+      aria-label={t('mainNav')}
+      className="sticky top-0 z-30 border-b border-border-default bg-surface-base/95 backdrop-blur-sm"
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <Link
           href="/"
@@ -56,12 +59,8 @@ export default function Nav({ stiftungenCount }: { stiftungenCount: number }) {
             className="h-auto w-auto"
           />
           <div className="flex flex-col">
-            <span className="text-sm font-semibold text-revamp-green">
-              {BRANDING.siteName}
-            </span>
-            <span className="text-sm text-text-muted">
-              {BRANDING.siteTagline}
-            </span>
+            <span className="text-sm font-semibold text-revamp-green">{BRANDING.siteName}</span>
+            <span className="text-sm text-text-muted">{BRANDING.siteTagline}</span>
           </div>
         </Link>
 
@@ -96,8 +95,12 @@ export default function Nav({ stiftungenCount }: { stiftungenCount: number }) {
               </li>
             );
           })}
-          <li><LanguageToggle /></li>
-          <li><ThemeToggle /></li>
+          <li>
+            <LanguageToggle />
+          </li>
+          <li>
+            <ThemeToggle />
+          </li>
         </ul>
       </div>
 
@@ -113,11 +116,7 @@ export default function Nav({ stiftungenCount }: { stiftungenCount: number }) {
                   item={item}
                   pathname={pathname}
                   expanded={expandedItem === item.text}
-                  onToggle={() =>
-                    setExpandedItem((cur) =>
-                      cur === item.text ? null : item.text,
-                    )
-                  }
+                  onToggle={() => setExpandedItem((cur) => (cur === item.text ? null : item.text))}
                   onNavigate={closeMobile}
                 />
               ))}

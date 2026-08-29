@@ -7,7 +7,10 @@ export function escapeCSV(value: string | number | null | undefined): string {
   return str;
 }
 
-export function arrayToCSV(headers: string[], rows: (string | number | null | undefined)[][]): string {
+export function arrayToCSV(
+  headers: string[],
+  rows: (string | number | null | undefined)[][],
+): string {
   const headerRow = headers.map(escapeCSV).join(',');
   const dataRows = rows.map((row) => row.map(escapeCSV).join(',')).join('\n');
   return `${headerRow}\n${dataRows}`;

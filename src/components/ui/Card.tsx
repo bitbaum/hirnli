@@ -13,7 +13,13 @@ interface CardProps {
   id?: string;
 }
 
-export default function Card({ variant = 'default', children, className = '', padding = true, id }: CardProps) {
+export default function Card({
+  variant = 'default',
+  children,
+  className = '',
+  padding = true,
+  id,
+}: CardProps) {
   return (
     <div id={id} className={`${BASE[variant]} ${padding ? 'p-6' : ''} ${className}`}>
       {children}
@@ -21,10 +27,22 @@ export default function Card({ variant = 'default', children, className = '', pa
   );
 }
 
-export function CardHeader({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+export function CardHeader({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return <div className={`mb-4 ${className}`}>{children}</div>;
 }
 
-export function CardTitle({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+export function CardTitle({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return <h3 className={`heading-card ${className}`}>{children}</h3>;
 }

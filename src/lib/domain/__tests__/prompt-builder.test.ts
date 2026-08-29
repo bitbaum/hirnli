@@ -135,7 +135,9 @@ describe('buildExternalPrompt', () => {
 
     it('includes past grantees (up to 5)', () => {
       const prompt = buildExternalPrompt({
-        foundation: makeContext({ pastGrantees: ['Org A', 'Org B', 'Org C', 'Org D', 'Org E', 'Org F'] }),
+        foundation: makeContext({
+          pastGrantees: ['Org A', 'Org B', 'Org C', 'Org D', 'Org E', 'Org F'],
+        }),
         fieldDescription: 'Intro',
         currentText: 'Text',
       });

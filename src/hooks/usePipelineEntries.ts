@@ -32,9 +32,15 @@ export function usePipelineEntries(): PipelineEntriesState {
           setPipelineError(true);
         }
       })
-      .catch(() => { if (!cancelled) setPipelineError(true); })
-      .finally(() => { if (!cancelled) setPipelineLoading(false); });
-    return () => { cancelled = true; };
+      .catch(() => {
+        if (!cancelled) setPipelineError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setPipelineLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return { pipelineSlugs, pipelineLoading, pipelineError };

@@ -27,7 +27,7 @@ export async function GET() {
     // it rejects its returned promise on render failure, so the catch below does work.
     const stream = await renderToStream(
       // eslint-disable-next-line react-hooks/error-boundaries
-      <ImpactReportPDF totalCount={totalCount} p1p3Count={p1p3Count} />
+      <ImpactReportPDF totalCount={totalCount} p1p3Count={p1p3Count} />,
     );
 
     const buffer = await streamToBuffer(stream);

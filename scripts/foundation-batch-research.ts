@@ -66,10 +66,11 @@ function loadCandidatesFromDiscovery(): Candidate[] {
 
   // Filter for Tier 1-2 candidates (Zürich-based or exact theme matches)
   return data.foundations
-    .filter((f: Candidate) =>
-      f.location?.includes('Zürich') ||
-      f.location?.includes('Winterthur') ||
-      (f.foundVia && f.foundVia.length >= 2) // Multi-match signal
+    .filter(
+      (f: Candidate) =>
+        f.location?.includes('Zürich') ||
+        f.location?.includes('Winterthur') ||
+        (f.foundVia && f.foundVia.length >= 2), // Multi-match signal
     )
     .slice(0, 20); // Limit to top 20 for manageable batch size
 }
@@ -229,7 +230,13 @@ function processBatch(candidates: Candidate[]): BatchJob {
   // Generate prompt for each candidate
   candidates.forEach((candidate, index) => {
     const prompt = generatePromptForCandidate(candidate, index + 1);
-    const fileName = `${String(index + 1).padStart(2, '0')}-${candidate.slug || candidate.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').substring(0, 30)}.md`;
+    const fileName = `${String(index + 1).padStart(2, '0')}-${
+      candidate.slug ||
+      candidate.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .substring(0, 30)
+    }.md`;
     const filePath = path.join(outputDir, fileName);
 
     fs.writeFileSync(filePath, prompt, 'utf-8');

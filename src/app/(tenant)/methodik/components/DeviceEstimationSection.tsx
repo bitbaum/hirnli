@@ -16,18 +16,21 @@ export function DeviceEstimationSection() {
       confidence="low"
     >
       <p className="mb-4 text-sm text-text-secondary">
-        Da keine Stückzahlen in Kivitendo erfasst werden, schätzen wir die
-        Geräteanzahl aus den Einnahmen.
+        Da keine Stückzahlen in Kivitendo erfasst werden, schätzen wir die Geräteanzahl aus den
+        Einnahmen.
       </p>
 
       <FormulaBox>
-        <strong>Formel:</strong><br />
+        <strong>Formel:</strong>
+        <br />
         Geschätzte Geräte = Warenverkauf (CHF) / Durchschnittspreis (CHF {AVG_DEVICE_PRICE})
       </FormulaBox>
 
       <h4 className="mb-2 heading-detail">Annahmen:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
-        <li>Durchschnittspreis pro Gerät: <strong>CHF {AVG_DEVICE_PRICE}</strong></li>
+        <li>
+          Durchschnittspreis pro Gerät: <strong>CHF {AVG_DEVICE_PRICE}</strong>
+        </li>
         <li>Alle Einnahmen auf Konto 3100 sind Geräteverkäufe</li>
         <li>Keine Unterscheidung nach Gerätetyp</li>
       </ul>
@@ -42,8 +45,8 @@ export function DeviceEstimationSection() {
 
       <Callout color="danger">
         <p className="text-sm font-medium text-danger">
-          KRITISCH: Stückzahlen sollten in Kivitendo erfasst werden.
-          Das würde diese Schätzung überflüssig machen.
+          KRITISCH: Stückzahlen sollten in Kivitendo erfasst werden. Das würde diese Schätzung
+          überflüssig machen.
         </p>
       </Callout>
     </MethodologySection>

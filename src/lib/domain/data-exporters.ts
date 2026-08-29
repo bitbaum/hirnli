@@ -16,7 +16,10 @@ import { arrayToCSV } from '@/lib/utils/csv';
 // ---------------------------------------------------------------------------
 
 export function exportFinancialData(): string {
-  const years = Array.from({ length: FINANCIAL_YEAR_END - FINANCIAL_YEAR_START + 1 }, (_, i) => FINANCIAL_YEAR_START + i);
+  const years = Array.from(
+    { length: FINANCIAL_YEAR_END - FINANCIAL_YEAR_START + 1 },
+    (_, i) => FINANCIAL_YEAR_START + i,
+  );
   const headers = ['Jahr', 'Kategorie', 'Betrag (CHF)', 'Quelle'];
 
   const rows: (string | number)[][] = [];

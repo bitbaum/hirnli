@@ -31,12 +31,8 @@ export default function AnschreibenPDF({ dok }: AnschreibenPDFProps) {
         <Text style={[styles.paragraph, { fontWeight: 'bold' }]}>
           {dok.organization.organization.name}
         </Text>
-        <Text style={styles.paragraph}>
-          {dok.organization.organization.address}
-        </Text>
-        <Text style={styles.paragraph}>
-          {dok.organization.organization.website}
-        </Text>
+        <Text style={styles.paragraph}>{dok.organization.organization.address}</Text>
+        <Text style={styles.paragraph}>{dok.organization.organization.website}</Text>
       </View>
 
       {/* Recipient */}
@@ -66,9 +62,9 @@ export default function AnschreibenPDF({ dok }: AnschreibenPDFProps) {
         <Text style={[styles.paragraph, { marginTop: 8 }]}>{dok.anschreiben.opening}</Text>
         <Text style={styles.paragraph}>{dok.anschreiben.themeAlignment}</Text>
         <Text style={styles.paragraph}>
-          Im beiliegenden Projektbeschrieb stellen wir Ihnen unser Vorhaben im Detail vor.
-          Wir beantragen einen Förderbeitrag von {pdfFormatCHF(dok.budget.requestedAmount)} für
-          eine Projektlaufzeit von {dok.budget.projectDuration}.
+          Im beiliegenden Projektbeschrieb stellen wir Ihnen unser Vorhaben im Detail vor. Wir
+          beantragen einen Förderbeitrag von {pdfFormatCHF(dok.budget.requestedAmount)} für eine
+          Projektlaufzeit von {dok.budget.projectDuration}.
         </Text>
         <Text style={styles.paragraph}>
           Für eine interaktive Übersicht unserer Arbeit und der Passung zu Ihrem Stiftungszweck
@@ -86,18 +82,21 @@ export default function AnschreibenPDF({ dok }: AnschreibenPDFProps) {
       </View>
 
       {/* Beilagen */}
-      <View style={{
-        marginTop: 20,
-        borderTopWidth: 1,
-        borderTopColor: COLORS.border,
-        paddingTop: 8,
-      }}>
+      <View
+        style={{
+          marginTop: 20,
+          borderTopWidth: 1,
+          borderTopColor: COLORS.border,
+          paddingTop: 8,
+        }}
+      >
         <Text style={[styles.small, { fontWeight: 'bold', color: COLORS.textMuted }]}>
           Beilagen:
         </Text>
         {beilagen.map((b) => (
           <Text key={b} style={[styles.small, { color: COLORS.textMuted, marginLeft: 8 }]}>
-            {'  \u2022  '}{b}
+            {'  \u2022  '}
+            {b}
           </Text>
         ))}
       </View>

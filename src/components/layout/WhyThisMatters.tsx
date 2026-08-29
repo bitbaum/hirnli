@@ -34,22 +34,16 @@ export default function WhyThisMatters({ purpose, connection }: WhyThisMattersPr
           </div>
           {isExpanded ? (
             <div className="space-y-2">
-              <p className="text-base text-text-primary">
-                {purpose}
-              </p>
+              <p className="text-base text-text-primary">{purpose}</p>
               <p className="text-sm text-primary">
                 <span className="font-medium">Zusammenhang:</span> {connection}
               </p>
             </div>
           ) : (
-            <p className="text-sm text-primary">
-              Klicken um zu sehen, warum diese Seite existiert
-            </p>
+            <p className="text-sm text-primary">Klicken um zu sehen, warum diese Seite existiert</p>
           )}
         </div>
-        <div className="flex-shrink-0 text-primary">
-          {isExpanded ? '−' : '+'}
-        </div>
+        <div className="flex-shrink-0 text-primary">{isExpanded ? '−' : '+'}</div>
       </Button>
     </div>
   );

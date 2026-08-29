@@ -30,11 +30,13 @@ export function parseResponseTimeWeeks(responseTime?: string | null): number {
 import { toISODateStr } from '@/lib/utils/format';
 
 /** Compute ISO follow-up date from submission date + response time string */
-export function computeFollowUpDate(submissionDateIso: string, responseTime?: string | null): string {
+export function computeFollowUpDate(
+  submissionDateIso: string,
+  responseTime?: string | null,
+): string {
   const weeks = parseResponseTimeWeeks(responseTime);
   // Parse and operate in UTC to avoid DST boundary shifts corrupting the calendar date.
   const d = new Date(submissionDateIso + 'T00:00:00Z');
   d.setUTCDate(d.getUTCDate() + weeks * 7);
   return toISODateStr(d);
 }
-

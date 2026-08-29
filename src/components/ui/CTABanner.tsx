@@ -38,9 +38,7 @@ export default function CTABanner({
           : 'rounded-xl border border-border-default bg-surface-raised p-8 text-center'
       }
     >
-      <Heading className="heading-section mb-3">
-        {title}
-      </Heading>
+      <Heading className="heading-section mb-3">{title}</Heading>
       <p className="text-base mb-6 leading-relaxed max-w-3xl mx-auto text-text-secondary">
         {description}
       </p>

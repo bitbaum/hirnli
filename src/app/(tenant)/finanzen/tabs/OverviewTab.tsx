@@ -50,10 +50,7 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
           value={formatCHF(CURRENT_YEAR_DATA.revenue)}
           subtitle="Aktuellstes Jahr"
           trend={{
-            value: calcGrowth(
-              ANNUAL_PL[ANNUAL_PL.length - 2].revenue,
-              CURRENT_YEAR_DATA.revenue,
-            ),
+            value: calcGrowth(ANNUAL_PL[ANNUAL_PL.length - 2].revenue, CURRENT_YEAR_DATA.revenue),
             label: `vs. ${ANNUAL_PL[ANNUAL_PL.length - 2].year}`,
           }}
           sourceType="live"
@@ -95,7 +92,8 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
               sourceType: 'derived',
               source: DATA_QUALITY.source,
               formula: `SUM(Umsatz ${DATA_QUALITY.completeRange}) / ${COMPLETE_YEARS.length}`,
-              description: 'Durchschnittlicher Jahresumsatz über alle vollständigen Geschäftsjahre.',
+              description:
+                'Durchschnittlicher Jahresumsatz über alle vollständigen Geschäftsjahre.',
             })
           }
         />
@@ -118,13 +116,18 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
           <CardTitle>Analyse</CardTitle>
         </CardHeader>
         {(() => {
-          const lossYears = COMPLETE_YEARS.filter(y => y.result < 0);
-          const lossYearRange = lossYears.length > 0
-            ? `${lossYears[0].year}–${lossYears[lossYears.length - 1].year}`
-            : '';
+          const lossYears = COMPLETE_YEARS.filter((y) => y.result < 0);
+          const lossYearRange =
+            lossYears.length > 0
+              ? `${lossYears[0].year}–${lossYears[lossYears.length - 1].year}`
+              : '';
           const rentFirst = ANNUAL_PL[0].expenseDetail?.miete ?? 0;
-          const rentPeak = Math.max(...COMPLETE_YEARS.filter(y => y.expenseDetail?.miete).map(y => y.expenseDetail!.miete));
-          const profitYear = COMPLETE_YEARS.find(y => y.result > 0);
+          const rentPeak = Math.max(
+            ...COMPLETE_YEARS.filter((y) => y.expenseDetail?.miete).map(
+              (y) => y.expenseDetail!.miete,
+            ),
+          );
+          const profitYear = COMPLETE_YEARS.find((y) => y.result > 0);
 
           return (
             <div className="grid gap-4 sm:grid-cols-2">
@@ -161,11 +164,10 @@ export default function OverviewTab({ inspector }: { inspector: InspectorHandle 
           <p className="heading-detail">Datenquelle</p>
           <p>{DATA_QUALITY.source}</p>
           <p className="mt-1 text-sm text-text-muted">
-            System: {DATA_QUALITY.sourceSystem} | Vollständig: {DATA_QUALITY.completeRange} | Unvollständig: {DATA_QUALITY.incompleteRange}
+            System: {DATA_QUALITY.sourceSystem} | Vollständig: {DATA_QUALITY.completeRange} |
+            Unvollständig: {DATA_QUALITY.incompleteRange}
           </p>
-          <p className="mt-1 text-sm text-text-muted">
-            {DATA_QUALITY.caveat}
-          </p>
+          <p className="mt-1 text-sm text-text-muted">{DATA_QUALITY.caveat}</p>
         </div>
       </Card>
     </div>

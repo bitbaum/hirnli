@@ -19,15 +19,13 @@ import { EMAIL_COLORS } from '@/lib/config/email-colors';
 import { formatCHF } from '@/lib/utils/format';
 import type { Application, FoundationRow } from '@/lib/db/schema';
 
-const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map(s => [s.id, s.label]));
+const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map((s) => [s.id, s.label]));
 import { toISODateStr } from '@/lib/utils/format';
 import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 
 // Initialize Resend (requires RESEND_API_KEY in env)
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 /**
  * GET /api/cron/deadline-reminder
@@ -43,8 +41,10 @@ export async function GET(request: NextRequest) {
   const expected = `Bearer ${cronSecret}`;
   // Constant-time comparison to prevent timing side-channel attacks
   const crypto = await import('crypto');
-  if (authHeader.length !== expected.length ||
-      !crypto.timingSafeEqual(Buffer.from(authHeader), Buffer.from(expected))) {
+  if (
+    authHeader.length !== expected.length ||
+    !crypto.timingSafeEqual(Buffer.from(authHeader), Buffer.from(expected))
+  ) {
     return NextResponse.json({ success: false, error: API_ERR_UNAUTHORIZED }, { status: 401 });
   }
 
@@ -81,8 +81,8 @@ export async function GET(request: NextRequest) {
           and(
             eq(applications.decisionExpected, targetDateStr),
             // All active post-submission statuses that may have a decision date
-            inArray(applications.status, ['submitted', 'pending', 'followup'])
-          )
+            inArray(applications.status, ['submitted', 'pending', 'followup']),
+          ),
         );
 
       for (const { application, foundation } of upcomingDeadlines) {
@@ -110,7 +110,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       notifications_sent: notifications.length,
-      deadlines: notifications.map(n => ({
+      deadlines: notifications.map((n) => ({
         foundation: n.foundation?.name,
         daysUntil: n.daysUntil,
         urgency: n.urgency,
@@ -130,7 +130,7 @@ function formatEmailBody(
     foundation: FoundationRow | null;
     daysUntil: number;
     urgency: 'high' | 'medium' | 'low';
-  }>
+  }>,
 ): string {
   const urgencyColors = {
     high: EMAIL_COLORS.urgencyHigh,
@@ -145,12 +145,12 @@ function formatEmailBody(
   };
 
   const groupedByUrgency = {
-    high: notifications.filter(n => n.urgency === 'high'),
-    medium: notifications.filter(n => n.urgency === 'medium'),
-    low: notifications.filter(n => n.urgency === 'low'),
+    high: notifications.filter((n) => n.urgency === 'high'),
+    medium: notifications.filter((n) => n.urgency === 'medium'),
+    low: notifications.filter((n) => n.urgency === 'low'),
   };
 
-  const formatAmount = (amount: number | null) => amount ? formatCHF(amount) : '—';
+  const formatAmount = (amount: number | null) => (amount ? formatCHF(amount) : '—');
 
   let html = `
 <!DOCTYPE html>

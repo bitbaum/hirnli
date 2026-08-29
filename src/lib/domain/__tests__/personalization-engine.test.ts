@@ -216,9 +216,7 @@ describe('getCustomizationSummary — additionalSections', () => {
         visibleBudgetModules: [],
         hiddenBudgetModules: [],
         toneAdjustments: [],
-        additionalSections: [
-          { section: 'Partnerschaftsnachweis', content: 'Inhalt...' },
-        ],
+        additionalSections: [{ section: 'Partnerschaftsnachweis', content: 'Inhalt...' }],
         sectionOrder: [],
       },
     });

@@ -13,4 +13,4 @@ export const SHARED_ORG_NUMBERS = {
   TEAM_CORE_FTE: 3,
   AVG_DEVICE_PRICE: 150,
   CURRENT_BUDGET: 60000,
-} as const
+} as const;

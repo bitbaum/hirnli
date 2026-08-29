@@ -2,7 +2,13 @@ import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
-import { TYPE_LABELS, STATUS_LABELS, STATUS_BADGE_VARIANT, FIT_CONFIG, PRIORITY_CONFIG } from '@/lib/config/foundations';
+import {
+  TYPE_LABELS,
+  STATUS_LABELS,
+  STATUS_BADGE_VARIANT,
+  FIT_CONFIG,
+  PRIORITY_CONFIG,
+} from '@/lib/config/foundations';
 import { getFoundationPresentation } from '@/lib/domain/foundation-presenter';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { QUALITY_THRESHOLDS } from '@/lib/config/fit-scoring';
@@ -33,10 +39,8 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
       gapItems.push(`Zweck ${purposeLen}/${QUALITY_THRESHOLDS.purposeSummaryMinChars}`);
     if (notesLen < QUALITY_THRESHOLDS.researchNotesMinChars)
       gapItems.push(`Notizen ${notesLen}/${QUALITY_THRESHOLDS.researchNotesMinChars}`);
-    if (!f.contact?.email && !f.contact?.phone)
-      gapItems.push('Kontakt fehlt');
-    if (!f.websiteUrl || isRegistryUrl(f.websiteUrl))
-      gapItems.push('Website fehlt');
+    if (!f.contact?.email && !f.contact?.phone) gapItems.push('Kontakt fehlt');
+    if (!f.websiteUrl || isRegistryUrl(f.websiteUrl)) gapItems.push('Website fehlt');
   }
 
   return (
@@ -48,13 +52,17 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1">
-              <span className={`text-xs ${trustDisplay.dotColor}`} title={trustDisplay.label}>●</span>
+              <span className={`text-xs ${trustDisplay.dotColor}`} title={trustDisplay.label}>
+                ●
+              </span>
               <span
                 className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-bold leading-none ${priorityConfig.color}`}
               >
                 {priorityLabel}
                 {priorityIsOverride && (
-                  <span className="rounded bg-warning/10 px-0.5 text-xs font-medium text-warning-text">M</span>
+                  <span className="rounded bg-warning/10 px-0.5 text-xs font-medium text-warning-text">
+                    M
+                  </span>
                 )}
               </span>
             </span>
@@ -77,10 +85,10 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
           <p className="mt-1 text-sm text-text-secondary">{f.tagline}</p>
         </div>
         <div className="flex items-center gap-2 sm:ml-4 sm:flex-col sm:items-end sm:gap-1">
-          <Badge variant={STATUS_BADGE_VARIANT[f.status]}>
-            {statusLabel.text}
-          </Badge>
-          <span className="text-sm text-text-muted">{typeLabel.short}: {typeLabel.long}</span>
+          <Badge variant={STATUS_BADGE_VARIANT[f.status]}>{statusLabel.text}</Badge>
+          <span className="text-sm text-text-muted">
+            {typeLabel.short}: {typeLabel.long}
+          </span>
         </div>
       </div>
 
@@ -90,16 +98,12 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
 
       <div className="mt-3 flex items-center justify-between text-sm text-text-muted">
         <div className="flex items-center gap-2">
-          {f.deadlineText && f.deadlineText !== UNKNOWN_FIELD && (
-            <span>{f.deadlineText}</span>
-          )}
+          {f.deadlineText && f.deadlineText !== UNKNOWN_FIELD && <span>{f.deadlineText}</span>}
           <Badge variant="raw" size="sm" className={tierColor}>
             {tierLabel}
           </Badge>
         </div>
-        {f.amount.text && f.amount.text !== UNKNOWN_FIELD && (
-          <span>{f.amount.text}</span>
-        )}
+        {f.amount.text && f.amount.text !== UNKNOWN_FIELD && <span>{f.amount.text}</span>}
       </div>
 
       {f.isOperative && (
@@ -110,7 +114,7 @@ export default function FoundationCard({ foundation: f, inPipeline, score }: Fou
 
       {gapItems.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-1 border-t border-border-default pt-2">
-          {gapItems.map(item => (
+          {gapItems.map((item) => (
             <span key={item} className="rounded bg-amber-bg px-1.5 py-0.5 text-xs text-amber-text">
               {item}
             </span>

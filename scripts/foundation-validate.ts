@@ -155,7 +155,7 @@ function levenshteinDistance(a: string, b: string): number {
         matrix[i][j] = Math.min(
           matrix[i - 1][j - 1] + 1,
           matrix[i][j - 1] + 1,
-          matrix[i - 1][j] + 1
+          matrix[i - 1][j] + 1,
         );
       }
     }
@@ -231,7 +231,7 @@ function validateDuplicates(foundations: Foundation[]) {
         //   receive its UID)
         if (distance > 0) {
           if (foundation.uid && existing.uid && foundation.uid !== existing.uid) {
-            continue;  // different UIDs = different foundations
+            continue; // different UIDs = different foundations
           }
         }
         addIssue({

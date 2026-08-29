@@ -52,11 +52,13 @@ export default async function SchwerpunktGesuchDokumentPage({ params }: Props) {
       {/* VORLAGE banner + print bar */}
       <div className="mb-8 space-y-3 print:hidden">
         <VorlageBanner title={bannerTitle}>
-          Schwerpunkt: <strong>{sp.label}</strong> |
-          Platzhalterfelder vor dem Versand ersetzen.
+          Schwerpunkt: <strong>{sp.label}</strong> | Platzhalterfelder vor dem Versand ersetzen.
         </VorlageBanner>
         <PrintTipBanner>
-          <Link href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}`} className="text-primary hover:underline">
+          <Link
+            href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}`}
+            className="text-primary hover:underline"
+          >
             Interaktive Seite
           </Link>
           <Link href="/fundraising/gesuch-vorlagen" className="text-primary hover:underline">

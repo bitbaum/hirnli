@@ -94,12 +94,48 @@ export interface CO2Row {
 }
 
 export const CO2_DATA: CO2Row[] = [
-  { manufacturer: 'Lenovo', model: 'ThinkPad X13', co2Kg: 377.6, source: 'Lenovo Eco Declaration', sourceUrl: 'https://static.lenovo.com/ww/docs/eco-declaration/thinkpad-x13-gen-2.pdf' },
-  { manufacturer: 'Lenovo', model: 'ThinkPad X1 Extreme', co2Kg: 244.6, source: 'Lenovo Eco Declaration', sourceUrl: 'https://static.lenovo.com/ww/docs/eco-declaration/thinkpad-x1-extreme-gen-5.pdf' },
-  { manufacturer: 'Dell', model: 'Latitude 9520', co2Kg: 325.5, source: 'Dell PCF', sourceUrl: 'https://www.dell.com/en-us/lp/product-carbon-footprint' },
-  { manufacturer: 'Dell', model: 'XPS 15 (9530)', co2Kg: 383.7, source: 'Dell PCF', sourceUrl: 'https://www.dell.com/en-us/lp/product-carbon-footprint' },
-  { manufacturer: 'HP', model: 'EliteBook 865 G10', co2Kg: 176.4, source: 'HP PCF', sourceUrl: 'https://h20195.www2.hp.com/v2/getpdf.aspx/c09146959.pdf' },
-  { manufacturer: 'Apple', model: 'MacBook Pro 16"', co2Kg: 348.0, source: 'Apple Environmental Report', sourceUrl: 'https://www.apple.com/environment/reports/' },
+  {
+    manufacturer: 'Lenovo',
+    model: 'ThinkPad X13',
+    co2Kg: 377.6,
+    source: 'Lenovo Eco Declaration',
+    sourceUrl: 'https://static.lenovo.com/ww/docs/eco-declaration/thinkpad-x13-gen-2.pdf',
+  },
+  {
+    manufacturer: 'Lenovo',
+    model: 'ThinkPad X1 Extreme',
+    co2Kg: 244.6,
+    source: 'Lenovo Eco Declaration',
+    sourceUrl: 'https://static.lenovo.com/ww/docs/eco-declaration/thinkpad-x1-extreme-gen-5.pdf',
+  },
+  {
+    manufacturer: 'Dell',
+    model: 'Latitude 9520',
+    co2Kg: 325.5,
+    source: 'Dell PCF',
+    sourceUrl: 'https://www.dell.com/en-us/lp/product-carbon-footprint',
+  },
+  {
+    manufacturer: 'Dell',
+    model: 'XPS 15 (9530)',
+    co2Kg: 383.7,
+    source: 'Dell PCF',
+    sourceUrl: 'https://www.dell.com/en-us/lp/product-carbon-footprint',
+  },
+  {
+    manufacturer: 'HP',
+    model: 'EliteBook 865 G10',
+    co2Kg: 176.4,
+    source: 'HP PCF',
+    sourceUrl: 'https://h20195.www2.hp.com/v2/getpdf.aspx/c09146959.pdf',
+  },
+  {
+    manufacturer: 'Apple',
+    model: 'MacBook Pro 16"',
+    co2Kg: 348.0,
+    source: 'Apple Environmental Report',
+    sourceUrl: 'https://www.apple.com/environment/reports/',
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -114,7 +150,12 @@ export interface PricingRow {
 }
 
 export const PRICING_EXAMPLE: PricingRow[] = [
-  { tier: 'Normal', calculation: 'Marktvergleich Ricardo/Tutti', result: 'CHF 200', source: 'Marktdaten' },
+  {
+    tier: 'Normal',
+    calculation: 'Marktvergleich Ricardo/Tutti',
+    result: 'CHF 200',
+    source: 'Marktdaten',
+  },
   { tier: 'KulturLegi', calculation: 'CHF 200 x 0.5', result: 'CHF 100', source: 'Vorstand' },
   { tier: 'Supporter +20%', calculation: 'CHF 200 x 1.2', result: 'CHF 240', source: 'Vorstand' },
   { tier: 'Supporter +50%', calculation: 'CHF 200 x 1.5', result: 'CHF 300', source: 'Vorstand' },
@@ -140,10 +181,46 @@ export interface DataGapRow {
 }
 
 export const DATA_GAPS: DataGapRow[] = [
-  { dataPoint: 'Geräte-Stückzahlen', priority: 'Kritisch', priorityColor: 'text-danger', whyImportant: 'Alle Impact-Metriken hängen davon ab', howToFix: 'Artikelerfassung in Kivitendo' },
-  { dataPoint: 'Ausgaben-Daten', priority: 'Kritisch', priorityColor: 'text-danger', whyImportant: 'Kein Gewinn/Verlust berechenbar', howToFix: 'Ausgaben-Export aus Kivitendo' },
-  { dataPoint: 'Gerätetypen', priority: 'Hoch', priorityColor: 'text-warning', whyImportant: 'CO\u2082 und E-Waste variieren stark', howToFix: 'Kategorien definieren' },
-  { dataPoint: 'Workshop-Teilnehmer', priority: 'Mittel', priorityColor: 'text-text-muted', whyImportant: 'Soziale Wirkung messen', howToFix: 'Anmeldeliste führen' },
-  { dataPoint: 'Freiwilligenstunden', priority: 'Mittel', priorityColor: 'text-text-muted', whyImportant: 'Soziale Wirkung messen', howToFix: 'Zeiterfassung einführen' },
-  { dataPoint: 'Linux-Installationen', priority: 'Niedrig', priorityColor: 'text-text-secondary', whyImportant: 'Software-Wirkung messen', howToFix: 'Bei Verkauf notieren' },
+  {
+    dataPoint: 'Geräte-Stückzahlen',
+    priority: 'Kritisch',
+    priorityColor: 'text-danger',
+    whyImportant: 'Alle Impact-Metriken hängen davon ab',
+    howToFix: 'Artikelerfassung in Kivitendo',
+  },
+  {
+    dataPoint: 'Ausgaben-Daten',
+    priority: 'Kritisch',
+    priorityColor: 'text-danger',
+    whyImportant: 'Kein Gewinn/Verlust berechenbar',
+    howToFix: 'Ausgaben-Export aus Kivitendo',
+  },
+  {
+    dataPoint: 'Gerätetypen',
+    priority: 'Hoch',
+    priorityColor: 'text-warning',
+    whyImportant: 'CO\u2082 und E-Waste variieren stark',
+    howToFix: 'Kategorien definieren',
+  },
+  {
+    dataPoint: 'Workshop-Teilnehmer',
+    priority: 'Mittel',
+    priorityColor: 'text-text-muted',
+    whyImportant: 'Soziale Wirkung messen',
+    howToFix: 'Anmeldeliste führen',
+  },
+  {
+    dataPoint: 'Freiwilligenstunden',
+    priority: 'Mittel',
+    priorityColor: 'text-text-muted',
+    whyImportant: 'Soziale Wirkung messen',
+    howToFix: 'Zeiterfassung einführen',
+  },
+  {
+    dataPoint: 'Linux-Installationen',
+    priority: 'Niedrig',
+    priorityColor: 'text-text-secondary',
+    whyImportant: 'Software-Wirkung messen',
+    howToFix: 'Bei Verkauf notieren',
+  },
 ];

@@ -56,9 +56,7 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
           <Card key={category} padding={false} className="p-5">
             {/* Category header */}
             <div className="flex justify-between items-center mb-4 pb-3 border-b border-border-default">
-              <h3 className="heading-card">
-                {BUDGET_CATEGORY_LABELS[category]}
-              </h3>
+              <h3 className="heading-card">{BUDGET_CATEGORY_LABELS[category]}</h3>
               <span className="text-sm font-medium text-text-secondary">
                 Total: {formatCHF(categoryTotal)}
               </span>
@@ -83,7 +81,9 @@ export default function BudgetTable({ scenarioId, className = '' }: BudgetTableP
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="font-semibold text-text-primary">{formatCHF(item.amount)}</span>
+                      <span className="font-semibold text-text-primary">
+                        {formatCHF(item.amount)}
+                      </span>
                       <span
                         className={`text-xs px-2 py-1 rounded ${
                           item.type === 'einmalig'

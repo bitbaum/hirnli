@@ -47,10 +47,7 @@ function getConfigData(foundation: FoundationRow): Record<string, unknown> {
 /**
  * Evaluate a single condition against foundation data (reads from configData JSONB)
  */
-function evaluateCondition(
-  rule: CustomizationRule,
-  foundation: FoundationRow
-): boolean {
+function evaluateCondition(rule: CustomizationRule, foundation: FoundationRow): boolean {
   const { conditionType, conditionValue } = rule;
   const cd = getConfigData(foundation);
 
@@ -58,9 +55,7 @@ function evaluateCondition(
     case 'focus_match': {
       const themes = (cd.themes ?? []) as string[];
       if (themes.length === 0) return false;
-      return themes.some((t: string) =>
-        t.toLowerCase().includes(conditionValue.toLowerCase())
-      );
+      return themes.some((t: string) => t.toLowerCase().includes(conditionValue.toLowerCase()));
     }
 
     case 'grant_size': {
@@ -109,7 +104,7 @@ function evaluateCondition(
  * Generate personalized Gesuch for a foundation
  */
 export async function generatePersonalizedGesuch(
-  foundationId: string
+  foundationId: string,
 ): Promise<PersonalizedGesuch> {
   // Fetch foundation
   const foundationResult = await db
@@ -132,10 +127,10 @@ export async function generatePersonalizedGesuch(
       and(
         or(
           eq(customizationRules.foundationId, foundationId),
-          isNull(customizationRules.foundationId)
+          isNull(customizationRules.foundationId),
         ),
-        eq(customizationRules.active, true)
-      )
+        eq(customizationRules.active, true),
+      ),
     )
     .orderBy(customizationRules.priority);
 
@@ -145,9 +140,7 @@ export async function generatePersonalizedGesuch(
   for (const rule of rules) {
     // Foundation-specific rules always apply (no condition check)
     // Global rules require condition evaluation
-    const applies =
-      rule.foundationId === foundationId ||
-      evaluateCondition(rule, foundation);
+    const applies = rule.foundationId === foundationId || evaluateCondition(rule, foundation);
 
     if (applies) {
       appliedRules.push({
@@ -237,33 +230,31 @@ export function getCustomizationSummary(gesuch: PersonalizedGesuch): string {
 
   if (customizations.emphasizedNarratives.length > 0) {
     lines.push('**Hervorgehobene Narrative:**');
-    customizations.emphasizedNarratives.forEach(n => lines.push(`- ${n}`));
+    customizations.emphasizedNarratives.forEach((n) => lines.push(`- ${n}`));
     lines.push('');
   }
 
   if (customizations.visibleBudgetModules.length > 0) {
     lines.push('**Angezeigte Budget-Module:**');
-    customizations.visibleBudgetModules.forEach(m => lines.push(`- ${m}`));
+    customizations.visibleBudgetModules.forEach((m) => lines.push(`- ${m}`));
     lines.push('');
   }
 
   if (customizations.hiddenBudgetModules.length > 0) {
     lines.push('**Ausgeblendete Budget-Module:**');
-    customizations.hiddenBudgetModules.forEach(m => lines.push(`- ${m}`));
+    customizations.hiddenBudgetModules.forEach((m) => lines.push(`- ${m}`));
     lines.push('');
   }
 
   if (customizations.toneAdjustments.length > 0) {
     lines.push('**Tonanpassungen:**');
-    customizations.toneAdjustments.forEach(t => lines.push(`- ${t}`));
+    customizations.toneAdjustments.forEach((t) => lines.push(`- ${t}`));
     lines.push('');
   }
 
   if (customizations.additionalSections.length > 0) {
     lines.push('**Zusätzliche Abschnitte:**');
-    customizations.additionalSections.forEach(s =>
-      lines.push(`- ${s.section}`)
-    );
+    customizations.additionalSections.forEach((s) => lines.push(`- ${s.section}`));
     lines.push('');
   }
 

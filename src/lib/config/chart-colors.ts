@@ -37,11 +37,11 @@ export const GREY_DARK_HEX = '#2C3E50';
  * needed (inline style, canvas, themeStyle() utility). Must stay in sync with globals.css.
  */
 export const THEME_COLORS = {
-  klima:                  '#10b981',  // --color-theme-klima
-  kreislaufwirtschaft:    '#059669',  // --color-theme-kreislauf
-  soziale_integration:    '#8b5cf6',  // --color-theme-sozial
-  digitale_bildung:       '#3b82f6',  // --color-theme-bildung
-  digitale_souveraenitaet:'#6366f1',  // --color-theme-digital
-  zuerich:                '#ef4444',  // --color-theme-zuerich
-  arbeitsintegration:     '#14b8a6',  // --color-theme-arbeit
+  klima: '#10b981', // --color-theme-klima
+  kreislaufwirtschaft: '#059669', // --color-theme-kreislauf
+  soziale_integration: '#8b5cf6', // --color-theme-sozial
+  digitale_bildung: '#3b82f6', // --color-theme-bildung
+  digitale_souveraenitaet: '#6366f1', // --color-theme-digital
+  zuerich: '#ef4444', // --color-theme-zuerich
+  arbeitsintegration: '#14b8a6', // --color-theme-arbeit
 } as const;

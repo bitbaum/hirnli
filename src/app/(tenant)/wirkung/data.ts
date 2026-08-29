@@ -14,8 +14,28 @@ export const DATA_GAPS = [
 // ---------------------------------------------------------------------------
 
 export const WIRKUNG_NEXT_STEPS = [
-  { priority: 'high' as const, label: 'Device-Tracking aktivieren', desc: 'Stückzahlen erfassen statt aus Umsatz schätzen', impact: 'Verbessert 8 KPIs' },
-  { priority: 'high' as const, label: 'Integration-Tracking starten', desc: 'Praktikant:innen und Erfolge dokumentieren', impact: 'Verbessert 4 KPIs (Kernmission!)' },
-  { priority: 'medium' as const, label: 'Workshop-Tracking einführen', desc: 'Teilnehmerzahlen und Feedback erfassen', impact: 'Verbessert 3 KPIs' },
-  { priority: 'low' as const, label: 'Freiwilligen-Zeiterfassung', desc: 'Optionale Stundenerfassung für Ehrenamtliche', impact: 'Verbessert Transparenz' },
+  {
+    priority: 'high' as const,
+    label: 'Device-Tracking aktivieren',
+    desc: 'Stückzahlen erfassen statt aus Umsatz schätzen',
+    impact: 'Verbessert 8 KPIs',
+  },
+  {
+    priority: 'high' as const,
+    label: 'Integration-Tracking starten',
+    desc: 'Praktikant:innen und Erfolge dokumentieren',
+    impact: 'Verbessert 4 KPIs (Kernmission!)',
+  },
+  {
+    priority: 'medium' as const,
+    label: 'Workshop-Tracking einführen',
+    desc: 'Teilnehmerzahlen und Feedback erfassen',
+    impact: 'Verbessert 3 KPIs',
+  },
+  {
+    priority: 'low' as const,
+    label: 'Freiwilligen-Zeiterfassung',
+    desc: 'Optionale Stundenerfassung für Ehrenamtliche',
+    impact: 'Verbessert Transparenz',
+  },
 ] as const;

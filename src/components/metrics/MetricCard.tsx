@@ -32,12 +32,10 @@ export default function MetricCard({
   const content = (
     <>
       <div className="mb-1 flex items-center justify-between">
-        <span className="text-xs font-medium uppercase tracking-wider text-text-muted">{label}</span>
-        {sourceType && (
-          <Badge variant={sourceType}>
-            {INSPECTOR_SOURCE_ICONS[sourceType]}
-          </Badge>
-        )}
+        <span className="text-xs font-medium uppercase tracking-wider text-text-muted">
+          {label}
+        </span>
+        {sourceType && <Badge variant={sourceType}>{INSPECTOR_SOURCE_ICONS[sourceType]}</Badge>}
       </div>
       <div className="heading-section">{value}</div>
       {subtitle && <div className="mt-1 text-sm text-text-secondary">{subtitle}</div>}
@@ -70,7 +68,12 @@ export default function MetricCard({
         onClick={onClick}
         tabIndex={0}
         role="button"
-        onKeyDown={(e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
+        onKeyDown={(e: React.KeyboardEvent) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick();
+          }
+        }}
       >
         {content}
       </div>

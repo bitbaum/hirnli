@@ -6,7 +6,12 @@ import type { Application, FoundationRow } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { getApplication, patchApplication, deleteApplication } from '@/lib/api/applications';
-import { NET_ERR_DELETE, API_ERR_NOT_FOUND, API_ERR_SAVE, API_ERR_DELETE } from '@/lib/utils/errors';
+import {
+  NET_ERR_DELETE,
+  API_ERR_NOT_FOUND,
+  API_ERR_SAVE,
+  API_ERR_DELETE,
+} from '@/lib/utils/errors';
 import { normalizeDateInput } from '@/lib/utils/format';
 
 export interface ApplicationFormFields {
@@ -98,7 +103,11 @@ export function useApplicationForm(id: string) {
         const result = await getApplication(id);
         if (cancelled) return;
         if (result.success) {
-          const d = result.data as { foundation: FoundationRow; foundationDetail: Foundation | null; application: Application };
+          const d = result.data as {
+            foundation: FoundationRow;
+            foundationDetail: Foundation | null;
+            application: Application;
+          };
           setFoundation(d.foundation);
           setFoundationDetail(d.foundationDetail);
           setFields(initFieldsFromApplication(d.application));
@@ -110,15 +119,17 @@ export function useApplicationForm(id: string) {
       }
     }
     fetchApplication();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
-  const updateField = useCallback(<K extends keyof ApplicationFormFields>(
-    key: K,
-    value: ApplicationFormFields[K],
-  ) => {
-    setFields((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  const updateField = useCallback(
+    <K extends keyof ApplicationFormFields>(key: K, value: ApplicationFormFields[K]) => {
+      setFields((prev) => ({ ...prev, [key]: value }));
+    },
+    [],
+  );
 
   const save = useCallback(async () => {
     setIsSaving(true);

@@ -21,7 +21,14 @@
 import * as readline from 'readline';
 import { getAllFoundations } from './lib/foundations';
 import { slugify } from './lib/utilities';
-import type { Foundation, FoundationType, FoundationStatus, SourceId, ThemeId, ApplicationMethod } from '../src/lib/schemas/foundation';
+import type {
+  Foundation,
+  FoundationType,
+  FoundationStatus,
+  SourceId,
+  ThemeId,
+  ApplicationMethod,
+} from '../src/lib/schemas/foundation';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -120,7 +127,10 @@ async function promptForEntry(foundations: Foundation[]): Promise<Partial<Founda
   console.log('  klima, kreislaufwirtschaft, soziale-integration, digitale-bildung,');
   console.log('  digitale-souveraenitaet, jugend, zuerich, arbeitsintegration\n');
   const themesInput = await question('Themes: ');
-  const themes = themesInput.split(',').map((t) => t.trim()).filter(Boolean);
+  const themes = themesInput
+    .split(',')
+    .map((t) => t.trim())
+    .filter(Boolean);
 
   console.log('\nApplication Method:');
   console.log('  online, post, email, contact, direct, personal, partnership,');
@@ -132,7 +142,7 @@ async function promptForEntry(foundations: Foundation[]): Promise<Partial<Founda
   // just warn here when the entered data falls below QUALITY_THRESHOLDS so
   // the user knows the entry won't reach `profiliert` tier yet.
   console.log('\nDepth fields (warnings issued if below thresholds — entry');
-  console.log('still saved, just won\'t reach profiliert tier):');
+  console.log("still saved, just won't reach profiliert tier):");
   console.log('  - purposeSummary: 150+ chars');
   console.log('  - researchNotes:  250+ chars');
   console.log('  - contact:        email OR phone\n');
@@ -171,13 +181,14 @@ async function promptForEntry(foundations: Foundation[]): Promise<Partial<Founda
     applicationMethod: applicationMethod as ApplicationMethod,
     purposeSummary: purposeSummary || undefined,
     researchNotes: researchNotes || undefined,
-    contact: (contactEmail || contactPhone || contactAddress)
-      ? {
-          email: contactEmail || undefined,
-          phone: contactPhone || undefined,
-          address: contactAddress || undefined,
-        }
-      : undefined,
+    contact:
+      contactEmail || contactPhone || contactAddress
+        ? {
+            email: contactEmail || undefined,
+            phone: contactPhone || undefined,
+            address: contactAddress || undefined,
+          }
+        : undefined,
   };
 }
 

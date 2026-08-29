@@ -53,7 +53,7 @@ describe('TEMPLATE_FOUNDATIONS', () => {
   });
 
   it('all slugs are unique', () => {
-    const slugs = TEMPLATE_TYPES.map(t => TEMPLATE_FOUNDATIONS[t].slug);
+    const slugs = TEMPLATE_TYPES.map((t) => TEMPLATE_FOUNDATIONS[t].slug);
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 });
@@ -215,7 +215,7 @@ describe('getSchwerpunktStaticParams', () => {
 
   it('all vorlage+type combinations are unique', () => {
     const params = getSchwerpunktStaticParams();
-    const keys = params.map(p => `${p.vorlage}:${p.type}`);
+    const keys = params.map((p) => `${p.vorlage}:${p.type}`);
     expect(new Set(keys).size).toBe(keys.length);
   });
 });
