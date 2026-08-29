@@ -6,7 +6,17 @@ interface Props {
   s: FunnelStats;
 }
 
-function FunnelStage({ number, title, question, count, countLabel, method, cost, color, detail }: {
+function FunnelStage({
+  number,
+  title,
+  question,
+  count,
+  countLabel,
+  method,
+  cost,
+  color,
+  detail,
+}: {
   number: number;
   title: string;
   question: string;
@@ -28,9 +38,7 @@ function FunnelStage({ number, title, question, count, countLabel, method, cost,
             <h3 className="heading-item">{title}</h3>
           </div>
           <p className="mb-2 text-sm italic text-text-muted">&laquo;{question}&raquo;</p>
-          {detail && (
-            <p className="mb-2 text-sm text-text-secondary">{detail}</p>
-          )}
+          {detail && <p className="mb-2 text-sm text-text-secondary">{detail}</p>}
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-text-muted">
             <span>Methode: {method}</span>
             <span>Kosten: {cost}</span>

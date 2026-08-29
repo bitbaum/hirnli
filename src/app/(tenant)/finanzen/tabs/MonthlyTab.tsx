@@ -4,18 +4,10 @@ import MetricGrid from '@/components/metrics/MetricGrid';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import { ChartLoadingSkeleton } from '@/components/charts/ChartWrapper';
 import YearSelector from '@/components/ui/YearSelector';
-import {
-  formatCHF,
-  formatPercent,
-  formatMonthShort,
-} from '@/lib/utils/format';
+import { formatCHF, formatPercent, formatMonthShort } from '@/lib/utils/format';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import { REVENUE_CATEGORIES } from '../data';
-import {
-  InsightCard,
-  YearComparison,
-  MonthlyBreakdownTable,
-} from '../components';
+import { InsightCard, YearComparison, MonthlyBreakdownTable } from '../components';
 import type { InspectorHandle } from '@/app/(tenant)/fundraising/sections/Inspectable';
 import type { useFinancialData } from '@/hooks/useFinancialData';
 
@@ -71,11 +63,11 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
           trend={growth !== 0 ? { value: growth, label: `vs. ${selectedYear - 1}` } : undefined}
           sourceType="live"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.financial_total_2025,
-              formatCHF(totals.total),
-              { year: selectedYear },
-            ))
+            inspector.inspect(
+              metricToInspectorData(NumberSources.financial_total_2025, formatCHF(totals.total), {
+                year: selectedYear,
+              }),
+            )
           }
         />
         <MetricCard
@@ -84,14 +76,12 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
           subtitle="Waren + Dienste + Integration"
           sourceType="derived"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.financial_earned_2025,
-              formatCHF(earned),
-              {
+            inspector.inspect(
+              metricToInspectorData(NumberSources.financial_earned_2025, formatCHF(earned), {
                 year: selectedYear,
                 formula: `${formatCHF(totals.warenverkauf)} + ${formatCHF(totals.dienstleistungen)} + ${formatCHF(totals.integration)}`,
-              },
-            ))
+              }),
+            )
           }
         />
         <MetricCard
@@ -100,14 +90,12 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
           subtitle={`${formatPercent(totals.total > 0 ? donations / totals.total : 0)} vom Total`}
           sourceType="live"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.financial_donations_2025,
-              formatCHF(donations),
-              {
+            inspector.inspect(
+              metricToInspectorData(NumberSources.financial_donations_2025, formatCHF(donations), {
                 year: selectedYear,
                 formula: `${formatCHF(totals.spenden)} + ${formatCHF(totals.aufstockung)}`,
-              },
-            ))
+              }),
+            )
           }
         />
         <MetricCard
@@ -116,14 +104,16 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
           subtitle="Ziel: >70%"
           sourceType="derived"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.financial_self_financing_2025,
-              formatPercent(selfFinancingRate),
-              {
-                year: selectedYear,
-                formula: `(${formatCHF(totals.warenverkauf)} + ${formatCHF(totals.dienstleistungen)}) / ${formatCHF(totals.total)}`,
-              },
-            ))
+            inspector.inspect(
+              metricToInspectorData(
+                NumberSources.financial_self_financing_2025,
+                formatPercent(selfFinancingRate),
+                {
+                  year: selectedYear,
+                  formula: `(${formatCHF(totals.warenverkauf)} + ${formatCHF(totals.dienstleistungen)}) / ${formatCHF(totals.total)}`,
+                },
+              ),
+            )
           }
         />
       </MetricGrid>
@@ -161,11 +151,16 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
             subtitle="pro aktivem Monat"
             sourceType="derived"
             onClick={() =>
-              inspector.inspect(metricToInspectorData(
-                NumberSources.financial_monthly_avg_2025,
-                formatCHF(monthlyAvg),
-                { year: selectedYear, formula: `${formatCHF(totals.total)} / ${monthCount} Monate` },
-              ))
+              inspector.inspect(
+                metricToInspectorData(
+                  NumberSources.financial_monthly_avg_2025,
+                  formatCHF(monthlyAvg),
+                  {
+                    year: selectedYear,
+                    formula: `${formatCHF(totals.total)} / ${monthCount} Monate`,
+                  },
+                ),
+              )
             }
           />
         </MetricGrid>
@@ -207,7 +202,9 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
         <div className="grid gap-4 sm:grid-cols-2">
           <InsightCard
             variant={selfFinancingRate >= 0.6 ? 'success' : 'warning'}
-            title={selfFinancingRate >= 0.6 ? 'Eigenfinanzierung stabil' : 'Hohe Spendenabhängigkeit'}
+            title={
+              selfFinancingRate >= 0.6 ? 'Eigenfinanzierung stabil' : 'Hohe Spendenabhängigkeit'
+            }
             text={
               selfFinancingRate >= 0.6
                 ? `Mit ${formatPercent(selfFinancingRate)} Eigenfinanzierung ist die Organisation gut aufgestellt.`
@@ -245,7 +242,8 @@ export default function MonthlyTab({ data, prevTotals, growth, inspector }: Mont
           <p className="heading-detail">Datenquelle</p>
           <p>Kivitendo Buchhaltung (Export: revamp-Einnahmen-{selectedYear}.xlsx)</p>
           <p className="mt-1 text-sm text-text-muted">
-            Konten: 3100 Warenverkauf, 3400 Dienstleistungen, 3450 Integration, 3500 Spenden, 3510 Aufstockung
+            Konten: 3100 Warenverkauf, 3400 Dienstleistungen, 3450 Integration, 3500 Spenden, 3510
+            Aufstockung
           </p>
         </div>
       </Card>

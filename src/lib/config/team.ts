@@ -88,14 +88,16 @@ export const TEAM_SALARIES = {
   hardware_bpl: 90_000, // CHF/Jahr — Budget-Ziel (Position noch nicht besetzt)
   software_bpl: 90_000, // CHF/Jahr — Budget-Ziel (Position noch nicht besetzt)
   total_with_bpl: 400_000, // CHF/Jahr — Budget-Ziel (5 Personen): 220k + 90k + 90k
-  social_charges_multiplier: 1.20, // 20% Arbeitgeberanteil
+  social_charges_multiplier: 1.2, // 20% Arbeitgeberanteil
   total_personnel_cost: 480_000, // CHF/Jahr — Budget-Ziel inkl. Sozialleistungen: 400k × 1.20
-  _note: 'Alle Werte sind Budget-Ziele. Historische Kivitendo-Daten (2020-2023): CHF 30-48k/Jahr total Personal.',
+  _note:
+    'Alle Werte sind Budget-Ziele. Historische Kivitendo-Daten (2020-2023): CHF 30-48k/Jahr total Personal.',
 } as const;
 
 // Derived: total annual cost for both BPL positions incl. social charges
 export const BPL_TOTAL_COST_PER_YEAR =
-  (TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) * TEAM_SALARIES.social_charges_multiplier;
+  (TEAM_SALARIES.hardware_bpl + TEAM_SALARIES.software_bpl) *
+  TEAM_SALARIES.social_charges_multiplier;
 
 /**
  * Capacity Projections — DRAFT/ESTIMATES
@@ -154,7 +156,8 @@ export const TEAM_CAPACITY = {
  */
 
 export const DATA_QUALITY_NOTE = {
-  kernteam: '3 Personen (Andreas*, Veronica, Dani) — aktuelle Gehälter nicht bekannt. *may not even be paid. Kivitendo: CHF 30-48k/Jahr total Personal (2020-2023).',
+  kernteam:
+    '3 Personen (Andreas*, Veronica, Dani) — aktuelle Gehälter nicht bekannt. *may not even be paid. Kivitendo: CHF 30-48k/Jahr total Personal (2020-2023).',
   weitere_mitglieder: 'Freiwillige, 1 Praktikant (Reza), Reintegrations-Mitarbeiter (GEP-Programm)',
   social_mission: 'Sozialpädagogischer Fokus (Veronica), NICHT Silicon Valley Mentalität',
   what_we_dont_track: 'Freiwilligen-Stunden, aktuelle Kapazität, informelle Bildungswirkung',
@@ -162,7 +165,6 @@ export const DATA_QUALITY_NOTE = {
   previous_source: 'HR_Roster.csv (retired 2026-02-13 - incomplete data)',
   current_source: 'team.ts (SSOT - operational reality)',
 } as const;
-
 
 // ============================================================================
 // DISPLAY-ORIENTED TEAM MEMBERS
@@ -181,17 +183,48 @@ export interface TeamMemberDisplay {
 
 export const TEAM_MEMBERS: TeamMemberDisplay[] = [
   // Leitung
-  { id: 'PER-0001', name: 'Andreas', fachgebiete: ['Geschäftsführung', 'Strategie'], bereich: 'Leitung' },
-  { id: 'PER-0002', name: 'Daniel', fachgebiete: ['Elektrotechnik', 'Software Engineering', 'Betrieb'], bereich: 'Leitung' },
-  { id: 'PER-0003', name: 'Veronica', fachgebiete: ['Sozialpädagogik', 'HR', 'Fundraising'], bereich: 'Leitung' },
+  {
+    id: 'PER-0001',
+    name: 'Andreas',
+    fachgebiete: ['Geschäftsführung', 'Strategie'],
+    bereich: 'Leitung',
+  },
+  {
+    id: 'PER-0002',
+    name: 'Daniel',
+    fachgebiete: ['Elektrotechnik', 'Software Engineering', 'Betrieb'],
+    bereich: 'Leitung',
+  },
+  {
+    id: 'PER-0003',
+    name: 'Veronica',
+    fachgebiete: ['Sozialpädagogik', 'HR', 'Fundraising'],
+    bereich: 'Leitung',
+  },
   // Technik
-  { id: 'PER-0004', name: 'Cem', fachgebiete: ['Software Engineering', 'Kivitendo'], bereich: 'Technik' },
-  { id: 'PER-0005', name: 'George', fachgebiete: ['Software Engineering', 'Fundraising', 'Betrieb', 'Systementwicklung'], bereich: 'Technik', capacity: '60%' },
+  {
+    id: 'PER-0004',
+    name: 'Cem',
+    fachgebiete: ['Software Engineering', 'Kivitendo'],
+    bereich: 'Technik',
+  },
+  {
+    id: 'PER-0005',
+    name: 'George',
+    fachgebiete: ['Software Engineering', 'Fundraising', 'Betrieb', 'Systementwicklung'],
+    bereich: 'Technik',
+    capacity: '60%',
+  },
   { id: 'PER-0006', name: 'Michael', fachgebiete: ['Technik'], bereich: 'Technik' },
   { id: 'PER-0007', name: 'Mike', fachgebiete: ['Open Source', 'Linux'], bereich: 'Technik' },
   { id: 'PER-0008', name: 'Reza', fachgebiete: ['Reparatur', 'Technik'], bereich: 'Technik' },
   { id: 'PER-0009', name: 'Romeo', fachgebiete: ['Reparatur'], bereich: 'Technik' },
-  { id: 'PER-0010', name: 'Sili', fachgebiete: ['Reparatur', 'Software Engineering', 'Kivitendo'], bereich: 'Technik' },
+  {
+    id: 'PER-0010',
+    name: 'Sili',
+    fachgebiete: ['Reparatur', 'Software Engineering', 'Kivitendo'],
+    bereich: 'Technik',
+  },
   { id: 'PER-0011', name: 'Simeon', fachgebiete: ['Technik'], bereich: 'Technik' },
   { id: 'PER-0012', name: 'Winchester', fachgebiete: ['3D-Modellierung'], bereich: 'Technik' },
   // Betrieb

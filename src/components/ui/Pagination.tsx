@@ -48,7 +48,9 @@ export function Pagination({ page, pageCount, onPageChange }: PaginationProps) {
       <div className="hidden items-center gap-1.5 sm:flex">
         {pageItems(page, pageCount).map((item, i) =>
           item === 'gap' ? (
-            <span key={`gap-${i}`} className="px-1 text-text-muted" aria-hidden="true">…</span>
+            <span key={`gap-${i}`} className="px-1 text-text-muted" aria-hidden="true">
+              …
+            </span>
           ) : (
             <button
               key={item}

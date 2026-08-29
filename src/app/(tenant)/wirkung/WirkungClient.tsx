@@ -11,9 +11,19 @@ import YearSelector from '@/components/ui/YearSelector';
 import { useFinancialData } from '@/hooks/useFinancialData';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { formatCHF, formatNumber } from '@/lib/utils/format';
-import { estimateDeviceCount, estimateCO2Avoided, estimateEWastePrevented } from '@/lib/domain/calculations';
+import {
+  estimateDeviceCount,
+  estimateCO2Avoided,
+  estimateEWastePrevented,
+} from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
-import { CO2_PER_LAPTOP, AVG_DEVICE_PRICE, CO2_PER_FLIGHT_ZRH_BER, CO2_KG_PER_CAR_KM, getNumericValue } from '@/lib/config/numbers';
+import {
+  CO2_PER_LAPTOP,
+  AVG_DEVICE_PRICE,
+  CO2_PER_FLIGHT_ZRH_BER,
+  CO2_KG_PER_CAR_KM,
+  getNumericValue,
+} from '@/lib/config/numbers';
 import { ImpactStoryCards } from './components';
 import { DATA_GAPS, WIRKUNG_NEXT_STEPS } from './data';
 import Callout from '@/components/ui/Callout';
@@ -24,12 +34,7 @@ import ShareButton from '@/components/ui/ShareButton';
 import ProgressBar from '@/components/ui/ProgressBar';
 
 export default function WirkungClient() {
-  const {
-    selectedYear,
-    setSelectedYear,
-    availableYears,
-    totals,
-  } = useFinancialData();
+  const { selectedYear, setSelectedYear, availableYears, totals } = useFinancialData();
 
   const inspector = useNumberInspector();
 
@@ -63,9 +68,13 @@ export default function WirkungClient() {
 
       <Callout color="success" className="mb-6">
         <p className="text-sm">
-          <strong>Diese Seite zeigt:</strong> Impact-Kennzahlen (was bewirken wir?)<br />
-          <strong>Finanzierung ansehen:</strong> <Link href="/finanzen" className="text-success hover:underline font-medium">Finanzseite</Link>
-          {' '}zeigt, woher das Budget kommt.
+          <strong>Diese Seite zeigt:</strong> Impact-Kennzahlen (was bewirken wir?)
+          <br />
+          <strong>Finanzierung ansehen:</strong>{' '}
+          <Link href="/finanzen" className="text-success hover:underline font-medium">
+            Finanzseite
+          </Link>{' '}
+          zeigt, woher das Budget kommt.
         </p>
       </Callout>
 
@@ -79,8 +88,8 @@ export default function WirkungClient() {
       {/* Transparency note */}
       <Callout color="warning" className="mb-6 text-sm text-text-secondary">
         <strong className="text-text-primary">Transparenz:</strong> Die meisten Wirkungszahlen sind{' '}
-        <Badge variant="estimated">Schätzungen</Badge>{' '}
-        basierend auf Finanzdaten. Wir zeigen offen, was wir wissen und was wir schätzen.
+        <Badge variant="estimated">Schätzungen</Badge> basierend auf Finanzdaten. Wir zeigen offen,
+        was wir wissen und was wir schätzen.
       </Callout>
 
       {/* Hero impact metrics */}
@@ -91,11 +100,16 @@ export default function WirkungClient() {
           subtitle={`Basis: ${formatCHF(totals.warenverkauf)} Warenverkauf`}
           sourceType="estimated"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.devices_estimated_2025,
-              `~${formatNumber(deviceCount)}`,
-              { year: selectedYear, formula: `${formatCHF(totals.warenverkauf)} / CHF ${AVG_DEVICE_PRICE} pro Gerät` },
-            ))
+            inspector.inspect(
+              metricToInspectorData(
+                NumberSources.devices_estimated_2025,
+                `~${formatNumber(deviceCount)}`,
+                {
+                  year: selectedYear,
+                  formula: `${formatCHF(totals.warenverkauf)} / CHF ${AVG_DEVICE_PRICE} pro Gerät`,
+                },
+              ),
+            )
           }
         />
         <MetricCard
@@ -104,11 +118,12 @@ export default function WirkungClient() {
           subtitle={`${CO2_PER_LAPTOP} kg CO₂ pro Gerät (Fraunhofer IZM)`}
           sourceType="estimated"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.co2_total_2025,
-              `~${co2Avoided} Tonnen`,
-              { year: selectedYear, formula: `${formatNumber(deviceCount)} Geräte × ${CO2_PER_LAPTOP} kg CO₂ / 1000` },
-            ))
+            inspector.inspect(
+              metricToInspectorData(NumberSources.co2_total_2025, `~${co2Avoided} Tonnen`, {
+                year: selectedYear,
+                formula: `${formatNumber(deviceCount)} Geräte × ${CO2_PER_LAPTOP} kg CO₂ / 1000`,
+              }),
+            )
           }
         />
         <MetricCard
@@ -117,11 +132,13 @@ export default function WirkungClient() {
           subtitle="~5 kg pro Gerät"
           sourceType="estimated"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.ewaste_total_2025,
-              `~${formatNumber(eWaste)} kg`,
-              { year: selectedYear, formula: `${formatNumber(deviceCount)} Geräte × 5 kg` },
-            ))
+            inspector.inspect(
+              metricToInspectorData(
+                NumberSources.ewaste_total_2025,
+                `~${formatNumber(eWaste)} kg`,
+                { year: selectedYear, formula: `${formatNumber(deviceCount)} Geräte × 5 kg` },
+              ),
+            )
           }
         />
         <MetricCard
@@ -137,8 +154,7 @@ export default function WirkungClient() {
               source: 'Berechnet aus Geräteanzahl',
               formula: `${formatNumber(deviceCount)} Geräte × ${lifespanExt} Jahre`,
               confidence: 'Niedrig',
-              description:
-                `Geschätzte Lebensdauerverlängerung durch Refurbishment. Annahme: ${lifespanExt} zusätzliche Nutzungsjahre pro Gerät.`,
+              description: `Geschätzte Lebensdauerverlängerung durch Refurbishment. Annahme: ${lifespanExt} zusätzliche Nutzungsjahre pro Gerät.`,
             })
           }
         />
@@ -157,7 +173,8 @@ export default function WirkungClient() {
         <CardHeader>
           <CardTitle>Digitale Infrastruktur</CardTitle>
           <p className="text-sm text-text-muted">
-            Eigenentwickelte Open-Source-Community-Plattform — skaliert Wirkung ohne proportionale Kostensteigerung
+            Eigenentwickelte Open-Source-Community-Plattform — skaliert Wirkung ohne proportionale
+            Kostensteigerung
           </p>
         </CardHeader>
         <MetricGrid columns={4}>
@@ -187,7 +204,16 @@ export default function WirkungClient() {
           />
         </MetricGrid>
         <p className="mt-4 text-sm text-text-muted">
-          Plattform: <a href="https://revampit.orangecat.ch" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">revampit.orangecat.ch</a> — Next.js, TypeScript, PostgreSQL, Open Source
+          Plattform:{' '}
+          <a
+            href="https://revampit.orangecat.ch"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            revampit.orangecat.ch
+          </a>{' '}
+          — Next.js, TypeScript, PostgreSQL, Open Source
         </p>
       </Card>
 
@@ -197,7 +223,13 @@ export default function WirkungClient() {
           <CardTitle>Datenabdeckung</CardTitle>
           <p className="text-sm text-text-muted">Wie viel unserer Wirkung können wir messen?</p>
         </CardHeader>
-        <ProgressBar percent={25} size="lg" color="bg-warning" trackColor="bg-grey-light" label="Datenabdeckung: 25% der Wirkungsindikatoren messbar" />
+        <ProgressBar
+          percent={25}
+          size="lg"
+          color="bg-warning"
+          trackColor="bg-grey-light"
+          label="Datenabdeckung: 25% der Wirkungsindikatoren messbar"
+        />
         <div className="flex justify-between text-sm text-text-muted">
           <span>25% der Wirkungsindikatoren messbar</span>
           <span>Ziel: 75%</span>
@@ -208,7 +240,9 @@ export default function WirkungClient() {
       <Card className="mb-8 border-l-4 border-l-warning bg-warning-bg/20">
         <CardHeader>
           <CardTitle>Datenlücken schliessen</CardTitle>
-          <p className="text-sm text-text-muted">Um unsere Wirkung besser zu belegen, fehlen uns folgende Daten:</p>
+          <p className="text-sm text-text-muted">
+            Um unsere Wirkung besser zu belegen, fehlen uns folgende Daten:
+          </p>
         </CardHeader>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {DATA_GAPS.map((gap) => (
@@ -249,7 +283,10 @@ export default function WirkungClient() {
       {/* Cross-reference */}
       <div className="mb-8 text-sm text-text-muted">
         Wie diese Wirkung entsteht, beschreibt unsere{' '}
-        <Link href="/strategie" className="font-medium text-primary hover:underline">Theory of Change auf der Strategie-Seite</Link>.
+        <Link href="/strategie" className="font-medium text-primary hover:underline">
+          Theory of Change auf der Strategie-Seite
+        </Link>
+        .
       </div>
 
       {/* Data source info */}

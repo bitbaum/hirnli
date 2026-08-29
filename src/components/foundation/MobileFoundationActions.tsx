@@ -11,7 +11,12 @@ interface Props {
   priorityLevel?: number;
 }
 
-export default function MobileFoundationActions({ foundationId, foundationName, gesuchReady, priorityLevel }: Props) {
+export default function MobileFoundationActions({
+  foundationId,
+  foundationName,
+  gesuchReady,
+  priorityLevel,
+}: Props) {
   const [inPipeline, setInPipeline] = useState(false);
 
   return (

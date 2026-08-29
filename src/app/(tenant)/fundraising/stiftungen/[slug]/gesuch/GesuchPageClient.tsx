@@ -63,7 +63,7 @@ export default function GesuchPageClient({
   const gesuch = variants[variantKey];
   const primaryColor = primaryColors[variantKey] ?? DEFAULT_THEME_COLOR;
   const activeGesuch = gesuch ?? variants['auto'];
-  const activeColor = gesuch ? primaryColor : primaryColors['auto'] ?? DEFAULT_THEME_COLOR;
+  const activeColor = gesuch ? primaryColor : (primaryColors['auto'] ?? DEFAULT_THEME_COLOR);
 
   const {
     overrides,
@@ -85,19 +85,22 @@ export default function GesuchPageClient({
   } = useGesuchOverrides(slug, foundationData, variantKey, schwerpunktLabel);
 
   const foundationContext = useMemo(
-    () => foundationData ? buildAIContext(foundationData) : undefined,
+    () => (foundationData ? buildAIContext(foundationData) : undefined),
     [foundationData],
   );
 
   // Auto-save dirty changes before navigating away from the edit step
-  const navigateStep = useCallback(async (n: 1 | 2 | 3) => {
-    await saveIfDirty();
-    setStep(n);
-    const url = new URL(window.location.href);
-    url.searchParams.set('step', String(n));
-    window.history.replaceState(null, '', url.toString());
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [saveIfDirty]);
+  const navigateStep = useCallback(
+    async (n: 1 | 2 | 3) => {
+      await saveIfDirty();
+      setStep(n);
+      const url = new URL(window.location.href);
+      url.searchParams.set('step', String(n));
+      window.history.replaceState(null, '', url.toString());
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    [saveIfDirty],
+  );
 
   if (!activeGesuch || !activeGesuch.ready) {
     return <LoadingState label="Gesuch wird geladen..." className="py-20" />;
@@ -167,7 +170,8 @@ export default function GesuchPageClient({
         )}
         {autoDraftError && (
           <ErrorAlert className="mb-6">
-            KI-Entwurf wurde generiert, konnte aber nicht gespeichert werden — bitte manuell speichern.
+            KI-Entwurf wurde generiert, konnte aber nicht gespeichert werden — bitte manuell
+            speichern.
           </ErrorAlert>
         )}
 

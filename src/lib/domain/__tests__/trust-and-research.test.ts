@@ -41,13 +41,15 @@ describe('getTrustLevel — verified', () => {
   });
 
   it('returns verified for researchDepth=deep regardless of source', () => {
-    expect(
-      getTrustLevel(makeFoundation({ source: 'zefix', researchDepth: 'deep' }))
-    ).toBe('verified');
+    expect(getTrustLevel(makeFoundation({ source: 'zefix', researchDepth: 'deep' }))).toBe(
+      'verified',
+    );
   });
 
   it('returns verified for manual source even if depth is rapid', () => {
-    expect(getTrustLevel(makeFoundation({ source: 'manual', researchDepth: 'rapid' }))).toBe('verified');
+    expect(getTrustLevel(makeFoundation({ source: 'manual', researchDepth: 'rapid' }))).toBe(
+      'verified',
+    );
   });
 });
 
@@ -73,9 +75,9 @@ describe('getTrustLevel — assessed', () => {
   });
 
   it('returns assessed for researchDepth=standard regardless of source', () => {
-    expect(
-      getTrustLevel(makeFoundation({ source: 'zefix', researchDepth: 'standard' }))
-    ).toBe('assessed');
+    expect(getTrustLevel(makeFoundation({ source: 'zefix', researchDepth: 'standard' }))).toBe(
+      'assessed',
+    );
   });
 });
 
@@ -86,9 +88,9 @@ describe('getTrustLevel — assessed', () => {
 describe('getTrustLevel — unverified', () => {
   it('returns unverified for zefix source at rapid depth (not in verified or assessed lists)', () => {
     // zefix is the only SourceId not in VERIFIED_SOURCES or ASSESSED_SOURCES
-    expect(
-      getTrustLevel(makeFoundation({ source: 'zefix', researchDepth: 'rapid' }))
-    ).toBe('unverified');
+    expect(getTrustLevel(makeFoundation({ source: 'zefix', researchDepth: 'rapid' }))).toBe(
+      'unverified',
+    );
   });
 
   it('returns unverified by default (no matching source or depth)', () => {
@@ -98,9 +100,9 @@ describe('getTrustLevel — unverified', () => {
 
   it('zefix source at standard depth is assessed (depth wins)', () => {
     // researchDepth=standard overrides a non-assessed source
-    expect(
-      getTrustLevel(makeFoundation({ source: 'zefix', researchDepth: 'standard' }))
-    ).toBe('assessed');
+    expect(getTrustLevel(makeFoundation({ source: 'zefix', researchDepth: 'standard' }))).toBe(
+      'assessed',
+    );
   });
 });
 

@@ -11,7 +11,9 @@ export interface RewriteSectionParams {
   foundationContext?: FoundationAIContext;
 }
 
-export function rewriteGesuchSection(params: RewriteSectionParams): Promise<GesuchSectionApiResponse> {
+export function rewriteGesuchSection(
+  params: RewriteSectionParams,
+): Promise<GesuchSectionApiResponse> {
   return apiFetch<{ rewritten: string }>('/api/ai/gesuch-section', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

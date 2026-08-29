@@ -40,7 +40,13 @@ describe('escapeCSV', () => {
 
 describe('arrayToCSV', () => {
   it('produces header + data rows', () => {
-    const result = arrayToCSV(['Name', 'Score'], [['Alice', 10], ['Bob', 20]]);
+    const result = arrayToCSV(
+      ['Name', 'Score'],
+      [
+        ['Alice', 10],
+        ['Bob', 20],
+      ],
+    );
     expect(result).toBe('Name,Score\nAlice,10\nBob,20');
   });
 

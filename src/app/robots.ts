@@ -6,9 +6,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         disallow: [
-          '/gesuch/share/',  // Share pages: sent directly, not discovered via search
-          '/fundraising/',   // Internal pipeline tools
-          '/api/',           // API routes
+          '/gesuch/share/', // Share pages: sent directly, not discovered via search
+          '/fundraising/', // Internal pipeline tools
+          '/api/', // API routes
         ],
       },
     ],

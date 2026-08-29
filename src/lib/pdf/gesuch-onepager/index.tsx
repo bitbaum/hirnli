@@ -221,14 +221,9 @@ export default function GesuchOnePagerPDF({ dok, shareUrl }: OnePagerPDFProps) {
   const y1 = scenario.threeYearModel.year1;
   const y2 = scenario.threeYearModel.year2;
   const y3 = scenario.threeYearModel.year3;
-  const totalProjectBudget =
-    y1.einmalig + y1.jaehrlich + y2.jaehrlich + y3.jaehrlich;
+  const totalProjectBudget = y1.einmalig + y1.jaehrlich + y2.jaehrlich + y3.jaehrlich;
 
-  const contactLine = [
-    ORG_PROFILE.email,
-    ORG_PROFILE.phone,
-    ORG_PROFILE.website,
-  ]
+  const contactLine = [ORG_PROFILE.email, ORG_PROFILE.phone, ORG_PROFILE.website]
     .filter(Boolean)
     .join('  ·  ');
 
@@ -277,9 +272,7 @@ export default function GesuchOnePagerPDF({ dok, shareUrl }: OnePagerPDFProps) {
             {firstProject ? (
               <>
                 <Text style={s.projectTitle}>{firstProject.title}</Text>
-                <Text style={s.projectSummary}>
-                  {firstProject.summary.split(/\.\s+/)[0] + '.'}
-                </Text>
+                <Text style={s.projectSummary}>{firstProject.summary.split(/\.\s+/)[0] + '.'}</Text>
                 {firstProject.goals.slice(0, 2).map((g, i) => (
                   <View key={i} style={[s.bulletRow, { marginTop: 3 }]}>
                     <Text style={s.bullet}>→</Text>
@@ -322,7 +315,9 @@ export default function GesuchOnePagerPDF({ dok, shareUrl }: OnePagerPDFProps) {
               {topEvidence.map((ev) => (
                 <View key={ev.title} style={s.evidenceItem}>
                   <Text style={s.evidenceClaim}>{ev.claim}</Text>
-                  <Text style={s.evidenceTitle}>{ev.title} ({ev.year})</Text>
+                  <Text style={s.evidenceTitle}>
+                    {ev.title} ({ev.year})
+                  </Text>
                 </View>
               ))}
             </View>
@@ -339,9 +334,7 @@ export default function GesuchOnePagerPDF({ dok, shareUrl }: OnePagerPDFProps) {
           <Text>
             {dok.foundation.type && `${ORG_PROFILE.name} — Fördergesuch an ${dok.foundation.name}`}
           </Text>
-          <Text>
-            {shareUrl ?? `${ORG_PROFILE.website}`}
-          </Text>
+          <Text>{shareUrl ?? `${ORG_PROFILE.website}`}</Text>
         </View>
       </Page>
     </Document>

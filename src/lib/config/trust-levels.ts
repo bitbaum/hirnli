@@ -36,12 +36,15 @@ export function getTrustLevel(f: Foundation): TrustLevel {
 export const TRUST_LEVELS: readonly TrustLevel[] = ['verified', 'assessed', 'unverified'];
 
 /** Display configuration per trust level */
-export const TRUST_CONFIG: Record<TrustLevel, {
-  label: string;
-  description: string;
-  dotColor: string;
-  badgeClass: string;
-}> = {
+export const TRUST_CONFIG: Record<
+  TrustLevel,
+  {
+    label: string;
+    description: string;
+    dotColor: string;
+    badgeClass: string;
+  }
+> = {
   verified: {
     label: 'Verifiziert',
     description: 'Manuell recherchiert und geprüft',

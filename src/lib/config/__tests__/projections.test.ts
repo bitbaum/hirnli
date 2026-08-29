@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  getSpaceCostDisplay,
-  getCombinedSpaceCost,
-} from '../projections';
+import { getSpaceCostDisplay, getCombinedSpaceCost } from '../projections';
 import { HUB_SPACE_AREAS } from '../hub-space-plan';
 
 // ---------------------------------------------------------------------------
@@ -64,12 +61,12 @@ describe('getCombinedSpaceCost', () => {
   });
 
   it('returns a positive number when all spaces are known', () => {
-    const allNames = HUB_SPACE_AREAS.map(a => a.name);
+    const allNames = HUB_SPACE_AREAS.map((a) => a.name);
     expect(getCombinedSpaceCost(allNames)).toBeGreaterThan(0);
   });
 
   it('matches sum of individual costs', () => {
-    const names = HUB_SPACE_AREAS.slice(0, 3).map(a => a.name);
+    const names = HUB_SPACE_AREAS.slice(0, 3).map((a) => a.name);
     const manual = HUB_SPACE_AREAS.slice(0, 3).reduce((s, a) => s + a.cost_estimate_chf, 0);
     expect(getCombinedSpaceCost(names)).toBe(manual);
   });

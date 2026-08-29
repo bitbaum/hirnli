@@ -34,11 +34,15 @@ export const BudgetLineItemSchema = z.object({
   amount: z.number().min(0, 'Amount cannot be negative'),
   type: z.enum(['einmalig', 'jaehrlich']),
   source: BudgetSourceSchema,
-  subItems: z.array(z.object({
-    label: z.string(),
-    amount: z.number(),
-    note: z.string().optional(),
-  })).optional(),
+  subItems: z
+    .array(
+      z.object({
+        label: z.string(),
+        amount: z.number(),
+        note: z.string().optional(),
+      }),
+    )
+    .optional(),
   icon: z.string().optional(),
   isOptional: z.boolean().optional(),
   themeLabels: z.record(z.string(), ThemeLabelSchema).optional(),

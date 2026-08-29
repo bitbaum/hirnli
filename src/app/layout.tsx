@@ -47,13 +47,19 @@ export default async function RootLayout({
   const locale = await getLocale();
   const t = await getTranslations('common');
   return (
-    <html lang={locale === 'de' ? 'de-CH' : locale} className={inter.variable} suppressHydrationWarning>
+    <html
+      lang={locale === 'de' ? 'de-CH' : locale}
+      className={inter.variable}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-screen flex-col antialiased">
         <NextIntlClientProvider>
-        <ThemeProvider>
-          <a href="#main-content" className="skip-link">{t('skipLink')}</a>
-          {children}
-        </ThemeProvider>
+          <ThemeProvider>
+            <a href="#main-content" className="skip-link">
+              {t('skipLink')}
+            </a>
+            {children}
+          </ThemeProvider>
         </NextIntlClientProvider>
 
         {/* FleetCrown feedback widget — env-gated, see docs/architecture/feedback-widget.md */}

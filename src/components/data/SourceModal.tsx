@@ -36,12 +36,8 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
         <div className="sticky top-0 bg-surface-base border-b border-border-default p-6">
           <div className="flex items-start justify-between">
             <div>
-              <div className="text-4xl font-bold text-primary mb-2">
-                {formattedValue}
-              </div>
-              <div className="heading-card">
-                {data.label}
-              </div>
+              <div className="text-4xl font-bold text-primary mb-2">{formattedValue}</div>
+              <div className="heading-card">{data.label}</div>
             </div>
             <CloseButton onClick={onClose} />
           </div>
@@ -51,19 +47,18 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
         <div className="p-6 space-y-6">
           {/* Confidence Badge */}
           <div>
-            <div className="heading-detail mb-2">
-              Verlässlichkeit
-            </div>
-            <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${CONFIDENCE_COLORS[data.source.confidence] ?? CONFIDENCE_COLORS.unknown}`}>
-              {CONFIDENCE_DISPLAY_LABELS[data.source.confidence] ?? CONFIDENCE_DISPLAY_LABELS.unknown}
+            <div className="heading-detail mb-2">Verlässlichkeit</div>
+            <span
+              className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${CONFIDENCE_COLORS[data.source.confidence] ?? CONFIDENCE_COLORS.unknown}`}
+            >
+              {CONFIDENCE_DISPLAY_LABELS[data.source.confidence] ??
+                CONFIDENCE_DISPLAY_LABELS.unknown}
             </span>
           </div>
 
           {/* Methodology */}
           <div>
-            <div className="heading-detail mb-2">
-              Methodik
-            </div>
+            <div className="heading-detail mb-2">Methodik</div>
             <div className="text-text-secondary text-sm leading-relaxed">
               {data.source.methodology}
             </div>
@@ -72,9 +67,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
           {/* Calculation (if exists) */}
           {data.source.calculation && (
             <div>
-              <div className="heading-detail mb-2">
-                Berechnung
-              </div>
+              <div className="heading-detail mb-2">Berechnung</div>
               <div className="bg-surface-raised rounded-lg p-4 font-mono text-sm text-text-primary">
                 {data.source.calculation}
               </div>
@@ -83,9 +76,7 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
 
           {/* Last Verified */}
           <div>
-            <div className="heading-detail mb-2">
-              Zuletzt verifiziert
-            </div>
+            <div className="heading-detail mb-2">Zuletzt verifiziert</div>
             <div className="text-text-secondary text-sm">
               {formatDateCHLong(data.source.lastVerified)}
             </div>
@@ -96,7 +87,12 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
             <div>
               <Button href={data.source.documentUrl}>
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
                 </svg>
                 Quelldokument ansehen (PDF)
               </Button>
@@ -113,7 +109,12 @@ export default function SourceModal({ data, formattedValue, onClose }: SourceMod
                 className="inline-flex items-center gap-2 text-primary hover:underline text-sm"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
                 </svg>
                 Externe Quelle ansehen
               </a>

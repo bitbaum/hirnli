@@ -41,7 +41,7 @@ export const ORG_PROFILE = {
   // Key program milestones (years)
   milestones: {
     integrationProgram: _INTEGRATION_PROGRAM_YEAR,
-    kivitendoStart: 2007,      // ERP-Buchhaltung
+    kivitendoStart: 2007, // ERP-Buchhaltung
     deviceTrackingStart: 2018, // Systematische Geräteerfassung
   },
 
@@ -68,7 +68,10 @@ export const ORG_PROFILE = {
     {
       name: 'Arbeitsintegration',
       description: '8–10 Praktikumsplätze für benachteiligte Menschen (Sozialhilfe, RAV, IV)',
-      metrics: [`100+ Praktikant:innen seit ${_INTEGRATION_PROGRAM_YEAR}`, 'Begleitung durch erfahrene Techniker'],
+      metrics: [
+        `100+ Praktikant:innen seit ${_INTEGRATION_PROGRAM_YEAR}`,
+        'Begleitung durch erfahrene Techniker',
+      ],
     },
     {
       name: 'Digitale Bildung',

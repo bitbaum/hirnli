@@ -5,7 +5,13 @@
 import { PillarDetail } from '../components';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatNumber } from '@/lib/utils/format';
-import { AVG_DEVICE_PRICE, CO2_NEW_LAPTOP_MANUFACTURE, CO2_PER_LAPTOP, CO2_REFURBISH_COST, getNumericValue } from '@/lib/config/numbers';
+import {
+  AVG_DEVICE_PRICE,
+  CO2_NEW_LAPTOP_MANUFACTURE,
+  CO2_PER_LAPTOP,
+  CO2_REFURBISH_COST,
+  getNumericValue,
+} from '@/lib/config/numbers';
 import {
   DEVICES_PER_MONTH_CURRENT_DISPLAY,
   DEVICES_PER_MONTH_TARGET,
@@ -41,8 +47,16 @@ export default function FourPillarsSection() {
             'Fachgerechtes Recycling für nicht reparierbare Teile (Quote nicht systematisch erfasst)',
           ]}
           relatedPages={[
-            { title: 'Wirkung', href: '/wirkung', reason: 'Siehe detaillierte Umwelt-Impact-Zahlen' },
-            { title: 'Operations', href: '/operations', reason: 'Wie unser Refurbishment-Prozess funktioniert' },
+            {
+              title: 'Wirkung',
+              href: '/wirkung',
+              reason: 'Siehe detaillierte Umwelt-Impact-Zahlen',
+            },
+            {
+              title: 'Operations',
+              href: '/operations',
+              reason: 'Wie unser Refurbishment-Prozess funktioniert',
+            },
             { title: 'Methodik', href: '/methodik', reason: 'Wie wir CO₂-Einsparungen berechnen' },
           ]}
         />
@@ -61,13 +75,21 @@ export default function FourPillarsSection() {
           whyItMatters="Digitale Souveränität bedeutet: Du besitzt dein Gerät wirklich. Keine Zwangsupdates, keine Vendor Lock-ins, keine Lizenzkosten. Open-Source-Software gibt Nutzern Kontrolle zurück und ermöglicht es, ältere Hardware weiter zu nutzen. Das ist besonders wichtig für Menschen mit geringem Einkommen und für Organisationen, die unabhängig bleiben wollen."
           achievements={[
             `Seit ${ORG_PROFILE.founded}: Pioniere für Linux-Desktop in der Schweiz`,
-            '~1\'600+ Geräte mit vorinstalliertem Linux verkauft (2018-2025, geschätzt aus Umsatzdaten)',
+            "~1'600+ Geräte mit vorinstalliertem Linux verkauft (2018-2025, geschätzt aus Umsatzdaten)",
             '100% Open-Source-Software auf allen verkauften Geräten',
             'Teil der weltweiten Open-Source-Bewegung',
           ]}
           relatedPages={[
-            { title: 'Preismodell', href: '/preismodell', reason: 'Wie Open-Source niedrigere Preise ermöglicht' },
-            { title: 'Strategie → Souveränität', href: '/strategie#souveraenitat', reason: 'Unser Souveränitäts-Pfad im Detail' },
+            {
+              title: 'Preismodell',
+              href: '/preismodell',
+              reason: 'Wie Open-Source niedrigere Preise ermöglicht',
+            },
+            {
+              title: 'Strategie → Souveränität',
+              href: '/strategie#souveraenitat',
+              reason: 'Unser Souveränitäts-Pfad im Detail',
+            },
           ]}
         />
 

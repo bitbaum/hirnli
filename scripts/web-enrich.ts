@@ -74,7 +74,9 @@ interface EnrichmentResult {
 // Fetching + extraction
 // ============================================================================
 
-async function fetchAndExtract(url: string): Promise<{ text: string; contact: ExtractedContact } | null> {
+async function fetchAndExtract(
+  url: string,
+): Promise<{ text: string; contact: ExtractedContact } | null> {
   try {
     const html = await fetchRaw(url);
     const text = stripHtml(html);
@@ -100,7 +102,8 @@ function mergeContacts(a: ExtractedContact, b: ExtractedContact): ExtractedConta
   return {
     emails: Array.from(new Set([...a.emails, ...b.emails])),
     phones: Array.from(new Set([...a.phones, ...b.phones])),
-    applicationMethod: a.applicationMethod !== 'unknown' ? a.applicationMethod : b.applicationMethod,
+    applicationMethod:
+      a.applicationMethod !== 'unknown' ? a.applicationMethod : b.applicationMethod,
     grantRange: {
       min: a.grantRange.min ?? b.grantRange.min,
       max: a.grantRange.max ?? b.grantRange.max,
@@ -108,7 +111,9 @@ function mergeContacts(a: ExtractedContact, b: ExtractedContact): ExtractedConta
   };
 }
 
-async function scrapeFoundation(url: string): Promise<{ contact: ExtractedContact; pagesScraped: string[] }> {
+async function scrapeFoundation(
+  url: string,
+): Promise<{ contact: ExtractedContact; pagesScraped: string[] }> {
   const pagesScraped: string[] = [];
   let combined: ExtractedContact = {
     emails: [],
@@ -158,8 +163,10 @@ function buildEnrichmentDraft(result: EnrichmentResult, existing: Foundation) {
   const c = result.contact;
   const email = c.emails[0] || existing.contact?.email;
   const phone = c.phones[0] || existing.contact?.phone;
-  const method = c.applicationMethod !== 'unknown' ? c.applicationMethod
-    : (existing.applicationMethod || 'unknown');
+  const method =
+    c.applicationMethod !== 'unknown'
+      ? c.applicationMethod
+      : existing.applicationMethod || 'unknown';
 
   return {
     slug: result.slug,
@@ -198,10 +205,17 @@ function buildEnrichmentDraft(result: EnrichmentResult, existing: Foundation) {
       reasoning: `Web enrichment: scraped ${result.pagesScraped.length} page(s) from ${result.url}`,
       themes: existing.themes || [],
       suggestedType: existing.type || 'C',
-      suggestedFit: fitScoreToDisplay(existing.fitScore || 0, (existing.researchDepth || 'rapid') === 'rapid'),
+      suggestedFit: fitScoreToDisplay(
+        existing.fitScore || 0,
+        (existing.researchDepth || 'rapid') === 'rapid',
+      ),
       suggestedPriority: existing.priority || 4,
-      purposeSummary: existing.purposeSummary || `${result.name}: Keine detaillierte Zweckbeschreibung verfügbar. Website: ${result.url}. Weitere Recherche empfohlen.`,
-      researchNotes: existing.researchNotes || `${result.name}: Automatisch angereichert via Web-Scraping. Website: ${result.url}. ${c.emails.length > 0 ? `E-Mail gefunden: ${c.emails[0]}. ` : ''}${c.phones.length > 0 ? `Telefon gefunden: ${c.phones[0]}. ` : ''}${c.applicationMethod !== 'unknown' ? `Bewerbungsmethode: ${c.applicationMethod}. ` : ''}Manuelle Verifikation empfohlen.`,
+      purposeSummary:
+        existing.purposeSummary ||
+        `${result.name}: Keine detaillierte Zweckbeschreibung verfügbar. Website: ${result.url}. Weitere Recherche empfohlen.`,
+      researchNotes:
+        existing.researchNotes ||
+        `${result.name}: Automatisch angereichert via Web-Scraping. Website: ${result.url}. ${c.emails.length > 0 ? `E-Mail gefunden: ${c.emails[0]}. ` : ''}${c.phones.length > 0 ? `Telefon gefunden: ${c.phones[0]}. ` : ''}${c.applicationMethod !== 'unknown' ? `Bewerbungsmethode: ${c.applicationMethod}. ` : ''}Manuelle Verifikation empfohlen.`,
       applicationMethod: method as 'online' | 'email' | 'invitation' | 'unknown',
       contactInfo: {
         email,
@@ -229,9 +243,9 @@ function buildEnrichmentDraft(result: EnrichmentResult, existing: Foundation) {
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const limitArg = args.find(a => a.startsWith('--limit='));
+  const limitArg = args.find((a) => a.startsWith('--limit='));
   const limit = limitArg ? parseInt(limitArg.split('=')[1], 10) : undefined;
-  const urlsArg = args.find(a => a.startsWith('--urls='));
+  const urlsArg = args.find((a) => a.startsWith('--urls='));
   const urlsFile = urlsArg ? urlsArg.split('=')[1] : undefined;
 
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -244,7 +258,6 @@ async function main() {
     console.error('DATABASE_URL not set. Check .env.local');
     process.exit(1);
   }
-
 
   // Load discovered URLs if provided
   const discoveredUrls = new Map<string, string>();
@@ -265,18 +278,18 @@ async function main() {
   // - Have a real website URL (not zefix/uid.admin) OR have a discovered URL
   // - Missing direct contact (email/phone)
   console.log('\nQuerying foundations for web enrichment...');
-  const rows = await sql`
+  const rows = (await sql`
     SELECT id, name, config_data
     FROM fundraising_foundations
     WHERE config_data IS NOT NULL
       AND archived = false
     ORDER BY id
-  ` as unknown as DBRow[];
+  `) as unknown as DBRow[];
 
   // Filter to foundations that:
   // 1. Have a real website (or discovered URL) AND
   // 2. Are missing email or phone
-  const enrichable = rows.filter(row => {
+  const enrichable = rows.filter((row) => {
     const url = discoveredUrls.get(row.id) || row.config_data?.websiteUrl;
     if (!url || isRegistryUrl(url)) return false;
 
@@ -315,7 +328,8 @@ async function main() {
           const foundNewEmail = contact.emails.length > 0 && !hasEmailBefore;
           const foundNewPhone = contact.phones.length > 0 && !hasPhoneBefore;
           const foundNewMethod = contact.applicationMethod !== 'unknown';
-          const foundNewRange = contact.grantRange.min !== undefined || contact.grantRange.max !== undefined;
+          const foundNewRange =
+            contact.grantRange.min !== undefined || contact.grantRange.max !== undefined;
 
           if (foundNewEmail || foundNewPhone || foundNewMethod || foundNewRange) {
             enriched++;
@@ -338,7 +352,9 @@ async function main() {
     processed += batch.length;
 
     if (processed % PROGRESS_INTERVAL === 0 || processed === toProcess.length) {
-      console.log(`  Scraped ${processed}/${toProcess.length}, enriched ${enriched} (${results.length} with new data)`);
+      console.log(
+        `  Scraped ${processed}/${toProcess.length}, enriched ${enriched} (${results.length} with new data)`,
+      );
     }
   }
 
@@ -349,10 +365,16 @@ async function main() {
   console.log(`  Foundations scraped:  ${scraped}`);
   console.log(`  Enriched (new data):  ${results.length}`);
 
-  const newEmails = results.filter(r => r.contact.emails.length > 0 && !r.hadDataBefore.email).length;
-  const newPhones = results.filter(r => r.contact.phones.length > 0 && !r.hadDataBefore.phone).length;
-  const newMethods = results.filter(r => r.contact.applicationMethod !== 'unknown').length;
-  const newRanges = results.filter(r => r.contact.grantRange.min !== undefined || r.contact.grantRange.max !== undefined).length;
+  const newEmails = results.filter(
+    (r) => r.contact.emails.length > 0 && !r.hadDataBefore.email,
+  ).length;
+  const newPhones = results.filter(
+    (r) => r.contact.phones.length > 0 && !r.hadDataBefore.phone,
+  ).length;
+  const newMethods = results.filter((r) => r.contact.applicationMethod !== 'unknown').length;
+  const newRanges = results.filter(
+    (r) => r.contact.grantRange.min !== undefined || r.contact.grantRange.max !== undefined,
+  ).length;
 
   console.log(`  New emails found:     ${newEmails}`);
   console.log(`  New phones found:     ${newPhones}`);
@@ -365,7 +387,8 @@ async function main() {
       const parts = [];
       if (r.contact.emails.length > 0) parts.push(`email: ${r.contact.emails[0]}`);
       if (r.contact.phones.length > 0) parts.push(`phone: ${r.contact.phones[0]}`);
-      if (r.contact.applicationMethod !== 'unknown') parts.push(`method: ${r.contact.applicationMethod}`);
+      if (r.contact.applicationMethod !== 'unknown')
+        parts.push(`method: ${r.contact.applicationMethod}`);
       console.log(`    ${r.name.substring(0, 40).padEnd(42)} ${parts.join(', ')}`);
     }
     if (results.length > 15) {
@@ -381,7 +404,7 @@ async function main() {
 
     let written = 0;
     for (const result of results) {
-      const existing = rows.find(r => r.id === result.slug)!;
+      const existing = rows.find((r) => r.id === result.slug)!;
       const draft = buildEnrichmentDraft(result, existing.config_data);
       const outPath = path.join(outDir, `${result.slug}.json`);
       fs.writeFileSync(outPath, JSON.stringify(draft, null, 2));
@@ -400,7 +423,7 @@ async function main() {
   console.log('\nDone.\n');
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Error:', err);
   process.exit(1);
 });

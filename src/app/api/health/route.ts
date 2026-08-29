@@ -18,7 +18,10 @@ export async function GET(request: NextRequest) {
   const llm = getLLMHealth();
 
   if (strict && llm.status === 'down') {
-    return NextResponse.json({ success: false, error: 'AI-Dienst nicht erreichbar', data: { llm } }, { status: 503 });
+    return NextResponse.json(
+      { success: false, error: 'AI-Dienst nicht erreichbar', data: { llm } },
+      { status: 503 },
+    );
   }
 
   return NextResponse.json({ success: true, data: { status: 'healthy', llm } });

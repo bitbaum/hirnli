@@ -52,8 +52,39 @@ const THEME_WEIGHTS: Record<string, number> = {
 };
 
 // Zürich-area cities for geographic bonus
-const ZURICH_AREA = ['zürich', 'zurich', 'winterthur', 'dietikon', 'dübendorf', 'uster', 'wädenswil', 'kloten', 'opfikon', 'bülach'];
-const GERMAN_CH_CANTONS = ['ZH', 'BE', 'LU', 'ZG', 'SZ', 'AG', 'SG', 'TG', 'SH', 'GL', 'BS', 'BL', 'SO', 'NW', 'OW', 'UR', 'GR', 'AR', 'AI'];
+const ZURICH_AREA = [
+  'zürich',
+  'zurich',
+  'winterthur',
+  'dietikon',
+  'dübendorf',
+  'uster',
+  'wädenswil',
+  'kloten',
+  'opfikon',
+  'bülach',
+];
+const GERMAN_CH_CANTONS = [
+  'ZH',
+  'BE',
+  'LU',
+  'ZG',
+  'SZ',
+  'AG',
+  'SG',
+  'TG',
+  'SH',
+  'GL',
+  'BS',
+  'BL',
+  'SO',
+  'NW',
+  'OW',
+  'UR',
+  'GR',
+  'AR',
+  'AI',
+];
 
 // ============================================================================
 // TYPES
@@ -105,7 +136,7 @@ function computeThemeScore(themes: string[]): number {
 
 function computeGeoScore(city: string, canton: string): number {
   const cityLower = city.toLowerCase();
-  if (ZURICH_AREA.some(c => cityLower.includes(c))) return 2.0;
+  if (ZURICH_AREA.some((c) => cityLower.includes(c))) return 2.0;
   if (canton === 'ZH') return 1.8;
   if (GERMAN_CH_CANTONS.includes(canton)) return 1.0;
   // French/Italian Swiss — still valid but lower priority
@@ -180,7 +211,11 @@ function missingForNextTier(f: Foundation): string[] {
   return missing;
 }
 
-function computeEV(f: Foundation, city: string, canton: string): {
+function computeEV(
+  f: Foundation,
+  city: string,
+  canton: string,
+): {
   ev: number;
   themeScore: number;
   geoScore: number;
@@ -213,7 +248,14 @@ function computeEV(f: Foundation, city: string, canton: string): {
 // ESA LOOKUP (for city/canton when not in config_data)
 // ============================================================================
 
-interface ESAEntry { uid: string; name: string; purpose: string; canton: string; city: string; status: string; }
+interface ESAEntry {
+  uid: string;
+  name: string;
+  purpose: string;
+  canton: string;
+  city: string;
+  status: string;
+}
 
 function loadESAIndex(): Map<string, ESAEntry> {
   const esaPath = path.join(process.cwd(), 'research', 'esa-register-2026-02-16.json');
@@ -232,9 +274,9 @@ function loadESAIndex(): Map<string, ESAEntry> {
 
 async function main() {
   const args = process.argv.slice(2);
-  const limitArg = args.find(a => a.startsWith('--limit='));
+  const limitArg = args.find((a) => a.startsWith('--limit='));
   const limit = limitArg ? parseInt(limitArg.split('=')[1], 10) : 500;
-  const minEvArg = args.find(a => a.startsWith('--min-ev='));
+  const minEvArg = args.find((a) => a.startsWith('--min-ev='));
   const minEv = minEvArg ? parseFloat(minEvArg.split('=')[1]) : 0.5;
 
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -356,8 +398,10 @@ async function main() {
 
   // EV distribution
   if (queue.length > 0) {
-    const evValues = queue.map(q => q.evScore);
-    console.log(`\n  EV range: ${evValues[evValues.length - 1].toFixed(2)} — ${evValues[0].toFixed(2)}`);
+    const evValues = queue.map((q) => q.evScore);
+    console.log(
+      `\n  EV range: ${evValues[evValues.length - 1].toFixed(2)} — ${evValues[0].toFixed(2)}`,
+    );
     console.log(`  EV median: ${evValues[Math.floor(evValues.length / 2)].toFixed(2)}`);
   }
 
@@ -368,10 +412,10 @@ async function main() {
     const themes = item.themes.slice(0, 3).join(', ');
     console.log(
       `  ${String(i + 1).padStart(3)}. [EV ${item.evScore.toFixed(2).padStart(5)}] ` +
-      `[${item.currentTier.padEnd(12)}] ` +
-      `${item.name.substring(0, 45).padEnd(47)} ` +
-      `${item.city.substring(0, 15).padEnd(17)} ` +
-      `{${themes}}`
+        `[${item.currentTier.padEnd(12)}] ` +
+        `${item.name.substring(0, 45).padEnd(47)} ` +
+        `${item.city.substring(0, 15).padEnd(17)} ` +
+        `{${themes}}`,
     );
   }
 
@@ -393,7 +437,7 @@ async function main() {
   console.log('📋 Next: Use foundation-batch-research.ts with this queue\n');
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Error:', err);
   process.exit(1);
 });

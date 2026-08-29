@@ -38,12 +38,14 @@ export default function StrategiePage() {
         <h2 className="mb-4 heading-subsection">Mission</h2>
         <Card className="border-l-4 border-l-success">
           <p className="heading-card text-success-text">
-            {ORG_PROFILE.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und Lebensdauerverlängerung.
+            {ORG_PROFILE.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und
+            Lebensdauerverlängerung.
           </p>
           <p className="mt-3 text-sm text-text-secondary">
-            Wir retten gebrauchte Computer vor dem Elektroschrott, indem wir sie mit Linux und Open-Source-Software
-            wiederbeleben. Gleichzeitig schaffen wir Zugang zu bezahlbarer Technologie, fördern digitale Kompetenzen
-            und unterstützen Menschen bei der beruflichen Wiedereingliederung.
+            Wir retten gebrauchte Computer vor dem Elektroschrott, indem wir sie mit Linux und
+            Open-Source-Software wiederbeleben. Gleichzeitig schaffen wir Zugang zu bezahlbarer
+            Technologie, fördern digitale Kompetenzen und unterstützen Menschen bei der beruflichen
+            Wiedereingliederung.
           </p>
         </Card>
       </section>
@@ -55,7 +57,8 @@ export default function StrategiePage() {
         <h2 className="mb-4 heading-subsection">Vision 2030</h2>
         <Card variant="muted">
           <h3 className="mb-1 heading-item">
-            Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder Technologie ausgeschlossen.
+            Jedes IT-Gerät schöpft sein volles Potenzial aus. Niemand wird aufgrund mangelnder
+            Technologie ausgeschlossen.
           </h3>
           <p className="text-xs text-text-tertiary mb-5">
             Klicke auf die Metriken, um Details zur Datenquelle und Methodik zu sehen.

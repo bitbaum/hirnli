@@ -3,7 +3,11 @@
  * All functions return { success, data?, error?, missingFields?, httpStatus }.
  */
 
-import { isActiveApplication, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
+import {
+  isActiveApplication,
+  type ApplicationStatusId,
+  type RequiredField,
+} from '@/lib/config/application-statuses';
 import { apiFetch, type BaseApiResponse } from './client-fetch';
 
 /** Minimal shape returned by /api/applications? endpoints — every consumer needs at least
@@ -24,10 +28,7 @@ export interface ApplicationApiResponse<T = unknown> extends BaseApiResponse<T> 
   httpStatus: number;
 }
 
-function request<T = unknown>(
-  url: string,
-  init?: RequestInit,
-): Promise<ApplicationApiResponse<T>> {
+function request<T = unknown>(url: string, init?: RequestInit): Promise<ApplicationApiResponse<T>> {
   return apiFetch<T>(url, init, { trackStatus: true });
 }
 
@@ -39,7 +40,11 @@ export function createApplication(
   return request('/api/applications', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ foundationId, status, ...(priorityLevel != null ? { priorityLevel } : {}) }),
+    body: JSON.stringify({
+      foundationId,
+      status,
+      ...(priorityLevel != null ? { priorityLevel } : {}),
+    }),
   });
 }
 
@@ -58,9 +63,7 @@ export function deleteApplication(id: string): Promise<ApplicationApiResponse> {
   return request(`/api/applications/${id}`, { method: 'DELETE' });
 }
 
-export function getApplicationsByFoundation(
-  foundationId: string,
-): Promise<ApplicationApiResponse> {
+export function getApplicationsByFoundation(foundationId: string): Promise<ApplicationApiResponse> {
   return request(`/api/applications?foundationId=${encodeURIComponent(foundationId)}`);
 }
 

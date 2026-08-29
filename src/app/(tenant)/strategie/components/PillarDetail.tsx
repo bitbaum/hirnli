@@ -109,7 +109,9 @@ export default function PillarDetail({
           {/* Related Pages */}
           {relatedPages.length > 0 && (
             <div>
-              <h4 className={`heading-detail font-bold ${colors.text} mb-3 flex items-center gap-2`}>
+              <h4
+                className={`heading-detail font-bold ${colors.text} mb-3 flex items-center gap-2`}
+              >
                 <span className={`w-1 h-4 ${colors.accent} rounded`} />
                 Mehr erfahren
               </h4>

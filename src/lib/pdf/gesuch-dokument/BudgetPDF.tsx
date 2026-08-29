@@ -19,7 +19,15 @@ interface BudgetPDFProps {
   dok: ComposedGesuchDokument;
 }
 
-function LineItemRows({ items, total, themeKey }: { items: BudgetLineItem[]; total: number; themeKey?: ThemeKey }) {
+function LineItemRows({
+  items,
+  total,
+  themeKey,
+}: {
+  items: BudgetLineItem[];
+  total: number;
+  themeKey?: ThemeKey;
+}) {
   return (
     <>
       {items.map((item) => {
@@ -68,7 +76,8 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
     <View>
       <Text style={styles.h2}>Budget und Finanzierungsplan</Text>
       <Text style={styles.subtitle}>
-        {dok.budget.projectDuration} | Gesamtbedarf 3 Jahre: {pdfFormatCHF(dok.budget.project3yTotal)}
+        {dok.budget.projectDuration} | Gesamtbedarf 3 Jahre:{' '}
+        {pdfFormatCHF(dok.budget.project3yTotal)}
       </Text>
 
       {/* 3-Year Model */}
@@ -83,7 +92,9 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
               <Text style={styles.muted}>{y.label}</Text>
             </View>
           ))}
-          <Text style={[styles.small, { width: 65, textAlign: 'right', fontWeight: 'bold' }]}>Total</Text>
+          <Text style={[styles.small, { width: 65, textAlign: 'right', fontWeight: 'bold' }]}>
+            Total
+          </Text>
         </View>
 
         {/* Einmalige Investitionen */}
@@ -118,11 +129,19 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
             Eigenleistung {ORG_PROFILE.name}
           </Text>
           {dok.budget.threeYearModel.map((y) => (
-            <Text key={y.year} style={[styles.small, { width: 65, textAlign: 'right', color: COLORS.greenText }]}>
+            <Text
+              key={y.year}
+              style={[styles.small, { width: 65, textAlign: 'right', color: COLORS.greenText }]}
+            >
               {pdfFormatCHF(y.eigen)}
             </Text>
           ))}
-          <Text style={[styles.small, { width: 65, textAlign: 'right', fontWeight: 'bold', color: COLORS.greenText }]}>
+          <Text
+            style={[
+              styles.small,
+              { width: 65, textAlign: 'right', fontWeight: 'bold', color: COLORS.greenText },
+            ]}
+          >
             {pdfFormatCHF(dok.budget.eigen3yTotal)}
           </Text>
         </View>
@@ -131,7 +150,10 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
         <View style={styles.tableTotalRow}>
           <Text style={[styles.small, { flex: 2, fontWeight: 'bold' }]}>Total pro Jahr</Text>
           {dok.budget.threeYearModel.map((y) => (
-            <Text key={y.year} style={[styles.small, { width: 65, textAlign: 'right', fontWeight: 'bold' }]}>
+            <Text
+              key={y.year}
+              style={[styles.small, { width: 65, textAlign: 'right', fontWeight: 'bold' }]}
+            >
               {pdfFormatCHF(y.total)}
             </Text>
           ))}
@@ -142,15 +164,27 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
       </View>
 
       <Text style={[styles.muted, styles.mb12, { marginTop: 4 }]}>
-        Stiftungsanteil sinkt von {Math.round((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) / dok.budget.threeYearModel[0].total * 100)}% (Jahr 1) auf {Math.round(dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total * 100)}% (Jahr 3).
-        Eigenleistung = bewertete Freiwilligenarbeit (Stunden x CHF {EIGENLEISTUNG_CONFIG.ratePerHour}/h), kein Cashflow. Wächst durch Community-Aufbau und Hub-Betrieb.
+        Stiftungsanteil sinkt von{' '}
+        {Math.round(
+          ((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) /
+            dok.budget.threeYearModel[0].total) *
+            100,
+        )}
+        % (Jahr 1) auf{' '}
+        {Math.round(
+          (dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total) * 100,
+        )}
+        % (Jahr 3). Eigenleistung = bewertete Freiwilligenarbeit (Stunden x CHF{' '}
+        {EIGENLEISTUNG_CONFIG.ratePerHour}/h), kein Cashflow. Wächst durch Community-Aufbau und
+        Hub-Betrieb.
       </Text>
 
       {/* Year 1 detail */}
       <Text style={styles.h3}>Budgetdetail Jahr 1 ({pdfFormatCHF(year1Total)})</Text>
       <View style={[styles.infoBox, { marginBottom: 8 }]}>
         <Text style={styles.muted}>
-          <Text style={{ fontWeight: 'bold' }}>Szenario:</Text> {dok.budget.scenario.label} — {dok.budget.scenario.description}
+          <Text style={{ fontWeight: 'bold' }}>Szenario:</Text> {dok.budget.scenario.label} —{' '}
+          {dok.budget.scenario.description}
         </Text>
       </View>
 
@@ -159,15 +193,23 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
         {/* Header */}
         <View style={styles.tableHeaderRow}>
           <Text style={[styles.small, { flex: 3, fontWeight: 'bold' }]}>Position</Text>
-          <Text style={[styles.small, { width: 60, textAlign: 'right', fontWeight: 'bold' }]}>Betrag</Text>
-          <Text style={[styles.small, { width: 30, textAlign: 'right', fontWeight: 'bold' }]}>%</Text>
+          <Text style={[styles.small, { width: 60, textAlign: 'right', fontWeight: 'bold' }]}>
+            Betrag
+          </Text>
+          <Text style={[styles.small, { width: 30, textAlign: 'right', fontWeight: 'bold' }]}>
+            %
+          </Text>
         </View>
 
         {/* Einmalige */}
         <View style={[styles.tableRow, { backgroundColor: COLORS.bgLight }]}>
-          <Text style={[styles.small, { flex: 3, fontWeight: 'bold' }]}>Einmalige Investitionen</Text>
+          <Text style={[styles.small, { flex: 3, fontWeight: 'bold' }]}>
+            Einmalige Investitionen
+          </Text>
           <Text style={[styles.small, { width: 60 }]} />
-          <Text style={[styles.muted, { width: 30, textAlign: 'right' }]}>{pdfFormatCHF(einmaligTotal)}</Text>
+          <Text style={[styles.muted, { width: 30, textAlign: 'right' }]}>
+            {pdfFormatCHF(einmaligTotal)}
+          </Text>
         </View>
         <LineItemRows items={einmalig} total={year1Total} themeKey={themeKey} />
 
@@ -175,7 +217,9 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
         <View style={[styles.tableRow, { backgroundColor: COLORS.bgLight }]}>
           <Text style={[styles.small, { flex: 3, fontWeight: 'bold' }]}>Jährliche Kosten</Text>
           <Text style={[styles.small, { width: 60 }]} />
-          <Text style={[styles.muted, { width: 30, textAlign: 'right' }]}>{pdfFormatCHF(jaehrlichTotal)}</Text>
+          <Text style={[styles.muted, { width: 30, textAlign: 'right' }]}>
+            {pdfFormatCHF(jaehrlichTotal)}
+          </Text>
         </View>
         <LineItemRows items={jaehrlich} total={year1Total} themeKey={themeKey} />
 
@@ -185,7 +229,9 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
           <Text style={[styles.small, { width: 60, textAlign: 'right', fontWeight: 'bold' }]}>
             {pdfFormatCHF(year1Total)}
           </Text>
-          <Text style={[styles.small, { width: 30, textAlign: 'right', fontWeight: 'bold' }]}>100%</Text>
+          <Text style={[styles.small, { width: 30, textAlign: 'right', fontWeight: 'bold' }]}>
+            100%
+          </Text>
         </View>
       </View>
 
@@ -211,7 +257,12 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
           <Text style={[styles.small, { flex: 3, fontWeight: 'bold', color: COLORS.primary }]}>
             Beantragt bei {dok.foundation.name}
           </Text>
-          <Text style={[styles.small, { width: 60, textAlign: 'right', fontWeight: 'bold', color: COLORS.primary }]}>
+          <Text
+            style={[
+              styles.small,
+              { width: 60, textAlign: 'right', fontWeight: 'bold', color: COLORS.primary },
+            ]}
+          >
             {pdfFormatCHF(dok.budget.requestedAmount)}
           </Text>
           <Text style={[styles.small, { width: 30, textAlign: 'right', color: COLORS.primary }]}>
@@ -224,7 +275,9 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
             <Text style={[styles.small, { flex: 3, color: COLORS.textMuted }]}>
               Weitere Stiftungen und Partner (beantragt/geplant)
             </Text>
-            <Text style={[styles.small, { width: 60, textAlign: 'right', color: COLORS.textMuted }]}>
+            <Text
+              style={[styles.small, { width: 60, textAlign: 'right', color: COLORS.textMuted }]}
+            >
               {pdfFormatCHF(remaining)}
             </Text>
             <Text style={[styles.muted, { width: 30, textAlign: 'right' }]}>
@@ -234,11 +287,15 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
         )}
 
         <View style={styles.tableTotalRow}>
-          <Text style={[styles.small, { flex: 3, fontWeight: 'bold' }]}>Total Finanzierung Jahr 1</Text>
+          <Text style={[styles.small, { flex: 3, fontWeight: 'bold' }]}>
+            Total Finanzierung Jahr 1
+          </Text>
           <Text style={[styles.small, { width: 60, textAlign: 'right', fontWeight: 'bold' }]}>
             {pdfFormatCHF(year1Total)}
           </Text>
-          <Text style={[styles.small, { width: 30, textAlign: 'right', fontWeight: 'bold' }]}>100%</Text>
+          <Text style={[styles.small, { width: 30, textAlign: 'right', fontWeight: 'bold' }]}>
+            100%
+          </Text>
         </View>
       </View>
     </View>

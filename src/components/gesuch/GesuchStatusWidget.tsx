@@ -23,7 +23,11 @@ interface GesuchStatusWidgetProps {
   shareToken?: string;
 }
 
-export default function GesuchStatusWidget({ slug, responseTime, shareToken }: GesuchStatusWidgetProps) {
+export default function GesuchStatusWidget({
+  slug,
+  responseTime,
+  shareToken,
+}: GesuchStatusWidgetProps) {
   const [appId, setAppId] = useState<string | null | undefined>(undefined);
   const [status, setStatus] = useState<ApplicationStatusId | null>(null);
   const [followUpDate, setFollowUpDate] = useState<string | null>(null);
@@ -50,7 +54,9 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
         setFetchError(true);
         setAppId(null);
       });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [slug]);
 
   async function addToPipeline() {
@@ -135,7 +141,9 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
       {/* Status badge + link */}
       <div className="flex items-center gap-2">
         {statusConfig && (
-          <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusConfig.color}`}>
+          <span
+            className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusConfig.color}`}
+          >
             {statusConfig.label}
           </span>
         )}
@@ -168,7 +176,8 @@ export default function GesuchStatusWidget({ slug, responseTime, shareToken }: G
           <p className="text-sm text-pillar-digital">Gesuch wurde als eingereicht markiert.</p>
           {followUpDate && (
             <p className="text-sm text-text-muted">
-              Antwort erwartet: ~<span className="font-medium">{formatDateCHLong(followUpDate)}</span>
+              Antwort erwartet: ~
+              <span className="font-medium">{formatDateCHLong(followUpDate)}</span>
               {' · '}
               Nachfassen ab: <span className="font-medium">{formatDateCHLong(followUpDate)}</span>
             </p>

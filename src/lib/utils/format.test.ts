@@ -202,8 +202,18 @@ describe('formatDateDE', () => {
 
   it('uses correct German month names', () => {
     const months = [
-      'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-      'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
+      'Januar',
+      'Februar',
+      'März',
+      'April',
+      'Mai',
+      'Juni',
+      'Juli',
+      'August',
+      'September',
+      'Oktober',
+      'November',
+      'Dezember',
     ];
     months.forEach((name, i) => {
       const d = new Date(2026, i, 15);

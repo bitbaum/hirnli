@@ -75,7 +75,8 @@ export const SCHWERPUNKTE = {
     icon: '\u{1F510}',
     color: THEME_COLORS.digitale_souveraenitaet,
     borderClass: 'border-l-theme-digital',
-    description: 'Open Source, Linux, Datenhoheit, souveräne IT-Infrastruktur, eigene Community-Plattform',
+    description:
+      'Open Source, Linux, Datenhoheit, souveräne IT-Infrastruktur, eigene Community-Plattform',
     storyThemes: ['digital'] as ThemeKey[],
     themeIds: ['digitale-souveraenitaet'] as ThemeId[],
     pillar: 'Digitale Souveränität',
@@ -104,9 +105,5 @@ export const THEME_HIERARCHY = {
     'digitale-bildung',
     'digitale-souveraenitaet',
   ],
-  secondary: [
-    'soziale-integration',
-    'klima',
-    'zuerich',
-  ],
+  secondary: ['soziale-integration', 'klima', 'zuerich'],
 } as const satisfies Record<string, readonly ThemeId[]>;

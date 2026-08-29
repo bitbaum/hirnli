@@ -19,12 +19,15 @@ import {
   LAPTOPS_REFURBISHED_COUNT,
 } from '@/lib/config/numbers';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
-import { COMPLETE_YEARS, CUMULATIVE_WARENVERKAUF, CURRENT_YEAR_DATA, PEAK_REVENUE, PEAK_YEAR } from '@/app/(tenant)/finanzen/data';
-import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
 import {
-  DEVICES_PER_YEAR_TARGET,
-  DEVICES_PER_YEAR_CURRENT,
-} from '@/lib/config/projections';
+  COMPLETE_YEARS,
+  CUMULATIVE_WARENVERKAUF,
+  CURRENT_YEAR_DATA,
+  PEAK_REVENUE,
+  PEAK_YEAR,
+} from '@/app/(tenant)/finanzen/data';
+import { FINANCIAL_YEAR_RANGE, FINANCIAL_YEAR_START } from '@/lib/config/financial-constants';
+import { DEVICES_PER_YEAR_TARGET, DEVICES_PER_YEAR_CURRENT } from '@/lib/config/projections';
 
 // ---------------------------------------------------------------------------
 // Derived data
@@ -237,8 +240,12 @@ const s = StyleSheet.create({
 function SlideFooter({ slide }: { slide: number }) {
   return (
     <View style={s.footer} fixed>
-      <Text>{ORG_PROFILE.name} · {ORG_PROFILE.website}</Text>
-      <Text>{slide} / {TOTAL_SLIDES}</Text>
+      <Text>
+        {ORG_PROFILE.name} · {ORG_PROFILE.website}
+      </Text>
+      <Text>
+        {slide} / {TOTAL_SLIDES}
+      </Text>
     </View>
   );
 }
@@ -274,9 +281,7 @@ function Slide1Cover() {
         <Text style={s.coverTagline}>
           Kreislaufwirtschaft · Arbeitsintegration · Digitale Bildung
         </Text>
-        <Text style={s.coverMeta}>
-          Präsentation für Stiftungen & Förderer · {CURRENT_YEAR}
-        </Text>
+        <Text style={s.coverMeta}>Präsentation für Stiftungen & Förderer · {CURRENT_YEAR}</Text>
         <Text style={[s.coverMeta, { marginTop: 20 }]}>
           {ORG_PROFILE.legalForm} · Gegründet {ORG_PROFILE.founded} · {ORG_PROFILE.location}
         </Text>
@@ -303,13 +308,11 @@ function Slide2Problem() {
             </View>
             <View style={s.problemBox}>
               <Text style={s.problemStat}>~{CO2_NEW_LAPTOP_MANUFACTURE} kg CO₂</Text>
-              <Text style={s.problemLabel}>
-                Herstellungs-CO₂ pro Laptop (Fraunhofer IZM 2023)
-              </Text>
+              <Text style={s.problemLabel}>Herstellungs-CO₂ pro Laptop (Fraunhofer IZM 2023)</Text>
             </View>
             <Text style={s.small}>
-              Nur ~20% des globalen E-Waste wird fachgerecht recycelt.
-              Refurbishing ist die wirksamste Massnahme gegen diesen Trend.
+              Nur ~20% des globalen E-Waste wird fachgerecht recycelt. Refurbishing ist die
+              wirksamste Massnahme gegen diesen Trend.
             </Text>
           </View>
           <View style={s.col}>
@@ -317,16 +320,15 @@ function Slide2Problem() {
             <View style={[s.infoBox, { marginBottom: 10 }]}>
               <Text style={[s.p, s.bold]}>Gerätepreise bleiben hoch</Text>
               <Text style={s.p}>
-                Neue Laptops kosten CHF 800–1500+. Für Menschen mit kleinen Budgets
-                — Geflüchtete, Sozialhilfebeziehende, Auszubildende — ist das eine
-                reale Teilhabe-Barriere.
+                Neue Laptops kosten CHF 800–1500+. Für Menschen mit kleinen Budgets — Geflüchtete,
+                Sozialhilfebeziehende, Auszubildende — ist das eine reale Teilhabe-Barriere.
               </Text>
             </View>
             <View style={[s.infoBox]}>
               <Text style={[s.p, s.bold]}>Arbeitsintegration braucht sinnvolle Tätigkeiten</Text>
               <Text style={s.p}>
-                Automatisierung verdrängt Einstiegsjobs. IT-Refurbishing bietet
-                strukturierte, sinnvolle und qualifizierende Arbeit.
+                Automatisierung verdrängt Einstiegsjobs. IT-Refurbishing bietet strukturierte,
+                sinnvolle und qualifizierende Arbeit.
               </Text>
             </View>
           </View>
@@ -351,7 +353,9 @@ function Slide3Solution() {
             <Text style={[s.h3, { marginBottom: 10 }]}>Jedes Gerät durchläuft die Kaskade</Text>
 
             <View style={s.tier}>
-              <View style={s.tierNum}><Text style={s.tierNumText}>1</Text></View>
+              <View style={s.tierNum}>
+                <Text style={s.tierNumText}>1</Text>
+              </View>
               <View style={s.tierContent}>
                 <Text style={s.tierName}>Vollständiges Refurbishing</Text>
                 <Text style={s.tierDetail}>
@@ -398,8 +402,8 @@ function Slide3Solution() {
             <View style={[s.infoBox, { marginTop: 12 }]}>
               <Text style={[s.p, s.bold]}>Ergebnis</Text>
               <Text style={s.p}>
-                Über 85% aller Geräte werden wiederverwendet oder als Ersatzteile genutzt
-                — nur ~15% landen im Recycling.
+                Über 85% aller Geräte werden wiederverwendet oder als Ersatzteile genutzt — nur ~15%
+                landen im Recycling.
               </Text>
             </View>
           </View>
@@ -417,7 +421,10 @@ function Slide3Solution() {
 function Slide4Impact() {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
-      <SlideHeader title="Unsere Wirkung" sub={`Seit ${FINANCIAL_YEAR_START} — aus Kivitendo-Quelldaten`} />
+      <SlideHeader
+        title="Unsere Wirkung"
+        sub={`Seit ${FINANCIAL_YEAR_START} — aus Kivitendo-Quelldaten`}
+      />
       <View style={s.body}>
         <View style={[s.threeCol, { marginBottom: 16 }]}>
           <View style={s.metricBoxGreen}>
@@ -425,12 +432,16 @@ function Slide4Impact() {
               ~{LAPTOPS_REFURBISHED_COUNT.toLocaleString('de-CH')}+
             </Text>
             <Text style={s.metricLabel}>Geräte refurbisht</Text>
-            <Text style={s.metricSub}>{`seit ${FINANCIAL_YEAR_START}, geschätzt aus Umsatzdaten`}</Text>
+            <Text
+              style={s.metricSub}
+            >{`seit ${FINANCIAL_YEAR_START}, geschätzt aus Umsatzdaten`}</Text>
           </View>
           <View style={s.metricBoxGreen}>
             <Text style={s.metricValueGreen}>~{CO2_TOTAL_TONNES} t</Text>
             <Text style={s.metricLabel}>CO₂ gespart (gesamt)</Text>
-            <Text style={s.metricSub}>{`${CO2_PER_LAPTOP} kg pro Gerät · Fraunhofer IZM 2023`}</Text>
+            <Text
+              style={s.metricSub}
+            >{`${CO2_PER_LAPTOP} kg pro Gerät · Fraunhofer IZM 2023`}</Text>
           </View>
           <View style={s.metricBoxGreen}>
             <Text style={s.metricValueGreen}>{SHARED_ORG_NUMBERS.REUSE_RATE}%</Text>
@@ -443,17 +454,23 @@ function Slide4Impact() {
           <View style={s.metricBox}>
             <Text style={s.metricValue}>{SHARED_ORG_NUMBERS.PEOPLE_HELPED}</Text>
             <Text style={s.metricLabel}>Menschen begleitet</Text>
-            <Text style={s.metricSub}>{`Praktika & Integration seit ${ORG_PROFILE.milestones.integrationProgram}`}</Text>
+            <Text
+              style={s.metricSub}
+            >{`Praktika & Integration seit ${ORG_PROFILE.milestones.integrationProgram}`}</Text>
           </View>
           <View style={s.metricBox}>
             <Text style={s.metricValue}>{String(ORG_PROFILE.yearsActive)}+</Text>
             <Text style={s.metricLabel}>Jahre Erfahrung</Text>
-            <Text style={s.metricSub}>{`Kontinuierlicher Betrieb seit ${ORG_PROFILE.founded}`}</Text>
+            <Text
+              style={s.metricSub}
+            >{`Kontinuierlicher Betrieb seit ${ORG_PROFILE.founded}`}</Text>
           </View>
           <View style={s.metricBoxAccent}>
             <Text style={s.metricValueAccent}>~{SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT}</Text>
             <Text style={s.metricLabel}>Geräte/Jahr (aktuell)</Text>
-            <Text style={s.metricSub}>{`Kapazität ausbaubar auf ${DEVICES_PER_YEAR_TARGET}+/Jahr mit Hub`}</Text>
+            <Text
+              style={s.metricSub}
+            >{`Kapazität ausbaubar auf ${DEVICES_PER_YEAR_TARGET}+/Jahr mit Hub`}</Text>
           </View>
         </View>
 
@@ -494,8 +511,7 @@ function Slide5Financials() {
                       s.barFill,
                       {
                         width: `${Math.round((yr.revenue / maxRevenue) * 100)}%`,
-                        backgroundColor:
-                          yr.year === PEAK_YEAR ? COLORS.accent : COLORS.primary,
+                        backgroundColor: yr.year === PEAK_YEAR ? COLORS.accent : COLORS.primary,
                       },
                     ]}
                   />
@@ -514,8 +530,8 @@ function Slide5Financials() {
             <View style={[s.problemBox, { marginBottom: 10 }]}>
               <Text style={[s.p, s.bold]}>{'Einnahmen um >50% gefallen'}</Text>
               <Text style={s.p}>
-                {`Von ${pdfFormatCHF(PEAK_REVENUE)} (${PEAK_YEAR}) auf ${pdfFormatCHF(CURRENT_REVENUE)} (${CURRENT_YEAR}).`}
-                {' '}Haupttreiber: Verlust von B2B-Hosting-Kunden.
+                {`Von ${pdfFormatCHF(PEAK_REVENUE)} (${PEAK_YEAR}) auf ${pdfFormatCHF(CURRENT_REVENUE)} (${CURRENT_YEAR}).`}{' '}
+                Haupttreiber: Verlust von B2B-Hosting-Kunden.
               </Text>
             </View>
             <View style={s.infoBox}>
@@ -574,9 +590,7 @@ function Slide6TheAsk({ p1p3Count }: { p1p3Count: number }) {
             <View style={[s.metricBox, { marginTop: 12 }]}>
               <Text style={s.metricValue}>{p1p3Count}</Text>
               <Text style={s.metricLabel}>Passende Stiftungen identifiziert</Text>
-              <Text style={s.metricSub}>
-                P1–P3 mit Fit-Score analysiert und bewertet
-              </Text>
+              <Text style={s.metricSub}>P1–P3 mit Fit-Score analysiert und bewertet</Text>
             </View>
           </View>
         </View>
@@ -625,9 +639,9 @@ function Slide7WhyUs() {
         <View style={[s.infoBox, { marginTop: 14 }]}>
           <Text style={[s.p, s.bold]}>Gemeinnützigkeit & Transparenz</Text>
           <Text style={s.p}>
-            {ORG_PROFILE.taxExemption}. Alle Finanzdaten und Wirkungszahlen mit
-            Quellenangaben öffentlich einsehbar auf {ORG_PROFILE.website}/finanzen und
-            {' '}{ORG_PROFILE.website}/wirkung — keine Blackboxes.
+            {ORG_PROFILE.taxExemption}. Alle Finanzdaten und Wirkungszahlen mit Quellenangaben
+            öffentlich einsehbar auf {ORG_PROFILE.website}/finanzen und {ORG_PROFILE.website}
+            /wirkung — keine Blackboxes.
           </Text>
         </View>
       </View>
@@ -660,11 +674,14 @@ function Slide8Contact() {
             <Text style={{ fontSize: 10, color: COLORS.bgBlue, marginBottom: 2 }}>
               {ORG_PROFILE.email}
             </Text>
-            <Text style={{ fontSize: 10, color: COLORS.bgBlue }}>
-              {ORG_PROFILE.phone}
-            </Text>
+            <Text style={{ fontSize: 10, color: COLORS.bgBlue }}>{ORG_PROFILE.phone}</Text>
           </View>
-          <View style={[s.col, { borderLeftWidth: 1, borderLeftColor: COLORS.textMuted, paddingLeft: 20 }]}>
+          <View
+            style={[
+              s.col,
+              { borderLeftWidth: 1, borderLeftColor: COLORS.textMuted, paddingLeft: 20 },
+            ]}
+          >
             <Text style={{ fontSize: 10, color: COLORS.bgBlue, marginBottom: 2 }}>
               {ORG_PROFILE.address}
             </Text>

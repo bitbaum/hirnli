@@ -45,16 +45,16 @@ export default function StepFocus({
               Typ {foundationType}
             </span>
             {fitScore != null && (
-              <Badge variant="primary" className="font-semibold">Fit {fitScore}/10</Badge>
+              <Badge variant="primary" className="font-semibold">
+                Fit {fitScore}/10
+              </Badge>
             )}
           </div>
         </div>
         {heroDescription && (
           <p className="text-sm text-text-muted leading-relaxed line-clamp-3">{heroDescription}</p>
         )}
-        {tagline && (
-          <p className="mt-2 text-sm italic text-text-muted">&bdquo;{tagline}&ldquo;</p>
-        )}
+        {tagline && <p className="mt-2 text-sm italic text-text-muted">&bdquo;{tagline}&ldquo;</p>}
       </Card>
 
       {/* Schwerpunkt selector */}
@@ -73,7 +73,8 @@ export default function StepFocus({
         <Callout color="primary" className="px-5">
           <p className="heading-xs-label text-primary mb-2">Partnerschafts-Brücke</p>
           <p className="text-sm text-text leading-relaxed">
-            {foundationBridge.split(/\.\s+/).slice(0, 2).join('. ') + (foundationBridge.includes('. ') ? '.' : '')}
+            {foundationBridge.split(/\.\s+/).slice(0, 2).join('. ') +
+              (foundationBridge.includes('. ') ? '.' : '')}
           </p>
         </Callout>
       )}

@@ -25,15 +25,18 @@ export default function KurzportraitPDF({ dok }: KurzportraitPDFProps) {
       {/* Facts grid — 2 columns */}
       <View style={[styles.row, { flexWrap: 'wrap', marginBottom: 12 }]}>
         {dok.kurzportrait.facts.map((fact) => (
-          <View key={fact.label} style={{
-            width: '50%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            borderBottomWidth: 1,
-            borderBottomColor: COLORS.border,
-            paddingVertical: 3,
-            paddingRight: 12,
-          }}>
+          <View
+            key={fact.label}
+            style={{
+              width: '50%',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              borderBottomWidth: 1,
+              borderBottomColor: COLORS.border,
+              paddingVertical: 3,
+              paddingRight: 12,
+            }}
+          >
             <Text style={[styles.small, { color: COLORS.textMuted }]}>{fact.label}</Text>
             <Text style={[styles.small, { fontWeight: 'bold' }]}>{fact.value}</Text>
           </View>
@@ -42,11 +45,14 @@ export default function KurzportraitPDF({ dok }: KurzportraitPDFProps) {
 
       {/* Activities */}
       <View style={styles.mb8}>
-        <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>Tätigkeitsfelder</Text>
+        <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>
+          Tätigkeitsfelder
+        </Text>
         <View style={[styles.row, { flexWrap: 'wrap' }]}>
           {dok.kurzportrait.activities.map((a) => (
             <Text key={a} style={[styles.small, { width: '50%', color: COLORS.textLight }]}>
-              {'\u2022  '}{a}
+              {'\u2022  '}
+              {a}
             </Text>
           ))}
         </View>
@@ -54,11 +60,14 @@ export default function KurzportraitPDF({ dok }: KurzportraitPDFProps) {
 
       {/* Unique selling points */}
       <View style={styles.mb8}>
-        <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>Alleinstellungsmerkmale</Text>
+        <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>
+          Alleinstellungsmerkmale
+        </Text>
         <View style={[styles.row, { flexWrap: 'wrap' }]}>
           {dok.kurzportrait.unique.map((u) => (
             <Text key={u} style={[styles.small, { width: '50%', color: COLORS.textLight }]}>
-              {'\u2022  '}{u}
+              {'\u2022  '}
+              {u}
             </Text>
           ))}
         </View>
@@ -66,10 +75,13 @@ export default function KurzportraitPDF({ dok }: KurzportraitPDFProps) {
 
       {/* Online transparency */}
       <View style={[styles.highlightBox, { marginTop: 4 }]}>
-        <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>Online-Transparenz</Text>
+        <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>
+          Online-Transparenz
+        </Text>
         <Text style={[styles.small, { color: COLORS.textLight }]}>
-          Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar
-          unter {ORG_PROFILE.siteUrl.replace('https://', '')}. Jede Zahl ist bis zur Quelle nachvollziehbar.
+          Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar unter{' '}
+          {ORG_PROFILE.siteUrl.replace('https://', '')}. Jede Zahl ist bis zur Quelle
+          nachvollziehbar.
         </Text>
         <Text style={[styles.small, { color: COLORS.textLight, marginTop: 4 }]}>
           Personalisierte Projektübersicht: {dok.landingPageUrl}

@@ -5,7 +5,11 @@ import { Button } from '@/components/ui/Button';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { THEMES, resolveTypeLabel } from '@/lib/config/foundations';
-import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
+import {
+  TEMPLATE_TYPES,
+  TEMPLATE_LABELS,
+  getTemplateFoundation,
+} from '@/lib/config/gesuch-templates';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import {
   GesuchHeroSection,
@@ -70,8 +74,9 @@ export default async function GesuchVorlagePage({ params }: Props) {
     <div className="gesuch-page">
       {/* VORLAGE banner */}
       <VorlageBanner title={bannerTitle} className="mb-4 print:hidden">
-        Dies ist eine generische Vorlage. Felder wie <span className="font-mono">[Name der Stiftung]</span> müssen
-        vor dem Versand durch die tatsächlichen Angaben ersetzt werden.
+        Dies ist eine generische Vorlage. Felder wie{' '}
+        <span className="font-mono">[Name der Stiftung]</span> müssen vor dem Versand durch die
+        tatsächlichen Angaben ersetzt werden.
       </VorlageBanner>
 
       <GesuchHeroSection
@@ -94,10 +99,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
 
         <GesuchEvidenceSection evidence={gesuch.story.evidence} />
 
-        <GesuchContactSection
-          foundationName="Ihre Stiftung"
-          organization={gesuch.organization}
-        />
+        <GesuchContactSection foundationName="Ihre Stiftung" organization={gesuch.organization} />
 
         {/* Navigation links */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">

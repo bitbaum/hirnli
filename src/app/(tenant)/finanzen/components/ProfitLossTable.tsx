@@ -20,19 +20,29 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border-default text-left text-sm text-text-muted">
-              <th scope="col" className="pb-2 font-medium">Jahr</th>
-              <th scope="col" className="pb-2 text-right font-medium">Einnahmen</th>
-              <th scope="col" className="pb-2 text-right font-medium">Aufwand</th>
-              <th scope="col" className="pb-2 text-right font-medium">Ergebnis</th>
-              <th scope="col" className="pb-2 text-right font-medium">Marge</th>
-              <th scope="col" className="pb-2 text-center font-medium">Status</th>
+              <th scope="col" className="pb-2 font-medium">
+                Jahr
+              </th>
+              <th scope="col" className="pb-2 text-right font-medium">
+                Einnahmen
+              </th>
+              <th scope="col" className="pb-2 text-right font-medium">
+                Aufwand
+              </th>
+              <th scope="col" className="pb-2 text-right font-medium">
+                Ergebnis
+              </th>
+              <th scope="col" className="pb-2 text-right font-medium">
+                Marge
+              </th>
+              <th scope="col" className="pb-2 text-center font-medium">
+                Status
+              </th>
             </tr>
           </thead>
           <tbody>
             {data.map((row) => {
-              const margin = row.isComplete && row.revenue > 0
-                ? row.result / row.revenue
-                : null;
+              const margin = row.isComplete && row.revenue > 0 ? row.result / row.revenue : null;
               return (
                 <tr
                   key={row.year}
@@ -41,27 +51,39 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
                   <td className="py-2.5 font-medium">
                     {row.year}
                     {row.note && (
-                      <span className="ml-1 text-xs text-text-muted" title={row.note}>*</span>
+                      <span className="ml-1 text-xs text-text-muted" title={row.note}>
+                        *
+                      </span>
                     )}
                   </td>
                   <td className="py-2.5 text-right">{formatCHF(row.revenue)}</td>
                   <td className="py-2.5 text-right">
-                    {row.isComplete ? formatCHF(row.expenses) : (
+                    {row.isComplete ? (
+                      formatCHF(row.expenses)
+                    ) : (
                       <span className="text-text-muted">k.A.</span>
                     )}
                   </td>
-                  <td className={`py-2.5 text-right font-semibold ${
-                    !row.isComplete ? 'text-text-muted' :
-                    row.result > 0 ? 'text-success' : 'text-danger'
-                  }`}>
-                    {row.isComplete ? formatCHF(row.result) : (
+                  <td
+                    className={`py-2.5 text-right font-semibold ${
+                      !row.isComplete
+                        ? 'text-text-muted'
+                        : row.result > 0
+                          ? 'text-success'
+                          : 'text-danger'
+                    }`}
+                  >
+                    {row.isComplete ? (
+                      formatCHF(row.result)
+                    ) : (
                       <span className="text-text-muted">–</span>
                     )}
                   </td>
                   <td className="py-2.5 text-right">
                     {margin !== null ? (
                       <span className={margin >= 0 ? 'text-success' : 'text-danger'}>
-                        {margin >= 0 ? '+' : ''}{formatPercent(margin)}
+                        {margin >= 0 ? '+' : ''}
+                        {formatPercent(margin)}
                       </span>
                     ) : (
                       <span className="text-text-muted">–</span>
@@ -114,7 +136,9 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
               {row.isComplete && (
                 <div className="col-span-2">
                   <span className="text-text-muted">Ergebnis</span>
-                  <div className={`font-semibold ${row.result >= 0 ? 'text-success' : 'text-danger'}`}>
+                  <div
+                    className={`font-semibold ${row.result >= 0 ? 'text-success' : 'text-danger'}`}
+                  >
                     {formatCHF(row.result)}
                   </div>
                 </div>
@@ -127,7 +151,11 @@ export function ProfitLossTable({ data }: { data: AnnualPLEntry[] }) {
       {/* Footnotes */}
       {data.some((d) => d.note) && (
         <p className="mt-3 text-sm text-text-muted">
-          * {data.filter((d) => d.note).map((d) => `${d.year}: ${d.note}`).join(' | ')}
+          *{' '}
+          {data
+            .filter((d) => d.note)
+            .map((d) => `${d.year}: ${d.note}`)
+            .join(' | ')}
         </p>
       )}
     </Card>

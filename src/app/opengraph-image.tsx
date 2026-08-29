@@ -30,66 +30,60 @@ export default function OpenGraphImage() {
   ];
 
   return new ImageResponse(
-    (
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: 72,
-          backgroundColor: DARK,
-          backgroundImage: `radial-gradient(circle at 85% 15%, rgba(46, 204, 113, 0.18), transparent 55%)`,
-          fontFamily: 'sans-serif',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div
-            style={{
-              width: 18,
-              height: 18,
-              borderRadius: 9,
-              backgroundColor: GREEN,
-            }}
-          />
-          <div style={{ fontSize: 30, color: GREEN, fontWeight: 700 }}>
-            {PLATFORM_BRAND.name}
-          </div>
-          <div style={{ fontSize: 30, color: '#9CA3AF' }}>
-            {PLATFORM_BRAND.tagline}
-          </div>
-        </div>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: 72,
+        backgroundColor: DARK,
+        backgroundImage: `radial-gradient(circle at 85% 15%, rgba(46, 204, 113, 0.18), transparent 55%)`,
+        fontFamily: 'sans-serif',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div
+          style={{
+            width: 18,
+            height: 18,
+            borderRadius: 9,
+            backgroundColor: GREEN,
+          }}
+        />
+        <div style={{ fontSize: 30, color: GREEN, fontWeight: 700 }}>{PLATFORM_BRAND.name}</div>
+        <div style={{ fontSize: 30, color: '#9CA3AF' }}>{PLATFORM_BRAND.tagline}</div>
+      </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <div style={{ fontSize: 92, fontWeight: 800, color: '#F9FAFB', lineHeight: 1.05 }}>
-            {ORG_PROFILE.name}
-          </div>
-          <div style={{ fontSize: 40, color: '#D1D5DB', maxWidth: 980 }}>
-            Transparentes Fundraising — alle Zahlen belegbar, jede Quelle nachvollziehbar.
-          </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div style={{ fontSize: 92, fontWeight: 800, color: '#F9FAFB', lineHeight: 1.05 }}>
+          {ORG_PROFILE.name}
         </div>
-
-        <div style={{ display: 'flex', gap: 20 }}>
-          {stats.map((s) => (
-            <div
-              key={s}
-              style={{
-                display: 'flex',
-                fontSize: 26,
-                color: '#E5E7EB',
-                backgroundColor: 'rgba(255,255,255,0.08)',
-                border: '1px solid rgba(255,255,255,0.15)',
-                borderRadius: 999,
-                padding: '14px 28px',
-              }}
-            >
-              {s}
-            </div>
-          ))}
+        <div style={{ fontSize: 40, color: '#D1D5DB', maxWidth: 980 }}>
+          Transparentes Fundraising — alle Zahlen belegbar, jede Quelle nachvollziehbar.
         </div>
       </div>
-    ),
+
+      <div style={{ display: 'flex', gap: 20 }}>
+        {stats.map((s) => (
+          <div
+            key={s}
+            style={{
+              display: 'flex',
+              fontSize: 26,
+              color: '#E5E7EB',
+              backgroundColor: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              borderRadius: 999,
+              padding: '14px 28px',
+            }}
+          >
+            {s}
+          </div>
+        ))}
+      </div>
+    </div>,
     size,
   );
 }

@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
-import { computePriorityDistribution, computeReadinessDistribution } from '@/lib/domain/scoring-stats';
+import {
+  computePriorityDistribution,
+  computeReadinessDistribution,
+} from '@/lib/domain/scoring-stats';
 import { getAllFoundations } from '@/lib/db/foundations-repo';
 import ScoringArchitectureSection from './sections/ScoringArchitectureSection';
 import FitScoreSection from './sections/FitScoreSection';
@@ -26,9 +29,9 @@ export default async function ScoringMethodikPage() {
         subtitle="Algorithmische Bewertung von Stiftungen — drei Ebenen, komplett inspizierbar"
       />
       <p className="mb-8 text-sm text-text-secondary">
-        Jeder Score wird algorithmisch aus den vorhandenen Stiftungsdaten berechnet.
-        Keine manuellen Noten, keine Black Boxes. Alle Gewichte und Schwellenwerte
-        sind konfigurierbar und hier vollständig dokumentiert.
+        Jeder Score wird algorithmisch aus den vorhandenen Stiftungsdaten berechnet. Keine manuellen
+        Noten, keine Black Boxes. Alle Gewichte und Schwellenwerte sind konfigurierbar und hier
+        vollständig dokumentiert.
       </p>
       <ScoringArchitectureSection />
       <FitScoreSection />

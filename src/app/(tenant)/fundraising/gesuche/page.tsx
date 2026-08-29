@@ -27,7 +27,6 @@ interface GesuchOverviewRow {
   applicationStatus: ApplicationStatusId | null;
 }
 
-
 export default function MeineGesuchePage() {
   const [rows, setRows] = useState<GesuchOverviewRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -64,10 +63,24 @@ export default function MeineGesuchePage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border-default bg-surface-raised text-left">
-                <th scope="col" className="px-4 py-3 font-semibold text-text-muted">Stiftung</th>
-                <th scope="col" className="px-4 py-3 font-semibold text-text-muted">Status</th>
-                <th scope="col" className="px-4 py-3 font-semibold text-text-muted hidden sm:table-cell">Felder</th>
-                <th scope="col" className="px-4 py-3 font-semibold text-text-muted hidden sm:table-cell">Zuletzt</th>
+                <th scope="col" className="px-4 py-3 font-semibold text-text-muted">
+                  Stiftung
+                </th>
+                <th scope="col" className="px-4 py-3 font-semibold text-text-muted">
+                  Status
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-3 font-semibold text-text-muted hidden sm:table-cell"
+                >
+                  Felder
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-3 font-semibold text-text-muted hidden sm:table-cell"
+                >
+                  Zuletzt
+                </th>
                 <th scope="col" className="px-4 py-3" />
               </tr>
             </thead>
@@ -78,7 +91,10 @@ export default function MeineGesuchePage() {
                   : null;
 
                 return (
-                  <tr key={row.foundationId} className="border-b border-border-default last:border-0 hover:bg-surface-raised/50">
+                  <tr
+                    key={row.foundationId}
+                    className="border-b border-border-default last:border-0 hover:bg-surface-raised/50"
+                  >
                     <td className="px-4 py-3">
                       <Link
                         href={`/fundraising/stiftungen/${row.foundationId}/gesuch`}
@@ -89,7 +105,9 @@ export default function MeineGesuchePage() {
                     </td>
                     <td className="px-4 py-3">
                       {statusConfig ? (
-                        <span className={`rounded-full border px-2 py-0.5 text-xs font-medium ${statusConfig.color}`}>
+                        <span
+                          className={`rounded-full border px-2 py-0.5 text-xs font-medium ${statusConfig.color}`}
+                        >
                           {statusConfig.label}
                         </span>
                       ) : (

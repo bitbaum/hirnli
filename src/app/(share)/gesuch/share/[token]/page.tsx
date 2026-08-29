@@ -103,7 +103,8 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
   if (!gesuch.ready) notFound();
 
   // Merge any saved overrides (same pipeline as the full gesuch page)
-  const { loadGesuchOverrides, applyGesuchOverrides } = await import('@/lib/domain/apply-overrides');
+  const { loadGesuchOverrides, applyGesuchOverrides } =
+    await import('@/lib/domain/apply-overrides');
   const overrides = await loadGesuchOverrides(slug, selectedSchwerpunkt);
   const merged = applyGesuchOverrides(gesuch, overrides);
 

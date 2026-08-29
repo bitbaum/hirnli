@@ -99,21 +99,25 @@ describe('initFieldsFromApplication', () => {
   });
 
   it('normalizes submissionDate, decisionExpected, decisionDate the same way', () => {
-    const f = initFieldsFromApplication(makeApp({
-      submissionDate: '2026-03-01T00:00:00Z',
-      decisionExpected: null,
-      decisionDate: '2026-06-15',
-    }));
+    const f = initFieldsFromApplication(
+      makeApp({
+        submissionDate: '2026-03-01T00:00:00Z',
+        decisionExpected: null,
+        decisionDate: '2026-06-15',
+      }),
+    );
     expect(f.submissionDate).toBe('2026-03-01');
     expect(f.decisionExpected).toBe('');
     expect(f.decisionDate).toBe('2026-06-15');
   });
 
   it('passes through rejectionReason and successFactors', () => {
-    const f = initFieldsFromApplication(makeApp({
-      rejectionReason: 'Nicht passend',
-      successFactors: 'Guter Fit',
-    }));
+    const f = initFieldsFromApplication(
+      makeApp({
+        rejectionReason: 'Nicht passend',
+        successFactors: 'Guter Fit',
+      }),
+    );
     expect(f.rejectionReason).toBe('Nicht passend');
     expect(f.successFactors).toBe('Guter Fit');
   });
@@ -121,10 +125,19 @@ describe('initFieldsFromApplication', () => {
   it('returns all 13 expected form fields', () => {
     const f = initFieldsFromApplication(makeApp());
     const expected = [
-      'status', 'requestedAmount', 'awardedAmount', 'priorityLevel',
-      'assignedTo', 'projectFocus', 'customizationNotes',
-      'contactDate', 'submissionDate', 'decisionExpected', 'decisionDate',
-      'rejectionReason', 'successFactors',
+      'status',
+      'requestedAmount',
+      'awardedAmount',
+      'priorityLevel',
+      'assignedTo',
+      'projectFocus',
+      'customizationNotes',
+      'contactDate',
+      'submissionDate',
+      'decisionExpected',
+      'decisionDate',
+      'rejectionReason',
+      'successFactors',
     ];
     for (const key of expected) {
       expect(key in f, `missing field: ${key}`).toBe(true);

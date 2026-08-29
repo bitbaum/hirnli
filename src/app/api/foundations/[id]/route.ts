@@ -14,38 +14,31 @@ import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { foundationSchema } from '@/lib/schemas/foundation';
 import { updateFoundationSchema } from '@/lib/schemas/foundation-api';
-import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_NOT_FOUND } from '@/lib/utils/errors';
+import {
+  API_ERR_LOAD,
+  API_ERR_VALIDATION,
+  API_ERR_SAVE,
+  API_ERR_NOT_FOUND,
+} from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 
 /**
  * GET /api/foundations/[id]
  * Retrieve a single foundation by ID
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
-
-    const result = await db
-      .select()
-      .from(foundations)
-      .where(eq(foundations.id, id))
-      .limit(1);
+    const result = await db.select().from(foundations).where(eq(foundations.id, id)).limit(1);
 
     if (result.length === 0) {
-      return NextResponse.json(
-        { success: false, error: API_ERR_NOT_FOUND },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
     }
 
     return NextResponse.json({
       success: true,
       data: result[0],
     });
-
   } catch (error) {
     return apiError('GET /api/foundations/${id}', error, API_ERR_LOAD);
   }
@@ -56,10 +49,7 @@ export async function GET(
  * Replace full config_data with a validated Foundation object.
  * Also syncs relevant flat columns for backward compatibility.
  */
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
     const body = await request.json();
@@ -76,7 +66,7 @@ export async function PUT(
             message: i.message,
           })),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -88,10 +78,7 @@ export async function PUT(
       .limit(1);
 
     if (existing.length === 0) {
-      return NextResponse.json(
-        { success: false, error: API_ERR_NOT_FOUND },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
     }
 
     const data = validation.data;
@@ -122,11 +109,7 @@ export async function PUT(
     });
 
     // Fetch updated row
-    const updated = await db
-      .select()
-      .from(foundations)
-      .where(eq(foundations.id, id))
-      .limit(1);
+    const updated = await db.select().from(foundations).where(eq(foundations.id, id)).limit(1);
 
     return NextResponse.json({
       success: true,
@@ -141,10 +124,7 @@ export async function PUT(
  * PATCH /api/foundations/[id]
  * Update a foundation (partial updates)
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
     const body = await request.json();
@@ -156,24 +136,17 @@ export async function PATCH(
         {
           success: false,
           error: API_ERR_VALIDATION,
-          details: validation.error.flatten()
+          details: validation.error.flatten(),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Check if foundation exists
-    const existing = await db
-      .select()
-      .from(foundations)
-      .where(eq(foundations.id, id))
-      .limit(1);
+    const existing = await db.select().from(foundations).where(eq(foundations.id, id)).limit(1);
 
     if (existing.length === 0) {
-      return NextResponse.json(
-        { success: false, error: API_ERR_NOT_FOUND },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
     }
 
     // Merge config_data patch into existing (SSOT for all foundation data)
@@ -194,10 +167,7 @@ export async function PATCH(
     };
 
     // Update foundation
-    await db
-      .update(foundations)
-      .set(updates)
-      .where(eq(foundations.id, id));
+    await db.update(foundations).set(updates).where(eq(foundations.id, id));
 
     // Log activity
     await db.insert(activityLog).values({
@@ -213,17 +183,12 @@ export async function PATCH(
     });
 
     // Fetch updated foundation
-    const updated = await db
-      .select()
-      .from(foundations)
-      .where(eq(foundations.id, id))
-      .limit(1);
+    const updated = await db.select().from(foundations).where(eq(foundations.id, id)).limit(1);
 
     return NextResponse.json({
       success: true,
       data: updated[0],
     });
-
   } catch (error) {
     return apiError('PATCH /api/foundations/${id}', error, API_ERR_SAVE);
   }
@@ -235,23 +200,15 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   try {
-
     // Check if foundation exists
-    const existing = await db
-      .select()
-      .from(foundations)
-      .where(eq(foundations.id, id))
-      .limit(1);
+    const existing = await db.select().from(foundations).where(eq(foundations.id, id)).limit(1);
 
     if (existing.length === 0) {
-      return NextResponse.json(
-        { success: false, error: API_ERR_NOT_FOUND },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
     }
 
     // Soft delete (archive)
@@ -279,7 +236,6 @@ export async function DELETE(
       success: true,
       message: 'Foundation archived successfully',
     });
-
   } catch (error) {
     return apiError('DELETE /api/foundations/${id}', error, API_ERR_SAVE);
   }

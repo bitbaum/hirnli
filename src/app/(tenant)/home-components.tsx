@@ -9,14 +9,7 @@ import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
-import {
-  HERO,
-  GUIDE_HEADING,
-  GUIDE_SECTIONS,
-  PILLARS_HEADING,
-  TRANSPARENCY,
-} from './home-data';
-
+import { HERO, GUIDE_HEADING, GUIDE_SECTIONS, PILLARS_HEADING, TRANSPARENCY } from './home-data';
 
 // -- Section 1: Hero ---------------------------------------------------------
 
@@ -32,9 +25,7 @@ export function HeroSection() {
       <h1 className="text-3xl font-bold tracking-tight text-text-primary mb-3 md:text-5xl md:leading-tight">
         {HERO.name}
       </h1>
-      <p className="text-lg text-text-secondary leading-relaxed max-w-2xl mb-2">
-        {HERO.story}
-      </p>
+      <p className="text-lg text-text-secondary leading-relaxed max-w-2xl mb-2">{HERO.story}</p>
       <p className="text-sm text-text-tertiary mb-6">{HERO.context}</p>
 
       <div className="flex flex-wrap gap-3">
@@ -68,10 +59,13 @@ export function PlatformGuide() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
-                    <div className="heading-item group-hover:text-primary">
-                      {s.title}
-                    </div>
-                    <span className="text-text-tertiary group-hover:text-primary ml-2 flex-shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+                    <div className="heading-item group-hover:text-primary">{s.title}</div>
+                    <span
+                      className="text-text-tertiary group-hover:text-primary ml-2 flex-shrink-0 transition-transform group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
                   </div>
                   <p className="text-sm text-text-secondary">{s.description}</p>
                 </div>

@@ -65,7 +65,9 @@ describe('toSlug', () => {
   });
 
   it('handles typical Swiss foundation names', () => {
-    expect(toSlug('Zürcher Gemeinnützige Gesellschaft')).toBe('zuercher-gemeinnuetzige-gesellschaft');
+    expect(toSlug('Zürcher Gemeinnützige Gesellschaft')).toBe(
+      'zuercher-gemeinnuetzige-gesellschaft',
+    );
     expect(toSlug('Stiftung für soziale Integration')).toBe('stiftung-fuer-soziale-integration');
     expect(toSlug('Kanton Zürich — Bildungsfonds')).toBe('kanton-zuerich-bildungsfonds');
   });

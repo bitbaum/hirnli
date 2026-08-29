@@ -22,7 +22,8 @@ export function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: s
 
   // Lowercase only the first character so adjectives are lowercase but nouns stay capitalized
   // e.g. "Gemeinnütziger Verein" → "gemeinnütziger Verein" (correct German grammar)
-  const legalFormLower = ORG_PROFILE.legalForm.charAt(0).toLowerCase() + ORG_PROFILE.legalForm.slice(1);
+  const legalFormLower =
+    ORG_PROFILE.legalForm.charAt(0).toLowerCase() + ORG_PROFILE.legalForm.slice(1);
 
   // Deep research + high fit → lead with specific overlap
   if (isDeep && highFit && purposeCore) {
@@ -53,9 +54,14 @@ export function buildDynamicOpening(foundation: Foundation, primaryThemeLabel: s
 }
 
 /** Generate theme alignment text for the cover letter */
-export function buildThemeAlignment(foundation: Foundation, themeMetadata: ThemeMetadata[]): string {
+export function buildThemeAlignment(
+  foundation: Foundation,
+  themeMetadata: ThemeMetadata[],
+): string {
   const themeLabels = themeMetadata.map((t) => t.label).join(', ');
-  const purposeCore = foundation.purposeSummary ? extractPurposeCore(foundation.purposeSummary) : '';
+  const purposeCore = foundation.purposeSummary
+    ? extractPurposeCore(foundation.purposeSummary)
+    : '';
 
   if (themeLabels) {
     return `Unser Projekt adressiert direkt Ihre Förderbereiche: ${themeLabels}. ${

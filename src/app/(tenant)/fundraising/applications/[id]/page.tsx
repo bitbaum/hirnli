@@ -13,19 +13,31 @@ import Card from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { Button } from '@/components/ui/Button';
-import { APPLICATION_STATUSES, getStatusConfig, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import {
+  APPLICATION_STATUSES,
+  getStatusConfig,
+  isTerminalStatus,
+  type ApplicationStatusId,
+} from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { useApplicationForm } from '@/hooks/useApplicationForm';
 import ActivityTimeline from '@/components/ui/ActivityTimeline';
 import DeleteConfirmBlock from '@/components/fundraising/DeleteConfirmBlock';
-import { ApplicationDateFields, ApplicationOutcomeFields } from '@/components/fundraising/ApplicationFormSections';
+import {
+  ApplicationDateFields,
+  ApplicationOutcomeFields,
+} from '@/components/fundraising/ApplicationFormSections';
 import ApplicationFoundationCard from '@/components/fundraising/ApplicationFoundationCard';
 
 interface ApplicationDetailProps {
   params: Promise<{ id: string }>;
 }
 
-import { FORM_INPUT_CLASS as inputClass, FORM_LABEL_CLASS as labelClass, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
+import {
+  FORM_INPUT_CLASS as inputClass,
+  FORM_LABEL_CLASS as labelClass,
+  FORM_GRID_2COL_CLASS,
+} from '@/lib/utils/form-classes';
 
 export default function ApplicationDetailPage({ params }: ApplicationDetailProps) {
   const { id } = use(params);
@@ -75,7 +87,6 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
   return (
     <div className="min-h-screen bg-surface-raised p-4 md:p-6">
       <div className="mx-auto max-w-3xl space-y-5">
-
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -85,9 +96,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
             >
               ← Pipeline
             </Link>
-            <h1 className="heading-section">
-              {foundation?.name ?? 'Unbekannte Stiftung'}
-            </h1>
+            <h1 className="heading-section">{foundation?.name ?? 'Unbekannte Stiftung'}</h1>
             {foundation && (
               <Link
                 href={`/fundraising/stiftungen/${foundation.id}`}
@@ -121,18 +130,30 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           <div className={FORM_GRID_2COL_CLASS}>
             <div>
               <label className={labelClass}>Status</label>
-              <select value={fields.status} onChange={(e) => updateField('status', e.target.value as ApplicationStatusId)} className={inputClass}>
+              <select
+                value={fields.status}
+                onChange={(e) => updateField('status', e.target.value as ApplicationStatusId)}
+                className={inputClass}
+              >
                 {APPLICATION_STATUSES.map((s) => (
-                  <option key={s.id} value={s.id}>{s.label}</option>
+                  <option key={s.id} value={s.id}>
+                    {s.label}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
               <label className={labelClass}>Priorität</label>
-              <select value={fields.priorityLevel} onChange={(e) => updateField('priorityLevel', e.target.value)} className={inputClass}>
+              <select
+                value={fields.priorityLevel}
+                onChange={(e) => updateField('priorityLevel', e.target.value)}
+                className={inputClass}
+              >
                 <option value="">—</option>
                 {Object.entries(PRIORITY_CONFIG).map(([value, cfg]) => (
-                  <option key={value} value={value}>{cfg.label} — {cfg.shortLabel}</option>
+                  <option key={value} value={value}>
+                    {cfg.label} — {cfg.shortLabel}
+                  </option>
                 ))}
               </select>
             </div>
@@ -246,12 +267,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailProps
           />
 
           {/* Save */}
-          <Button
-            onClick={save}
-            disabled={isSaving}
-            variant="primary"
-            size="lg"
-          >
+          <Button onClick={save} disabled={isSaving} variant="primary" size="lg">
             {isSaving ? 'Speichern...' : 'Speichern'}
           </Button>
         </div>

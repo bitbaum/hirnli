@@ -44,11 +44,12 @@ export function NumberWithSource({
     return null;
   }
 
-  const formattedValue = typeof data.value === 'number' && data.category === 'financial'
-    ? formatCHF(data.value)
-    : typeof data.value === 'number'
-      ? formatNumber(data.value)
-      : String(data.value);
+  const formattedValue =
+    typeof data.value === 'number' && data.category === 'financial'
+      ? formatCHF(data.value)
+      : typeof data.value === 'number'
+        ? formatNumber(data.value)
+        : String(data.value);
 
   return (
     <>
@@ -66,11 +67,7 @@ export function NumberWithSource({
           <div className={`${SIZE_CLASSES[size]} text-primary group-hover:text-primary-light`}>
             {formattedValue}
           </div>
-          {showLabel && (
-            <div className="text-sm text-text-secondary mt-1">
-              {data.label}
-            </div>
-          )}
+          {showLabel && <div className="text-sm text-text-secondary mt-1">{data.label}</div>}
           {/* Underline indicator */}
           <div className="h-0.5 bg-primary opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
           {/* Info icon */}
@@ -81,7 +78,11 @@ export function NumberWithSource({
       </button>
 
       {isModalOpen && (
-        <SourceModal data={data} formattedValue={formattedValue} onClose={() => setIsModalOpen(false)} />
+        <SourceModal
+          data={data}
+          formattedValue={formattedValue}
+          onClose={() => setIsModalOpen(false)}
+        />
       )}
     </>
   );

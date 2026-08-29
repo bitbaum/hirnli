@@ -29,8 +29,10 @@ export function getApplicationUrlContext(
   applicationMethod?: ApplicationMethod | null,
 ) {
   const isEmail = applicationUrl.startsWith('mailto:');
-  const isPersonalContact = isEmail && applicationMethod != null
-    && (CONTACT_METHODS as readonly string[]).includes(applicationMethod);
+  const isPersonalContact =
+    isEmail &&
+    applicationMethod != null &&
+    (CONTACT_METHODS as readonly string[]).includes(applicationMethod);
   return {
     isEmail,
     isPersonalContact,
@@ -51,7 +53,7 @@ interface FoundationPresentation {
   readinessScore: number;
   fitLevel: 0 | 1 | 2 | 3;
   trust: TrustLevel;
-  trustDisplay: typeof TRUST_CONFIG[TrustLevel];
+  trustDisplay: (typeof TRUST_CONFIG)[TrustLevel];
   /** Full priority object — includes score, label, description, override flag, penalty */
   priority: PriorityResult;
 }

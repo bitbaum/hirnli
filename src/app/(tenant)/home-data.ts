@@ -24,7 +24,11 @@ export const HERO = {
   context: `${ORG_PROFILE.legalForm} seit ${ORG_PROFILE.founded} in ${ORG_PROFILE.location}`,
   platformNote: 'Fundraising-Werkzeuge für gemeinnützige Organisationen',
   ctas: [
-    { href: '/fundraising/stiftungen', label: 'Stiftungen durchsuchen', variant: 'primary' as const },
+    {
+      href: '/fundraising/stiftungen',
+      label: 'Stiftungen durchsuchen',
+      variant: 'primary' as const,
+    },
     { href: '/fundraising/gesuch-vorlagen', label: 'Gesuch erstellen', variant: 'ghost' as const },
   ],
 };
@@ -80,11 +84,14 @@ export const TRANSPARENCY = {
 
 export const CTA_CONFIG = {
   title: 'Bereit für den nächsten Antrag?',
-  description:
-    'Finden Sie die passende Stiftung und erstellen Sie ein professionelles Gesuch.',
+  description: 'Finden Sie die passende Stiftung und erstellen Sie ein professionelles Gesuch.',
   links: [
     { href: '/fundraising/stiftungen', label: 'Stiftungen durchsuchen' },
-    { href: '/fundraising/gesuch-vorlagen', label: 'Gesuch erstellen', variant: 'secondary' as const },
+    {
+      href: '/fundraising/gesuch-vorlagen',
+      label: 'Gesuch erstellen',
+      variant: 'secondary' as const,
+    },
     { href: '/fundraising', label: 'Fundraising-Hub', variant: 'secondary' as const },
   ],
 };

@@ -74,8 +74,9 @@ interface ResearchOutput {
 function loadESARegister(): ESARegister | null {
   const researchDir = path.join(process.cwd(), 'research');
 
-  const files = fs.readdirSync(researchDir)
-    .filter(f => f.startsWith('esa-register-') && f.endsWith('.json'))
+  const files = fs
+    .readdirSync(researchDir)
+    .filter((f) => f.startsWith('esa-register-') && f.endsWith('.json'))
     .sort()
     .reverse();
 
@@ -92,12 +93,14 @@ function loadESARegister(): ESARegister | null {
 function findInESA(register: ESARegister | null, name: string): ESAFoundation | null {
   if (!register) return null;
 
-  const normalized = name.toLowerCase()
+  const normalized = name
+    .toLowerCase()
     .replace(/stiftung|foundation|fondation|fondazione/gi, '')
     .replace(/[^a-z0-9]/g, '');
 
   for (const foundation of register.foundations) {
-    const esaNormalized = foundation.name.toLowerCase()
+    const esaNormalized = foundation.name
+      .toLowerCase()
       .replace(/stiftung|foundation|fondation|fondazione/gi, '')
       .replace(/[^a-z0-9]/g, '');
 
@@ -115,24 +118,26 @@ function findInESA(register: ESARegister | null, name: string): ESAFoundation | 
 
 function fetchWebsite(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    https.get(url, (response) => {
-      if (response.statusCode === 302 || response.statusCode === 301) {
-        const redirectUrl = response.headers.location;
-        if (redirectUrl) {
-          fetchWebsite(redirectUrl).then(resolve).catch(reject);
+    https
+      .get(url, (response) => {
+        if (response.statusCode === 302 || response.statusCode === 301) {
+          const redirectUrl = response.headers.location;
+          if (redirectUrl) {
+            fetchWebsite(redirectUrl).then(resolve).catch(reject);
+            return;
+          }
+        }
+
+        if (response.statusCode !== 200) {
+          reject(new Error(`HTTP ${response.statusCode}`));
           return;
         }
-      }
 
-      if (response.statusCode !== 200) {
-        reject(new Error(`HTTP ${response.statusCode}`));
-        return;
-      }
-
-      let data = '';
-      response.on('data', (chunk) => data += chunk);
-      response.on('end', () => resolve(data));
-    }).on('error', reject);
+        let data = '';
+        response.on('data', (chunk) => (data += chunk));
+        response.on('end', () => resolve(data));
+      })
+      .on('error', reject);
   });
 }
 
@@ -140,8 +145,14 @@ function fetchWebsite(url: string): Promise<string> {
 // ANALYSIS PROMPT TEMPLATES
 // ============================================================================
 
-function buildAnalysisPrompt(input: ResearchInput, esa: ESAFoundation | null, websiteContent?: string): string {
-  const availableThemes = Object.values(THEMES).map(t => `${t.id}: ${t.label} - ${t.description}`).join('\n');
+function buildAnalysisPrompt(
+  input: ResearchInput,
+  esa: ESAFoundation | null,
+  websiteContent?: string,
+): string {
+  const availableThemes = Object.values(THEMES)
+    .map((t) => `${t.id}: ${t.label} - ${t.description}`)
+    .join('\n');
 
   return `# Foundation Research Analysis Task
 
@@ -159,18 +170,26 @@ You are analyzing a Swiss foundation to determine if it's a potential funder for
 ${input.websiteUrl ? `**Website**: ${input.websiteUrl}` : ''}
 ${input.fundraisoUrl ? `**Fundraiso**: ${input.fundraisoUrl}` : ''}
 
-${esa ? `### ESA Official Data
+${
+  esa
+    ? `### ESA Official Data
 **UID**: ${esa.uid}
 **Official Name**: ${esa.name}
 **City**: ${esa.city}
 **Status**: ${esa.status}
 **Official Purpose (Stiftungszweck)**:
 ${esa.purpose}
-` : '**ESA Data**: Not found in federal register (may be under cantonal supervision or not a formal Stiftung)'}
+`
+    : '**ESA Data**: Not found in federal register (may be under cantonal supervision or not a formal Stiftung)'
+}
 
-${websiteContent ? `### Website Content (First 3000 chars)
+${
+  websiteContent
+    ? `### Website Content (First 3000 chars)
 ${websiteContent.substring(0, 3000)}...
-` : '**Website**: Not available'}
+`
+    : '**Website**: Not available'
+}
 
 ## Available Themes
 ${availableThemes}
@@ -266,7 +285,7 @@ Please provide your analysis in a structured format following the sections above
 async function analyzeFundation(
   input: ResearchInput,
   esa: ESAFoundation | null,
-  websiteContent?: string
+  websiteContent?: string,
 ): Promise<ResearchOutput['analysis']> {
   const prompt = buildAnalysisPrompt(input, esa, websiteContent);
 
@@ -357,7 +376,9 @@ async function main() {
   }
 
   if (!name && !url) {
-    console.error('❌ Usage: npm run research:foundation -- --name="Foundation Name" --url=https://...\n');
+    console.error(
+      '❌ Usage: npm run research:foundation -- --name="Foundation Name" --url=https://...\n',
+    );
     process.exit(1);
   }
 
@@ -379,7 +400,8 @@ async function main() {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  const slug = name!.toLowerCase()
+  const slug = name!
+    .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
   const outputPath = path.join(outputDir, `${slug}.json`);

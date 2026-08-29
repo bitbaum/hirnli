@@ -2,7 +2,12 @@ import { z } from 'zod';
 
 // Source types for metrics
 export const MetricSourceType = z.enum([
-  'source', 'derived', 'estimated', 'calculated', 'target', 'capacity',
+  'source',
+  'derived',
+  'estimated',
+  'calculated',
+  'target',
+  'capacity',
 ]);
 export type MetricSourceType = z.infer<typeof MetricSourceType>;
 
@@ -11,9 +16,7 @@ export const Confidence = z.enum(['high', 'medium', 'low']);
 export type Confidence = z.infer<typeof Confidence>;
 
 // Format types
-const MetricFormat = z.enum([
-  'CHF', 'percent', 'integer', 'tonnes', 'kg', 'range',
-]);
+const MetricFormat = z.enum(['CHF', 'percent', 'integer', 'tonnes', 'kg', 'range']);
 type MetricFormat = z.infer<typeof MetricFormat>;
 
 // Validation rule
@@ -36,11 +39,13 @@ const metricSourceSchema = z.object({
 });
 
 // Metric formula
-const metricFormulaSchema = z.object({
-  type: z.string(),
-  expression: z.string(),
-  dependencies: z.array(z.string()).optional(),
-}).optional();
+const metricFormulaSchema = z
+  .object({
+    type: z.string(),
+    expression: z.string(),
+    dependencies: z.array(z.string()).optional(),
+  })
+  .optional();
 
 // Metric documentation
 const metricDocSchema = z.object({

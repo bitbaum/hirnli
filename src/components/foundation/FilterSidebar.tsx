@@ -56,7 +56,6 @@ function chipClass(active: boolean, withGap = false): string {
   }`;
 }
 
-
 export default function FilterSidebar({
   filters,
   sort,
@@ -166,20 +165,23 @@ export default function FilterSidebar({
       </CollapsibleSection>
 
       {/* Erreichbarkeit — compact toggle pills */}
-      <CollapsibleSection title="Erreichbarkeit" count={
-        (filters.requireEmail ? 1 : 0) + (filters.requirePhone ? 1 : 0) + (filters.requireAddress ? 1 : 0) || undefined
-      }>
+      <CollapsibleSection
+        title="Erreichbarkeit"
+        count={
+          (filters.requireEmail ? 1 : 0) +
+            (filters.requirePhone ? 1 : 0) +
+            (filters.requireAddress ? 1 : 0) || undefined
+        }
+      >
         <div className="flex flex-wrap gap-1.5">
-          {([
-            { active: filters.requireEmail, toggle: toggleRequireEmail, label: 'E-Mail' },
-            { active: filters.requirePhone, toggle: toggleRequirePhone, label: 'Telefon' },
-            { active: filters.requireAddress, toggle: toggleRequireAddress, label: 'Adresse' },
-          ] as const).map(({ active, toggle, label }) => (
-            <button
-              key={label}
-              onClick={toggle}
-              className={chipClass(active)}
-            >
+          {(
+            [
+              { active: filters.requireEmail, toggle: toggleRequireEmail, label: 'E-Mail' },
+              { active: filters.requirePhone, toggle: toggleRequirePhone, label: 'Telefon' },
+              { active: filters.requireAddress, toggle: toggleRequireAddress, label: 'Adresse' },
+            ] as const
+          ).map(({ active, toggle, label }) => (
+            <button key={label} onClick={toggle} className={chipClass(active)}>
               {label}
             </button>
           ))}
@@ -195,7 +197,13 @@ export default function FilterSidebar({
               onClick={() => toggleTrustLevel(level)}
               className={chipClass(filters.trustLevels.includes(level), true)}
             >
-              <span className={filters.trustLevels.includes(level) ? 'text-white' : TRUST_CONFIG[level].dotColor}>●</span>
+              <span
+                className={
+                  filters.trustLevels.includes(level) ? 'text-white' : TRUST_CONFIG[level].dotColor
+                }
+              >
+                ●
+              </span>
               {TRUST_CONFIG[level].label}
             </button>
           ))}

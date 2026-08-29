@@ -97,9 +97,7 @@ export default function MobileAccordion({
             ))}
             {item.sections?.map((section) => (
               <li key={section.title} className="mt-2">
-                <span className="heading-xs-label">
-                  {section.title}
-                </span>
+                <span className="heading-xs-label">{section.title}</span>
                 <ul className="mt-1 space-y-1">
                   {section.items
                     .filter((l) => !l.external)
@@ -116,9 +114,7 @@ export default function MobileAccordion({
                         >
                           {link.text}
                           {link.desc && (
-                            <span className="block text-sm text-text-muted">
-                              {link.desc}
-                            </span>
+                            <span className="block text-sm text-text-muted">{link.desc}</span>
                           )}
                         </Link>
                       </li>

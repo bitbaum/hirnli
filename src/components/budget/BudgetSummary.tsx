@@ -94,12 +94,16 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
           <span className="font-bold text-primary">{formatCHF(totals.stiftungenTotal)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-text-secondary">Eigenleistung Total (bewertete Freiwilligenarbeit):</span>
+          <span className="text-text-secondary">
+            Eigenleistung Total (bewertete Freiwilligenarbeit):
+          </span>
           <span className="font-bold text-success">{formatCHF(totals.eigenTotal)}</span>
         </div>
         <div className="flex justify-between pt-2 border-t border-border-default">
           <span className="heading-detail">Projektwert Total:</span>
-          <span className="text-xl font-bold text-text-primary">{formatCHF(totals.projectTotal)}</span>
+          <span className="text-xl font-bold text-text-primary">
+            {formatCHF(totals.projectTotal)}
+          </span>
         </div>
       </div>
 

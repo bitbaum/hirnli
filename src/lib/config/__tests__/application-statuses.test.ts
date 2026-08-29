@@ -30,12 +30,12 @@ describe('APPLICATION_STATUSES', () => {
   });
 
   it('all IDs are unique', () => {
-    const ids = APPLICATION_STATUSES.map(s => s.id);
+    const ids = APPLICATION_STATUSES.map((s) => s.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
 
   it('includes expected lifecycle statuses', () => {
-    const ids = APPLICATION_STATUSES.map(s => s.id);
+    const ids = APPLICATION_STATUSES.map((s) => s.id);
     expect(ids).toContain('prospect');
     expect(ids).toContain('submitted');
     expect(ids).toContain('accepted');
@@ -44,20 +44,20 @@ describe('APPLICATION_STATUSES', () => {
   });
 
   it('submitted requires submissionDate', () => {
-    const submitted = APPLICATION_STATUSES.find(s => s.id === 'submitted')!;
-    const fields = submitted.requiredFields.map(f => f.field);
+    const submitted = APPLICATION_STATUSES.find((s) => s.id === 'submitted')!;
+    const fields = submitted.requiredFields.map((f) => f.field);
     expect(fields).toContain('submissionDate');
   });
 
   it('accepted requires awardedAmount', () => {
-    const accepted = APPLICATION_STATUSES.find(s => s.id === 'accepted')!;
-    const fields = accepted.requiredFields.map(f => f.field);
+    const accepted = APPLICATION_STATUSES.find((s) => s.id === 'accepted')!;
+    const fields = accepted.requiredFields.map((f) => f.field);
     expect(fields).toContain('awardedAmount');
   });
 
   it('rejected requires rejectionReason', () => {
-    const rejected = APPLICATION_STATUSES.find(s => s.id === 'rejected')!;
-    const fields = rejected.requiredFields.map(f => f.field);
+    const rejected = APPLICATION_STATUSES.find((s) => s.id === 'rejected')!;
+    const fields = rejected.requiredFields.map((f) => f.field);
     expect(fields).toContain('rejectionReason');
   });
 });
@@ -68,7 +68,7 @@ describe('APPLICATION_STATUSES', () => {
 
 describe('STATUS_IDS', () => {
   it('contains every id from APPLICATION_STATUSES', () => {
-    const configIds = APPLICATION_STATUSES.map(s => s.id);
+    const configIds = APPLICATION_STATUSES.map((s) => s.id);
     for (const id of configIds) {
       expect(STATUS_IDS).toContain(id);
     }
@@ -148,11 +148,18 @@ describe('isTerminalStatus', () => {
   });
 
   const nonTerminal: ApplicationStatusId[] = [
-    'prospect', 'research', 'draft', 'review',
-    'submitted', 'pending', 'followup', 'withdrawn', 'onhold',
+    'prospect',
+    'research',
+    'draft',
+    'review',
+    'submitted',
+    'pending',
+    'followup',
+    'withdrawn',
+    'onhold',
   ];
 
-  it.each(nonTerminal.map(s => [s]))('returns false for %s', (status) => {
+  it.each(nonTerminal.map((s) => [s]))('returns false for %s', (status) => {
     expect(isTerminalStatus(status as ApplicationStatusId)).toBe(false);
   });
 });
@@ -171,11 +178,18 @@ describe('isActiveApplication', () => {
   });
 
   const active: ApplicationStatusId[] = [
-    'prospect', 'research', 'draft', 'review',
-    'submitted', 'pending', 'followup', 'accepted', 'onhold',
+    'prospect',
+    'research',
+    'draft',
+    'review',
+    'submitted',
+    'pending',
+    'followup',
+    'accepted',
+    'onhold',
   ];
 
-  it.each(active.map(s => [s]))('returns true for %s', (status) => {
+  it.each(active.map((s) => [s]))('returns true for %s', (status) => {
     expect(isActiveApplication(status as ApplicationStatusId)).toBe(true);
   });
 });

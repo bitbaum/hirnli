@@ -23,16 +23,10 @@ export function CascadeDiagram({ tiers }: CascadeDiagramProps) {
             }`}
           >
             <span className="mb-1 block text-lg">{tier.icon}</span>
-            <span className={`font-semibold ${tier.color.text}`}>
-              {tier.shortName}
-            </span>
-            <span className="mt-1 block text-sm text-text-muted">
-              {tier.catchRate}
-            </span>
+            <span className={`font-semibold ${tier.color.text}`}>{tier.shortName}</span>
+            <span className="mt-1 block text-sm text-text-muted">{tier.catchRate}</span>
           </div>
-          {i < tiers.length - 1 && (
-            <span className="text-lg text-text-muted">&rarr;</span>
-          )}
+          {i < tiers.length - 1 && <span className="text-lg text-text-muted">&rarr;</span>}
         </div>
       ))}
     </div>
@@ -63,18 +57,11 @@ export function TierDetailCard({ tier }: TierDetailCardProps) {
           </div>
         </div>
       </div>
-      <p className="mb-2 text-sm font-medium italic text-text-muted">
-        {tier.tagline}
-      </p>
-      <p className="mb-4 text-sm leading-relaxed text-text-secondary">
-        {tier.description}
-      </p>
+      <p className="mb-2 text-sm font-medium italic text-text-muted">{tier.tagline}</p>
+      <p className="mb-4 text-sm leading-relaxed text-text-secondary">{tier.description}</p>
       <ul className="space-y-1.5">
         {tier.technicalDetails.map((detail) => (
-          <li
-            key={detail}
-            className="flex items-start gap-2 text-sm text-text-secondary"
-          >
+          <li key={detail} className="flex items-start gap-2 text-sm text-text-secondary">
             <span className="mt-0.5 text-secondary">&#10003;</span>
             {detail}
           </li>

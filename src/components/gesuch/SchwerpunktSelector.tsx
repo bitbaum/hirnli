@@ -36,7 +36,11 @@ export default function SchwerpunktSelector({
   return (
     <div
       className={`${marginClass} flex flex-wrap items-center justify-center ${gapClass} print:hidden transition-opacity ${disabled ? 'pointer-events-none opacity-40' : ''}`}
-      title={disabled ? 'Schwerpunkt-Auswahl während der Bearbeitung gesperrt — erst speichern, dann wechseln' : undefined}
+      title={
+        disabled
+          ? 'Schwerpunkt-Auswahl während der Bearbeitung gesperrt — erst speichern, dann wechseln'
+          : undefined
+      }
     >
       {/* Auto pill */}
       <button

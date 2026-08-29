@@ -84,9 +84,7 @@ export default function LineItemDetail({ item }: LineItemDetailProps) {
 
         <div>
           <strong className="text-text-primary">Verifiziert:</strong>{' '}
-          <span className="text-text-secondary">
-            {formatDateCH(item.source.lastVerified)}
-          </span>
+          <span className="text-text-secondary">{formatDateCH(item.source.lastVerified)}</span>
         </div>
 
         {item.source.notes && (

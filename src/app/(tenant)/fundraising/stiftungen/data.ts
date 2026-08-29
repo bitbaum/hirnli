@@ -22,4 +22,3 @@ export const SORT_OPTIONS: { value: SortField; label: string }[] = [
   { value: 'name', label: 'Name (A-Z)' },
   { value: 'deadline', label: 'Deadline (nächste zuerst)' },
 ];
-

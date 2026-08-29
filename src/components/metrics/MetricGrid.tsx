@@ -11,9 +11,5 @@ export default function MetricGrid({ children, columns = 4, className = '' }: Me
     4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
   };
 
-  return (
-    <div className={`grid gap-4 ${gridCols[columns]} ${className}`}>
-      {children}
-    </div>
-  );
+  return <div className={`grid gap-4 ${gridCols[columns]} ${className}`}>{children}</div>;
 }

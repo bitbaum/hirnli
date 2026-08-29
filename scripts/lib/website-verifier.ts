@@ -65,8 +65,8 @@ export async function verifyWebsite(
     .replace(/stiftung|foundation|fondation|fondazione/gi, '')
     .trim()
     .split(/[\s-]+/)
-    .filter(w => w.length > 2);
-  const hasNameInTitle = nameWords.some(w => titleLower.includes(w));
+    .filter((w) => w.length > 2);
+  const hasNameInTitle = nameWords.some((w) => titleLower.includes(w));
   const hasStiftungInTitle = /stiftung|foundation|fondation|fondazione/i.test(titleLower);
 
   if (hasNameInTitle && hasStiftungInTitle) {
@@ -110,7 +110,9 @@ ${contentPreview}`;
   return {
     url: candidateUrl,
     verified: hasNameInTitle,
-    reason: hasNameInTitle ? 'Name im Titel gefunden (LLM nicht verfügbar)' : 'Konnte nicht verifiziert werden',
+    reason: hasNameInTitle
+      ? 'Name im Titel gefunden (LLM nicht verfügbar)'
+      : 'Konnte nicht verifiziert werden',
     pageTitle,
   };
 }

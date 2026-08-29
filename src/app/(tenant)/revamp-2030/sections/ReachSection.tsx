@@ -18,13 +18,17 @@ export default function ReachSection() {
       <Card>
         <Callout color="primary" className="mb-6">
           <p className="text-sm text-primary">
-            <strong>Transparenz-Hinweis:</strong> Die Zahlen unten ({BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr, etc.) sind <strong>Projektionen</strong>,
-            basierend auf Train-the-Trainer Konzept (etablierte Bildungsstrategie) und unserer informellen Erfahrung.
-            <strong> Nicht empirisch gemessen.</strong> Wir werden diese ab 2026 systematisch erfassen (Data-Strategie).
+            <strong>Transparenz-Hinweis:</strong> Die Zahlen unten ({BPL_HARDWARE_PER_YEAR_DISPLAY}{' '}
+            Techniker/Jahr, etc.) sind <strong>Projektionen</strong>, basierend auf
+            Train-the-Trainer Konzept (etablierte Bildungsstrategie) und unserer informellen
+            Erfahrung.
+            <strong> Nicht empirisch gemessen.</strong> Wir werden diese ab 2026 systematisch
+            erfassen (Data-Strategie).
           </p>
         </Callout>
         <p className="text-sm text-text-secondary mb-6">
-          Der Schlüssel: <strong>Organisation + Train-the-Trainer + Online-Content</strong>. Nicht einfach mehr Mitarbeitende einstellen.
+          Der Schlüssel: <strong>Organisation + Train-the-Trainer + Online-Content</strong>. Nicht
+          einfach mehr Mitarbeitende einstellen.
         </p>
         <div className="space-y-6">
           {/* Heute */}
@@ -38,10 +42,16 @@ export default function ReachSection() {
                 <div>
                   <p className="heading-detail text-warning mb-2">Hardware:</p>
                   <ul className="text-sm text-warning space-y-1">
-                    <li>• {REPAIR_TABLES_CURRENT} Tische vorhanden, aber nur 1-2 genutzt (Reza + manchmal Freiwillige)</li>
+                    <li>
+                      • {REPAIR_TABLES_CURRENT} Tische vorhanden, aber nur 1-2 genutzt (Reza +
+                      manchmal Freiwillige)
+                    </li>
                     <li>• Keine strukturierten Trainings, kein Zeitplan</li>
                     <li>• Lange Wartezeiten, Backlog wächst</li>
-                    <li>• <strong>{DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat</strong> (geschätzt aus Umsatzdaten)</li>
+                    <li>
+                      • <strong>{DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat</strong> (geschätzt
+                      aus Umsatzdaten)
+                    </li>
                   </ul>
                 </div>
                 <div>
@@ -50,7 +60,10 @@ export default function ReachSection() {
                     <li>• Kernteam zu beschäftigt für systematische Bildung</li>
                     <li>• Keine Workshops, keine strukturierten Kurse</li>
                     <li>• Gelegentliche Unterstützung, aber nicht systematisch</li>
-                    <li>• <strong>{PEOPLE_REACHED_CURRENT_DISPLAY} Menschen/Jahr</strong> erreicht (Schätzung)</li>
+                    <li>
+                      • <strong>{PEOPLE_REACHED_CURRENT_DISPLAY} Menschen/Jahr</strong> erreicht
+                      (Schätzung)
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -68,29 +81,48 @@ export default function ReachSection() {
                 <div>
                   <p className="heading-detail text-success mb-2">Hardware (organisiert):</p>
                   <ul className="text-sm text-success space-y-1">
-                    <li>• <strong>Hardware-BPL organisiert:</strong> Zeitpläne, Qualität, Prozesse</li>
-                    <li>• Alle Tische genutzt (strukturierte Schichten, klare Verantwortlichkeiten)</li>
-                    <li>• <strong>{BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
-                    <li>• <strong>~{DEVICES_PER_MONTH_TARGET} Geräte/Monat</strong> (durch bessere Prozesse + mehr Kapazität)</li>
+                    <li>
+                      • <strong>Hardware-BPL organisiert:</strong> Zeitpläne, Qualität, Prozesse
+                    </li>
+                    <li>
+                      • Alle Tische genutzt (strukturierte Schichten, klare Verantwortlichkeiten)
+                    </li>
+                    <li>
+                      • <strong>{BPL_HARDWARE_PER_YEAR_DISPLAY} Techniker/Jahr</strong> ausgebildet
+                      (Train-the-Trainer)
+                    </li>
+                    <li>
+                      • <strong>~{DEVICES_PER_MONTH_TARGET} Geräte/Monat</strong> (durch bessere
+                      Prozesse + mehr Kapazität)
+                    </li>
                   </ul>
                 </div>
                 <div>
                   <p className="heading-detail text-success mb-2">Software/AI (strukturiert):</p>
                   <ul className="text-sm text-success space-y-1">
-                    <li>• <strong>Software/AI-BPL organisiert:</strong> Curricula, Workshops, Events</li>
-                    <li>• <strong>{BPL_SOFTWARE_PER_YEAR_DISPLAY} Entwickler/Jahr</strong> ausgebildet (Train-the-Trainer)</li>
+                    <li>
+                      • <strong>Software/AI-BPL organisiert:</strong> Curricula, Workshops, Events
+                    </li>
+                    <li>
+                      • <strong>{BPL_SOFTWARE_PER_YEAR_DISPLAY} Entwickler/Jahr</strong> ausgebildet
+                      (Train-the-Trainer)
+                    </li>
                     <li>• Plus Workshops, Events, Repair Cafés</li>
-                    <li>• <strong>{PEOPLE_REACHED_DISPLAY}</strong> total erreicht (konservative Schätzung)</li>
+                    <li>
+                      • <strong>{PEOPLE_REACHED_DISPLAY}</strong> total erreicht (konservative
+                      Schätzung)
+                    </li>
                   </ul>
                 </div>
               </div>
               <div className="bg-surface-base rounded-lg p-4 border-2 border-success/20">
                 <p className="heading-detail text-success mb-2">Warum das funktioniert:</p>
                 <p className="text-sm text-success">
-                  <strong>Organisation + bezahlte Fachleute</strong> bedeuten: verlässliche Zeitpläne, strukturierte Programme,
-                  systematisches Training. Freiwillige können kommen und gehen — aber die Struktur bleibt stabil.
-                  Trainierte geben ihr Wissen weiter — jede:r kann 10+ Menschen/Jahr erreichen. <strong>Das ist der eigentliche Game-Changer</strong>,
-                  nicht nur mehr m².
+                  <strong>Organisation + bezahlte Fachleute</strong> bedeuten: verlässliche
+                  Zeitpläne, strukturierte Programme, systematisches Training. Freiwillige können
+                  kommen und gehen — aber die Struktur bleibt stabil. Trainierte geben ihr Wissen
+                  weiter — jede:r kann 10+ Menschen/Jahr erreichen.{' '}
+                  <strong>Das ist der eigentliche Game-Changer</strong>, nicht nur mehr m².
                 </p>
               </div>
             </div>
@@ -104,7 +136,9 @@ export default function ReachSection() {
             </h3>
             <div className="bg-accent-muted rounded-lg p-4">
               <p className="text-sm text-primary mb-3">
-                <strong>Hub + Bildungsprogrammleiter:innen ermöglichen auch Online-Content-Produktion:</strong>
+                <strong>
+                  Hub + Bildungsprogrammleiter:innen ermöglichen auch Online-Content-Produktion:
+                </strong>
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                 <div>
@@ -129,12 +163,13 @@ export default function ReachSection() {
               <div className="bg-surface-base rounded-lg p-3">
                 <p className="heading-detail text-primary mb-2">Zusätzliche Reichweite:</p>
                 <p className="text-sm text-primary mb-2">
-                  Ein gut produziertes Tutorial-Video kann <strong>100-1000+ Menschen erreichen</strong> — ohne zusätzlichen Zeitaufwand.
+                  Ein gut produziertes Tutorial-Video kann{' '}
+                  <strong>100-1000+ Menschen erreichen</strong> — ohne zusätzlichen Zeitaufwand.
                   Online-Kurse skalieren unbegrenzt: 1× produzieren, 100× nutzen.
                 </p>
                 <p className="text-sm text-primary">
-                  <strong>Beispiel:</strong> &bdquo;Wie repariere ich meinen Laptop?&ldquo; Video → 500 Views/Jahr = 500 Menschen erreicht,
-                  für 0 zusätzliche Kosten nach Produktion.
+                  <strong>Beispiel:</strong> &bdquo;Wie repariere ich meinen Laptop?&ldquo; Video →
+                  500 Views/Jahr = 500 Menschen erreicht, für 0 zusätzliche Kosten nach Produktion.
                 </p>
               </div>
             </div>

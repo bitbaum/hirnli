@@ -50,7 +50,9 @@ export default function MethodikPage() {
           <MetricGrid columns={3}>
             {DATA_TYPES.map((dt) => (
               <div key={dt.label} className="text-center">
-                <Badge variant={dt.badgeVariant} className="text-sm">{dt.label}</Badge>
+                <Badge variant={dt.badgeVariant} className="text-sm">
+                  {dt.label}
+                </Badge>
                 <p className="mt-2 text-sm font-medium">{dt.confidence}</p>
                 <p className="mt-1 text-sm text-text-muted">{dt.description}</p>
               </div>
@@ -68,9 +70,7 @@ export default function MethodikPage() {
               <div key={step.label} className="flex items-center gap-2">
                 <div
                   className={`min-w-[80px] rounded-lg p-3 text-center text-sm ${
-                    step.highlight
-                      ? 'bg-primary font-semibold text-white'
-                      : 'bg-surface-base'
+                    step.highlight ? 'bg-primary font-semibold text-white' : 'bg-surface-base'
                   }`}
                 >
                   <span className="mb-1 block text-xs text-text-muted">{step.icon}</span>
@@ -83,9 +83,16 @@ export default function MethodikPage() {
             ))}
           </div>
           <p className="mt-4 text-center text-sm text-text-muted">
-            Quelldatei: <code className="rounded bg-surface-raised px-1">revamp-Einnahmen-2025.xlsx</code> |
-            Dokumentation: <code className="rounded bg-surface-raised px-1">DATA_ARCHITECTURE.md</code> im{' '}
-            <a href={ORG_PROFILE.cloudUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            Quelldatei:{' '}
+            <code className="rounded bg-surface-raised px-1">revamp-Einnahmen-2025.xlsx</code> |
+            Dokumentation:{' '}
+            <code className="rounded bg-surface-raised px-1">DATA_ARCHITECTURE.md</code> im{' '}
+            <a
+              href={ORG_PROFILE.cloudUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
               Nextcloud
             </a>
           </p>

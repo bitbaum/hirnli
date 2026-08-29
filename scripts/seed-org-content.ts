@@ -12,7 +12,13 @@
 import { sql } from './lib/db';
 import { ORG_PROFILE } from '../src/lib/config/org-profile';
 import { SCORING_ENGINE, READINESS_ENGINE } from '../src/lib/config/fit-scoring';
-import { CORE_FACTS, GESUCH_TEXT, WHY, ANSCHREIBEN_TEMPLATES, PARTNER_HIGHLIGHTS } from '../src/lib/config/stories';
+import {
+  CORE_FACTS,
+  GESUCH_TEXT,
+  WHY,
+  ANSCHREIBEN_TEMPLATES,
+  PARTNER_HIGHLIGHTS,
+} from '../src/lib/config/stories';
 import { NUMBERS_REGISTRY } from '../src/lib/config/numbers';
 import { SCHWERPUNKTE } from '../src/lib/config/schwerpunkte';
 import { TEMPLATE_FOUNDATIONS } from '../src/lib/config/gesuch-templates';
@@ -64,7 +70,9 @@ async function main() {
       (SELECT COUNT(*) FROM org_content)::text  AS content,
       (SELECT COUNT(*) FROM org_scoring)::text  AS scoring
   `;
-  console.log(`\nDone. org_profiles=${counts.profiles} org_content=${counts.content} org_scoring=${counts.scoring}\n`);
+  console.log(
+    `\nDone. org_profiles=${counts.profiles} org_content=${counts.content} org_scoring=${counts.scoring}\n`,
+  );
 }
 
 main().catch((err) => {

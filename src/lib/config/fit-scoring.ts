@@ -55,14 +55,9 @@ interface MatchConditionTruthy {
 }
 
 export type MatchCondition =
-  | MatchConditionEq
-  | MatchConditionIn
-  | MatchConditionContainsAny
-  | MatchConditionTruthy;
+  MatchConditionEq | MatchConditionIn | MatchConditionContainsAny | MatchConditionTruthy;
 
-export type MatchExpression =
-  | MatchCondition
-  | { type: 'or'; conditions: MatchCondition[] };
+export type MatchExpression = MatchCondition | { type: 'or'; conditions: MatchCondition[] };
 
 // --- Compute type configs ---
 
@@ -97,17 +92,14 @@ export interface DirectMapConfig {
 
 export interface AdditiveChecksConfig {
   checks: readonly {
-    label: string;           // Human-readable name (for UI inspection)
-    match: MatchExpression;  // Reuses existing match system
-    score: number;           // Points if condition is true
+    label: string; // Human-readable name (for UI inspection)
+    match: MatchExpression; // Reuses existing match system
+    score: number; // Points if condition is true
   }[];
 }
 
 type ComputeConfig =
-  | WeightedCategoryMatchConfig
-  | TieredLookupConfig
-  | DirectMapConfig
-  | AdditiveChecksConfig;
+  WeightedCategoryMatchConfig | TieredLookupConfig | DirectMapConfig | AdditiveChecksConfig;
 
 // --- Dimension + engine ---
 
@@ -139,7 +131,7 @@ export interface ScoringEngineConfig {
     thresholds: readonly { level: number; minScore: number }[];
     defaultLevel: number;
     confidenceGate?: {
-      gateLevel: number;  // Display level when foundation data is insufficient (tier < profiliert)
+      gateLevel: number; // Display level when foundation data is insufficient (tier < profiliert)
     };
   };
 }
@@ -201,7 +193,19 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
               type: 'or',
               conditions: [
                 { field: 'canton', op: 'eq', value: 'ZH' },
-                { field: 'city', op: 'containsAny', values: ['zürich', 'winterthur', 'uster', 'wetzikon', 'dübendorf', 'dietikon', 'horgen'] },
+                {
+                  field: 'city',
+                  op: 'containsAny',
+                  values: [
+                    'zürich',
+                    'winterthur',
+                    'uster',
+                    'wetzikon',
+                    'dübendorf',
+                    'dietikon',
+                    'horgen',
+                  ],
+                },
               ],
             },
           },
@@ -232,9 +236,7 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
       config: {
         field: 'applicationMethod',
         map: { online: 3, email: 2, contact: 1, direct: 2, post: 2, personal: 1 },
-        fallbacks: [
-          { condition: { field: 'isFunder', op: 'eq', value: true }, score: 1 },
-        ],
+        fallbacks: [{ condition: { field: 'isFunder', op: 'eq', value: true }, score: 1 }],
         defaultScore: 0,
       } satisfies DirectMapConfig,
     },
@@ -258,7 +260,7 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
     ],
     defaultLevel: 0,
     confidenceGate: {
-      gateLevel: 0,  // Foundations below profiliert tier → unassessed (insufficient data)
+      gateLevel: 0, // Foundations below profiliert tier → unassessed (insufficient data)
     },
   },
 };
@@ -268,12 +270,15 @@ export const SCORING_ENGINE: ScoringEngineConfig = {
 // ============================================================================
 // Not part of engine config — purely presentation, consumed by UI components.
 
-export const FIT_DISPLAY: Record<0 | 1 | 2 | 3, {
-  label: string;
-  color: string;
-  description: string;
-  stars: string;
-}> = {
+export const FIT_DISPLAY: Record<
+  0 | 1 | 2 | 3,
+  {
+    label: string;
+    color: string;
+    description: string;
+    stars: string;
+  }
+> = {
   3: {
     label: 'Exzellent',
     color: 'text-success',
@@ -324,20 +329,44 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
     {
       id: 'tailoring',
       label: 'Massschneiderung',
-      description: 'Können wir einen stiftungsspezifischen Pitch schreiben? (Zweck, Fit-Analyse, Themen)',
+      description:
+        'Können wir einen stiftungsspezifischen Pitch schreiben? (Zweck, Fit-Analyse, Themen)',
       maxScore: 35,
       computeType: 'additiveChecks',
       inputFields: [
-        'hasPurposeSummary', 'hasResearchNotes', 'hasThemes',
-        'hasPastGrantees', 'hasApplicationProcess',
+        'hasPurposeSummary',
+        'hasResearchNotes',
+        'hasThemes',
+        'hasPastGrantees',
+        'hasApplicationProcess',
       ],
       config: {
         checks: [
-          { label: 'Stiftungszweck dokumentiert', match: { field: 'hasPurposeSummary', op: 'eq', value: true }, score: 12 },
-          { label: 'Strategische Fit-Analyse', match: { field: 'hasResearchNotes', op: 'eq', value: true }, score: 10 },
-          { label: 'Themen zugeordnet', match: { field: 'hasThemes', op: 'eq', value: true }, score: 5 },
-          { label: 'Frühere Förderprojekte bekannt', match: { field: 'hasPastGrantees', op: 'eq', value: true }, score: 4 },
-          { label: 'Bewerbungsprozess dokumentiert', match: { field: 'hasApplicationProcess', op: 'eq', value: true }, score: 4 },
+          {
+            label: 'Stiftungszweck dokumentiert',
+            match: { field: 'hasPurposeSummary', op: 'eq', value: true },
+            score: 12,
+          },
+          {
+            label: 'Strategische Fit-Analyse',
+            match: { field: 'hasResearchNotes', op: 'eq', value: true },
+            score: 10,
+          },
+          {
+            label: 'Themen zugeordnet',
+            match: { field: 'hasThemes', op: 'eq', value: true },
+            score: 5,
+          },
+          {
+            label: 'Frühere Förderprojekte bekannt',
+            match: { field: 'hasPastGrantees', op: 'eq', value: true },
+            score: 4,
+          },
+          {
+            label: 'Bewerbungsprozess dokumentiert',
+            match: { field: 'hasApplicationProcess', op: 'eq', value: true },
+            score: 4,
+          },
         ],
       } satisfies AdditiveChecksConfig,
     },
@@ -353,16 +382,39 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
       maxScore: 30,
       computeType: 'additiveChecks',
       inputFields: [
-        'hasDirectContact', 'hasApplicationUrl', 'hasKnownMethod',
-        'acceptsApplications', 'hasDeadlineInfo',
+        'hasDirectContact',
+        'hasApplicationUrl',
+        'hasKnownMethod',
+        'acceptsApplications',
+        'hasDeadlineInfo',
       ],
       config: {
         checks: [
-          { label: 'E-Mail oder Telefon', match: { field: 'hasDirectContact', op: 'eq', value: true }, score: 10 },
-          { label: 'Bewerbungs-URL', match: { field: 'hasApplicationUrl', op: 'eq', value: true }, score: 10 },
-          { label: 'Bewerbungsmethode bekannt', match: { field: 'hasKnownMethod', op: 'eq', value: true }, score: 5 },
-          { label: 'Nimmt Gesuche an', match: { field: 'acceptsApplications', op: 'eq', value: 'yes' }, score: 3 },
-          { label: 'Frist bekannt', match: { field: 'hasDeadlineInfo', op: 'eq', value: true }, score: 2 },
+          {
+            label: 'E-Mail oder Telefon',
+            match: { field: 'hasDirectContact', op: 'eq', value: true },
+            score: 10,
+          },
+          {
+            label: 'Bewerbungs-URL',
+            match: { field: 'hasApplicationUrl', op: 'eq', value: true },
+            score: 10,
+          },
+          {
+            label: 'Bewerbungsmethode bekannt',
+            match: { field: 'hasKnownMethod', op: 'eq', value: true },
+            score: 5,
+          },
+          {
+            label: 'Nimmt Gesuche an',
+            match: { field: 'acceptsApplications', op: 'eq', value: 'yes' },
+            score: 3,
+          },
+          {
+            label: 'Frist bekannt',
+            match: { field: 'hasDeadlineInfo', op: 'eq', value: true },
+            score: 2,
+          },
         ],
       } satisfies AdditiveChecksConfig,
     },
@@ -377,16 +429,29 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
       description: 'Können wir ein realistisches Budget vorschlagen? (Förderbereich, Jahresbudget)',
       maxScore: 20,
       computeType: 'additiveChecks',
-      inputFields: [
-        'hasAmountRange', 'hasBudgetOrExpenditure', 'hasCapital',
-        'hasSmallProjects',
-      ],
+      inputFields: ['hasAmountRange', 'hasBudgetOrExpenditure', 'hasCapital', 'hasSmallProjects'],
       config: {
         checks: [
-          { label: 'Förderbereich (min/max)', match: { field: 'hasAmountRange', op: 'eq', value: true }, score: 10 },
-          { label: 'Jahresbudget bekannt', match: { field: 'hasBudgetOrExpenditure', op: 'eq', value: true }, score: 5 },
-          { label: 'Stiftungsvermögen bekannt', match: { field: 'hasCapital', op: 'eq', value: true }, score: 3 },
-          { label: 'Kleinprojekte-Info', match: { field: 'hasSmallProjects', op: 'eq', value: true }, score: 2 },
+          {
+            label: 'Förderbereich (min/max)',
+            match: { field: 'hasAmountRange', op: 'eq', value: true },
+            score: 10,
+          },
+          {
+            label: 'Jahresbudget bekannt',
+            match: { field: 'hasBudgetOrExpenditure', op: 'eq', value: true },
+            score: 5,
+          },
+          {
+            label: 'Stiftungsvermögen bekannt',
+            match: { field: 'hasCapital', op: 'eq', value: true },
+            score: 3,
+          },
+          {
+            label: 'Kleinprojekte-Info',
+            match: { field: 'hasSmallProjects', op: 'eq', value: true },
+            score: 2,
+          },
         ],
       } satisfies AdditiveChecksConfig,
     },
@@ -402,16 +467,39 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
       maxScore: 15,
       computeType: 'additiveChecks',
       inputFields: [
-        'hasOwnWebsite', 'hasFounded', 'hasBoardMembers',
-        'hasAddress', 'hasSourceLinks',
+        'hasOwnWebsite',
+        'hasFounded',
+        'hasBoardMembers',
+        'hasAddress',
+        'hasSourceLinks',
       ],
       config: {
         checks: [
-          { label: 'Eigene Website', match: { field: 'hasOwnWebsite', op: 'eq', value: true }, score: 5 },
-          { label: 'Gründungsjahr bekannt', match: { field: 'hasFounded', op: 'eq', value: true }, score: 3 },
-          { label: 'Stiftungsrat bekannt', match: { field: 'hasBoardMembers', op: 'eq', value: true }, score: 3 },
-          { label: 'Adresse vorhanden', match: { field: 'hasAddress', op: 'eq', value: true }, score: 2 },
-          { label: 'Quellen verlinkt', match: { field: 'hasSourceLinks', op: 'eq', value: true }, score: 2 },
+          {
+            label: 'Eigene Website',
+            match: { field: 'hasOwnWebsite', op: 'eq', value: true },
+            score: 5,
+          },
+          {
+            label: 'Gründungsjahr bekannt',
+            match: { field: 'hasFounded', op: 'eq', value: true },
+            score: 3,
+          },
+          {
+            label: 'Stiftungsrat bekannt',
+            match: { field: 'hasBoardMembers', op: 'eq', value: true },
+            score: 3,
+          },
+          {
+            label: 'Adresse vorhanden',
+            match: { field: 'hasAddress', op: 'eq', value: true },
+            score: 2,
+          },
+          {
+            label: 'Quellen verlinkt',
+            match: { field: 'hasSourceLinks', op: 'eq', value: true },
+            score: 2,
+          },
         ],
       } satisfies AdditiveChecksConfig,
     },
@@ -420,12 +508,12 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
   display: {
     // Readiness → 5-tier labels. Descending order — first match wins.
     thresholds: [
-      { level: 5, minScore: 70 },  // anwendungsbereit
-      { level: 4, minScore: 45 },  // recherchiert
-      { level: 3, minScore: 25 },  // profiliert
-      { level: 2, minScore: 10 },  // erfasst
+      { level: 5, minScore: 70 }, // anwendungsbereit
+      { level: 4, minScore: 45 }, // recherchiert
+      { level: 3, minScore: 25 }, // profiliert
+      { level: 2, minScore: 10 }, // erfasst
     ],
-    defaultLevel: 1,  // verzeichnet
+    defaultLevel: 1, // verzeichnet
   },
 };
 
@@ -448,24 +536,24 @@ export const READINESS_ENGINE: ScoringEngineConfig = {
 
 export const PRIORITY_FORMULA = {
   // Fit as gate, readiness as scale
-  baseFitFloor: 30,     // priority from pure fit (no data) as % of max
-  readinessScale: 70,   // how much readiness contributes on top
+  baseFitFloor: 30, // priority from pure fit (no data) as % of max
+  readinessScale: 70, // how much readiness contributes on top
 
   // Hard constraints — use min (harshest) when multiple apply
   penalties: {
-    operative: 0.05,         // not a funder — near zero
-    noApplications: 0.15,    // policy block — very low
-    closed: 0.4,             // temporary — can't act NOW
-    invitationOnly: 0.5,     // possible with relationship building
+    operative: 0.05, // not a funder — near zero
+    noApplications: 0.15, // policy block — very low
+    closed: 0.4, // temporary — can't act NOW
+    invitationOnly: 0.5, // possible with relationship building
   },
 
   // Grant size match — bonus when their range overlaps our target
   grantMatch: {
-    targetMin: 10_000,       // CHF — org-specific sweet spot
-    targetMax: 50_000,       // CHF
-    perfectBonus: 15,        // grant range overlaps our target
-    closeBonus: 10,          // grantMax >= targetMin/2
-    smallBonus: 3,           // some amount known but small
+    targetMin: 10_000, // CHF — org-specific sweet spot
+    targetMax: 50_000, // CHF
+    perfectBonus: 15, // grant range overlaps our target
+    closeBonus: 10, // grantMax >= targetMin/2
+    smallBonus: 3, // some amount known but small
   },
 
   // Priority → P-level thresholds. Descending order — first match wins.

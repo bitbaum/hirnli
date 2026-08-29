@@ -192,7 +192,8 @@ export async function callGroq(
 
   try {
     const { content, usage } = await tryChain(chain, {
-      attempt: (link) => callGroqOnce(link.model, apiKey, systemPrompt, userPrompt, callOnceOptions),
+      attempt: (link) =>
+        callGroqOnce(link.model, apiKey, systemPrompt, userPrompt, callOnceOptions),
     });
     return { ok: true, content, usage };
   } catch (err) {

@@ -1,7 +1,12 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getAllFoundations, getFoundationBySlug } from '@/lib/db/foundations-repo';
-import { generateFitNarrative, generateThemeAlignments, generateApproachSteps, getApplicationReadiness } from '@/lib/domain/foundation-contextualization';
+import {
+  generateFitNarrative,
+  generateThemeAlignments,
+  generateApproachSteps,
+  getApplicationReadiness,
+} from '@/lib/domain/foundation-contextualization';
 import { findSimilarFoundations } from '@/lib/domain/foundation-recommendations';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import MobileFoundationActions from '@/components/foundation/MobileFoundationActions';

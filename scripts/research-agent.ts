@@ -42,7 +42,7 @@ import { extractWebContent } from './lib/web-extract';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
 
 const DRY_RUN = process.argv.includes('--dry-run');
-const LIMIT = parseInt(process.argv.find(a => a.startsWith('--limit='))?.split('=')[1] || '0');
+const LIMIT = parseInt(process.argv.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0');
 const DELAY_MS = 500;
 
 // Contact subpages to try on verified websites
@@ -68,11 +68,11 @@ interface ResearchResult {
   websiteVerified: boolean;
   sourceLinks: { source: string; url: string; label?: string }[];
   conflicts: string[];
-  phases: string[];  // log of what happened
+  phases: string[]; // log of what happened
 }
 
 async function sleep(ms: number) {
-  return new Promise(r => setTimeout(r, ms));
+  return new Promise((r) => setTimeout(r, ms));
 }
 
 /**
@@ -141,7 +141,7 @@ async function extract(
   // Extract from verified website (homepage + contact pages)
   if (verifiedUrl) {
     const baseUrl = verifiedUrl.replace(/\/$/, '');
-    const pagesToTry = [baseUrl, ...CONTACT_PAGES.map(p => baseUrl + p)];
+    const pagesToTry = [baseUrl, ...CONTACT_PAGES.map((p) => baseUrl + p)];
 
     for (const pageUrl of pagesToTry) {
       const extracted = await extractWebContent(pageUrl);
@@ -183,7 +183,11 @@ async function researchFoundation(f: FoundationInput): Promise<ResearchResult> {
 
   if (spheriq) {
     result.phases.push(`  Spheriq: ${spheriq.profileUrl} (email=${spheriq.email || 'none'})`);
-    result.sourceLinks.push({ source: 'stiftungschweiz', url: spheriq.profileUrl, label: 'StiftungSchweiz Profil' });
+    result.sourceLinks.push({
+      source: 'stiftungschweiz',
+      url: spheriq.profileUrl,
+      label: 'StiftungSchweiz Profil',
+    });
   } else {
     result.phases.push('  Spheriq: not found');
   }
@@ -208,7 +212,7 @@ async function researchFoundation(f: FoundationInput): Promise<ResearchResult> {
   }
 
   const { verifiedUrl, verificationLog } = await verify(f, candidateUrls.slice(0, 5));
-  result.phases.push(...verificationLog.map(l => `  ${l}`));
+  result.phases.push(...verificationLog.map((l) => `  ${l}`));
 
   if (verifiedUrl) {
     result.website = verifiedUrl;
@@ -219,7 +223,9 @@ async function researchFoundation(f: FoundationInput): Promise<ResearchResult> {
   // Phase 3: Extract contacts from verified sources
   result.phases.push('Phase 3: Extract');
   const candidates = await extract(verifiedUrl, spheriq);
-  result.phases.push(`  Found ${candidates.length} contact candidates from ${candidates.map(c => c.source).join(', ') || 'none'}`);
+  result.phases.push(
+    `  Found ${candidates.length} contact candidates from ${candidates.map((c) => c.source).join(', ') || 'none'}`,
+  );
 
   // Phase 4: Reconcile
   result.phases.push('Phase 4: Reconcile');
@@ -232,7 +238,9 @@ async function researchFoundation(f: FoundationInput): Promise<ResearchResult> {
   result.conflicts = reconciled.conflicts;
 
   if (reconciled.email) {
-    result.phases.push(`  Email: ${reconciled.email} (${reconciled.emailConfidence}, from ${reconciled.emailSource})`);
+    result.phases.push(
+      `  Email: ${reconciled.email} (${reconciled.emailConfidence}, from ${reconciled.emailSource})`,
+    );
   }
   if (reconciled.phone) {
     result.phases.push(`  Phone: ${reconciled.phone} (from ${reconciled.phoneSource})`);
@@ -251,7 +259,7 @@ async function main() {
   console.log('');
 
   // Get foundations missing email, prioritized
-  const rows = await sql`
+  const rows = (await sql`
     SELECT id, name,
            config_data->>'uid' as uid,
            COALESCE(config_data->>'officialPurpose', config_data->>'purposeSummary', '') as purpose,
@@ -263,7 +271,7 @@ async function main() {
       AND (archived = false OR archived IS NULL)
     ORDER BY COALESCE(fit_score, 0) DESC, name
     ${LIMIT ? sql`LIMIT ${LIMIT}` : sql``}
-  ` as { id: string; name: string; uid: string | null; purpose: string; website: string | null }[];
+  `) as { id: string; name: string; uid: string | null; purpose: string; website: string | null }[];
 
   console.log(`Foundations to research: ${rows.length}\n`);
 
@@ -293,7 +301,9 @@ async function main() {
     results.push(result);
 
     const status = result.email ? '✅' : result.phone ? '📞' : '❌';
-    console.log(`  ${status} email=${result.email || '-'} phone=${result.phone || '-'} web=${result.websiteVerified ? '✓' : '-'}`);
+    console.log(
+      `  ${status} email=${result.email || '-'} phone=${result.phone || '-'} web=${result.websiteVerified ? '✓' : '-'}`,
+    );
 
     if (result.email) foundEmail++;
     if (result.phone) foundPhone++;
@@ -328,7 +338,7 @@ async function main() {
 
   console.log('\n=== SUMMARY ===');
   console.log(`Researched: ${rows.length}`);
-  console.log(`Found email: ${foundEmail} (${Math.round(foundEmail * 100 / rows.length)}%)`);
+  console.log(`Found email: ${foundEmail} (${Math.round((foundEmail * 100) / rows.length)}%)`);
   console.log(`Found phone: ${foundPhone}`);
   console.log(`Verified website: ${foundWebsite}`);
   if (!DRY_RUN) {
@@ -338,7 +348,7 @@ async function main() {
 
   // Write summary log
   if (!DRY_RUN) {
-    const summary = results.map(r => ({
+    const summary = results.map((r) => ({
       slug: r.slug,
       email: r.email || null,
       emailConfidence: r.emailConfidence || null,

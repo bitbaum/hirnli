@@ -16,8 +16,14 @@ describe('buildDynamicOpening', () => {
 
   it('varies by foundation type when research is not deep', () => {
     // Deep+highFit triggers a shared opening regardless of type, so test with standard depth
-    const typeA = buildDynamicOpening(makeFoundation({ type: 'A', researchDepth: 'standard', fitScore: 5 }), 'Kreislaufwirtschaft');
-    const typeC = buildDynamicOpening(makeFoundation({ type: 'C', researchDepth: 'standard', fitScore: 5 }), 'Kreislaufwirtschaft');
+    const typeA = buildDynamicOpening(
+      makeFoundation({ type: 'A', researchDepth: 'standard', fitScore: 5 }),
+      'Kreislaufwirtschaft',
+    );
+    const typeC = buildDynamicOpening(
+      makeFoundation({ type: 'C', researchDepth: 'standard', fitScore: 5 }),
+      'Kreislaufwirtschaft',
+    );
     expect(typeA).not.toBe(typeC);
   });
 
@@ -47,7 +53,12 @@ describe('buildDynamicOpening', () => {
     // Regression: default case in switch was returning ANSCHREIBEN_TEMPLATES['A'].opening
     // instead of ANSCHREIBEN_TEMPLATES[foundation.type].opening for 'network' foundations
     const networkResult = buildDynamicOpening(
-      makeFoundation({ type: 'network', researchDepth: 'standard', fitScore: 5, purposeSummary: '' }),
+      makeFoundation({
+        type: 'network',
+        researchDepth: 'standard',
+        fitScore: 5,
+        purposeSummary: '',
+      }),
       'Kreislaufwirtschaft',
     );
     const typeAResult = buildDynamicOpening(

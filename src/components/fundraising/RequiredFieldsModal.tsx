@@ -84,9 +84,7 @@ export default function RequiredFieldsModal({
           </div>
         ))}
 
-        {error && (
-          <p className="text-sm text-danger-text">{error}</p>
-        )}
+        {error && <p className="text-sm text-danger-text">{error}</p>}
 
         <div className="flex items-center justify-end gap-3 pt-2">
           <Button variant="ghost" type="button" onClick={onCancel} disabled={submitting}>

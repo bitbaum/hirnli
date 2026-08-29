@@ -17,8 +17,8 @@ export function IncomeDataSection() {
       confidence="high"
     >
       <p className="mb-4 text-sm text-text-secondary">
-        Die Einnahmen-Daten sind die einzigen direkten Quelldaten im Dashboard.
-        Sie werden direkt aus der Kivitendo-Buchhaltung exportiert.
+        Die Einnahmen-Daten sind die einzigen direkten Quelldaten im Dashboard. Sie werden direkt
+        aus der Kivitendo-Buchhaltung exportiert.
       </p>
 
       <h4 className="mb-2 heading-detail">Kivitendo-Konten:</h4>

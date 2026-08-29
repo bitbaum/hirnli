@@ -11,7 +11,14 @@ interface GesuchHeroSectionProps {
   primaryColor: string;
 }
 
-export default function GesuchHeroSection({ subtitle, foundationName, description, foundationBridge, themes, primaryColor }: GesuchHeroSectionProps) {
+export default function GesuchHeroSection({
+  subtitle,
+  foundationName,
+  description,
+  foundationBridge,
+  themes,
+  primaryColor,
+}: GesuchHeroSectionProps) {
   return (
     <section
       className="rounded-2xl px-4 py-12 text-white md:px-8 md:py-16"
@@ -27,14 +34,10 @@ export default function GesuchHeroSection({ subtitle, foundationName, descriptio
           {ORG_PROFILE.name} × {foundationName}
         </h1>
         {description && (
-          <p className="mb-4 max-w-2xl text-base text-white/90 md:text-lg">
-            {description}
-          </p>
+          <p className="mb-4 max-w-2xl text-base text-white/90 md:text-lg">{description}</p>
         )}
         {foundationBridge && (
-          <p className="mb-6 max-w-2xl text-sm italic text-white/75">
-            {foundationBridge}
-          </p>
+          <p className="mb-6 max-w-2xl text-sm italic text-white/75">{foundationBridge}</p>
         )}
         <div className="flex flex-wrap gap-2">
           {themes.map((theme) => (

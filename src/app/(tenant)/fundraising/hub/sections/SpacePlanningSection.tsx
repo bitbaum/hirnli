@@ -13,7 +13,8 @@ export default function SpacePlanningSection() {
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">📐 Raumplanung: Wie gross? Warum? Was kostet es?</h2>
       <p className="text-sm text-text-secondary mb-6">
-        Detaillierte Begründung für jede Fläche — basierend auf Industrie-Standards, Zürich-Marktforschung und Multi-Purpose-Strategie.
+        Detaillierte Begründung für jede Fläche — basierend auf Industrie-Standards,
+        Zürich-Marktforschung und Multi-Purpose-Strategie.
       </p>
 
       {/* Total Space Summary */}
@@ -21,7 +22,9 @@ export default function SpacePlanningSection() {
         <div className="flex items-start justify-between mb-4">
           <div>
             <h3 className="heading-card mb-2">Gesamt-Raumkonzept</h3>
-            <p className="heading-section text-primary">{SPACE_SUMMARY.total_with_circulation} m²</p>
+            <p className="heading-section text-primary">
+              {SPACE_SUMMARY.total_with_circulation} m²
+            </p>
           </div>
           <Badge color="blue">Realistisch</Badge>
         </div>
@@ -29,17 +32,23 @@ export default function SpacePlanningSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div className="bg-accent-muted p-3 rounded-lg">
             <p className="heading-detail text-primary mb-1">Kerngeschäft</p>
-            <p className="heading-stat-sm text-primary">{SPACE_SUMMARY.by_category.core_business.total_sqm} m²</p>
+            <p className="heading-stat-sm text-primary">
+              {SPACE_SUMMARY.by_category.core_business.total_sqm} m²
+            </p>
             <p className="text-sm text-primary">Shop + Werkstatt + Lager</p>
           </div>
           <div className="bg-chart-5/10 p-3 rounded-lg">
             <p className="heading-detail text-chart-5 mb-1">Innovation & Bildung</p>
-            <p className="heading-stat-sm text-chart-5">{SPACE_SUMMARY.by_category.innovation.total_sqm} m²</p>
+            <p className="heading-stat-sm text-chart-5">
+              {SPACE_SUMMARY.by_category.innovation.total_sqm} m²
+            </p>
             <p className="text-sm text-chart-5">Makerspace + AI Lab + Schulung</p>
           </div>
           <div className="bg-danger/10 p-3 rounded-lg">
             <p className="heading-detail text-danger mb-1">Kultur & Community</p>
-            <p className="heading-stat-sm text-danger">{SPACE_SUMMARY.by_category.culture_community.total_sqm} m²</p>
+            <p className="heading-stat-sm text-danger">
+              {SPACE_SUMMARY.by_category.culture_community.total_sqm} m²
+            </p>
             <p className="text-sm text-danger">Events + Café + Repair Café</p>
           </div>
         </div>
@@ -47,10 +56,13 @@ export default function SpacePlanningSection() {
         <Callout color="warning" className="text-sm">
           <p className="heading-detail text-warning mb-2">Warum diese Grösse?</p>
           <p className="text-sm text-warning">
-            Basiert auf Industrie-Standards: Auto-Werkstatt mit 2 Hebebühnen = 140-185m² (Baseline für Werkstatt-Dimensionierung).
-            Professionelle Reparatur-Arbeitsplätze benötigen <strong>12-18m²</strong> (Werkbank + Lagerfläche + Bewegungsraum).
-            Workshop-Räume optimal bei <strong>2,4-3,6m Deckenhöhe</strong> (Belüftung + Beleuchtung). Unsere Planung:
-            <strong> ~{SPACE_SUMMARY.total_with_circulation}m² effizient genutzter Raum</strong>, nicht 1000m² ineffizient.
+            Basiert auf Industrie-Standards: Auto-Werkstatt mit 2 Hebebühnen = 140-185m² (Baseline
+            für Werkstatt-Dimensionierung). Professionelle Reparatur-Arbeitsplätze benötigen{' '}
+            <strong>12-18m²</strong> (Werkbank + Lagerfläche + Bewegungsraum). Workshop-Räume
+            optimal bei <strong>2,4-3,6m Deckenhöhe</strong> (Belüftung + Beleuchtung). Unsere
+            Planung:
+            <strong> ~{SPACE_SUMMARY.total_with_circulation}m² effizient genutzter Raum</strong>,
+            nicht 1000m² ineffizient.
           </p>
         </Callout>
       </Card>
@@ -59,7 +71,9 @@ export default function SpacePlanningSection() {
       <Card className="mb-6 border-l-4 border-l-success">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="heading-card mb-2">Zürich Marktforschung: Was kostet {SPACE_SUMMARY.total_with_circulation}m²?</h3>
+            <h3 className="heading-card mb-2">
+              Zürich Marktforschung: Was kostet {SPACE_SUMMARY.total_with_circulation}m²?
+            </h3>
           </div>
           <Badge color="green">Marktdaten 2026</Badge>
         </div>
@@ -68,18 +82,24 @@ export default function SpacePlanningSection() {
           <div className="bg-success/10 p-4 rounded-lg">
             <p className="heading-detail text-success mb-2">Agglomeration (empfohlen)</p>
             <p className="text-sm text-success mb-2">
-              <strong>{ZURICH_MARKET_DATA.agglomeration.commercial_space_per_year}</strong> pro m²/Jahr
+              <strong>{ZURICH_MARKET_DATA.agglomeration.commercial_space_per_year}</strong> pro
+              m²/Jahr
             </p>
             <p className="text-sm text-success mb-3">
               Standorte: {ZURICH_MARKET_DATA.agglomeration.locations.join(', ')}
             </p>
             <div className="pt-3 border-t border-success/20">
-              <p className="text-sm text-success mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
+              <p className="text-sm text-success mb-1">
+                Für {SPACE_SUMMARY.total_with_circulation}m²:
+              </p>
               <p className="heading-stat-sm text-success">
-                CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.min)} - {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.max)} /Jahr
+                CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.min)} -{' '}
+                {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.max)} /Jahr
               </p>
               <p className="text-sm text-success mt-1">
-                (Realistisch: CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.realistic)} für gute Lage)
+                (Realistisch: CHF{' '}
+                {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.agglomeration.realistic)} für
+                gute Lage)
               </p>
             </div>
           </div>
@@ -89,13 +109,14 @@ export default function SpacePlanningSection() {
             <p className="text-sm text-primary mb-2">
               <strong>{ZURICH_MARKET_DATA.city_zurich.office_space_per_year}</strong> pro m²/Jahr
             </p>
-            <p className="text-sm text-primary mb-3">
-              Zentrale Lagen (Kreis 4/5, Zürich West)
-            </p>
+            <p className="text-sm text-primary mb-3">Zentrale Lagen (Kreis 4/5, Zürich West)</p>
             <div className="pt-3 border-t border-accent-border">
-              <p className="text-sm text-primary mb-1">Für {SPACE_SUMMARY.total_with_circulation}m²:</p>
+              <p className="text-sm text-primary mb-1">
+                Für {SPACE_SUMMARY.total_with_circulation}m²:
+              </p>
               <p className="heading-stat-sm text-primary">
-                CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.min)} - {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.max)} /Jahr
+                CHF {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.min)} -{' '}
+                {formatNumber(ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.max)} /Jahr
               </p>
               <p className="text-sm text-primary mt-1">
                 ({ZURICH_MARKET_DATA.estimate_for_600m2.city_zurich.note})
@@ -107,9 +128,11 @@ export default function SpacePlanningSection() {
         <Callout color="primary" className="text-sm">
           <p className="heading-detail text-primary mb-1">Quelle & Methodik:</p>
           <p className="text-primary">
-            Marktforschung basiert auf Homegate.ch, ImmoScout24, Comparis (Februar 2026). Kategorisierung:
-            <strong> Agglomeration</strong> ({ZURICH_MARKET_DATA.agglomeration.locations.join(', ')}) vs. <strong>Stadt Zürich</strong> (Zentrale Lagen).
-            Für detaillierte Quellenangaben siehe Methodik-Seite.
+            Marktforschung basiert auf Homegate.ch, ImmoScout24, Comparis (Februar 2026).
+            Kategorisierung:
+            <strong> Agglomeration</strong> ({ZURICH_MARKET_DATA.agglomeration.locations.join(', ')}
+            ) vs. <strong>Stadt Zürich</strong> (Zentrale Lagen). Für detaillierte Quellenangaben
+            siehe Methodik-Seite.
           </p>
         </Callout>
       </Card>
@@ -118,13 +141,16 @@ export default function SpacePlanningSection() {
       <Card className="mb-6 border-l-4 border-l-pillar-vision">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="heading-card mb-2">Multi-Purpose-Strategie: Effizienz durch Zeit-Sharing</h3>
+            <h3 className="heading-card mb-2">
+              Multi-Purpose-Strategie: Effizienz durch Zeit-Sharing
+            </h3>
           </div>
           <Badge color="purple">Platzsparend</Badge>
         </div>
 
         <p className="text-sm text-text-secondary mb-4">
-          Nicht jede Funktion braucht einen eigenen Raum 24/7. Durch intelligente Zeit-Nutzung sparen wir <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong>.
+          Nicht jede Funktion braucht einen eigenen Raum 24/7. Durch intelligente Zeit-Nutzung
+          sparen wir <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong>.
         </p>
 
         <div className="bg-chart-5/10 p-4 rounded-lg mb-4">
@@ -132,29 +158,46 @@ export default function SpacePlanningSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
             <div className="bg-surface-base p-3 rounded border border-chart-5/20">
               <p className="heading-detail text-chart-5 mb-1">Werktag (9-17 Uhr)</p>
-              <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_day}</p>
+              <p className="text-chart-5">
+                {MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_day}
+              </p>
             </div>
             <div className="bg-surface-base p-3 rounded border border-chart-5/20">
               <p className="heading-detail text-chart-5 mb-1">Abends (18-22 Uhr)</p>
-              <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_evening}</p>
+              <p className="text-chart-5">
+                {MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.weekday_evening}
+              </p>
             </div>
             <div className="bg-surface-base p-3 rounded border border-chart-5/20">
               <p className="heading-detail text-chart-5 mb-1">1./3. Samstag</p>
-              <p className="text-chart-5">{MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.saturday_1st_3rd}</p>
+              <p className="text-chart-5">
+                {MULTI_PURPOSE_STRATEGY.event_space_cafe.time_sharing.saturday_1st_3rd}
+              </p>
             </div>
           </div>
           <p className="text-sm text-chart-5 mt-3">
-            <strong>Ersparnis:</strong> Statt 140m² (60m² Café + 80m² Event-Raum separat) nutzen wir 100m² kombiniert.
-            Das spart <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong> und damit CHF {formatNumber(MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved * 200)}/Jahr Miete.
+            <strong>Ersparnis:</strong> Statt 140m² (60m² Café + 80m² Event-Raum separat) nutzen wir
+            100m² kombiniert. Das spart{' '}
+            <strong>{MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved}m²</strong> und damit CHF{' '}
+            {formatNumber(MULTI_PURPOSE_STRATEGY.event_space_cafe.sqm_saved * 200)}/Jahr Miete.
           </p>
         </div>
 
         <div className="text-sm text-text-secondary">
           <h4 className="heading-detail mb-2">Weitere Multi-Purpose-Konzepte</h4>
           <ul className="space-y-1">
-            <li>• <strong>Schulungsraum + Repair Café:</strong> Werktags Kurse, 1./3. Samstag öffentliche Reparaturen</li>
-            <li>• <strong>Makerspace + Synth-Labor:</strong> Geteilte Werkbänke, unterschiedliche Nutzungszeiten</li>
-            <li>• <strong>AI Lab + Schulungsraum:</strong> GPUs für Training (nachts) + Workshops (tags)</li>
+            <li>
+              • <strong>Schulungsraum + Repair Café:</strong> Werktags Kurse, 1./3. Samstag
+              öffentliche Reparaturen
+            </li>
+            <li>
+              • <strong>Makerspace + Synth-Labor:</strong> Geteilte Werkbänke, unterschiedliche
+              Nutzungszeiten
+            </li>
+            <li>
+              • <strong>AI Lab + Schulungsraum:</strong> GPUs für Training (nachts) + Workshops
+              (tags)
+            </li>
           </ul>
         </div>
       </Card>

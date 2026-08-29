@@ -95,12 +95,16 @@ export function FundraisingDashboard() {
         <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border-default bg-surface-raised py-24 text-center">
           <p className="heading-card mb-1">Pipeline ist leer</p>
           <p className="mb-6 max-w-sm text-sm text-text-muted">
-            Sobald du Stiftungsgesuche startest, siehst du hier Kennzahlen,
-            Fristen und den Überblick über den Fundraising-Fortschritt.
+            Sobald du Stiftungsgesuche startest, siehst du hier Kennzahlen, Fristen und den
+            Überblick über den Fundraising-Fortschritt.
           </p>
           <div className="flex gap-3">
-            <Button href="/fundraising/stiftungen" size="lg">Stiftungen durchsuchen →</Button>
-            <Button href="/fundraising/applications" variant="secondary" size="lg">Pipeline öffnen</Button>
+            <Button href="/fundraising/stiftungen" size="lg">
+              Stiftungen durchsuchen →
+            </Button>
+            <Button href="/fundraising/applications" variant="secondary" size="lg">
+              Pipeline öffnen
+            </Button>
           </div>
         </div>
       ) : (
@@ -134,7 +138,13 @@ export function FundraisingDashboard() {
               label="Erfolgsquote"
               value={`${data.totals.successRate}%`}
               icon="📊"
-              color={data.totals.successRate >= SUCCESS_RATE_GREEN ? 'green' : data.totals.successRate >= SUCCESS_RATE_WARN ? 'orange' : 'red'}
+              color={
+                data.totals.successRate >= SUCCESS_RATE_GREEN
+                  ? 'green'
+                  : data.totals.successRate >= SUCCESS_RATE_WARN
+                    ? 'orange'
+                    : 'red'
+              }
               subtitle={`${data.totals.accepted} angenommen, ${data.totals.rejected} abgelehnt`}
             />
           </div>
@@ -175,7 +185,9 @@ export function FundraisingDashboard() {
                 <div className="text-sm text-text-muted">Angenommen</div>
               </div>
               <div className="text-center">
-                <div className={`heading-page ${data.totals.followup > 0 ? 'text-warning-text' : 'text-text-muted'}`}>
+                <div
+                  className={`heading-page ${data.totals.followup > 0 ? 'text-warning-text' : 'text-text-muted'}`}
+                >
                   {data.totals.followup}
                 </div>
                 <div className="text-sm text-text-muted">Nachfassen</div>

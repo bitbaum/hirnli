@@ -59,17 +59,42 @@ export const HARDWARE_TESTS = [
 ] as const;
 
 export const CATEGORIES = [
-  { label: 'Kategorie A', color: 'bg-success-bg text-success-text', title: 'Ready for Refurbishment', description: 'Voll funktionsfähig' },
-  { label: 'Kategorie B', color: 'bg-warning-bg text-warning-text', title: 'Repair Needed', description: 'Kleine Reparaturen' },
-  { label: 'Kategorie C', color: 'bg-primary/10 text-primary-text', title: 'Parts Only', description: 'Ersatzteillager' },
-  { label: 'Kategorie D', color: 'bg-danger-bg text-danger-text', title: 'E-Waste', description: 'Fachgerecht recyceln' },
+  {
+    label: 'Kategorie A',
+    color: 'bg-success-bg text-success-text',
+    title: 'Ready for Refurbishment',
+    description: 'Voll funktionsfähig',
+  },
+  {
+    label: 'Kategorie B',
+    color: 'bg-warning-bg text-warning-text',
+    title: 'Repair Needed',
+    description: 'Kleine Reparaturen',
+  },
+  {
+    label: 'Kategorie C',
+    color: 'bg-primary/10 text-primary-text',
+    title: 'Parts Only',
+    description: 'Ersatzteillager',
+  },
+  {
+    label: 'Kategorie D',
+    color: 'bg-danger-bg text-danger-text',
+    title: 'E-Waste',
+    description: 'Fachgerecht recyceln',
+  },
 ] as const;
 
 export const DATA_WIPE_OPTIONS = [
   {
     title: 'Option A: DBAN',
     subtitle: "Darik's Boot and Nuke",
-    steps: ['Von DBAN-USB booten', 'DoD Short (3 Pässe) auswählen', 'Löschen starten', 'Protokoll speichern'],
+    steps: [
+      'Von DBAN-USB booten',
+      'DoD Short (3 Pässe) auswählen',
+      'Löschen starten',
+      'Protokoll speichern',
+    ],
     duration: '2-8 Stunden (passiv)',
   },
   {
@@ -144,12 +169,25 @@ export const TOOLS = [
   {
     icon: '🔧',
     title: 'Werkzeuge',
-    items: ['Schraubendreher-Set (Kreuz, Torx)', 'Antistatik-Armband', 'Multimeter', 'USB-Sticks (Boot-Tools)', 'Etiketten-Drucker'],
+    items: [
+      'Schraubendreher-Set (Kreuz, Torx)',
+      'Antistatik-Armband',
+      'Multimeter',
+      'USB-Sticks (Boot-Tools)',
+      'Etiketten-Drucker',
+    ],
   },
   {
     icon: '🧴',
     title: 'Verbrauchsmaterial',
-    items: ['Isopropanol', 'Mikrofaser-Tücher', 'Druckluft-Dosen', 'Bubble-Wrap', 'Versand-Kartons', 'Etiketten'],
+    items: [
+      'Isopropanol',
+      'Mikrofaser-Tücher',
+      'Druckluft-Dosen',
+      'Bubble-Wrap',
+      'Versand-Kartons',
+      'Etiketten',
+    ],
   },
   {
     icon: '💾',

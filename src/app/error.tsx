@@ -10,9 +10,7 @@ export default function GlobalError({
 }) {
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center px-4 text-center">
-      <h2 className="heading-section mb-3">
-        Etwas ist schiefgelaufen
-      </h2>
+      <h2 className="heading-section mb-3">Etwas ist schiefgelaufen</h2>
       <p className="text-text-secondary mb-6 max-w-md">
         Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
       </p>

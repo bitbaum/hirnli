@@ -112,7 +112,8 @@ export function generateApproachSteps(foundation: Foundation): ApproachStep[] {
   let order = 1;
 
   // Step 1: Prepare application — level >= 2 (moderate or strong fit)
-  const canPrepare = fitScoreToDisplay(foundation.fitScore, false) >= 2 && foundation.themes.length > 0;
+  const canPrepare =
+    fitScoreToDisplay(foundation.fitScore, false) >= 2 && foundation.themes.length > 0;
   steps.push({
     order: order++,
     action: 'Gesuch vorbereiten',
@@ -195,16 +196,12 @@ export function generateApproachSteps(foundation: Foundation): ApproachStep[] {
   // Step 3: Deadline (only if deadline info exists)
   if (foundation.deadline || foundation.deadlineText) {
     const deadlineDisplay = foundation.deadlineText || foundation.deadline || '';
-    const isUpcoming = foundation.deadline
-      ? new Date(foundation.deadline) > new Date()
-      : true;
+    const isUpcoming = foundation.deadline ? new Date(foundation.deadline) > new Date() : true;
 
     steps.push({
       order: order++,
       action: `Vor ${deadlineDisplay} einreichen`,
-      detail: foundation.deadline
-        ? `Frist: ${deadlineDisplay}`
-        : `Fristen: ${deadlineDisplay}`,
+      detail: foundation.deadline ? `Frist: ${deadlineDisplay}` : `Fristen: ${deadlineDisplay}`,
       timing: deadlineDisplay,
       status: isUpcoming ? 'ready' : 'todo',
     });

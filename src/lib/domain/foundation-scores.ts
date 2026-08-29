@@ -28,8 +28,10 @@ import { isRegistryUrl } from '@/lib/config/registry-domains';
 function foundationToReadinessInput(f: Foundation): Record<string, unknown> {
   return {
     // Tailoring Intelligence
-    hasPurposeSummary: !!f.purposeSummary && f.purposeSummary.length > QUALITY_THRESHOLDS.minContentChars,
-    hasResearchNotes: !!f.researchNotes && f.researchNotes.length > QUALITY_THRESHOLDS.minContentChars,
+    hasPurposeSummary:
+      !!f.purposeSummary && f.purposeSummary.length > QUALITY_THRESHOLDS.minContentChars,
+    hasResearchNotes:
+      !!f.researchNotes && f.researchNotes.length > QUALITY_THRESHOLDS.minContentChars,
     hasThemes: f.themes.length > 0,
     hasPastGrantees: !!(f.pastGrantees && f.pastGrantees.length > 0),
     hasApplicationProcess: !!(f.applicationProcess && f.applicationProcess.length > 0),
@@ -71,7 +73,7 @@ export interface ReadinessResult {
 
 /** Inverse tier map — derived from schema order so adding a tier updates this automatically */
 export const TIER_FROM_LEVEL = Object.fromEntries(
-  QualityTier.options.map((tier, i) => [i + 1, tier])
+  QualityTier.options.map((tier, i) => [i + 1, tier]),
 ) as Record<number, QualityTier>;
 
 /** Compute readiness score from foundation data */
@@ -90,10 +92,10 @@ export function computeReadinessScore(f: Foundation): ReadinessResult {
 
   // Top improvements: unpassed checks, highest points first
   const topImprovements = result.checks
-    .filter(c => !c.passed)
+    .filter((c) => !c.passed)
     .sort((a, b) => b.points - a.points)
     .slice(0, 5)
-    .map(c => ({ label: c.label, points: c.points, dimension: c.dimension }));
+    .map((c) => ({ label: c.label, points: c.points, dimension: c.dimension }));
 
   return {
     score: result.score,
@@ -113,11 +115,11 @@ export interface PriorityResult {
   score: number;
   /** Component breakdown for inspection */
   components: {
-    fitNorm: number;     // 0-1 (fitScore/10)
-    readiness: number;   // 0-100
-    base: number;        // before penalties
-    multiplier: number;  // worst applicable penalty
-    grantBonus: number;  // 0-15
+    fitNorm: number; // 0-1 (fitScore/10)
+    readiness: number; // 0-100
+    base: number; // before penalties
+    multiplier: number; // worst applicable penalty
+    grantBonus: number; // 0-15
     penaltyReason: string | null;
   };
   /** Priority level 1-4 */
@@ -161,7 +163,14 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
     const pc = PRIORITY_CONFIG[4];
     return {
       score: 10,
-      components: { fitNorm: f.fitScore / 10, readiness: 0, base: 0, multiplier: 1, grantBonus: 0, penaltyReason: 'Rapid (name-only)' },
+      components: {
+        fitNorm: f.fitScore / 10,
+        readiness: 0,
+        base: 0,
+        multiplier: 1,
+        grantBonus: 0,
+        penaltyReason: 'Rapid (name-only)',
+      },
       level: 4,
       label: pc.label,
       description: pc.description,
@@ -174,7 +183,7 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
   const readiness = readinessScore ?? computeReadinessScore(f).score;
 
   // Base: fit gates, readiness scales within the gate
-  const base = fitNorm * (cfg.baseFitFloor + cfg.readinessScale * readiness / 100);
+  const base = fitNorm * (cfg.baseFitFloor + (cfg.readinessScale * readiness) / 100);
 
   // Penalties: use the harshest applicable one (min), not multiply
   let multiplier = 1;
@@ -182,9 +191,17 @@ export function computePriorityScore(f: Foundation, readinessScore?: number): Pr
 
   const penalties: { condition: boolean; value: number; reason: string }[] = [
     { condition: !!f.isOperative, value: cfg.penalties.operative, reason: 'Operative Stiftung' },
-    { condition: f.acceptsApplications === 'no', value: cfg.penalties.noApplications, reason: 'Keine Gesuche' },
+    {
+      condition: f.acceptsApplications === 'no',
+      value: cfg.penalties.noApplications,
+      reason: 'Keine Gesuche',
+    },
     { condition: f.status === 'closed', value: cfg.penalties.closed, reason: 'Geschlossen' },
-    { condition: f.acceptsApplications === 'invitation_only', value: cfg.penalties.invitationOnly, reason: 'Nur auf Einladung' },
+    {
+      condition: f.acceptsApplications === 'invitation_only',
+      value: cfg.penalties.invitationOnly,
+      reason: 'Nur auf Einladung',
+    },
   ];
 
   for (const p of penalties) {

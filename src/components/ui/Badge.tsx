@@ -44,7 +44,13 @@ interface BadgeProps {
   className?: string;
 }
 
-export default function Badge({ children, variant = 'default', color, size = 'md', className = '' }: BadgeProps) {
+export default function Badge({
+  children,
+  variant = 'default',
+  color,
+  size = 'md',
+  className = '',
+}: BadgeProps) {
   const colorClass = color ? COLORS[color] : VARIANTS[variant];
 
   return (

@@ -14,9 +14,7 @@ export default function PageHeader({ title, subtitle, badge, children }: PageHea
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="heading-section md:text-3xl">{title}</h1>
-            {badge && (
-              <Badge variant="primary">{badge}</Badge>
-            )}
+            {badge && <Badge variant="primary">{badge}</Badge>}
           </div>
           {subtitle && <p className="mt-2 text-text-secondary max-w-2xl">{subtitle}</p>}
         </div>

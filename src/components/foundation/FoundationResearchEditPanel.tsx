@@ -30,7 +30,9 @@ function CharCounter({ value, min, compact }: { value: string; min: number; comp
   const ok = len >= min;
   const close = len >= min * 0.7 && !ok;
   return (
-    <span className={`text-xs tabular-nums ${ok ? 'text-success-text' : close ? 'text-warning-text' : 'text-text-muted'}`}>
+    <span
+      className={`text-xs tabular-nums ${ok ? 'text-success-text' : close ? 'text-warning-text' : 'text-text-muted'}`}
+    >
       {ok ? `✓ ${len}` : compact ? `${len}` : `${len} / ${min}`}
     </span>
   );
@@ -58,9 +60,15 @@ export default function FoundationResearchEditPanel({
   const [phone, setPhone] = useState(initialPhone);
   const [address, setAddress] = useState(initialAddress);
   const [websiteUrl, setWebsiteUrl] = useState(initialWebsiteUrl);
-  const [amountMin, setAmountMin] = useState<string>(initialAmountMin !== null ? String(initialAmountMin) : '');
-  const [amountMax, setAmountMax] = useState<string>(initialAmountMax !== null ? String(initialAmountMax) : '');
-  const [amountText, setAmountText] = useState(initialAmountText === 'Unbekannt' ? '' : initialAmountText);
+  const [amountMin, setAmountMin] = useState<string>(
+    initialAmountMin !== null ? String(initialAmountMin) : '',
+  );
+  const [amountMax, setAmountMax] = useState<string>(
+    initialAmountMax !== null ? String(initialAmountMax) : '',
+  );
+  const [amountText, setAmountText] = useState(
+    initialAmountText === 'Unbekannt' ? '' : initialAmountText,
+  );
   const [annualBudget, setAnnualBudget] = useState(initialAnnualBudget);
   const [grantExpenditure, setGrantExpenditure] = useState(initialGrantExpenditure);
   const [pastGrantees, setPastGrantees] = useState(initialPastGrantees.join('\n'));
@@ -77,7 +85,10 @@ export default function FoundationResearchEditPanel({
     setError(null);
     const parsedMin = amountMin.trim() !== '' ? Number(amountMin) : null;
     const parsedMax = amountMax.trim() !== '' ? Number(amountMax) : null;
-    const granteeList = pastGrantees.split('\n').map(s => s.trim()).filter(Boolean);
+    const granteeList = pastGrantees
+      .split('\n')
+      .map((s) => s.trim())
+      .filter(Boolean);
     const result = await patchFoundationResearch(foundationId, {
       purposeSummary: purpose,
       researchNotes: notes,
@@ -282,9 +293,7 @@ export default function FoundationResearchEditPanel({
         />
       </div>
 
-      {error && (
-        <p className="text-sm text-danger-text">{error}</p>
-      )}
+      {error && <p className="text-sm text-danger-text">{error}</p>}
 
       <div className="flex items-center justify-end gap-2">
         <Button variant="secondary" size="sm" onClick={handleCancel} disabled={saving}>

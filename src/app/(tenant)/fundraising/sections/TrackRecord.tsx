@@ -6,12 +6,24 @@ import Inspectable, { type InspectorHandle } from './Inspectable';
 
 export default function TrackRecord({ inspector }: { inspector: InspectorHandle }) {
   const items = [
-    { value: `${TRACK_RECORD.yearsActive}+`, label: 'Jahre aktiv', sub: `Seit ${CORE_FACTS.organization.founded}` },
+    {
+      value: `${TRACK_RECORD.yearsActive}+`,
+      label: 'Jahre aktiv',
+      sub: `Seit ${CORE_FACTS.organization.founded}`,
+    },
     { value: formatNumber(TRACK_RECORD.totalCustomers), label: 'Kunden', sub: 'im Kivitendo ERP' },
-    { value: formatNumber(TRACK_RECORD.totalInvoices), label: 'Rechnungen', sub: `seit ${ORG_PROFILE.milestones.kivitendoStart}` },
+    {
+      value: formatNumber(TRACK_RECORD.totalInvoices),
+      label: 'Rechnungen',
+      sub: `seit ${ORG_PROFILE.milestones.kivitendoStart}`,
+    },
     { value: formatNumber(TRACK_RECORD.productsInCatalog), label: 'Produkte', sub: 'im Katalog' },
     { value: formatNumber(TRACK_RECORD.deliveryNotes), label: 'Lieferungen', sub: 'ausgeführt' },
-    { value: `${TRACK_RECORD.quoteConversion}%`, label: 'Offerten-Konversion', sub: 'Zuverlässigkeit' },
+    {
+      value: `${TRACK_RECORD.quoteConversion}%`,
+      label: 'Offerten-Konversion',
+      sub: 'Zuverlässigkeit',
+    },
   ];
 
   return (

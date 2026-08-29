@@ -16,11 +16,16 @@
 
 import type { Foundation } from '@/lib/schemas/foundation';
 import { ORG_PROFILE } from './org-profile';
-import { SCHWERPUNKTE, SCHWERPUNKT_IDS, isSchwerpunktId, type SchwerpunktId } from '@/lib/config/schwerpunkte';
+import {
+  SCHWERPUNKTE,
+  SCHWERPUNKT_IDS,
+  isSchwerpunktId,
+  type SchwerpunktId,
+} from '@/lib/config/schwerpunkte';
 import { TYPE_LABELS } from '@/lib/config/foundations/metadata';
 
 /** Virtual foundations per template key — placeholder data for template generation */
-export const TEMPLATE_FOUNDATIONS: Record<typeof TEMPLATE_TYPES[number], Foundation> = {
+export const TEMPLATE_FOUNDATIONS: Record<(typeof TEMPLATE_TYPES)[number], Foundation> = {
   A: {
     slug: 'vorlage-typ-a',
     name: '[Name der Stiftung]',
@@ -28,7 +33,7 @@ export const TEMPLATE_FOUNDATIONS: Record<typeof TEMPLATE_TYPES[number], Foundat
     status: 'rolling',
     deadline: null,
     deadlineText: 'Laufend',
-    amount: { min: 20000, max: 50000, text: 'CHF 20\'000–50\'000' },
+    amount: { min: 20000, max: 50000, text: "CHF 20'000–50'000" },
     fitScore: 10,
     priority: 1,
     tagline: 'Vorlage für professionalisierte Förderstiftungen (Typ A)',
@@ -49,7 +54,7 @@ export const TEMPLATE_FOUNDATIONS: Record<typeof TEMPLATE_TYPES[number], Foundat
     status: 'rolling',
     deadline: null,
     deadlineText: 'Laufend',
-    amount: { min: 10000, max: 30000, text: 'CHF 10\'000–30\'000' },
+    amount: { min: 10000, max: 30000, text: "CHF 10'000–30'000" },
     fitScore: 10,
     priority: 1,
     tagline: 'Vorlage für potente Familienstiftungen (Typ B)',
@@ -70,7 +75,7 @@ export const TEMPLATE_FOUNDATIONS: Record<typeof TEMPLATE_TYPES[number], Foundat
     status: 'rolling',
     deadline: null,
     deadlineText: 'Laufend',
-    amount: { min: 5000, max: 15000, text: 'CHF 5\'000–15\'000' },
+    amount: { min: 5000, max: 15000, text: "CHF 5'000–15'000" },
     fitScore: 5,
     priority: 2,
     tagline: 'Vorlage für kleine Familienstiftungen (Typ C)',
@@ -91,7 +96,7 @@ export const TEMPLATE_FOUNDATIONS: Record<typeof TEMPLATE_TYPES[number], Foundat
     status: 'rolling',
     deadline: null,
     deadlineText: 'Laufend',
-    amount: { min: 15000, max: 50000, text: 'CHF 15\'000–50\'000' },
+    amount: { min: 15000, max: 50000, text: "CHF 15'000–50'000" },
     fitScore: 5,
     priority: 2,
     tagline: 'Vorlage für Corporate Foundations (Typ D)',
@@ -137,7 +142,7 @@ export const TEMPLATE_FOUNDATIONS: Record<typeof TEMPLATE_TYPES[number], Foundat
     status: 'rolling',
     deadline: null,
     deadlineText: 'Laufend',
-    amount: { min: 10000, max: 50000, text: 'CHF 10\'000–50\'000' },
+    amount: { min: 10000, max: 50000, text: "CHF 10'000–50'000" },
     fitScore: 10,
     priority: 1,
     tagline: `Universelle Gesuch-Vorlage für ${ORG_PROFILE.name}`,
@@ -145,26 +150,31 @@ export const TEMPLATE_FOUNDATIONS: Record<typeof TEMPLATE_TYPES[number], Foundat
     websiteUrl: 'https://example.ch',
     applicationMethod: 'email',
     contact: { address: '[Adresse der Stiftung]', email: '[email@stiftung.ch]' },
-    themes: ['klima', 'kreislaufwirtschaft', 'soziale-integration', 'digitale-bildung', 'digitale-souveraenitaet'],
+    themes: [
+      'klima',
+      'kreislaufwirtschaft',
+      'soziale-integration',
+      'digitale-bildung',
+      'digitale-souveraenitaet',
+    ],
     source: 'manual',
     researchDate: '2026-02-10',
     purposeSummary: '[Stiftungszweck hier einfügen]',
     researchNotes: `Universelle Vorlage — zeigt das gesamte ${ORG_PROFILE.name}-Profil`,
   },
-
 };
 
 /** All valid template type keys */
-export const TEMPLATE_TYPES = [
-  'A', 'B', 'C', 'D', 'network',
-  'generisch',
-] as const;
+export const TEMPLATE_TYPES = ['A', 'B', 'C', 'D', 'network', 'generisch'] as const;
 
 /** Subset: Robert Schmuki type templates */
 export const TYPE_TEMPLATE_KEYS = ['A', 'B', 'C', 'D', 'network'] as const;
 
 /** Labels for generic template (type templates use TYPE_LABELS from foundations/metadata) */
-export const TEMPLATE_LABELS: Record<string, { short: string; long: string; desc: string; category: 'generic' }> = {
+export const TEMPLATE_LABELS: Record<
+  string,
+  { short: string; long: string; desc: string; category: 'generic' }
+> = {
   generisch: {
     short: 'Generisch',
     long: 'Universelle Vorlage',
@@ -186,14 +196,20 @@ export function getTemplateFoundation(type: string): Foundation | undefined {
 export const SCHWERPUNKT_TEMPLATE_TYPES = ['A', 'B', 'C'] as const;
 
 /** Amount ranges per type — reflects Robert Schmuki's typical ranges */
-const SCHWERPUNKT_AMOUNTS: Record<typeof SCHWERPUNKT_TEMPLATE_TYPES[number], { min: number; max: number; text: string }> = {
+const SCHWERPUNKT_AMOUNTS: Record<
+  (typeof SCHWERPUNKT_TEMPLATE_TYPES)[number],
+  { min: number; max: number; text: string }
+> = {
   A: { min: 20000, max: 50000, text: "CHF 20'000–50'000" },
   B: { min: 10000, max: 30000, text: "CHF 10'000–30'000" },
   C: { min: 5000, max: 15000, text: "CHF 5'000–15'000" },
 };
 
 /** Create a template foundation for a Schwerpunkt × Type combination */
-function createSchwerpunktTemplate(schwerpunktId: SchwerpunktId, type: typeof SCHWERPUNKT_TEMPLATE_TYPES[number]): Foundation {
+function createSchwerpunktTemplate(
+  schwerpunktId: SchwerpunktId,
+  type: (typeof SCHWERPUNKT_TEMPLATE_TYPES)[number],
+): Foundation {
   const schwerpunkt = SCHWERPUNKTE[schwerpunktId];
   const typeLabel = TYPE_LABELS[type];
   const amount = SCHWERPUNKT_AMOUNTS[type];
@@ -222,15 +238,22 @@ function createSchwerpunktTemplate(schwerpunktId: SchwerpunktId, type: typeof SC
 }
 
 /** Get a Schwerpunkt template foundation */
-export function getSchwerpunktTemplate(schwerpunktId: string, type: string): Foundation | undefined {
+export function getSchwerpunktTemplate(
+  schwerpunktId: string,
+  type: string,
+): Foundation | undefined {
   if (!isSchwerpunktId(schwerpunktId)) return undefined;
-  if (!SCHWERPUNKT_TEMPLATE_TYPES.includes(type as typeof SCHWERPUNKT_TEMPLATE_TYPES[number])) return undefined;
-  return createSchwerpunktTemplate(schwerpunktId, type as typeof SCHWERPUNKT_TEMPLATE_TYPES[number]);
+  if (!SCHWERPUNKT_TEMPLATE_TYPES.includes(type as (typeof SCHWERPUNKT_TEMPLATE_TYPES)[number]))
+    return undefined;
+  return createSchwerpunktTemplate(
+    schwerpunktId,
+    type as (typeof SCHWERPUNKT_TEMPLATE_TYPES)[number],
+  );
 }
 
 /** All valid Schwerpunkt route params (for generateStaticParams) */
 export function getSchwerpunktStaticParams(): { vorlage: string; type: string }[] {
   return SCHWERPUNKT_IDS.flatMap((s) =>
-    SCHWERPUNKT_TEMPLATE_TYPES.map((t) => ({ vorlage: s, type: t }))
+    SCHWERPUNKT_TEMPLATE_TYPES.map((t) => ({ vorlage: s, type: t })),
   );
 }

@@ -25,7 +25,12 @@ import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Column } from './Column';
 import { ApplicationCard } from './ApplicationCard';
 import BoardHeaderStats from './BoardHeaderStats';
-import { KANBAN_COLUMNS, getStatusConfig, type ApplicationStatusId, type RequiredField } from '@/lib/config/application-statuses';
+import {
+  KANBAN_COLUMNS,
+  getStatusConfig,
+  type ApplicationStatusId,
+  type RequiredField,
+} from '@/lib/config/application-statuses';
 import { getApplications, patchApplication } from '@/lib/api/applications';
 import { UI_TIMINGS } from '@/lib/config/ui-timings';
 import { NET_ERR_SAVE, API_ERR_LOAD } from '@/lib/utils/errors';
@@ -87,9 +92,7 @@ export function ApplicationBoard({ p1Foundations }: Props) {
   function handleUpdated(updated: Application) {
     setApplications((prev) =>
       prev.map((item) =>
-        item.application.id === updated.id
-          ? { ...item, application: updated }
-          : item,
+        item.application.id === updated.id ? { ...item, application: updated } : item,
       ),
     );
   }
@@ -194,7 +197,11 @@ export function ApplicationBoard({ p1Foundations }: Props) {
       <BoardHeaderStats applications={boardApplications} onRefresh={fetchApplications} />
 
       {/* P1 foundations not yet tracked — surface the gap */}
-      <P1SuggestionStrip p1Foundations={p1Foundations} trackedIds={trackedIds} onAdded={fetchApplications} />
+      <P1SuggestionStrip
+        p1Foundations={p1Foundations}
+        trackedIds={trackedIds}
+        onAdded={fetchApplications}
+      />
 
       {/* Drag error banner — auto-dismisses after 5 s */}
       {dragError && (
@@ -205,7 +212,13 @@ export function ApplicationBoard({ p1Foundations }: Props) {
             className="ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded text-danger/70 hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger focus-visible:ring-offset-2"
             aria-label="Schliessen"
           >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -231,7 +244,9 @@ export function ApplicationBoard({ p1Foundations }: Props) {
           <div className="-mx-4 overflow-x-auto overscroll-x-contain px-4 pb-4 sm:mx-0 sm:px-0">
             <div
               className="grid gap-3 sm:gap-4"
-              style={{ gridTemplateColumns: `repeat(${KANBAN_COLUMNS.length}, minmax(180px, 1fr))` }}
+              style={{
+                gridTemplateColumns: `repeat(${KANBAN_COLUMNS.length}, minmax(180px, 1fr))`,
+              }}
             >
               {applicationsByStatus.map(({ status, applications: colApps }) => (
                 <Column

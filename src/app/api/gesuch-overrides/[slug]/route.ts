@@ -51,21 +51,20 @@ async function logOverrideSave(slug: string, variant: string, overrides: GesuchO
  * GET /api/gesuch-overrides/[slug]
  * Returns { success, data: { overrides } } or { success, data: null } if none
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const variant = getVariant(request);
   try {
     const rows = await db
       .select()
       .from(gesuchOverrides)
-      .where(and(
-        eq(gesuchOverrides.foundationId, slug),
-        eq(gesuchOverrides.orgId, ORG_ID),
-        eq(gesuchOverrides.variantKey, variant),
-      ))
+      .where(
+        and(
+          eq(gesuchOverrides.foundationId, slug),
+          eq(gesuchOverrides.orgId, ORG_ID),
+          eq(gesuchOverrides.variantKey, variant),
+        ),
+      )
       .limit(1);
 
     if (rows.length === 0) {
@@ -82,10 +81,7 @@ export async function GET(
  * PUT /api/gesuch-overrides/[slug]
  * Replace all overrides. Body: GesuchOverridesData
  */
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const variant = getVariant(request);
   let body: unknown;
@@ -99,7 +95,7 @@ export async function PUT(
   if (!parsed.success) {
     return NextResponse.json(
       { success: false, error: API_ERR_VALIDATION, details: parsed.error.flatten() },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -135,18 +131,20 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   const { slug } = await params;
   const variant = getVariant(request);
   try {
     await db
       .delete(gesuchOverrides)
-      .where(and(
-        eq(gesuchOverrides.foundationId, slug),
-        eq(gesuchOverrides.orgId, ORG_ID),
-        eq(gesuchOverrides.variantKey, variant),
-      ));
+      .where(
+        and(
+          eq(gesuchOverrides.foundationId, slug),
+          eq(gesuchOverrides.orgId, ORG_ID),
+          eq(gesuchOverrides.variantKey, variant),
+        ),
+      );
 
     return NextResponse.json({ success: true, data: null });
   } catch (err) {

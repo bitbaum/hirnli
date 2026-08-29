@@ -38,14 +38,9 @@ export function ApplicationCard({
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: application.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: application.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -139,9 +134,7 @@ export function ApplicationCard({
         <div className="px-3 pb-3 pt-2">
           {/* Amount */}
           {application.requestedAmount && (
-            <div className="mb-1.5 heading-item">
-              {formatCHF(application.requestedAmount)}
-            </div>
+            <div className="mb-1.5 heading-item">{formatCHF(application.requestedAmount)}</div>
           )}
 
           {/* Project focus */}
@@ -153,19 +146,17 @@ export function ApplicationCard({
 
           {/* Dates row — show submissionDate once submitted, contactDate before */}
           <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-sm">
-            {['submitted', 'pending', 'followup', 'accepted'].includes(application.status) ? (
-              application.submissionDate && (
-                <span className="text-text-muted" title="Eingereicht am">
-                  📤 {formatDateCH(application.submissionDate)}
-                </span>
-              )
-            ) : (
-              application.contactDate && (
-                <span className="text-text-muted" title="Kontaktdatum">
-                  📅 {formatDateCH(application.contactDate)}
-                </span>
-              )
-            )}
+            {['submitted', 'pending', 'followup', 'accepted'].includes(application.status)
+              ? application.submissionDate && (
+                  <span className="text-text-muted" title="Eingereicht am">
+                    📤 {formatDateCH(application.submissionDate)}
+                  </span>
+                )
+              : application.contactDate && (
+                  <span className="text-text-muted" title="Kontaktdatum">
+                    📅 {formatDateCH(application.contactDate)}
+                  </span>
+                )}
             {application.decisionExpected && (
               <span className={deadlineColor()} title="Entscheidung erwartet">
                 ⏰ {formatDateCH(application.decisionExpected)}
@@ -174,29 +165,37 @@ export function ApplicationCard({
           </div>
 
           {/* Footer: priority + fit score + assignee */}
-          {(application.priorityLevel || application.assignedTo || (foundation?.fitScore != null && foundation.fitScore > 0)) && (
+          {(application.priorityLevel ||
+            application.assignedTo ||
+            (foundation?.fitScore != null && foundation.fitScore > 0)) && (
             <div className="mt-2 flex items-center justify-between gap-2">
               <div className="flex items-center gap-1.5">
                 {application.priorityLevel && (
-                  <span className={`rounded px-1.5 py-0.5 text-xs font-semibold ${getPriorityColor(application.priorityLevel)}`}>
+                  <span
+                    className={`rounded px-1.5 py-0.5 text-xs font-semibold ${getPriorityColor(application.priorityLevel)}`}
+                  >
                     P{application.priorityLevel}
                   </span>
                 )}
-                {foundation?.fitScore != null && foundation.fitScore > 0 && (() => {
-                  const level = fitScoreToDisplay(foundation.fitScore, false);
-                  const cls =
-                    level === 3 ? 'bg-success/10 text-success-text'
-                    : level >= 2 ? 'bg-amber-bg text-amber-text'
-                    : 'bg-surface-raised text-text-muted';
-                  return (
-                    <span
-                      className={`rounded px-1.5 py-0.5 text-xs font-medium ${cls}`}
-                      title={`Fit-Score: ${foundation.fitScore}/10`}
-                    >
-                      Fit {foundation.fitScore}/10
-                    </span>
-                  );
-                })()}
+                {foundation?.fitScore != null &&
+                  foundation.fitScore > 0 &&
+                  (() => {
+                    const level = fitScoreToDisplay(foundation.fitScore, false);
+                    const cls =
+                      level === 3
+                        ? 'bg-success/10 text-success-text'
+                        : level >= 2
+                          ? 'bg-amber-bg text-amber-text'
+                          : 'bg-surface-raised text-text-muted';
+                    return (
+                      <span
+                        className={`rounded px-1.5 py-0.5 text-xs font-medium ${cls}`}
+                        title={`Fit-Score: ${foundation.fitScore}/10`}
+                      >
+                        Fit {foundation.fitScore}/10
+                      </span>
+                    );
+                  })()}
               </div>
               {application.assignedTo && (
                 <span className="text-sm text-text-muted">{application.assignedTo}</span>
@@ -205,17 +204,19 @@ export function ApplicationCard({
           )}
 
           {/* Gesuch shortcut — direct link for active applications */}
-          {foundation && !isTerminalStatus(application.status) && application.status !== 'onhold' && (
-            <div className="mt-2 border-t border-border-default pt-2">
-              <Link
-                href={`/fundraising/stiftungen/${foundation.id}/gesuch`}
-                className="text-xs text-primary-text hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Gesuch öffnen →
-              </Link>
-            </div>
-          )}
+          {foundation &&
+            !isTerminalStatus(application.status) &&
+            application.status !== 'onhold' && (
+              <div className="mt-2 border-t border-border-default pt-2">
+                <Link
+                  href={`/fundraising/stiftungen/${foundation.id}/gesuch`}
+                  className="text-xs text-primary-text hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Gesuch öffnen →
+                </Link>
+              </div>
+            )}
 
           {/* Delete confirmation + inline error */}
           {deleteConfirm && (
@@ -224,7 +225,10 @@ export function ApplicationCard({
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-danger-text">{deleteError}</span>
                   <button
-                    onClick={() => { setDeleteConfirm(false); setDeleteError(null); }}
+                    onClick={() => {
+                      setDeleteConfirm(false);
+                      setDeleteError(null);
+                    }}
                     className="rounded px-2 py-0.5 text-xs text-text-secondary hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
                   >
                     Schliessen

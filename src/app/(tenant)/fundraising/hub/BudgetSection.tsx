@@ -57,8 +57,9 @@ export default function BudgetSection() {
           <div className="bg-success/10 p-3 rounded-lg">
             <p className="heading-detail text-success mb-1">Jahr 1 Total</p>
             <p className="heading-stat-sm text-success">
-              CHF {formatNumber(
-                scenario.threeYearModel.year1.einmalig + scenario.threeYearModel.year1.jaehrlich
+              CHF{' '}
+              {formatNumber(
+                scenario.threeYearModel.year1.einmalig + scenario.threeYearModel.year1.jaehrlich,
               )}
             </p>
           </div>
@@ -69,9 +70,7 @@ export default function BudgetSection() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {/* Line Items (2/3 width) */}
         <div className="lg:col-span-2">
-          <h3 className="heading-card mb-4">
-            Budget-Details (klicken für Quellen)
-          </h3>
+          <h3 className="heading-card mb-4">Budget-Details (klicken für Quellen)</h3>
           <BudgetTable scenarioId={activeScenario} />
         </div>
 

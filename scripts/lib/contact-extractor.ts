@@ -42,8 +42,8 @@ export function extractEmails(text: string): string[] {
   const matches = text.match(EMAIL_REGEX) || [];
 
   // Deduplicate and filter out blacklisted patterns
-  const unique = Array.from(new Set(matches.map(e => e.toLowerCase())));
-  return unique.filter(email => {
+  const unique = Array.from(new Set(matches.map((e) => e.toLowerCase())));
+  return unique.filter((email) => {
     // Filter out image/file extensions mistakenly captured
     if (/\.(png|jpg|jpeg|gif|svg|css|js|pdf)$/i.test(email)) return false;
     // Filter out blacklisted prefixes
@@ -62,19 +62,22 @@ export function extractEmails(text: string): string[] {
 // +41 XX XXX XX XX, +41 (0)XX XXX XX XX
 // 0XX XXX XX XX, 0XX/XXX XX XX
 // Also accepts dots and dashes as separators
-const SWISS_PHONE_REGEX = /(?:\+41|0041)[\s.]?\(?\d?\)?[\s./\-]?\d{2}[\s./\-]?\d{3}[\s./\-]?\d{2}[\s./\-]?\d{2}|0\d{2}[\s./\-]?\d{3}[\s./\-]?\d{2}[\s./\-]?\d{2}/g;
+const SWISS_PHONE_REGEX =
+  /(?:\+41|0041)[\s.]?\(?\d?\)?[\s./\-]?\d{2}[\s./\-]?\d{3}[\s./\-]?\d{2}[\s./\-]?\d{2}|0\d{2}[\s./\-]?\d{3}[\s./\-]?\d{2}[\s./\-]?\d{2}/g;
 
 export function extractPhones(text: string): string[] {
   const matches = text.match(SWISS_PHONE_REGEX) || [];
 
   // Normalize: collapse whitespace, standardize format
-  const normalized = matches.map(p => {
-    // Remove all whitespace/separators to get digits
-    const digits = p.replace(/[^\d+]/g, '');
-    // Skip if too short (false positive)
-    if (digits.replace('+', '').length < 10) return null;
-    return p.trim();
-  }).filter(Boolean) as string[];
+  const normalized = matches
+    .map((p) => {
+      // Remove all whitespace/separators to get digits
+      const digits = p.replace(/[^\d+]/g, '');
+      // Skip if too short (false positive)
+      if (digits.replace('+', '').length < 10) return null;
+      return p.trim();
+    })
+    .filter(Boolean) as string[];
 
   return Array.from(new Set(normalized));
 }
@@ -124,7 +127,9 @@ const EMAIL_METHOD_KEYWORDS = [
   'par courriel',
 ];
 
-export function detectApplicationMethod(text: string): 'online' | 'email' | 'invitation' | 'unknown' {
+export function detectApplicationMethod(
+  text: string,
+): 'online' | 'email' | 'invitation' | 'unknown' {
   const lower = text.toLowerCase();
 
   // Check invitation first — it's the strongest signal
@@ -156,8 +161,8 @@ function parseSwissAmount(raw: string): number | null {
   // Extract just the numeric part
   const numStr = raw
     .replace(/CHF|Fr\.?|Franken/gi, '')
-    .replace(/['\s]/g, '')  // Swiss thousand separator is apostrophe
-    .replace(/,(\d{2})$/, '.$1')  // Convert comma decimal to dot
+    .replace(/['\s]/g, '') // Swiss thousand separator is apostrophe
+    .replace(/,(\d{2})$/, '.$1') // Convert comma decimal to dot
     .trim();
 
   const num = parseFloat(numStr);
@@ -169,10 +174,21 @@ export function extractGrantRange(text: string): { min?: number; max?: number } 
   // Only look near funding-related context
   const fundingContext = text.toLowerCase();
   const hasFundingKeywords = [
-    'beitrag', 'beiträge', 'förder', 'unterstütz', 'zuwendung',
-    'grant', 'contribution', 'subvention', 'betrag',
-    'minimum', 'maximum', 'höchstens', 'mindestens', 'bis zu',
-  ].some(kw => fundingContext.includes(kw));
+    'beitrag',
+    'beiträge',
+    'förder',
+    'unterstütz',
+    'zuwendung',
+    'grant',
+    'contribution',
+    'subvention',
+    'betrag',
+    'minimum',
+    'maximum',
+    'höchstens',
+    'mindestens',
+    'bis zu',
+  ].some((kw) => fundingContext.includes(kw));
 
   if (!hasFundingKeywords) return {};
 

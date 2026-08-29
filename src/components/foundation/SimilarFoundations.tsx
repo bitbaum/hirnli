@@ -4,7 +4,6 @@ import type { SimilarFoundation } from '@/lib/domain/foundation-recommendations'
 import { FIT_CONFIG } from '@/lib/config/foundations';
 import { getFitLevel } from '@/lib/domain/foundation-helpers';
 
-
 interface SimilarFoundationsProps {
   similar: SimilarFoundation[];
 }
@@ -19,25 +18,25 @@ export default function SimilarFoundations({ similar }: SimilarFoundationsProps)
         {similar.map(({ foundation: f, reasons }) => {
           const fitLevel = getFitLevel(f);
           return (
-          <Link
-            key={f.slug}
-            href={`/fundraising/stiftungen/${f.slug}`}
-            className="block rounded-lg border border-border-default p-3 transition-colors hover:border-primary/30 hover:no-underline"
-          >
-            <div className="flex items-center justify-between">
-              <span className="heading-detail">{f.name}</span>
-              <span className={`text-xs font-bold ${FIT_CONFIG[fitLevel].color}`}>
-                {FIT_CONFIG[fitLevel].stars}
-              </span>
-            </div>
-            <div className="mt-1 flex flex-wrap gap-1">
-              {reasons.slice(0, 2).map((reason) => (
-                <span key={reason} className="text-sm text-text-muted">
-                  {reason}
+            <Link
+              key={f.slug}
+              href={`/fundraising/stiftungen/${f.slug}`}
+              className="block rounded-lg border border-border-default p-3 transition-colors hover:border-primary/30 hover:no-underline"
+            >
+              <div className="flex items-center justify-between">
+                <span className="heading-detail">{f.name}</span>
+                <span className={`text-xs font-bold ${FIT_CONFIG[fitLevel].color}`}>
+                  {FIT_CONFIG[fitLevel].stars}
                 </span>
-              ))}
-            </div>
-          </Link>
+              </div>
+              <div className="mt-1 flex flex-wrap gap-1">
+                {reasons.slice(0, 2).map((reason) => (
+                  <span key={reason} className="text-sm text-text-muted">
+                    {reason}
+                  </span>
+                ))}
+              </div>
+            </Link>
           );
         })}
       </div>

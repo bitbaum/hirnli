@@ -15,7 +15,7 @@ export function estimateDeviceCount(revenue: number, avgPrice = AVG_DEVICE_PRICE
 
 /** Estimate CO₂ avoided (tonnes) from device count */
 export function estimateCO2Avoided(deviceCount: number): number {
-  return Math.round((deviceCount * AVG_CO2_PER_DEVICE) / 1000 * 10) / 10;
+  return Math.round(((deviceCount * AVG_CO2_PER_DEVICE) / 1000) * 10) / 10;
 }
 
 /** Estimate e-waste prevented (kg) from device count
@@ -25,5 +25,3 @@ export function estimateCO2Avoided(deviceCount: number): number {
 export function estimateEWastePrevented(deviceCount: number, avgWeightKg = 5): number {
   return Math.round(deviceCount * avgWeightKg);
 }
-
-

@@ -62,19 +62,31 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               <dd className="font-medium text-text-primary">{f.grantExpenditure}</dd>
             </div>
           )}
-          {f.applicationMethod && f.applicationMethod !== 'unknown' && APPLICATION_METHOD_LABELS[f.applicationMethod] && (
-            <div>
-              <dt className="text-text-muted">Bewerbungsweg</dt>
-              <dd className="font-medium text-text-primary">{APPLICATION_METHOD_LABELS[f.applicationMethod]}</dd>
-            </div>
-          )}
+          {f.applicationMethod &&
+            f.applicationMethod !== 'unknown' &&
+            APPLICATION_METHOD_LABELS[f.applicationMethod] && (
+              <div>
+                <dt className="text-text-muted">Bewerbungsweg</dt>
+                <dd className="font-medium text-text-primary">
+                  {APPLICATION_METHOD_LABELS[f.applicationMethod]}
+                </dd>
+              </div>
+            )}
           <div>
             <dt className="text-text-muted">Fit-Score</dt>
             <dd className="font-medium text-text-primary">
-              {fitLevel === 0
-                ? <span className="text-text-muted">○○○ <span className="sr-only">Fit-Score:</span> Nicht geprüft</span>
-                : <><span aria-label={`Fit-Score: ${f.fitScore} von 10, ${fitLevel} von 3 Sternen`}>{FIT_CONFIG[fitLevel].stars}</span> ({f.fitScore}/10)</>
-              }
+              {fitLevel === 0 ? (
+                <span className="text-text-muted">
+                  ○○○ <span className="sr-only">Fit-Score:</span> Nicht geprüft
+                </span>
+              ) : (
+                <>
+                  <span aria-label={`Fit-Score: ${f.fitScore} von 10, ${fitLevel} von 3 Sternen`}>
+                    {FIT_CONFIG[fitLevel].stars}
+                  </span>{' '}
+                  ({f.fitScore}/10)
+                </>
+              )}
             </dd>
           </div>
         </dl>
@@ -86,7 +98,12 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         <div className="space-y-1.5 text-sm">
           {/* Foundation website (if verified) */}
           {f.websiteUrl && !isRegistryUrl(f.websiteUrl) ? (
-            <a href={f.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-primary hover:bg-surface-raised hover:underline">
+            <a
+              href={f.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-primary hover:bg-surface-raised hover:underline"
+            >
               <span className="font-medium">Website</span>
               <span className="text-xs text-text-muted">↗</span>
             </a>
@@ -96,23 +113,26 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               <span className="text-sm italic">nicht bekannt</span>
             </div>
           )}
-          {f.applicationUrl && (() => {
-            const ctx = getApplicationUrlContext(f.applicationUrl, f.applicationMethod);
-            const label = !ctx.isEmail
-              ? 'Gesuch einreichen'
-              : ctx.isPersonalContact ? 'Anfrage per E-Mail' : 'Gesuch per E-Mail';
-            return (
-              <a
-                href={f.applicationUrl}
-                target={ctx.target}
-                rel="noopener noreferrer"
-                className="flex min-h-11 items-center justify-between rounded bg-accent-soft px-2 py-2.5 font-semibold text-primary hover:bg-accent-muted hover:underline"
-              >
-                <span>{label}</span>
-                <span className="text-xs">{ctx.isEmail ? '✉' : '↗'}</span>
-              </a>
-            );
-          })()}
+          {f.applicationUrl &&
+            (() => {
+              const ctx = getApplicationUrlContext(f.applicationUrl, f.applicationMethod);
+              const label = !ctx.isEmail
+                ? 'Gesuch einreichen'
+                : ctx.isPersonalContact
+                  ? 'Anfrage per E-Mail'
+                  : 'Gesuch per E-Mail';
+              return (
+                <a
+                  href={f.applicationUrl}
+                  target={ctx.target}
+                  rel="noopener noreferrer"
+                  className="flex min-h-11 items-center justify-between rounded bg-accent-soft px-2 py-2.5 font-semibold text-primary hover:bg-accent-muted hover:underline"
+                >
+                  <span>{label}</span>
+                  <span className="text-xs">{ctx.isEmail ? '✉' : '↗'}</span>
+                </a>
+              );
+            })()}
           {/* All research platforms */}
           <div className="border-t border-border-default pt-2">
             <p className="mb-1.5 px-2 heading-detail text-text-muted">Datenbanken & Register</p>
@@ -125,7 +145,11 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
                 className="flex min-h-11 items-center justify-between rounded px-2 py-2.5 text-text-muted hover:bg-surface-raised hover:text-primary"
               >
                 <span className="flex items-center gap-1.5">
-                  {link.official && <span className="text-xs text-primary/60" title="Offizielles Register">●</span>}
+                  {link.official && (
+                    <span className="text-xs text-primary/60" title="Offizielles Register">
+                      ●
+                    </span>
+                  )}
                   <span>{link.label}</span>
                 </span>
                 <span className="text-xs">↗</span>
@@ -140,14 +164,15 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
         <h3 className="heading-label mb-3">Gesuch</h3>
         {gesuchReady ? (
           <div className="space-y-4">
-            <AddToPipelineButton foundationId={f.slug} foundationName={f.name} priorityLevel={f.priority} />
+            <AddToPipelineButton
+              foundationId={f.slug}
+              foundationName={f.name}
+              priorityLevel={f.priority}
+            />
 
             <div className="space-y-2 border-t border-border-default pt-3">
               <p className="heading-xs-label">Dokumente</p>
-              <Button
-                href={`/fundraising/stiftungen/${f.slug}/gesuch`}
-                fullWidth
-              >
+              <Button href={`/fundraising/stiftungen/${f.slug}/gesuch`} fullWidth>
                 Gesuch öffnen
               </Button>
               <Button
@@ -168,7 +193,11 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           </div>
         ) : (
           <div className="space-y-2">
-            <AddToPipelineButton foundationId={f.slug} foundationName={f.name} priorityLevel={f.priority} />
+            <AddToPipelineButton
+              foundationId={f.slug}
+              foundationName={f.name}
+              priorityLevel={f.priority}
+            />
             <p className="text-sm text-text-muted">
               {!tierAtLeast(tier, 'recherchiert')
                 ? 'Gesuch benötigt höhere Bereitschaft (min. Tier Recherchiert).'
@@ -207,7 +236,10 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           {f.contact?.email ? (
             <div className="flex items-start gap-2">
               <span className="mt-0.5 text-text-muted">@</span>
-              <a href={`mailto:${f.contact.email}`} className="text-primary hover:underline break-all">
+              <a
+                href={`mailto:${f.contact.email}`}
+                className="text-primary hover:underline break-all"
+              >
                 {f.contact.email}
               </a>
             </div>
@@ -216,7 +248,12 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               <span className="mt-0.5">@</span>
               <span>
                 E-Mail —{' '}
-                <a href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung email Kontakt')}`} target="_blank" rel="noopener noreferrer" className="text-primary/60 hover:text-primary hover:underline">
+                <a
+                  href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung email Kontakt')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary/60 hover:text-primary hover:underline"
+                >
                   suchen
                 </a>
               </span>
@@ -226,7 +263,10 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           {f.contact?.phone ? (
             <div className="flex items-start gap-2">
               <span className="mt-0.5 text-text-muted">T</span>
-              <a href={`tel:${f.contact.phone.replace(/\s/g, '')}`} className="text-text-primary hover:underline">
+              <a
+                href={`tel:${f.contact.phone.replace(/\s/g, '')}`}
+                className="text-text-primary hover:underline"
+              >
                 {f.contact.phone}
               </a>
             </div>
@@ -235,7 +275,12 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               <span className="mt-0.5">T</span>
               <span>
                 Telefon —{' '}
-                <a href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung Telefon')}`} target="_blank" rel="noopener noreferrer" className="text-primary/60 hover:text-primary hover:underline">
+                <a
+                  href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung Telefon')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary/60 hover:text-primary hover:underline"
+                >
                   suchen
                 </a>
               </span>
@@ -252,7 +297,12 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
               <span className="mt-0.5">A</span>
               <span>
                 Adresse —{' '}
-                <a href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung Adresse')}`} target="_blank" rel="noopener noreferrer" className="text-primary/60 hover:text-primary hover:underline">
+                <a
+                  href={`https://www.google.com/search?q=${encodeURIComponent(f.name + ' Stiftung Adresse')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary/60 hover:text-primary hover:underline"
+                >
                   suchen
                 </a>
               </span>
@@ -274,11 +324,20 @@ export default function FoundationSidebar({ foundation: f }: FoundationSidebarPr
           </div>
           <div className="space-y-1 text-text-secondary">
             <p>Quelle: {source?.label || f.source}</p>
-            <p>Tiefe: {f.researchDepth === 'deep' ? 'Tiefenrecherche' : f.researchDepth === 'standard' ? 'Standard' : 'Schnellanalyse'}</p>
+            <p>
+              Tiefe:{' '}
+              {f.researchDepth === 'deep'
+                ? 'Tiefenrecherche'
+                : f.researchDepth === 'standard'
+                  ? 'Standard'
+                  : 'Schnellanalyse'}
+            </p>
             <p>Recherchiert: {f.researchDate}</p>
           </div>
           {f.researchNotes && (
-            <p className="rounded bg-surface-raised p-2 text-sm text-text-secondary">{f.researchNotes}</p>
+            <p className="rounded bg-surface-raised p-2 text-sm text-text-secondary">
+              {f.researchNotes}
+            </p>
           )}
         </div>
         <FoundationResearchEditPanel

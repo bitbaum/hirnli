@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  parseResponseTimeWeeks,
-  computeFollowUpDate,
-} from './parse-response-time';
+import { parseResponseTimeWeeks, computeFollowUpDate } from './parse-response-time';
 
 describe('parseResponseTimeWeeks', () => {
   it('returns 8 (default) for null', () => {

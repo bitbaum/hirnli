@@ -34,7 +34,7 @@ import { ThemeId } from '../src/lib/schemas/foundation';
 type ThemeIdType = z.infer<typeof ThemeId>;
 const VALID_THEME_IDS: Set<string> = new Set(ThemeId.options);
 function filterValidThemes(ids: string[]): ThemeIdType[] {
-  return ids.filter(t => VALID_THEME_IDS.has(t)) as ThemeIdType[];
+  return ids.filter((t) => VALID_THEME_IDS.has(t)) as ThemeIdType[];
 }
 
 // ============================================================================
@@ -42,15 +42,18 @@ function filterValidThemes(ids: string[]): ThemeIdType[] {
 // ============================================================================
 
 const args = process.argv.slice(2);
-const inputFile = args.find(a => !a.startsWith('--'));
+const inputFile = args.find((a) => !a.startsWith('--'));
 const DRY_RUN = args.includes('--dry-run');
-const LIMIT = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10) || Infinity;
-const OFFSET = parseInt(args.find(a => a.startsWith('--offset='))?.split('=')[1] || '0', 10) || 0;
-const DELAY_MS = parseInt(args.find(a => a.startsWith('--delay='))?.split('=')[1] || '2000', 10);
-const MODEL_OVERRIDE = args.find(a => a.startsWith('--model='))?.split('=')[1];
+const LIMIT =
+  parseInt(args.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0', 10) || Infinity;
+const OFFSET = parseInt(args.find((a) => a.startsWith('--offset='))?.split('=')[1] || '0', 10) || 0;
+const DELAY_MS = parseInt(args.find((a) => a.startsWith('--delay='))?.split('=')[1] || '2000', 10);
+const MODEL_OVERRIDE = args.find((a) => a.startsWith('--model='))?.split('=')[1];
 
 if (!inputFile) {
-  console.error('Usage: npx tsx scripts/auto-research.ts <triage-file.json> [--dry-run] [--limit=N] [--offset=N] [--model=<model>]');
+  console.error(
+    'Usage: npx tsx scripts/auto-research.ts <triage-file.json> [--dry-run] [--limit=N] [--offset=N] [--model=<model>]',
+  );
   process.exit(1);
 }
 
@@ -83,7 +86,7 @@ interface TriageOutput {
 // ============================================================================
 
 const AVAILABLE_THEMES = Object.values(THEMES)
-  .map(t => `  "${t.id}": ${t.label} — ${t.description}`)
+  .map((t) => `  "${t.id}": ${t.label} — ${t.description}`)
   .join('\n');
 
 const SYSTEM_PROMPT = `Du bist ein Schweizer Stiftungsexperte. Du analysierst Stiftungen und bewertest deren Passung für Revamp-IT, ein Sozialunternehmen in Zürich.
@@ -160,7 +163,11 @@ function buildUserPrompt(item: TriageItem, websiteContent: string | null): strin
 // Draft builder — maps Groq output to ResearchDraft (compatible with upsert)
 // ============================================================================
 
-function buildDraft(item: TriageItem, analysis: ResearchAnalysis, websiteContent: string | null): ResearchDraft {
+function buildDraft(
+  item: TriageItem,
+  analysis: ResearchAnalysis,
+  websiteContent: string | null,
+): ResearchDraft {
   return {
     slug: item.slug,
     name: item.name,
@@ -209,7 +216,9 @@ async function main() {
   const triage: TriageOutput = JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
   const allItems = triage.items.slice(OFFSET, OFFSET + LIMIT);
 
-  console.log(`Auto-Research: ${allItems.length} foundations (offset=${OFFSET}, limit=${LIMIT === Infinity ? 'all' : LIMIT})`);
+  console.log(
+    `Auto-Research: ${allItems.length} foundations (offset=${OFFSET}, limit=${LIMIT === Infinity ? 'all' : LIMIT})`,
+  );
   if (DRY_RUN) console.log('  DRY RUN — will process first 3 only, no files written');
 
   const items = DRY_RUN ? allItems.slice(0, 3) : allItems;
@@ -231,7 +240,11 @@ async function main() {
     const progress = `[${i + 1}/${items.length}]`;
 
     // Skip if no website (can't fetch content, LLM has nothing to work with beyond ESA purpose)
-    if (!item.websiteUrl || item.websiteUrl.includes('zefix.ch') || item.websiteUrl.includes('uid.admin.ch')) {
+    if (
+      !item.websiteUrl ||
+      item.websiteUrl.includes('zefix.ch') ||
+      item.websiteUrl.includes('uid.admin.ch')
+    ) {
       if (item.officialPurpose && item.officialPurpose.length > 100) {
         // ESA purpose is substantial enough to analyze without website
         console.log(`  ${progress} ${item.name} — no website, using ESA purpose only`);
@@ -283,7 +296,7 @@ async function main() {
     // Parse and validate against ResearchAnalysisSchema
     const parsed = ResearchAnalysisSchema.safeParse(cleaned);
     if (!parsed.success) {
-      const issues = parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join('; ');
+      const issues = parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ');
       console.error(`  ${progress} ${item.name} — validation error: ${issues}`);
 
       // Try to salvage: fill in missing fields with defaults
@@ -293,7 +306,12 @@ async function main() {
         const draft = buildDraft(item, salvaged, websiteContent);
         writeDraft(outDir, draft, DRY_RUN, progress);
         success++;
-        results.push({ slug: item.slug, status: 'salvaged', fitScore: salvaged.suggestedFit, priority: salvaged.suggestedPriority });
+        results.push({
+          slug: item.slug,
+          status: 'salvaged',
+          fitScore: salvaged.suggestedFit,
+          priority: salvaged.suggestedPriority,
+        });
       } else {
         errors++;
         results.push({ slug: item.slug, status: `validation-error: ${issues}` });
@@ -307,11 +325,18 @@ async function main() {
 
     writeDraft(outDir, draft, DRY_RUN, progress);
     success++;
-    results.push({ slug: item.slug, status: 'ok', fitScore: analysis.suggestedFit, priority: analysis.suggestedPriority });
+    results.push({
+      slug: item.slug,
+      status: 'ok',
+      fitScore: analysis.suggestedFit,
+      priority: analysis.suggestedPriority,
+    });
 
     if (groqResult.usage) {
       const tokens = groqResult.usage.prompt_tokens + groqResult.usage.completion_tokens;
-      console.log(`    → isFunder=${analysis.isFunder}, themes=[${analysis.themes.join(',')}], fit=${analysis.suggestedFit}, P${analysis.suggestedPriority} (${tokens} tokens)`);
+      console.log(
+        `    → isFunder=${analysis.isFunder}, themes=[${analysis.themes.join(',')}], fit=${analysis.suggestedFit}, P${analysis.suggestedPriority} (${tokens} tokens)`,
+      );
     }
 
     // Rate limit: don't hammer Groq
@@ -330,15 +355,22 @@ async function main() {
 
     // Write summary file
     const summaryFile = path.join(outDir, '_summary.json');
-    fs.writeFileSync(summaryFile, JSON.stringify({
-      date: today,
-      source: inputFile,
-      total: items.length,
-      success,
-      errors,
-      skipped,
-      results,
-    }, null, 2));
+    fs.writeFileSync(
+      summaryFile,
+      JSON.stringify(
+        {
+          date: today,
+          source: inputFile,
+          total: items.length,
+          success,
+          errors,
+          skipped,
+          results,
+        },
+        null,
+        2,
+      ),
+    );
   }
 }
 
@@ -365,7 +397,9 @@ function stripNulls(obj: Record<string, unknown>): Record<string, unknown> {
 function writeDraft(outDir: string, draft: ResearchDraft, dryRun: boolean, progress: string): void {
   if (dryRun) {
     console.log(`  ${progress} ${draft.name} — DRY RUN (would write ${draft.slug}.json)`);
-    console.log(`    Analysis: isFunder=${draft.analysis.isFunder}, themes=[${draft.analysis.themes.join(',')}]`);
+    console.log(
+      `    Analysis: isFunder=${draft.analysis.isFunder}, themes=[${draft.analysis.themes.join(',')}]`,
+    );
     console.log(`    Purpose: ${draft.analysis.purposeSummary.substring(0, 80)}...`);
     return;
   }
@@ -386,12 +420,19 @@ function salvageAnalysis(raw: Record<string, unknown>, item: TriageItem): Resear
       funderConfidence: (raw.funderConfidence as 'high' | 'medium' | 'low') || 'low',
       reasoning: (raw.reasoning as string) || 'Auto-salvaged from partial Groq response',
       themes: filterValidThemes(Array.isArray(raw.themes) ? raw.themes : item.themes),
-      suggestedType: (['A', 'B', 'C', 'D', 'network'].includes(raw.suggestedType as string) ? raw.suggestedType : 'C') as ResearchAnalysis['suggestedType'],
-      suggestedFit: typeof raw.suggestedFit === 'number' ? Math.min(3, Math.max(0, raw.suggestedFit)) : 1,
-      suggestedPriority: typeof raw.suggestedPriority === 'number' ? Math.min(4, Math.max(1, raw.suggestedPriority)) : item.priority,
+      suggestedType: (['A', 'B', 'C', 'D', 'network'].includes(raw.suggestedType as string)
+        ? raw.suggestedType
+        : 'C') as ResearchAnalysis['suggestedType'],
+      suggestedFit:
+        typeof raw.suggestedFit === 'number' ? Math.min(3, Math.max(0, raw.suggestedFit)) : 1,
+      suggestedPriority:
+        typeof raw.suggestedPriority === 'number'
+          ? Math.min(4, Math.max(1, raw.suggestedPriority))
+          : item.priority,
       purposeSummary: (raw.purposeSummary as string) || '',
       researchNotes: (raw.researchNotes as string) || '',
-      applicationMethod: (raw.applicationMethod as ResearchAnalysis['applicationMethod']) || 'unknown',
+      applicationMethod:
+        (raw.applicationMethod as ResearchAnalysis['applicationMethod']) || 'unknown',
       contactInfo: {
         email: (raw.contactInfo as Record<string, string>)?.email || item.contactEmail || undefined,
         phone: (raw.contactInfo as Record<string, string>)?.phone || item.contactPhone || undefined,
@@ -402,7 +443,9 @@ function salvageAnalysis(raw: Record<string, unknown>, item: TriageItem): Resear
         max: (raw.grantRange as Record<string, number>)?.max || undefined,
         typical: (raw.grantRange as Record<string, number>)?.typical || undefined,
       },
-      warnings: Array.isArray(raw.warnings) ? raw.warnings.filter((w): w is string => typeof w === 'string') : [],
+      warnings: Array.isArray(raw.warnings)
+        ? raw.warnings.filter((w): w is string => typeof w === 'string')
+        : [],
     };
 
     // Must have purposeSummary to be useful
@@ -416,7 +459,7 @@ function salvageAnalysis(raw: Record<string, unknown>, item: TriageItem): Resear
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Auto-research failed:', err);
   process.exit(1);
 });

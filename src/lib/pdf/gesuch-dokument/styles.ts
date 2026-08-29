@@ -35,11 +35,11 @@ export const COLORS = {
   greenText: '#065F46',
   white: '#FFFFFF',
   danger: '#DC2626',
-  amber: '#F59E0B',       // --color-amber in globals.css
+  amber: '#F59E0B', // --color-amber in globals.css
   templateBlue: '#3B82F6', // Tailwind blue-500 — header/highlight accent
-  footerGray: '#9CA3AF',   // Tailwind gray-400 — footer text
-  emphasisBg: '#DCFCE7',   // Tailwind green-100 — narrative highlight bg
-  emphasisFg: '#166534',   // Tailwind green-800 — narrative highlight text
+  footerGray: '#9CA3AF', // Tailwind gray-400 — footer text
+  emphasisBg: '#DCFCE7', // Tailwind green-100 — narrative highlight bg
+  emphasisFg: '#166534', // Tailwind green-800 — narrative highlight text
 } as const;
 
 export const styles = StyleSheet.create({

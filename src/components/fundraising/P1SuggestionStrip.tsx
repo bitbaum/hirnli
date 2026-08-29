@@ -24,7 +24,11 @@ export function P1SuggestionStrip({ p1Foundations, trackedIds, onAdded }: Props)
 
   async function handleAdd(slug: string) {
     setAdding(slug);
-    setErrors((prev) => { const next = { ...prev }; delete next[slug]; return next; });
+    setErrors((prev) => {
+      const next = { ...prev };
+      delete next[slug];
+      return next;
+    });
     const result = await createApplication(slug, 'prospect');
     setAdding(null);
     if (result.success) {

@@ -9,11 +9,11 @@ import { isResearched } from './foundation-helpers';
 // Gewichtung fuer die zusammengesetzte Relevanzbewertung
 // ---------------------------------------------------------------------------
 const SEARCH_WEIGHTS = {
-  textRelevance: 0.40,
+  textRelevance: 0.4,
   fitScore: 0.25,
   priority: 0.15,
-  researchCompleteness: 0.10,
-  themeOverlap: 0.10,
+  researchCompleteness: 0.1,
+  themeOverlap: 0.1,
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -22,10 +22,10 @@ const SEARCH_WEIGHTS = {
 const FUSE_CONFIG: IFuseOptions<Foundation> = {
   keys: [
     { name: 'name', weight: 0.35 },
-    { name: 'tagline', weight: 0.20 },
+    { name: 'tagline', weight: 0.2 },
     { name: 'purposeSummary', weight: 0.25 },
-    { name: 'researchNotes', weight: 0.10 },
-    { name: 'region', weight: 0.10 },
+    { name: 'researchNotes', weight: 0.1 },
+    { name: 'region', weight: 0.1 },
   ],
   threshold: 0.4,
   includeScore: true,

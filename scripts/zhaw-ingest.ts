@@ -134,7 +134,8 @@ function generateResearchNotes(
   if (purposeLower.includes('förderung')) activities.push('Förderung');
   if (purposeLower.includes('forschung')) activities.push('Forschung');
   if (purposeLower.includes('unterstützung')) activities.push('Unterstützung');
-  if (purposeLower.includes('ausbildung') || purposeLower.includes('bildung')) activities.push('Bildung');
+  if (purposeLower.includes('ausbildung') || purposeLower.includes('bildung'))
+    activities.push('Bildung');
   if (purposeLower.includes('projekt')) activities.push('Projektarbeit');
   if (purposeLower.includes('stipend')) activities.push('Stipendien');
   if (purposeLower.includes('sozial')) activities.push('Sozialarbeit');
@@ -157,7 +158,9 @@ function generateResearchNotes(
 
   // Themes
   if (themes.length > 0) {
-    parts.push(`Thematische Anknüpfungspunkte: ${themes.map(t => THEME_LABELS[t] || t).join(', ')}.`);
+    parts.push(
+      `Thematische Anknüpfungspunkte: ${themes.map((t) => THEME_LABELS[t] || t).join(', ')}.`,
+    );
   } else {
     parts.push('Keine direkten thematischen Anknüpfungspunkte für Revamp-IT erkannt.');
   }
@@ -186,7 +189,9 @@ function generateResearchNotes(
   };
   if (strategies[type]) parts.push(strategies[type]);
 
-  parts.push('Aus ZHAW-Verzeichnis Fonds und Stiftungen (Kanton Zürich) importiert. Kontaktdaten aus ZHAW, ergänzende Recherche empfohlen.');
+  parts.push(
+    'Aus ZHAW-Verzeichnis Fonds und Stiftungen (Kanton Zürich) importiert. Kontaktdaten aus ZHAW, ergänzende Recherche empfohlen.',
+  );
 
   return parts.join(' ');
 }
@@ -205,8 +210,11 @@ function generateDraft(zhaw: ZhawFoundation): object {
   const email = extractEmail(zhaw);
 
   const { fitScore } = computeFitScore({
-    themes, canton: 'ZH', city: zhaw.city,
-    applicationMethod, isFunder,
+    themes,
+    canton: 'ZH',
+    city: zhaw.city,
+    applicationMethod,
+    isFunder,
   });
   const suggestedFit: 1 | 2 | 3 = fitScore >= 7 ? 3 : fitScore >= 4 ? 2 : 1;
 
@@ -282,7 +290,10 @@ function isZefixUrl(url: string): boolean {
   return url.includes('zefix.ch') || url.includes('uid.admin.ch');
 }
 
-function enrichExistingDraft(draftPath: string, zhaw: ZhawFoundation): { enriched: boolean; fields: string[] } {
+function enrichExistingDraft(
+  draftPath: string,
+  zhaw: ZhawFoundation,
+): { enriched: boolean; fields: string[] } {
   const raw = JSON.parse(fs.readFileSync(draftPath, 'utf-8'));
   const fields: string[] = [];
 
@@ -348,7 +359,7 @@ function enrichExistingDraft(draftPath: string, zhaw: ZhawFoundation): { enriche
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const limitArg = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
+  const limitArg = parseInt(args.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
 
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('  ZHAW Ingest — Import Zürich cantonal foundations');

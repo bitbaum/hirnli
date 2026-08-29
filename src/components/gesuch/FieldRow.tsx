@@ -65,7 +65,12 @@ export default function FieldRow({
     if (!instruction.trim() || !value.trim()) return;
     setAiLoading(true);
     setAiError('');
-    const result = await onAiRewrite({ instruction, currentText: value, fieldPath, fieldDescription });
+    const result = await onAiRewrite({
+      instruction,
+      currentText: value,
+      fieldPath,
+      fieldDescription,
+    });
     if (result) {
       onChange(result);
       setAiInstruction('');
@@ -81,9 +86,7 @@ export default function FieldRow({
       {/* Label row */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <label className="heading-xs-label">
-            {label}
-          </label>
+          <label className="heading-xs-label">{label}</label>
           {isModified && (
             <button
               type="button"
@@ -108,7 +111,10 @@ export default function FieldRow({
           )}
           <button
             type="button"
-            onClick={() => { setShowAi((v) => !v); setAiError(''); }}
+            onClick={() => {
+              setShowAi((v) => !v);
+              setAiError('');
+            }}
             className={`flex min-h-[44px] items-center gap-1 rounded px-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               showAi ? 'bg-accent-muted text-primary-text' : 'text-text-muted hover:text-primary'
             }`}
@@ -191,9 +197,7 @@ export default function FieldRow({
             </button>
           </div>
 
-          {aiError && (
-            <p className="text-sm text-danger-text">{aiError}</p>
-          )}
+          {aiError && <p className="text-sm text-danger-text">{aiError}</p>}
         </div>
       )}
     </div>
