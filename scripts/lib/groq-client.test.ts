@@ -17,8 +17,11 @@
  * sending a nonsense one looks exactly the same from the outside. That is the
  * argument for testing the resolution rather than the ids.
  */
-import { describe, expect, it } from 'vitest';
-import { GROQ_MODELS, resolveModel } from './groq-client';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { freeChain, providerModels } from 'ai-kit';
+import { GROQ_MODELS, callGroq, resolveModel } from './groq-client';
+
+const CHAIN_MODEL_COUNT = providerModels(freeChain('HIRNLI')[0]).length;
 
 describe('resolveModel', () => {
   it('turns a size alias into a real id', () => {
@@ -69,5 +72,106 @@ describe('the model ids themselves', () => {
     // Guards a copy-paste that would make both aliases identical and quietly
     // remove the caller's ability to pick a faster model.
     expect(GROQ_MODELS.small).not.toBe(GROQ_MODELS.large);
+  });
+});
+
+/**
+ * `callGroq` used to call ONE pinned model, once — the exact shape that let a
+ * single Groq retirement take down every route and script in this repo at
+ * the same moment. It now walks `ai-kit`'s fallback chain for Groq, so these
+ * pin the demote-on-failure behaviour the fix actually depends on.
+ */
+describe('callGroq — fallback across the chain', () => {
+  const originalKey = process.env.GROQ_API_KEY;
+  let fetchMock: ReturnType<typeof vi.fn>;
+
+  beforeEach(() => {
+    process.env.GROQ_API_KEY = 'test-key';
+    fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+  });
+
+  afterEach(() => {
+    process.env.GROQ_API_KEY = originalKey;
+    vi.unstubAllGlobals();
+  });
+
+  it('demotes to the next model in the chain when the first is retired', async () => {
+    fetchMock
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 404,
+        text: async () => '{"error":{"code":"model_not_found"}}',
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ choices: [{ message: { content: 'second model answered' } }] }),
+      });
+
+    const result = await callGroq('system', 'user');
+
+    expect(result).toEqual({ ok: true, content: 'second model answered', usage: undefined });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    // The first attempt must have asked for the FIRST chain model, and the
+    // second for a DIFFERENT one — a retry that resends the same id is not a
+    // fallback.
+    const firstBody = JSON.parse(fetchMock.mock.calls[0][1].body);
+    const secondBody = JSON.parse(fetchMock.mock.calls[1][1].body);
+    expect(firstBody.model).not.toBe(secondBody.model);
+  });
+
+  it('reports every model it tried when the whole chain is exhausted', async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 401,
+      text: async () => 'invalid_api_key',
+    });
+
+    const result = await callGroq('system', 'user');
+
+    expect(result.ok).toBe(false);
+    // Every model in the chain must have been tried — not just the first.
+    expect(fetchMock).toHaveBeenCalledTimes(CHAIN_MODEL_COUNT);
+    // Every link's failure should be named, not just the last one tried.
+    expect(result.error).toMatch(/link\(s\) failed/);
+  });
+
+  it('an explicit model is called once and alone, not folded into the chain', async () => {
+    fetchMock.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ choices: [{ message: { content: 'ok' } }] }),
+    });
+
+    const result = await callGroq('system', 'user', { model: 'small' });
+
+    expect(result.ok).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    // The alias must still be resolved, exactly as before this change.
+    expect(body.model).toBe(GROQ_MODELS.small);
+  });
+
+  it('an explicit model that fails does NOT fall through to the rest of the chain', async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 404,
+      text: async () => 'model_not_found',
+    });
+
+    const result = await callGroq('system', 'user', { model: 'small' });
+
+    expect(result.ok).toBe(false);
+    // Naming a model and silently answering from a different one would be
+    // worse than failing — so exactly one attempt, not a walk.
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('reports missing key without calling fetch at all', async () => {
+    process.env.GROQ_API_KEY = '';
+
+    const result = await callGroq('system', 'user');
+
+    expect(result).toEqual({ ok: false, error: 'GROQ_API_KEY not set in environment' });
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });
