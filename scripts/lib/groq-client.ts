@@ -9,21 +9,29 @@
  *   Model: see GROQ_MODELS below — never spell an id out at a call site
  */
 
+import { freeChain, providerModels, tryChain, type Link } from 'ai-kit';
+
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-// Groq retired the entire llama-3.x family, so the previous default
-// `llama-3.3-70b-versatile` returned 404 on every call with a valid key.
-// Verified present in the live catalogue on 2026-08-27, and now checked daily
-// by dotfiles/scripts/ci/model-pin-audit.mjs.
-const GROQ_MODEL = 'openai/gpt-oss-120b';
+// Groq retired the entire llama-3.x family, so the previous single pinned
+// default `llama-3.3-70b-versatile` returned 404 on every call with a valid
+// key, and there was nothing between that and total failure — this module
+// called ONE model, once. `GROQ_PROVIDER` (from `ai-kit`, checked daily by
+// fleet/scripts/ci/model-pin-audit.mjs) is now a fallback LIST, and `callGroq`
+// walks it via `tryChain` when the caller leaves the model unspecified.
+const GROQ_PROVIDER = freeChain('HIRNLI')[0];
 const DEFAULT_TIMEOUT_MS = 60_000;
 const DEFAULT_MAX_TOKENS = 2048;
 const DEFAULT_TEMPERATURE = 0.3;
 
+// The ids themselves now come from `ai-kit`'s chain, not a literal here —
+// this file used to be the second of the two places this repo hardcoded
+// them (the other was the gesuch-section route), so a retirement had to be
+// fixed twice. `SECONDARY_MODEL` falls back to the primary rather than going
+// `undefined` if the fleet's chain for HIRNLI is ever pared to one model.
+const [PRIMARY_MODEL, SECONDARY_MODEL = PRIMARY_MODEL] = providerModels(GROQ_PROVIDER);
+
 /**
  * Model ALIASES — a size role, resolved to a live id by `resolveModel` below.
- *
- * Both previous ids were retired together when Groq withdrew the llama-3.x
- * family, so every alias here pointed at a 404.
  *
  * The old keys `70b` and `8b` are kept because they are a CLI contract:
  * `pipeline-graduate.ts --model=8b` is typed by a human, and silently changing
@@ -31,11 +39,11 @@ const DEFAULT_TEMPERATURE = 0.3;
  * describe a ROLE (bigger / faster) rather than a parameter count.
  */
 export const GROQ_MODELS = {
-  large: 'openai/gpt-oss-120b',
-  small: 'openai/gpt-oss-20b',
+  large: PRIMARY_MODEL,
+  small: SECONDARY_MODEL,
   /** @deprecated size-named aliases, kept so existing --model= flags keep working */
-  '70b': 'openai/gpt-oss-120b',
-  '8b': 'openai/gpt-oss-20b',
+  '70b': PRIMARY_MODEL,
+  '8b': SECONDARY_MODEL,
 } as const;
 
 /**
@@ -76,9 +84,87 @@ export interface GroqResult {
   usage?: { prompt_tokens: number; completion_tokens: number; total_tokens: number };
 }
 
+interface CallOnceOptions {
+  maxTokens: number;
+  temperature: number;
+  timeoutMs: number;
+  json: boolean;
+}
+
+/**
+ * One call, one model. `callGroq`'s fallback walk and its single-explicit-
+ * model path both go through here, so there is exactly one fetch
+ * implementation, not two. Throws on any failure — the caller decides
+ * whether that means "try the next model" or "report it".
+ */
+async function callGroqOnce(
+  model: string,
+  apiKey: string,
+  systemPrompt: string,
+  userPrompt: string,
+  options: CallOnceOptions,
+): Promise<{ content: string; usage?: GroqResult['usage'] }> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), options.timeoutMs);
+
+  try {
+    const body: Record<string, unknown> = {
+      model,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: options.temperature,
+      max_tokens: options.maxTokens,
+      stream: false,
+    };
+
+    if (options.json) {
+      body.response_format = { type: 'json_object' };
+    }
+
+    const response = await fetch(GROQ_API_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      const errText = await response.text().catch(() => '');
+      throw new Error(`Groq API HTTP ${response.status}: ${errText.substring(0, 200)}`);
+    }
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content?.trim();
+
+    if (!content) {
+      throw new Error('Empty response from Groq');
+    }
+
+    return { content, usage: data.usage };
+  } catch (err) {
+    if ((err as Error).name === 'AbortError') {
+      throw new Error(`Groq timeout after ${options.timeoutMs}ms`);
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 /**
  * Call Groq API with system + user message.
  * Returns the assistant's response content.
+ *
+ * When the caller leaves `model` unspecified, walks the fleet's fallback
+ * chain for Groq via `ai-kit`'s `tryChain` instead of calling one pinned
+ * model once — a retired id used to mean this whole module was down.
+ * An explicit `model`/alias is honoured as-is and alone: silently
+ * answering from a different model than asked for is worse than failing.
  */
 export async function callGroq(
   systemPrompt: string,
@@ -95,64 +181,21 @@ export async function callGroq(
     temperature = DEFAULT_TEMPERATURE,
     timeoutMs = DEFAULT_TIMEOUT_MS,
     json = false,
-    model = GROQ_MODEL,
+    model,
   } = options;
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  // Resolved, not passed through: a caller naming a size alias must not have
+  // that alias sent to the vendor as if it were a model id.
+  const models = model ? [resolveModel(model)] : providerModels(GROQ_PROVIDER);
+  const chain: Link[] = models.map((m) => ({ provider: GROQ_PROVIDER, model: m }));
+  const callOnceOptions: CallOnceOptions = { maxTokens, temperature, timeoutMs, json };
 
   try {
-    const body: Record<string, unknown> = {
-      // Resolved, not passed through: a caller naming a size alias must not
-      // have that alias sent to the vendor as if it were a model id.
-      model: resolveModel(model),
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt },
-      ],
-      temperature,
-      max_tokens: maxTokens,
-      stream: false,
-    };
-
-    if (json) {
-      body.response_format = { type: 'json_object' };
-    }
-
-    const response = await fetch(GROQ_API_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-      signal: controller.signal,
+    const { content, usage } = await tryChain(chain, {
+      attempt: (link) => callGroqOnce(link.model, apiKey, systemPrompt, userPrompt, callOnceOptions),
     });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      const errText = await response.text().catch(() => '');
-      return { ok: false, error: `Groq API HTTP ${response.status}: ${errText.substring(0, 200)}` };
-    }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content?.trim();
-
-    if (!content) {
-      return { ok: false, error: 'Empty response from Groq' };
-    }
-
-    return {
-      ok: true,
-      content,
-      usage: data.usage,
-    };
+    return { ok: true, content, usage };
   } catch (err) {
-    clearTimeout(timeoutId);
-    if ((err as Error).name === 'AbortError') {
-      return { ok: false, error: `Groq timeout after ${timeoutMs}ms` };
-    }
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
   }
 }

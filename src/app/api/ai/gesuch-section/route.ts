@@ -4,7 +4,7 @@
  * POST /api/ai/gesuch-section
  *
  * Rewrites a gesuch text section based on a user instruction.
- * Uses Groq (llama-3.3-70b) for fast inference.
+ * Uses Groq, via `scripts/lib/groq-client.ts`'s fallback chain, for fast inference.
  *
  * Body: { instruction, currentText, fieldPath, fieldDescription?,
  *         foundationName?, foundationPurpose?, foundationType?,
@@ -18,21 +18,17 @@ import { z } from 'zod';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { resolveTypeLabel } from '@/lib/config/foundations/metadata';
-import {
-  API_ERR_BAD_REQUEST,
-  API_ERR_AI_NOT_CONFIGURED,
-  API_ERR_AI_UNAVAILABLE,
-  API_ERR_AI_NO_RESPONSE,
-  API_ERR_AI_TIMEOUT,
-  API_ERR_INTERNAL,
-} from '@/lib/utils/errors';
-import { apiError } from '@/lib/api/route-helpers';
+import { API_ERR_BAD_REQUEST, API_ERR_AI_NOT_CONFIGURED, API_ERR_AI_UNAVAILABLE } from '@/lib/utils/errors';
+import { callGroq } from '../../../../../scripts/lib/groq-client';
+import { recordLLMFailure, recordLLMSuccess } from '@/lib/llm-health';
 
-const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-// Retired with the rest of Groq's llama-3.x family — this route answered 404
-// with a valid key, which surfaces to the user as "AI unavailable". Verified
-// live 2026-08-27; checked daily by dotfiles' model-pin audit.
-const GROQ_MODEL = 'openai/gpt-oss-120b';
+// This route used to hand-roll its own Groq fetch — a SECOND copy of the
+// same request `scripts/lib/groq-client.ts` already made, with its own
+// hardcoded model id. Both copies were retired together when Groq withdrew
+// the whole llama-3.x family, and both had to be fixed by hand. `callGroq`
+// now owns the request AND walks the fleet's model fallback chain, so a
+// future retirement is one fix, not two, and this route survives a single
+// retired id instead of going fully dark.
 
 /** Build system prompt from ORG_PROFILE config (no hardcoded metrics) */
 function buildSystemPrompt(): string {
@@ -191,58 +187,22 @@ export async function POST(request: NextRequest) {
 
   const userMessage = buildUserMessage(body);
 
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
+  const result = await callGroq(SYSTEM_PROMPT, userMessage, {
+    temperature: 0.35,
+    maxTokens: 1024,
+    timeoutMs: 30000,
+  });
 
-    const response = await fetch(GROQ_API_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: GROQ_MODEL,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: userMessage },
-        ],
-        temperature: 0.35,
-        max_tokens: 1024,
-        stream: false,
-      }),
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      const errText = await response.text().catch(() => '');
-      console.error('Groq API error:', response.status, errText);
-      return NextResponse.json(
-        { success: false, error: API_ERR_AI_UNAVAILABLE },
-        { status: 502 },
-      );
-    }
-
-    const data = await response.json();
-    const rewritten = data.choices?.[0]?.message?.content?.trim();
-
-    if (!rewritten) {
-      return NextResponse.json(
-        { success: false, error: API_ERR_AI_NO_RESPONSE },
-        { status: 502 },
-      );
-    }
-
-    return NextResponse.json({ success: true, data: { rewritten } });
-  } catch (err) {
-    if ((err as Error).name === 'AbortError') {
-      return NextResponse.json(
-        { success: false, error: API_ERR_AI_TIMEOUT },
-        { status: 504 },
-      );
-    }
-    return apiError('AI gesuch-section', err, API_ERR_INTERNAL);
+  if (!result.ok) {
+    console.error('Groq API error:', result.error);
+    recordLLMFailure(result.error);
+    // callGroq already tried every model in the fleet's chain — a single
+    // "unavailable" covers HTTP errors, an empty response and a timeout
+    // alike, since a multi-model walk can fail each attempt a different way
+    // and there is no one status code that would be more honest than this.
+    return NextResponse.json({ success: false, error: API_ERR_AI_UNAVAILABLE }, { status: 502 });
   }
+
+  recordLLMSuccess();
+  return NextResponse.json({ success: true, data: { rewritten: result.content } });
 }
