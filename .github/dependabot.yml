@@ -1,0 +1,26 @@
+# Dependency updates, weekly.
+#
+# Added 2026-08-29 after a fleet audit found 23 of 30 repos had no watcher at
+# all. The symptom looked like neglect and was not: aoz-housing had 100 commits
+# that month and was still on Next 14, because nothing ever opened the PR.
+# Drift here is the absence of a mechanism, not the absence of attention.
+#
+# Minor and patch are grouped into one PR so the auto-merge sweep spends one
+# cycle on them instead of five; majors stay separate because they deserve to
+# be read.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
