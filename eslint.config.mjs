@@ -6,6 +6,11 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   {
+    // 'detect' hits ESLint 10's removed context.getFilename() inside
+    // eslint-plugin-react — pin the version instead (same fix as orangecat).
+    settings: { react: { version: '19.2.8' } },
+  },
+  {
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'warn',
