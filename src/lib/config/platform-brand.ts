@@ -5,15 +5,15 @@
  * using it. Tenant identity lives in org-profile.ts and must never define
  * the platform's name.
  *
- * NAMING: the final product name is UNDECIDED (candidate: "Hirnli").
- * "Revamp-Info" is the working title. Renaming the platform = editing THIS
- * FILE ONLY — if a rename requires touching anything else, that's an SSOT
- * violation to fix, not a search-and-replace to run.
+ * NAMING: decided 2026-09-02 — the platform is "Hirnli", and it now has its
+ * own host (hirnli.orangecat.ch) rather than borrowing the tenant's. Renaming
+ * the platform = editing THIS FILE ONLY — if a rename requires touching
+ * anything else, that's an SSOT violation to fix, not a search-and-replace to
+ * run. (This edit was exactly that one-line change, which is the proof.)
  */
 
 export const PLATFORM_BRAND = {
-  /** Working title — see naming note above */
-  name: 'Revamp-Info',
+  name: 'Hirnli',
   tagline: 'Fundraising Hub',
   /** Platform marketing home (product pages, not a tenant site) */
   marketingPath: '/plattform',
