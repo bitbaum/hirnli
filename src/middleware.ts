@@ -96,14 +96,30 @@ export function middleware(request: NextRequest) {
   // ── Host routing ─────────────────────────────────────────────────────────
   // The platform host serves the product, not a tenant. Its root would
   // otherwise render Revamp-IT's showcase — the exact conflation
-  // docs/HIRNLI-REPLATFORM-PLAN.md §2 exists to end. Rewrite (not redirect):
-  // the platform keeps its own URL rather than bouncing to a tenant path.
-  if (isPlatformHost(host)) {
-    if (pathname === '/') {
-      const url = request.nextUrl.clone();
-      url.pathname = PLATFORM_BRAND.marketingPath;
-      return NextResponse.rewrite(url);
-    }
+  // docs/HIRNLI-REPLATFORM-PLAN.md §2 exists to end.
+  //
+  // REDIRECT, not rewrite, and the reason is deployment-shaped rather than
+  // aesthetic. `request.nextUrl` carries the PUBLIC origin
+  // (https://hirnli.orangecat.ch, from Caddy's X-Forwarded-Proto), while the
+  // Next server's own origin is http://localhost:4012. Those differ, so Next
+  // treats a rewrite to that URL as an EXTERNAL proxy target and dials it
+  // literally — TLS against a plain-HTTP port:
+  //
+  //   Failed to proxy https://localhost:4012/plattform
+  //   Error: write EPROTO ... tls_validate_record_header:wrong version number
+  //
+  // which took the platform host to a hard 500. A same-origin rewrite only
+  // works where the public origin IS the server's origin (Vercel); behind a
+  // reverse proxy it is a cross-origin fetch wearing a rewrite's clothes.
+  //
+  // The redirect keeps the host — only the path becomes visible — and stays
+  // correct under any proxy. When the platform home moves to `/` inside the
+  // (platform) route group, this branch disappears rather than becoming a
+  // rewrite again.
+  if (isPlatformHost(host) && pathname === '/') {
+    const url = request.nextUrl.clone();
+    url.pathname = PLATFORM_BRAND.marketingPath;
+    return NextResponse.redirect(url, 308);
   }
 
   const orgId = getTenantIdByHost(host);
