@@ -29,6 +29,33 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
+import { getTenantIdByHost, isPlatformHost } from '@/lib/tenant/registry';
+
+/**
+ * Paths the Basic-Auth gate applies to. Previously this list lived only in
+ * `config.matcher`, so "which paths run middleware" and "which paths are
+ * protected" were the same statement. They are not the same question any more:
+ * middleware now also does host routing, which must run on `/` — a public page.
+ * Keeping the protected set explicit here means widening the matcher can never
+ * silently widen what is behind the password.
+ */
+const PROTECTED_PREFIXES = [
+  '/fundraising',
+  '/api/pdf',
+  '/api/applications',
+  '/api/gesuch-overrides',
+  '/api/ai',
+  '/api/export',
+  '/api/foundations',
+  '/api/customizations',
+  '/api/documents',
+  '/api/activity-log',
+] as const;
+
+function isProtected(pathname: string): boolean {
+  return PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
 
 /** Constant-time string comparison (Edge Runtime compatible) */
 function safeEqual(a: string, b: string): boolean {
@@ -51,11 +78,45 @@ function unauthorized() {
   });
 }
 
+/**
+ * Carry the resolved tenant on the request so downstream code can stop
+ * importing ORG_PROFILE directly (Phase B). Nothing reads this yet — it is the
+ * seam, published early so new code binds to a tenant rather than to Revamp-IT.
+ */
+function withTenantHeader(request: NextRequest, orgId: string): NextResponse {
+  const headers = new Headers(request.headers);
+  headers.set('x-org-id', orgId);
+  return NextResponse.next({ request: { headers } });
+}
+
 export function middleware(request: NextRequest) {
-  const password = process.env.INTERNAL_PASSWORD;
+  const { pathname } = request.nextUrl;
+  const host = request.headers.get('host');
+
+  // ── Host routing ─────────────────────────────────────────────────────────
+  // The platform host serves the product, not a tenant. Its root would
+  // otherwise render Revamp-IT's showcase — the exact conflation
+  // docs/HIRNLI-REPLATFORM-PLAN.md §2 exists to end. Rewrite (not redirect):
+  // the platform keeps its own URL rather than bouncing to a tenant path.
+  if (isPlatformHost(host)) {
+    if (pathname === '/') {
+      const url = request.nextUrl.clone();
+      url.pathname = PLATFORM_BRAND.marketingPath;
+      return NextResponse.rewrite(url);
+    }
+  }
+
+  const orgId = getTenantIdByHost(host);
+
+  // ── Internal-area auth ───────────────────────────────────────────────────
+  // Only the protected paths are gated; everything else (the public showcase,
+  // the platform surface) passes through with the tenant header attached.
+  if (!isProtected(pathname)) return withTenantHeader(request, orgId);
 
   // Explicitly public (demo phase) — the org's deliberate choice, not a default.
-  if (process.env.INTERNAL_AUTH === 'off') return NextResponse.next();
+  if (process.env.INTERNAL_AUTH === 'off') return withTenantHeader(request, orgId);
+
+  const password = process.env.INTERNAL_PASSWORD;
 
   // No password set → open in dev only; production fails closed.
   if (!password) {
@@ -64,13 +125,11 @@ export function middleware(request: NextRequest) {
         status: 503,
       });
     }
-    return NextResponse.next();
+    return withTenantHeader(request, orgId);
   }
 
-  const { pathname } = request.nextUrl;
-
   // Share pages are always public — this is the controlled external interface
-  if (pathname.startsWith('/gesuch/share')) return NextResponse.next();
+  if (pathname.startsWith('/gesuch/share')) return withTenantHeader(request, orgId);
 
   // Check credentials
   const auth = request.headers.get('authorization');
@@ -78,24 +137,19 @@ export function middleware(request: NextRequest) {
     const decoded = Buffer.from(auth.slice(6), 'base64').toString('utf-8');
     // Format is "username:password" — we only care about the password
     const pwd = decoded.includes(':') ? decoded.split(':').slice(1).join(':') : decoded;
-    if (safeEqual(pwd, password)) return NextResponse.next();
+    if (safeEqual(pwd, password)) return withTenantHeader(request, orgId);
   }
 
   return unauthorized();
 }
 
 export const config = {
+  // Runs on everything except Next internals, static assets and /api/cron
+  // (cron routes carry their own Bearer auth via CRON_SECRET and must not be
+  // touched here). Host routing has to see `/`, so the matcher can no longer be
+  // "the protected paths" — that set now lives in PROTECTED_PREFIXES above,
+  // which is what actually decides who gets challenged.
   matcher: [
-    '/fundraising/:path*',
-    '/api/pdf/:path*',
-    '/api/applications/:path*',
-    '/api/gesuch-overrides/:path*',
-    '/api/ai/:path*',
-    '/api/export/:path*',
-    '/api/foundations/:path*',
-    '/api/customizations/:path*',
-    // /api/cron/** excluded — routes have own Bearer token auth (CRON_SECRET)
-    '/api/documents/:path*',
-    '/api/activity-log/:path*',
+    '/((?!_next/static|_next/image|api/cron|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|ico|webp|woff2?)$).*)',
   ],
 };
