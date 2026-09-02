@@ -18,7 +18,7 @@
  * argument for testing the resolution rather than the ids.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { freeChain, providerModels } from 'ai-kit';
+import { freeChain, providerModels, usableChain } from 'ai-kit';
 import { GROQ_MODELS, callGroq, resolveModel } from './groq-client';
 
 const CHAIN_MODEL_COUNT = providerModels(freeChain('HIRNLI')[0]).length;
@@ -82,17 +82,28 @@ describe('the model ids themselves', () => {
  * pin the demote-on-failure behaviour the fix actually depends on.
  */
 describe('callGroq — fallback across the chain', () => {
-  const originalKey = process.env.GROQ_API_KEY;
+  const originalGroqKey = process.env.GROQ_API_KEY;
+  const originalOpenRouterKey = process.env.OPENROUTER_API_KEY;
   let fetchMock: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     process.env.GROQ_API_KEY = 'test-key';
+    // Explicitly unset so these tests exercise Groq-only behaviour regardless
+    // of what the host shell happens to export — a test that only passes
+    // because OPENROUTER_API_KEY isn't set locally is not actually pinning
+    // anything.
+    delete process.env.OPENROUTER_API_KEY;
     fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
   });
 
   afterEach(() => {
-    process.env.GROQ_API_KEY = originalKey;
+    process.env.GROQ_API_KEY = originalGroqKey;
+    if (originalOpenRouterKey === undefined) {
+      delete process.env.OPENROUTER_API_KEY;
+    } else {
+      process.env.OPENROUTER_API_KEY = originalOpenRouterKey;
+    }
     vi.unstubAllGlobals();
   });
 
@@ -168,10 +179,46 @@ describe('callGroq — fallback across the chain', () => {
 
   it('reports missing key without calling fetch at all', async () => {
     process.env.GROQ_API_KEY = '';
+    // OPENROUTER_API_KEY is already unset in beforeEach — neither vendor is
+    // configured, so there is no chain to walk at all.
 
     const result = await callGroq('system', 'user');
 
-    expect(result).toEqual({ ok: false, error: 'GROQ_API_KEY not set in environment' });
+    expect(result.ok).toBe(false);
+    expect(result.error).toMatch(/No AI provider configured/);
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('falls through to OpenRouter when every Groq model fails and both keys are configured', async () => {
+    // This is the exact bug this fallback exists to close: a Groq-wide
+    // outage (every Groq model refusing) used to be total failure even with
+    // a second vendor's key sitting configured and unused, because nothing
+    // ever crossed vendors.
+    process.env.OPENROUTER_API_KEY = 'test-openrouter-key';
+
+    fetchMock
+      .mockResolvedValueOnce({ ok: false, status: 401, text: async () => 'invalid_api_key' })
+      .mockResolvedValueOnce({ ok: false, status: 401, text: async () => 'invalid_api_key' })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ choices: [{ message: { content: 'openrouter answered' } }] }),
+      });
+
+    const result = await callGroq('system', 'user');
+
+    expect(result).toEqual({ ok: true, content: 'openrouter answered', usage: undefined });
+    // Every Groq model tried first (CHAIN_MODEL_COUNT of them), then the walk
+    // crossed to OpenRouter.
+    expect(fetchMock).toHaveBeenCalledTimes(CHAIN_MODEL_COUNT + 1);
+    const lastCallUrl = fetchMock.mock.calls[CHAIN_MODEL_COUNT][0] as string;
+    expect(lastCallUrl).toContain('openrouter.ai');
+  });
+
+  it('the usable chain includes both vendors when both keys are present', () => {
+    process.env.OPENROUTER_API_KEY = 'test-openrouter-key';
+    const chain = usableChain(freeChain('HIRNLI'), process.env);
+    const vendors = new Set(chain.map((link) => link.provider.id));
+    expect(vendors.has('groq')).toBe(true);
+    expect(vendors.has('openrouter')).toBe(true);
   });
 });

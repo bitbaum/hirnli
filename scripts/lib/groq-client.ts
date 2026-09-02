@@ -1,24 +1,37 @@
 /**
- * Groq Client — Thin wrapper for LLM calls in scripts
+ * AI Client — Thin wrapper for LLM calls in scripts
  *
  * Extracts the Groq call pattern from /api/ai/gesuch-section into a reusable
  * module. Used by auto-research.ts and batch-customize.ts.
  *
  * Configuration:
- *   GROQ_API_KEY in .env.local (loaded by caller via dotenv)
+ *   GROQ_API_KEY / OPENROUTER_API_KEY in .env.local (loaded by caller via dotenv)
  *   Model: see GROQ_MODELS below — never spell an id out at a call site
  */
 
-import { freeChain, providerModels, tryChain, type Link } from 'ai-kit';
+import { freeChain, providerModels, tryChain, usableChain, type Link } from 'ai-kit';
 
-const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 // Groq retired the entire llama-3.x family, so the previous single pinned
 // default `llama-3.3-70b-versatile` returned 404 on every call with a valid
 // key, and there was nothing between that and total failure — this module
-// called ONE model, once. `GROQ_PROVIDER` (from `ai-kit`, checked daily by
-// fleet/scripts/ci/model-pin-audit.mjs) is now a fallback LIST, and `callGroq`
-// walks it via `tryChain` when the caller leaves the model unspecified.
-const GROQ_PROVIDER = freeChain('HIRNLI')[0];
+// called ONE model, once.
+//
+// The fix that followed was still only a fallback across MODELS, and every
+// one of them at Groq — all of Groq's models share the same org-wide daily
+// budget, so a Groq-wide outage or budget exhaustion still took this app's AI
+// fully dead, with nothing configured for `OPENROUTER_API_KEY` to even fall
+// into. `CHAIN` (from `ai-kit`'s `freeChain`, checked daily by
+// fleet/scripts/ci/model-pin-audit.mjs) is the fleet's real cross-VENDOR
+// chain — Groq, then OpenRouter — and `callGroq` walks it with `tryChain`
+// when the caller leaves the model unspecified, via `usableChain` so a
+// deployment carrying only one vendor's key still gets exactly that vendor's
+// models rather than a second link guaranteed to fail with no key.
+const CHAIN = freeChain('HIRNLI');
+// The size-role aliases below (`GROQ_MODELS`) have always meant "call Groq
+// with this specific model" — `pipeline-graduate.ts --model=8b` is a typed
+// CLI contract, not a request to start the chain at a different vendor — so
+// they keep resolving against Groq specifically, not the cross-vendor chain.
+const GROQ_PROVIDER = CHAIN[0];
 const DEFAULT_TIMEOUT_MS = 60_000;
 const DEFAULT_MAX_TOKENS = 2048;
 const DEFAULT_TEMPERATURE = 0.3;
@@ -92,13 +105,13 @@ interface CallOnceOptions {
 }
 
 /**
- * One call, one model. `callGroq`'s fallback walk and its single-explicit-
- * model path both go through here, so there is exactly one fetch
- * implementation, not two. Throws on any failure — the caller decides
- * whether that means "try the next model" or "report it".
+ * One call, one link (vendor + model). `callGroq`'s fallback walk and its
+ * single-explicit-model path both go through here, so there is exactly one
+ * fetch implementation, not two — one per vendor. Throws on any failure —
+ * the caller decides whether that means "try the next link" or "report it".
  */
 async function callGroqOnce(
-  model: string,
+  link: Link,
   apiKey: string,
   systemPrompt: string,
   userPrompt: string,
@@ -109,7 +122,7 @@ async function callGroqOnce(
 
   try {
     const body: Record<string, unknown> = {
-      model,
+      model: link.model,
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
@@ -123,7 +136,7 @@ async function callGroqOnce(
       body.response_format = { type: 'json_object' };
     }
 
-    const response = await fetch(GROQ_API_URL, {
+    const response = await fetch(`${link.provider.baseUrl}/chat/completions`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -135,20 +148,20 @@ async function callGroqOnce(
 
     if (!response.ok) {
       const errText = await response.text().catch(() => '');
-      throw new Error(`Groq API HTTP ${response.status}: ${errText.substring(0, 200)}`);
+      throw new Error(`${link.provider.id} API HTTP ${response.status}: ${errText.substring(0, 200)}`);
     }
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content?.trim();
 
     if (!content) {
-      throw new Error('Empty response from Groq');
+      throw new Error(`Empty response from ${link.provider.id}`);
     }
 
     return { content, usage: data.usage };
   } catch (err) {
     if ((err as Error).name === 'AbortError') {
-      throw new Error(`Groq timeout after ${options.timeoutMs}ms`);
+      throw new Error(`${link.provider.id} timeout after ${options.timeoutMs}ms`);
     }
     throw err;
   } finally {
@@ -157,25 +170,23 @@ async function callGroqOnce(
 }
 
 /**
- * Call Groq API with system + user message.
+ * Call the fleet's AI chain with system + user message.
  * Returns the assistant's response content.
  *
- * When the caller leaves `model` unspecified, walks the fleet's fallback
- * chain for Groq via `ai-kit`'s `tryChain` instead of calling one pinned
- * model once — a retired id used to mean this whole module was down.
- * An explicit `model`/alias is honoured as-is and alone: silently
- * answering from a different model than asked for is worse than failing.
+ * When the caller leaves `model` unspecified, walks the fleet's cross-vendor
+ * chain (Groq, then OpenRouter) via `ai-kit`'s `usableChain` + `tryChain`
+ * instead of calling one pinned model at one vendor — a Groq-wide outage or
+ * daily-budget exhaustion used to mean this whole module was down, with
+ * nowhere else to go. An explicit `model`/alias is honoured as-is, alone, and
+ * against Groq specifically (see `GROQ_MODELS`): silently answering from a
+ * different model — or a different vendor — than asked for is worse than
+ * failing.
  */
 export async function callGroq(
   systemPrompt: string,
   userPrompt: string,
   options: GroqOptions = {},
 ): Promise<GroqResult> {
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
-    return { ok: false, error: 'GROQ_API_KEY not set in environment' };
-  }
-
   const {
     maxTokens = DEFAULT_MAX_TOKENS,
     temperature = DEFAULT_TEMPERATURE,
@@ -183,16 +194,41 @@ export async function callGroq(
     json = false,
     model,
   } = options;
-
-  // Resolved, not passed through: a caller naming a size alias must not have
-  // that alias sent to the vendor as if it were a model id.
-  const models = model ? [resolveModel(model)] : providerModels(GROQ_PROVIDER);
-  const chain: Link[] = models.map((m) => ({ provider: GROQ_PROVIDER, model: m }));
   const callOnceOptions: CallOnceOptions = { maxTokens, temperature, timeoutMs, json };
+
+  if (model) {
+    // Explicit model: a Groq-specific pin, called once and alone — see the
+    // doc comment above.
+    const apiKey = process.env[GROQ_PROVIDER.keyEnv];
+    if (!apiKey) {
+      return { ok: false, error: `${GROQ_PROVIDER.keyEnv} not set in environment` };
+    }
+    const link: Link = { provider: GROQ_PROVIDER, model: resolveModel(model) };
+    try {
+      const { content, usage } = await callGroqOnce(link, apiKey, systemPrompt, userPrompt, callOnceOptions);
+      return { ok: true, content, usage };
+    } catch (err) {
+      return { ok: false, error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+
+  // No explicit model: walk every vendor whose key is actually configured.
+  // A missing key is a normal deployment state (most boxes carry one
+  // vendor's key, not every vendor's), so `usableChain` drops that vendor
+  // silently rather than the walk failing on it.
+  const chain = usableChain(CHAIN, process.env);
+  if (chain.length === 0) {
+    const keyEnvs = CHAIN.map((p) => p.keyEnv).join(' or ');
+    return { ok: false, error: `No AI provider configured (set ${keyEnvs})` };
+  }
 
   try {
     const { content, usage } = await tryChain(chain, {
-      attempt: (link) => callGroqOnce(link.model, apiKey, systemPrompt, userPrompt, callOnceOptions),
+      // `usableChain` only returns links whose vendor has a key, so this is
+      // always defined — the `!` documents that guarantee rather than
+      // re-deriving it.
+      attempt: (link) =>
+        callGroqOnce(link, process.env[link.provider.keyEnv]!, systemPrompt, userPrompt, callOnceOptions),
     });
     return { ok: true, content, usage };
   } catch (err) {
