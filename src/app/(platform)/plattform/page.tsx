@@ -7,7 +7,11 @@ import { getAllFoundations } from '@/lib/db/foundations-repo';
 export async function generateMetadata(): Promise<Metadata> {
   const locale = (await getLocale()) as PlatformLocale;
   const meta = PLATFORM_CONTENT[locale].meta;
-  return { title: meta.title, description: meta.description, openGraph: { title: meta.title, description: meta.description } };
+  return {
+    title: meta.title,
+    description: meta.description,
+    openGraph: { title: meta.title, description: meta.description },
+  };
 }
 
 export default async function PlattformPage() {

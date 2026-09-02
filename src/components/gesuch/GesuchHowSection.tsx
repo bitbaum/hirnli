@@ -9,9 +9,7 @@ interface GesuchHowSectionProps {
 export default function GesuchHowSection({ trackRecord, competencies }: GesuchHowSectionProps) {
   return (
     <section>
-      <h2 className="mb-6 heading-page">
-        {trackRecord.headline}
-      </h2>
+      <h2 className="mb-6 heading-page">{trackRecord.headline}</h2>
       <p className="mb-6 text-base leading-relaxed text-text-secondary md:text-lg">
         {trackRecord.text}
       </p>

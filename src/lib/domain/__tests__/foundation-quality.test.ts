@@ -16,36 +16,36 @@ describe('validateFoundationQuality', () => {
   it('flags short purposeSummary on researched foundation', () => {
     const f = makeFoundation({ purposeSummary: 'Too short' });
     const violations = validateFoundationQuality([f]);
-    const issues = violations.flatMap(v => v.issues);
-    expect(issues.some(i => i.includes('purposeSummary'))).toBe(true);
+    const issues = violations.flatMap((v) => v.issues);
+    expect(issues.some((i) => i.includes('purposeSummary'))).toBe(true);
   });
 
   it('flags short researchNotes', () => {
     const f = makeFoundation({ researchNotes: 'Brief' });
     const violations = validateFoundationQuality([f]);
-    const issues = violations.flatMap(v => v.issues);
-    expect(issues.some(i => i.includes('researchNotes'))).toBe(true);
+    const issues = violations.flatMap((v) => v.issues);
+    expect(issues.some((i) => i.includes('researchNotes'))).toBe(true);
   });
 
   it('flags missing contact', () => {
     const f = makeFoundation({ contact: undefined });
     const violations = validateFoundationQuality([f]);
-    const issues = violations.flatMap(v => v.issues);
-    expect(issues.some(i => i.includes('contact'))).toBe(true);
+    const issues = violations.flatMap((v) => v.issues);
+    expect(issues.some((i) => i.includes('contact'))).toBe(true);
   });
 
   it('flags empty themes', () => {
     const f = makeFoundation({ themes: [] });
     const violations = validateFoundationQuality([f]);
-    const issues = violations.flatMap(v => v.issues);
-    expect(issues.some(i => i.includes('themes'))).toBe(true);
+    const issues = violations.flatMap((v) => v.issues);
+    expect(issues.some((i) => i.includes('themes'))).toBe(true);
   });
 
   it('flags missing websiteUrl', () => {
     const f = makeFoundation({ websiteUrl: '' });
     const violations = validateFoundationQuality([f]);
-    const issues = violations.flatMap(v => v.issues);
-    expect(issues.some(i => i.includes('websiteUrl'))).toBe(true);
+    const issues = violations.flatMap((v) => v.issues);
+    expect(issues.some((i) => i.includes('websiteUrl'))).toBe(true);
   });
 
   it('reports multiple issues per foundation', () => {

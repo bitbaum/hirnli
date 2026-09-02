@@ -7,7 +7,10 @@ import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import type { NumberConfidence } from '@/lib/config/numbers';
 import type { Confidence } from '@/lib/schemas/metric';
 
-export const CONFIDENCE_BADGE_MAP: Record<NumberConfidence | Confidence, { label: string; variant: 'success' | 'warning' | 'danger' | 'default' }> = {
+export const CONFIDENCE_BADGE_MAP: Record<
+  NumberConfidence | Confidence,
+  { label: string; variant: 'success' | 'warning' | 'danger' | 'default' }
+> = {
   high: { label: 'Hoch', variant: 'success' },
   medium: { label: 'Mittel', variant: 'warning' },
   estimated: { label: 'Geschätzt', variant: 'warning' },
@@ -58,9 +61,7 @@ export function MethodologySection({
         {children}
         <div className="mt-6 flex items-center gap-2">
           <ConfidenceBadge level={confidence} />
-          {confidenceNote && (
-            <span className="text-sm text-text-muted">{confidenceNote}</span>
-          )}
+          {confidenceNote && <span className="text-sm text-text-muted">{confidenceNote}</span>}
         </div>
       </Card>
     </section>

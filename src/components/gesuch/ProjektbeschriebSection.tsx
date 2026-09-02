@@ -11,9 +11,7 @@ interface ProjektbeschriebSectionProps {
 export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSectionProps) {
   return (
     <section className="gesuch-section mb-12">
-      <h2 className="mb-2 border-b-2 border-grey-dark pb-2 heading-section">
-        Projektbeschrieb
-      </h2>
+      <h2 className="mb-2 border-b-2 border-grey-dark pb-2 heading-section">Projektbeschrieb</h2>
       <p className="mb-8 text-sm text-text-muted">
         {dok.organization.organization.name} — Fördergesuch an {dok.foundation.name}
       </p>
@@ -23,8 +21,9 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         <h3 className="mb-2 heading-card">1. Zusammenfassung</h3>
         {dok.foundation.purposeSummary && (
           <p className="mb-3 text-sm leading-relaxed text-text">
-            Die {dok.foundation.name} hat sich dem Thema {extractPurposeCore(dok.foundation.purposeSummary)} verschrieben.
-            {' '}{ORG_PROFILE.name} adressiert dieses Anliegen direkt:
+            Die {dok.foundation.name} hat sich dem Thema{' '}
+            {extractPurposeCore(dok.foundation.purposeSummary)} verschrieben. {ORG_PROFILE.name}{' '}
+            adressiert dieses Anliegen direkt:
           </p>
         )}
         <p className="text-sm leading-relaxed text-text">
@@ -37,9 +36,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
       {dok.story.why && (
         <div className="mb-8">
           <h3 className="mb-2 heading-card">2. Ausgangslage und Problemstellung</h3>
-          <p className="text-sm leading-relaxed text-text">
-            {dok.story.why.problem}
-          </p>
+          <p className="text-sm leading-relaxed text-text">{dok.story.why.problem}</p>
           {dok.story.evidence.length > 0 && (
             <p className="mt-2 text-xs text-text-muted">
               Quellen: {dok.story.evidence.map((e) => `${e.title} (${e.year})`).join('; ')}
@@ -67,9 +64,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
       {/* 3. Trägerschaft */}
       <div className="mb-8">
         <h3 className="mb-2 heading-card">3. Trägerschaft und Kompetenzen</h3>
-        <p className="mb-3 text-sm leading-relaxed text-text">
-          {dok.story.how.track_record.text}
-        </p>
+        <p className="mb-3 text-sm leading-relaxed text-text">{dok.story.how.track_record.text}</p>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {dok.story.how.track_record.proof_points.map((pp) => (
             <div key={pp.label} className="rounded border border-border-default p-2 text-center">
@@ -91,7 +86,8 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
                 {/* Evidence citations per competency (Gap #4) */}
                 {comp.evidence && comp.evidence.length > 0 && (
                   <p className="mt-1 text-xs text-text-muted">
-                    Quellen: {comp.evidence
+                    Quellen:{' '}
+                    {comp.evidence
                       .map((key) => findEvidence(key))
                       .filter((e): e is NonNullable<typeof e> => e !== null)
                       .map((e) => `${e.title} (${e.year})`)
@@ -148,19 +144,25 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
                 <div>
                   <p className="mb-1 heading-detail text-primary">Ziele</p>
                   <ul className="text-text-secondary">
-                    {project.goals.map((g) => <li key={g}>• {g}</li>)}
+                    {project.goals.map((g) => (
+                      <li key={g}>• {g}</li>
+                    ))}
                   </ul>
                 </div>
                 <div>
                   <p className="mb-1 heading-detail text-accent">Massnahmen</p>
                   <ul className="text-text-secondary">
-                    {project.activities.map((a) => <li key={a}>• {a}</li>)}
+                    {project.activities.map((a) => (
+                      <li key={a}>• {a}</li>
+                    ))}
                   </ul>
                 </div>
                 <div>
                   <p className="mb-1 heading-detail text-secondary">Erwartete Wirkung</p>
                   <ul className="text-text-secondary">
-                    {project.outcomes.map((o) => <li key={o}>• {o}</li>)}
+                    {project.outcomes.map((o) => (
+                      <li key={o}>• {o}</li>
+                    ))}
                   </ul>
                 </div>
               </div>

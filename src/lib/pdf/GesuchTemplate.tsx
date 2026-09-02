@@ -6,17 +6,16 @@
  */
 
 import React from 'react';
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-} from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { COLORS, pdfFormatCHF, pdfTodayCH } from '@/lib/pdf/gesuch-dokument/styles';
 
-const { templateBlue: TEMPLATE_BLUE, footerGray: FOOTER_GRAY, emphasisBg: EMPHASIS_BG, emphasisFg: EMPHASIS_FG } = COLORS;
+const {
+  templateBlue: TEMPLATE_BLUE,
+  footerGray: FOOTER_GRAY,
+  emphasisBg: EMPHASIS_BG,
+  emphasisFg: EMPHASIS_FG,
+} = COLORS;
 
 const styles = StyleSheet.create({
   page: {
@@ -143,23 +142,21 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
         </View>
 
         {/* Emphasized Narratives */}
-        {content.emphasizedNarratives &&
-          content.emphasizedNarratives.length > 0 && (
-            <View style={styles.emphasisBox}>
-              {content.emphasizedNarratives.map((narrative, index) => (
-                <Text key={index} style={styles.emphasisText}>
-                  ✓ {narrative}
-                </Text>
-              ))}
-            </View>
-          )}
+        {content.emphasizedNarratives && content.emphasizedNarratives.length > 0 && (
+          <View style={styles.emphasisBox}>
+            {content.emphasizedNarratives.map((narrative, index) => (
+              <Text key={index} style={styles.emphasisText}>
+                ✓ {narrative}
+              </Text>
+            ))}
+          </View>
+        )}
 
         {/* Introduction */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Zusammenfassung</Text>
           <Text style={styles.paragraph}>
-            Wir beantragen {pdfFormatCHF(content.requestedAmount)} für{' '}
-            {content.projectFocus}.
+            Wir beantragen {pdfFormatCHF(content.requestedAmount)} für {content.projectFocus}.
           </Text>
           <Text style={styles.paragraph}>{content.introduction}</Text>
         </View>
@@ -185,17 +182,13 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
         {/* Budget */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Budget</Text>
-          {content.budget.modules.map(module => (
+          {content.budget.modules.map((module) => (
             <View key={module.id} style={styles.tableRow}>
               <View style={{ flex: 2 }}>
                 <Text style={{ fontWeight: 'bold' }}>{module.name}</Text>
-                <Text style={{ fontSize: 9, color: COLORS.textMuted }}>
-                  {module.description}
-                </Text>
+                <Text style={{ fontSize: 9, color: COLORS.textMuted }}>{module.description}</Text>
               </View>
-              <Text style={styles.tableCellRight}>
-                {pdfFormatCHF(module.amount)}
-              </Text>
+              <Text style={styles.tableCellRight}>{pdfFormatCHF(module.amount)}</Text>
             </View>
           ))}
           <View style={[styles.tableRow, { borderTop: `2 solid ${COLORS.text}` }]}>
@@ -224,24 +217,17 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
         {/* Contact */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Kontakt</Text>
-          <Text style={styles.paragraph}>
-            {content.contact.name}
-          </Text>
-          <Text style={styles.paragraph}>
-            E-Mail: {content.contact.email}
-          </Text>
+          <Text style={styles.paragraph}>{content.contact.name}</Text>
+          <Text style={styles.paragraph}>E-Mail: {content.contact.email}</Text>
           {content.contact.phone && (
-            <Text style={styles.paragraph}>
-              Telefon: {content.contact.phone}
-            </Text>
+            <Text style={styles.paragraph}>Telefon: {content.contact.phone}</Text>
           )}
         </View>
 
         {/* Footer */}
         <View style={styles.footer}>
           <Text>
-            {ORG_PROFILE.name} Schweiz | {ORG_PROFILE.address} |
-            {ORG_PROFILE.email}
+            {ORG_PROFILE.name} Schweiz | {ORG_PROFILE.address} |{ORG_PROFILE.email}
           </Text>
           <Text style={{ marginTop: 5 }}>
             🌱 Generiert mit {ORG_PROFILE.name} Fundraising System

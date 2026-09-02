@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  NumberSources,
-  SOURCE_TYPE_MAP,
-  metricToInspectorData,
-} from '../metrics';
+import { NumberSources, SOURCE_TYPE_MAP, metricToInspectorData } from '../metrics';
 
 // ---------------------------------------------------------------------------
 // NumberSources shape

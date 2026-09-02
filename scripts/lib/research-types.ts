@@ -25,8 +25,22 @@ export const ResearchAnalysisSchema = z.object({
   suggestedFit: z.number().int().min(0).max(3), // 0 = not assessed (bulk enrichment)
   suggestedPriority: z.number().int().min(1).max(4),
   purposeSummary: z.string().min(20), // relaxed for auto-generated summaries
-  researchNotes: z.string().min(20),  // relaxed for auto-generated notes
-  applicationMethod: z.enum(['online', 'email', 'invitation', 'unknown', 'post', 'contact', 'direct', 'personal', 'partnership', 'via_partner', 'membership', 'contract', 'none']),
+  researchNotes: z.string().min(20), // relaxed for auto-generated notes
+  applicationMethod: z.enum([
+    'online',
+    'email',
+    'invitation',
+    'unknown',
+    'post',
+    'contact',
+    'direct',
+    'personal',
+    'partnership',
+    'via_partner',
+    'membership',
+    'contract',
+    'none',
+  ]),
   contactInfo: z.object({
     email: z.string().optional(),
     phone: z.string().optional(),
@@ -67,12 +81,14 @@ export const ResearchQueueItemSchema = z.object({
     foundVia: z.array(z.string()).optional(),
     url: z.string().optional(),
   }),
-  scores: z.object({
-    funderScore: z.number(),
-    operatorScore: z.number(),
-    socialScore: z.number(),
-    confidence: z.enum(['high', 'medium', 'low']),
-  }).optional(),
+  scores: z
+    .object({
+      funderScore: z.number(),
+      operatorScore: z.number(),
+      socialScore: z.number(),
+      confidence: z.enum(['high', 'medium', 'low']),
+    })
+    .optional(),
 });
 
 export type ResearchQueueItem = z.infer<typeof ResearchQueueItemSchema>;
@@ -81,14 +97,16 @@ export type ResearchQueueItem = z.infer<typeof ResearchQueueItemSchema>;
 // RESEARCH DRAFT — Full draft ready for human review
 // ============================================================================
 
-export const ResearchDraftSchema = z.object({
-  slug: z.string(),
-  name: z.string(),
-  timestamp: z.string(),
-  queueItem: ResearchQueueItemSchema,
-  websiteContent: z.string().optional(),
-  analysis: ResearchAnalysisSchema,
-}).passthrough(); // Allow _meta from batch-generated drafts
+export const ResearchDraftSchema = z
+  .object({
+    slug: z.string(),
+    name: z.string(),
+    timestamp: z.string(),
+    queueItem: ResearchQueueItemSchema,
+    websiteContent: z.string().optional(),
+    analysis: ResearchAnalysisSchema,
+  })
+  .passthrough(); // Allow _meta from batch-generated drafts
 
 export type ResearchDraft = z.infer<typeof ResearchDraftSchema>;
 

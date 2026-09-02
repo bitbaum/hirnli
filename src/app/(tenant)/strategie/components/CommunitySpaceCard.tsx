@@ -32,9 +32,10 @@ export default function CommunitySpaceCard({
 }: CommunitySpaceCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const borderStyle = type === 'core'
-    ? 'border-2 border-primary bg-surface-base shadow-panel hover:shadow-md'
-    : 'border border-dashed border-border-default bg-surface-raised/50 hover:bg-surface-raised';
+  const borderStyle =
+    type === 'core'
+      ? 'border-2 border-primary bg-surface-base shadow-panel hover:shadow-md'
+      : 'border border-dashed border-border-default bg-surface-raised/50 hover:bg-surface-raised';
 
   return (
     <div
@@ -81,9 +82,7 @@ export default function CommunitySpaceCard({
           {/* Activities */}
           {activities.length > 0 && (
             <div>
-              <h4 className="heading-detail mb-3">
-                Was hier passiert:
-              </h4>
+              <h4 className="heading-detail mb-3">Was hier passiert:</h4>
               <ul className="space-y-2">
                 {activities.map((activity, idx) => (
                   <li key={idx} className="flex items-start gap-3 text-sm text-text-primary">
@@ -133,7 +132,9 @@ export default function CommunitySpaceCard({
             <Callout color="warning">
               <h4 className="heading-detail text-warning mb-1">Geschätzte Kosten</h4>
               <p className="heading-stat-sm text-warning">{estimatedCost}</p>
-              <p className="text-sm text-warning mt-1">Einmalige Einrichtung + erstes Jahr Betrieb</p>
+              <p className="text-sm text-warning mt-1">
+                Einmalige Einrichtung + erstes Jahr Betrieb
+              </p>
             </Callout>
           )}
         </div>

@@ -43,9 +43,7 @@ export function applyGesuchOverrides<T extends ComposedGesuch>(
           ...(overrides.how.trackRecord.headline
             ? { headline: overrides.how.trackRecord.headline }
             : {}),
-          ...(overrides.how.trackRecord.text
-            ? { text: overrides.how.trackRecord.text }
-            : {}),
+          ...(overrides.how.trackRecord.text ? { text: overrides.how.trackRecord.text } : {}),
         },
       },
     };
@@ -58,7 +56,9 @@ export function applyGesuchOverrides<T extends ComposedGesuch>(
       ...anschreiben,
       ...(overrides.anschreiben.subject ? { subject: overrides.anschreiben.subject } : {}),
       ...(overrides.anschreiben.opening ? { opening: overrides.anschreiben.opening } : {}),
-      ...(overrides.anschreiben.themeAlignment ? { themeAlignment: overrides.anschreiben.themeAlignment } : {}),
+      ...(overrides.anschreiben.themeAlignment
+        ? { themeAlignment: overrides.anschreiben.themeAlignment }
+        : {}),
       ...(overrides.anschreiben.closing ? { closing: overrides.anschreiben.closing } : {}),
     };
   }
@@ -67,7 +67,10 @@ export function applyGesuchOverrides<T extends ComposedGesuch>(
 }
 
 /** Load overrides from DB — returns empty object if none saved */
-export async function loadGesuchOverrides(slug: string, variantKey: string = 'auto'): Promise<GesuchOverridesData> {
+export async function loadGesuchOverrides(
+  slug: string,
+  variantKey: string = 'auto',
+): Promise<GesuchOverridesData> {
   try {
     const { db } = await import('@/lib/db/client');
     const { gesuchOverrides } = await import('@/lib/db/schema');
@@ -77,11 +80,13 @@ export async function loadGesuchOverrides(slug: string, variantKey: string = 'au
     const rows = await db
       .select({ overrides: gesuchOverrides.overrides })
       .from(gesuchOverrides)
-      .where(and(
-        eq(gesuchOverrides.foundationId, slug),
-        eq(gesuchOverrides.orgId, ORG_PROFILE.orgId),
-        eq(gesuchOverrides.variantKey, variantKey),
-      ))
+      .where(
+        and(
+          eq(gesuchOverrides.foundationId, slug),
+          eq(gesuchOverrides.orgId, ORG_PROFILE.orgId),
+          eq(gesuchOverrides.variantKey, variantKey),
+        ),
+      )
       .limit(1);
 
     return (rows[0]?.overrides as GesuchOverridesData) ?? {};

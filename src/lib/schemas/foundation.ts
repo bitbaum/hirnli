@@ -22,11 +22,11 @@ type ResearchDepth = z.infer<typeof ResearchDepth>;
 
 // Quality tier — computed deterministically from data signals (never stored)
 export const QualityTier = z.enum([
-  'verzeichnet',       // Rank 1: Exists in Swiss registry. Name and UID only.
-  'erfasst',           // Rank 2: Registry data available. Needs research.
-  'profiliert',        // Rank 3: Automated profile from registry. Directional.
-  'recherchiert',      // Rank 4: Verified website and direct contact.
-  'anwendungsbereit',  // Rank 5: Apply now — we know how, where, and how much.
+  'verzeichnet', // Rank 1: Exists in Swiss registry. Name and UID only.
+  'erfasst', // Rank 2: Registry data available. Needs research.
+  'profiliert', // Rank 3: Automated profile from registry. Directional.
+  'recherchiert', // Rank 4: Verified website and direct contact.
+  'anwendungsbereit', // Rank 5: Apply now — we know how, where, and how much.
 ]);
 export type QualityTier = z.infer<typeof QualityTier>;
 
@@ -35,13 +35,31 @@ export const FoundationStatus = z.enum(['open', 'closed', 'rolling', 'soon']);
 export type FoundationStatus = z.infer<typeof FoundationStatus>;
 
 // Source IDs
-export const SourceId = z.enum(['manual', 'fundraiso', 'stiftungschweiz', 'esa', 'zefix', 'website', 'cantonal']);
+export const SourceId = z.enum([
+  'manual',
+  'fundraiso',
+  'stiftungschweiz',
+  'esa',
+  'zefix',
+  'website',
+  'cantonal',
+]);
 export type SourceId = z.infer<typeof SourceId>;
 
 // Application methods
 export const ApplicationMethod = z.enum([
-  'online', 'post', 'email', 'contact', 'direct', 'personal',
-  'partnership', 'via_partner', 'membership', 'contract', 'none', 'unknown',
+  'online',
+  'post',
+  'email',
+  'contact',
+  'direct',
+  'personal',
+  'partnership',
+  'via_partner',
+  'membership',
+  'contract',
+  'none',
+  'unknown',
   'invitation',
 ]);
 export type ApplicationMethod = z.infer<typeof ApplicationMethod>;
@@ -49,26 +67,25 @@ export type ApplicationMethod = z.infer<typeof ApplicationMethod>;
 // Research method — tracks HOW application info was verified
 // Used to assess data quality and prioritize re-research
 const ApplicationResearchMethod = z.enum([
-  'chatgpt-agent',   // ChatGPT actually visited the foundation's website (highest quality)
-  'claude-agent',    // Claude internal Agent with WebSearch/WebFetch tools (good, no JS rendering)
-  'chatgpt-search',  // ChatGPT used search/training data (may not reflect current state)
-  'groq-pipeline',   // Automated Groq LLM inference from registry text (lowest quality)
-  'manual',          // Human-verified directly
-  'unknown',         // Provenance not tracked (legacy data)
+  'chatgpt-agent', // ChatGPT actually visited the foundation's website (highest quality)
+  'claude-agent', // Claude internal Agent with WebSearch/WebFetch tools (good, no JS rendering)
+  'chatgpt-search', // ChatGPT used search/training data (may not reflect current state)
+  'groq-pipeline', // Automated Groq LLM inference from registry text (lowest quality)
+  'manual', // Human-verified directly
+  'unknown', // Provenance not tracked (legacy data)
 ]);
 type ApplicationResearchMethod = z.infer<typeof ApplicationResearchMethod>;
 
 // Quality rank for each research method — higher = more trustworthy data
 // SSOT: import this wherever upgrade logic or queue filtering is needed
 export const RESEARCH_METHOD_RANK: Record<ApplicationResearchMethod, number> = {
-  'manual':          4,  // Human-verified (gold standard)
-  'chatgpt-agent':   3,  // ChatGPT with full browser (JS rendering, real navigation)
-  'claude-agent':    2,  // Claude Agent (WebFetch/WebSearch, no JS rendering)
-  'chatgpt-search':  2,  // ChatGPT search/training data (may be stale)
-  'groq-pipeline':   1,  // Automated LLM triage from register text only
-  'unknown':         0,  // Legacy, provenance unknown
+  manual: 4, // Human-verified (gold standard)
+  'chatgpt-agent': 3, // ChatGPT with full browser (JS rendering, real navigation)
+  'claude-agent': 2, // Claude Agent (WebFetch/WebSearch, no JS rendering)
+  'chatgpt-search': 2, // ChatGPT search/training data (may be stale)
+  'groq-pipeline': 1, // Automated LLM triage from register text only
+  unknown: 0, // Legacy, provenance unknown
 };
-
 
 // Sentinel stored in optional text fields (deadlineText, amount.text) when the
 // field is known to exist but the specific value is undetermined.
@@ -102,11 +119,13 @@ const amountSchema = z.object({
 });
 
 // Foundation contact
-const contactSchema = z.object({
-  address: z.string().optional(),
-  email: z.string().optional(),
-  phone: z.string().optional(),
-}).optional();
+const contactSchema = z
+  .object({
+    address: z.string().optional(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
+  })
+  .optional();
 
 // Source link (where we found this foundation on aggregator sites)
 const sourceLinkSchema = z.object({
@@ -122,10 +141,12 @@ const deadlineEntrySchema = z.object({
 });
 
 // Foundation criteria
-const criteriaSchema = z.object({
-  nature: z.string().optional(),
-  education: z.string().optional(),
-}).optional();
+const criteriaSchema = z
+  .object({
+    nature: z.string().optional(),
+    education: z.string().optional(),
+  })
+  .optional();
 
 // ===========================================================================
 // Layer 1: Registry — Universal facts about a foundation (org-agnostic)
@@ -152,10 +173,14 @@ const registrySchema = z.object({
   totalBudget: z.string().optional(),
   grantExpenditure: z.string().optional(),
   supervisoryAuthority: z.string().optional(),
-  boardMembers: z.array(z.object({
-    name: z.string(),
-    role: z.string(),
-  })).optional(),
+  boardMembers: z
+    .array(
+      z.object({
+        name: z.string(),
+        role: z.string(),
+      }),
+    )
+    .optional(),
   memberships: z.array(z.string()).optional(),
 
   // Applications
@@ -212,8 +237,8 @@ const analysisSchema = z.object({
   priorityOverride: z.boolean().optional(),
 
   // -- Classification ---------------------------------------------------------
-  type: FoundationType,           // A/B/C/D/network — approach strategy
-  themes: z.array(ThemeId),       // Input to fit scoring + Gesuch theming
+  type: FoundationType, // A/B/C/D/network — approach strategy
+  themes: z.array(ThemeId), // Input to fit scoring + Gesuch theming
 
   // -- Content ----------------------------------------------------------------
   tagline: z.string(),
@@ -221,7 +246,7 @@ const analysisSchema = z.object({
 
   // -- Pipeline metadata (not used in domain scoring) -------------------------
   researchDate: z.string(),
-  researchDepth: ResearchDepth.optional(),     // Pipeline bookkeeping only
+  researchDepth: ResearchDepth.optional(), // Pipeline bookkeeping only
 
   // -- Relationships ----------------------------------------------------------
   possiblePartners: z.array(z.string()).optional(),
@@ -242,9 +267,7 @@ export type FoundationAnalysis = z.infer<typeof analysisSchema>;
 // Key signals: purposeSummary, researchNotes, contact, themes, websiteUrl.
 
 // Raw composed schema before migration transform
-const _foundationRaw = registrySchema.extend(
-  analysisSchema.omit({ orgId: true }).shape
-);
+const _foundationRaw = registrySchema.extend(analysisSchema.omit({ orgId: true }).shape);
 
 // Legacy fit→fitScore migration transform was removed alongside the
 // deprecated `fit` schema field — all rows have been backfilled to use

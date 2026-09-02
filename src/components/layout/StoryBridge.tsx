@@ -18,18 +18,17 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
     return null;
   }
 
-  const gridCols = bridges.length === 2
-    ? 'md:grid-cols-2'
-    : bridges.length === 3
-    ? 'md:grid-cols-3'
-    : 'md:grid-cols-2 lg:grid-cols-3';
+  const gridCols =
+    bridges.length === 2
+      ? 'md:grid-cols-2'
+      : bridges.length === 3
+        ? 'md:grid-cols-3'
+        : 'md:grid-cols-2 lg:grid-cols-3';
 
   return (
     <div className="mt-12 border-t border-border-default pt-8">
       <div className="mb-6 text-center">
-        <h2 className="heading-subsection">
-          Weitere Zusammenhänge erkunden
-        </h2>
+        <h2 className="heading-subsection">Weitere Zusammenhänge erkunden</h2>
         <p className="mt-1 text-sm text-text-secondary">
           Verbinde alle Punkte – folge der Geschichte
         </p>
@@ -52,12 +51,8 @@ export default function StoryBridge({ bridges }: StoryBridgeProps) {
                 </div>
               )}
               <div className="flex-1">
-                <div className="mb-1 heading-item group-hover:text-primary">
-                  {bridge.title}
-                </div>
-                <div className="text-sm text-text-secondary">
-                  {bridge.reason}
-                </div>
+                <div className="mb-1 heading-item group-hover:text-primary">{bridge.title}</div>
+                <div className="text-sm text-text-secondary">{bridge.reason}</div>
               </div>
               <div className="flex-shrink-0 text-primary opacity-40 transition-opacity group-hover:opacity-100">
                 →

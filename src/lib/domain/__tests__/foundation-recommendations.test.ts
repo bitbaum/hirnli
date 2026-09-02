@@ -53,8 +53,20 @@ describe('computeSimilarity', () => {
 
     it('uses Jaccard index for partial overlap', () => {
       // A={x,y}, B={y,z} → intersection=1, union=3 → jaccard=1/3
-      const a = makeFoundation({ themes: ['kreislaufwirtschaft', 'arbeitsintegration'] as Foundation['themes'], type: 'B', fitScore: 0, region: 'zürich', sdgs: [] });
-      const b = makeFoundation({ themes: ['arbeitsintegration', 'digitale-bildung'] as Foundation['themes'], type: 'B', fitScore: 0, region: 'bern', sdgs: [] });
+      const a = makeFoundation({
+        themes: ['kreislaufwirtschaft', 'arbeitsintegration'] as Foundation['themes'],
+        type: 'B',
+        fitScore: 0,
+        region: 'zürich',
+        sdgs: [],
+      });
+      const b = makeFoundation({
+        themes: ['arbeitsintegration', 'digitale-bildung'] as Foundation['themes'],
+        type: 'B',
+        fitScore: 0,
+        region: 'bern',
+        sdgs: [],
+      });
       const score = computeSimilarity(a, b);
       // themeOverlap=1/3, typeMatch=1, fitProximity=0, regionOverlap=0, sdgOverlap=0
       // = (1/3)*0.45 + 0.20 = 0.35
@@ -67,7 +79,7 @@ describe('computeSimilarity', () => {
       const a = makeFoundation({ themes: [], fitScore: 0, region: 'zürich', sdgs: [] });
       const b = makeFoundation({ themes: [], fitScore: 0, region: 'bern', sdgs: [] });
       // typeMatch=1, all others=0
-      expect(computeSimilarity(a, b)).toBeCloseTo(0.20, 5);
+      expect(computeSimilarity(a, b)).toBeCloseTo(0.2, 5);
     });
 
     it('adds 0 for different type (all signals zero)', () => {
@@ -89,7 +101,7 @@ describe('computeSimilarity', () => {
       const a = makeFoundation({ themes: [], fitScore: 0, region: 'zürich', type: 'B', sdgs: [] });
       const b = makeFoundation({ themes: [], fitScore: 5, region: 'bern', type: 'B', sdgs: [] });
       // fitProximity=0, typeMatch=1 → 0.20
-      expect(computeSimilarity(a, b)).toBeCloseTo(0.20, 5);
+      expect(computeSimilarity(a, b)).toBeCloseTo(0.2, 5);
     });
 
     it('scales linearly with score difference', () => {
@@ -105,7 +117,7 @@ describe('computeSimilarity', () => {
       const a = makeFoundation({ themes: [], fitScore: 0, type: 'B', region: 'zürich', sdgs: [] });
       const b = makeFoundation({ themes: [], fitScore: 0, type: 'C', region: 'zürich', sdgs: [] });
       // typeMatch=0, regionOverlap=1 → 0.10
-      expect(computeSimilarity(a, b)).toBeCloseTo(0.10, 5);
+      expect(computeSimilarity(a, b)).toBeCloseTo(0.1, 5);
     });
 
     it('adds 0 for different regions (all signals zero)', () => {
@@ -117,17 +129,35 @@ describe('computeSimilarity', () => {
 
   describe('sdgOverlap (weight 0.10)', () => {
     it('adds 0 when either foundation has no SDGs', () => {
-      const a = makeFoundation({ themes: [], fitScore: 0, type: 'B', region: 'zürich', sdgs: [1, 2] });
+      const a = makeFoundation({
+        themes: [],
+        fitScore: 0,
+        type: 'B',
+        region: 'zürich',
+        sdgs: [1, 2],
+      });
       const b = makeFoundation({ themes: [], fitScore: 0, type: 'C', region: 'bern', sdgs: [] });
       // All other signals 0, sdgOverlap=0
       expect(computeSimilarity(a, b)).toBeCloseTo(0.0, 5);
     });
 
     it('uses Jaccard for SDG overlap (all other signals zero)', () => {
-      const a = makeFoundation({ themes: [], fitScore: 0, type: 'B', region: 'zürich', sdgs: [1, 2] });
-      const b = makeFoundation({ themes: [], fitScore: 0, type: 'C', region: 'bern', sdgs: [2, 3] });
+      const a = makeFoundation({
+        themes: [],
+        fitScore: 0,
+        type: 'B',
+        region: 'zürich',
+        sdgs: [1, 2],
+      });
+      const b = makeFoundation({
+        themes: [],
+        fitScore: 0,
+        type: 'C',
+        region: 'bern',
+        sdgs: [2, 3],
+      });
       // jaccard([1,2],[2,3])=1/3 → 0.10*(1/3) ≈ 0.0333
-      expect(computeSimilarity(a, b)).toBeCloseTo(1 / 3 * 0.10, 5);
+      expect(computeSimilarity(a, b)).toBeCloseTo((1 / 3) * 0.1, 5);
     });
   });
 
@@ -142,7 +172,13 @@ describe('computeSimilarity', () => {
 
     it('total weights sum to 1.0', () => {
       // Verify by checking a known fully-matching case
-      const a = makeFoundation({ themes: ['kreislaufwirtschaft'] as Foundation['themes'], sdgs: [13], fitScore: 6, type: 'B', region: 'bern' });
+      const a = makeFoundation({
+        themes: ['kreislaufwirtschaft'] as Foundation['themes'],
+        sdgs: [13],
+        fitScore: 6,
+        type: 'B',
+        region: 'bern',
+      });
       const score = computeSimilarity(a, { ...a });
       expect(score).toBeCloseTo(1.0, 5);
     });
@@ -154,10 +190,22 @@ describe('computeSimilarity', () => {
 // ---------------------------------------------------------------------------
 
 describe('findSimilarFoundations', () => {
-  const target = makeFoundation({ slug: 'target', themes: ['kreislaufwirtschaft', 'arbeitsintegration'] as Foundation['themes'] });
-  const highMatch = makeFoundation({ slug: 'high', themes: ['kreislaufwirtschaft', 'arbeitsintegration'] as Foundation['themes'] });
-  const midMatch = makeFoundation({ slug: 'mid', themes: ['kreislaufwirtschaft'] as Foundation['themes'] });
-  const lowMatch = makeFoundation({ slug: 'low', themes: ['digitale-bildung'] as Foundation['themes'] });
+  const target = makeFoundation({
+    slug: 'target',
+    themes: ['kreislaufwirtschaft', 'arbeitsintegration'] as Foundation['themes'],
+  });
+  const highMatch = makeFoundation({
+    slug: 'high',
+    themes: ['kreislaufwirtschaft', 'arbeitsintegration'] as Foundation['themes'],
+  });
+  const midMatch = makeFoundation({
+    slug: 'mid',
+    themes: ['kreislaufwirtschaft'] as Foundation['themes'],
+  });
+  const lowMatch = makeFoundation({
+    slug: 'low',
+    themes: ['digitale-bildung'] as Foundation['themes'],
+  });
 
   it('excludes the target foundation itself', () => {
     const results = findSimilarFoundations(target, [target, highMatch]);
@@ -177,9 +225,7 @@ describe('findSimilarFoundations', () => {
   });
 
   it('defaults to limit of 5', () => {
-    const pool = Array.from({ length: 10 }, (_, i) =>
-      makeFoundation({ slug: `f${i}` }),
-    );
+    const pool = Array.from({ length: 10 }, (_, i) => makeFoundation({ slug: `f${i}` }));
     expect(findSimilarFoundations(target, pool)).toHaveLength(5);
   });
 

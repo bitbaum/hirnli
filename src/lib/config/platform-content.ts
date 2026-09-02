@@ -273,7 +273,8 @@ const de: PlatformContent = {
       {
         href: '/fundraising/stiftungen/mercator/gesuch',
         title: 'Ein Gesuch entstehen sehen',
-        description: 'Beispiel Mercator Stiftung: vom Schwerpunkt zum fertigen Dokument in drei Schritten.',
+        description:
+          'Beispiel Mercator Stiftung: vom Schwerpunkt zum fertigen Dokument in drei Schritten.',
       },
       {
         href: '/fundraising/scoring-methodik',
@@ -325,7 +326,7 @@ const en: PlatformContent = {
         title: 'For grant-making foundations',
         points: [
           "Hundreds of applications a year — most generic, many entirely outside the foundation's purpose.",
-          "Good projects get lost because the application never demonstrates fit.",
+          'Good projects get lost because the application never demonstrates fit.',
           'Reviewing costs time: unsourced numbers, missing evidence, no context.',
         ],
       },
@@ -432,7 +433,8 @@ const en: PlatformContent = {
         timeframe: 'Q3 2026 — now',
         status: 'progress',
         description: `${ORG_PROFILE.name} submits the first prioritized applications (P1 foundations). Every response feeds back into scoring and copy.`,
-        value: 'A documented win rate instead of a claim — the case study that carries everything after it.',
+        value:
+          'A documented win rate instead of a claim — the case study that carries everything after it.',
       },
       {
         name: 'Second organization',
@@ -462,7 +464,8 @@ const en: PlatformContent = {
           'Every application makes the platform smarter about which foundation funds what — a data advantage that compounds with each submission.',
       },
     ],
-    disclaimer: 'Timeframes are targets, not promises — they move if phase 1 teaches us something different.',
+    disclaimer:
+      'Timeframes are targets, not promises — they move if phase 1 teaches us something different.',
   },
   businessModel: {
     heading: 'Business model',
@@ -484,7 +487,8 @@ const en: PlatformContent = {
       {
         href: '/fundraising/stiftungen/mercator/gesuch',
         title: 'Watch an application take shape',
-        description: 'Example Mercator Foundation: from focus area to finished document in three steps. (German UI)',
+        description:
+          'Example Mercator Foundation: from focus area to finished document in three steps. (German UI)',
       },
       {
         href: '/fundraising/scoring-methodik',
@@ -499,7 +503,6 @@ const en: PlatformContent = {
     ctaLabel: 'Interested in the platform for your organization?',
   },
 };
-
 
 // ---------------------------------------------------------------------------
 // Français
@@ -536,7 +539,7 @@ const fr: PlatformContent = {
       {
         title: 'Pour les fondations donatrices',
         points: [
-          "Des centaines de demandes par an — la plupart génériques, beaucoup hors du but de la fondation.",
+          'Des centaines de demandes par an — la plupart génériques, beaucoup hors du but de la fondation.',
           'De bons projets passent inaperçus parce que la demande ne démontre jamais la correspondance.',
           "L'examen coûte du temps : chiffres non documentés, sources manquantes, aucun contexte.",
         ],
@@ -604,7 +607,7 @@ const fr: PlatformContent = {
       {
         title: 'Professionnels de la levée de fonds',
         description:
-          "La plateforme opérationnalise le métier classique : typologie des fondations (A/B/C/D) avec le ton approprié, priorisation par fit et préparation, gestion de pipeline propre plutôt que des tableurs.",
+          'La plateforme opérationnalise le métier classique : typologie des fondations (A/B/C/D) avec le ton approprié, priorisation par fit et préparation, gestion de pipeline propre plutôt que des tableurs.',
       },
       {
         title: 'Fondations donatrices',
@@ -624,7 +627,7 @@ const fr: PlatformContent = {
       {
         title: "L'IA trie, l'humain décide",
         description:
-          "Le modèle de langage fait le gros du travail (lire et pré-trier des milliers de buts statutaires). La vérification, la touche finale et la décision de soumettre restent humaines.",
+          'Le modèle de langage fait le gros du travail (lire et pré-trier des milliers de buts statutaires). La vérification, la touche finale et la décision de soumettre restent humaines.',
       },
       {
         title: 'Montrer le fit, pas mendier',
@@ -644,14 +647,15 @@ const fr: PlatformContent = {
         timeframe: 'T3 2026 — maintenant',
         status: 'progress',
         description: `${ORG_PROFILE.name} soumet les premières demandes priorisées (fondations P1). Chaque réponse alimente le scoring et les textes.`,
-        value: "Un taux de succès documenté plutôt qu'une affirmation — l'étude de cas qui porte tout le reste.",
+        value:
+          "Un taux de succès documenté plutôt qu'une affirmation — l'étude de cas qui porte tout le reste.",
       },
       {
         name: 'Deuxième organisation',
         timeframe: 'T4 2026',
         status: 'target',
         description:
-          "Une deuxième organisation est intégrée manuellement (playbook documenté : documents de contexte en entrée, analyse spécifique en sortie).",
+          'Une deuxième organisation est intégrée manuellement (playbook documenté : documents de contexte en entrée, analyse spécifique en sortie).',
         value:
           "Preuve de l'architecture : le registre est recherché une fois et sert à tous — chaque nouvelle organisation démarre avec l'ensemble des données vérifiées.",
       },
@@ -669,12 +673,13 @@ const fr: PlatformContent = {
         timeframe: '2027+',
         status: 'target',
         description:
-          "Les résultats des soumissions (accords, refus, motifs) alimentent le scoring, anonymisés. À terme : une interface pour les fondations elles-mêmes.",
+          'Les résultats des soumissions (accords, refus, motifs) alimentent le scoring, anonymisés. À terme : une interface pour les fondations elles-mêmes.',
         value:
           'Chaque demande rend la plateforme plus précise sur qui finance quoi — un avantage de données qui se cumule.',
       },
     ],
-    disclaimer: 'Les horizons sont des objectifs, pas des promesses — ils bougent si la phase 1 nous apprend autre chose.',
+    disclaimer:
+      'Les horizons sont des objectifs, pas des promesses — ils bougent si la phase 1 nous apprend autre chose.',
   },
   businessModel: {
     heading: 'Modèle économique',
@@ -691,17 +696,20 @@ const fr: PlatformContent = {
       {
         href: '/fundraising/stiftungen',
         title: 'Parcourir les fondations',
-        description: 'La base évaluée avec filtres, scores de fit et priorités. (Interface en allemand)',
+        description:
+          'La base évaluée avec filtres, scores de fit et priorités. (Interface en allemand)',
       },
       {
         href: '/fundraising/stiftungen/mercator/gesuch',
         title: 'Voir naître une demande',
-        description: 'Exemple Fondation Mercator : du domaine prioritaire au document fini en trois étapes. (Interface en allemand)',
+        description:
+          'Exemple Fondation Mercator : du domaine prioritaire au document fini en trois étapes. (Interface en allemand)',
       },
       {
         href: '/fundraising/scoring-methodik',
         title: 'Examiner la méthodologie',
-        description: 'Comment fit, préparation et priorité sont calculés — en toute transparence. (Interface en allemand)',
+        description:
+          'Comment fit, préparation et priorité sont calculés — en toute transparence. (Interface en allemand)',
       },
     ],
   },

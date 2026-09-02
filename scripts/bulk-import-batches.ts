@@ -3,7 +3,8 @@
  * The import script is idempotent — already-imported records are no-ops.
  * Runs batches 39-94 (claude-agent results from 2026-04-22).
  */
-import { config } from 'dotenv'; config({ path: '.env.local' });
+import { config } from 'dotenv';
+config({ path: '.env.local' });
 import { sql } from './lib/db';
 import { readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
@@ -15,17 +16,24 @@ const DRY_RUN = process.argv.includes('--dry-run');
 
 const RESULTS_DIR = resolve(__dirname, '../research/chatgpt-results');
 
-async function importFile(file: string): Promise<{ written: number; skipped: number; notFound: number }> {
+async function importFile(
+  file: string,
+): Promise<{ written: number; skipped: number; notFound: number }> {
   const raw = JSON.parse(readFileSync(file, 'utf8'));
-  const records: Record<string, unknown>[] = Array.isArray(raw) ? raw : raw.items ?? [];
-  let written = 0, skipped = 0, notFound = 0;
+  const records: Record<string, unknown>[] = Array.isArray(raw) ? raw : (raw.items ?? []);
+  let written = 0,
+    skipped = 0,
+    notFound = 0;
 
   for (const rec of records) {
     const slug = rec.slug as string;
     if (!slug) continue;
 
     const [row] = await sql`SELECT id, config_data FROM fundraising_foundations WHERE id = ${slug}`;
-    if (!row) { notFound++; continue; }
+    if (!row) {
+      notFound++;
+      continue;
+    }
 
     const cd = row.config_data as Record<string, unknown>;
     const fields: string[] = [];
@@ -33,7 +41,10 @@ async function importFile(file: string): Promise<{ written: number; skipped: num
     // Never overwrite existing non-empty values (except researchDepth upgrade)
     const setIfEmpty = (key: string, val: unknown) => {
       if (val == null || val === '') return;
-      if (cd[key] == null || cd[key] === '') { cd[key] = val; fields.push(key); }
+      if (cd[key] == null || cd[key] === '') {
+        cd[key] = val;
+        fields.push(key);
+      }
     };
 
     // Website URL (skip registry/directory URLs)
@@ -58,10 +69,22 @@ async function importFile(file: string): Promise<{ written: number; skipped: num
     // Contact (nested)
     const contact = (cd.contact as Record<string, unknown> | null) ?? {};
     let contactChanged = false;
-    if (rec.email && !contact.email) { contact.email = rec.email; contactChanged = true; }
-    if (rec.phone && !contact.phone) { contact.phone = rec.phone; contactChanged = true; }
-    if (rec.address && !contact.address) { contact.address = rec.address; contactChanged = true; }
-    if (contactChanged) { cd.contact = contact; fields.push('contact'); }
+    if (rec.email && !contact.email) {
+      contact.email = rec.email;
+      contactChanged = true;
+    }
+    if (rec.phone && !contact.phone) {
+      contact.phone = rec.phone;
+      contactChanged = true;
+    }
+    if (rec.address && !contact.address) {
+      contact.address = rec.address;
+      contactChanged = true;
+    }
+    if (contactChanged) {
+      cd.contact = contact;
+      fields.push('contact');
+    }
 
     // About
     setIfEmpty('purposeSummary', rec.purposeSummary);
@@ -73,10 +96,12 @@ async function importFile(file: string): Promise<{ written: number; skipped: num
 
     // Application info
     if (rec.applicationMethod && !cd.applicationMethod) {
-      cd.applicationMethod = rec.applicationMethod; fields.push('applicationMethod');
+      cd.applicationMethod = rec.applicationMethod;
+      fields.push('applicationMethod');
     }
     if (rec.acceptsApplications && !cd.acceptsApplications) {
-      cd.acceptsApplications = rec.acceptsApplications; fields.push('acceptsApplications');
+      cd.acceptsApplications = rec.acceptsApplications;
+      fields.push('acceptsApplications');
     }
     setIfEmpty('deadlineText', rec.deadlineText);
     setIfEmpty('applicationProcess', rec.applicationProcess);
@@ -84,15 +109,27 @@ async function importFile(file: string): Promise<{ written: number; skipped: num
     // Amount
     const amount = (cd.amount as Record<string, unknown> | null) ?? {};
     let amountChanged = false;
-    if (rec.amountMin != null && !amount.min) { amount.min = rec.amountMin; amountChanged = true; }
-    if (rec.amountMax != null && !amount.max) { amount.max = rec.amountMax; amountChanged = true; }
-    if (rec.amountText && !amount.text) { amount.text = rec.amountText; amountChanged = true; }
-    if (amountChanged) { cd.amount = amount; fields.push('amount'); }
+    if (rec.amountMin != null && !amount.min) {
+      amount.min = rec.amountMin;
+      amountChanged = true;
+    }
+    if (rec.amountMax != null && !amount.max) {
+      amount.max = rec.amountMax;
+      amountChanged = true;
+    }
+    if (rec.amountText && !amount.text) {
+      amount.text = rec.amountText;
+      amountChanged = true;
+    }
+    if (amountChanged) {
+      cd.amount = amount;
+      fields.push('amount');
+    }
 
     // Themes — append new ones, never shrink
     if (Array.isArray(rec.themes) && rec.themes.length > 0) {
       const existing = new Set((cd.themes as string[] | null) ?? []);
-      const newThemes = (rec.themes as string[]).filter(t => !existing.has(t));
+      const newThemes = (rec.themes as string[]).filter((t) => !existing.has(t));
       if (newThemes.length > 0) {
         cd.themes = [...existing, ...newThemes];
         fields.push('themes');
@@ -101,7 +138,8 @@ async function importFile(file: string): Promise<{ written: number; skipped: num
 
     // fitScore — only upgrade, never downgrade
     if (typeof rec.fitScore === 'number' && rec.fitScore > ((cd.fitScore as number) ?? 0)) {
-      cd.fitScore = rec.fitScore; fields.push('fitScore');
+      cd.fitScore = rec.fitScore;
+      fields.push('fitScore');
     }
 
     // Mark research method (upgrade only)
@@ -114,8 +152,14 @@ async function importFile(file: string): Promise<{ written: number; skipped: num
       fields.push('applicationResearchMethod');
     }
 
-    if (fields.length === 0) { skipped++; continue; }
-    if (DRY_RUN) { written++; continue; }
+    if (fields.length === 0) {
+      skipped++;
+      continue;
+    }
+    if (DRY_RUN) {
+      written++;
+      continue;
+    }
 
     await sql`
       UPDATE fundraising_foundations
@@ -130,21 +174,30 @@ async function importFile(file: string): Promise<{ written: number; skipped: num
 
 async function main() {
   const files = readdirSync(RESULTS_DIR)
-    .filter(f => f.match(/^batch\d+-claude-agent-2026-04-22\.json$/))
+    .filter((f) => f.match(/^batch\d+-claude-agent-2026-04-22\.json$/))
     .sort()
-    .map(f => resolve(RESULTS_DIR, f));
+    .map((f) => resolve(RESULTS_DIR, f));
 
-  console.log(`${DRY_RUN ? '[DRY RUN] ' : ''}Processing ${files.length} claude-agent batch files...\n`);
+  console.log(
+    `${DRY_RUN ? '[DRY RUN] ' : ''}Processing ${files.length} claude-agent batch files...\n`,
+  );
 
-  let totalWritten = 0, totalSkipped = 0, totalNotFound = 0;
+  let totalWritten = 0,
+    totalSkipped = 0,
+    totalNotFound = 0;
   for (const file of files) {
     const { written, skipped, notFound } = await importFile(file);
     totalWritten += written;
     totalSkipped += skipped;
     totalNotFound += notFound;
-    if (written > 0) process.stdout.write(`  ✅ ${file.split('/').pop()} — ${written} written, ${skipped} skipped\n`);
+    if (written > 0)
+      process.stdout.write(
+        `  ✅ ${file.split('/').pop()} — ${written} written, ${skipped} skipped\n`,
+      );
   }
 
-  console.log(`\nTotal: ${totalWritten} written, ${totalSkipped} skipped, ${totalNotFound} not found`);
+  console.log(
+    `\nTotal: ${totalWritten} written, ${totalSkipped} skipped, ${totalNotFound} not found`,
+  );
 }
 main().catch(console.error);

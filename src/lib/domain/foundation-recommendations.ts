@@ -8,10 +8,10 @@ import type { Foundation } from '@/lib/schemas/foundation';
 // ---------------------------------------------------------------------------
 const SIMILARITY_WEIGHTS = {
   themeOverlap: 0.45,
-  typeMatch: 0.20,
+  typeMatch: 0.2,
   fitProximity: 0.15,
-  regionOverlap: 0.10,
-  sdgOverlap: 0.10,
+  regionOverlap: 0.1,
+  sdgOverlap: 0.1,
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -73,12 +73,11 @@ export function computeSimilarity(a: Foundation, b: Foundation): number {
   const themeOverlap = jaccard(a.themes, b.themes);
   const typeMatch = a.type === b.type ? 1 : 0;
   // fitScore=0 means unassessed — can't meaningfully compare
-  const fitProximity = (a.fitScore === 0 || b.fitScore === 0) ? 0 : 1 - Math.abs(a.fitScore - b.fitScore) / 10;
+  const fitProximity =
+    a.fitScore === 0 || b.fitScore === 0 ? 0 : 1 - Math.abs(a.fitScore - b.fitScore) / 10;
   const regionOverlap = a.region === b.region ? 1 : 0;
   const sdgOverlap =
-    a.sdgs && a.sdgs.length > 0 && b.sdgs && b.sdgs.length > 0
-      ? jaccard(a.sdgs, b.sdgs)
-      : 0;
+    a.sdgs && a.sdgs.length > 0 && b.sdgs && b.sdgs.length > 0 ? jaccard(a.sdgs, b.sdgs) : 0;
 
   return (
     SIMILARITY_WEIGHTS.themeOverlap * themeOverlap +
@@ -98,11 +97,7 @@ function buildReasons(target: Foundation, candidate: Foundation): string[] {
 
   const sharedThemes = countShared(target.themes, candidate.themes);
   if (sharedThemes > 0) {
-    reasons.push(
-      sharedThemes === 1
-        ? '1 gemeinsames Thema'
-        : `${sharedThemes} gemeinsame Themen`,
-    );
+    reasons.push(sharedThemes === 1 ? '1 gemeinsames Thema' : `${sharedThemes} gemeinsame Themen`);
   }
 
   if (target.type === candidate.type) {
@@ -113,19 +108,10 @@ function buildReasons(target: Foundation, candidate: Foundation): string[] {
     reasons.push('Gleiche Region');
   }
 
-  if (
-    target.sdgs &&
-    target.sdgs.length > 0 &&
-    candidate.sdgs &&
-    candidate.sdgs.length > 0
-  ) {
+  if (target.sdgs && target.sdgs.length > 0 && candidate.sdgs && candidate.sdgs.length > 0) {
     const sharedSdgs = countShared(target.sdgs, candidate.sdgs);
     if (sharedSdgs > 0) {
-      reasons.push(
-        sharedSdgs === 1
-          ? '1 gemeinsames SDG'
-          : `${sharedSdgs} gemeinsame SDGs`,
-      );
+      reasons.push(sharedSdgs === 1 ? '1 gemeinsames SDG' : `${sharedSdgs} gemeinsame SDGs`);
     }
   }
 
@@ -160,4 +146,3 @@ export function findSimilarFoundations(
     .sort((a, b) => b.similarity - a.similarity)
     .slice(0, limit);
 }
-

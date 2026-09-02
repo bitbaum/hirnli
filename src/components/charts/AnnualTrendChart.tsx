@@ -58,10 +58,7 @@ export default function AnnualTrendChart({
       legend: { position: 'bottom' as const },
       tooltip: {
         callbacks: {
-          label: (ctx: {
-            dataset: { label?: string };
-            parsed: { y: number | null };
-          }) => {
+          label: (ctx: { dataset: { label?: string }; parsed: { y: number | null } }) => {
             if (ctx.parsed.y === null) return `${ctx.dataset.label}: k.A.`;
             return `${ctx.dataset.label}: ${formatCHF(ctx.parsed.y)}`;
           },

@@ -43,9 +43,7 @@ export function buildAIContext(foundation: Foundation): FoundationAIContext {
 
   return {
     name: foundation.name,
-    purpose: foundation.purposeSummary
-      ? extractPurposeCore(foundation.purposeSummary)
-      : undefined,
+    purpose: foundation.purposeSummary ? extractPurposeCore(foundation.purposeSummary) : undefined,
     type: foundation.type,
     themes,
     fitScore: foundation.fitScore,

@@ -1,5 +1,8 @@
 import { BILDUNGSPROGRAMMLEITER } from '@/lib/config/team';
-import { BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY, PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
+import {
+  BPL_DIRECT_TRAINED_PER_YEAR_DISPLAY,
+  PEOPLE_REACHED_PER_YEAR,
+} from '@/lib/config/projections';
 
 const HERO_STATS = [
   { value: `${BILDUNGSPROGRAMMLEITER.length} VZÄ`, label: 'Bildungsprogrammleiter:innen' },
@@ -19,12 +22,16 @@ export default function TrainTheTrainerVisionSection() {
           </div>
         </div>
         <p className="text-base mb-5 text-text-secondary leading-relaxed text-center max-w-3xl mx-auto">
-          Unsere <strong>{BILDUNGSPROGRAMMLEITER.length}× Bildungsprogrammleiter:innen</strong> bilden Techniker und Entwickler aus
-          und führen Workshops durch. Strukturiertes Training statt informellem Wissenstransfer.
+          Unsere <strong>{BILDUNGSPROGRAMMLEITER.length}× Bildungsprogrammleiter:innen</strong>{' '}
+          bilden Techniker und Entwickler aus und führen Workshops durch. Strukturiertes Training
+          statt informellem Wissenstransfer.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {HERO_STATS.map((stat) => (
-            <div key={stat.label} className="rounded-lg border border-border-subtle bg-surface-base p-4 text-center">
+            <div
+              key={stat.label}
+              className="rounded-lg border border-border-subtle bg-surface-base p-4 text-center"
+            >
               <div className="heading-stat">{stat.value}</div>
               <div className="text-xs text-text-secondary mt-0.5">{stat.label}</div>
             </div>

@@ -21,13 +21,16 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
     <Card variant="muted" padding={false} className="p-4 print:hidden">
       <div className="flex items-center justify-between mb-3">
         <p className="heading-detail">Bereitschaft</p>
-        <Badge variant="raw" className={
-          ready
-            ? 'bg-success/10 text-success-text'
-            : score >= GESUCH_SCORE_WARNING
-              ? 'bg-warning/10 text-warning-text'
-              : 'bg-danger/10 text-danger-text'
-        }>
+        <Badge
+          variant="raw"
+          className={
+            ready
+              ? 'bg-success/10 text-success-text'
+              : score >= GESUCH_SCORE_WARNING
+                ? 'bg-warning/10 text-warning-text'
+                : 'bg-danger/10 text-danger-text'
+          }
+        >
           {score}%
         </Badge>
       </div>
@@ -35,16 +38,16 @@ export default function GesuchReadinessChecklist({ readiness }: GesuchReadinessC
       <div className="space-y-1.5">
         {checks.map((check) => (
           <div key={check.id} className="flex items-start gap-2">
-            <span className={`mt-0.5 text-xs ${check.passed ? 'text-success-text' : 'text-text-secondary'}`}>
+            <span
+              className={`mt-0.5 text-xs ${check.passed ? 'text-success-text' : 'text-text-secondary'}`}
+            >
               {check.passed ? '✓' : '○'}
             </span>
             <div className="min-w-0">
               <p className={`text-sm ${check.passed ? 'text-text-primary' : 'text-text-muted'}`}>
                 {check.label}
               </p>
-              {!check.passed && (
-                <p className="text-sm text-text-secondary mt-0.5">{check.hint}</p>
-              )}
+              {!check.passed && <p className="text-sm text-text-secondary mt-0.5">{check.hint}</p>}
             </div>
           </div>
         ))}

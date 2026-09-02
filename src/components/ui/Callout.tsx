@@ -6,7 +6,7 @@ const COLOR_CLASSES: Record<CalloutColor, string> = {
   warning: 'bg-warning/10 border-warning',
   primary: 'bg-accent-muted border-primary',
   success: 'bg-success/10 border-success',
-  danger:  'bg-danger/10 border-danger',
+  danger: 'bg-danger/10 border-danger',
 };
 
 interface CalloutProps {

@@ -8,7 +8,11 @@
 
 import Link from 'next/link';
 import { formatCHF, formatDateCH } from '@/lib/utils/format';
-import { DEADLINE_CRITICAL_DAYS, DEADLINE_WARNING_DAYS, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
+import {
+  DEADLINE_CRITICAL_DAYS,
+  DEADLINE_WARNING_DAYS,
+  DEADLINE_UPCOMING_DAYS,
+} from '@/lib/utils/time';
 import { getStatusConfig } from '@/lib/config/application-statuses';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
@@ -26,7 +30,6 @@ interface UpcomingDeadlinesProps {
 }
 
 export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
-
   const getUrgencyColor = (days: number) => {
     if (days <= DEADLINE_CRITICAL_DAYS) return 'bg-danger/10 border-danger/20 text-danger-text';
     if (days <= DEADLINE_WARNING_DAYS) return 'bg-warning/10 border-warning/20 text-warning-text';
@@ -63,7 +66,9 @@ export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
               </div>
               <div className="text-sm space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className={`rounded-full border px-1.5 py-0.5 text-xs font-medium ${getStatusConfig(deadline.status).color}`}>
+                  <span
+                    className={`rounded-full border px-1.5 py-0.5 text-xs font-medium ${getStatusConfig(deadline.status).color}`}
+                  >
                     {getStatusConfig(deadline.status).label}
                   </span>
                 </div>
@@ -78,12 +83,8 @@ export function UpcomingDeadlines({ deadlines }: UpcomingDeadlinesProps) {
               </div>
             </div>
             <div className="text-right">
-              <div className="font-bold text-lg">
-                {deadline.daysUntilDeadline}
-              </div>
-              <div className="text-xs">
-                {deadline.daysUntilDeadline === 1 ? 'Tag' : 'Tage'}
-              </div>
+              <div className="font-bold text-lg">{deadline.daysUntilDeadline}</div>
+              <div className="text-xs">{deadline.daysUntilDeadline === 1 ? 'Tag' : 'Tage'}</div>
             </div>
           </div>
         </Link>

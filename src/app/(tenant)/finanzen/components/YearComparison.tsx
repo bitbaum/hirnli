@@ -33,7 +33,11 @@ export function YearComparison({
   const rows = [
     { label: 'Gesamteinnahmen', current: totals.total, previous: prevTotals.total },
     { label: 'Warenverkauf', current: totals.warenverkauf, previous: prevTotals.warenverkauf },
-    { label: 'Dienstleistungen', current: totals.dienstleistungen, previous: prevTotals.dienstleistungen },
+    {
+      label: 'Dienstleistungen',
+      current: totals.dienstleistungen,
+      previous: prevTotals.dienstleistungen,
+    },
     { label: 'Integration', current: totals.integration, previous: prevTotals.integration },
     { label: 'Spenden + Aufstockung', current: donations, previous: prevDonations },
   ];
@@ -41,20 +45,28 @@ export function YearComparison({
   return (
     <Card className="mb-8">
       <CardHeader>
-        <CardTitle>Jahresvergleich {selectedYear - 1} vs. {selectedYear}</CardTitle>
+        <CardTitle>
+          Jahresvergleich {selectedYear - 1} vs. {selectedYear}
+        </CardTitle>
       </CardHeader>
       <div className="space-y-3">
         {rows.map((row) => {
           const change = row.previous > 0 ? calcGrowth(row.previous, row.current) : 0;
           return (
-            <div key={row.label} className="flex items-center justify-between border-b border-border-default pb-3 last:border-0">
+            <div
+              key={row.label}
+              className="flex items-center justify-between border-b border-border-default pb-3 last:border-0"
+            >
               <span className="text-sm">{row.label}</span>
               <div className="flex items-center gap-4">
                 <span className="text-xs text-text-muted">{formatCHF(row.previous)}</span>
                 <span className="font-semibold">{formatCHF(row.current)}</span>
                 {row.previous > 0 && (
-                  <Badge variant={change > 0.05 ? 'success' : change < -0.05 ? 'danger' : 'default'}>
-                    {change > 0 ? '+' : ''}{formatPercent(change)}
+                  <Badge
+                    variant={change > 0.05 ? 'success' : change < -0.05 ? 'danger' : 'default'}
+                  >
+                    {change > 0 ? '+' : ''}
+                    {formatPercent(change)}
                   </Badge>
                 )}
               </div>

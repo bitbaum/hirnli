@@ -8,7 +8,11 @@
 'use client';
 
 import { useState, useRef, useId } from 'react';
-import { APPLICATION_STATUSES, isTerminalStatus, type ApplicationStatusId } from '@/lib/config/application-statuses';
+import {
+  APPLICATION_STATUSES,
+  isTerminalStatus,
+  type ApplicationStatusId,
+} from '@/lib/config/application-statuses';
 import { PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
 import { patchApplication } from '@/lib/api/applications';
@@ -16,7 +20,11 @@ import { NET_ERR_SAVE, API_ERR_SAVE } from '@/lib/utils/errors';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { Button } from '@/components/ui/Button';
 import type { Application, FoundationRow } from '@/lib/db/schema';
-import { buildPatchPayload, initFieldsFromApplication, type ApplicationFormFields } from '@/hooks/useApplicationForm';
+import {
+  buildPatchPayload,
+  initFieldsFromApplication,
+  type ApplicationFormFields,
+} from '@/hooks/useApplicationForm';
 import { ApplicationDateFields, ApplicationOutcomeFields } from './ApplicationFormSections';
 
 import { useFocusTrap } from '@/lib/utils/a11y';
@@ -64,9 +72,19 @@ export function EditApplicationModal({
     setError(null);
     try {
       const fields: ApplicationFormFields = {
-        status, requestedAmount, awardedAmount, priorityLevel, assignedTo,
-        projectFocus, customizationNotes, contactDate, submissionDate,
-        decisionExpected, decisionDate, rejectionReason, successFactors,
+        status,
+        requestedAmount,
+        awardedAmount,
+        priorityLevel,
+        assignedTo,
+        projectFocus,
+        customizationNotes,
+        contactDate,
+        submissionDate,
+        decisionExpected,
+        decisionDate,
+        rejectionReason,
+        successFactors,
       };
       const payload = buildPatchPayload(fields);
 
@@ -99,7 +117,9 @@ export function EditApplicationModal({
         <div className="flex items-center justify-between border-b border-border-default px-4 py-3 sm:px-6 sm:py-4">
           <div className="min-w-0">
             <h2 className="heading-card">Gesuch bearbeiten</h2>
-            <p className="truncate text-sm text-text-muted">{foundation?.name ?? application.foundationId}</p>
+            <p className="truncate text-sm text-text-muted">
+              {foundation?.name ?? application.foundationId}
+            </p>
           </div>
           <CloseButton onClick={onClose} />
         </div>
@@ -139,7 +159,9 @@ export function EditApplicationModal({
               >
                 <option value="">—</option>
                 {Object.entries(PRIORITY_CONFIG).map(([value, cfg]) => (
-                  <option key={value} value={value}>{cfg.label} — {cfg.shortLabel}</option>
+                  <option key={value} value={value}>
+                    {cfg.label} — {cfg.shortLabel}
+                  </option>
                 ))}
               </select>
             </div>
@@ -212,7 +234,12 @@ export function EditApplicationModal({
             decisionExpected={decisionExpected}
             decisionDate={decisionDate}
             onChange={(field, value) => {
-              const map = { contactDate: setContactDate, submissionDate: setSubmissionDate, decisionExpected: setDecisionExpected, decisionDate: setDecisionDate };
+              const map = {
+                contactDate: setContactDate,
+                submissionDate: setSubmissionDate,
+                decisionExpected: setDecisionExpected,
+                decisionDate: setDecisionDate,
+              };
               map[field](value);
             }}
           />

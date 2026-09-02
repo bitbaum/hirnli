@@ -48,12 +48,32 @@ const FUNDRAISO_PATH = path.join(process.cwd(), 'research', 'fundraiso-discovery
 
 // Canton full names for address building
 const CANTON_NAMES: Record<string, string> = {
-  ZH: 'Zürich', BE: 'Bern', LU: 'Luzern', UR: 'Uri', SZ: 'Schwyz',
-  OW: 'Obwalden', NW: 'Nidwalden', GL: 'Glarus', ZG: 'Zug', FR: 'Freiburg',
-  SO: 'Solothurn', BS: 'Basel-Stadt', BL: 'Basel-Landschaft', SH: 'Schaffhausen',
-  AR: 'Appenzell Ausserrhoden', AI: 'Appenzell Innerrhoden', SG: 'St. Gallen',
-  GR: 'Graubünden', AG: 'Aargau', TG: 'Thurgau', TI: 'Tessin', VD: 'Waadt',
-  VS: 'Wallis', NE: 'Neuenburg', GE: 'Genf', JU: 'Jura',
+  ZH: 'Zürich',
+  BE: 'Bern',
+  LU: 'Luzern',
+  UR: 'Uri',
+  SZ: 'Schwyz',
+  OW: 'Obwalden',
+  NW: 'Nidwalden',
+  GL: 'Glarus',
+  ZG: 'Zug',
+  FR: 'Freiburg',
+  SO: 'Solothurn',
+  BS: 'Basel-Stadt',
+  BL: 'Basel-Landschaft',
+  SH: 'Schaffhausen',
+  AR: 'Appenzell Ausserrhoden',
+  AI: 'Appenzell Innerrhoden',
+  SG: 'St. Gallen',
+  GR: 'Graubünden',
+  AG: 'Aargau',
+  TG: 'Thurgau',
+  TI: 'Tessin',
+  VD: 'Waadt',
+  VS: 'Wallis',
+  NE: 'Neuenburg',
+  GE: 'Genf',
+  JU: 'Jura',
 };
 
 // ============================================================================
@@ -134,7 +154,9 @@ function normalizeName(name: string): string {
     .replace(/[ìíîï]/g, 'i')
     .replace(/[òóôõöø]/g, 'o')
     .replace(/[ùúûü]/g, 'u')
-    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
     .replace(/ß/g, 'ss')
     .replace(/[^a-z0-9]/g, '');
 }
@@ -157,7 +179,13 @@ function getQualityTier(f: Foundation): string {
 }
 
 function computeTierCounts(foundations: Foundation[]): TierCounts {
-  const counts: TierCounts = { verzeichnet: 0, erfasst: 0, profiliert: 0, recherchiert: 0, anwendungsbereit: 0 };
+  const counts: TierCounts = {
+    verzeichnet: 0,
+    erfasst: 0,
+    profiliert: 0,
+    recherchiert: 0,
+    anwendungsbereit: 0,
+  };
   for (const f of foundations) {
     const tier = getQualityTier(f) as keyof TierCounts;
     counts[tier]++;
@@ -185,7 +213,10 @@ function loadESA(): Map<string, ESAEntry> {
   return byUid;
 }
 
-function loadFundraiso(): { byName: Map<string, FundraisoEntry>; bySlug: Map<string, FundraisoEntry> } {
+function loadFundraiso(): {
+  byName: Map<string, FundraisoEntry>;
+  bySlug: Map<string, FundraisoEntry>;
+} {
   if (!fs.existsSync(FUNDRAISO_PATH)) {
     console.log('  Fundraiso discovery not found, skipping Fundraiso matching');
     return { byName: new Map(), bySlug: new Map() };
@@ -243,7 +274,8 @@ function enrichFoundation(
   if (!enriched.officialPurpose && esa?.purpose) {
     enriched.officialPurpose = esa.purpose;
     changes.push({
-      slug: f.slug, name: f.name,
+      slug: f.slug,
+      name: f.name,
       field: 'officialPurpose',
       from: '(empty)',
       to: `ESA purpose (${esa.purpose.length} chars)`,
@@ -257,7 +289,8 @@ function enrichFoundation(
     if (classified.length > 0) {
       enriched.themes = classified;
       changes.push({
-        slug: f.slug, name: f.name,
+        slug: f.slug,
+        name: f.name,
         field: 'themes',
         from: '[]',
         to: JSON.stringify(classified),
@@ -271,7 +304,8 @@ function enrichFoundation(
     enriched.contact = enriched.contact || {};
     enriched.contact.address = address;
     changes.push({
-      slug: f.slug, name: f.name,
+      slug: f.slug,
+      name: f.name,
       field: 'contact.address',
       from: '(empty)',
       to: address,
@@ -282,7 +316,8 @@ function enrichFoundation(
   if ((!enriched.region || enriched.region === 'Schweiz') && esa?.city) {
     enriched.region = esa.city;
     changes.push({
-      slug: f.slug, name: f.name,
+      slug: f.slug,
+      name: f.name,
       field: 'region',
       from: enriched.region || 'Schweiz',
       to: esa.city,
@@ -296,7 +331,8 @@ function enrichFoundation(
     enriched.isOperative = isOperative;
     if (isOperative) {
       changes.push({
-        slug: f.slug, name: f.name,
+        slug: f.slug,
+        name: f.name,
         field: 'isOperative',
         from: 'undefined',
         to: `true (funder=${scores.funder}, operator=${scores.operator})`,
@@ -310,7 +346,8 @@ function enrichFoundation(
     const newType = classifyType(purposeText, enriched.name, scores.funder, scores.operator);
     if (newType !== 'C') {
       changes.push({
-        slug: f.slug, name: f.name,
+        slug: f.slug,
+        name: f.name,
         field: 'type',
         from: enriched.type,
         to: newType,
@@ -322,10 +359,12 @@ function enrichFoundation(
   // --- 4. Fundraiso Website URL Matching ---
   if (isRegistryUrl(enriched.websiteUrl ?? '')) {
     const normalizedName = normalizeName(enriched.name);
-    const fundraisoMatch = fundraisoBySlug.get(enriched.slug) || fundraisoByName.get(normalizedName);
+    const fundraisoMatch =
+      fundraisoBySlug.get(enriched.slug) || fundraisoByName.get(normalizedName);
     if (fundraisoMatch?.url) {
       changes.push({
-        slug: f.slug, name: f.name,
+        slug: f.slug,
+        name: f.name,
         field: 'websiteUrl',
         from: enriched.websiteUrl || '(empty)',
         to: `Fundraiso: ${fundraisoMatch.url}`,
@@ -335,7 +374,7 @@ function enrichFoundation(
   }
 
   // --- Recompute fit score if themes changed ---
-  if (changes.some(c => c.field === 'themes')) {
+  if (changes.some((c) => c.field === 'themes')) {
     const esa2 = f.uid ? esaByUid.get(f.uid) : undefined;
     const { fitScore } = computeFitScore({
       themes: enriched.themes as string[],
@@ -401,12 +440,17 @@ function buildDraft(enriched: Foundation, esa: ESAEntry | undefined) {
       reasoning: 'Bulk enrichment from ESA register + Fundraiso cross-reference',
       themes: enriched.themes,
       suggestedType: enriched.type,
-      suggestedFit: fitScoreToDisplay(enriched.fitScore || 0, (enriched.researchDepth || 'rapid') === 'rapid'),
+      suggestedFit: fitScoreToDisplay(
+        enriched.fitScore || 0,
+        (enriched.researchDepth || 'rapid') === 'rapid',
+      ),
       suggestedPriority: enriched.priority,
       purposeSummary: enriched.purposeSummary || buildMinimalPurposeSummary(enriched, esa),
       researchNotes: enriched.researchNotes || buildMinimalResearchNotes(enriched, esa),
-      applicationMethod: enriched.applicationMethod === 'post' ? 'unknown'
-        : (enriched.applicationMethod as 'online' | 'email' | 'unknown') || 'unknown',
+      applicationMethod:
+        enriched.applicationMethod === 'post'
+          ? 'unknown'
+          : (enriched.applicationMethod as 'online' | 'email' | 'unknown') || 'unknown',
       contactInfo: {
         email: enriched.contact?.email,
         phone: enriched.contact?.phone,
@@ -429,9 +473,8 @@ function buildMinimalPurposeSummary(f: Foundation, esa?: ESAEntry): string {
   const city = esa?.city || f.region || 'Schweiz';
   const purpose = f.officialPurpose || '';
   // Truncate purpose to first 200 chars for summary
-  const excerpt = purpose.length > 200
-    ? purpose.substring(0, 197).replace(/\s+\S*$/, '') + '...'
-    : purpose;
+  const excerpt =
+    purpose.length > 200 ? purpose.substring(0, 197).replace(/\s+\S*$/, '') + '...' : purpose;
   return `${f.name} (${city}): ${excerpt || 'Keine detaillierte Zweckbeschreibung verfügbar. Weitere Recherche empfohlen.'}`;
 }
 
@@ -464,7 +507,7 @@ async function main() {
   const dbRows = await loadFoundationsFromDB();
   console.log(`  Database: ${dbRows.length} foundations`);
 
-  const foundations = dbRows.map(r => r.config_data);
+  const foundations = dbRows.map((r) => r.config_data);
 
   const esaByUid = loadESA();
   const { byName: fundraisoByName, bySlug: fundraisoBySlug } = loadFundraiso();
@@ -510,13 +553,15 @@ async function main() {
 
     processed++;
     if (processed % 5000 === 0) {
-      console.log(`  Processed ${processed.toLocaleString()}/${foundations.length.toLocaleString()}...`);
+      console.log(
+        `  Processed ${processed.toLocaleString()}/${foundations.length.toLocaleString()}...`,
+      );
     }
   }
 
   // Compute after-enrichment tier counts
-  const afterFoundations = foundations.map(f => {
-    const enriched = enrichedFoundations.find(e => e.slug === f.slug);
+  const afterFoundations = foundations.map((f) => {
+    const enriched = enrichedFoundations.find((e) => e.slug === f.slug);
     return enriched || f;
   });
   const afterCounts = computeTierCounts(afterFoundations);
@@ -536,18 +581,26 @@ async function main() {
   }
 
   console.log('\n  Tier Distribution (Before → After):');
-  const tiers = ['verzeichnet', 'erfasst', 'profiliert', 'recherchiert', 'anwendungsbereit'] as const;
+  const tiers = [
+    'verzeichnet',
+    'erfasst',
+    'profiliert',
+    'recherchiert',
+    'anwendungsbereit',
+  ] as const;
   for (const tier of tiers) {
     const before = beforeCounts[tier];
     const after = afterCounts[tier];
     const delta = after - before;
     const deltaStr = delta > 0 ? ` (+${delta})` : delta < 0 ? ` (${delta})` : '';
-    console.log(`    ${tier.padEnd(20)} ${before.toLocaleString().padStart(7)} → ${after.toLocaleString().padStart(7)}${deltaStr}`);
+    console.log(
+      `    ${tier.padEnd(20)} ${before.toLocaleString().padStart(7)} → ${after.toLocaleString().padStart(7)}${deltaStr}`,
+    );
   }
 
   // Count funder/operator classification
-  const operativeCount = enrichedFoundations.filter(f => f.isOperative === true).length;
-  const funderCount = enrichedFoundations.filter(f => f.isOperative === false).length;
+  const operativeCount = enrichedFoundations.filter((f) => f.isOperative === true).length;
+  const funderCount = enrichedFoundations.filter((f) => f.isOperative === false).length;
   console.log(`\n  Funder/Operator: ${funderCount} funders, ${operativeCount} operatives detected`);
 
   // Write drafts (unless dry run)
@@ -573,7 +626,9 @@ async function main() {
     if (allChanges.length > 0) {
       console.log('\n  Sample changes (first 20):');
       for (const c of allChanges.slice(0, 20)) {
-        console.log(`    ${c.name.substring(0, 40).padEnd(42)} ${c.field.padEnd(20)} ${c.from.substring(0, 20)} → ${c.to.substring(0, 40)}`);
+        console.log(
+          `    ${c.name.substring(0, 40).padEnd(42)} ${c.field.padEnd(20)} ${c.from.substring(0, 20)} → ${c.to.substring(0, 40)}`,
+        );
       }
       if (allChanges.length > 20) {
         console.log(`    ... and ${allChanges.length - 20} more changes`);
@@ -586,7 +641,7 @@ async function main() {
   console.log('\nDone.\n');
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Error:', err);
   process.exit(1);
 });

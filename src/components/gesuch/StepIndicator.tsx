@@ -28,9 +28,7 @@ export default function StepIndicator({ currentStep, onNavigate }: StepIndicator
             <li key={step.n} className="flex items-center">
               {/* Connector line before step (not before first) */}
               {idx > 0 && (
-                <div
-                  className={`h-px w-8 sm:w-16 ${isDone ? 'bg-primary' : 'bg-border'}`}
-                />
+                <div className={`h-px w-8 sm:w-16 ${isDone ? 'bg-primary' : 'bg-border'}`} />
               )}
 
               <button

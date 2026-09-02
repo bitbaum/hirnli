@@ -67,14 +67,14 @@ async function sparqlQuery(query: string): Promise<Record<string, { value: strin
   url.searchParams.set('query', query);
 
   const res = await fetch(url.toString(), {
-    headers: { 'Accept': 'application/sparql-results+json' },
+    headers: { Accept: 'application/sparql-results+json' },
   });
 
   if (!res.ok) {
     throw new Error(`SPARQL error: ${res.status} ${res.statusText}`);
   }
 
-  const data = await res.json() as {
+  const data = (await res.json()) as {
     results: { bindings: Record<string, { value: string }>[] };
   };
   return data.results.bindings;
@@ -104,7 +104,7 @@ async function downloadBatch(offset: number, limit: number): Promise<ZefixEntry[
 
   const bindings = await sparqlQuery(query);
 
-  return bindings.map(b => ({
+  return bindings.map((b) => ({
     name: b.name?.value || '',
     uid: formatUid(b.uid?.value || ''),
     city: b.city?.value || '',
@@ -120,7 +120,7 @@ async function downloadBatch(offset: number, limit: number): Promise<ZefixEntry[
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const limitArg = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
+  const limitArg = parseInt(args.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
 
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('  Zefix Download — Fetch ALL Stiftungen via SPARQL');
@@ -177,7 +177,9 @@ async function main() {
   const dedupedEntries = Array.from(seen.values());
   const duplicatesRemoved = allEntries.length - dedupedEntries.length;
   if (duplicatesRemoved > 0) {
-    console.log(`  After dedup: ${dedupedEntries.length} unique (${duplicatesRemoved} duplicates removed)`);
+    console.log(
+      `  After dedup: ${dedupedEntries.length} unique (${duplicatesRemoved} duplicates removed)`,
+    );
   }
 
   if (dryRun) {

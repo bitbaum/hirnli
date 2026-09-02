@@ -24,7 +24,9 @@ interface GesuchDokumentPDFProps {
 function Footer() {
   return (
     <View style={styles.footer} fixed>
-      <Text>{ORG_PROFILE.name} | {ORG_PROFILE.address} | {ORG_PROFILE.email}</Text>
+      <Text>
+        {ORG_PROFILE.name} | {ORG_PROFILE.address} | {ORG_PROFILE.email}
+      </Text>
       <Text render={({ pageNumber, totalPages }) => `Seite ${pageNumber} / ${totalPages}`} />
     </View>
   );

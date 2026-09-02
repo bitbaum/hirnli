@@ -50,8 +50,12 @@ function DocumentSection({
       </div>
       {docs.length === 0 ? (
         <Card className="text-center py-12">
-          <span className="text-4xl mb-4 block" aria-hidden="true">🔍</span>
-          <p className="text-text-muted">Keine {type} gefunden für &bdquo;{query}&ldquo;</p>
+          <span className="text-4xl mb-4 block" aria-hidden="true">
+            🔍
+          </span>
+          <p className="text-text-muted">
+            Keine {type} gefunden für &bdquo;{query}&ldquo;
+          </p>
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -82,7 +86,7 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
       (doc) =>
         doc.title.toLowerCase().includes(query) ||
         doc.description.toLowerCase().includes(query) ||
-        doc.badge?.toLowerCase().includes(query)
+        doc.badge?.toLowerCase().includes(query),
     );
   };
 
@@ -95,8 +99,8 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
   return (
     <div className="space-y-8">
       <p className="text-sm text-text-muted">
-        <strong>PDF-Gesuche</strong> öffnen im Browser.{' '}
-        <strong>CSV/Excel</strong> werden direkt heruntergeladen.
+        <strong>PDF-Gesuche</strong> öffnen im Browser. <strong>CSV/Excel</strong> werden direkt
+        heruntergeladen.
       </p>
 
       {/* Tabs */}
@@ -172,7 +176,15 @@ export default function DocumentsClient({ documents, stats }: DocumentsClientPro
           />
           <DocumentSection
             title="Quelldateien (Kivitendo)"
-            subtitle={<>Original-Datenquellen aus Kivitendo (anonymisiert). Diese Dateien bilden die Grundlage für alle Finanzdaten auf dieser Seite.<strong className="text-primary ml-1">Empfohlen: Lesen Sie zuerst das README!</strong></>}
+            subtitle={
+              <>
+                Original-Datenquellen aus Kivitendo (anonymisiert). Diese Dateien bilden die
+                Grundlage für alle Finanzdaten auf dieser Seite.
+                <strong className="text-primary ml-1">
+                  Empfohlen: Lesen Sie zuerst das README!
+                </strong>
+              </>
+            }
             docs={filteredQuellen}
             query={searchQuery}
             type="Quelldateien"

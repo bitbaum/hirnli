@@ -41,7 +41,7 @@ export const ZURICH_MARKET_DATA = {
       note: 'City locations expensive, not realistic for our budget',
     },
     agglomeration: {
-      min: 90_000,  // ~600m² × CHF 150/m²/year
+      min: 90_000, // ~600m² × CHF 150/m²/year
       max: 150_000, // ~600m² × CHF 250/m²/year
       realistic: 120_000, // ~600m² × CHF 200/m²/year for decent agglomeration location
       note: 'Volketswil, Schlieren, Dietikon - accessible by public transport',
@@ -77,7 +77,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 40,
     sqm_max: 60,
     sqm_recommended: 50,
-    why_this_size: 'Industry standard: 20-30 devices on display requires 30-40m² + 10-15m² for customer circulation, checkout, device intake area. Swiss retail standards recommend min 1.5m² per customer for comfortable browsing.',
+    why_this_size:
+      'Industry standard: 20-30 devices on display requires 30-40m² + 10-15m² for customer circulation, checkout, device intake area. Swiss retail standards recommend min 1.5m² per customer for comfortable browsing.',
     what_it_contains: [
       'Sales floor: 30m² (20-30 refurbished devices on display)',
       'Checkout & intake: 10m² (cash register, device acceptance counter)',
@@ -102,7 +103,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 120,
     sqm_max: 180,
     sqm_recommended: 150,
-    why_this_size: 'Based on auto repair industry standard (2-lift shop = 140-185m²). We refurbish electronics (smaller than cars), but need: (1) 6-8 workstations × 12-18m² each = 72-144m², (2) Test area, (3) Data wipe zone, (4) QA/packaging, (5) Parts storage, (6) Tool library. U-shape layout keeps central 40-50m² open for movement.',
+    why_this_size:
+      'Based on auto repair industry standard (2-lift shop = 140-185m²). We refurbish electronics (smaller than cars), but need: (1) 6-8 workstations × 12-18m² each = 72-144m², (2) Test area, (3) Data wipe zone, (4) QA/packaging, (5) Parts storage, (6) Tool library. U-shape layout keeps central 40-50m² open for movement.',
     what_it_contains: [
       'Main workshop: 70m² (6-8 repair workstations in U-shape)',
       'Test & Data Wipe: 30m² (10 devices can run tests simultaneously)',
@@ -131,7 +133,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 40,
     sqm_max: 60,
     sqm_recommended: 50,
-    why_this_size: 'Kernteam (3 people) + 2 BPL = 5 desks. Swiss office standard: 8-10m² per desk (includes personal space + shared circulation). 5 × 10m² = 50m². Meeting room seats 8-10 people (15-20m² standard).',
+    why_this_size:
+      'Kernteam (3 people) + 2 BPL = 5 desks. Swiss office standard: 8-10m² per desk (includes personal space + shared circulation). 5 × 10m² = 50m². Meeting room seats 8-10 people (15-20m² standard).',
     what_it_contains: [
       'Open office: 30m² (5 desks for Kernteam + BPL)',
       'Meeting room: 15m² (8-10 people, flexible table config)',
@@ -156,7 +159,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 60,
     sqm_max: 100,
     sqm_recommended: 80,
-    why_this_size: 'We already have TOO MUCH inventory in 2 external warehouses (user feedback). Consolidating into 1 organized space saves double rent. 80m² holds ~500 devices (1.5 devices per m² with industrial shelving). Includes intake/triage (20m²), ready-to-sell (30m²), recycling staging (20m²), packing supplies (10m²).',
+    why_this_size:
+      'We already have TOO MUCH inventory in 2 external warehouses (user feedback). Consolidating into 1 organized space saves double rent. 80m² holds ~500 devices (1.5 devices per m² with industrial shelving). Includes intake/triage (20m²), ready-to-sell (30m²), recycling staging (20m²), packing supplies (10m²).',
     what_it_contains: [
       'Intake & Triage: 20m² (incoming devices sorted by condition)',
       'Ready-to-sell inventory: 30m² (refurbished devices awaiting sale)',
@@ -181,7 +185,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 20,
     sqm_max: 40,
     sqm_recommended: 30,
-    why_this_size: 'Standard loading bay for small trucks/vans: 15-20m². Temporary staging for pallets: 10-15m². Swiss commercial buildings typically allocate 5-10% of total space for logistics.',
+    why_this_size:
+      'Standard loading bay for small trucks/vans: 15-20m². Temporary staging for pallets: 10-15m². Swiss commercial buildings typically allocate 5-10% of total space for logistics.',
     what_it_contains: [
       'Loading bay: 15m² (truck access, ramp)',
       'Temporary staging: 15m² (24-48h holding for incoming/outgoing)',
@@ -205,7 +210,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 50,
     sqm_max: 80,
     sqm_recommended: 60,
-    why_this_size: 'Makerspace industry standard: 10-12 workstations for electronics/prototyping = 50-70m². Includes: 6× soldering stations (~3m² each), 3-4× 3D printers (need ventilation space), 1× laser cutter (dedicated 10m² zone), tool library (10m²).',
+    why_this_size:
+      'Makerspace industry standard: 10-12 workstations for electronics/prototyping = 50-70m². Includes: 6× soldering stations (~3m² each), 3-4× 3D printers (need ventilation space), 1× laser cutter (dedicated 10m² zone), tool library (10m²).',
     what_it_contains: [
       'Electronics workstations: 25m² (6× soldering benches with fume extraction)',
       '3D printing & fabrication: 20m² (3-4 printers, filament storage)',
@@ -232,7 +238,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 15,
     sqm_max: 30,
     sqm_recommended: 20,
-    why_this_size: 'Data center industry standard: 3-4 server racks (each 0.6m × 1m footprint) = 2.4m². Add: cooling system space (30% of floor), electrical infrastructure (UPS, PDUs), access/maintenance corridors (40% of floor). Formula: 4 racks × 0.6m² × 2.7 (infrastructure multiplier) = ~18-25m².',
+    why_this_size:
+      'Data center industry standard: 3-4 server racks (each 0.6m × 1m footprint) = 2.4m². Add: cooling system space (30% of floor), electrical infrastructure (UPS, PDUs), access/maintenance corridors (40% of floor). Formula: 4 racks × 0.6m² × 2.7 (infrastructure multiplier) = ~18-25m².',
     what_it_contains: [
       'Server racks: 5m² (3-4 racks with GPUs)',
       'Cooling system: 6m² (HVAC, air circulation, hot aisle/cold aisle)',
@@ -258,7 +265,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 40,
     sqm_max: 70,
     sqm_recommended: 50,
-    why_this_size: 'Training industry standard: 2-2.5m² per participant for seated courses. 20 participants × 2.5m² = 50m². Includes: student desks (30m²), instructor area (10m²), equipment storage (10m²).',
+    why_this_size:
+      'Training industry standard: 2-2.5m² per participant for seated courses. 20 participants × 2.5m² = 50m². Includes: student desks (30m²), instructor area (10m²), equipment storage (10m²).',
     what_it_contains: [
       'Student area: 30m² (20 desks in flexible config)',
       'Instructor zone: 10m² (teaching desk, presentation screen)',
@@ -290,7 +298,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 80,
     sqm_max: 120,
     sqm_recommended: 100,
-    why_this_size: 'Multi-purpose space serving 3 functions: (1) Café during day (15-20 seats = 30-40m²), (2) Event space evening/weekend (50-80 people standing = 60-80m²), (3) Repair Café 2×/month (shares tables/space). Total 100m² accommodates all uses with flexible furniture.',
+    why_this_size:
+      'Multi-purpose space serving 3 functions: (1) Café during day (15-20 seats = 30-40m²), (2) Event space evening/weekend (50-80 people standing = 60-80m²), (3) Repair Café 2×/month (shares tables/space). Total 100m² accommodates all uses with flexible furniture.',
     what_it_contains: [
       'Café area: 40m² (15-20 seats, counter, coffee station)',
       'Event/performance area: 40m² (stage/presentation zone, 50-80 people standing)',
@@ -303,7 +312,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
       '1× Small kitchen (coffee, simple snacks - NOT full restaurant)',
       'Modular furniture (easy to reconfigure daily)',
     ],
-    simultaneous_capacity: 'DAY: 15-20 café guests | EVENING: 50-80 event attendees | REPAIR CAFÉ: 30-40 people (2× per month)',
+    simultaneous_capacity:
+      'DAY: 15-20 café guests | EVENING: 50-80 event attendees | REPAIR CAFÉ: 30-40 people (2× per month)',
     ceiling_height_min: 3.0,
     layout_type: 'Open floor plan with movable furniture, minimal fixed installations',
     multi_purpose_with: [
@@ -322,7 +332,8 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
     sqm_min: 50,
     sqm_max: 80,
     sqm_recommended: 60,
-    why_this_size: 'Commercial building standard: 10-15% of total usable space for circulation. For 500m² usable = 50-75m² circulation. Includes: hallways (30m²), 2× bathrooms (15m² total), entrance/reception (15m²).',
+    why_this_size:
+      'Commercial building standard: 10-15% of total usable space for circulation. For 500m² usable = 50-75m² circulation. Includes: hallways (30m²), 2× bathrooms (15m² total), entrance/reception (15m²).',
     what_it_contains: [
       'Hallways & corridors: 30m² (1.2-1.5m wide, wheelchair accessible)',
       'Bathrooms: 15m² (2× bathrooms, handicap-accessible, Swiss building code)',
@@ -345,26 +356,42 @@ export const HUB_SPACE_AREAS: SpaceArea[] = [
 
 // Private helpers — derive category totals from the authoritative area definitions above
 function _sumSqm(names: readonly string[]): number {
-  return HUB_SPACE_AREAS.filter(a => names.includes(a.name)).reduce((s, a) => s + a.sqm_recommended, 0);
+  return HUB_SPACE_AREAS.filter((a) => names.includes(a.name)).reduce(
+    (s, a) => s + a.sqm_recommended,
+    0,
+  );
 }
 function _sumCost(names: readonly string[]): number {
-  return HUB_SPACE_AREAS.filter(a => names.includes(a.name)).reduce((s, a) => s + a.cost_estimate_chf, 0);
+  return HUB_SPACE_AREAS.filter((a) => names.includes(a.name)).reduce(
+    (s, a) => s + a.cost_estimate_chf,
+    0,
+  );
 }
 
 // Category area name lists — each drives both the label array and the computed totals
-const _CORE_AREAS = ['Shop & Customer Area', 'Refurbishment Workshop', 'Office & Meeting Spaces', 'Storage & Logistics', 'Loading & Delivery Zone'] as const;
-const _INNOVATION_AREAS = ['Makerspace & Hackerspace', 'AI Lab (Server Room)', 'Training & Course Room'] as const;
+const _CORE_AREAS = [
+  'Shop & Customer Area',
+  'Refurbishment Workshop',
+  'Office & Meeting Spaces',
+  'Storage & Logistics',
+  'Loading & Delivery Zone',
+] as const;
+const _INNOVATION_AREAS = [
+  'Makerspace & Hackerspace',
+  'AI Lab (Server Room)',
+  'Training & Course Room',
+] as const;
 const _CULTURE_AREAS = ['Event Space + Community Café (MULTI-PURPOSE)'] as const;
 const _INFRA_AREAS = ['Circulation, Corridors, Bathrooms'] as const;
 
 // Named exports for cross-module lookups (avoids string-keyed find() in consumers)
-export const SHOP_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Shop & Customer Area')!;
-export const WORKSHOP_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Refurbishment Workshop')!;
-export const OFFICE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Office & Meeting Spaces')!;
-export const STORAGE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Storage & Logistics')!;
-export const LOADING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Loading & Delivery Zone')!;
-export const MAKERSPACE_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Makerspace & Hackerspace')!;
-export const TRAINING_AREA = HUB_SPACE_AREAS.find(a => a.name === 'Training & Course Room')!;
+export const SHOP_AREA = HUB_SPACE_AREAS.find((a) => a.name === 'Shop & Customer Area')!;
+export const WORKSHOP_AREA = HUB_SPACE_AREAS.find((a) => a.name === 'Refurbishment Workshop')!;
+export const OFFICE_AREA = HUB_SPACE_AREAS.find((a) => a.name === 'Office & Meeting Spaces')!;
+export const STORAGE_AREA = HUB_SPACE_AREAS.find((a) => a.name === 'Storage & Logistics')!;
+export const LOADING_AREA = HUB_SPACE_AREAS.find((a) => a.name === 'Loading & Delivery Zone')!;
+export const MAKERSPACE_AREA = HUB_SPACE_AREAS.find((a) => a.name === 'Makerspace & Hackerspace')!;
+export const TRAINING_AREA = HUB_SPACE_AREAS.find((a) => a.name === 'Training & Course Room')!;
 
 // Phase-2 / optional areas not included in main space plan totals
 export const ROBOTIK_LAB_COST_CHF = 50_000;
@@ -385,7 +412,8 @@ export const SPACE_SUMMARY = {
   /** Total including circulation — the full lease footprint */
   total_with_circulation: HUB_SPACE_AREAS.reduce((sum, area) => sum + area.sqm_recommended, 0),
   /** Usable space excluding corridors/bathrooms — the number for program descriptions (~590m²) */
-  total_usable: HUB_SPACE_AREAS.reduce((sum, area) => sum + area.sqm_recommended, 0) - CIRCULATION_SQM,
+  total_usable:
+    HUB_SPACE_AREAS.reduce((sum, area) => sum + area.sqm_recommended, 0) - CIRCULATION_SQM,
   total_cost_estimate: HUB_SPACE_AREAS.reduce((sum, area) => sum + area.cost_estimate_chf, 0),
 
   by_category: {
@@ -420,7 +448,7 @@ export const SPACE_SUMMARY = {
       note: 'NOT REALISTIC for our budget',
     },
     agglomeration: {
-      min: 90_000,  // ~600m² × CHF 150/m²/year
+      min: 90_000, // ~600m² × CHF 150/m²/year
       realistic: 120_000, // ~600m² × CHF 200/m²/year — used in budget-scenarios.ts
       max: 150_000, // ~600m² × CHF 250/m²/year
       locations: ['Volketswil', 'Schlieren', 'Dietikon', 'Regensdorf'],
@@ -472,4 +500,3 @@ export const MULTI_PURPOSE_STRATEGY = {
   total_space_saved_by_multi_purpose: 60, // Café+Event (40m²) + Training+Meeting (20m²)
   efficiency_gain: '11% space reduction through smart time-sharing',
 } as const;
-

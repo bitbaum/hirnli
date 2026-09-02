@@ -10,17 +10,20 @@ export default function HubBildungSynergySection() {
         <Card className="border-l-4 border-l-warning">
           <h3 className="heading-card mb-3">❌ Bildung ohne Hub = Begrenzte Kapazität</h3>
           <p className="text-sm text-text-secondary mb-4">
-            Ohne grösseren Raum fehlen Werkstattplätze, Schulungsräume und Equipment für mehr Teilnehmende.
-            Trainings bleiben theoretisch, weil die Praxis-Infrastruktur fehlt.
+            Ohne grösseren Raum fehlen Werkstattplätze, Schulungsräume und Equipment für mehr
+            Teilnehmende. Trainings bleiben theoretisch, weil die Praxis-Infrastruktur fehlt.
           </p>
           <Badge variant="warning">Limitiert durch Raumkapazität</Badge>
         </Card>
 
         <Card className="border-l-4 border-l-success">
-          <h3 className="heading-card text-success mb-3">✅ Hub + Bildung = Exponentielles Wachstum</h3>
+          <h3 className="heading-card text-success mb-3">
+            ✅ Hub + Bildung = Exponentielles Wachstum
+          </h3>
           <p className="text-sm text-success mb-4">
             Hub bietet <strong>Infrastruktur</strong> (Werkstatt, Schulungsräume, Equipment).
-            Bildungsprogrammleiter:innen bieten <strong>Know-how-Multiplikation</strong> (Train-the-Trainer).
+            Bildungsprogrammleiter:innen bieten <strong>Know-how-Multiplikation</strong>{' '}
+            (Train-the-Trainer).
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
             <div className="bg-surface-base rounded-lg p-3 text-center">

@@ -43,24 +43,24 @@ export default function DocumentCard({ document }: DocumentCardProps) {
     <>
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-2xl" aria-hidden="true">{icon}</span>
+          <span className="text-2xl" aria-hidden="true">
+            {icon}
+          </span>
           <div>
             <h3 className="heading-item group-hover:text-primary transition-colors">
               {document.title}
             </h3>
             {document.badge && (
-              <Badge color="blue" className="mt-1">{document.badge}</Badge>
+              <Badge color="blue" className="mt-1">
+                {document.badge}
+              </Badge>
             )}
           </div>
         </div>
-        <Badge color={document.format === 'PDF' ? 'purple' : 'emerald'}>
-          {document.format}
-        </Badge>
+        <Badge color={document.format === 'PDF' ? 'purple' : 'emerald'}>{document.format}</Badge>
       </div>
 
-      <p className="text-sm text-text-secondary mb-4">
-        {document.description}
-      </p>
+      <p className="text-sm text-text-secondary mb-4">{document.description}</p>
 
       <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-text-muted mb-3">
         {document.size && (
@@ -107,11 +107,7 @@ export default function DocumentCard({ document }: DocumentCardProps) {
   if (document.action === 'download') {
     return (
       <Card className="group border-l-4 border-l-success hover:shadow-lg transition-hover">
-        <a
-          href={document.href}
-          download
-          className="block no-underline"
-        >
+        <a href={document.href} download className="block no-underline">
           {cardContent}
         </a>
       </Card>

@@ -62,9 +62,9 @@ export async function GET(_request: NextRequest) {
 
     const { total, totalRequested, totalAwarded } = aggregates[0];
 
-    const statusCounts = Object.fromEntries(
-      statusRows.map(r => [r.status, r.cnt])
-    ) as Partial<Record<ApplicationStatusId, number>>;
+    const statusCounts = Object.fromEntries(statusRows.map((r) => [r.status, r.cnt])) as Partial<
+      Record<ApplicationStatusId, number>
+    >;
 
     const submitted = statusCounts.submitted ?? 0;
     const accepted = statusCounts.accepted ?? 0;
@@ -91,8 +91,8 @@ export async function GET(_request: NextRequest) {
           gte(applications.decisionExpected, today),
           lte(applications.decisionExpected, in30Days),
           // All active post-submission statuses that may have a decision date
-          inArray(applications.status, ['submitted', 'pending', 'followup'])
-        )
+          inArray(applications.status, ['submitted', 'pending', 'followup']),
+        ),
       )
       .orderBy(applications.decisionExpected);
 
@@ -110,21 +110,20 @@ export async function GET(_request: NextRequest) {
           successRate,
           totalApplications: total,
         },
-        byStatus: statusRows.map(r => ({ status: r.status, count: r.cnt })),
-        byPriority: priorityRows.map(r => ({ priority: r.priorityLevel!, count: r.cnt })),
-        upcomingDeadlines: upcomingDeadlines.map(item => ({
+        byStatus: statusRows.map((r) => ({ status: r.status, count: r.cnt })),
+        byPriority: priorityRows.map((r) => ({ priority: r.priorityLevel!, count: r.cnt })),
+        upcomingDeadlines: upcomingDeadlines.map((item) => ({
           id: item.application.id,
           foundationName: item.foundation?.name || 'Unknown',
           decisionExpected: item.application.decisionExpected,
           requestedAmount: item.application.requestedAmount,
           status: item.application.status,
           daysUntilDeadline: Math.ceil(
-            (new Date(item.application.decisionExpected!).getTime() - Date.now()) / MS_PER_DAY
+            (new Date(item.application.decisionExpected!).getTime() - Date.now()) / MS_PER_DAY,
           ),
         })),
       },
     });
-
   } catch (error) {
     return apiError('GET /api/applications/dashboard', error, API_ERR_LOAD);
   }

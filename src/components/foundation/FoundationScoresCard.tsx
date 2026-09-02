@@ -23,11 +23,18 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
           <span className="text-xs font-bold tabular-nums">
             {priority.label}
             {priority.isOverride && (
-              <span className="ml-1 rounded bg-warning/10 px-1 py-0.5 text-xs font-medium text-warning-text">manuell</span>
+              <span className="ml-1 rounded bg-warning/10 px-1 py-0.5 text-xs font-medium text-warning-text">
+                manuell
+              </span>
             )}
           </span>
         </div>
-        <ProgressBar percent={priority.score} size="sm" color="bg-primary" label={`Priorität: ${priority.score}%`} />
+        <ProgressBar
+          percent={priority.score}
+          size="sm"
+          color="bg-primary"
+          label={`Priorität: ${priority.score}%`}
+        />
         <p className="mt-1 text-sm text-text-muted">{priority.description}</p>
         {priority.components.penaltyReason && (
           <p className="mt-0.5 text-sm text-warning-text">{priority.components.penaltyReason}</p>
@@ -51,7 +58,9 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
             <div key={id}>
               <div className="flex items-center justify-between text-xs">
                 <span className="text-text-muted">{DIM_LABELS[id] ?? id}</span>
-                <span className="tabular-nums text-text-muted">{score}/{max}</span>
+                <span className="tabular-nums text-text-muted">
+                  {score}/{max}
+                </span>
               </div>
               <ProgressBar
                 percent={max > 0 ? (score / max) * 100 : 0}
@@ -68,11 +77,16 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
       {promotion.improvements.length > 0 && (
         <div className="border-t border-border-default pt-3">
           <p className="heading-xs-label">
-            {promotion.nextTier ? `Nächste Stufe: ${TIER_LABELS[promotion.nextTier]}` : 'Nächste Verbesserungen'}
+            {promotion.nextTier
+              ? `Nächste Stufe: ${TIER_LABELS[promotion.nextTier]}`
+              : 'Nächste Verbesserungen'}
           </p>
           <ul className="mt-1 space-y-0.5">
             {promotion.improvements.slice(0, 3).map((imp) => (
-              <li key={imp.label} className="flex items-start justify-between gap-2 text-sm text-text-muted">
+              <li
+                key={imp.label}
+                className="flex items-start justify-between gap-2 text-sm text-text-muted"
+              >
                 <span className="min-w-0">{imp.label}</span>
                 <span className="shrink-0 tabular-nums text-primary-text">+{imp.points}</span>
               </li>

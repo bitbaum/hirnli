@@ -17,19 +17,16 @@ const ORG_ID = ORG_PROFILE.orgId;
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   const { slug } = await params;
   try {
     const rows = await db
       .select({ variantKey: gesuchOverrides.variantKey })
       .from(gesuchOverrides)
-      .where(and(
-        eq(gesuchOverrides.foundationId, slug),
-        eq(gesuchOverrides.orgId, ORG_ID),
-      ));
+      .where(and(eq(gesuchOverrides.foundationId, slug), eq(gesuchOverrides.orgId, ORG_ID)));
 
-    const variants = rows.map(r => r.variantKey);
+    const variants = rows.map((r) => r.variantKey);
     return NextResponse.json({ success: true, data: variants });
   } catch (err) {
     return apiError('GET gesuch-overrides variants', err, API_ERR_DB);

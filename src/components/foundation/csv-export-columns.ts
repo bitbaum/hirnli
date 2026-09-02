@@ -99,7 +99,7 @@ const THEME_COLUMNS: CsvColumn[] = Object.values(THEMES).map((t) => ({
   id: `theme_${t.id}`,
   label: t.label,
   defaultOn: true,
-  getValue: (f: Foundation) => (f.themes ?? []).includes(t.id) ? 'X' : '',
+  getValue: (f: Foundation) => ((f.themes ?? []).includes(t.id) ? 'X' : ''),
 }));
 
 export const COLUMN_GROUPS: ColumnGroup[] = [
@@ -108,22 +108,47 @@ export const COLUMN_GROUPS: ColumnGroup[] = [
     columns: [
       { id: 'name', label: 'Name', defaultOn: true, getValue: (f) => f.name },
       { id: 'type', label: 'Typ (A/B/C/D)', defaultOn: true, getValue: (f) => f.type ?? '' },
-      { id: 'websiteUrl', label: 'Website', defaultOn: true, getValue: (f) => getOwnWebsite(f) || googleSearch(f.name, 'website') },
-      { id: 'purposeSummary', label: 'Zweckbeschreibung', defaultOn: false, getValue: (f) => f.purposeSummary ?? '' },
-      { id: 'tagline', label: 'Kurzbeschreibung', defaultOn: false, getValue: (f) => f.tagline ?? '' },
+      {
+        id: 'websiteUrl',
+        label: 'Website',
+        defaultOn: true,
+        getValue: (f) => getOwnWebsite(f) || googleSearch(f.name, 'website'),
+      },
+      {
+        id: 'purposeSummary',
+        label: 'Zweckbeschreibung',
+        defaultOn: false,
+        getValue: (f) => f.purposeSummary ?? '',
+      },
+      {
+        id: 'tagline',
+        label: 'Kurzbeschreibung',
+        defaultOn: false,
+        getValue: (f) => f.tagline ?? '',
+      },
     ],
   },
   {
     label: 'Adresse',
     columns: [
-      { id: 'street', label: 'Strasse', defaultOn: true, getValue: (f) => {
-        const a = addressCache(f);
-        return a.street || (a.zip ? '' : googleSearch(f.name, 'adresse'));
-      }},
+      {
+        id: 'street',
+        label: 'Strasse',
+        defaultOn: true,
+        getValue: (f) => {
+          const a = addressCache(f);
+          return a.street || (a.zip ? '' : googleSearch(f.name, 'adresse'));
+        },
+      },
       { id: 'zip', label: 'PLZ', defaultOn: true, getValue: (f) => addressCache(f).zip },
       { id: 'city', label: 'Ort', defaultOn: true, getValue: (f) => addressCache(f).city },
       { id: 'region', label: 'Region / Kanton', defaultOn: true, getValue: (f) => f.region ?? '' },
-      { id: 'email', label: 'E-Mail', defaultOn: true, getValue: (f) => f.contact?.email || googleSearch(f.name, 'kontakt email') },
+      {
+        id: 'email',
+        label: 'E-Mail',
+        defaultOn: true,
+        getValue: (f) => f.contact?.email || googleSearch(f.name, 'kontakt email'),
+      },
       { id: 'phone', label: 'Telefon', defaultOn: false, getValue: (f) => f.contact?.phone ?? '' },
     ],
   },
@@ -134,8 +159,18 @@ export const COLUMN_GROUPS: ColumnGroup[] = [
   {
     label: 'Bewertung',
     columns: [
-      { id: 'fitScore', label: 'Fit-Score (0–10)', defaultOn: true, getValue: (f) => String(f.fitScore ?? 0) },
-      { id: 'priority', label: 'Priorität (P1–P4)', defaultOn: true, getValue: (f) => `P${f.priority}` },
+      {
+        id: 'fitScore',
+        label: 'Fit-Score (0–10)',
+        defaultOn: true,
+        getValue: (f) => String(f.fitScore ?? 0),
+      },
+      {
+        id: 'priority',
+        label: 'Priorität (P1–P4)',
+        defaultOn: true,
+        getValue: (f) => `P${f.priority}`,
+      },
       { id: 'tier', label: 'Qualitäts-Tier', defaultOn: false, getValue: (f) => getQualityTier(f) },
     ],
   },
@@ -143,24 +178,54 @@ export const COLUMN_GROUPS: ColumnGroup[] = [
     label: 'Bewerbung',
     columns: [
       { id: 'status', label: 'Status', defaultOn: false, getValue: (f) => f.status ?? '' },
-      { id: 'applicationMethod', label: 'Bewerbungsweg', defaultOn: false, getValue: (f) => f.applicationMethod ?? '' },
+      {
+        id: 'applicationMethod',
+        label: 'Bewerbungsweg',
+        defaultOn: false,
+        getValue: (f) => f.applicationMethod ?? '',
+      },
       { id: 'deadline', label: 'Frist', defaultOn: false, getValue: (f) => f.deadlineText ?? '' },
-      { id: 'applicationUrl', label: 'Bewerbungs-URL', defaultOn: false, getValue: (f) => f.applicationUrl ?? '' },
+      {
+        id: 'applicationUrl',
+        label: 'Bewerbungs-URL',
+        defaultOn: false,
+        getValue: (f) => f.applicationUrl ?? '',
+      },
     ],
   },
   {
     label: 'Finanzen',
     columns: [
-      { id: 'amountText', label: 'Förderbetrag', defaultOn: false, getValue: (f) => f.amount?.text ?? '' },
-      { id: 'amountMin', label: 'Betrag Min (CHF)', defaultOn: false, getValue: (f) => f.amount?.min != null ? String(f.amount.min) : '' },
-      { id: 'amountMax', label: 'Betrag Max (CHF)', defaultOn: false, getValue: (f) => f.amount?.max != null ? String(f.amount.max) : '' },
+      {
+        id: 'amountText',
+        label: 'Förderbetrag',
+        defaultOn: false,
+        getValue: (f) => f.amount?.text ?? '',
+      },
+      {
+        id: 'amountMin',
+        label: 'Betrag Min (CHF)',
+        defaultOn: false,
+        getValue: (f) => (f.amount?.min != null ? String(f.amount.min) : ''),
+      },
+      {
+        id: 'amountMax',
+        label: 'Betrag Max (CHF)',
+        defaultOn: false,
+        getValue: (f) => (f.amount?.max != null ? String(f.amount.max) : ''),
+      },
       { id: 'capital', label: 'Kapital', defaultOn: false, getValue: (f) => f.capital ?? '' },
     ],
   },
   {
     label: 'Notizen',
     columns: [
-      { id: 'researchNotes', label: 'Recherche-Notizen', defaultOn: false, getValue: (f) => f.researchNotes ?? '' },
+      {
+        id: 'researchNotes',
+        label: 'Recherche-Notizen',
+        defaultOn: false,
+        getValue: (f) => f.researchNotes ?? '',
+      },
     ],
   },
 ];

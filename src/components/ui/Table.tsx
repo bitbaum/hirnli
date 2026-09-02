@@ -43,12 +43,19 @@ export default function Table<T>({
         </thead>
         <tbody>
           {data.map((row) => (
-            <tr key={keyExtractor(row)} className="border-b border-border-default last:border-0 hover:bg-surface-raised">
+            <tr
+              key={keyExtractor(row)}
+              className="border-b border-border-default last:border-0 hover:bg-surface-raised"
+            >
               {columns.map((col) => (
                 <td
                   key={col.key}
                   className={`${cellPadding} ${
-                    col.align === 'right' ? 'text-right' : col.align === 'center' ? 'text-center' : ''
+                    col.align === 'right'
+                      ? 'text-right'
+                      : col.align === 'center'
+                        ? 'text-center'
+                        : ''
                   } ${col.className || ''}`}
                 >
                   {col.render

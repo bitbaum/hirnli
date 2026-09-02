@@ -13,9 +13,27 @@ function filters(overrides: Partial<FoundationFilters> = {}): FoundationFilters 
 }
 
 const foundations = [
-  makeFoundation({ slug: 'a', name: 'Alpha', fitScore: 8, themes: ['kreislaufwirtschaft'], status: 'open' }),
-  makeFoundation({ slug: 'b', name: 'Beta', fitScore: 5, themes: ['soziale-integration'], status: 'open' }),
-  makeFoundation({ slug: 'c', name: 'Gamma', fitScore: 2, themes: ['kreislaufwirtschaft', 'soziale-integration'], status: 'closed' }),
+  makeFoundation({
+    slug: 'a',
+    name: 'Alpha',
+    fitScore: 8,
+    themes: ['kreislaufwirtschaft'],
+    status: 'open',
+  }),
+  makeFoundation({
+    slug: 'b',
+    name: 'Beta',
+    fitScore: 5,
+    themes: ['soziale-integration'],
+    status: 'open',
+  }),
+  makeFoundation({
+    slug: 'c',
+    name: 'Gamma',
+    fitScore: 2,
+    themes: ['kreislaufwirtschaft', 'soziale-integration'],
+    status: 'closed',
+  }),
 ];
 
 describe('filterFoundations', () => {
@@ -25,27 +43,36 @@ describe('filterFoundations', () => {
   });
 
   it('filters by theme (OR logic)', () => {
-    const result = filterFoundations(foundations, filters({
-      themes: ['kreislaufwirtschaft'],
-      themeLogic: 'or',
-    }));
-    expect(result.map(f => f.slug)).toEqual(['a', 'c']);
+    const result = filterFoundations(
+      foundations,
+      filters({
+        themes: ['kreislaufwirtschaft'],
+        themeLogic: 'or',
+      }),
+    );
+    expect(result.map((f) => f.slug)).toEqual(['a', 'c']);
   });
 
   it('filters by theme (AND logic)', () => {
-    const result = filterFoundations(foundations, filters({
-      themes: ['kreislaufwirtschaft', 'soziale-integration'],
-      themeLogic: 'and',
-    }));
+    const result = filterFoundations(
+      foundations,
+      filters({
+        themes: ['kreislaufwirtschaft', 'soziale-integration'],
+        themeLogic: 'and',
+      }),
+    );
     // Only gamma has both themes
-    expect(result.map(f => f.slug)).toEqual(['c']);
+    expect(result.map((f) => f.slug)).toEqual(['c']);
   });
 
   it('filters by status', () => {
-    const result = filterFoundations(foundations, filters({
-      statuses: ['closed'],
-    }));
-    expect(result.map(f => f.slug)).toEqual(['c']);
+    const result = filterFoundations(
+      foundations,
+      filters({
+        statuses: ['closed'],
+      }),
+    );
+    expect(result.map((f) => f.slug)).toEqual(['c']);
   });
 
   it('filters by type', () => {
@@ -54,12 +81,12 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'y', type: 'B' }),
     ];
     const result = filterFoundations(mixed, filters({ types: ['B'] }));
-    expect(result.map(f => f.slug)).toEqual(['y']);
+    expect(result.map((f) => f.slug)).toEqual(['y']);
   });
 
   it('filters by text search (case-insensitive)', () => {
     const result = filterFoundations(foundations, filters({ search: 'alpha' }));
-    expect(result.map(f => f.slug)).toEqual(['a']);
+    expect(result.map((f) => f.slug)).toEqual(['a']);
   });
 
   it('searches in name, tagline, region, purposeSummary', () => {
@@ -74,7 +101,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'b', isOperative: true }),
     ];
     const result = filterFoundations(data, filters({ hideOperative: true }));
-    expect(result.map(f => f.slug)).toEqual(['a']);
+    expect(result.map((f) => f.slug)).toEqual(['a']);
   });
 
   it('hides networks', () => {
@@ -83,7 +110,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'b', isNetwork: true }),
     ];
     const result = filterFoundations(data, filters({ hideNetworks: true }));
-    expect(result.map(f => f.slug)).toEqual(['a']);
+    expect(result.map((f) => f.slug)).toEqual(['a']);
   });
 
   it('hides foundations without application method', () => {
@@ -93,7 +120,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'c', applicationMethod: 'none' }),
     ];
     const result = filterFoundations(data, filters({ hideNoApplication: true }));
-    expect(result.map(f => f.slug)).toEqual(['a']);
+    expect(result.map((f) => f.slug)).toEqual(['a']);
   });
 
   it('filters by trust level', () => {
@@ -104,7 +131,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'unverified', source: 'zefix', researchDepth: 'rapid' }),
     ];
     const result = filterFoundations(data, filters({ trustLevels: ['verified'] }));
-    expect(result.map(f => f.slug)).toEqual(['verified']);
+    expect(result.map((f) => f.slug)).toEqual(['verified']);
   });
 
   it('trust level filter with multiple levels', () => {
@@ -114,7 +141,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'unverified', source: 'zefix', researchDepth: 'rapid' }),
     ];
     const result = filterFoundations(data, filters({ trustLevels: ['verified', 'assessed'] }));
-    expect(result.map(f => f.slug)).toEqual(['verified', 'assessed']);
+    expect(result.map((f) => f.slug)).toEqual(['verified', 'assessed']);
   });
 
   it('empty trustLevels filter shows all', () => {
@@ -134,7 +161,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'p4', priority: 4 }),
     ];
     const result = filterFoundations(data, filters({ priorityLevels: [1, 2] }));
-    expect(result.map(f => f.slug)).toEqual(['p1', 'p2']);
+    expect(result.map((f) => f.slug)).toEqual(['p1', 'p2']);
   });
 
   it('empty priorityLevels filter shows all', () => {
@@ -153,7 +180,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'low', fitScore: 2 }),
     ];
     const result = filterFoundations(data, filters({ fit: [3] }));
-    expect(result.map(f => f.slug)).toEqual(['high']);
+    expect(result.map((f) => f.slug)).toEqual(['high']);
   });
 
   it('filters by schwerpunkt (matches any themeId in the schwerpunkt)', () => {
@@ -163,7 +190,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'digital', themes: ['digitale-bildung'] }),
     ];
     const result = filterFoundations(data, filters({ schwerpunkt: 'nachhaltigkeit' }));
-    expect(result.map(f => f.slug)).toEqual(['kreislauf']);
+    expect(result.map((f) => f.slug)).toEqual(['kreislauf']);
   });
 
   it('filters by requireEmail', () => {
@@ -172,7 +199,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'no-email', contact: { phone: '+41 44 000' } }),
     ];
     const result = filterFoundations(data, filters({ requireEmail: true }));
-    expect(result.map(f => f.slug)).toEqual(['with-email']);
+    expect(result.map((f) => f.slug)).toEqual(['with-email']);
   });
 
   it('filters by requirePhone', () => {
@@ -181,7 +208,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'no-phone', contact: { email: 'a@b.ch' } }),
     ];
     const result = filterFoundations(data, filters({ requirePhone: true }));
-    expect(result.map(f => f.slug)).toEqual(['with-phone']);
+    expect(result.map((f) => f.slug)).toEqual(['with-phone']);
   });
 
   it('filters by requireAddress', () => {
@@ -190,7 +217,7 @@ describe('filterFoundations', () => {
       makeFoundation({ slug: 'no-addr', contact: { email: 'a@b.ch' } }),
     ];
     const result = filterFoundations(data, filters({ requireAddress: true }));
-    expect(result.map(f => f.slug)).toEqual(['with-addr']);
+    expect(result.map((f) => f.slug)).toEqual(['with-addr']);
   });
 
   it('filters by requireDataGaps — shows only Gesuch-eligible foundations with data gaps', () => {
@@ -199,26 +226,26 @@ describe('filterFoundations', () => {
     const complete = makeFoundation({ slug: 'complete', priority: 1 });
     const gappy = makeFoundation({ slug: 'gappy', priority: 1, researchNotes: 'Kurz.' });
     const noGesuch = makeMinimalFoundation({ slug: 'no-gesuch', priority: 1 });
-    const result = filterFoundations([complete, gappy, noGesuch], filters({ requireDataGaps: true }));
+    const result = filterFoundations(
+      [complete, gappy, noGesuch],
+      filters({ requireDataGaps: true }),
+    );
     // only gappy: has gesuch page AND has data gaps
-    expect(result.map(f => f.slug)).toEqual(['gappy']);
+    expect(result.map((f) => f.slug)).toEqual(['gappy']);
   });
 
   it('minTier filters out low-quality foundations', () => {
     const data = [
-      makeFoundation({ slug: 'high' }),          // deep research → anwendungsbereit
+      makeFoundation({ slug: 'high' }), // deep research → anwendungsbereit
       makeMinimalFoundation({ slug: 'minimal' }), // rapid, no data → verzeichnet
     ];
     // Explicitly set minTier to 'profiliert' — filters() defaults to 'verzeichnet'
     const result = filterFoundations(data, filters({ minTier: 'profiliert' }));
-    expect(result.map(f => f.slug)).toEqual(['high']);
+    expect(result.map((f) => f.slug)).toEqual(['high']);
   });
 
   it('minTier=verzeichnet shows all tiers', () => {
-    const data = [
-      makeFoundation({ slug: 'high' }),
-      makeMinimalFoundation({ slug: 'minimal' }),
-    ];
+    const data = [makeFoundation({ slug: 'high' }), makeMinimalFoundation({ slug: 'minimal' })];
     const result = filterFoundations(data, filters({ minTier: 'verzeichnet' }));
     expect(result).toHaveLength(2);
   });
@@ -231,12 +258,12 @@ describe('filterFoundations', () => {
 describe('sortFoundations', () => {
   it('sorts by name ascending', () => {
     const result = sortFoundations(foundations, 'name', 'asc');
-    expect(result.map(f => f.slug)).toEqual(['a', 'b', 'c']);
+    expect(result.map((f) => f.slug)).toEqual(['a', 'b', 'c']);
   });
 
   it('sorts by name descending', () => {
     const result = sortFoundations(foundations, 'name', 'desc');
-    expect(result.map(f => f.slug)).toEqual(['c', 'b', 'a']);
+    expect(result.map((f) => f.slug)).toEqual(['c', 'b', 'a']);
   });
 
   it('sorts by fit (highest first by default)', () => {
@@ -270,7 +297,7 @@ describe('sortFoundations', () => {
       makeFoundation({ slug: 'p2', priority: 2 }),
     ];
     const result = sortFoundations(data, 'priority', 'asc');
-    expect(result.map(f => f.slug)).toEqual(['p1', 'p2', 'p3']);
+    expect(result.map((f) => f.slug)).toEqual(['p1', 'p2', 'p3']);
   });
 
   it('sorts by deadline ascending (earliest first)', () => {
@@ -280,13 +307,13 @@ describe('sortFoundations', () => {
       makeFoundation({ slug: 'a', deadline: null }),
     ];
     const result = sortFoundations(data, 'deadline', 'asc');
-    expect(result.map(f => f.slug)).toEqual(['c', 'b', 'a']);
+    expect(result.map((f) => f.slug)).toEqual(['c', 'b', 'a']);
   });
 
   it('does not mutate original array', () => {
     const original = [...foundations];
     sortFoundations(foundations, 'name', 'desc');
-    expect(foundations.map(f => f.slug)).toEqual(original.map(f => f.slug));
+    expect(foundations.map((f) => f.slug)).toEqual(original.map((f) => f.slug));
   });
 });
 
@@ -324,6 +351,6 @@ describe('requireGesuch filter', () => {
       makeFoundation({ slug: 'p4-network', priority: 4, themes: ['kreislaufwirtschaft'] }),
     ];
     const result = filterFoundations(data, filters({ requireGesuch: true }));
-    expect(result.map(f => f.slug)).toEqual(['gesuch-ready']);
+    expect(result.map((f) => f.slug)).toEqual(['gesuch-ready']);
   });
 });

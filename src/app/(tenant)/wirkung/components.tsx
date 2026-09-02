@@ -1,7 +1,11 @@
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { formatNumber } from '@/lib/utils/format';
-import { CO2_PER_LAPTOP, CO2_NEW_LAPTOP_MANUFACTURE, CO2_REFURBISH_COST } from '@/lib/config/numbers';
+import {
+  CO2_PER_LAPTOP,
+  CO2_NEW_LAPTOP_MANUFACTURE,
+  CO2_REFURBISH_COST,
+} from '@/lib/config/numbers';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { SOCIAL_DISPLAY } from '@/lib/config/stories';
 
@@ -34,7 +38,8 @@ export function ImpactStoryCards({
             <p className="mb-2 text-sm text-text-muted">CO₂ vermieden durch Wiederverwendung</p>
             <Badge variant="estimated">Schätzung</Badge>
             <p className="mt-3 text-sm text-text-muted">
-              <strong>Berechnung:</strong> {CO2_PER_LAPTOP} kg CO₂ pro Laptop ({CO2_NEW_LAPTOP_MANUFACTURE} kg Produktion − {CO2_REFURBISH_COST} kg Refurbishment)
+              <strong>Berechnung:</strong> {CO2_PER_LAPTOP} kg CO₂ pro Laptop (
+              {CO2_NEW_LAPTOP_MANUFACTURE} kg Produktion − {CO2_REFURBISH_COST} kg Refurbishment)
             </p>
             <div className="mt-3 rounded-lg bg-surface-raised p-3">
               <h4 className="mb-2 heading-xs-label">Das entspricht etwa:</h4>
@@ -81,9 +86,15 @@ export function ImpactStoryCards({
             <div className="mt-3 rounded-lg bg-danger/10 p-3">
               <h4 className="mb-2 heading-xs-label">{`Historisch (seit ${ORG_PROFILE.milestones.integrationProgram}):`}</h4>
               <ul className="space-y-1 text-sm text-text-secondary">
-                <li>👥 <strong>{SOCIAL_DISPLAY.practitioners_total}</strong> Praktikant:innen</li>
-                <li>✓ <strong>{SOCIAL_DISPLAY.success_rate}</strong> Erfolgsquote</li>
-                <li>🏠 <strong>{SOCIAL_DISPLAY.capacity}</strong> Plätze verfügbar</li>
+                <li>
+                  👥 <strong>{SOCIAL_DISPLAY.practitioners_total}</strong> Praktikant:innen
+                </li>
+                <li>
+                  ✓ <strong>{SOCIAL_DISPLAY.success_rate}</strong> Erfolgsquote
+                </li>
+                <li>
+                  🏠 <strong>{SOCIAL_DISPLAY.capacity}</strong> Plätze verfügbar
+                </li>
               </ul>
             </div>
           </div>

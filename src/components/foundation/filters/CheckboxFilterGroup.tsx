@@ -20,7 +20,11 @@ export default function CheckboxFilterGroup({
   defaultOpen,
 }: CheckboxFilterGroupProps) {
   return (
-    <CollapsibleSection title={title} defaultOpen={defaultOpen} count={selected.length || undefined}>
+    <CollapsibleSection
+      title={title}
+      defaultOpen={defaultOpen}
+      count={selected.length || undefined}
+    >
       <div className="space-y-1.5">
         {chips.map((chip) => {
           const isSelected = selected.includes(chip.id);

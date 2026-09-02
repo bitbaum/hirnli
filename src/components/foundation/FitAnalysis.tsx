@@ -15,13 +15,21 @@ interface FitAnalysisProps {
   themeAlignments?: ThemeAlignment[];
 }
 
-export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignments }: FitAnalysisProps) {
+export default function FitAnalysis({
+  foundation: f,
+  fitNarrative,
+  themeAlignments,
+}: FitAnalysisProps) {
   const fitLevel = getFitLevel(f);
   const fit = FIT_CONFIG[fitLevel];
   const isUnassessed = fitLevel === 0;
-  const explanation = explainFitScore({ themes: f.themes, applicationMethod: f.applicationMethod, // isFunder lives only in the ingest pipeline; false here means unknown-method funder
+  const explanation = explainFitScore({
+    themes: f.themes,
+    applicationMethod: f.applicationMethod, // isFunder lives only in the ingest pipeline; false here means unknown-method funder
     // fallbacks reconcile as inconsistent → honest fallback text instead of wrong numbers
-    isFunder: false, fitScore: f.fitScore });
+    isFunder: false,
+    fitScore: f.fitScore,
+  });
 
   return (
     <Card>
@@ -34,8 +42,8 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
             <div>
               <span className="heading-card text-text-muted">Noch nicht geprüft</span>
               <p className="text-sm text-text-secondary">
-                Diese Stiftung wurde nur automatisch aus dem ESA-Register gescreent.
-                Eine manuelle Bewertung steht noch aus.
+                Diese Stiftung wurde nur automatisch aus dem ESA-Register gescreent. Eine manuelle
+                Bewertung steht noch aus.
               </p>
             </div>
           </div>
@@ -94,27 +102,33 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
           <ul className="list-inside list-disc space-y-0.5 ml-1">
             {SCORING_ENGINE.dimensions.map((d) => (
               <li key={d.id}>
-                <strong>{d.label} (0–{d.maxScore})</strong> — {d.description}
+                <strong>
+                  {d.label} (0–{d.maxScore})
+                </strong>{' '}
+                — {d.description}
               </li>
             ))}
           </ul>
-          <p className="text-text-muted mt-1">7–10 = Exzellent (★★★), 4–6 = Gut (★★☆), 1–3 = Gering (★☆☆)</p>
+          <p className="text-text-muted mt-1">
+            7–10 = Exzellent (★★★), 4–6 = Gut (★★☆), 1–3 = Gering (★☆☆)
+          </p>
           {isUnassessed && (
-            <p className="text-text-muted mt-1">Stiftungen mit ungenügender Datengrundlage (Tier unter «Profiliert») werden als «Nicht geprüft» angezeigt.</p>
+            <p className="text-text-muted mt-1">
+              Stiftungen mit ungenügender Datengrundlage (Tier unter «Profiliert») werden als «Nicht
+              geprüft» angezeigt.
+            </p>
           )}
-          <p className="text-text-muted mt-1">Letzte Bewertung: {f.researchDate || UNKNOWN_FIELD}</p>
+          <p className="text-text-muted mt-1">
+            Letzte Bewertung: {f.researchDate || UNKNOWN_FIELD}
+          </p>
         </div>
       </details>
 
       {/* Fit narrative — explains WHY the fit is good/moderate/limited */}
       {fitNarrative && (
         <div className="mb-4 rounded-lg bg-surface-raised p-4">
-          <h4 className="mb-2 heading-detail">
-            Warum passt diese Stiftung?
-          </h4>
-          <p className="text-sm leading-relaxed text-text-secondary">
-            {fitNarrative.text}
-          </p>
+          <h4 className="mb-2 heading-detail">Warum passt diese Stiftung?</h4>
+          <p className="text-sm leading-relaxed text-text-secondary">{fitNarrative.text}</p>
         </div>
       )}
 
@@ -143,11 +157,10 @@ export default function FitAnalysis({ foundation: f, fitNarrative, themeAlignmen
 
       {f.isOperative && (
         <div className="mt-4 rounded-lg bg-warning-bg p-3">
-          <p className="text-sm font-medium text-warning">
-            Achtung: Operative Stiftung
-          </p>
+          <p className="text-sm font-medium text-warning">Achtung: Operative Stiftung</p>
           <p className="mt-1 text-sm text-text-secondary">
-            Diese Stiftung betreibt eigene Programme und vergibt in der Regel keine Fördergelder an externe Projekte.
+            Diese Stiftung betreibt eigene Programme und vergibt in der Regel keine Fördergelder an
+            externe Projekte.
           </p>
         </div>
       )}

@@ -110,10 +110,13 @@ export const APPLICATION_STATUSES = [
   },
 ] as const;
 
-export type ApplicationStatusId = typeof APPLICATION_STATUSES[number]['id'];
+export type ApplicationStatusId = (typeof APPLICATION_STATUSES)[number]['id'];
 
 /** Tuple of all status IDs — for Zod enum and schema typing. Derived from config SSOT. */
-export const STATUS_IDS = APPLICATION_STATUSES.map(s => s.id) as [ApplicationStatusId, ...ApplicationStatusId[]];
+export const STATUS_IDS = APPLICATION_STATUSES.map((s) => s.id) as [
+  ApplicationStatusId,
+  ...ApplicationStatusId[],
+];
 
 import { PRIORITY_CONFIG } from './foundations';
 
@@ -127,8 +130,10 @@ export function getPriorityColor(level: number | null): string {
 /**
  * Get status configuration by ID
  */
-export function getStatusConfig(statusId: ApplicationStatusId): typeof APPLICATION_STATUSES[number] {
-  return APPLICATION_STATUSES.find(s => s.id === statusId)!;
+export function getStatusConfig(
+  statusId: ApplicationStatusId,
+): (typeof APPLICATION_STATUSES)[number] {
+  return APPLICATION_STATUSES.find((s) => s.id === statusId)!;
 }
 
 /**

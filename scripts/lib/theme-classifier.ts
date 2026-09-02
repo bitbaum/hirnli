@@ -16,52 +16,122 @@ import type { ThemeId } from '../../src/lib/schemas/foundation';
 
 export const THEME_RULES: Record<string, { keywords: string[]; weight: number }> = {
   arbeitsintegration: {
-    keywords: ['arbeitsintegration', 'berufliche integration', 'arbeitsmarkt',
-      'wiedereingliederung', 'beschäftigungsprogramm', 'arbeitstraining',
-      'langzeitarbeitslos', 'sozialfirma', 'sozialer betrieb',
-      'berufseinstieg', 'lehrstelle', 'berufsbildung', 'berufsausbildung',
-      'umschulung', 'weiterbildung', 'qualifizierung',
-      'sozialer arbeitsmarkt', 'beschäftigungsmassnahme',
-      'sozialunternehmen', 'werkstätte'],
+    keywords: [
+      'arbeitsintegration',
+      'berufliche integration',
+      'arbeitsmarkt',
+      'wiedereingliederung',
+      'beschäftigungsprogramm',
+      'arbeitstraining',
+      'langzeitarbeitslos',
+      'sozialfirma',
+      'sozialer betrieb',
+      'berufseinstieg',
+      'lehrstelle',
+      'berufsbildung',
+      'berufsausbildung',
+      'umschulung',
+      'weiterbildung',
+      'qualifizierung',
+      'sozialer arbeitsmarkt',
+      'beschäftigungsmassnahme',
+      'sozialunternehmen',
+      'werkstätte',
+    ],
     weight: 3,
   },
   kreislaufwirtschaft: {
-    keywords: ['kreislaufwirtschaft', 'recycling', 'wiederverwend', 'reparatur',
-      'refurbish', 'ressourcenschon', 'zirkulär', 'elektroschrott', 'e-waste',
-      'secondhand', 'second-hand', 'wiederaufbereitung', 'abfallvermeidung',
-      'zero waste', 'materialkreislauf'],
+    keywords: [
+      'kreislaufwirtschaft',
+      'recycling',
+      'wiederverwend',
+      'reparatur',
+      'refurbish',
+      'ressourcenschon',
+      'zirkulär',
+      'elektroschrott',
+      'e-waste',
+      'secondhand',
+      'second-hand',
+      'wiederaufbereitung',
+      'abfallvermeidung',
+      'zero waste',
+      'materialkreislauf',
+    ],
     weight: 3,
   },
   'soziale-integration': {
-    keywords: ['soziale integration', 'sozial benachteiligt',
-      'migrant', 'migration', 'flüchtling', 'asyl',
-      'marginalisiert', 'randgruppen',
-      'existenzsicher', 'sozialhilfeempfänger',
-      'arbeitsintegration', 'berufliche integration',
-      'soziale teilhabe', 'chancengleichheit',
-      'inklusion', 'teilhabe', 'benachteiligt',
-      'armut', 'existenzsicherung'],
+    keywords: [
+      'soziale integration',
+      'sozial benachteiligt',
+      'migrant',
+      'migration',
+      'flüchtling',
+      'asyl',
+      'marginalisiert',
+      'randgruppen',
+      'existenzsicher',
+      'sozialhilfeempfänger',
+      'arbeitsintegration',
+      'berufliche integration',
+      'soziale teilhabe',
+      'chancengleichheit',
+      'inklusion',
+      'teilhabe',
+      'benachteiligt',
+      'armut',
+      'existenzsicherung',
+    ],
     weight: 2,
   },
   'digitale-bildung': {
-    keywords: ['informatik', 'programmier', 'software',
-      'medienkompetenz', 'it-kompetenz', 'digital literacy',
-      'digitale kompetenz', 'digitale bildung',
-      'ict', 'informationstechnologie', 'mint', 'stem',
-      'digitale teilhabe', 'it-bildung', 'it-ausbildung'],
+    keywords: [
+      'informatik',
+      'programmier',
+      'software',
+      'medienkompetenz',
+      'it-kompetenz',
+      'digital literacy',
+      'digitale kompetenz',
+      'digitale bildung',
+      'ict',
+      'informationstechnologie',
+      'mint',
+      'stem',
+      'digitale teilhabe',
+      'it-bildung',
+      'it-ausbildung',
+    ],
     weight: 2,
   },
   'digitale-souveraenitaet': {
-    keywords: ['open source', 'quelloffen', 'linux', 'datensouveränität',
-      'digitale selbstbestimmung', 'freie software', 'open data',
-      'datensicher', 'souverän'],
+    keywords: [
+      'open source',
+      'quelloffen',
+      'linux',
+      'datensouveränität',
+      'digitale selbstbestimmung',
+      'freie software',
+      'open data',
+      'datensicher',
+      'souverän',
+    ],
     weight: 3,
   },
   klima: {
-    keywords: ['klima', 'klimaschutz', 'klimawandel',
-      'co2', 'kohlendioxid', 'treibhausgas', 'emission',
-      'erneuerbar', 'erneuerbare energie',
-      'dekarbonisier', 'energiewende'],
+    keywords: [
+      'klima',
+      'klimaschutz',
+      'klimawandel',
+      'co2',
+      'kohlendioxid',
+      'treibhausgas',
+      'emission',
+      'erneuerbar',
+      'erneuerbare energie',
+      'dekarbonisier',
+      'energiewende',
+    ],
     weight: 1,
   },
   zuerich: {
@@ -79,36 +149,51 @@ export function classifyThemes(purposeLower: string, nameLower: string): ThemeId
   const fullText = `${nameLower} ${purposeLower}`;
 
   for (const [theme, rule] of Object.entries(THEME_RULES)) {
-    if (rule.keywords.some(kw => fullText.includes(kw))) {
+    if (rule.keywords.some((kw) => fullText.includes(kw))) {
       themes.push(theme);
     }
   }
 
   // Compound: education + digital → digitale-bildung (STRICT: must be IT/tech education)
   if (!themes.includes('digitale-bildung')) {
-    const hasEdu = ['bildung', 'ausbildung', 'weiterbildung', 'berufsbildung', 'schulung'].some(kw => fullText.includes(kw));
-    const hasDig = ['informatik', 'computer', 'it-', 'software', 'programmier', 'coding'].some(kw => fullText.includes(kw));
+    const hasEdu = ['bildung', 'ausbildung', 'weiterbildung', 'berufsbildung', 'schulung'].some(
+      (kw) => fullText.includes(kw),
+    );
+    const hasDig = ['informatik', 'computer', 'it-', 'software', 'programmier', 'coding'].some(
+      (kw) => fullText.includes(kw),
+    );
     if (hasEdu && hasDig) themes.push('digitale-bildung');
   }
 
   // Compound: work + integration → arbeitsintegration (STRICT: must mention integration/reintegration)
   if (!themes.includes('arbeitsintegration')) {
-    const hasWork = ['beruf', 'arbeit', 'erwerbstätig', 'beschäftig'].some(kw => fullText.includes(kw));
-    const hasInt = ['arbeitsintegration', 'berufliche integration', 'eingliederung', 'wiedereingliederung'].some(kw => fullText.includes(kw));
+    const hasWork = ['beruf', 'arbeit', 'erwerbstätig', 'beschäftig'].some((kw) =>
+      fullText.includes(kw),
+    );
+    const hasInt = [
+      'arbeitsintegration',
+      'berufliche integration',
+      'eingliederung',
+      'wiedereingliederung',
+    ].some((kw) => fullText.includes(kw));
     if (hasWork && hasInt) themes.push('arbeitsintegration');
   }
 
   // Compound: beschäftigung + integration → arbeitsintegration (STRICT)
   if (!themes.includes('arbeitsintegration')) {
     const hasBeschaeftigung = fullText.includes('beschäftigung');
-    const hasInt = ['integration', 'eingliederung', 'massnahme'].some(kw => fullText.includes(kw));
+    const hasInt = ['integration', 'eingliederung', 'massnahme'].some((kw) =>
+      fullText.includes(kw),
+    );
     if (hasBeschaeftigung && hasInt) themes.push('arbeitsintegration');
   }
 
   // Compound: nachhaltigkeit + consumption/resource signal → kreislaufwirtschaft
   if (!themes.includes('kreislaufwirtschaft')) {
     const hasNachhaltigkeit = fullText.includes('nachhaltigkeit');
-    const hasResourceSignal = ['konsum', 'ressource', 'produkt', 'kreislauf'].some(kw => fullText.includes(kw));
+    const hasResourceSignal = ['konsum', 'ressource', 'produkt', 'kreislauf'].some((kw) =>
+      fullText.includes(kw),
+    );
     if (hasNachhaltigkeit && hasResourceSignal) themes.push('kreislaufwirtschaft');
   }
 
@@ -124,27 +209,56 @@ export function classifyThemes(purposeLower: string, nameLower: string): ThemeId
 // ============================================================================
 
 const FUNDER_KW = [
-  'fördert', 'förderung', 'unterstützt', 'unterstützung',
-  'beiträge', 'zuwendungen', 'zuschüsse', 'finanzielle hilfe',
-  'projektförderung', 'stipend', 'ausricht',
-  'gewährt', 'vergab', 'vergibt', 'zusprech',
-  'finanziell', 'gemeinnützig',
+  'fördert',
+  'förderung',
+  'unterstützt',
+  'unterstützung',
+  'beiträge',
+  'zuwendungen',
+  'zuschüsse',
+  'finanzielle hilfe',
+  'projektförderung',
+  'stipend',
+  'ausricht',
+  'gewährt',
+  'vergab',
+  'vergibt',
+  'zusprech',
+  'finanziell',
+  'gemeinnützig',
 ];
 
 const OPERATOR_KW = [
-  'betreibt', 'führt', 'unterhält', 'verwaltet',
-  'betrieb von', 'heim', 'klinik', 'spital',
-  'pflegeheim', 'altersheim', 'werkstatt', 'wohnheim',
-  'kinderheim', 'tagesstätte', 'krippe', 'trägerin',
-  'museum', 'theater',
+  'betreibt',
+  'führt',
+  'unterhält',
+  'verwaltet',
+  'betrieb von',
+  'heim',
+  'klinik',
+  'spital',
+  'pflegeheim',
+  'altersheim',
+  'werkstatt',
+  'wohnheim',
+  'kinderheim',
+  'tagesstätte',
+  'krippe',
+  'trägerin',
+  'museum',
+  'theater',
 ];
 
 export function scoreFunderOperator(purpose: string): { funder: number; operator: number } {
   const p = purpose.toLowerCase();
   let funder = 0;
   let operator = 0;
-  for (const kw of FUNDER_KW) { if (p.includes(kw)) funder++; }
-  for (const kw of OPERATOR_KW) { if (p.includes(kw)) operator++; }
+  for (const kw of FUNDER_KW) {
+    if (p.includes(kw)) funder++;
+  }
+  for (const kw of OPERATOR_KW) {
+    if (p.includes(kw)) operator++;
+  }
   return { funder, operator };
 }
 
@@ -155,7 +269,9 @@ export function scoreFunderOperator(purpose: string): { funder: number; operator
 export function toSlug(name: string): string {
   return name
     .toLowerCase()
-    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .substring(0, 60);
@@ -165,11 +281,29 @@ export function toSlug(name: string): string {
 // APPLICATION METHOD DETECTION
 // ============================================================================
 
-export function detectApplicationMethod(purpose: string): 'online' | 'email' | 'invitation' | 'unknown' {
+export function detectApplicationMethod(
+  purpose: string,
+): 'online' | 'email' | 'invitation' | 'unknown' {
   const p = purpose.toLowerCase();
-  if (p.includes('online') && (p.includes('gesuch') || p.includes('antrag') || p.includes('bewerbung'))) return 'online';
-  if (p.includes('auf einladung') || p.includes('nur auf') || p.includes('kein gesuch') || p.includes('keine bewerbung')) return 'invitation';
-  if (p.includes('schriftlich') || p.includes('per mail') || p.includes('per post') || p.includes('per e-mail')) return 'email';
+  if (
+    p.includes('online') &&
+    (p.includes('gesuch') || p.includes('antrag') || p.includes('bewerbung'))
+  )
+    return 'online';
+  if (
+    p.includes('auf einladung') ||
+    p.includes('nur auf') ||
+    p.includes('kein gesuch') ||
+    p.includes('keine bewerbung')
+  )
+    return 'invitation';
+  if (
+    p.includes('schriftlich') ||
+    p.includes('per mail') ||
+    p.includes('per post') ||
+    p.includes('per e-mail')
+  )
+    return 'email';
   return 'unknown';
 }
 
@@ -186,18 +320,36 @@ export function classifyType(
   const p = purpose.toLowerCase();
   const n = name.toLowerCase();
 
-  if (n.includes('ag') || n.includes('group') || n.includes('corporate') || n.includes('company')) return 'D';
-  if (n.includes('verband') || n.includes('verein') || n.includes('netzwerk') || n.includes('dachverband')) return 'network';
+  if (n.includes('ag') || n.includes('group') || n.includes('corporate') || n.includes('company'))
+    return 'D';
+  if (
+    n.includes('verband') ||
+    n.includes('verein') ||
+    n.includes('netzwerk') ||
+    n.includes('dachverband')
+  )
+    return 'network';
 
-  if (funderScore >= 3 && purpose.length > 200 && (
-    p.includes('förderrichtlinien') || p.includes('programm') ||
-    p.includes('bewerbungsverfahren') || p.includes('ausschreibung') || p.includes('gesuche')
-  )) return 'A';
+  if (
+    funderScore >= 3 &&
+    purpose.length > 200 &&
+    (p.includes('förderrichtlinien') ||
+      p.includes('programm') ||
+      p.includes('bewerbungsverfahren') ||
+      p.includes('ausschreibung') ||
+      p.includes('gesuche'))
+  )
+    return 'A';
 
-  if (funderScore >= 2 && purpose.length > 100 && (
-    p.includes('famili') || n.includes('famili') ||
-    /\b[A-Z][a-z]+-[A-Z][a-z]+\b/.test(name) || n.includes('-stiftung')
-  )) return 'B';
+  if (
+    funderScore >= 2 &&
+    purpose.length > 100 &&
+    (p.includes('famili') ||
+      n.includes('famili') ||
+      /\b[A-Z][a-z]+-[A-Z][a-z]+\b/.test(name) ||
+      n.includes('-stiftung'))
+  )
+    return 'B';
 
   if (operatorScore >= 3) return 'network';
   return purpose.length > 200 && funderScore >= 2 ? 'B' : 'C';

@@ -21,9 +21,7 @@ export const PRICE_EXAMPLE_COLUMNS = [
     key: 'source',
     header: 'Quelle',
     render: (row: PriceExampleRow) => (
-      <Badge variant={row.sourceType === 'decision' ? 'primary' : 'derived'}>
-        {row.source}
-      </Badge>
+      <Badge variant={row.sourceType === 'decision' ? 'primary' : 'derived'}>{row.source}</Badge>
     ),
   },
 ];

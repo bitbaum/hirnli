@@ -21,7 +21,12 @@ import { and, count, desc, eq, gte, ilike, sql } from 'drizzle-orm';
 import { toSlug } from '@/lib/utils/slug';
 import { createFoundationSchema } from '@/lib/schemas/foundation-api';
 import { getTodayISO } from '@/lib/utils/format';
-import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_CONFLICT } from '@/lib/utils/errors';
+import {
+  API_ERR_LOAD,
+  API_ERR_VALIDATION,
+  API_ERR_SAVE,
+  API_ERR_CONFLICT,
+} from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 
 /**
@@ -52,7 +57,8 @@ export async function GET(request: NextRequest) {
       const minScore = parseInt(fitMin, 10);
       // Clamp to the valid fitScore range so a value like -999 or 9999 can't
       // produce a query that's meaningless or that bypasses pagination logic.
-      if (!isNaN(minScore)) conditions.push(gte(foundations.fitScore, Math.min(10, Math.max(0, minScore))));
+      if (!isNaN(minScore))
+        conditions.push(gte(foundations.fitScore, Math.min(10, Math.max(0, minScore))));
     }
 
     if (priority) {
@@ -93,7 +99,6 @@ export async function GET(request: NextRequest) {
         hasMore: offset + limit < total,
       },
     });
-
   } catch (error) {
     return apiError('GET /api/foundations', error, API_ERR_LOAD);
   }
@@ -114,9 +119,9 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: API_ERR_VALIDATION,
-          details: validation.error.flatten()
+          details: validation.error.flatten(),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -125,17 +130,10 @@ export async function POST(request: NextRequest) {
     const slug = toSlug(data.name);
 
     // Check if slug already exists
-    const existing = await db
-      .select()
-      .from(foundations)
-      .where(eq(foundations.id, slug))
-      .limit(1);
+    const existing = await db.select().from(foundations).where(eq(foundations.id, slug)).limit(1);
 
     if (existing.length > 0) {
-      return NextResponse.json(
-        { success: false, error: API_ERR_CONFLICT },
-        { status: 409 }
-      );
+      return NextResponse.json({ success: false, error: API_ERR_CONFLICT }, { status: 409 });
     }
 
     // Create foundation — only indexed flat columns + configData JSONB
@@ -153,11 +151,7 @@ export async function POST(request: NextRequest) {
 
     await db.insert(foundations).values(newFoundation);
 
-    return NextResponse.json(
-      { success: true, data: newFoundation },
-      { status: 201 }
-    );
-
+    return NextResponse.json({ success: true, data: newFoundation }, { status: 201 });
   } catch (error) {
     return apiError('POST /api/foundations', error, API_ERR_SAVE);
   }

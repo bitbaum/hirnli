@@ -20,7 +20,13 @@ import { and, count, desc, eq, notInArray } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { STATUS_IDS } from '@/lib/config/application-statuses';
-import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE, API_ERR_NOT_FOUND, API_ERR_CONFLICT } from '@/lib/utils/errors';
+import {
+  API_ERR_LOAD,
+  API_ERR_VALIDATION,
+  API_ERR_SAVE,
+  API_ERR_NOT_FOUND,
+  API_ERR_CONFLICT,
+} from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 
 // Validation schema for creating applications
@@ -106,7 +112,6 @@ export async function GET(request: NextRequest) {
         hasMore: offset + limit < total,
       },
     });
-
   } catch (error) {
     return apiError('GET /api/applications', error, API_ERR_LOAD);
   }
@@ -127,9 +132,9 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: API_ERR_VALIDATION,
-          details: validation.error.flatten()
+          details: validation.error.flatten(),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -143,26 +148,25 @@ export async function POST(request: NextRequest) {
       .limit(1);
 
     if (foundation.length === 0) {
-      return NextResponse.json(
-        { success: false, error: API_ERR_NOT_FOUND },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
     }
 
     // Reject duplicate — one active application per foundation at a time
     const existing = await db
       .select({ id: applications.id })
       .from(applications)
-      .where(and(
-        eq(applications.foundationId, data.foundationId),
-        notInArray(applications.status, ['rejected', 'withdrawn']),
-      ))
+      .where(
+        and(
+          eq(applications.foundationId, data.foundationId),
+          notInArray(applications.status, ['rejected', 'withdrawn']),
+        ),
+      )
       .limit(1);
 
     if (existing.length > 0) {
       return NextResponse.json(
         { success: false, error: API_ERR_CONFLICT, existingId: existing[0].id },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -188,11 +192,7 @@ export async function POST(request: NextRequest) {
       performedBy: data.assignedTo || 'system',
     });
 
-    return NextResponse.json(
-      { success: true, data: newApplication },
-      { status: 201 }
-    );
-
+    return NextResponse.json({ success: true, data: newApplication }, { status: 201 });
   } catch (error) {
     return apiError('POST /api/applications', error, API_ERR_SAVE);
   }

@@ -25,14 +25,16 @@ export function KPICard({ label, value, icon, color = 'blue', subtitle }: KPICar
     <div className={`border rounded-lg p-6 ${colorClasses[color]}`}>
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-medium text-text-secondary">{label}</span>
-        {icon && <span className="text-2xl" aria-hidden="true">{icon}</span>}
+        {icon && (
+          <span className="text-2xl" aria-hidden="true">
+            {icon}
+          </span>
+        )}
       </div>
 
       <div className="text-3xl font-bold mb-1">{value}</div>
 
-      {subtitle && (
-        <p className="text-sm text-text-secondary">{subtitle}</p>
-      )}
+      {subtitle && <p className="text-sm text-text-secondary">{subtitle}</p>}
     </div>
   );
 }

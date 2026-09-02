@@ -50,7 +50,9 @@ export default function StepSubmit({
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p className="heading-detail">Vollständiges Gesuch (PDF)</p>
-                <p className="mt-0.5 text-sm text-text-muted">4 Seiten — Anschreiben, Projektbeschrieb, Budget, Kurzportrait</p>
+                <p className="mt-0.5 text-sm text-text-muted">
+                  4 Seiten — Anschreiben, Projektbeschrieb, Budget, Kurzportrait
+                </p>
               </div>
               <span className="text-xl">📄</span>
             </div>
@@ -70,7 +72,9 @@ export default function StepSubmit({
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p className="heading-detail">Kurzübersicht (1 Seite)</p>
-                <p className="mt-0.5 text-sm text-text-muted">Concept Note — häufig als Ersteinreichung gefordert</p>
+                <p className="mt-0.5 text-sm text-text-muted">
+                  Concept Note — häufig als Ersteinreichung gefordert
+                </p>
               </div>
               <span className="text-xl">📋</span>
             </div>
@@ -90,22 +94,20 @@ export default function StepSubmit({
             <div className="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p className="heading-detail">Öffentlicher Link</p>
-                <p className="mt-0.5 text-sm text-text-muted">Lesbare Landing Page — direkt an Stiftungs-Programme schicken</p>
+                <p className="mt-0.5 text-sm text-text-muted">
+                  Lesbare Landing Page — direkt an Stiftungs-Programme schicken
+                </p>
               </div>
               <span className="text-xl">🔗</span>
             </div>
             {shareToken ? (
-              <Button
-                onClick={copyShareLink}
-                variant="secondary"
-                fullWidth
-                className="mt-3"
-              >
+              <Button onClick={copyShareLink} variant="secondary" fullWidth className="mt-3">
                 {copied ? '✓ Link kopiert!' : 'Link kopieren'}
               </Button>
             ) : (
               <p className="mt-3 text-sm text-text-muted">
-                Setze <code className="rounded bg-bg px-1 py-0.5 font-mono">SHARE_SECRET</code> in den Umgebungsvariablen, um Links zu aktivieren.
+                Setze <code className="rounded bg-bg px-1 py-0.5 font-mono">SHARE_SECRET</code> in
+                den Umgebungsvariablen, um Links zu aktivieren.
               </p>
             )}
           </Card>
@@ -146,11 +148,7 @@ export default function StepSubmit({
 
       {/* Navigation */}
       <div className="flex items-center gap-4 border-t border-border-default pt-6 print:hidden">
-        <Button
-          onClick={onPrev}
-          variant="ghost"
-          size="sm"
-        >
+        <Button onClick={onPrev} variant="ghost" size="sm">
           ← Entwurf bearbeiten
         </Button>
         <Button

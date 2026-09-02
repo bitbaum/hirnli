@@ -19,13 +19,7 @@ import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export default function DashboardClient() {
-  const {
-    selectedYear,
-    totals,
-    monthCount,
-    monthlyAvg,
-    selfFinancingRate,
-  } = useFinancialData();
+  const { selectedYear, totals, monthCount, monthlyAvg, selfFinancingRate } = useFinancialData();
 
   const inspector = useNumberInspector();
 
@@ -33,9 +27,8 @@ export default function DashboardClient() {
   const co2Avoided = estimateCO2Avoided(deviceCount);
 
   const prevYearData = useFinancialData(selectedYear - 1);
-  const growth = prevYearData.totals.total > 0
-    ? calcGrowth(prevYearData.totals.total, totals.total)
-    : 0;
+  const growth =
+    prevYearData.totals.total > 0 ? calcGrowth(prevYearData.totals.total, totals.total) : 0;
 
   return (
     <div>
@@ -58,11 +51,11 @@ export default function DashboardClient() {
           trend={growth !== 0 ? { value: growth, label: 'vs. Vorjahr' } : undefined}
           sourceType="live"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.financial_total_2025,
-              formatCHF(totals.total),
-              { year: selectedYear },
-            ))
+            inspector.inspect(
+              metricToInspectorData(NumberSources.financial_total_2025, formatCHF(totals.total), {
+                year: selectedYear,
+              }),
+            )
           }
         />
         <MetricCard
@@ -71,11 +64,16 @@ export default function DashboardClient() {
           subtitle="pro aktivem Monat"
           sourceType="derived"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.financial_monthly_avg_2025,
-              formatCHF(monthlyAvg),
-              { year: selectedYear, formula: `${formatCHF(totals.total)} / ${monthCount} Monate` },
-            ))
+            inspector.inspect(
+              metricToInspectorData(
+                NumberSources.financial_monthly_avg_2025,
+                formatCHF(monthlyAvg),
+                {
+                  year: selectedYear,
+                  formula: `${formatCHF(totals.total)} / ${monthCount} Monate`,
+                },
+              ),
+            )
           }
         />
         <MetricCard
@@ -84,14 +82,16 @@ export default function DashboardClient() {
           subtitle="Waren + Dienste / Total"
           sourceType="derived"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.financial_self_financing_2025,
-              formatPercent(selfFinancingRate),
-              {
-                year: selectedYear,
-                formula: `(${formatCHF(totals.warenverkauf)} + ${formatCHF(totals.dienstleistungen)}) / ${formatCHF(totals.total)}`,
-              },
-            ))
+            inspector.inspect(
+              metricToInspectorData(
+                NumberSources.financial_self_financing_2025,
+                formatPercent(selfFinancingRate),
+                {
+                  year: selectedYear,
+                  formula: `(${formatCHF(totals.warenverkauf)} + ${formatCHF(totals.dienstleistungen)}) / ${formatCHF(totals.total)}`,
+                },
+              ),
+            )
           }
         />
         <MetricCard
@@ -100,11 +100,12 @@ export default function DashboardClient() {
           subtitle={`~${deviceCount} Geräte`}
           sourceType="estimated"
           onClick={() =>
-            inspector.inspect(metricToInspectorData(
-              NumberSources.co2_total_2025,
-              `~${co2Avoided} Tonnen`,
-              { year: selectedYear, formula: `${formatCHF(totals.warenverkauf)} / CHF ${AVG_DEVICE_PRICE} pro Gerät × ${CO2_PER_LAPTOP} kg CO₂` },
-            ))
+            inspector.inspect(
+              metricToInspectorData(NumberSources.co2_total_2025, `~${co2Avoided} Tonnen`, {
+                year: selectedYear,
+                formula: `${formatCHF(totals.warenverkauf)} / CHF ${AVG_DEVICE_PRICE} pro Gerät × ${CO2_PER_LAPTOP} kg CO₂`,
+              }),
+            )
           }
         />
       </MetricGrid>
@@ -117,7 +118,10 @@ export default function DashboardClient() {
             href={link.href}
             className="block transition-all hover:no-underline"
           >
-            <Card padding={false} className="flex items-start gap-3 p-4 transition-all hover:border-primary/30 hover:shadow-md">
+            <Card
+              padding={false}
+              className="flex items-start gap-3 p-4 transition-all hover:border-primary/30 hover:shadow-md"
+            >
               <span className="text-2xl">{link.icon}</span>
               <div>
                 <span className="heading-item">{link.title}</span>

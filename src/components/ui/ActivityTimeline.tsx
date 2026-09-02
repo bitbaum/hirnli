@@ -13,7 +13,7 @@ import { getActivityLog } from '@/lib/api/activity-log';
 import type { ActivityLogEntryJSON } from '@/lib/db/schema';
 import Spinner from './Spinner';
 
-const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map(s => [s.id, s.label]));
+const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map((s) => [s.id, s.label]));
 
 const ACTION_LABELS: Record<string, string> = {
   created: 'Erstellt',
@@ -24,13 +24,11 @@ const ACTION_LABELS: Record<string, string> = {
   document_generated: 'Dokument erstellt',
 };
 
-
 interface ActivityTimelineProps {
   entityId: string;
   entityType: string;
   limit?: number;
 }
-
 
 function parseDetails(raw: string | null): Record<string, unknown> | null {
   if (!raw) return null;
@@ -41,7 +39,11 @@ function parseDetails(raw: string | null): Record<string, unknown> | null {
   }
 }
 
-export default function ActivityTimeline({ entityId, entityType, limit = 20 }: ActivityTimelineProps) {
+export default function ActivityTimeline({
+  entityId,
+  entityType,
+  limit = 20,
+}: ActivityTimelineProps) {
   const [entries, setEntries] = useState<ActivityLogEntryJSON[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -57,9 +59,15 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
         if (d.success) setEntries(d.data ?? []);
         else setError(true);
       })
-      .catch(() => { if (!cancelled) setError(true); })
-      .finally(() => { if (!cancelled) setLoading(false); });
-    return () => { cancelled = true; };
+      .catch(() => {
+        if (!cancelled) setError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [entityId, entityType, limit]);
 
   if (loading) {
@@ -72,7 +80,9 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
   }
 
   if (error) {
-    return <p className="text-sm text-text-muted py-2">Aktivitäten konnten nicht geladen werden.</p>;
+    return (
+      <p className="text-sm text-text-muted py-2">Aktivitäten konnten nicht geladen werden.</p>
+    );
   }
 
   if (entries.length === 0) {
@@ -105,9 +115,7 @@ export default function ActivityTimeline({ entityId, entityType, limit = 20 }: A
                   {STATUS_LABEL[oldStatus] ?? oldStatus} → {STATUS_LABEL[newStatus] ?? newStatus}
                 </p>
               )}
-              <p className="text-sm text-text-secondary">
-                {formatDateTimeCH(entry.timestamp)}
-              </p>
+              <p className="text-sm text-text-secondary">{formatDateTimeCH(entry.timestamp)}</p>
             </div>
           </div>
         );

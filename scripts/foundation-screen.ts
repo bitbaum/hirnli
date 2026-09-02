@@ -96,8 +96,9 @@ interface ScreeningReport {
 
 function loadESARegister(): ESARegister | null {
   const researchDir = path.join(process.cwd(), 'research');
-  const files = fs.readdirSync(researchDir)
-    .filter(f => f.startsWith('esa-register-') && f.endsWith('.json'))
+  const files = fs
+    .readdirSync(researchDir)
+    .filter((f) => f.startsWith('esa-register-') && f.endsWith('.json'))
     .sort()
     .reverse();
 
@@ -128,14 +129,18 @@ function loadCandidates(filePath: string): Candidate[] {
 // ============================================================================
 
 function normalizeName(name: string): string {
-  return name
-    .toLowerCase()
-    // Convert umlauts to ae/oe/ue BEFORE stripping non-ASCII, so both
-    // 'Unterstützungs' and 'Unterstuetzungs' normalize identically.
-    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
-    .replace(/stiftung|foundation|fondation|fondazione/gi, '')
-    .replace(/[^a-z0-9]/g, '')
-    .trim();
+  return (
+    name
+      .toLowerCase()
+      // Convert umlauts to ae/oe/ue BEFORE stripping non-ASCII, so both
+      // 'Unterstützungs' and 'Unterstuetzungs' normalize identically.
+      .replace(/ä/g, 'ae')
+      .replace(/ö/g, 'oe')
+      .replace(/ü/g, 'ue')
+      .replace(/stiftung|foundation|fondation|fondazione/gi, '')
+      .replace(/[^a-z0-9]/g, '')
+      .trim()
+  );
 }
 
 function levenshteinDistance(a: string, b: string): number {
@@ -157,7 +162,7 @@ function levenshteinDistance(a: string, b: string): number {
         matrix[i][j] = Math.min(
           matrix[i - 1][j - 1] + 1,
           matrix[i - 1][j] + 1,
-          matrix[i][j - 1] + 1
+          matrix[i][j - 1] + 1,
         );
       }
     }
@@ -229,9 +234,11 @@ function findInESA(register: ESARegister, name: string): ESAFoundation | null {
   for (const foundation of register.foundations) {
     const esaNormalized = normalizeName(foundation.name);
 
-    if (esaNormalized === normalized ||
-        foundation.name.toLowerCase() === name.toLowerCase() ||
-        levenshteinDistance(normalized, esaNormalized) <= 2) {
+    if (
+      esaNormalized === normalized ||
+      foundation.name.toLowerCase() === name.toLowerCase() ||
+      levenshteinDistance(normalized, esaNormalized) <= 2
+    ) {
       return foundation;
     }
   }
@@ -250,7 +257,8 @@ function hasInternationalDevelopmentFocus(purpose: string, _city: string): boole
     'entwicklungsländer',
     'entwicklungszusammenarbeit',
     'ländern des südens',
-    'dritte welt', 'drittwelt', // NEW v3.1 - old German term for "Third World"
+    'dritte welt',
+    'drittwelt', // NEW v3.1 - old German term for "Third World"
     'global south',
     'developing countries',
     'emerging countries',
@@ -281,8 +289,8 @@ function hasInternationalDevelopmentFocus(purpose: string, _city: string): boole
     'basel',
   ];
 
-  const hasInternationalKeywords = internationalKeywords.some(kw => purposeLower.includes(kw));
-  const hasSwissFocus = swissFocusKeywords.some(kw => purposeLower.includes(kw));
+  const hasInternationalKeywords = internationalKeywords.some((kw) => purposeLower.includes(kw));
+  const hasSwissFocus = swissFocusKeywords.some((kw) => purposeLower.includes(kw));
 
   // Only exclude if strong international focus and NO Swiss mention
   return hasInternationalKeywords && !hasSwissFocus;
@@ -301,22 +309,37 @@ function scoreFunderOperator(purpose: string): {
 
   // Funder keywords (German, French, Italian)
   const funderKeywords = [
-    'fördert', 'unterstützt projekte', 'vergibt beiträge',
-    'projektförderung', 'gesuchsverfahren', 'antragsformular',
-    'finanzielle unterstützung', 'zuwendungen', 'finanziert',
+    'fördert',
+    'unterstützt projekte',
+    'vergibt beiträge',
+    'projektförderung',
+    'gesuchsverfahren',
+    'antragsformular',
+    'finanzielle unterstützung',
+    'zuwendungen',
+    'finanziert',
     'unterstützung und förderung', // Fondation Assura pattern
     // French
-    'soutient des projets', 'octroie des contributions',
-    'soutien financier', 'finance',
+    'soutient des projets',
+    'octroie des contributions',
+    'soutien financier',
+    'finance',
     // Italian
-    'sostiene progetti', 'contributi finanziari',
+    'sostiene progetti',
+    'contributi finanziari',
   ];
 
   // Operator keywords (German, French, Italian) - ENHANCED in v3.1
   const operatorKeywords = [
-    'betreibt', 'führt durch', 'bietet an', 'dienstleister',
-    'eigene programme', 'direkt tätig', 'selbst tätig',
-    'angebote', 'leistungen erbringen',
+    'betreibt',
+    'führt durch',
+    'bietet an',
+    'dienstleister',
+    'eigene programme',
+    'direkt tätig',
+    'selbst tätig',
+    'angebote',
+    'leistungen erbringen',
     // Strong operator signals from Phase 3 v2.0 analysis
     'erbringung von dienstleistungen',
     'geführten betriebe',
@@ -332,28 +355,48 @@ function scoreFunderOperator(purpose: string): {
     'durchführung', // Execution/carrying out
     'serviceleistung', // Services
     // NEW from Phase 3 final 8 analysis (v3.1)
-    'trägerin', 'träger', // Operator/carrier of institution
+    'trägerin',
+    'träger', // Operator/carrier of institution
     'informationsaustausch', // Information exchange (platforms)
-    'plattform', 'portal', // Platform/portal
-    'wohnheim', 'heim', // Residential home
+    'plattform',
+    'portal', // Platform/portal
+    'wohnheim',
+    'heim', // Residential home
     'wohn- und begegnungsort', // Residential facility
     // French
-    'exploite', 'offre des services', 'propres programmes',
-    'prestation de services', 'organise', 'plateforme',
+    'exploite',
+    'offre des services',
+    'propres programmes',
+    'prestation de services',
+    'organise',
+    'plateforme',
     // Italian
-    'gestisce', 'offre servizi', 'programmi propri',
-    'erogazione di servizi', 'organizza', 'piattaforma',
+    'gestisce',
+    'offre servizi',
+    'programmi propri',
+    'erogazione di servizi',
+    'organizza',
+    'piattaforma',
   ];
 
   // Social dimension keywords (NEW in v3.0)
   const socialKeywords = [
-    'sozial', 'social', 'sociale',
-    'integration', 'integrazione',
+    'sozial',
+    'social',
+    'sociale',
+    'integration',
+    'integrazione',
     'arbeitsintegration',
-    'bildung', 'éducation', 'educazione',
-    'armut', 'pauvreté', 'povertà',
-    'benachteiligt', 'défavorisé',
-    'vulnerable', 'vulnerabile',
+    'bildung',
+    'éducation',
+    'educazione',
+    'armut',
+    'pauvreté',
+    'povertà',
+    'benachteiligt',
+    'défavorisé',
+    'vulnerable',
+    'vulnerabile',
     'chancengleichheit',
   ];
 
@@ -397,19 +440,24 @@ function scoreFunderOperator(purpose: string): {
 function isFrenchItalianOnly(city: string, purpose: string): boolean {
   // FIXED: Added more Geneva variants, ensure case-insensitive matching
   const frenchCities = [
-    'genève', 'geneva', 'geneve', 'canton de genève',
-    'lausanne', 'neuchâtel', 'fribourg', 'meyrin',
+    'genève',
+    'geneva',
+    'geneve',
+    'canton de genève',
+    'lausanne',
+    'neuchâtel',
+    'fribourg',
+    'meyrin',
   ];
-  const italianCities = [
-    'lugano', 'locarno', 'bellinzona', 'mendrisio',
-  ];
+  const italianCities = ['lugano', 'locarno', 'bellinzona', 'mendrisio'];
 
   const cityLower = city.toLowerCase();
   const purposeLower = purpose.toLowerCase();
 
   // Check if city is French/Italian
-  const isFrenchItalianCity = frenchCities.some(fc => cityLower.includes(fc)) ||
-                               italianCities.some(ic => cityLower.includes(ic));
+  const isFrenchItalianCity =
+    frenchCities.some((fc) => cityLower.includes(fc)) ||
+    italianCities.some((ic) => cityLower.includes(ic));
 
   if (!isFrenchItalianCity) {
     return false;
@@ -432,13 +480,21 @@ function hasSocialDimension(purpose: string, socialScore: number): boolean {
 
   // Climate/environment keywords
   const climateKeywords = [
-    'klima', 'climate', 'climat',
-    'umwelt', 'environment', 'environnement',
-    'energie', 'energy', 'énergie',
-    'natur', 'nature', 'natura',
+    'klima',
+    'climate',
+    'climat',
+    'umwelt',
+    'environment',
+    'environnement',
+    'energie',
+    'energy',
+    'énergie',
+    'natur',
+    'nature',
+    'natura',
   ];
 
-  const isClimateOnly = climateKeywords.some(kw => purposeLower.includes(kw));
+  const isClimateOnly = climateKeywords.some((kw) => purposeLower.includes(kw));
 
   // If climate-focused, require social dimension
   if (isClimateOnly && socialScore === 0) {
@@ -464,7 +520,7 @@ function isHealthcareOnly(purpose: string): boolean {
     'gesundheitsförderung',
   ];
 
-  const hasHealthcare = healthcareKeywords.some(kw => purposeLower.includes(kw));
+  const hasHealthcare = healthcareKeywords.some((kw) => purposeLower.includes(kw));
 
   if (!hasHealthcare) {
     return false; // Not healthcare-focused
@@ -472,13 +528,22 @@ function isHealthcareOnly(purpose: string): boolean {
 
   // Check if it also has our core themes
   const coreThemeKeywords = [
-    'arbeitsintegration', 'soziale integration', 'berufliche integration',
-    'kreislaufwirtschaft', 'recycling', 'wiederverwendung', 'secondhand',
-    'digitale bildung', 'digitale kompetenz', 'informatik',
-    'bildung', 'ausbildung', 'erziehung', // Education (broader)
+    'arbeitsintegration',
+    'soziale integration',
+    'berufliche integration',
+    'kreislaufwirtschaft',
+    'recycling',
+    'wiederverwendung',
+    'secondhand',
+    'digitale bildung',
+    'digitale kompetenz',
+    'informatik',
+    'bildung',
+    'ausbildung',
+    'erziehung', // Education (broader)
   ];
 
-  const hasCoreTheme = coreThemeKeywords.some(kw => purposeLower.includes(kw));
+  const hasCoreTheme = coreThemeKeywords.some((kw) => purposeLower.includes(kw));
 
   // Healthcare-only if has healthcare keywords but NO core themes
   return hasHealthcare && !hasCoreTheme;
@@ -501,7 +566,7 @@ function getCoreThemeScore(purpose: string): number {
     'benachteiligte',
     'chancengleichheit',
   ];
-  if (socialIntegrationKeywords.some(kw => purposeLower.includes(kw))) {
+  if (socialIntegrationKeywords.some((kw) => purposeLower.includes(kw))) {
     score += 3; // High value
   }
 
@@ -513,23 +578,19 @@ function getCoreThemeScore(purpose: string): number {
     'secondhand',
     'upcycling',
   ];
-  if (circularEconomyKeywords.some(kw => purposeLower.includes(kw))) {
+  if (circularEconomyKeywords.some((kw) => purposeLower.includes(kw))) {
     score += 3; // High value
   }
 
   // Digital literacy
-  const digitalKeywords = [
-    'digitale bildung',
-    'digitale kompetenz',
-    'informatik',
-  ];
-  if (digitalKeywords.some(kw => purposeLower.includes(kw))) {
+  const digitalKeywords = ['digitale bildung', 'digitale kompetenz', 'informatik'];
+  if (digitalKeywords.some((kw) => purposeLower.includes(kw))) {
     score += 3; // High value
   }
 
   // Education (broader, lower value)
   const educationKeywords = ['bildung', 'ausbildung', 'erziehung'];
-  if (educationKeywords.some(kw => purposeLower.includes(kw)) && score === 0) {
+  if (educationKeywords.some((kw) => purposeLower.includes(kw)) && score === 0) {
     score += 1; // Some value if no stronger match
   }
 
@@ -557,7 +618,7 @@ function getThematicFocusScore(purpose: string): number {
 
   let sectorCount = 0;
   for (const sectorKeywords of sectors) {
-    if (sectorKeywords.some(kw => purposeLower.includes(kw))) {
+    if (sectorKeywords.some((kw) => purposeLower.includes(kw))) {
       sectorCount++;
     }
   }
@@ -572,11 +633,7 @@ function getThematicFocusScore(purpose: string): number {
 // MAIN SCREENING LOGIC
 // ============================================================================
 
-function screenCandidate(
-  candidate: Candidate,
-  esaRegister: ESARegister
-): ScreeningResult {
-
+function screenCandidate(candidate: Candidate, esaRegister: ESARegister): ScreeningResult {
   // Filter 1: Duplicate in the foundation DB
   if (isDuplicateInDB(candidate)) {
     return {
@@ -604,13 +661,16 @@ function screenCandidate(
   // They need research but should NOT be excluded — ESA only covers federal foundations
   if (!esaMatch) {
     const candidateCity = candidate.location?.replace(/, ?CH$/, '').toLowerCase() || '';
-    const isZurichArea = candidateCity.includes('zürich') || candidateCity.includes('winterthur')
-      || candidateCity.includes('schlieren') || candidateCity.includes('maur');
+    const isZurichArea =
+      candidateCity.includes('zürich') ||
+      candidateCity.includes('winterthur') ||
+      candidateCity.includes('schlieren') ||
+      candidateCity.includes('maur');
 
     return {
       candidate,
       decision: 'pass' as const,
-      tier: isZurichArea ? 3 as const : 4 as const,
+      tier: isZurichArea ? (3 as const) : (4 as const),
       details: `Not in ESA (cantonal/other supervision) - ${isZurichArea ? 'ZH area' : 'needs location check'}`,
       scores: { funderScore: 0, operatorScore: 0, socialScore: 0, confidence: 'low' as const },
     };
@@ -688,7 +748,7 @@ function screenCandidate(
   const focusScore = getThematicFocusScore(esaMatch.purpose);
   const isZurichBased = esaMatch.city.toLowerCase().includes('zürich');
   const isNearZurich = ['winterthur', 'zug', 'baden', 'aarau', 'freienbach', 'wetzikon'].some(
-    city => esaMatch.city.toLowerCase().includes(city)
+    (city) => esaMatch.city.toLowerCase().includes(city),
   );
 
   // Start with base tier
@@ -760,19 +820,21 @@ function processBatch(candidates: Candidate[], esaRegister: ESARegister): Screen
     }
   }
 
-  const passed = results.filter(r => r.decision === 'pass').length;
-  const excluded = results.filter(r => r.decision === 'exclude').length;
+  const passed = results.filter((r) => r.decision === 'pass').length;
+  const excluded = results.filter((r) => r.decision === 'exclude').length;
 
   console.log(`\n📊 Screening complete!`);
-  console.log(`   ✅ Passed: ${passed} (${Math.round(passed / candidates.length * 100)}%)`);
-  console.log(`   ❌ Excluded: ${excluded} (${Math.round(excluded / candidates.length * 100)}%)\n`);
+  console.log(`   ✅ Passed: ${passed} (${Math.round((passed / candidates.length) * 100)}%)`);
+  console.log(
+    `   ❌ Excluded: ${excluded} (${Math.round((excluded / candidates.length) * 100)}%)\n`,
+  );
 
   console.log(`📈 Exclusion breakdown:`);
   Object.entries(exclusionBreakdown)
     .filter(([, count]) => count > 0)
     .sort(([, a], [, b]) => b - a)
     .forEach(([reason, count]) => {
-      console.log(`   ${reason}: ${count} (${Math.round(count / candidates.length * 100)}%)`);
+      console.log(`   ${reason}: ${count} (${Math.round((count / candidates.length) * 100)}%)`);
     });
 
   console.log(`\n🎯 Tier breakdown:`);
@@ -821,7 +883,9 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`\n📚 Loaded ESA register: ${esaRegister.count} foundations (${esaRegister.downloadDate})`);
+  console.log(
+    `\n📚 Loaded ESA register: ${esaRegister.count} foundations (${esaRegister.downloadDate})`,
+  );
 
   // Load candidates
   const args = process.argv.slice(2);
@@ -845,11 +909,7 @@ async function main() {
   const report = processBatch(candidates, esaRegister);
 
   // Save report
-  const outputPath = path.join(
-    process.cwd(),
-    'research',
-    `screening-v3.1-${report.date}.json`
-  );
+  const outputPath = path.join(process.cwd(), 'research', `screening-v3.1-${report.date}.json`);
 
   fs.writeFileSync(outputPath, JSON.stringify(report, null, 2), 'utf-8');
 

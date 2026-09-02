@@ -44,7 +44,9 @@ describe('buildAIContext', () => {
     });
 
     it('maps themes array (copies values)', () => {
-      const ctx = buildAIContext(makeFoundation({ themes: ['kreislaufwirtschaft', 'klima'] as Foundation['themes'] }));
+      const ctx = buildAIContext(
+        makeFoundation({ themes: ['kreislaufwirtschaft', 'klima'] as Foundation['themes'] }),
+      );
       expect(ctx.themes).toEqual(['kreislaufwirtschaft', 'klima']);
     });
 
@@ -61,17 +63,21 @@ describe('buildAIContext', () => {
     });
 
     it('extracts core from purposeSummary (first sentence)', () => {
-      const ctx = buildAIContext(makeFoundation({
-        purposeSummary: 'Fördert Nachhaltigkeit in der Schweiz. Weitere Details folgen.',
-      }));
+      const ctx = buildAIContext(
+        makeFoundation({
+          purposeSummary: 'Fördert Nachhaltigkeit in der Schweiz. Weitere Details folgen.',
+        }),
+      );
       // extractPurposeCore returns first sentence before '.'
       expect(ctx.purpose).toBe('Fördert Nachhaltigkeit in der Schweiz');
     });
 
     it('strips ESA-style "Name (Location): " prefix', () => {
-      const ctx = buildAIContext(makeFoundation({
-        purposeSummary: 'Muster Stiftung (Zürich): Fördert Bildung in der Region.',
-      }));
+      const ctx = buildAIContext(
+        makeFoundation({
+          purposeSummary: 'Muster Stiftung (Zürich): Fördert Bildung in der Region.',
+        }),
+      );
       expect(ctx.purpose).toBe('Fördert Bildung in der Region');
     });
   });
@@ -83,19 +89,25 @@ describe('buildAIContext', () => {
     });
 
     it('returns grantRange when min is set', () => {
-      const ctx = buildAIContext(makeFoundation({ amount: { min: 5000, max: null, text: 'ab CHF 5\'000' } }));
+      const ctx = buildAIContext(
+        makeFoundation({ amount: { min: 5000, max: null, text: "ab CHF 5'000" } }),
+      );
       expect(ctx.grantRange?.min).toBe(5000);
       expect(ctx.grantRange?.max).toBeUndefined();
     });
 
     it('returns grantRange when max is set', () => {
-      const ctx = buildAIContext(makeFoundation({ amount: { min: null, max: 50000, text: 'bis CHF 50\'000' } }));
+      const ctx = buildAIContext(
+        makeFoundation({ amount: { min: null, max: 50000, text: "bis CHF 50'000" } }),
+      );
       expect(ctx.grantRange?.max).toBe(50000);
       expect(ctx.grantRange?.min).toBeUndefined();
     });
 
     it('returns both bounds when both are set', () => {
-      const ctx = buildAIContext(makeFoundation({ amount: { min: 1000, max: 100000, text: 'CHF 1\'000–100\'000' } }));
+      const ctx = buildAIContext(
+        makeFoundation({ amount: { min: 1000, max: 100000, text: "CHF 1'000–100'000" } }),
+      );
       expect(ctx.grantRange).toEqual({ min: 1000, max: 100000 });
     });
   });
@@ -107,10 +119,14 @@ describe('buildAIContext', () => {
     });
 
     it('joins applicationProcess steps with " → "', () => {
-      const ctx = buildAIContext(makeFoundation({
-        applicationProcess: ['Anfrage senden', 'Gesuch einreichen', 'Entscheid abwarten'],
-      }));
-      expect(ctx.applicationProcess).toBe('Anfrage senden → Gesuch einreichen → Entscheid abwarten');
+      const ctx = buildAIContext(
+        makeFoundation({
+          applicationProcess: ['Anfrage senden', 'Gesuch einreichen', 'Entscheid abwarten'],
+        }),
+      );
+      expect(ctx.applicationProcess).toBe(
+        'Anfrage senden → Gesuch einreichen → Entscheid abwarten',
+      );
     });
 
     it('returns single step without arrow', () => {
@@ -141,15 +157,17 @@ describe('buildAIContext', () => {
     });
 
     it('returns undefined for absent optional fields', () => {
-      const ctx = buildAIContext(makeFoundation({
-        tagline: undefined,
-        researchNotes: undefined,
-        pastGrantees: undefined,
-        deadline: undefined,
-        deadlineText: undefined,
-        criteria: undefined,
-        partners: undefined,
-      }));
+      const ctx = buildAIContext(
+        makeFoundation({
+          tagline: undefined,
+          researchNotes: undefined,
+          pastGrantees: undefined,
+          deadline: undefined,
+          deadlineText: undefined,
+          criteria: undefined,
+          partners: undefined,
+        }),
+      );
       expect(ctx.tagline).toBeUndefined();
       expect(ctx.researchNotes).toBeUndefined();
       expect(ctx.pastGrantees).toBeUndefined();

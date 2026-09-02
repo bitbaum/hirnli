@@ -10,7 +10,16 @@
  * Schema serves Ground Truth #2: State defines behavior, one source of truth.
  */
 
-import { text, integer, boolean, jsonb, pgTable, timestamp, unique, index } from 'drizzle-orm/pg-core';
+import {
+  text,
+  integer,
+  boolean,
+  jsonb,
+  pgTable,
+  timestamp,
+  unique,
+  index,
+} from 'drizzle-orm/pg-core';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 /**
@@ -20,44 +29,48 @@ import type { ApplicationStatusId } from '@/lib/config/application-statuses';
  * The configData JSONB holds the merged Foundation object (registry + analysis)
  * for backward compatibility with the sync pipeline.
  */
-export const foundations = pgTable('fundraising_foundations', {
-  // Primary key - kebab-case slug (e.g., 'volkart-stiftung')
-  id: text('id').primaryKey(),
+export const foundations = pgTable(
+  'fundraising_foundations',
+  {
+    // Primary key - kebab-case slug (e.g., 'volkart-stiftung')
+    id: text('id').primaryKey(),
 
-  // Basic information
-  name: text('name').notNull(),
+    // Basic information
+    name: text('name').notNull(),
 
-  // Classification (indexed/queried columns only — all other data lives in configData JSONB)
-  fitScore: integer('fit_score'), // 0-10 scale
-  priority: integer('priority'), // 1-4 (1 = highest)
+    // Classification (indexed/queried columns only — all other data lives in configData JSONB)
+    fitScore: integer('fit_score'), // 0-10 scale
+    priority: integer('priority'), // 1-4 (1 = highest)
 
-  // Research metadata
-  researchDepth: text('research_depth'), // 'rapid' | 'standard' | 'deep'
-  researchDate: text('research_date'), // ISO date
+    // Research metadata
+    researchDepth: text('research_depth'), // 'rapid' | 'standard' | 'deep'
+    researchDate: text('research_date'), // ISO date
 
-  // Data confidence tracking
-  dataConfidence: text('data_confidence'), // 'unverified' | 'ai-assessed' | 'human-verified'
+    // Data confidence tracking
+    dataConfidence: text('data_confidence'), // 'unverified' | 'ai-assessed' | 'human-verified'
 
-  // Full config object (Zod Foundation schema shape) — used by sync script
-  // to generate TypeScript config. DB is write SSOT, generated TS is build cache.
-  configData: jsonb('config_data'),
+    // Full config object (Zod Foundation schema shape) — used by sync script
+    // to generate TypeScript config. DB is write SSOT, generated TS is build cache.
+    configData: jsonb('config_data'),
 
-  // Multi-org support
-  orgId: text('org_id').default('revamp-it'), // Enables per-org analysis of same foundation
+    // Multi-org support
+    orgId: text('org_id').default('revamp-it'), // Enables per-org analysis of same foundation
 
-  // Admin
-  source: text('source'), // swissfoundations, spheriq, zhaw, typescript-legacy, rapid-assessment, etc.
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
-  archived: boolean('archived').default(false),
-}, (table) => ({
-  // The sync script filters by `archived = false AND data_confidence != 'unverified'`
-  // on every run; the audit script filters by `priority` and `data_confidence` too.
-  // These indexes turn the 16k-row scan into millisecond lookups as the table grows.
-  byOrgArchived: index('fund_foundations_org_archived_idx').on(table.orgId, table.archived),
-  byPriority:    index('fund_foundations_priority_idx').on(table.priority),
-  byConfidence:  index('fund_foundations_data_confidence_idx').on(table.dataConfidence),
-}));
+    // Admin
+    source: text('source'), // swissfoundations, spheriq, zhaw, typescript-legacy, rapid-assessment, etc.
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+    archived: boolean('archived').default(false),
+  },
+  (table) => ({
+    // The sync script filters by `archived = false AND data_confidence != 'unverified'`
+    // on every run; the audit script filters by `priority` and `data_confidence` too.
+    // These indexes turn the 16k-row scan into millisecond lookups as the table grows.
+    byOrgArchived: index('fund_foundations_org_archived_idx').on(table.orgId, table.archived),
+    byPriority: index('fund_foundations_priority_idx').on(table.priority),
+    byConfidence: index('fund_foundations_data_confidence_idx').on(table.dataConfidence),
+  }),
+);
 
 /**
  * Applications Table - Track all outreach
@@ -65,51 +78,57 @@ export const foundations = pgTable('fundraising_foundations', {
  * Manages the full lifecycle from prospect to accepted/rejected.
  * Each application links to a foundation and tracks status, timeline, outcomes.
  */
-export const applications = pgTable('fundraising_applications', {
-  id: text('id').primaryKey(),
-  foundationId: text('foundation_id').notNull().references(() => foundations.id),
+export const applications = pgTable(
+  'fundraising_applications',
+  {
+    id: text('id').primaryKey(),
+    foundationId: text('foundation_id')
+      .notNull()
+      .references(() => foundations.id),
 
-  // Status tracking (Kanban board columns)
-  status: text('status').notNull().$type<ApplicationStatusId>(), // type narrowed from config SSOT
+    // Status tracking (Kanban board columns)
+    status: text('status').notNull().$type<ApplicationStatusId>(), // type narrowed from config SSOT
 
-  // Application details
-  requestedAmount: integer('requested_amount'), // CHF
-  projectFocus: text('project_focus'), // Which Revamp-IT program (Werkstatt Ausbau, etc.)
-  customizationNotes: text('customization_notes'), // Notes on how Gesuch was personalized
+    // Application details
+    requestedAmount: integer('requested_amount'), // CHF
+    projectFocus: text('project_focus'), // Which Revamp-IT program (Werkstatt Ausbau, etc.)
+    customizationNotes: text('customization_notes'), // Notes on how Gesuch was personalized
 
-  // Timeline
-  contactDate: text('contact_date'), // ISO date - when first contacted
-  submissionDate: text('submission_date'), // ISO date - when submitted
-  decisionExpected: text('decision_expected'), // ISO date - expected decision date
-  decisionDate: text('decision_date'), // ISO date - actual decision date
+    // Timeline
+    contactDate: text('contact_date'), // ISO date - when first contacted
+    submissionDate: text('submission_date'), // ISO date - when submitted
+    decisionExpected: text('decision_expected'), // ISO date - expected decision date
+    decisionDate: text('decision_date'), // ISO date - actual decision date
 
-  // Outcomes
-  awardedAmount: integer('awarded_amount'), // CHF - actual amount received
-  fundingPeriod: text('funding_period'), // e.g., '2026-2028'
-  successFactors: text('success_factors'), // What worked - learning for future
-  rejectionReason: text('rejection_reason'), // Why declined - learning for future
+    // Outcomes
+    awardedAmount: integer('awarded_amount'), // CHF - actual amount received
+    fundingPeriod: text('funding_period'), // e.g., '2026-2028'
+    successFactors: text('success_factors'), // What worked - learning for future
+    rejectionReason: text('rejection_reason'), // Why declined - learning for future
 
-  // Documents
-  gesuchVersion: text('gesuch_version'), // Which template/version was used
-  documentsSent: text('documents_sent'), // JSON array of document references
+    // Documents
+    gesuchVersion: text('gesuch_version'), // Which template/version was used
+    documentsSent: text('documents_sent'), // JSON array of document references
 
-  // Management
-  assignedTo: text('assigned_to'), // Team member responsible
-  priorityLevel: integer('priority_level'), // 1-4 (1 = highest)
+    // Management
+    assignedTo: text('assigned_to'), // Team member responsible
+    priorityLevel: integer('priority_level'), // 1-4 (1 = highest)
 
-  // Multi-org support — applications belong to the org that filed them
-  orgId: text('org_id').notNull().default('revamp-it'),
+    // Multi-org support — applications belong to the org that filed them
+    orgId: text('org_id').notNull().default('revamp-it'),
 
-  // Admin
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
-}, (table) => ({
-  // The Kanban + dashboard queries filter by status and join by foundation_id;
-  // the application-detail route reads by id (already PK).
-  byFoundation: index('fund_applications_foundation_idx').on(table.foundationId),
-  byStatus:     index('fund_applications_status_idx').on(table.status),
-  byOrg:        index('fund_applications_org_idx').on(table.orgId),
-}));
+    // Admin
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+  },
+  (table) => ({
+    // The Kanban + dashboard queries filter by status and join by foundation_id;
+    // the application-detail route reads by id (already PK).
+    byFoundation: index('fund_applications_foundation_idx').on(table.foundationId),
+    byStatus: index('fund_applications_status_idx').on(table.status),
+    byOrg: index('fund_applications_org_idx').on(table.orgId),
+  }),
+);
 
 /**
  * Customization Rules Table - Personalization engine
@@ -117,31 +136,35 @@ export const applications = pgTable('fundraising_applications', {
  * Rules define how to customize Gesuch documents for specific foundations.
  * Condition → Action pattern allows flexible personalization at scale.
  */
-export const customizationRules = pgTable('fundraising_customization_rules', {
-  id: text('id').primaryKey(),
-  foundationId: text('foundation_id').references(() => foundations.id), // NULL = global rule
+export const customizationRules = pgTable(
+  'fundraising_customization_rules',
+  {
+    id: text('id').primaryKey(),
+    foundationId: text('foundation_id').references(() => foundations.id), // NULL = global rule
 
-  // Condition (when to apply this rule)
-  conditionType: text('condition_type').notNull(), // focus_match | grant_size | geographic | organization_type | custom
-  conditionValue: text('condition_value').notNull(), // Value to match (e.g., 'circular economy', '<50000')
+    // Condition (when to apply this rule)
+    conditionType: text('condition_type').notNull(), // focus_match | grant_size | geographic | organization_type | custom
+    conditionValue: text('condition_value').notNull(), // Value to match (e.g., 'circular economy', '<50000')
 
-  // Action (what to do when condition matches)
-  actionType: text('action_type').notNull(), // emphasize_narrative | show_budget_module | hide_budget_module | adjust_tone | add_section | reorder_sections | custom
-  actionValue: text('action_value').notNull(), // Action-specific data (JSON for complex actions)
+    // Action (what to do when condition matches)
+    actionType: text('action_type').notNull(), // emphasize_narrative | show_budget_module | hide_budget_module | adjust_tone | add_section | reorder_sections | custom
+    actionValue: text('action_value').notNull(), // Action-specific data (JSON for complex actions)
 
-  // Metadata
-  rationale: text('rationale'), // Why this rule exists (human-readable explanation)
-  priority: integer('priority').default(50), // Higher = applied first
-  active: boolean('active').default(true),
+    // Metadata
+    rationale: text('rationale'), // Why this rule exists (human-readable explanation)
+    priority: integer('priority').default(50), // Higher = applied first
+    active: boolean('active').default(true),
 
-  // Multi-org support — rules are authored per org
-  orgId: text('org_id').notNull().default('revamp-it'),
+    // Multi-org support — rules are authored per org
+    orgId: text('org_id').notNull().default('revamp-it'),
 
-  // Admin
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-}, (table) => ({
-  byOrg: index('fund_customization_rules_org_idx').on(table.orgId),
-}));
+    // Admin
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  },
+  (table) => ({
+    byOrg: index('fund_customization_rules_org_idx').on(table.orgId),
+  }),
+);
 
 /**
  * Activity Log Table - Full audit trail
@@ -149,31 +172,39 @@ export const customizationRules = pgTable('fundraising_customization_rules', {
  * Immutable log of all actions taken on foundations and applications.
  * Enables full history tracking and accountability.
  */
-export const activityLog = pgTable('fundraising_activity_log', {
-  id: text('id').primaryKey(),
+export const activityLog = pgTable(
+  'fundraising_activity_log',
+  {
+    id: text('id').primaryKey(),
 
-  // What was modified
-  entityType: text('entity_type').notNull(), // 'foundation' | 'application'
-  entityId: text('entity_id').notNull(), // ID of the modified entity
+    // What was modified
+    entityType: text('entity_type').notNull(), // 'foundation' | 'application'
+    entityId: text('entity_id').notNull(), // ID of the modified entity
 
-  // What happened
-  actionType: text('action_type').notNull(), // created | updated | status_changed | document_generated | etc.
-  actionDetails: text('action_details'), // JSON with action-specific data
+    // What happened
+    actionType: text('action_type').notNull(), // created | updated | status_changed | document_generated | etc.
+    actionDetails: text('action_details'), // JSON with action-specific data
 
-  // Who did it
-  performedBy: text('performed_by'), // User/system identifier
+    // Who did it
+    performedBy: text('performed_by'), // User/system identifier
 
-  // Multi-org support — every audit entry is scoped to the acting org
-  orgId: text('org_id').notNull().default('revamp-it'),
+    // Multi-org support — every audit entry is scoped to the acting org
+    orgId: text('org_id').notNull().default('revamp-it'),
 
-  // When
-  timestamp: timestamp('timestamp', { withTimezone: true }).defaultNow(),
-}, (table) => ({
-  // OverrideHistory + ActivityTimeline filter by (entityId, entityType) and
-  // order by timestamp DESC. The composite covers the WHERE and the ORDER BY.
-  byEntity: index('fund_activity_log_entity_idx').on(table.entityType, table.entityId, table.timestamp),
-  byOrg:    index('fund_activity_log_org_idx').on(table.orgId),
-}));
+    // When
+    timestamp: timestamp('timestamp', { withTimezone: true }).defaultNow(),
+  },
+  (table) => ({
+    // OverrideHistory + ActivityTimeline filter by (entityId, entityType) and
+    // order by timestamp DESC. The composite covers the WHERE and the ORDER BY.
+    byEntity: index('fund_activity_log_entity_idx').on(
+      table.entityType,
+      table.entityId,
+      table.timestamp,
+    ),
+    byOrg: index('fund_activity_log_org_idx').on(table.orgId),
+  }),
+);
 
 /**
  * Gesuch Overrides Table - Per-foundation × per-variant content customizations
@@ -183,28 +214,35 @@ export const activityLog = pgTable('fundraising_activity_log', {
  * Each (foundationId, orgId, variantKey) triple has its own set of overrides.
  * JSONB structure: { foundationBridge?, why?, how?, anschreiben? }
  */
-export const gesuchOverrides = pgTable('fundraising_gesuch_overrides', {
-  id: text('id').primaryKey(),
-  foundationId: text('foundation_id').notNull().references(() => foundations.id),
-  orgId: text('org_id').notNull().default('revamp-it'),
-  variantKey: text('variant_key').notNull().default('auto'), // 'auto' | schwerpunkt ID
-  overrides: jsonb('overrides').notNull().default({}),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
-}, (table) => ({
-  // Lookups + concurrent-write safety: ON CONFLICT in PUT/PATCH targets this.
-  // Without this, two concurrent saves can both see "no existing row" and create duplicates.
-  uniqueByFoundationOrgVariant: unique('gesuch_overrides_unique_foundation_org_variant').on(
-    table.foundationId, table.orgId, table.variantKey,
-  ),
-}));
+export const gesuchOverrides = pgTable(
+  'fundraising_gesuch_overrides',
+  {
+    id: text('id').primaryKey(),
+    foundationId: text('foundation_id')
+      .notNull()
+      .references(() => foundations.id),
+    orgId: text('org_id').notNull().default('revamp-it'),
+    variantKey: text('variant_key').notNull().default('auto'), // 'auto' | schwerpunkt ID
+    overrides: jsonb('overrides').notNull().default({}),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+  },
+  (table) => ({
+    // Lookups + concurrent-write safety: ON CONFLICT in PUT/PATCH targets this.
+    // Without this, two concurrent saves can both see "no existing row" and create duplicates.
+    uniqueByFoundationOrgVariant: unique('gesuch_overrides_unique_foundation_org_variant').on(
+      table.foundationId,
+      table.orgId,
+      table.variantKey,
+    ),
+  }),
+);
 
 export type GesuchOverride = typeof gesuchOverrides.$inferSelect;
 export type NewGesuchOverride = typeof gesuchOverrides.$inferInsert;
 
 /** Typed shape of the overrides JSONB — Zod schema is SSOT */
 export type { GesuchOverridesData } from '../schemas/gesuch-overrides';
-
 
 /**
  * Type Exports - Derived from schema (never define separately)
@@ -216,7 +254,10 @@ export type NewFoundationRow = typeof foundations.$inferInsert;
 
 export type Application = typeof applications.$inferSelect;
 export type NewApplication = typeof applications.$inferInsert;
-export type ApplicationWithFoundation = { application: Application; foundation: FoundationRow | null };
+export type ApplicationWithFoundation = {
+  application: Application;
+  foundation: FoundationRow | null;
+};
 
 export type CustomizationRule = typeof customizationRules.$inferSelect;
 export type NewCustomizationRule = typeof customizationRules.$inferInsert;
@@ -225,4 +266,3 @@ export type ActivityLogEntry = typeof activityLog.$inferSelect;
 export type NewActivityLogEntry = typeof activityLog.$inferInsert;
 /** JSON-serialized shape returned by GET /api/activity-log (timestamp is a string, not Date) */
 export type ActivityLogEntryJSON = Omit<ActivityLogEntry, 'timestamp'> & { timestamp: string };
-

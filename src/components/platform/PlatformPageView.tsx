@@ -29,7 +29,13 @@ function SectionHeading({ heading, lead }: { heading: string; lead?: string }) {
   );
 }
 
-export default function PlatformPageView({ locale, foundations }: { locale: PlatformLocale; foundations: Foundation[] }) {
+export default function PlatformPageView({
+  locale,
+  foundations,
+}: {
+  locale: PlatformLocale;
+  foundations: Foundation[];
+}) {
   const c = PLATFORM_CONTENT[locale];
   const stats = computeFunnelStats(foundations);
   const actionable = stats.pCounts[1] + stats.pCounts[2] + stats.pCounts[3];
@@ -74,7 +80,9 @@ export default function PlatformPageView({ locale, foundations }: { locale: Plat
               <ul className="space-y-2.5">
                 {side.points.map((p) => (
                   <li key={p} className="flex gap-2.5 text-sm leading-relaxed text-text-secondary">
-                    <span className="mt-0.5 shrink-0 text-text-muted" aria-hidden="true">—</span>
+                    <span className="mt-0.5 shrink-0 text-text-muted" aria-hidden="true">
+                      —
+                    </span>
                     <span>{p}</span>
                   </li>
                 ))}
@@ -97,7 +105,9 @@ export default function PlatformPageView({ locale, foundations }: { locale: Plat
                 {i + 1}
               </span>
               <h3 className="mb-1 heading-card">{step.title}</h3>
-              <p className="max-w-2xl text-sm leading-relaxed text-text-secondary">{step.description}</p>
+              <p className="max-w-2xl text-sm leading-relaxed text-text-secondary">
+                {step.description}
+              </p>
             </li>
           ))}
         </ol>
@@ -170,7 +180,9 @@ export default function PlatformPageView({ locale, foundations }: { locale: Plat
           <ul className="space-y-2.5">
             {c.businessModel.points.map((p) => (
               <li key={p} className="flex gap-2.5 text-sm leading-relaxed text-text-secondary">
-                <span className="mt-0.5 shrink-0 text-primary-text" aria-hidden="true">→</span>
+                <span className="mt-0.5 shrink-0 text-primary-text" aria-hidden="true">
+                  →
+                </span>
                 <span>{p}</span>
               </li>
             ))}
@@ -197,7 +209,9 @@ export default function PlatformPageView({ locale, foundations }: { locale: Plat
       <section className="mb-12">
         <Card>
           <h2 className="mb-2 heading-card">{c.outlook.heading}</h2>
-          <p className="mb-4 max-w-3xl text-sm leading-relaxed text-text-secondary">{c.outlook.body}</p>
+          <p className="mb-4 max-w-3xl text-sm leading-relaxed text-text-secondary">
+            {c.outlook.body}
+          </p>
           {/* target="_self" routes mailto through the plain <a> branch of Button (not next/link) */}
           <Button href={`mailto:${PLATFORM_CONTACT_EMAIL}`} target="_self">
             {c.outlook.ctaLabel}

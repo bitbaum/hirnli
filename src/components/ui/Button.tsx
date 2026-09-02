@@ -14,16 +14,12 @@ type Variant = 'primary' | 'secondary' | 'soft' | 'ghost' | 'danger';
 type Size = 'sm' | 'md' | 'lg';
 
 const VARIANT_CLASSES: Record<Variant, string> = {
-  primary:
-    'bg-text-primary text-surface-base hover:bg-text-secondary active:bg-text-secondary/90',
+  primary: 'bg-text-primary text-surface-base hover:bg-text-secondary active:bg-text-secondary/90',
   secondary:
     'border border-border-default bg-surface-base text-text-primary hover:bg-surface-raised active:bg-surface-overlay',
-  soft:
-    'bg-primary text-white hover:bg-primary/90 active:bg-primary/80',
-  ghost:
-    'text-text-primary hover:bg-surface-raised active:bg-surface-overlay',
-  danger:
-    'bg-danger text-white hover:bg-danger/90 active:bg-danger/80',
+  soft: 'bg-primary text-white hover:bg-primary/90 active:bg-primary/80',
+  ghost: 'text-text-primary hover:bg-surface-raised active:bg-surface-overlay',
+  danger: 'bg-danger text-white hover:bg-danger/90 active:bg-danger/80',
 };
 
 const SIZE_CLASSES: Record<Size, string> = {
@@ -85,7 +81,7 @@ export function Button({
           href={href}
           className={classes}
           target={target || (isExternal ? '_blank' : undefined)}
-          rel={rel || ((isExternal || target) ? 'noopener noreferrer' : undefined)}
+          rel={rel || (isExternal || target ? 'noopener noreferrer' : undefined)}
           onClick={onClick}
           title={title}
         >
@@ -101,13 +97,7 @@ export function Button({
   }
 
   return (
-    <button
-      type={type}
-      className={classes}
-      disabled={disabled}
-      onClick={onClick}
-      title={title}
-    >
+    <button type={type} className={classes} disabled={disabled} onClick={onClick} title={title}>
       {children}
     </button>
   );

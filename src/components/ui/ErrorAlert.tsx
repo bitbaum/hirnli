@@ -29,25 +29,17 @@ export function ErrorAlert({
   if (!error && !children) return null;
 
   return (
-    <div className={`rounded-lg border border-danger/20 bg-danger-bg px-4 py-3${className ? ` ${className}` : ''}`}>
+    <div
+      className={`rounded-lg border border-danger/20 bg-danger-bg px-4 py-3${className ? ` ${className}` : ''}`}
+    >
       <p className="text-sm text-danger-text">{children ?? error}</p>
       {onRetry && (
-        <Button
-          onClick={onRetry}
-          variant="danger"
-          size="sm"
-          className="mt-2"
-        >
+        <Button onClick={onRetry} variant="danger" size="sm" className="mt-2">
           Erneut versuchen
         </Button>
       )}
       {backLink && (
-        <Button
-          href={backLink.href}
-          variant="ghost"
-          size="sm"
-          className="mt-2 text-primary-text"
-        >
+        <Button href={backLink.href} variant="ghost" size="sm" className="mt-2 text-primary-text">
           {backLink.label}
         </Button>
       )}

@@ -3,12 +3,7 @@ import CTABanner from '@/components/ui/CTABanner';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { getStoryBridges } from '@/lib/config/story-bridges';
 import { PAGE_META, CTA_CONFIG } from './home-data';
-import {
-  HeroSection,
-  PlatformGuide,
-  PillarGrid,
-  TransparencyBlock,
-} from './home-components';
+import { HeroSection, PlatformGuide, PillarGrid, TransparencyBlock } from './home-components';
 
 export const metadata: Metadata = {
   title: PAGE_META.title,

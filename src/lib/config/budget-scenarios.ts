@@ -28,18 +28,32 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     type: 'jaehrlich',
     source: {
       methodology: 'Marktforschung Homegate.ch, ImmoScout24 (Januar 2026)',
-      calculation: '~600m² × CHF 200/m²/Jahr (Mittelwert Agglomeration Zürich). Basiert auf hub-space-plan.ts: ~590m² Nutzfläche + 60m² Verkehrsfläche = ~650m² Gesamtfläche',
-      marketResearch: 'Volketswil: CHF 150/m², Schlieren: CHF 252/m², Dietikon: CHF 180/m² → gewählt: CHF 200/m² als realistischer Durchschnitt',
+      calculation:
+        '~600m² × CHF 200/m²/Jahr (Mittelwert Agglomeration Zürich). Basiert auf hub-space-plan.ts: ~590m² Nutzfläche + 60m² Verkehrsfläche = ~650m² Gesamtfläche',
+      marketResearch:
+        'Volketswil: CHF 150/m², Schlieren: CHF 252/m², Dietikon: CHF 180/m² → gewählt: CHF 200/m² als realistischer Durchschnitt',
       confidence: 'medium',
       lastVerified: '2026-02-23',
       notes: 'City Zürich würde CHF 150-210k/Jahr kosten (zu teuer für NGO-Budget)',
     },
     icon: '🏢',
     themeLabels: {
-      klima: { label: 'Kreislaufwirtschafts-Hub (Miete)', description: 'Werkstatt + Lager für Geräte-Refurbishing und Recycling-Logistik' },
-      sozial: { label: 'Integrationszentrum (Miete)', description: 'Arbeitsplätze für begleitete Reintegration und Praktika' },
-      bildung: { label: 'Bildungs- und Workshopzentrum (Miete)', description: 'Schulungsräume, Makerspace und Übungswerkstatt' },
-      digital: { label: 'Open-Source-Werkstatt & Serverraum (Miete)', description: 'Werkstatt für Linux-Refurbishing und klimatisierter GPU-Raum' },
+      klima: {
+        label: 'Kreislaufwirtschafts-Hub (Miete)',
+        description: 'Werkstatt + Lager für Geräte-Refurbishing und Recycling-Logistik',
+      },
+      sozial: {
+        label: 'Integrationszentrum (Miete)',
+        description: 'Arbeitsplätze für begleitete Reintegration und Praktika',
+      },
+      bildung: {
+        label: 'Bildungs- und Workshopzentrum (Miete)',
+        description: 'Schulungsräume, Makerspace und Übungswerkstatt',
+      },
+      digital: {
+        label: 'Open-Source-Werkstatt & Serverraum (Miete)',
+        description: 'Werkstatt für Linux-Refurbishing und klimatisierter GPU-Raum',
+      },
     },
   },
 
@@ -53,7 +67,8 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     type: 'einmalig',
     source: {
       methodology: 'Bottom-up Kalkulation basierend auf Industriepreisen',
-      calculation: '8× Werkbänke à CHF 800 + 15× Regale à CHF 400 + Werkzeuge CHF 5k + Beleuchtung CHF 3.6k + Reserve CHF 4k',
+      calculation:
+        '8× Werkbänke à CHF 800 + 15× Regale à CHF 400 + Werkzeuge CHF 5k + Beleuchtung CHF 3.6k + Reserve CHF 4k',
       confidence: 'medium',
       lastVerified: '2026-02-12',
     },
@@ -66,10 +81,22 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     ],
     icon: '🔧',
     themeLabels: {
-      klima: { label: 'Refurbishing-Werkstatt Einrichtung', description: 'Arbeitsplätze für Geräte-Aufbereitung und Lebensdauerverlängerung' },
-      sozial: { label: 'Integrations-Werkstatt Einrichtung', description: 'Betreute Arbeitsplätze für Praktikant:innen und Teilnehmende' },
-      bildung: { label: 'Lernwerkstatt Einrichtung', description: 'Hands-on-Arbeitsplätze für Hardware-Workshops und Repair Cafés' },
-      digital: { label: 'Linux-Werkstatt Einrichtung', description: 'Diagnose- und Installationsplätze für Open-Source-Refurbishing' },
+      klima: {
+        label: 'Refurbishing-Werkstatt Einrichtung',
+        description: 'Arbeitsplätze für Geräte-Aufbereitung und Lebensdauerverlängerung',
+      },
+      sozial: {
+        label: 'Integrations-Werkstatt Einrichtung',
+        description: 'Betreute Arbeitsplätze für Praktikant:innen und Teilnehmende',
+      },
+      bildung: {
+        label: 'Lernwerkstatt Einrichtung',
+        description: 'Hands-on-Arbeitsplätze für Hardware-Workshops und Repair Cafés',
+      },
+      digital: {
+        label: 'Linux-Werkstatt Einrichtung',
+        description: 'Diagnose- und Installationsplätze für Open-Source-Refurbishing',
+      },
     },
   },
 
@@ -82,7 +109,8 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     type: 'einmalig',
     source: {
       methodology: 'Retail-Ausstattung basierend auf Branchenstandards',
-      calculation: '12× Regale à CHF 350 + 6× Kleiderständer à CHF 200 + Kasse CHF 2.5k + Beleuchtung CHF 4k + Beschilderung CHF 2k + Reserve CHF 3.5k',
+      calculation:
+        '12× Regale à CHF 350 + 6× Kleiderständer à CHF 200 + Kasse CHF 2.5k + Beleuchtung CHF 4k + Beschilderung CHF 2k + Reserve CHF 3.5k',
       confidence: 'medium',
       lastVerified: '2026-02-12',
     },
@@ -107,7 +135,8 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     type: 'einmalig',
     source: {
       methodology: 'Marktpreise für Makerspace-Equipment (Ultimaker, Prusa, Epilog)',
-      calculation: '2× 3D-Drucker à CHF 3.5k + 1× Lasercutter CHF 15k + Lötstationen CHF 4k + CNC-Fräse CHF 8k + Werkzeuge CHF 4.5k',
+      calculation:
+        '2× 3D-Drucker à CHF 3.5k + 1× Lasercutter CHF 15k + Lötstationen CHF 4k + CNC-Fräse CHF 8k + Werkzeuge CHF 4.5k',
       confidence: 'high',
       lastVerified: '2026-02-13',
       notes: 'Preise für neue Geräte mit Garantie; gebrauchte Geräte würden CHF 20-25k kosten',
@@ -118,7 +147,11 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
       { label: '4× Lötstationen (Weller, temperaturgeregelt)', amount: 4_000 },
       { label: '1× CNC-Fräse (Desktop, 300×200mm)', amount: 8_000 },
       { label: 'Elektronik-Werkzeuge (Oszilloskop, Netzgeräte)', amount: 4_500 },
-      { label: 'Verbrauchsmaterial (Filament, Laser-Material)', amount: 2_500, note: 'Erstausstattung für 6 Monate' },
+      {
+        label: 'Verbrauchsmaterial (Filament, Laser-Material)',
+        amount: 2_500,
+        note: 'Erstausstattung für 6 Monate',
+      },
     ],
     icon: '⚙️',
     isOptional: true,
@@ -158,7 +191,8 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     type: 'einmalig',
     source: {
       methodology: 'KMU-Standard IT-Setup',
-      calculation: 'Router/Firewall CHF 2k + WLAN Access Points CHF 3k + Switch CHF 1.5k + Drucker CHF 1.5k + Verkabelung CHF 4k',
+      calculation:
+        'Router/Firewall CHF 2k + WLAN Access Points CHF 3k + Switch CHF 1.5k + Drucker CHF 1.5k + Verkabelung CHF 4k',
       confidence: 'high',
       lastVerified: '2026-02-13',
     },
@@ -171,10 +205,22 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     ],
     icon: '🖥️',
     themeLabels: {
-      klima: { label: 'Betriebsnetzwerk (Refurbishing-Hub)', description: 'Netzwerk-Infrastruktur für Werkstatt und Lager' },
-      sozial: { label: 'IT-Infrastruktur Integrationszentrum', description: 'Netzwerk und Arbeitsplatz-Infrastruktur für Teilnehmende' },
-      bildung: { label: 'Schulungs-IT & Netzwerk', description: 'WLAN, Netzwerk und Drucker für Workshops und Kurse' },
-      digital: { label: 'Souveräne IT-Infrastruktur', description: 'Open-Source-Netzwerk (OPNsense, Ubiquiti) ohne Vendor-Lock-in' },
+      klima: {
+        label: 'Betriebsnetzwerk (Refurbishing-Hub)',
+        description: 'Netzwerk-Infrastruktur für Werkstatt und Lager',
+      },
+      sozial: {
+        label: 'IT-Infrastruktur Integrationszentrum',
+        description: 'Netzwerk und Arbeitsplatz-Infrastruktur für Teilnehmende',
+      },
+      bildung: {
+        label: 'Schulungs-IT & Netzwerk',
+        description: 'WLAN, Netzwerk und Drucker für Workshops und Kurse',
+      },
+      digital: {
+        label: 'Souveräne IT-Infrastruktur',
+        description: 'Open-Source-Netzwerk (OPNsense, Ubiquiti) ohne Vendor-Lock-in',
+      },
     },
   },
 
@@ -187,13 +233,19 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     type: 'einmalig',
     source: {
       methodology: 'Marktpreise für gebrauchte Consumer GPUs (eBay, Ricardo)',
-      calculation: '3× NVIDIA RTX 3090 (gebraucht) à CHF 4k + Server-Rack CHF 3k + Kühlung CHF 2.5k',
+      calculation:
+        '3× NVIDIA RTX 3090 (gebraucht) à CHF 4k + Server-Rack CHF 3k + Kühlung CHF 2.5k',
       confidence: 'high',
       lastVerified: '2026-02-13',
-      notes: 'Setup A ist realistisch ohne Corporate-Spenden, funktioniert für kleine Modelle (Llama 7B, Stable Diffusion)',
+      notes:
+        'Setup A ist realistisch ohne Corporate-Spenden, funktioniert für kleine Modelle (Llama 7B, Stable Diffusion)',
     },
     subItems: [
-      { label: '3× NVIDIA RTX 3090 24GB (gebraucht)', amount: 12_000, note: '~CHF 4k/GPU (Marktpreis Feb 2026)' },
+      {
+        label: '3× NVIDIA RTX 3090 24GB (gebraucht)',
+        amount: 12_000,
+        note: '~CHF 4k/GPU (Marktpreis Feb 2026)',
+      },
       { label: '1× Server-Rack (19", 12HE)', amount: 3_000 },
       { label: 'Kühlung & Verkabelung (Lüfter, PSU)', amount: 2_500 },
     ],
@@ -210,13 +262,19 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     type: 'einmalig',
     source: {
       methodology: 'Marktpreise für Professional GPUs mit 50% Corporate-Spenden-Anteil',
-      calculation: '5× NVIDIA A40 à CHF 6k (50% gespendet, 50% gekauft) + 2× Server-Racks CHF 6k + Klimatisierung CHF 8k + Installation CHF 6k',
+      calculation:
+        '5× NVIDIA A40 à CHF 6k (50% gespendet, 50% gekauft) + 2× Server-Racks CHF 6k + Klimatisierung CHF 8k + Installation CHF 6k',
       confidence: 'medium',
       lastVerified: '2026-02-13',
-      notes: 'Benötigt aktive Corporate-Spenden-Akquise bei Tech-Firmen (Google, Meta, OpenAI, Anthropic)',
+      notes:
+        'Benötigt aktive Corporate-Spenden-Akquise bei Tech-Firmen (Google, Meta, OpenAI, Anthropic)',
     },
     subItems: [
-      { label: '5× NVIDIA A40 GPUs (teilweise gespendet)', amount: 30_000, note: 'A40: 48GB VRAM, ideal für Finetuning' },
+      {
+        label: '5× NVIDIA A40 GPUs (teilweise gespendet)',
+        amount: 30_000,
+        note: 'A40: 48GB VRAM, ideal für Finetuning',
+      },
       { label: '2× Server-Racks mit professioneller Kühlung', amount: 12_000 },
       { label: 'Klimatisierung & Redundanz (Split-Klima)', amount: 8_000 },
     ],
@@ -245,10 +303,22 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     ],
     icon: '👥',
     themeLabels: {
-      klima: { label: 'Fachleitung Kreislaufwirtschafts-Programme (2 Personen)', description: 'Leitung CO\u2082-Reduktion durch Geräte-Refurbishing und Recycling-Prozesse' },
-      sozial: { label: 'Leitung Begleitete Arbeitsintegration (2 Personen)', description: 'Strukturierte IT-Reintegration und sozialpädagogische Begleitung' },
-      bildung: { label: 'Programmleitung Digitale Kompetenzen (2 Personen)', description: 'Konzeption und Durchführung von Workshops und Trainings' },
-      digital: { label: 'Leitung Open-Source & Souveräne IT (2 Personen)', description: 'Aufbau vendor-unabhängiger, datenschutzkonformer IT-Lösungen' },
+      klima: {
+        label: 'Fachleitung Kreislaufwirtschafts-Programme (2 Personen)',
+        description: 'Leitung CO\u2082-Reduktion durch Geräte-Refurbishing und Recycling-Prozesse',
+      },
+      sozial: {
+        label: 'Leitung Begleitete Arbeitsintegration (2 Personen)',
+        description: 'Strukturierte IT-Reintegration und sozialpädagogische Begleitung',
+      },
+      bildung: {
+        label: 'Programmleitung Digitale Kompetenzen (2 Personen)',
+        description: 'Konzeption und Durchführung von Workshops und Trainings',
+      },
+      digital: {
+        label: 'Leitung Open-Source & Souveräne IT (2 Personen)',
+        description: 'Aufbau vendor-unabhängiger, datenschutzkonformer IT-Lösungen',
+      },
     },
   },
 
@@ -274,10 +344,22 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     ],
     icon: '📚',
     themeLabels: {
-      klima: { label: 'Reparatur- und Recycling-Material', description: 'Ersatzteile, Diagnosewerkzeuge und Verbrauchsmaterial für Refurbishing' },
-      sozial: { label: 'Integrations-Programm Material', description: 'Lernmaterial und Übungsgeräte für Praktikant:innen' },
-      bildung: { label: 'Workshop-Materialien & Kursunterlagen', description: 'Elektronik-Kits, Software-Lizenzen und Handouts für Teilnehmende' },
-      digital: { label: 'Open-Source-Schulungsmaterial', description: 'Linux-Übungsgeräte, Dokumentation und Installations-Medien' },
+      klima: {
+        label: 'Reparatur- und Recycling-Material',
+        description: 'Ersatzteile, Diagnosewerkzeuge und Verbrauchsmaterial für Refurbishing',
+      },
+      sozial: {
+        label: 'Integrations-Programm Material',
+        description: 'Lernmaterial und Übungsgeräte für Praktikant:innen',
+      },
+      bildung: {
+        label: 'Workshop-Materialien & Kursunterlagen',
+        description: 'Elektronik-Kits, Software-Lizenzen und Handouts für Teilnehmende',
+      },
+      digital: {
+        label: 'Open-Source-Schulungsmaterial',
+        description: 'Linux-Übungsgeräte, Dokumentation und Installations-Medien',
+      },
     },
   },
 
@@ -303,10 +385,22 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     icon: '🎉',
     isOptional: true,
     themeLabels: {
-      klima: { label: 'Repair Cafés & Nachhaltigkeits-Events', description: 'Community-Reparaturveranstaltungen und Kreislaufwirtschafts-Demos' },
-      sozial: { label: 'Integrations-Events & Netzwerktreffen', description: 'Vernetzung mit Arbeitgebern, RAV und Sozialinstitutionen' },
-      bildung: { label: 'Hack-Nights & Bildungs-Events', description: 'Community-Workshops, Vorträge und Hands-on-Abende' },
-      digital: { label: 'Open-Source-Meetups & Install-Feste', description: 'Linux Install Parties, Open-Source-Demos und Community-Treffen' },
+      klima: {
+        label: 'Repair Cafés & Nachhaltigkeits-Events',
+        description: 'Community-Reparaturveranstaltungen und Kreislaufwirtschafts-Demos',
+      },
+      sozial: {
+        label: 'Integrations-Events & Netzwerktreffen',
+        description: 'Vernetzung mit Arbeitgebern, RAV und Sozialinstitutionen',
+      },
+      bildung: {
+        label: 'Hack-Nights & Bildungs-Events',
+        description: 'Community-Workshops, Vorträge und Hands-on-Abende',
+      },
+      digital: {
+        label: 'Open-Source-Meetups & Install-Feste',
+        description: 'Linux Install Parties, Open-Source-Demos und Community-Treffen',
+      },
     },
   },
 
@@ -349,10 +443,22 @@ export const BUDGET_LINE_ITEMS: BudgetLineItem[] = [
     ],
     icon: '🧹',
     themeLabels: {
-      klima: { label: 'Betriebsmaterial Kreislaufwirtschaft', description: 'Reinigung, Verpackung und Logistikmaterial für Geräte-Kreislauf' },
-      sozial: { label: 'Betriebsmaterial Integrationsbetrieb', description: 'Büro- und Werkstattmaterial für den täglichen Betrieb' },
-      bildung: { label: 'Betriebsmaterial Bildungszentrum', description: 'Verbrauchsmaterial für Workshops, Kurse und Veranstaltungen' },
-      digital: { label: 'Betriebsmaterial Open-Source-Lab', description: 'Installationsmedien, Kabel und Verbrauchsmaterial' },
+      klima: {
+        label: 'Betriebsmaterial Kreislaufwirtschaft',
+        description: 'Reinigung, Verpackung und Logistikmaterial für Geräte-Kreislauf',
+      },
+      sozial: {
+        label: 'Betriebsmaterial Integrationsbetrieb',
+        description: 'Büro- und Werkstattmaterial für den täglichen Betrieb',
+      },
+      bildung: {
+        label: 'Betriebsmaterial Bildungszentrum',
+        description: 'Verbrauchsmaterial für Workshops, Kurse und Veranstaltungen',
+      },
+      digital: {
+        label: 'Betriebsmaterial Open-Source-Lab',
+        description: 'Installationsmedien, Kabel und Verbrauchsmaterial',
+      },
     },
   },
 
@@ -467,17 +573,20 @@ export const BUDGET_SCENARIOS: BudgetScenario[] = [
  */
 export const EIGENLEISTUNG_CONFIG: EigenleistungConfig = {
   label: 'Freiwilligenarbeit (nicht Cash)',
-  description: 'Bewerteter Wert der Freiwilligenarbeit, KEIN Cashflow. Abgeleitet aus Bottom-up Revenue-Modell (REVENUE_STREAMS in fundraising/data.ts). Jahr 3 = CHF 195k entspricht dem 8-Stream-Revenue-Ziel.',
+  description:
+    'Bewerteter Wert der Freiwilligenarbeit, KEIN Cashflow. Abgeleitet aus Bottom-up Revenue-Modell (REVENUE_STREAMS in fundraising/data.ts). Jahr 3 = CHF 195k entspricht dem 8-Stream-Revenue-Ziel.',
   ratePerHour: 35,
   year1: 100_000,
   year2: 140_000,
   year3: 195_000,
   source: {
-    methodology: 'Bottom-up Revenue-Modell: 8 Einnahmequellen (Geräteverkauf, Dienstleistungen, Corporate Placements, Kurse, Integration, Repair Café, AI Hosting, Spenden). KEIN Cashflow — kalkulatorischer Wert der Eigenleistung.',
-    calculation: 'Jahr 1: CHF 100k (current revenue ~60k + growth), Jahr 2: CHF 140k (Hub-Effekt + neue Streams), Jahr 3: CHF 195k (matches REVENUE_STREAMS bottom-up). 3-Jahres-Total: CHF 435k.',
+    methodology:
+      'Bottom-up Revenue-Modell: 8 Einnahmequellen (Geräteverkauf, Dienstleistungen, Corporate Placements, Kurse, Integration, Repair Café, AI Hosting, Spenden). KEIN Cashflow — kalkulatorischer Wert der Eigenleistung.',
+    calculation:
+      'Jahr 1: CHF 100k (current revenue ~60k + growth), Jahr 2: CHF 140k (Hub-Effekt + neue Streams), Jahr 3: CHF 195k (matches REVENUE_STREAMS bottom-up). 3-Jahres-Total: CHF 435k.',
     confidence: 'estimated',
     lastVerified: '2026-02-23',
-    notes: 'Aligned to REVENUE_STREAMS bottom-up model. Honest > optimistic: previous 592k projection was unsubstantiated.',
+    notes:
+      'Aligned to REVENUE_STREAMS bottom-up model. Honest > optimistic: previous 592k projection was unsubstantiated.',
   },
 };
-

@@ -3,7 +3,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { resolveTypeLabel } from '@/lib/config/foundations';
-import { TEMPLATE_TYPES, TEMPLATE_LABELS, getTemplateFoundation } from '@/lib/config/gesuch-templates';
+import {
+  TEMPLATE_TYPES,
+  TEMPLATE_LABELS,
+  getTemplateFoundation,
+} from '@/lib/config/gesuch-templates';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import {
   AnschreibenSection,
@@ -60,10 +64,14 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
       {/* VORLAGE banner + print bar */}
       <div className="mb-8 space-y-3 print:hidden">
         <VorlageBanner title={bannerTitle}>
-          Platzhalterfelder wie <span className="font-mono">[Name der Stiftung]</span> vor dem Versand ersetzen.
+          Platzhalterfelder wie <span className="font-mono">[Name der Stiftung]</span> vor dem
+          Versand ersetzen.
         </VorlageBanner>
         <PrintTipBanner>
-          <Link href={`/fundraising/gesuch-vorlagen/${type}`} className="text-primary hover:underline">
+          <Link
+            href={`/fundraising/gesuch-vorlagen/${type}`}
+            className="text-primary hover:underline"
+          >
             Interaktive Seite
           </Link>
           <Link href="/fundraising/gesuch-vorlagen" className="text-primary hover:underline">

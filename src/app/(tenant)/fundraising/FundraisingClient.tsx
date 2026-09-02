@@ -9,7 +9,12 @@ import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
-import { QUICK_ACTIONS, HERO_STATS, SPACE_TOTAL_WITH_CIRCULATION, PROJECT_YEAR_RANGE } from './data';
+import {
+  QUICK_ACTIONS,
+  HERO_STATS,
+  SPACE_TOTAL_WITH_CIRCULATION,
+  PROJECT_YEAR_RANGE,
+} from './data';
 import Inspectable from './sections/Inspectable';
 import WhyWeNeedFunding from './sections/WhyWeNeedFunding';
 import TwoAsks from './sections/TwoAsks';
@@ -32,7 +37,13 @@ export default function FundraisingClient({ foundations }: { foundations: Founda
 
   const inspectSpace = NumberSources.space_total
     ? metricToInspectorData(NumberSources.space_total, `${SPACE_TOTAL_WITH_CIRCULATION} m²`)
-    : { label: 'Gesamtfläche', value: `${SPACE_TOTAL_WITH_CIRCULATION} m²`, sourceType: 'derived' as const, source: 'SPACE_PLAN', confidence: 'Hoch' };
+    : {
+        label: 'Gesamtfläche',
+        value: `${SPACE_TOTAL_WITH_CIRCULATION} m²`,
+        sourceType: 'derived' as const,
+        source: 'SPACE_PLAN',
+        confidence: 'Hoch',
+      };
 
   return (
     <>
@@ -51,7 +62,9 @@ export default function FundraisingClient({ foundations }: { foundations: Founda
             className="flex items-center justify-between rounded-lg border border-border-default bg-surface-base px-5 py-4 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-raised"
           >
             <span>{label}</span>
-            <span aria-hidden="true" className="text-text-tertiary">→</span>
+            <span aria-hidden="true" className="text-text-tertiary">
+              →
+            </span>
           </Link>
         ))}
       </div>
@@ -67,29 +80,37 @@ export default function FundraisingClient({ foundations }: { foundations: Founda
             &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
           </p>
           <p className="mb-4 text-sm text-text-secondary">
-            Seit {ORG_PROFILE.founded} verbinden wir Kreislaufwirtschaft, Arbeitsintegration und Tech-Bildung unter
-            einem Dach. Auf{' '}
+            Seit {ORG_PROFILE.founded} verbinden wir Kreislaufwirtschaft, Arbeitsintegration und
+            Tech-Bildung unter einem Dach. Auf{' '}
             <Inspectable
               data={inspectSpace}
               inspector={inspector}
               className="underline decoration-dotted decoration-1 underline-offset-2 hover:decoration-solid"
             >
               {SPACE_TOTAL_WITH_CIRCULATION} m²
-            </Inspectable>
-            {' '}bauen wir Werkstatt, Makerspace, AI Lab, Event-/Kulturraum
-            und Museum — ein Ort für nachhaltige Technologie, souveräne KI und Community.
+            </Inspectable>{' '}
+            bauen wir Werkstatt, Makerspace, AI Lab, Event-/Kulturraum und Museum — ein Ort für
+            nachhaltige Technologie, souveräne KI und Community.
           </p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {HERO_STATS.map((item) => (
-              <div key={item.label} className="rounded-lg border border-border-subtle bg-surface-base p-4 text-center">
-                <div className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">{item.label}</div>
+              <div
+                key={item.label}
+                className="rounded-lg border border-border-subtle bg-surface-base p-4 text-center"
+              >
+                <div className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">
+                  {item.label}
+                </div>
                 <div className="heading-section mt-1">{item.value}</div>
                 <div className="text-xs text-text-secondary mt-0.5">{item.sub}</div>
               </div>
             ))}
           </div>
           <div className="mt-4">
-            <Link href="/strategie#community-tech-space" className="text-sm font-medium text-primary hover:underline">
+            <Link
+              href="/strategie#community-tech-space"
+              className="text-sm font-medium text-primary hover:underline"
+            >
               Vollständige Vision & Strategie →
             </Link>
           </div>

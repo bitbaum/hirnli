@@ -45,7 +45,9 @@ export function fetchRaw(url: string, redirectCount = 0): Promise<string> {
           const absolute = redirectUrl.startsWith('http')
             ? redirectUrl
             : new URL(redirectUrl, url).href;
-          fetchRaw(absolute, redirectCount + 1).then(resolve).catch(reject);
+          fetchRaw(absolute, redirectCount + 1)
+            .then(resolve)
+            .catch(reject);
           return;
         }
       }
@@ -56,7 +58,9 @@ export function fetchRaw(url: string, redirectCount = 0): Promise<string> {
       }
 
       let data = '';
-      response.on('data', (chunk: Buffer) => { data += chunk; });
+      response.on('data', (chunk: Buffer) => {
+        data += chunk;
+      });
       response.on('end', () => resolve(data));
     });
 
@@ -72,24 +76,26 @@ export function fetchRaw(url: string, redirectCount = 0): Promise<string> {
  * Strip HTML tags, scripts, styles, and normalize whitespace.
  */
 export function stripHtml(html: string): string {
-  return html
-    // Remove script/style blocks entirely
-    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-    // Remove HTML comments
-    .replace(/<!--[\s\S]*?-->/g, '')
-    // Remove all remaining tags
-    .replace(/<[^>]+>/g, ' ')
-    // Decode common HTML entities
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    // Collapse whitespace
-    .replace(/\s+/g, ' ')
-    .trim();
+  return (
+    html
+      // Remove script/style blocks entirely
+      .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+      // Remove HTML comments
+      .replace(/<!--[\s\S]*?-->/g, '')
+      // Remove all remaining tags
+      .replace(/<[^>]+>/g, ' ')
+      // Decode common HTML entities
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      // Collapse whitespace
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 
 /**
@@ -98,7 +104,12 @@ export function stripHtml(html: string): string {
  */
 export function headRequest(url: string, redirectCount = 0): Promise<HeadResult> {
   if (redirectCount > 5) {
-    return Promise.resolve({ ok: false, statusCode: 0, finalUrl: url, error: 'Too many redirects' });
+    return Promise.resolve({
+      ok: false,
+      statusCode: 0,
+      finalUrl: url,
+      error: 'Too many redirects',
+    });
   }
 
   const client = url.startsWith('https') ? https : http;
@@ -130,7 +141,12 @@ export function headRequest(url: string, redirectCount = 0): Promise<HeadResult>
     });
     req.on('timeout', () => {
       req.destroy();
-      resolve({ ok: false, statusCode: 0, finalUrl: url, error: `Timeout after ${HEAD_TIMEOUT_MS}ms` });
+      resolve({
+        ok: false,
+        statusCode: 0,
+        finalUrl: url,
+        error: `Timeout after ${HEAD_TIMEOUT_MS}ms`,
+      });
     });
     req.end();
   });

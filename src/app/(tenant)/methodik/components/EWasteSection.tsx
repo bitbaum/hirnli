@@ -18,7 +18,8 @@ export function EWasteSection() {
       </p>
 
       <FormulaBox>
-        <strong>Formel:</strong><br />
+        <strong>Formel:</strong>
+        <br />
         E-Waste vermieden = Geschätzte Geräte &times; 5 kg/Gerät
       </FormulaBox>
 

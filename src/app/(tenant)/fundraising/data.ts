@@ -2,7 +2,12 @@ import { CORE_FACTS, SOCIAL_DISPLAY } from '@/lib/config/stories';
 import { getScenario, getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { SPACE_SUMMARY, HUB_SPACE_AREAS, STORAGE_AREA, LOADING_AREA } from '@/lib/config/hub-space-plan';
+import {
+  SPACE_SUMMARY,
+  HUB_SPACE_AREAS,
+  STORAGE_AREA,
+  LOADING_AREA,
+} from '@/lib/config/hub-space-plan';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { Foundation, FoundationStatus } from '@/lib/schemas/foundation';
 import { MS_PER_DAY } from '@/lib/utils/time';
@@ -64,16 +69,27 @@ if (!MODERATE_SCENARIO) {
 
 const MODERATE_LINE_ITEMS = getLineItemsForScenario('moderate');
 
-export const BUDGET_EINMALIG: BudgetLineItem[] = MODERATE_LINE_ITEMS.filter((m) => m.type === 'einmalig');
-export const BUDGET_JAEHRLICH: BudgetLineItem[] = MODERATE_LINE_ITEMS.filter((m) => m.type === 'jaehrlich');
+export const BUDGET_EINMALIG: BudgetLineItem[] = MODERATE_LINE_ITEMS.filter(
+  (m) => m.type === 'einmalig',
+);
+export const BUDGET_JAEHRLICH: BudgetLineItem[] = MODERATE_LINE_ITEMS.filter(
+  (m) => m.type === 'jaehrlich',
+);
 export const BUDGET_EINMALIG_TOTAL = BUDGET_EINMALIG.reduce((sum, m) => sum + m.amount, 0);
 export const BUDGET_JAEHRLICH_TOTAL = BUDGET_JAEHRLICH.reduce((sum, m) => sum + m.amount, 0);
 
 export const BUDGET_SUMMARY = {
   total: BUDGET_EINMALIG_TOTAL + BUDGET_JAEHRLICH_TOTAL,
   eigenleistung: MODERATE_SCENARIO.threeYearModel.year1.eigenleistung,
-  foerderbedarf: (BUDGET_EINMALIG_TOTAL + BUDGET_JAEHRLICH_TOTAL) - MODERATE_SCENARIO.threeYearModel.year1.eigenleistung,
-  selfFinancingPct: Math.round((MODERATE_SCENARIO.threeYearModel.year1.eigenleistung / (BUDGET_EINMALIG_TOTAL + BUDGET_JAEHRLICH_TOTAL)) * 100),
+  foerderbedarf:
+    BUDGET_EINMALIG_TOTAL +
+    BUDGET_JAEHRLICH_TOTAL -
+    MODERATE_SCENARIO.threeYearModel.year1.eigenleistung,
+  selfFinancingPct: Math.round(
+    (MODERATE_SCENARIO.threeYearModel.year1.eigenleistung /
+      (BUDGET_EINMALIG_TOTAL + BUDGET_JAEHRLICH_TOTAL)) *
+      100,
+  ),
 };
 
 // -- 3-Year Budget Summary (the REAL numbers foundations see) -------------------
@@ -94,19 +110,53 @@ export const QUICK_ACTIONS = [
 /** Built at render time — foundation count comes from the DB read layer, not a module-scope import. */
 export function buildResources(foundationCount: number) {
   return [
-    { href: '/api/documents/pitch-deck', label: 'Pitch Deck (PDF)', description: '8-Folien-Präsentation für Stiftungen', external: true },
-    { href: '/api/documents/impact-report', label: 'Wirkungsbericht (PDF)', description: 'Jährlicher Impact-Report, 2 Seiten', external: true },
-    { href: '/wirkung', label: 'Impact-Zahlen', description: 'Interaktive Wirkungsseite mit Quellen', external: false },
-    { href: '/fundraising/stiftungen', label: 'Stiftungen', description: `${foundationCount} Förderer mit Fit-Score`, external: false },
-    { href: '/finanzen', label: 'Finanzdaten', description: 'Kivitendo-Daten visualisiert', external: false },
-    { href: '/dokumente', label: 'Alle Dokumente', description: 'Gesuche, Vorlagen, Exporte', external: false },
+    {
+      href: '/api/documents/pitch-deck',
+      label: 'Pitch Deck (PDF)',
+      description: '8-Folien-Präsentation für Stiftungen',
+      external: true,
+    },
+    {
+      href: '/api/documents/impact-report',
+      label: 'Wirkungsbericht (PDF)',
+      description: 'Jährlicher Impact-Report, 2 Seiten',
+      external: true,
+    },
+    {
+      href: '/wirkung',
+      label: 'Impact-Zahlen',
+      description: 'Interaktive Wirkungsseite mit Quellen',
+      external: false,
+    },
+    {
+      href: '/fundraising/stiftungen',
+      label: 'Stiftungen',
+      description: `${foundationCount} Förderer mit Fit-Score`,
+      external: false,
+    },
+    {
+      href: '/finanzen',
+      label: 'Finanzdaten',
+      description: 'Kivitendo-Daten visualisiert',
+      external: false,
+    },
+    {
+      href: '/dokumente',
+      label: 'Alle Dokumente',
+      description: 'Gesuche, Vorlagen, Exporte',
+      external: false,
+    },
   ] as const;
 }
 
 // -- HERO_STATS — derived from CORE_FACTS (SSOT) -----------------------------
 
 export const HERO_STATS = [
-  { label: 'Ökologie', value: `${CORE_FACTS.metrics.environmental.co2_per_laptop} kg`, sub: 'CO2 pro Laptop gespart' },
+  {
+    label: 'Ökologie',
+    value: `${CORE_FACTS.metrics.environmental.co2_per_laptop} kg`,
+    sub: 'CO2 pro Laptop gespart',
+  },
   { label: 'Soziales', value: SOCIAL_DISPLAY.practitioners_total, sub: 'Menschen begleitet' },
   { label: 'Bildung', value: `${ORG_PROFILE.yearsActive}+`, sub: 'Jahre Erfahrung' },
 ] as const;
@@ -116,29 +166,53 @@ export const HERO_STATS = [
 // Excludes circulation (corridors, bathrooms) — shown separately as note.
 
 const SPACE_AREA_MAP: Record<string, { area: string; description: string }> = {
-  'Shop & Customer Area': { area: 'Shop & Empfang', description: 'Verkauf, Geräte-Annahme, Beratung, Wartebereich' },
-  'Refurbishment Workshop': { area: 'Werkstatt & Reparatur', description: '6-8 Arbeitsplätze, Test & Datenlöschung, QA, Ersatzteile' },
-  'Office & Meeting Spaces': { area: 'Büro & Besprechung', description: '5 Arbeitsplätze (Kern + BPL), Sitzungszimmer' },
-  'Makerspace & Hackerspace': { area: 'Makerspace & Hackerspace', description: '3D-Drucker, Lötstationen, Laser Cutter, Tool Library' },
-  'AI Lab (Server Room)': { area: 'AI Lab / Serverraum', description: 'GPU-Cluster, klimatisiert, Netzwerk-Infrastruktur' },
-  'Training & Course Room': { area: 'Schulungsraum', description: '20 Plätze, Beamer, Übungsrechner, Corporate Training' },
-  'Event Space + Community Café (MULTI-PURPOSE)': { area: 'Event-/Kulturraum & Café', description: 'Tags: Café. Abends: Konzerte, Talks, Filmabende. Repair Café 2×/Monat' },
+  'Shop & Customer Area': {
+    area: 'Shop & Empfang',
+    description: 'Verkauf, Geräte-Annahme, Beratung, Wartebereich',
+  },
+  'Refurbishment Workshop': {
+    area: 'Werkstatt & Reparatur',
+    description: '6-8 Arbeitsplätze, Test & Datenlöschung, QA, Ersatzteile',
+  },
+  'Office & Meeting Spaces': {
+    area: 'Büro & Besprechung',
+    description: '5 Arbeitsplätze (Kern + BPL), Sitzungszimmer',
+  },
+  'Makerspace & Hackerspace': {
+    area: 'Makerspace & Hackerspace',
+    description: '3D-Drucker, Lötstationen, Laser Cutter, Tool Library',
+  },
+  'AI Lab (Server Room)': {
+    area: 'AI Lab / Serverraum',
+    description: 'GPU-Cluster, klimatisiert, Netzwerk-Infrastruktur',
+  },
+  'Training & Course Room': {
+    area: 'Schulungsraum',
+    description: '20 Plätze, Beamer, Übungsrechner, Corporate Training',
+  },
+  'Event Space + Community Café (MULTI-PURPOSE)': {
+    area: 'Event-/Kulturraum & Café',
+    description: 'Tags: Café. Abends: Konzerte, Talks, Filmabende. Repair Café 2×/Monat',
+  },
 };
 
 // Storage & Logistics + Loading & Delivery Zone → combined as one display area
-const STORAGE_COMBINED_SQM = (STORAGE_AREA?.sqm_recommended ?? 0) + (LOADING_AREA?.sqm_recommended ?? 0);
+const STORAGE_COMBINED_SQM =
+  (STORAGE_AREA?.sqm_recommended ?? 0) + (LOADING_AREA?.sqm_recommended ?? 0);
 
 export const SPACE_PLAN = [
   // Combined storage area first (as it was in the original layout)
-  { area: 'Lager & Logistik', sqm: STORAGE_COMBINED_SQM, description: 'Eingang/Triage, Ersatzteile, Fertigware, Laderampe, Recycling-Staging' },
+  {
+    area: 'Lager & Logistik',
+    sqm: STORAGE_COMBINED_SQM,
+    description: 'Eingang/Triage, Ersatzteile, Fertigware, Laderampe, Recycling-Staging',
+  },
   // Individual areas from SSOT
-  ...HUB_SPACE_AREAS
-    .filter(a => a.name in SPACE_AREA_MAP)
-    .map(a => ({
-      area: SPACE_AREA_MAP[a.name].area,
-      sqm: a.sqm_recommended,
-      description: SPACE_AREA_MAP[a.name].description,
-    })),
+  ...HUB_SPACE_AREAS.filter((a) => a.name in SPACE_AREA_MAP).map((a) => ({
+    area: SPACE_AREA_MAP[a.name].area,
+    sqm: a.sqm_recommended,
+    description: SPACE_AREA_MAP[a.name].description,
+  })),
 ];
 
 export const SPACE_PLAN_TOTAL = SPACE_SUMMARY.total_usable; // ~590m² — derived from hub-space-plan.ts (excludes circulation)
@@ -163,8 +237,8 @@ const Y1_EIGEN = MODERATE_SCENARIO.threeYearModel.year1.eigenleistung;
 //   modelling progressive self-sufficiency. This is the standard Swiss
 //   degressive funding model for 3-year foundation grants.
 const DEGRESSIVE_CONFIG = {
-  year2: { stiftungenPct: 0.745, eigenGrowth: 40_000 },   // 74.5% of Y1 stiftungen; eigen: 100k + 40k = 140k
-  year3: { stiftungenPct: 0.478, eigenGrowth: 95_000 },   // 47.8% of Y1 stiftungen; eigen: 100k + 95k = 195k
+  year2: { stiftungenPct: 0.745, eigenGrowth: 40_000 }, // 74.5% of Y1 stiftungen; eigen: 100k + 40k = 140k
+  year3: { stiftungenPct: 0.478, eigenGrowth: 95_000 }, // 47.8% of Y1 stiftungen; eigen: 100k + 95k = 195k
 } as const;
 
 export const THREE_YEAR_MODEL = [
@@ -181,7 +255,10 @@ export const THREE_YEAR_MODEL = [
     einmalig: 0,
     stiftungen: Math.round(Y1_STIFTUNGEN * DEGRESSIVE_CONFIG.year2.stiftungenPct),
     eigen: Y1_EIGEN + DEGRESSIVE_CONFIG.year2.eigenGrowth,
-    total: Math.round(Y1_STIFTUNGEN * DEGRESSIVE_CONFIG.year2.stiftungenPct) + Y1_EIGEN + DEGRESSIVE_CONFIG.year2.eigenGrowth,
+    total:
+      Math.round(Y1_STIFTUNGEN * DEGRESSIVE_CONFIG.year2.stiftungenPct) +
+      Y1_EIGEN +
+      DEGRESSIVE_CONFIG.year2.eigenGrowth,
     label: 'Wachstum' as const,
   },
   {
@@ -189,13 +266,19 @@ export const THREE_YEAR_MODEL = [
     einmalig: 0,
     stiftungen: Math.round(Y1_STIFTUNGEN * DEGRESSIVE_CONFIG.year3.stiftungenPct),
     eigen: Y1_EIGEN + DEGRESSIVE_CONFIG.year3.eigenGrowth,
-    total: Math.round(Y1_STIFTUNGEN * DEGRESSIVE_CONFIG.year3.stiftungenPct) + Y1_EIGEN + DEGRESSIVE_CONFIG.year3.eigenGrowth,
+    total:
+      Math.round(Y1_STIFTUNGEN * DEGRESSIVE_CONFIG.year3.stiftungenPct) +
+      Y1_EIGEN +
+      DEGRESSIVE_CONFIG.year3.eigenGrowth,
     label: 'Verselbständigung' as const,
   },
 ];
 
 // Derived 3-year totals — unambiguous headline numbers
-export const STIFTUNGEN_3Y_TOTAL = THREE_YEAR_MODEL.reduce((sum, y) => sum + y.stiftungen + y.einmalig, 0);
+export const STIFTUNGEN_3Y_TOTAL = THREE_YEAR_MODEL.reduce(
+  (sum, y) => sum + y.stiftungen + y.einmalig,
+  0,
+);
 export const EIGEN_3Y_TOTAL = THREE_YEAR_MODEL.reduce((sum, y) => sum + y.eigen, 0);
 export const PROJECT_3Y_TOTAL = THREE_YEAR_MODEL.reduce((sum, y) => sum + y.total, 0);
 const STIFTUNGEN_Y1 = THREE_YEAR_MODEL[0].stiftungen + THREE_YEAR_MODEL[0].einmalig;
@@ -206,22 +289,22 @@ export const REDUCTION_PCT = Math.round((1 - STIFTUNGEN_Y3 / STIFTUNGEN_Y1) * 10
 // Source: Erfolgsrechnung per account (Kivitendo rp.pl → generate_income_statement)
 export const FINANCIAL_CONTEXT = {
   // Dienstleistungen (3400) — the category that crashed
-  services_2022: 80080,       // Erfolgsrechnung 3400 (2022): 80'080.10
-  services_2023: 75342,       // Erfolgsrechnung 3400 (2023): 75'341.70
-  services_2024: 84974,       // Erfolgsrechnung 3400 (2024): 84'973.55
-  services_2025: 27573,       // Erfolgsrechnung 3400 (2025): 27'572.97 — FULL YEAR
+  services_2022: 80080, // Erfolgsrechnung 3400 (2022): 80'080.10
+  services_2023: 75342, // Erfolgsrechnung 3400 (2023): 75'341.70
+  services_2024: 84974, // Erfolgsrechnung 3400 (2024): 84'973.55
+  services_2025: 27573, // Erfolgsrechnung 3400 (2025): 27'572.97 — FULL YEAR
   services_avg_2022_23: 77711, // (80080 + 75342) / 2
-  decline_pct: 65,            // (77711 - 27573) / 77711 × 100 ≈ 64.5% → round to 65%
+  decline_pct: 65, // (77711 - 27573) / 77711 × 100 ≈ 64.5% → round to 65%
   // Warenverkauf (3100)
-  warenverkauf_2022: 35441,   // Erfolgsrechnung 3100 (2022): 35'441.03
-  warenverkauf_2023: 36997,   // Erfolgsrechnung 3100 (2023): 36'997.19
-  warenverkauf_2024: 23135,   // Erfolgsrechnung 3100 (2024): 23'135.36
-  warenverkauf_2025: 22086,   // Erfolgsrechnung 3100 (2025): 22'086.27
+  warenverkauf_2022: 35441, // Erfolgsrechnung 3100 (2022): 35'441.03
+  warenverkauf_2023: 36997, // Erfolgsrechnung 3100 (2023): 36'997.19
+  warenverkauf_2024: 23135, // Erfolgsrechnung 3100 (2024): 23'135.36
+  warenverkauf_2025: 22086, // Erfolgsrechnung 3100 (2025): 22'086.27
   // Totals (from Erfolgsrechnung — includes ALL revenue accounts)
-  total_2022: 129920,         // Erfolgsrechnung 2022: 129'919.96
-  total_2023: 134450,         // Erfolgsrechnung 2023: 134'450.11
-  total_2024: 119274,         // Erfolgsrechnung 2024: 119'274.13
-  total_2025: 60402,          // Erfolgsrechnung 2025:  60'401.93 — FULL YEAR
+  total_2022: 129920, // Erfolgsrechnung 2022: 129'919.96
+  total_2023: 134450, // Erfolgsrechnung 2023: 134'450.11
+  total_2024: 119274, // Erfolgsrechnung 2024: 119'274.13
+  total_2025: 60402, // Erfolgsrechnung 2025:  60'401.93 — FULL YEAR
 } as const;
 
 // Display helpers for services revenue drop narrative
@@ -250,7 +333,12 @@ export const COST_STRUCTURE_2023 = {
   result: -25217,
   categories: [
     { label: 'Miete', amount: 76934, color: 'bg-danger', pctOfExpenses: 48.2 },
-    { label: 'Personal (Löhne, Sozial, Bildung)', amount: 48075, color: 'bg-primary', pctOfExpenses: 30.1 },
+    {
+      label: 'Personal (Löhne, Sozial, Bildung)',
+      amount: 48075,
+      color: 'bg-primary',
+      pctOfExpenses: 30.1,
+    },
     { label: 'Abschreibungen', amount: 10000, color: 'bg-grey-medium', pctOfExpenses: 6.3 },
     { label: 'IT & Kommunikation', amount: 8584, color: 'bg-chart-5', pctOfExpenses: 5.4 },
     { label: 'Material & Dienstleistungen', amount: 8857, color: 'bg-amber', pctOfExpenses: 5.5 },
@@ -262,11 +350,11 @@ export const COST_STRUCTURE_2023 = {
 // -- Track Record (verified from Kivitendo operational data) ------------------
 export const TRACK_RECORD = {
   yearsActive: new Date().getFullYear() - CORE_FACTS.organization.founded,
-  totalInvoices: 2777,      // rechnungen_ar_invoices.csv
-  totalCustomers: 5803,     // kunden_customers.csv
-  productsInCatalog: 4134,  // artikel_products.csv
-  deliveryNotes: 1012,      // lieferscheine_delivery_notes.csv
-  quoteConversion: 92.6,    // angebote_quotes.csv (162/175 converted)
+  totalInvoices: 2777, // rechnungen_ar_invoices.csv
+  totalCustomers: 5803, // kunden_customers.csv
+  productsInCatalog: 4134, // artikel_products.csv
+  deliveryNotes: 1012, // lieferscheine_delivery_notes.csv
+  quoteConversion: 92.6, // angebote_quotes.csv (162/175 converted)
   source: 'Kivitendo ERP, verifiziert 11.02.2026',
 } as const;
 
@@ -276,22 +364,62 @@ export const TRACK_RECORD = {
 // Year 3 projections assume Hub exists with 650 m², new programs, and diversified income.
 
 export const REVENUE_STREAMS = [
-  { source: 'Geräteverkauf', current: 22000, year3: 45000,
-    rationale: 'Kivitendo 3100: CHF 22k (2025), 23k (2024), 37k (2023). Grösserer Shop im Hub mit mehr Laufkundschaft. Ziel: Rückkehr auf 2023-Niveau + 20%.' },
-  { source: 'Dienstleistungen & IT-Services', current: 28000, year3: 55000,
-    rationale: 'Kivitendo 3400: Einbruch von 80k (2022) auf 28k (2025) durch Verlust von B2B-Hosting-Kunden. Diversifizierung: KMU-Support, Reparaturen, IT-Beratung statt Grosskundenabhängigkeit.' },
-  { source: 'Corporate Placements', current: 0, year3: 30000,
-    rationale: 'Neu. 2-3 Firmen-Platzierungen à CHF 10-15k/Jahr. Modell: Outplacement/Reintegration für Unternehmen.' },
-  { source: 'Kursgebühren & Workshops', current: 0, year3: 20000,
-    rationale: 'Neu. Schulungsraum (40 m², 15-20 Plätze) ermöglicht 2-3 Kurse/Monat à CHF 50-100. Hardware-Repair, Linux, Digital Literacy.' },
-  { source: 'Integration (RAV/IV)', current: 0, year3: 15000,
-    rationale: 'Kivitendo 3450: CHF 10.5k (2023), 4.5k (2024), 0 (2025). Hub bietet 5-8 statt 2-3 Plätze. RAV/IV-Beiträge steigen proportional.' },
-  { source: 'Repair Café & Raumvermietung', current: 0, year3: 15000,
-    rationale: 'Neu. Event-/Kulturraum 80 m²: monatliches Repair Café + Raumvermietung für externe Veranstaltungen.' },
-  { source: 'AI Hosting & Digitale Souveränität', current: 0, year3: 10000,
-    rationale: 'Neu. GPU-Cluster für souveränes KI-Hosting. Start mit 2-3 Schweizer KMU-Pilotkunden über bestehendes Netzwerk.' },
-  { source: 'Spenden & Mitgliederbeiträge', current: 800, year3: 5000,
-    rationale: 'Kivitendo 3500: CHF 762 (2025), 10k (2023). Community-Hub mit Events und Sichtbarkeit soll Spendenbereitschaft auf 2023-Niveau heben.' },
+  {
+    source: 'Geräteverkauf',
+    current: 22000,
+    year3: 45000,
+    rationale:
+      'Kivitendo 3100: CHF 22k (2025), 23k (2024), 37k (2023). Grösserer Shop im Hub mit mehr Laufkundschaft. Ziel: Rückkehr auf 2023-Niveau + 20%.',
+  },
+  {
+    source: 'Dienstleistungen & IT-Services',
+    current: 28000,
+    year3: 55000,
+    rationale:
+      'Kivitendo 3400: Einbruch von 80k (2022) auf 28k (2025) durch Verlust von B2B-Hosting-Kunden. Diversifizierung: KMU-Support, Reparaturen, IT-Beratung statt Grosskundenabhängigkeit.',
+  },
+  {
+    source: 'Corporate Placements',
+    current: 0,
+    year3: 30000,
+    rationale:
+      'Neu. 2-3 Firmen-Platzierungen à CHF 10-15k/Jahr. Modell: Outplacement/Reintegration für Unternehmen.',
+  },
+  {
+    source: 'Kursgebühren & Workshops',
+    current: 0,
+    year3: 20000,
+    rationale:
+      'Neu. Schulungsraum (40 m², 15-20 Plätze) ermöglicht 2-3 Kurse/Monat à CHF 50-100. Hardware-Repair, Linux, Digital Literacy.',
+  },
+  {
+    source: 'Integration (RAV/IV)',
+    current: 0,
+    year3: 15000,
+    rationale:
+      'Kivitendo 3450: CHF 10.5k (2023), 4.5k (2024), 0 (2025). Hub bietet 5-8 statt 2-3 Plätze. RAV/IV-Beiträge steigen proportional.',
+  },
+  {
+    source: 'Repair Café & Raumvermietung',
+    current: 0,
+    year3: 15000,
+    rationale:
+      'Neu. Event-/Kulturraum 80 m²: monatliches Repair Café + Raumvermietung für externe Veranstaltungen.',
+  },
+  {
+    source: 'AI Hosting & Digitale Souveränität',
+    current: 0,
+    year3: 10000,
+    rationale:
+      'Neu. GPU-Cluster für souveränes KI-Hosting. Start mit 2-3 Schweizer KMU-Pilotkunden über bestehendes Netzwerk.',
+  },
+  {
+    source: 'Spenden & Mitgliederbeiträge',
+    current: 800,
+    year3: 5000,
+    rationale:
+      'Kivitendo 3500: CHF 762 (2025), 10k (2023). Community-Hub mit Events und Sichtbarkeit soll Spendenbereitschaft auf 2023-Niveau heben.',
+  },
 ] as const;
 
 export const REVENUE_CURRENT_TOTAL = REVENUE_STREAMS.reduce((sum, r) => sum + r.current, 0);
@@ -299,9 +427,21 @@ export const REVENUE_YEAR3_TOTAL = REVENUE_STREAMS.reduce((sum, r) => sum + r.ye
 
 // Display config for 3-year model cards (color scheme + description per year)
 export const THREE_YEAR_DISPLAY = [
-  { border: 'border-primary/20', text: 'text-primary', description: 'Aufbau: Hub-Einrichtung + Team-Rekrutierung' },
-  { border: 'border-pillar-vision/20', text: 'text-pillar-vision', description: 'Wachstum: Revenue steigt, Stiftungen sinken' },
-  { border: 'border-success/20', text: 'text-success', description: `Verselbständigung: Revenue ${formatCHF(REVENUE_YEAR3_TOTAL)}, Operations zunehmend selbsttragend` },
+  {
+    border: 'border-primary/20',
+    text: 'text-primary',
+    description: 'Aufbau: Hub-Einrichtung + Team-Rekrutierung',
+  },
+  {
+    border: 'border-pillar-vision/20',
+    text: 'text-pillar-vision',
+    description: 'Wachstum: Revenue steigt, Stiftungen sinken',
+  },
+  {
+    border: 'border-success/20',
+    text: 'text-success',
+    description: `Verselbständigung: Revenue ${formatCHF(REVENUE_YEAR3_TOTAL)}, Operations zunehmend selbsttragend`,
+  },
 ] as const;
 
 export const NEXT_STEPS = [

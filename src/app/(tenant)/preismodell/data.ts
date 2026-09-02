@@ -94,11 +94,41 @@ export interface PriceExampleRow {
 }
 
 export const PRICE_EXAMPLES: PriceExampleRow[] = [
-  { tier: 'Gratis', calculation: 'Auf Antrag', price: 'CHF 0', source: 'Vorstand', sourceType: 'decision' },
-  { tier: 'KulturLegi', calculation: 'CHF 200 x 0.5', price: 'CHF 100', source: 'Vorstand', sourceType: 'decision' },
-  { tier: 'Normal', calculation: 'Marktvergleich', price: 'CHF 200', source: 'Marktdaten', sourceType: 'derived' },
-  { tier: 'Supporter +20%', calculation: 'CHF 200 x 1.2', price: 'CHF 240', source: 'Vorstand', sourceType: 'decision' },
-  { tier: 'Supporter +50%', calculation: 'CHF 200 x 1.5', price: 'CHF 300', source: 'Vorstand', sourceType: 'decision' },
+  {
+    tier: 'Gratis',
+    calculation: 'Auf Antrag',
+    price: 'CHF 0',
+    source: 'Vorstand',
+    sourceType: 'decision',
+  },
+  {
+    tier: 'KulturLegi',
+    calculation: 'CHF 200 x 0.5',
+    price: 'CHF 100',
+    source: 'Vorstand',
+    sourceType: 'decision',
+  },
+  {
+    tier: 'Normal',
+    calculation: 'Marktvergleich',
+    price: 'CHF 200',
+    source: 'Marktdaten',
+    sourceType: 'derived',
+  },
+  {
+    tier: 'Supporter +20%',
+    calculation: 'CHF 200 x 1.2',
+    price: 'CHF 240',
+    source: 'Vorstand',
+    sourceType: 'decision',
+  },
+  {
+    tier: 'Supporter +50%',
+    calculation: 'CHF 200 x 1.5',
+    price: 'CHF 300',
+    source: 'Vorstand',
+    sourceType: 'decision',
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -139,8 +169,16 @@ export const KPI_DATA: KPIRow[] = [
 
 export const PROCESS_STEPS = [
   { step: 1, title: 'Anfrage', description: 'Formlos per E-Mail, Formular oder direkt im Laden' },
-  { step: 2, title: 'Begründung', description: 'Kurz erklären, warum du ein Gratis-Gerät brauchst' },
-  { step: 3, title: 'Entscheidung', description: 'Team entscheidet unbürokratisch auf Vertrauensbasis' },
+  {
+    step: 2,
+    title: 'Begründung',
+    description: 'Kurz erklären, warum du ein Gratis-Gerät brauchst',
+  },
+  {
+    step: 3,
+    title: 'Entscheidung',
+    description: 'Team entscheidet unbürokratisch auf Vertrauensbasis',
+  },
   { step: 4, title: 'Abholung', description: 'Gerät abholen oder Lieferung vereinbaren' },
 ];
 
@@ -170,8 +208,7 @@ export const FAQ_ITEMS = [
   },
   {
     question: 'Werden Supporter-Käufer:innen speziell ausgewiesen?',
-    answer:
-      'Nein. Wir führen keine öffentliche Liste. Dein solidarischer Beitrag bleibt anonym.',
+    answer: 'Nein. Wir führen keine öffentliche Liste. Dein solidarischer Beitrag bleibt anonym.',
   },
   {
     question: 'Gilt das Modell auch für Dienstleistungen (Reparaturen)?',

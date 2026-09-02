@@ -8,33 +8,33 @@ export default function PrinciplesSection() {
         <Card>
           <h3 className="mb-2 heading-item">Günstigstes Signal zuerst</h3>
           <p className="text-sm text-text-secondary">
-            Jede Stufe ist billiger als die nächste. Keyword-Matching kostet nichts,
-            KI-Analyse kostet wenig, Tiefenrecherche kostet am meisten. Wir eliminieren
-            so viel wie möglich, bevor wir Ressourcen investieren.
+            Jede Stufe ist billiger als die nächste. Keyword-Matching kostet nichts, KI-Analyse
+            kostet wenig, Tiefenrecherche kostet am meisten. Wir eliminieren so viel wie möglich,
+            bevor wir Ressourcen investieren.
           </p>
         </Card>
         <Card>
           <h3 className="mb-2 heading-item">Nie verschlechtern</h3>
           <p className="text-sm text-text-secondary">
-            Neue Daten können einen Fit-Score nur verbessern, nie verschlechtern.
-            Prioritäten können nur steigen, nie sinken. Bereits recherchierte Stiftungen
-            werden nie auf eine niedrigere Stufe zurückgesetzt.
+            Neue Daten können einen Fit-Score nur verbessern, nie verschlechtern. Prioritäten können
+            nur steigen, nie sinken. Bereits recherchierte Stiftungen werden nie auf eine niedrigere
+            Stufe zurückgesetzt.
           </p>
         </Card>
         <Card>
           <h3 className="mb-2 heading-item">Inspizierbar</h3>
           <p className="text-sm text-text-secondary">
-            Jeder Score und jede Stufe ist auf der Stiftungs-Detailseite einsehbar.
-            Welche Checks bestanden haben, welche Felder fehlen, warum die Priorität
-            so ist wie sie ist. Keine Black Boxes.
+            Jeder Score und jede Stufe ist auf der Stiftungs-Detailseite einsehbar. Welche Checks
+            bestanden haben, welche Felder fehlen, warum die Priorität so ist wie sie ist. Keine
+            Black Boxes.
           </p>
         </Card>
         <Card>
           <h3 className="mb-2 heading-item">Wiederholbar</h3>
           <p className="text-sm text-text-secondary">
-            Der gesamte Trichter ist idempotent — er kann jederzeit erneut ausgeführt werden,
-            ohne bestehende Daten zu beschädigen. Neue Register-Daten werden automatisch
-            in den Trichter aufgenommen.
+            Der gesamte Trichter ist idempotent — er kann jederzeit erneut ausgeführt werden, ohne
+            bestehende Daten zu beschädigen. Neue Register-Daten werden automatisch in den Trichter
+            aufgenommen.
           </p>
         </Card>
       </div>

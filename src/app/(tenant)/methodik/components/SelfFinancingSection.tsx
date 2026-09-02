@@ -15,20 +15,28 @@ export function SelfFinancingSection() {
       confidenceNote="(Berechnung aus Quelldaten)"
     >
       <p className="mb-4 text-sm text-text-secondary">
-        Der Eigenfinanzierungsgrad zeigt, wie viel der Einnahmen durch eigene
-        Wirtschaftstätigkeit erwirtschaftet wird (ohne Spenden).
+        Der Eigenfinanzierungsgrad zeigt, wie viel der Einnahmen durch eigene Wirtschaftstätigkeit
+        erwirtschaftet wird (ohne Spenden).
       </p>
 
       <FormulaBox>
-        <strong>Formel:</strong><br />
-        Eigenfinanzierungsgrad = (Warenverkauf + Dienstleistungen + Integration) / Gesamteinnahmen &times; 100%
+        <strong>Formel:</strong>
+        <br />
+        Eigenfinanzierungsgrad = (Warenverkauf + Dienstleistungen + Integration) / Gesamteinnahmen
+        &times; 100%
       </FormulaBox>
 
       <h4 className="mb-2 heading-detail">Bedeutung:</h4>
       <ul className="mb-4 list-disc space-y-1 pl-6 text-sm">
-        <li><strong>&gt;60%:</strong> Hohe Unabhängigkeit von Spenden (Ziel)</li>
-        <li><strong>40-60%:</strong> Mischfinanzierung</li>
-        <li><strong>&lt;40%:</strong> Starke Spendenabhängigkeit</li>
+        <li>
+          <strong>&gt;60%:</strong> Hohe Unabhängigkeit von Spenden (Ziel)
+        </li>
+        <li>
+          <strong>40-60%:</strong> Mischfinanzierung
+        </li>
+        <li>
+          <strong>&lt;40%:</strong> Starke Spendenabhängigkeit
+        </li>
       </ul>
 
       <h4 className="mb-2 heading-detail">Treiber:</h4>

@@ -23,9 +23,9 @@
  */
 
 import { z } from 'zod';
-import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated'
-import { SPACE_SUMMARY } from './hub-space-plan'
-import { ORG_PROFILE } from './org-profile'
+import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';
+import { SPACE_SUMMARY } from './hub-space-plan';
+import { ORG_PROFILE } from './org-profile';
 import type { Confidence } from '../schemas/metric';
 
 export const NumberConfidence = z.enum(['high', 'medium', 'estimated', 'target', 'unknown']);
@@ -85,8 +85,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: SHARED_ORG_NUMBERS.REUSE_RATE,
     label: '% Reuse-Rate',
     source: {
-      methodology: 'Interne Auswertung: Anteil der eingegangenen Geräte, die als funktionierende Geräte wieder in Umlauf gebracht werden',
-      calculation: '~75% der eingegangenen Geräte werden refurbished und verkauft/gespendet, ~25% gehen in Ersatzteilgewinnung oder Recycling',
+      methodology:
+        'Interne Auswertung: Anteil der eingegangenen Geräte, die als funktionierende Geräte wieder in Umlauf gebracht werden',
+      calculation:
+        '~75% der eingegangenen Geräte werden refurbished und verkauft/gespendet, ~25% gehen in Ersatzteilgewinnung oder Recycling',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
     },
@@ -98,7 +100,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'Jahre zusätzliche Nutzungsdauer',
     source: {
       methodology: `Erfahrungswerte aus ${ORG_PROFILE.yearsActive}+ Jahren Refurbishing: Linux verlängert Lebensdauer älterer Hardware signifikant`,
-      calculation: 'Durchschnittliche zusätzliche Nutzungsdauer nach Refurbishing mit Linux-Installation',
+      calculation:
+        'Durchschnittliche zusätzliche Nutzungsdauer nach Refurbishing mit Linux-Installation',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
     },
@@ -106,7 +109,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   LAPTOPS_REFURBISHED_TOTAL: {
-    value: '1\'200+',
+    value: "1'200+",
     label: `Laptops refurbished (${ORG_PROFILE.founded}-2025)`,
     source: {
       methodology: `Interne Aufzeichnungen + Schätzung ${ORG_PROFILE.founded}-2018, systematisch erfasst ab 2019`,
@@ -122,7 +125,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: SHARED_ORG_NUMBERS.PEOPLE_HELPED,
     label: `Menschen begleitet (${ORG_PROFILE.founded}-2025)`,
     source: {
-      methodology: 'Praktikanten + Volunteers + Workshop-Teilnehmer (nicht systematisch erfasst vor 2024)',
+      methodology:
+        'Praktikanten + Volunteers + Workshop-Teilnehmer (nicht systematisch erfasst vor 2024)',
       calculation: `Geschätzt basierend auf durchschnittlich 4-5 Personen/Jahr seit ${ORG_PROFILE.founded}`,
       confidence: 'medium',
       lastVerified: '2026-02-01',
@@ -148,7 +152,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'Aktuelles Jahresbudget (2025)',
     source: {
       methodology: 'Kivitendo Erfolgsrechnung 2025 (Volljahr)',
-      calculation: 'Gesamteinnahmen 2025: CHF 60\'402 (Warenverkauf 22k + Dienstleistungen 28k + Rest)',
+      calculation:
+        "Gesamteinnahmen 2025: CHF 60'402 (Warenverkauf 22k + Dienstleistungen 28k + Rest)",
       confidence: 'high',
       lastVerified: '2026-02-16',
       documentUrl: '/documents/financials/budget-2025-estimate.pdf',
@@ -160,7 +165,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: 250,
     label: 'm² aktueller Gesamtstandort (Laden + Lager)',
     source: {
-      methodology: 'Mietverträge: Laden Birmensdorferstrasse 379 (120m²) + Lager Badenerstrasse 816 (130m²)',
+      methodology:
+        'Mietverträge: Laden Birmensdorferstrasse 379 (120m²) + Lager Badenerstrasse 816 (130m²)',
       calculation: 'Laden 120m² + Lager 130m² = 250m² Gesamtfläche',
       confidence: 'high',
       lastVerified: '2026-02-12',
@@ -173,7 +179,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: SPACE_SUMMARY.total_usable,
     label: 'm² Community Tech Hub Nutzfläche (Ziel)',
     source: {
-      methodology: 'Detaillierter Raumplan (hub-space-plan.ts) — Nutzfläche exkl. Verkehrsfläche (Flure, WC, Garderobe)',
+      methodology:
+        'Detaillierter Raumplan (hub-space-plan.ts) — Nutzfläche exkl. Verkehrsfläche (Flure, WC, Garderobe)',
       calculation: `Abgeleitet aus hub-space-plan.ts: ${SPACE_SUMMARY.total_with_circulation}m² Gesamtfläche - ${SPACE_SUMMARY.total_with_circulation - SPACE_SUMMARY.total_usable}m² Verkehrsfläche = ${SPACE_SUMMARY.total_usable}m² Nutzfläche. Miete: CHF 120k/Jahr (~600m² × CHF 200/m²)`,
       confidence: 'medium',
       lastVerified: '2026-02-23',
@@ -187,8 +194,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: 195_000,
     label: 'CHF Target Revenue Jahr 3 (2028)',
     source: {
-      methodology: 'Bottom-up Kalkulation aus 8 Revenue-Streams (fundraising/data.ts REVENUE_STREAMS)',
-      calculation: 'Geräteverkauf 45k + Dienstleistungen 55k + Corporate Placements 30k + Kurse 20k + Integration 15k + Repair Café 15k + AI Hosting 10k + Spenden 5k = 195k',
+      methodology:
+        'Bottom-up Kalkulation aus 8 Revenue-Streams (fundraising/data.ts REVENUE_STREAMS)',
+      calculation:
+        'Geräteverkauf 45k + Dienstleistungen 55k + Corporate Placements 30k + Kurse 20k + Integration 15k + Repair Café 15k + AI Hosting 10k + Spenden 5k = 195k',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
     },
@@ -237,7 +246,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'CHF Gesamtbudget 3 Jahre (2026-2028)',
     source: {
       methodology: 'Summe Jahr 1-3 aus budget-scenarios.ts moderate',
-      calculation: 'CHF 563.5k + CHF 484k + CHF 539k = CHF 1\'586.5k',
+      calculation: "CHF 563.5k + CHF 484k + CHF 539k = CHF 1'586.5k",
       confidence: 'estimated',
       lastVerified: '2026-02-23',
     },
@@ -248,8 +257,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: 'derived',
     label: 'CHF Stiftungsgelder (3 Jahre)',
     source: {
-      methodology: 'Abgeleitet aus THREE_YEAR_MODEL (fundraising/data.ts) mit degressiver Finanzierung. Exact value computed at runtime.',
-      calculation: 'See STIFTUNGEN_3Y_TOTAL in fundraising/data.ts — derived from DEGRESSIVE_CONFIG percentages applied to Y1 stiftungen.',
+      methodology:
+        'Abgeleitet aus THREE_YEAR_MODEL (fundraising/data.ts) mit degressiver Finanzierung. Exact value computed at runtime.',
+      calculation:
+        'See STIFTUNGEN_3Y_TOTAL in fundraising/data.ts — derived from DEGRESSIVE_CONFIG percentages applied to Y1 stiftungen.',
       confidence: 'estimated',
       lastVerified: '2026-02-23',
     },
@@ -260,8 +271,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: 435_000,
     label: 'CHF Eigenleistung/Revenue (3 Jahre)',
     source: {
-      methodology: 'Bottom-up Revenue-Modell: 8 Einnahmequellen (REVENUE_STREAMS in fundraising/data.ts)',
-      calculation: 'Jahr 1: CHF 100k + Jahr 2: CHF 140k + Jahr 3: CHF 195k = CHF 435k. Aligned to REVENUE_STREAMS bottom-up (honest > optimistic).',
+      methodology:
+        'Bottom-up Revenue-Modell: 8 Einnahmequellen (REVENUE_STREAMS in fundraising/data.ts)',
+      calculation:
+        'Jahr 1: CHF 100k + Jahr 2: CHF 140k + Jahr 3: CHF 195k = CHF 435k. Aligned to REVENUE_STREAMS bottom-up (honest > optimistic).',
       confidence: 'estimated',
       lastVerified: '2026-02-23',
     },
@@ -273,8 +286,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: '8-12',
     label: 'Techniker pro Jahr (Hardware-Bildungsprogrammleiter)',
     source: {
-      methodology: 'Kapazitätsplanung basierend auf Train-the-Trainer + Praktikanten + Reintegrations-Programme',
-      calculation: '4 Praktikanten (3-6 Monate) + 4 Reintegrations-Personen (IV/Burnout, 6-12 Monate) + 2 Freiwillige (laufend) = 10 Personen/Jahr durchschnittlich',
+      methodology:
+        'Kapazitätsplanung basierend auf Train-the-Trainer + Praktikanten + Reintegrations-Programme',
+      calculation:
+        '4 Praktikanten (3-6 Monate) + 4 Reintegrations-Personen (IV/Burnout, 6-12 Monate) + 2 Freiwillige (laufend) = 10 Personen/Jahr durchschnittlich',
       confidence: 'estimated',
       lastVerified: '2026-02-12',
       documentUrl: '/documents/team/hardware-bpl-capacity.pdf',
@@ -287,7 +302,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'Entwickler pro Jahr (Software/AI-Bildungsprogrammleiter)',
     source: {
       methodology: 'Kapazitätsplanung basierend auf AI-Literacy Programme + Software-Training',
-      calculation: '3 Junior Developers (Bootcamp-Absolventen, 6-12 Monate) + 3 AI-Literacy Trainer (ausgebildet zu Trainern) + 2 Open-Source Contributors (laufend) = 8 Personen/Jahr durchschnittlich',
+      calculation:
+        '3 Junior Developers (Bootcamp-Absolventen, 6-12 Monate) + 3 AI-Literacy Trainer (ausgebildet zu Trainern) + 2 Open-Source Contributors (laufend) = 8 Personen/Jahr durchschnittlich',
       confidence: 'estimated',
       lastVerified: '2026-02-12',
       documentUrl: '/documents/team/software-bpl-capacity.pdf',
@@ -300,7 +316,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'Direkt trainierte Personen pro Jahr (beide BPL)',
     source: {
       methodology: 'Summe der Durchschnittswerte beider Bildungsprogrammleiter:innen',
-      calculation: 'Hardware-BPL: 10/Jahr (Mitte von 8-12) + Software-BPL: 8/Jahr (Mitte von 6-10) = 18 direkt trainiert',
+      calculation:
+        'Hardware-BPL: 10/Jahr (Mitte von 8-12) + Software-BPL: 8/Jahr (Mitte von 6-10) = 18 direkt trainiert',
       confidence: 'estimated',
       lastVerified: '2026-02-12',
     },
@@ -311,8 +328,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: SHARED_ORG_NUMBERS.TEAM_CORE_FTE,
     label: 'Kernteam (aktuell)',
     source: {
-      methodology: '2 Angestellte (Dani, Veronica) + 1 ehrenamtlich (Andreas). Aspiration: 2→4 Angestellte durch Stiftungsfinanzierung.',
-      calculation: '3 Personen im Kernteam. Weitere ehrenamtliche Mitarbeitende (George, Cem, u.a.) nicht gezählt.',
+      methodology:
+        '2 Angestellte (Dani, Veronica) + 1 ehrenamtlich (Andreas). Aspiration: 2→4 Angestellte durch Stiftungsfinanzierung.',
+      calculation:
+        '3 Personen im Kernteam. Weitere ehrenamtliche Mitarbeitende (George, Cem, u.a.) nicht gezählt.',
       confidence: 'high',
       lastVerified: '2026-02-23',
     },
@@ -336,7 +355,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'Menschen erreicht pro Jahr mit 2× BPL (Ziel, konservativ)',
     source: {
       methodology: 'Konservative Schätzung: direkte Trainings durch 2× BPL',
-      calculation: 'Hardware-BPL: 10 direkt trainiert/Jahr + Software-BPL: 8 direkt trainiert/Jahr + Workshops: 20-40 Teilnehmer = 40-60 Menschen/Jahr',
+      calculation:
+        'Hardware-BPL: 10 direkt trainiert/Jahr + Software-BPL: 8 direkt trainiert/Jahr + Workshops: 20-40 Teilnehmer = 40-60 Menschen/Jahr',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
     },
@@ -347,7 +367,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: SHARED_ORG_NUMBERS.AVG_DEVICE_PRICE,
     label: 'CHF Durchschnittspreis pro Gerät',
     source: {
-      methodology: 'Geschätzter Durchschnittspreis aus Warenverkauf / Geräteanzahl über mehrere Jahre',
+      methodology:
+        'Geschätzter Durchschnittspreis aus Warenverkauf / Geräteanzahl über mehrere Jahre',
       calculation: 'Mix aus Laptops (CHF 100-300), Desktops (CHF 50-150), Monitore (CHF 30-80)',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
@@ -361,7 +382,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'Geräte/Monat verkauft (geschätzt aus Umsatzdaten)',
     source: {
       methodology: 'Abgeleitet aus Warenverkauf-Umsatz (Kivitendo Konto 3100)',
-      calculation: 'CHF 22k Warenverkauf (2025) ÷ ~CHF 150 Durchschnittspreis ÷ 12 Monate ≈ 12 Geräte/Monat',
+      calculation:
+        'CHF 22k Warenverkauf (2025) ÷ ~CHF 150 Durchschnittspreis ÷ 12 Monate ≈ 12 Geräte/Monat',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
     },
@@ -373,7 +395,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'Geräte/Jahr verkauft (2025, geschätzt)',
     source: {
       methodology: 'Abgeleitet aus Warenverkauf-Umsatz (Kivitendo Konto 3100)',
-      calculation: 'CHF 22k Warenverkauf (2025) ÷ ~CHF 150 Durchschnittspreis ≈ 147, gerundet auf 150',
+      calculation:
+        'CHF 22k Warenverkauf (2025) ÷ ~CHF 150 Durchschnittspreis ≈ 147, gerundet auf 150',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
     },
@@ -384,7 +407,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: 'Hinweis',
     label: 'Methodik Geräte-Schätzung',
     source: {
-      methodology: 'Die Geräteanzahl wird aus dem Warenverkauf-Umsatz abgeleitet (Umsatz ÷ Durchschnittspreis). Die tatsächliche Anzahl verarbeiteter Geräte (inkl. Gratis-Abgaben, Recycling, Ersatzteilgewinnung) ist höher, wird aber nicht systematisch erfasst. Systematische Erfassung ab 2026 geplant.',
+      methodology:
+        'Die Geräteanzahl wird aus dem Warenverkauf-Umsatz abgeleitet (Umsatz ÷ Durchschnittspreis). Die tatsächliche Anzahl verarbeiteter Geräte (inkl. Gratis-Abgaben, Recycling, Ersatzteilgewinnung) ist höher, wird aber nicht systematisch erfasst. Systematische Erfassung ab 2026 geplant.',
       confidence: 'estimated',
       lastVerified: '2026-02-16',
     },
@@ -395,8 +419,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: '2-3',
     label: 'Stunden aktive Arbeit pro Gerät (Durchschnitt)',
     source: {
-      methodology: 'Zeiterfassung Refurbishment-Prozess (Intake + Triage + Wipe + Refurb + QA + Listing)',
-      calculation: 'Intake 5-10min + Data Wipe 30-45min + Refurb 60-90min + QA 10-15min + Listing 15-20min = 120-180min',
+      methodology:
+        'Zeiterfassung Refurbishment-Prozess (Intake + Triage + Wipe + Refurb + QA + Listing)',
+      calculation:
+        'Intake 5-10min + Data Wipe 30-45min + Refurb 60-90min + QA 10-15min + Listing 15-20min = 120-180min',
       confidence: 'estimated',
       lastVerified: '2026-02-01',
       documentUrl: '/documents/operations/process-time-breakdown.pdf',
@@ -507,7 +533,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'CHF Kernteam-Gehälter (3 Personen, Budget-Ziel)',
     source: {
       methodology: 'Budget-Ziel für faire Entlöhnung. Aktuelle Gehälter sind NICHT bekannt.',
-      calculation: 'Zielgehälter für 3 Personen basierend auf Schweizer Non-Profit Niveau. Kivitendo zeigt historisch nur CHF 30-48k/Jahr TOTAL Personal (2020-2023) — weit unter Markt für Zürich. Aktuelle Löhne von Dani und Veronica sind uns nicht bekannt.',
+      calculation:
+        'Zielgehälter für 3 Personen basierend auf Schweizer Non-Profit Niveau. Kivitendo zeigt historisch nur CHF 30-48k/Jahr TOTAL Personal (2020-2023) — weit unter Markt für Zürich. Aktuelle Löhne von Dani und Veronica sind uns nicht bekannt.',
       confidence: 'unknown',
       lastVerified: '2026-02-16',
     },
@@ -518,8 +545,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: 90_000,
     label: 'CHF Gehalt Hardware-Bildungsprogrammleiter (Budget-Ziel)',
     source: {
-      methodology: 'Budget-Ziel: ~60% von CHF 150k Vollzeit-Äquivalent (Schweizer Non-Profit Niveau)',
-      calculation: 'Konsistent mit budget-scenarios.ts personnel_education_leaders_2: 2× CHF 90k/Jahr. Position noch nicht besetzt.',
+      methodology:
+        'Budget-Ziel: ~60% von CHF 150k Vollzeit-Äquivalent (Schweizer Non-Profit Niveau)',
+      calculation:
+        'Konsistent mit budget-scenarios.ts personnel_education_leaders_2: 2× CHF 90k/Jahr. Position noch nicht besetzt.',
       confidence: 'target',
       lastVerified: '2026-02-16',
     },
@@ -530,8 +559,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: 90_000,
     label: 'CHF Gehalt Software/AI-Bildungsprogrammleiter (Budget-Ziel)',
     source: {
-      methodology: 'Budget-Ziel: ~60% von CHF 150k Vollzeit-Äquivalent (Schweizer Non-Profit Niveau)',
-      calculation: 'Konsistent mit budget-scenarios.ts personnel_education_leaders_2: 2× CHF 90k/Jahr. Position noch nicht besetzt.',
+      methodology:
+        'Budget-Ziel: ~60% von CHF 150k Vollzeit-Äquivalent (Schweizer Non-Profit Niveau)',
+      calculation:
+        'Konsistent mit budget-scenarios.ts personnel_education_leaders_2: 2× CHF 90k/Jahr. Position noch nicht besetzt.',
       confidence: 'target',
       lastVerified: '2026-02-16',
     },
@@ -543,7 +574,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'CHF Total Gehälter mit 2× BPL (5 Personen, Budget-Ziel)',
     source: {
       methodology: 'Summe Kernteam-Ziel + 2× Bildungsprogrammleiter-Ziel',
-      calculation: 'Kernteam CHF 220k (Ziel) + Hardware-BPL CHF 90k (Ziel) + Software-BPL CHF 90k (Ziel) = CHF 400k. Achtung: Aktuelle Kernteam-Gehälter sind nicht bekannt und historisch deutlich tiefer.',
+      calculation:
+        'Kernteam CHF 220k (Ziel) + Hardware-BPL CHF 90k (Ziel) + Software-BPL CHF 90k (Ziel) = CHF 400k. Achtung: Aktuelle Kernteam-Gehälter sind nicht bekannt und historisch deutlich tiefer.',
       confidence: 'target',
       lastVerified: '2026-02-16',
     },
@@ -555,7 +587,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'CHF Total Personalkosten inkl. Sozialleistungen (Budget-Ziel)',
     source: {
       methodology: 'Ziel-Gehälter + Schweizer Sozialabgaben (AHV, ALV, Pensionskasse, etc.)',
-      calculation: 'Ziel-Gehälter CHF 400k × 1.20 (20% Arbeitgeberanteil Sozialversicherungen) = CHF 480k',
+      calculation:
+        'Ziel-Gehälter CHF 400k × 1.20 (20% Arbeitgeberanteil Sozialversicherungen) = CHF 480k',
       confidence: 'target',
       lastVerified: '2026-02-16',
     },
@@ -580,7 +613,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'FTE Team-Grösse Jahr 5 (2030)',
     source: {
       methodology: 'Kernteam 3 + BPL 4 + Operations 2',
-      calculation: 'Kernteam 3 (Vero, Dani, Andreas) + 4× BPL (Hardware×2, Software×2) + 2× Operations-Manager = 9 FTE',
+      calculation:
+        'Kernteam 3 (Vero, Dani, Andreas) + 4× BPL (Hardware×2, Software×2) + 2× Operations-Manager = 9 FTE',
       confidence: 'estimated',
       lastVerified: '2026-02-12',
     },
@@ -592,7 +626,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'FTE Team-Grösse Vision 2030 (Jahr 7+)',
     source: {
       methodology: 'Haupt-Hub + Satellit-Standort',
-      calculation: 'Haupt-Hub (9 FTE) + Satellit-Werkstatt (4 FTE) + Zentrale Services (2 FTE Marketing/Fundraising) = 15 FTE',
+      calculation:
+        'Haupt-Hub (9 FTE) + Satellit-Werkstatt (4 FTE) + Zentrale Services (2 FTE Marketing/Fundraising) = 15 FTE',
       confidence: 'estimated',
       lastVerified: '2026-02-12',
     },
@@ -660,8 +695,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: '~5',
     label: 'Menschen/Jahr erreicht (aktuell, vor Hub)',
     source: {
-      methodology: 'Informelle Schätzung basierend auf gelegentlicher Unterstützung ohne strukturierte Programme',
-      calculation: 'Keine systematische Erfassung. Gelegentliche Hilfe für Praktikanten und Freiwillige.',
+      methodology:
+        'Informelle Schätzung basierend auf gelegentlicher Unterstützung ohne strukturierte Programme',
+      calculation:
+        'Keine systematische Erfassung. Gelegentliche Hilfe für Praktikanten und Freiwillige.',
       confidence: 'estimated',
       lastVerified: '2026-02-23',
     },
@@ -672,8 +709,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: 40,
     label: 'Geräte/Monat verkauft (Ziel mit Hub)',
     source: {
-      methodology: 'Kapazitätsplanung: 2-3× aktuelle ~15 Geräte/Monat durch bessere Prozesse + mehr Fläche im Hub',
-      calculation: 'Konservativ: ~15 aktuell × 2.7 = 40 (bessere Werkstatt, mehr Lager, mehr Personal)',
+      methodology:
+        'Kapazitätsplanung: 2-3× aktuelle ~15 Geräte/Monat durch bessere Prozesse + mehr Fläche im Hub',
+      calculation:
+        'Konservativ: ~15 aktuell × 2.7 = 40 (bessere Werkstatt, mehr Lager, mehr Personal)',
       confidence: 'estimated',
       lastVerified: '2026-02-23',
     },
@@ -696,7 +735,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: 16900,
     label: 'Eingetragene Stiftungen in der Schweiz (Zefix)',
     source: {
-      methodology: 'Zefix Handelsregister (Abruf 2026-04-22). Umfasst alle im Handelsregister eingetragenen Stiftungen.',
+      methodology:
+        'Zefix Handelsregister (Abruf 2026-04-22). Umfasst alle im Handelsregister eingetragenen Stiftungen.',
       confidence: 'estimated',
       lastVerified: '2026-04-22',
     },
@@ -732,4 +772,3 @@ export const CO2_TOTAL_TONNES = Math.round((LAPTOPS_REFURBISHED_COUNT * CO2_PER_
 export const CO2_PER_FLIGHT_ZRH_BER = 1500;
 // Average CO2 emitted per km by a car (incl. older fleet), in kg (~200 g/km).
 export const CO2_KG_PER_CAR_KM = 0.2;
-

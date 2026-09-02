@@ -19,9 +19,7 @@ import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
 import { EMAIL_COLORS } from '@/lib/config/email-colors';
 import { apiError } from '@/lib/api/route-helpers';
 
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 interface DataQualityIssue {
   type: string;
@@ -45,8 +43,10 @@ export async function GET(request: NextRequest) {
   const expected = `Bearer ${cronSecret}`;
   // Constant-time comparison to prevent timing side-channel attacks
   const crypto = await import('crypto');
-  if (authHeader.length !== expected.length ||
-      !crypto.timingSafeEqual(Buffer.from(authHeader), Buffer.from(expected))) {
+  if (
+    authHeader.length !== expected.length ||
+    !crypto.timingSafeEqual(Buffer.from(authHeader), Buffer.from(expected))
+  ) {
     return NextResponse.json({ success: false, error: API_ERR_UNAUTHORIZED }, { status: 401 });
   }
 
@@ -61,8 +61,8 @@ export async function GET(request: NextRequest) {
         and(
           sql`(config_data->'contact'->>'email' IS NULL OR config_data->'contact'->>'email' = '')`,
           gte(foundations.fitScore, 7),
-          eq(foundations.archived, false)
-        )
+          eq(foundations.archived, false),
+        ),
       );
 
     if (missingEmail.length > 0) {
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
         severity: 'high',
         count: missingEmail.length,
         message: `${missingEmail.length} high-fit foundations missing contact email`,
-        items: missingEmail.slice(0, 10).map(f => ({
+        items: missingEmail.slice(0, 10).map((f) => ({
           id: f.id,
           name: f.name,
           detail: `Fit: ${f.fitScore}/10`,
@@ -87,8 +87,8 @@ export async function GET(request: NextRequest) {
         and(
           sql`(config_data->>'websiteUrl' IS NULL OR config_data->>'websiteUrl' = '')`,
           gte(foundations.fitScore, 5),
-          eq(foundations.archived, false)
-        )
+          eq(foundations.archived, false),
+        ),
       );
 
     if (missingWebsite.length > 0) {
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
         severity: 'medium',
         count: missingWebsite.length,
         message: `${missingWebsite.length} foundations missing website URL`,
-        items: missingWebsite.slice(0, 10).map(f => ({
+        items: missingWebsite.slice(0, 10).map((f) => ({
           id: f.id,
           name: f.name,
         })),
@@ -117,8 +117,8 @@ export async function GET(request: NextRequest) {
         and(
           lt(foundations.researchDate, sixMonthsAgoStr),
           gte(foundations.fitScore, 7),
-          eq(foundations.archived, false)
-        )
+          eq(foundations.archived, false),
+        ),
       );
 
     if (outdatedResearch.length > 0) {
@@ -127,7 +127,7 @@ export async function GET(request: NextRequest) {
         severity: 'medium',
         count: outdatedResearch.length,
         message: `${outdatedResearch.length} high-fit foundations with research >6 months old`,
-        items: outdatedResearch.slice(0, 10).map(f => ({
+        items: outdatedResearch.slice(0, 10).map((f) => ({
           id: f.id,
           name: f.name,
           detail: `Last research: ${f.researchDate}`,
@@ -146,12 +146,7 @@ export async function GET(request: NextRequest) {
       })
       .from(applications)
       .leftJoin(foundations, eq(applications.foundationId, foundations.id))
-      .where(
-        and(
-          lt(applications.updatedAt, thirtyDaysAgo),
-          eq(applications.status, 'draft')
-        )
-      );
+      .where(and(lt(applications.updatedAt, thirtyDaysAgo), eq(applications.status, 'draft')));
 
     if (stuckApplications.length > 0) {
       issues.push({
@@ -171,9 +166,7 @@ export async function GET(request: NextRequest) {
     const missingFitScore = await db
       .select()
       .from(foundations)
-      .where(
-        and(isNull(foundations.fitScore), eq(foundations.archived, false))
-      );
+      .where(and(isNull(foundations.fitScore), eq(foundations.archived, false)));
 
     if (missingFitScore.length > 0) {
       issues.push({
@@ -181,7 +174,7 @@ export async function GET(request: NextRequest) {
         severity: 'low',
         count: missingFitScore.length,
         message: `${missingFitScore.length} foundations missing fit score`,
-        items: missingFitScore.slice(0, 10).map(f => ({
+        items: missingFitScore.slice(0, 10).map((f) => ({
           id: f.id,
           name: f.name,
         })),
@@ -196,12 +189,7 @@ export async function GET(request: NextRequest) {
       })
       .from(applications)
       .leftJoin(foundations, eq(applications.foundationId, foundations.id))
-      .where(
-        and(
-          eq(applications.status, 'pending'),
-          isNull(applications.decisionExpected)
-        )
-      );
+      .where(and(eq(applications.status, 'pending'), isNull(applications.decisionExpected)));
 
     if (missingDecisionDate.length > 0) {
       issues.push({

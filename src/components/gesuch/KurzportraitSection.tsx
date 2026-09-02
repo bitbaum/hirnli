@@ -13,14 +13,15 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       <h2 className="mb-2 border-b-2 border-grey-dark pb-2 heading-section">
         Kurzportrait {ORG_PROFILE.name}
       </h2>
-      <p className="mb-6 text-sm text-text-muted">
-        {GESUCH_TEXT.kurzportrait_subtitle}
-      </p>
+      <p className="mb-6 text-sm text-text-muted">{GESUCH_TEXT.kurzportrait_subtitle}</p>
 
       {/* Facts grid */}
       <div className="mb-6 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
         {dok.kurzportrait.facts.map((fact) => (
-          <div key={fact.label} className="flex justify-between border-b border-border-default py-1.5 text-sm">
+          <div
+            key={fact.label}
+            className="flex justify-between border-b border-border-default py-1.5 text-sm"
+          >
             <span className="text-text-muted">{fact.label}</span>
             <span className="font-medium text-text-primary">{fact.value}</span>
           </div>
@@ -56,12 +57,17 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       <div className="rounded border border-border-default p-4 text-sm">
         <p className="mb-1 heading-detail">Online-Transparenz</p>
         <p className="text-text-secondary">
-          Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar
-          unter <a href={ORG_PROFILE.siteUrl} className="text-primary">{ORG_PROFILE.siteUrl.replace('https://', '')}</a>.
-          Jede Zahl ist bis zur Quelle nachvollziehbar.
+          Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar unter{' '}
+          <a href={ORG_PROFILE.siteUrl} className="text-primary">
+            {ORG_PROFILE.siteUrl.replace('https://', '')}
+          </a>
+          . Jede Zahl ist bis zur Quelle nachvollziehbar.
         </p>
         <p className="mt-2 text-text-secondary">
-          Personalisierte Projektübersicht: <a href={dok.landingPageUrl} className="text-primary">{dok.landingPageUrl}</a>
+          Personalisierte Projektübersicht:{' '}
+          <a href={dok.landingPageUrl} className="text-primary">
+            {dok.landingPageUrl}
+          </a>
         </p>
       </div>
     </section>

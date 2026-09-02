@@ -7,13 +7,23 @@ import Badge from '@/components/ui/Badge';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import Table from '@/components/ui/Table';
 import {
-  Checklist, TimeBadge,
-  TriageSection, RefurbishmentStepsSection, WarehouseSection,
+  Checklist,
+  TimeBadge,
+  TriageSection,
+  RefurbishmentStepsSection,
+  WarehouseSection,
 } from './components';
 import {
-  PROCESS_STEPS, INTAKE_CHECKLIST, INTAKE_FIELDS,
-  DATA_WIPE_OPTIONS, QA_TESTS, QA_COSMETIC, TIME_DATA, TOOLS,
-  type IntakeField, type TimeRow,
+  PROCESS_STEPS,
+  INTAKE_CHECKLIST,
+  INTAKE_FIELDS,
+  DATA_WIPE_OPTIONS,
+  QA_TESTS,
+  QA_COSMETIC,
+  TIME_DATA,
+  TOOLS,
+  type IntakeField,
+  type TimeRow,
 } from './data';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
@@ -48,8 +58,8 @@ export default function OperationsPage() {
           <NumberWithSource numberKey="RECYCLING_RATE_TARGET" size="md" showLabel={true} />
         </MetricGrid>
         <p className="mt-2 text-sm text-text-muted">
-          <Badge variant="estimated">KPI</Badge>{' '}
-          Definiert in KMS Framework (C_Kennzahlen_und_Reporting)
+          <Badge variant="estimated">KPI</Badge> Definiert in KMS Framework
+          (C_Kennzahlen_und_Reporting)
         </p>
       </section>
 
@@ -63,9 +73,11 @@ export default function OperationsPage() {
           <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg bg-surface-raised p-6">
             {PROCESS_STEPS.map((step, i) => (
               <div key={step.number} className="flex items-center gap-2">
-                <div className={`rounded-lg p-3 text-center shadow-sm ${
-                  step.active ? 'bg-primary text-white' : 'bg-surface-base'
-                }`}>
+                <div
+                  className={`rounded-lg p-3 text-center shadow-sm ${
+                    step.active ? 'bg-primary text-white' : 'bg-surface-base'
+                  }`}
+                >
                   <span className="block text-xl font-bold">{step.number}</span>
                   <span className="text-sm">{step.name}</span>
                 </div>
@@ -101,7 +113,11 @@ export default function OperationsPage() {
             </CardHeader>
             <Table<IntakeField>
               columns={[
-                { key: 'field', header: 'Feld', render: (r) => <span className="font-medium">{r.field}</span> },
+                {
+                  key: 'field',
+                  header: 'Feld',
+                  render: (r) => <span className="font-medium">{r.field}</span>,
+                },
                 { key: 'example', header: 'Beispiel' },
               ]}
               data={INTAKE_FIELDS}
@@ -118,7 +134,8 @@ export default function OperationsPage() {
       <section className="mb-8">
         <h2 className="mb-4 heading-subsection">3. Datenlöschung</h2>
         <Callout color="danger" className="mb-4">
-          <strong>WICHTIG:</strong> Dieser Schritt ist OBLIGATORISCH für alle Geräte mit Festplatten!
+          <strong>WICHTIG:</strong> Dieser Schritt ist OBLIGATORISCH für alle Geräte mit
+          Festplatten!
         </Callout>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {DATA_WIPE_OPTIONS.map((opt) => (
@@ -165,8 +182,16 @@ export default function OperationsPage() {
             <Checklist items={QA_COSMETIC} />
             <h4 className="heading-detail mb-2 mt-4">Dokumentation:</h4>
             <div className="space-y-2 text-sm">
-              {['QA-Status → Pass / Fail', 'QA-Datum → [Datum]', 'QA-Techniker → [Name]', 'Bemerkungen → [Notizen]'].map((item) => (
-                <div key={item} className="flex justify-between rounded bg-surface-raised px-3 py-2">
+              {[
+                'QA-Status → Pass / Fail',
+                'QA-Datum → [Datum]',
+                'QA-Techniker → [Name]',
+                'Bemerkungen → [Notizen]',
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="flex justify-between rounded bg-surface-raised px-3 py-2"
+                >
                   <span className="text-text-muted">{item.split(' → ')[0]}</span>
                   <span>{item.split(' → ')[1]}</span>
                 </div>
@@ -188,7 +213,8 @@ export default function OperationsPage() {
               <CardTitle>Preisbestimmung</CardTitle>
             </CardHeader>
             <p className="mb-3 text-sm text-text-muted">
-              Basierend auf unserem <Link href="/preismodell">Solidarischen 4-Stufen-Preismodell</Link>
+              Basierend auf unserem{' '}
+              <Link href="/preismodell">Solidarischen 4-Stufen-Preismodell</Link>
             </p>
             <h4 className="heading-detail mb-2">Faktoren:</h4>
             <ul className="list-disc space-y-1 pl-5 text-sm text-text-secondary">
@@ -208,13 +234,15 @@ export default function OperationsPage() {
                 <TimeBadge>15-20 Min</TimeBadge>
               </div>
             </CardHeader>
-            <Checklist items={[
-              'Fotos machen (min. 3: Front, Keyboard, Anschlüsse)',
-              'Specs auflisten (CPU, RAM, Storage, Display)',
-              'Beschreibung schreiben (Template)',
-              'Preis festlegen (Normal + andere Stufen)',
-              'In Webshop hochladen',
-            ]} />
+            <Checklist
+              items={[
+                'Fotos machen (min. 3: Front, Keyboard, Anschlüsse)',
+                'Specs auflisten (CPU, RAM, Storage, Display)',
+                'Beschreibung schreiben (Template)',
+                'Preis festlegen (Normal + andere Stufen)',
+                'In Webshop hochladen',
+              ]}
+            />
           </Card>
         </div>
       </section>
@@ -227,11 +255,13 @@ export default function OperationsPage() {
             columns={[
               { key: 'step', header: 'Schritt' },
               { key: 'duration', header: 'Dauer (Durchschnitt)' },
-              { key: 'type', header: 'Art', render: (r) => (
-                <span className={r.type === 'Passiv' ? 'text-text-muted' : ''}>
-                  {r.type}
-                </span>
-              )},
+              {
+                key: 'type',
+                header: 'Art',
+                render: (r) => (
+                  <span className={r.type === 'Passiv' ? 'text-text-muted' : ''}>{r.type}</span>
+                ),
+              },
             ]}
             data={TIME_DATA}
             keyExtractor={(r) => r.step}
@@ -243,8 +273,7 @@ export default function OperationsPage() {
             <span>~2-3 Stunden</span>
           </div>
           <p className="mt-3 text-sm text-text-muted">
-            <Badge variant="derived">SOP</Badge>{' '}
-            Standard_Operating_Procedure.md, Version 1.0
+            <Badge variant="derived">SOP</Badge> Standard_Operating_Procedure.md, Version 1.0
           </p>
         </Card>
       </section>
@@ -255,7 +284,9 @@ export default function OperationsPage() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map((tool) => (
             <Card key={tool.title} className="border-l-4 border-l-primary">
-              <h4 className="heading-item mb-3">{tool.icon} {tool.title}</h4>
+              <h4 className="heading-item mb-3">
+                {tool.icon} {tool.title}
+              </h4>
               <ul className="list-disc space-y-1 pl-5 text-sm text-text-secondary">
                 {tool.items.map((item) => (
                   <li key={item}>{item}</li>

@@ -36,7 +36,9 @@ export async function searchFoundationWebsite(
   }
 
   // No search API configured — degrade gracefully
-  console.warn('  [search] No search API configured (set BRAVE_API_KEY or GOOGLE_API_KEY+GOOGLE_CX)');
+  console.warn(
+    '  [search] No search API configured (set BRAVE_API_KEY or GOOGLE_API_KEY+GOOGLE_CX)',
+  );
   return [];
 }
 
@@ -50,14 +52,16 @@ async function braveSearch(query: string, maxResults: number): Promise<SearchRes
     });
     const res = await fetch(`https://api.search.brave.com/res/v1/web/search?${params}`, {
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'X-Subscription-Token': process.env.BRAVE_API_KEY!,
       },
       signal: AbortSignal.timeout(10000),
     });
     if (!res.ok) return [];
-    const data = await res.json() as { web?: { results?: Array<{ title: string; url: string; description: string }> } };
-    return (data.web?.results || []).map(r => ({
+    const data = (await res.json()) as {
+      web?: { results?: Array<{ title: string; url: string; description: string }> };
+    };
+    return (data.web?.results || []).map((r) => ({
       title: r.title,
       url: r.url,
       description: r.description,
@@ -81,8 +85,10 @@ async function googleSearch(query: string, maxResults: number): Promise<SearchRe
       signal: AbortSignal.timeout(10000),
     });
     if (!res.ok) return [];
-    const data = await res.json() as { items?: Array<{ title: string; link: string; snippet: string }> };
-    return (data.items || []).map(r => ({
+    const data = (await res.json()) as {
+      items?: Array<{ title: string; link: string; snippet: string }>;
+    };
+    return (data.items || []).map((r) => ({
       title: r.title,
       url: r.link,
       description: r.snippet,

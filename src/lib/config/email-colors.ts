@@ -19,7 +19,7 @@ export const EMAIL_COLORS = {
   bgLight: '#F9FAFB',
   border: '#E5E7EB',
   primary: '#3B82F6',
-  urgencyHigh: '#DC2626',    // --color-danger
-  urgencyMedium: '#F59E0B',  // --color-warning
-  urgencyLow: '#10B981',     // --color-success
+  urgencyHigh: '#DC2626', // --color-danger
+  urgencyMedium: '#F59E0B', // --color-warning
+  urgencyLow: '#10B981', // --color-success
 } as const;

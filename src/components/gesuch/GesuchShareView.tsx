@@ -55,10 +55,7 @@ export default function GesuchShareView({
 
       <div className="mx-auto max-w-4xl space-y-12 px-4 py-12 md:px-0">
         {why && (
-          <GesuchWhySection
-            why={why}
-            secondaryThemeRelevance={gesuch.secondaryThemeRelevance}
-          />
+          <GesuchWhySection why={why} secondaryThemeRelevance={gesuch.secondaryThemeRelevance} />
         )}
 
         <GesuchHowSection

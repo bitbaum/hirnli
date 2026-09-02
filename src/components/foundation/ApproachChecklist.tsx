@@ -34,9 +34,7 @@ export default function ApproachChecklist({ steps, readiness }: ApproachChecklis
                 >
                   {step.order}
                 </span>
-                {step.order < steps.length && (
-                  <div className="mt-1 h-full w-px bg-border" />
-                )}
+                {step.order < steps.length && <div className="mt-1 h-full w-px bg-border" />}
               </div>
               <div className="flex-1 pb-3">
                 <div className="flex items-center gap-2">
@@ -63,7 +61,9 @@ export default function ApproachChecklist({ steps, readiness }: ApproachChecklis
                 {item.ready ? '✓' : '○'}
               </span>
               <div>
-                <span className={`text-sm ${item.ready ? 'font-medium text-text-primary' : 'text-text-muted'}`}>
+                <span
+                  className={`text-sm ${item.ready ? 'font-medium text-text-primary' : 'text-text-muted'}`}
+                >
                   {item.label}
                 </span>
                 <p className="text-sm text-text-secondary">{item.detail}</p>

@@ -12,25 +12,31 @@ export default function ScoringArchitectureSection() {
             Passt diese Stiftung zu unserer Mission? Thematische, geografische und
             Zugangs-Übereinstimmung.
           </p>
-          <p className="mt-2 text-sm text-text-muted">Berechnet bei der Recherche, gespeichert pro Stiftung.</p>
+          <p className="mt-2 text-sm text-text-muted">
+            Berechnet bei der Recherche, gespeichert pro Stiftung.
+          </p>
         </Card>
         <Card>
           <div className="mb-2 text-2xl">📊</div>
           <h3 className="mb-1 heading-item">Bereitschaft (0-100)</h3>
           <p className="text-sm text-text-secondary">
-            Können wir ein massgeschneidertes Gesuch schreiben? Misst die
-            Vollständigkeit unserer Recherche-Daten.
+            Können wir ein massgeschneidertes Gesuch schreiben? Misst die Vollständigkeit unserer
+            Recherche-Daten.
           </p>
-          <p className="mt-2 text-sm text-text-muted">Berechnet in Echtzeit aus Stiftungsfeldern.</p>
+          <p className="mt-2 text-sm text-text-muted">
+            Berechnet in Echtzeit aus Stiftungsfeldern.
+          </p>
         </Card>
         <Card>
           <div className="mb-2 text-2xl">⚡</div>
           <h3 className="mb-1 heading-item">Priorität (0-100)</h3>
           <p className="text-sm text-text-secondary">
-            Sollten wir jetzt Aufwand investieren? Kombiniert Fit und Bereitschaft
-            zu einer handlungsorientierten Empfehlung.
+            Sollten wir jetzt Aufwand investieren? Kombiniert Fit und Bereitschaft zu einer
+            handlungsorientierten Empfehlung.
           </p>
-          <p className="mt-2 text-sm text-text-muted">Berechnet in Echtzeit. Fit ist Multiplikator.</p>
+          <p className="mt-2 text-sm text-text-muted">
+            Berechnet in Echtzeit. Fit ist Multiplikator.
+          </p>
         </Card>
       </div>
     </section>

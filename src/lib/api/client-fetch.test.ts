@@ -45,7 +45,9 @@ describe('apiFetch', () => {
     it('returns NET_ERR_LOAD on JSON parse failure', async () => {
       globalThis.fetch = vi.fn(async () => ({
         status: 200,
-        json: async () => { throw new Error('invalid json'); },
+        json: async () => {
+          throw new Error('invalid json');
+        },
       })) as unknown as typeof fetch;
       const result = await apiFetch('/api/test');
       expect(result).toEqual({ success: false, error: NET_ERR_LOAD });

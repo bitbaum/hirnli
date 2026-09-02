@@ -24,7 +24,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { sql } from './lib/db';
 import { ResearchDraftSchema } from './lib/research-types';
-import { foundationSchema, type Foundation, type FoundationRegistry } from '../src/lib/schemas/foundation';
+import {
+  foundationSchema,
+  type Foundation,
+  type FoundationRegistry,
+} from '../src/lib/schemas/foundation';
 import { computeFitScore } from '../src/lib/domain/fit-scoring';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 
@@ -46,12 +50,17 @@ async function main() {
   // Support directory argument: expand to all .json files in it
   if (files.length === 1 && fs.existsSync(files[0]) && fs.statSync(files[0]).isDirectory()) {
     const dir = path.resolve(files[0]);
-    files = fs.readdirSync(dir).filter(f => f.endsWith('.json')).map(f => path.join(dir, f));
+    files = fs
+      .readdirSync(dir)
+      .filter((f) => f.endsWith('.json'))
+      .map((f) => path.join(dir, f));
     console.log(`  Expanding directory: ${files.length} JSON files`);
   }
 
   if (files.length === 0) {
-    console.error('Usage: npx tsx scripts/foundation-upsert.ts <draft-file.json> [dir/] [more-files...]');
+    console.error(
+      'Usage: npx tsx scripts/foundation-upsert.ts <draft-file.json> [dir/] [more-files...]',
+    );
     process.exit(1);
   }
 
@@ -88,10 +97,12 @@ async function main() {
     const today = now.split('T')[0];
 
     // Read ZHAW metadata if present (from zhaw-crossref.ts)
-    const zhaw = (raw as Record<string, unknown>)._zhaw as {
-      einreichungstermin?: string;
-      zielgruppe?: string;
-    } | undefined;
+    const zhaw = (raw as Record<string, unknown>)._zhaw as
+      | {
+          einreichungstermin?: string;
+          zielgruppe?: string;
+        }
+      | undefined;
 
     // --- Compute deadline text ---
     const deadlineText = zhaw?.einreichungstermin || 'Unbekannt';
@@ -110,9 +121,10 @@ async function main() {
         address: a.contactInfo.address,
       },
       acceptsApplications: undefined,
-      applicationMethod: a.applicationMethod === 'invitation'
-        ? 'contact'
-        : a.applicationMethod as FoundationRegistry['applicationMethod'],
+      applicationMethod:
+        a.applicationMethod === 'invitation'
+          ? 'contact'
+          : (a.applicationMethod as FoundationRegistry['applicationMethod']),
       isOperative: !a.isFunder,
       status: 'rolling',
       deadlineText,
@@ -131,14 +143,18 @@ async function main() {
     // --- Compute researchDepth ---
     // Note: hasWebsite intentionally includes Zefix/registry URLs — the strict
     // check (requires real website + email/phone for 'standard') is below.
-    const hasWebsite = !!(draft.queueItem.websiteUrl);
+    const hasWebsite = !!draft.queueItem.websiteUrl;
     const hasRealWebsite = hasWebsite && !isZefixUrl(draft.queueItem.websiteUrl || '');
     const hasEmail = !!a.contactInfo.email;
     const hasPhone = !!a.contactInfo.phone;
     const hasDeadline = !!(zhaw?.einreichungstermin && zhaw.einreichungstermin !== 'Unbekannt');
     const hasGrantRange = !!(a.grantRange.min || a.grantRange.max);
     const researchDepth = computeResearchDepth({
-      hasRealWebsite, hasEmail, hasPhone, hasDeadline, hasGrantRange,
+      hasRealWebsite,
+      hasEmail,
+      hasPhone,
+      hasDeadline,
+      hasGrantRange,
     });
     depthCounts[researchDepth]++;
 
@@ -221,7 +237,9 @@ async function main() {
         }
       }
 
-      console.log(`  ${draft.name} → DB (newFit=${fitScore}, newP=${finalPriority}, depth=${researchDepth})`);
+      console.log(
+        `  ${draft.name} → DB (newFit=${fitScore}, newP=${finalPriority}, depth=${researchDepth})`,
+      );
       success++;
     } catch (err) {
       console.error(`  ${draft.name}: ${err instanceof Error ? err.message : err}`);
@@ -230,7 +248,9 @@ async function main() {
   }
 
   console.log(`\nDone: ${success} upserted, ${errors} errors`);
-  console.log(`  Research depth: rapid=${depthCounts.rapid}, standard=${depthCounts.standard}, deep=${depthCounts.deep}`);
+  console.log(
+    `  Research depth: rapid=${depthCounts.rapid}, standard=${depthCounts.standard}, deep=${depthCounts.deep}`,
+  );
   if (success > 0) {
     console.log('Next: npm run sync && npm run build');
   }

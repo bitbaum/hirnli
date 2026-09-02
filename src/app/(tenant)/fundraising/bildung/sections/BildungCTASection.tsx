@@ -9,8 +9,9 @@ export default function BildungCTASection() {
       <div className="rounded-xl border border-border-default bg-surface-raised p-8 text-center">
         <h2 className="heading-section mb-3">Unterstütze das Bildungsprogramm</h2>
         <p className="text-base mb-6 text-text-secondary leading-relaxed max-w-3xl mx-auto">
-          Mit <strong>CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}/Jahr über 3 Jahre</strong> (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm,
-          das {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreicht.
+          Mit <strong>CHF {formatNumber(BPL_TOTAL_COST_PER_YEAR)}/Jahr über 3 Jahre</strong>{' '}
+          (degressiv finanziert) schaffen wir ein selbsttragendes Train-the-Trainer-Programm, das{' '}
+          {PEOPLE_REACHED_PER_YEAR} Menschen/Jahr erreicht.
         </p>
         <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Link

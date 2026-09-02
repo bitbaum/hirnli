@@ -79,7 +79,11 @@ describe('computeResearchStats — empty pool', () => {
 
 describe('total count', () => {
   it('counts all foundations', () => {
-    const foundations = [makeFoundation(), makeFoundation({ slug: 'b' }), makeFoundation({ slug: 'c' })];
+    const foundations = [
+      makeFoundation(),
+      makeFoundation({ slug: 'b' }),
+      makeFoundation({ slug: 'c' }),
+    ];
     expect(computeResearchStats(foundations).total).toBe(3);
   });
 });
@@ -164,15 +168,15 @@ describe('qualityDistribution', () => {
       themes: ['kreislaufwirtschaft'] as Foundation['themes'],
       applicationMethod: 'email' as Foundation['applicationMethod'],
       applicationUrl: 'https://example.ch/apply',
-      amount: { min: 1000, max: 50000, text: 'CHF 1\'000–50\'000' },
+      amount: { min: 1000, max: 50000, text: "CHF 1'000–50'000" },
       purposeSummary: 'Fördert Nachhaltigkeit in der Region Zürich seit 2005.',
-      annualBudget: 'CHF 500\'000',
+      annualBudget: "CHF 500'000",
       founded: 2005,
       contact: { email: 'info@example.ch', phone: '+41 44 000 00 00', address: 'Zürich' },
       uid: 'CHE-123.456.789',
       region: 'zürich',
       boardMembers: [{ name: 'Hans Muster', role: 'Präsident' }],
-      capital: 'CHF 2\'000\'000',
+      capital: "CHF 2'000'000",
     });
     const stats = computeResearchStats([f]);
     expect(stats.qualityDistribution.high).toBe(1);

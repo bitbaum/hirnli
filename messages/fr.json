@@ -14,30 +14,78 @@
   },
   "nav": {
     "ueberUns": { "label": "À propos" },
-    "strategie": { "label": "Mission & stratégie", "desc": "Pourquoi nous existons & ce que nous voulons accomplir" },
+    "strategie": {
+      "label": "Mission & stratégie",
+      "desc": "Pourquoi nous existons & ce que nous voulons accomplir"
+    },
     "team": { "label": "Équipe", "desc": "Qui nous sommes & comment nous travaillons" },
-    "wieWirArbeiten": { "label": "Notre façon de travailler", "desc": "La cascade de valeur — valorisation maximale par appareil" },
-    "finanzen": { "label": "Finances {range}", "desc": "Recettes & dépenses transparentes ({label})" },
-    "wirkung": { "label": "Impact", "desc": "CO₂ économisé, appareils reconditionnés, personnes touchées" },
-    "preismodell": { "label": "Modèle de prix", "desc": "Prix solidaires (4 niveaux selon le revenu)" },
-    "methodik": { "label": "Méthodologie", "desc": "Comment nous mesurons & calculons (rapport de transparence)" },
+    "wieWirArbeiten": {
+      "label": "Notre façon de travailler",
+      "desc": "La cascade de valeur — valorisation maximale par appareil"
+    },
+    "finanzen": {
+      "label": "Finances {range}",
+      "desc": "Recettes & dépenses transparentes ({label})"
+    },
+    "wirkung": {
+      "label": "Impact",
+      "desc": "CO₂ économisé, appareils reconditionnés, personnes touchées"
+    },
+    "preismodell": {
+      "label": "Modèle de prix",
+      "desc": "Prix solidaires (4 niveaux selon le revenu)"
+    },
+    "methodik": {
+      "label": "Méthodologie",
+      "desc": "Comment nous mesurons & calculons (rapport de transparence)"
+    },
     "zukunft": { "label": "Avenir 2030" },
     "vision": { "label": "Vision" },
-    "revamp2030": { "label": "Revamp 2030 — la vision", "desc": "Où nous voulons être en 2030 : hub, formation, impact" },
+    "revamp2030": {
+      "label": "Revamp 2030 — la vision",
+      "desc": "Où nous voulons être en 2030 : hub, formation, impact"
+    },
     "projekte": { "label": "Projets concrets (2026–2028)" },
-    "hub": { "label": "Hub {space}", "desc": "🏢 Atelier + AI lab + hackerspace + espace culturel" },
-    "bildung": { "label": "Programme de formation", "desc": "🎓 2× responsables pour train-the-trainer & ateliers" },
+    "hub": {
+      "label": "Hub {space}",
+      "desc": "🏢 Atelier + AI lab + hackerspace + espace culturel"
+    },
+    "bildung": {
+      "label": "Programme de formation",
+      "desc": "🎓 2× responsables pour train-the-trainer & ateliers"
+    },
     "fundraising": { "label": "Levée de fonds" },
     "budgetStatus": { "label": "Budget & statut" },
-    "plan": { "label": "Plan de levée de fonds", "desc": "📊 Vue d'ensemble du budget, besoins, calendrier" },
-    "dashboard": { "label": "Tableau de bord", "desc": "📈 Vue KPI : soumis, accordés, taux de succès" },
+    "plan": {
+      "label": "Plan de levée de fonds",
+      "desc": "📊 Vue d'ensemble du budget, besoins, calendrier"
+    },
+    "dashboard": {
+      "label": "Tableau de bord",
+      "desc": "📈 Vue KPI : soumis, accordés, taux de succès"
+    },
     "stiftungenSection": { "label": "Fondations" },
-    "stiftungen": { "label": "{count} fondations", "desc": "🔍 Avec scores de fit, thèmes, délais, montants" },
-    "vorlagen": { "label": "Modèles de demande", "desc": "📝 {count} modèles de référence par type (A/B/C/D)" },
+    "stiftungen": {
+      "label": "{count} fondations",
+      "desc": "🔍 Avec scores de fit, thèmes, délais, montants"
+    },
+    "vorlagen": {
+      "label": "Modèles de demande",
+      "desc": "📝 {count} modèles de référence par type (A/B/C/D)"
+    },
     "gesuche": { "label": "Mes demandes", "desc": "📝 Brouillons de demandes en un coup d'œil" },
-    "pipeline": { "label": "Pipeline des demandes", "desc": "📋 Gérer et suivre les demandes aux fondations" },
-    "scoring": { "label": "Méthodologie de scoring", "desc": "⚙️ Comment fit, préparation et priorité sont calculés" },
-    "pipelineMethodik": { "label": "Méthodologie du pipeline", "desc": "🔬 Comment trouver les bonnes parmi {universe} fondations" },
+    "pipeline": {
+      "label": "Pipeline des demandes",
+      "desc": "📋 Gérer et suivre les demandes aux fondations"
+    },
+    "scoring": {
+      "label": "Méthodologie de scoring",
+      "desc": "⚙️ Comment fit, préparation et priorité sont calculés"
+    },
+    "pipelineMethodik": {
+      "label": "Méthodologie du pipeline",
+      "desc": "🔬 Comment trouver les bonnes parmi {universe} fondations"
+    },
     "dokumente": { "label": "Documents" },
     "plattform": { "label": "Plateforme" }
   }

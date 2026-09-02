@@ -34,19 +34,28 @@ function makeFoundation(overrides: Partial<Foundation> = {}): Foundation {
 
 describe('generateFitNarrative', () => {
   it('returns strengthLevel "strong" for fitScore >= 7', () => {
-    const f = makeFoundation({ fitScore: 8, themes: ['kreislaufwirtschaft'] as Foundation['themes'] });
+    const f = makeFoundation({
+      fitScore: 8,
+      themes: ['kreislaufwirtschaft'] as Foundation['themes'],
+    });
     const narrative = generateFitNarrative(f);
     expect(narrative.strengthLevel).toBe('strong');
   });
 
   it('returns strengthLevel "moderate" for fitScore 4-6', () => {
-    const f = makeFoundation({ fitScore: 5, themes: ['kreislaufwirtschaft'] as Foundation['themes'] });
+    const f = makeFoundation({
+      fitScore: 5,
+      themes: ['kreislaufwirtschaft'] as Foundation['themes'],
+    });
     const narrative = generateFitNarrative(f);
     expect(narrative.strengthLevel).toBe('moderate');
   });
 
   it('returns strengthLevel "limited" for fitScore < 4', () => {
-    const f = makeFoundation({ fitScore: 2, themes: ['kreislaufwirtschaft'] as Foundation['themes'] });
+    const f = makeFoundation({
+      fitScore: 2,
+      themes: ['kreislaufwirtschaft'] as Foundation['themes'],
+    });
     const narrative = generateFitNarrative(f);
     expect(narrative.strengthLevel).toBe('limited');
   });
@@ -66,12 +75,19 @@ describe('generateFitNarrative', () => {
   });
 
   it('returns a non-empty text string', () => {
-    const f = makeFoundation({ fitScore: 7, themes: ['kreislaufwirtschaft'] as Foundation['themes'] });
+    const f = makeFoundation({
+      fitScore: 7,
+      themes: ['kreislaufwirtschaft'] as Foundation['themes'],
+    });
     expect(generateFitNarrative(f).text.length).toBeGreaterThan(10);
   });
 
   it('strong narrative includes foundation name', () => {
-    const f = makeFoundation({ fitScore: 9, name: 'Örsted Stiftung', themes: ['kreislaufwirtschaft'] as Foundation['themes'] });
+    const f = makeFoundation({
+      fitScore: 9,
+      name: 'Örsted Stiftung',
+      themes: ['kreislaufwirtschaft'] as Foundation['themes'],
+    });
     const narrative = generateFitNarrative(f);
     expect(narrative.text).toContain('Örsted Stiftung');
   });
@@ -94,13 +110,19 @@ describe('generateApproachSteps', () => {
   });
 
   it('Gesuch vorbereiten is "ready" when fitScore >= 4 and has themes', () => {
-    const f = makeFoundation({ fitScore: 5, themes: ['kreislaufwirtschaft'] as Foundation['themes'] });
+    const f = makeFoundation({
+      fitScore: 5,
+      themes: ['kreislaufwirtschaft'] as Foundation['themes'],
+    });
     const steps = generateApproachSteps(f);
     expect(steps[0].status).toBe('ready');
   });
 
   it('Gesuch vorbereiten is "todo" when fitScore < 4', () => {
-    const f = makeFoundation({ fitScore: 2, themes: ['kreislaufwirtschaft'] as Foundation['themes'] });
+    const f = makeFoundation({
+      fitScore: 2,
+      themes: ['kreislaufwirtschaft'] as Foundation['themes'],
+    });
     expect(generateApproachSteps(f)[0].status).toBe('todo');
   });
 
@@ -241,12 +263,16 @@ describe('getApplicationReadiness', () => {
 
   it('"Bewerbungsweg bekannt" is not ready when method is unknown', () => {
     const f = makeFoundation({ applicationMethod: 'unknown' as Foundation['applicationMethod'] });
-    expect(getApplicationReadiness(f).find((i) => i.label === 'Bewerbungsweg bekannt')!.ready).toBe(false);
+    expect(getApplicationReadiness(f).find((i) => i.label === 'Bewerbungsweg bekannt')!.ready).toBe(
+      false,
+    );
   });
 
   it('"Bewerbungsweg bekannt" is ready when method is set', () => {
     const f = makeFoundation({ applicationMethod: 'email' as Foundation['applicationMethod'] });
-    expect(getApplicationReadiness(f).find((i) => i.label === 'Bewerbungsweg bekannt')!.ready).toBe(true);
+    expect(getApplicationReadiness(f).find((i) => i.label === 'Bewerbungsweg bekannt')!.ready).toBe(
+      true,
+    );
   });
 
   it('"Bewerbungsweg bekannt" detail uses human-readable label not raw value', () => {
@@ -257,7 +283,9 @@ describe('getApplicationReadiness', () => {
   });
 
   it('"Bewerbungsweg bekannt" detail uses label for via_partner', () => {
-    const f = makeFoundation({ applicationMethod: 'via_partner' as Foundation['applicationMethod'] });
+    const f = makeFoundation({
+      applicationMethod: 'via_partner' as Foundation['applicationMethod'],
+    });
     const item = getApplicationReadiness(f).find((i) => i.label === 'Bewerbungsweg bekannt')!;
     expect(item.detail).toContain('Über Partner');
     expect(item.detail).not.toContain('via_partner');
@@ -306,8 +334,13 @@ describe('generateThemeAlignments', () => {
 
   it('all 7 known ThemeIds produce alignments', () => {
     const allThemes = [
-      'klima', 'kreislaufwirtschaft', 'soziale-integration',
-      'digitale-bildung', 'digitale-souveraenitaet', 'zuerich', 'arbeitsintegration',
+      'klima',
+      'kreislaufwirtschaft',
+      'soziale-integration',
+      'digitale-bildung',
+      'digitale-souveraenitaet',
+      'zuerich',
+      'arbeitsintegration',
     ] as Foundation['themes'];
     const f = makeFoundation({ themes: allThemes });
     const alignments = generateThemeAlignments(f);

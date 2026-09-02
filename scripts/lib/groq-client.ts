@@ -148,7 +148,9 @@ async function callGroqOnce(
 
     if (!response.ok) {
       const errText = await response.text().catch(() => '');
-      throw new Error(`${link.provider.id} API HTTP ${response.status}: ${errText.substring(0, 200)}`);
+      throw new Error(
+        `${link.provider.id} API HTTP ${response.status}: ${errText.substring(0, 200)}`,
+      );
     }
 
     const data = await response.json();
@@ -205,7 +207,13 @@ export async function callGroq(
     }
     const link: Link = { provider: GROQ_PROVIDER, model: resolveModel(model) };
     try {
-      const { content, usage } = await callGroqOnce(link, apiKey, systemPrompt, userPrompt, callOnceOptions);
+      const { content, usage } = await callGroqOnce(
+        link,
+        apiKey,
+        systemPrompt,
+        userPrompt,
+        callOnceOptions,
+      );
       return { ok: true, content, usage };
     } catch (err) {
       return { ok: false, error: err instanceof Error ? err.message : String(err) };
@@ -228,7 +236,13 @@ export async function callGroq(
       // always defined — the `!` documents that guarantee rather than
       // re-deriving it.
       attempt: (link) =>
-        callGroqOnce(link, process.env[link.provider.keyEnv]!, systemPrompt, userPrompt, callOnceOptions),
+        callGroqOnce(
+          link,
+          process.env[link.provider.keyEnv]!,
+          systemPrompt,
+          userPrompt,
+          callOnceOptions,
+        ),
     });
     return { ok: true, content, usage };
   } catch (err) {

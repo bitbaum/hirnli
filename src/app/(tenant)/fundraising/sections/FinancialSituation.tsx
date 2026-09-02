@@ -25,8 +25,8 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
             className="text-warning"
           >
             {FINANCIAL_CONTEXT.decline_pct}%
-          </Inspectable>
-          {' '}reduziert. Von ~
+          </Inspectable>{' '}
+          reduziert. Von ~
           <Inspectable
             data={{
               label: 'Dienstleistungseinnahmen Durchschnitt 2022-23',
@@ -40,8 +40,8 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
             className="text-warning"
           >
             {formatCHF(FINANCIAL_CONTEXT.services_avg_2022_23)}
-          </Inspectable>
-          {' '}(Durchschnitt 2022-23) auf{' '}
+          </Inspectable>{' '}
+          (Durchschnitt 2022-23) auf{' '}
           <Inspectable
             data={{
               label: 'Dienstleistungseinnahmen 2025',
@@ -54,17 +54,20 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
             className="text-warning"
           >
             {formatCHF(FINANCIAL_CONTEXT.services_2025)}
-          </Inspectable>
-          {' '}(2025). Gesamteinnahmen fielen von {formatCHF(FINANCIAL_CONTEXT.total_2023)} auf {formatCHF(FINANCIAL_CONTEXT.total_2025)}.
+          </Inspectable>{' '}
+          (2025). Gesamteinnahmen fielen von {formatCHF(FINANCIAL_CONTEXT.total_2023)} auf{' '}
+          {formatCHF(FINANCIAL_CONTEXT.total_2025)}.
         </p>
         <p>
           <strong>Der Grund:</strong> Abhängigkeit von wenigen B2B-Hosting-Kunden. Keine
           diversifizierten Einnahmequellen. Keine aktive Akquise.
         </p>
         <p className="font-medium text-success">
-          <strong>Das Positive:</strong> Geräteverkauf ({formatCHF(FINANCIAL_CONTEXT.warenverkauf_2025)} in 2025) bleibt
-          stabil. {TRACK_RECORD.yearsActive} Jahre Erfahrung, {formatNumber(TRACK_RECORD.totalInvoices)} Rechnungen,{' '}
-          {formatNumber(TRACK_RECORD.totalCustomers)} Kunden — die Kompetenz ist da. Der Hub ist unsere Turnaround-Strategie.
+          <strong>Das Positive:</strong> Geräteverkauf (
+          {formatCHF(FINANCIAL_CONTEXT.warenverkauf_2025)} in 2025) bleibt stabil.{' '}
+          {TRACK_RECORD.yearsActive} Jahre Erfahrung, {formatNumber(TRACK_RECORD.totalInvoices)}{' '}
+          Rechnungen, {formatNumber(TRACK_RECORD.totalCustomers)} Kunden — die Kompetenz ist da. Der
+          Hub ist unsere Turnaround-Strategie.
         </p>
       </div>
     </Card>

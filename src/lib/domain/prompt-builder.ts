@@ -35,14 +35,21 @@ export function buildExternalPrompt({
   foundationLines.push(`**Stiftung:** ${foundation.name}`);
   if (foundation.purpose) foundationLines.push(`**Stiftungszweck:** ${foundation.purpose}`);
   if (foundation.type) foundationLines.push(`**Typ:** ${foundation.type}`);
-  if (foundation.themes.length) foundationLines.push(`**Förderbereiche:** ${foundation.themes.join(', ')}`);
+  if (foundation.themes.length)
+    foundationLines.push(`**Förderbereiche:** ${foundation.themes.join(', ')}`);
   if (foundation.fitScore != null) foundationLines.push(`**Fit-Score:** ${foundation.fitScore}/10`);
-  if (foundation.pastGrantees?.length) foundationLines.push(`**Bisherige Empfänger:** ${foundation.pastGrantees.slice(0, 5).join(', ')}`);
-  if (foundation.researchNotes) foundationLines.push(`**Strategische Einschätzung:** ${foundation.researchNotes}`);
+  if (foundation.pastGrantees?.length)
+    foundationLines.push(
+      `**Bisherige Empfänger:** ${foundation.pastGrantees.slice(0, 5).join(', ')}`,
+    );
+  if (foundation.researchNotes)
+    foundationLines.push(`**Strategische Einschätzung:** ${foundation.researchNotes}`);
   if (foundation.grantRange?.min != null || foundation.grantRange?.max != null) {
     const parts = [];
-    if (foundation.grantRange?.min != null) parts.push(`ab CHF ${foundation.grantRange.min.toLocaleString('de-CH')}`);
-    if (foundation.grantRange?.max != null) parts.push(`bis CHF ${foundation.grantRange.max.toLocaleString('de-CH')}`);
+    if (foundation.grantRange?.min != null)
+      parts.push(`ab CHF ${foundation.grantRange.min.toLocaleString('de-CH')}`);
+    if (foundation.grantRange?.max != null)
+      parts.push(`bis CHF ${foundation.grantRange.max.toLocaleString('de-CH')}`);
     foundationLines.push(`**Förderbetrag:** ${parts.join(' ')}`);
   }
 

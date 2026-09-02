@@ -22,7 +22,8 @@
  *   npx tsx scripts/dedupe-by-uid.ts --dry-run
  *   npx tsx scripts/dedupe-by-uid.ts
  */
-import { config } from 'dotenv'; config({ path: '.env.local' });
+import { config } from 'dotenv';
+config({ path: '.env.local' });
 import { sql } from './lib/db';
 
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -42,8 +43,8 @@ function isRegistryUrl(url: string | undefined | null): boolean {
 function dataScore(f: Foundation): number {
   // Higher score = better keeper candidate.
   const cd = f.config_data;
-  const purposeLen = (cd.purposeSummary as string | null ?? '').length;
-  const notesLen = (cd.researchNotes as string | null ?? '').length;
+  const purposeLen = ((cd.purposeSummary as string | null) ?? '').length;
+  const notesLen = ((cd.researchNotes as string | null) ?? '').length;
   const hasRealWeb = !isRegistryUrl(cd.websiteUrl as string | null);
   const contact = cd.contact as Record<string, string> | null;
   const hasEmail = !!contact?.email;
@@ -78,7 +79,12 @@ function mergeConfig(
       const sl = typeof sv === 'string' ? sv.length : 0;
       const dl = typeof dv === 'string' ? dv.length : 0;
       if (dl < sl) merged[k] = sv;
-    } else if (dv == null || dv === '' || dv === undefined || (Array.isArray(dv) && dv.length === 0)) {
+    } else if (
+      dv == null ||
+      dv === '' ||
+      dv === undefined ||
+      (Array.isArray(dv) && dv.length === 0)
+    ) {
       merged[k] = sv;
     }
   }
@@ -117,34 +123,40 @@ async function main() {
   `;
   console.log(`${DRY_RUN ? '[DRY RUN] ' : ''}Processing ${clusters.length} UID clusters...`);
 
-  let merged = 0, archived = 0, errors = 0;
+  let merged = 0,
+    archived = 0,
+    errors = 0;
   for (const cluster of clusters) {
     const ids = cluster.ids as string[];
     if (ids.length !== 2) {
       console.log(`  SKIP cluster ${cluster.uid}: size ${ids.length}`);
       continue;
     }
-    const rows = await sql`
+    const rows = (await sql`
       SELECT id, config_data, fit_score, priority
       FROM fundraising_foundations WHERE id IN (${ids[0]}, ${ids[1]})
-    ` as Foundation[];
-    if (rows.length !== 2) { errors++; continue; }
+    `) as Foundation[];
+    if (rows.length !== 2) {
+      errors++;
+      continue;
+    }
     const [a, b] = rows;
-    const aScore = dataScore(a), bScore = dataScore(b);
+    const aScore = dataScore(a),
+      bScore = dataScore(b);
     const keeper = aScore >= bScore ? a : b;
     const loser = aScore >= bScore ? b : a;
 
     const newConfig = mergeConfig(keeper.config_data, loser.config_data);
 
     if (DRY_RUN) {
-      const purposeBefore = (keeper.config_data.purposeSummary as string ?? '').length;
-      const purposeAfter = (newConfig.purposeSummary as string ?? '').length;
-      const notesBefore = (keeper.config_data.researchNotes as string ?? '').length;
-      const notesAfter = (newConfig.researchNotes as string ?? '').length;
+      const purposeBefore = ((keeper.config_data.purposeSummary as string) ?? '').length;
+      const purposeAfter = ((newConfig.purposeSummary as string) ?? '').length;
+      const notesBefore = ((keeper.config_data.researchNotes as string) ?? '').length;
+      const notesAfter = ((newConfig.researchNotes as string) ?? '').length;
       console.log(
         `  ${keeper.id} ← ${loser.id}` +
-        (purposeBefore !== purposeAfter ? ` purpose ${purposeBefore}→${purposeAfter}` : '') +
-        (notesBefore !== notesAfter ? ` notes ${notesBefore}→${notesAfter}` : ''),
+          (purposeBefore !== purposeAfter ? ` purpose ${purposeBefore}→${purposeAfter}` : '') +
+          (notesBefore !== notesAfter ? ` notes ${notesBefore}→${notesAfter}` : ''),
       );
     } else {
       await sql`
@@ -161,7 +173,9 @@ async function main() {
     merged++;
     archived++;
   }
-  console.log(`\n${DRY_RUN ? '[DRY RUN] ' : ''}Done — ${merged} clusters merged, ${archived} entries archived, ${errors} errors`);
+  console.log(
+    `\n${DRY_RUN ? '[DRY RUN] ' : ''}Done — ${merged} clusters merged, ${archived} entries archived, ${errors} errors`,
+  );
 }
 
 main().catch(console.error);

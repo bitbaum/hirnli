@@ -3,7 +3,14 @@
 import { useState } from 'react';
 import type { RefObject } from 'react';
 import Link from 'next/link';
-import type { WhySection, TrackRecord, CompetencySection, Project, Evidence, CoreFacts } from '@/lib/schemas/story';
+import type {
+  WhySection,
+  TrackRecord,
+  CompetencySection,
+  Project,
+  Evidence,
+  CoreFacts,
+} from '@/lib/schemas/story';
 import type { ThemeKey } from '@/lib/config/stories';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { AnschreibenText } from '../GesuchPageClient';
@@ -156,10 +163,16 @@ export default function StepReview({
       )}
 
       {/* Edit toggle toolbar */}
-      <Card variant="muted" padding={false} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 print:hidden">
+      <Card
+        variant="muted"
+        padding={false}
+        className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 print:hidden"
+      >
         <div className="flex items-center gap-2">
           {hasOverrides && (
-            <Badge variant="primary" className="py-1">Angepasst</Badge>
+            <Badge variant="primary" className="py-1">
+              Angepasst
+            </Badge>
           )}
           <Link
             href={`/fundraising/stiftungen/${slug}/gesuch/dokument`}
@@ -209,27 +222,16 @@ export default function StepReview({
       )}
 
       {/* Gesuch content */}
-      {why && (
-        <GesuchWhySection
-          why={why}
-          secondaryThemeRelevance={secondaryThemeRelevance}
-        />
-      )}
+      {why && <GesuchWhySection why={why} secondaryThemeRelevance={secondaryThemeRelevance} />}
 
       <GesuchProcessSection />
 
-      <GesuchHowSection
-        trackRecord={trackRecord}
-        competencies={competencies}
-      />
+      <GesuchHowSection trackRecord={trackRecord} competencies={competencies} />
 
       <GesuchProjectsSection projects={projects} />
       <GesuchEvidenceSection evidence={evidence} />
 
-      <GesuchContactSection
-        foundationName={foundationName}
-        organization={organization}
-      />
+      <GesuchContactSection foundationName={foundationName} organization={organization} />
 
       {/* Readiness checklist */}
       <GesuchReadinessChecklist readiness={readiness} />

@@ -95,7 +95,9 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
                 <div className="flex-1">
                   <div className="heading-detail">Verlässlichkeit</div>
                   <div className="text-text-secondary">
-                    {CONFIDENCE_DISPLAY_LABELS[data.confidence as keyof typeof CONFIDENCE_DISPLAY_LABELS] ?? data.confidence}
+                    {CONFIDENCE_DISPLAY_LABELS[
+                      data.confidence as keyof typeof CONFIDENCE_DISPLAY_LABELS
+                    ] ?? data.confidence}
                   </div>
                 </div>
               </div>
@@ -107,7 +109,9 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
           <div>
             <h4 className="mb-2 heading-xs-label">Wie wird das berechnet?</h4>
             <div className="rounded-lg bg-accent-muted border border-accent-border px-4 py-3">
-              <code className="block text-sm font-mono text-text-primary whitespace-pre-wrap">{data.formula}</code>
+              <code className="block text-sm font-mono text-text-primary whitespace-pre-wrap">
+                {data.formula}
+              </code>
             </div>
           </div>
         )}
@@ -124,8 +128,8 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
           <div className="flex items-start gap-2 text-sm text-text-muted">
             <span className="text-sm">✓</span>
             <p>
-              Alle Zahlen auf dieser Seite sind klickbar und vollständig nachvollziehbar.
-              Bei Fragen zur Datenherkunft kontaktieren Sie uns unter{' '}
+              Alle Zahlen auf dieser Seite sind klickbar und vollständig nachvollziehbar. Bei Fragen
+              zur Datenherkunft kontaktieren Sie uns unter{' '}
               <a href={`mailto:${ORG_PROFILE.email}`} className="text-primary hover:underline">
                 {ORG_PROFILE.email}
               </a>

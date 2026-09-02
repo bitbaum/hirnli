@@ -57,9 +57,7 @@ describe('composeGesuch', () => {
   it('hides zuerich when a content theme is also present', () => {
     // When both a content theme and zuerich are tagged, zuerich is filtered
     // (it maps to the same story key as klima).
-    const result = composeGesuch(
-      makeFoundation({ themes: ['kreislaufwirtschaft', 'zuerich'] }),
-    );
+    const result = composeGesuch(makeFoundation({ themes: ['kreislaufwirtschaft', 'zuerich'] }));
     expect(result.ready).toBe(true);
     if (result.ready) {
       const ids = result.themes.all.map((t) => t.id);

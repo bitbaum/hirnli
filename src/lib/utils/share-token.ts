@@ -27,18 +27,17 @@ export function computeShareToken(slug: string): string | null {
  * Resolve a token back to its foundation slug.
  * Returns null if the token is invalid or SHARE_SECRET is not set.
  */
-export function resolveShareToken(
-  token: string,
-  allSlugs: string[],
-): string | null {
+export function resolveShareToken(token: string, allSlugs: string[]): string | null {
   const secret = process.env.SHARE_SECRET;
   if (!secret) return null;
 
   for (const slug of allSlugs) {
     const expected = createHmac('sha256', secret).update(slug).digest('hex').slice(0, TOKEN_LENGTH);
     // Constant-time comparison to prevent timing side-channel attacks
-    if (expected.length === token.length &&
-        timingSafeEqual(Buffer.from(expected), Buffer.from(token))) {
+    if (
+      expected.length === token.length &&
+      timingSafeEqual(Buffer.from(expected), Buffer.from(token))
+    ) {
       return slug;
     }
   }

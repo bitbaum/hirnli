@@ -69,12 +69,13 @@ export function useGesuchOverrides(
   // Fetch drafted variants list on mount — ignore stale responses if slug changes
   useEffect(() => {
     let cancelled = false;
-    getGesuchOverrideVariants(slug)
-      .then((result) => {
-        if (cancelled) return;
-        if (result.success) setDraftedVariants(result.data ?? []);
-      });
-    return () => { cancelled = true; };
+    getGesuchOverrideVariants(slug).then((result) => {
+      if (cancelled) return;
+      if (result.success) setDraftedVariants(result.data ?? []);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [slug]);
 
   // Load overrides for current variant — auto-draft if none exist.
@@ -86,27 +87,26 @@ export function useGesuchOverrides(
     setDirty(false);
     setLoadError(false);
 
-    getGesuchOverride(slug, variantKey)
-      .then((result) => {
-        if (cancelled) return;
-        const hasOverrides =
-          result.success &&
-          result.data != null &&
-          Object.keys(result.data.overrides).length > 0;
+    getGesuchOverride(slug, variantKey).then((result) => {
+      if (cancelled) return;
+      const hasOverrides =
+        result.success && result.data != null && Object.keys(result.data.overrides).length > 0;
 
-        if (hasOverrides && result.data) {
-          setOverrides(result.data.overrides);
-        } else if (result.success) {
-          // No row or empty row → auto-draft
-          if (foundation && !autoTriggeredVariants.current.has(variantKey)) {
-            autoTriggeredVariants.current.add(variantKey);
-            setNeedsAutoDraft(true);
-          }
-        } else {
-          setLoadError(true);
+      if (hasOverrides && result.data) {
+        setOverrides(result.data.overrides);
+      } else if (result.success) {
+        // No row or empty row → auto-draft
+        if (foundation && !autoTriggeredVariants.current.has(variantKey)) {
+          autoTriggeredVariants.current.add(variantKey);
+          setNeedsAutoDraft(true);
         }
-      });
-    return () => { cancelled = true; };
+      } else {
+        setLoadError(true);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [slug, variantKey, foundation]);
 
   const toggleEditMode = useCallback(() => {
@@ -132,26 +132,27 @@ export function useGesuchOverrides(
     setDirty(true);
   }, []);
 
-  const saveData = useCallback(async (data: GesuchOverridesData) => {
-    setSaving(true);
-    try {
-      const result = await putGesuchOverride(slug, variantKey, data);
-      if (result.success) {
-        setDirty(false);
-        setDraftedVariants((prev) =>
-          prev.includes(variantKey) ? prev : [...prev, variantKey]
-        );
-        if (!pipelineChecked.current) {
-          pipelineChecked.current = true;
-          ensurePipelineEntry(slug);
+  const saveData = useCallback(
+    async (data: GesuchOverridesData) => {
+      setSaving(true);
+      try {
+        const result = await putGesuchOverride(slug, variantKey, data);
+        if (result.success) {
+          setDirty(false);
+          setDraftedVariants((prev) => (prev.includes(variantKey) ? prev : [...prev, variantKey]));
+          if (!pipelineChecked.current) {
+            pipelineChecked.current = true;
+            ensurePipelineEntry(slug);
+          }
+        } else {
+          throw new Error('save-failed');
         }
-      } else {
-        throw new Error('save-failed');
+      } finally {
+        setSaving(false);
       }
-    } finally {
-      setSaving(false);
-    }
-  }, [slug, variantKey]);
+    },
+    [slug, variantKey],
+  );
 
   const save = useCallback(async () => {
     await saveData(overridesRef.current);
@@ -159,7 +160,11 @@ export function useGesuchOverrides(
 
   const saveIfDirty = useCallback(async () => {
     if (dirty) {
-      try { await save(); } catch { /* silent */ }
+      try {
+        await save();
+      } catch {
+        /* silent */
+      }
     }
   }, [dirty, save]);
 
@@ -227,39 +232,42 @@ export function useGesuchOverrides(
         : '';
       const context = [purposeHint, granteesHint, notesHint, angleHint].filter(Boolean).join('\n');
 
-      const [bridgeResult, openingResult, alignResult, whyResult, howResult] =
-        await Promise.all([
-          aiRewrite({
-            instruction: `Schreibe einen prägnanten Verbindungssatz (2-3 Sätze), der erklärt, warum ${name} und unsere Organisation zusammenpassen. Beziehe dich konkret auf den Stiftungszweck und unsere Fähigkeiten — kein generisches "wir passen gut zusammen".\n${context}`,
-            currentText: 'Verbindungssatz wird erstellt...',
-            fieldPath: 'foundationBridge',
-            fieldDescription: 'Verbindungssatz zwischen Stiftung und Organisation — erklärt die spezifische Passung',
-          }),
-          aiRewrite({
-            instruction: `Schreibe eine professionelle Anschreiben-Eröffnung (2-3 Sätze) für ein Fördergesuch an ${name}. Zeige, dass wir die Stiftung kennen — referenziere ihren Zweck oder ihre bisherigen Förderungen.\n${context}`,
-            currentText: 'Eröffnung wird erstellt...',
-            fieldPath: 'anschreiben.opening',
-            fieldDescription: 'Eröffnungsabsatz des Anschreibens — erster Eindruck, zeigt Recherche',
-          }),
-          aiRewrite({
-            instruction: `Beschreibe in 2-4 Sätzen, wie unsere Arbeitsbereiche mit den Förderzielen von ${name} übereinstimmen. Nenne konkrete Überschneidungen, nicht abstrakte Gemeinsamkeiten.\n${context}`,
-            currentText: 'Thematische Übereinstimmung wird erstellt...',
-            fieldPath: 'anschreiben.themeAlignment',
-            fieldDescription: 'Thematische Übereinstimmung im Anschreiben — zeigt konkrete Schnittmengen',
-          }),
-          aiRewrite({
-            instruction: `Schreibe einen "Warum"-Absatz (3-5 Sätze) für ein Fördergesuch an ${name}. Beschreibe das Problem, das wir lösen, aus der Perspektive dessen, was dieser Stiftung wichtig ist. Nicht generisch — formuliere so, dass ${name} sich angesprochen fühlt.\n${context}`,
-            currentText: 'Problem-Lösung wird erstellt...',
-            fieldPath: 'why.problem',
-            fieldDescription: 'Problemdarstellung — warum unsere Arbeit nötig ist, aus Sicht der Stiftung',
-          }),
-          aiRewrite({
-            instruction: `Schreibe einen "Wie wir arbeiten"-Absatz (3-5 Sätze) für ein Fördergesuch an ${name}. Hebe die Kompetenzen und Erfahrungen hervor, die für diese Stiftung besonders relevant sind. Konkrete Zahlen und Beispiele.\n${context}`,
-            currentText: 'Track Record wird erstellt...',
-            fieldPath: 'how.trackRecord.text',
-            fieldDescription: 'Track Record — unsere relevante Erfahrung für diese spezifische Stiftung',
-          }),
-        ]);
+      const [bridgeResult, openingResult, alignResult, whyResult, howResult] = await Promise.all([
+        aiRewrite({
+          instruction: `Schreibe einen prägnanten Verbindungssatz (2-3 Sätze), der erklärt, warum ${name} und unsere Organisation zusammenpassen. Beziehe dich konkret auf den Stiftungszweck und unsere Fähigkeiten — kein generisches "wir passen gut zusammen".\n${context}`,
+          currentText: 'Verbindungssatz wird erstellt...',
+          fieldPath: 'foundationBridge',
+          fieldDescription:
+            'Verbindungssatz zwischen Stiftung und Organisation — erklärt die spezifische Passung',
+        }),
+        aiRewrite({
+          instruction: `Schreibe eine professionelle Anschreiben-Eröffnung (2-3 Sätze) für ein Fördergesuch an ${name}. Zeige, dass wir die Stiftung kennen — referenziere ihren Zweck oder ihre bisherigen Förderungen.\n${context}`,
+          currentText: 'Eröffnung wird erstellt...',
+          fieldPath: 'anschreiben.opening',
+          fieldDescription: 'Eröffnungsabsatz des Anschreibens — erster Eindruck, zeigt Recherche',
+        }),
+        aiRewrite({
+          instruction: `Beschreibe in 2-4 Sätzen, wie unsere Arbeitsbereiche mit den Förderzielen von ${name} übereinstimmen. Nenne konkrete Überschneidungen, nicht abstrakte Gemeinsamkeiten.\n${context}`,
+          currentText: 'Thematische Übereinstimmung wird erstellt...',
+          fieldPath: 'anschreiben.themeAlignment',
+          fieldDescription:
+            'Thematische Übereinstimmung im Anschreiben — zeigt konkrete Schnittmengen',
+        }),
+        aiRewrite({
+          instruction: `Schreibe einen "Warum"-Absatz (3-5 Sätze) für ein Fördergesuch an ${name}. Beschreibe das Problem, das wir lösen, aus der Perspektive dessen, was dieser Stiftung wichtig ist. Nicht generisch — formuliere so, dass ${name} sich angesprochen fühlt.\n${context}`,
+          currentText: 'Problem-Lösung wird erstellt...',
+          fieldPath: 'why.problem',
+          fieldDescription:
+            'Problemdarstellung — warum unsere Arbeit nötig ist, aus Sicht der Stiftung',
+        }),
+        aiRewrite({
+          instruction: `Schreibe einen "Wie wir arbeiten"-Absatz (3-5 Sätze) für ein Fördergesuch an ${name}. Hebe die Kompetenzen und Erfahrungen hervor, die für diese Stiftung besonders relevant sind. Konkrete Zahlen und Beispiele.\n${context}`,
+          currentText: 'Track Record wird erstellt...',
+          fieldPath: 'how.trackRecord.text',
+          fieldDescription:
+            'Track Record — unsere relevante Erfahrung für diese spezifische Stiftung',
+        }),
+      ]);
 
       // Build the full overrides object locally — do NOT rely on overridesRef.current
       // after updateField() calls, since setState is batched and the ref only updates

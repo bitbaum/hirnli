@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  estimateDeviceCount,
-  estimateCO2Avoided,
-  estimateEWastePrevented,
-} from '../calculations';
+import { estimateDeviceCount, estimateCO2Avoided, estimateEWastePrevented } from '../calculations';
 import { AVG_DEVICE_PRICE, CO2_PER_LAPTOP } from '@/lib/config/numbers';
 
 describe('estimateDeviceCount', () => {
@@ -42,7 +38,7 @@ describe('estimateCO2Avoided', () => {
 
   it('converts grams to tonnes and rounds to 1 decimal place', () => {
     // 10 devices * CO2_PER_LAPTOP(g) / 1000 = tonnes, rounded to 1dp
-    const expected = Math.round((10 * CO2_PER_LAPTOP) / 1000 * 10) / 10;
+    const expected = Math.round(((10 * CO2_PER_LAPTOP) / 1000) * 10) / 10;
     expect(estimateCO2Avoided(10)).toBe(expected);
   });
 

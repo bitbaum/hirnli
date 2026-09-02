@@ -2,13 +2,33 @@
  * German month names — SSOT used by formatMonthShort, formatDateDE
  */
 const MONTH_NAMES_DE = [
-  'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-  'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
+  'Januar',
+  'Februar',
+  'März',
+  'April',
+  'Mai',
+  'Juni',
+  'Juli',
+  'August',
+  'September',
+  'Oktober',
+  'November',
+  'Dezember',
 ] as const;
 
 const MONTH_NAMES_DE_SHORT = [
-  'Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez',
+  'Jan',
+  'Feb',
+  'Mär',
+  'Apr',
+  'Mai',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Okt',
+  'Nov',
+  'Dez',
 ] as const;
 
 /**
@@ -27,7 +47,10 @@ export function formatDateDE(date: Date, location?: string): string {
  */
 export function formatCHF(value: number | null | undefined, showCents = false): string {
   if (value === null || value === undefined || isNaN(value)) return 'CHF --';
-  const opts = { minimumFractionDigits: showCents ? 2 : 0, maximumFractionDigits: showCents ? 2 : 0 };
+  const opts = {
+    minimumFractionDigits: showCents ? 2 : 0,
+    maximumFractionDigits: showCents ? 2 : 0,
+  };
   const formatted = Math.abs(value).toLocaleString('de-CH', opts);
   return `${value < 0 ? '-' : ''}CHF ${formatted}`;
 }
@@ -37,7 +60,10 @@ export function formatCHF(value: number | null | undefined, showCents = false): 
  */
 export function formatNumber(value: number | null | undefined, decimals = 0): string {
   if (value === null || value === undefined || isNaN(value)) return '--';
-  return value.toLocaleString('de-CH', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return value.toLocaleString('de-CH', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
 }
 
 /**

@@ -71,13 +71,12 @@ export default function Backdrop({
   className = '',
   children,
 }: BackdropProps) {
-  const layoutClass = centered
-    ? `flex items-center justify-center ${paddingClassName}`
-    : '';
+  const layoutClass = centered ? `flex items-center justify-center ${paddingClassName}` : '';
 
-  const transitionClass = open === undefined
-    ? ''
-    : `transition-opacity duration-300 ${open ? 'opacity-100' : 'pointer-events-none opacity-0'}`;
+  const transitionClass =
+    open === undefined
+      ? ''
+      : `transition-opacity duration-300 ${open ? 'opacity-100' : 'pointer-events-none opacity-0'}`;
 
   function handleClick(e: MouseEvent<HTMLDivElement>) {
     if (!onClose) return;

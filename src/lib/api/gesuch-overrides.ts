@@ -12,7 +12,9 @@ export function listGesuchOverrides(): Promise<GesuchOverridesApiResponse> {
   return apiFetch('/api/gesuch-overrides');
 }
 
-export function getGesuchOverrideVariants(slug: string): Promise<GesuchOverridesApiResponse<string[]>> {
+export function getGesuchOverrideVariants(
+  slug: string,
+): Promise<GesuchOverridesApiResponse<string[]>> {
   return apiFetch<string[]>(`/api/gesuch-overrides/${slug}/variants`);
 }
 

@@ -21,12 +21,7 @@ import { NextResponse } from 'next/server';
  *     return apiError('GET /api/applications', error, API_ERR_LOAD);
  *   }
  */
-export function apiError(
-  tag: string,
-  error: unknown,
-  message: string,
-  status = 500,
-): NextResponse {
+export function apiError(tag: string, error: unknown, message: string, status = 500): NextResponse {
   console.error(`${tag} error:`, error);
   return NextResponse.json({ success: false, error: message }, { status });
 }
@@ -40,13 +35,8 @@ export function apiError(
  *   const parsed = schema.safeParse(body);
  *   if (!parsed.success) return apiClientError(API_ERR_VALIDATION, 400, parsed.error.flatten());
  */
-export function apiClientError(
-  message: string,
-  status = 400,
-  details?: unknown,
-): NextResponse {
+export function apiClientError(message: string, status = 400, details?: unknown): NextResponse {
   const body: Record<string, unknown> = { success: false, error: message };
   if (details !== undefined) body.details = details;
   return NextResponse.json(body, { status });
 }
-

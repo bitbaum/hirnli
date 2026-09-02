@@ -43,11 +43,7 @@ function daysUntil(dateStr: string): number | null {
 }
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="heading-xs-label mb-1.5">
-      {children}
-    </p>
-  );
+  return <p className="heading-xs-label mb-1.5">{children}</p>;
 }
 
 /** Response time + deadline block — shown for all methods */
@@ -62,7 +58,9 @@ function TimingBlock({ info }: { info: SubmissionInfo }) {
       {info.responseTime && (
         <div>
           <SectionLabel>Antwortzeit</SectionLabel>
-          <p className="text-sm text-text">Antwort erwartet in: <span className="font-medium">{info.responseTime}</span></p>
+          <p className="text-sm text-text">
+            Antwort erwartet in: <span className="font-medium">{info.responseTime}</span>
+          </p>
         </div>
       )}
       {(info.deadlineText || days !== null) && (
@@ -150,23 +148,29 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
 
   return (
     <div className="space-y-4">
-      {info.applicationUrl && (() => {
-        const ctx = getApplicationUrlContext(info.applicationUrl, info.applicationMethod);
-        return (
-          <div>
-            <SectionLabel>{ctx.isEmail ? 'Bewerbung per E-Mail' : 'Online-Formular'}</SectionLabel>
-            <Button variant="soft" href={info.applicationUrl}>
-              {ctx.isEmail ? `${ctx.displayValue} ✉` : 'Formular öffnen ↗'}
-            </Button>
-          </div>
-        );
-      })()}
+      {info.applicationUrl &&
+        (() => {
+          const ctx = getApplicationUrlContext(info.applicationUrl, info.applicationMethod);
+          return (
+            <div>
+              <SectionLabel>
+                {ctx.isEmail ? 'Bewerbung per E-Mail' : 'Online-Formular'}
+              </SectionLabel>
+              <Button variant="soft" href={info.applicationUrl}>
+                {ctx.isEmail ? `${ctx.displayValue} ✉` : 'Formular öffnen ↗'}
+              </Button>
+            </div>
+          );
+        })()}
 
       <div>
         <SectionLabel>Was du wo einträgst</SectionLabel>
         <div className="rounded-lg border border-border-default overflow-hidden">
           {fieldMap.map(({ label, value }) => (
-            <div key={label} className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-3 px-3 py-2 even:bg-surface-raised border-b border-border-default last:border-0">
+            <div
+              key={label}
+              className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-3 px-3 py-2 even:bg-surface-raised border-b border-border-default last:border-0"
+            >
               <span className="heading-detail text-text-muted sm:shrink-0 sm:w-44">{label}</span>
               <span className="text-sm text-text sm:text-right">{value}</span>
             </div>
@@ -198,8 +202,8 @@ function PostBlock({ info }: { info: SubmissionInfo }) {
         </pre>
       </div>
       <p className="text-sm text-text-muted">
-        Gesuch als gebundenes Dokument (oder lose Blätter in Mappe) per A-Post senden.
-        Einschreiben empfohlen falls Fristnachweis nötig.
+        Gesuch als gebundenes Dokument (oder lose Blätter in Mappe) per A-Post senden. Einschreiben
+        empfohlen falls Fristnachweis nötig.
       </p>
       <div>
         <SectionLabel>Absender</SectionLabel>
@@ -265,21 +269,20 @@ export default function GesuchSubmitSection({ info }: { info: SubmissionInfo }) 
       )}
 
       {/* Method-specific block */}
-      {(!method || method === 'email' || method === 'direct') && (
-        <EmailBlock info={info} />
-      )}
+      {(!method || method === 'email' || method === 'direct') && <EmailBlock info={info} />}
       {method === 'online' && <OnlineBlock info={info} />}
       {method === 'post' && <PostBlock info={info} />}
       {(method === 'contact' || method === 'personal' || method === 'unknown') && (
         <ContactBlock info={info} />
       )}
-      {(method === 'partnership' || method === 'via_partner' || method === 'membership' || method === 'contract') && (
-        <ContactBlock info={info} />
-      )}
+      {(method === 'partnership' ||
+        method === 'via_partner' ||
+        method === 'membership' ||
+        method === 'contract') && <ContactBlock info={info} />}
       {method === 'none' && (
         <p className="text-sm text-text-muted">
-          Diese Stiftung nimmt keine direkten Gesuche entgegen.
-          Förderung erfolgt nur auf Einladung oder über Partner.
+          Diese Stiftung nimmt keine direkten Gesuche entgegen. Förderung erfolgt nur auf Einladung
+          oder über Partner.
         </p>
       )}
 

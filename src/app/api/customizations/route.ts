@@ -18,13 +18,7 @@ import { apiError } from '@/lib/api/route-helpers';
 const createRuleSchema = z.object({
   foundationId: z.string().optional().nullable(),
 
-  conditionType: z.enum([
-    'focus_match',
-    'grant_size',
-    'geographic',
-    'organization_type',
-    'custom',
-  ]),
+  conditionType: z.enum(['focus_match', 'grant_size', 'geographic', 'organization_type', 'custom']),
   conditionValue: z.string(),
 
   actionType: z.enum([
@@ -95,7 +89,7 @@ export async function POST(request: NextRequest) {
           error: API_ERR_VALIDATION,
           details: validation.error.flatten(),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -109,10 +103,7 @@ export async function POST(request: NextRequest) {
 
     await db.insert(customizationRules).values(newRule);
 
-    return NextResponse.json(
-      { success: true, data: newRule },
-      { status: 201 }
-    );
+    return NextResponse.json({ success: true, data: newRule }, { status: 201 });
   } catch (error) {
     return apiError('POST /api/customizations', error, API_ERR_SAVE);
   }

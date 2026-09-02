@@ -12,7 +12,13 @@ function makeGesuch(overrides: Partial<ComposedGesuch> = {}): ComposedGesuch {
     themes: { primary: 'kreislaufwirtschaft', secondary: [], all: [] },
     secondaryThemeRelevance: [],
     story: {
-      why: { headline: 'Why Headline', hook: 'Hook', problem: 'Problem', solution: 'Solution', body: '' },
+      why: {
+        headline: 'Why Headline',
+        hook: 'Hook',
+        problem: 'Problem',
+        solution: 'Solution',
+        body: '',
+      },
       how: {
         track_record: { headline: 'Track Headline', text: 'Track Text', bullets: [] },
         competencies: [],
@@ -79,7 +85,12 @@ describe('applyGesuchOverrides', () => {
         why: { headline: 'H2', hook: 'Hook2', problem: 'P2', solution: 'S2' },
       };
       const result = applyGesuchOverrides(gesuch, overrides);
-      expect(result.story.why).toMatchObject({ headline: 'H2', hook: 'Hook2', problem: 'P2', solution: 'S2' });
+      expect(result.story.why).toMatchObject({
+        headline: 'H2',
+        hook: 'Hook2',
+        problem: 'P2',
+        solution: 'S2',
+      });
     });
 
     it('skips why override when story.why is undefined', () => {

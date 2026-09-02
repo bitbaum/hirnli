@@ -78,7 +78,9 @@ export default function PipelineOverviewCard({
               title={active ? `Filter ${pc.label} entfernen` : `Nur ${pc.label} anzeigen`}
               className={`rounded-lg border ${pc.cardColor} min-h-11 px-3 py-2 text-center ${TILE_INTERACTIVE} ${active ? ACTIVE_RING : ''}`}
             >
-              <div className={`text-lg font-bold tabular-nums ${pc.textColor}`}>{priorityDist[level]}</div>
+              <div className={`text-lg font-bold tabular-nums ${pc.textColor}`}>
+                {priorityDist[level]}
+              </div>
               <div className="heading-detail">{pc.label}</div>
             </button>
           );
@@ -90,12 +92,18 @@ export default function PipelineOverviewCard({
           type="button"
           onClick={onToggleRequireGesuch}
           aria-pressed={requireGesuch}
-          title={requireGesuch ? 'Filter «Mit Gesuch» entfernen' : 'Nur Stiftungen mit Gesuch-Seite anzeigen'}
+          title={
+            requireGesuch
+              ? 'Filter «Mit Gesuch» entfernen'
+              : 'Nur Stiftungen mit Gesuch-Seite anzeigen'
+          }
           className={`rounded-lg border border-accent-border bg-accent-soft px-4 py-3 text-left ${TILE_INTERACTIVE} ${requireGesuch ? ACTIVE_RING : ''}`}
         >
           <div className="heading-section tabular-nums text-primary-text">{gesuchCount}</div>
           <div className="heading-detail">Mit Gesuch</div>
-          <p className="mt-0.5 text-sm text-text-muted">Gesuch-Seite generiert (P1–P3) — klicken zum Filtern</p>
+          <p className="mt-0.5 text-sm text-text-muted">
+            Gesuch-Seite generiert (P1–P3) — klicken zum Filtern
+          </p>
         </button>
         <button
           type="button"
@@ -104,10 +112,13 @@ export default function PipelineOverviewCard({
           title="Nur bewerbungsbereite Stiftungen anzeigen"
           className={`rounded-lg border border-success/20 bg-success-bg px-4 py-3 text-left ${TILE_INTERACTIVE} ${activePresetId === 'bewerbungsbereit' ? ACTIVE_RING : ''}`}
         >
-          <div className="heading-section tabular-nums text-success-text">{tierCounts.anwendungsbereit}</div>
+          <div className="heading-section tabular-nums text-success-text">
+            {tierCounts.anwendungsbereit}
+          </div>
           <div className="heading-detail">Bewerbungsbereit</div>
           <p className="mt-0.5 text-sm text-text-muted">
-            Höchste Datenvollständigkeit (Bereitschafts-Score ≥{READINESS_ENGINE.display.thresholds[0].minScore}) — klicken zum Filtern
+            Höchste Datenvollständigkeit (Bereitschafts-Score ≥
+            {READINESS_ENGINE.display.thresholds[0].minScore}) — klicken zum Filtern
           </p>
         </button>
       </div>
@@ -115,8 +126,9 @@ export default function PipelineOverviewCard({
       {gesuchGapCount > 0 && (
         <div className="flex items-center justify-between rounded-lg border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm">
           <span>
-            <span className="font-semibold text-warning-text">{gesuchGapCount}</span>
-            {' '}von {gesuchCount} Gesuch-Seiten haben dünne Quelldaten — Notizen, Zweck, Kontakt oder Website vervollständigen.
+            <span className="font-semibold text-warning-text">{gesuchGapCount}</span> von{' '}
+            {gesuchCount} Gesuch-Seiten haben dünne Quelldaten — Notizen, Zweck, Kontakt oder
+            Website vervollständigen.
           </span>
           <button
             onClick={() => onApplyPreset('mit-luecken')}
@@ -129,7 +141,9 @@ export default function PipelineOverviewCard({
 
       <p className="text-sm text-text-muted">
         Priorität = Fit × Bereitschaft. Scores algorithmisch berechnet.{' '}
-        <Link href="/fundraising/scoring-methodik" className="text-primary-text hover:underline">Methodik</Link>
+        <Link href="/fundraising/scoring-methodik" className="text-primary-text hover:underline">
+          Methodik
+        </Link>
       </p>
     </Card>
   );

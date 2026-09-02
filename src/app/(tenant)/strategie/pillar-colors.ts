@@ -1,14 +1,17 @@
 export type PillarColorScheme = 'emerald' | 'blue' | 'violet' | 'amber';
 
-export const PILLAR_COLORS: Record<PillarColorScheme, {
-  border: string;
-  borderHover: string;
-  bg: string;
-  bgHover: string;
-  text: string;
-  accent: string;
-  ring: string;
-}> = {
+export const PILLAR_COLORS: Record<
+  PillarColorScheme,
+  {
+    border: string;
+    borderHover: string;
+    bg: string;
+    bgHover: string;
+    text: string;
+    accent: string;
+    ring: string;
+  }
+> = {
   emerald: {
     border: 'border-success/20',
     borderHover: 'hover:border-success',

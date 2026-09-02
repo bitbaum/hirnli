@@ -16,8 +16,8 @@ export default function SovereigntySection() {
       <h2 className="mb-4 heading-subsection">Unser Weg: Souveränität auf jeder Ebene</h2>
       <Card>
         <p className="mb-6 text-sm text-text-secondary">
-          Von Anfang an ging es um Unabhängigkeit — von geplanter Obsoleszenz, von Lizenzkosten, von Abhängigkeit.
-          Dieser Weg führt konsequent weiter:
+          Von Anfang an ging es um Unabhängigkeit — von geplanter Obsoleszenz, von Lizenzkosten, von
+          Abhängigkeit. Dieser Weg führt konsequent weiter:
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <SovereigntyPillar
@@ -31,7 +31,11 @@ export default function SovereigntySection() {
               'Right to Repair — Community-getrieben',
             ]}
             relatedPages={[
-              { title: 'Operations', href: '/operations', reason: 'Wie unser Refurbishment-Prozess funktioniert' },
+              {
+                title: 'Operations',
+                href: '/operations',
+                reason: 'Wie unser Refurbishment-Prozess funktioniert',
+              },
               { title: 'Wirkung', href: '/wirkung', reason: 'Wie viele Geräte wir gerettet haben' },
             ]}
           />
@@ -46,7 +50,11 @@ export default function SovereigntySection() {
               'Keine Lizenzkosten = niedrigere Preise',
             ]}
             relatedPages={[
-              { title: 'Preismodell', href: '/preismodell', reason: 'Wie Open-Source Zugang ermöglicht' },
+              {
+                title: 'Preismodell',
+                href: '/preismodell',
+                reason: 'Wie Open-Source Zugang ermöglicht',
+              },
               { title: 'Team', href: '/team', reason: 'Unser Linux-Expertise' },
             ]}
           />
@@ -75,7 +83,11 @@ export default function SovereigntySection() {
               'Sovereign AI Lab für Schweizer Organisationen',
             ]}
             relatedPages={[
-              { title: 'Strategie → Community Tech Space', href: '/strategie#community-tech-space', reason: 'Sovereign AI Lab Details' },
+              {
+                title: 'Strategie → Community Tech Space',
+                href: '/strategie#community-tech-space',
+                reason: 'Sovereign AI Lab Details',
+              },
             ]}
           />
         </div>

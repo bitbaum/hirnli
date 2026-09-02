@@ -40,9 +40,8 @@ export default async function GesuchDokumentPage({ params, searchParams }: Props
     notFound();
   }
 
-  const schwerpunktId = schwerpunktParam && isSchwerpunktId(schwerpunktParam)
-    ? schwerpunktParam
-    : undefined;
+  const schwerpunktId =
+    schwerpunktParam && isSchwerpunktId(schwerpunktParam) ? schwerpunktParam : undefined;
 
   const baseDok = composeGesuchDokument(foundation, schwerpunktId);
   const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
@@ -51,9 +50,7 @@ export default async function GesuchDokumentPage({ params, searchParams }: Props
   if (!dok.ready) {
     return (
       <div className="gesuch-dokument mx-auto max-w-3xl py-12 text-center">
-        <h1 className="mb-4 heading-section">
-          Gesuch-Dokument für {dok.foundation.name}
-        </h1>
+        <h1 className="mb-4 heading-section">Gesuch-Dokument für {dok.foundation.name}</h1>
         <p className="mb-6 text-text-secondary">{dok.readyReason}</p>
         <Link
           href={`/fundraising/stiftungen/${slug}`}
@@ -77,7 +74,10 @@ export default async function GesuchDokumentPage({ params, searchParams }: Props
         >
           PDF öffnen
         </a>
-        <Link href={`/fundraising/stiftungen/${slug}/gesuch`} className="text-primary hover:underline">
+        <Link
+          href={`/fundraising/stiftungen/${slug}/gesuch`}
+          className="text-primary hover:underline"
+        >
           Interaktive Seite
         </Link>
         <Link href={`/fundraising/stiftungen/${slug}`} className="text-primary hover:underline">

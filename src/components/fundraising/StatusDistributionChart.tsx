@@ -7,13 +7,7 @@
 'use client';
 
 import { Pie } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  type ChartData,
-} from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, type ChartData } from 'chart.js';
 import { getStatusConfig, type ApplicationStatusId } from '@/lib/config/application-statuses';
 
 // Register Chart.js components
@@ -29,15 +23,15 @@ interface StatusDistributionChartProps {
 }
 
 export function StatusDistributionChart({ data }: StatusDistributionChartProps) {
-  const configs = data.map(item => getStatusConfig(item.status));
+  const configs = data.map((item) => getStatusConfig(item.status));
   const chartData: ChartData<'pie'> = {
     labels: data.map((item, i) => configs[i].label),
     datasets: [
       {
         label: 'Gesuche',
-        data: data.map(item => item.count),
-        backgroundColor: configs.map(c => c.chartColor.bg),
-        borderColor: configs.map(c => c.chartColor.border),
+        data: data.map((item) => item.count),
+        backgroundColor: configs.map((c) => c.chartColor.bg),
+        borderColor: configs.map((c) => c.chartColor.border),
         borderWidth: 2,
       },
     ],

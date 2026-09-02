@@ -151,11 +151,9 @@ export const GESUCH_TEXT = {
     'Revamp-IT verlängert die Lebensdauer von IT-Geräten durch professionelles Refurbishing und bietet gleichzeitig Arbeitsintegrationsplätze für Menschen am Rand des Arbeitsmarktes.',
   wirkungsmessung: {
     indicators: `Revamp-IT misst die Wirkung seiner Aktivitäten anhand konkreter Indikatoren: CO₂-Einsparung pro Gerät (${CORE_FACTS.metrics.environmental.co2_per_laptop} kg/Laptop), Anzahl betreuter Praktikant:innen, Wiedereingliederungsquote (${SOCIAL_DISPLAY.success_rate}), sowie die Reuse-Rate (${CORE_FACTS.metrics.environmental.reuse_rate}%) der eingegangenen Geräte. Die Ergebnisse werden in unserem transparenten Online-Dashboard publiziert.`,
-    sustainability:
-      `Revamp-IT hat über ${ORG_PROFILE.yearsActive} Jahre bewiesen, dass das Kerngeschäft tragfähig ist. Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.`,
+    sustainability: `Revamp-IT hat über ${ORG_PROFILE.yearsActive} Jahre bewiesen, dass das Kerngeschäft tragfähig ist. Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.`,
   },
-  kurzportrait_subtitle:
-    `Gemeinnütziger Verein seit ${ORG_PROFILE.founded} — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung`,
+  kurzportrait_subtitle: `Gemeinnütziger Verein seit ${ORG_PROFILE.founded} — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung`,
 } as const;
 
 // ============================================================================
@@ -214,7 +212,8 @@ const EVIDENCE: Record<string, Record<string, Evidence>> = {
     wef_future_of_jobs: {
       title: 'WEF Future of Jobs Report',
       year: 2025,
-      claim: 'Bis 2030 werden 92 Millionen Arbeitsplätze durch Automatisierung und KI verdrängt — gleichzeitig entstehen 170 Millionen neue, die digitale Kompetenzen erfordern',
+      claim:
+        'Bis 2030 werden 92 Millionen Arbeitsplätze durch Automatisierung und KI verdrängt — gleichzeitig entstehen 170 Millionen neue, die digitale Kompetenzen erfordern',
       url: 'https://www.weforum.org/publications/the-future-of-jobs-report-2025/',
     },
     open_source_platform: {
@@ -603,19 +602,25 @@ const PROJECTS: Record<string, Project> = {
 export const ANSCHREIBEN_TEMPLATES: Record<FoundationType, { opening: string; closing: string }> = {
   A: {
     opening: `Wir erlauben uns, Ihnen ein Fördergesuch für unser Projekt einzureichen. Als gemeinnütziger Verein mit ${ORG_PROFILE.experienceLabel} in der Verbindung von Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung möchten wir Ihnen eine Zusammenarbeit vorschlagen.`,
-    closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für ein Gespräch jederzeit zur Verfügung. Gerne senden wir Ihnen weitere Unterlagen zu.',
+    closing:
+      'Wir freuen uns auf Ihre Rückmeldung und stehen für ein Gespräch jederzeit zur Verfügung. Gerne senden wir Ihnen weitere Unterlagen zu.',
   },
   B: {
     opening: `Revamp-IT verbindet seit über ${ORG_PROFILE.yearsActive} Jahren Umweltschutz mit sozialer Integration — ein Anliegen, das uns mit Ihrer Stiftung verbindet. Wir möchten Ihnen zeigen, wie eine Partnerschaft konkret aussehen könnte.`,
-    closing: 'Wir würden uns sehr über ein persönliches Gespräch freuen, um unsere Arbeit und mögliche Synergien vorzustellen.',
+    closing:
+      'Wir würden uns sehr über ein persönliches Gespräch freuen, um unsere Arbeit und mögliche Synergien vorzustellen.',
   },
   C: {
-    opening: 'In Zürich reparieren wir Computer, die sonst im Müll landen würden — und geben gleichzeitig Menschen eine zweite Chance auf dem Arbeitsmarkt. Dürfen wir Ihnen kurz erzählen, was wir tun?',
-    closing: 'Wir würden uns freuen, von Ihnen zu hören. Ein kurzes Telefonat genügt, um zu klären, ob eine Unterstützung in Frage kommt.',
+    opening:
+      'In Zürich reparieren wir Computer, die sonst im Müll landen würden — und geben gleichzeitig Menschen eine zweite Chance auf dem Arbeitsmarkt. Dürfen wir Ihnen kurz erzählen, was wir tun?',
+    closing:
+      'Wir würden uns freuen, von Ihnen zu hören. Ein kurzes Telefonat genügt, um zu klären, ob eine Unterstützung in Frage kommt.',
   },
   D: {
-    opening: 'Als gemeinnütziger Verein an der Schnittstelle von Kreislaufwirtschaft, digitaler Bildung und Arbeitsintegration bietet Revamp-IT konkrete Partnerschaftsmodelle für Unternehmen: Hardware-Spenden (Computer und GPUs) erhalten ein zweites Leben, Corporate Placements ermöglichen sinnvolle Outplacement-Lösungen, und unsere Bildungsprogramme stärken digitale Kompetenzen in der Region. Wir möchten Ihnen eine Zusammenarbeit vorschlagen, die messbare soziale, ökologische und wirtschaftliche Wirkung erzielt.',
-    closing: 'Wir freuen uns auf Ihre Rückmeldung und stehen für eine Präsentation unserer Impact-Daten und Partnerschaftsmodelle jederzeit bereit.',
+    opening:
+      'Als gemeinnütziger Verein an der Schnittstelle von Kreislaufwirtschaft, digitaler Bildung und Arbeitsintegration bietet Revamp-IT konkrete Partnerschaftsmodelle für Unternehmen: Hardware-Spenden (Computer und GPUs) erhalten ein zweites Leben, Corporate Placements ermöglichen sinnvolle Outplacement-Lösungen, und unsere Bildungsprogramme stärken digitale Kompetenzen in der Region. Wir möchten Ihnen eine Zusammenarbeit vorschlagen, die messbare soziale, ökologische und wirtschaftliche Wirkung erzielt.',
+    closing:
+      'Wir freuen uns auf Ihre Rückmeldung und stehen für eine Präsentation unserer Impact-Daten und Partnerschaftsmodelle jederzeit bereit.',
   },
   network: {
     opening: `Revamp-IT ist seit ${ORG_PROFILE.founded} in Zürich aktiv und verbindet Kreislaufwirtschaft mit sozialer Integration. Wir interessieren uns für eine Mitgliedschaft und mögliche Partnerschaften.`,
@@ -629,13 +634,13 @@ export const ANSCHREIBEN_TEMPLATES: Record<FoundationType, { opening: string; cl
 
 /** Maps foundation ThemeId values to story ThemeKey values */
 export const THEME_ID_TO_STORY_KEY: Record<ThemeId, ThemeKey> = {
-  'klima': 'klima',
-  'kreislaufwirtschaft': 'kreislaufwirtschaft',
+  klima: 'klima',
+  kreislaufwirtschaft: 'kreislaufwirtschaft',
   'soziale-integration': 'sozial',
   'digitale-bildung': 'bildung',
   'digitale-souveraenitaet': 'digital',
-  'zuerich': 'klima',            // Geographic — use foundation's other themes first
-  'arbeitsintegration': 'sozial',
+  zuerich: 'klima', // Geographic — use foundation's other themes first
+  arbeitsintegration: 'sozial',
 };
 
 /** Priority order for selecting primary theme (last = richest story content) */
@@ -654,7 +659,8 @@ export const THEME_PRIORITY: ThemeKey[] = [
 export const PARTNER_HIGHLIGHTS = [
   {
     name: 'Stadt Zürich',
-    relationship: 'Die Sozialen Einrichtungen der Stadt Zürich weisen regelmässig Praktikant:innen an Revamp-IT zu. Diese langjährige Zusammenarbeit bestätigt die Qualität unserer Integrationsarbeit.',
+    relationship:
+      'Die Sozialen Einrichtungen der Stadt Zürich weisen regelmässig Praktikant:innen an Revamp-IT zu. Diese langjährige Zusammenarbeit bestätigt die Qualität unserer Integrationsarbeit.',
     since: `seit ${ORG_PROFILE.milestones.integrationProgram}`,
   },
 ];
@@ -666,25 +672,29 @@ export const PARTNER_HIGHLIGHTS = [
 const ANECDOTES: Anecdote[] = [
   {
     id: 'integration_success',
-    template: 'Ein Praktikant kam über die Sozialen Einrichtungen der Stadt Zürich zu uns. Nach sechs Monaten in der Werkstatt — von der Hardware-Diagnose über Reparaturen bis zur Linux-Installation — hatte er sich ein solides IT-Profil aufgebaut. Heute arbeitet er als IT-Supporter bei einem Zürcher KMU.',
+    template:
+      'Ein Praktikant kam über die Sozialen Einrichtungen der Stadt Zürich zu uns. Nach sechs Monaten in der Werkstatt — von der Hardware-Diagnose über Reparaturen bis zur Linux-Installation — hatte er sich ein solides IT-Profil aufgebaut. Heute arbeitet er als IT-Supporter bei einem Zürcher KMU.',
     themes: ['sozial', 'bildung'],
     placement: 'why',
   },
   {
     id: 'klima_impact',
-    template: 'Eine Zürcher Firma spendete 40 ausgemusterte Laptops. Unsere Praktikant:innen diagnostizierten jedes Gerät, tauschten defekte Komponenten und installierten Linux. 30 Geräte gingen an eine Schule und einen gemeinnützigen Verein. Die restlichen 10 lieferten Ersatzteile für künftige Reparaturen. Kein einziges Gerät landete im Müll.',
+    template:
+      'Eine Zürcher Firma spendete 40 ausgemusterte Laptops. Unsere Praktikant:innen diagnostizierten jedes Gerät, tauschten defekte Komponenten und installierten Linux. 30 Geräte gingen an eine Schule und einen gemeinnützigen Verein. Die restlichen 10 lieferten Ersatzteile für künftige Reparaturen. Kein einziges Gerät landete im Müll.',
     themes: ['klima', 'kreislaufwirtschaft'],
     placement: 'why',
   },
   {
     id: 'digital_empowerment',
-    template: 'Eine Teilnehmerin hatte noch nie einen eigenen Computer. Im Workshop bei Revamp-IT lernte sie Schritt für Schritt: E-Mail einrichten, Dokumente erstellen, sicher im Internet recherchieren. Am Ende nahm sie ein refurbished Laptop mit nach Hause — zum Solidaritätspreis von 50 Franken.',
+    template:
+      'Eine Teilnehmerin hatte noch nie einen eigenen Computer. Im Workshop bei Revamp-IT lernte sie Schritt für Schritt: E-Mail einrichten, Dokumente erstellen, sicher im Internet recherchieren. Am Ende nahm sie ein refurbished Laptop mit nach Hause — zum Solidaritätspreis von 50 Franken.',
     themes: ['bildung', 'digital'],
     placement: 'why',
   },
   {
     id: 'werkstatt_daily',
-    template: 'An einem typischen Tag in der Werkstatt: Ein Praktikant testet Akkus, eine Kollegin lötet einen USB-Port, ein dritter installiert Linux Mint auf einem ThinkPad von 2018. Drei Menschen, drei Geschichten, ein gemeinsames Ziel — und am Ende des Tages fünf Geräte mehr, die wieder funktionieren.',
+    template:
+      'An einem typischen Tag in der Werkstatt: Ein Praktikant testet Akkus, eine Kollegin lötet einen USB-Port, ein dritter installiert Linux Mint auf einem ThinkPad von 2018. Drei Menschen, drei Geschichten, ein gemeinsames Ziel — und am Ende des Tages fünf Geräte mehr, die wieder funktionieren.',
     themes: ['sozial', 'klima', 'kreislaufwirtschaft', 'bildung', 'digital'],
     placement: 'how',
   },
@@ -697,7 +707,8 @@ const ANECDOTES: Anecdote[] = [
 const PHOTO_SLOTS: PhotoSlot[] = [
   {
     id: 'werkstatt_overview',
-    description: '[Foto: Werkstatt-Übersicht — Praktikant:innen bei der Arbeit an Geräten, Badenerstrasse 816]',
+    description:
+      '[Foto: Werkstatt-Übersicht — Praktikant:innen bei der Arbeit an Geräten, Badenerstrasse 816]',
     placement: 'why',
   },
   {
@@ -707,7 +718,8 @@ const PHOTO_SLOTS: PhotoSlot[] = [
   },
   {
     id: 'refurbished_devices',
-    description: '[Foto: Fertige Geräte — aufbereitete Laptops mit Linux-Desktop, bereit für den Verkauf]',
+    description:
+      '[Foto: Fertige Geräte — aufbereitete Laptops mit Linux-Desktop, bereit für den Verkauf]',
     placement: 'projects',
     themes: ['klima', 'kreislaufwirtschaft', 'digital'],
   },
@@ -719,7 +731,8 @@ const PHOTO_SLOTS: PhotoSlot[] = [
   },
   {
     id: 'team_portrait',
-    description: '[Foto: Teamfoto — Kernteam und Praktikant:innen vor der Werkstatt, Badenerstrasse 816]',
+    description:
+      '[Foto: Teamfoto — Kernteam und Praktikant:innen vor der Werkstatt, Badenerstrasse 816]',
     placement: 'kurzportrait',
   },
 ];
@@ -747,9 +760,7 @@ export function findEvidence(key: string): Evidence | null {
  * Get anecdotes matching a theme and placement
  */
 export function getAnecdotes(theme: ThemeKey, placement: 'why' | 'how'): Anecdote[] {
-  return ANECDOTES.filter(
-    (a) => a.placement === placement && a.themes.includes(theme),
-  );
+  return ANECDOTES.filter((a) => a.placement === placement && a.themes.includes(theme));
 }
 
 /**

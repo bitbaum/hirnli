@@ -38,9 +38,7 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
         id={menuId}
         role="menu"
         className={`absolute right-0 top-full z-50 w-[640px] max-w-[calc(100vw-2rem)] pt-3 transition-hover ${
-          open
-            ? 'visible opacity-100 translate-y-0'
-            : 'invisible opacity-0 -translate-y-1'
+          open ? 'visible opacity-100 translate-y-0' : 'invisible opacity-0 -translate-y-1'
         }`}
       >
         <div className="overflow-hidden rounded-xl border border-border-default bg-surface-base shadow-lg">
@@ -48,9 +46,7 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
             {item.sections?.map((section: NavSection) => (
               <div key={section.title} role="group" aria-label={section.title}>
                 <div className="mb-3">
-                  <span className="heading-xs-label">
-                    {section.title}
-                  </span>
+                  <span className="heading-xs-label">{section.title}</span>
                 </div>
                 <ul className="space-y-2" role="none">
                   {section.items.map((link) => (
@@ -67,9 +63,7 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
                             {link.text}
                           </span>
                           {link.desc && (
-                            <span className="block text-sm text-text-muted">
-                              {link.desc}
-                            </span>
+                            <span className="block text-sm text-text-muted">{link.desc}</span>
                           )}
                         </a>
                       ) : (
@@ -88,21 +82,13 @@ export default function MegaMenu({ item, pathname }: { item: NavItem; pathname: 
                         >
                           <span
                             className={`font-semibold group-hover/link:text-revamp-green ${
-                              link.highlight
-                                ? 'text-revamp-orange'
-                                : 'text-text-primary'
-                            } ${
-                              isActive(link.href, pathname)
-                                ? 'text-revamp-blue'
-                                : ''
-                            }`}
+                              link.highlight ? 'text-revamp-orange' : 'text-text-primary'
+                            } ${isActive(link.href, pathname) ? 'text-revamp-blue' : ''}`}
                           >
                             {link.text}
                           </span>
                           {link.desc && (
-                            <span className="block text-sm text-text-muted">
-                              {link.desc}
-                            </span>
+                            <span className="block text-sm text-text-muted">{link.desc}</span>
                           )}
                         </Link>
                       )}

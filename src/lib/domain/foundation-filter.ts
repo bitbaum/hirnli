@@ -2,10 +2,22 @@
 // Fit display: getFitLevel(f) from foundation-helpers.ts
 // Priority: f.priority (stored SSOT — sync script recomputes before generating TS file)
 
-import type { Foundation, ThemeId, FoundationType, FoundationStatus, QualityTier } from '../schemas/foundation';
+import type {
+  Foundation,
+  ThemeId,
+  FoundationType,
+  FoundationStatus,
+  QualityTier,
+} from '../schemas/foundation';
 import type { SchwerpunktId } from '../config/schwerpunkte';
 import { SCHWERPUNKTE } from '../config/schwerpunkte';
-import { getQualityTier, tierAtLeast, getFitLevel, hasGesuchPage, hasGesuchDataGaps } from './foundation-helpers';
+import {
+  getQualityTier,
+  tierAtLeast,
+  getFitLevel,
+  hasGesuchPage,
+  hasGesuchDataGaps,
+} from './foundation-helpers';
 import { getTrustLevel, type TrustLevel } from '../config/trust-levels';
 
 type ThemeLogic = 'or' | 'and';
@@ -57,7 +69,8 @@ export const DEFAULT_FILTERS: FoundationFilters = {
 // Quick-view presets — preset filter combos for common sidebar actions
 // ============================================================================
 
-export type FilterPresetId = 'bewerbungsbereit' | 'hoher-fit' | 'mit-email' | 'mit-luecken' | 'alle';
+export type FilterPresetId =
+  'bewerbungsbereit' | 'hoher-fit' | 'mit-email' | 'mit-luecken' | 'alle';
 
 interface FilterPreset {
   id: FilterPresetId;
@@ -107,15 +120,27 @@ export const FILTER_PRESETS: FilterPreset[] = [
 export function findActivePreset(filters: FoundationFilters): FilterPreset | undefined {
   return FILTER_PRESETS.find((preset) => {
     const pf = preset.filters;
-    const matchesTier = pf.minTier ? filters.minTier === pf.minTier : filters.minTier === DEFAULT_FILTERS.minTier;
-    const matchesFit = pf.fit ? JSON.stringify(filters.fit) === JSON.stringify(pf.fit) : filters.fit.length === 0;
+    const matchesTier = pf.minTier
+      ? filters.minTier === pf.minTier
+      : filters.minTier === DEFAULT_FILTERS.minTier;
+    const matchesFit = pf.fit
+      ? JSON.stringify(filters.fit) === JSON.stringify(pf.fit)
+      : filters.fit.length === 0;
     const matchesPriority = pf.priorityLevels
       ? JSON.stringify(filters.priorityLevels) === JSON.stringify(pf.priorityLevels)
       : filters.priorityLevels.length === 0;
-    const matchesEmail = pf.requireEmail ? filters.requireEmail === pf.requireEmail : !filters.requireEmail;
-    const matchesPhone = pf.requirePhone ? filters.requirePhone === pf.requirePhone : !filters.requirePhone;
-    const matchesAddress = pf.requireAddress ? filters.requireAddress === pf.requireAddress : !filters.requireAddress;
-    const matchesDataGaps = pf.requireDataGaps ? filters.requireDataGaps === pf.requireDataGaps : !filters.requireDataGaps;
+    const matchesEmail = pf.requireEmail
+      ? filters.requireEmail === pf.requireEmail
+      : !filters.requireEmail;
+    const matchesPhone = pf.requirePhone
+      ? filters.requirePhone === pf.requirePhone
+      : !filters.requirePhone;
+    const matchesAddress = pf.requireAddress
+      ? filters.requireAddress === pf.requireAddress
+      : !filters.requireAddress;
+    const matchesDataGaps = pf.requireDataGaps
+      ? filters.requireDataGaps === pf.requireDataGaps
+      : !filters.requireDataGaps;
     const noOtherFilters =
       !filters.requireGesuch &&
       filters.themes.length === 0 &&
@@ -126,8 +151,16 @@ export function findActivePreset(filters: FoundationFilters): FilterPreset | und
       !filters.hideNetworks &&
       !filters.hideNoApplication &&
       !filters.search;
-    return matchesTier && matchesFit && matchesPriority && matchesEmail && matchesPhone &&
-      matchesAddress && matchesDataGaps && noOtherFilters;
+    return (
+      matchesTier &&
+      matchesFit &&
+      matchesPriority &&
+      matchesEmail &&
+      matchesPhone &&
+      matchesAddress &&
+      matchesDataGaps &&
+      noOtherFilters
+    );
   });
 }
 
@@ -179,7 +212,11 @@ export function filterFoundations(
     if (filters.hideNetworks && f.isNetwork) return false;
 
     // Hide foundations without application method
-    if (filters.hideNoApplication && (f.applicationMethod === 'unknown' || f.applicationMethod === 'none')) return false;
+    if (
+      filters.hideNoApplication &&
+      (f.applicationMethod === 'unknown' || f.applicationMethod === 'none')
+    )
+      return false;
 
     // Contact availability filters
     if (filters.requireEmail && !f.contact?.email) return false;
@@ -201,7 +238,8 @@ export function filterFoundations(
     // Text search
     if (filters.search) {
       const q = filters.search.toLowerCase();
-      const searchable = `${f.name} ${f.tagline} ${f.region} ${f.purposeSummary || ''}`.toLowerCase();
+      const searchable =
+        `${f.name} ${f.tagline} ${f.region} ${f.purposeSummary || ''}`.toLowerCase();
       if (!searchable.includes(q)) return false;
     }
 

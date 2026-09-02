@@ -7,15 +7,23 @@ import Badge from '@/components/ui/Badge';
 import Callout from '@/components/ui/Callout';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import {
-  VISUAL_INSPECTION, COMPONENT_CHECK, HARDWARE_TESTS, CATEGORIES,
-  CLEANING_EXTERNAL, CLEANING_INTERNAL, LINUX_DISTROS,
+  VISUAL_INSPECTION,
+  COMPONENT_CHECK,
+  HARDWARE_TESTS,
+  CATEGORIES,
+  CLEANING_EXTERNAL,
+  CLEANING_INTERNAL,
+  LINUX_DISTROS,
 } from './data';
 
 export function Checklist({ items }: { items: readonly string[] }) {
   return (
     <ul className="space-y-2">
       {items.map((item) => (
-        <li key={item} className="flex items-start gap-2 border-b border-border-default pb-2 text-sm last:border-0">
+        <li
+          key={item}
+          className="flex items-start gap-2 border-b border-border-default pb-2 text-sm last:border-0"
+        >
           <span className="text-text-muted">☐</span>
           <span>{item}</span>
         </li>
@@ -75,7 +83,7 @@ export function TriageSection() {
           <CardTitle>Kategorisierung – Entscheidungsbaum</CardTitle>
         </CardHeader>
         <pre className="overflow-x-auto rounded-lg bg-surface-raised p-4 font-mono text-sm">
-{`Gerät funktioniert vollständig?
+          {`Gerät funktioniert vollständig?
 ├─ JA → Kategorie A (Refurbishment)
 │
 ├─ TEILWEISE → Reparatur möglich & wirtschaftlich?
@@ -87,11 +95,17 @@ export function TriageSection() {
         <MetricGrid columns={4} className="mt-4">
           {CATEGORIES.map((cat) => (
             <div key={cat.label} className="text-center">
-              <Badge variant="raw" size="md" className={`px-3 py-1 text-sm font-semibold ${cat.color}`}>
+              <Badge
+                variant="raw"
+                size="md"
+                className={`px-3 py-1 text-sm font-semibold ${cat.color}`}
+              >
                 {cat.label}
               </Badge>
               <p className="mt-2 text-sm text-text-muted">
-                {cat.title}<br />{cat.description}
+                {cat.title}
+                <br />
+                {cat.description}
               </p>
             </div>
           ))}
@@ -135,7 +149,9 @@ export function RefurbishmentStepsSection() {
           <h4 className="mb-1 heading-detail">RAM-Upgrade:</h4>
           <p className="mb-3 text-sm text-text-secondary">Minimum: 4 GB (besser 8 GB)</p>
           <h4 className="mb-1 heading-detail">SSD-Upgrade:</h4>
-          <p className="mb-3 text-sm text-text-secondary">Wenn Festplatte &lt; 250 GB oder defekt</p>
+          <p className="mb-3 text-sm text-text-secondary">
+            Wenn Festplatte &lt; 250 GB oder defekt
+          </p>
           <h4 className="mb-1 heading-detail">Weitere:</h4>
           <ul className="list-disc pl-5 text-sm text-text-secondary">
             <li>WiFi-Karte (wenn fehlend)</li>
@@ -154,7 +170,10 @@ export function RefurbishmentStepsSection() {
           <h4 className="mb-2 heading-detail">Standard-Distributionen:</h4>
           <div className="space-y-2">
             {LINUX_DISTROS.map((d) => (
-              <div key={d.target} className="flex justify-between rounded bg-surface-raised px-3 py-2 text-sm">
+              <div
+                key={d.target}
+                className="flex justify-between rounded bg-surface-raised px-3 py-2 text-sm"
+              >
                 <span className="text-text-muted">{d.target}</span>
                 <span className="font-medium">{d.distro}</span>
               </div>
@@ -213,8 +232,7 @@ export function WarehouseSection() {
         </Card>
       </div>
       <p className="mt-2 text-sm text-text-muted">
-        <Badge variant="live">Quelldokument</Badge>{' '}
-        Finanzstrategie_2025.md, Operative Kennzahlen
+        <Badge variant="live">Quelldokument</Badge> Finanzstrategie_2025.md, Operative Kennzahlen
       </p>
     </section>
   );

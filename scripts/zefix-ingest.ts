@@ -20,11 +20,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { sql, type SqlClient } from './lib/db';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
-import {
-  classifyThemes,
-  toSlug,
-  THEME_LABELS,
-} from './lib/theme-classifier';
+import { classifyThemes, toSlug, THEME_LABELS } from './lib/theme-classifier';
 
 // ============================================================================
 // Types
@@ -99,7 +95,7 @@ const EXCLUDE_PATTERNS = [
 ];
 
 function isExcluded(name: string): boolean {
-  return EXCLUDE_PATTERNS.some(pattern => pattern.test(name));
+  return EXCLUDE_PATTERNS.some((pattern) => pattern.test(name));
 }
 
 // ============================================================================
@@ -110,8 +106,9 @@ function findLatestRegister(): string | null {
   const researchDir = path.join(process.cwd(), 'research');
   if (!fs.existsSync(researchDir)) return null;
 
-  const files = fs.readdirSync(researchDir)
-    .filter(f => f.startsWith('zefix-register-') && f.endsWith('.json'))
+  const files = fs
+    .readdirSync(researchDir)
+    .filter((f) => f.startsWith('zefix-register-') && f.endsWith('.json'))
     .sort()
     .reverse();
 
@@ -127,16 +124,15 @@ function generateNameOnlySummary(entry: ZefixEntry): string {
   return `${entry.name} (${location}): Stiftung gemäss Handelsregister. Keine detaillierte Zweckbeschreibung aus Zefix verfügbar. Weitere Recherche zu Förderzweck und Aktivitäten empfohlen.`;
 }
 
-function generateNameOnlyResearchNotes(
-  entry: ZefixEntry,
-  themes: string[],
-): string {
+function generateNameOnlyResearchNotes(entry: ZefixEntry, themes: string[]): string {
   const parts: string[] = [];
 
   parts.push(`${entry.name}: Aus Zefix-Handelsregister importiert.`);
 
   if (themes.length > 0) {
-    parts.push(`Mögliche thematische Anknüpfungspunkte (aus Name abgeleitet): ${themes.map(t => THEME_LABELS[t] || t).join(', ')}.`);
+    parts.push(
+      `Mögliche thematische Anknüpfungspunkte (aus Name abgeleitet): ${themes.map((t) => THEME_LABELS[t] || t).join(', ')}.`,
+    );
   } else {
     parts.push('Keine thematischen Anknüpfungspunkte aus dem Namen erkennbar.');
   }
@@ -149,7 +145,9 @@ function generateNameOnlyResearchNotes(
     parts.push(`Kantonaler Handelsregisterauszug verfügbar.`);
   }
 
-  parts.push('Automatisch aus Zefix importiert. Manuelle Recherche für Stiftungszweck, Website, Kontaktdaten und Förderprioritäten erforderlich.');
+  parts.push(
+    'Automatisch aus Zefix importiert. Manuelle Recherche für Stiftungszweck, Website, Kontaktdaten und Förderprioritäten erforderlich.',
+  );
 
   return parts.join(' ');
 }
@@ -158,10 +156,7 @@ function generateNameOnlyResearchNotes(
 // DB UPSERT
 // ============================================================================
 
-async function upsertEntry(
-  sql: SqlClient,
-  entry: ZefixEntry,
-): Promise<{ success: boolean }> {
+async function upsertEntry(sql: SqlClient, entry: ZefixEntry): Promise<{ success: boolean }> {
   const slug = toSlug(entry.name);
   const nameLower = entry.name.toLowerCase();
   // Zefix has no purpose text — classify from name only
@@ -170,8 +165,11 @@ async function upsertEntry(
   const applicationMethod = 'unknown';
 
   const { fitScore } = computeFitScore({
-    themes, canton: '', city: entry.city || '',
-    applicationMethod, isFunder,
+    themes,
+    canton: '',
+    city: entry.city || '',
+    applicationMethod,
+    isFunder,
   });
   const researchDepth: ResearchDepth = 'rapid';
   const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
@@ -252,7 +250,7 @@ async function upsertEntry(
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const limitArg = parseInt(args.find(a => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
+  const limitArg = parseInt(args.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
 
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('  Zefix Ingest — Filter + cross-ref + upsert to DB');
@@ -271,13 +269,15 @@ async function main() {
   console.log(`  Entries: ${register.foundations.length}`);
 
   // 2. Filter: active only
-  const active = register.foundations.filter(e =>
-    !e.status || e.status === 'EXISTIEREND' || e.status === ''
+  const active = register.foundations.filter(
+    (e) => !e.status || e.status === 'EXISTIEREND' || e.status === '',
   );
-  console.log(`  Active: ${active.length} (filtered ${register.foundations.length - active.length} inactive)`);
+  console.log(
+    `  Active: ${active.length} (filtered ${register.foundations.length - active.length} inactive)`,
+  );
 
   // 3. Filter: exclude pension/non-charitable
-  const charitable = active.filter(e => !isExcluded(e.name));
+  const charitable = active.filter((e) => !isExcluded(e.name));
   const excluded = active.length - charitable.length;
   console.log(`  Charitable: ${charitable.length} (excluded ${excluded} pension/non-charitable)`);
 
@@ -289,7 +289,7 @@ async function main() {
   const existingUids = new Set(
     existingRows
       .map((r) => r.uid)
-      .filter((uid): uid is string => !!uid && uid !== 'CHE-XXX.XXX.XXX')
+      .filter((uid): uid is string => !!uid && uid !== 'CHE-XXX.XXX.XXX'),
   );
   console.log(`  Existing in DB: ${existingSlugs.size} slugs, ${existingUids.size} UIDs`);
 
@@ -320,11 +320,20 @@ async function main() {
     const slug = toSlug(entry.name);
 
     // Skip if slug already exists
-    if (existingSlugs.has(slug)) { skippedBySlug++; continue; }
+    if (existingSlugs.has(slug)) {
+      skippedBySlug++;
+      continue;
+    }
     // Skip if UID already exists
-    if (entry.uid && existingUids.has(entry.uid)) { skippedByUid++; continue; }
+    if (entry.uid && existingUids.has(entry.uid)) {
+      skippedByUid++;
+      continue;
+    }
     // Skip if normalized name matches (catches case/hyphen/suffix variations)
-    if (existingNormNames.has(normalizeName(entry.name))) { skippedByName++; continue; }
+    if (existingNormNames.has(normalizeName(entry.name))) {
+      skippedByName++;
+      continue;
+    }
     // Skip duplicates within this batch
     if (slugsSeen.has(slug)) continue;
 
