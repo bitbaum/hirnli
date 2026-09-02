@@ -1,6 +1,6 @@
 /**
  * hirnli had no way to know its AI routes were down until someone tried one
- * by hand. This pins the state machine `/api/health?strict=1` depends on.
+ * by hand. This pins the state machine `/api/health` reports.
  */
 import { beforeEach, describe, expect, it } from 'vitest';
 import { getLLMHealth, recordLLMFailure, recordLLMSuccess, resetLLMHealth } from './llm-health';
