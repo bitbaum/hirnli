@@ -46,9 +46,21 @@ describe('protected paths', () => {
     expect(middlewareSource).toContain('api/cron');
   });
 
-  it('the platform host is rewritten, not redirected', () => {
-    // A redirect would bounce the platform onto a tenant URL and hand the
-    // tenant the platform's traffic; a rewrite keeps hirnli.* on its own host.
-    expect(middlewareSource).toMatch(/NextResponse\.rewrite/);
+  it('the platform root redirects rather than rewrites', () => {
+    // Not a style preference — a rewrite here 500s in production. nextUrl
+    // carries the public origin (https://hirnli.orangecat.ch) while the server
+    // listens on http://localhost:4012, so Next treats the rewrite as an
+    // external proxy and speaks TLS to a plain-HTTP port. Redirect is the only
+    // form that survives a reverse proxy. Reverting this to rewrite() takes
+    // the platform host down.
+    expect(middlewareSource).toMatch(/NextResponse\.redirect\(url, 308\)/);
+    expect(middlewareSource).not.toMatch(/NextResponse\.rewrite/);
+  });
+
+  it('the redirect changes only the path, never the host', () => {
+    // Cloning nextUrl and setting pathname keeps scheme+host intact. Building
+    // a fresh URL from a literal would send hirnli.* traffic elsewhere.
+    expect(middlewareSource).toMatch(/const url = request\.nextUrl\.clone\(\)/);
+    expect(middlewareSource).toMatch(/url\.pathname = PLATFORM_BRAND\.marketingPath/);
   });
 });
