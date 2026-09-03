@@ -8,7 +8,7 @@ import MetricGrid from '@/components/metrics/MetricGrid';
 import NumberInspector from '@/components/metrics/NumberInspector';
 import { useFinancialData } from '@/hooks/useFinancialData';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 import { formatCHF, formatPercent, calcGrowth } from '@/lib/utils/format';
 import { estimateDeviceCount, estimateCO2Avoided } from '@/lib/domain/calculations';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
@@ -19,6 +19,7 @@ import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 
 export default function DashboardClient() {
+  const tenant = useTenant();
   const { selectedYear, totals, monthCount, monthlyAvg, selfFinancingRate } = useFinancialData();
 
   const inspector = useNumberInspector();
@@ -32,10 +33,7 @@ export default function DashboardClient() {
 
   return (
     <div>
-      <PageHeader
-        title={ORG_PROFILE.name}
-        subtitle="Fundraising Intelligence & Organisationsdaten"
-      />
+      <PageHeader title={tenant.name} subtitle="Fundraising Intelligence & Organisationsdaten" />
 
       <WhyThisMatters
         purpose="Zentrale Übersicht aller Organisationsdaten: Finanzen, Impact, Fundraising, Operations."

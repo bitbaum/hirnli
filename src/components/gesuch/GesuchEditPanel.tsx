@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 import { UI_TIMINGS } from '@/lib/config/ui-timings';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { WhySection, TrackRecord } from '@/lib/schemas/story';
@@ -50,6 +50,7 @@ export default function GesuchEditPanel({
   onReset,
   onAiRewrite,
 }: GesuchEditPanelProps) {
+  const tenant = useTenant();
   // Derive all field values from props — no local state duplication.
   // The hook manages overrides (including async load from DB); local useState
   // would freeze at mount time and miss data that loads after render.
@@ -145,7 +146,7 @@ export default function GesuchEditPanel({
         <FieldRow
           {...fieldShared}
           label="Verbindungssatz (Hero)"
-          fieldDescription={`Erscheint im Hero-Bereich des Gesuchs — erklärt, warum Stiftung und ${ORG_PROFILE.name} zusammenpassen.`}
+          fieldDescription={`Erscheint im Hero-Bereich des Gesuchs — erklärt, warum Stiftung und ${tenant.name} zusammenpassen.`}
           value={bridge}
           originalValue={generated.foundationBridge ?? ''}
           placeholder={
@@ -207,7 +208,7 @@ export default function GesuchEditPanel({
                   <FieldRow
                     {...fieldShared}
                     label="Lösung"
-                    fieldDescription={`Erscheint in der rechten Spalte im «Warum»-Abschnitt — zeigt wie ${ORG_PROFILE.name} das Problem löst.`}
+                    fieldDescription={`Erscheint in der rechten Spalte im «Warum»-Abschnitt — zeigt wie ${tenant.name} das Problem löst.`}
                     value={whySolution}
                     originalValue={generated.why.solution}
                     placeholder={generated.why.solution}

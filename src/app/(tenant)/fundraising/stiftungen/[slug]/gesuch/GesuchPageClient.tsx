@@ -6,7 +6,7 @@ import type { ThemeId, Foundation } from '@/lib/schemas/foundation';
 import type { ComposedGesuch, AnschreibenText } from '@/lib/domain/gesuch-composer';
 import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import { buildDynamicOpening } from '@/lib/domain/anschreiben-composer';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 import { useGesuchOverrides } from '@/hooks/useGesuchOverrides';
 import { SCHWERPUNKTE } from '@/lib/config/schwerpunkte';
 import { buildAIContext } from '@/lib/domain/ai-context';
@@ -45,6 +45,7 @@ export default function GesuchPageClient({
   shareToken,
   generatedAnschreiben,
 }: GesuchPageClientProps) {
+  const tenant = useTenant();
   // Start at 1 for SSR; read URL on client after hydration to avoid mismatch.
   // The setState-in-effect rule is wrong here — we *must* defer URL read until after
   // hydration, since `window.location` is unavailable on the server (see commit 10948bc).
@@ -133,7 +134,7 @@ export default function GesuchPageClient({
   const emailBody = (() => {
     const primaryThemeLabel = activeGesuch.themes.all[0]?.label ?? '';
     const opening = buildDynamicOpening(foundationData, primaryThemeLabel);
-    return `${opening}\n\nIm Anhang finden Sie unser vollständiges Gesuch als PDF.\n\nFür Rückfragen stehen wir Ihnen gerne zur Verfügung:\n${ORG_PROFILE.name} · ${ORG_PROFILE.email}`;
+    return `${opening}\n\nIm Anhang finden Sie unser vollständiges Gesuch als PDF.\n\nFür Rückfragen stehen wir Ihnen gerne zur Verfügung:\n${tenant.name} · ${tenant.email}`;
   })();
 
   const handleToggleEdit = () => {

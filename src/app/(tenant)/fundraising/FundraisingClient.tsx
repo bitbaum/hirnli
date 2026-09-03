@@ -6,7 +6,7 @@ import Card from '@/components/ui/Card';
 import NumberInspector from '@/components/metrics/NumberInspector';
 import { useNumberInspector } from '@/hooks/useNumberInspector';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import {
@@ -33,6 +33,7 @@ import NextSteps from './sections/NextSteps';
 import type { Foundation } from '@/lib/schemas/foundation';
 
 export default function FundraisingClient({ foundations }: { foundations: Foundation[] }) {
+  const tenant = useTenant();
   const inspector = useNumberInspector();
 
   const inspectSpace = NumberSources.space_total
@@ -80,7 +81,7 @@ export default function FundraisingClient({ foundations }: { foundations: Founda
             &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
           </p>
           <p className="mb-4 text-sm text-text-secondary">
-            Seit {ORG_PROFILE.founded} verbinden wir Kreislaufwirtschaft, Arbeitsintegration und
+            Seit {tenant.founded} verbinden wir Kreislaufwirtschaft, Arbeitsintegration und
             Tech-Bildung unter einem Dach. Auf{' '}
             <Inspectable
               data={inspectSpace}

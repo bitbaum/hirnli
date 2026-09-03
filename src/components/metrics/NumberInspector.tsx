@@ -4,7 +4,7 @@ import Modal from '@/components/ui/Modal';
 import Badge from '@/components/ui/Badge';
 import { INSPECTOR_SOURCE_ICONS } from '@/lib/schemas/inspector';
 import type { InspectorData, InspectorSourceType } from '@/lib/schemas/inspector';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 import { CONFIDENCE_DISPLAY_LABELS } from '@/lib/config/numbers';
 
 interface NumberInspectorProps {
@@ -21,6 +21,7 @@ const TYPE_LABELS: Record<InspectorSourceType, { label: string; variant: Inspect
 };
 
 export default function NumberInspector({ isOpen, onClose, data }: NumberInspectorProps) {
+  const tenant = useTenant();
   if (!data) return null;
 
   const typeInfo = TYPE_LABELS[data.sourceType];
@@ -130,8 +131,8 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
             <p>
               Alle Zahlen auf dieser Seite sind klickbar und vollständig nachvollziehbar. Bei Fragen
               zur Datenherkunft kontaktieren Sie uns unter{' '}
-              <a href={`mailto:${ORG_PROFILE.email}`} className="text-primary hover:underline">
-                {ORG_PROFILE.email}
+              <a href={`mailto:${tenant.email}`} className="text-primary hover:underline">
+                {tenant.email}
               </a>
             </p>
           </div>
