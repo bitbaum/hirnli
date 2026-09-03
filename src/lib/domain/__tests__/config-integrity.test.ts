@@ -19,6 +19,7 @@ import {
 // Not @/lib/db/foundations-repo — that one wraps reads in unstable_cache,
 // which requires a live Next.js server context and throws under vitest.
 import { getAllFoundations } from '../../../../scripts/lib/foundations';
+import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
 import type { Foundation, FoundationStatus } from '@/lib/schemas/foundation';
 import { FoundationType, ApplicationMethod, SourceId, ThemeId } from '@/lib/schemas/foundation';
 import { TRUST_CONFIG } from '@/lib/config/trust-levels';
@@ -266,7 +267,9 @@ describe.skipIf(!process.env.DATABASE_URL)('foundation data integrity', () => {
   let data: Foundation[];
 
   beforeAll(async () => {
-    data = await getAllFoundations();
+    // A data-integrity assertion needs a concrete tenant: the shape it
+    // checks is one organisation's composed view, not the registry alone.
+    data = await getAllFoundations(DEFAULT_TENANT_ID);
   });
 
   it('has entries', () => {

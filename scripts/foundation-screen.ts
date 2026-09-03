@@ -23,6 +23,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { getAllFoundations } from './lib/foundations';
+import { requireOrgId } from './lib/require-org';
 import type { Foundation } from '../src/lib/schemas/foundation';
 
 /** Populated once at the start of main() before any screening happens. */
@@ -875,7 +876,7 @@ async function main() {
   console.log('  Gap fixes + smart tiering (core themes, geography, focus)');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
-  existingFoundations = await getAllFoundations();
+  existingFoundations = await getAllFoundations(requireOrgId());
 
   // Load ESA register
   const esaRegister = loadESARegister();

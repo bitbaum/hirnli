@@ -17,6 +17,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { getAllFoundations } from './lib/foundations';
+import { requireOrgId } from './lib/require-org';
 import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
 import { composeGesuch } from '../src/lib/domain/gesuch-composer';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
@@ -48,7 +49,7 @@ interface AuditIssue {
 // ============================================================================
 
 async function main() {
-  const foundations = await getAllFoundations();
+  const foundations = await getAllFoundations(requireOrgId());
   const gesuchFoundations = foundations.filter((f) => {
     if (!hasGesuchPage(f)) return false;
     if (PRIORITY_FILTER > 0) {
