@@ -18,12 +18,12 @@ import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import { orgProfiles } from '@/lib/db/schema';
 import { DEFAULT_TENANT_ID } from './registry';
-import { parseTenant, type Tenant } from './profile';
+import { parseBranding, parseTenant, type Tenant, type TenantBranding } from './profile';
 
 /** Load one tenant by org id. Cached per request; throws if absent or invalid. */
 export const getTenantById = cache(async (orgId: string): Promise<Tenant> => {
   const rows = await db
-    .select({ profile: orgProfiles.profile })
+    .select({ profile: orgProfiles.profile, branding: orgProfiles.branding })
     .from(orgProfiles)
     .where(eq(orgProfiles.orgId, orgId))
     .limit(1);
@@ -67,4 +67,19 @@ export const getCurrentOrgId = cache(async (): Promise<string> => {
 /** The tenant this request is acting as, with identity loaded. */
 export const getTenant = cache(async (): Promise<Tenant> => {
   return getTenantById(await getCurrentOrgId());
+});
+
+/**
+ * How this request's tenant looks. Separate from getTenant() because chrome
+ * needs it on every page while most code never does, and because a tenant
+ * without branding must render unbranded — never under another tenant's mark.
+ */
+export const getTenantBranding = cache(async (): Promise<TenantBranding> => {
+  const orgId = await getCurrentOrgId();
+  const rows = await db
+    .select({ branding: orgProfiles.branding })
+    .from(orgProfiles)
+    .where(eq(orgProfiles.orgId, orgId))
+    .limit(1);
+  return parseBranding(rows[0]?.branding);
 });

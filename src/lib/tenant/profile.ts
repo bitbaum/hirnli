@@ -84,6 +84,38 @@ export const storedTenantProfileSchema = z
 
 export type StoredTenantProfile = z.infer<typeof storedTenantProfileSchema>;
 
+/**
+ * How a tenant LOOKS. Data, for the same reason its name is data.
+ *
+ * `branding.ts` used to hold `logo.main: '/revampit-icon.png'` — one customer's
+ * logo, hardcoded, in a file whose own header claimed to be the SSOT for visual
+ * identity. Every tenant therefore rendered under Revamp-IT's mark, which is
+ * how evig's pages came to carry another organisation's logo.
+ *
+ * `logoUrl` is a URL rather than a bundled asset on purpose: a platform cannot
+ * require a customer to open a pull request to change their logo. Relative
+ * paths still work for assets the platform happens to host today.
+ */
+export const tenantBrandingSchema = z
+  .object({
+    logoUrl: z.string().min(1).optional(),
+    logoAlt: z.string().optional(),
+    /** Accent used by the tenant chrome, injected as a CSS custom property. */
+    primaryColor: z
+      .string()
+      .regex(/^#[0-9a-fA-F]{6}$/, 'expected a #rrggbb hex colour')
+      .optional(),
+  })
+  .strict();
+
+export type TenantBranding = z.infer<typeof tenantBrandingSchema>;
+
+/** Branding falls back to nothing, never to another tenant's mark. */
+export function parseBranding(branding: unknown): TenantBranding {
+  const parsed = tenantBrandingSchema.safeParse(branding ?? {});
+  return parsed.success ? parsed.data : {};
+}
+
 /** A tenant as the app consumes it: stored facts plus what follows from them. */
 export type Tenant = StoredTenantProfile & {
   /** Whole years since founding, as of now. */
