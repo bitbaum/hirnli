@@ -76,21 +76,35 @@ export async function loadGesuchOverrides(
     const { gesuchOverrides } = await import('@/lib/db/schema');
     const { eq, and } = await import('drizzle-orm');
 
-    const { ORG_PROFILE } = await import('@/lib/config/org-profile');
+    // Scoped to the REQUEST's tenant. Reading the org id from a compile-time
+    // constant made every tenant load the FIRST tenant's saved edits — one
+    // customer's Gesuch rendered with another customer's revisions in it.
+    const { getCurrentOrgId } = await import('@/lib/tenant/resolve');
+    const orgId = await getCurrentOrgId();
+
     const rows = await db
       .select({ overrides: gesuchOverrides.overrides })
       .from(gesuchOverrides)
       .where(
         and(
           eq(gesuchOverrides.foundationId, slug),
-          eq(gesuchOverrides.orgId, ORG_PROFILE.orgId),
+          eq(gesuchOverrides.orgId, orgId),
           eq(gesuchOverrides.variantKey, variantKey),
         ),
       )
       .limit(1);
 
     return (rows[0]?.overrides as GesuchOverridesData) ?? {};
-  } catch {
+  } catch (err) {
+    // Falling back to "no overrides" keeps the Gesuch renderable, which is the
+    // right call. Doing it SILENTLY was not: someone's saved edits disappear
+    // from a document they are about to send to a foundation, and nothing
+    // anywhere says so. Same fallback, no longer a secret.
+    console.error(
+      `[apply-overrides] could not load overrides for "${slug}" (variant "${variantKey}") — ` +
+        'rendering WITHOUT saved edits:',
+      err,
+    );
     return {};
   }
 }

@@ -10,14 +10,16 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { gesuchOverrides, applications, foundations } from '@/lib/db/schema';
 import { eq, inArray } from 'drizzle-orm';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { API_ERR_DB } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 
-const ORG_ID = ORG_PROFILE.orgId;
-
 export async function GET() {
+  // Scoped per request, never at module scope: a baked-in org id makes every
+  // tenant read and write the FIRST tenant's rows. These are saved edits to
+  // grant applications, so that is one customer editing another's Gesuch.
+  const ORG_ID = await getCurrentOrgId();
   try {
     // 1. Fetch all overrides for this org (1 query)
     const overrideRows = await db
