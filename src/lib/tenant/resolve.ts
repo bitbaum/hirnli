@@ -18,12 +18,12 @@ import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import { orgProfiles } from '@/lib/db/schema';
 import { DEFAULT_TENANT_ID } from './registry';
-import { parseTenant, type Tenant } from './profile';
+import { parseBranding, parseTenant, type Tenant, type TenantBranding } from './profile';
 
 /** Load one tenant by org id. Cached per request; throws if absent or invalid. */
 export const getTenantById = cache(async (orgId: string): Promise<Tenant> => {
   const rows = await db
-    .select({ profile: orgProfiles.profile })
+    .select({ profile: orgProfiles.profile, branding: orgProfiles.branding })
     .from(orgProfiles)
     .where(eq(orgProfiles.orgId, orgId))
     .limit(1);
@@ -48,12 +48,38 @@ export const getTenantById = cache(async (orgId: string): Promise<Tenant> => {
 });
 
 /**
- * The tenant this request is acting as.
+ * Which organisation is this request acting as? Just the id.
  *
- * `x-org-id` is set by middleware from the Host. The default covers routes that
- * run outside a request scope (build-time metadata, scripts).
+ * Separate from `getTenant()` on purpose. Scoping a query needs the id and
+ * nothing else, and reading a whole profile from the database to build a
+ * `WHERE` clause would be a needless round-trip on the hot path. It also keeps
+ * one answer to "how does a request find its org", so that answer can change
+ * without touching the places that merely scope by it.
+ *
+ * `x-org-id` is published by middleware from the Host. The default covers code
+ * running outside a request scope (build-time metadata, scripts).
  */
-export const getTenant = cache(async (): Promise<Tenant> => {
+export const getCurrentOrgId = cache(async (): Promise<string> => {
   const h = await headers();
-  return getTenantById(h.get('x-org-id') ?? DEFAULT_TENANT_ID);
+  return h.get('x-org-id') ?? DEFAULT_TENANT_ID;
+});
+
+/** The tenant this request is acting as, with identity loaded. */
+export const getTenant = cache(async (): Promise<Tenant> => {
+  return getTenantById(await getCurrentOrgId());
+});
+
+/**
+ * How this request's tenant looks. Separate from getTenant() because chrome
+ * needs it on every page while most code never does, and because a tenant
+ * without branding must render unbranded — never under another tenant's mark.
+ */
+export const getTenantBranding = cache(async (): Promise<TenantBranding> => {
+  const orgId = await getCurrentOrgId();
+  const rows = await db
+    .select({ branding: orgProfiles.branding })
+    .from(orgProfiles)
+    .where(eq(orgProfiles.orgId, orgId))
+    .limit(1);
+  return parseBranding(rows[0]?.branding);
 });
