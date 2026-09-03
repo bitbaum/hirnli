@@ -5,6 +5,12 @@
 -- guessing wrong would have produced ALTER TABLE ... RENAME against live
 -- fundraising data. Nothing here touches an existing table.
 --
+-- Re-runnable: the deploy pipeline applies this itself, and it was also
+-- applied by hand when Hirnli's database was created. ADD CONSTRAINT has no
+-- IF NOT EXISTS in Postgres, so each is guarded on pg_constraint — without
+-- that, the second application fails on "constraint already exists" and the
+-- deploy aborts having shipped nothing.
+--
 -- These names are only available because Hirnli moved to its own database on
 -- 2026-09-02. In evig's `revampit` DB, `users`/`accounts`/`sessions` already
 -- exist and belong to evig's marketplace.
@@ -89,23 +95,47 @@ CREATE TABLE IF NOT EXISTS "org_invitations" (
   "inviter_id" text NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk"
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'sessions_user_id_users_id_fk') THEN
+    ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk"
   FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade;
+  END IF;
+END $$;
 --> statement-breakpoint
-ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_users_id_fk"
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'accounts_user_id_users_id_fk') THEN
+    ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_users_id_fk"
   FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade;
+  END IF;
+END $$;
 --> statement-breakpoint
-ALTER TABLE "org_members" ADD CONSTRAINT "org_members_organization_id_organizations_id_fk"
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'org_members_organization_id_organizations_id_fk') THEN
+    ALTER TABLE "org_members" ADD CONSTRAINT "org_members_organization_id_organizations_id_fk"
   FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade;
+  END IF;
+END $$;
 --> statement-breakpoint
-ALTER TABLE "org_members" ADD CONSTRAINT "org_members_user_id_users_id_fk"
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'org_members_user_id_users_id_fk') THEN
+    ALTER TABLE "org_members" ADD CONSTRAINT "org_members_user_id_users_id_fk"
   FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade;
+  END IF;
+END $$;
 --> statement-breakpoint
-ALTER TABLE "org_invitations" ADD CONSTRAINT "org_invitations_organization_id_organizations_id_fk"
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'org_invitations_organization_id_organizations_id_fk') THEN
+    ALTER TABLE "org_invitations" ADD CONSTRAINT "org_invitations_organization_id_organizations_id_fk"
   FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade;
+  END IF;
+END $$;
 --> statement-breakpoint
-ALTER TABLE "org_invitations" ADD CONSTRAINT "org_invitations_inviter_id_users_id_fk"
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'org_invitations_inviter_id_users_id_fk') THEN
+    ALTER TABLE "org_invitations" ADD CONSTRAINT "org_invitations_inviter_id_users_id_fk"
   FOREIGN KEY ("inviter_id") REFERENCES "public"."users"("id") ON DELETE cascade;
+  END IF;
+END $$;
 --> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "sessions_user_id_idx" ON "sessions" ("user_id");
 --> statement-breakpoint
