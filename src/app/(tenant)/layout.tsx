@@ -12,6 +12,7 @@ import Footer from '@/components/layout/Footer';
 import { LocaleNotice } from '@/components/layout/LocaleNotice';
 import { getAllFoundations } from '@/lib/db/foundations-repo';
 import { getTenant, getTenantBranding } from '@/lib/tenant/resolve';
+import { TenantProvider } from '@/lib/tenant/TenantProvider';
 
 export default async function TenantLayout({ children }: { children: React.ReactNode }) {
   const [foundations, tenant, branding] = await Promise.all([
@@ -20,7 +21,7 @@ export default async function TenantLayout({ children }: { children: React.React
     getTenantBranding(),
   ]);
   return (
-    <>
+    <TenantProvider tenant={tenant} branding={branding}>
       <Nav
         stiftungenCount={foundations.length}
         logoUrl={branding.logoUrl}
@@ -31,6 +32,6 @@ export default async function TenantLayout({ children }: { children: React.React
         {children}
       </main>
       <Footer />
-    </>
+    </TenantProvider>
   );
 }
