@@ -266,3 +266,24 @@ export type ActivityLogEntry = typeof activityLog.$inferSelect;
 export type NewActivityLogEntry = typeof activityLog.$inferInsert;
 /** JSON-serialized shape returned by GET /api/activity-log (timestamp is a string, not Date) */
 export type ActivityLogEntryJSON = Omit<ActivityLogEntry, 'timestamp'> & { timestamp: string };
+
+// ─── Tenant identity ─────────────────────────────────────────────────────────
+//
+// Created by migration 0007 but never declared here, so nothing could read it
+// in a typed way — which is part of why org identity stayed a compile-time
+// constant. This row is the SSOT for who a tenant is; see
+// src/lib/tenant/profile.ts for the shape and src/lib/tenant/resolve.ts for the
+// single reader.
+
+export const orgProfiles = pgTable('org_profiles', {
+  orgId: text('org_id').primaryKey(),
+  /** Validated against storedTenantProfileSchema on read — facts only, no derived values. */
+  profile: jsonb('profile').notNull().default({}),
+  /** Per-tenant design tokens (colours, logo). Consumed by the tenant chrome. */
+  branding: jsonb('branding').notNull().default({}),
+  defaultLocale: text('default_locale').notNull().default('de'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type OrgProfileRow = typeof orgProfiles.$inferSelect;
