@@ -11,11 +11,12 @@ import { config } from 'dotenv';
 config({ path: '.env.local' });
 import { sql } from './lib/db';
 import { getAllFoundations } from './lib/foundations';
+import { requireOrgId } from './lib/require-org';
 import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 
 async function main() {
-  const foundations = await getAllFoundations();
+  const foundations = await getAllFoundations(requireOrgId());
   // ── 1. Funnel counts ──────────────────────────────────────────────────────
   const [totals] = await sql`
     SELECT

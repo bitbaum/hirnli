@@ -20,6 +20,7 @@
 
 import * as readline from 'readline';
 import { getAllFoundations } from './lib/foundations';
+import { requireOrgId } from './lib/require-org';
 import { slugify } from './lib/utilities';
 import type {
   Foundation,
@@ -248,7 +249,7 @@ function generateTypeScriptCode(entry: Partial<Foundation>): string {
 // ============================================================================
 
 async function main() {
-  const foundations = await getAllFoundations();
+  const foundations = await getAllFoundations(requireOrgId());
   const entry = await promptForEntry(foundations);
 
   console.log('\n✅ Generated TypeScript entry:\n');

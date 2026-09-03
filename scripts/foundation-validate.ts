@@ -21,6 +21,7 @@
  */
 
 import { getAllFoundations } from './lib/foundations';
+import { requireOrgId } from './lib/require-org';
 import type { Foundation } from '../src/lib/schemas/foundation';
 import { ApplicationMethod } from '../src/lib/schemas/foundation';
 import { validateFoundationQuality } from '../src/lib/domain/foundation-quality';
@@ -325,7 +326,7 @@ function validateSchema(foundation: Foundation) {
 
 async function main() {
   console.log('🔍 Validating foundation data...\n');
-  const foundations = await getAllFoundations();
+  const foundations = await getAllFoundations(requireOrgId());
   console.log(`📊 Total foundations: ${foundations.length}\n`);
 
   // Run validations

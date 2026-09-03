@@ -215,6 +215,19 @@ const registrySchema = z.object({
   stats2025: z.string().optional(),
   sdgs: z.array(z.number()).optional(),
 
+  // Classification
+  //
+  // Schmuki A/B/C/D/network. This sat in the analysis layer, described as an
+  // "approach strategy", which reads like a property of the relationship. The
+  // stored reasoning says otherwise — "Potente, professionalisierte
+  // Förderstiftung mit professioneller Geschäftsführung", "Städtische
+  // Initiative (nicht klassische Stiftung)" — every one of them describes the
+  // foundation. It classifies the organisation being applied to, so it is the
+  // same fact whoever is reading, and 16,623 classifications are now shared
+  // instead of re-derived by each tenant. What differs per tenant is the
+  // approach *taken* given the type, and that is computed, not stored.
+  type: FoundationType,
+
   // Meta
   sourceLinks: z.array(sourceLinkSchema).optional(),
   source: SourceId,
@@ -237,7 +250,7 @@ const analysisSchema = z.object({
   priorityOverride: z.boolean().optional(),
 
   // -- Classification ---------------------------------------------------------
-  type: FoundationType, // A/B/C/D/network — approach strategy
+  // `type` used to live here. It moved to the registry: see the note there.
   themes: z.array(ThemeId), // Input to fit scoring + Gesuch theming
 
   // -- Content ----------------------------------------------------------------
@@ -260,6 +273,24 @@ const analysisSchema = z.object({
   // constant wearing data's clothes.
 });
 export type FoundationAnalysis = z.infer<typeof analysisSchema>;
+
+/**
+ * The field names that belong to one organisation rather than to the world.
+ *
+ * Derived from the schema, never typed out a second time. This list drives the
+ * read path: composing a foundation for a tenant means taking the registry
+ * fields from `config_data` and these fields from that tenant's assessment row.
+ *
+ * Why it must be derived: `config_data` still carries Revamp-IT's values for
+ * every one of these keys, because migration 0012 copied them out without
+ * removing them. So the composition cannot merge the assessment *over* the
+ * blob and hope for the best — where a tenant has no assessment, the blob's
+ * values would show through, and another organisation's fit scores and private
+ * research notes would render as that tenant's own. The keys have to be
+ * removed explicitly, and a hand-maintained list would silently stop matching
+ * the schema the first time a field was added.
+ */
+export const ANALYSIS_FIELDS = Object.keys(analysisSchema.shape) as (keyof FoundationAnalysis)[];
 
 // ===========================================================================
 // Composed: Foundation — Merged view (registry + analysis)
