@@ -214,6 +214,47 @@ pages and inside its Gesuch documents (foundations fund Revamp-IT, not Hirnli).
 
 ## 6. Phasing (no big bang; every phase ships)
 
+> **STATUS 2026-09-03 — the order below was overtaken by events; read this first.**
+>
+> George's direction changed the product: open registration, one account holding
+> several organisations, and foundations managing their own profiles. Hirnli is
+> the platform and evig is a CUSTOMER of it — the first of many, alongside
+> Revamp-IT. That reframes this from "de-single-tenant one app" to "build a
+> two-sided platform", and made identity urgent rather than Phase C work.
+>
+> **Shipped, out of order:**
+> - *A.2* — `hirnli.orangecat.ch` in Caddy + host-routing middleware. Note the
+>   middleware REDIRECTS `/` rather than rewriting: `nextUrl` carries the public
+>   origin while the server listens on `localhost:4012`, so a rewrite becomes a
+>   cross-origin proxy and 500s behind Caddy. See `src/middleware.ts`.
+> - *A.1* — platform name decided: **Hirnli**. One line in `platform-brand.ts`.
+> - *Identity* (was C.3) — Better Auth + organisation plugin, `/o/<slug>/`
+>   routing, org switcher, open registration. revamp-it and evig seeded as
+>   organisations. Authorisation reads the org from the URL and re-checks a
+>   membership row; `session.activeOrganizationId` is deliberately NOT trusted,
+>   because one cookie is shared by every tab. See `src/lib/auth/access.ts`.
+>
+> **Also done, and a precondition nobody had written down:** Hirnli now has its
+> OWN Postgres database. Its nine tables lived in evig's `revampit` DB, where
+> `users`/`accounts`/`sessions` already exist and belong to evig's marketplace —
+> so `users` could not be created at all, and an auth library aimed at the wrong
+> one authenticates real people against the wrong application. Moved 2026-09-02,
+> row-for-row verified, originals left in place as a fallback (drop after a
+> soak). `apps.conf`'s `db` column decides which database the DEPLOY migrates —
+> changing `DATABASE_URL` alone moves the app but not its migrations.
+>
+> **Superseded:** §3's data model. The foundations table fuses register facts,
+> foundation-authored terms and one org's private judgement into a single
+> `config_data` blob, and `fitScore` is fit against ONE org's mission — so the
+> model is single-tenant by construction, not configuration. The three-layer
+> split replacing it, and why the previous attempt at it (migrations 0000→0002
+> →0003) was rolled back, are set out in the 2026-09-02 architecture proposal.
+>
+> **Still true and still next:** B.1's 80-file `ORG_PROFILE` migration, and
+> making `getTenant()` DB-backed so adding an organisation needs no code change.
+> evig has an `org_profiles` row but no static profile — deliberately, since
+> hardcoding a second tenant re-creates the coupling that phase removes.
+
 **Phase A — Brand + language shell** (~2–4 focused days)
 1. Update CLAUDE.md naming section: name undecided, PLATFORM_BRAND is the SSOT and sole rename point; codename-secrecy rule replaced by "working title until decided".
 2. Register `hirnli.orangecat.ch` in Caddy → same app; host-routing middleware.
