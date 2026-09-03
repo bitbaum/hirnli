@@ -37,6 +37,11 @@ import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 // ============================================================================
 
 import { computeResearchDepth, type ResearchDepth } from './lib/utilities';
+import { requireOrgId } from './lib/require-org';
+
+// Resolved before any work begins: a run that cannot say whose data it is
+// producing should fail at the start, not after writing half a register.
+const ORG_ID = requireOrgId();
 
 function isZefixUrl(url: string): boolean {
   return url.includes('zefix.ch') || url.includes('uid.admin.ch');
@@ -203,7 +208,7 @@ async function main() {
         ) VALUES (
           ${draft.slug}, ${draft.name},
           ${'automated-research'}, ${JSON.stringify(configData)},
-          ${'revamp-it'}, ${now}, ${now}, false
+          ${ORG_ID}, ${now}, ${now}, false
         )
         ON CONFLICT (id) DO UPDATE SET
           config_data = jsonb_set(

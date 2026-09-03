@@ -251,8 +251,13 @@ const analysisSchema = z.object({
   // -- Relationships ----------------------------------------------------------
   possiblePartners: z.array(z.string()).optional(),
 
-  // -- Identity (for multi-org support) ---------------------------------------
-  orgId: z.string().default('revamp-it'),
+  // -- Identity ---------------------------------------------------------------
+  // NOT here. Ownership is the `org_id` COLUMN, which is populated on all
+  // 16,623 rows. This field was never stored in config_data by anything — the
+  // `.default('revamp-it')` manufactured it on every parse, so every
+  // foundation reported itself as Revamp-IT's regardless of the column. A
+  // value that is always defaulted and never written is not data, it is a
+  // constant wearing data's clothes.
 });
 export type FoundationAnalysis = z.infer<typeof analysisSchema>;
 
@@ -266,8 +271,14 @@ export type FoundationAnalysis = z.infer<typeof analysisSchema>;
 // isResearched(f) = tier >= profiliert, computed from data completeness signals.
 // Key signals: purposeSummary, researchNotes, contact, themes, websiteUrl.
 
-// Raw composed schema before migration transform
-const _foundationRaw = registrySchema.extend(analysisSchema.omit({ orgId: true }).shape);
+// Raw composed schema before migration transform.
+//
+// This used to read `analysisSchema.omit({ orgId: true })` — the composition
+// stripped `orgId` straight back out, so no consumer ever saw it. That omission
+// was the codebase already knowing what removing the field now states outright:
+// ownership is the `org_id` COLUMN, not something inside the blob. Nothing left
+// to omit.
+const _foundationRaw = registrySchema.extend(analysisSchema.shape);
 
 // Legacy fit→fitScore migration transform was removed alongside the
 // deprecated `fit` schema field — all rows have been backfilled to use

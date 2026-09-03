@@ -17,9 +17,7 @@ import {
   DEFAULT_TENANT_ID,
   HOST_TENANTS,
   PLATFORM_HOST,
-  TENANTS,
   TENANT_IDS,
-  getTenantByHost,
   getTenantIdByHost,
   isPlatformHost,
 } from '../registry';
@@ -61,12 +59,22 @@ describe('getTenantIdByHost', () => {
   });
 });
 
-describe('getTenantByHost', () => {
-  it('resolves a real tenant object for every known host', () => {
-    for (const host of Object.keys(HOST_TENANTS)) {
-      expect(getTenantByHost(host)).toBeDefined();
-      expect(getTenantByHost(host).orgId).toBe(HOST_TENANTS[host]);
+describe('every mapped host resolves to a declared tenant', () => {
+  it('maps each host to a known org id', () => {
+    // getTenantByHost() used to live here and return a STATIC profile. It was
+    // deleted: it was a second reader of tenant identity, and it returned
+    // undefined for evig — a tenant with a profile row, a logo and a
+    // membership, but deliberately no hardcoded entry. Identity now comes from
+    // the database via getTenant(); this file only answers "which tenant".
+    const declared = Object.values(TENANT_IDS) as string[];
+    for (const [host, orgId] of Object.entries(HOST_TENANTS)) {
+      expect(declared, `${host} maps to an undeclared org`).toContain(orgId);
     }
+  });
+
+  it('gives evig a host of its own', () => {
+    // It had an identity before it had an address: reachable from nowhere.
+    expect(Object.values(HOST_TENANTS)).toContain(TENANT_IDS.evig);
   });
 });
 
@@ -82,10 +90,7 @@ describe('tenant ids', () => {
     }
   });
 
-  it('the static TENANTS map still backs the default tenant', () => {
-    // evig is intentionally absent here: it exists as a DB row and gains a
-    // profile when getTenant() becomes DB-backed (Phase C). If this ever
-    // fails because evig was hardcoded in, that is the coupling coming back.
-    expect(TENANTS[DEFAULT_TENANT_ID]).toBeDefined();
+  it('the default tenant is a declared one', () => {
+    expect(Object.values(TENANT_IDS)).toContain(DEFAULT_TENANT_ID);
   });
 });

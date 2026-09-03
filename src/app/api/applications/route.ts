@@ -28,6 +28,7 @@ import {
   API_ERR_CONFLICT,
 } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 
 // Validation schema for creating applications
 const createApplicationSchema = z.object({
@@ -51,6 +52,9 @@ const createApplicationSchema = z.object({
  * List applications with optional filters
  */
 export async function GET(request: NextRequest) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   try {
     const { searchParams } = new URL(request.url);
 
@@ -122,6 +126,9 @@ export async function GET(request: NextRequest) {
  * Create a new application
  */
 export async function POST(request: NextRequest) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   try {
     const body = await request.json();
 
@@ -173,6 +180,9 @@ export async function POST(request: NextRequest) {
     // Create application — omit createdAt/updatedAt (DB defaultNow())
     const newApplication = {
       id: nanoid(),
+      // Whose application this is. No column default any more, so a row that
+      // does not name its tenant cannot be written at all.
+      orgId: ORG_ID,
       ...data,
     };
 
@@ -180,6 +190,7 @@ export async function POST(request: NextRequest) {
 
     // Log activity
     await db.insert(activityLog).values({
+      orgId: ORG_ID,
       id: nanoid(),
       entityType: 'application',
       entityId: newApplication.id,
