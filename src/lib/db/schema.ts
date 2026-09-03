@@ -54,7 +54,10 @@ export const foundations = pgTable(
     configData: jsonb('config_data'),
 
     // Multi-org support
-    orgId: text('org_id').default('revamp-it'), // Enables per-org analysis of same foundation
+    // No default. A row whose tenant nobody stated is a row that will be
+    // attributed to whoever happens to be first — which is how a second
+    // customer's data becomes indistinguishable from the first customer's.
+    orgId: text('org_id'),
 
     // Admin
     source: text('source'), // swissfoundations, spheriq, zhaw, typescript-legacy, rapid-assessment, etc.
@@ -115,7 +118,7 @@ export const applications = pgTable(
     priorityLevel: integer('priority_level'), // 1-4 (1 = highest)
 
     // Multi-org support — applications belong to the org that filed them
-    orgId: text('org_id').notNull().default('revamp-it'),
+    orgId: text('org_id').notNull(),
 
     // Admin
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
@@ -156,7 +159,7 @@ export const customizationRules = pgTable(
     active: boolean('active').default(true),
 
     // Multi-org support — rules are authored per org
-    orgId: text('org_id').notNull().default('revamp-it'),
+    orgId: text('org_id').notNull(),
 
     // Admin
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
@@ -189,7 +192,7 @@ export const activityLog = pgTable(
     performedBy: text('performed_by'), // User/system identifier
 
     // Multi-org support — every audit entry is scoped to the acting org
-    orgId: text('org_id').notNull().default('revamp-it'),
+    orgId: text('org_id').notNull(),
 
     // When
     timestamp: timestamp('timestamp', { withTimezone: true }).defaultNow(),
@@ -221,7 +224,7 @@ export const gesuchOverrides = pgTable(
     foundationId: text('foundation_id')
       .notNull()
       .references(() => foundations.id),
-    orgId: text('org_id').notNull().default('revamp-it'),
+    orgId: text('org_id').notNull(),
     variantKey: text('variant_key').notNull().default('auto'), // 'auto' | schwerpunkt ID
     overrides: jsonb('overrides').notNull().default({}),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),

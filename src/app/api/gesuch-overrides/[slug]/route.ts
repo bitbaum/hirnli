@@ -26,9 +26,15 @@ function getVariant(request: NextRequest): string {
 }
 
 /** Fire-and-forget activity log entry for override saves */
-async function logOverrideSave(slug: string, variant: string, overrides: GesuchOverridesData) {
+async function logOverrideSave(
+  orgId: string,
+  slug: string,
+  variant: string,
+  overrides: GesuchOverridesData,
+) {
   try {
     await db.insert(activityLog).values({
+      orgId,
       id: nanoid(),
       entityType: 'gesuch_override',
       entityId: `${slug}::${variant}`,
@@ -123,7 +129,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         set: { overrides: parsed.data, updatedAt: new Date() },
       });
 
-    logOverrideSave(slug, variant, parsed.data);
+    logOverrideSave(ORG_ID, slug, variant, parsed.data);
 
     return NextResponse.json({ success: true, data: { overrides: parsed.data } });
   } catch (err) {

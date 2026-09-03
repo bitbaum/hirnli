@@ -21,12 +21,16 @@ import {
   API_ERR_NOT_FOUND,
 } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 
 /**
  * GET /api/foundations/[id]
  * Retrieve a single foundation by ID
  */
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   const { id } = await params;
   try {
     const result = await db.select().from(foundations).where(eq(foundations.id, id)).limit(1);
@@ -50,6 +54,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
  * Also syncs relevant flat columns for backward compatibility.
  */
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   const { id } = await params;
   try {
     const body = await request.json();
@@ -97,6 +104,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     // Log activity
     await db.insert(activityLog).values({
+      orgId: ORG_ID,
       id: nanoid(),
       entityType: 'foundation',
       entityId: id,
@@ -125,6 +133,9 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
  * Update a foundation (partial updates)
  */
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   const { id } = await params;
   try {
     const body = await request.json();
@@ -171,6 +182,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
     // Log activity
     await db.insert(activityLog).values({
+      orgId: ORG_ID,
       id: nanoid(),
       entityType: 'foundation',
       entityId: id,
@@ -202,6 +214,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   const { id } = await params;
   try {
     // Check if foundation exists
@@ -222,6 +237,7 @@ export async function DELETE(
 
     // Log activity
     await db.insert(activityLog).values({
+      orgId: ORG_ID,
       id: nanoid(),
       entityType: 'foundation',
       entityId: id,

@@ -22,10 +22,6 @@
  * borrow the platform's.
  */
 
-import { ORG_PROFILE, type OrgProfile } from '@/lib/config/org-profile';
-
-export type Tenant = OrgProfile;
-
 /**
  * Known tenant ids. These MUST match the `org_id` column used across the
  * fundraising tables and the `org_profiles` row for each tenant — that column
@@ -44,19 +40,29 @@ export const TENANT_IDS = {
 
 export type TenantId = (typeof TENANT_IDS)[keyof typeof TENANT_IDS];
 
-export const TENANTS: Record<string, Tenant> = {
-  [ORG_PROFILE.orgId]: ORG_PROFILE,
-};
+// A static TENANTS map and getTenantByHost() lived here. They were a SECOND
+// reader of tenant identity, built from the compile-time constant, competing
+// with the DB-backed getTenant(). evig proved the point: it has a profile row,
+// a logo and a membership, but deliberately no static entry — so the static
+// reader returned undefined for a tenant that plainly exists. One reader,
+// reading the database: src/lib/tenant/resolve.ts.
 
 /** The platform's own host — serves the product, not any single tenant. */
 export const PLATFORM_HOST = 'hirnli.orangecat.ch';
 
-/** Host → tenant mapping. Extended per tenant; DB-backed in Phase C. */
+/**
+ * Host → tenant mapping. DB-backed once tenants can register their own domains.
+ *
+ * evig had an identity, a logo and a membership before it had a host, so no
+ * request could resolve to it — a tenant that exists in every table and is
+ * reachable from nowhere.
+ */
 export const HOST_TENANTS: Record<string, string> = {
-  'revamp-info.orangecat.ch': ORG_PROFILE.orgId,
+  'revamp-info.orangecat.ch': TENANT_IDS.revampIt,
+  'evig.hirnli.orangecat.ch': TENANT_IDS.evig,
 };
 
-export const DEFAULT_TENANT_ID = ORG_PROFILE.orgId;
+export const DEFAULT_TENANT_ID: TenantId = TENANT_IDS.revampIt;
 
 /** Strip a port so `localhost:3000` and proxied hosts compare cleanly. */
 function normalizeHost(host: string | null): string {
@@ -71,8 +77,4 @@ export function isPlatformHost(host: string | null): boolean {
 /** Which tenant does this host serve? Falls back to the default tenant. */
 export function getTenantIdByHost(host: string | null): string {
   return HOST_TENANTS[normalizeHost(host)] ?? DEFAULT_TENANT_ID;
-}
-
-export function getTenantByHost(host: string | null): Tenant {
-  return TENANTS[getTenantIdByHost(host)];
 }

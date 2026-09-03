@@ -13,6 +13,7 @@ import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { API_ERR_LOAD, API_ERR_VALIDATION, API_ERR_SAVE } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 
 // Validation schema for creating rules
 const createRuleSchema = z.object({
@@ -42,6 +43,9 @@ const createRuleSchema = z.object({
  * List all customization rules
  */
 export async function GET(request: NextRequest) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   try {
     const { searchParams } = new URL(request.url);
     const foundationId = searchParams.get('foundationId');
@@ -77,6 +81,9 @@ export async function GET(request: NextRequest) {
  * Create a new customization rule
  */
 export async function POST(request: NextRequest) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   try {
     const body = await request.json();
 
@@ -98,6 +105,9 @@ export async function POST(request: NextRequest) {
     // Create rule — omit createdAt (DB defaultNow())
     const newRule = {
       id: nanoid(),
+      // Whose rule this is — see the applications route for why there is no
+      // longer a default to fall back on.
+      orgId: ORG_ID,
       ...data,
     };
 

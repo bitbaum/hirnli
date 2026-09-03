@@ -23,6 +23,7 @@ import {
 } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 import { foundationSchema } from '@/lib/schemas/foundation';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 
 /** Parse the joined foundation row's configData into the rich Foundation shape, if valid. */
 function toFoundationDetail(row: { configData: unknown } | null) {
@@ -61,6 +62,9 @@ const updateApplicationSchema = z.object({
  * Retrieve a single application by ID (with foundation details)
  */
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   const { id } = await params;
   try {
     const result = await db
@@ -91,6 +95,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
  * Update an application (partial updates)
  */
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   const { id } = await params;
   try {
     const body = await request.json();
@@ -159,6 +166,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     // Log activity (especially status changes)
     const actionType = data.status ? 'status_changed' : 'updated';
     await db.insert(activityLog).values({
+      orgId: ORG_ID,
       id: nanoid(),
       entityType: 'application',
       entityId: id,
@@ -200,6 +208,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  // Every write says whose data it is. The columns no longer carry a
+  // default, so an unattributed row cannot be created at all.
+  const ORG_ID = await getCurrentOrgId();
   const { id } = await params;
   try {
     // Check if application exists
@@ -211,6 +222,7 @@ export async function DELETE(
 
     // Log deletion before removing
     await db.insert(activityLog).values({
+      orgId: ORG_ID,
       id: nanoid(),
       entityType: 'application',
       entityId: id,

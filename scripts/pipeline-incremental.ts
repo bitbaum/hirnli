@@ -54,6 +54,11 @@ interface EsaRegister {
 }
 
 import type { ResearchDepth } from './lib/utilities';
+import { requireOrgId } from './lib/require-org';
+
+// Resolved before any work begins: a run that cannot say whose data it is
+// producing should fail at the start, not after writing half a register.
+const ORG_ID = requireOrgId();
 
 // ============================================================================
 // DRAFT GENERATION (same logic as esa-bulk-ingest.ts)
@@ -236,7 +241,7 @@ async function upsertEntry(
         ${fitScore}, ${priority},
         ${researchDepth}, ${today},
         ${'automated-research'}, ${JSON.stringify(configData)},
-        ${'revamp-it'}, ${now}, ${now}, false
+        ${ORG_ID}, ${now}, ${now}, false
       )
       ON CONFLICT (id) DO NOTHING
     `;
