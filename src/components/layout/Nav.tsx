@@ -15,7 +15,21 @@ import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 import Backdrop from '@/components/ui/Backdrop';
 
-export default function Nav({ stiftungenCount }: { stiftungenCount: number }) {
+/**
+ * `logoUrl` is passed in rather than imported: the mark belongs to the tenant,
+ * and a client component cannot resolve which tenant a request is for. Absent
+ * means render no mark — never a default one, which would be another
+ * organisation's.
+ */
+export default function Nav({
+  stiftungenCount,
+  logoUrl,
+  logoAlt,
+}: {
+  stiftungenCount: number;
+  logoUrl?: string;
+  logoAlt: string;
+}) {
   const pathname = usePathname();
   const t = useTranslations('common');
   const items = useNavStructure(stiftungenCount);
@@ -50,14 +64,24 @@ export default function Nav({ stiftungenCount }: { stiftungenCount: number }) {
           href="/"
           className="group flex items-center gap-3 transition-all hover:opacity-80 hover:no-underline"
         >
-          <Image
-            src={BRANDING.logo.main}
-            alt={BRANDING.logo.alt}
-            width={BRANDING.logo.width}
-            height={BRANDING.logo.height}
-            priority
-            className="h-auto w-auto"
-          />
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt={logoAlt}
+              width={BRANDING.logoBox.width}
+              height={BRANDING.logoBox.height}
+              priority
+              className="h-auto w-auto"
+            />
+          ) : (
+            // No mark of their own yet. Reserve the space so the layout does
+            // not shift, but never fall back to another tenant's logo.
+            <span
+              aria-hidden="true"
+              style={{ width: BRANDING.logoBox.width, height: BRANDING.logoBox.height }}
+              className="inline-block"
+            />
+          )}
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-revamp-green">{BRANDING.siteName}</span>
             <span className="text-sm text-text-muted">{BRANDING.siteTagline}</span>

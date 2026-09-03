@@ -12,8 +12,10 @@
 import { describe, it, expect } from 'vitest';
 import {
   deriveTenant,
+  parseBranding,
   parseTenant,
   storedTenantProfileSchema,
+  tenantBrandingSchema,
   type StoredTenantProfile,
 } from '../profile';
 
@@ -121,5 +123,42 @@ describe('parseTenant', () => {
 
   it('throws on a row that does not match the schema', () => {
     expect(() => parseTenant({ name: 'incomplete' })).toThrow();
+  });
+});
+
+describe('tenantBrandingSchema / parseBranding', () => {
+  it('accepts a tenant with its own mark', () => {
+    expect(
+      parseBranding({ logoUrl: 'https://evig.orangecat.ch/icon.png', logoAlt: 'evig Logo' }),
+    ).toEqual({ logoUrl: 'https://evig.orangecat.ch/icon.png', logoAlt: 'evig Logo' });
+  });
+
+  it('accepts a platform-hosted relative path', () => {
+    // A tenant should not need a pull request to change its logo, but marks the
+    // platform already hosts must keep working.
+    expect(parseBranding({ logoUrl: '/revampit-icon.png' }).logoUrl).toBe('/revampit-icon.png');
+  });
+
+  it('returns EMPTY branding for a tenant that has none', () => {
+    // The whole bug in one assertion: the fallback must be "no mark", never
+    // another tenant's mark.
+    expect(parseBranding({})).toEqual({});
+    expect(parseBranding(null)).toEqual({});
+    expect(parseBranding(undefined)).toEqual({});
+  });
+
+  it('falls back to empty rather than throwing on a malformed row', () => {
+    // Chrome renders on every page; a bad branding row must not take the site
+    // down, and must not silently borrow someone else's identity either.
+    expect(parseBranding({ logoUrl: 123 })).toEqual({});
+    expect(parseBranding({ primaryColor: 'green' })).toEqual({});
+  });
+
+  it('rejects an unknown branding key rather than ignoring it', () => {
+    expect(tenantBrandingSchema.safeParse({ logoURL: '/x.png' }).success).toBe(false);
+  });
+
+  it('accepts a #rrggbb accent', () => {
+    expect(parseBranding({ primaryColor: '#10b981' }).primaryColor).toBe('#10b981');
   });
 });

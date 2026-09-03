@@ -71,6 +71,13 @@
       "when": 1784464800000,
       "tag": "0009_tenant_profile_ssot",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1784551200000,
+      "tag": "0010_tenant_branding",
+      "breakpoints": true
     }
   ]
 }
