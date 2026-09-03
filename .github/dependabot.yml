@@ -15,12 +15,9 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
-    # ai-kit is pinned to a git TAG (github:bitbaum/ai-kit#vX.Y.Z). dependabot
-    # cannot order git tags and on 2026-08-31 proposed v0.6.2 -> v0.4.0 as a
-    # "bump" — a downgrade. The pin is governed by the fleet's version-currency
-    # ratchet (bitbaum/fleet, blessed-versions.json), not by dependabot.
-    ignore:
-      - dependency-name: 'ai-kit'
+    # (The former ignore for 'ai-kit' is gone: the dependency moved from a git
+    # tag — which dependabot cannot order and once "bumped" v0.6.2 -> v0.4.0 —
+    # to the npm package @bitbaum/ai-kit, where semver ranges order correctly.)
     groups:
       minor-and-patch:
         update-types: [minor, patch]

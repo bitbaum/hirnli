@@ -18,7 +18,7 @@
  * argument for testing the resolution rather than the ids.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { freeChain, providerModels, usableChain } from 'ai-kit';
+import { freeChain, providerModels, usableChain } from '@bitbaum/ai-kit';
 import { GROQ_MODELS, callGroq, resolveModel } from './groq-client';
 
 const CHAIN_MODEL_COUNT = providerModels(freeChain('HIRNLI')[0]).length;

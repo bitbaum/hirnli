@@ -9,7 +9,7 @@
  *   Model: see GROQ_MODELS below — never spell an id out at a call site
  */
 
-import { freeChain, providerModels, tryChain, usableChain, type Link } from 'ai-kit';
+import { freeChain, providerModels, tryChain, usableChain, type Link } from '@bitbaum/ai-kit';
 
 // Groq retired the entire llama-3.x family, so the previous single pinned
 // default `llama-3.3-70b-versatile` returned 404 on every call with a valid
