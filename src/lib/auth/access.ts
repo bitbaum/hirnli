@@ -27,7 +27,7 @@
 import { cache } from 'react';
 import { headers } from 'next/headers';
 import { and, eq } from 'drizzle-orm';
-import { auth } from './server';
+import { getAuth } from './server';
 import { db } from '@/lib/db/client';
 import { member, organization } from '@/lib/db/auth-schema';
 import { normalizeRole, type OrgRole } from './roles';
@@ -42,7 +42,7 @@ export type OrgAccess = {
 
 /** Current session, or null. Deduped per request. */
 export const getSession = cache(async () => {
-  return auth.api.getSession({ headers: await headers() });
+  return getAuth().api.getSession({ headers: await headers() });
 });
 
 /** Every organisation this user belongs to, for the switcher. */
