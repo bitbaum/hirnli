@@ -64,6 +64,13 @@
       "when": 1784378400000,
       "tag": "0008_identity",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1784464800000,
+      "tag": "0009_tenant_profile_ssot",
+      "breakpoints": true
     }
   ]
 }
