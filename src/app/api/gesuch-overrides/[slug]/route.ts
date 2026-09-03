@@ -16,11 +16,9 @@ import { gesuchOverrides, activityLog } from '@/lib/db/schema';
 import { gesuchOverridesSchema, type GesuchOverridesData } from '@/lib/schemas/gesuch-overrides';
 import { eq, and } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 import { API_ERR_DB, API_ERR_VALIDATION, API_ERR_BAD_REQUEST } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
-
-const ORG_ID = ORG_PROFILE.orgId;
 
 /** Extract variant key from query string (default: 'auto') */
 function getVariant(request: NextRequest): string {
@@ -52,6 +50,10 @@ async function logOverrideSave(slug: string, variant: string, overrides: GesuchO
  * Returns { success, data: { overrides } } or { success, data: null } if none
  */
 export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  // Scoped per request, never at module scope: a baked-in org id makes every
+  // tenant read and write the FIRST tenant's rows. These are saved edits to
+  // grant applications, so that is one customer editing another's Gesuch.
+  const ORG_ID = await getCurrentOrgId();
   const { slug } = await params;
   const variant = getVariant(request);
   try {
@@ -82,6 +84,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
  * Replace all overrides. Body: GesuchOverridesData
  */
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  // Scoped per request, never at module scope: a baked-in org id makes every
+  // tenant read and write the FIRST tenant's rows. These are saved edits to
+  // grant applications, so that is one customer editing another's Gesuch.
+  const ORG_ID = await getCurrentOrgId();
   const { slug } = await params;
   const variant = getVariant(request);
   let body: unknown;
@@ -133,6 +139,10 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> },
 ) {
+  // Scoped per request, never at module scope: a baked-in org id makes every
+  // tenant read and write the FIRST tenant's rows. These are saved edits to
+  // grant applications, so that is one customer editing another's Gesuch.
+  const ORG_ID = await getCurrentOrgId();
   const { slug } = await params;
   const variant = getVariant(request);
   try {

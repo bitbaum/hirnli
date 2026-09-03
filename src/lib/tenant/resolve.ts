@@ -48,12 +48,23 @@ export const getTenantById = cache(async (orgId: string): Promise<Tenant> => {
 });
 
 /**
- * The tenant this request is acting as.
+ * Which organisation is this request acting as? Just the id.
  *
- * `x-org-id` is set by middleware from the Host. The default covers routes that
- * run outside a request scope (build-time metadata, scripts).
+ * Separate from `getTenant()` on purpose. Scoping a query needs the id and
+ * nothing else, and reading a whole profile from the database to build a
+ * `WHERE` clause would be a needless round-trip on the hot path. It also keeps
+ * one answer to "how does a request find its org", so that answer can change
+ * without touching the places that merely scope by it.
+ *
+ * `x-org-id` is published by middleware from the Host. The default covers code
+ * running outside a request scope (build-time metadata, scripts).
  */
-export const getTenant = cache(async (): Promise<Tenant> => {
+export const getCurrentOrgId = cache(async (): Promise<string> => {
   const h = await headers();
-  return getTenantById(h.get('x-org-id') ?? DEFAULT_TENANT_ID);
+  return h.get('x-org-id') ?? DEFAULT_TENANT_ID;
+});
+
+/** The tenant this request is acting as, with identity loaded. */
+export const getTenant = cache(async (): Promise<Tenant> => {
+  return getTenantById(await getCurrentOrgId());
 });
