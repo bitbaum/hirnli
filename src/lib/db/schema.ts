@@ -4,8 +4,10 @@
  * All tables defined with Drizzle ORM for PostgreSQL.
  * Types are automatically derived from schema (never define separately).
  *
- * Table names prefixed with `fundraising_` to avoid conflicts with
- * revampit's existing tables in the shared database.
+ * Table names carry a `fundraising_` prefix because these tables once shared a
+ * database with another application's. They no longer do — hirnli has its own
+ * database — but the prefix stays: renaming 9 tables to tidy a name is churn
+ * with a migration's risk and none of its value.
  *
  * Schema serves Ground Truth #2: State defines behavior, one source of truth.
  */
@@ -16,6 +18,7 @@ import {
   boolean,
   jsonb,
   pgTable,
+  primaryKey,
   timestamp,
   unique,
   index,
@@ -23,11 +26,24 @@ import {
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 
 /**
- * Foundations Table - Org-specific analysis (Layer 2)
+ * Foundations — the shared registry of who exists.
  *
- * Stores per-org assessments of foundations (fit, priority, themes, etc.).
- * The configData JSONB holds the merged Foundation object (registry + analysis)
- * for backward compatibility with the sync pipeline.
+ * One row per foundation, for every tenant together: the primary key is the
+ * slug alone, so this table has only ever been able to hold one row per
+ * foundation. The `orgId` column below reads like tenancy but cannot provide
+ * it — a second organisation assessing the same foundation would collide on
+ * the primary key.
+ *
+ * So the per-organisation opinion lives in `foundationAssessments`, and what
+ * belongs here is what is true regardless of who is asking: name, purpose,
+ * address, deadlines, amounts, and the Schmuki type (which classifies the
+ * foundation, not the relationship to it).
+ *
+ * Mid-migration, honestly stated: `configData` still contains the assessment
+ * fields as well, and every reader still takes them from there. Migration 0012
+ * copied them into `foundationAssessments`; readers move next, and only then
+ * are they removed from the blob. Until that is finished, treat the assessment
+ * table as the destination and this blob as the live value.
  */
 export const foundations = pgTable(
   'fundraising_foundations',
@@ -49,15 +65,25 @@ export const foundations = pgTable(
     // Data confidence tracking
     dataConfidence: text('data_confidence'), // 'unverified' | 'ai-assessed' | 'human-verified'
 
-    // Full config object (Zod Foundation schema shape) — used by sync script
-    // to generate TypeScript config. DB is write SSOT, generated TS is build cache.
+    // Full config object (Zod Foundation schema shape). Parsed through
+    // foundationSchema on every read; a row that fails to parse is dropped.
+    //
+    // This used to say the DB was a write SSOT feeding a generated TypeScript
+    // config that acted as a build cache. That has not been true since 9323d69
+    // deleted both the sync script and stiftungen-generated.ts — every read now
+    // hits the database at runtime. Docs elsewhere still describe the old
+    // arrangement and are wrong.
     configData: jsonb('config_data'),
 
-    // Multi-org support
-    // No default. A row whose tenant nobody stated is a row that will be
-    // attributed to whoever happens to be first — which is how a second
-    // customer's data becomes indistinguishable from the first customer's.
-    orgId: text('org_id'),
+    // Whose row this is. NOT NULL as of migration 0013, which is what makes
+    // Drizzle infer it as required: an insert that omits the tenant now fails
+    // to compile rather than writing a row belonging to nobody. Both admin
+    // write paths did exactly that once the 0011 default was dropped.
+    //
+    // Temporary. When readers move to foundationAssessments this table is the
+    // shared registry, ownership lives in the assessment row, and this column
+    // is dropped.
+    orgId: text('org_id').notNull(),
 
     // Admin
     source: text('source'), // swissfoundations, spheriq, zhaw, typescript-legacy, rapid-assessment, etc.
@@ -290,3 +316,79 @@ export const orgProfiles = pgTable('org_profiles', {
 });
 
 export type OrgProfileRow = typeof orgProfiles.$inferSelect;
+
+/**
+ * What one organisation thinks of one foundation.
+ *
+ * The counterpart to the registry: `foundations` says who exists, this says
+ * how they rate for a given tenant. Keyed (orgId, foundationId), so two
+ * organisations can assess the same foundation without touching each other's
+ * rows — the thing the single-slug primary key on `foundations` makes
+ * impossible today.
+ *
+ * The separation is also a confidentiality boundary. `researchNotes` holds
+ * sentences like "Relevante Übereinstimmung mit Revamp-IT-Themen (Fit 2/3)":
+ * which funders a fundraiser rates highly, and what they have learned about
+ * them, is precisely what they do not show another fundraiser on the same
+ * platform. A shared blob cannot express that; two tables can.
+ *
+ * Note what is absent: there is no `configData` here. In `foundations`,
+ * fitScore/priority/researchDate/researchDepth live twice — in the blob and as
+ * flat columns — kept in step by the trigger added in migration 0003, after
+ * 535 rows had already drifted apart in production. Here each value exists
+ * once, as a column. The trigger has nothing to do because there is no second
+ * copy to reconcile.
+ */
+export const foundationAssessments = pgTable(
+  'fundraising_foundation_assessments',
+  {
+    orgId: text('org_id')
+      .notNull()
+      .references(() => orgProfiles.orgId, { onDelete: 'cascade' }),
+    foundationId: text('foundation_id')
+      .notNull()
+      .references(() => foundations.id, { onDelete: 'cascade' }),
+
+    /** 0-10. NOT NULL because all 16,623 migrated rows had one; a nullable score invites an invented default. */
+    fitScore: integer('fit_score').notNull().default(0),
+    /** 1 (highest) to 4. Likewise present on every migrated row. */
+    priority: integer('priority').notNull().default(4),
+    /** When true the stored priority wins over the computed one (see foundation-scores.ts). */
+    priorityOverride: boolean('priority_override').notNull().default(false),
+
+    /**
+     * Which of THIS organisation's themes the foundation matches.
+     *
+     * Stored rather than constrained to an enum on purpose. The current values
+     * are Revamp-IT's seven mission areas, and a second tenant's would be
+     * different — a theme vocabulary is one tenant's description of its own
+     * work, so it is data. `ThemeId` in schemas/foundation.ts is still a code
+     * enum, which is the next thing this argument applies to.
+     */
+    themes: jsonb('themes').notNull().default([]),
+
+    tagline: text('tagline'),
+    researchNotes: text('research_notes'),
+
+    /** When this organisation last assessed the foundation. Registry freshness is foundations.updatedAt. */
+    researchDate: text('research_date'),
+    researchDepth: text('research_depth'),
+
+    possiblePartners: jsonb('possible_partners'),
+
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.orgId, table.foundationId] }),
+    // The list view sorts one tenant's foundations by priority, then fit.
+    byOrgRank: index('fund_assessments_org_rank_idx').on(
+      table.orgId,
+      table.priority,
+      table.fitScore,
+    ),
+  }),
+);
+
+export type FoundationAssessmentRow = typeof foundationAssessments.$inferSelect;
+export type NewFoundationAssessment = typeof foundationAssessments.$inferInsert;

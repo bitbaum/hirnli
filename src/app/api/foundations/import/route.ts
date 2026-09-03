@@ -15,6 +15,7 @@ import { z } from 'zod';
 import { toSlug } from '@/lib/utils/slug';
 import { getTodayISO } from '@/lib/utils/format';
 import { apiError } from '@/lib/api/route-helpers';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 import {
   API_ERR_SAVE,
   API_ERR_IMPORT_NO_FILE,
@@ -161,6 +162,11 @@ export async function POST(request: NextRequest) {
       return true;
     });
 
+    // Whose foundations these are. Resolved once for the batch rather than per
+    // row: an import is one tenant's act, and reading it inside the map would
+    // suggest a batch could span organisations.
+    const orgId = await getCurrentOrgId();
+
     if (newFoundations.length === 0) {
       return NextResponse.json({
         success: true,
@@ -201,6 +207,7 @@ export async function POST(request: NextRequest) {
       return {
         id: slug,
         name: f.name,
+        orgId,
         fitScore: f.fitScore ?? null,
         priority: f.priority ?? null,
         configData,

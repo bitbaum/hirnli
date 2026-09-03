@@ -28,6 +28,7 @@ import {
   API_ERR_CONFLICT,
 } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 
 /**
  * GET /api/foundations
@@ -137,9 +138,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Create foundation — only indexed flat columns + configData JSONB
+    //
+    // orgId comes from the request, never from a default. The column used to
+    // carry `default('revamp-it')`, which meant this handler could omit it and
+    // still produce an attributed row; migration 0011 dropped that default, so
+    // omitting it now writes a row belonging to nobody — invisible to every
+    // tenant and unable to hold an assessment, since
+    // fundraising_foundation_assessments requires a real org.
     const newFoundation = {
       id: slug,
       name: data.name,
+      orgId: await getCurrentOrgId(),
       fitScore: data.fitScore ?? null,
       priority: data.priority ?? null,
       researchDepth: data.researchDepth ?? 'rapid',
