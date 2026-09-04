@@ -8,7 +8,7 @@
 import React from 'react';
 import { View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { GESUCH_TEXT, findEvidence } from '@/lib/config/stories';
+import { findEvidence, resolveStories } from '@/lib/config/stories';
 import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import { styles, COLORS } from './styles';
 
@@ -17,6 +17,10 @@ interface ProjektbeschriebPDFProps {
 }
 
 export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
+  // Filled for this organisation. Read straight from the module these
+  // strings render as "seit {{founded}}" — the templates are shared, the
+  // values are not, and only resolveStories() joins the two.
+  const { GESUCH_TEXT } = resolveStories(dok.tenant);
   return (
     <View>
       {/* Section title */}
