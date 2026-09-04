@@ -12,12 +12,12 @@
     "test:watch": "vitest",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "verify": "npm run format:check && npm run lint && npm run lint:umlauts && npm run typecheck && npm run test && npm run build",
+    "verify": "pnpm run format:check && pnpm run lint && pnpm run lint:umlauts && pnpm run typecheck && pnpm run test && pnpm run build",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "sync-numbers": "npx tsx scripts/sync-org-numbers.ts",
+    "sync-numbers": "pnpm exec tsx scripts/sync-org-numbers.ts",
     "validate:foundations": "tsx scripts/foundation-validate.ts",
     "foundation:add": "tsx scripts/foundation-add.ts",
     "esa:download": "tsx scripts/esa-download-and-parse.ts",
@@ -75,11 +75,8 @@
     "typescript": "^6.0.3",
     "vitest": "^4.1.11"
   },
-  "overrides": {
-    "eslint-plugin-react-hooks": "7.0.1"
-  },
   "engines": {
-    "node": ">=20",
-    "npm": ">=11"
-  }
+    "node": ">=22.13"
+  },
+  "packageManager": "pnpm@11.25.0"
 }
