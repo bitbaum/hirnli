@@ -1,16 +1,34 @@
 /**
- * Seed org content tables from the ORG-SPECIFIC TypeScript configs.
+ * Seed org CONTENT tables from the ORG-SPECIFIC TypeScript configs.
  *
- * Phase C step 1 (docs/HIRNLI-REPLATFORM-PLAN.md §3.2): converts today's
- * compile-time tenant content into revamp-it rows in org_profiles /
- * org_content / org_scoring. Idempotent (upserts) — re-run after editing
- * the TS configs until readers migrate to the DB and the configs retire.
+ * Mirrors today's compile-time tenant content into org_content / org_scoring
+ * rows for revamp-it. Idempotent — re-run after editing the TS configs, until
+ * the readers migrate to the DB and the configs retire.
+ *
+ * ── WHY THIS NO LONGER TOUCHES org_profiles ──────────────────────────────────
+ *
+ * It used to, and doing so would now take the site down.
+ *
+ * `org_profiles` stopped being a mirror the moment `getTenantById()` started
+ * reading it: it is the live source of every tenant's identity, on every
+ * request. Seeding it from the constant this migration exists to retire would
+ * overwrite live data with a copy — backwards on its own terms.
+ *
+ * Worse, the copy is invalid. `storedTenantProfileSchema` is `.strict()` and
+ * deliberately has no room for `yearsActive` or `experienceLabel`, because both
+ * are arithmetic on `founded` and a stored copy goes wrong on 1 January.
+ * ORG_PROFILE carries both. Postgres would accept the row happily; the next
+ * request would call `parseTenant()`, get "Unrecognized keys", and throw — and
+ * `getTenantById()` throws rather than falling back, on purpose. Every page,
+ * 500, from running a script whose own header said to re-run it freely.
+ *
+ * A tenant's identity is edited in the database. There is no code path back.
  *
  * Run with: npx tsx scripts/seed-org-content.ts   (needs DB tunnel — see docs/DEPLOYMENT.md)
  */
 
 import { sql } from './lib/db';
-import { ORG_PROFILE } from '../src/lib/config/org-profile';
+import { requireOrgId } from './lib/require-org';
 import { SCORING_ENGINE, READINESS_ENGINE } from '../src/lib/config/fit-scoring';
 import {
   CORE_FACTS,
@@ -24,7 +42,9 @@ import { SCHWERPUNKTE } from '../src/lib/config/schwerpunkte';
 import { TEMPLATE_FOUNDATIONS } from '../src/lib/config/gesuch-templates';
 import { THEMES } from '../src/lib/config/foundations/metadata';
 
-const ORG_ID = ORG_PROFILE.orgId;
+// Whose content this is, stated rather than inherited from a constant — the
+// same rule as every other script here, and what lets this seed a second tenant.
+const ORG_ID = requireOrgId();
 
 /** Content blocks keyed exactly like their future readers will ask for them */
 const CONTENT_BLOCKS: Record<string, unknown> = {
@@ -38,13 +58,16 @@ const CONTENT_BLOCKS: Record<string, unknown> = {
 async function main() {
   console.log(`\nSeeding org content for '${ORG_ID}'...\n`);
 
-  await sql`
-    INSERT INTO org_profiles (org_id, profile, default_locale, updated_at)
-    VALUES (${ORG_ID}, ${JSON.stringify(ORG_PROFILE)}::jsonb, 'de', now())
-    ON CONFLICT (org_id) DO UPDATE
-      SET profile = EXCLUDED.profile, updated_at = now()
+  // org_profiles is deliberately NOT written here. See the header.
+  const [{ exists }] = await sql<{ exists: boolean }>`
+    SELECT EXISTS (SELECT 1 FROM org_profiles WHERE org_id = ${ORG_ID}) AS exists
   `;
-  console.log('  org_profiles: upserted');
+  if (!exists) {
+    throw new Error(
+      `No org_profiles row for '${ORG_ID}'. Identity is edited in the database, ` +
+        'not seeded from code — insert the row first, then re-run this to seed its content.',
+    );
+  }
 
   for (const [key, value] of Object.entries(CONTENT_BLOCKS)) {
     await sql`
