@@ -57,27 +57,59 @@ export async function getAllFoundations(orgId: string): Promise<Foundation[]> {
 
   const valid: Foundation[] = [];
   for (const row of rows) {
-    // A row with no fit_score is a LEFT JOIN miss: this organisation has no
-    // assessment, so it gets the unassessed defaults rather than the blob's
-    // leftover values from whoever researched the foundation first.
-    const assessment: AssessmentValues | null =
-      row.fit_score === null
-        ? null
-        : {
-            fitScore: row.fit_score,
-            priority: row.priority ?? 4,
-            priorityOverride: row.priority_override ?? false,
-            themes: row.themes,
-            tagline: row.tagline,
-            researchNotes: row.research_notes,
-            researchDate: row.research_date,
-            researchDepth: row.research_depth,
-            possiblePartners: row.possible_partners,
-          };
-
-    const composed = composeFoundation(row.config_data, assessment);
+    const composed = composeRow(row);
     if (composed) valid.push(composed);
   }
   valid.sort((a, b) => a.slug.localeCompare(b.slug));
   return valid;
+}
+
+/** Turn one joined row into a Foundation as this organisation sees it. */
+function composeRow(row: Row): Foundation | undefined {
+  // A row with no fit_score is a LEFT JOIN miss: this organisation has no
+  // assessment, so it gets the unassessed defaults rather than the blob's
+  // leftover values from whoever researched the foundation first.
+  const assessment: AssessmentValues | null =
+    row.fit_score === null
+      ? null
+      : {
+          fitScore: row.fit_score,
+          priority: row.priority ?? 4,
+          priorityOverride: row.priority_override ?? false,
+          themes: row.themes,
+          tagline: row.tagline,
+          researchNotes: row.research_notes,
+          researchDate: row.research_date,
+          researchDepth: row.research_depth,
+          possiblePartners: row.possible_partners,
+        };
+
+  return composeFoundation(row.config_data, assessment);
+}
+
+/**
+ * One foundation by id, as `orgId` sees it, with no archived or confidence
+ * filter applied.
+ *
+ * For write paths that read back what they just wrote. `getAllFoundations`
+ * deliberately hides archived and unverified rows because it answers "what is
+ * this organisation working with"; a script correcting a row it just inserted
+ * is asking a different question and must see the row regardless of how the
+ * list view would treat it.
+ */
+export async function getFoundationById(
+  orgId: string,
+  id: string,
+): Promise<Foundation | undefined> {
+  const [row] = await sql<Row>`
+    SELECT f.config_data,
+           a.fit_score, a.priority, a.priority_override, a.themes,
+           a.tagline, a.research_notes, a.research_date, a.research_depth,
+           a.possible_partners
+      FROM fundraising_foundations f
+      LEFT JOIN fundraising_foundation_assessments a
+             ON a.foundation_id = f.id AND a.org_id = ${orgId}
+     WHERE f.id = ${id}
+  `;
+  return row ? composeRow(row) : undefined;
 }

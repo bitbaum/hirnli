@@ -50,6 +50,8 @@ import { callGroqJSON, GROQ_MODELS } from './lib/groq-client';
 import { sleep } from './lib/utilities';
 import { THEMES } from '../src/lib/config/foundations/metadata';
 import { ThemeId } from '../src/lib/schemas/foundation';
+import { requireOrgId } from './lib/require-org';
+import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
 
 // ============================================================================
 // CLI ARGS
@@ -57,6 +59,16 @@ import { ThemeId } from '../src/lib/schemas/foundation';
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
+
+// Whose assessments this run produces. Resolved before any work begins: a run
+// that cannot say which organisation it is triaging for should fail at the
+// start, not after writing half a register under nobody's name.
+//
+// This script previously had no org id at all and updated rows by slug alone.
+// With one tenant that was invisible; it now writes assessment rows, which have
+// an owner by construction, so the question can no longer go unanswered.
+const ORG_ID = requireOrgId();
+
 const INGEST_ONLY = args.includes('--ingest-only');
 const PHASE_ARG = parseInt(args.find((a) => a.startsWith('--phase='))?.split('=')[1] || '0', 10);
 const LIMIT =
@@ -580,23 +592,24 @@ async function phase3Upsert(sql: SqlClient, triageResults: TriageResult[]): Prom
       const writeDepth = hasSubstantialData ? 'standard' : 'rapid';
       const fullMerge = { ...mergeConfig, researchDepth: writeDepth, researchDate: today };
 
+      // Registry facts stay in the blob; the graduation verdict — fit, themes,
+      // tagline, notes, depth — is this organisation's and goes to its
+      // assessment row, which is the only place the app reads it from.
+      const { registry, analysis } = splitFoundationPatch({
+        ...fullMerge,
+        fitScore: r.fitScore,
+        priority: writePriority,
+      });
+
       try {
-        // config_data is SSOT — trigger auto-syncs flat columns
         await sql`
           UPDATE fundraising_foundations
-          SET
-            config_data = jsonb_set(
-              jsonb_set(
-                config_data || ${JSON.stringify(fullMerge)}::jsonb,
-                '{fitScore}',
-                to_jsonb(${r.fitScore})
-              ),
-              '{priority}',
-              to_jsonb(${writePriority})
-            ),
-            updated_at = ${now}
+          SET config_data = config_data || ${JSON.stringify(registry)}::jsonb,
+              updated_at = ${now}
           WHERE id = ${r.slug}
         `;
+
+        await upsertAssessment(ORG_ID, r.slug, analysis);
 
         updated++;
       } catch (err) {
