@@ -97,7 +97,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           eq(foundationAssessments.orgId, ORG_ID),
         ),
       )
-      .where(eq(applications.id, id))
+      .where(and(eq(applications.id, id), eq(applications.orgId, ORG_ID)))
       .limit(1);
 
     if (result.length === 0) {
@@ -150,8 +150,18 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       );
     }
 
-    // Check if application exists
-    const existing = await db.select().from(applications).where(eq(applications.id, id)).limit(1);
+    // Check the application exists AND belongs to the caller.
+    //
+    // An id-only lookup made every application in the database editable by
+    // every tenant: the id is the only thing the URL carries, and nothing
+    // downstream re-checked ownership. A row belonging to somebody else must
+    // answer 404, the same as one that does not exist — anything more specific
+    // confirms its existence to a stranger.
+    const existing = await db
+      .select()
+      .from(applications)
+      .where(and(eq(applications.id, id), eq(applications.orgId, ORG_ID)))
+      .limit(1);
 
     if (existing.length === 0) {
       return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
@@ -196,7 +206,12 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
 
     // Update application
-    await db.update(applications).set(updates).where(eq(applications.id, id));
+    // Scoped as well as the check above: the check and the write must agree
+    // about which rows they may touch, or a change between them decides it.
+    await db
+      .update(applications)
+      .set(updates)
+      .where(and(eq(applications.id, id), eq(applications.orgId, ORG_ID)));
 
     // Log activity (especially status changes)
     const actionType = data.status ? 'status_changed' : 'updated';
@@ -231,7 +246,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
           eq(foundationAssessments.orgId, ORG_ID),
         ),
       )
-      .where(eq(applications.id, id))
+      .where(and(eq(applications.id, id), eq(applications.orgId, ORG_ID)))
       .limit(1);
 
     const { application: updatedApp, foundation, assessment } = updated[0];
@@ -265,8 +280,14 @@ export async function DELETE(
   const ORG_ID = await getCurrentOrgId();
   const { id } = await params;
   try {
-    // Check if application exists
-    const existing = await db.select().from(applications).where(eq(applications.id, id)).limit(1);
+    // Scoped, so a tenant can only delete its own. This is a hard delete with
+    // no recovery path, and it was reachable for any application in the
+    // database by anyone who knew an id.
+    const existing = await db
+      .select()
+      .from(applications)
+      .where(and(eq(applications.id, id), eq(applications.orgId, ORG_ID)))
+      .limit(1);
 
     if (existing.length === 0) {
       return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
@@ -288,7 +309,9 @@ export async function DELETE(
     });
 
     // Hard delete
-    await db.delete(applications).where(eq(applications.id, id));
+    await db
+      .delete(applications)
+      .where(and(eq(applications.id, id), eq(applications.orgId, ORG_ID)));
 
     return NextResponse.json({
       success: true,

@@ -66,8 +66,13 @@ export async function GET(request: NextRequest) {
     const limit = Math.min(Math.max(1, parseInt(searchParams.get('limit') || '50', 10) || 50), 100);
     const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10) || 0);
 
-    // Build filter conditions
-    const conditions = [];
+    // Build filter conditions.
+    //
+    // The org predicate is the seed rather than one more optional filter: both
+    // the page query and the count below reuse this array, so scoping it here
+    // is what keeps the list and its total describing the same rows. Unseeded,
+    // the board listed every tenant's applications and paginated over them.
+    const conditions = [eq(applications.orgId, ORG_ID)];
 
     const statusFilter = z.enum(STATUS_IDS).safeParse(status);
     if (statusFilter.success) {
@@ -183,6 +188,9 @@ export async function POST(request: NextRequest) {
       .from(applications)
       .where(
         and(
+          // Unscoped, another tenant's live application to the same foundation
+          // blocked this one with a 409 — and leaked its id in the response.
+          eq(applications.orgId, ORG_ID),
           eq(applications.foundationId, data.foundationId),
           notInArray(applications.status, ['rejected', 'withdrawn']),
         ),

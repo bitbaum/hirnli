@@ -9,7 +9,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { gesuchOverrides, applications, foundations } from '@/lib/db/schema';
-import { eq, inArray } from 'drizzle-orm';
+import { and, eq, inArray } from 'drizzle-orm';
 import { getCurrentOrgId } from '@/lib/tenant/resolve';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { API_ERR_DB } from '@/lib/utils/errors';
@@ -51,7 +51,12 @@ export async function GET() {
         status: applications.status,
       })
       .from(applications)
-      .where(inArray(applications.foundationId, foundationIds));
+      // The override rows above are this organisation's; the applications
+      // joined onto them were everyone's, so the list could show another
+      // tenant's application id and status beside your own saved edits.
+      .where(
+        and(eq(applications.orgId, ORG_ID), inArray(applications.foundationId, foundationIds)),
+      );
 
     // Build lookup maps for O(1) access
     const foundationNameById = new Map(foundationRows.map((f) => [f.id, f.name]));

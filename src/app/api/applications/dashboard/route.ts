@@ -25,12 +25,23 @@ import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
 import { getTodayISO, toISODateStr } from '@/lib/utils/format';
 import { API_ERR_LOAD } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 
 /**
  * GET /api/applications/dashboard
  * Calculate KPI statistics for fundraising dashboard
  */
 export async function GET(_request: NextRequest) {
+  // Whose dashboard this is.
+  //
+  // Every query below ran over the whole table. The KPI tiles therefore showed
+  // the sum of every organisation's requested and awarded amounts, its own
+  // success rate diluted by other people's rejections, and a deadline list of
+  // applications it had never made. An aggregate is the easiest place for this
+  // to hide: a number that is simply too large looks like a number.
+  const orgId = await getCurrentOrgId();
+  const mine = eq(applications.orgId, orgId);
+
   try {
     // Single GROUP BY query for all aggregate stats — no full-table fetch
     const [aggregates, statusRows, priorityRows] = await Promise.all([
@@ -40,7 +51,8 @@ export async function GET(_request: NextRequest) {
           totalRequested: sum(applications.requestedAmount),
           totalAwarded: sum(applications.awardedAmount),
         })
-        .from(applications),
+        .from(applications)
+        .where(mine),
 
       db
         .select({
@@ -48,6 +60,7 @@ export async function GET(_request: NextRequest) {
           cnt: count(),
         })
         .from(applications)
+        .where(mine)
         .groupBy(applications.status),
 
       db
@@ -56,7 +69,7 @@ export async function GET(_request: NextRequest) {
           cnt: count(),
         })
         .from(applications)
-        .where(isNotNull(applications.priorityLevel))
+        .where(and(mine, isNotNull(applications.priorityLevel)))
         .groupBy(applications.priorityLevel),
     ]);
 
@@ -88,6 +101,7 @@ export async function GET(_request: NextRequest) {
       .leftJoin(foundations, eq(applications.foundationId, foundations.id))
       .where(
         and(
+          mine,
           gte(applications.decisionExpected, today),
           lte(applications.decisionExpected, in30Days),
           // All active post-submission statuses that may have a decision date

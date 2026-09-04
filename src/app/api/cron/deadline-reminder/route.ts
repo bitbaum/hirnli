@@ -13,7 +13,9 @@ import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
 import { eq, and, inArray } from 'drizzle-orm';
 import { Resend } from 'resend';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
+import { fundraisingDashboardUrl, resolveTenantMailRoute } from '@/lib/email/tenant-notifications';
+import type { Tenant } from '@/lib/tenant/profile';
 import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
 import { EMAIL_COLORS } from '@/lib/config/email-colors';
 import { formatCHF } from '@/lib/utils/format';
@@ -49,6 +51,20 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // Whose deadlines these are.
+    //
+    // The query below had no organisation filter at all, so it collected every
+    // tenant's applications — foundation names, amounts, statuses and decision
+    // dates — and mailed the lot to one organisation's fundraising inbox. That
+    // is harmless only while exactly one tenant has applications, which stopped
+    // being a safe assumption the moment this became a platform.
+    //
+    // Like the data-quality report, this cron has no request to resolve a
+    // tenant from, so it runs for the reference tenant. Fanning it out to every
+    // tenant is a change of behaviour towards customers who receive nothing
+    // today, so it stays one visible line. See docs/TENANT-MIGRATION-MAP.md.
+    const reportOrgId = DEFAULT_TENANT_ID;
+
     const today = new Date();
     const notifications: Array<{
       application: Application;
@@ -79,6 +95,7 @@ export async function GET(request: NextRequest) {
         .leftJoin(foundations, eq(applications.foundationId, foundations.id))
         .where(
           and(
+            eq(applications.orgId, reportOrgId),
             eq(applications.decisionExpected, targetDateStr),
             // All active post-submission statuses that may have a decision date
             inArray(applications.status, ['submitted', 'pending', 'followup']),
@@ -95,21 +112,33 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Send email notifications if any found
-    if (notifications.length > 0 && resend) {
-      const emailBody = formatEmailBody(notifications);
-
-      await resend.emails.send({
-        from: `${ORG_PROFILE.name} Fundraising <noreply@${ORG_PROFILE.website.replace('https://', '')}>`,
-        to: [ORG_PROFILE.fundraisingEmail],
-        subject: `⏰ ${notifications.length} Fristen in den nächsten 14 Tagen`,
-        html: emailBody,
-      });
+    // Send, or record why not. A reminder nobody received is the one failure
+    // this job must not report as success.
+    let emailed: string | boolean = false;
+    if (notifications.length > 0) {
+      if (!resend) {
+        emailed = 'skipped: RESEND_API_KEY is not configured';
+      } else {
+        const route = await resolveTenantMailRoute(reportOrgId);
+        if (!route.canSend) {
+          emailed = `skipped: ${route.reason}`;
+        } else {
+          await resend.emails.send({
+            from: route.from,
+            to: route.to,
+            subject: `⏰ ${notifications.length} Fristen in den nächsten 14 Tagen`,
+            html: formatEmailBody(notifications, route.tenant),
+          });
+          emailed = true;
+        }
+      }
     }
 
     return NextResponse.json({
       success: true,
+      org_id: reportOrgId,
       notifications_sent: notifications.length,
+      emailed,
       deadlines: notifications.map((n) => ({
         foundation: n.foundation?.name,
         daysUntil: n.daysUntil,
@@ -131,6 +160,7 @@ function formatEmailBody(
     daysUntil: number;
     urgency: 'high' | 'medium' | 'low';
   }>,
+  tenant: Tenant,
 ): string {
   const urgencyColors = {
     high: EMAIL_COLORS.urgencyHigh,
@@ -202,15 +232,22 @@ function formatEmailBody(
 `;
   }
 
+  // Omitted rather than rendered as `undefined/...` for a tenant with no
+  // hosted site of its own.
+  const dashboardUrl = fundraisingDashboardUrl(tenant);
   html += `
   <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid ${EMAIL_COLORS.border};">
-    <p style="font-size: 14px; color: ${EMAIL_COLORS.textMuted};">
-      <a href="${ORG_PROFILE.siteUrl}/fundraising/dashboard" style="color: ${EMAIL_COLORS.primary}; text-decoration: none;">
+    ${
+      dashboardUrl
+        ? `<p style="font-size: 14px; color: ${EMAIL_COLORS.textMuted};">
+      <a href="${dashboardUrl}" style="color: ${EMAIL_COLORS.primary}; text-decoration: none;">
         Dashboard öffnen →
       </a>
-    </p>
+    </p>`
+        : ''
+    }
     <p style="font-size: 12px; color: ${EMAIL_COLORS.textFaint};">
-      Diese Nachricht wurde automatisch von ${ORG_PROFILE.name} Fundraising System generiert.
+      Diese Nachricht wurde automatisch von ${tenant.name} Fundraising System generiert.
     </p>
   </div>
 </body>
