@@ -1,0 +1,12 @@
+# pnpm config (pnpm 11 reads overrides/build allowances from here,
+# NOT from package.json — npm `overrides` and `pnpm.onlyBuiltDependencies`
+# there are silently ignored).
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  esbuild: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@bitbaum/ai-kit@0.6.2'
+overrides:
+  eslint-plugin-react-hooks: 7.0.1
