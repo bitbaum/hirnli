@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import { resolveTypeLabel } from '@/lib/config/foundations';
 import {
   TEMPLATE_TYPES,
@@ -26,6 +26,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const tenant = await getTenant();
   const { vorlage: type } = await params;
   const typeLabel = resolveTypeLabel(type);
   if (typeLabel) {
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const tplLabel = TEMPLATE_LABELS[type];
   if (tplLabel) {
     return {
-      title: `Fördergesuch-Vorlage: ${tplLabel.long} — ${ORG_PROFILE.name}`,
+      title: `Fördergesuch-Vorlage: ${tplLabel.long} — ${tenant.name}`,
       description: tplLabel.desc,
     };
   }

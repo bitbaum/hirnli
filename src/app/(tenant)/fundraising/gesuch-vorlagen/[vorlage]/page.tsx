@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { THEMES, resolveTypeLabel } from '@/lib/config/foundations';
 import {
@@ -30,6 +30,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const tenant = await getTenant();
   const { vorlage: type } = await params;
   const typeLabel = resolveTypeLabel(type);
   if (typeLabel) {
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const tplLabel = TEMPLATE_LABELS[type];
   if (tplLabel) {
     return {
-      title: `Gesuch-Vorlage: ${tplLabel.long} — ${ORG_PROFILE.name}`,
+      title: `Gesuch-Vorlage: ${tplLabel.long} — ${tenant.name}`,
       description: tplLabel.desc,
     };
   }

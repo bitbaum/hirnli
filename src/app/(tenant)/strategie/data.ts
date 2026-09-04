@@ -3,7 +3,8 @@
 
    ORG-SPECIFIC: Content written for Revamp-IT.
    To support a new org, rewrite this file's content.
-   Programmatic org references use ORG_PROFILE (src/lib/config/org-profile.ts).
+   NOT YET MIGRATED: still reads the compile-time ORG_PROFILE. Content module —
+   moves to org_content with the rest of the per-tenant prose.
    ──────────────────────────────────────────── */
 
 import { HUB_SPACE_DISPLAY, PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';

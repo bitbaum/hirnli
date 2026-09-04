@@ -14,7 +14,7 @@
 
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { getAllFoundations, getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
@@ -41,6 +41,7 @@ async function gesuchSlugs(): Promise<string[]> {
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const tenant = await getTenant();
   const { token } = await params;
   const slug = resolveShareToken(token, await gesuchSlugs());
   if (!slug) return { title: 'Nicht gefunden' };
@@ -48,8 +49,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const foundation = await getFoundationBySlug(slug);
   if (!foundation) return { title: 'Nicht gefunden' };
 
-  const title = `${ORG_PROFILE.name} × ${foundation.name}`;
-  const description = `Partnerschaftsvorschlag von ${ORG_PROFILE.name} für ${foundation.name}`;
+  const title = `${tenant.name} × ${foundation.name}`;
+  const description = `Partnerschaftsvorschlag von ${tenant.name} für ${foundation.name}`;
   return {
     title,
     description,

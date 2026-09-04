@@ -1,10 +1,13 @@
 import { formatNumber } from '@/lib/utils/format';
 import { TRACK_RECORD } from '../data';
 import { CORE_FACTS } from '@/lib/config/stories';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 import Inspectable, { type InspectorHandle } from './Inspectable';
 
 export default function TrackRecord({ inspector }: { inspector: InspectorHandle }) {
+  // Rendered inside FundraisingClient, a client component, so the tenant comes
+  // from the provider rather than an await.
+  const tenant = useTenant();
   const items = [
     {
       value: `${TRACK_RECORD.yearsActive}+`,
@@ -15,7 +18,11 @@ export default function TrackRecord({ inspector }: { inspector: InspectorHandle 
     {
       value: formatNumber(TRACK_RECORD.totalInvoices),
       label: 'Rechnungen',
-      sub: `seit ${ORG_PROFILE.milestones.kivitendoStart}`,
+      // Optional: not every organisation has an ERP, let alone a year it
+      // started using one. Without a date the tile still states the count.
+      sub: tenant.milestones?.kivitendoStart
+        ? `seit ${tenant.milestones.kivitendoStart}`
+        : 'im ERP',
     },
     { value: formatNumber(TRACK_RECORD.productsInCatalog), label: 'Produkte', sub: 'im Katalog' },
     { value: formatNumber(TRACK_RECORD.deliveryNotes), label: 'Lieferungen', sub: 'ausgeführt' },

@@ -8,9 +8,10 @@ import {
   DEVICES_PER_MONTH_CURRENT_DISPLAY,
   DEVICES_PER_MONTH_TARGET,
 } from '@/lib/config/projections';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 
-export default function SovereigntySection() {
+export default async function SovereigntySection() {
+  const tenant = await getTenant();
   return (
     <section id="souveraenitat" className="mb-8">
       <h2 className="mb-4 heading-subsection">Unser Weg: Souveränität auf jeder Ebene</h2>
@@ -23,10 +24,10 @@ export default function SovereigntySection() {
           <SovereigntyPillar
             icon="🔧"
             title="Hardware-Souveränität"
-            description={`Repariere dein eigenes Gerät. Seit ${ORG_PROFILE.founded}.`}
+            description={`Repariere dein eigenes Gerät. Seit ${tenant.founded}.`}
             colorScheme="emerald"
             achievements={[
-              `Seit ${ORG_PROFILE.founded}: Repair-Workshops & Open-Source-Hardware`,
+              `Seit ${tenant.founded}: Repair-Workshops & Open-Source-Hardware`,
               `${DEVICES_PER_MONTH_CURRENT_DISPLAY} Geräte/Monat aktuell, ~${DEVICES_PER_MONTH_TARGET}/Monat (Ziel mit Hub)`,
               'Right to Repair — Community-getrieben',
             ]}
@@ -45,7 +46,7 @@ export default function SovereigntySection() {
             description="Linux & Open Source statt Lizenzen."
             colorScheme="blue"
             achievements={[
-              `Seit ${ORG_PROFILE.founded}: Linux-Fokus (Ubuntu, Linux Mint, etc.)`,
+              `Seit ${tenant.founded}: Linux-Fokus (Ubuntu, Linux Mint, etc.)`,
               '100% Open-Source-Software auf allen Geräten',
               'Keine Lizenzkosten = niedrigere Preise',
             ]}

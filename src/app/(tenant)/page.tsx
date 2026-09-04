@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import CTABanner from '@/components/ui/CTABanner';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { getStoryBridges } from '@/lib/config/story-bridges';
-import { PAGE_META, CTA_CONFIG } from './home-data';
+import { pageMeta, CTA_CONFIG } from './home-data';
+import { getTenant } from '@/lib/tenant/resolve';
 import { HeroSection, PlatformGuide, PillarGrid, TransparencyBlock } from './home-components';
 
-export const metadata: Metadata = {
-  title: PAGE_META.title,
-  description: PAGE_META.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { title, description } = pageMeta(await getTenant());
+  return { title, description };
+}
 
 export default function HomePage() {
   return (

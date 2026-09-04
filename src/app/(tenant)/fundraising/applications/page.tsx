@@ -5,15 +5,22 @@
  * Drag-and-drop cards between status columns.
  */
 
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Metadata } from 'next';
+import { getTenant } from '@/lib/tenant/resolve';
 import { ApplicationBoard } from '@/components/fundraising/ApplicationBoard';
 import PageHeader from '@/components/layout/PageHeader';
 import { getAllFoundations } from '@/lib/db/foundations-repo';
 
-export const metadata = {
-  title: `Gesuch-Pipeline | ${ORG_PROFILE.name} Fundraising`,
-  description: 'Stiftungsgesuche verwalten und nachverfolgen',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  // Titles name the organisation the request is for. As a static
+  // export this was evaluated once at build time, so every tenant's
+  // browser tab and link preview carried the first tenant's name.
+  const tenant = await getTenant();
+  return {
+    title: `Gesuch-Pipeline | ${tenant.name} Fundraising`,
+    description: 'Stiftungsgesuche verwalten und nachverfolgen',
+  };
+}
 
 export default async function ApplicationsPage() {
   const foundations = await getAllFoundations();

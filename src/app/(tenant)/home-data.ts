@@ -5,23 +5,27 @@
  * Section components import from here; page.tsx composes them.
  */
 
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
 import { FINANCIAL_YEAR_LABEL } from '@/lib/config/financial-constants';
 
 // -- Page Metadata -----------------------------------------------------------
 
-export const PAGE_META = {
-  title: `${ORG_PROFILE.name} — Transparentes Fundraising`,
-  description: `Wirkung, Finanzen und Strategie von ${ORG_PROFILE.name} — jede Zahl belegbar. Plus Stiftungsrecherche und Gesuch-Generierung auf einer Plattform.`,
-};
+// Functions rather than constants: these name the organisation, and a constant
+// is evaluated once for the whole build. Every tenant's homepage title, link
+// preview and hero therefore carried the first tenant's name.
+
+export const pageMeta = (tenant: Tenant) => ({
+  title: `${tenant.name} — Transparentes Fundraising`,
+  description: `Wirkung, Finanzen und Strategie von ${tenant.name} — jede Zahl belegbar. Plus Stiftungsrecherche und Gesuch-Generierung auf einer Plattform.`,
+});
 
 // -- Section 1: Hero ---------------------------------------------------------
 
-export const HERO = {
-  name: ORG_PROFILE.name,
+export const hero = (tenant: Tenant) => ({
+  name: tenant.name,
   story:
     'Wir geben IT-Geräten ein zweites Leben, schaffen Arbeitsplätze für Menschen in der Reintegration und machen digitale Bildung zugänglich.',
-  context: `${ORG_PROFILE.legalForm} seit ${ORG_PROFILE.founded} in ${ORG_PROFILE.location}`,
+  context: `${tenant.legalForm} seit ${tenant.founded} in ${tenant.location}`,
   platformNote: 'Fundraising-Werkzeuge für gemeinnützige Organisationen',
   ctas: [
     {
@@ -31,7 +35,7 @@ export const HERO = {
     },
     { href: '/fundraising/gesuch-vorlagen', label: 'Gesuch erstellen', variant: 'ghost' as const },
   ],
-};
+});
 
 // -- Section 2: Platform guide -----------------------------------------------
 

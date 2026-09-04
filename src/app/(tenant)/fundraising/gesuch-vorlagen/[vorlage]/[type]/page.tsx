@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import { resolveTypeLabel } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
 import { SCHWERPUNKTE, isSchwerpunktId } from '@/lib/config/schwerpunkte';
@@ -26,13 +26,14 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const tenant = await getTenant();
   const { vorlage: schwerpunkt, type } = await params;
   const sp = isSchwerpunktId(schwerpunkt) ? SCHWERPUNKTE[schwerpunkt] : undefined;
   const typeLabel = resolveTypeLabel(type);
   if (!sp || !typeLabel) return { title: 'Vorlage nicht gefunden' };
 
   return {
-    title: `Gesuch-Vorlage: ${sp.shortLabel} \u00D7 Typ ${typeLabel.short} \u2014 ${ORG_PROFILE.name}`,
+    title: `Gesuch-Vorlage: ${sp.shortLabel} \u00D7 Typ ${typeLabel.short} \u2014 ${tenant.name}`,
     description: `${sp.label} \u2014 Gesuch-Vorlage f\u00FCr ${typeLabel.long}`,
   };
 }

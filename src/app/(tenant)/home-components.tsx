@@ -9,11 +9,13 @@ import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
-import { HERO, GUIDE_HEADING, GUIDE_SECTIONS, PILLARS_HEADING, TRANSPARENCY } from './home-data';
+import { hero, GUIDE_HEADING, GUIDE_SECTIONS, PILLARS_HEADING, TRANSPARENCY } from './home-data';
+import { getTenant } from '@/lib/tenant/resolve';
 
 // -- Section 1: Hero ---------------------------------------------------------
 
-export function HeroSection() {
+export async function HeroSection() {
+  const HERO = hero(await getTenant());
   return (
     <section className="mb-12 border-b border-border-subtle pb-10">
       <Link

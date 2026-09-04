@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 import { getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuch, composeAnschreibenText } from '@/lib/domain/gesuch-composer';
@@ -21,11 +21,12 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const tenant = await getTenant();
   const { slug } = await params;
   const foundation = await getFoundationBySlug(slug);
   if (!foundation) return { title: 'Stiftung nicht gefunden' };
   return {
-    title: `Gesuch — ${ORG_PROFILE.name} × ${foundation.name}`,
+    title: `Gesuch — ${tenant.name} × ${foundation.name}`,
     description: `Personalisiertes Gesuch für ${foundation.name}`,
   };
 }

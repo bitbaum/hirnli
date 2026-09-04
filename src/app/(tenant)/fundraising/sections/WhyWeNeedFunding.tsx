@@ -1,7 +1,7 @@
 import Card from '@/components/ui/Card';
 import Callout from '@/components/ui/Callout';
 import { TEAM_MEMBERS } from '@/app/(tenant)/team/data';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 import { formatCHF } from '@/lib/utils/format';
 import {
   REVENUE_PEAK_DISPLAY,
@@ -18,6 +18,7 @@ import {
 } from '../data';
 
 export default function WhyWeNeedFunding() {
+  const tenant = useTenant();
   return (
     <section className="mb-8">
       <Card className="border-l-4 border-l-primary bg-accent-muted">
@@ -27,7 +28,7 @@ export default function WhyWeNeedFunding() {
           </h2>
 
           <p className="text-text-primary leading-relaxed">
-            Seit {ORG_PROFILE.founded} reparieren und verkaufen wir refurbished Computer.{' '}
+            Seit {tenant.founded} reparieren und verkaufen wir refurbished Computer.{' '}
             <strong>Aber unser aktuelles Geschäftsmodell ist nicht nachhaltig.</strong>
           </p>
 
