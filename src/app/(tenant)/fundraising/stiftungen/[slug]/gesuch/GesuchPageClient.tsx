@@ -5,7 +5,6 @@ import type { SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { ThemeId, Foundation } from '@/lib/schemas/foundation';
 import type { ComposedGesuch, AnschreibenText } from '@/lib/domain/gesuch-composer';
 import { extractPurposeCore } from '@/lib/domain/bridge-composer';
-import { buildDynamicOpening } from '@/lib/domain/anschreiben-composer';
 import { useTenant } from '@/lib/tenant/TenantProvider';
 import { useGesuchOverrides } from '@/hooks/useGesuchOverrides';
 import { SCHWERPUNKTE } from '@/lib/config/schwerpunkte';
@@ -131,11 +130,12 @@ export default function GesuchPageClient({
 
   const hasOverrides = Object.keys(overrides).length > 0;
 
-  const emailBody = (() => {
-    const primaryThemeLabel = activeGesuch.themes.all[0]?.label ?? '';
-    const opening = buildDynamicOpening(tenant, foundationData, primaryThemeLabel);
-    return `${opening}\n\nIm Anhang finden Sie unser vollständiges Gesuch als PDF.\n\nFür Rückfragen stehen wir Ihnen gerne zur Verfügung:\n${tenant.name} · ${tenant.email}`;
-  })();
+  // Uses the opening the server already composed, rather than composing a
+  // second one here. They were built from the same inputs, so the duplicate was
+  // invisible — until content moved behind a per-request read, at which point a
+  // client component cannot compose one at all. Recomputing server-derived text
+  // in the browser is how the two quietly diverge.
+  const emailBody = `${generatedAnschreiben.opening}\n\nIm Anhang finden Sie unser vollständiges Gesuch als PDF.\n\nFür Rückfragen stehen wir Ihnen gerne zur Verfügung:\n${tenant.name} · ${tenant.email}`;
 
   const handleToggleEdit = () => {
     const wasOff = !editMode;
