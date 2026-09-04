@@ -19,8 +19,11 @@
  *
  * ORG-SPECIFIC: Content written for Revamp-IT.
  * To support a new org, rewrite this file's content.
- * NOT YET MIGRATED: still reads the compile-time ORG_PROFILE. Content module —
- * moves to org_content with the rest of the per-tenant prose.
+ * The prose here is TEMPLATE text: `{{name}}`, `{{founded}}`, `{{yearsActive}}`
+ * and friends are filled per request from the tenant by
+ * `src/lib/content/interpolate.ts`. Nothing in this file reads an organisation,
+ * which is what lets the same strings serve every tenant — and what lets the
+ * whole block move to `org_content` by changing one function.
  *
  * USAGE:
  * - Foundation pages import and combine relevant sections
@@ -45,7 +48,8 @@ import type {
 import type { ThemeId, FoundationType } from '@/lib/schemas/foundation';
 import { getNumericValue, CO2_PER_LAPTOP } from '@/lib/config/numbers';
 import { formatNumber } from '@/lib/utils/format';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
+import { fillContent, fillContentWith, templateValues } from '@/lib/content/interpolate';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 
 // ============================================================================
@@ -76,16 +80,19 @@ interface ComposedStory {
 // ============================================================================
 // CORE FACTS - Unchanging truths (references number-sources IDs)
 // ============================================================================
-export const CORE_FACTS: CoreFacts = {
-  organization: {
-    name: ORG_PROFILE.name,
-    legalForm: 'Verein (gemeinnützig)',
-    founded: ORG_PROFILE.founded,
-    location: ORG_PROFILE.location,
-    address: ORG_PROFILE.address,
-    team_size: 3, // 2 angestellt (Daniel, Veronica) + 1 ehrenamtlich (Andreas)
-    website: ORG_PROFILE.website,
-  },
+/**
+ * Everything in CORE_FACTS that is CONTENT.
+ *
+ * `organization` is not here. Its name, legal form, founding year, location,
+ * address and website are the tenant's identity, and identity has exactly one
+ * home — the `org_profiles` row. Copying it into a content block gave every
+ * value two sources that could disagree, which is how a Gesuch ends up with a
+ * founding year the Impressum contradicts. `resolveCoreFacts()` composes the
+ * two below: identity from the tenant, team size from here.
+ */
+const CORE_FACTS_CONTENT = {
+  /** Headcount is a fact about the organisation's programme, not its identity. */
+  team_size: 3, // 2 angestellt (Daniel, Veronica) + 1 ehrenamtlich (Andreas)
 
   // These IDs link to number-sources for actual values
   metrics: {
@@ -121,7 +128,7 @@ export const CORE_FACTS: CoreFacts = {
 
   // Differentiators
   unique: [
-    `Über ${ORG_PROFILE.yearsActive} Jahre Erfahrung`,
+    `Über {{yearsActive}} Jahre Erfahrung`,
     'Gemeinnütziger Verein — alle Einnahmen fliessen in die Mission',
     'Kombination: Umwelt + Soziales + Digital',
     'Lokal in Zürich verankert',
@@ -129,6 +136,35 @@ export const CORE_FACTS: CoreFacts = {
     'Eigene Open-Source-Plattform mit Community-Marktplatz, IT-Hilfe und Wissensportal',
   ],
 };
+
+/**
+ * CoreFacts for one organisation: its identity, plus this content.
+ *
+ * Synchronous and pure, and takes the tenant rather than reaching for it — the
+ * same rule the Gesuch composers follow. That is what lets the content behind
+ * it move to `org_content` later without touching a single caller: only this
+ * function changes.
+ *
+ * `address` and `website` are optional on a tenant but required by the
+ * CoreFacts schema, because this shape is rendered into a Gesuch's
+ * Kurzportrait. An organisation with neither gets an empty string here and the
+ * renderers already drop empty rows — see the Kurzportrait sections.
+ */
+export function resolveCoreFacts(tenant: Tenant): CoreFacts {
+  const { team_size, ...content } = CORE_FACTS_CONTENT;
+  return {
+    ...fillContent(content, tenant),
+    organization: {
+      name: tenant.name,
+      legalForm: tenant.legalForm,
+      founded: tenant.founded,
+      location: tenant.location,
+      address: tenant.address ?? '',
+      website: tenant.website ?? '',
+      team_size,
+    },
+  };
+}
 
 // ============================================================================
 // SOCIAL DISPLAY VALUES — Resolved display strings for social metric IDs
@@ -151,10 +187,10 @@ export const GESUCH_TEXT = {
   zusammenfassung_intro:
     'Revamp-IT verlängert die Lebensdauer von IT-Geräten durch professionelles Refurbishing und bietet gleichzeitig Arbeitsintegrationsplätze für Menschen am Rand des Arbeitsmarktes.',
   wirkungsmessung: {
-    indicators: `Revamp-IT misst die Wirkung seiner Aktivitäten anhand konkreter Indikatoren: CO₂-Einsparung pro Gerät (${CORE_FACTS.metrics.environmental.co2_per_laptop} kg/Laptop), Anzahl betreuter Praktikant:innen, Wiedereingliederungsquote (${SOCIAL_DISPLAY.success_rate}), sowie die Reuse-Rate (${CORE_FACTS.metrics.environmental.reuse_rate}%) der eingegangenen Geräte. Die Ergebnisse werden in unserem transparenten Online-Dashboard publiziert.`,
-    sustainability: `Revamp-IT hat über ${ORG_PROFILE.yearsActive} Jahre bewiesen, dass das Kerngeschäft tragfähig ist. Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.`,
+    indicators: `Revamp-IT misst die Wirkung seiner Aktivitäten anhand konkreter Indikatoren: CO₂-Einsparung pro Gerät (${CORE_FACTS_CONTENT.metrics.environmental.co2_per_laptop} kg/Laptop), Anzahl betreuter Praktikant:innen, Wiedereingliederungsquote (${SOCIAL_DISPLAY.success_rate}), sowie die Reuse-Rate (${CORE_FACTS_CONTENT.metrics.environmental.reuse_rate}%) der eingegangenen Geräte. Die Ergebnisse werden in unserem transparenten Online-Dashboard publiziert.`,
+    sustainability: `Revamp-IT hat über {{yearsActive}} Jahre bewiesen, dass das Kerngeschäft tragfähig ist. Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.`,
   },
-  kurzportrait_subtitle: `Gemeinnütziger Verein seit ${ORG_PROFILE.founded} — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung`,
+  kurzportrait_subtitle: `Gemeinnütziger Verein seit {{founded}} — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung`,
 } as const;
 
 // ============================================================================
@@ -292,10 +328,10 @@ export const WHY: Record<ThemeKey, WhySection> = {
 const HOW: HowSection = {
   // Core competencies (same for all foundations, different emphasis)
   track_record: {
-    headline: `Über ${ORG_PROFILE.yearsActive} Jahre Erfahrung`,
-    text: `Seit ${ORG_PROFILE.founded} repariert, refurbished und verkauft Revamp-IT Computer in Zürich. Was als kleine Werkstatt begann, ist heute ein etablierter Betrieb mit ${CORE_FACTS.organization.team_size} Kernteam-Mitgliedern, unterstützt durch Freelancer und 8-10 Integrationsteilnehmende — mit einem klaren Auftrag: IT-Geräte länger nutzen, Menschen eine Chance geben.`,
+    headline: `Über {{yearsActive}} Jahre Erfahrung`,
+    text: `Seit {{founded}} repariert, refurbished und verkauft Revamp-IT Computer in Zürich. Was als kleine Werkstatt begann, ist heute ein etablierter Betrieb mit {{teamSize}} Kernteam-Mitgliedern, unterstützt durch Freelancer und 8-10 Integrationsteilnehmende — mit einem klaren Auftrag: IT-Geräte länger nutzen, Menschen eine Chance geben.`,
     proof_points: [
-      { label: 'Gegründet', value: String(ORG_PROFILE.founded) },
+      { label: 'Gegründet', value: '{{founded}}' },
       {
         label: 'Gemeinnützigkeit',
         value: 'Alle Einnahmen fliessen in die Mission',
@@ -306,7 +342,7 @@ const HOW: HowSection = {
         value: SOCIAL_DISPLAY.practitioners_total,
         metric_id: 'praktikanten_100',
       },
-      { label: 'Kernteam', value: `${CORE_FACTS.organization.team_size} Kernteam + Freelancer` },
+      { label: 'Kernteam', value: `{{teamSize}} Kernteam + Freelancer` },
     ],
   },
 
@@ -442,7 +478,7 @@ const PROJECTS: Record<string, Project> = {
   work_integration: {
     title: 'Arbeitsintegration durch IT-Praktika',
     subtitle: 'Echte Arbeit, echte Verantwortung, echte Perspektiven',
-    summary: `Seit über ${ORG_PROFILE.yearsActive} Jahren bietet Revamp-IT Praktikumsplätze für Menschen, die auf dem regulären Arbeitsmarkt keine Chance bekommen: Langzeitarbeitslose, Menschen mit Migrationshintergrund, Personen nach psychischen Krisen. Sie kommen über RAV, IV-Stellen oder die Sozialen Einrichtungen der Stadt Zürich zu uns. Bei Revamp-IT arbeiten sie nicht an Simulationen, sondern an echten Geräten für echte Kunden — von der Hardware-Diagnose über die Reparatur bis zur Linux-Installation. Über ${SOCIAL_DISPLAY.practitioners_total} Praktikant:innen haben diesen Weg bereits gemacht, rund ${SOCIAL_DISPLAY.success_rate_numeric}% haben danach eine Festanstellung oder Ausbildung gefunden.`,
+    summary: `Seit über {{yearsActive}} Jahren bietet Revamp-IT Praktikumsplätze für Menschen, die auf dem regulären Arbeitsmarkt keine Chance bekommen: Langzeitarbeitslose, Menschen mit Migrationshintergrund, Personen nach psychischen Krisen. Sie kommen über RAV, IV-Stellen oder die Sozialen Einrichtungen der Stadt Zürich zu uns. Bei Revamp-IT arbeiten sie nicht an Simulationen, sondern an echten Geräten für echte Kunden — von der Hardware-Diagnose über die Reparatur bis zur Linux-Installation. Über ${SOCIAL_DISPLAY.practitioners_total} Praktikant:innen haben diesen Weg bereits gemacht, rund ${SOCIAL_DISPLAY.success_rate_numeric}% haben danach eine Festanstellung oder Ausbildung gefunden.`,
     goals: [
       '8-10 Praktikumsplätze gleichzeitig, betreut durch sozialpädagogische Fachperson',
       'Wiedereingliederungsquote von ~40% in Festanstellung oder Ausbildung halten',
@@ -493,7 +529,7 @@ const PROJECTS: Record<string, Project> = {
   program_management: {
     title: 'Projektkoordination und Kapazitätsaufbau',
     subtitle: 'Vom Werkstatt-Betrieb zur skalierbaren Organisation',
-    summary: `Revamp-IT wird seit über ${ORG_PROFILE.yearsActive} Jahren von Techniker:innen geführt, die reparieren, betreuen und verkaufen — gleichzeitig. Für den nächsten Schritt braucht es dedizierte Projektkoordination: jemand, der sich um Wirkungsmessung kümmert, der Praktikant:innen systematisch begleitet, der mit Stiftungen und Partnern kommuniziert. Nicht mehr Verwaltung — sondern die Kapazität, das zu tun, was wir gut können, in grösserem Massstab.`,
+    summary: `Revamp-IT wird seit über {{yearsActive}} Jahren von Techniker:innen geführt, die reparieren, betreuen und verkaufen — gleichzeitig. Für den nächsten Schritt braucht es dedizierte Projektkoordination: jemand, der sich um Wirkungsmessung kümmert, der Praktikant:innen systematisch begleitet, der mit Stiftungen und Partnern kommuniziert. Nicht mehr Verwaltung — sondern die Kapazität, das zu tun, was wir gut können, in grösserem Massstab.`,
     goals: [
       'Transparentes Wirkungsmonitoring mit nachvollziehbaren KPIs',
       'Kapazität für 12-15 statt 8-10 gleichzeitige Praktikumsplätze',
@@ -602,12 +638,12 @@ const PROJECTS: Record<string, Project> = {
 
 export const ANSCHREIBEN_TEMPLATES: Record<FoundationType, { opening: string; closing: string }> = {
   A: {
-    opening: `Wir erlauben uns, Ihnen ein Fördergesuch für unser Projekt einzureichen. Als gemeinnütziger Verein mit ${ORG_PROFILE.experienceLabel} in der Verbindung von Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung möchten wir Ihnen eine Zusammenarbeit vorschlagen.`,
+    opening: `Wir erlauben uns, Ihnen ein Fördergesuch für unser Projekt einzureichen. Als gemeinnütziger Verein mit {{experienceLabel}} in der Verbindung von Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung möchten wir Ihnen eine Zusammenarbeit vorschlagen.`,
     closing:
       'Wir freuen uns auf Ihre Rückmeldung und stehen für ein Gespräch jederzeit zur Verfügung. Gerne senden wir Ihnen weitere Unterlagen zu.',
   },
   B: {
-    opening: `Revamp-IT verbindet seit über ${ORG_PROFILE.yearsActive} Jahren Umweltschutz mit sozialer Integration — ein Anliegen, das uns mit Ihrer Stiftung verbindet. Wir möchten Ihnen zeigen, wie eine Partnerschaft konkret aussehen könnte.`,
+    opening: `Revamp-IT verbindet seit über {{yearsActive}} Jahren Umweltschutz mit sozialer Integration — ein Anliegen, das uns mit Ihrer Stiftung verbindet. Wir möchten Ihnen zeigen, wie eine Partnerschaft konkret aussehen könnte.`,
     closing:
       'Wir würden uns sehr über ein persönliches Gespräch freuen, um unsere Arbeit und mögliche Synergien vorzustellen.',
   },
@@ -624,7 +660,7 @@ export const ANSCHREIBEN_TEMPLATES: Record<FoundationType, { opening: string; cl
       'Wir freuen uns auf Ihre Rückmeldung und stehen für eine Präsentation unserer Impact-Daten und Partnerschaftsmodelle jederzeit bereit.',
   },
   network: {
-    opening: `Revamp-IT ist seit ${ORG_PROFILE.founded} in Zürich aktiv und verbindet Kreislaufwirtschaft mit sozialer Integration. Wir interessieren uns für eine Mitgliedschaft und mögliche Partnerschaften.`,
+    opening: `Revamp-IT ist seit {{founded}} in Zürich aktiv und verbindet Kreislaufwirtschaft mit sozialer Integration. Wir interessieren uns für eine Mitgliedschaft und mögliche Partnerschaften.`,
     closing: 'Wir freuen uns auf den Austausch.',
   },
 };
@@ -662,7 +698,12 @@ export const PARTNER_HIGHLIGHTS = [
     name: 'Stadt Zürich',
     relationship:
       'Die Sozialen Einrichtungen der Stadt Zürich weisen regelmässig Praktikant:innen an Revamp-IT zu. Diese langjährige Zusammenarbeit bestätigt die Qualität unserer Integrationsarbeit.',
-    since: `seit ${ORG_PROFILE.milestones.integrationProgram}`,
+    // A fact about THIS partnership, not about the organisation. It was a
+    // tenant placeholder, which made it a fact only one tenant has — and any
+    // tenant without that milestone got a hard error composing a Gesuch.
+    // When the partner block becomes per-tenant content, this year comes with
+    // the partner it describes.
+    since: 'seit 2009',
   },
 ];
 
@@ -806,4 +847,68 @@ export function composeStory(
         ?.map((key) => findEvidence(key))
         .filter((e): e is Evidence => e !== null) ?? [],
   };
+}
+
+/**
+ * Exactly what belongs in `org_content['stories']`, as templates.
+ *
+ * The seed writes this rather than the resolved values. That difference is the
+ * point: the row currently in production was seeded from the old module, which
+ * interpolated at import, so it literally contains "über 23 Jahren Erfahrung"
+ * and "seit 2003". Re-seeded from here it contains "{{experienceLabel}}" and
+ * "{{founded}}" — the same strings serve every tenant, and the derived ones
+ * cannot go stale, because they are computed on read.
+ *
+ * `organization` is deliberately absent: that is identity, and it lives in
+ * `org_profiles`. See resolveCoreFacts().
+ */
+export const STORIES_CONTENT = {
+  CORE_FACTS: CORE_FACTS_CONTENT,
+  GESUCH_TEXT,
+  WHY,
+  ANSCHREIBEN_TEMPLATES,
+  PARTNER_HIGHLIGHTS,
+} as const;
+
+/**
+ * One organisation's stories, with every placeholder filled.
+ *
+ * This is the boundary. Above it the content is shared template text that
+ * mentions no organisation; below it every string names exactly one, and it is
+ * the one the caller asked for. Nothing downstream needs to know templating
+ * happened.
+ *
+ * `{{teamSize}}` is filled here rather than in `templateValues()` because it is
+ * content about the organisation's programme, not a fact from its profile — the
+ * tenant vocabulary deliberately does not contain it.
+ */
+export function resolveStories(tenant: Tenant) {
+  const values = { ...templateValues(tenant), teamSize: String(CORE_FACTS_CONTENT.team_size) };
+  return {
+    CORE_FACTS: resolveCoreFacts(tenant),
+    GESUCH_TEXT: fillContentWith(GESUCH_TEXT, values),
+    WHY: fillContentWith(WHY, values),
+    ANSCHREIBEN_TEMPLATES: fillContentWith(ANSCHREIBEN_TEMPLATES, values),
+    PARTNER_HIGHLIGHTS: fillContentWith(PARTNER_HIGHLIGHTS, values),
+  };
+}
+
+/**
+ * Fill every placeholder in an already-composed value.
+ *
+ * The composers assemble a Gesuch from a dozen sources — WHY sections, cover
+ * letter templates, anecdotes, partner highlights, the bridge sentence — and
+ * several of them are reached indirectly, through `buildStory()` and the
+ * contextualisation helpers. Filling each source at its own call site means
+ * every future source is a chance to forget one, and a forgotten one ships as
+ * "über {{yearsActive}} Jahre" in a document sent to a foundation.
+ *
+ * So the whole assembled tree is filled once, at the end. There is exactly one
+ * place to get right, and adding a new content source cannot bypass it.
+ */
+export function fillStoryContent<T>(value: T, tenant: Tenant): T {
+  return fillContentWith(value, {
+    ...templateValues(tenant),
+    teamSize: String(CORE_FACTS_CONTENT.team_size),
+  });
 }

@@ -2,8 +2,10 @@ import Card from '@/components/ui/Card';
 import { formatCHF, formatNumber } from '@/lib/utils/format';
 import { FINANCIAL_CONTEXT, TRACK_RECORD } from '../data';
 import Inspectable, { type InspectorHandle } from './Inspectable';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 
 export default function FinancialSituation({ inspector }: { inspector: InspectorHandle }) {
+  const tenant = useTenant();
   return (
     <Card className="mb-8 border-warning bg-warning/10">
       <h3 className="mb-3 heading-card text-warning">Die ehrliche Finanzlage</h3>
@@ -65,7 +67,7 @@ export default function FinancialSituation({ inspector }: { inspector: Inspector
         <p className="font-medium text-success">
           <strong>Das Positive:</strong> Geräteverkauf (
           {formatCHF(FINANCIAL_CONTEXT.warenverkauf_2025)} in 2025) bleibt stabil.{' '}
-          {TRACK_RECORD.yearsActive} Jahre Erfahrung, {formatNumber(TRACK_RECORD.totalInvoices)}{' '}
+          {tenant.yearsActive} Jahre Erfahrung, {formatNumber(TRACK_RECORD.totalInvoices)}{' '}
           Rechnungen, {formatNumber(TRACK_RECORD.totalCustomers)} Kunden — die Kompetenz ist da. Der
           Hub ist unsere Turnaround-Strategie.
         </p>

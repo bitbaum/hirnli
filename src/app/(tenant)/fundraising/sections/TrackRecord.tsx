@@ -1,6 +1,5 @@
 import { formatNumber } from '@/lib/utils/format';
 import { TRACK_RECORD } from '../data';
-import { CORE_FACTS } from '@/lib/config/stories';
 import { useTenant } from '@/lib/tenant/TenantProvider';
 import Inspectable, { type InspectorHandle } from './Inspectable';
 
@@ -10,9 +9,9 @@ export default function TrackRecord({ inspector }: { inspector: InspectorHandle 
   const tenant = useTenant();
   const items = [
     {
-      value: `${TRACK_RECORD.yearsActive}+`,
+      value: `${tenant.yearsActive}+`,
       label: 'Jahre aktiv',
-      sub: `Seit ${CORE_FACTS.organization.founded}`,
+      sub: `Seit ${tenant.founded}`,
     },
     { value: formatNumber(TRACK_RECORD.totalCustomers), label: 'Kunden', sub: 'im Kivitendo ERP' },
     {

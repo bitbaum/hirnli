@@ -30,13 +30,7 @@
 import { sql } from './lib/db';
 import { requireOrgId } from './lib/require-org';
 import { SCORING_ENGINE, READINESS_ENGINE } from '../src/lib/config/fit-scoring';
-import {
-  CORE_FACTS,
-  GESUCH_TEXT,
-  WHY,
-  ANSCHREIBEN_TEMPLATES,
-  PARTNER_HIGHLIGHTS,
-} from '../src/lib/config/stories';
+import { STORIES_CONTENT } from '../src/lib/config/stories';
 import { NUMBERS_REGISTRY } from '../src/lib/config/numbers';
 import { SCHWERPUNKTE } from '../src/lib/config/schwerpunkte';
 import { TEMPLATE_FOUNDATIONS } from '../src/lib/config/gesuch-templates';
@@ -48,7 +42,7 @@ const ORG_ID = requireOrgId();
 
 /** Content blocks keyed exactly like their future readers will ask for them */
 const CONTENT_BLOCKS: Record<string, unknown> = {
-  stories: { CORE_FACTS, GESUCH_TEXT, WHY, ANSCHREIBEN_TEMPLATES, PARTNER_HIGHLIGHTS },
+  stories: STORIES_CONTENT,
   numbers: NUMBERS_REGISTRY,
   schwerpunkte: SCHWERPUNKTE,
   'gesuch-templates': TEMPLATE_FOUNDATIONS,

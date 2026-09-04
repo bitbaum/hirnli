@@ -9,12 +9,7 @@ import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
 import { useTenant } from '@/lib/tenant/TenantProvider';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
-import {
-  QUICK_ACTIONS,
-  HERO_STATS,
-  SPACE_TOTAL_WITH_CIRCULATION,
-  PROJECT_YEAR_RANGE,
-} from './data';
+import { QUICK_ACTIONS, heroStats, SPACE_TOTAL_WITH_CIRCULATION, PROJECT_YEAR_RANGE } from './data';
 import Inspectable from './sections/Inspectable';
 import WhyWeNeedFunding from './sections/WhyWeNeedFunding';
 import TwoAsks from './sections/TwoAsks';
@@ -94,7 +89,7 @@ export default function FundraisingClient({ foundations }: { foundations: Founda
             nachhaltige Technologie, souveräne KI und Community.
           </p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {HERO_STATS.map((item) => (
+            {heroStats(tenant).map((item) => (
               <div
                 key={item.label}
                 className="rounded-lg border border-border-subtle bg-surface-base p-4 text-center"

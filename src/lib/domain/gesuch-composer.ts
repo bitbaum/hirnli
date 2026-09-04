@@ -34,7 +34,8 @@ import {
   composeStory,
   THEME_ID_TO_STORY_KEY,
   THEME_PRIORITY,
-  CORE_FACTS,
+  resolveCoreFacts,
+  fillStoryContent,
   SOCIAL_DISPLAY,
   ANSCHREIBEN_TEMPLATES,
   PARTNER_HIGHLIGHTS,
@@ -249,26 +250,29 @@ export function composeGesuch(
     } else {
       reason = 'Keine passenden Themen für die Gesuch-Generierung gefunden.';
     }
-    return {
-      tenant,
-      ready: false,
-      readyReason: reason,
-      foundation: buildFoundationInfo(foundation),
-      foundationBridge: '',
-      themes: { primary: 'klima', secondary: [], all: [] },
-      secondaryThemeRelevance: [],
-      story: {
-        why: undefined,
-        how: { track_record: { headline: '', text: '', proof_points: [] }, competencies: [] },
-        projects: [],
-        evidence: [],
+    return fillStoryContent(
+      {
+        tenant,
+        ready: false,
+        readyReason: reason,
+        foundation: buildFoundationInfo(foundation),
+        foundationBridge: '',
+        themes: { primary: 'klima', secondary: [], all: [] },
+        secondaryThemeRelevance: [],
+        story: {
+          why: undefined,
+          how: { track_record: { headline: '', text: '', proof_points: [] }, competencies: [] },
+          projects: [],
+          evidence: [],
+        },
+        organization: resolveCoreFacts(tenant),
+        approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
+        anecdotes: { why: [], how: [] },
+        photos: { why: [], how: [], projects: [], kurzportrait: [] },
+        partnerHighlights: [],
       },
-      organization: CORE_FACTS,
-      approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
-      anecdotes: { why: [], how: [] },
-      photos: { why: [], how: [], projects: [], kurzportrait: [] },
-      partnerHighlights: [],
-    };
+      tenant,
+    );
   }
 
   const story = composeStory(mapped.primary, mapped.secondary);
@@ -282,29 +286,32 @@ export function composeGesuch(
   const whyAnecdotes = getAnecdotes(mapped.primary, 'why').slice(0, 2);
   const howAnecdotes = getAnecdotes(mapped.primary, 'how').slice(0, 1);
 
-  return {
+  return fillStoryContent(
+    {
+      tenant,
+      ready: true,
+      foundation: buildFoundationInfo(foundation),
+      foundationBridge: buildFoundationBridge(tenant, foundation, primaryThemeLabel),
+      themes: {
+        primary: mapped.primary,
+        secondary: mapped.secondary,
+        all: collectThemeMetadata(foundation, schwerpunktId),
+      },
+      secondaryThemeRelevance: buildSecondaryRelevance(mapped.secondary),
+      story,
+      organization: resolveCoreFacts(tenant),
+      approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
+      anecdotes: { why: whyAnecdotes, how: howAnecdotes },
+      photos: {
+        why: getPhotoSlots('why', mapped.primary),
+        how: getPhotoSlots('how', mapped.primary),
+        projects: getPhotoSlots('projects', mapped.primary),
+        kurzportrait: getPhotoSlots('kurzportrait'),
+      },
+      partnerHighlights: PARTNER_HIGHLIGHTS,
+    },
     tenant,
-    ready: true,
-    foundation: buildFoundationInfo(foundation),
-    foundationBridge: buildFoundationBridge(tenant, foundation, primaryThemeLabel),
-    themes: {
-      primary: mapped.primary,
-      secondary: mapped.secondary,
-      all: collectThemeMetadata(foundation, schwerpunktId),
-    },
-    secondaryThemeRelevance: buildSecondaryRelevance(mapped.secondary),
-    story,
-    organization: CORE_FACTS,
-    approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
-    anecdotes: { why: whyAnecdotes, how: howAnecdotes },
-    photos: {
-      why: getPhotoSlots('why', mapped.primary),
-      how: getPhotoSlots('how', mapped.primary),
-      projects: getPhotoSlots('projects', mapped.primary),
-      kurzportrait: getPhotoSlots('kurzportrait'),
-    },
-    partnerHighlights: PARTNER_HIGHLIGHTS,
-  };
+  );
 }
 
 // ============================================================================
@@ -333,12 +340,15 @@ export function composeAnschreibenText(
   const template = ANSCHREIBEN_TEMPLATES[foundation.type];
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
-  return {
-    subject: `Fördergesuch: ${primaryLabel} — ${tenant.name}`,
-    opening: buildDynamicOpening(tenant, foundation, primaryLabel),
-    closing: template.closing,
-    themeAlignment: buildThemeAlignment(foundation, themeMetadata),
-  };
+  return fillStoryContent(
+    {
+      subject: `Fördergesuch: ${primaryLabel} — ${tenant.name}`,
+      opening: buildDynamicOpening(tenant, foundation, primaryLabel),
+      closing: template.closing,
+      themeAlignment: buildThemeAlignment(foundation, themeMetadata),
+    },
+    tenant,
+  );
 }
 
 export function composeGesuchDokument(
@@ -358,65 +368,70 @@ export function composeGesuchDokument(
   const today = new Date();
   const dateStr = formatDateDE(today, tenant.location);
 
-  return {
-    ...gesuch,
-    anschreiben: {
-      date: dateStr,
-      foundationAddress: buildFoundationAddress(foundation),
-      subject: `Fördergesuch: ${primaryLabel} — ${tenant.name}`,
-      opening: buildDynamicOpening(tenant, foundation, primaryLabel),
-      closing: template.closing,
-      themeAlignment: buildThemeAlignment(foundation, themeMetadata),
+  const coreFacts = resolveCoreFacts(tenant);
+
+  return fillStoryContent(
+    {
+      ...gesuch,
+      anschreiben: {
+        date: dateStr,
+        foundationAddress: buildFoundationAddress(foundation),
+        subject: `Fördergesuch: ${primaryLabel} — ${tenant.name}`,
+        opening: buildDynamicOpening(tenant, foundation, primaryLabel),
+        closing: template.closing,
+        themeAlignment: buildThemeAlignment(foundation, themeMetadata),
+      },
+      budget: {
+        scenario,
+        lineItems,
+        requestedAmount,
+        projectDuration: `3 Jahre (2026–2028): ${PROJECT_DURATION_LABEL}`,
+        threeYearModel: THREE_YEAR_MODEL.map((y) => ({
+          year: y.year,
+          einmalig: y.einmalig,
+          stiftungen: y.stiftungen,
+          eigen: y.eigen,
+          total: y.total,
+          label: y.label,
+        })),
+        stiftungen3yTotal: STIFTUNGEN_3Y_TOTAL,
+        eigen3yTotal: EIGEN_3Y_TOTAL,
+        project3yTotal: PROJECT_3Y_TOTAL,
+        primaryThemeKey: schwerpunktId ? SCHWERPUNKTE[schwerpunktId].storyThemes[0] : undefined,
+      },
+      kurzportrait: {
+        facts: [
+          { label: 'Name', value: coreFacts.organization.name },
+          { label: 'Rechtsform', value: coreFacts.organization.legalForm },
+          { label: 'Gegründet', value: String(coreFacts.organization.founded) },
+          { label: 'Standort', value: coreFacts.organization.address },
+          {
+            label: 'Kernteam',
+            value: `${coreFacts.organization.team_size} Festangestellte + Freelancer`,
+          },
+          { label: 'Website', value: coreFacts.organization.website },
+          { label: 'Gemeinnützigkeit', value: 'Verein — alle Einnahmen fliessen in die Mission' },
+          {
+            label: 'Praktikant:innen betreut',
+            value: `${SOCIAL_DISPLAY.practitioners_total} seit Gründung`,
+          },
+          { label: 'Wiedereingliederungsquote', value: SOCIAL_DISPLAY.success_rate },
+          {
+            label: 'CO₂-Einsparung pro Laptop',
+            value: `${coreFacts.metrics.environmental.co2_per_laptop} kg`,
+          },
+          { label: 'Reuse-Rate', value: `${coreFacts.metrics.environmental.reuse_rate}%` },
+        ],
+        activities: coreFacts.activities,
+        unique: coreFacts.unique,
+      },
+      // A tenant with no hosted site of its own gets a relative path rather than
+      // one absolute against somebody else's domain — this URL is printed in a
+      // Gesuch that goes to a foundation.
+      landingPageUrl: tenant.siteUrl
+        ? `${tenant.siteUrl.replace(/\/$/, '')}/fundraising/stiftungen/${foundation.slug}/gesuch`
+        : `/fundraising/stiftungen/${foundation.slug}/gesuch`,
     },
-    budget: {
-      scenario,
-      lineItems,
-      requestedAmount,
-      projectDuration: `3 Jahre (2026–2028): ${PROJECT_DURATION_LABEL}`,
-      threeYearModel: THREE_YEAR_MODEL.map((y) => ({
-        year: y.year,
-        einmalig: y.einmalig,
-        stiftungen: y.stiftungen,
-        eigen: y.eigen,
-        total: y.total,
-        label: y.label,
-      })),
-      stiftungen3yTotal: STIFTUNGEN_3Y_TOTAL,
-      eigen3yTotal: EIGEN_3Y_TOTAL,
-      project3yTotal: PROJECT_3Y_TOTAL,
-      primaryThemeKey: schwerpunktId ? SCHWERPUNKTE[schwerpunktId].storyThemes[0] : undefined,
-    },
-    kurzportrait: {
-      facts: [
-        { label: 'Name', value: CORE_FACTS.organization.name },
-        { label: 'Rechtsform', value: CORE_FACTS.organization.legalForm },
-        { label: 'Gegründet', value: String(CORE_FACTS.organization.founded) },
-        { label: 'Standort', value: CORE_FACTS.organization.address },
-        {
-          label: 'Kernteam',
-          value: `${CORE_FACTS.organization.team_size} Festangestellte + Freelancer`,
-        },
-        { label: 'Website', value: CORE_FACTS.organization.website },
-        { label: 'Gemeinnützigkeit', value: 'Verein — alle Einnahmen fliessen in die Mission' },
-        {
-          label: 'Praktikant:innen betreut',
-          value: `${SOCIAL_DISPLAY.practitioners_total} seit Gründung`,
-        },
-        { label: 'Wiedereingliederungsquote', value: SOCIAL_DISPLAY.success_rate },
-        {
-          label: 'CO₂-Einsparung pro Laptop',
-          value: `${CORE_FACTS.metrics.environmental.co2_per_laptop} kg`,
-        },
-        { label: 'Reuse-Rate', value: `${CORE_FACTS.metrics.environmental.reuse_rate}%` },
-      ],
-      activities: CORE_FACTS.activities,
-      unique: CORE_FACTS.unique,
-    },
-    // A tenant with no hosted site of its own gets a relative path rather than
-    // one absolute against somebody else's domain — this URL is printed in a
-    // Gesuch that goes to a foundation.
-    landingPageUrl: tenant.siteUrl
-      ? `${tenant.siteUrl.replace(/\/$/, '')}/fundraising/stiftungen/${foundation.slug}/gesuch`
-      : `/fundraising/stiftungen/${foundation.slug}/gesuch`,
-  };
+    tenant,
+  );
 }
