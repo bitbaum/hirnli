@@ -1,14 +1,16 @@
 import { NextResponse } from 'next/server';
 import { exportFoundationList } from '@/lib/domain/data-exporters';
 import { getAllFoundations } from '@/lib/db/foundations-repo';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
+import { toFilePrefix } from '@/lib/utils/slug';
 import { API_ERR_EXPORT } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 
-const filePrefix = ORG_PROFILE.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-
 export async function GET() {
   try {
+    // Per request, not per build: the filename names whichever organisation
+    // asked for the export.
+    const filePrefix = toFilePrefix((await getTenant()).name);
     const csv = exportFoundationList(await getAllFoundations());
 
     return new NextResponse(csv, {

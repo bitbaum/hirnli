@@ -15,9 +15,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { formatNumber } from '@/lib/utils/format';
 import { z } from 'zod';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
-import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import { resolveTypeLabel } from '@/lib/config/foundations/metadata';
+import { getTenant } from '@/lib/tenant/resolve';
+import type { Tenant } from '@/lib/tenant/profile';
 import {
   API_ERR_BAD_REQUEST,
   API_ERR_AI_NOT_CONFIGURED,
@@ -34,37 +34,78 @@ import { recordLLMFailure, recordLLMSuccess } from '@/lib/llm-health';
 // future retirement is one fix, not two, and this route survives a single
 // retired id instead of going fully dark.
 
-/** Build system prompt from ORG_PROFILE config (no hardcoded metrics) */
-function buildSystemPrompt(): string {
-  const areas = ORG_PROFILE.missionAreas
-    .map((a, i) => {
-      const metricsStr = a.metrics.join('. ');
-      return `${i + 1}. **${a.name}** — ${a.description}. ${metricsStr}.`;
-    })
-    .join('\n');
+/**
+ * The system prompt, for one tenant.
+ *
+ * It used to be a module-level constant, evaluated once when the module loaded,
+ * from a compile-time profile describing Revamp-IT. Every organisation on the
+ * platform therefore had its Gesuch text rewritten by an assistant that had
+ * been told, in detail, that it was writing for a different organisation:
+ * another tenant's name, legal form, location, founding year, addresses and
+ * Kernbereiche, presented to the model as fact. The edit comes back fluent and
+ * confidently wrong, which is the hardest kind of wrong to catch in a document
+ * you are about to send to a foundation.
+ *
+ * So it takes a tenant and is built per request. Three of the fields it wants
+ * are optional on `Tenant` — `missionAreas`, `address`, `warehouseAddress` —
+ * and a young organisation genuinely has none of them. Absence is rendered by
+ * leaving the sentence out, never by stating a placeholder: "0 Kernbereiche" or
+ * an empty Standort line would be the model's only information on that topic,
+ * and it would write around it.
+ */
+function buildSystemPrompt(tenant: Tenant): string {
+  const sections: string[] = [];
 
-  return `Du bist Spezialist für Stiftungsgesuche im deutschsprachigen Raum (Schweiz). Du hilfst ${ORG_PROFILE.name}, professionelle Förderanträge zu schreiben.
+  sections.push(
+    `Du bist Spezialist für Stiftungsgesuche im deutschsprachigen Raum (Schweiz). Du hilfst ${tenant.name}, professionelle Förderanträge zu schreiben.`,
+  );
 
-## Über ${ORG_PROFILE.name}
-${ORG_PROFILE.name} ist ein ${ORG_PROFILE.legalForm.toLowerCase()} in ${ORG_PROFILE.location} (gegründet ${ORG_PROFILE.founded}). ${ORG_PROFILE.missionAreas.length} Kernbereiche:
-${areas}
+  const about: string[] = [`## Über ${tenant.name}`];
+  const areas = tenant.missionAreas ?? [];
+  const intro = `${tenant.name} ist ein ${tenant.legalForm.toLowerCase()} in ${tenant.location} (gegründet ${tenant.founded}).`;
+  about.push(areas.length > 0 ? `${intro} ${areas.length} Kernbereiche:` : intro);
+  if (areas.length > 0) {
+    about.push(
+      areas
+        .map((a, i) => `${i + 1}. **${a.name}** — ${a.description}. ${a.metrics.join('. ')}.`)
+        .join('\n'),
+    );
+  }
+  about.push(
+    'Finanzen: Gemeinnützig, alle Einnahmen fliessen in die Mission. Haupteinnahmen: Gerätverkauf (Laden + Online-Shop), Dienstleistungen, Stiftungsförderung.',
+  );
 
-Finanzen: Gemeinnützig, alle Einnahmen fliessen in die Mission. Haupteinnahmen: Gerätverkauf (Laden + Online-Shop), Dienstleistungen, Stiftungsförderung.
-Standort: ${ORG_PROFILE.address} (Verkaufsstelle) & ${ORG_PROFILE.warehouseAddress} (Lager, nur nach Terminvereinbarung).
+  // Two addresses, either of which may be absent. Naming a location the tenant
+  // does not have is worse than naming none.
+  const locations = [
+    tenant.address ? `${tenant.address} (Verkaufsstelle)` : null,
+    tenant.warehouseAddress
+      ? `${tenant.warehouseAddress} (Lager, nur nach Terminvereinbarung)`
+      : null,
+  ].filter(Boolean);
+  if (locations.length > 0) about.push(`Standort: ${locations.join(' & ')}.`);
 
-## Schreibregeln
+  sections.push(about.join('\n'));
+
+  // The "konkrete Zahlen" rule used to carry a worked example built from the
+  // generated org-numbers module — a figure counting one organisation's
+  // refurbished devices. Quoting it at every tenant would put another
+  // customer's operating numbers in the model's mouth as its own, so the rule
+  // now states the principle and lets the figures come from the request's own
+  // context.
+  sections.push(`## Schreibregeln
 - Schweizer Schriftdeutsch (ss statt ß, echte Umlaute ä ö ü — nie ae/oe/ue)
 - Professionell und präzise — nicht blumig oder pathetisch
-- Konkrete Zahlen und Fakten bevorzugen: "${SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT} Geräte" statt "viele Geräte"
+- Konkrete Zahlen und Fakten bevorzugen: nie "viele" oder "zahlreiche", wo im Kontext eine Zahl steht. Keine Zahl erfinden, die nicht gegeben ist.
 - Stiftungsgesuche sind Partnerschaftsangebote, nicht Bittschriften
 - Aktive Sprache, handlungsorientiert
-- Länge: 2–4 Sätze pro Absatz, maximal prägnant
+- Länge: 2–4 Sätze pro Absatz, maximal prägnant`);
 
-## Aufgabe
-Du erhältst einen Textabschnitt und eine Überarbeitungsanweisung. Gib NUR den überarbeiteten Text zurück — kein Kommentar, keine Erklärung, keine Präambel, kein "Hier ist der überarbeitete Text:".`;
+  sections.push(`## Aufgabe
+Du erhältst einen Textabschnitt und eine Überarbeitungsanweisung. Gib NUR den überarbeiteten Text zurück — kein Kommentar, keine Erklärung, keine Präambel, kein "Hier ist der überarbeitete Text:".`);
+
+  return sections.join('\n\n');
 }
-
-const SYSTEM_PROMPT = buildSystemPrompt();
 
 const requestSchema = z.object({
   instruction: z.string().min(1),
@@ -188,8 +229,9 @@ export async function POST(request: NextRequest) {
   const body = parsed.data;
 
   const userMessage = buildUserMessage(body);
+  const systemPrompt = buildSystemPrompt(await getTenant());
 
-  const result = await callGroq(SYSTEM_PROMPT, userMessage, {
+  const result = await callGroq(systemPrompt, userMessage, {
     temperature: 0.35,
     maxTokens: 1024,
     timeoutMs: 30000,

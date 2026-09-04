@@ -14,7 +14,8 @@ import { foundationAssessments, foundations, applications } from '@/lib/db/schem
 import { and, eq, isNull, lt, gte, sql } from 'drizzle-orm';
 import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
 import { Resend } from 'resend';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { fundraisingDashboardUrl, resolveTenantMailRoute } from '@/lib/email/tenant-notifications';
+import type { Tenant } from '@/lib/tenant/profile';
 import { formatDateCH, toISODateStr } from '@/lib/utils/format';
 import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
 import { EMAIL_COLORS } from '@/lib/config/email-colors';
@@ -59,14 +60,16 @@ export async function GET(request: NextRequest) {
     // Fit score and research date are assessment values, so "high-fit
     // foundations missing an email" is only a question somebody can ask on
     // behalf of one organisation. This cron has no request to resolve a tenant
-    // from and emails ORG_PROFILE, the Revamp-IT singleton, so it reports on
-    // the reference tenant — which is what it has always in fact done, by
-    // reading flat columns that held that tenant's values.
+    // from, so it reports on the reference tenant — which is what it has
+    // always in fact done, by reading flat columns that held that tenant's
+    // values. The report's sender, recipient and dashboard link are now taken
+    // from that same tenant instead of a compile-time constant, so the whole
+    // job is scoped by this one identifier.
     //
-    // Stated explicitly rather than inherited from a column, so that making
-    // this report per-tenant is a visible change to one line rather than an
-    // archaeology exercise. Tracked with the other ORG_PROFILE consumers in
-    // docs/TENANT-MIGRATION-MAP.md.
+    // Making the report per-tenant means looping this body over the tenants
+    // that want it. That is a deliberate change — it starts mailing customers
+    // who receive nothing today — so it is left as one visible line rather
+    // than done as a side effect. Tracked in docs/TENANT-MIGRATION-MAP.md.
     const reportOrgId = DEFAULT_TENANT_ID;
     const assessedBy = and(
       eq(foundationAssessments.foundationId, foundations.id),
@@ -177,7 +180,15 @@ export async function GET(request: NextRequest) {
       })
       .from(applications)
       .leftJoin(foundations, eq(applications.foundationId, foundations.id))
-      .where(and(lt(applications.updatedAt, thirtyDaysAgo), eq(applications.status, 'draft')));
+      .where(
+        and(
+          // Without this the report counts every tenant's stuck drafts and
+          // mails their foundation names to one organisation's inbox.
+          eq(applications.orgId, reportOrgId),
+          lt(applications.updatedAt, thirtyDaysAgo),
+          eq(applications.status, 'draft'),
+        ),
+      );
 
     if (stuckApplications.length > 0) {
       issues.push({
@@ -226,7 +237,13 @@ export async function GET(request: NextRequest) {
       })
       .from(applications)
       .leftJoin(foundations, eq(applications.foundationId, foundations.id))
-      .where(and(eq(applications.status, 'pending'), isNull(applications.decisionExpected)));
+      .where(
+        and(
+          eq(applications.orgId, reportOrgId),
+          eq(applications.status, 'pending'),
+          isNull(applications.decisionExpected),
+        ),
+      );
 
     if (missingDecisionDate.length > 0) {
       issues.push({
@@ -241,21 +258,38 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Send email report if issues found
-    if (issues.length > 0 && resend) {
-      const emailBody = formatQualityReport(issues);
-
-      await resend.emails.send({
-        from: `${ORG_PROFILE.name} Fundraising <noreply@${ORG_PROFILE.website.replace('https://', '')}>`,
-        to: [ORG_PROFILE.fundraisingEmail],
-        subject: `📊 Datenqualität Report: ${issues.length} Probleme gefunden`,
-        html: emailBody,
-      });
+    // Send the report, or say why it was not sent.
+    //
+    // `emailed` is in the response because a cron that silently skips its only
+    // output is indistinguishable from one that worked. A missing API key and a
+    // tenant with no fundraising address are both ordinary states, not errors,
+    // but both mean nobody read this report — so the scheduler's own log says
+    // which.
+    let emailed: string | boolean = false;
+    if (issues.length > 0) {
+      if (!resend) {
+        emailed = 'skipped: RESEND_API_KEY is not configured';
+      } else {
+        const route = await resolveTenantMailRoute(reportOrgId);
+        if (!route.canSend) {
+          emailed = `skipped: ${route.reason}`;
+        } else {
+          await resend.emails.send({
+            from: route.from,
+            to: route.to,
+            subject: `📊 Datenqualität Report: ${issues.length} Probleme gefunden`,
+            html: formatQualityReport(issues, route.tenant),
+          });
+          emailed = true;
+        }
+      }
     }
 
     return NextResponse.json({
       success: true,
+      org_id: reportOrgId,
       issues_found: issues.length,
+      emailed,
       issues,
     });
   } catch (error) {
@@ -266,7 +300,7 @@ export async function GET(request: NextRequest) {
 /**
  * Format quality report email
  */
-function formatQualityReport(issues: DataQualityIssue[]): string {
+function formatQualityReport(issues: DataQualityIssue[], tenant: Tenant): string {
   const severityColors = {
     high: EMAIL_COLORS.urgencyHigh,
     medium: EMAIL_COLORS.urgencyMedium,
@@ -329,15 +363,22 @@ function formatQualityReport(issues: DataQualityIssue[]): string {
     html += `</div>`;
   }
 
+  // A tenant without a hosted site has nowhere for this link to go, so the
+  // paragraph is omitted rather than rendered pointing at `undefined/...`.
+  const dashboardUrl = fundraisingDashboardUrl(tenant);
   html += `
   <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid ${EMAIL_COLORS.border};">
-    <p style="font-size: 14px; color: ${EMAIL_COLORS.textMuted};">
-      <a href="${ORG_PROFILE.siteUrl}/fundraising/dashboard" style="color: ${EMAIL_COLORS.primary}; text-decoration: none;">
+    ${
+      dashboardUrl
+        ? `<p style="font-size: 14px; color: ${EMAIL_COLORS.textMuted};">
+      <a href="${dashboardUrl}" style="color: ${EMAIL_COLORS.primary}; text-decoration: none;">
         Dashboard öffnen →
       </a>
-    </p>
+    </p>`
+        : ''
+    }
     <p style="font-size: 12px; color: ${EMAIL_COLORS.textFaint};">
-      Diese Nachricht wurde automatisch vom ${ORG_PROFILE.name} Fundraising System generiert.
+      Diese Nachricht wurde automatisch vom ${tenant.name} Fundraising System generiert.
     </p>
   </div>
 </body>

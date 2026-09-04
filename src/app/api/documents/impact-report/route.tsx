@@ -10,7 +10,8 @@
 import { NextResponse } from 'next/server';
 import { renderToStream } from '@react-pdf/renderer';
 import { ImpactReportPDF } from '@/lib/pdf/impact-report';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
+import { toSlug } from '@/lib/utils/slug';
 import { API_ERR_PDF } from '@/lib/utils/errors';
 import { streamToBuffer } from '@/lib/pdf/utils';
 import { apiError } from '@/lib/api/route-helpers';
@@ -33,9 +34,11 @@ export async function GET() {
     const buffer = await streamToBuffer(stream);
 
     const year = new Date().getFullYear();
-    const filename = `wirkungsbericht-${year}-${ORG_PROFILE.name
-      .replace(/[^a-z0-9]/gi, '-')
-      .toLowerCase()}.pdf`;
+    // Named for whoever asked for it, not for whoever the build was made
+    // for. `toSlug` rather than a fourth hand-rolled expression: it is the
+    // repo's hyphenated slug rule already, and it agrees with what this line
+    // produced for the existing tenant.
+    const filename = `wirkungsbericht-${year}-${toSlug((await getTenant()).name)}.pdf`;
 
     return new NextResponse(buffer, {
       headers: {
