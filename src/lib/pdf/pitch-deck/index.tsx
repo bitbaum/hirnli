@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
 import { COLORS, pdfFormatCHF } from '@/lib/pdf/gesuch-dokument/styles';
 import {
   CO2_PER_LAPTOP,
@@ -237,12 +237,10 @@ const s = StyleSheet.create({
 // Shared components
 // ---------------------------------------------------------------------------
 
-function SlideFooter({ slide }: { slide: number }) {
+function SlideFooter({ tenant, slide }: { tenant: Tenant; slide: number }) {
   return (
     <View style={s.footer} fixed>
-      <Text>
-        {ORG_PROFILE.name} · {ORG_PROFILE.website}
-      </Text>
+      <Text>{[tenant.name, tenant.website].filter(Boolean).join(' · ')}</Text>
       <Text>
         {slide} / {TOTAL_SLIDES}
       </Text>
@@ -272,18 +270,18 @@ function Bullet({ children }: { children: string }) {
 // Slide 1: Cover
 // ---------------------------------------------------------------------------
 
-function Slide1Cover() {
+function Slide1Cover({ tenant }: { tenant: Tenant }) {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
       <View style={s.coverFull}>
-        <Text style={s.coverOrg}>{ORG_PROFILE.name}</Text>
+        <Text style={s.coverOrg}>{tenant.name}</Text>
         <View style={s.coverDivider} />
         <Text style={s.coverTagline}>
           Kreislaufwirtschaft · Arbeitsintegration · Digitale Bildung
         </Text>
         <Text style={s.coverMeta}>Präsentation für Stiftungen & Förderer · {CURRENT_YEAR}</Text>
         <Text style={[s.coverMeta, { marginTop: 20 }]}>
-          {ORG_PROFILE.legalForm} · Gegründet {ORG_PROFILE.founded} · {ORG_PROFILE.location}
+          {tenant.legalForm} · Gegründet {tenant.founded} · {tenant.location}
         </Text>
       </View>
     </Page>
@@ -294,7 +292,7 @@ function Slide1Cover() {
 // Slide 2: Problem
 // ---------------------------------------------------------------------------
 
-function Slide2Problem() {
+function Slide2Problem({ tenant }: { tenant: Tenant }) {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
       <SlideHeader title="Das Problem" sub="Warum Handeln jetzt nötig ist" />
@@ -334,7 +332,7 @@ function Slide2Problem() {
           </View>
         </View>
       </View>
-      <SlideFooter slide={2} />
+      <SlideFooter tenant={tenant} slide={2} />
     </Page>
   );
 }
@@ -343,7 +341,7 @@ function Slide2Problem() {
 // Slide 3: Solution (Value Cascade)
 // ---------------------------------------------------------------------------
 
-function Slide3Solution() {
+function Slide3Solution({ tenant }: { tenant: Tenant }) {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
       <SlideHeader title="Unsere Lösung" sub="Die Wertschöpfungskaskade" />
@@ -409,7 +407,7 @@ function Slide3Solution() {
           </View>
         </View>
       </View>
-      <SlideFooter slide={3} />
+      <SlideFooter tenant={tenant} slide={3} />
     </Page>
   );
 }
@@ -418,7 +416,7 @@ function Slide3Solution() {
 // Slide 4: Impact Numbers
 // ---------------------------------------------------------------------------
 
-function Slide4Impact() {
+function Slide4Impact({ tenant }: { tenant: Tenant }) {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
       <SlideHeader
@@ -456,14 +454,12 @@ function Slide4Impact() {
             <Text style={s.metricLabel}>Menschen begleitet</Text>
             <Text
               style={s.metricSub}
-            >{`Praktika & Integration seit ${ORG_PROFILE.milestones.integrationProgram}`}</Text>
+            >{`Praktika & Integration seit ${tenant.milestones?.integrationProgram ?? tenant.founded}`}</Text>
           </View>
           <View style={s.metricBox}>
-            <Text style={s.metricValue}>{String(ORG_PROFILE.yearsActive)}+</Text>
+            <Text style={s.metricValue}>{String(tenant.yearsActive)}+</Text>
             <Text style={s.metricLabel}>Jahre Erfahrung</Text>
-            <Text
-              style={s.metricSub}
-            >{`Kontinuierlicher Betrieb seit ${ORG_PROFILE.founded}`}</Text>
+            <Text style={s.metricSub}>{`Kontinuierlicher Betrieb seit ${tenant.founded}`}</Text>
           </View>
           <View style={s.metricBoxAccent}>
             <Text style={s.metricValueAccent}>~{SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT}</Text>
@@ -476,10 +472,10 @@ function Slide4Impact() {
 
         <Text style={[s.small, { marginTop: 10 }]}>
           Alle Metriken mit Quellenangaben und Methodikdokumentation abrufbar unter{' '}
-          {ORG_PROFILE.website}/methodik
+          {tenant.website ? `${tenant.website}/methodik` : '/methodik'}
         </Text>
       </View>
-      <SlideFooter slide={4} />
+      <SlideFooter tenant={tenant} slide={4} />
     </Page>
   );
 }
@@ -488,7 +484,7 @@ function Slide4Impact() {
 // Slide 5: Financial Overview
 // ---------------------------------------------------------------------------
 
-function Slide5Financials() {
+function Slide5Financials({ tenant }: { tenant: Tenant }) {
   const maxRevenue = Math.max(...COMPLETE_YEARS.map((y) => y.revenue));
 
   return (
@@ -547,7 +543,7 @@ function Slide5Financials() {
           </View>
         </View>
       </View>
-      <SlideFooter slide={5} />
+      <SlideFooter tenant={tenant} slide={5} />
     </Page>
   );
 }
@@ -556,7 +552,7 @@ function Slide5Financials() {
 // Slide 6: The Ask — Community Tech Hub
 // ---------------------------------------------------------------------------
 
-function Slide6TheAsk({ p1p3Count }: { p1p3Count: number }) {
+function Slide6TheAsk({ tenant, p1p3Count }: { tenant: Tenant; p1p3Count: number }) {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
       <SlideHeader title="Vision 2028: Community Tech Hub" sub="Was wir aufbauen" />
@@ -581,7 +577,7 @@ function Slide6TheAsk({ p1p3Count }: { p1p3Count: number }) {
 
           <View style={s.col}>
             <Text style={[s.h3, { marginBottom: 10 }]}>Warum jetzt der richtige Zeitpunkt?</Text>
-            <Bullet>{`${String(ORG_PROFILE.yearsActive)} Jahre Operational Track Record — kein Startup-Risiko`}</Bullet>
+            <Bullet>{`${String(tenant.yearsActive)} Jahre Operational Track Record — kein Startup-Risiko`}</Bullet>
             <Bullet>Bestehende Partnerschaften (AOZ, Caritas, RAV, SWICO)</Bullet>
             <Bullet>Bewiesene Nachfrage: Geräte werden schnell verkauft</Bullet>
             <Bullet>Linux-Expertise & Community bereits aufgebaut</Bullet>
@@ -595,7 +591,7 @@ function Slide6TheAsk({ p1p3Count }: { p1p3Count: number }) {
           </View>
         </View>
       </View>
-      <SlideFooter slide={6} />
+      <SlideFooter tenant={tenant} slide={6} />
     </Page>
   );
 }
@@ -604,7 +600,7 @@ function Slide6TheAsk({ p1p3Count }: { p1p3Count: number }) {
 // Slide 7: Why Us / Track Record
 // ---------------------------------------------------------------------------
 
-function Slide7WhyUs() {
+function Slide7WhyUs({ tenant }: { tenant: Tenant }) {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
       <SlideHeader title="Warum Revamp-IT?" sub="Track Record & Alleinstellungsmerkmale" />
@@ -612,7 +608,7 @@ function Slide7WhyUs() {
         <View style={s.threeCol}>
           <View style={s.thirdCol}>
             <Text style={[s.h3, { marginBottom: 8 }]}>Bewährter Betrieb</Text>
-            <Bullet>{`Seit ${ORG_PROFILE.founded} operativ — ${String(ORG_PROFILE.yearsActive)} Jahre`}</Bullet>
+            <Bullet>{`Seit ${tenant.founded} operativ — ${String(tenant.yearsActive)} Jahre`}</Bullet>
             <Bullet>{`Über CHF ${Math.round(CUMULATIVE_WARENVERKAUF / 1000)}K Warenverkauf (Kivitendo-Buchhaltung)`}</Bullet>
             <Bullet>Kontinuierliche Lieferkette für Geräte etabliert</Bullet>
             <Bullet>Zertifizierte Datenvernichtung (NIST 800-88)</Bullet>
@@ -628,7 +624,7 @@ function Slide7WhyUs() {
           </View>
           <View style={s.thirdCol}>
             <Text style={[s.h3, { marginBottom: 8 }]}>Technische Expertise</Text>
-            <Bullet>{`Linux-Pioniere in der Schweiz seit ${ORG_PROFILE.founded}`}</Bullet>
+            <Bullet>{`Linux-Pioniere in der Schweiz seit ${tenant.founded}`}</Bullet>
             <Bullet>Vollständiger Qualitätsprozess (Diagnose → Garantie)</Bullet>
             <Bullet>Wärmeleitpaste, SSD/RAM-Upgrades aus eigenem Lager</Bullet>
             <Bullet>Stresstest & Akkumessung vor Verkauf</Bullet>
@@ -639,13 +635,14 @@ function Slide7WhyUs() {
         <View style={[s.infoBox, { marginTop: 14 }]}>
           <Text style={[s.p, s.bold]}>Gemeinnützigkeit & Transparenz</Text>
           <Text style={s.p}>
-            {ORG_PROFILE.taxExemption}. Alle Finanzdaten und Wirkungszahlen mit Quellenangaben
-            öffentlich einsehbar auf {ORG_PROFILE.website}/finanzen und {ORG_PROFILE.website}
+            {tenant.taxExemption ?? 'Gemeinnützig'}. Alle Finanzdaten und Wirkungszahlen mit
+            Quellenangaben öffentlich einsehbar auf{' '}
+            {tenant.website ? `${tenant.website}/finanzen` : '/finanzen'}
             /wirkung — keine Blackboxes.
           </Text>
         </View>
       </View>
-      <SlideFooter slide={7} />
+      <SlideFooter tenant={tenant} slide={7} />
     </Page>
   );
 }
@@ -654,7 +651,7 @@ function Slide7WhyUs() {
 // Slide 8: Contact
 // ---------------------------------------------------------------------------
 
-function Slide8Contact() {
+function Slide8Contact({ tenant }: { tenant: Tenant }) {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
       <View style={[s.coverFull, { backgroundColor: COLORS.text }]}>
@@ -663,18 +660,20 @@ function Slide8Contact() {
         </Text>
         <View style={s.coverDivider} />
         <Text style={[s.coverTagline, { marginBottom: 30 }]}>
-          {ORG_PROFILE.name} · {ORG_PROFILE.legalForm}
+          {tenant.name} · {tenant.legalForm}
         </Text>
 
         <View style={s.twoCol}>
           <View style={[s.col, { alignItems: 'flex-end', paddingRight: 20 }]}>
             <Text style={{ fontSize: 11, color: COLORS.bgBlue, marginBottom: 4 }}>
-              {ORG_PROFILE.contactName}
+              {tenant.contactName ?? tenant.name}
             </Text>
             <Text style={{ fontSize: 10, color: COLORS.bgBlue, marginBottom: 2 }}>
-              {ORG_PROFILE.email}
+              {tenant.email}
             </Text>
-            <Text style={{ fontSize: 10, color: COLORS.bgBlue }}>{ORG_PROFILE.phone}</Text>
+            {tenant.phone && (
+              <Text style={{ fontSize: 10, color: COLORS.bgBlue }}>{tenant.phone}</Text>
+            )}
           </View>
           <View
             style={[
@@ -683,17 +682,18 @@ function Slide8Contact() {
             ]}
           >
             <Text style={{ fontSize: 10, color: COLORS.bgBlue, marginBottom: 2 }}>
-              {ORG_PROFILE.address}
+              {tenant.address ?? ''}
             </Text>
             <Text style={{ fontSize: 11, color: COLORS.white, marginTop: 8 }}>
-              {ORG_PROFILE.website}
+              {tenant.website ?? ''}
             </Text>
           </View>
         </View>
 
         <Text style={[s.coverMeta, { marginTop: 30, fontSize: 8 }]}>
-          Alle Wirkungsdaten mit Quellenangaben: {ORG_PROFILE.website}/methodik
-          {'  ·  '}Finanzdaten: {ORG_PROFILE.website}/finanzen
+          Alle Wirkungsdaten mit Quellenangaben:{' '}
+          {tenant.website ? `${tenant.website}/methodik` : '/methodik'}
+          {'  ·  '}Finanzdaten: {tenant.website ? `${tenant.website}/finanzen` : '/finanzen'}
         </Text>
       </View>
     </Page>
@@ -704,23 +704,30 @@ function Slide8Contact() {
 // Main export
 // ---------------------------------------------------------------------------
 
-export function PitchDeckPDF({ p1p3Count }: { p1p3Count: number }) {
+export function PitchDeckPDF({
+  tenant,
+  p1p3Count,
+}: {
+  /** Whose deck this is. Rendered outside any request, so it is passed in. */
+  tenant: Tenant;
+  p1p3Count: number;
+}) {
   return (
     <Document
-      title={`Pitch Deck ${CURRENT_YEAR} — ${ORG_PROFILE.name}`}
-      author={ORG_PROFILE.name}
+      title={`Pitch Deck ${CURRENT_YEAR} — ${tenant.name}`}
+      author={tenant.name}
       subject="Präsentation für Stiftungen und Förderer"
       keywords="Pitch Deck, Refurbishing, Arbeitsintegration, Open Source, Kreislaufwirtschaft"
-      creator={`${ORG_PROFILE.name} — revamp-info`}
+      creator={`${tenant.name} — revamp-info`}
     >
-      <Slide1Cover />
-      <Slide2Problem />
-      <Slide3Solution />
-      <Slide4Impact />
-      <Slide5Financials />
-      <Slide6TheAsk p1p3Count={p1p3Count} />
-      <Slide7WhyUs />
-      <Slide8Contact />
+      <Slide1Cover tenant={tenant} />
+      <Slide2Problem tenant={tenant} />
+      <Slide3Solution tenant={tenant} />
+      <Slide4Impact tenant={tenant} />
+      <Slide5Financials tenant={tenant} />
+      <Slide6TheAsk tenant={tenant} p1p3Count={p1p3Count} />
+      <Slide7WhyUs tenant={tenant} />
+      <Slide8Contact tenant={tenant} />
     </Document>
   );
 }

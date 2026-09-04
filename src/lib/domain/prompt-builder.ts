@@ -7,10 +7,12 @@
  * Pure function: no I/O, no side effects.
  */
 
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
 import type { FoundationAIContext } from './ai-context';
 
 interface PromptParams {
+  /** Whose Gesuch this is. Passed in — a pure builder must not resolve it. */
+  tenant: Tenant;
   foundation: FoundationAIContext;
   schwerpunktLabel?: string;
   fieldDescription: string;
@@ -21,13 +23,17 @@ interface PromptParams {
  * Build a standalone prompt that works in any AI assistant without additional context.
  */
 export function buildExternalPrompt({
+  tenant,
   foundation,
   schwerpunktLabel,
   fieldDescription,
   currentText,
 }: PromptParams): string {
-  const org = ORG_PROFILE;
-  const areas = org.missionAreas
+  const org = tenant;
+  // Optional: an organisation that has not described its programme areas gets
+  // no Kernbereiche block, rather than an empty bullet list the model would
+  // read as "this organisation does nothing".
+  const areas = (org.missionAreas ?? [])
     .map((a) => `- **${a.name}**: ${a.description} (${a.metrics.join(', ')})`)
     .join('\n');
 

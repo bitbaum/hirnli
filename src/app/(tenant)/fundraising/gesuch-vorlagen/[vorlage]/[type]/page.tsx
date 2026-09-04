@@ -39,6 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function SchwerpunktGesuchPage({ params }: Props) {
+  const tenant = await getTenant();
   const { vorlage: schwerpunkt, type } = await params;
   if (!isSchwerpunktId(schwerpunkt)) notFound();
   const foundation = getSchwerpunktTemplate(schwerpunkt, type);
@@ -47,7 +48,7 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
   const sp = SCHWERPUNKTE[schwerpunkt];
   const typeLabel = resolveTypeLabel(type);
   if (!typeLabel) notFound();
-  const gesuch = composeGesuch(foundation, schwerpunkt);
+  const gesuch = composeGesuch(tenant, foundation, schwerpunkt);
   const primaryColor = sp.color;
 
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;
@@ -64,6 +65,7 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
       </VorlageBanner>
 
       <GesuchHeroSection
+        orgName={tenant.name}
         subtitle={`Partnerschaftsvorschlag \u2014 ${sp.shortLabel} (Typ ${typeLabel.short})`}
         foundationName={gesuch.foundation.name}
         description={typeLabel.approach}
@@ -83,7 +85,11 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
 
         <GesuchEvidenceSection evidence={gesuch.story.evidence} />
 
-        <GesuchContactSection foundationName="Ihre Stiftung" organization={gesuch.organization} />
+        <GesuchContactSection
+          orgName={tenant.name}
+          foundationName="Ihre Stiftung"
+          organization={gesuch.organization}
+        />
 
         {/* Navigation links */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">

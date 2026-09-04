@@ -1,6 +1,5 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { GESUCH_TEXT, findEvidence } from '@/lib/config/stories';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
@@ -22,7 +21,7 @@ export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSection
         {dok.foundation.purposeSummary && (
           <p className="mb-3 text-sm leading-relaxed text-text">
             Die {dok.foundation.name} hat sich dem Thema{' '}
-            {extractPurposeCore(dok.foundation.purposeSummary)} verschrieben. {ORG_PROFILE.name}{' '}
+            {extractPurposeCore(dok.foundation.purposeSummary)} verschrieben. {dok.tenant.name}{' '}
             adressiert dieses Anliegen direkt:
           </p>
         )}

@@ -1,6 +1,5 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { formatCHF } from '@/lib/utils/format';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import Callout from '@/components/ui/Callout';
 
 interface AnschreibenSectionProps {
@@ -65,7 +64,7 @@ export default function AnschreibenSection({ dok }: AnschreibenSectionProps) {
         <ul className="mt-1 list-inside list-disc">
           <li>Projektbeschrieb (3 Seiten)</li>
           <li>Budget und Finanzierungsplan</li>
-          <li>Kurzportrait {ORG_PROFILE.name}</li>
+          <li>Kurzportrait {dok.tenant.name}</li>
           <li>Statuten (auf Anfrage)</li>
           <li>Jahresrechnung (auf Anfrage)</li>
         </ul>

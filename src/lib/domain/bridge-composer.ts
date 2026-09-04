@@ -1,5 +1,5 @@
 /**
- * Bridge Composer — Connects foundation purpose to Revamp-IT relevance
+ * Bridge Composer — Connects foundation purpose to the applicant's relevance
  *
  * Two functions:
  * - buildFoundationBridge(): One-sentence connection between foundation + org
@@ -8,7 +8,7 @@
 
 import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
 import type { ThemeKey } from '@/lib/config/stories';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
 import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
 import { THEMES } from '@/lib/config/foundations';
 
@@ -58,17 +58,28 @@ export function extractPurposeCore(purposeSummary: string): string {
   return stripped.trim();
 }
 
-/** Build a bridge sentence connecting foundation purpose to Revamp-IT */
-export function buildFoundationBridge(foundation: Foundation, primaryThemeLabel: string): string {
+/**
+ * Build a bridge sentence connecting a foundation's purpose to the applicant.
+ *
+ * The tenant is a parameter, not an import. A composer that reaches for its own
+ * organisation is a composer that can only ever write for one — and this
+ * sentence goes into a Gesuch, where naming the wrong organisation is the worst
+ * possible error.
+ */
+export function buildFoundationBridge(
+  tenant: Tenant,
+  foundation: Foundation,
+  primaryThemeLabel: string,
+): string {
   const purposeCore = foundation.purposeSummary
     ? extractPurposeCore(foundation.purposeSummary)
     : '';
 
   if (purposeCore) {
     // Purpose is shown as the hero description above — bridge ties foundation focus to org wirkungsfeld
-    return `Der Förderfokus von ${foundation.name} trifft genau das Wirkungsfeld von ${ORG_PROFILE.name}: ${primaryThemeLabel} — mit ${ORG_PROFILE.experienceLabel}.`;
+    return `Der Förderfokus von ${foundation.name} trifft genau das Wirkungsfeld von ${tenant.name}: ${primaryThemeLabel} — mit ${tenant.experienceLabel}.`;
   }
-  return `${ORG_PROFILE.name} ist seit über ${ORG_PROFILE.yearsActive} Jahren aktiv in ${primaryThemeLabel} — genau dem Bereich, den ${foundation.name} fördert.`;
+  return `${tenant.name} ist seit über ${tenant.yearsActive} Jahren aktiv in ${primaryThemeLabel} — genau dem Bereich, den ${foundation.name} fördert.`;
 }
 
 /** Build one-sentence connection per non-primary theme */

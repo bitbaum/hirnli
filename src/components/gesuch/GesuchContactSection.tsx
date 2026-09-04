@@ -1,12 +1,15 @@
 import type { CoreFacts } from '@/lib/schemas/story';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 interface GesuchContactSectionProps {
+  /** The applying organisation's name. Passed in — this component is
+   *  rendered for whichever tenant composed the Gesuch. */
+  orgName: string;
   foundationName: string;
   organization: CoreFacts;
 }
 
 export default function GesuchContactSection({
+  orgName,
   foundationName,
   organization,
 }: GesuchContactSectionProps) {
@@ -16,8 +19,8 @@ export default function GesuchContactSection({
     <section className="rounded-2xl bg-surface-raised p-4 text-center md:p-8">
       <h2 className="mb-4 heading-subsection md:text-2xl">Lassen Sie uns ins Gespräch kommen</h2>
       <p className="mb-6 text-text-secondary">
-        Wir freuen uns auf einen Austausch darüber, wie {ORG_PROFILE.name} und {foundationName}{' '}
-        gemeinsam wirken können.
+        Wir freuen uns auf einen Austausch darüber, wie {orgName} und {foundationName} gemeinsam
+        wirken können.
       </p>
       <div className="mb-6 space-y-1 text-sm text-text-secondary">
         <p className="heading-item">{organization.organization.name}</p>

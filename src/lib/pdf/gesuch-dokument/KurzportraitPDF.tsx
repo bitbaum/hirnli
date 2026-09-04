@@ -9,7 +9,6 @@ import React from 'react';
 import { View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { GESUCH_TEXT } from '@/lib/config/stories';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { styles, COLORS } from './styles';
 
 interface KurzportraitPDFProps {
@@ -19,7 +18,7 @@ interface KurzportraitPDFProps {
 export default function KurzportraitPDF({ dok }: KurzportraitPDFProps) {
   return (
     <View>
-      <Text style={styles.h2}>Kurzportrait {ORG_PROFILE.name}</Text>
+      <Text style={styles.h2}>Kurzportrait {dok.tenant.name}</Text>
       <Text style={styles.subtitle}>{GESUCH_TEXT.kurzportrait_subtitle}</Text>
 
       {/* Facts grid — 2 columns */}
@@ -78,11 +77,12 @@ export default function KurzportraitPDF({ dok }: KurzportraitPDFProps) {
         <Text style={[styles.small, { fontWeight: 'bold', marginBottom: 4 }]}>
           Online-Transparenz
         </Text>
-        <Text style={[styles.small, { color: COLORS.textLight }]}>
-          Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar unter{' '}
-          {ORG_PROFILE.siteUrl.replace('https://', '')}. Jede Zahl ist bis zur Quelle
-          nachvollziehbar.
-        </Text>
+        {dok.tenant.siteUrl && (
+          <Text style={[styles.small, { color: COLORS.textLight }]}>
+            Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar unter{' '}
+            {new URL(dok.tenant.siteUrl).hostname}. Jede Zahl ist bis zur Quelle nachvollziehbar.
+          </Text>
+        )}
         <Text style={[styles.small, { color: COLORS.textLight, marginTop: 4 }]}>
           Personalisierte Projektübersicht: {dok.landingPageUrl}
         </Text>

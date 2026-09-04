@@ -50,6 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function GesuchVorlagePage({ params }: Props) {
+  const tenant = await getTenant();
   const { vorlage: type } = await params;
   const foundation = getTemplateFoundation(type);
 
@@ -57,7 +58,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
     notFound();
   }
 
-  const gesuch = composeGesuch(foundation);
+  const gesuch = composeGesuch(tenant, foundation);
   const typeLabel = resolveTypeLabel(type);
   const tplLabel = TEMPLATE_LABELS[type];
   const primaryThemeId = foundation.themes[0];
@@ -81,6 +82,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
       </VorlageBanner>
 
       <GesuchHeroSection
+        orgName={tenant.name}
         subtitle={heroSubtitle}
         foundationName={gesuch.foundation.name}
         description={heroText}
@@ -100,7 +102,11 @@ export default async function GesuchVorlagePage({ params }: Props) {
 
         <GesuchEvidenceSection evidence={gesuch.story.evidence} />
 
-        <GesuchContactSection foundationName="Ihre Stiftung" organization={gesuch.organization} />
+        <GesuchContactSection
+          orgName={tenant.name}
+          foundationName="Ihre Stiftung"
+          organization={gesuch.organization}
+        />
 
         {/* Navigation links */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">

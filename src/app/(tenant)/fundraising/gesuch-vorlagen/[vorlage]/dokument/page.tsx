@@ -46,6 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function GesuchVorlageDokumentPage({ params }: Props) {
+  const tenant = await getTenant();
   const { vorlage: type } = await params;
   const foundation = getTemplateFoundation(type);
 
@@ -53,7 +54,7 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
     notFound();
   }
 
-  const dok = composeGesuchDokument(foundation);
+  const dok = composeGesuchDokument(tenant, foundation);
   const typeLabel = resolveTypeLabel(type);
   const tplLabel = TEMPLATE_LABELS[type];
   const bannerTitle = typeLabel

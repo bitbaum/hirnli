@@ -14,6 +14,7 @@ import FoundationHeader from '@/components/foundation/FoundationHeader';
 import FoundationSidebar from '@/components/foundation/FoundationSidebar';
 import SimilarFoundations from '@/components/foundation/SimilarFoundations';
 import FoundationDetailTabs from './FoundationDetailTabs';
+import { getTenant } from '@/lib/tenant/resolve';
 
 // Must be dynamic: the root layout reads the locale cookie (next-intl), so no
 // route can be statically prerendered — an SSG attempt here 500s at request
@@ -35,6 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function FoundationDetailPage({ params }: Props) {
+  const tenant = await getTenant();
   const { slug } = await params;
   const [foundation, allFoundations] = await Promise.all([
     getFoundationBySlug(slug),
@@ -46,7 +48,7 @@ export default async function FoundationDetailPage({ params }: Props) {
   }
 
   // Compute contextualization data (pure functions, no I/O)
-  const fitNarrative = generateFitNarrative(foundation);
+  const fitNarrative = generateFitNarrative(tenant, foundation);
   const themeAlignments = generateThemeAlignments(foundation);
   const approachSteps = generateApproachSteps(foundation);
   const readiness = getApplicationReadiness(foundation);

@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { buildExternalPrompt } from '../prompt-builder';
 import type { FoundationAIContext } from '../ai-context';
+import { makeTenant } from './fixtures';
+
+/** The identity is not what these tests are about, but it must be passed in. */
+const TENANT = makeTenant();
 
 function makeContext(overrides: Partial<FoundationAIContext> = {}): FoundationAIContext {
   return {
@@ -14,6 +18,7 @@ describe('buildExternalPrompt', () => {
   describe('always-present structure', () => {
     it('returns a non-empty string', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         fieldDescription: 'Warum wir',
         currentText: 'Test Text',
@@ -24,6 +29,7 @@ describe('buildExternalPrompt', () => {
 
     it('contains the Aufgabe section', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         fieldDescription: 'Warum wir',
         currentText: 'Test',
@@ -33,6 +39,7 @@ describe('buildExternalPrompt', () => {
 
     it('contains the foundation name', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext({ name: 'Spezial Stiftung' }),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -42,6 +49,7 @@ describe('buildExternalPrompt', () => {
 
     it('contains the fieldDescription', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         fieldDescription: 'Einleitung des Gesuchs',
         currentText: 'Text',
@@ -51,6 +59,7 @@ describe('buildExternalPrompt', () => {
 
     it('contains the currentText', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         fieldDescription: 'Intro',
         currentText: 'Dies ist unser aktueller Text.',
@@ -60,6 +69,7 @@ describe('buildExternalPrompt', () => {
 
     it('contains Schreibregeln with Swiss German rule', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -69,6 +79,7 @@ describe('buildExternalPrompt', () => {
 
     it('contains Schreibregeln section header', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -80,6 +91,7 @@ describe('buildExternalPrompt', () => {
   describe('conditional sections — foundation fields', () => {
     it('includes purpose when provided', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext({ purpose: 'Fördert Nachhaltigkeit' }),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -89,6 +101,7 @@ describe('buildExternalPrompt', () => {
 
     it('omits purpose section when not provided', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext({ purpose: undefined }),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -98,6 +111,7 @@ describe('buildExternalPrompt', () => {
 
     it('includes themes when present', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext({ themes: ['kreislaufwirtschaft', 'klima'] }),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -107,6 +121,7 @@ describe('buildExternalPrompt', () => {
 
     it('omits themes line when themes array is empty', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext({ themes: [] }),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -116,6 +131,7 @@ describe('buildExternalPrompt', () => {
 
     it('includes fitScore when provided', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext({ fitScore: 8 }),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -125,6 +141,7 @@ describe('buildExternalPrompt', () => {
 
     it('includes grant range with min and max', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext({ grantRange: { min: 5000, max: 50000 } }),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -135,6 +152,7 @@ describe('buildExternalPrompt', () => {
 
     it('includes past grantees (up to 5)', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext({
           pastGrantees: ['Org A', 'Org B', 'Org C', 'Org D', 'Org E', 'Org F'],
         }),
@@ -151,6 +169,7 @@ describe('buildExternalPrompt', () => {
   describe('conditional Schwerpunkt section', () => {
     it('includes Schwerpunkt section when schwerpunktLabel provided', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         schwerpunktLabel: 'Kreislaufwirtschaft',
         fieldDescription: 'Intro',
@@ -162,6 +181,7 @@ describe('buildExternalPrompt', () => {
 
     it('omits Schwerpunkt section when not provided', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -173,6 +193,7 @@ describe('buildExternalPrompt', () => {
   describe('section ordering', () => {
     it('Aufgabe appears before Schreibregeln', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         fieldDescription: 'Intro',
         currentText: 'Text',
@@ -184,6 +205,7 @@ describe('buildExternalPrompt', () => {
 
     it('currentText appears before Schreibregeln', () => {
       const prompt = buildExternalPrompt({
+        tenant: TENANT,
         foundation: makeContext(),
         fieldDescription: 'Intro',
         currentText: 'Mein aktueller Text',

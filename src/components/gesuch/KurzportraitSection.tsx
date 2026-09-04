@@ -1,6 +1,5 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { GESUCH_TEXT } from '@/lib/config/stories';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
 interface KurzportraitSectionProps {
@@ -11,7 +10,7 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
   return (
     <section className="gesuch-section mb-12">
       <h2 className="mb-2 border-b-2 border-grey-dark pb-2 heading-section">
-        Kurzportrait {ORG_PROFILE.name}
+        Kurzportrait {dok.tenant.name}
       </h2>
       <p className="mb-6 text-sm text-text-muted">{GESUCH_TEXT.kurzportrait_subtitle}</p>
 
@@ -56,13 +55,18 @@ export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
       {/* Online presence */}
       <div className="rounded border border-border-default p-4 text-sm">
         <p className="mb-1 heading-detail">Online-Transparenz</p>
-        <p className="text-text-secondary">
-          Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar unter{' '}
-          <a href={ORG_PROFILE.siteUrl} className="text-primary">
-            {ORG_PROFILE.siteUrl.replace('https://', '')}
-          </a>
-          . Jede Zahl ist bis zur Quelle nachvollziehbar.
-        </p>
+        {/* The claim is "look it up at this address". Without an address there
+            is nothing to look up, so the sentence goes rather than trailing off
+            — this paragraph is read by a foundation assessing credibility. */}
+        {dok.tenant.siteUrl && (
+          <p className="text-text-secondary">
+            Alle Kennzahlen, Finanzdaten und Wirkungsindikatoren sind öffentlich einsehbar unter{' '}
+            <a href={dok.tenant.siteUrl} className="text-primary">
+              {new URL(dok.tenant.siteUrl).hostname}
+            </a>
+            . Jede Zahl ist bis zur Quelle nachvollziehbar.
+          </p>
+        )}
         <p className="mt-2 text-text-secondary">
           Personalisierte Projektübersicht:{' '}
           <a href={dok.landingPageUrl} className="text-primary">

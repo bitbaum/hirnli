@@ -18,7 +18,7 @@ import type { ThemeMetadata } from '@/lib/schemas/theme';
 import type { ThemeId } from '@/lib/schemas/foundation';
 import { isResearched, isActionablePriority } from './foundation-helpers';
 import type { ThemeKey } from '@/lib/config/stories';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
 import { formatDateDE } from '@/lib/utils/format';
 import type {
   Evidence,
@@ -59,6 +59,20 @@ import { buildDynamicOpening, buildThemeAlignment } from './anschreiben-composer
 import { getScenarioForFoundation, computeRequestedAmount } from './budget-mapper';
 
 export interface ComposedGesuch {
+  /**
+   * The organisation this Gesuch was composed FOR, carried with the content.
+   *
+   * The renderers — eight page sections and five PDF components — each need a
+   * few identity fields: the name in a heading, the address in a letterhead,
+   * the site URL in a footer. Passing a second `tenant` prop beside `gesuch` to
+   * every one of them would make it possible to render a document composed for
+   * one organisation under another's name, and nothing would catch it: both
+   * props would be present and well-typed.
+   *
+   * Keeping them together makes that unrepresentable. The composed document and
+   * its author are one value.
+   */
+  tenant: Tenant;
   ready: boolean;
   readyReason?: string;
   foundation: {
@@ -213,6 +227,7 @@ function buildFoundationInfo(foundation: Foundation) {
 // ============================================================================
 
 export function composeGesuch(
+  tenant: Tenant,
   foundation: Foundation,
   schwerpunktId?: SchwerpunktId,
 ): ComposedGesuch {
@@ -235,6 +250,7 @@ export function composeGesuch(
       reason = 'Keine passenden Themen für die Gesuch-Generierung gefunden.';
     }
     return {
+      tenant,
       ready: false,
       readyReason: reason,
       foundation: buildFoundationInfo(foundation),
@@ -267,9 +283,10 @@ export function composeGesuch(
   const howAnecdotes = getAnecdotes(mapped.primary, 'how').slice(0, 1);
 
   return {
+    tenant,
     ready: true,
     foundation: buildFoundationInfo(foundation),
-    foundationBridge: buildFoundationBridge(foundation, primaryThemeLabel),
+    foundationBridge: buildFoundationBridge(tenant, foundation, primaryThemeLabel),
     themes: {
       primary: mapped.primary,
       secondary: mapped.secondary,
@@ -309,6 +326,7 @@ export interface AnschreibenText {
 
 /** Compute just the Anschreiben text fields (for the edit panel in step 2) */
 export function composeAnschreibenText(
+  tenant: Tenant,
   foundation: Foundation,
   schwerpunktId?: SchwerpunktId,
 ): AnschreibenText {
@@ -316,18 +334,19 @@ export function composeAnschreibenText(
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
   return {
-    subject: `Fördergesuch: ${primaryLabel} — ${ORG_PROFILE.name}`,
-    opening: buildDynamicOpening(foundation, primaryLabel),
+    subject: `Fördergesuch: ${primaryLabel} — ${tenant.name}`,
+    opening: buildDynamicOpening(tenant, foundation, primaryLabel),
     closing: template.closing,
     themeAlignment: buildThemeAlignment(foundation, themeMetadata),
   };
 }
 
 export function composeGesuchDokument(
+  tenant: Tenant,
   foundation: Foundation,
   schwerpunktId?: SchwerpunktId,
 ): ComposedGesuchDokument {
-  const gesuch = composeGesuch(foundation, schwerpunktId);
+  const gesuch = composeGesuch(tenant, foundation, schwerpunktId);
   const template = ANSCHREIBEN_TEMPLATES[foundation.type];
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
@@ -337,15 +356,15 @@ export function composeGesuchDokument(
   const requestedAmount = computeRequestedAmount(foundation, scenario);
 
   const today = new Date();
-  const dateStr = formatDateDE(today, ORG_PROFILE.location);
+  const dateStr = formatDateDE(today, tenant.location);
 
   return {
     ...gesuch,
     anschreiben: {
       date: dateStr,
       foundationAddress: buildFoundationAddress(foundation),
-      subject: `Fördergesuch: ${primaryLabel} — ${ORG_PROFILE.name}`,
-      opening: buildDynamicOpening(foundation, primaryLabel),
+      subject: `Fördergesuch: ${primaryLabel} — ${tenant.name}`,
+      opening: buildDynamicOpening(tenant, foundation, primaryLabel),
       closing: template.closing,
       themeAlignment: buildThemeAlignment(foundation, themeMetadata),
     },
@@ -393,6 +412,11 @@ export function composeGesuchDokument(
       activities: CORE_FACTS.activities,
       unique: CORE_FACTS.unique,
     },
-    landingPageUrl: `${ORG_PROFILE.siteUrl}/fundraising/stiftungen/${foundation.slug}/gesuch`,
+    // A tenant with no hosted site of its own gets a relative path rather than
+    // one absolute against somebody else's domain — this URL is printed in a
+    // Gesuch that goes to a foundation.
+    landingPageUrl: tenant.siteUrl
+      ? `${tenant.siteUrl.replace(/\/$/, '')}/fundraising/stiftungen/${foundation.slug}/gesuch`
+      : `/fundraising/stiftungen/${foundation.slug}/gesuch`,
   };
 }

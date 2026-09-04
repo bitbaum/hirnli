@@ -129,7 +129,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     };
 
     // Generate PDF
-    const pdfComponent = <GesuchPDF content={content} />;
+    const pdfComponent = <GesuchPDF content={content} tenant={tenant} />;
     const stream = await renderToStream(pdfComponent);
 
     const buffer = await streamToBuffer(stream);

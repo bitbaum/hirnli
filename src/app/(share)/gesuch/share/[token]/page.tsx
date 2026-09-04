@@ -73,14 +73,18 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
   const foundation = await getFoundationBySlug(slug);
   if (!foundation || !hasGesuchPage(foundation)) notFound();
 
+  // Whose proposal this is. The composers take it as an argument so a Gesuch
+  // can never be written under an organisation the page did not resolve.
+  const tenant = await getTenant();
+
   // If a specific schwerpunkt is requested via ?s= param, try it first
-  let gesuch = composeGesuch(foundation);
+  let gesuch = composeGesuch(tenant, foundation);
   let primaryColor = gesuch.themes.all[0]?.color ?? DEFAULT_THEME_COLOR;
   let selectedSchwerpunkt: string = 'auto';
 
   if (schwerpunktParam && isSchwerpunktId(schwerpunktParam)) {
     const spId = schwerpunktParam;
-    const variant = composeGesuch(foundation, spId);
+    const variant = composeGesuch(tenant, foundation, spId);
     if (variant.ready) {
       gesuch = variant;
       primaryColor = SCHWERPUNKTE[spId].color;
@@ -91,7 +95,7 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
   // If no specific schwerpunkt matched, fall back to auto-selection
   if (!gesuch.ready || !schwerpunktParam) {
     for (const spId of SCHWERPUNKT_IDS) {
-      const variant = composeGesuch(foundation, spId);
+      const variant = composeGesuch(tenant, foundation, spId);
       if (variant.ready) {
         gesuch = variant;
         primaryColor = SCHWERPUNKTE[spId].color;

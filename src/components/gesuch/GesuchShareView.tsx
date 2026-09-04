@@ -17,7 +17,6 @@ import {
   GesuchEvidenceSection,
   GesuchContactSection,
 } from '@/components/gesuch/sections';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 interface GesuchShareViewProps {
   gesuch: ComposedGesuch;
@@ -45,7 +44,8 @@ export default function GesuchShareView({
   return (
     <div>
       <GesuchHeroSection
-        subtitle={`Partnerschaftsvorschlag von ${ORG_PROFILE.name}`}
+        orgName={gesuch.tenant.name}
+        subtitle={`Partnerschaftsvorschlag von ${gesuch.tenant.name}`}
         foundationName={gesuch.foundation.name}
         description={heroDescription}
         foundationBridge={foundationBridge}
@@ -67,6 +67,7 @@ export default function GesuchShareView({
         <GesuchEvidenceSection evidence={gesuch.story.evidence} />
 
         <GesuchContactSection
+          orgName={gesuch.tenant.name}
           foundationName={gesuch.foundation.name}
           organization={gesuch.organization}
         />
@@ -74,16 +75,16 @@ export default function GesuchShareView({
         {/* Viewer-facing footer note */}
         <div className="border-t border-border-default pt-6 text-center">
           <p className="text-sm text-text-muted">
-            Diese Seite wurde von {ORG_PROFILE.name} erstellt und ist ausschliesslich für{' '}
+            Diese Seite wurde von {gesuch.tenant.name} erstellt und ist ausschliesslich für{' '}
             {gesuch.foundation.name} bestimmt.
           </p>
           <a
-            href={ORG_PROFILE.website}
+            href={gesuch.tenant.website}
             className="mt-1 block text-sm text-primary hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {ORG_PROFILE.website}
+            {gesuch.tenant.website}
           </a>
         </div>
       </div>

@@ -11,7 +11,6 @@ import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { ThemeKey } from '@/lib/config/stories';
 import { getThemedLabel } from '@/lib/domain/budget-calculations';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
 import { styles, COLORS, pdfFormatCHF } from './styles';
 
@@ -126,7 +125,7 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
         {/* Eigenleistung */}
         <View style={[styles.tableRow, { backgroundColor: COLORS.bgGreen }]}>
           <Text style={[styles.small, { flex: 2, fontWeight: 'bold', color: COLORS.greenText }]}>
-            Eigenleistung {ORG_PROFILE.name}
+            Eigenleistung {dok.tenant.name}
           </Text>
           {dok.budget.threeYearModel.map((y) => (
             <Text
@@ -240,7 +239,7 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
       <View>
         <View style={styles.tableRow}>
           <View style={{ flex: 3 }}>
-            <Text style={styles.small}>Eigenleistung {ORG_PROFILE.name}</Text>
+            <Text style={styles.small}>Eigenleistung {dok.tenant.name}</Text>
             <Text style={styles.muted}>
               Erlöse Geräteverkauf, IT-Dienstleistungen, Infrastruktur und Freiwilligenarbeit
             </Text>

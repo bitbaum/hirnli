@@ -9,7 +9,6 @@ import React from 'react';
 import { View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { GESUCH_TEXT, findEvidence } from '@/lib/config/stories';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import { styles, COLORS } from './styles';
 
@@ -32,7 +31,7 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
         {dok.foundation.purposeSummary && (
           <Text style={styles.paragraph}>
             Die {dok.foundation.name} fördert{' '}
-            {extractPurposeCore(dok.foundation.purposeSummary!).toLowerCase()}. {ORG_PROFILE.name}{' '}
+            {extractPurposeCore(dok.foundation.purposeSummary!).toLowerCase()}. {dok.tenant.name}{' '}
             adressiert dieses Anliegen direkt:
           </Text>
         )}
