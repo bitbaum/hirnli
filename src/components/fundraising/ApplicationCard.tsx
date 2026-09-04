@@ -18,11 +18,11 @@ import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import { formatCHF, formatDateCH } from '@/lib/utils/format';
 import { MS_PER_DAY, DEADLINE_CRITICAL_DAYS, DEADLINE_WARNING_DAYS } from '@/lib/utils/time';
 import { NET_ERR_DELETE } from '@/lib/utils/errors';
-import type { Application, FoundationRow } from '@/lib/db/schema';
+import type { Application, FoundationRowWithAssessment } from '@/lib/db/schema';
 
 interface ApplicationCardProps {
   application: Application;
-  foundation: FoundationRow | null;
+  foundation: FoundationRowWithAssessment | null;
   onDeleted: (id: string) => void;
   onUpdated: (updated: Application) => void;
 }

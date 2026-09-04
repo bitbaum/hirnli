@@ -10,8 +10,9 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
-import { foundations, applications } from '@/lib/db/schema';
+import { foundationAssessments, foundations, applications } from '@/lib/db/schema';
 import { and, eq, isNull, lt, gte, sql } from 'drizzle-orm';
+import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
 import { Resend } from 'resend';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { formatDateCH, toISODateStr } from '@/lib/utils/format';
@@ -53,14 +54,38 @@ export async function GET(request: NextRequest) {
   try {
     const issues: DataQualityIssue[] = [];
 
+    // Whose data quality this report is about.
+    //
+    // Fit score and research date are assessment values, so "high-fit
+    // foundations missing an email" is only a question somebody can ask on
+    // behalf of one organisation. This cron has no request to resolve a tenant
+    // from and emails ORG_PROFILE, the Revamp-IT singleton, so it reports on
+    // the reference tenant — which is what it has always in fact done, by
+    // reading flat columns that held that tenant's values.
+    //
+    // Stated explicitly rather than inherited from a column, so that making
+    // this report per-tenant is a visible change to one line rather than an
+    // archaeology exercise. Tracked with the other ORG_PROFILE consumers in
+    // docs/TENANT-MIGRATION-MAP.md.
+    const reportOrgId = DEFAULT_TENANT_ID;
+    const assessedBy = and(
+      eq(foundationAssessments.foundationId, foundations.id),
+      eq(foundationAssessments.orgId, reportOrgId),
+    );
+
     // Check 1: High-fit foundations missing contact email (query config_data JSONB)
     const missingEmail = await db
-      .select()
+      .select({
+        id: foundations.id,
+        name: foundations.name,
+        fitScore: foundationAssessments.fitScore,
+      })
       .from(foundations)
+      .innerJoin(foundationAssessments, assessedBy)
       .where(
         and(
           sql`(config_data->'contact'->>'email' IS NULL OR config_data->'contact'->>'email' = '')`,
-          gte(foundations.fitScore, 7),
+          gte(foundationAssessments.fitScore, 7),
           eq(foundations.archived, false),
         ),
       );
@@ -81,12 +106,13 @@ export async function GET(request: NextRequest) {
 
     // Check 2: Foundations missing website (query config_data JSONB)
     const missingWebsite = await db
-      .select()
+      .select({ id: foundations.id, name: foundations.name })
       .from(foundations)
+      .innerJoin(foundationAssessments, assessedBy)
       .where(
         and(
           sql`(config_data->>'websiteUrl' IS NULL OR config_data->>'websiteUrl' = '')`,
-          gte(foundations.fitScore, 5),
+          gte(foundationAssessments.fitScore, 5),
           eq(foundations.archived, false),
         ),
       );
@@ -111,12 +137,17 @@ export async function GET(request: NextRequest) {
     const sixMonthsAgoStr = toISODateStr(sixMonthsAgo);
 
     const outdatedResearch = await db
-      .select()
+      .select({
+        id: foundations.id,
+        name: foundations.name,
+        researchDate: foundationAssessments.researchDate,
+      })
       .from(foundations)
+      .innerJoin(foundationAssessments, assessedBy)
       .where(
         and(
-          lt(foundations.researchDate, sixMonthsAgoStr),
-          gte(foundations.fitScore, 7),
+          lt(foundationAssessments.researchDate, sixMonthsAgoStr),
+          gte(foundationAssessments.fitScore, 7),
           eq(foundations.archived, false),
         ),
       );
@@ -162,11 +193,17 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Check 5: Missing fit scores
+    // Check 5: Foundations this organisation has never assessed.
+    //
+    // Previously "fit_score IS NULL" on the shared registry row, which asked
+    // whether ANYBODY had scored the foundation. The question worth asking is
+    // whether THIS organisation has, and a LEFT JOIN that missed says exactly
+    // that — including for foundations another tenant scored long ago.
     const missingFitScore = await db
-      .select()
+      .select({ id: foundations.id, name: foundations.name })
       .from(foundations)
-      .where(and(isNull(foundations.fitScore), eq(foundations.archived, false)));
+      .leftJoin(foundationAssessments, assessedBy)
+      .where(and(isNull(foundationAssessments.fitScore), eq(foundations.archived, false)));
 
     if (missingFitScore.length > 0) {
       issues.push({

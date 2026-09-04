@@ -24,11 +24,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { sql } from './lib/db';
 import { ResearchDraftSchema } from './lib/research-types';
-import {
-  foundationSchema,
-  type Foundation,
-  type FoundationRegistry,
-} from '../src/lib/schemas/foundation';
+import { type Foundation, type FoundationRegistry } from '../src/lib/schemas/foundation';
 import { computeFitScore } from '../src/lib/domain/fit-scoring';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 

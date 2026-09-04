@@ -131,3 +131,58 @@ describe('composeFoundation', () => {
     expect(seen).toEqual(['kaputte-stiftung']);
   });
 });
+
+/**
+ * After migration 0015 the blob no longer carries analysis at all. That is the
+ * end state, and it breaks anything that still treats `config_data` as a whole
+ * Foundation — which is exactly how the application detail endpoint used to
+ * build its foundation panel, via `foundationSchema.safeParse(row.configData)`.
+ *
+ * The parse fails (priority, themes, tagline and researchDate are required and
+ * absent), returns null, and the page renders an empty panel with no error.
+ * These tests pin the composition as the only correct way to rebuild a
+ * Foundation, for both the assessed and unassessed case.
+ */
+describe('composing a post-0015 registry blob', () => {
+  /** config_data as 0015 leaves it: registry facts only. */
+  function strippedBlob() {
+    const blob = blobWithForeignAnalysis();
+    for (const key of ANALYSIS_FIELDS) delete blob[key];
+    return blob;
+  }
+
+  it('cannot be parsed as a Foundation on its own — the analysis half is missing', async () => {
+    const { foundationSchema } = await import('@/lib/schemas/foundation');
+    expect(foundationSchema.safeParse(strippedBlob()).success).toBe(false);
+  });
+
+  it('composes correctly once the assessment is supplied', () => {
+    const composed = composeFoundation(strippedBlob(), OWN_ASSESSMENT);
+
+    expect(composed).toBeDefined();
+    expect(composed?.fitScore).toBe(OWN_ASSESSMENT.fitScore);
+    expect(composed?.priority).toBe(OWN_ASSESSMENT.priority);
+    expect(composed?.themes).toEqual(OWN_ASSESSMENT.themes);
+    expect(composed?.researchNotes).toBe(OWN_ASSESSMENT.researchNotes);
+  });
+
+  it('still composes for a tenant with no assessment, using the unassessed defaults', () => {
+    const composed = composeFoundation(strippedBlob(), null);
+
+    expect(composed).toBeDefined();
+    expect(composed?.fitScore).toBe(UNASSESSED_ANALYSIS.fitScore);
+    expect(composed?.priority).toBe(UNASSESSED_ANALYSIS.priority);
+    expect(composed?.themes).toEqual([]);
+    expect(composed?.researchNotes).toBeUndefined();
+  });
+
+  it('keeps every registry fact the blob still holds', () => {
+    const blob = strippedBlob();
+    const composed = composeFoundation(blob, OWN_ASSESSMENT);
+
+    expect(composed?.slug).toBe(blob.slug);
+    expect(composed?.name).toBe(blob.name);
+    expect(composed?.region).toBe(blob.region);
+    expect(composed?.type).toBe(blob.type);
+  });
+});

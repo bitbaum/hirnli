@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Application, FoundationRow } from '@/lib/db/schema';
+import type { Application, FoundationRowWithAssessment } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
 import { getApplication, patchApplication, deleteApplication } from '@/lib/api/applications';
@@ -84,7 +84,7 @@ export function buildPatchPayload(fields: ApplicationFormFields) {
 
 export function useApplicationForm(id: string) {
   const router = useRouter();
-  const [foundation, setFoundation] = useState<FoundationRow | null>(null);
+  const [foundation, setFoundation] = useState<FoundationRowWithAssessment | null>(null);
   const [foundationDetail, setFoundationDetail] = useState<Foundation | null>(null);
   const [fields, setFields] = useState<ApplicationFormFields>(EMPTY_FIELDS);
   const [isLoading, setIsLoading] = useState(true);
@@ -104,7 +104,7 @@ export function useApplicationForm(id: string) {
         if (cancelled) return;
         if (result.success) {
           const d = result.data as {
-            foundation: FoundationRow;
+            foundation: FoundationRowWithAssessment;
             foundationDetail: Foundation | null;
             application: Application;
           };
@@ -137,7 +137,10 @@ export function useApplicationForm(id: string) {
     try {
       const result = await patchApplication(id, buildPatchPayload(fields));
       if (result.success) {
-        const d = result.data as { foundation: FoundationRow; foundationDetail: Foundation | null };
+        const d = result.data as {
+          foundation: FoundationRowWithAssessment;
+          foundationDetail: Foundation | null;
+        };
         setFoundation(d.foundation);
         setFoundationDetail(d.foundationDetail);
       } else {

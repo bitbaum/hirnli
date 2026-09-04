@@ -16,7 +16,8 @@ import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 
 async function main() {
-  const foundations = await getAllFoundations(requireOrgId());
+  const ORG_ID = requireOrgId();
+  const foundations = await getAllFoundations(ORG_ID);
   // ── 1. Funnel counts ──────────────────────────────────────────────────────
   const [totals] = await sql`
     SELECT
@@ -31,13 +32,15 @@ async function main() {
                          AND (archived IS NULL OR archived = false)) AS human_verified,
       COUNT(*) FILTER (WHERE (data_confidence IS NULL OR data_confidence != 'unverified')
                          AND (archived IS NULL OR archived = false)) AS sync_eligible,
-      COUNT(*) FILTER (WHERE research_depth = 'rapid'
+      COUNT(*) FILTER (WHERE a.research_depth = 'rapid'
                          AND (archived IS NULL OR archived = false))    AS depth_rapid,
-      COUNT(*) FILTER (WHERE research_depth = 'standard'
+      COUNT(*) FILTER (WHERE a.research_depth = 'standard'
                          AND (archived IS NULL OR archived = false))    AS depth_standard,
-      COUNT(*) FILTER (WHERE research_depth = 'deep'
+      COUNT(*) FILTER (WHERE a.research_depth = 'deep'
                          AND (archived IS NULL OR archived = false))    AS depth_deep
-    FROM fundraising_foundations
+    FROM fundraising_foundations f
+    LEFT JOIN fundraising_foundation_assessments a
+           ON a.foundation_id = f.id AND a.org_id = ${ORG_ID}
   `;
 
   // ── 2. Priority breakdown (sync-eligible only — matches generated file) ──
@@ -49,49 +52,55 @@ async function main() {
     with_email: string | number;
   }>`
     SELECT
-      priority,
+      COALESCE(a.priority, 4) AS priority,
       COUNT(*)                                                                          AS total,
       COUNT(*) FILTER (WHERE config_data->>'applicationUrl' IS NOT NULL
                           AND config_data->>'applicationUrl' != '')                     AS with_app_url,
       COUNT(*) FILTER (WHERE config_data->>'websiteUrl'     IS NOT NULL
                           AND config_data->>'websiteUrl'     != '')                     AS with_web_url,
       COUNT(*) FILTER (WHERE config_data->'contact'->>'email' IS NOT NULL)              AS with_email
-    FROM fundraising_foundations
+    FROM fundraising_foundations f
+    LEFT JOIN fundraising_foundation_assessments a
+           ON a.foundation_id = f.id AND a.org_id = ${ORG_ID}
     WHERE (data_confidence IS NULL OR data_confidence != 'unverified')
       AND (archived IS NULL OR archived = false)
-    GROUP BY priority
-    ORDER BY priority
+    GROUP BY COALESCE(a.priority, 4)
+    ORDER BY 1
   `;
 
   // ── 3. Truly unreachable P1-P3: missing both email AND appUrl ────────────
   // Foundations with appUrl or method=online are reachable via form — not a gap.
   const emailGaps = await sql`
-    SELECT id, priority, fit_score,
+    SELECT f.id, a.priority, a.fit_score,
       config_data->>'applicationMethod' AS method,
       config_data->>'applicationUrl'    AS appurl
-    FROM fundraising_foundations
-    WHERE priority IN (1,2,3)
+    FROM fundraising_foundations f
+    JOIN fundraising_foundation_assessments a
+      ON a.foundation_id = f.id AND a.org_id = ${ORG_ID}
+    WHERE a.priority IN (1,2,3)
       AND (data_confidence IS NULL OR data_confidence != 'unverified')
       AND (archived IS NULL OR archived = false)
       AND (config_data->'contact'->>'email' IS NULL OR config_data->'contact'->>'email' = '')
       AND (config_data->>'applicationUrl' IS NULL OR config_data->>'applicationUrl' = '')
       AND (config_data->>'applicationMethod' IS NULL
            OR config_data->>'applicationMethod' NOT IN ('online', 'none', 'closed'))
-    ORDER BY priority, fit_score DESC
+    ORDER BY a.priority, a.fit_score DESC
   `;
 
   // ── 4. Missing applicationUrls for P1–P3 ─────────────────────────────────
   const gaps = await sql`
-    SELECT id, priority, fit_score,
+    SELECT f.id, a.priority, a.fit_score,
       config_data->>'applicationMethod' AS method,
       config_data->>'websiteUrl'        AS website
-    FROM fundraising_foundations
-    WHERE priority IN (1,2,3)
+    FROM fundraising_foundations f
+    JOIN fundraising_foundation_assessments a
+      ON a.foundation_id = f.id AND a.org_id = ${ORG_ID}
+    WHERE a.priority IN (1,2,3)
       AND (data_confidence IS NULL OR data_confidence != 'unverified')
       AND (archived IS NULL OR archived = false)
       AND (config_data->>'applicationUrl' IS NULL OR config_data->>'applicationUrl' = '')
       AND (config_data->>'applicationMethod' IS NULL OR config_data->>'applicationMethod' NOT IN ('none', 'closed', 'email'))
-    ORDER BY priority, fit_score DESC
+    ORDER BY a.priority, a.fit_score DESC
   `;
 
   // ── Print ─────────────────────────────────────────────────────────────────

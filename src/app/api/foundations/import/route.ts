@@ -214,11 +214,7 @@ export async function POST(request: NextRequest) {
         id: slug,
         name: f.name,
         orgId,
-        fitScore: f.fitScore ?? null,
-        priority: f.priority ?? null,
         configData,
-        researchDepth: 'rapid' as const,
-        researchDate,
         source: f.source || 'api-import',
         archived: false,
       });

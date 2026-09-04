@@ -10,7 +10,14 @@
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 
-import { sql } from './lib/db';
+import { getAllFoundations } from './lib/foundations';
+import { requireOrgId } from './lib/require-org';
+
+// A theme audit reports on one organisation's theme assignments — themes are
+// that organisation's description of its own mission areas, not a fact about
+// the foundation. An audit that cannot say whose assignments it examined would
+// present one tenant's judgements as everyone's.
+const ORG_ID = requireOrgId();
 
 interface ThemeDefinition {
   id: string;
@@ -147,32 +154,15 @@ async function auditThemes() {
   console.log('\n📊 Auditing theme assignments for P1+P2 foundations...\n');
 
   // Fetch P1 and P2 foundations with themes
-  type FoundationRow = {
-    id: string;
-    name: string;
-    priority: number | null;
-    config_data: {
-      themes?: string[];
-      officialPurpose?: string;
-      purposeSummary?: string;
-      researchNotes?: string;
-      region?: string;
-      contact?: { address?: string } | null;
-    } | null;
-  };
-  const rows = await sql<FoundationRow>`
-    SELECT
-      id,
-      name,
-      priority,
-      config_data
-    FROM fundraising_foundations
-    WHERE priority IN (1, 2)
-      AND (archived IS NULL OR archived = false)
-      AND config_data IS NOT NULL
-      AND (config_data->>'themes') IS NOT NULL
-    ORDER BY priority ASC, name ASC
-  `;
+  // Read through the shared composition rather than querying config_data.
+  // Themes, researchNotes and priority are this organisation's assessment now;
+  // the blob no longer carries them, so a direct query would find every
+  // foundation themeless and audit nothing.
+  const all = await getAllFoundations(ORG_ID);
+  const rows = all
+    .filter((f) => f.priority === 1 || f.priority === 2)
+    .filter((f) => f.themes.length > 0)
+    .sort((a, b) => a.priority - b.priority || a.name.localeCompare(b.name));
 
   console.log(`Found ${rows.length} P1+P2 foundations with themes\n`);
 
@@ -181,8 +171,7 @@ async function auditThemes() {
   let totalSuspicious = 0;
 
   for (const row of rows) {
-    // Get themes from config_data.themes (SSOT)
-    const themes = row.config_data?.themes ?? [];
+    const themes = row.themes;
     if (themes.length === 0) continue;
 
     // Build haystack from text fields. Zefix officialPurpose is often terse,
@@ -190,12 +179,11 @@ async function auditThemes() {
     // fit analysis) too. Also include region + contact.address — the
     // 'zuerich' geographic theme keywords (Zürich/Zurich/Zürcher) typically
     // appear in those fields, not narrative purpose text.
-    const officialPurpose = (row.config_data?.officialPurpose ?? '') as string;
-    const purposeSummary = (row.config_data?.purposeSummary ?? '') as string;
-    const researchNotes = (row.config_data?.researchNotes ?? '') as string;
-    const region = (row.config_data?.region ?? '') as string;
-    const address = ((row.config_data?.contact as { address?: string } | null)?.address ??
-      '') as string;
+    const officialPurpose = row.officialPurpose ?? '';
+    const purposeSummary = row.purposeSummary ?? '';
+    const researchNotes = row.researchNotes ?? '';
+    const region = row.region ?? '';
+    const address = row.contact?.address ?? '';
     const haystack = [officialPurpose, purposeSummary, researchNotes, region, address]
       .filter(Boolean)
       .join(' ');
@@ -211,9 +199,9 @@ async function auditThemes() {
 
       if (!check.matches) {
         suspicious.push({
-          foundationId: row.id,
+          foundationId: row.slug,
           foundationName: row.name,
-          priority: row.priority ?? 0,
+          priority: row.priority,
           theme,
           reason: check.reason,
           officialPurpose:

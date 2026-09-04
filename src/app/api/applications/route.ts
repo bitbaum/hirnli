@@ -15,7 +15,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
-import { applications, foundations, activityLog } from '@/lib/db/schema';
+import { applications, foundationAssessments, foundations, activityLog } from '@/lib/db/schema';
 import { and, count, desc, eq, notInArray } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
@@ -87,14 +87,26 @@ export async function GET(request: NextRequest) {
       if (!isNaN(p)) conditions.push(eq(applications.priorityLevel, p));
     }
 
-    // Execute query with foundation join
+    // Execute query with foundation join.
+    //
+    // The board shows each application's fit score, which is this
+    // organisation's judgement of the foundation rather than a property of it,
+    // so the assessment is joined and folded onto the row below.
     const results = await db
       .select({
         application: applications,
         foundation: foundations,
+        assessment: foundationAssessments,
       })
       .from(applications)
       .leftJoin(foundations, eq(applications.foundationId, foundations.id))
+      .leftJoin(
+        foundationAssessments,
+        and(
+          eq(foundationAssessments.foundationId, foundations.id),
+          eq(foundationAssessments.orgId, ORG_ID),
+        ),
+      )
       .where(conditions.length > 0 ? and(...conditions) : undefined)
       .orderBy(desc(applications.priorityLevel), desc(applications.createdAt))
       .limit(limit)
@@ -108,7 +120,14 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      data: results,
+      data: results.map(({ application, foundation, assessment }) => ({
+        application,
+        foundation: foundation && {
+          ...foundation,
+          fitScore: assessment?.fitScore ?? null,
+          priority: assessment?.priority ?? null,
+        },
+      })),
       meta: {
         total,
         limit,

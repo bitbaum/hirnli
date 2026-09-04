@@ -116,36 +116,3 @@ export async function insertAssessments(
   if (rows.length === 0) return;
   await db.insert(foundationAssessments).values(rows.map((row) => ({ orgId, ...row })));
 }
-
-/**
- * The subset of an assessment that the `fundraising_foundations` flat columns
- * still duplicate, shaped for a Drizzle update of that table.
- *
- * TEMPORARY — deleted in the stage that drops the flat columns.
- *
- * fit_score, priority, research_depth and research_date exist twice: once here
- * per organisation, and once as columns on the shared registry table, where
- * `GET /api/foundations` filters and sorts on them. Migration 0003 added a
- * trigger to keep those columns derived from config_data after 535 production
- * mismatches; now that the analysis fields have left config_data, the trigger's
- * COALESCE simply falls through and the columns hold whatever they held before.
- *
- * Not writing them would therefore not be "leaving them alone" — it would let
- * an edited score silently stop matching the list it is filtered by, which is
- * the exact drift the trigger was introduced to end. So they are written, from
- * the same patch object that feeds the assessment row, in this one function, so
- * there is a single place to delete rather than four call sites to find.
- */
-export function legacyFlatColumns(analysis: AnalysisPatch): {
-  fitScore?: number;
-  priority?: number;
-  researchDepth?: string | null;
-  researchDate?: string | null;
-} {
-  return {
-    ...(analysis.fitScore !== undefined && { fitScore: analysis.fitScore }),
-    ...(analysis.priority !== undefined && { priority: analysis.priority }),
-    ...(analysis.researchDepth !== undefined && { researchDepth: analysis.researchDepth }),
-    ...(analysis.researchDate !== undefined && { researchDate: analysis.researchDate }),
-  };
-}

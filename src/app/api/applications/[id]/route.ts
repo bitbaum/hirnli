@@ -9,8 +9,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
-import { applications, foundations, activityLog } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
+import { applications, foundationAssessments, foundations, activityLog } from '@/lib/db/schema';
+import { and, eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 import { STATUS_IDS, getStatusConfig } from '@/lib/config/application-statuses';
@@ -22,14 +22,29 @@ import {
   API_ERR_DELETE,
 } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
-import { foundationSchema } from '@/lib/schemas/foundation';
 import { getCurrentOrgId } from '@/lib/tenant/resolve';
+import { composeFoundation, type AssessmentValues } from '@/lib/db/foundation-compose';
+import type { FoundationAssessmentRow } from '@/lib/db/schema';
 
-/** Parse the joined foundation row's configData into the rich Foundation shape, if valid. */
-function toFoundationDetail(row: { configData: unknown } | null) {
+/**
+ * The rich Foundation shape for the joined row, as this organisation sees it.
+ *
+ * This used to be `foundationSchema.safeParse(row.configData)`. That stopped
+ * working the moment the write paths began keeping analysis out of the blob:
+ * the schema requires priority, themes, tagline and researchDate, which now
+ * live in the assessment row, so the parse failed and returned null for any
+ * foundation anybody had edited. The application detail page then rendered an
+ * empty foundation panel — no error, just missing content.
+ *
+ * Composing from both halves is what every other reader does, and is the only
+ * version that stays correct as fields move.
+ */
+function toFoundationDetail(
+  row: { configData: unknown } | null,
+  assessment: FoundationAssessmentRow | null,
+) {
   if (!row) return null;
-  const parsed = foundationSchema.safeParse(row.configData);
-  return parsed.success ? parsed.data : null;
+  return composeFoundation(row.configData, assessment as AssessmentValues | null) ?? null;
 }
 
 // Validation schema for updates
@@ -71,9 +86,17 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .select({
         application: applications,
         foundation: foundations,
+        assessment: foundationAssessments,
       })
       .from(applications)
       .leftJoin(foundations, eq(applications.foundationId, foundations.id))
+      .leftJoin(
+        foundationAssessments,
+        and(
+          eq(foundationAssessments.foundationId, foundations.id),
+          eq(foundationAssessments.orgId, ORG_ID),
+        ),
+      )
       .where(eq(applications.id, id))
       .limit(1);
 
@@ -81,9 +104,21 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
     }
 
+    const { application, foundation, assessment } = result[0];
     return NextResponse.json({
       success: true,
-      data: { ...result[0], foundationDetail: toFoundationDetail(result[0].foundation) },
+      data: {
+        application,
+        // Fit and priority describe this organisation's view of the
+        // foundation, so they are folded onto the row the client already
+        // expects to carry them.
+        foundation: foundation && {
+          ...foundation,
+          fitScore: assessment?.fitScore ?? null,
+          priority: assessment?.priority ?? null,
+        },
+        foundationDetail: toFoundationDetail(foundation, assessment),
+      },
     });
   } catch (error) {
     return apiError(`GET /api/applications/${id}`, error, API_ERR_LOAD);
@@ -185,15 +220,32 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       .select({
         application: applications,
         foundation: foundations,
+        assessment: foundationAssessments,
       })
       .from(applications)
       .leftJoin(foundations, eq(applications.foundationId, foundations.id))
+      .leftJoin(
+        foundationAssessments,
+        and(
+          eq(foundationAssessments.foundationId, foundations.id),
+          eq(foundationAssessments.orgId, ORG_ID),
+        ),
+      )
       .where(eq(applications.id, id))
       .limit(1);
 
+    const { application: updatedApp, foundation, assessment } = updated[0];
     return NextResponse.json({
       success: true,
-      data: { ...updated[0], foundationDetail: toFoundationDetail(updated[0].foundation) },
+      data: {
+        application: updatedApp,
+        foundation: foundation && {
+          ...foundation,
+          fitScore: assessment?.fitScore ?? null,
+          priority: assessment?.priority ?? null,
+        },
+        foundationDetail: toFoundationDetail(foundation, assessment),
+      },
     });
   } catch (error) {
     return apiError(`PATCH /api/applications/${id}`, error, API_ERR_SAVE);
