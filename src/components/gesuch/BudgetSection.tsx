@@ -3,7 +3,6 @@ import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { ThemeKey } from '@/lib/config/stories';
 import { getThemedLabel } from '@/lib/domain/budget-calculations';
 import { formatCHF } from '@/lib/utils/format';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
 
 interface BudgetSectionProps {
@@ -112,7 +111,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
             </tr>
             <tr className="border-b border-border-default bg-success/10">
               <td className="py-1.5 font-medium text-success-text">
-                Eigenleistung {ORG_PROFILE.name}
+                Eigenleistung {dok.tenant.name}
               </td>
               {dok.budget.threeYearModel.map((y) => (
                 <td key={y.year} className="py-1.5 text-right text-success-text">
@@ -215,7 +214,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
           <tbody>
             <tr className="border-b border-border-default">
               <td className="py-1.5">
-                <span>Eigenleistung {ORG_PROFILE.name}</span>
+                <span>Eigenleistung {dok.tenant.name}</span>
                 <span className="ml-2 text-sm text-text-muted">
                   Erlöse Geräteverkauf, IT-Dienstleistungen, Infrastruktur und Freiwilligenarbeit
                 </span>

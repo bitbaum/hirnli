@@ -150,6 +150,7 @@ export default function GesuchPageClient({
   return (
     <div className="gesuch-page">
       <GesuchHeroSection
+        orgName={tenant.name}
         subtitle="Partnerschaftsvorschlag"
         foundationName={activeGesuch.foundation.name}
         description={heroDescription}

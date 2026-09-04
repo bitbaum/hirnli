@@ -5,7 +5,7 @@
  *   - Everything at the root level (dashboard, impact, finanzen, team, etc.)
  *   - /gesuch/share/[token]  — designed to be sent to foundation officers, HMAC-protected
  *
- * Protected (internal — Revamp-IT team only):
+ * Protected (internal — the tenant's own team only):
  *   - /fundraising/**          — pipeline, foundation research, gesuch workflow
  *   - /api/pdf/**              — PDF generation (contains internal research context)
  *   - /api/applications/**     — pipeline management
@@ -28,7 +28,6 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
 import { getTenantIdByHost, isPlatformHost } from '@/lib/tenant/registry';
 
@@ -67,7 +66,17 @@ function safeEqual(a: string, b: string): boolean {
   return result === 0;
 }
 
-const REALM = `${ORG_PROFILE.name} Intern`;
+/**
+ * The Basic-Auth realm, and why it names the platform rather than the tenant.
+ *
+ * Middleware runs on the Edge runtime, where the tenant reader — Drizzle over
+ * node-postgres — cannot go, so this genuinely cannot be resolved per request.
+ * It was the first tenant's name, which meant every other tenant's browser
+ * prompted for a password under an unrelated organisation's name.
+ *
+ * The platform's own name is the honest answer: it is the platform asking.
+ */
+const REALM = `${PLATFORM_BRAND.name} Intern`;
 
 function unauthorized() {
   return new NextResponse('Zugang verweigert', {
@@ -79,9 +88,11 @@ function unauthorized() {
 }
 
 /**
- * Carry the resolved tenant on the request so downstream code can stop
- * importing ORG_PROFILE directly (Phase B). Nothing reads this yet — it is the
- * seam, published early so new code binds to a tenant rather than to Revamp-IT.
+ * Carry the resolved tenant on the request.
+ *
+ * This is the seam the whole migration hangs on: `getCurrentOrgId()` reads this
+ * header, and every page, route handler, composer and PDF now gets its
+ * organisation from there rather than from a compile-time constant.
  */
 function withTenantHeader(request: NextRequest, orgId: string): NextResponse {
   const headers = new Headers(request.headers);

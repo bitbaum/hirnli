@@ -10,7 +10,6 @@
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { COLORS, pdfFormatCHF, pdfTodayCH } from '@/lib/pdf/gesuch-dokument/styles';
 
 const s = StyleSheet.create({
@@ -223,20 +222,22 @@ export default function GesuchOnePagerPDF({ dok, shareUrl }: OnePagerPDFProps) {
   const y3 = scenario.threeYearModel.year3;
   const totalProjectBudget = y1.einmalig + y1.jaehrlich + y2.jaehrlich + y3.jaehrlich;
 
-  const contactLine = [ORG_PROFILE.email, ORG_PROFILE.phone, ORG_PROFILE.website]
+  // Optional fields already filtered — a one-pager footer must not read
+  // "kontakt@… ·  · " for a tenant with no phone.
+  const contactLine = [dok.tenant.email, dok.tenant.phone, dok.tenant.website]
     .filter(Boolean)
     .join('  ·  ');
 
   return (
     <Document
-      title={`Kurzübersicht Fördergesuch — ${ORG_PROFILE.name} an ${dok.foundation.name}`}
-      author={ORG_PROFILE.name}
+      title={`Kurzübersicht Fördergesuch — ${dok.tenant.name} an ${dok.foundation.name}`}
+      author={dok.tenant.name}
     >
       <Page size="A4" style={s.page}>
         {/* ── Header ── */}
         <View style={s.headerRow}>
           <View>
-            <Text style={s.orgName}>{ORG_PROFILE.name}</Text>
+            <Text style={s.orgName}>{dok.tenant.name}</Text>
             <Text style={s.docType}>Kurzübersicht Fördergesuch</Text>
           </View>
           <View style={s.headerRight}>
@@ -332,9 +333,9 @@ export default function GesuchOnePagerPDF({ dok, shareUrl }: OnePagerPDFProps) {
         {/* Footer */}
         <View style={s.footer} fixed>
           <Text>
-            {dok.foundation.type && `${ORG_PROFILE.name} — Fördergesuch an ${dok.foundation.name}`}
+            {dok.foundation.type && `${dok.tenant.name} — Fördergesuch an ${dok.foundation.name}`}
           </Text>
-          <Text>{shareUrl ?? `${ORG_PROFILE.website}`}</Text>
+          <Text>{shareUrl ?? `${dok.tenant.website ?? dok.landingPageUrl}`}</Text>
         </View>
       </Page>
     </Document>

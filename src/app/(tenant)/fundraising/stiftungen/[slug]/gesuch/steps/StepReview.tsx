@@ -34,6 +34,7 @@ import type { ThemeId } from '@/lib/schemas/foundation';
 import type { FoundationAIContext } from '@/lib/domain/ai-context';
 import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 
 interface StepReviewProps {
   slug: string;
@@ -122,6 +123,8 @@ export default function StepReview({
   onPrev,
   onNext,
 }: StepReviewProps) {
+  // A client step inside the tenant layout, so the provider is the source.
+  const tenant = useTenant();
   const [historyOpen, setHistoryOpen] = useState(false);
 
   return (
@@ -231,7 +234,11 @@ export default function StepReview({
       <GesuchProjectsSection projects={projects} />
       <GesuchEvidenceSection evidence={evidence} />
 
-      <GesuchContactSection foundationName={foundationName} organization={organization} />
+      <GesuchContactSection
+        orgName={tenant.name}
+        foundationName={foundationName}
+        organization={organization}
+      />
 
       {/* Readiness checklist */}
       <GesuchReadinessChecklist readiness={readiness} />

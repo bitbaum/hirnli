@@ -65,6 +65,7 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
       </VorlageBanner>
 
       <GesuchHeroSection
+        orgName={tenant.name}
         subtitle={`Partnerschaftsvorschlag \u2014 ${sp.shortLabel} (Typ ${typeLabel.short})`}
         foundationName={gesuch.foundation.name}
         description={typeLabel.approach}
@@ -84,7 +85,11 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
 
         <GesuchEvidenceSection evidence={gesuch.story.evidence} />
 
-        <GesuchContactSection foundationName="Ihre Stiftung" organization={gesuch.organization} />
+        <GesuchContactSection
+          orgName={tenant.name}
+          foundationName="Ihre Stiftung"
+          organization={gesuch.organization}
+        />
 
         {/* Navigation links */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">

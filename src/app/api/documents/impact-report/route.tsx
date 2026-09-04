@@ -20,6 +20,7 @@ import { isActionablePriority } from '@/lib/domain/foundation-helpers';
 
 export async function GET() {
   try {
+    const tenant = await getTenant();
     const foundations = await getAllFoundations();
     const totalCount = foundations.length;
     const p1p3Count = foundations.filter(isActionablePriority).length;
@@ -28,7 +29,7 @@ export async function GET() {
     // it rejects its returned promise on render failure, so the catch below does work.
     const stream = await renderToStream(
       // eslint-disable-next-line react-hooks/error-boundaries
-      <ImpactReportPDF totalCount={totalCount} p1p3Count={p1p3Count} />,
+      <ImpactReportPDF tenant={tenant} totalCount={totalCount} p1p3Count={p1p3Count} />,
     );
 
     const buffer = await streamToBuffer(stream);
@@ -38,7 +39,7 @@ export async function GET() {
     // for. `toSlug` rather than a fourth hand-rolled expression: it is the
     // repo's hyphenated slug rule already, and it agrees with what this line
     // produced for the existing tenant.
-    const filename = `wirkungsbericht-${year}-${toSlug((await getTenant()).name)}.pdf`;
+    const filename = `wirkungsbericht-${year}-${toSlug(tenant.name)}.pdf`;
 
     return new NextResponse(buffer, {
       headers: {

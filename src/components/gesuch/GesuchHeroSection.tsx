@@ -1,8 +1,10 @@
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { GREY_DARK_HEX } from '@/lib/config/chart-colors';
 import type { ThemeMetadata } from '@/lib/schemas/theme';
 
 interface GesuchHeroSectionProps {
+  /** The applying organisation's name. Passed in — this component is
+   *  rendered for whichever tenant composed the Gesuch. */
+  orgName: string;
   subtitle: string;
   foundationName: string;
   description: string;
@@ -12,6 +14,7 @@ interface GesuchHeroSectionProps {
 }
 
 export default function GesuchHeroSection({
+  orgName,
   subtitle,
   foundationName,
   description,
@@ -31,7 +34,7 @@ export default function GesuchHeroSection({
           {subtitle}
         </p>
         <h1 className="mb-4 heading-section text-white md:text-4xl">
-          {ORG_PROFILE.name} × {foundationName}
+          {orgName} × {foundationName}
         </h1>
         {description && (
           <p className="mb-4 max-w-2xl text-base text-white/90 md:text-lg">{description}</p>

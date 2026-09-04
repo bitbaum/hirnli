@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
 import { COLORS, pdfFormatCHF, pdfTodayCH } from '@/lib/pdf/gesuch-dokument/styles';
 
 const {
@@ -124,10 +124,12 @@ interface GesuchContent {
 }
 
 interface GesuchPDFProps {
+  /** The applying organisation. A template renders whoever it is given. */
+  tenant: Tenant;
   content: GesuchContent;
 }
 
-export function GesuchPDF({ content }: GesuchPDFProps) {
+export function GesuchPDF({ content, tenant }: GesuchPDFProps) {
   const today = pdfTodayCH();
 
   return (
@@ -137,7 +139,7 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
         <View style={styles.header}>
           <Text style={styles.title}>Gesuch an {content.foundationName}</Text>
           <Text style={styles.subtitle}>
-            {ORG_PROFILE.name} Schweiz | {today}
+            {tenant.name} Schweiz | {today}
           </Text>
         </View>
 
@@ -163,7 +165,7 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
 
         {/* Why Revamp-IT */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Warum {ORG_PROFILE.name}?</Text>
+          <Text style={styles.sectionTitle}>Warum {tenant.name}?</Text>
           <Text style={styles.paragraph}>{content.whyUs}</Text>
         </View>
 
@@ -226,12 +228,8 @@ export function GesuchPDF({ content }: GesuchPDFProps) {
 
         {/* Footer */}
         <View style={styles.footer}>
-          <Text>
-            {ORG_PROFILE.name} Schweiz | {ORG_PROFILE.address} |{ORG_PROFILE.email}
-          </Text>
-          <Text style={{ marginTop: 5 }}>
-            🌱 Generiert mit {ORG_PROFILE.name} Fundraising System
-          </Text>
+          <Text>{[tenant.name, tenant.address, tenant.email].filter(Boolean).join(' | ')}</Text>
+          <Text style={{ marginTop: 5 }}>🌱 Generiert mit {tenant.name} Fundraising System</Text>
         </View>
       </Page>
     </Document>

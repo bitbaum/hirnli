@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
 import { COLORS, pdfFormatCHF } from '@/lib/pdf/gesuch-dokument/styles';
 import {
   CO2_PER_LAPTOP,
@@ -197,7 +197,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 // Page 1: Identity + Financials + Environmental
 // ---------------------------------------------------------------------------
 
-function Page1() {
+function Page1({ tenant }: { tenant: Tenant }) {
   const completeYears = COMPLETE_YEARS;
 
   return (
@@ -205,9 +205,9 @@ function Page1() {
       {/* Header */}
       <View style={s.headerRow}>
         <View style={s.orgBlock}>
-          <Text style={s.orgName}>{ORG_PROFILE.name}</Text>
+          <Text style={s.orgName}>{tenant.name}</Text>
           <Text style={s.orgTagline}>
-            {ORG_PROFILE.legalForm} · {ORG_PROFILE.location} · Gegründet {ORG_PROFILE.founded}
+            {tenant.legalForm} · {tenant.location} · Gegründet {tenant.founded}
           </Text>
         </View>
         <View style={s.docBlock}>
@@ -220,9 +220,9 @@ function Page1() {
       <View style={s.infoBox}>
         <Text style={[s.body, s.bold]}>Mission</Text>
         <Text style={s.body}>
-          {ORG_PROFILE.name} verlängert die Lebensdauer von IT-Geräten durch professionelles
+          {tenant.name} verlängert die Lebensdauer von IT-Geräten durch professionelles
           Refurbishing, fördert digitale Souveränität durch Open-Source-Software und schafft
-          Arbeitsintegrationsstellen für benachteiligte Menschen — seit {ORG_PROFILE.founded}.
+          Arbeitsintegrationsstellen für benachteiligte Menschen — seit {tenant.founded}.
         </Text>
       </View>
 
@@ -308,9 +308,9 @@ function Page1() {
 
       {/* Footer */}
       <View style={s.footer} fixed>
-        <Text>{ORG_PROFILE.website}</Text>
+        <Text>{tenant.website ?? ''}</Text>
         <Text>
-          Wirkungsbericht {CURRENT_YEAR} · {ORG_PROFILE.name}
+          Wirkungsbericht {CURRENT_YEAR} · {tenant.name}
         </Text>
         <Text>Seite 1 / 2</Text>
       </View>
@@ -322,12 +322,20 @@ function Page1() {
 // Page 2: Social + Pipeline + Contact
 // ---------------------------------------------------------------------------
 
-function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: number }) {
+function Page2({
+  tenant,
+  totalCount,
+  p1p3Count,
+}: {
+  tenant: Tenant;
+  totalCount: number;
+  p1p3Count: number;
+}) {
   return (
     <Page size="A4" style={s.page}>
       {/* Header (compact repeat) */}
       <View style={[s.headerRow, { marginBottom: 10 }]}>
-        <Text style={[s.orgName, { fontSize: 11 }]}>{ORG_PROFILE.name}</Text>
+        <Text style={[s.orgName, { fontSize: 11 }]}>{tenant.name}</Text>
         <Text style={[s.docYear, { fontSize: 9 }]}>Wirkungsbericht {CURRENT_YEAR} — Seite 2</Text>
       </View>
 
@@ -339,13 +347,13 @@ function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: numbe
           <View style={s.infoBox}>
             <Text style={[s.body, s.bold]}>Arbeitsintegration</Text>
             <Text style={s.body}>
-              Seit {ORG_PROFILE.milestones.integrationProgram} bieten wir strukturierte
-              Praktikumsplätze für Menschen mit erschwertem Arbeitsmarktzugang:
+              Seit {tenant.milestones?.integrationProgram ?? tenant.founded} bieten wir
+              strukturierte Praktikumsplätze für Menschen mit erschwertem Arbeitsmarktzugang:
             </Text>
             <Bullet>Geflüchtete, Langzeitarbeitslose, IV-Bezüger:innen</Bullet>
             <Bullet>8–10 Praktikumsplätze gleichzeitig</Bullet>
             <Bullet>Zusammenarbeit mit AOZ, Caritas, RAV</Bullet>
-            <Bullet>{`100+ Menschen begleitet seit ${ORG_PROFILE.milestones.integrationProgram}`}</Bullet>
+            <Bullet>{`100+ Menschen begleitet seit ${tenant.milestones?.integrationProgram ?? tenant.founded}`}</Bullet>
           </View>
         </View>
         <View style={s.colRight}>
@@ -366,7 +374,7 @@ function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: numbe
       {/* Social metrics */}
       <View style={s.metricGrid}>
         <View style={s.metricBox}>
-          <Text style={s.metricValue}>{String(ORG_PROFILE.yearsActive)}+</Text>
+          <Text style={s.metricValue}>{String(tenant.yearsActive)}+</Text>
           <Text style={s.metricLabel}>Jahre Erfahrung in Arbeitsintegration</Text>
         </View>
         <View style={s.metricBox}>
@@ -437,30 +445,30 @@ function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: numbe
 
       <View style={s.twoCol}>
         <View style={s.colLeft}>
-          <Text style={[s.body, s.bold]}>{ORG_PROFILE.name}</Text>
-          <Text style={s.body}>{ORG_PROFILE.address}</Text>
+          <Text style={[s.body, s.bold]}>{tenant.name}</Text>
+          {tenant.address && <Text style={s.body}>{tenant.address}</Text>}
           <Text style={s.body}>
-            {ORG_PROFILE.phone}
+            {tenant.phone ?? ''}
             {'  '}·{'  '}
-            {ORG_PROFILE.email}
+            {tenant.email}
           </Text>
-          <Text style={s.body}>{ORG_PROFILE.website}</Text>
+          {tenant.website && <Text style={s.body}>{tenant.website}</Text>}
         </View>
         <View style={s.colRight}>
           <Text style={[s.body, s.bold]}>Ansprechperson Fundraising</Text>
-          <Text style={s.body}>{ORG_PROFILE.contactName}</Text>
+          <Text style={s.body}>{tenant.contactName ?? tenant.name}</Text>
           <Text style={[s.muted, { marginTop: 4 }]}>
             Alle Zahlen mit Quellenangaben abrufbar unter:{'\n'}
-            {ORG_PROFILE.website}/methodik
+            {tenant.website ? `${tenant.website}/methodik` : '/methodik'}
           </Text>
         </View>
       </View>
 
       {/* Footer */}
       <View style={s.footer} fixed>
-        <Text>{ORG_PROFILE.website}</Text>
+        <Text>{tenant.website ?? ''}</Text>
         <Text>
-          Wirkungsbericht {CURRENT_YEAR} · {ORG_PROFILE.name}
+          Wirkungsbericht {CURRENT_YEAR} · {tenant.name}
         </Text>
         <Text>Seite 2 / 2</Text>
       </View>
@@ -473,22 +481,25 @@ function Page2({ totalCount, p1p3Count }: { totalCount: number; p1p3Count: numbe
 // ---------------------------------------------------------------------------
 
 export function ImpactReportPDF({
+  tenant,
   totalCount,
   p1p3Count,
 }: {
+  /** Whose report this is. Rendered outside any request, so it is passed in. */
+  tenant: Tenant;
   totalCount: number;
   p1p3Count: number;
 }) {
   return (
     <Document
-      title={`Wirkungsbericht ${CURRENT_YEAR} — ${ORG_PROFILE.name}`}
-      author={ORG_PROFILE.name}
+      title={`Wirkungsbericht ${CURRENT_YEAR} — ${tenant.name}`}
+      author={tenant.name}
       subject="Jahresbericht: Umwelt-, Sozial- und Bildungswirkung"
       keywords="Wirkungsbericht, Impact Report, Refurbishing, Arbeitsintegration, Open Source"
-      creator={`${ORG_PROFILE.name} — revamp-info`}
+      creator={`${tenant.name} — revamp-info`}
     >
-      <Page1 />
-      <Page2 totalCount={totalCount} p1p3Count={p1p3Count} />
+      <Page1 tenant={tenant} />
+      <Page2 tenant={tenant} totalCount={totalCount} p1p3Count={p1p3Count} />
     </Document>
   );
 }

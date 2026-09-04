@@ -8,7 +8,6 @@
 import React from 'react';
 import { View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { styles, COLORS, pdfFormatCHF } from './styles';
 
 interface AnschreibenPDFProps {
@@ -19,7 +18,7 @@ export default function AnschreibenPDF({ dok }: AnschreibenPDFProps) {
   const beilagen = [
     'Projektbeschrieb (3 Seiten)',
     'Budget und Finanzierungsplan',
-    `Kurzportrait ${ORG_PROFILE.name}`,
+    `Kurzportrait ${dok.tenant.name}`,
     'Statuten (auf Anfrage)',
     'Jahresrechnung (auf Anfrage)',
   ];

@@ -19,13 +19,14 @@ import { isActionablePriority } from '@/lib/domain/foundation-helpers';
 
 export async function GET() {
   try {
+    const tenant = await getTenant();
     const foundations = await getAllFoundations();
     const p1p3Count = foundations.filter(isActionablePriority).length;
     // react-hooks/error-boundaries assumes react-dom's async client rendering (errors
     // surface outside this try/catch); @react-pdf/renderer's renderToStream is different —
     // it rejects its returned promise on render failure, so the catch below does work.
     // eslint-disable-next-line react-hooks/error-boundaries
-    const stream = await renderToStream(<PitchDeckPDF p1p3Count={p1p3Count} />);
+    const stream = await renderToStream(<PitchDeckPDF tenant={tenant} p1p3Count={p1p3Count} />);
 
     const buffer = await streamToBuffer(stream);
 
@@ -34,7 +35,7 @@ export async function GET() {
     // for. `toSlug` rather than a fourth hand-rolled expression: it is the
     // repo's hyphenated slug rule already, and it agrees with what this line
     // produced for the existing tenant.
-    const filename = `pitch-deck-${year}-${toSlug((await getTenant()).name)}.pdf`;
+    const filename = `pitch-deck-${year}-${toSlug(tenant.name)}.pdf`;
 
     return new NextResponse(buffer, {
       headers: {

@@ -59,6 +59,20 @@ import { buildDynamicOpening, buildThemeAlignment } from './anschreiben-composer
 import { getScenarioForFoundation, computeRequestedAmount } from './budget-mapper';
 
 export interface ComposedGesuch {
+  /**
+   * The organisation this Gesuch was composed FOR, carried with the content.
+   *
+   * The renderers — eight page sections and five PDF components — each need a
+   * few identity fields: the name in a heading, the address in a letterhead,
+   * the site URL in a footer. Passing a second `tenant` prop beside `gesuch` to
+   * every one of them would make it possible to render a document composed for
+   * one organisation under another's name, and nothing would catch it: both
+   * props would be present and well-typed.
+   *
+   * Keeping them together makes that unrepresentable. The composed document and
+   * its author are one value.
+   */
+  tenant: Tenant;
   ready: boolean;
   readyReason?: string;
   foundation: {
@@ -236,6 +250,7 @@ export function composeGesuch(
       reason = 'Keine passenden Themen für die Gesuch-Generierung gefunden.';
     }
     return {
+      tenant,
       ready: false,
       readyReason: reason,
       foundation: buildFoundationInfo(foundation),
@@ -268,6 +283,7 @@ export function composeGesuch(
   const howAnecdotes = getAnecdotes(mapped.primary, 'how').slice(0, 1);
 
   return {
+    tenant,
     ready: true,
     foundation: buildFoundationInfo(foundation),
     foundationBridge: buildFoundationBridge(tenant, foundation, primaryThemeLabel),

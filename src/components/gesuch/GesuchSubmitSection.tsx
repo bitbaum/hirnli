@@ -12,7 +12,6 @@
 
 'use client';
 
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import { APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import type { ApplicationMethod } from '@/lib/schemas/foundation';
 import { MS_PER_DAY, DEADLINE_UPCOMING_DAYS } from '@/lib/utils/time';
@@ -20,6 +19,7 @@ import { getApplicationUrlContext } from '@/lib/domain/foundation-presenter';
 import { Button } from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import CopyButton from '@/components/ui/CopyButton';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 
 export interface SubmissionInfo {
   foundationName: string;
@@ -84,7 +84,8 @@ function TimingBlock({ info }: { info: SubmissionInfo }) {
 
 /** email method */
 function EmailBlock({ info }: { info: SubmissionInfo }) {
-  const subject = `Fördergesuch ${ORG_PROFILE.name}`;
+  const tenant = useTenant();
+  const subject = `Fördergesuch ${tenant.name}`;
   const mailtoHref = info.email
     ? `mailto:${info.email}?subject=${encodeURIComponent(subject)}${info.emailBody ? `&body=${encodeURIComponent(info.emailBody)}` : ''}`
     : undefined;
@@ -123,9 +124,9 @@ function EmailBlock({ info }: { info: SubmissionInfo }) {
 
       <div>
         <SectionLabel>Absender</SectionLabel>
-        <p className="text-sm text-text">{ORG_PROFILE.name}</p>
-        <a href={`mailto:${ORG_PROFILE.email}`} className="text-sm text-primary hover:underline">
-          {ORG_PROFILE.email}
+        <p className="text-sm text-text">{tenant.name}</p>
+        <a href={`mailto:${tenant.email}`} className="text-sm text-primary hover:underline">
+          {tenant.email}
         </a>
       </div>
     </div>
@@ -134,17 +135,29 @@ function EmailBlock({ info }: { info: SubmissionInfo }) {
 
 /** online form method */
 function OnlineBlock({ info }: { info: SubmissionInfo }) {
+  const tenant = useTenant();
+
+  // This is a copy-into-the-foundation's-form crib sheet, so a row with no
+  // value is worse than a missing row: it gets pasted. Address, website,
+  // missionSummary and taxExemption are all optional on a tenant, so rows that
+  // have nothing to say are dropped rather than rendered empty.
   const fieldMap = [
-    { label: 'Organisation / Antragsteller', value: ORG_PROFILE.name },
-    { label: 'Rechtsform', value: ORG_PROFILE.legalForm },
-    { label: 'Adresse', value: ORG_PROFILE.address },
-    { label: 'E-Mail', value: ORG_PROFILE.email },
-    { label: 'Website', value: ORG_PROFILE.website },
-    { label: 'Projektname / Titel', value: `${ORG_PROFILE.name} — ${ORG_PROFILE.missionSummary}` },
+    { label: 'Organisation / Antragsteller', value: tenant.name },
+    { label: 'Rechtsform', value: tenant.legalForm },
+    { label: 'Adresse', value: tenant.address },
+    { label: 'E-Mail', value: tenant.email },
+    { label: 'Website', value: tenant.website },
+    {
+      label: 'Projektname / Titel',
+      value: tenant.missionSummary ? `${tenant.name} — ${tenant.missionSummary}` : tenant.name,
+    },
     { label: 'Beantragte Fördersumme', value: 'Siehe Gesuch-PDF (Budgetseite)' },
     { label: 'Projektbeschrieb', value: 'Aus Gesuch-PDF (Projektbeschrieb)' },
-    { label: 'Gemeinnützigkeit', value: `Ja — ${ORG_PROFILE.taxExemption}` },
-  ];
+    {
+      label: 'Gemeinnützigkeit',
+      value: tenant.taxExemption ? `Ja — ${tenant.taxExemption}` : undefined,
+    },
+  ].filter((f): f is { label: string; value: string } => Boolean(f.value));
 
   return (
     <div className="space-y-4">
@@ -186,6 +199,7 @@ function OnlineBlock({ info }: { info: SubmissionInfo }) {
 
 /** post method */
 function PostBlock({ info }: { info: SubmissionInfo }) {
+  const tenant = useTenant();
   const fullAddress = info.contactAddress
     ? `${info.foundationName}\n${info.contactAddress}`
     : info.foundationName;
@@ -207,8 +221,8 @@ function PostBlock({ info }: { info: SubmissionInfo }) {
       </p>
       <div>
         <SectionLabel>Absender</SectionLabel>
-        <p className="text-sm text-text">{ORG_PROFILE.name}</p>
-        <p className="text-sm text-text-muted">{ORG_PROFILE.address}</p>
+        <p className="text-sm text-text">{tenant.name}</p>
+        {tenant.address && <p className="text-sm text-text-muted">{tenant.address}</p>}
       </div>
     </div>
   );
@@ -216,6 +230,7 @@ function PostBlock({ info }: { info: SubmissionInfo }) {
 
 /** contact / unknown method */
 function ContactBlock({ info }: { info: SubmissionInfo }) {
+  const tenant = useTenant();
   return (
     <div className="space-y-4">
       <div>
@@ -242,7 +257,7 @@ function ContactBlock({ info }: { info: SubmissionInfo }) {
         <div>
           <SectionLabel>Kontakt</SectionLabel>
           <a
-            href={`mailto:${info.email}?subject=Anfrage: Fördergesuch ${ORG_PROFILE.name}`}
+            href={`mailto:${info.email}?subject=Anfrage: Fördergesuch ${tenant.name}`}
             className="text-sm text-primary hover:underline"
           >
             {info.email}
