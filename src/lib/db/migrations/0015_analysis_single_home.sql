@@ -15,7 +15,9 @@
 -- the drift they invite is not hypothetical: migration 0003 exists because 535
 -- production rows had a blob and a column disagreeing about the same number.
 --
--- This migration deletes the two copies that cannot be correct.
+-- This migration removes the blob copy. 0016 drops the columns, separately,
+-- because dropping a column is not reversible by re-running anything and the
+-- deploy tooling is right to want a human present for it.
 --
 -- WHY THE BLOB COPY IS ACTIVELY DANGEROUS, NOT MERELY REDUNDANT
 --
@@ -29,13 +31,16 @@
 -- render as another's own. The deletion is load-bearing today; after this
 -- migration there is nothing left to leak.
 --
--- APPLY THIS AFTER THE CODE DEPLOYS, NOT BEFORE
+-- SAFE TO APPLY BEFORE THE CODE SHIPS, WHICH IS WHEN THE DEPLOY WILL RUN IT
 --
--- Expand/contract: the new code never references the dropped columns, so it runs
--- correctly while they still exist. The OLD code does reference them, and Drizzle
--- names every column explicitly in its SELECTs — so dropping them first would
--- break every foundation read on the running app until the new build lands.
--- Deploy, confirm the app is serving, then run this.
+-- Everything here is invisible to the currently running build. It already
+-- composes foundations from the assessment table and deletes the blob's
+-- analysis keys before merging, so emptying those keys changes nothing it
+-- reads; and it writes the flat columns explicitly rather than relying on the
+-- trigger to derive them.
+--
+-- Dropping the columns is a different matter and lives in 0016, which the
+-- deploy tooling deliberately refuses to run unattended.
 --
 -- REVERSIBILITY
 --
@@ -119,8 +124,12 @@ UPDATE fundraising_foundations
 -- 4. The trigger keeps only the job it can still do correctly.
 --
 -- 0003 derived five flat columns from config_data. Four of them are assessment
--- values and are dropped below; `name` is a registry fact and stays. Rewritten
+-- values and are dropped in 0016; `name` is a registry fact and stays. Rewritten
 -- rather than dropped so the reason survives next to the code.
+--
+-- Doing this here, before the columns go, is what makes 0016 safe to run at a
+-- time of somebody's choosing: from this point the trigger no longer touches
+-- them, so nothing writes to columns that are about to disappear.
 -- ---------------------------------------------------------------------------
 
 CREATE OR REPLACE FUNCTION sync_foundation_flat_columns()
@@ -139,13 +148,3 @@ BEGIN
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
-
--- ---------------------------------------------------------------------------
--- 5. Drop the flat assessment columns.
--- ---------------------------------------------------------------------------
-
-ALTER TABLE fundraising_foundations
-  DROP COLUMN IF EXISTS fit_score,
-  DROP COLUMN IF EXISTS priority,
-  DROP COLUMN IF EXISTS research_depth,
-  DROP COLUMN IF EXISTS research_date;
