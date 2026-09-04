@@ -3,27 +3,34 @@
  * WhatsApp/Slack/LinkedIn/email previews. First impression happens HERE,
  * before anyone opens the site.
  *
- * All content from config (ORG_PROFILE + SHARED_ORG_NUMBERS) — no hardcoded
+ * All content from the request's tenant plus SHARED_ORG_NUMBERS — no hardcoded
  * stats. Colors mirror the globals.css brand tokens (OG images can't read
  * CSS vars, so the two hex values are intentional duplicates of
  * --color-revamp-green / --color-grey-dark).
  */
 
 import { ImageResponse } from 'next/og';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
 import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 
-export const alt = `${ORG_PROFILE.name} — Transparentes Fundraising`;
+// `alt` is a static export and cannot await a tenant. It is the accessibility
+// text for the preview image, not a claim about who published it, so it says
+// what the image is rather than naming the wrong organisation.
+export const alt = 'Transparentes Fundraising';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 const GREEN = '#2ECC71';
 const DARK = '#111827';
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
+  // The link preview is the first impression, and every tenant's link showed
+  // the first tenant's name and founding year.
+  const tenant = await getTenant();
+
   const stats = [
-    `Gemeinnützig seit ${ORG_PROFILE.founded}`,
+    `Gemeinnützig seit ${tenant.founded}`,
     // Plain "CO2": the OG default font has no U+2082 subscript glyph
     `${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} kg CO2 pro Gerät gespart`,
     `${SHARED_ORG_NUMBERS.REUSE_RATE}% Reuse-Rate`,
@@ -58,7 +65,7 @@ export default function OpenGraphImage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div style={{ fontSize: 92, fontWeight: 800, color: '#F9FAFB', lineHeight: 1.05 }}>
-          {ORG_PROFILE.name}
+          {tenant.name}
         </div>
         <div style={{ fontSize: 40, color: '#D1D5DB', maxWidth: 980 }}>
           Transparentes Fundraising — alle Zahlen belegbar, jede Quelle nachvollziehbar.

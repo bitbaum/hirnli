@@ -14,14 +14,15 @@ import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { NumberWithSource } from '@/components/data/NumberWithSource';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 
 export const metadata: Metadata = {
   title: 'Solidarisches Preismodell',
   description: 'Wer kann, zahlt mehr. Wer nicht kann, zahlt weniger. So hat jede:r Zugang zu IT.',
 };
 
-export default function PreismodellPage() {
+export default async function PreismodellPage() {
+  const tenant = await getTenant();
   return (
     <>
       <PageHeader
@@ -279,9 +280,13 @@ export default function PreismodellPage() {
               01_Management/B_Finanzen/Preismodell_Solidaritaet.md
             </code>
           </p>
-          <Button href={ORG_PROFILE.cloudUrl} target="_blank" className="mt-4">
-            Im Nextcloud öffnen
-          </Button>
+          {/* A tenant without a cloud of its own gets no button, rather than
+              one pointing at another organisation's Nextcloud. */}
+          {tenant.cloudUrl && (
+            <Button href={tenant.cloudUrl} target="_blank" className="mt-4">
+              Im Nextcloud öffnen
+            </Button>
+          )}
         </Card>
       </section>
 

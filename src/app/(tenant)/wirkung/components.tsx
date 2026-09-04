@@ -6,7 +6,7 @@ import {
   CO2_NEW_LAPTOP_MANUFACTURE,
   CO2_REFURBISH_COST,
 } from '@/lib/config/numbers';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 import { SOCIAL_DISPLAY } from '@/lib/config/stories';
 
 // ---------------------------------------------------------------------------
@@ -24,6 +24,11 @@ export function ImpactStoryCards({
   carsKm: number;
   flightsZurichBerlin: number;
 }) {
+  const tenant = useTenant();
+  // Optional: a tenant need not have an integration programme, let alone a
+  // start year for one. The heading drops the parenthetical rather than
+  // reading "seit undefined".
+  const integrationStart = tenant.milestones?.integrationProgram;
   return (
     <section className="mb-8">
       <h2 className="mb-4 heading-subsection">Wirkung im Detail</h2>
@@ -84,7 +89,7 @@ export function ImpactStoryCards({
             <p className="mb-2 text-sm text-text-muted">Praktikant:innen & Teilnehmende</p>
             <Badge variant="none">Nicht erfasst</Badge>
             <div className="mt-3 rounded-lg bg-danger/10 p-3">
-              <h4 className="mb-2 heading-xs-label">{`Historisch (seit ${ORG_PROFILE.milestones.integrationProgram}):`}</h4>
+              <h4 className="mb-2 heading-xs-label">{`Historisch${integrationStart ? ` (seit ${integrationStart})` : ''}:`}</h4>
               <ul className="space-y-1 text-sm text-text-secondary">
                 <li>
                   👥 <strong>{SOCIAL_DISPLAY.practitioners_total}</strong> Praktikant:innen

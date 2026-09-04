@@ -6,7 +6,7 @@ import Badge from '@/components/ui/Badge';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import {
   BILDUNGSPROGRAMMLEITER,
   MULTIPLICATION_EFFECT,
@@ -23,17 +23,18 @@ export const metadata: Metadata = {
   description: 'Kernteam, Bildungsprogrammleiter und Train-the-Trainer Multiplikator',
 };
 
-export default function TeamPage() {
+export default async function TeamPage() {
+  const tenant = await getTenant();
   return (
     <>
       <PageHeader
         title="Team & Kapazität"
-        subtitle={`${TEAM_MEMBERS.length} Menschen arbeiten bei ${ORG_PROFILE.name} — Leitung, Techniker, Betrieb`}
+        subtitle={`${TEAM_MEMBERS.length} Menschen arbeiten bei ${tenant.name} — Leitung, Techniker, Betrieb`}
         badge="SSOT"
       />
 
       <WhyThisMatters
-        purpose={`Zeigt, wer hinter ${ORG_PROFILE.name} steht und wie wir durch Train-the-Trainer skalieren.`}
+        purpose={`Zeigt, wer hinter ${tenant.name} steht und wie wir durch Train-the-Trainer skalieren.`}
         connection={`2× Bildungsprogrammleiter ermöglichen ${PEOPLE_REACHED_PER_YEAR} Menschen/Jahr direkt zu erreichen durch Train-the-Trainer.`}
       />
 

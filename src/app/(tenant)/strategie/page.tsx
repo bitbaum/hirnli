@@ -5,7 +5,7 @@ import Table from '@/components/ui/Table';
 import { VISION_TARGETS, SDG_DATA, SDG_COLORS } from './data';
 import type { SdgRow } from './data';
 import { GeschichteSection, KontaktSection, VisionMetric } from './components';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
@@ -13,12 +13,16 @@ import FourPillarsSection from './sections/FourPillarsSection';
 import SovereigntySection from './sections/SovereigntySection';
 import CommunityTechSpaceSection from './sections/CommunityTechSpaceSection';
 
-export const metadata: Metadata = {
-  title: 'Mission & Werte',
-  description: `Vier Säulen, Souveränität und SDG-Alignment — was ${ORG_PROFILE.name} heute ausmacht`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const tenant = await getTenant();
+  return {
+    title: 'Mission & Werte',
+    description: `Vier Säulen, Souveränität und SDG-Alignment — was ${tenant.name} heute ausmacht`,
+  };
+}
 
-export default function StrategiePage() {
+export default async function StrategiePage() {
+  const tenant = await getTenant();
   return (
     <>
       <PageHeader
@@ -38,7 +42,7 @@ export default function StrategiePage() {
         <h2 className="mb-4 heading-subsection">Mission</h2>
         <Card className="border-l-4 border-l-success">
           <p className="heading-card text-success-text">
-            {ORG_PROFILE.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und
+            {tenant.name} gestaltet die Zukunft der IT durch Reparatur, Refurbishing und
             Lebensdauerverlängerung.
           </p>
           <p className="mt-3 text-sm text-text-secondary">

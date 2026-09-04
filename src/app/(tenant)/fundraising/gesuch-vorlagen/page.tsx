@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import { TYPE_LABELS } from '@/lib/config/foundations';
 import {
   TYPE_TEMPLATE_KEYS,
@@ -11,11 +11,14 @@ import {
 } from '@/lib/config/gesuch-templates';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 
-export const metadata: Metadata = {
-  title: `Gesuch-Vorlagen — ${ORG_PROFILE.name}`,
-  description:
-    'Gesuch-Vorlagen nach Schwerpunkt und Stiftungstyp — themenspezifische und typbasierte Referenzvorlagen',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const tenant = await getTenant();
+  return {
+    title: `Gesuch-Vorlagen — ${tenant.name}`,
+    description:
+      'Gesuch-Vorlagen nach Schwerpunkt und Stiftungstyp — themenspezifische und typbasierte Referenzvorlagen',
+  };
+}
 
 function TemplateCard({
   slug,
@@ -49,7 +52,8 @@ function TemplateCard({
   );
 }
 
-export default function GesuchVorlagenPage() {
+export default async function GesuchVorlagenPage() {
+  const tenant = await getTenant();
   const generisch = TEMPLATE_LABELS['generisch'];
 
   return (
@@ -126,7 +130,7 @@ export default function GesuchVorlagenPage() {
         <h2 className="mb-2 heading-subsection">Universelle Vorlage</h2>
         <p className="mb-4 text-sm text-text-secondary">
           Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen. Sie
-          enthält das gesamte {ORG_PROFILE.name}-Profil mit allen Schwerpunkten.
+          enthält das gesamte {tenant.name}-Profil mit allen Schwerpunkten.
         </p>
         <TemplateCard slug="generisch" title={generisch.long} description={generisch.desc} />
       </section>

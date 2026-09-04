@@ -1,3 +1,7 @@
+/**
+ * NOT YET MIGRATED: still reads the compile-time ORG_PROFILE. Content module —
+ * moves to org_content with the rest of the per-tenant prose.
+ */
 import { CORE_FACTS, SOCIAL_DISPLAY } from '@/lib/config/stories';
 import { getScenario, getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';

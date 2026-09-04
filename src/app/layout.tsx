@@ -5,39 +5,46 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import { BRANDING } from '@/lib/config/branding';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
-const SITE_TITLE = `${ORG_PROFILE.name} — Transparentes Fundraising`;
 const SITE_DESCRIPTION =
   'Alle Zahlen, alle Quellen, komplett nachvollziehbar: Finanzen, Wirkung und Strategie — plus Stiftungsrecherche und Gesuch-Generierung auf einer Plattform.';
 
-export const metadata: Metadata = {
-  // Absolute base for OG images and canonical URLs (link previews need absolute URLs)
-  metadataBase: new URL(ORG_PROFILE.siteUrl),
-  title: {
-    default: SITE_TITLE,
-    template: `%s — ${BRANDING.siteName}`,
-  },
-  description: SITE_DESCRIPTION,
-  openGraph: {
-    type: 'website',
-    siteName: BRANDING.siteName,
-    title: SITE_TITLE,
+export async function generateMetadata(): Promise<Metadata> {
+  const tenant = await getTenant();
+  const siteTitle = `${tenant.name} — Transparentes Fundraising`;
+
+  return {
+    // Absolute base for OG images and canonical URLs (link previews need
+    // absolute URLs). Omitted for a tenant with no site of its own rather than
+    // pointed at somebody else's domain, which is where every relative URL on
+    // the page — including the OG image — would then resolve.
+    metadataBase: tenant.siteUrl ? new URL(tenant.siteUrl) : undefined,
+    title: {
+      default: siteTitle,
+      template: `%s — ${BRANDING.siteName}`,
+    },
     description: SITE_DESCRIPTION,
-    locale: 'de_CH',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
-  },
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
+    openGraph: {
+      type: 'website',
+      siteName: BRANDING.siteName,
+      title: siteTitle,
+      description: SITE_DESCRIPTION,
+      locale: 'de_CH',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: siteTitle,
+      description: SITE_DESCRIPTION,
+    },
+    icons: {
+      icon: '/favicon.ico',
+    },
+  };
+}
 
 export default async function RootLayout({
   children,

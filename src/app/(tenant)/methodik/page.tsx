@@ -19,14 +19,15 @@ import { NumberSources } from '@/lib/config/metrics';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import { getTenant } from '@/lib/tenant/resolve';
 
 export const metadata: Metadata = {
   title: 'Methodik & Datenquellen',
   description: 'Vollständige Transparenz über alle Berechnungen und Annahmen',
 };
 
-export default function MethodikPage() {
+export default async function MethodikPage() {
+  const tenant = await getTenant();
   return (
     <>
       <PageHeader
@@ -86,15 +87,21 @@ export default function MethodikPage() {
             Quelldatei:{' '}
             <code className="rounded bg-surface-raised px-1">revamp-Einnahmen-2025.xlsx</code> |
             Dokumentation:{' '}
-            <code className="rounded bg-surface-raised px-1">DATA_ARCHITECTURE.md</code> im{' '}
-            <a
-              href={ORG_PROFILE.cloudUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              Nextcloud
-            </a>
+            <code className="rounded bg-surface-raised px-1">DATA_ARCHITECTURE.md</code>
+            {tenant.cloudUrl && (
+              <>
+                {' '}
+                im{' '}
+                <a
+                  href={tenant.cloudUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  Nextcloud
+                </a>
+              </>
+            )}
           </p>
         </Card>
       </section>

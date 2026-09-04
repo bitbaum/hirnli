@@ -46,6 +46,14 @@ const eslintConfig = defineConfig([
     'next-env.d.ts',
     // Auto-generated file — never lint
     'src/lib/config/foundations/stiftungen-generated.ts',
+    // Sibling checkouts, not this branch's code.
+    //
+    // Concurrent sessions each get a git worktree under .claude/worktrees/, and
+    // ESLint walked into them: `pnpm lint` on a clean tree reported five
+    // warnings whose file paths did not exist in it, and time was spent hunting
+    // for code that was on somebody else's branch. Whatever is wrong in another
+    // worktree is that branch's lint run to fail, not this one's.
+    '.claude/worktrees/**',
   ]),
 ]);
 
