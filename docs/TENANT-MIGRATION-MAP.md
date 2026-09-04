@@ -52,6 +52,41 @@ the unguarded ones have nothing between the label and the end of the line at
 all, and appear only for the sparse tenant. Diffing against the same page for a
 fully-populated tenant is what makes them obvious.
 
+## Read the rendered artifact, not the status code
+
+Two bugs shipped from this migration, both found only by looking at output:
+
+- `strategie/components.tsx` printed `Laden: Lager:` — two labels, no values —
+  for a tenant with no premises (#57).
+- The pitch deck published `https://…/finanzen/wirkung`, one malformed link,
+  because converting `<site>/finanzen und <site>/wirkung` collapsed the second
+  URL and left `/wirkung` glued to the first (#59).
+
+Same root cause both times: a find-and-replace across markup that spans lines,
+where the surrounding prose is part of the construct being edited. Neither
+showed up in typecheck, tests, lint or the build, and both endpoints returned
+exactly what they were asked for — a 200, and a perfectly valid 8-page PDF.
+
+So after converting a renderer, render it as the sparse tenant and read it.
+
+```bash
+# HTML — on the server, bypassing Caddy. evig has no address, phone,
+# contactName, taxExemption or milestones, which is what makes it useful.
+curl -s -H 'Host: evig.hirnli.orangecat.ch' http://127.0.0.1:4012/strategie \
+  | sed 's/<!-- -->//g' | grep -o '<strong>[^<]*:</strong>[^<]*<'
+
+# PDF — generate, copy back, extract the text.
+ssh ubuntu@167.233.22.31 "curl -s -H 'Host: evig.hirnli.orangecat.ch' \
+  http://127.0.0.1:4012/api/documents/pitch-deck -o /tmp/ev.pdf"
+scp ubuntu@167.233.22.31:/tmp/ev.pdf . && pdftotext ev.pdf - | less
+```
+
+Read it for holes: a label with nothing after it, a URL with a stray path
+segment, a sentence that stops mid-clause. The HTML grep lists candidates rather
+than findings — a label followed by a nested link or list looks identical and is
+fine; diffing against a fully-populated tenant is what makes the real ones
+obvious.
+
 ## Computing the split
 
 The client tree is the transitive closure of imports from every `'use client'`
