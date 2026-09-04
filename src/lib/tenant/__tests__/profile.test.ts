@@ -10,6 +10,8 @@
  */
 
 import { describe, it, expect } from 'vitest';
+import { execSync } from 'node:child_process';
+import { ORG_PROFILE } from '@/lib/config/org-profile';
 import {
   deriveTenant,
   parseBranding,
@@ -160,5 +162,49 @@ describe('tenantBrandingSchema / parseBranding', () => {
 
   it('accepts a #rrggbb accent', () => {
     expect(parseBranding({ primaryColor: '#10b981' }).primaryColor).toBe('#10b981');
+  });
+});
+
+/**
+ * The legacy constant and a stored tenant profile are NOT the same shape, and
+ * the difference is load-bearing rather than cosmetic.
+ *
+ * `scripts/seed-org-content.ts` used to upsert `ORG_PROFILE` straight into
+ * `org_profiles`, and its own header invited re-running it after any config
+ * edit. That table stopped being a mirror the moment `getTenantById()` began
+ * reading it on every request — and the row it would have written is one that
+ * `parseTenant()` refuses, because ORG_PROFILE carries `yearsActive` and
+ * `experienceLabel` and the schema is `.strict()` precisely so those cannot be
+ * stored. Postgres would accept it; the next request would throw; every page
+ * would 500. From running a maintenance script exactly as documented.
+ */
+describe('the retiring constant cannot be written back as a tenant', () => {
+  it('is REJECTED by the stored-profile schema', () => {
+    const asRow = JSON.parse(JSON.stringify(ORG_PROFILE));
+    const result = storedTenantProfileSchema.safeParse(asRow);
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      // Name the fields, so a future reader sees which ones and why.
+      const message = JSON.stringify(result.error.issues);
+      expect(message).toContain('yearsActive');
+      expect(message).toContain('experienceLabel');
+    }
+  });
+
+  it('is not written to org_profiles by any script', () => {
+    // Source assertion, because the property is an absence. Migrations are
+    // exempt: they are reviewed, run once, and are how a tenant row is created.
+    const hits = execSync(
+      "grep -rln 'org_profiles' scripts/ 2>/dev/null | xargs -r grep -ln 'INSERT INTO org_profiles\\|UPDATE org_profiles' || true",
+      { encoding: 'utf-8' },
+    )
+      .split('\n')
+      .filter(Boolean);
+
+    expect(
+      hits,
+      `A tenant's identity is edited in the database, never seeded from code: ${hits.join(', ')}`,
+    ).toEqual([]);
   });
 });

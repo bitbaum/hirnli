@@ -343,6 +343,57 @@ export const orgProfiles = pgTable('org_profiles', {
 export type OrgProfileRow = typeof orgProfiles.$inferSelect;
 
 /**
+ * What one organisation SAYS — its stories, metrics, templates, Schwerpunkte.
+ *
+ * The table has existed since migration 0007 and has been seeded since, but was
+ * never declared here, so nothing in the app could read it: the content was
+ * mirrored into the database and then imported from TypeScript anyway. Declared
+ * now because `src/lib/content/read.ts` is the reader that ends that.
+ *
+ * Keyed (org_id, key, locale). `value` is jsonb and therefore shapeless, which
+ * is why every read validates against the block's Zod schema rather than
+ * casting — see the reader.
+ */
+export const orgContent = pgTable(
+  'org_content',
+  {
+    orgId: text('org_id').notNull(),
+    /** Block name, e.g. 'stories', 'numbers', 'schwerpunkte'. */
+    key: text('key').notNull(),
+    locale: text('locale').notNull().default('de'),
+    value: jsonb('value').notNull(),
+    version: integer('version').notNull().default(1),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.orgId, table.key, table.locale] }),
+    byOrg: index('org_content_org_idx').on(table.orgId),
+  }),
+);
+
+export type OrgContentRow = typeof orgContent.$inferSelect;
+
+/**
+ * How one organisation SCORES foundations — its fit and readiness engines.
+ *
+ * Declarative config that varies per tenant: what makes a foundation a good
+ * match is a judgement each organisation makes for itself.
+ *
+ * Declared here for the same reason as `orgContent`: `drizzle.config.ts` points
+ * drizzle-kit at this file as the source of truth for the whole database, so a
+ * table that exists in Postgres but not here is one `pnpm db:push` offers to
+ * DROP. Both tables have existed since migration 0007 and hold seeded content.
+ */
+export const orgScoring = pgTable('org_scoring', {
+  orgId: text('org_id').primaryKey(),
+  engine: jsonb('engine').notNull(),
+  readiness: jsonb('readiness').notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type OrgScoringRow = typeof orgScoring.$inferSelect;
+
+/**
  * What one organisation thinks of one foundation.
  *
  * The counterpart to the registry: `foundations` says who exists, this says
