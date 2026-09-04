@@ -65,10 +65,23 @@ export async function GeschichteSection() {
               <span className="mb-3 text-4xl">🏢</span>
               <h3 className="heading-item">Heute</h3>
               <p className="mt-2 text-left text-sm text-text-secondary">
-                <strong>Laden:</strong> {tenant.address}
-                <br />
-                <strong>Lager:</strong> {tenant.warehouseAddress}
-                <br />
+                {/* Same rule as KontaktSection, which this card was missed out
+                    of: a tenant with no premises rendered "Laden: Lager:" —
+                    two labels and nothing after either. A label with no value
+                    reads as a broken page, so the line goes rather than the
+                    value being invented. */}
+                {tenant.address && (
+                  <>
+                    <strong>Laden:</strong> {tenant.address}
+                    <br />
+                  </>
+                )}
+                {tenant.warehouseAddress && (
+                  <>
+                    <strong>Lager:</strong> {tenant.warehouseAddress}
+                    <br />
+                  </>
+                )}
                 <br />
                 Werkstatt, Verkauf und Community-Treffpunkt unter einem Dach.
               </p>
