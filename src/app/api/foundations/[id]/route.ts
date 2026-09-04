@@ -9,8 +9,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
-import { foundations, activityLog } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
+import { foundationAssessments, foundations, activityLog } from '@/lib/db/schema';
+import { and, eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { foundationSchema } from '@/lib/schemas/foundation';
 import { updateFoundationSchema } from '@/lib/schemas/foundation-api';
@@ -25,7 +25,6 @@ import { getCurrentOrgId } from '@/lib/tenant/resolve';
 import {
   splitFoundationPatch,
   upsertAssessment,
-  legacyFlatColumns,
   type AnalysisPatch,
 } from '@/lib/db/assessment-write';
 import { UNASSESSED_ANALYSIS } from '@/lib/db/foundation-compose';
@@ -40,15 +39,36 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const ORG_ID = await getCurrentOrgId();
   const { id } = await params;
   try {
-    const result = await db.select().from(foundations).where(eq(foundations.id, id)).limit(1);
+    // The registry row alone is only half the answer: fit, priority, themes and
+    // research notes are this organisation's, and live in its assessment. A
+    // response without them would report every foundation as unassessed.
+    const result = await db
+      .select({ foundation: foundations, assessment: foundationAssessments })
+      .from(foundations)
+      .leftJoin(
+        foundationAssessments,
+        and(
+          eq(foundationAssessments.foundationId, foundations.id),
+          eq(foundationAssessments.orgId, ORG_ID),
+        ),
+      )
+      .where(eq(foundations.id, id))
+      .limit(1);
 
     if (result.length === 0) {
       return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
     }
 
+    const { foundation, assessment } = result[0];
     return NextResponse.json({
       success: true,
-      data: result[0],
+      data: {
+        ...foundation,
+        fitScore: assessment?.fitScore ?? null,
+        priority: assessment?.priority ?? null,
+        researchDepth: assessment?.researchDepth ?? null,
+        researchDate: assessment?.researchDate ?? null,
+      },
     });
   } catch (error) {
     return apiError('GET /api/foundations/${id}', error, API_ERR_LOAD);
@@ -109,9 +129,6 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       .set({
         configData: registry,
         name: data.name,
-        // See legacyFlatColumns: these columns duplicate the assessment until
-        // the stage that drops them.
-        ...legacyFlatColumns(analysis),
         updatedAt: new Date(),
       })
       .where(eq(foundations.id, id));
@@ -218,9 +235,6 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const updates: Record<string, unknown> = {
       configData: mergedConfig,
       ...(data.name !== undefined && { name: data.name }),
-      // See legacyFlatColumns: these columns duplicate the assessment until
-      // the stage that drops them.
-      ...legacyFlatColumns(analysis),
       updatedAt: new Date(),
     };
 

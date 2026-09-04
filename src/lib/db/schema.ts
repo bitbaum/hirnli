@@ -39,11 +39,12 @@ import type { ApplicationStatusId } from '@/lib/config/application-statuses';
  * address, deadlines, amounts, and the Schmuki type (which classifies the
  * foundation, not the relationship to it).
  *
- * Mid-migration, honestly stated: `configData` still contains the assessment
- * fields as well, and every reader still takes them from there. Migration 0012
- * copied them into `foundationAssessments`; readers move next, and only then
- * are they removed from the blob. Until that is finished, treat the assessment
- * table as the destination and this blob as the live value.
+ * The split is complete as of migration 0015. `configData` held the assessment
+ * fields too — 0012 copied them out without removing them — and four of them
+ * also existed as flat columns here. Each value therefore lived in three
+ * places, two of which were per-organisation data on a table every tenant
+ * shares, so no single value could be right for more than one customer.
+ * 0015 deleted both copies; the assessment row is now the only home.
  */
 export const foundations = pgTable(
   'fundraising_foundations',
@@ -54,15 +55,15 @@ export const foundations = pgTable(
     // Basic information
     name: text('name').notNull(),
 
-    // Classification (indexed/queried columns only — all other data lives in configData JSONB)
-    fitScore: integer('fit_score'), // 0-10 scale
-    priority: integer('priority'), // 1-4 (1 = highest)
+    // fit_score, priority, research_depth and research_date used to sit here,
+    // kept in step with config_data by the 0003 trigger. Migration 0015 dropped
+    // them: they describe what one organisation makes of a foundation, and this
+    // table is shared by every organisation, so no single value could be
+    // correct once there was more than one customer. They live in
+    // `foundationAssessments` below, one row per org per foundation.
 
-    // Research metadata
-    researchDepth: text('research_depth'), // 'rapid' | 'standard' | 'deep'
-    researchDate: text('research_date'), // ISO date
-
-    // Data confidence tracking
+    // Data confidence tracking — a property of the registry entry itself (how
+    // well sourced it is), not of anybody's opinion of it, so it stays here.
     dataConfidence: text('data_confidence'), // 'unverified' | 'ai-assessed' | 'human-verified'
 
     // Full config object (Zod Foundation schema shape). Parsed through
@@ -92,11 +93,14 @@ export const foundations = pgTable(
     archived: boolean('archived').default(false),
   },
   (table) => ({
-    // The sync script filters by `archived = false AND data_confidence != 'unverified'`
-    // on every run; the audit script filters by `priority` and `data_confidence` too.
-    // These indexes turn the 16k-row scan into millisecond lookups as the table grows.
+    // Reads filter by `archived = false AND data_confidence != 'unverified'` on
+    // every request. These indexes turn the 16k-row scan into millisecond
+    // lookups as the table grows.
+    //
+    // The priority index went with the priority column in 0015 — ranking is
+    // per-organisation now and is served by fund_assessments_org_rank_idx on
+    // the assessments table.
     byOrgArchived: index('fund_foundations_org_archived_idx').on(table.orgId, table.archived),
-    byPriority: index('fund_foundations_priority_idx').on(table.priority),
     byConfidence: index('fund_foundations_data_confidence_idx').on(table.dataConfidence),
   }),
 );
@@ -279,13 +283,34 @@ export type { GesuchOverridesData } from '../schemas/gesuch-overrides';
  * Following Ground Truth #2: Schema is SSOT, types are derived.
  */
 export type FoundationRow = typeof foundations.$inferSelect;
+
+/**
+ * A registry row with one organisation's assessment folded in.
+ *
+ * What a list or card actually needs: the foundation's own facts, plus how the
+ * viewing organisation rates it. Fit and priority used to be columns on
+ * FoundationRow, so components read them straight off it; migration 0015 moved
+ * them to the assessment table, and this type keeps the shape those components
+ * expect while making it explicit that the two halves have different owners.
+ *
+ * Null means this organisation has not assessed the foundation — not that the
+ * foundation is unrated. Another tenant may well have scored it.
+ */
+export type FoundationRowWithAssessment = FoundationRow & {
+  fitScore: number | null;
+  priority: number | null;
+};
 export type NewFoundationRow = typeof foundations.$inferInsert;
 
 export type Application = typeof applications.$inferSelect;
 export type NewApplication = typeof applications.$inferInsert;
+/**
+ * What `GET /api/applications` returns: an application beside the foundation it
+ * targets, rated as the requesting organisation rates it.
+ */
 export type ApplicationWithFoundation = {
   application: Application;
-  foundation: FoundationRow | null;
+  foundation: FoundationRowWithAssessment | null;
 };
 
 export type CustomizationRule = typeof customizationRules.$inferSelect;

@@ -40,9 +40,15 @@ import { extractContactData } from './lib/contact-extractor';
 import { reconcileContacts, type ContactCandidate } from './lib/source-reconciler';
 import { extractWebContent } from './lib/web-extract';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
+import { requireOrgId } from './lib/require-org';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 const LIMIT = parseInt(process.argv.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0');
+
+// Whose priorities decide the research order. Fit is an organisation's own
+// judgement, so a run that cannot say whose queue it is working through would
+// research in whatever order the first tenant's scores happened to imply.
+const ORG_ID = requireOrgId();
 const DELAY_MS = 500;
 
 // Contact subpages to try on verified websites
@@ -259,17 +265,22 @@ async function main() {
   console.log('');
 
   // Get foundations missing email, prioritized
+  // Research the foundations this organisation cares most about first — fit is
+  // its own judgement, so the ordering comes from its assessments rather than
+  // from a column on the shared registry that held whoever scored them first.
   const rows = (await sql`
-    SELECT id, name,
+    SELECT f.id, f.name,
            config_data->>'uid' as uid,
            COALESCE(config_data->>'officialPurpose', config_data->>'purposeSummary', '') as purpose,
            config_data->>'websiteUrl' as website
-    FROM fundraising_foundations
+    FROM fundraising_foundations f
+    LEFT JOIN fundraising_foundation_assessments a
+           ON a.foundation_id = f.id AND a.org_id = ${ORG_ID}
     WHERE (config_data->'contact'->>'email' IS NULL OR config_data->'contact'->>'email' = '')
       AND (data_confidence IS NULL OR data_confidence != 'unverified')
       AND config_data IS NOT NULL
       AND (archived = false OR archived IS NULL)
-    ORDER BY COALESCE(fit_score, 0) DESC, name
+    ORDER BY COALESCE(a.fit_score, 0) DESC, f.name
     ${LIMIT ? sql`LIMIT ${LIMIT}` : sql``}
   `) as { id: string; name: string; uid: string | null; purpose: string; website: string | null }[];
 

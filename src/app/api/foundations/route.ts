@@ -16,7 +16,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
-import { foundations } from '@/lib/db/schema';
+import { foundationAssessments, foundations } from '@/lib/db/schema';
 import { and, count, desc, eq, gte, ilike, sql } from 'drizzle-orm';
 import { toSlug } from '@/lib/utils/slug';
 import { createFoundationSchema } from '@/lib/schemas/foundation-api';
@@ -42,6 +42,12 @@ import { UNASSESSED_ANALYSIS } from '@/lib/db/foundation-compose';
  */
 export async function GET(request: NextRequest) {
   try {
+    // fitMin and priority filter on values that belong to the asking
+    // organisation, not to the foundation. They used to filter flat columns on
+    // the shared registry table, which meant one customer's scores decided what
+    // every caller saw; those columns are gone and the filter joins this
+    // organisation's assessments instead.
+    const orgId = await getCurrentOrgId();
     const { searchParams } = new URL(request.url);
 
     // Parse query parameters
@@ -65,12 +71,12 @@ export async function GET(request: NextRequest) {
       // Clamp to the valid fitScore range so a value like -999 or 9999 can't
       // produce a query that's meaningless or that bypasses pagination logic.
       if (!isNaN(minScore))
-        conditions.push(gte(foundations.fitScore, Math.min(10, Math.max(0, minScore))));
+        conditions.push(gte(foundationAssessments.fitScore, Math.min(10, Math.max(0, minScore))));
     }
 
     if (priority) {
       const p = parseInt(priority, 10);
-      if (!isNaN(p)) conditions.push(eq(foundations.priority, p));
+      if (!isNaN(p)) conditions.push(eq(foundationAssessments.priority, p));
     }
 
     if (!includeArchived) {
@@ -81,12 +87,21 @@ export async function GET(request: NextRequest) {
       conditions.push(sql`(data_confidence IS NULL OR data_confidence != 'unverified')`);
     }
 
+    // LEFT JOIN, matching the app's read layer: an organisation browses the
+    // whole shared registry, and its own assessments overlay it. An inner join
+    // would hide every foundation this organisation has not yet scored.
+    const joinOn = and(
+      eq(foundationAssessments.foundationId, foundations.id),
+      eq(foundationAssessments.orgId, orgId),
+    );
+
     // Execute query
     const results = await db
-      .select()
+      .select({ foundation: foundations, assessment: foundationAssessments })
       .from(foundations)
+      .leftJoin(foundationAssessments, joinOn)
       .where(conditions.length > 0 ? and(...conditions) : undefined)
-      .orderBy(desc(foundations.fitScore), foundations.name)
+      .orderBy(desc(foundationAssessments.fitScore), foundations.name)
       .limit(limit)
       .offset(offset);
 
@@ -94,11 +109,20 @@ export async function GET(request: NextRequest) {
     const [{ total }] = await db
       .select({ total: count() })
       .from(foundations)
+      .leftJoin(foundationAssessments, joinOn)
       .where(conditions.length > 0 ? and(...conditions) : undefined);
 
     return NextResponse.json({
       success: true,
-      data: results,
+      // The registry row with this organisation's assessment folded in, so the
+      // response still carries fitScore and priority where callers expect them.
+      data: results.map(({ foundation, assessment }) => ({
+        ...foundation,
+        fitScore: assessment?.fitScore ?? null,
+        priority: assessment?.priority ?? null,
+        researchDepth: assessment?.researchDepth ?? null,
+        researchDate: assessment?.researchDate ?? null,
+      })),
       meta: {
         total,
         limit,
@@ -169,10 +193,6 @@ export async function POST(request: NextRequest) {
       id: slug,
       name: data.name,
       orgId,
-      fitScore: data.fitScore ?? null,
-      priority: data.priority ?? null,
-      researchDepth,
-      researchDate,
       source: data.source ?? null,
       configData: registry,
       archived: false,

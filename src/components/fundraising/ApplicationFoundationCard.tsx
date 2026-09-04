@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
-import type { FoundationRow } from '@/lib/db/schema';
+import type { FoundationRowWithAssessment } from '@/lib/db/schema';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { getApplicationUrlContext } from '@/lib/domain/foundation-presenter';
 
 interface ApplicationFoundationCardProps {
-  foundation: FoundationRow;
+  foundation: FoundationRowWithAssessment;
   foundationDetail: Foundation | null | undefined;
 }
 

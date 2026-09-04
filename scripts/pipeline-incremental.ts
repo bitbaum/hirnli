@@ -243,14 +243,11 @@ async function upsertEntry(
     // register-derived guess would silently discard real work.
     const inserted = await sql<{ id: string }>`
       INSERT INTO fundraising_foundations (
-        id, name, fit_score, priority,
-        research_depth, research_date,
+        id, name,
         source, config_data, org_id,
         created_at, updated_at, archived
       ) VALUES (
         ${slug}, ${entry.name},
-        ${fitScore}, ${priority},
-        ${researchDepth}, ${today},
         ${'automated-research'}, ${JSON.stringify(registry)},
         ${ORG_ID}, ${now}, ${now}, false
       )

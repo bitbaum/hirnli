@@ -19,7 +19,7 @@ import { patchApplication } from '@/lib/api/applications';
 import { NET_ERR_SAVE, API_ERR_SAVE } from '@/lib/utils/errors';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { Button } from '@/components/ui/Button';
-import type { Application, FoundationRow } from '@/lib/db/schema';
+import type { Application, FoundationRowWithAssessment } from '@/lib/db/schema';
 import {
   buildPatchPayload,
   initFieldsFromApplication,
@@ -33,7 +33,7 @@ import Backdrop from '@/components/ui/Backdrop';
 
 interface EditApplicationModalProps {
   application: Application;
-  foundation: FoundationRow | null;
+  foundation: FoundationRowWithAssessment | null;
   onClose: () => void;
   onSaved: (updated: Application) => void;
 }

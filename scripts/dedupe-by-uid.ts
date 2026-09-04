@@ -36,8 +36,6 @@ const DRY_RUN = process.argv.includes('--dry-run');
 type Foundation = {
   id: string;
   config_data: Record<string, unknown>;
-  fit_score: number | null;
-  priority: number;
 };
 
 function isRegistryUrl(url: string | undefined | null): boolean {
@@ -45,19 +43,50 @@ function isRegistryUrl(url: string | undefined | null): boolean {
   return /zefix\.admin\.ch|zefix\.ch|stiftungschweiz\.ch|stiftungsverzeichnis/.test(url);
 }
 
-function dataScore(f: Foundation): number {
+/**
+ * Which of two duplicate registry rows is the better one to keep.
+ *
+ * Half the evidence is registry (purpose, website, contact) and half is
+ * assessment (fit, priority, themes, notes) — and the assessment half no longer
+ * lives in config_data, so it is passed in rather than read off the blob. Read
+ * from the blob it would score zero for every row, and the keeper would be
+ * chosen on purpose-text length alone.
+ *
+ * The assessment half is aggregated across ALL organisations, not one: this is
+ * a registry-level decision about which row survives, and a row somebody else
+ * researched heavily is the better keeper regardless of who is running the
+ * script. With a single tenant the aggregate is that tenant's own values, so
+ * this reproduces the previous behaviour exactly.
+ */
+function dataScore(f: Foundation, assessments: AnalysisPatch[]): number {
   // Higher score = better keeper candidate.
   const cd = f.config_data;
   const purposeLen = ((cd.purposeSummary as string | null) ?? '').length;
-  const notesLen = ((cd.researchNotes as string | null) ?? '').length;
+  const longest = (key: keyof AnalysisPatch) =>
+    Math.max(
+      0,
+      ...assessments.map((a) => (typeof a[key] === 'string' ? (a[key] as string).length : 0)),
+    );
+  const notesLen = longest('researchNotes');
   const hasRealWeb = !isRegistryUrl(cd.websiteUrl as string | null);
   const contact = cd.contact as Record<string, string> | null;
   const hasEmail = !!contact?.email;
   const hasPhone = !!contact?.phone;
-  const themesLen = ((cd.themes as string[] | null) ?? []).length;
-  const fit = f.fit_score ?? 0;
-  // Priority: lower number = higher priority (P1=1, P4=4) — invert so lower P wins
-  const priorityBonus = (5 - f.priority) * 1000;
+  const themesLen = Math.max(
+    0,
+    ...assessments.map((a) => (Array.isArray(a.themes) ? a.themes.length : 0)),
+  );
+  const fit = Math.max(
+    0,
+    ...assessments.map((a) => (typeof a.fitScore === 'number' ? a.fitScore : 0)),
+  );
+  // Priority: lower number = higher priority (P1=1, P4=4) — invert so lower P
+  // wins. The best (lowest) priority any organisation gave it.
+  const bestPriority = Math.min(
+    4,
+    ...assessments.map((a) => (typeof a.priority === 'number' ? a.priority : 4)),
+  );
+  const priorityBonus = (5 - bestPriority) * 1000;
   return (
     priorityBonus +
     fit * 100 +
@@ -195,7 +224,7 @@ async function main() {
       continue;
     }
     const rows = (await sql`
-      SELECT id, config_data, fit_score, priority
+      SELECT id, config_data
       FROM fundraising_foundations WHERE id IN (${ids[0]}, ${ids[1]})
     `) as Foundation[];
     if (rows.length !== 2) {
@@ -203,8 +232,12 @@ async function main() {
       continue;
     }
     const [a, b] = rows;
-    const aScore = dataScore(a),
-      bScore = dataScore(b);
+    const assessmentsById = new Map([
+      [a.id, await readAssessmentsForFoundation(a.id)],
+      [b.id, await readAssessmentsForFoundation(b.id)],
+    ]);
+    const aScore = dataScore(a, assessmentsById.get(a.id) ?? []),
+      bScore = dataScore(b, assessmentsById.get(b.id) ?? []);
     const keeper = aScore >= bScore ? a : b;
     const loser = aScore >= bScore ? b : a;
 
@@ -213,8 +246,15 @@ async function main() {
     if (DRY_RUN) {
       const purposeBefore = ((keeper.config_data.purposeSummary as string) ?? '').length;
       const purposeAfter = ((newConfig.purposeSummary as string) ?? '').length;
-      const notesBefore = ((keeper.config_data.researchNotes as string) ?? '').length;
-      const notesAfter = ((newConfig.researchNotes as string) ?? '').length;
+      // Research notes are assessment data; report the longest any
+      // organisation holds, which is what the merge would carry across.
+      const noteLen = (rows: AnalysisPatch[]) =>
+        Math.max(
+          0,
+          ...rows.map((r) => (typeof r.researchNotes === 'string' ? r.researchNotes.length : 0)),
+        );
+      const notesBefore = noteLen(assessmentsById.get(keeper.id) ?? []);
+      const notesAfter = Math.max(notesBefore, noteLen(assessmentsById.get(loser.id) ?? []));
       console.log(
         `  ${keeper.id} ← ${loser.id}` +
           (purposeBefore !== purposeAfter ? ` purpose ${purposeBefore}→${purposeAfter}` : '') +
