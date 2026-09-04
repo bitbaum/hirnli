@@ -1,5 +1,5 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { GESUCH_TEXT, findEvidence } from '@/lib/config/stories';
+import { findEvidence, resolveStories } from '@/lib/config/stories';
 import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
@@ -8,6 +8,10 @@ interface ProjektbeschriebSectionProps {
 }
 
 export default function ProjektbeschriebSection({ dok }: ProjektbeschriebSectionProps) {
+  // Filled for this organisation. Read straight from the module these
+  // strings render as "seit {{founded}}" — the templates are shared, the
+  // values are not, and only resolveStories() joins the two.
+  const { GESUCH_TEXT } = resolveStories(dok.tenant);
   return (
     <section className="gesuch-section mb-12">
       <h2 className="mb-2 border-b-2 border-grey-dark pb-2 heading-section">Projektbeschrieb</h2>

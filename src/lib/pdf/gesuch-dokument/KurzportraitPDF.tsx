@@ -8,7 +8,7 @@
 import React from 'react';
 import { View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { GESUCH_TEXT } from '@/lib/config/stories';
+import { resolveStories } from '@/lib/config/stories';
 import { styles, COLORS } from './styles';
 
 interface KurzportraitPDFProps {
@@ -16,6 +16,10 @@ interface KurzportraitPDFProps {
 }
 
 export default function KurzportraitPDF({ dok }: KurzportraitPDFProps) {
+  // Filled for this organisation. Read straight from the module these
+  // strings render as "seit {{founded}}" — the templates are shared, the
+  // values are not, and only resolveStories() joins the two.
+  const { GESUCH_TEXT } = resolveStories(dok.tenant);
   return (
     <View>
       <Text style={styles.h2}>Kurzportrait {dok.tenant.name}</Text>
