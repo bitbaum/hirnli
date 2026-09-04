@@ -7,6 +7,7 @@ import type { FoundationAIContext } from '@/lib/domain/ai-context';
 import { UI_TIMINGS } from '@/lib/config/ui-timings';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import Spinner from '@/components/ui/Spinner';
+import { useTenant } from '@/lib/tenant/TenantProvider';
 
 interface FieldRowProps {
   label: string;
@@ -50,9 +51,15 @@ export default function FieldRow({
 
   const isModified = value !== originalValue;
 
+  // The prompt tells a frontier model who it is writing for. Read from the
+  // provider, not imported: this text is pasted into ChatGPT and comes back as
+  // Gesuch prose, so the wrong organisation here is invisible until it is sent.
+  const tenant = useTenant();
+
   const copyPrompt = () => {
     if (!foundationContext || !value.trim()) return;
     const prompt = buildExternalPrompt({
+      tenant,
       foundation: foundationContext,
       schwerpunktLabel,
       fieldDescription,

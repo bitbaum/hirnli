@@ -39,6 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function SchwerpunktGesuchPage({ params }: Props) {
+  const tenant = await getTenant();
   const { vorlage: schwerpunkt, type } = await params;
   if (!isSchwerpunktId(schwerpunkt)) notFound();
   const foundation = getSchwerpunktTemplate(schwerpunkt, type);
@@ -47,7 +48,7 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
   const sp = SCHWERPUNKTE[schwerpunkt];
   const typeLabel = resolveTypeLabel(type);
   if (!typeLabel) notFound();
-  const gesuch = composeGesuch(foundation, schwerpunkt);
+  const gesuch = composeGesuch(tenant, foundation, schwerpunkt);
   const primaryColor = sp.color;
 
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;

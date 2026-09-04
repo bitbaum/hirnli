@@ -18,6 +18,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { getAllFoundations } from './lib/foundations';
 import { requireOrgId } from './lib/require-org';
+import { readTenant } from './lib/tenant';
 import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
 import { composeGesuch } from '../src/lib/domain/gesuch-composer';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
@@ -49,7 +50,11 @@ interface AuditIssue {
 // ============================================================================
 
 async function main() {
-  const foundations = await getAllFoundations(requireOrgId());
+  // The audit reads the Gesuch text this organisation would actually send, so
+  // it needs that organisation's identity — the composer no longer supplies one.
+  const orgId = requireOrgId();
+  const tenant = await readTenant(orgId);
+  const foundations = await getAllFoundations(orgId);
   const gesuchFoundations = foundations.filter((f) => {
     if (!hasGesuchPage(f)) return false;
     if (PRIORITY_FILTER > 0) {
@@ -67,7 +72,7 @@ async function main() {
   const auditResults: AuditIssue[] = [];
 
   for (const foundation of gesuchFoundations) {
-    const composed = composeGesuch(foundation);
+    const composed = composeGesuch(tenant, foundation);
     const computed = computePriorityScore(foundation);
     const issues: string[] = [];
 

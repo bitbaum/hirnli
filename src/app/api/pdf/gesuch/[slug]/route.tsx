@@ -4,7 +4,7 @@
  * GET /api/pdf/gesuch/[slug] — Generate PDF from config data (no DB needed).
  *
  * Uses the same SSOT as the HTML dokument page:
- *   composeGesuchDokument(foundation) → GesuchDokumentPDF
+ *   composeGesuchDokument(await getTenant(), foundation) → GesuchDokumentPDF
  *
  * Optional query param: ?schwerpunkt=<SchwerpunktId>
  */
@@ -26,6 +26,7 @@ import {
 import { getTodayISO } from '@/lib/utils/format';
 import { streamToBuffer, sanitizeFoundationFilename } from '@/lib/pdf/utils';
 import { apiError } from '@/lib/api/route-helpers';
+import { getTenant } from '@/lib/tenant/resolve';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
@@ -50,7 +51,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const schwerpunktId =
       schwerpunktParam && isSchwerpunktId(schwerpunktParam) ? schwerpunktParam : undefined;
 
-    const baseDok = composeGesuchDokument(foundation, schwerpunktId);
+    const baseDok = composeGesuchDokument(await getTenant(), foundation, schwerpunktId);
     const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
     const dok = applyGesuchOverrides(baseDok, overrides);
 

@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function GesuchDokumentPage({ params, searchParams }: Props) {
+  const tenant = await getTenant();
   const { slug } = await params;
   const { schwerpunkt: schwerpunktParam } = await searchParams;
   const foundation = await getFoundationBySlug(slug);
@@ -44,7 +45,7 @@ export default async function GesuchDokumentPage({ params, searchParams }: Props
   const schwerpunktId =
     schwerpunktParam && isSchwerpunktId(schwerpunktParam) ? schwerpunktParam : undefined;
 
-  const baseDok = composeGesuchDokument(foundation, schwerpunktId);
+  const baseDok = composeGesuchDokument(tenant, foundation, schwerpunktId);
   const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
   const dok = applyGesuchOverrides(baseDok, overrides);
 

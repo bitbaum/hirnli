@@ -4,7 +4,11 @@ import {
   buildFoundationBridge,
   buildSecondaryRelevance,
 } from '../bridge-composer';
-import { makeFoundation } from './fixtures';
+import { makeFoundation, makeTenant } from './fixtures';
+
+/** One tenant for every composer call here — the identity is not what these
+ *  tests are about, but it must be passed rather than imported. */
+const TENANT = makeTenant();
 
 describe('extractPurposeCore', () => {
   it('strips ESA prefix format', () => {
@@ -56,11 +60,22 @@ describe('extractPurposeCore', () => {
 });
 
 describe('buildFoundationBridge', () => {
-  it('returns bridge text with org name', () => {
+  it('names the organisation it was GIVEN, not one it imported', () => {
+    // Asserting a literal name here is what let the composer keep an
+    // ORG_PROFILE import: the fixture and the import agreed, so the test passed
+    // either way. Two different tenants must produce two different sentences.
     const f = makeFoundation();
-    const result = buildFoundationBridge(f, 'Kreislaufwirtschaft');
-    expect(result).toContain('Revamp-IT');
-    expect(result).toContain('Kreislaufwirtschaft');
+    const mine = buildFoundationBridge(TENANT, f, 'Kreislaufwirtschaft');
+    const theirs = buildFoundationBridge(
+      makeTenant({ name: 'Andere Organisation' }),
+      f,
+      'Kreislaufwirtschaft',
+    );
+
+    expect(mine).toContain(TENANT.name);
+    expect(mine).toContain('Kreislaufwirtschaft');
+    expect(theirs).toContain('Andere Organisation');
+    expect(theirs).not.toContain(TENANT.name);
   });
 
   it('mentions foundation name when purposeSummary exists', () => {
@@ -68,15 +83,15 @@ describe('buildFoundationBridge', () => {
       name: 'Drosos Stiftung',
       purposeSummary: 'Fördert Umweltprojekte.',
     });
-    const result = buildFoundationBridge(f, 'Kreislaufwirtschaft');
+    const result = buildFoundationBridge(TENANT, f, 'Kreislaufwirtschaft');
     expect(result).toContain('Drosos Stiftung');
-    expect(result).toContain('Revamp-IT');
+    expect(result).toContain(TENANT.name);
     expect(result).toContain('Kreislaufwirtschaft');
   });
 
   it('uses years-active format when no purposeSummary', () => {
     const f = makeFoundation({ purposeSummary: '' });
-    const result = buildFoundationBridge(f, 'Kreislaufwirtschaft');
+    const result = buildFoundationBridge(TENANT, f, 'Kreislaufwirtschaft');
     expect(result).toContain('Jahren aktiv');
   });
 });

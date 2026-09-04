@@ -38,13 +38,14 @@ function getPrimaryColor(gesuch: ComposedGesuch): string {
 
 export default async function GesuchPage({ params }: Props) {
   const { slug } = await params;
+  const tenant = await getTenant();
   const foundation = await getFoundationBySlug(slug);
 
   if (!foundation) {
     notFound();
   }
 
-  const autoGesuch = composeGesuch(foundation);
+  const autoGesuch = composeGesuch(tenant, foundation);
 
   // Not-ready fallback
   if (!autoGesuch.ready) {
@@ -66,7 +67,7 @@ export default async function GesuchPage({ params }: Props) {
   const primaryColors: Record<string, string> = { auto: getPrimaryColor(autoGesuch) };
 
   for (const spId of SCHWERPUNKT_IDS) {
-    const variant = composeGesuch(foundation, spId);
+    const variant = composeGesuch(tenant, foundation, spId);
     if (variant.ready) {
       variants[spId] = variant;
       primaryColors[spId] = SCHWERPUNKTE[spId].color;
@@ -86,7 +87,7 @@ export default async function GesuchPage({ params }: Props) {
   };
 
   const shareToken = computeShareToken(slug) ?? undefined;
-  const anschreibenText = composeAnschreibenText(foundation);
+  const anschreibenText = composeAnschreibenText(tenant, foundation);
 
   return (
     <GesuchPageClient

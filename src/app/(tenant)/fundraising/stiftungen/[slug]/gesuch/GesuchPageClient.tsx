@@ -133,7 +133,7 @@ export default function GesuchPageClient({
 
   const emailBody = (() => {
     const primaryThemeLabel = activeGesuch.themes.all[0]?.label ?? '';
-    const opening = buildDynamicOpening(foundationData, primaryThemeLabel);
+    const opening = buildDynamicOpening(tenant, foundationData, primaryThemeLabel);
     return `${opening}\n\nIm Anhang finden Sie unser vollständiges Gesuch als PDF.\n\nFür Rückfragen stehen wir Ihnen gerne zur Verfügung:\n${tenant.name} · ${tenant.email}`;
   })();
 

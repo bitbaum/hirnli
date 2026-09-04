@@ -15,7 +15,7 @@ import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
 import { isResearched } from './foundation-helpers';
 import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
 import { THEMES, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
 import { fitScoreToDisplay } from './fit-scoring';
 
 // ============================================================================
@@ -74,7 +74,7 @@ function fitToStrength(fitScore: number): 'strong' | 'moderate' | 'limited' {
 // 1. generateFitNarrative
 // ============================================================================
 
-export function generateFitNarrative(foundation: Foundation): FitNarrative {
+export function generateFitNarrative(tenant: Tenant, foundation: Foundation): FitNarrative {
   const overlaps = foundation.themes.length;
   const strengthLevel = fitToStrength(foundation.fitScore);
   const purposeFirst = firstSentence(foundation.purposeSummary) || 'Ihr Stiftungszweck';
@@ -85,7 +85,7 @@ export function generateFitNarrative(foundation: Foundation): FitNarrative {
   switch (strengthLevel) {
     case 'strong': {
       const themeList = overlappingLabels.join(', ');
-      text = `Die ${foundation.name} und ${ORG_PROFILE.name} teilen ${overlaps} thematische Schwerpunkte. ${purposeFirst} deckt sich eng mit unserer Arbeit in ${themeList}. Eine Partnerschaft bietet starkes Synergiepotenzial.`;
+      text = `Die ${foundation.name} und ${tenant.name} teilen ${overlaps} thematische Schwerpunkte. ${purposeFirst} deckt sich eng mit unserer Arbeit in ${themeList}. Eine Partnerschaft bietet starkes Synergiepotenzial.`;
       break;
     }
     case 'moderate': {

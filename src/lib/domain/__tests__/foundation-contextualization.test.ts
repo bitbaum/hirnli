@@ -6,6 +6,11 @@ import {
   generateThemeAlignments,
 } from '../foundation-contextualization';
 import type { Foundation } from '@/lib/schemas/foundation';
+import { makeTenant } from './fixtures';
+
+/** One tenant for every composer call here — the identity is not what these
+ *  tests are about, but it must be passed rather than imported. */
+const TENANT = makeTenant();
 
 // Minimal fixture. Themes used here all map to story keys in THEME_ID_TO_STORY_KEY.
 function makeFoundation(overrides: Partial<Foundation> = {}): Foundation {
@@ -38,7 +43,7 @@ describe('generateFitNarrative', () => {
       fitScore: 8,
       themes: ['kreislaufwirtschaft'] as Foundation['themes'],
     });
-    const narrative = generateFitNarrative(f);
+    const narrative = generateFitNarrative(TENANT, f);
     expect(narrative.strengthLevel).toBe('strong');
   });
 
@@ -47,7 +52,7 @@ describe('generateFitNarrative', () => {
       fitScore: 5,
       themes: ['kreislaufwirtschaft'] as Foundation['themes'],
     });
-    const narrative = generateFitNarrative(f);
+    const narrative = generateFitNarrative(TENANT, f);
     expect(narrative.strengthLevel).toBe('moderate');
   });
 
@@ -56,7 +61,7 @@ describe('generateFitNarrative', () => {
       fitScore: 2,
       themes: ['kreislaufwirtschaft'] as Foundation['themes'],
     });
-    const narrative = generateFitNarrative(f);
+    const narrative = generateFitNarrative(TENANT, f);
     expect(narrative.strengthLevel).toBe('limited');
   });
 
@@ -65,13 +70,13 @@ describe('generateFitNarrative', () => {
       fitScore: 8,
       themes: ['kreislaufwirtschaft', 'klima', 'arbeitsintegration'] as Foundation['themes'],
     });
-    const narrative = generateFitNarrative(f);
+    const narrative = generateFitNarrative(TENANT, f);
     expect(narrative.themeOverlaps).toBe(3);
   });
 
   it('returns 0 themeOverlaps for empty themes', () => {
     const f = makeFoundation({ fitScore: 8, themes: [] });
-    expect(generateFitNarrative(f).themeOverlaps).toBe(0);
+    expect(generateFitNarrative(TENANT, f).themeOverlaps).toBe(0);
   });
 
   it('returns a non-empty text string', () => {
@@ -79,7 +84,7 @@ describe('generateFitNarrative', () => {
       fitScore: 7,
       themes: ['kreislaufwirtschaft'] as Foundation['themes'],
     });
-    expect(generateFitNarrative(f).text.length).toBeGreaterThan(10);
+    expect(generateFitNarrative(TENANT, f).text.length).toBeGreaterThan(10);
   });
 
   it('strong narrative includes foundation name', () => {
@@ -88,7 +93,7 @@ describe('generateFitNarrative', () => {
       name: 'Örsted Stiftung',
       themes: ['kreislaufwirtschaft'] as Foundation['themes'],
     });
-    const narrative = generateFitNarrative(f);
+    const narrative = generateFitNarrative(TENANT, f);
     expect(narrative.text).toContain('Örsted Stiftung');
   });
 });

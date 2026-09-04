@@ -1,4 +1,5 @@
 import type { Foundation } from '@/lib/schemas/foundation';
+import { deriveTenant, type Tenant } from '@/lib/tenant/profile';
 
 /**
  * Factory for creating test Foundation objects.
@@ -65,4 +66,54 @@ export function makeMinimalFoundation(overrides: Partial<Foundation> = {}): Foun
     deadlineText: 'Unbekannt',
     ...overrides,
   });
+}
+
+/**
+ * A tenant for composer tests.
+ *
+ * Built through `deriveTenant` rather than as a literal, so `yearsActive` and
+ * `experienceLabel` are computed the way production computes them and cannot
+ * drift from `founded`. The clock is pinned: these fields change with the
+ * calendar, so a fixture reading the real date passes all year and fails on
+ * 1 January.
+ */
+export function makeTenant(overrides: Partial<Tenant> = {}): Tenant {
+  const base = deriveTenant(
+    {
+      orgId: 'test-org',
+      name: 'Test-Organisation',
+      legalForm: 'Gemeinnütziger Verein',
+      founded: 2003,
+      location: 'Zürich',
+      email: 'kontakt@test-org.ch',
+      website: 'https://test-org.ch',
+      siteUrl: 'https://test-org.example',
+      missionSummary: 'Kreislaufwirtschaft und Arbeitsintegration',
+    },
+    new Date('2026-06-01'),
+  );
+  return { ...base, ...overrides };
+}
+
+/**
+ * A tenant with only the facts the schema requires.
+ *
+ * The optional fields are the ones that actually break composers — no
+ * missionSummary, no siteUrl, no missionAreas — and the second real tenant
+ * lacks most of them. Use this to assert that absence degrades to something
+ * true rather than to "undefined" in a document going to a foundation.
+ */
+export function makeMinimalTenant(overrides: Partial<Tenant> = {}): Tenant {
+  const base = deriveTenant(
+    {
+      orgId: 'minimal-org',
+      name: 'Minimal-Organisation',
+      legalForm: 'Verein nach Art. 60 ff. ZGB',
+      founded: 2026,
+      location: 'Bern',
+      email: 'kontakt@minimal.example',
+    },
+    new Date('2026-06-01'),
+  );
+  return { ...base, ...overrides };
 }
