@@ -43,16 +43,17 @@ const createRuleSchema = z.object({
  * List all customization rules
  */
 export async function GET(request: NextRequest) {
-  // Every write says whose data it is. The columns no longer carry a
-  // default, so an unattributed row cannot be created at all.
+  // Reads are scoped by the same identifier writes are attributed to. It was
+  // only being used for the latter, so the list returned every tenant's rules.
   const ORG_ID = await getCurrentOrgId();
   try {
     const { searchParams } = new URL(request.url);
     const foundationId = searchParams.get('foundationId');
     const activeOnly = searchParams.get('active') !== 'false';
 
-    // Build conditions
-    const conditions = [];
+    // Build conditions. Rules are one organisation's personalisation logic for
+    // its own Gesuche; listed unscoped, every tenant sees the others'.
+    const conditions = [eq(customizationRules.orgId, ORG_ID)];
     if (foundationId) {
       conditions.push(eq(customizationRules.foundationId, foundationId));
     }

@@ -12,6 +12,7 @@ import { activityLog } from '@/lib/db/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { API_ERR_VALIDATION, API_ERR_DB } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
+import { getCurrentOrgId } from '@/lib/tenant/resolve';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -24,10 +25,19 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // Entity ids are opaque but guessable, and the log records who changed
+    // what and when. Without the org predicate this endpoint answers that
+    // question about any tenant's application to any caller.
     const entries = await db
       .select()
       .from(activityLog)
-      .where(and(eq(activityLog.entityId, entityId), eq(activityLog.entityType, entityType)))
+      .where(
+        and(
+          eq(activityLog.orgId, await getCurrentOrgId()),
+          eq(activityLog.entityId, entityId),
+          eq(activityLog.entityType, entityType),
+        ),
+      )
       .orderBy(desc(activityLog.timestamp))
       .limit(limit);
 

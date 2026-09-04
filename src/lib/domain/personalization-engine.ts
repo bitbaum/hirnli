@@ -9,6 +9,7 @@ import { db } from '../db/client';
 import { customizationRules, foundations } from '../db/schema';
 import { eq, and, or, isNull } from 'drizzle-orm';
 import type { FoundationRow, CustomizationRule } from '../db/schema';
+import { getCurrentOrgId } from '../tenant/resolve';
 
 /**
  * Customization action to apply to Gesuch
@@ -125,6 +126,10 @@ export async function generatePersonalizedGesuch(
     .from(customizationRules)
     .where(
       and(
+        // Which organisation's rules shape this Gesuch. Unscoped, another
+        // tenant's global rules (foundationId IS NULL matches everything)
+        // rewrote the text of every organisation's application.
+        eq(customizationRules.orgId, await getCurrentOrgId()),
         or(
           eq(customizationRules.foundationId, foundationId),
           isNull(customizationRules.foundationId),
