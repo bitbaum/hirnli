@@ -17,6 +17,41 @@ Getting it wrong does not fail at build. `useTenant()` in a server component and
 | **Modules in the client tree** (`lib/domain/*`, `lib/config/*`) | Take the tenant as a **parameter** | Not components, so hooks are invalid. Passing it in is also the correct separation: a composer should not fetch its own context, the same reason `roles.ts` has no imports. |
 | **Server components / route handlers** | `await getTenant()` (or `getCurrentOrgId()` when only scoping a query) | They run per request and can await. Use the id alone for a `WHERE` clause — reading a whole profile to build one is a needless round-trip. |
 
+## Every optional field, at every use
+
+`Tenant` makes `address`, `warehouseAddress`, `phone`, `website`, `siteUrl`,
+`cloudUrl`, `contactName`, `fundraisingEmail`, `milestones`, `missionAreas`,
+`missionSummary` and `missionKeywords` optional, and the second tenant really
+does lack most of them. Rendering one unguarded produces a label with nothing
+after it — `Laden: Lager:` on a card, `seit undefined` in a stat, a link whose
+href is the string "undefined". Omit the line; never invent a value.
+
+**Guard each use, not each file.** This was got wrong once already, in
+`strategie/components.tsx`: the Kontakt card guarded its address, the Heute card
+two hundred lines up did not, and the page shipped with two empty labels for the
+tenant that has no premises. A per-file check would have called that file clean.
+
+It is not enforced by a test. Encoding it needs either JSX-accurate parsing —
+which produced four false positives when tried for the query-scoping gate, and a
+check that cries wolf stops being read — or component rendering, which this repo
+has no jsdom or testing-library for. So it is a review rule, stated here because
+the remaining batches (`lib/pdf`, `lib/domain`, `components/gesuch`, the config
+content modules) are where most optional fields are still consumed.
+
+The cheap way to actually see it: render a page as the sparse tenant.
+
+```bash
+# on the server, bypassing Caddy — evig has no address, phone or premises
+curl -s -H 'Host: evig.hirnli.orangecat.ch' http://127.0.0.1:4012/strategie \
+  | sed 's/<!-- -->//g' | grep -o '<strong>[^<]*:</strong>[^<]*<' | sort -u
+```
+
+That lists candidates, not findings. Most labels are legitimately followed by a
+nested tag — a link, a list, a `<code>` — and show up the same way. Read them:
+the unguarded ones have nothing between the label and the end of the line at
+all, and appear only for the sparse tenant. Diffing against the same page for a
+fully-populated tenant is what makes them obvious.
+
 ## Computing the split
 
 The client tree is the transitive closure of imports from every `'use client'`
