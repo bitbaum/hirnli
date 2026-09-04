@@ -1,4 +1,4 @@
-# Revamp-Info — Fundraising Intelligence Platform
+# Hirnli — Fundraising Intelligence Platform
 
 @~/.claude/CLAUDE.md
 
@@ -14,8 +14,9 @@ Revamp-IT's survival depends on foundation grants — this platform exists to fi
 
 ### Platform Naming (SSOT: platform-brand.ts)
 
-The platform will be released as a standalone SaaS product. Its final name is
-**undecided** — "Hirnli" is a candidate (2026-07-17). Working title: "Revamp-Info".
+The platform will be released as a standalone SaaS product. Its name is
+**Hirnli** (decided — see `PLATFORM_BRAND`; the earlier working title "Revamp-Info"
+survives only as the apps.conf deploy key and the first tenant's host).
 
 **The rule:** the platform's name/tagline exist in exactly ONE file —
 `src/lib/config/platform-brand.ts` (PLATFORM_BRAND). Renaming the product is a
@@ -117,7 +118,7 @@ lib/config/metrics.ts      → Metric metadata (SSOT)
 lib/data/financial.ts      → Financial data + FinanceDataSet class
 ```
 
-Adding a new foundation requires: **1 data entry** in `foundations.ts` (1-file rule — dynamic route handles rendering).
+Adding a new foundation requires: **1 DB upsert** (`scripts/foundation-upsert.ts` — dynamic route handles rendering).
 
 ---
 
@@ -138,11 +139,15 @@ PUBLIC (anyone)                          INTERNAL (org team, password)
                                          /api/customizations/**
                                          /api/cron/**
                                          /api/documents/**
+                                         /api/activity-log/**
 ```
 
 **How auth works:** `src/middleware.ts` checks HTTP Basic Auth on protected routes.
-Set `INTERNAL_PASSWORD` in the server environment. If unset, all routes are open
-(local dev). The browser handles the prompt — no login page, no sessions, no accounts.
+Set `INTERNAL_PASSWORD` in the server environment. If unset, internal routes are open
+in dev and fail closed (503) in production. The browser handles the prompt.
+Separately, the platform now has real accounts via **Better Auth** (email+password,
+organisation plugin — `src/lib/auth/server.ts`): registration/login pages live under
+`(platform)` (`/registrieren`, `/anmelden`) and org-scoped routing at `/o/<slug>/`.
 
 **The share-page contract:** `/gesuch/share/[token]` is intentionally public. It's the
 controlled channel for sending foundation-specific content to program officers. Tokens
@@ -155,9 +160,10 @@ see our research on other foundations, or discover that content is generated fro
 shared templates. The `GesuchShareView` component enforces this — no toolbar, no edit
 controls, no internal badges.
 
-**Multi-tenancy implication:** When Hirnli goes multi-tenant, this middleware gets
-replaced by proper per-org auth (Clerk or similar). The internal/external boundary
-stays the same; auth becomes per-org rather than a single shared password.
+**Multi-tenancy implication:** Per-org auth is Better Auth (shipped: accounts,
+organisations, memberships — see `src/lib/auth/`). The Basic-Auth gate still covers
+the legacy internal routes until they move behind org membership; the
+internal/external boundary stays the same.
 
 ---
 
@@ -188,14 +194,16 @@ judgments into the registry layer.
 ESA / Zefix / Research scripts
         ↓ write via scripts/foundation-upsert.ts
   PostgreSQL (self-hosted) — fundraising_foundations table — WRITE SSOT
-  config_data JSONB column holds all Foundation domain fields
+  config_data JSONB holds the registry fields; per-org analysis (fitScore, priority,
+  themes, researchNotes, …) lives in fundraising_foundation_assessments
+  (one row per org × foundation, since migration 0015)
         ↓ read via src/lib/db/foundations-repo.ts (getAllFoundations/getFoundationBySlug)
   Cached with unstable_cache (tag 'foundations', 1h TTL — writes appear within the hour)
         ↓
   All UI pages (Server Components fetch once, pass down; client components take props)
 ```
 
-**Foundation funnel (verified 2026-05-05 — run `npm run audit` for live numbers):**
+**Foundation funnel (verified 2026-05-05 — run `pnpm run audit` for live numbers):**
 
 | Tier | Count | Table/File | What it means |
 |------|-------|------------|---------------|
@@ -209,14 +217,14 @@ ESA / Zefix / Research scripts
 
 **Data confidence distribution (active):** unverified=13,823 · ai-assessed=1,680 · human-verified=3
 
-**ApplicationUrl coverage:** P1=20/20 (100%) · P2=78/78 (100%) · P3=136/142 (96% raw URL; 5 use applicationMethod='email', 1 unreachable) — run `npm run audit` for gap list (1 structural gap: alice-ackermann, phone-only)
+**ApplicationUrl coverage:** P1=20/20 (100%) · P2=78/78 (100%) · P3=136/142 (96% raw URL; 5 use applicationMethod='email', 1 unreachable) — run `pnpm run audit` for gap list (1 structural gap: alice-ackermann, phone-only)
 
 **Note:** `fundraising_foundation_registry` was dropped (2026-04-08) — it duplicated
 config_data and was never read by the app. All foundation data lives in config_data JSONB.
 
 **Adding a foundation to the pipeline:**
 1. Research the foundation and prepare its data
-2. Run `npx tsx scripts/foundation-upsert.ts` (or direct DB insert) with config_data
+2. Run `pnpm exec tsx scripts/foundation-upsert.ts` (or direct DB insert) with config_data
 3. Pages pick it up within the cache's 1h TTL (`src/lib/db/foundations-repo.ts`)
    — no rebuild needed. Restart the app for immediate effect if needed sooner.
 
@@ -225,18 +233,19 @@ config_data and was never read by the app. All foundation data lives in config_d
 | Type | File | Shape | Who uses it |
 |------|------|-------|-------------|
 | `Foundation` | `src/lib/schemas/foundation.ts` | Zod domain type, ~56 rich fields | UI, Gesuch generation, ~30 consumers |
-| `FoundationRow` | `src/lib/db/schema.ts` | Drizzle `$inferSelect`, 13 columns | API routes, DB queries, ~15 consumers |
+| `FoundationRow` | `src/lib/db/schema.ts` | Drizzle `$inferSelect`, 9 columns | API routes, DB queries, ~15 consumers |
 
 `Foundation` is parsed from `FoundationRow.config_data` JSONB at read time
 (`foundationSchema.safeParse` in `foundations-repo.ts`). When importing, check
 which layer you're in: DB API routes use `FoundationRow`; UI/domain code uses `Foundation`.
 
-**DB columns (13 total, after SSOT cleanup 2026-04-08):**
-`id`, `name`, `fit_score`, `priority`, `research_depth`, `research_date`,
-`data_confidence`, `config_data`, `org_id`, `source`, `created_at`, `updated_at`, `archived`
+**DB columns (9 total, after the analysis split in migration 0015):**
+`id`, `name`, `data_confidence`, `config_data`, `org_id`, `source`, `created_at`, `updated_at`, `archived`
 
-The flat `fit_score`/`priority` columns are intentional denormalization (indexed for queries).
-All other domain fields live exclusively in `config_data` JSONB.
+`fit_score`, `priority`, `research_depth` and `research_date` moved to
+`fundraising_foundation_assessments` (one row per org × foundation) — they describe one
+organisation's view of a foundation, and the foundations table is shared by every tenant.
+The remaining registry fields live in `config_data` JSONB.
 
 ### Scoring Model
 
@@ -329,7 +338,7 @@ search-replace). See file headers for details.
 5. Rewrite NOT_RECOMMENDED, schwerpunkte, budget-scenarios
 6. Rewrite page content (/revamp-2030, /strategie, /team)
 7. Update branding (logo, colors if needed)
-8. `npm run build` must pass
+8. `pnpm run build` must pass
 
 ---
 
@@ -350,33 +359,36 @@ Next.js 16 + TypeScript + Tailwind CSS v4
 ### File Structure
 
 ```
-revamp-info/
+hirnli/
 ├── CLAUDE.md                          # THIS FILE — product vision + engineering guide
 ├── next.config.ts                     # Standalone output, security headers, redirects
 ├── src/
-│   ├── app/                           # Next.js App Router (28 page routes)
-│   │   ├── layout.tsx                 # Root layout (Nav + Footer)
-│   │   ├── page.tsx                   # Dashboard
+│   ├── app/                           # Next.js App Router (35 page routes, three chromes)
+│   │   ├── layout.tsx                 # Root layout
 │   │   ├── globals.css                # Design tokens + Tailwind v4
-│   │   ├── finanzen/                  # Financial deep dive (8-year P&L)
-│   │   ├── wirkung/                   # Impact metrics
-│   │   ├── methodik/                  # Methodology + transparency report
-│   │   ├── preismodell/               # Solidarity pricing model
-│   │   ├── strategie/                 # Vision, mission, SDGs
-│   │   ├── team/                      # Team & capacity
-│   │   ├── operations/                # SOPs & processes
-│   │   ├── dokumente/                 # Document library
-│   │   ├── wie-wir-arbeiten/          # How we work (impact methodology)
-│   │   ├── revamp-2030/              # Vision 2030 strategy
-│   │   ├── gesuch/share/[token]/     # Public share pages (HMAC-protected)
-│   │   └── fundraising/
-│   │       ├── page.tsx               # Fundraising hub
-│   │       ├── stiftungen/            # Foundation list + [slug] detail + [slug]/gesuch
-│   │       ├── applications/          # Pipeline management + [id] detail
-│   │       ├── hub/                   # Hub/space planning
-│   │       ├── bildung/               # Education program funding
-│   │       ├── scoring-methodik/      # Scoring methodology
-│   │       └── gesuch-vorlagen/       # Template list + [type] detail
+│   │   ├── (platform)/                # Product chrome: /plattform, /start, /registrieren, /anmelden
+│   │   ├── (share)/gesuch/share/[token]/  # Chrome-less public share pages (HMAC-protected)
+│   │   ├── o/[slug]/                  # Org-scoped app routing (Better Auth membership)
+│   │   └── (tenant)/                  # Org chrome — tenant showcase + internal tools
+│   │       ├── page.tsx               # Dashboard
+│   │       ├── finanzen/              # Financial deep dive (8-year P&L)
+│   │       ├── wirkung/               # Impact metrics
+│   │       ├── methodik/              # Methodology + transparency report
+│   │       ├── preismodell/           # Solidarity pricing model
+│   │       ├── strategie/             # Vision, mission, SDGs
+│   │       ├── team/                  # Team & capacity
+│   │       ├── operations/            # SOPs & processes
+│   │       ├── dokumente/             # Document library
+│   │       ├── wie-wir-arbeiten/      # How we work (impact methodology)
+│   │       ├── revamp-2030/           # Vision 2030 strategy
+│   │       └── fundraising/
+│   │           ├── page.tsx           # Fundraising hub
+│   │           ├── stiftungen/        # Foundation list + [slug] detail + [slug]/gesuch
+│   │           ├── applications/      # Pipeline management + [id] detail
+│   │           ├── hub/               # Hub/space planning
+│   │           ├── bildung/           # Education program funding
+│   │           ├── scoring-methodik/  # Scoring methodology
+│   │           └── gesuch-vorlagen/   # Template list + [type] detail
 │   ├── components/
 │   │   ├── layout/                    # Nav, Footer, PageHeader, StoryBridge, WhyThisMatters
 │   │   ├── ui/                        # Badge, Button, Card, CTABanner, Tabs, Modal, Table, etc.
@@ -454,8 +466,8 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 ### Remaining
 
 - 1 P3 truly unreachable (alice-ackermann: phone-only, no appUrl, no email) — also the only
-  remaining APPLICATION URL gap. Run `npm run audit` for the live list.
-- 13 Gesuch documents have data-quality issues per `gesuch-audit` (run `npx tsx scripts/gesuch-audit.ts`):
+  remaining APPLICATION URL gap. Run `pnpm run audit` for the live list.
+- 13 Gesuch documents have data-quality issues per `gesuch-audit` (run `pnpm exec tsx scripts/gesuch-audit.ts`):
   5 P2 and 8 P3 — mostly missing email/phone or no real websiteUrl — needs per-foundation
   research enrichment, not a code fix. Verified external research required (auto-scraping
   is forbidden per 2026-04-07 data-integrity rule).
@@ -652,22 +664,22 @@ All design tokens live in `src/app/globals.css` only. Tailwind config MUST refer
 ### Local Development
 
 ```bash
-npm run dev
+pnpm run dev
 # Visit http://localhost:3000
 ```
 
 ### Build
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 ### Pipeline Audit
 
-The authoritative pipeline health check. Run after any rescore, sync, or research batch:
+The authoritative pipeline health check. Run after any rescore or research batch:
 
 ```bash
-npm run audit
+pnpm run audit
 # Prints: funnel counts, priority breakdown, applicationUrl coverage, gap list
 # Use this output to update the funnel table in CLAUDE.md
 ```
@@ -677,7 +689,7 @@ npm run audit
 **DB is write SSOT.** Reads are live — no generated file, no sync step.
 
 1. Research the foundation; prepare config_data with all required fields
-2. Run `npx tsx scripts/foundation-upsert.ts --slug=<slug>` (or use the API: `POST /api/foundations`)
+2. Run `pnpm exec tsx scripts/foundation-upsert.ts --slug=<slug>` (or use the API: `POST /api/foundations`)
 3. The page appears within the read layer's 1h cache TTL (`src/lib/db/foundations-repo.ts`)
    — no rebuild needed. Foundation pages are `force-dynamic` (rendered per request): the
    root layout reads the locale cookie (next-intl), so no route can be statically
@@ -703,10 +715,10 @@ Schema lives in `src/lib/db/schema.ts`. After editing:
 export DATABASE_URL=$(grep DATABASE_URL .env.local | cut -d= -f2-)
 
 # 2. Generate SQL migration file
-npx drizzle-kit generate   # creates src/lib/db/migrations/<timestamp>_<name>.sql
+pnpm exec drizzle-kit generate   # creates src/lib/db/migrations/<timestamp>_<name>.sql
 
 # 3. Apply to DB
-npx drizzle-kit push       # pushes schema diff to the Postgres DB
+pnpm exec drizzle-kit push       # pushes schema diff to the Postgres DB
 ```
 
 **Rules:**
@@ -734,7 +746,7 @@ npx drizzle-kit push       # pushes schema diff to the Postgres DB
 
 Before pushing:
 
-- [ ] `npm run build` passes (TypeScript + static generation)
+- [ ] `pnpm run build` passes (TypeScript + static generation)
 - [ ] All internal links work (no 404s)
 - [ ] Mobile-responsive (test at 375px)
 - [ ] Swiss German spelling (ss not ß, real umlauts ä ö ü — never ae oe ue)
@@ -748,8 +760,11 @@ Before pushing:
 
 ### The Approach
 
-Claude Code IS the onboarding engine. No runtime multi-tenancy. One repo instance
-per organization. Clone repo → drop context documents → Claude rewrites 17 files → deploy.
+Claude Code IS the onboarding engine. One deployment now serves multiple tenants
+(host → tenant resolution, `src/lib/tenant/registry.ts`; org content is migrating from
+ORG-SPECIFIC files to `org_profiles`/`org_content`/`org_scoring` rows — see
+`scripts/seed-org-content.ts`). Drop context documents → Claude rewrites the
+ORG-SPECIFIC files → seed the org's rows → deploy.
 
 See `org-context/README.md` for full documentation and `org-context/_template/README.md`
 for the step-by-step checklist.
@@ -776,12 +791,12 @@ for the step-by-step checklist.
 | 8 | `src/lib/config/fit-scoring.ts` | Priority formula and scoring weights |
 | 9 | `src/lib/config/value-cascade.ts` | Value chain specific to org's process |
 | 10 | `src/lib/schemas/foundation.ts` | ThemeId enum (org's focus area categories) |
-| 11 | `src/app/revamp-2030/page.tsx` | Vision/mission/strategy page |
-| 12 | `src/app/strategie/data.ts` | Strategy page data |
-| 13 | `src/app/strategie/components.tsx` | Strategy page components |
-| 14 | `src/app/team/data.ts` | Team members and roles |
-| 15 | `src/app/wie-wir-arbeiten/data.ts` | How we work page data |
-| 16 | `src/app/finanzen/FinanzenClient.tsx` | Financial dashboard |
+| 11 | `src/app/(tenant)/revamp-2030/page.tsx` | Vision/mission/strategy page |
+| 12 | `src/app/(tenant)/strategie/data.ts` | Strategy page data |
+| 13 | `src/app/(tenant)/strategie/components.tsx` | Strategy page components |
+| 14 | `src/app/(tenant)/team/data.ts` | Team members and roles |
+| 15 | `src/app/(tenant)/wie-wir-arbeiten/data.ts` | How we work page data |
+| 16 | `src/app/(tenant)/finanzen/FinanzenClient.tsx` | Financial dashboard |
 | 17 | `src/app/api/documents/gesuch/[id]/route.tsx` | Gesuch PDF generation |
 | 18 | `src/lib/pdf/impact-report/index.tsx` | Wirkungsbericht PDF template (2-page) |
 | 19 | `src/lib/pdf/pitch-deck/index.tsx` | Pitch Deck PDF template (8-slide landscape) |
@@ -797,7 +812,7 @@ for the step-by-step checklist.
 7. Rewrite page content (team, strategy, vision, finanzen)
 8. Rewrite PDF templates (`impact-report/index.tsx`, `pitch-deck/index.tsx`) with new org narrative
 9. Set `org_id` in `scripts/foundation-upsert.ts`
-10. Run screening with new keywords → queue → research → upsert → sync → build
+10. Run screening with new keywords → queue → research → upsert (reads are live — no sync step)
 
 ### Input Spec (`org-context/<org-name>/`)
 
@@ -825,27 +840,33 @@ for the step-by-step checklist.
 - ~~Pitch deck format~~ — DONE (8-slide landscape A4, `GET /api/documents/pitch-deck`)
 - ~~Impact report from live data~~ — DONE (2-page Wirkungsbericht, `GET /api/documents/impact-report`)
 
-### Phase 3: Hirnli — Multi-Tenant Platform
+### Phase 3: Hirnli — Multi-Tenant Platform (IN PROGRESS)
 
 **The model:** Claude Code is the onboarding engine. An org provides context documents
-(statutes, annual report, strategy, financials). Claude rewrites the 14 ORG-SPECIFIC files
-and deploys a branded instance. No runtime multi-tenancy — each org runs their own deployment.
+(statutes, annual report, strategy, financials). Claude rewrites the ORG-SPECIFIC files
+and seeds the org's rows. One deployment serves every tenant: the middleware resolves
+Host → tenant per request, and org content is migrating from TS configs to DB rows.
 
 **What changes per org:**
-- The 17 ORG-SPECIFIC files (org-profile, stories, themes, budget, etc.)
-- The analysis layer of the foundation DB (fit scores, priorities, researchNotes)
+- The ORG-SPECIFIC files (org-profile, stories, themes, budget, etc. — see table above),
+  migrating into `org_profiles` / `org_content` / `org_scoring` rows
+- The analysis layer of the foundation DB (`fundraising_foundation_assessments`:
+  fit scores, priorities, researchNotes — one row per org × foundation)
 - Branding (logo, colors)
 
 **What stays shared across orgs:**
 - The registry layer of the foundation DB (universal foundation facts)
 - All platform code, components, schemas
-- The Hirnli platform itself (not yet public — Revamp-IT branding only until launch)
 
-**When Phase 3 starts:** After Revamp-IT demonstrates measurable fundraising outcomes
-from this tooling. The proof of concept has to work before we scale it.
+**Shipped so far (see the status block in `docs/HIRNLI-REPLATFORM-PLAN.md`):**
+platform host `hirnli.orangecat.ch` + host-routing middleware; Better Auth identity
+(accounts, organisations, memberships, open registration) with org-scoped routing at
+`/o/<slug>/`; per-org assessments table; `org_profiles` as tenant-identity SSOT;
+Hirnli's own Postgres database (moved out of the shared revampit DB 2026-09-02).
 
-**Auth in Phase 3:** The middleware password gets replaced by per-org auth (Clerk or
-similar). The internal/external page boundary stays the same — only the auth mechanism changes.
+**Auth in Phase 3:** Better Auth (shipped). The Basic-Auth middleware password still
+gates the legacy internal routes until they move behind org membership — the
+internal/external page boundary stays the same.
 
 ---
 
@@ -873,5 +894,5 @@ similar). The internal/external page boundary stays the same — only the auth m
 
 ---
 
-**Last Updated:** 2026-05-28 — run `npm run audit` for live pipeline stats (P1=20/P2=78/P3=142=240, generated=1,683, archived=1,117, P2/P3 appUrl=100%/96%; Gesuch P1=20/20 perfect, P2=70/75=93%, P3=109/117=93% — 199/212 total perfect)
+**Last Updated:** 2026-09-04 — run `pnpm run audit` for live pipeline stats (as of 2026-05-28: P1=20/P2=78/P3=142=240, generated=1,683, archived=1,117, P2/P3 appUrl=100%/96%; Gesuch P1=20/20 perfect, P2=70/75=93%, P3=109/117=93% — 199/212 total perfect)
 **Maintainer:** Revamp-IT Team

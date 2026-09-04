@@ -50,12 +50,12 @@ Claude reads all documents and rewrites these 19 ORG-SPECIFIC files:
 9. `src/lib/config/fit-scoring.ts` — Priority formula and scoring weights
 
 ### Pages
-10. `src/app/revamp-2030/page.tsx` — Vision/mission/strategy page
-11. `src/app/strategie/data.ts` — Strategy page data
-12. `src/app/strategie/components.tsx` — Strategy page components
-13. `src/app/team/data.ts` — Team members and roles
-14. `src/app/wie-wir-arbeiten/data.ts` — How we work page data
-15. `src/app/finanzen/FinanzenClient.tsx` — Financial dashboard
+10. `src/app/(tenant)/revamp-2030/page.tsx` — Vision/mission/strategy page
+11. `src/app/(tenant)/strategie/data.ts` — Strategy page data
+12. `src/app/(tenant)/strategie/components.tsx` — Strategy page components
+13. `src/app/(tenant)/team/data.ts` — Team members and roles
+14. `src/app/(tenant)/wie-wir-arbeiten/data.ts` — How we work page data
+15. `src/app/(tenant)/finanzen/FinanzenClient.tsx` — Financial dashboard
 
 ### Documents & PDFs
 16. `src/app/api/documents/gesuch/[id]/route.tsx` — Gesuch PDF generation
@@ -67,7 +67,8 @@ Claude reads all documents and rewrites these 19 ORG-SPECIFIC files:
 
 ### After Rewriting
 - Run `scripts/new-org.sh` or manually: reseed foundation DB with new research
-- `npm run sync && npm run build`
+  (pages read live from the DB — no sync step)
+- `pnpm run build`
 - Deploy (see docs/DEPLOYMENT.md)
 
 ## Directory Structure
