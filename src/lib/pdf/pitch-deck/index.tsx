@@ -637,8 +637,10 @@ function Slide7WhyUs({ tenant }: { tenant: Tenant }) {
           <Text style={s.p}>
             {tenant.taxExemption ?? 'Gemeinnützig'}. Alle Finanzdaten und Wirkungszahlen mit
             Quellenangaben öffentlich einsehbar auf{' '}
-            {tenant.website ? `${tenant.website}/finanzen` : '/finanzen'}
-            /wirkung — keine Blackboxes.
+            {tenant.website
+              ? `${tenant.website}/finanzen und ${tenant.website}/wirkung`
+              : '/finanzen und /wirkung'}{' '}
+            — keine Blackboxes.
           </Text>
         </View>
       </View>
