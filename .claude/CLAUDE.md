@@ -1,4 +1,4 @@
-# Revamp-Info — Claude Code Instructions
+# Hirnli — Claude Code Instructions
 
 @~/.claude/CLAUDE.md
 
@@ -6,11 +6,11 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 
 ## Quick Reference
 
-**What:** Fundraising intelligence platform (currently Revamp-IT specific, future: universal)
+**What:** Fundraising intelligence platform (multi-tenant; Revamp-IT is tenant #1)
 **Core:** Ingest project data → Present beautifully → Find funders → Profile fit → Generate documents
-**Stack:** Next.js 16 + TypeScript + Tailwind CSS v4 + Chart.js + Zod 4
-**Deploy:** `~/dev/fleetcrown/scripts/hetzner/deploy.sh revamp-info` (self-hosted Hetzner, see docs/DEPLOYMENT.md)
-**URL:** https://revamp-info.orangecat.ch
+**Stack:** Next.js 16 + TypeScript + Tailwind CSS v4 + Chart.js + Zod 4 + Drizzle + Better Auth
+**Deploy:** push to `main` → `.github/workflows/deploy.yml` (fleet selfhost-deploy; manual fallback: `~/dev/fleetcrown/scripts/hetzner/deploy.sh revamp-info` — see docs/DEPLOYMENT.md)
+**URLs:** https://revamp-info.orangecat.ch (tenant) · https://hirnli.orangecat.ch (platform)
 
 ## First Principles
 
@@ -34,29 +34,32 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 
 ```
 src/
-├── app/                           # Next.js App Router (28 page routes)
-│   ├── layout.tsx                 # Root layout (Nav + Footer)
-│   ├── page.tsx                   # Dashboard
+├── app/                           # Next.js App Router (35 page routes, three chromes)
+│   ├── layout.tsx                 # Root layout
 │   ├── globals.css                # Design tokens + Tailwind v4
-│   ├── finanzen/                  # Financial deep dive (8-year P&L)
-│   ├── wirkung/                   # Impact metrics
-│   ├── methodik/                  # Methodology + transparency report
-│   ├── preismodell/               # Solidarity pricing model
-│   ├── strategie/                 # Vision, mission, SDGs
-│   ├── team/                      # Team & capacity
-│   ├── operations/                # SOPs & processes
-│   ├── dokumente/                 # Document library
-│   ├── wie-wir-arbeiten/          # How we work (impact methodology)
-│   ├── revamp-2030/              # Vision 2030 strategy
-│   ├── gesuch/share/[token]/     # Public share pages (HMAC-protected)
-│   └── fundraising/
-│       ├── page.tsx               # Fundraising hub
-│       ├── stiftungen/            # Foundation list + [slug] detail + [slug]/gesuch
-│       ├── applications/          # Pipeline management + [id] detail
-│       ├── hub/                   # Hub/space planning
-│       ├── bildung/               # Education program funding
-│       ├── scoring-methodik/      # Scoring methodology
-│       └── gesuch-vorlagen/       # Template list + [type] detail
+│   ├── (platform)/                # Product chrome: /plattform, /start, /registrieren, /anmelden
+│   ├── (share)/gesuch/share/[token]/  # Chrome-less public share pages (HMAC-protected)
+│   ├── o/[slug]/                  # Org-scoped app routing (Better Auth membership)
+│   └── (tenant)/                  # Org chrome — tenant showcase + internal tools
+│       ├── page.tsx               # Dashboard
+│       ├── finanzen/              # Financial deep dive (8-year P&L)
+│       ├── wirkung/               # Impact metrics
+│       ├── methodik/              # Methodology + transparency report
+│       ├── preismodell/           # Solidarity pricing model
+│       ├── strategie/             # Vision, mission, SDGs
+│       ├── team/                  # Team & capacity
+│       ├── operations/            # SOPs & processes
+│       ├── dokumente/             # Document library
+│       ├── wie-wir-arbeiten/      # How we work (impact methodology)
+│       ├── revamp-2030/           # Vision 2030 strategy
+│       └── fundraising/
+│           ├── page.tsx           # Fundraising hub
+│           ├── stiftungen/        # Foundation list + [slug] detail + [slug]/gesuch
+│           ├── applications/      # Pipeline management + [id] detail
+│           ├── hub/               # Hub/space planning
+│           ├── bildung/           # Education program funding
+│           ├── scoring-methodik/  # Scoring methodology
+│           └── gesuch-vorlagen/   # Template list + [type] detail
 ├── components/
 │   ├── layout/                    # Nav, Footer, PageHeader, StoryBridge, WhyThisMatters
 │   ├── ui/                        # Badge, Button, Card, CTABanner, Tabs, Modal, Table, etc.
@@ -85,12 +88,13 @@ src/
 
 ```bash
 # Local dev
-npm run dev
+pnpm run dev
 
 # Build (no DB access needed — foundation data is read at runtime, not build time)
-npm run build
+pnpm run build
 
-# Deploy (build locally -> rsync artifact -> restart; see docs/DEPLOYMENT.md)
+# Deploy: push to main (CD via .github/workflows/deploy.yml). Manual fallback
+# (build locally -> rsync artifact -> restart; see docs/DEPLOYMENT.md):
 ~/dev/fleetcrown/scripts/hetzner/deploy.sh revamp-info
 ```
 
@@ -98,5 +102,5 @@ npm run build
 
 **DB is write SSOT.** Reads are live via `src/lib/db/foundations-repo.ts` — no generated file.
 
-1. Run `npx tsx scripts/foundation-upsert.ts --slug=<slug>` with config_data
+1. Run `pnpm exec tsx scripts/foundation-upsert.ts --slug=<slug>` with config_data
 2. Page appears within the read layer's 1h cache TTL — no rebuild needed

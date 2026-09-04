@@ -11,29 +11,29 @@ here is operations.
 
 ---
 
-## Quick reference (npm aliases)
+## Quick reference (pnpm aliases)
 
 | Command | Script | Purpose |
 |---------|--------|---------|
-| `npm run audit` | `audit-pipeline.ts` | Pipeline funnel + gap report |
-| `npm run validate:foundations` | `foundation-validate.ts` | Schema + duplicate + quality validation |
-| `npm run foundation:add` | `foundation-add.ts` | Interactive entry generator |
-| `npm run esa:download` | `esa-download-and-parse.ts` | Pull ESA register snapshot |
-| `npm run zefix:download` | `zefix-download.ts` | Pull Zefix register data |
-| `npm run zefix:ingest` | `zefix-ingest.ts` | Bulk-import from Zefix snapshot |
-| `npm run zhaw:ingest` | `zhaw-ingest.ts` | ZHAW register-text ingest |
-| `npm run screen` | `foundation-screen.ts` | Phase-1 LLM screening |
-| `npm run research:queue` | `foundation-research-queue.ts` | Build research candidate queue |
-| `npm run research:foundation` | `foundation-research-assistant.ts` | Per-foundation research prompt |
-| `npm run research:batch` | `foundation-batch-research.ts` | Batch research prompt set |
-| `npm run pipeline:incremental` | `pipeline-incremental.ts` | Incremental graduation pass |
-| `npm run pipeline:graduate` | `pipeline-graduate.ts` | Phase-2 LLM graduation |
-| `npm run pipeline:triage` | `ingest-triage.ts` | Triage research-result batches |
-| `npm run pipeline:upsert` | `foundation-upsert.ts` | Single-foundation upsert |
-| `npm run enrich:bulk` | `bulk-enrich.ts` | Bulk enrichment runner |
-| `npm run sync-numbers` | `sync-org-numbers.ts` | Refresh ORG_PROFILE numbers |
+| `pnpm run audit` | `audit-pipeline.ts` | Pipeline funnel + gap report |
+| `pnpm run validate:foundations` | `foundation-validate.ts` | Schema + duplicate + quality validation |
+| `pnpm run foundation:add` | `foundation-add.ts` | Interactive entry generator |
+| `pnpm run esa:download` | `esa-download-and-parse.ts` | Pull ESA register snapshot |
+| `pnpm run zefix:download` | `zefix-download.ts` | Pull Zefix register data |
+| `pnpm run zefix:ingest` | `zefix-ingest.ts` | Bulk-import from Zefix snapshot |
+| `pnpm run zhaw:ingest` | `zhaw-ingest.ts` | ZHAW register-text ingest |
+| `pnpm run screen` | `foundation-screen.ts` | Phase-1 LLM screening |
+| `pnpm run research:queue` | `foundation-research-queue.ts` | Build research candidate queue |
+| `pnpm run research:foundation` | `foundation-research-assistant.ts` | Per-foundation research prompt |
+| `pnpm run research:batch` | `foundation-batch-research.ts` | Batch research prompt set |
+| `pnpm run pipeline:incremental` | `pipeline-incremental.ts` | Incremental graduation pass |
+| `pnpm run pipeline:graduate` | `pipeline-graduate.ts` | Phase-2 LLM graduation |
+| `pnpm run pipeline:triage` | `ingest-triage.ts` | Triage research-result batches |
+| `pnpm run pipeline:upsert` | `foundation-upsert.ts` | Single-foundation upsert |
+| `pnpm run enrich:bulk` | `bulk-enrich.ts` | Bulk enrichment runner |
+| `pnpm run sync-numbers` | `sync-org-numbers.ts` | Refresh ORG_PROFILE numbers |
 
-## Tools without npm aliases (invoke via `npx tsx`)
+## Tools without aliases (invoke via `pnpm exec tsx`)
 
 | Script | Purpose |
 |--------|---------|
@@ -46,6 +46,8 @@ here is operations.
 | `new-org.sh` | Bootstrap onboarding for a new tenant org |
 | `audit-themes.ts` | Audit theme assignments for P1+P2 foundations |
 | `set-confidence.ts` | Set `data_confidence` from research depth (supports `--dry-run`) |
+| `grant-org-membership.ts` | Attach an existing account to one or more organisations (idempotent) |
+| `seed-org-content.ts` | Seed `org_profiles`/`org_content`/`org_scoring` rows from the ORG-SPECIFIC TS configs (idempotent upserts) |
 
 ## Library code
 

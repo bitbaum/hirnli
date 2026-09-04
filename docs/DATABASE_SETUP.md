@@ -4,13 +4,13 @@
 
 This project uses **PostgreSQL** (self-hosted) with **Drizzle ORM**.
 The DB is the write SSOT for all foundation data — see
-[`/CLAUDE.md`](./CLAUDE.md) §"Foundation Database Model" for the full
+[`/CLAUDE.md`](../CLAUDE.md) §"Foundation Database Model" for the full
 data flow.
 
 ## Prerequisites
 
-- Node.js 20+
-- npm
+- Node.js 22.13+ (`engines`; `.nvmrc` pins 24)
+- pnpm 11 (`packageManager` in package.json — corepack picks it up)
 - A PostgreSQL `DATABASE_URL` (ask the team for the shared dev connection
   string, or point at a local Postgres instance)
 
@@ -28,23 +28,30 @@ SHARE_SECRET=...         # required for /gesuch/share/[token] HMAC tokens
 
 ## Step 2 — Verify connection
 
-Run `npm run dev` and load `/fundraising/stiftungen` — foundation pages read
+Run `pnpm run dev` and load `/fundraising/stiftungen` — foundation pages read
 live from the DB through a cached read layer (`src/lib/db/foundations-repo.ts`,
 `unstable_cache`, 1h TTL). If the page loads with foundation cards, the
 connection works. Check the terminal for `[foundations-repo] DB unreachable`
 if it doesn't.
 
-## Tables (5)
+## Tables (16)
 
-Defined in [`src/lib/db/schema.ts`](./src/lib/db/schema.ts):
+Nine app tables in [`src/lib/db/schema.ts`](../src/lib/db/schema.ts):
 
 | Table | Purpose |
 |-------|---------|
-| `fundraising_foundations` | Foundation registry + per-org analysis (16k+ rows). `config_data` JSONB holds the full Zod-validated Foundation shape. |
+| `fundraising_foundations` | Foundation registry (16k+ rows). `config_data` JSONB holds the Zod-validated registry fields. |
+| `fundraising_foundation_assessments` | Per-org analysis — one row per org × foundation (fitScore, priority, themes, researchNotes, …) |
 | `fundraising_applications` | Outreach lifecycle (prospect → accepted/rejected) |
 | `fundraising_customization_rules` | Rule-based Gesuch personalization (condition → action) |
 | `fundraising_activity_log` | Immutable audit log of all foundation/application changes |
 | `fundraising_gesuch_overrides` | Per-(foundation × variant) Gesuch section overrides |
+| `org_profiles` | Tenant identity SSOT (one row per org) |
+| `org_content` | Org content blocks (key × locale × JSONB value) |
+| `org_scoring` | Per-org scoring engine config |
+
+Plus seven Better-Auth tables in [`src/lib/db/auth-schema.ts`](../src/lib/db/auth-schema.ts):
+`users`, `sessions`, `accounts`, `verifications`, `organizations`, `org_members`, `org_invitations`.
 
 ## Schema Migrations
 
@@ -55,10 +62,10 @@ Schema lives in `src/lib/db/schema.ts`. After editing:
 export DATABASE_URL=$(grep DATABASE_URL .env.local | cut -d= -f2-)
 
 # 2. Generate the SQL migration file
-npx drizzle-kit generate    # writes src/lib/db/migrations/<timestamp>_<name>.sql
+pnpm exec drizzle-kit generate    # writes src/lib/db/migrations/<timestamp>_<name>.sql
 
 # 3. Apply to the DB
-npx drizzle-kit push        # pushes diff to the Postgres DB
+pnpm exec drizzle-kit push        # pushes diff to the Postgres DB
 ```
 
 Migration files are commits-of-record — always commit them. Review the
@@ -67,7 +74,7 @@ push output before confirming any DROP statements.
 ## DB Inspection
 
 ```bash
-npx drizzle-kit studio    # opens visual browser at https://local.drizzle.studio
+pnpm exec drizzle-kit studio    # opens visual browser at https://local.drizzle.studio
 ```
 
 Or query directly via `psql "$DATABASE_URL"`.
@@ -76,10 +83,10 @@ Or query directly via `psql "$DATABASE_URL"`.
 
 ```bash
 # Pipeline funnel + gap report
-npm run audit
+pnpm run audit
 
 # Schema + duplicate + quality validation
-npm run validate:foundations
+pnpm run validate:foundations
 ```
 
 ## Troubleshooting

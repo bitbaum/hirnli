@@ -5,14 +5,14 @@
 
 Hirnli helps mission-driven organizations find the right foundation funders, build
 per-foundation fit narratives, and ship professional German-language applications
-(Gesuche) that stand out from the templated norm. Multi-tenant by design — each
-organization runs its own branded instance.
+(Gesuche) that stand out from the templated norm. Multi-tenant by design — one
+deployment serves each organization's branded site on its own host.
 
 [Architecture & Conventions](./CLAUDE.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
 
 ---
 
-## The funnel (live — run `npm run audit`)
+## The funnel (live — run `pnpm run audit`)
 
 ```
         Swiss universe (Zefix)            16,900
@@ -60,16 +60,16 @@ where guessed URLs were 54% wrong. See data-integrity rules in [CLAUDE.md](./CLA
 
 | Signal | Value |
 |--------|-------|
-| Tests | **869 pass** across 40 files (Vitest) |
+| Tests | **997 pass** across 56 files (Vitest) |
 | Type safety | **0 errors**, **0 `any`**, **0 `@ts-ignore`** in `src/` |
 | Lint | **0 errors** (ESLint flat config) |
-| CI | Typecheck + lint + build on every push (GitHub Actions) |
+| CI | `pnpm run verify` (format + lint + umlaut lint + typecheck + tests) + build on every push (GitHub Actions) |
 | Mobile | Verified on iPhone SE (375×667) via Playwright |
 | Race conditions | 6 fetch-in-useEffect sites guarded, 1 DB TOCTOU closed with unique constraint |
 | Design tokens | All in `globals.css` (`@theme inline`) — zero hex literals in components |
 | Dark mode | Fully wired via `next-themes` + semantic two-tier token system |
 | Security | Explicit auth modes (Basic Auth / public demo / fail-closed default); HMAC share tokens; security headers on every response |
-| Multi-tenant | `org_id` on all 5 DB tables; org identity behind `ORG_PROFILE` config |
+| Multi-tenant | Per-request tenant resolution (Host header → `x-org-id`); per-org analysis in `fundraising_foundation_assessments`; tenant identity in `org_profiles` |
 | Deploy | Self-hosted on Hetzner (Caddy + Next.js `standalone` output) — [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) |
 
 Every page that ships data shows a click-to-inspect "where did this number come
@@ -93,11 +93,11 @@ formula, and confidence level. No black boxes.
 ## Quick start
 
 ```bash
-npm install
-npm run dev          # http://localhost:3000  (pre-runs sync: DB → generated TS)
-npm test             # 850 tests
-npm run audit        # live pipeline + Gesuch funnel report
-npm run build        # production build, auto-syncs first
+pnpm install
+pnpm run dev         # http://localhost:3000  (foundation data reads live from the DB)
+pnpm test            # 997 tests
+pnpm run audit       # live pipeline + Gesuch funnel report
+pnpm run build       # production build (no DB access needed)
 ```
 
 Internal routes (`/fundraising/*`, `/api/*`) support HTTP Basic Auth via
@@ -113,7 +113,7 @@ officers.
 
 ```
 src/
-├── app/                # Next.js App Router (28 page routes)
+├── app/                # Next.js App Router (35 page routes; route groups: (tenant), (platform), (share), /o)
 ├── components/         # UI: layout, foundation, fundraising, gesuch, charts, ui
 ├── lib/
 │   ├── schemas/        # Zod — SSOT for every type
@@ -124,7 +124,7 @@ src/
 │   └── utils/          # Format, errors, share-token, a11y, slug
 └── hooks/              # useFinancialData, useFoundationFilters, useGesuchOverrides
 
-scripts/                # 23 pipeline scripts (ingest, triage, research, audit)
+scripts/                # 28 pipeline + ops scripts (ingest, triage, research, audit)
 docs/                   # KNOWLEDGE_ARCHITECTURE, DATABASE_SETUP, design guides
 research/               # Pipeline notes + drafts (gitignored except notes)
 org-context/            # New-org onboarding inputs (per-tenant)
@@ -139,7 +139,7 @@ public/documents/       # Source documents (anonymised) — SSOT for displayed n
 |-------|--------|---------------|
 | **1 — Revamp-IT MVP** | ✅ Shipped | Dashboards, foundation list, Gesuch workflow, pipeline kanban |
 | **2 — Document generation** | ✅ Shipped | Gesuch PDF (4-page), one-pager, share landing, pitch deck (8-slide), impact report |
-| **3 — Multi-tenant (Hirnli)** | 🚧 Designed | New org clones repo + drops 19 ORG-SPECIFIC files in `org-context/<name>/`. Auth via Clerk replaces middleware password. |
+| **3 — Multi-tenant (Hirnli)** | 🚧 In progress | One deployment serves multiple tenant hosts (Host → tenant resolution); accounts via Better Auth (email+password, organisation plugin) with org-scoped routing at `/o/<slug>/`; org content migrating from ORG-SPECIFIC files to DB rows. |
 
 The architecture is multi-tenant-by-construction: the foundation **registry**
 layer (universal Swiss-foundation facts) is independent from the **analysis**
@@ -151,12 +151,11 @@ rewriting analysis + branding, not re-doing the registry.
 ## Documentation
 
 - **[`CLAUDE.md`](./CLAUDE.md)** — full product vision, scoring model, schema, data flow, conventions
-- **[`scripts/README.md`](./scripts/README.md)** — pipeline tools (23 scripts + 18 npm aliases)
+- **[`scripts/README.md`](./scripts/README.md)** — pipeline tools (28 scripts + 17 pnpm aliases)
 - **[`org-context/_template/README.md`](./org-context/_template/README.md)** — multi-tenant onboarding checklist
 - **[`docs/KNOWLEDGE_ARCHITECTURE.md`](./docs/KNOWLEDGE_ARCHITECTURE.md)** — 3-tier SSOT governance
 - **[`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md)** — self-hosted Hetzner deploy procedure, env, crons, migrations
 - **[`docs/DATABASE_SETUP.md`](./docs/DATABASE_SETUP.md)** — PostgreSQL + Drizzle local-dev setup
-- **[`docs/AUDIT_REPORT.md`](./docs/AUDIT_REPORT.md)** — 2026-03 baseline codebase audit
 - **[`public/documents/README.md`](./public/documents/README.md)** — anonymised source document library
 
 ---

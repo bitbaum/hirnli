@@ -93,13 +93,13 @@ Each step maps to one of the 19 ORG-SPECIFIC files.
 ### Phase 9: Foundation Research Pipeline
 
 - [ ] Set `org_id` and keyword list in `scripts/foundation-upsert.ts`
-- [ ] Run screening with org's keywords: `npx tsx scripts/foundation-screen-v3.1.ts`
-- [ ] Research top candidates → write drafts → upsert → sync → build
+- [ ] Run screening with org's keywords: `pnpm run screen` (`scripts/foundation-screen.ts`)
+- [ ] Research top candidates → write drafts → upsert (pages read live — no sync step)
 
 ## Verification
 
 After all steps:
-- [ ] `npm run build` passes
+- [ ] `pnpm run build` passes
 - [ ] All pages render correctly
 - [ ] Foundation profiles show correct org context
 - [ ] Gesuch templates use org's narratives
