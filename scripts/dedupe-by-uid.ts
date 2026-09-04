@@ -25,6 +25,11 @@
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 import { sql } from './lib/db';
+import {
+  readAssessmentsForFoundation,
+  upsertAssessment,
+  type AnalysisPatch,
+} from './lib/assessment-write';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 
@@ -112,6 +117,63 @@ function mergeConfig(
   return merged;
 }
 
+/**
+ * Carry the loser's assessments onto the keeper, for every organisation.
+ *
+ * Deduplication is a registry-level act: two rows turned out to be one legal
+ * entity. But the opinions attached to them belong to tenants, and there may be
+ * several — so this merges per organisation rather than for whoever is running
+ * the script. An organisation that researched only the loser would otherwise
+ * watch its notes disappear into an archived row during somebody else's
+ * cleanup.
+ *
+ * The rules match mergeConfig above: keep what the keeper already has, take the
+ * longer text, union the themes, and never lower a fit score.
+ */
+async function mergeAssessments(keeperId: string, loserId: string): Promise<number> {
+  const keeperRows = await readAssessmentsForFoundation(keeperId);
+  const loserRows = await readAssessmentsForFoundation(loserId);
+  const byOrg = new Map(keeperRows.map((r) => [r.orgId, r]));
+
+  let merged = 0;
+  for (const loser of loserRows) {
+    const keeper = byOrg.get(loser.orgId);
+    const patch: AnalysisPatch = {};
+
+    if (!keeper) {
+      // This organisation only ever assessed the duplicate. The whole
+      // assessment moves across unchanged.
+      const { orgId: _orgId, ...values } = loser;
+      Object.assign(patch, values);
+    } else {
+      for (const [key, value] of Object.entries(loser)) {
+        if (key === 'orgId' || value == null || value === '') continue;
+        const current = (keeper as AnalysisPatch)[key as keyof AnalysisPatch];
+
+        if (key === 'themes' && Array.isArray(value) && Array.isArray(current)) {
+          const union = [...new Set([...(current as string[]), ...(value as string[])])];
+          if (union.length > current.length) patch.themes = union;
+        } else if (key === 'fitScore') {
+          if (typeof value === 'number' && value > ((current as number) ?? 0)) {
+            patch.fitScore = value;
+          }
+        } else if (typeof value === 'string' && typeof current === 'string') {
+          // researchNotes and tagline: the longer text is the researched one.
+          if (value.length > current.length) patch[key as keyof AnalysisPatch] = value;
+        } else if (current == null || current === '') {
+          patch[key as keyof AnalysisPatch] = value;
+        }
+      }
+    }
+
+    if (Object.keys(patch).length > 0) {
+      await upsertAssessment(loser.orgId, keeperId, patch);
+      merged++;
+    }
+  }
+  return merged;
+}
+
 async function main() {
   const clusters = await sql`
     SELECT config_data->>'uid' AS uid, ARRAY_AGG(id ORDER BY id) AS ids
@@ -164,6 +226,10 @@ async function main() {
         SET config_data = ${JSON.stringify(newConfig)}::jsonb, updated_at = NOW()
         WHERE id = ${keeper.id}
       `;
+      // The registry rows are merged above; the assessments hanging off them
+      // have to be merged too, or archiving the loser hides every opinion
+      // anybody recorded against it.
+      await mergeAssessments(keeper.id, loser.id);
       await sql`
         UPDATE fundraising_foundations
         SET archived = true, updated_at = NOW()

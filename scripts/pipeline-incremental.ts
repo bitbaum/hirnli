@@ -55,6 +55,7 @@ interface EsaRegister {
 
 import type { ResearchDepth } from './lib/utilities';
 import { requireOrgId } from './lib/require-org';
+import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
 
 // Resolved before any work begins: a run that cannot say whose data it is
 // producing should fail at the start, not after writing half a register.
@@ -229,8 +230,18 @@ async function upsertEntry(
     researchDepth,
   };
 
+  // The scrape describes a foundation and scores it for this organisation, and
+  // those belong to different tables. Analysis fields left in config_data are
+  // dropped by the app's composition, so they would be written nowhere.
+  const { registry, analysis } = splitFoundationPatch(configData);
+
   try {
-    await sql`
+    // RETURNING tells us whether the row was actually inserted. On conflict
+    // this statement does nothing and returns no rows — and the assessment must
+    // not be written either. A foundation already in the registry may carry an
+    // assessment somebody made deliberately, and overwriting it with a fresh
+    // register-derived guess would silently discard real work.
+    const inserted = await sql<{ id: string }>`
       INSERT INTO fundraising_foundations (
         id, name, fit_score, priority,
         research_depth, research_date,
@@ -240,11 +251,16 @@ async function upsertEntry(
         ${slug}, ${entry.name},
         ${fitScore}, ${priority},
         ${researchDepth}, ${today},
-        ${'automated-research'}, ${JSON.stringify(configData)},
+        ${'automated-research'}, ${JSON.stringify(registry)},
         ${ORG_ID}, ${now}, ${now}, false
       )
       ON CONFLICT (id) DO NOTHING
+      RETURNING id
     `;
+
+    if (inserted.length > 0) {
+      await upsertAssessment(ORG_ID, slug, analysis);
+    }
 
     return { success: true, depth: researchDepth };
   } catch (err) {

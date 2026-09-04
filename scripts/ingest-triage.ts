@@ -12,8 +12,20 @@ import * as path from 'path';
 import { sql } from './lib/db';
 import { computeFitScore } from '../src/lib/domain/fit-scoring.js';
 import { ThemeId } from '../src/lib/schemas/foundation.js';
+import { requireOrgId } from './lib/require-org';
+import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
 
 const DRY_RUN = process.argv.includes('--dry-run');
+
+// Whose assessments this run produces. Resolved before any work begins: a run
+// that cannot say which organisation it is triaging for should fail at the
+// start, not after writing half a register under nobody's name.
+//
+// This script previously had no org id at all and updated rows by slug alone.
+// With one tenant that was invisible; it now writes assessment rows, which have
+// an owner by construction, so the question can no longer go unanswered.
+const ORG_ID = requireOrgId();
+
 const INPUT_FILE = process.argv.find((a) => !a.startsWith('-') && a.endsWith('.json'));
 
 const VALID_THEME_IDS: Set<string> = new Set(ThemeId.options);
@@ -108,23 +120,24 @@ async function main() {
       const writeDepth = hasSubstantialData ? 'standard' : 'rapid';
       const fullMerge = { ...mergeConfig, researchDepth: writeDepth, researchDate: today };
 
+      // Registry facts stay in the blob; the triage verdict — fit, themes,
+      // tagline, notes, depth — is this organisation's and goes to its
+      // assessment row, which is the only place the app reads it from.
+      const { registry, analysis } = splitFoundationPatch({
+        ...fullMerge,
+        fitScore,
+        priority: writePriority,
+      });
+
       try {
-        // config_data is SSOT — trigger auto-syncs flat columns
         await sql`
           UPDATE fundraising_foundations
-          SET
-            config_data = jsonb_set(
-              jsonb_set(
-                config_data || ${JSON.stringify(fullMerge)}::jsonb,
-                '{fitScore}',
-                to_jsonb(${fitScore})
-              ),
-              '{priority}',
-              to_jsonb(${writePriority})
-            ),
-            updated_at = ${now}
+          SET config_data = config_data || ${JSON.stringify(registry)}::jsonb,
+              updated_at = ${now}
           WHERE id = ${entry.slug}
         `;
+
+        await upsertAssessment(ORG_ID, entry.slug, analysis);
 
         upserted++;
         processedSlugs.add(entry.slug);

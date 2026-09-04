@@ -116,12 +116,58 @@ export async function getFoundationsForOrg(orgId: string): Promise<Foundation[]>
       revalidate: 3600,
     })();
   } catch (err) {
-    console.error(
-      '[foundations-repo] DB unreachable — is the SSH tunnel open? See docs/DEPLOYMENT.md',
-      err,
-    );
+    // A deploy defect must not be served as an empty page.
+    //
+    // This catch used to swallow everything and blame the SSH tunnel. On
+    // 2026-09-04 migration 0012 created fundraising_foundation_assessments as
+    // `postgres` while the app connects as its own role, so every read raised
+    // 42501 permission denied — and this line reported "DB unreachable",
+    // returned [], and the export endpoint answered 200 with a header row and
+    // no data. Nothing was down, nothing alerted, and the site simply claimed
+    // the customer had no foundations.
+    //
+    // The two cases are genuinely different and must be treated differently.
+    // Postgres class 42 (syntax error or access rule violation: undefined
+    // table, undefined column, insufficient privilege) means the running code
+    // and the database schema disagree. That is a defect in what was deployed:
+    // it will still be true on the next request, and on every request until
+    // someone changes something. Anything else — a refused connection, a
+    // timeout, a restarting server — is infrastructure, plausibly transient,
+    // and worth degrading gracefully for rather than showing an error page.
+    //
+    // So class 42 rethrows and surfaces, and only the transient case falls
+    // back to [].
+    if (isSchemaOrPermissionError(err)) {
+      console.error(
+        `[foundations-repo] schema/permission error for org ${orgId} — the deployed code and the database disagree. Not falling back to an empty list.`,
+        err,
+      );
+      throw err;
+    }
+    console.error('[foundations-repo] DB unreachable — see docs/DEPLOYMENT.md', err);
     return [];
   }
+}
+
+/**
+ * Does this error mean the code and the database disagree?
+ *
+ * Postgres signals that whole family with SQLSTATE class 42 — 42P01 undefined
+ * table, 42703 undefined column, 42501 insufficient privilege. Matching the
+ * class rather than listing individual codes is deliberate: the next member of
+ * the family should be caught the first time it happens, not after someone
+ * adds it to a list.
+ *
+ * node-postgres wraps the driver error in a DrizzleQueryError, so the code can
+ * be one `cause` deep.
+ */
+export function isSchemaOrPermissionError(err: unknown): boolean {
+  for (let e: unknown = err, depth = 0; e && depth < 5; depth++) {
+    const code = (e as { code?: unknown }).code;
+    if (typeof code === 'string' && code.startsWith('42')) return true;
+    e = (e as { cause?: unknown }).cause;
+  }
+  return false;
 }
 
 /** All active, sufficiently-confident foundations for the requesting tenant. */

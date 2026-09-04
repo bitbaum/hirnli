@@ -11,8 +11,15 @@ import { resolve } from 'path';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
 import { RESEARCH_METHOD_RANK as _RESEARCH_METHOD_RANK } from '../src/lib/schemas/foundation';
 const RESEARCH_METHOD_RANK = _RESEARCH_METHOD_RANK as Record<string, number>;
+import { requireOrgId } from './lib/require-org';
+import { splitFoundationPatch, upsertAssessment, readAssessment } from './lib/assessment-write';
 
 const DRY_RUN = process.argv.includes('--dry-run');
+
+// Whose assessments this import fills in. This script previously had no org id
+// and updated rows by slug alone; it now writes assessment rows, which have an
+// owner by construction.
+const ORG_ID = requireOrgId();
 
 const RESULTS_DIR = resolve(__dirname, '../research/chatgpt-results');
 
@@ -35,7 +42,19 @@ async function importFile(
       continue;
     }
 
-    const cd = row.config_data as Record<string, unknown>;
+    // Merge against both halves of the foundation, not just the blob.
+    //
+    // Every rule below is conditional on what is already there — fill only what
+    // is empty, raise a fit score but never lower it, add themes but never drop
+    // one. Those comparisons are only meaningful against the real current
+    // values, and fitScore, themes, researchNotes and researchDepth now live in
+    // this organisation's assessment row. Reading config_data alone would show
+    // them all as absent, so every "don't overwrite existing work" rule would
+    // pass and overwrite exactly the work it exists to protect.
+    const cd = {
+      ...(row.config_data as Record<string, unknown>),
+      ...(await readAssessment(ORG_ID, slug)),
+    } as Record<string, unknown>;
     const fields: string[] = [];
 
     // Never overwrite existing non-empty values (except researchDepth upgrade)
@@ -161,11 +180,20 @@ async function importFile(
       continue;
     }
 
+    // Split the merged object back into the two places it came from. Only the
+    // fields this record actually changed are written to the assessment, so an
+    // import that learned a website does not also rewrite a fit score.
+    const { registry, analysis } = splitFoundationPatch(cd);
+    const touchedAnalysis = Object.fromEntries(
+      Object.entries(analysis).filter(([key]) => fields.includes(key)),
+    );
+
     await sql`
       UPDATE fundraising_foundations
-      SET config_data = ${JSON.stringify(cd) as unknown}::jsonb, updated_at = NOW()
+      SET config_data = ${JSON.stringify(registry) as unknown}::jsonb, updated_at = NOW()
       WHERE id = ${slug}
     `;
+    await upsertAssessment(ORG_ID, slug, touchedAnalysis);
     written++;
   }
 

@@ -16,6 +16,7 @@ import { toSlug } from '@/lib/utils/slug';
 import { getTodayISO } from '@/lib/utils/format';
 import { apiError } from '@/lib/api/route-helpers';
 import { getCurrentOrgId } from '@/lib/tenant/resolve';
+import { insertAssessments, type AnalysisPatch } from '@/lib/db/assessment-write';
 import {
   API_ERR_SAVE,
   API_ERR_IMPORT_NO_FILE,
@@ -178,21 +179,26 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Transform and insert — all domain data goes into configData JSONB
-    const transformed = newFoundations.map((f) => {
+    // Transform and insert. An imported record describes a foundation AND
+    // states this organisation's fit, priority and themes for it, so it lands
+    // in two tables: the registry facts in config_data, the judgements in this
+    // organisation's assessment rows. Leaving the judgements in the blob would
+    // import every foundation as unassessed, since that is no longer where the
+    // read looks for them.
+    const researchDate = getTodayISO();
+    const transformed = [];
+    const assessments: Array<{ foundationId: string } & AnalysisPatch> = [];
+
+    for (const f of newFoundations) {
       const { min, max } = parseGrantRange(f.grantRange || '');
       const slug = toSlug(f.name);
 
-      // Build configData (SSOT for all foundation domain data)
       const configData = {
         slug,
         name: f.name,
         websiteUrl: f.websiteUrl || '',
         region: f.location || 'Schweiz',
         type: 'foundation' as const,
-        fitScore: f.fitScore ?? 0,
-        priority: f.priority ?? 4,
-        themes: f.focusAreas ?? [],
         amount: { min: f.grantRangeMin ?? min, max: f.grantRangeMax ?? max },
         applicationMethod: f.applicationMethod || 'unknown',
         deadline: f.deadline || null,
@@ -204,7 +210,7 @@ export async function POST(request: NextRequest) {
         source: f.source || 'api-import',
       };
 
-      return {
+      transformed.push({
         id: slug,
         name: f.name,
         orgId,
@@ -212,13 +218,26 @@ export async function POST(request: NextRequest) {
         priority: f.priority ?? null,
         configData,
         researchDepth: 'rapid' as const,
-        researchDate: getTodayISO(),
+        researchDate,
         source: f.source || 'api-import',
         archived: false,
-      };
-    });
+      });
+
+      // The 0 / 4 fallbacks are the same unassessed values the previous version
+      // of this handler wrote into config_data, kept so an import with no
+      // scores behaves exactly as it did.
+      assessments.push({
+        foundationId: slug,
+        fitScore: f.fitScore ?? 0,
+        priority: f.priority ?? 4,
+        themes: f.focusAreas ?? [],
+        researchDepth: 'rapid',
+        researchDate,
+      });
+    }
 
     await db.insert(foundations).values(transformed);
+    await insertAssessments(orgId, assessments);
 
     return NextResponse.json({
       success: true,

@@ -29,6 +29,12 @@ import {
 } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 import { getCurrentOrgId } from '@/lib/tenant/resolve';
+import {
+  splitFoundationPatch,
+  insertAssessments,
+  type AnalysisPatch,
+} from '@/lib/db/assessment-write';
+import { UNASSESSED_ANALYSIS } from '@/lib/db/foundation-compose';
 
 /**
  * GET /api/foundations
@@ -145,20 +151,46 @@ export async function POST(request: NextRequest) {
     // omitting it now writes a row belonging to nobody — invisible to every
     // tenant and unable to hold an assessment, since
     // fundraising_foundation_assessments requires a real org.
+    const orgId = await getCurrentOrgId();
+
+    // A creation names both a foundation and what this organisation thinks of
+    // it, and those go to different tables. Anything analysis-shaped left in
+    // config_data would be written where nothing reads it — the read path takes
+    // those fields from the assessment row — so the request would succeed and
+    // the new foundation would appear unassessed.
+    const { registry, analysis } = splitFoundationPatch(
+      (data.configData ?? { slug, name: data.name }) as Record<string, unknown>,
+    );
+
+    const researchDate = getTodayISO();
+    const researchDepth = data.researchDepth ?? 'rapid';
+
     const newFoundation = {
       id: slug,
       name: data.name,
-      orgId: await getCurrentOrgId(),
+      orgId,
       fitScore: data.fitScore ?? null,
       priority: data.priority ?? null,
-      researchDepth: data.researchDepth ?? 'rapid',
-      researchDate: getTodayISO(),
+      researchDepth,
+      researchDate,
       source: data.source ?? null,
-      configData: data.configData ?? { slug, name: data.name },
+      configData: registry,
       archived: false,
     };
 
     await db.insert(foundations).values(newFoundation);
+
+    // Null means the creator gave no score, which is the unassessed state the
+    // read path composes for a tenant with no opinion — not a value invented
+    // here.
+    const topLevelAnalysis: AnalysisPatch = {
+      fitScore: data.fitScore ?? UNASSESSED_ANALYSIS.fitScore,
+      priority: data.priority ?? UNASSESSED_ANALYSIS.priority,
+      researchDepth,
+      researchDate,
+    };
+
+    await insertAssessments(orgId, [{ foundationId: slug, ...analysis, ...topLevelAnalysis }]);
 
     return NextResponse.json({ success: true, data: newFoundation }, { status: 201 });
   } catch (error) {

@@ -38,6 +38,8 @@ import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 
 import { computeResearchDepth, type ResearchDepth } from './lib/utilities';
 import { requireOrgId } from './lib/require-org';
+import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
+import { getFoundationById } from './lib/foundations';
 
 // Resolved before any work begins: a run that cannot say whose data it is
 // producing should fail at the start, not after writing half a register.
@@ -197,48 +199,48 @@ async function main() {
     // is typically more complete than existing. If a nested field was previously
     // set but not found in new research, it will be overwritten.
 
+    // One draft describes a foundation and states what this organisation makes
+    // of it, and those go to different tables. The analysis half must not be
+    // left in config_data: the app strips those keys out when composing, so a
+    // fit score written there is a fit score written nowhere.
+    const { registry, analysis } = splitFoundationPatch(configData);
+
     try {
-      // Upsert foundations — config_data JSONB is SSOT.
-      // DB trigger (0003_flat_column_sync_trigger) auto-syncs flat columns
-      // (name, fit_score, priority, research_depth, research_date) from config_data.
+      // Registry half — config_data holds the shared facts.
+      // DB trigger (0003_flat_column_sync_trigger) auto-syncs the flat name
+      // column from config_data; the flat assessment columns now fall through
+      // its COALESCE and are set from the assessment below.
       await sql`
         INSERT INTO fundraising_foundations (
           id, name,
           source, config_data, org_id, created_at, updated_at, archived
         ) VALUES (
           ${draft.slug}, ${draft.name},
-          ${'automated-research'}, ${JSON.stringify(configData)},
+          ${'automated-research'}, ${JSON.stringify(registry)},
           ${ORG_ID}, ${now}, ${now}, false
         )
         ON CONFLICT (id) DO UPDATE SET
-          config_data = jsonb_set(
-            jsonb_set(
-              fundraising_foundations.config_data || ${JSON.stringify(configData)}::jsonb,
-              '{fitScore}',
-              to_jsonb(${fitScore})
-            ),
-            '{priority}',
-            to_jsonb(${computedPriority})
-          ),
+          config_data = fundraising_foundations.config_data || ${JSON.stringify(registry)}::jsonb,
           updated_at = ${now}
       `;
+
+      // Assessment half — this organisation's opinion of it.
+      await upsertAssessment(ORG_ID, draft.slug, analysis);
 
       // Correct priority from the real post-merge row — the placeholder above
       // can't account for readiness inputs (contact, applicationUrl, etc.) that
       // may only exist on the row's prior config_data, not this partial draft.
+      //
+      // Read back through the same composition the app uses. Parsing
+      // config_data alone would now always fail: priority, themes, tagline and
+      // researchDate live in the assessment row, so the blob is no longer a
+      // whole Foundation and the correction below would silently never run.
       let finalPriority = computedPriority;
-      const [row] = await sql<{ config_data: unknown }>`
-        SELECT config_data FROM fundraising_foundations WHERE id = ${draft.slug}
-      `;
-      const merged = row && foundationSchema.safeParse(row.config_data);
-      if (merged && merged.success) {
-        finalPriority = computePriorityScore(merged.data).level;
+      const merged = await getFoundationById(ORG_ID, draft.slug);
+      if (merged) {
+        finalPriority = computePriorityScore(merged).level;
         if (finalPriority !== computedPriority) {
-          await sql`
-            UPDATE fundraising_foundations
-            SET config_data = jsonb_set(config_data, '{priority}', to_jsonb(${finalPriority}))
-            WHERE id = ${draft.slug}
-          `;
+          await upsertAssessment(ORG_ID, draft.slug, { priority: finalPriority });
         }
       }
 

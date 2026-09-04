@@ -44,6 +44,22 @@ export async function sql<T = Record<string, unknown>>(
   return rows as T[];
 }
 
+/**
+ * Plain parameterised query, for statements whose column list is built at
+ * runtime and so cannot be written as a single template literal.
+ *
+ * Same pool, same parameter binding as `sql`. The only caller that needs it is
+ * the assessment upsert, which writes whichever subset of columns a patch
+ * actually mentions.
+ */
+export async function query<T = Record<string, unknown>>(
+  text: string,
+  values: unknown[] = [],
+): Promise<T[]> {
+  const { rows } = await getPool().query(text, values);
+  return rows as T[];
+}
+
 /** Type of the tagged-template client — for functions that take `sql` as a parameter. */
 export type SqlClient = typeof sql;
 

@@ -22,6 +22,13 @@ import {
 } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 import { getCurrentOrgId } from '@/lib/tenant/resolve';
+import {
+  splitFoundationPatch,
+  upsertAssessment,
+  legacyFlatColumns,
+  type AnalysisPatch,
+} from '@/lib/db/assessment-write';
+import { UNASSESSED_ANALYSIS } from '@/lib/db/foundation-compose';
 
 /**
  * GET /api/foundations/[id]
@@ -90,17 +97,26 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     const data = validation.data;
 
-    // Update config_data (SSOT) + indexed flat columns only
+    // A PUT sends one Foundation object, which spans both tables: the registry
+    // facts belong to everybody, the analysis fields belong to this
+    // organisation. Writing the whole object into config_data would leave the
+    // analysis half where nothing reads it — a silent no-op, since the read
+    // path takes those fields from the assessment row.
+    const { registry, analysis } = splitFoundationPatch(data as unknown as Record<string, unknown>);
+
     await db
       .update(foundations)
       .set({
-        configData: data,
+        configData: registry,
         name: data.name,
-        fitScore: data.fitScore,
-        priority: data.priority,
+        // See legacyFlatColumns: these columns duplicate the assessment until
+        // the stage that drops them.
+        ...legacyFlatColumns(analysis),
         updatedAt: new Date(),
       })
       .where(eq(foundations.id, id));
+
+    await upsertAssessment(ORG_ID, id, analysis);
 
     // Log activity
     await db.insert(activityLog).values({
@@ -160,25 +176,58 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       return NextResponse.json({ success: false, error: API_ERR_NOT_FOUND }, { status: 404 });
     }
 
-    // Merge config_data patch into existing (SSOT for all foundation data)
     const data = validation.data;
-    const existingConfig = (existing[0].configData ?? {}) as Record<string, unknown>;
-    const mergedConfig = data.configData
-      ? { ...existingConfig, ...data.configData }
-      : existingConfig;
 
-    // Sync indexed flat columns from merged config if present
+    // The edit panel sends registry facts and analysis fields together — a
+    // contact address and a research note in one action. That is one edit to
+    // the person making it and two tables underneath, so it is split here
+    // rather than asking the client to know the difference.
+    //
+    // This is the path that made the split urgent: `patchFoundationResearch`
+    // sends `researchNotes` inside `configData`, and once the read takes that
+    // field from the assessment row, merging it into the blob saves nothing
+    // anybody will see. The request still succeeds — there is no error to
+    // notice, only an edit that quietly fails to appear.
+    const { registry: registryPatch, analysis: analysisPatch } = splitFoundationPatch(
+      (data.configData ?? {}) as Record<string, unknown>,
+    );
+
+    const existingConfig = (existing[0].configData ?? {}) as Record<string, unknown>;
+    const mergedConfig = { ...existingConfig, ...registryPatch };
+
+    // fitScore / priority / researchDepth may also arrive as top-level fields
+    // rather than inside configData. They are assessment values either way.
+    //
+    // The API schema lets all three be null, but fit_score and priority are NOT
+    // NULL columns. Null there means "this organisation has no opinion", which
+    // the read path already has a name for — so clearing a score returns the
+    // foundation to exactly the unassessed state a tenant that never touched it
+    // sees, rather than to a fallback invented at this call site.
+    const topLevelAnalysis: AnalysisPatch = {
+      ...(data.fitScore !== undefined && {
+        fitScore: data.fitScore ?? UNASSESSED_ANALYSIS.fitScore,
+      }),
+      ...(data.priority !== undefined && {
+        priority: data.priority ?? UNASSESSED_ANALYSIS.priority,
+      }),
+      ...(data.researchDepth !== undefined && { researchDepth: data.researchDepth }),
+    };
+
+    const analysis: AnalysisPatch = { ...analysisPatch, ...topLevelAnalysis };
+
     const updates: Record<string, unknown> = {
       configData: mergedConfig,
       ...(data.name !== undefined && { name: data.name }),
-      ...(data.fitScore !== undefined && { fitScore: data.fitScore }),
-      ...(data.priority !== undefined && { priority: data.priority }),
-      ...(data.researchDepth !== undefined && { researchDepth: data.researchDepth }),
+      // See legacyFlatColumns: these columns duplicate the assessment until
+      // the stage that drops them.
+      ...legacyFlatColumns(analysis),
       updatedAt: new Date(),
     };
 
     // Update foundation
     await db.update(foundations).set(updates).where(eq(foundations.id, id));
+
+    await upsertAssessment(ORG_ID, id, analysis);
 
     // Log activity
     await db.insert(activityLog).values({
