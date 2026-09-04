@@ -2,7 +2,9 @@
  * NOT YET MIGRATED: still reads the compile-time ORG_PROFILE. Content module —
  * moves to org_content with the rest of the per-tenant prose.
  */
-import { CORE_FACTS, SOCIAL_DISPLAY } from '@/lib/config/stories';
+import { SOCIAL_DISPLAY } from '@/lib/config/stories';
+import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
+import type { Tenant } from '@/lib/tenant/profile';
 import { getScenario, getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
 import { ORG_PROFILE } from '@/lib/config/org-profile';
@@ -153,17 +155,22 @@ export function buildResources(foundationCount: number) {
   ] as const;
 }
 
-// -- HERO_STATS — derived from CORE_FACTS (SSOT) -----------------------------
+// -- Hero stats ---------------------------------------------------------------
 
-export const HERO_STATS = [
-  {
-    label: 'Ökologie',
-    value: `${CORE_FACTS.metrics.environmental.co2_per_laptop} kg`,
-    sub: 'CO2 pro Laptop gespart',
-  },
-  { label: 'Soziales', value: SOCIAL_DISPLAY.practitioners_total, sub: 'Menschen begleitet' },
-  { label: 'Bildung', value: `${ORG_PROFILE.yearsActive}+`, sub: 'Jahre Erfahrung' },
-] as const;
+// A function, not a constant: the third stat is the organisation's own age,
+// which belongs to the tenant and changes with the calendar. A module-level
+// array would freeze one organisation's number into every tenant's page at
+// build time — the same bug as the metadata constants.
+export const heroStats = (tenant: Tenant) =>
+  [
+    {
+      label: 'Ökologie',
+      value: `${CO2_PER_LAPTOP} kg`,
+      sub: 'CO2 pro Laptop gespart',
+    },
+    { label: 'Soziales', value: SOCIAL_DISPLAY.practitioners_total, sub: 'Menschen begleitet' },
+    { label: 'Bildung', value: `${tenant.yearsActive}+`, sub: 'Jahre Erfahrung' },
+  ] as const;
 
 // -- Space Plan: derived from hub-space-plan.ts (SSOT) ----------------------------
 // Maps HUB_SPACE_AREAS → display-friendly German names, combining related areas.
@@ -352,8 +359,10 @@ export const COST_STRUCTURE_2023 = {
 } as const;
 
 // -- Track Record (verified from Kivitendo operational data) ------------------
+// `yearsActive` used to live here too, computed from a founding year copied
+// into CORE_FACTS from the org profile — a third copy of one fact, and one that
+// changes every 1 January. It comes from the tenant now: `tenant.yearsActive`.
 export const TRACK_RECORD = {
-  yearsActive: new Date().getFullYear() - CORE_FACTS.organization.founded,
   totalInvoices: 2777, // rechnungen_ar_invoices.csv
   totalCustomers: 5803, // kunden_customers.csv
   productsInCatalog: 4134, // artikel_products.csv
