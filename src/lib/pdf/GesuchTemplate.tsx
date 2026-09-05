@@ -163,7 +163,7 @@ export function GesuchPDF({ content, tenant }: GesuchPDFProps) {
           <Text style={styles.paragraph}>{content.introduction}</Text>
         </View>
 
-        {/* Why Revamp-IT */}
+        {/* Why this organisation */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Warum {tenant.name}?</Text>
           <Text style={styles.paragraph}>{content.whyUs}</Text>

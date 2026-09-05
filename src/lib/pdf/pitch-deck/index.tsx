@@ -4,13 +4,18 @@
  * 8-slide landscape A4 presentation for foundation officers and donors.
  * Reuses COLORS from gesuch-dokument/styles.ts.
  *
- * ORG-SPECIFIC: Content written for Revamp-IT.
+ * The narrative, figures and credential claims here were written for the
+ * reference tenant. `lib/pdf/authored.ts` refuses to build this document for
+ * any other tenant until it has content of its own — assembling it from
+ * somebody else's material states their certifications under a name that
+ * does not hold them, to funders.
  * To support a new org, rewrite this file's content.
  */
 
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import type { Tenant } from '@/lib/tenant/profile';
+import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
 import { COLORS, pdfFormatCHF } from '@/lib/pdf/gesuch-dokument/styles';
 import {
   CO2_PER_LAPTOP,
@@ -603,7 +608,9 @@ function Slide6TheAsk({ tenant, p1p3Count }: { tenant: Tenant; p1p3Count: number
 function Slide7WhyUs({ tenant }: { tenant: Tenant }) {
   return (
     <Page size="A4" orientation="landscape" style={s.slide}>
-      <SlideHeader title="Warum Revamp-IT?" sub="Track Record & Alleinstellungsmerkmale" />
+      {/* Was a hardcoded question naming the reference tenant. Every tenant's
+          slide 7 carried one organisation's name, in a deck sent to funders. */}
+      <SlideHeader title={`Warum ${tenant.name}?`} sub="Track Record & Alleinstellungsmerkmale" />
       <View style={s.body}>
         <View style={s.threeCol}>
           <View style={s.thirdCol}>
@@ -720,7 +727,10 @@ export function PitchDeckPDF({
       author={tenant.name}
       subject="Präsentation für Stiftungen und Förderer"
       keywords="Pitch Deck, Refurbishing, Arbeitsintegration, Open Source, Kreislaufwirtschaft"
-      creator={`${tenant.name} — revamp-info`}
+      // Carried the reference tenant's DEPLOYMENT slug in every tenant's PDF
+      // metadata. The producer of the file is the platform; the subject is the
+      // tenant.
+      creator={`${tenant.name} — ${PLATFORM_BRAND.name}`}
     >
       <Slide1Cover tenant={tenant} />
       <Slide2Problem tenant={tenant} />

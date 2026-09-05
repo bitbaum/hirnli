@@ -10,6 +10,7 @@ import { NextResponse } from 'next/server';
 import { renderToStream } from '@react-pdf/renderer';
 import { PitchDeckPDF } from '@/lib/pdf/pitch-deck';
 import { getTenant } from '@/lib/tenant/resolve';
+import { canBuildDocument, notAuthoredMessage } from '@/lib/pdf/authored';
 import { toSlug } from '@/lib/utils/slug';
 import { API_ERR_PDF } from '@/lib/utils/errors';
 import { streamToBuffer } from '@/lib/pdf/utils';
@@ -20,6 +21,16 @@ import { isActionablePriority } from '@/lib/domain/foundation-helpers';
 export async function GET() {
   try {
     const tenant = await getTenant();
+
+    // Refuse rather than substitute. This document asserts certifications and
+    // partnerships; built for a tenant that has not authored its content, it
+    // states them on that tenant's behalf, to funders. See lib/pdf/authored.ts.
+    if (!(await canBuildDocument('pitch-deck'))) {
+      return NextResponse.json(
+        { success: false, error: notAuthoredMessage('pitch-deck', tenant.name) },
+        { status: 404 },
+      );
+    }
     const foundations = await getAllFoundations();
     const p1p3Count = foundations.filter(isActionablePriority).length;
     // react-hooks/error-boundaries assumes react-dom's async client rendering (errors
