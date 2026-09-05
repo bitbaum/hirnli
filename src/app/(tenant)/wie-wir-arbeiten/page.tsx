@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
+import ContentNotPublished from '@/components/layout/ContentNotPublished';
+import { getTenant } from '@/lib/tenant/resolve';
+import { ownsCodeContent } from '@/lib/content/page-content';
 import Card from '@/components/ui/Card';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
@@ -13,7 +16,24 @@ export const metadata: Metadata = {
   description: PAGE_SUBTITLE,
 };
 
-export default function WieWirArbeitenPage() {
+export default async function WieWirArbeitenPage() {
+  const tenant = await getTenant();
+
+  // This page is one organisation's own material. Rendering it for another
+  // tenant presented those facts as theirs; see lib/content/page-content.ts.
+  if (!(await ownsCodeContent('wie-wir-arbeiten'))) {
+    return (
+      <>
+        <PageHeader title="Wie wir arbeiten" subtitle={`Wie wir arbeiten von ${tenant.name}`} />
+        <ContentNotPublished
+          page="Wie wir arbeiten"
+          tenantName={tenant.name}
+          describes="Hier erscheint die Wertschöpfungskaskade der Organisation, sobald sie beschrieben ist."
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <PageHeader title={PAGE_TITLE} subtitle={PAGE_SUBTITLE} />

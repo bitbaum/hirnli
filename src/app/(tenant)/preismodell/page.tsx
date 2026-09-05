@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Callout from '@/components/ui/Callout';
 import PageHeader from '@/components/layout/PageHeader';
+import ContentNotPublished from '@/components/layout/ContentNotPublished';
+import { ownsCodeContent } from '@/lib/content/page-content';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -23,6 +25,22 @@ export const metadata: Metadata = {
 
 export default async function PreismodellPage() {
   const tenant = await getTenant();
+
+  // This page is one organisation's own material. Rendering it for another
+  // tenant presented those facts as theirs; see lib/content/page-content.ts.
+  if (!(await ownsCodeContent('preismodell'))) {
+    return (
+      <>
+        <PageHeader title="Preismodell" subtitle={`Preismodell von ${tenant.name}`} />
+        <ContentNotPublished
+          page="Preismodell"
+          tenantName={tenant.name}
+          describes="Hier erscheinen Preisstufen, Rechenbeispiele und Zielwerte, sobald die Organisation ihr Preismodell hinterlegt hat."
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <PageHeader

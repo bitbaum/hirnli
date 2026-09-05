@@ -13,17 +13,22 @@ import { LocaleNotice } from '@/components/layout/LocaleNotice';
 import { getAllFoundations } from '@/lib/db/foundations-repo';
 import { getTenant, getTenantBranding } from '@/lib/tenant/resolve';
 import { TenantProvider } from '@/lib/tenant/TenantProvider';
+import { unauthoredRoutes } from '@/lib/content/page-content';
 
 export default async function TenantLayout({ children }: { children: React.ReactNode }) {
-  const [foundations, tenant, branding] = await Promise.all([
+  const [foundations, tenant, branding, hiddenHrefs] = await Promise.all([
     getAllFoundations(),
     getTenant(),
     getTenantBranding(),
+    // Resolved here, server-side, for the same reason branding is: the nav is a
+    // client component and cannot ask which pages this tenant has authored.
+    unauthoredRoutes(),
   ]);
   return (
     <TenantProvider tenant={tenant} branding={branding}>
       <Nav
         stiftungenCount={foundations.length}
+        hiddenHrefs={hiddenHrefs}
         logoUrl={branding.logoUrl}
         logoAlt={branding.logoAlt ?? `${tenant.name} Logo`}
       />

@@ -7,6 +7,8 @@ import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import { getTenant } from '@/lib/tenant/resolve';
+import ContentNotPublished from '@/components/layout/ContentNotPublished';
+import { ownsCodeContent } from '@/lib/content/page-content';
 import {
   BILDUNGSPROGRAMMLEITER,
   MULTIPLICATION_EFFECT,
@@ -18,13 +20,34 @@ import { TEAM_MEMBERS, DEPARTMENTS } from './data';
 import { PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
 import { formatNumber } from '@/lib/utils/format';
 
-export const metadata: Metadata = {
-  title: 'Team & Kapazität',
-  description: 'Kernteam, Bildungsprogrammleiter und Train-the-Trainer Multiplikator',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const tenant = await getTenant();
+  return {
+    title: 'Team & Kapazität',
+    // Described the reference tenant's own programme structure for everyone.
+    description: `Team und Kapazität von ${tenant.name}`,
+  };
+}
 
 export default async function TeamPage() {
   const tenant = await getTenant();
+
+  // The roster is fourteen real, named colleagues of ONE organisation. Served
+  // to another tenant it introduced them as that tenant's staff — the sharpest
+  // leak on the site, and about identifiable people rather than figures.
+  if (!(await ownsCodeContent('team'))) {
+    return (
+      <>
+        <PageHeader title="Team & Kapazität" subtitle={`Das Team von ${tenant.name}`} />
+        <ContentNotPublished
+          page="Team"
+          tenantName={tenant.name}
+          describes="Hier erscheinen Team, Rollen und Kapazitätsplanung, sobald die Organisation sie veröffentlicht."
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <PageHeader

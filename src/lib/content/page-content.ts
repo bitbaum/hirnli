@@ -132,3 +132,37 @@ export async function pageContent<T>(
 ): Promise<T | null> {
   return (await ownsCodeContent(page, orgId)) ? content() : null;
 }
+
+/**
+ * Routes whose content this tenant owns, for building navigation from what it
+ * actually has rather than from a fixed list.
+ *
+ * A menu that offers eight pages and delivers eight "not published yet" cards
+ * is a worse experience than a shorter menu, and it still implies the pages are
+ * the tenant's. The gate on each page stays regardless — navigation is a
+ * courtesy, not a boundary, and a link can always be typed by hand.
+ */
+export const PAGE_ROUTES: Record<TenantPage, string> = {
+  'home-story': '/',
+  wirkung: '/wirkung',
+  finanzen: '/finanzen',
+  team: '/team',
+  strategie: '/strategie',
+  methodik: '/methodik',
+  operations: '/operations',
+  preismodell: '/preismodell',
+  'wie-wir-arbeiten': '/wie-wir-arbeiten',
+  vision: '/revamp-2030',
+  fundraising: '/fundraising',
+  hub: '/fundraising/hub',
+};
+
+/** Hrefs to hide from this tenant's navigation. Empty for the content owner. */
+export async function unauthoredRoutes(orgId?: string): Promise<string[]> {
+  const id = orgId ?? (await getCurrentOrgId());
+  if (id === CODE_CONTENT_OWNER) return [];
+  // Everything code-owned is unavailable to anyone else, by definition of
+  // `ownsCodeContent`. Derived from that list rather than restated, so the two
+  // cannot disagree.
+  return CODE_OWNED.map((page) => PAGE_ROUTES[page]);
+}
