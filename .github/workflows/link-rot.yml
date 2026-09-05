@@ -1,0 +1,84 @@
+# Cited sources rot without anything in this repo changing.
+#
+# The CO2-per-laptop figure — the most-used number in the Gesuch — cited a
+# Fraunhofer IZM department page that 404'd after the institute renamed the
+# department. Nothing here broke it and no commit could have caught it, which is
+# exactly why it sat there: every gate this repo has judges the diff.
+#
+# So this runs on a schedule and NOT on push. It must never fail a pull request:
+# a third party's outage would then block work on an unrelated change, which is
+# how a gate teaches people to bypass it. It opens an issue instead, and only
+# when something is actually dead.
+name: Link rot
+
+on:
+  schedule:
+    # Mondays, 07:00 UTC. Weekly is the right cadence for someone else's CMS.
+    - cron: '0 7 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check cited source URLs
+        id: check
+        run: |
+          set +e
+          out=$(bash scripts/check-external-links.sh 2>&1)
+          code=$?
+          echo "$out"
+          {
+            echo 'report<<REPORT'
+            echo "$out"
+            echo 'REPORT'
+          } >> "$GITHUB_OUTPUT"
+          echo "failed=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Open an issue if a citation died
+        if: steps.check.outputs.failed != '0'
+        uses: actions/github-script@v7
+        env:
+          REPORT: ${{ steps.check.outputs.report }}
+        with:
+          script: |
+            const title = 'Dead source citation';
+            // Reuse the open issue rather than filing one a week.
+            const { data: open } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'link-rot',
+            });
+            const body = [
+              'A URL cited as the source for a number no longer resolves.',
+              '',
+              'These links appear in Gesuch documents sent to foundations, so a dead',
+              'one argues against the figure it is attached to. Repoint it if the page',
+              'moved, or remove the citation.',
+              '',
+              '```',
+              process.env.REPORT.trim(),
+              '```',
+              '',
+              `From ${context.workflow} run ${context.runId}.`,
+            ].join('\n');
+
+            if (open.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: open[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body, labels: ['link-rot'],
+              });
+            }
