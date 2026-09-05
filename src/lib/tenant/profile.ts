@@ -71,6 +71,22 @@ export const storedTenantProfileSchema = z
     taxExemption: z.string().optional(),
     milestones: milestonesSchema,
 
+    /**
+     * One sentence the organisation would lead with. Rendered as the homepage
+     * hero paragraph.
+     *
+     * Separate from `missionSummary` because they are different grammatical
+     * objects and only one of them is a sentence. `missionSummary` is a
+     * genitive phrase built to sit mid-clause — "…mit Fokus auf
+     * Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung" — and
+     * printing it alone under a heading reads as a fragment. That is exactly
+     * what happened when the hero first started reading from the profile.
+     *
+     * Optional: a tenant without one falls back to `missionSummary`, which is
+     * a fragment but is at least its own.
+     */
+    tagline: z.string().optional(),
+
     // Positioning. NOTE: this is org CONTENT rather than identity, and its
     // natural home is `org_content` beside stories/schwerpunkte/themes — which
     // already holds exactly this kind of row. Left here for now because moving
