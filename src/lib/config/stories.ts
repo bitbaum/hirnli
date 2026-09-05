@@ -187,7 +187,7 @@ export const GESUCH_TEXT = {
   zusammenfassung_intro:
     'Revamp-IT verlängert die Lebensdauer von IT-Geräten durch professionelles Refurbishing und bietet gleichzeitig Arbeitsintegrationsplätze für Menschen am Rand des Arbeitsmarktes.',
   wirkungsmessung: {
-    indicators: `Revamp-IT misst die Wirkung seiner Aktivitäten anhand konkreter Indikatoren: CO₂-Einsparung pro Gerät (${CORE_FACTS_CONTENT.metrics.environmental.co2_per_laptop} kg/Laptop), Anzahl betreuter Praktikant:innen, Wiedereingliederungsquote (${SOCIAL_DISPLAY.success_rate}), sowie die Reuse-Rate (${CORE_FACTS_CONTENT.metrics.environmental.reuse_rate}%) der eingegangenen Geräte. Die Ergebnisse werden in unserem transparenten Online-Dashboard publiziert.`,
+    indicators: `{{name}} misst die Wirkung seiner Aktivitäten anhand konkreter Indikatoren: CO₂-Einsparung pro Gerät (${CORE_FACTS_CONTENT.metrics.environmental.co2_per_laptop} kg/Laptop), Anzahl betreuter Praktikant:innen, Wiedereingliederungsquote (${SOCIAL_DISPLAY.success_rate}), sowie die Reuse-Rate (${CORE_FACTS_CONTENT.metrics.environmental.reuse_rate}%) der eingegangenen Geräte. Die Ergebnisse werden in unserem transparenten Online-Dashboard publiziert.`,
     sustainability: `Revamp-IT hat über {{yearsActive}} Jahre bewiesen, dass das Kerngeschäft tragfähig ist. Stiftungsgelder ermöglichen die gezielte Skalierung: grösserer Standort, Programmleitung, Sovereign-AI-Infrastruktur und mehr Ausbildungsplätze.`,
   },
   kurzportrait_subtitle: `Gemeinnütziger Verein seit {{founded}} — Kreislaufwirtschaft, Arbeitsintegration, digitale Bildung`,

@@ -4,13 +4,18 @@
  * Annual impact report generated from live data.
  * ~2 pages: identity + financials + environmental + social + pipeline.
  *
- * ORG-SPECIFIC: Content written for Revamp-IT.
+ * The narrative, figures and credential claims here were written for the
+ * reference tenant. `lib/pdf/authored.ts` refuses to build this document for
+ * any other tenant until it has content of its own — assembling it from
+ * somebody else's material states their certifications under a name that
+ * does not hold them, to funders.
  * To support a new org, rewrite this file's content.
  */
 
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import type { Tenant } from '@/lib/tenant/profile';
+import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
 import { COLORS, pdfFormatCHF } from '@/lib/pdf/gesuch-dokument/styles';
 import {
   CO2_PER_LAPTOP,
@@ -496,7 +501,9 @@ export function ImpactReportPDF({
       author={tenant.name}
       subject="Jahresbericht: Umwelt-, Sozial- und Bildungswirkung"
       keywords="Wirkungsbericht, Impact Report, Refurbishing, Arbeitsintegration, Open Source"
-      creator={`${tenant.name} — revamp-info`}
+      // See pitch-deck: the reference tenant's deployment slug was in every
+      // tenant's document metadata.
+      creator={`${tenant.name} — ${PLATFORM_BRAND.name}`}
     >
       <Page1 tenant={tenant} />
       <Page2 tenant={tenant} totalCount={totalCount} p1p3Count={p1p3Count} />

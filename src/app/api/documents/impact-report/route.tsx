@@ -11,6 +11,7 @@ import { NextResponse } from 'next/server';
 import { renderToStream } from '@react-pdf/renderer';
 import { ImpactReportPDF } from '@/lib/pdf/impact-report';
 import { getTenant } from '@/lib/tenant/resolve';
+import { canBuildDocument, notAuthoredMessage } from '@/lib/pdf/authored';
 import { toSlug } from '@/lib/utils/slug';
 import { API_ERR_PDF } from '@/lib/utils/errors';
 import { streamToBuffer } from '@/lib/pdf/utils';
@@ -21,6 +22,16 @@ import { isActionablePriority } from '@/lib/domain/foundation-helpers';
 export async function GET() {
   try {
     const tenant = await getTenant();
+
+    // Refuse rather than substitute. This document asserts certifications and
+    // partnerships; built for a tenant that has not authored its content, it
+    // states them on that tenant's behalf, to funders. See lib/pdf/authored.ts.
+    if (!(await canBuildDocument('impact-report'))) {
+      return NextResponse.json(
+        { success: false, error: notAuthoredMessage('impact-report', tenant.name) },
+        { status: 404 },
+      );
+    }
     const foundations = await getAllFoundations();
     const totalCount = foundations.length;
     const p1p3Count = foundations.filter(isActionablePriority).length;
