@@ -468,3 +468,25 @@ export const foundationAssessments = pgTable(
 
 export type FoundationAssessmentRow = typeof foundationAssessments.$inferSelect;
 export type NewFoundationAssessment = typeof foundationAssessments.$inferInsert;
+
+/**
+ * Host → tenant. The routing table, as data.
+ *
+ * Replaces `HOST_TENANTS` in `src/lib/config/../tenant/registry.ts`, which was
+ * an object literal: taking on a customer required a deploy. Middleware cannot
+ * read this (Edge runtime), so it forwards the Host and `getCurrentOrgId()`
+ * resolves here.
+ */
+export const orgDomains = pgTable(
+  'org_domains',
+  {
+    host: text('host').primaryKey(),
+    orgId: text('org_id').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    byOrg: index('org_domains_org_idx').on(table.orgId),
+  }),
+);
+
+export type OrgDomainRow = typeof orgDomains.$inferSelect;

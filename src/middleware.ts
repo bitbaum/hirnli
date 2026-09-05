@@ -29,7 +29,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
-import { getTenantIdByHost, isPlatformHost } from '@/lib/tenant/registry';
+import { isPlatformHost, normalizeHost, TENANT_HOST_HEADER } from '@/lib/tenant/registry';
 
 /**
  * Paths the Basic-Auth gate applies to. Previously this list lived only in
@@ -94,9 +94,9 @@ function unauthorized() {
  * header, and every page, route handler, composer and PDF now gets its
  * organisation from there rather than from a compile-time constant.
  */
-function withTenantHeader(request: NextRequest, orgId: string): NextResponse {
+function withTenantHeader(request: NextRequest, host: string): NextResponse {
   const headers = new Headers(request.headers);
-  headers.set('x-org-id', orgId);
+  headers.set(TENANT_HOST_HEADER, host);
   return NextResponse.next({ request: { headers } });
 }
 
@@ -133,15 +133,17 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  const orgId = getTenantIdByHost(host);
+  // Forward the host, do not resolve it. Which tenant owns a host is a row in
+  // `org_domains`, and this runtime cannot read the database.
+  const tenantHost = normalizeHost(host);
 
   // ── Internal-area auth ───────────────────────────────────────────────────
   // Only the protected paths are gated; everything else (the public showcase,
   // the platform surface) passes through with the tenant header attached.
-  if (!isProtected(pathname)) return withTenantHeader(request, orgId);
+  if (!isProtected(pathname)) return withTenantHeader(request, tenantHost);
 
   // Explicitly public (demo phase) — the org's deliberate choice, not a default.
-  if (process.env.INTERNAL_AUTH === 'off') return withTenantHeader(request, orgId);
+  if (process.env.INTERNAL_AUTH === 'off') return withTenantHeader(request, tenantHost);
 
   const password = process.env.INTERNAL_PASSWORD;
 
@@ -152,11 +154,11 @@ export function middleware(request: NextRequest) {
         status: 503,
       });
     }
-    return withTenantHeader(request, orgId);
+    return withTenantHeader(request, tenantHost);
   }
 
   // Share pages are always public — this is the controlled external interface
-  if (pathname.startsWith('/gesuch/share')) return withTenantHeader(request, orgId);
+  if (pathname.startsWith('/gesuch/share')) return withTenantHeader(request, tenantHost);
 
   // Check credentials
   const auth = request.headers.get('authorization');
@@ -164,7 +166,7 @@ export function middleware(request: NextRequest) {
     const decoded = Buffer.from(auth.slice(6), 'base64').toString('utf-8');
     // Format is "username:password" — we only care about the password
     const pwd = decoded.includes(':') ? decoded.split(':').slice(1).join(':') : decoded;
-    if (safeEqual(pwd, password)) return withTenantHeader(request, orgId);
+    if (safeEqual(pwd, password)) return withTenantHeader(request, tenantHost);
   }
 
   return unauthorized();

@@ -64,6 +64,36 @@ export async function getAllFoundations(orgId: string): Promise<Foundation[]> {
   return valid;
 }
 
+/**
+ * The shared registry, with nobody's assessments.
+ *
+ * For checks about the DATA'S SHAPE rather than about a tenant's view of it.
+ * The config-integrity suite used to pass a real customer's id here, which made
+ * a structural assertion depend on that organisation having assessed enough
+ * foundations — and named a customer in a test that is not about customers.
+ */
+export async function getRegistryFoundations(): Promise<Foundation[]> {
+  const rows = await sql<Row>`
+    SELECT f.config_data,
+           NULL::int  AS fit_score,       NULL::int  AS priority,
+           NULL::int  AS priority_override, NULL::text[] AS themes,
+           NULL::text AS tagline,         NULL::text AS research_notes,
+           NULL::text AS research_date,   NULL::text AS research_depth,
+           NULL::jsonb AS possible_partners
+      FROM fundraising_foundations f
+     WHERE f.archived = false
+       AND (f.data_confidence IS NULL OR f.data_confidence != 'unverified')
+  `;
+
+  const valid: Foundation[] = [];
+  for (const row of rows) {
+    const composed = composeRow(row);
+    if (composed) valid.push(composed);
+  }
+  valid.sort((a, b) => a.slug.localeCompare(b.slug));
+  return valid;
+}
+
 /** Turn one joined row into a Foundation as this organisation sees it. */
 function composeRow(row: Row): Foundation | undefined {
   // A row with no fit_score is a LEFT JOIN miss: this organisation has no

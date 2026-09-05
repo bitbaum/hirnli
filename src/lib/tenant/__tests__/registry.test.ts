@@ -1,96 +1,71 @@
 /**
- * The host → tenant seam. These assertions look small, but each one guards a
- * failure that is invisible until it is expensive:
+ * The host → tenant seam, after the map became a table.
  *
- *  - platform vs tenant host: if the platform host resolves as a tenant, the
- *    product's own homepage silently becomes an org's showcase (which is what
- *    it did before host routing existed).
- *  - port/case normalisation: `localhost:3000` and `HIRNLI.orangecat.ch` are
- *    the same host to a browser and a different string to a `Record` lookup.
- *  - the fallback: an unknown host must land on a real tenant, never
- *    `undefined` — a missing tenant downstream reads as "no org scope", which
- *    is the shape of a cross-tenant data leak.
+ * What this file used to assert is as informative as what it asserts now. It
+ * guarded a `HOST_TENANTS` record and a `DEFAULT_TENANT_ID`, and one of its
+ * cases required that an unknown host "must land on a real tenant, never
+ * undefined — a missing tenant downstream reads as no org scope, which is the
+ * shape of a cross-tenant data leak."
+ *
+ * That reasoning was right about the danger and wrong about the remedy.
+ * Answering an unknown host with a real tenant does not avoid a leak; it
+ * guarantees one, quietly, in that tenant's favour — a stray domain, a probe
+ * or a not-yet-mapped customer rendered the first customer's site and scoped
+ * queries to its data. Resolution now fails loudly instead, which is the same
+ * choice `getTenantById` already made for a missing row.
  */
 
 import { describe, it, expect } from 'vitest';
-import {
-  DEFAULT_TENANT_ID,
-  HOST_TENANTS,
-  PLATFORM_HOST,
-  TENANT_IDS,
-  getTenantIdByHost,
-  isPlatformHost,
-} from '../registry';
+import { PLATFORM_HOST, TENANT_HOST_HEADER, isPlatformHost, normalizeHost } from '../registry';
 
-describe('isPlatformHost', () => {
+describe('host normalisation', () => {
+  it('strips the port', () => {
+    // `localhost:3000` and `example.ch:443` are the same host to a browser and
+    // a different string to any lookup.
+    expect(normalizeHost('localhost:3000')).toBe('localhost');
+    expect(normalizeHost('example.ch:443')).toBe('example.ch');
+  });
+
+  it('lowercases', () => {
+    expect(normalizeHost('EXAMPLE.CH')).toBe('example.ch');
+  });
+
+  it('turns a missing host into the empty string, not "null"', () => {
+    // A literal "null" host would be looked up in org_domains and could, in
+    // principle, be registered. Empty cannot.
+    expect(normalizeHost(null)).toBe('');
+  });
+});
+
+describe('the platform host is not a tenant', () => {
   it('recognises the platform host', () => {
     expect(isPlatformHost(PLATFORM_HOST)).toBe(true);
-  });
-
-  it('ignores case and port', () => {
-    expect(isPlatformHost('HIRNLI.orangecat.ch')).toBe(true);
     expect(isPlatformHost(`${PLATFORM_HOST}:443`)).toBe(true);
+    expect(isPlatformHost(PLATFORM_HOST.toUpperCase())).toBe(true);
   });
 
-  it('does not treat a tenant host as the platform', () => {
-    expect(isPlatformHost('revamp-info.orangecat.ch')).toBe(false);
-  });
-
-  it('treats a missing Host header as not-the-platform', () => {
+  it('does not recognise anything else', () => {
+    // If the platform host resolved as a tenant, the product's own homepage
+    // would silently become an organisation's showcase.
+    expect(isPlatformHost('some-customer.example.ch')).toBe(false);
     expect(isPlatformHost(null)).toBe(false);
   });
 });
 
-describe('getTenantIdByHost', () => {
-  it('maps the tenant host to its org id', () => {
-    expect(getTenantIdByHost('revamp-info.orangecat.ch')).toBe(TENANT_IDS.revampIt);
+describe('no tenant is named in this module', () => {
+  it('exports no customer id, host map or default', async () => {
+    const registry = await import('../registry');
+    const exported = Object.keys(registry).sort();
+
+    // The point of the change: adding or removing a customer is a row, not a
+    // deploy. If any of these come back, the map has been reintroduced.
+    expect(exported).not.toContain('TENANT_IDS');
+    expect(exported).not.toContain('HOST_TENANTS');
+    expect(exported).not.toContain('DEFAULT_TENANT_ID');
+    expect(exported).not.toContain('getTenantIdByHost');
   });
 
-  it('falls back to the default tenant for unknown hosts', () => {
-    expect(getTenantIdByHost('example.invalid')).toBe(DEFAULT_TENANT_ID);
-    expect(getTenantIdByHost(null)).toBe(DEFAULT_TENANT_ID);
-  });
-
-  it('never returns undefined — an unscoped org id is a data-leak shape', () => {
-    for (const host of [null, '', 'unknown.host', PLATFORM_HOST, 'revamp-info.orangecat.ch']) {
-      expect(typeof getTenantIdByHost(host)).toBe('string');
-      expect(getTenantIdByHost(host).length).toBeGreaterThan(0);
-    }
-  });
-});
-
-describe('every mapped host resolves to a declared tenant', () => {
-  it('maps each host to a known org id', () => {
-    // getTenantByHost() used to live here and return a STATIC profile. It was
-    // deleted: it was a second reader of tenant identity, and it returned
-    // undefined for evig — a tenant with a profile row, a logo and a
-    // membership, but deliberately no hardcoded entry. Identity now comes from
-    // the database via getTenant(); this file only answers "which tenant".
-    const declared = Object.values(TENANT_IDS) as string[];
-    for (const [host, orgId] of Object.entries(HOST_TENANTS)) {
-      expect(declared, `${host} maps to an undeclared org`).toContain(orgId);
-    }
-  });
-
-  it('gives evig a host of its own', () => {
-    // It had an identity before it had an address: reachable from nowhere.
-    expect(Object.values(HOST_TENANTS)).toContain(TENANT_IDS.evig);
-  });
-});
-
-describe('tenant ids', () => {
-  it('declares both tenants, matching the org_profiles rows', () => {
-    expect(Object.values(TENANT_IDS)).toEqual(expect.arrayContaining(['revamp-it', 'evig']));
-  });
-
-  it('every registered host points at a declared tenant id', () => {
-    const declared = Object.values(TENANT_IDS) as string[];
-    for (const orgId of Object.values(HOST_TENANTS)) {
-      expect(declared).toContain(orgId);
-    }
-  });
-
-  it('the default tenant is a declared one', () => {
-    expect(Object.values(TENANT_IDS)).toContain(DEFAULT_TENANT_ID);
+  it('names the header the middleware uses, so both sides cannot drift', () => {
+    expect(TENANT_HOST_HEADER).toBe('x-tenant-host');
   });
 });

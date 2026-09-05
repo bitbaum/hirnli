@@ -1,80 +1,47 @@
 /**
- * Tenant registry — the architectural anchor for multi-tenancy (Phase B/C
- * of docs/HIRNLI-REPLATFORM-PLAN.md).
+ * What the platform knows about hosts without asking the database.
  *
- * Today: tenant *identity* is still resolved statically from ORG_PROFILE, but
- * host → tenant resolution now happens per request (middleware reads Host and
- * sets `x-org-id`). Phase C replaces the static ORG_PROFILE import chain with
- * request-scoped resolution and makes this registry DB-backed (the
- * `org_profiles` table already exists and holds a row per tenant).
+ * This file used to hold the tenant registry itself: a `TENANT_IDS` enum, a
+ * `HOST_TENANTS` map and a `DEFAULT_TENANT_ID`. All three were compile-time
+ * statements about which customers exist, so taking one on — or removing one —
+ * required editing, reviewing and deploying the application.
  *
- * Two kinds of host, and the difference matters:
+ * They are now rows in `org_domains`, resolved by `getCurrentOrgId()`. What
+ * remains here is the two things that are genuinely about the PLATFORM and
+ * cannot come from a tenant row: which host is the product's own, and the name
+ * of the header the middleware uses to hand the Host to the Node runtime.
  *
- *   PLATFORM host  (hirnli.orangecat.ch)      → the product itself: marketing
- *                                               now, the app later. Belongs to
- *                                               no tenant.
- *   TENANT host    (revamp-info.orangecat.ch) → one org's public showcase.
- *                                               Keeps its URLs so the SEO built
- *                                               up under it is not thrown away.
- *
- * Conflating the two is the single-tenant assumption this file exists to undo:
- * the platform must never inherit a tenant's name, and a tenant must never
- * borrow the platform's.
+ * The fallback is gone with the map, and that is the substantive change.
+ * `getTenantIdByHost()` answered an unknown Host with the first customer, so a
+ * stray domain, a probe or a not-yet-mapped customer rendered that customer's
+ * site and scoped queries to its data. Resolution now fails loudly instead —
+ * the same rule `getTenantById` already followed for a missing row.
  */
 
 /**
- * Known tenant ids. These MUST match the `org_id` column used across the
- * fundraising tables and the `org_profiles` row for each tenant — that column
- * is what actually scopes the data, so a typo here is a data-leak shape, not a
- * cosmetic bug.
+ * The platform's own host. Not a tenant: it serves the product.
  *
- * `evig` exists as a row in `org_profiles` (seeded empty on 2026-09-02) but has
- * no static profile yet: filling one in here would add a second hardcoded
- * tenant, which is precisely the coupling Phase C removes. It becomes
- * selectable once `getTenant()` reads from the DB.
+ * Overridable so a deployment is not a code change; the default matches the
+ * current production host.
  */
-export const TENANT_IDS = {
-  revampIt: 'revamp-it',
-  evig: 'evig',
-} as const;
-
-export type TenantId = (typeof TENANT_IDS)[keyof typeof TENANT_IDS];
-
-// A static TENANTS map and getTenantByHost() lived here. They were a SECOND
-// reader of tenant identity, built from the compile-time constant, competing
-// with the DB-backed getTenant(). evig proved the point: it has a profile row,
-// a logo and a membership, but deliberately no static entry — so the static
-// reader returned undefined for a tenant that plainly exists. One reader,
-// reading the database: src/lib/tenant/resolve.ts.
-
-/** The platform's own host — serves the product, not any single tenant. */
-export const PLATFORM_HOST = 'hirnli.orangecat.ch';
+export const PLATFORM_HOST = process.env.PLATFORM_HOST ?? 'hirnli.orangecat.ch';
 
 /**
- * Host → tenant mapping. DB-backed once tenants can register their own domains.
+ * Header carrying the normalised request Host from middleware to the app.
  *
- * evig had an identity, a logo and a membership before it had a host, so no
- * request could resolve to it — a tenant that exists in every table and is
- * reachable from nowhere.
+ * Middleware runs on the Edge runtime, where Drizzle over node-postgres cannot
+ * go, so it cannot resolve the tenant itself. It forwards the host; the Node
+ * runtime looks it up. Previously it forwarded an already-resolved `x-org-id`,
+ * which required the map to live in Edge-compatible code.
  */
-export const HOST_TENANTS: Record<string, string> = {
-  'revamp-info.orangecat.ch': TENANT_IDS.revampIt,
-  'evig.hirnli.orangecat.ch': TENANT_IDS.evig,
-};
-
-export const DEFAULT_TENANT_ID: TenantId = TENANT_IDS.revampIt;
+export const TENANT_HOST_HEADER = 'x-tenant-host';
 
 /** Strip a port so `localhost:3000` and proxied hosts compare cleanly. */
-function normalizeHost(host: string | null): string {
+export function normalizeHost(host: string | null): string {
   return (host ?? '').split(':')[0].toLowerCase();
 }
 
 /** Is this request for the platform surface rather than a tenant showcase? */
 export function isPlatformHost(host: string | null): boolean {
   return normalizeHost(host) === PLATFORM_HOST;
-}
-
-/** Which tenant does this host serve? Falls back to the default tenant. */
-export function getTenantIdByHost(host: string | null): string {
-  return HOST_TENANTS[normalizeHost(host)] ?? DEFAULT_TENANT_ID;
 }

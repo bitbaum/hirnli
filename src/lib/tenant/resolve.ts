@@ -13,11 +13,11 @@
  */
 
 import { cache } from 'react';
+import { TENANT_HOST_HEADER } from './registry';
 import { headers } from 'next/headers';
 import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
-import { orgProfiles } from '@/lib/db/schema';
-import { DEFAULT_TENANT_ID } from './registry';
+import { orgDomains, orgProfiles } from '@/lib/db/schema';
 import { parseBranding, parseTenant, type Tenant, type TenantBranding } from './profile';
 
 /** Load one tenant by org id. Cached per request; throws if absent or invalid. */
@@ -60,8 +60,31 @@ export const getTenantById = cache(async (orgId: string): Promise<Tenant> => {
  * running outside a request scope (build-time metadata, scripts).
  */
 export const getCurrentOrgId = cache(async (): Promise<string> => {
-  const h = await headers();
-  return h.get('x-org-id') ?? DEFAULT_TENANT_ID;
+  const host = (await headers()).get(TENANT_HOST_HEADER);
+
+  if (!host) {
+    // No fallback. `?? DEFAULT_TENANT_ID` used to sit here, which meant an
+    // unrecognised Host — a stray domain, a probe, a not-yet-mapped customer —
+    // silently rendered the first tenant's site, and any query it scoped went
+    // to that tenant's data. The failure mode of tenant resolution must not be
+    // "serve somebody".
+    throw new Error(
+      'No tenant host on the request. Middleware publishes it; code running ' +
+        'outside a request scope must pass an explicit org id instead.',
+    );
+  }
+
+  const rows = await db
+    .select({ orgId: orgDomains.orgId })
+    .from(orgDomains)
+    .where(eq(orgDomains.host, host))
+    .limit(1);
+
+  const orgId = rows[0]?.orgId;
+  if (!orgId) {
+    throw new Error(`No tenant is registered for host "${host}".`);
+  }
+  return orgId;
 });
 
 /** The tenant this request is acting as, with identity loaded. */
@@ -83,3 +106,16 @@ export const getTenantBranding = cache(async (): Promise<TenantBranding> => {
     .limit(1);
   return parseBranding(rows[0]?.branding);
 });
+
+/**
+ * Every tenant on the platform.
+ *
+ * For scheduled work that should cover all customers rather than one. Both
+ * cron jobs used `DEFAULT_TENANT_ID`, so the data-quality report and the
+ * deadline reminders ran for the first customer only — and silently, for
+ * everybody else, never at all.
+ */
+export async function allTenantIds(): Promise<string[]> {
+  const rows = await db.select({ orgId: orgProfiles.orgId }).from(orgProfiles);
+  return rows.map((r) => r.orgId).sort();
+}
