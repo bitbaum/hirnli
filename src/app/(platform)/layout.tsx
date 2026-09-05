@@ -18,6 +18,10 @@ export default async function PlatformLayout({ children }: { children: React.Rea
   // customer" — a specific customer, not whoever is reading. Resolved by id so
   // it is a stated choice rather than a compile-time accident.
   const showcase = await getTenantById(DEFAULT_TENANT_ID);
+  // The label names the showcase tenant, so the href has to go there too. It
+  // was `/`, which under any other tenant's host resolves to THAT tenant's
+  // home — so evig's visitors saw "Revamp-IT →" and landed on evig.
+  const showcaseUrl = showcase.siteUrl ?? showcase.website;
   return (
     <>
       <nav className="sticky top-0 z-30 border-b border-border-default bg-surface-base/95 backdrop-blur-sm">
@@ -31,12 +35,14 @@ export default async function PlatformLayout({ children }: { children: React.Rea
             </span>
           </Link>
           <div className="flex items-center gap-1">
-            <Link
-              href="/"
-              className="mr-2 hidden min-h-11 items-center rounded-lg px-3 text-sm text-text-secondary hover:bg-surface-raised hover:text-text-primary sm:inline-flex"
-            >
-              {showcase.name} →
-            </Link>
+            {showcaseUrl && (
+              <Link
+                href={showcaseUrl}
+                className="mr-2 hidden min-h-11 items-center rounded-lg px-3 text-sm text-text-secondary hover:bg-surface-raised hover:text-text-primary sm:inline-flex"
+              >
+                {showcase.name} →
+              </Link>
+            )}
             <LanguageToggle />
             <ThemeToggle />
           </div>
