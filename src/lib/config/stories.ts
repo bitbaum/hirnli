@@ -92,7 +92,7 @@ interface ComposedStory {
  */
 const CORE_FACTS_CONTENT = {
   /** Headcount is a fact about the organisation's programme, not its identity. */
-  team_size: 3, // 2 angestellt (Daniel, Veronica) + 1 ehrenamtlich (Andreas)
+  team_size: 3, // 2 angestellt + 1 ehrenamtlich — wer, steht hier bewusst nicht
 
   // These IDs link to number-sources for actual values
   metrics: {
@@ -743,7 +743,7 @@ const ANECDOTES: Anecdote[] = [
 ];
 
 // ============================================================================
-// PHOTO SLOTS — Placeholder descriptions (Robert: "+ Bilder", team: Bruno/Mohannad)
+// PHOTO SLOTS — Placeholder descriptions (Robert: "+ Bilder"; Fotos beim Team anfragen)
 // ============================================================================
 
 const PHOTO_SLOTS: PhotoSlot[] = [

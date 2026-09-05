@@ -323,10 +323,12 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     value: SHARED_ORG_NUMBERS.TEAM_CORE_FTE,
     label: 'Kernteam (aktuell)',
     source: {
+      // Named which two of the three are employed and which one works unpaid,
+      // then named two more volunteers — in the two strings the source modal
+      // puts on screen. The headcount is the number; who is paid is not.
       methodology:
-        '2 Angestellte (Dani, Veronica) + 1 ehrenamtlich (Andreas). Aspiration: 2→4 Angestellte durch Stiftungsfinanzierung.',
-      calculation:
-        '3 Personen im Kernteam. Weitere ehrenamtliche Mitarbeitende (George, Cem, u.a.) nicht gezählt.',
+        '2 Angestellte + 1 ehrenamtlich. Aspiration: 2→4 Angestellte durch Stiftungsfinanzierung.',
+      calculation: '3 Personen im Kernteam. Weitere ehrenamtliche Mitarbeitende nicht gezählt.',
       confidence: 'high',
       lastVerified: '2026-02-23',
     },
@@ -527,8 +529,11 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'CHF Kernteam-Gehälter (3 Personen, Budget-Ziel)',
     source: {
       methodology: 'Budget-Ziel für faire Entlöhnung. Aktuelle Gehälter sind NICHT bekannt.',
+      // Named two colleagues and stated that their salaries were unknown — in a
+      // string the source modal renders on a public page. The comparison it
+      // makes is sound; it just does not need anybody's name to make it.
       calculation:
-        'Zielgehälter für 3 Personen basierend auf Schweizer Non-Profit Niveau. Kivitendo zeigt historisch nur CHF 30-48k/Jahr TOTAL Personal (2020-2023) — weit unter Markt für Zürich. Aktuelle Löhne von Dani und Veronica sind uns nicht bekannt.',
+        'Zielgehälter für 3 Personen basierend auf Schweizer Non-Profit Niveau. Die Erfolgsrechnung weist für 2020-2023 nur CHF 30-48k/Jahr für Personal insgesamt aus — deutlich unter dem Zürcher Marktniveau. Die heutigen Löhne sind hier nicht erfasst.',
       confidence: 'unknown',
       lastVerified: '2026-02-16',
     },
@@ -607,8 +612,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
     label: 'FTE Team-Grösse Jahr 5 (2030)',
     source: {
       methodology: 'Kernteam 3 + BPL 4 + Operations 2',
-      calculation:
-        'Kernteam 3 (Vero, Dani, Andreas) + 4× BPL (Hardware×2, Software×2) + 2× Operations-Manager = 9 FTE',
+      calculation: 'Kernteam 3 + 4× BPL (Hardware×2, Software×2) + 2× Operations-Manager = 9 FTE',
       confidence: 'estimated',
       lastVerified: '2026-02-12',
     },

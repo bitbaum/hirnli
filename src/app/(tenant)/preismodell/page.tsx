@@ -275,10 +275,13 @@ export default async function PreismodellPage() {
             Das vollständige Preismodell-Dokument mit allen Details zu Buchhaltung, Umsetzung und
             Kommunikation findest du hier:
           </p>
-          <p className="mt-2">
-            <code className="rounded bg-surface-raised px-2 py-1 text-sm">
-              01_Management/B_Finanzen/Preismodell_Solidaritaet.md
-            </code>
+          {/* Was a code block printing the document's path inside the
+              organisation's private file tree. Nobody reading a public page can
+              open it, and it describes internal structure to everyone who
+              cannot. The Nextcloud button below is the actual way in, for the
+              people who have one. */}
+          <p className="mt-2 text-sm text-text-muted">
+            Preismodell Solidarität — im Nextcloud der Organisation.
           </p>
           {/* A tenant without a cloud of its own gets no button, rather than
               one pointing at another organisation's Nextcloud. */}

@@ -3,7 +3,9 @@
  *
  * Ground Truth #2: Single Source of Truth for team data
  *
- * IMPORTANT: This replaces HR_Roster.csv which had incomplete data.
+ * IMPORTANT: This replaces an earlier internal personnel list, which was
+ * incomplete. Its filename is not recorded here — internal paths have a way of
+ * reaching the page (see DATA_QUALITY_NOTE below).
  * We only include what we actually know and can verify.
  *
  * Last Updated: 2026-02-13
@@ -78,10 +80,14 @@ export const MULTIPLICATION_EFFECT = {
 /**
  * Team Salary Structure — BUDGET-ZIELE, nicht aktuelle Löhne
  *
- * WICHTIG: Aktuelle Gehälter von Dani und Veronica sind uns NICHT bekannt.
- * Kivitendo zeigt historisch CHF 30-48k/Jahr TOTAL Personal (2020-2023),
- * was für Zürich weit unter Markt liegt. Die hier genannten Zahlen sind
- * Budget-Ziele für faire Entlöhnung, NICHT aktuelle Ist-Werte.
+ * WICHTIG: Die heutigen Löhne sind hier nicht erfasst. Die Erfolgsrechnung
+ * weist für 2020-2023 CHF 30-48k/Jahr für Personal insgesamt aus, was für
+ * Zürich weit unter Markt liegt. Die hier genannten Zahlen sind Budget-Ziele
+ * für faire Entlöhnung, NICHT aktuelle Ist-Werte.
+ *
+ * Wer wie viel verdient, steht auch in den Kommentaren dieser Datei nicht —
+ * das ist eine Tatsache über Personen, nicht über die Organisation, und ein
+ * Repository ist kein Ort dafür.
  */
 export const TEAM_SALARIES = {
   kernteam_total: 220_000, // CHF/Jahr — BUDGET-ZIEL für 3 Personen (aktuelle Löhne unbekannt)
@@ -126,21 +132,19 @@ export const TEAM_CAPACITY = {
  * Data Quality Notes & Team Reality
  *
  * KERNTEAM:
- * - 3 Personen: Andreas, Veronica (Sozialpädagogin), Dani
- * - Aktuelle Gehälter sind NICHT bekannt
- * - Andreas may not even be paid (doesn't like talking about it)
- * - Kivitendo zeigt CHF 30-48k/Jahr TOTAL Personal (2020-2023) — weit unter Markt
+ * - 3 Personen, davon eine Sozialpädagogin
+ * - Löhne werden hier nicht erfasst; aggregiert stehen sie in der Erfolgsrechnung
  * - Diese 3 sind das "Kernteam" - täglich präsent, Verantwortung tragen
  *
  * WEITERE TEAM-MITGLIEDER (NICHT IM VZÄ ERFASST):
  * - Freiwillige (Volunteers) - variable Anzahl, nicht systematisch getrackt
- * - 1 Praktikant: Reza - consistently present, wichtiger Beitrag
- * - Reintegrations-Mitarbeiter - via GEP-Programm und ähnliche Initiativen
+ * - Praktikumsplätze - besetzt, aber nicht namentlich hier geführt
+ * - Reintegrations-Mitarbeitende - via Integrationsprogramme
  *
  * SOZIALE MISSION:
  * - Wir sind KEIN Silicon-Valley-Startup mit "move fast break things" Mentalität
  * - Soziale Mission steht im Vordergrund - Menschen entwickeln, nicht nur produktiv sein
- * - Veronica's Rolle als Sozialpädagogin ist zentral für Arbeitsintegration
+ * - Die sozialpädagogische Rolle im Kernteam ist zentral für Arbeitsintegration
  *
  * WHAT WE DON'T TRACK SYSTEMATICALLY:
  * - Stundenleistung von Freiwilligen (variabel, vertrauensbasiert)
@@ -155,14 +159,35 @@ export const TEAM_CAPACITY = {
  * - Fokus auf soziale Mission, nicht auf Metriken-Optimierung
  */
 
+/**
+ * Rendered on the PUBLIC /team page. Everything in here is published.
+ *
+ * It used to name three colleagues, state that their salaries were unknown, and
+ * add a footnote speculating that one of them worked unpaid — on a page anyone
+ * can load, for a foundation to read. The file's own header, a few lines above
+ * this constant, gives the rule it broke: "Privacy-sensible Daten gehören nicht
+ * auf public site". (The names are not repeated here either; a comment ships in
+ * the repository just as permanently as a string does.)
+ *
+ * Another field named an intern and identified them as being in a
+ * reintegration programme. That one was never rendered, which is luck rather
+ * than a safeguard, and it does not belong in a config file either.
+ *
+ * The substance survives: headcount, what is not tracked, and why that is
+ * acceptable for an organisation this size. Those are facts about the
+ * ORGANISATION. Who earns what, and whether a particular person is paid at
+ * all, are facts about PEOPLE, and no transparency argument reaches them.
+ * Aggregate personnel cost is already published under Finanzen, where it is
+ * attached to the accounts rather than to three first names.
+ */
 export const DATA_QUALITY_NOTE = {
   kernteam:
-    '3 Personen (Andreas*, Veronica, Dani) — aktuelle Gehälter nicht bekannt. *may not even be paid. Kivitendo: CHF 30-48k/Jahr total Personal (2020-2023).',
-  weitere_mitglieder: 'Freiwillige, 1 Praktikant (Reza), Reintegrations-Mitarbeiter (GEP-Programm)',
-  social_mission: 'Sozialpädagogischer Fokus (Veronica), NICHT Silicon Valley Mentalität',
+    'Kernteam von 3 Personen. Löhne werden hier nicht erfasst — die aggregierten Personalkosten stehen in der Erfolgsrechnung unter Finanzen.',
+  weitere_mitglieder: 'Freiwillige, Praktikumsplätze und Mitarbeitende aus Integrationsprogrammen',
+  social_mission: 'Sozialpädagogischer Fokus, NICHT Silicon Valley Mentalität',
   what_we_dont_track: 'Freiwilligen-Stunden, aktuelle Kapazität, informelle Bildungswirkung',
   why_this_is_ok: 'Kleine Org, soziale Mission > Metriken, Privacy-sensible Daten nicht public',
-  previous_source: 'HR_Roster.csv (retired 2026-02-13 - incomplete data)',
+  previous_source: 'Interne Personalliste (2026-02-13 abgelöst — unvollständig)',
   current_source: 'team.ts (SSOT - operational reality)',
 } as const;
 

@@ -294,8 +294,12 @@ export default function WirkungClient() {
         <div className="text-sm text-text-secondary">
           <p className="heading-detail">Datenquellen</p>
           <p>Umweltwirkung: BAFU Ökobilanz-Studie | Finanzdaten: Kivitendo Buchhaltung</p>
+          {/* Printed the source's path inside the organisation's private file
+              tree straight onto a public page. NumberInspector has stripped
+              directories out of exactly these strings all along; this line
+              simply never went through it. */}
           <p className="mt-1 text-sm text-text-muted">
-            Quelldaten: 01_Management/B_Finanzen/revamp-Einnahmen-{selectedYear}.xlsx
+            Quelldaten: Finanzbuchhaltung {selectedYear}
           </p>
         </div>
       </Card>
