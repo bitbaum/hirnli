@@ -129,3 +129,76 @@ So: components and server pages first, domain composers second (they take a
 parameter), and the config modules last, as part of moving content to
 `org_content`. `ORG_PROFILE` can only be deleted after that — and deleting it is
 the point, since leaving it as a fallback restores the second source of truth.
+
+---
+
+## Prose templates. Data does not.
+
+The config modules are **not one category**, and treating them as one is the
+mistake this section exists to prevent.
+
+`stories.ts` was migrated by templating: `'gegründet {{founded}}'` filled per
+request by `resolveStories(tenant)`. That works because the sentence is *prose* —
+"a charity founded in {{founded}}" is true of whichever tenant fills it.
+
+`numbers.ts`, `metrics.ts`, `budget-scenarios.ts`, `hub-space-plan.ts` and
+`team.ts` are **one organisation's measured data**: 1'200 laptops refurbished,
+847 of them documented in an accounting system, an internship programme that
+began in a particular year, ten rooms in an unbuilt Zürich hub. Templating those
+is worse than leaving them, because it prints the viewing tenant's facts over
+the first tenant's counts:
+
+```
+label: `Laptops refurbished (${ORG_PROFILE.founded}-2025)`   →  1'200+ (2003-2025)
+label: 'Laptops refurbished ({{founded}}-2025)'              →  1'200+ (2026-2025)   ✗
+```
+
+The `ORG_PROFILE` reference is currently **the only thing keeping each label
+agreeing with the number beside it.** Removing it without moving the data
+produces a file that is half one tenant's facts and half the viewer's — which is
+harder to spot than today's state, because it looks migrated.
+
+**Test for which treatment a string needs:** would the sentence still be true if
+a different organisation said it? "Founded in {{founded}}" — yes, template it.
+"1'200 laptops since {{founded}}" — no, it needs the tenant's own row.
+
+`org-profile-ratchet.test.ts` records the treatment per file, and asserts the
+list can only shrink.
+
+## What is actually left
+
+Measured 2026-09-05, `src/lib/config/` (29 files, 7,422 lines):
+
+| | Lines | Files |
+|---|---|---|
+| One tenant's **data** | ~2,900 | `numbers.ts` (680 / 52 entries), `metrics.ts` (669 / 23), `budget-scenarios.ts` (592), `hub-space-plan.ts` (502), `team.ts` (239), `value-cascade.ts` (217) |
+| One tenant's **prose** | ~1,750 | `stories.ts` (~880, templated), `gesuch-templates.ts` (templated), `hub-image-prompts.ts` (254), `story-bridges.ts` (291) |
+| Shared / neutral | ~2,770 | schemas, UI timings, chart colours, trust levels, `platform-*`, foundation register metadata |
+
+**20 of 24 tenant-facing routes** render at least one one-tenant module; the
+other four inherit it through the nav, which reads `projections.ts`. The PDF
+generators do too, so the pitch deck, the impact report and every Gesuch embed
+the first tenant's facts for whoever asks.
+
+## `org_content` has no reader
+
+Worth knowing before planning the next step: `org_content` and `org_scoring`
+exist as tables and as Drizzle declarations, and `scripts/seed-org-content.ts`
+writes five blocks into them for the reference tenant. **Nothing in `src/`
+selects from either.** They are a write-only mirror; the TypeScript constants
+are still the runtime SSOT for every tenant. The second tenant has zero rows.
+
+So "move content to `org_content`" is two pieces of work, not one: a reader, and
+the content itself.
+
+## The blocker is authoring, not code
+
+A tenant with no content of its own must render **nothing**, not another's — the
+rule `parseBranding` already applies to logos and `getTenantById` to identity.
+There is deliberately no fallback, because the fallback *is* the contamination.
+
+That makes the next step a decision rather than a refactor: what do the second
+tenant's pages say? Until someone answers, adding a reader would either break
+that tenant (`requireOrgContent` throws, by design) or seed it with the first
+tenant's stories, which is exactly what this migration exists to remove.
+
