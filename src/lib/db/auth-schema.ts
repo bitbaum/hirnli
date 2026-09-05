@@ -126,6 +126,24 @@ export const organization = pgTable('organizations', {
    * cosmetic bug, it is one customer reading another's research.
    */
   slug: text('slug').notNull().unique(),
+  /**
+   * What sort of party this account is.
+   *
+   * The platform serves two: an organisation looking for funding, and a
+   * foundation giving it. Everything that existed before this column was a
+   * seeker, which is why that is the default — and why the code that assumed
+   * "organisation means fundraiser" was not wrong so much as unfinished.
+   */
+  kind: text('kind').notNull().default('seeker'),
+
+  /**
+   * Which register entry a funder account speaks for. Null for seekers.
+   *
+   * Unique among non-null values: two accounts must not both claim to be the
+   * same foundation, because a Gesuch is addressed to one of them.
+   */
+  foundationId: text('foundation_id'),
+
   logo: text('logo'),
   metadata: text('metadata'),
   createdAt: timestamp('created_at').defaultNow().notNull(),

@@ -490,3 +490,33 @@ export const orgDomains = pgTable(
 );
 
 export type OrgDomainRow = typeof orgDomains.$inferSelect;
+
+/**
+ * What a foundation says about ITSELF.
+ *
+ * `fundraising_foundations` is the register: what the platform has researched
+ * about a foundation from public sources. This is the other side of that — the
+ * foundation's own account of its purpose, focus and process, which it knows
+ * better than anyone reading its Handelsregister entry.
+ *
+ * Keyed by foundation rather than by account on purpose: a foundation exists in
+ * the register long before anyone claims it, and its own words may arrive from
+ * an email or a phone call before there is a login. `confirmed_at` is what
+ * separates "the platform's best understanding" from "the foundation said so",
+ * and nothing may present the first as the second.
+ */
+export const funderProfiles = pgTable(
+  'funder_profiles',
+  {
+    foundationId: text('foundation_id').primaryKey(),
+    profile: jsonb('profile').notNull(),
+    /** Null until the foundation itself confirms it. */
+    confirmedAt: timestamp('confirmed_at', { withTimezone: true }),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    byConfirmed: index('funder_profiles_confirmed_idx').on(table.confirmedAt),
+  }),
+);
+
+export type FunderProfileRow = typeof funderProfiles.$inferSelect;

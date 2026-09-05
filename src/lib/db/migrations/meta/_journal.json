@@ -92,6 +92,13 @@
       "when": 1784637600001,
       "tag": "0016_org_domains",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1784637600002,
+      "tag": "0017_parties",
+      "breakpoints": true
     }
   ]
 }

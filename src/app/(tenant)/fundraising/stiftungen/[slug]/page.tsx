@@ -60,6 +60,15 @@ export default async function FoundationDetailPage({ params }: Props) {
     <div>
       <FoundationHeader foundation={foundation} />
 
+      {/* Whose words these are. An applicant reads "they fund youth projects"
+          and acts on it, so the difference between the foundation saying so and
+          us having researched it is not a footnote. */}
+      {foundation.funderConfirmed && (
+        <p className="mb-4 rounded-lg border border-border-default bg-surface-raised px-4 py-2 text-sm text-text-secondary">
+          Diese Angaben stammen von der Stiftung selbst und wurden von ihr bestätigt.
+        </p>
+      )}
+
       {/* Mobile quick actions — visible below lg where sidebar is hidden */}
       <MobileFoundationActions
         foundationId={foundation.slug}
