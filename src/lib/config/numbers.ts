@@ -76,7 +76,13 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
       calculation: 'Neuproduktion: 350kg CO2 - Refurbishing: 65kg CO2 = 285kg gespart',
       confidence: 'high',
       lastVerified: '2026-02-16',
-      externalLink: 'https://www.izm.fraunhofer.de/de/abteilungen/umwelt_energiemanagement.html',
+      // The department page moved: Fraunhofer IZM renamed "Umwelt- und
+      // Energiemanagement" to "Environmental & Reliability Engineering", and
+      // the old URL 404s. Same department, same subject — environmental
+      // assessment and life-cycle analysis for electronics — so the citation
+      // stands; only its address had gone stale. Checked 2026-09-05.
+      externalLink:
+        'https://www.izm.fraunhofer.de/de/abteilungen/environmental_reliabilityengineering.html',
     },
     category: 'impact',
   },
