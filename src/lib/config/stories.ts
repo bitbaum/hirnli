@@ -867,6 +867,17 @@ export const STORIES_CONTENT = {
   WHY,
   ANSCHREIBEN_TEMPLATES,
   PARTNER_HIGHLIGHTS,
+  // Everything below feeds a composed Gesuch and was NOT part of the stored
+  // block, which made the block incomplete in a way that only showed up for a
+  // second tenant: it would read its own WHY from the database and then take
+  // this organisation's competencies, projects and citations from code. A
+  // partially migrated story is worse than an unmigrated one, because it looks
+  // done.
+  HOW,
+  PROJECTS,
+  EVIDENCE,
+  ANECDOTES,
+  PHOTO_SLOTS,
 } as const;
 
 /**

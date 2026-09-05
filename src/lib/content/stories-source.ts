@@ -39,6 +39,16 @@ export const storiesBlockSchema = z.object({
   WHY: z.record(z.string(), z.unknown()),
   ANSCHREIBEN_TEMPLATES: z.record(z.string(), z.unknown()),
   PARTNER_HIGHLIGHTS: z.array(z.unknown()),
+  // The composer reads these too, and they were NOT in the stored block. A
+  // tenant would have read its own why-sections from the database and then
+  // taken this organisation's competencies, projects and citations from code,
+  // inside the same document — a partially migrated story, which is worse than
+  // an unmigrated one because it looks finished.
+  HOW: z.record(z.string(), z.unknown()),
+  PROJECTS: z.record(z.string(), z.unknown()),
+  EVIDENCE: z.record(z.string(), z.unknown()),
+  ANECDOTES: z.array(z.unknown()),
+  PHOTO_SLOTS: z.array(z.unknown()),
 });
 
 export type StoriesBlock = z.infer<typeof storiesBlockSchema>;
