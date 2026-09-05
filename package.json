@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint:umlauts": "! grep -rn 'ß' src/ --include='*.ts' --include='*.tsx' | grep -v 'ss statt ß' | grep -v node_modules && echo 'No ß found' || (echo 'ERROR: Found ß (should be ss in Swiss German) in source code' && exit 1)",
+    "lint:umlauts": "! grep -rn '\u00df' src/ --include='*.ts' --include='*.tsx' | grep -v 'ss statt \u00df' | grep -v node_modules && echo 'No \u00df found' || (echo 'ERROR: Found \u00df (should be ss in Swiss German) in source code' && exit 1)",
     "audit": "tsx scripts/audit-pipeline.ts",
     "start": "next start",
     "test": "vitest run",
@@ -17,7 +17,6 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "sync-numbers": "pnpm exec tsx scripts/sync-org-numbers.ts",
     "validate:foundations": "tsx scripts/foundation-validate.ts",
     "foundation:add": "tsx scripts/foundation-add.ts",
     "esa:download": "tsx scripts/esa-download-and-parse.ts",

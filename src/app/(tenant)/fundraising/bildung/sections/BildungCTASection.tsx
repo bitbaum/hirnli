@@ -27,7 +27,7 @@ export default function BildungCTASection() {
             Passende Stiftungen finden
           </Link>
           <Link
-            href="/revamp-2030"
+            href="/vision"
             className="rounded-lg border border-border-default bg-surface-base px-6 py-3 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-raised"
           >
             Gesamtstrategie 2030

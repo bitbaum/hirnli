@@ -112,7 +112,7 @@ export default async function HubPage() {
               label: '🏛️ Passende Stiftungen finden',
               variant: 'secondary',
             },
-            { href: '/revamp-2030', label: '🚀 Gesamtstrategie 2030', variant: 'secondary' },
+            { href: '/vision', label: '🚀 Gesamtstrategie 2030', variant: 'secondary' },
           ]}
         />
       </section>

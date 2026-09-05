@@ -23,7 +23,6 @@ import {
   CO2_NEW_LAPTOP_MANUFACTURE,
   LAPTOPS_REFURBISHED_COUNT,
 } from '@/lib/config/numbers';
-import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import {
   COMPLETE_YEARS,
   CUMULATIVE_WARENVERKAUF,
@@ -447,7 +446,7 @@ function Slide4Impact({ tenant }: { tenant: Tenant }) {
             >{`${CO2_PER_LAPTOP} kg pro Gerät · Fraunhofer IZM 2023`}</Text>
           </View>
           <View style={s.metricBoxGreen}>
-            <Text style={s.metricValueGreen}>{SHARED_ORG_NUMBERS.REUSE_RATE}%</Text>
+            <Text style={s.metricValueGreen}>{75}%</Text>
             <Text style={s.metricLabel}>Reuse-Rate</Text>
             <Text style={s.metricSub}>Refurbishing + Ersatzteile</Text>
           </View>
@@ -455,7 +454,7 @@ function Slide4Impact({ tenant }: { tenant: Tenant }) {
 
         <View style={s.threeCol}>
           <View style={s.metricBox}>
-            <Text style={s.metricValue}>{SHARED_ORG_NUMBERS.PEOPLE_HELPED}</Text>
+            <Text style={s.metricValue}>{'100+'}</Text>
             <Text style={s.metricLabel}>Menschen begleitet</Text>
             <Text
               style={s.metricSub}
@@ -467,7 +466,7 @@ function Slide4Impact({ tenant }: { tenant: Tenant }) {
             <Text style={s.metricSub}>{`Kontinuierlicher Betrieb seit ${tenant.founded}`}</Text>
           </View>
           <View style={s.metricBoxAccent}>
-            <Text style={s.metricValueAccent}>~{SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT}</Text>
+            <Text style={s.metricValueAccent}>~{150}</Text>
             <Text style={s.metricLabel}>Geräte/Jahr (aktuell)</Text>
             <Text
               style={s.metricSub}

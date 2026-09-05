@@ -8,9 +8,14 @@
 
 import type { Metric, MetricSourceType } from '../schemas/metric';
 import type { InspectorData, InspectorSourceType } from '../schemas/inspector';
-import { ORG_PROFILE } from './org-profile';
-import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';
 import { CO2_NEW_LAPTOP_MANUFACTURE, CO2_REFURBISH_COST } from './numbers';
+
+/**
+ * When this organisation's integration programme began — its own fact, in its
+ * own data file. It was read from a shared constant describing one customer,
+ * which is gone. Moves to `org_content` with the rest of these metrics.
+ */
+const OWN_INTEGRATION_PROGRAM_START = 2009;
 
 // ---------------------------------------------------------------------------
 // SSOT: All metric definitions
@@ -257,11 +262,11 @@ export const NumberSources: Record<string, Metric> = {
       type: 'estimated',
       confidence: 'low',
       path: 'Finanzbuchhaltung 2025',
-      assumption: `Durchschnittspreis CHF ${SHARED_ORG_NUMBERS.AVG_DEVICE_PRICE}/Gerät`,
+      assumption: `Durchschnittspreis CHF ${150}/Gerät`,
     },
     formula: {
       type: 'custom',
-      expression: `warenverkauf / ${SHARED_ORG_NUMBERS.AVG_DEVICE_PRICE}`,
+      expression: `warenverkauf / ${150}`,
       dependencies: ['financial_warenverkauf_2025'],
     },
     validation: {
@@ -293,11 +298,11 @@ export const NumberSources: Record<string, Metric> = {
       type: 'calculated',
       confidence: 'medium',
       path: 'CO2 und Gewichtstabelle (KPI Framework)',
-      assumption: `${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} kg CO2 Netto-Einsparung pro Gerät (${CO2_NEW_LAPTOP_MANUFACTURE} kg Neuproduktion − ${CO2_REFURBISH_COST} kg Refurbishment)`,
+      assumption: `${285} kg CO2 Netto-Einsparung pro Gerät (${CO2_NEW_LAPTOP_MANUFACTURE} kg Neuproduktion − ${CO2_REFURBISH_COST} kg Refurbishment)`,
     },
     formula: {
       type: 'custom',
-      expression: `devices * ${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} / 1000`,
+      expression: `devices * ${285} / 1000`,
       dependencies: ['devices_estimated_2025'],
     },
     validation: {
@@ -388,7 +393,7 @@ export const NumberSources: Record<string, Metric> = {
 
   praktikanten_100: {
     id: 'praktikanten_100',
-    name: `Praktikant:innen seit ${ORG_PROFILE.milestones.integrationProgram}`,
+    name: `Praktikant:innen seit ${OWN_INTEGRATION_PROGRAM_START}`,
     category: 'social',
     dimension: 'social_integration',
     format: 'integer',
@@ -406,7 +411,7 @@ export const NumberSources: Record<string, Metric> = {
       ],
     },
     documentation: {
-      description: `Geschätzte Anzahl Praktikant:innen seit Beginn des Integrationsprogramms ${ORG_PROFILE.milestones.integrationProgram}. Exakte Zahl nicht systematisch erfasst.`,
+      description: `Geschätzte Anzahl Praktikant:innen seit Beginn des Integrationsprogramms ${OWN_INTEGRATION_PROGRAM_START}. Exakte Zahl nicht systematisch erfasst.`,
       limitations: ['Nicht systematisch getrackt', 'Schätzung basierend auf Erinnerungen'],
       improvements: ['Rückwirkende Erfassung (wenn möglich)', 'Systematisches Tracking einführen'],
       link: '/wirkung',

@@ -5,8 +5,8 @@
  *
  * `stories.ts` interpolates the organisation into its prose at module load:
  *
- *     kurzportrait_subtitle: `Gemeinnütziger Verein seit ${ORG_PROFILE.founded} — …`
- *     opening: `… als gemeinnütziger Verein mit ${ORG_PROFILE.experienceLabel} …`
+ *     kurzportrait_subtitle: `Gemeinnütziger Verein seit ${founded} — …`
+ *     opening: `… als gemeinnütziger Verein mit ${experienceLabel} …`
  *
  * Seeding that into `org_content` freezes one organisation's facts inside
  * another's prose. The row currently in production literally reads "über 23

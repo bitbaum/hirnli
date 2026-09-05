@@ -24,7 +24,6 @@ import {
   CO2_REFURBISH_COST,
   LAPTOPS_REFURBISHED_COUNT,
 } from '@/lib/config/numbers';
-import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 import {
   COMPLETE_YEARS,
   CURRENT_YEAR_DATA,
@@ -292,7 +291,7 @@ function Page1({ tenant }: { tenant: Tenant }) {
           <Text style={s.metricLabel}>CO₂ gespart (gesamt)</Text>
         </View>
         <View style={s.metricBoxGreen}>
-          <Text style={s.metricValueGreen}>{SHARED_ORG_NUMBERS.REUSE_RATE}%</Text>
+          <Text style={s.metricValueGreen}>{75}%</Text>
           <Text style={s.metricLabel}>Reuse-Rate der eingegangenen Geräte</Text>
         </View>
       </View>
@@ -306,8 +305,8 @@ function Page1({ tenant }: { tenant: Tenant }) {
           2023.
         </Text>
         <Text style={s.body}>
-          Aktuelle Kapazität: ~{SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT} Geräte/Jahr.
-          Datenvernichtung nach NIST 800-88 Standard auf allen verarbeiteten Geräten.
+          Aktuelle Kapazität: ~{150} Geräte/Jahr. Datenvernichtung nach NIST 800-88 Standard auf
+          allen verarbeiteten Geräten.
         </Text>
       </View>
 

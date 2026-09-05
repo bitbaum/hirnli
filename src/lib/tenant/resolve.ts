@@ -1,10 +1,11 @@
 /**
  * The one place that reads a tenant. Every other module asks this.
  *
- * DRY is the point: 83 files currently import a compile-time `ORG_PROFILE`
- * constant, which is why the app can serve exactly one organisation. Replacing
- * that with 83 direct queries would trade one problem for a worse one, so this
- * is the single reader — request-cached, validated once, typed from the schema.
+ * DRY is the point: 83 files once imported a compile-time constant naming one
+ * customer, which is why the app could serve exactly one organisation.
+ * Replacing that with 83 direct queries would trade one problem for a worse
+ * one, so this is the single reader — request-cached, validated once, typed
+ * from the schema.
  *
  * Which tenant? The middleware resolves the Host and publishes `x-org-id`.
  * Reading it here rather than at each call site keeps "how a request finds its

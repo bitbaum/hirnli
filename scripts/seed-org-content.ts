@@ -17,7 +17,7 @@
  * Worse, the copy is invalid. `storedTenantProfileSchema` is `.strict()` and
  * deliberately has no room for `yearsActive` or `experienceLabel`, because both
  * are arithmetic on `founded` and a stored copy goes wrong on 1 January.
- * ORG_PROFILE carries both. Postgres would accept the row happily; the next
+ * That constant carried both. Postgres would accept the row happily; the next
  * request would call `parseTenant()`, get "Unrecognized keys", and throw — and
  * `getTenantById()` throws rather than falling back, on purpose. Every page,
  * 500, from running a script whose own header said to re-run it freely.

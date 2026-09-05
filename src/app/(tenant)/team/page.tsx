@@ -363,7 +363,7 @@ export default async function TeamPage() {
               <Button href="/wirkung" size="lg">
                 Wirkung & Impact
               </Button>
-              <Button href="/revamp-2030" size="lg">
+              <Button href="/vision" size="lg">
                 Revamp 2030
               </Button>
               <Button href="/strategie" variant="secondary" size="lg">

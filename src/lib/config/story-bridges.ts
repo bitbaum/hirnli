@@ -45,7 +45,7 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
     },
     {
       title: 'Revamp 2030',
-      href: '/revamp-2030',
+      href: '/vision',
       reason: 'Unsere Roadmap und was wir brauchen',
       icon: '🚀',
     },
@@ -108,7 +108,7 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
     },
     {
       title: 'Revamp 2030',
-      href: '/revamp-2030',
+      href: '/vision',
       reason: 'Unsere Zukunftsvision',
       icon: '🚀',
     },
@@ -135,7 +135,7 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
     },
     {
       title: 'Revamp 2030',
-      href: '/revamp-2030',
+      href: '/vision',
       reason: 'Was Förderung zusätzlich ermöglicht',
       icon: '🚀',
     },
@@ -150,7 +150,7 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
     },
     {
       title: 'Revamp 2030',
-      href: '/revamp-2030',
+      href: '/vision',
       reason: 'Warum wir Förderung brauchen',
       icon: '🚀',
     },
@@ -261,7 +261,7 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
     },
   ],
 
-  'revamp-2030': [
+  vision: [
     {
       title: 'Wie wir arbeiten',
       href: '/wie-wir-arbeiten',

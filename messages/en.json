@@ -13,30 +13,47 @@
     "tagline": "Transparency hub of {org}"
   },
   "nav": {
-    "ueberUns": { "label": "About us" },
+    "ueberUns": {
+      "label": "About us"
+    },
     "strategie": {
       "label": "Mission & strategy",
       "desc": "Why we exist & what we want to achieve"
     },
-    "team": { "label": "Team", "desc": "Who we are & how we work" },
+    "team": {
+      "label": "Team",
+      "desc": "Who we are & how we work"
+    },
     "wieWirArbeiten": {
       "label": "How we work",
       "desc": "The value cascade — maximum value per device"
     },
-    "finanzen": { "label": "Finances {range}", "desc": "Transparent income & expenses ({label})" },
-    "wirkung": { "label": "Impact", "desc": "CO₂ saved, devices refurbished, people reached" },
-    "preismodell": { "label": "Pricing model", "desc": "Solidarity pricing (4 tiers by income)" },
+    "finanzen": {
+      "label": "Finances {range}",
+      "desc": "Transparent income & expenses ({label})"
+    },
+    "wirkung": {
+      "label": "Impact",
+      "desc": "CO₂ saved, devices refurbished, people reached"
+    },
+    "preismodell": {
+      "label": "Pricing model",
+      "desc": "Solidarity pricing (4 tiers by income)"
+    },
     "methodik": {
       "label": "Methodology",
       "desc": "How we measure & calculate (transparency report)"
     },
-    "zukunft": { "label": "Future 2030" },
-    "vision": { "label": "Vision" },
-    "revamp2030": {
-      "label": "Revamp 2030 — the vision",
-      "desc": "Where we want to be in 2030: hub, education, impact"
+    "zukunft": {
+      "label": "Future 2030"
     },
-    "projekte": { "label": "Concrete projects (2026–2028)" },
+    "vision": {
+      "label": "Vision 2030",
+      "desc": "Where the organisation is heading by 2030"
+    },
+    "projekte": {
+      "label": "Concrete projects (2026–2028)"
+    },
     "hub": {
       "label": "Hub {space}",
       "desc": "🏢 Workshop + AI lab + hackerspace + cultural space"
@@ -45,14 +62,23 @@
       "label": "Education program",
       "desc": "🎓 2× program leads for train-the-trainer & workshops"
     },
-    "fundraising": { "label": "Fundraising" },
-    "budgetStatus": { "label": "Budget & status" },
-    "plan": { "label": "Fundraising plan", "desc": "📊 Budget overview, funding needs, timeline" },
+    "fundraising": {
+      "label": "Fundraising"
+    },
+    "budgetStatus": {
+      "label": "Budget & status"
+    },
+    "plan": {
+      "label": "Fundraising plan",
+      "desc": "📊 Budget overview, funding needs, timeline"
+    },
     "dashboard": {
       "label": "Pipeline dashboard",
       "desc": "📈 KPI overview: submitted, awarded, success rate"
     },
-    "stiftungenSection": { "label": "Foundations" },
+    "stiftungenSection": {
+      "label": "Foundations"
+    },
     "stiftungen": {
       "label": "{count} foundations",
       "desc": "🔍 With fit scores, themes, deadlines, amounts"
@@ -61,7 +87,10 @@
       "label": "Application templates",
       "desc": "📝 {count} reference templates by type (A/B/C/D)"
     },
-    "gesuche": { "label": "My applications", "desc": "📝 Edited application drafts at a glance" },
+    "gesuche": {
+      "label": "My applications",
+      "desc": "📝 Edited application drafts at a glance"
+    },
     "pipeline": {
       "label": "Application pipeline",
       "desc": "📋 Manage and track foundation applications"
@@ -74,7 +103,11 @@
       "label": "Pipeline methodology",
       "desc": "🔬 How we find the right ones among {universe} foundations"
     },
-    "dokumente": { "label": "Documents" },
-    "plattform": { "label": "Platform" }
+    "dokumente": {
+      "label": "Documents"
+    },
+    "plattform": {
+      "label": "Platform"
+    }
   }
 }

@@ -3,16 +3,19 @@
  * WhatsApp/Slack/LinkedIn/email previews. First impression happens HERE,
  * before anyone opens the site.
  *
- * All content from the request's tenant plus SHARED_ORG_NUMBERS — no hardcoded
- * stats. Colors mirror the globals.css brand tokens (OG images can't read
- * CSS vars, so the two hex values are intentional duplicates of
- * --color-revamp-green / --color-grey-dark).
+ * Every value comes from the REQUESTING tenant. The header used to claim "no
+ * hardcoded stats" while printing one customer's CO2 saving and reuse rate
+ * beside the reader's own founding year — a composite claim untrue of either
+ * organisation, on the card that WhatsApp, Slack and LinkedIn show when
+ * somebody shares the link.
+ *
+ * Colors mirror the globals.css brand tokens (OG images cannot read CSS vars,
+ * so the hex values are intentional duplicates).
  */
 
 import { ImageResponse } from 'next/og';
 import { getTenant } from '@/lib/tenant/resolve';
 import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
-import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 
 // `alt` is a static export and cannot await a tenant. It is the accessibility
 // text for the preview image, not a claim about who published it, so it says
@@ -29,12 +32,13 @@ export default async function OpenGraphImage() {
   // the first tenant's name and founding year.
   const tenant = await getTenant();
 
+  // Only facts the tenant itself has stated. A tenant that has written less
+  // gets a shorter card, never somebody else's numbers.
   const stats = [
-    `Gemeinnützig seit ${tenant.founded}`,
-    // Plain "CO2": the OG default font has no U+2082 subscript glyph
-    `${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} kg CO2 pro Gerät gespart`,
-    `${SHARED_ORG_NUMBERS.REUSE_RATE}% Reuse-Rate`,
-  ];
+    `${tenant.legalForm} seit ${tenant.founded}`,
+    tenant.location,
+    tenant.missionSummary,
+  ].filter((v): v is string => Boolean(v));
 
   return new ImageResponse(
     <div
