@@ -25,13 +25,27 @@ import { readFileSync } from 'node:fs';
  * rather than a permission slip.
  */
 const STILL_READS_ORG_PROFILE: Record<string, string> = {
-  // Content modules: their prose interpolates one org's facts at module load.
-  // They follow `stories.ts` — `{{placeholder}}` text plus a resolve(tenant).
-  'src/lib/config/numbers.ts': 'prose interpolates founded/yearsActive',
-  'src/lib/config/metrics.ts': 'prose interpolates milestones.integrationProgram',
-  'src/lib/config/projections.ts': 'prose interpolates founded',
-  'src/lib/config/gesuch-templates.ts': 'prose interpolates name',
-  'src/app/(tenant)/strategie/data.ts': 'prose interpolates founded',
+  // CORRECTION. An earlier version of this list said these follow `stories.ts`
+  // — `{{placeholder}}` text plus a resolve(tenant). That is wrong, and acting
+  // on it would make things worse.
+  //
+  // `stories.ts` is PROSE: "a charity founded in {{founded}}" is true of any
+  // tenant once the year is a slot. These files are one organisation's MEASURED
+  // DATA — 1'200 laptops refurbished, 847 of them documented in an accounting
+  // system, an internship programme that began in a particular year. Filling
+  // `{{founded}}` into their labels would print the VIEWING tenant's founding
+  // year over the FIRST tenant's counts: "1'200+ Laptops refurbished
+  // (2026-2025)". The reference to `ORG_PROFILE` is currently the one thing
+  // that keeps each label agreeing with the number beside it.
+  //
+  // So these do not need templating. They need per-tenant rows, and a tenant
+  // without them must render nothing rather than another's — the same rule
+  // `parseBranding` already follows for logos. That is a content-authoring
+  // decision, not a refactor, and it is the real blocker.
+  'src/lib/config/numbers.ts': 'ONE TENANT DATA — needs per-tenant rows, not templating',
+  'src/lib/config/metrics.ts': 'ONE TENANT DATA — needs per-tenant rows, not templating',
+  'src/lib/config/projections.ts': 'derived from numbers.ts; migrates with it',
+  'src/app/(tenant)/strategie/data.ts': 'ONE TENANT DATA — needs per-tenant rows',
 
   // Not a migration target: this test EXISTS to prove the constant's shape is
   // rejected by the stored-profile schema, so it has to import the thing.

@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest';
 import {
   TEMPLATE_TYPES,
   TEMPLATE_FOUNDATIONS,
+  TEMPLATE_LABELS,
+  resolveTemplateFoundation,
+  resolveTemplateLabels,
   TYPE_TEMPLATE_KEYS,
   SCHWERPUNKT_TEMPLATE_TYPES,
   getTemplateFoundation,
@@ -9,6 +12,7 @@ import {
   getSchwerpunktStaticParams,
 } from '../gesuch-templates';
 import { SCHWERPUNKT_IDS } from '../schwerpunkte';
+import { makeTenant } from '@/lib/domain/__tests__/fixtures';
 
 // ---------------------------------------------------------------------------
 // TEMPLATE_TYPES
@@ -217,5 +221,48 @@ describe('getSchwerpunktStaticParams', () => {
     const params = getSchwerpunktStaticParams();
     const keys = params.map((p) => `${p.vorlage}:${p.type}`);
     expect(new Set(keys).size).toBe(keys.length);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Template text is filled per tenant
+// ---------------------------------------------------------------------------
+
+describe('the generic template names the tenant, not one organisation', () => {
+  const PLACEHOLDER = /\{\{\s*[a-zA-Z][a-zA-Z0-9_.]*\s*\}\}/;
+
+  it('the stored text is a template, not a name', () => {
+    // If this ever holds a literal organisation name again, every tenant's
+    // template page claims to be that organisation's profile.
+    expect(TEMPLATE_FOUNDATIONS.generisch.tagline).toMatch(PLACEHOLDER);
+    expect(TEMPLATE_LABELS.generisch.desc).toMatch(PLACEHOLDER);
+  });
+
+  it('resolving fills it and leaves no braces', () => {
+    const f = resolveTemplateFoundation('generisch', makeTenant({ name: 'Beispiel-Verein' }))!;
+    expect(f.tagline).toContain('Beispiel-Verein');
+    expect(f.tagline).not.toMatch(PLACEHOLDER);
+    expect(f.researchNotes).not.toMatch(PLACEHOLDER);
+
+    const labels = resolveTemplateLabels(makeTenant({ name: 'Beispiel-Verein' }));
+    expect(labels.generisch.desc).toContain('Beispiel-Verein');
+    expect(labels.generisch.desc).not.toMatch(PLACEHOLDER);
+  });
+
+  it('two tenants get their own name from the one template', () => {
+    const a = resolveTemplateFoundation('generisch', makeTenant({ name: 'Alpha' }))!;
+    const b = resolveTemplateFoundation('generisch', makeTenant({ name: 'Beta' }))!;
+
+    expect(a.tagline).toContain('Alpha');
+    expect(b.tagline).toContain('Beta');
+    expect(b.tagline).not.toContain('Alpha');
+  });
+
+  it('a type template with no organisation name in it is untouched', () => {
+    // Only the generic template mentions the tenant; resolving must not mangle
+    // the others, whose taglines describe the FOUNDATION type.
+    const raw = TEMPLATE_FOUNDATIONS.A;
+    const resolved = resolveTemplateFoundation('A', makeTenant())!;
+    expect(resolved.tagline).toBe(raw.tagline);
   });
 });

@@ -6,6 +6,7 @@ import DocumentsClient from './DocumentsClient';
 import { buildDocuments } from '@/lib/config/documents';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import { getAllFoundations } from '@/lib/db/foundations-repo';
+import { getTenant } from '@/lib/tenant/resolve';
 
 export const metadata: Metadata = {
   title: 'Dokumente',
@@ -13,8 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function DokumentePage() {
-  const foundations = await getAllFoundations();
-  const { documents, stats } = buildDocuments(foundations);
+  const [foundations, tenant] = await Promise.all([getAllFoundations(), getTenant()]);
+  const { documents, stats } = buildDocuments(foundations, tenant);
 
   return (
     <>

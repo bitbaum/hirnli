@@ -9,14 +9,20 @@
  * pipeline. Foundation-specific fields (name, address, amount) use placeholder text
  * that users replace when customizing for a specific foundation.
  *
- * ORG-SPECIFIC: Content written for Revamp-IT.
- * To support a new org, rewrite this file's content.
- * NOT YET MIGRATED: still reads the compile-time ORG_PROFILE. Content module —
- * moves to org_content with the rest of the per-tenant prose.
+ * The three strings that named an organisation are `{{name}}` templates, filled
+ * per tenant by `resolveTemplateFoundation()` / `resolveTemplateLabels()`. They
+ * describe the template ("the whole X profile"), so they genuinely fit any
+ * tenant once the name is a slot — unlike this repo's number registries, whose
+ * content is one organisation's measured data and cannot be templated at all.
+ *
+ * Read the raw exports only to fill them. Everything else goes through a
+ * resolver; `no-raw-content-imports.test.ts` enforces that, because rendering
+ * an unfilled template puts the braces on the page — which has happened.
  */
 
 import type { Foundation } from '@/lib/schemas/foundation';
-import { ORG_PROFILE } from './org-profile';
+import type { Tenant } from '@/lib/tenant/profile';
+import { fillContent } from '@/lib/content/interpolate';
 import {
   SCHWERPUNKTE,
   SCHWERPUNKT_IDS,
@@ -146,7 +152,7 @@ export const TEMPLATE_FOUNDATIONS: Record<(typeof TEMPLATE_TYPES)[number], Found
     amount: { min: 10000, max: 50000, text: "CHF 10'000–50'000" },
     fitScore: 10,
     priority: 1,
-    tagline: `Universelle Gesuch-Vorlage für ${ORG_PROFILE.name}`,
+    tagline: 'Universelle Gesuch-Vorlage für {{name}}',
     region: '[Region]',
     websiteUrl: 'https://example.ch',
     applicationMethod: 'email',
@@ -161,7 +167,7 @@ export const TEMPLATE_FOUNDATIONS: Record<(typeof TEMPLATE_TYPES)[number], Found
     source: 'manual',
     researchDate: '2026-02-10',
     purposeSummary: '[Stiftungszweck hier einfügen]',
-    researchNotes: `Universelle Vorlage — zeigt das gesamte ${ORG_PROFILE.name}-Profil`,
+    researchNotes: 'Universelle Vorlage — zeigt das gesamte {{name}}-Profil',
   },
 };
 
@@ -179,14 +185,31 @@ export const TEMPLATE_LABELS: Record<
   generisch: {
     short: 'Generisch',
     long: 'Universelle Vorlage',
-    desc: `Das gesamte ${ORG_PROFILE.name}-Profil — alle Schwerpunkte, alle Projekte. Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen.`,
+    desc: 'Das gesamte {{name}}-Profil — alle Schwerpunkte, alle Projekte. Verwenden Sie diese Vorlage, wenn Sie den Fokus der Stiftung noch nicht kennen.',
     category: 'generic',
   },
 };
 
-/** Get a template foundation by type */
+/**
+ * Get a template foundation by type — RAW, still holding `{{name}}`.
+ *
+ * Callers that render must use `resolveTemplateFoundation()`. This stays
+ * exported because the config-integrity tests assert the shape of the table
+ * itself, which is tenant-independent.
+ */
 export function getTemplateFoundation(type: string): Foundation | undefined {
   return (TEMPLATE_FOUNDATIONS as Record<string, Foundation | undefined>)[type];
+}
+
+/** The same, with this tenant's name filled in. Use this to render. */
+export function resolveTemplateFoundation(type: string, tenant: Tenant): Foundation | undefined {
+  const raw = getTemplateFoundation(type);
+  return raw ? fillContent(raw, tenant) : undefined;
+}
+
+/** Template labels with this tenant's name filled in. Use this to render. */
+export function resolveTemplateLabels(tenant: Tenant): typeof TEMPLATE_LABELS {
+  return fillContent(TEMPLATE_LABELS, tenant);
 }
 
 // =========================================================================

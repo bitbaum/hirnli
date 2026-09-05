@@ -7,7 +7,12 @@
  * Last Updated: 2026-02-13
  */
 
-import { TEMPLATE_TYPES, TEMPLATE_FOUNDATIONS, TEMPLATE_LABELS } from './gesuch-templates';
+import {
+  TEMPLATE_TYPES,
+  resolveTemplateFoundation,
+  resolveTemplateLabels,
+} from './gesuch-templates';
+import type { Tenant } from '@/lib/tenant/profile';
 import { TYPE_LABELS } from './foundations/metadata';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { FINANCIAL_YEAR_LABEL, FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
@@ -57,25 +62,33 @@ function buildFoundationGesuche(foundations: Foundation[]): Document[] {
 // Template Gesuche (Reference Templates)
 // ---------------------------------------------------------------------------
 
-const TEMPLATE_GESUCHE: Document[] = TEMPLATE_TYPES.map((templateType): Document => {
-  const foundation = TEMPLATE_FOUNDATIONS[templateType];
+// Built per request, not at module scope: the template descriptions are
+// `{{name}}` text, and a module-scope constant is filled once — at import,
+// for whichever tenant happened to be first. That is exactly how a rendered
+// `{{founded}}` reached a live Gesuch page before.
+function buildTemplateGesuche(tenant: Tenant): Document[] {
+  const labels = resolveTemplateLabels(tenant);
 
-  // Get proper label: TYPE_LABELS for A/B/C/D/network, TEMPLATE_LABELS for generisch
-  const label =
-    templateType === 'generisch' ? TEMPLATE_LABELS.generisch.long : TYPE_LABELS[templateType].long;
+  return TEMPLATE_TYPES.map((templateType): Document => {
+    const foundation = resolveTemplateFoundation(templateType, tenant);
 
-  return {
-    id: `vorlage-${templateType}`,
-    title: `Gesuch ${label}`,
-    description: foundation?.tagline || label,
-    format: 'PDF',
-    category: 'vorlage',
-    action: 'print',
-    href: `/fundraising/gesuch-vorlagen/${templateType}/dokument`,
-    size: '~4-6 Seiten',
-    badge: templateType === 'generisch' ? 'Generisch' : `Typ ${templateType.toUpperCase()}`,
-  };
-});
+    // Get proper label: TYPE_LABELS for A/B/C/D/network, TEMPLATE_LABELS for generisch
+    const label =
+      templateType === 'generisch' ? labels.generisch.long : TYPE_LABELS[templateType].long;
+
+    return {
+      id: `vorlage-${templateType}`,
+      title: `Gesuch ${label}`,
+      description: foundation?.tagline || label,
+      format: 'PDF',
+      category: 'vorlage',
+      action: 'print',
+      href: `/fundraising/gesuch-vorlagen/${templateType}/dokument`,
+      size: '~4-6 Seiten',
+      badge: templateType === 'generisch' ? 'Generisch' : `Typ ${templateType.toUpperCase()}`,
+    };
+  });
+}
 
 // ---------------------------------------------------------------------------
 // Data Exports (CSV Downloads)
@@ -176,14 +189,15 @@ const BERICHTE: Document[] = [
 // ---------------------------------------------------------------------------
 
 /** Built at render time — the gesuche + exports lists depend on live foundation data. */
-export function buildDocuments(foundations: Foundation[]) {
+export function buildDocuments(foundations: Foundation[], tenant: Tenant) {
   const gesuche = buildFoundationGesuche(foundations);
   const exports = buildDataExports(foundations.length);
+  const vorlagen = buildTemplateGesuche(tenant);
 
   const documents = {
     berichte: BERICHTE,
     gesuche,
-    vorlagen: TEMPLATE_GESUCHE,
+    vorlagen,
     exports,
     quellen: SOURCE_FILES,
   };
@@ -191,15 +205,11 @@ export function buildDocuments(foundations: Foundation[]) {
   const stats = {
     berichteCount: BERICHTE.length,
     gesucheCount: gesuche.length,
-    vorlagenCount: TEMPLATE_GESUCHE.length,
+    vorlagenCount: vorlagen.length,
     exportsCount: exports.length,
     quellenCount: SOURCE_FILES.length,
     totalCount:
-      BERICHTE.length +
-      gesuche.length +
-      TEMPLATE_GESUCHE.length +
-      exports.length +
-      SOURCE_FILES.length,
+      BERICHTE.length + gesuche.length + vorlagen.length + exports.length + SOURCE_FILES.length,
   };
 
   return { documents, stats };
