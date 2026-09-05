@@ -20,6 +20,8 @@ import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import { getTenant } from '@/lib/tenant/resolve';
+import { ownsCodeContent } from '@/lib/content/page-content';
+import ContentNotPublished from '@/components/layout/ContentNotPublished';
 
 export const metadata: Metadata = {
   title: 'Methodik & Datenquellen',
@@ -28,6 +30,13 @@ export const metadata: Metadata = {
 
 export default async function MethodikPage() {
   const tenant = await getTenant();
+
+  // Partial, not all-or-nothing. The transparency PRINCIPLES and the
+  // integrity mechanism are the product and belong to everyone. What each
+  // section below documents — this organisation's accounting export, its
+  // device-price assumption, its pricing decisions, its data gaps — is one
+  // organisation's, and described somebody else's method to every reader.
+  const ownsMethod = await ownsCodeContent('methodik');
   return (
     <>
       <PageHeader
@@ -106,34 +115,48 @@ export default async function MethodikPage() {
         </Card>
       </section>
 
-      {/* Inhaltsverzeichnis */}
-      <section className="mb-8">
-        <h2 className="mb-4 heading-subsection">Inhaltsverzeichnis</h2>
-        <Card>
-          <nav aria-label="Inhaltsverzeichnis">
-            <ul className="divide-y divide-border">
-              {TOC_ITEMS.map((item) => (
-                <li key={item.id} className="py-2">
-                  <a href={`#${item.id}`} className="text-sm text-primary hover:underline">
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </Card>
-      </section>
+      {/* Inhaltsverzeichnis — every entry points at an org-specific section */}
+      {ownsMethod && (
+        <section className="mb-8">
+          <h2 className="mb-4 heading-subsection">Inhaltsverzeichnis</h2>
+          <Card>
+            <nav aria-label="Inhaltsverzeichnis">
+              <ul className="divide-y divide-border">
+                {(ownsMethod ? TOC_ITEMS : []).map((item) => (
+                  <li key={item.id} className="py-2">
+                    <a href={`#${item.id}`} className="text-sm text-primary hover:underline">
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </Card>
+        </section>
+      )}
 
-      {/* Methodology sections */}
+      {/* Methodology sections — each documents how ONE organisation's numbers
+          are produced. `SelfFinancingSection` is the exception: a
+          self-financing ratio is defined the same way for anybody. */}
       <div className="space-y-8">
-        <IncomeDataSection />
-        <SelfFinancingSection />
-        <DeviceEstimationSection />
-        <CO2CalculationSection />
-        <EWasteSection />
-        <PricingModelSection />
-        <DataGapsSection />
-        <IntegrityReportSection NumberSources={NumberSources} />
+        {ownsMethod ? (
+          <>
+            <IncomeDataSection />
+            <SelfFinancingSection />
+            <DeviceEstimationSection />
+            <CO2CalculationSection />
+            <EWasteSection />
+            <PricingModelSection />
+            <DataGapsSection />
+            <IntegrityReportSection NumberSources={NumberSources} />
+          </>
+        ) : (
+          <ContentNotPublished
+            page="Methodik"
+            tenantName={tenant.name}
+            describes="Hier erscheint die Herleitung jeder Zahl — Datenquellen, Formeln und Annahmen —, sobald die Organisation ihre Kennzahlen dokumentiert hat."
+          />
+        )}
       </div>
 
       <TransparencyPrinciplesSection />

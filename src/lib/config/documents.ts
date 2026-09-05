@@ -156,6 +156,13 @@ const SOURCE_FILES: Document[] = [];
 // Reports (Wirkungsberichte)
 // ---------------------------------------------------------------------------
 
+/**
+ * Funder documents. Offered only to the tenant whose content they are built
+ * from — `api/documents/*` refuses to generate them for anyone else, because
+ * assembling them from another organisation's material states its
+ * certifications under a name that does not hold them. Listing a download that
+ * 404s is the shape this repo has already been bitten by.
+ */
 const BERICHTE: Document[] = [
   {
     id: 'wirkungsbericht-2025',
@@ -189,13 +196,15 @@ const BERICHTE: Document[] = [
 // ---------------------------------------------------------------------------
 
 /** Built at render time — the gesuche + exports lists depend on live foundation data. */
-export function buildDocuments(foundations: Foundation[], tenant: Tenant) {
+export function buildDocuments(foundations: Foundation[], tenant: Tenant, ownsContent = true) {
   const gesuche = buildFoundationGesuche(foundations);
   const exports = buildDataExports(foundations.length);
   const vorlagen = buildTemplateGesuche(tenant);
 
+  const berichte = ownsContent ? BERICHTE : [];
+
   const documents = {
-    berichte: BERICHTE,
+    berichte,
     gesuche,
     vorlagen,
     exports,
@@ -203,13 +212,13 @@ export function buildDocuments(foundations: Foundation[], tenant: Tenant) {
   };
 
   const stats = {
-    berichteCount: BERICHTE.length,
+    berichteCount: berichte.length,
     gesucheCount: gesuche.length,
     vorlagenCount: vorlagen.length,
     exportsCount: exports.length,
     quellenCount: SOURCE_FILES.length,
     totalCount:
-      BERICHTE.length + gesuche.length + vorlagen.length + exports.length + SOURCE_FILES.length,
+      berichte.length + gesuche.length + vorlagen.length + exports.length + SOURCE_FILES.length,
   };
 
   return { documents, stats };
