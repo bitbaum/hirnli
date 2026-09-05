@@ -124,61 +124,20 @@ function buildDataExports(foundationCount: number): Document[] {
   ];
 }
 
-// Source files (original data from Kivitendo, anonymized for public access)
-const SOURCE_FILES: Document[] = [
-  {
-    id: 'source-trial-balance',
-    title: 'Summen & Saldenliste (Kivitendo)',
-    description:
-      'Original Erfolgsrechnung aus Kivitendo — Kontensalden per 31.12.2026. Basis für alle Finanzdaten auf dieser Seite.',
-    format: 'CSV',
-    category: 'quelle',
-    action: 'download',
-    href: '/documents/sources/summen_saldenliste_trial_balance.csv',
-    size: '~8 KB',
-    badge: 'Original',
-    lastUpdated: '2026-02-13',
-  },
-  {
-    id: 'source-chart-accounts',
-    title: 'Kontenplan (Kivitendo)',
-    description:
-      'Kontenplan-Struktur aus Kivitendo — zeigt alle Konten und ihre Hierarchie. Wichtig für Transparenz der Buchführung.',
-    format: 'CSV',
-    category: 'quelle',
-    action: 'download',
-    href: '/documents/sources/kontenplan_chart_of_accounts.csv',
-    size: '~6 KB',
-    badge: 'Original',
-    lastUpdated: '2026-02-13',
-  },
-  {
-    id: 'source-consolidated-workbook',
-    title: 'Konsolidierte Finanzdaten 2007-2025 (Excel)',
-    description:
-      '13-Sheet Excel mit allen Finanzdaten: P&L, Bilanz, Top Kunden, Einkauf, etc. — ANONYMISIERT (Kundennamen ersetzt) mit Datenqualitäts-Warnungen und Quellenangaben pro Sheet.',
-    format: 'Excel',
-    category: 'quelle',
-    action: 'download',
-    href: '/documents/sources/revamp-it_finanzen_anonymisiert.xlsx',
-    size: '~53 KB',
-    badge: '13 Sheets',
-    lastUpdated: '2026-02-13',
-  },
-  {
-    id: 'source-excel-readme',
-    title: 'README: Konsolidierte Finanzdaten',
-    description:
-      'Umfassende Dokumentation der Excel-Datei: Inhalt, Erstellung, Anonymisierung, Datenqualitäts-Warnungen, Quellenangaben. BITTE ZUERST LESEN.',
-    format: 'Markdown',
-    category: 'quelle',
-    action: 'download',
-    href: '/documents/sources/README_FINANZEN_EXCEL.txt',
-    size: '~11 KB',
-    badge: 'Wichtig',
-    lastUpdated: '2026-02-13',
-  },
-];
+/**
+ * Source files — EMPTY, and that is the honest state.
+ *
+ * Four entries lived here: the Kivitendo trial balance, the chart of accounts,
+ * a 13-sheet consolidated finance workbook and its README. Every one of them
+ * 404s. `public/documents/` has never contained anything but `.gitkeep` files,
+ * and `public/documents/README.md` has recorded that as "referenced but not
+ * uploaded" since February — while the page went on offering the downloads.
+ *
+ * They are listed in that README, which is where the intent belongs until the
+ * files exist. A document and its reference land in the SAME commit now;
+ * `referenced-documents-exist.test.ts` enforces it.
+ */
+const SOURCE_FILES: Document[] = [];
 
 // ---------------------------------------------------------------------------
 // Reports (Wirkungsberichte)

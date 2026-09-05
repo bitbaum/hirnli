@@ -40,6 +40,13 @@ function DocumentSection({
   query: string;
   type: string;
 }) {
+  // A section with nothing in it and nothing searched for is not an empty
+  // result, it is a section this tenant does not have. Rendering the heading
+  // and its explanatory prose anyway announced source files that do not exist,
+  // and described another organisation's accounting system while doing it.
+  // With a query, the empty state is still right — the user asked.
+  if (docs.length === 0 && !query) return null;
+
   return (
     <div>
       <div className="mb-6">
