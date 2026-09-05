@@ -38,11 +38,12 @@
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.2",
+    "@bitbaum/ai-kit": "^0.6.2",
+    "@bitbaum/mail-kit": "^0.1.0",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@react-pdf/renderer": "^4.9.0",
-    "@bitbaum/ai-kit": "^0.6.2",
     "better-auth": "^1.7.2",
     "chart.js": "^4.5.1",
     "drizzle-orm": "^0.45.1",
@@ -54,7 +55,6 @@
     "react": "19.2.8",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "19.2.8",
-    "resend": "^6.25.0",
     "xlsx": "^0.18.5",
     "zod": "^4.5.4"
   },
