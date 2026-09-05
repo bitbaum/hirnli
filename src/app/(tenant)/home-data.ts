@@ -32,7 +32,7 @@ export const hero = (tenant: Tenant) => ({
    * `org_profiles` and both tenants have written one, so there was never a
    * reason to guess. Undefined renders nothing rather than someone else's.
    */
-  story: tenant.missionSummary,
+  story: tenant.tagline ?? tenant.missionSummary,
   context: `${tenant.legalForm} seit ${tenant.founded} in ${tenant.location}`,
   platformNote: 'Fundraising-Werkzeuge für gemeinnützige Organisationen',
   ctas: [

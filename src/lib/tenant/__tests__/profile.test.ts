@@ -208,3 +208,29 @@ describe('the retiring constant cannot be written back as a tenant', () => {
     ).toEqual([]);
   });
 });
+
+describe('the hero line is a sentence, not a fragment', () => {
+  it('prefers the tagline and falls back to the mission summary', () => {
+    // `missionSummary` is a genitive phrase written to sit mid-clause. Rendered
+    // alone as the homepage hero it reads as a fragment, which is what happened
+    // when the hero first started reading from the profile — the reference
+    // tenant's front page went from a written sentence to
+    // "Kreislaufwirtschaft, Arbeitsintegration und digitaler Bildung".
+    const withTagline = parseTenant({
+      ...MINIMAL,
+      tagline: 'Wir geben IT-Geräten ein zweites Leben.',
+      missionSummary: 'Kreislaufwirtschaft und Arbeitsintegration',
+    });
+    expect(withTagline.tagline).toBe('Wir geben IT-Geräten ein zweites Leben.');
+
+    const without = parseTenant({ ...MINIMAL, missionSummary: 'X und Y' });
+    expect(without.tagline).toBeUndefined();
+    expect(without.missionSummary).toBe('X und Y');
+  });
+
+  it('is optional — a tenant may have neither', () => {
+    const bare = parseTenant(MINIMAL);
+    expect(bare.tagline).toBeUndefined();
+    expect(bare.missionSummary).toBeUndefined();
+  });
+});
