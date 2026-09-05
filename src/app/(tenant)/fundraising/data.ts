@@ -1,13 +1,13 @@
 /**
- * NOT YET MIGRATED: still reads the compile-time ORG_PROFILE. Content module —
- * moves to org_content with the rest of the per-tenant prose.
+ * Fundraising page data. Takes the tenant as an argument — the migration off
+ * the compile-time org constant is done here; only the prose still lives in
+ * TypeScript rather than `org_content`.
  */
 import { SOCIAL_DISPLAY } from '@/lib/config/stories';
 import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
 import type { Tenant } from '@/lib/tenant/profile';
 import { getScenario, getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { fitScoreToDisplay } from '@/lib/domain/fit-scoring';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 import {
   SPACE_SUMMARY,
   HUB_SPACE_AREAS,
