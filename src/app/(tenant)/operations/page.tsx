@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import PageHeader from '@/components/layout/PageHeader';
+import ContentNotPublished from '@/components/layout/ContentNotPublished';
+import { getTenant } from '@/lib/tenant/resolve';
+import { ownsCodeContent } from '@/lib/content/page-content';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Callout from '@/components/ui/Callout';
 import Badge from '@/components/ui/Badge';
@@ -35,7 +38,27 @@ export const metadata: Metadata = {
   description: 'Refurbishment-Prozess, Standard Operating Procedures und Qualitätskontrolle',
 };
 
-export default function OperationsPage() {
+export default async function OperationsPage() {
+  const tenant = await getTenant();
+
+  // This page is one organisation's own material. Rendering it for another
+  // tenant presented those facts as theirs; see lib/content/page-content.ts.
+  if (!(await ownsCodeContent('operations'))) {
+    return (
+      <>
+        <PageHeader
+          title="Operations & Prozesse"
+          subtitle={`Operations & Prozesse von ${tenant.name}`}
+        />
+        <ContentNotPublished
+          page="Operations & Prozesse"
+          tenantName={tenant.name}
+          describes="Hier erscheinen die dokumentierten Arbeitsabläufe der Organisation, sobald sie hinterlegt sind."
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <PageHeader
