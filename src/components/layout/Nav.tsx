@@ -23,16 +23,19 @@ import Backdrop from '@/components/ui/Backdrop';
  */
 export default function Nav({
   stiftungenCount,
+  hiddenHrefs,
   logoUrl,
   logoAlt,
 }: {
   stiftungenCount: number;
+  /** Routes this tenant has not authored — omitted from the menu. */
+  hiddenHrefs?: readonly string[];
   logoUrl?: string;
   logoAlt: string;
 }) {
   const pathname = usePathname();
   const t = useTranslations('common');
-  const items = useNavStructure(stiftungenCount);
+  const items = useNavStructure(stiftungenCount, hiddenHrefs);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
 

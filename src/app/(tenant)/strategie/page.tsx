@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
+import ContentNotPublished from '@/components/layout/ContentNotPublished';
+import { ownsCodeContent } from '@/lib/content/page-content';
 import Card from '@/components/ui/Card';
 import Table from '@/components/ui/Table';
 import { VISION_TARGETS, SDG_DATA, SDG_COLORS } from './data';
@@ -23,6 +25,22 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function StrategiePage() {
   const tenant = await getTenant();
+
+  // This page is one organisation's own material. Rendering it for another
+  // tenant presented those facts as theirs; see lib/content/page-content.ts.
+  if (!(await ownsCodeContent('strategie'))) {
+    return (
+      <>
+        <PageHeader title="Mission & Werte" subtitle={`Mission & Werte von ${tenant.name}`} />
+        <ContentNotPublished
+          page="Mission & Werte"
+          tenantName={tenant.name}
+          describes="Hier erscheinen Gründungsgeschichte, Mission, Schwerpunkte und Vision, sobald die Organisation sie veröffentlicht."
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <PageHeader

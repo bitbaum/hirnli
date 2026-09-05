@@ -73,12 +73,23 @@ export const BRAND_NAME = BRANDING.siteName;
 // Navigation structure (SSOT) — strings live in message catalogs
 // ---------------------------------------------------------------------------
 
-/** Built at render time — the Stiftungen count comes from the DB read layer, not a module-scope import. */
-export function buildNavStructure(stiftungenCount: number): {
+/**
+ * Built at render time — the Stiftungen count comes from the DB read layer, not
+ * a module-scope import.
+ *
+ * `hiddenHrefs` removes entries for pages this tenant has not authored. The
+ * menu previously offered every page to every tenant, including one route
+ * named after the reference tenant's own project.
+ */
+export function buildNavStructure(
+  stiftungenCount: number,
+  hiddenHrefs: readonly string[] = [],
+): {
   logo: { text: string; href: string };
   items: NavItemConfig[];
 } {
-  return {
+  const hidden = new Set(hiddenHrefs);
+  const structure: { logo: { text: string; href: string }; items: NavItemConfig[] } = {
     logo: { text: BRAND_NAME, href: '/' },
     items: [
       {
@@ -177,4 +188,31 @@ export function buildNavStructure(stiftungenCount: number): {
       },
     ],
   };
+
+  if (hidden.size === 0) return structure;
+
+  // Prune bottom-up: drop hidden links, then any section or item left with
+  // nothing behind it. A menu entry that opens onto an empty panel is worse
+  // than no entry, and a top-level item whose own href is hidden must go even
+  // when its children survive.
+  //
+  // Both shapes matter: simple items carry `children`, mega-menu items carry
+  // `sections` of links. Handling only the first left the mega menu offering
+  // pages the tenant does not have.
+  const keep = (l: NavLinkConfig) => !hidden.has(l.href);
+
+  const items = structure.items
+    .map((item): NavItemConfig => {
+      const children = item.children?.filter(keep);
+      const sections = item.sections
+        ?.map((section) => ({ ...section, items: section.items.filter(keep) }))
+        .filter((section) => section.items.length > 0);
+      return { ...item, children, sections };
+    })
+    .filter((item) => !item.href || !hidden.has(item.href))
+    .filter(
+      (item) => item.href || (item.children?.length ?? 0) > 0 || (item.sections?.length ?? 0) > 0,
+    );
+
+  return { ...structure, items };
 }

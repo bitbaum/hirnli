@@ -6,6 +6,9 @@
 import type { Metadata } from 'next';
 import CTABanner from '@/components/ui/CTABanner';
 import PageHeader from '@/components/layout/PageHeader';
+import ContentNotPublished from '@/components/layout/ContentNotPublished';
+import { getTenant } from '@/lib/tenant/resolve';
+import { ownsCodeContent } from '@/lib/content/page-content';
 import Card from '@/components/ui/Card';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
@@ -30,7 +33,24 @@ export const metadata: Metadata = {
     'Von unorganisiertem 3-Personen-Team zu strukturiertem Impact-Hub: Organisation + Raum + Kultur',
 };
 
-export default function Revamp2030Page() {
+export default async function Revamp2030Page() {
+  const tenant = await getTenant();
+
+  // This page is one organisation's own material. Rendering it for another
+  // tenant presented those facts as theirs; see lib/content/page-content.ts.
+  if (!(await ownsCodeContent('vision'))) {
+    return (
+      <>
+        <PageHeader title="Vision" subtitle={`Vision von ${tenant.name}`} />
+        <ContentNotPublished
+          page="Vision"
+          tenantName={tenant.name}
+          describes="Hier erscheint die langfristige Vision der Organisation, sobald sie veröffentlicht ist."
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <PageHeader
