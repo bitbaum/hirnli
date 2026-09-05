@@ -5,14 +5,15 @@
  * straight in. Several, and you pick — the URL then carries the choice, which
  * is what makes two organisations safe to work on side by side.
  *
- * No organisations means a real person with no customer yet: say so plainly
- * rather than dropping them on an empty dashboard.
+ * No organisations means a real person with no customer yet: say so plainly,
+ * and give them the way to create one.
  */
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getMyOrganizations, getSession } from '@/lib/auth/access';
+import { Button } from '@/components/ui/Button';
 
 export const metadata: Metadata = { title: 'Organisation wählen' };
 
@@ -29,10 +30,17 @@ export default async function StartPage() {
       <h1 className="text-2xl font-bold tracking-tight text-text-primary">Organisation wählen</h1>
 
       {orgs.length === 0 ? (
-        <p className="mt-4 text-text-secondary">
-          Dieses Konto gehört noch zu keiner Organisation. Wenn Sie eine Einladung erwarten, bitten
-          Sie die einladende Person, sie an {session.user.email} zu senden.
-        </p>
+        <div className="mt-4 flex flex-col gap-4">
+          {/* This used to be the end of the road: "ask whoever invited you",
+              with nobody able to be that inviter because nothing created
+              organisations. */}
+          <p className="text-text-secondary">
+            Dieses Konto gehört noch zu keiner Organisation. Erstellen Sie eine — oder bitten Sie,
+            falls Sie eine Einladung erwarten, die einladende Person, sie an {session.user.email} zu
+            senden.
+          </p>
+          <Button href="/organisation-erstellen">Organisation erstellen</Button>
+        </div>
       ) : (
         <ul className="mt-6 flex flex-col gap-2">
           {orgs.map((o) => (
