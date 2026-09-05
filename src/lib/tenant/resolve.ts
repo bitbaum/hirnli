@@ -14,7 +14,9 @@
 
 import { cache } from 'react';
 import { TENANT_HOST_HEADER } from './registry';
+import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import { orgDomains, orgProfiles } from '@/lib/db/schema';
@@ -82,7 +84,22 @@ export const getCurrentOrgId = cache(async (): Promise<string> => {
 
   const orgId = rows[0]?.orgId;
   if (!orgId) {
-    throw new Error(`No tenant is registered for host "${host}".`);
+    // A host nobody has registered is not a tenant — so serve the PRODUCT, not
+    // a customer. This is the third possible answer and the only correct one:
+    //
+    //   fall back to a tenant  → what it used to do. A stray domain, a probe
+    //                            or a not-yet-mapped customer rendered the
+    //                            first customer's site and scoped its queries
+    //                            to that customer's data.
+    //   throw                  → honest, but a 500. The deploy health check
+    //                            curls `http://localhost:PORT/`, whose Host is
+    //                            not a registered domain, so the first version
+    //                            of this change failed its own deploy and was
+    //                            automatically rolled back.
+    //   redirect to the platform → an unknown host gets the product's own
+    //                            page. Names no customer, leaks nothing, and
+    //                            is a truthful answer to "what is this host?".
+    redirect(PLATFORM_BRAND.marketingPath);
   }
   return orgId;
 });
