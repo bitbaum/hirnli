@@ -227,7 +227,7 @@ export default function CommunityTechSpaceSection() {
           </>
         }
         links={[
-          { href: '/revamp-2030', label: '🚀 Revamp 2030 ansehen' },
+          { href: '/vision', label: '🚀 Revamp 2030 ansehen' },
           { href: '/wirkung', label: '🌱 Unsere Wirkung in Zahlen', variant: 'secondary' },
         ]}
       />

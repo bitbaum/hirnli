@@ -3,7 +3,7 @@
  *
  * The two fundraising crons — the weekly data-quality report and the deadline
  * reminder — each built the same three strings from the compile-time
- * `ORG_PROFILE`: a From address, a To address, and a dashboard link in the
+ * the compile-time tenant constant: a From address, a To address, and a dashboard link in the
  * footer. Two copies of one rule, about to become three the next time anything
  * notifies anybody, so the rule lives here once and is derived from the tenant
  * the notification is actually about.

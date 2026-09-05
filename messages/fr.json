@@ -13,12 +13,17 @@
     "tagline": "Hub de transparence de {org}"
   },
   "nav": {
-    "ueberUns": { "label": "À propos" },
+    "ueberUns": {
+      "label": "À propos"
+    },
     "strategie": {
       "label": "Mission & stratégie",
       "desc": "Pourquoi nous existons & ce que nous voulons accomplir"
     },
-    "team": { "label": "Équipe", "desc": "Qui nous sommes & comment nous travaillons" },
+    "team": {
+      "label": "Équipe",
+      "desc": "Qui nous sommes & comment nous travaillons"
+    },
     "wieWirArbeiten": {
       "label": "Notre façon de travailler",
       "desc": "La cascade de valeur — valorisation maximale par appareil"
@@ -39,13 +44,16 @@
       "label": "Méthodologie",
       "desc": "Comment nous mesurons & calculons (rapport de transparence)"
     },
-    "zukunft": { "label": "Avenir 2030" },
-    "vision": { "label": "Vision" },
-    "revamp2030": {
-      "label": "Revamp 2030 — la vision",
-      "desc": "Où nous voulons être en 2030 : hub, formation, impact"
+    "zukunft": {
+      "label": "Avenir 2030"
     },
-    "projekte": { "label": "Projets concrets (2026–2028)" },
+    "vision": {
+      "label": "Vision 2030",
+      "desc": "Où l'organisation se projette d'ici 2030"
+    },
+    "projekte": {
+      "label": "Projets concrets (2026–2028)"
+    },
     "hub": {
       "label": "Hub {space}",
       "desc": "🏢 Atelier + AI lab + hackerspace + espace culturel"
@@ -54,8 +62,12 @@
       "label": "Programme de formation",
       "desc": "🎓 2× responsables pour train-the-trainer & ateliers"
     },
-    "fundraising": { "label": "Levée de fonds" },
-    "budgetStatus": { "label": "Budget & statut" },
+    "fundraising": {
+      "label": "Levée de fonds"
+    },
+    "budgetStatus": {
+      "label": "Budget & statut"
+    },
     "plan": {
       "label": "Plan de levée de fonds",
       "desc": "📊 Vue d'ensemble du budget, besoins, calendrier"
@@ -64,7 +76,9 @@
       "label": "Tableau de bord",
       "desc": "📈 Vue KPI : soumis, accordés, taux de succès"
     },
-    "stiftungenSection": { "label": "Fondations" },
+    "stiftungenSection": {
+      "label": "Fondations"
+    },
     "stiftungen": {
       "label": "{count} fondations",
       "desc": "🔍 Avec scores de fit, thèmes, délais, montants"
@@ -73,7 +87,10 @@
       "label": "Modèles de demande",
       "desc": "📝 {count} modèles de référence par type (A/B/C/D)"
     },
-    "gesuche": { "label": "Mes demandes", "desc": "📝 Brouillons de demandes en un coup d'œil" },
+    "gesuche": {
+      "label": "Mes demandes",
+      "desc": "📝 Brouillons de demandes en un coup d'œil"
+    },
     "pipeline": {
       "label": "Pipeline des demandes",
       "desc": "📋 Gérer et suivre les demandes aux fondations"
@@ -86,7 +103,11 @@
       "label": "Méthodologie du pipeline",
       "desc": "🔬 Comment trouver les bonnes parmi {universe} fondations"
     },
-    "dokumente": { "label": "Documents" },
-    "plattform": { "label": "Plateforme" }
+    "dokumente": {
+      "label": "Documents"
+    },
+    "plattform": {
+      "label": "Plateforme"
+    }
   }
 }

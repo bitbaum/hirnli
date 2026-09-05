@@ -157,7 +157,7 @@ export const PAGE_ROUTES: Record<TenantPage, string> = {
   operations: '/operations',
   preismodell: '/preismodell',
   'wie-wir-arbeiten': '/wie-wir-arbeiten',
-  vision: '/revamp-2030',
+  vision: '/vision',
   fundraising: '/fundraising',
   hub: '/fundraising/hub',
   bildung: '/fundraising/bildung',

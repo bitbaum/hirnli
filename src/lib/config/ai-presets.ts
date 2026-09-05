@@ -2,11 +2,13 @@
  * AI Rewrite Presets — SSOT for one-click AI editing actions
  *
  * Used in GesuchEditPanel for quick text transformations.
+ *
+ * These are INSTRUCTIONS, and they name no figures. "Mehr Zahlen" used to
+ * illustrate itself with one customer's device count, CO2 saving and reuse
+ * rate, so every tenant's AI rewrite was told to work those specific numbers
+ * into its grant text. The model already receives the requesting tenant's own
+ * context; the preset only has to ask it to use it.
  */
-
-import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';
-
-const { DEVICES_YEAR_CURRENT, CO2_SAVED_PER_LAPTOP, REUSE_RATE } = SHARED_ORG_NUMBERS;
 
 export const AI_PRESETS = [
   { label: 'Kürzer', instruction: 'Kürze auf maximal 2 Sätze, behalte den Kern' },
@@ -22,7 +24,8 @@ export const AI_PRESETS = [
   },
   {
     label: 'Mehr Zahlen',
-    instruction: `Integriere konkrete Zahlen und messbare Fakten aus dem Kontext (z.B. ${DEVICES_YEAR_CURRENT} Geräte, ${CO2_SAVED_PER_LAPTOP} kg CO₂, ${REUSE_RATE}% Reuse-Rate)`,
+    instruction:
+      'Integriere konkrete Zahlen und messbare Fakten aus dem bereitgestellten Kontext dieser Organisation — keine erfundenen oder fremden Werte',
   },
   {
     label: 'Formeller',

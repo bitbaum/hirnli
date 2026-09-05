@@ -30,15 +30,14 @@ import { execSync } from 'node:child_process';
  * about what happened.
  */
 const BUDGET: Record<string, number> = {
-  ORG_PROFILE: 45,
-  SHARED_ORG_NUMBERS: 37,
-  'Revamp-IT': 103,
-  'revamp-it': 23,
-  revampit: 20,
-  'revamp-info': 4,
+  // Reached zero and removed from this list, so a reappearance is caught by the
+  // "no new spelling" case rather than by a budget of 0: ORG_PROFILE,
+  // SHARED_ORG_NUMBERS, and the route named after one customer's project.
+  'Revamp-IT': 101,
+  'revamp-it': 18,
+  revampit: 13,
+  'revamp-info': 2,
   Kivitendo: 82,
-  'revamp-2030': 13,
-  revamp2030: 4,
   'revamp-Einnahmen': 11,
 };
 
@@ -68,6 +67,14 @@ describe('the reference tenant is data, not code', () => {
       ).toBe(budget);
     });
   }
+
+  it('a spelling that reached zero has not come back', () => {
+    // Kept out of BUDGET once cleared, so the list stays a work plan rather
+    // than a wall of zeroes — but the absence still has to be asserted.
+    for (const gone of ['ORG_PROFILE', 'SHARED_ORG_NUMBERS', 'revamp-2030', 'revamp2030']) {
+      expect(count(gone), `"${gone}" is back`).toBe(0);
+    }
+  });
 
   it('the scanner still finds something it is looking for', () => {
     // Every budget reaching zero would make these assertions vacuous. Until

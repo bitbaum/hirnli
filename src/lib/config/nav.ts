@@ -113,12 +113,12 @@ export function buildNavStructure(
       {
         msg: 'zukunft',
         icon: '🚀',
-        href: '/revamp-2030',
+        href: '/vision',
         mega: true,
         sections: [
           {
             msg: 'vision',
-            items: [{ msg: 'revamp2030', href: '/revamp-2030', hasDesc: true }],
+            items: [{ msg: 'vision', href: '/vision', hasDesc: true }],
           },
           {
             msg: 'projekte',

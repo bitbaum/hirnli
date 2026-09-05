@@ -13,21 +13,38 @@
  * Removed unverifiable multipliers and aspirational projections.
  * All values now match budget-scenarios.ts and fundraising/data.ts.
  *
- * 9 entries share values with revampit's Neon DB via SHARED_ORG_NUMBERS.
- * To update shared values: edit seed script in revampit, re-seed DB,
- * then run `npm run sync-numbers` here.
+ * Nine of these values used to be generated into a checked-in file from a table
+ * in ANOTHER of this organisation's databases, and imported here and in five
+ * other modules — including both funder PDFs and the social preview card. That
+ * made one customer's operational figures a compile-time constant of the
+ * platform. They are ordinary entries in this registry now, and travel with it
+ * into `org_content`.
  *
- * ORG-SPECIFIC: Content written for Revamp-IT.
- * To support a new org, rewrite this file's content.
- * NOT YET MIGRATED: still reads the compile-time ORG_PROFILE. Content module —
- * moves to org_content with the rest of the per-tenant prose.
+ * ONE ORGANISATION'S MEASURED DATA. Its destination is an `org_content`
+ * `numbers` row, which is already seeded with exactly these 52 entries; what is
+ * missing is the reader. Until then this renders only for the organisation it
+ * describes — `ownsCodeContent('...')` gates every page that shows it.
  */
 
 import { z } from 'zod';
-import { SHARED_ORG_NUMBERS } from './shared-org-numbers.generated';
 import { SPACE_SUMMARY } from './hub-space-plan';
-import { ORG_PROFILE } from './org-profile';
 import type { Confidence } from '../schemas/metric';
+
+/**
+ * This organisation's own founding facts, stated here because this file IS its
+ * data.
+ *
+ * They arrived through a compile-time constant describing one customer that any
+ * module could import. That constant is gone: identity lives in `org_profiles`,
+ * and a data file that needs its own founding year should carry it rather than
+ * reach for a global.
+ *
+ * These move to `org_content` with the rest of this file's contents; until
+ * then they are values in one organisation's dataset, not a second source of
+ * truth about who that organisation is.
+ */
+const OWN_FOUNDED = 2003;
+const OWN_YEARS_ACTIVE = new Date().getFullYear() - OWN_FOUNDED;
 
 export const NumberConfidence = z.enum(['high', 'medium', 'estimated', 'target', 'unknown']);
 export type NumberConfidence = z.infer<typeof NumberConfidence>;
@@ -69,7 +86,7 @@ export interface NumberSource {
 export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   // Impact Metrics
   CO2_SAVED_PER_LAPTOP: {
-    value: SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP,
+    value: 285,
     label: 'kg CO2 gespart pro Laptop',
     source: {
       methodology: 'Fraunhofer IZM Studie 2023: Refurbishing vs. Neuproduktion',
@@ -88,7 +105,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   REUSE_RATE: {
-    value: SHARED_ORG_NUMBERS.REUSE_RATE,
+    value: 75,
     label: '% Reuse-Rate',
     source: {
       methodology:
@@ -102,10 +119,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   DEVICE_LIFESPAN_EXTENSION: {
-    value: SHARED_ORG_NUMBERS.DEVICE_LIFESPAN_EXTENSION,
+    value: 5,
     label: 'Jahre zusätzliche Nutzungsdauer',
     source: {
-      methodology: `Erfahrungswerte aus ${ORG_PROFILE.yearsActive}+ Jahren Refurbishing: Linux verlängert Lebensdauer älterer Hardware signifikant`,
+      methodology: `Erfahrungswerte aus ${OWN_YEARS_ACTIVE}+ Jahren Refurbishing: Linux verlängert Lebensdauer älterer Hardware signifikant`,
       calculation:
         'Durchschnittliche zusätzliche Nutzungsdauer nach Refurbishing mit Linux-Installation',
       confidence: 'estimated',
@@ -116,10 +133,10 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 
   LAPTOPS_REFURBISHED_TOTAL: {
     value: "1'200+",
-    label: `Laptops refurbished (${ORG_PROFILE.founded}-2025)`,
+    label: `Laptops refurbished (${OWN_FOUNDED}-2025)`,
     source: {
-      methodology: `Interne Aufzeichnungen + Schätzung ${ORG_PROFILE.founded}-2018, systematisch erfasst ab 2019`,
-      calculation: `2019-2025: 847 dokumentiert (Kivitendo) + ${ORG_PROFILE.founded}-2018: ~350 geschätzt (15/Jahr Durchschnitt)`,
+      methodology: `Interne Aufzeichnungen + Schätzung ${OWN_FOUNDED}-2018, systematisch erfasst ab 2019`,
+      calculation: `2019-2025: 847 dokumentiert (Kivitendo) + ${OWN_FOUNDED}-2018: ~350 geschätzt (15/Jahr Durchschnitt)`,
       confidence: 'medium',
       lastVerified: '2026-02-12',
     },
@@ -127,12 +144,12 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   PEOPLE_HELPED: {
-    value: SHARED_ORG_NUMBERS.PEOPLE_HELPED,
-    label: `Menschen begleitet (${ORG_PROFILE.founded}-2025)`,
+    value: '100+',
+    label: `Menschen begleitet (${OWN_FOUNDED}-2025)`,
     source: {
       methodology:
         'Praktikanten + Volunteers + Workshop-Teilnehmer (nicht systematisch erfasst vor 2024)',
-      calculation: `Geschätzt basierend auf durchschnittlich 4-5 Personen/Jahr seit ${ORG_PROFILE.founded}`,
+      calculation: `Geschätzt basierend auf durchschnittlich 4-5 Personen/Jahr seit ${OWN_FOUNDED}`,
       confidence: 'medium',
       lastVerified: '2026-02-01',
     },
@@ -140,8 +157,8 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   YEARS_EXPERIENCE: {
-    value: ORG_PROFILE.yearsActive,
-    label: `Jahre Erfahrung (seit ${ORG_PROFILE.founded})`,
+    value: OWN_YEARS_ACTIVE,
+    label: `Jahre Erfahrung (seit ${OWN_FOUNDED})`,
     source: {
       methodology: 'Handelsregister Eintrag, Gründungsjahr verifiziert',
       confidence: 'high',
@@ -153,7 +170,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
 
   // Current Operations (2025)
   CURRENT_BUDGET: {
-    value: SHARED_ORG_NUMBERS.CURRENT_BUDGET,
+    value: 60000,
     label: 'Aktuelles Jahresbudget (2025)',
     source: {
       methodology: 'Kivitendo Erfolgsrechnung 2025 (Volljahr)',
@@ -326,7 +343,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   TEAM_CORE_FTE: {
-    value: SHARED_ORG_NUMBERS.TEAM_CORE_FTE,
+    value: 3,
     label: 'Kernteam (aktuell)',
     source: {
       // Named which two of the three are employed and which one works unpaid,
@@ -367,7 +384,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   AVG_DEVICE_PRICE: {
-    value: SHARED_ORG_NUMBERS.AVG_DEVICE_PRICE,
+    value: 150,
     label: 'CHF Durchschnittspreis pro Gerät',
     source: {
       methodology:
@@ -394,7 +411,7 @@ export const NUMBERS_REGISTRY: Record<string, NumberSource> = {
   },
 
   DEVICES_YEAR_CURRENT: {
-    value: SHARED_ORG_NUMBERS.DEVICES_YEAR_CURRENT,
+    value: 150,
     label: 'Geräte/Jahr verkauft (2025, geschätzt)',
     source: {
       methodology: 'Abgeleitet aus Warenverkauf-Umsatz (Kivitendo Konto 3100)',

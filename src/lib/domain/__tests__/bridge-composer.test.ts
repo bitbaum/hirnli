@@ -62,7 +62,7 @@ describe('extractPurposeCore', () => {
 describe('buildFoundationBridge', () => {
   it('names the organisation it was GIVEN, not one it imported', () => {
     // Asserting a literal name here is what let the composer keep an
-    // ORG_PROFILE import: the fixture and the import agreed, so the test passed
+    // the shared org constant: the fixture and the import agreed, so it passed
     // either way. Two different tenants must produce two different sentences.
     const f = makeFoundation();
     const mine = buildFoundationBridge(TENANT, f, 'Kreislaufwirtschaft');

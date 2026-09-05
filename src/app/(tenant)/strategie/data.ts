@@ -3,12 +3,11 @@
 
    ORG-SPECIFIC: Content written for Revamp-IT.
    To support a new org, rewrite this file's content.
-   NOT YET MIGRATED: still reads the compile-time ORG_PROFILE. Content module —
-   moves to org_content with the rest of the per-tenant prose.
+   ONE ORGANISATION'S CONTENT. Gated by `ownsCodeContent('strategie')`; moves
+   to `org_content` with the rest of the per-tenant prose.
    ──────────────────────────────────────────── */
 
 import { HUB_SPACE_DISPLAY, PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
-import { ORG_PROFILE } from '@/lib/config/org-profile';
 
 export const VISION_TARGETS = [
   {
@@ -52,7 +51,7 @@ export const VISION_TARGETS = [
         'Gemeinnütziger Verein (non-profit): Per Statuten keine Gewinnausschüttung, alle Einnahmen reinvestiert in Mission',
       confidence: 'high',
       lastVerified: '2026-01-15',
-      notes: `Bereits heute 100% — Dies ist keine Zukunftsvision, sondern unser Grundprinzip seit ${ORG_PROFILE.founded}`,
+      notes: `Bereits heute 100% — Dies ist keine Zukunftsvision, sondern unser Grundprinzip seit 2003`,
     },
   },
 ] as const;

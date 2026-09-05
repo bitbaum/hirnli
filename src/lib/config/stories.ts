@@ -50,7 +50,6 @@ import { getNumericValue, CO2_PER_LAPTOP } from '@/lib/config/numbers';
 import { formatNumber } from '@/lib/utils/format';
 import type { Tenant } from '@/lib/tenant/profile';
 import { fillContent, fillContentWith, templateValues } from '@/lib/content/interpolate';
-import { SHARED_ORG_NUMBERS } from '@/lib/config/shared-org-numbers.generated';
 
 // ============================================================================
 // Types for structures not covered by the story schema
@@ -173,7 +172,7 @@ export function resolveCoreFacts(tenant: Tenant): CoreFacts {
 // ============================================================================
 
 export const SOCIAL_DISPLAY = {
-  practitioners_total: SHARED_ORG_NUMBERS.PEOPLE_HELPED,
+  practitioners_total: '100+',
   success_rate: '~40%',
   success_rate_numeric: 40,
   capacity: '8-10',

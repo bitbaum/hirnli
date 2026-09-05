@@ -2,8 +2,8 @@
  * Platform Brand — SSOT for the PLATFORM's identity (NOT the tenant's).
  *
  * The platform is the product; tenants (first: Revamp-IT) are organizations
- * using it. Tenant identity lives in org-profile.ts and must never define
- * the platform's name.
+ * using it. Tenant identity lives in `org_profiles` and must never define the
+ * platform's name.
  *
  * NAMING: decided 2026-09-02 — the platform is "Hirnli", and it now has its
  * own host (hirnli.orangecat.ch) rather than borrowing the tenant's. Renaming
@@ -25,9 +25,8 @@ export const PLATFORM_BRAND = {
    * product page says "developed by and for Revamp-IT — the first organisation
    * on the platform", and that sentence stays true for every later tenant; it
    * would become false the moment it read the viewing tenant's name instead.
-   * It lived in `org-profile.ts` and was reached through `ORG_PROFILE.name`,
-   * which pointed the platform at a tenant and made the product page
-   * unrenderable without one.
+   * It was reached through the compile-time tenant constant, which pointed the
+   * platform at a customer and made the product page unrenderable without one.
    */
   foundingOrg: 'Revamp-IT',
 
