@@ -5,14 +5,14 @@
  *
  * Triggers: Daily at 9 AM CET
  * Checks: Applications with decision expected in 14d, 7d, or 1d
- * Sends: Email notifications via Resend
+ * Sends: Email notifications via @bitbaum/mail-kit (Resend underneath)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
 import { eq, and, inArray } from 'drizzle-orm';
-import { Resend } from 'resend';
+import { sendMail, isMailConfigured } from '@bitbaum/mail-kit';
 import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
 import { fundraisingDashboardUrl, resolveTenantMailRoute } from '@/lib/email/tenant-notifications';
 import type { Tenant } from '@/lib/tenant/profile';
@@ -25,9 +25,6 @@ const STATUS_LABEL = Object.fromEntries(APPLICATION_STATUSES.map((s) => [s.id, s
 import { toISODateStr } from '@/lib/utils/format';
 import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
-
-// Initialize Resend (requires RESEND_API_KEY in env)
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 /**
  * GET /api/cron/deadline-reminder
@@ -116,20 +113,24 @@ export async function GET(request: NextRequest) {
     // this job must not report as success.
     let emailed: string | boolean = false;
     if (notifications.length > 0) {
-      if (!resend) {
+      if (!isMailConfigured()) {
         emailed = 'skipped: RESEND_API_KEY is not configured';
       } else {
         const route = await resolveTenantMailRoute(reportOrgId);
         if (!route.canSend) {
           emailed = `skipped: ${route.reason}`;
         } else {
-          await resend.emails.send({
-            from: route.from,
-            to: route.to,
-            subject: `⏰ ${notifications.length} Fristen in den nächsten 14 Tagen`,
-            html: formatEmailBody(notifications, route.tenant),
-          });
-          emailed = true;
+          const result = await sendMail(
+            {
+              from: route.from,
+              to: route.to,
+              subject: `⏰ ${notifications.length} Fristen in den nächsten 14 Tagen`,
+              html: formatEmailBody(notifications, route.tenant),
+            },
+            // A retried cron run must not remind twice for the same day.
+            { idempotencyKey: `deadline-reminder-${reportOrgId}-${toISODateStr(today)}` },
+          );
+          emailed = result.sent ? true : `failed: ${result.error}`;
         }
       }
     }

@@ -5,7 +5,7 @@
  *
  * Triggers: Weekly (Mondays at 8 AM CET)
  * Checks: Missing fields, outdated research, stuck applications
- * Sends: Email report via Resend
+ * Sends: Email report via @bitbaum/mail-kit (Resend underneath)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -13,15 +13,13 @@ import { db } from '@/lib/db/client';
 import { foundationAssessments, foundations, applications } from '@/lib/db/schema';
 import { and, eq, isNull, lt, gte, sql } from 'drizzle-orm';
 import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
-import { Resend } from 'resend';
+import { sendMail, isMailConfigured } from '@bitbaum/mail-kit';
 import { fundraisingDashboardUrl, resolveTenantMailRoute } from '@/lib/email/tenant-notifications';
 import type { Tenant } from '@/lib/tenant/profile';
 import { formatDateCH, toISODateStr } from '@/lib/utils/format';
 import { API_ERR_UNAUTHORIZED, API_ERR_CRON } from '@/lib/utils/errors';
 import { EMAIL_COLORS } from '@/lib/config/email-colors';
 import { apiError } from '@/lib/api/route-helpers';
-
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 interface DataQualityIssue {
   type: string;
@@ -267,20 +265,24 @@ export async function GET(request: NextRequest) {
     // which.
     let emailed: string | boolean = false;
     if (issues.length > 0) {
-      if (!resend) {
+      if (!isMailConfigured()) {
         emailed = 'skipped: RESEND_API_KEY is not configured';
       } else {
         const route = await resolveTenantMailRoute(reportOrgId);
         if (!route.canSend) {
           emailed = `skipped: ${route.reason}`;
         } else {
-          await resend.emails.send({
-            from: route.from,
-            to: route.to,
-            subject: `📊 Datenqualität Report: ${issues.length} Probleme gefunden`,
-            html: formatQualityReport(issues, route.tenant),
-          });
-          emailed = true;
+          const result = await sendMail(
+            {
+              from: route.from,
+              to: route.to,
+              subject: `📊 Datenqualität Report: ${issues.length} Probleme gefunden`,
+              html: formatQualityReport(issues, route.tenant),
+            },
+            // A retried cron run must not mail the same report twice.
+            { idempotencyKey: `data-quality-${reportOrgId}-${toISODateStr(new Date())}` },
+          );
+          emailed = result.sent ? true : `failed: ${result.error}`;
         }
       }
     }
