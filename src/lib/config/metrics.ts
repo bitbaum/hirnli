@@ -30,7 +30,7 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'source',
       confidence: 'high',
-      path: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+      path: 'Finanzbuchhaltung 2025',
       account: '30-38 (Nettoerlöse Total)',
       lastUpdated: null,
     },
@@ -66,7 +66,7 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'source',
       confidence: 'high',
-      path: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+      path: 'Finanzbuchhaltung 2025',
       account: '3100 (Produktverkäufe)',
       lastUpdated: null,
     },
@@ -94,7 +94,7 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'source',
       confidence: 'high',
-      path: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+      path: 'Finanzbuchhaltung 2025',
       account: '3400 (Dienstleistungserlöse)',
       lastUpdated: null,
     },
@@ -225,7 +225,7 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'source',
       confidence: 'high',
-      path: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+      path: 'Finanzbuchhaltung 2025',
       account: '3500 + 3510',
     },
     formula: {
@@ -256,7 +256,7 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'estimated',
       confidence: 'low',
-      path: '01_Management/B_Finanzen/revamp-Einnahmen-2025.xlsx',
+      path: 'Finanzbuchhaltung 2025',
       assumption: `Durchschnittspreis CHF ${SHARED_ORG_NUMBERS.AVG_DEVICE_PRICE}/Gerät`,
     },
     formula: {
@@ -292,7 +292,7 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'calculated',
       confidence: 'medium',
-      path: '01_Management/C_Kennzahlen_und_Reporting/KPI_Framework/CO2_und_Gewichtstabelle.csv',
+      path: 'CO2 und Gewichtstabelle (KPI Framework)',
       assumption: `${SHARED_ORG_NUMBERS.CO2_SAVED_PER_LAPTOP} kg CO2 Netto-Einsparung pro Gerät (${CO2_NEW_LAPTOP_MANUFACTURE} kg Neuproduktion − ${CO2_REFURBISH_COST} kg Refurbishment)`,
     },
     formula: {
@@ -361,7 +361,7 @@ export const NumberSources: Record<string, Metric> = {
     source: {
       type: 'target',
       confidence: 'low',
-      path: '01_Management/C_Kennzahlen_und_Reporting/README.md',
+      path: 'KPI Framework Dokumentation',
     },
     formula: {
       type: 'custom',

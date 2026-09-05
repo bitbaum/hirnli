@@ -39,6 +39,11 @@ export default function NumberInspector({ isOpen, onClose, data }: NumberInspect
 
     // Map common sources to readable names
     const sourceMap: Record<string, string> = {
+      'Finanzbuchhaltung 2025': 'Finanzbuchhaltung 2025 (Kivitendo)',
+      // Kept: `source.path` used to carry an internal directory tree, and this
+      // map was what stopped it reaching the screen. It no longer has to —
+      // the paths were replaced with the names of the sources themselves —
+      // but a stripped filename is a fragile thing to have depended on.
       'revamp Einnahmen 2025': 'Finanzbuchhaltung 2025 (Kivitendo)',
       'revamp Ausgaben 2025': 'Finanzbuchhaltung 2025 (Kivitendo)',
       'THREE YEAR MODEL': '3-Jahres-Budgetplan (erstellt Januar 2026)',
