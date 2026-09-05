@@ -15,7 +15,6 @@
 
 import { describe, it, expect } from 'vitest';
 import { CODE_CONTENT_OWNER, CODE_OWNED, TENANT_PAGES, ownsCodeContent } from '../page-content';
-import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
 
 describe('code-held content has exactly one owner', () => {
   it('the owner sees it', async () => {
@@ -48,14 +47,15 @@ describe('code-held content has exactly one owner', () => {
     expect(undeclared, `not in TENANT_PAGES: ${undeclared.join(', ')}`).toEqual([]);
   });
 
-  it('the content owner is stated separately from the host fallback', () => {
-    // They are the same organisation today and mean different things: one is
-    // "who do we serve when the Host is unknown", the other "whose facts are
-    // hard-coded in this repository". Conflating them is how the fallback
-    // tenant silently became the content tenant. This asserts the two
-    // constants exist independently, not that they differ.
-    expect(CODE_CONTENT_OWNER).toBe('revamp-it');
-    expect(typeof DEFAULT_TENANT_ID).toBe('string');
+  it('the content owner is the only tenant id left in code', () => {
+    // There used to be a second: DEFAULT_TENANT_ID, the tenant served when the
+    // Host was unknown. Conflating "who do we serve by default" with "whose
+    // facts are hard-coded here" is how the fallback tenant silently became
+    // the content tenant, so the fallback was removed entirely — host routing
+    // is now a row in org_domains and an unknown host fails loudly.
+    //
+    // This one remains only until the content it names moves to org_content.
+    expect(typeof CODE_CONTENT_OWNER).toBe('string');
   });
 
   it('the ratchet may not grow', () => {

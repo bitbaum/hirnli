@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import PlatformPageView from '@/components/platform/PlatformPageView';
 import { PLATFORM_CONTENT, type PlatformLocale } from '@/lib/config/platform-content';
-import { getReferenceTenantFoundations } from '@/lib/db/foundations-repo';
+import { getRegistryFoundations } from '@/lib/db/foundations-repo';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = (await getLocale()) as PlatformLocale;
@@ -21,10 +21,10 @@ export default async function PlattformPage() {
   // contact. So it reads the reference tenant explicitly rather than
   // inheriting one from a default — the same numbers as before, but now it is
   // visible in the code that what this page reports is one customer's work.
-  // See getReferenceTenantFoundations.
+  // See getRegistryFoundations.
   const [locale, foundations] = await Promise.all([
     getLocale() as Promise<PlatformLocale>,
-    getReferenceTenantFoundations(),
+    getRegistryFoundations(),
   ]);
   return <PlatformPageView locale={locale} foundations={foundations} />;
 }

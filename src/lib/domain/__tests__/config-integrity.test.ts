@@ -18,8 +18,7 @@ import {
 } from '@/lib/config/foundations';
 // Not @/lib/db/foundations-repo — that one wraps reads in unstable_cache,
 // which requires a live Next.js server context and throws under vitest.
-import { getAllFoundations } from '../../../../scripts/lib/foundations';
-import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
+import { getRegistryFoundations } from '../../../../scripts/lib/foundations';
 import type { Foundation, FoundationStatus } from '@/lib/schemas/foundation';
 import { FoundationType, ApplicationMethod, SourceId, ThemeId } from '@/lib/schemas/foundation';
 import { TRUST_CONFIG } from '@/lib/config/trust-levels';
@@ -267,9 +266,11 @@ describe.skipIf(!process.env.DATABASE_URL)('foundation data integrity', () => {
   let data: Foundation[];
 
   beforeAll(async () => {
-    // A data-integrity assertion needs a concrete tenant: the shape it
-    // checks is one organisation's composed view, not the registry alone.
-    data = await getAllFoundations(DEFAULT_TENANT_ID);
+    // The shape being checked is the shared registry's, so read it without a
+    // tenant. This used to pass DEFAULT_TENANT_ID — a real customer's id — to
+    // get a composed view, which made a structural assertion depend on one
+    // organisation having assessed enough foundations.
+    data = await getRegistryFoundations();
   });
 
   it('has entries', () => {

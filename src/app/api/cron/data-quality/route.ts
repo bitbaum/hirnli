@@ -12,7 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { foundationAssessments, foundations, applications } from '@/lib/db/schema';
 import { and, eq, isNull, lt, gte, sql } from 'drizzle-orm';
-import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
+import { soleReportingTenant } from '@/lib/tenant/reporting';
 import { sendMail, isMailConfigured } from '@bitbaum/mail-kit';
 import { fundraisingDashboardUrl, resolveTenantMailRoute } from '@/lib/email/tenant-notifications';
 import type { Tenant } from '@/lib/tenant/profile';
@@ -68,7 +68,16 @@ export async function GET(request: NextRequest) {
     // that want it. That is a deliberate change — it starts mailing customers
     // who receive nothing today — so it is left as one visible line rather
     // than done as a side effect. Tracked in docs/TENANT-MIGRATION-MAP.md.
-    const reportOrgId = DEFAULT_TENANT_ID;
+    // Which tenant this reports for is DATA: the organisation that has stated a
+    // fundraising address. It was a compile-time constant, so the job ran for
+    // one customer and never for any other.
+    const reportOrgId = await soleReportingTenant();
+    if (!reportOrgId) {
+      return NextResponse.json({
+        ok: true,
+        skipped: 'no single tenant has a fundraisingEmail — nothing to report on',
+      });
+    }
     const assessedBy = and(
       eq(foundationAssessments.foundationId, foundations.id),
       eq(foundationAssessments.orgId, reportOrgId),

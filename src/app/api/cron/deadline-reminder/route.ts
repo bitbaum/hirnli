@@ -13,7 +13,7 @@ import { db } from '@/lib/db/client';
 import { applications, foundations } from '@/lib/db/schema';
 import { eq, and, inArray } from 'drizzle-orm';
 import { sendMail, isMailConfigured } from '@bitbaum/mail-kit';
-import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
+import { soleReportingTenant } from '@/lib/tenant/reporting';
 import { fundraisingDashboardUrl, resolveTenantMailRoute } from '@/lib/email/tenant-notifications';
 import type { Tenant } from '@/lib/tenant/profile';
 import { APPLICATION_STATUSES } from '@/lib/config/application-statuses';
@@ -60,7 +60,16 @@ export async function GET(request: NextRequest) {
     // tenant from, so it runs for the reference tenant. Fanning it out to every
     // tenant is a change of behaviour towards customers who receive nothing
     // today, so it stays one visible line. See docs/TENANT-MIGRATION-MAP.md.
-    const reportOrgId = DEFAULT_TENANT_ID;
+    // Which tenant this reports for is DATA: the organisation that has stated a
+    // fundraising address. It was a compile-time constant, so the job ran for
+    // one customer and never for any other.
+    const reportOrgId = await soleReportingTenant();
+    if (!reportOrgId) {
+      return NextResponse.json({
+        ok: true,
+        skipped: 'no single tenant has a fundraisingEmail — nothing to report on',
+      });
+    }
 
     const today = new Date();
     const notifications: Array<{

@@ -36,13 +36,12 @@
  */
 
 import { unstable_cache } from 'next/cache';
-import { and, eq, isNull, ne, or } from 'drizzle-orm';
+import { and, eq, isNull, ne, or, sql } from 'drizzle-orm';
 import { db } from './client';
 import { foundationAssessments, foundations } from './schema';
 import { type Foundation } from '@/lib/schemas/foundation';
 import { composeFoundation } from './foundation-compose';
 import { getCurrentOrgId } from '@/lib/tenant/resolve';
-import { DEFAULT_TENANT_ID } from '@/lib/tenant/registry';
 // Static import is safe here: foundation-quality → foundation-helpers is a
 // straight line, foundation-helpers no longer imports back into this module
 // (it takes `foundations: Foundation[]` as a parameter instead).
@@ -176,21 +175,34 @@ export async function getAllFoundations(): Promise<Foundation[]> {
 }
 
 /**
- * The reference tenant's foundations, for pages that belong to no tenant.
+ * The shared foundation registry, with no tenant's opinions attached.
  *
- * Used by the platform page, which is org-agnostic but whose statistics are
- * not: computeFunnelStats mixes registry facts (purpose, contact, website)
- * with assessment values (fit distribution, themes, research depth), so it
- * currently describes one customer's work and presents it as the platform's.
+ * For the platform pages, which belong to no tenant. This used to load the
+ * REFERENCE tenant's foundations — registry facts joined to that customer's
+ * assessments — so the product page's funnel described one customer's research
+ * and presented it as the platform's. Naming that customer to get the number
+ * also meant the platform surface could not render without it.
  *
- * This function does not fix that; it makes it explicit and greppable instead
- * of arriving silently through a default. Deciding what the platform page
- * should actually report — the registry's size, or something aggregated across
- * tenants — is a product question, and pointing it at an empty registry view
- * would only replace a misleading number with a zero.
+ * The registry is genuinely shared: every tenant browses the same Swiss
+ * foundations. What differs is the assessments, and those are exactly the part
+ * the platform must not borrow. Fit distribution and research depth therefore
+ * read as unassessed here, which is correct — the platform has not assessed
+ * anything, its customers have.
  */
-export async function getReferenceTenantFoundations(): Promise<Foundation[]> {
-  return getFoundationsForOrg(DEFAULT_TENANT_ID);
+export async function getRegistryFoundations(): Promise<Foundation[]> {
+  const rows = await db
+    .select({ configData: foundations.configData, assessment: sql`NULL` })
+    .from(foundations)
+    .where(
+      and(
+        eq(foundations.archived, false),
+        or(isNull(foundations.dataConfidence), ne(foundations.dataConfidence, 'unverified')),
+      ),
+    );
+
+  return rows
+    .map((row) => composeFoundation(row.configData, null))
+    .filter((f): f is Foundation => f !== undefined);
 }
 
 /** Look up a single foundation by its URL slug, for the requesting tenant. */
