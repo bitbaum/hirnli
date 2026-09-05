@@ -8,7 +8,6 @@ import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 import { hero, GUIDE_HEADING, GUIDE_SECTIONS, PILLARS_HEADING, TRANSPARENCY } from './home-data';
 import { getTenant } from '@/lib/tenant/resolve';
 
@@ -27,7 +26,9 @@ export async function HeroSection() {
       <h1 className="text-3xl font-bold tracking-tight text-text-primary mb-3 md:text-5xl md:leading-tight">
         {HERO.name}
       </h1>
-      <p className="text-lg text-text-secondary leading-relaxed max-w-2xl mb-2">{HERO.story}</p>
+      {HERO.story && (
+        <p className="text-lg text-text-secondary leading-relaxed max-w-2xl mb-2">{HERO.story}</p>
+      )}
       <p className="text-sm text-text-tertiary mb-6">{HERO.context}</p>
 
       <div className="flex flex-wrap gap-3">
@@ -82,29 +83,45 @@ export function PlatformGuide() {
 
 // -- Section 3: Pillars ------------------------------------------------------
 
-export function PillarGrid() {
+export async function PillarGrid() {
+  const tenant = await getTenant();
+
+  /**
+   * The tenant's OWN areas of work.
+   *
+   * This grid rendered `SCHWERPUNKTE` — four pillars whose own module header
+   * says "ORG-SPECIFIC: Content written for Revamp-IT" — on every tenant's
+   * front page, as that tenant's focus areas. `missionAreas` is part of the
+   * stored profile and both tenants have written their own; the second
+   * tenant's are curated hardware, fair repair, and access to AI, which is
+   * nothing like the four it was being shown.
+   *
+   * A tenant that has not listed any gets no grid, rather than another's.
+   */
+  const areas = tenant.missionAreas ?? [];
+  if (areas.length === 0) return null;
+
   return (
     <section className="mb-12">
       <h2 className="heading-page mb-6">{PILLARS_HEADING}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {SCHWERPUNKT_IDS.map((id) => {
-          const s = SCHWERPUNKTE[id];
-          const border = s.borderClass ?? 'border-l-grey-medium';
-          return (
-            <Card key={id} className={`border-l-4 ${border}`}>
-              <div className="flex items-start gap-3">
-                <div className="text-2xl flex-shrink-0" aria-hidden="true">
-                  {s.icon}
-                </div>
-                <div>
-                  <h3 className="heading-card mb-1">{s.label}</h3>
-                  <p className="text-sm text-text-secondary mb-2">{s.description}</p>
-                  <Badge color="gray">{s.pillar}</Badge>
+        {areas.map((area) => (
+          <Card key={area.name} className="border-l-4 border-l-grey-medium">
+            <div className="flex items-start gap-3">
+              <div>
+                <h3 className="heading-card mb-1">{area.name}</h3>
+                <p className="text-sm text-text-secondary mb-2">{area.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {area.metrics.map((metric) => (
+                    <Badge key={metric} color="gray">
+                      {metric}
+                    </Badge>
+                  ))}
                 </div>
               </div>
-            </Card>
-          );
-        })}
+            </div>
+          </Card>
+        ))}
       </div>
     </section>
   );

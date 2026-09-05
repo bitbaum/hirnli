@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/layout/PageHeader';
+import ContentNotPublished from '@/components/layout/ContentNotPublished';
+import { getTenant } from '@/lib/tenant/resolve';
+import { ownsCodeContent } from '@/lib/content/page-content';
 import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import { PEOPLE_REACHED_PER_YEAR } from '@/lib/config/projections';
 import BottleneckSection from './sections/BottleneckSection';
@@ -16,7 +19,24 @@ export const metadata: Metadata = {
   description: `2× Bildungsprogrammleiter:innen ermöglichen Train-the-Trainer und erreichen ${PEOPLE_REACHED_PER_YEAR} Menschen/Jahr`,
 };
 
-export default function BildungPage() {
+export default async function BildungPage() {
+  const tenant = await getTenant();
+
+  // A project page: one organisation's premises plan / programme. There is
+  // no meaningful partial — an empty version of it says nothing.
+  if (!(await ownsCodeContent('bildung'))) {
+    return (
+      <>
+        <PageHeader title="Bildungsprogramm" subtitle={`Bildungsprogramm von ${tenant.name}`} />
+        <ContentNotPublished
+          page="Bildungsprogramm"
+          tenantName={tenant.name}
+          describes="Hier erscheint das Bildungsprogramm der Organisation, sobald es beschrieben ist."
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <PageHeader

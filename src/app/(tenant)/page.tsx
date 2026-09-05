@@ -11,12 +11,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title, description };
 }
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <>
       <HeroSection />
       <PlatformGuide />
-      <PillarGrid />
+      {await PillarGrid()}
       <TransparencyBlock />
 
       <section className="mb-12">
