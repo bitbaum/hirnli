@@ -64,6 +64,7 @@ export const TENANT_PAGES = [
   'vision',
   'fundraising',
   'hub',
+  'bildung',
 ] as const;
 
 export type TenantPage = (typeof TENANT_PAGES)[number];
@@ -90,7 +91,10 @@ export const CODE_CONTENT_OWNER = 'revamp-it';
  * it may not grow, so a new page cannot quietly hard-code a tenant's material.
  */
 export const CODE_OWNED: readonly TenantPage[] = [
-  'home-story',
+  // 'home-story' migrated: the hero sentence is `tenant.missionSummary` and the
+  // focus-area grid is `tenant.missionAreas`, both stored per tenant. The
+  // homepage is now generated from the profile for anybody, which is what
+  // leaving this list is supposed to mean.
   'wirkung',
   'finanzen',
   'team',
@@ -102,6 +106,7 @@ export const CODE_OWNED: readonly TenantPage[] = [
   'vision',
   'fundraising',
   'hub',
+  'bildung',
 ] as const;
 
 /**
@@ -155,6 +160,7 @@ export const PAGE_ROUTES: Record<TenantPage, string> = {
   vision: '/revamp-2030',
   fundraising: '/fundraising',
   hub: '/fundraising/hub',
+  bildung: '/fundraising/bildung',
 };
 
 /** Hrefs to hide from this tenant's navigation. Empty for the content owner. */

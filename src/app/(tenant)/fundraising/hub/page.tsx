@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import CTABanner from '@/components/ui/CTABanner';
 import PageHeader from '@/components/layout/PageHeader';
+import ContentNotPublished from '@/components/layout/ContentNotPublished';
+import { getTenant } from '@/lib/tenant/resolve';
+import { ownsCodeContent } from '@/lib/content/page-content';
 import Card from '@/components/ui/Card';
 import { HUB_SPACE_DISPLAY } from '@/lib/config/projections';
 import { HubImageGenerator } from '@/components/hub/HubImageGenerator';
@@ -17,7 +20,27 @@ export const metadata: Metadata = {
     'Werkstatt, Kultur, Innovation: Wo Nachhaltigkeit, Technologie und Gemeinschaft zusammenkommen',
 };
 
-export default function HubPage() {
+export default async function HubPage() {
+  const tenant = await getTenant();
+
+  // A project page: one organisation's premises plan / programme. There is
+  // no meaningful partial — an empty version of it says nothing.
+  if (!(await ownsCodeContent('hub'))) {
+    return (
+      <>
+        <PageHeader
+          title="Community Tech Space"
+          subtitle={`Community Tech Space von ${tenant.name}`}
+        />
+        <ContentNotPublished
+          page="Community Tech Space"
+          tenantName={tenant.name}
+          describes="Hier erscheint das Raumkonzept der Organisation, sobald ein Standortprojekt hinterlegt ist."
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <PageHeader

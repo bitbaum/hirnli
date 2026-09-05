@@ -4,6 +4,7 @@ import FundraisingClient from './FundraisingClient';
 import { PROJECT_YEAR_RANGE } from './data';
 import { PageLoadingSpinner } from '@/components/ui/LoadingState';
 import { getAllFoundations } from '@/lib/db/foundations-repo';
+import { ownsCodeContent } from '@/lib/content/page-content';
 
 export const metadata: Metadata = {
   title: `Fundraising Plan ${PROJECT_YEAR_RANGE}`,
@@ -11,10 +12,13 @@ export const metadata: Metadata = {
 };
 
 export default async function FundraisingPage() {
-  const foundations = await getAllFoundations();
+  const [foundations, ownsContent] = await Promise.all([
+    getAllFoundations(),
+    ownsCodeContent('fundraising'),
+  ]);
   return (
     <Suspense fallback={<PageLoadingSpinner />}>
-      <FundraisingClient foundations={foundations} />
+      <FundraisingClient foundations={foundations} ownsContent={ownsContent} />
     </Suspense>
   );
 }

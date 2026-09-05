@@ -27,7 +27,21 @@ import KeyResources from './sections/KeyResources';
 import NextSteps from './sections/NextSteps';
 import type { Foundation } from '@/lib/schemas/foundation';
 
-export default function FundraisingClient({ foundations }: { foundations: Foundation[] }) {
+export default function FundraisingClient({
+  foundations,
+  ownsContent,
+}: {
+  foundations: Foundation[];
+  /**
+   * Whether this tenant authored the narrative and financial sections.
+   *
+   * Unlike the other pages, this one is not all-or-nothing: the pipeline
+   * metrics, status, resources and next steps are computed from the tenant's
+   * OWN foundation assessments and are already correct for everybody. Only the
+   * business plan around them belongs to one organisation.
+   */
+  ownsContent: boolean;
+}) {
   const tenant = useTenant();
   const inspector = useNumberInspector();
 
@@ -65,63 +79,76 @@ export default function FundraisingClient({ foundations }: { foundations: Founda
         ))}
       </div>
 
-      <WhyWeNeedFunding />
-      <TwoAsks />
+      {ownsContent && (
+        <>
+          <WhyWeNeedFunding />
+          <TwoAsks />
+        </>
+      )}
 
-      {/* Vision Section */}
-      <section className="mb-8">
-        <Card variant="muted">
-          <h2 className="mb-1 heading-subsection">Community Tech Hub {PROJECT_YEAR_RANGE}</h2>
-          <p className="mb-3 text-base italic text-text-secondary">
-            &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
-          </p>
-          <p className="mb-4 text-sm text-text-secondary">
-            Seit {tenant.founded} verbinden wir Kreislaufwirtschaft, Arbeitsintegration und
-            Tech-Bildung unter einem Dach. Auf{' '}
-            <Inspectable
-              data={inspectSpace}
-              inspector={inspector}
-              className="underline decoration-dotted decoration-1 underline-offset-2 hover:decoration-solid"
-            >
-              {SPACE_TOTAL_WITH_CIRCULATION} m²
-            </Inspectable>{' '}
-            bauen wir Werkstatt, Makerspace, AI Lab, Event-/Kulturraum und Museum — ein Ort für
-            nachhaltige Technologie, souveräne KI und Community.
-          </p>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {heroStats(tenant).map((item) => (
-              <div
-                key={item.label}
-                className="rounded-lg border border-border-subtle bg-surface-base p-4 text-center"
+      {/* Vision Section — one organisation's project, its motto and its premises */}
+      {ownsContent && (
+        <section className="mb-8">
+          <Card variant="muted">
+            <h2 className="mb-1 heading-subsection">Community Tech Hub {PROJECT_YEAR_RANGE}</h2>
+            <p className="mb-3 text-base italic text-text-secondary">
+              &ldquo;Alte Computer. Neue Chancen. Bessere Zukunft.&rdquo;
+            </p>
+            <p className="mb-4 text-sm text-text-secondary">
+              Seit {tenant.founded} verbinden wir Kreislaufwirtschaft, Arbeitsintegration und
+              Tech-Bildung unter einem Dach. Auf{' '}
+              <Inspectable
+                data={inspectSpace}
+                inspector={inspector}
+                className="underline decoration-dotted decoration-1 underline-offset-2 hover:decoration-solid"
               >
-                <div className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">
-                  {item.label}
+                {SPACE_TOTAL_WITH_CIRCULATION} m²
+              </Inspectable>{' '}
+              bauen wir Werkstatt, Makerspace, AI Lab, Event-/Kulturraum und Museum — ein Ort für
+              nachhaltige Technologie, souveräne KI und Community.
+            </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {heroStats(tenant).map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-lg border border-border-subtle bg-surface-base p-4 text-center"
+                >
+                  <div className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">
+                    {item.label}
+                  </div>
+                  <div className="heading-section mt-1">{item.value}</div>
+                  <div className="text-xs text-text-secondary mt-0.5">{item.sub}</div>
                 </div>
-                <div className="heading-section mt-1">{item.value}</div>
-                <div className="text-xs text-text-secondary mt-0.5">{item.sub}</div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4">
-            <Link
-              href="/strategie#community-tech-space"
-              className="text-sm font-medium text-primary hover:underline"
-            >
-              Vollständige Vision & Strategie →
-            </Link>
-          </div>
-        </Card>
-      </section>
+              ))}
+            </div>
+            <div className="mt-4">
+              <Link
+                href="/strategie#community-tech-space"
+                className="text-sm font-medium text-primary hover:underline"
+              >
+                Vollständige Vision & Strategie →
+              </Link>
+            </div>
+          </Card>
+        </section>
+      )}
 
-      <TrackRecord inspector={inspector} />
+      {/* Everything below that reads this org's books, premises or narrative.
+          The pipeline sections between them are computed from the requesting
+          tenant's own assessments and stay for everybody. */}
+      {ownsContent && <TrackRecord inspector={inspector} />}
       <PipelineMetrics foundations={foundations} />
-      <FinancialSituation inspector={inspector} />
-      <BusinessModelChallenge />
-      <CostStructure />
-      <ThreeYearModel inspector={inspector} />
-      <SpaceConcept />
-      <BudgetDetail inspector={inspector} />
-      <RevenueStreamsSection inspector={inspector} />
+      {ownsContent && (
+        <>
+          <FinancialSituation inspector={inspector} />
+          <BusinessModelChallenge />
+          <CostStructure />
+          <ThreeYearModel inspector={inspector} />
+          <SpaceConcept />
+          <BudgetDetail inspector={inspector} />
+          <RevenueStreamsSection inspector={inspector} />
+        </>
+      )}
       <PipelineStatus foundations={foundations} />
       <KeyResources foundationCount={foundations.length} />
       <NextSteps />

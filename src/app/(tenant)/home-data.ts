@@ -23,8 +23,16 @@ export const pageMeta = (tenant: Tenant) => ({
 
 export const hero = (tenant: Tenant) => ({
   name: tenant.name,
-  story:
-    'Wir geben IT-Geräten ein zweites Leben, schaffen Arbeitsplätze für Menschen in der Reintegration und machen digitale Bildung zugänglich.',
+  /**
+   * The organisation's own summary of what it does.
+   *
+   * Was a fixed sentence about refurbishing IT hardware, reintegration work and
+   * digital education — one organisation's activity, printed under every
+   * tenant's name on its own front page. `missionSummary` is already in
+   * `org_profiles` and both tenants have written one, so there was never a
+   * reason to guess. Undefined renders nothing rather than someone else's.
+   */
+  story: tenant.missionSummary,
   context: `${tenant.legalForm} seit ${tenant.founded} in ${tenant.location}`,
   platformNote: 'Fundraising-Werkzeuge für gemeinnützige Organisationen',
   ctas: [
