@@ -208,24 +208,39 @@ When users click a number on the site, they can download the source document.
 
 ## Status
 
-| Directory | Status | Files | Notes |
-|-----------|--------|-------|-------|
-| `/financials/` | 🟡 Partial | Some files referenced but not uploaded | Anonymize Kivitendo exports |
-| `/impact/` | 🟡 Partial | Fraunhofer study referenced but not uploaded | Need to obtain or create |
-| `/strategy/` | 🟡 Partial | Hub concept exists internally | Convert to PDF and upload |
-| `/legal/` | 🔴 Empty | No files yet | Obtain Handelsregister extract |
-| `/methodology/` | 🔴 Empty | No files yet | Create documentation |
-| `/team/` | 🔴 Empty | No files yet | Create capacity planning docs |
-| `/revenue/` | 🔴 Empty | No files yet | Create revenue model PDFs |
-| `/hub/` | 🔴 Empty | No files yet | Create analysis documents |
-| `/sources/` | 🔴 Empty | No files yet | Add external studies |
+**Every directory here is empty, and no page links to a document any more.**
 
-**Next Steps:**
-1. Audit all `NUMBERS_REGISTRY` entries
-2. Create missing source documents
-3. Anonymize existing internal documents
-4. Upload to appropriate directories
-5. Verify download links work
+Eleven documents were referenced from `src/lib/config/` — seven as the
+`documentUrl` behind the "Quelldokument ansehen (PDF)" button on the
+transparency pages, four as downloads in the "Quelldateien (Kivitendo)" section
+of `/dokumente`. None of them had ever been uploaded. Every one returned 404,
+for every visitor, since the references were written.
+
+This file already said so, in the table that used to be here: partial or empty
+for all nine directories, "referenced but not uploaded". That is the failure —
+the gap was documented and the UI kept rendering the button. Documentation is
+not a check.
+
+The references have been removed. The intent is not lost: the file lists above
+are what was meant to exist, and they stay here as the backlog.
+
+| Directory | Files present | What was promised |
+|-----------|---------------|-------------------|
+| `/financials/` | none | `budget-2025-estimate.pdf` |
+| `/impact/` | none | `laptop-refurbishment-history-2003-2025.pdf` |
+| `/hub/` | none | `space-requirements-analysis.pdf` |
+| `/operations/` | none | `process-time-breakdown.pdf` |
+| `/team/` | none | `hardware-bpl-capacity.pdf`, `software-bpl-capacity.pdf` |
+| `/sources/` | none | Fraunhofer IZM CO₂ study; Kivitendo trial balance, chart of accounts, consolidated workbook + README |
+| `/strategy/`, `/legal/`, `/methodology/`, `/revenue/` | none | see the file lists above |
+
+### The rule now
+
+**A document and the reference to it land in the same commit.**
+`src/lib/config/__tests__/referenced-documents-exist.test.ts` fails on any
+`/documents/...` or `/downloads/...` path in `src/` that has no matching file
+under `public/`. So the way to restore one of the rows above is: add the file,
+then add the reference. Adding the reference alone no longer builds.
 
 ---
 
