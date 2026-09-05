@@ -10,6 +10,7 @@ import Badge from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { hero, GUIDE_HEADING, GUIDE_SECTIONS, PILLARS_HEADING, TRANSPARENCY } from './home-data';
 import { getTenant } from '@/lib/tenant/resolve';
+import { unauthoredRoutes } from '@/lib/content/page-content';
 
 // -- Section 1: Hero ---------------------------------------------------------
 
@@ -48,12 +49,17 @@ export async function HeroSection() {
 
 // -- Section 2: Platform guide -----------------------------------------------
 
-export function PlatformGuide() {
+export async function PlatformGuide() {
+  // Two of these four cards link to /wirkung and /finanzen. For a tenant that
+  // has not published them the card advertised a feature and delivered a "not
+  // published" notice — worse than not offering it, and it still implied the
+  // page was theirs.
+  const hidden = new Set(await unauthoredRoutes());
   return (
     <section className="mb-12">
       <h2 className="heading-page mb-6">{GUIDE_HEADING}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {GUIDE_SECTIONS.map((s) => (
+        {GUIDE_SECTIONS.filter((s) => !hidden.has(s.href)).map((s) => (
           <Link key={s.href} href={s.href} className="group block">
             <Card className="transition-shadow hover:shadow-md">
               <div className="flex items-start gap-3">
