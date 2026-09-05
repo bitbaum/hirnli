@@ -99,4 +99,20 @@ export const STARTER_STORIES = {
   },
 
   PARTNER_HIGHLIGHTS: [] as unknown[],
+
+  /**
+   * The rest of what a Gesuch is composed from. Present and empty rather than
+   * absent: the schema requires them, and a missing key would fail validation
+   * on the first page the new customer opens — after being told the account
+   * was created.
+   *
+   * Empty is also the honest state. Competencies, projects and citations are
+   * things an organisation has done; there is nothing plausible to pre-fill,
+   * and filling them from another customer is the leak this all exists to end.
+   */
+  HOW: {} as Record<string, unknown>,
+  PROJECTS: {} as Record<string, unknown>,
+  EVIDENCE: {} as Record<string, unknown>,
+  ANECDOTES: [] as unknown[],
+  PHOTO_SLOTS: [] as unknown[],
 } as const;
