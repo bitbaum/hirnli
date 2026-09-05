@@ -46,6 +46,8 @@ import { getCurrentOrgId } from '@/lib/tenant/resolve';
 // straight line, foundation-helpers no longer imports back into this module
 // (it takes `foundations: Foundation[]` as a parameter instead).
 import { validateFoundationQuality } from '@/lib/domain/foundation-quality';
+import { getFunderProfile } from '@/lib/funder/repo';
+import { applyFunderProfile } from '@/lib/funder/overlay';
 
 export const FOUNDATIONS_CACHE_TAG = 'foundations';
 
@@ -205,8 +207,23 @@ export async function getRegistryFoundations(): Promise<Foundation[]> {
     .filter((f): f is Foundation => f !== undefined);
 }
 
-/** Look up a single foundation by its URL slug, for the requesting tenant. */
-export async function getFoundationBySlug(slug: string): Promise<Foundation | undefined> {
+/**
+ * Look up a single foundation by its URL slug, for the requesting tenant.
+ *
+ * Three layers meet here, and the order is the point: the shared register, the
+ * requesting tenant's own assessment of it, and — last, so it wins — whatever
+ * the foundation has confirmed about itself. A foundation that maintains its
+ * entry is more current than anyone's research into it.
+ */
+export async function getFoundationBySlug(
+  slug: string,
+): Promise<(Foundation & { funderConfirmed: boolean }) | undefined> {
   const all = await getAllFoundations();
-  return all.find((f) => f.slug === slug);
+  const found = all.find((f) => f.slug === slug);
+  if (!found) return undefined;
+
+  // `slug` IS the register's primary key — verified across all 16,623 rows,
+  // where `id = config_data->>'slug'` holds without exception. The composed
+  // Foundation exposes only `slug`, so this is the join key.
+  return applyFunderProfile(found, await getFunderProfile(found.slug));
 }

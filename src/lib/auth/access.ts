@@ -32,12 +32,25 @@ import { db } from '@/lib/db/client';
 import { member, organization } from '@/lib/db/auth-schema';
 import { normalizeRole, type OrgRole } from './roles';
 
+/** Seeker looks for funding; funder gives it. Both are accounts here. */
+export type OrgKind = 'seeker' | 'funder';
+
 export type OrgAccess = {
   userId: string;
   orgId: string;
   orgSlug: string;
   orgName: string;
   role: OrgRole;
+  /**
+   * What sort of party this account is.
+   *
+   * Load-bearing, not informational: a seeker has an `org_profiles` row and a
+   * public site, a funder has neither and speaks for a register entry instead.
+   * Code that reads a seeker's profile for a funder account throws.
+   */
+  kind: OrgKind;
+  /** The register entry a funder speaks for. Null for seekers. */
+  foundationId: string | null;
 };
 
 /** Current session, or null. Deduped per request. */
@@ -79,6 +92,8 @@ export async function getOrgAccess(slug: string): Promise<OrgAccess | null> {
       orgSlug: organization.slug,
       orgName: organization.name,
       role: member.role,
+      kind: organization.kind,
+      foundationId: organization.foundationId,
     })
     .from(member)
     .innerJoin(organization, eq(member.organizationId, organization.id))
@@ -94,5 +109,10 @@ export async function getOrgAccess(slug: string): Promise<OrgAccess | null> {
     orgSlug: row.orgSlug,
     orgName: row.orgName,
     role: normalizeRole(row.role),
+    // Unknown values read as 'seeker': everything that existed before the
+    // column did was one, and defaulting the other way would send a real
+    // customer down a path that assumes it has no profile.
+    kind: row.kind === 'funder' ? 'funder' : 'seeker',
+    foundationId: row.foundationId ?? null,
   };
 }

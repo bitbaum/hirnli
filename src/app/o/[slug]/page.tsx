@@ -6,6 +6,7 @@ import { orgDomains } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { Button } from '@/components/ui/Button';
 import { hasStories } from '@/lib/content/stories-source';
+import { getFunderProfile } from '@/lib/funder/repo';
 import { getTenantById } from '@/lib/tenant/resolve';
 
 export async function generateMetadata({
@@ -24,6 +25,47 @@ export default async function OrgHome({ params }: { params: Promise<{ slug: stri
   // The layout already redirected; this satisfies the type and covers the
   // theoretical case of membership being revoked between the two calls.
   if (!access) notFound();
+
+  // A funder has no org_profiles row and no site of its own — it speaks for a
+  // register entry. Reading a seeker's profile for one would throw, so the two
+  // kinds branch here rather than sharing a page that half-works for both.
+  if (access.kind === 'funder') {
+    const funder = access.foundationId ? await getFunderProfile(access.foundationId) : null;
+
+    return (
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold tracking-tight text-text-primary">{access.orgName}</h1>
+        <p className="max-w-prose text-text-secondary">
+          Sie verwalten den Eintrag dieser Stiftung. Was Sie hier hinterlegen, gilt gegenüber
+          unserer Recherche als massgeblich — Organisationen, die ein Gesuch vorbereiten, sehen Ihre
+          Angaben statt unserer.
+        </p>
+        <dl className="mt-2 grid gap-px overflow-hidden rounded-lg border border-border-default bg-border-default sm:grid-cols-3">
+          <div className="bg-surface-base p-4">
+            <dt className="text-sm text-text-muted">Registereintrag</dt>
+            <dd className="mt-1 font-mono text-sm text-text-primary">{access.foundationId}</dd>
+          </div>
+          <div className="bg-surface-base p-4">
+            <dt className="text-sm text-text-muted">Ihre Rolle</dt>
+            <dd className="mt-1 text-text-primary">{access.role}</dd>
+          </div>
+          <div className="bg-surface-base p-4">
+            <dt className="text-sm text-text-muted">Profil</dt>
+            <dd className="mt-1 text-text-primary">
+              {funder?.confirmed ? 'von Ihnen bestätigt' : 'noch nicht bestätigt'}
+            </dd>
+          </div>
+        </dl>
+        {!funder?.confirmed && (
+          <p className="max-w-prose rounded-lg border border-border-default bg-surface-raised p-4 text-sm text-text-secondary">
+            Bis Sie Ihr Profil bestätigen, zeigen wir weiterhin unsere eigene Recherche und
+            kennzeichnen sie als solche. Wir schreiben Ihrer Stiftung nichts zu, was Sie nicht
+            selbst gesagt haben.
+          </p>
+        )}
+      </div>
+    );
+  }
 
   // Where this organisation's own site lives. A tenant is not usable until it
   // has a host, so showing the link is also the check that provisioning
