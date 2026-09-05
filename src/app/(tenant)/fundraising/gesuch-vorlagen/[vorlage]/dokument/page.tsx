@@ -5,8 +5,8 @@ import { getTenant } from '@/lib/tenant/resolve';
 import { resolveTypeLabel } from '@/lib/config/foundations';
 import {
   TEMPLATE_TYPES,
-  TEMPLATE_LABELS,
-  getTemplateFoundation,
+  resolveTemplateLabels,
+  resolveTemplateFoundation,
 } from '@/lib/config/gesuch-templates';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import {
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: `Formelle Gesuch-Vorlage für ${typeLabel.long}`,
     };
   }
-  const tplLabel = TEMPLATE_LABELS[type];
+  const tplLabel = resolveTemplateLabels(tenant)[type];
   if (tplLabel) {
     return {
       title: `Fördergesuch-Vorlage: ${tplLabel.long} — ${tenant.name}`,
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function GesuchVorlageDokumentPage({ params }: Props) {
   const tenant = await getTenant();
   const { vorlage: type } = await params;
-  const foundation = getTemplateFoundation(type);
+  const foundation = resolveTemplateFoundation(type, tenant);
 
   if (!foundation) {
     notFound();
@@ -56,7 +56,7 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
 
   const dok = composeGesuchDokument(tenant, foundation);
   const typeLabel = resolveTypeLabel(type);
-  const tplLabel = TEMPLATE_LABELS[type];
+  const tplLabel = resolveTemplateLabels(tenant)[type];
   const bannerTitle = typeLabel
     ? `VORLAGE — Typ ${typeLabel.short}: ${typeLabel.long}`
     : `VORLAGE — ${tplLabel?.long ?? type}`;

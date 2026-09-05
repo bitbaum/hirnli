@@ -7,8 +7,8 @@ import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { THEMES, resolveTypeLabel } from '@/lib/config/foundations';
 import {
   TEMPLATE_TYPES,
-  TEMPLATE_LABELS,
-  getTemplateFoundation,
+  resolveTemplateLabels,
+  resolveTemplateFoundation,
 } from '@/lib/config/gesuch-templates';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import {
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: `Gesuch-Vorlage für ${typeLabel.long} (Robert Schmuki Typ ${typeLabel.short})`,
     };
   }
-  const tplLabel = TEMPLATE_LABELS[type];
+  const tplLabel = resolveTemplateLabels(tenant)[type];
   if (tplLabel) {
     return {
       title: `Gesuch-Vorlage: ${tplLabel.long} — ${tenant.name}`,
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function GesuchVorlagePage({ params }: Props) {
   const tenant = await getTenant();
   const { vorlage: type } = await params;
-  const foundation = getTemplateFoundation(type);
+  const foundation = resolveTemplateFoundation(type, tenant);
 
   if (!foundation) {
     notFound();
@@ -60,7 +60,7 @@ export default async function GesuchVorlagePage({ params }: Props) {
 
   const gesuch = composeGesuch(tenant, foundation);
   const typeLabel = resolveTypeLabel(type);
-  const tplLabel = TEMPLATE_LABELS[type];
+  const tplLabel = resolveTemplateLabels(tenant)[type];
   const primaryThemeId = foundation.themes[0];
   const primaryColor = primaryThemeId ? THEMES[primaryThemeId].color : DEFAULT_THEME_COLOR;
 

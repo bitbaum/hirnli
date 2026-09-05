@@ -6,7 +6,7 @@ import { getTenant } from '@/lib/tenant/resolve';
 import { TYPE_LABELS } from '@/lib/config/foundations';
 import {
   TYPE_TEMPLATE_KEYS,
-  TEMPLATE_LABELS,
+  resolveTemplateLabels,
   SCHWERPUNKT_TEMPLATE_TYPES,
 } from '@/lib/config/gesuch-templates';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
@@ -54,7 +54,7 @@ function TemplateCard({
 
 export default async function GesuchVorlagenPage() {
   const tenant = await getTenant();
-  const generisch = TEMPLATE_LABELS['generisch'];
+  const generisch = resolveTemplateLabels(tenant)['generisch'];
 
   return (
     <div className="mx-auto max-w-4xl">
