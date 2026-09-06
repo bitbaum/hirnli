@@ -13,7 +13,8 @@
 
 import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
 import { isResearched } from './foundation-helpers';
-import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
+import { THEME_ID_TO_STORY_KEY } from '@/lib/content/story-themes';
+import type { TenantStory } from '@/lib/content/story-engine';
 import { THEMES, APPLICATION_METHOD_LABELS } from '@/lib/config/foundations';
 import type { Tenant } from '@/lib/tenant/profile';
 import { fitScoreToDisplay } from './fit-scoring';
@@ -46,7 +47,18 @@ export interface ThemeAlignment {
   themeId: ThemeId;
   themeLabel: string;
   icon: string;
-  revampConnection: string;
+  /**
+   * What the applicant does about this theme, in its own words.
+   *
+   * Named `revampConnection` until now, after the one organisation whose WHY
+   * sections it read — which is a fair description of what it contained: every
+   * tenant's foundation page showed that organisation's solution sentence. The
+   * name outlived the assumption by long enough that nobody read it as a bug.
+   *
+   * Undefined when the applicant has not written about this theme. The renderer
+   * shows the theme without a claim rather than borrowing one.
+   */
+  ownConnection?: string;
 }
 
 // ============================================================================
@@ -288,15 +300,18 @@ export function getApplicationReadiness(foundation: Foundation): ReadinessItem[]
 // 4. generateThemeAlignments
 // ============================================================================
 
-export function generateThemeAlignments(foundation: Foundation): ThemeAlignment[] {
+export function generateThemeAlignments(
+  foundation: Foundation,
+  story: TenantStory | null,
+): ThemeAlignment[] {
   return foundation.themes.map((themeId) => {
     const theme = THEMES[themeId];
-    const storyKey = THEME_ID_TO_STORY_KEY[themeId];
+    const solution = story?.why(THEME_ID_TO_STORY_KEY[themeId])?.solution;
     return {
       themeId,
       themeLabel: theme.label,
       icon: theme.icon,
-      revampConnection: firstSentence(WHY[storyKey].solution),
+      ownConnection: solution ? firstSentence(solution) : undefined,
     };
   });
 }

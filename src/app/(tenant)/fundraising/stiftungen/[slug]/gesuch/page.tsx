@@ -4,6 +4,8 @@ import { getTenant } from '@/lib/tenant/resolve';
 import { SCHWERPUNKTE, SCHWERPUNKT_IDS } from '@/lib/config/schwerpunkte';
 import { getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuch, composeAnschreibenText } from '@/lib/domain/gesuch-composer';
+import { loadTenantStory } from '@/lib/content/story-engine';
+import StoryMissing from '@/components/gesuch/StoryMissing';
 import type { ComposedGesuch } from '@/lib/domain/gesuch-composer';
 import { computeShareToken } from '@/lib/utils/share-token';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
@@ -45,7 +47,12 @@ export default async function GesuchPage({ params }: Props) {
     notFound();
   }
 
-  const autoGesuch = composeGesuch(tenant, foundation);
+  const story = await loadTenantStory(tenant);
+  if (!story) {
+    return <StoryMissing tenant={tenant} />;
+  }
+
+  const autoGesuch = composeGesuch(story, foundation);
 
   // Not-ready fallback
   if (!autoGesuch.ready) {
@@ -67,7 +74,7 @@ export default async function GesuchPage({ params }: Props) {
   const primaryColors: Record<string, string> = { auto: getPrimaryColor(autoGesuch) };
 
   for (const spId of SCHWERPUNKT_IDS) {
-    const variant = composeGesuch(tenant, foundation, spId);
+    const variant = composeGesuch(story, foundation, spId);
     if (variant.ready) {
       variants[spId] = variant;
       primaryColors[spId] = SCHWERPUNKTE[spId].color;
@@ -87,7 +94,7 @@ export default async function GesuchPage({ params }: Props) {
   };
 
   const shareToken = computeShareToken(slug) ?? undefined;
-  const anschreibenText = composeAnschreibenText(tenant, foundation);
+  const anschreibenText = composeAnschreibenText(story, foundation);
 
   return (
     <GesuchPageClient

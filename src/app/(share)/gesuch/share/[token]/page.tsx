@@ -18,6 +18,8 @@ import { getTenant } from '@/lib/tenant/resolve';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { getAllFoundations, getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
+import { loadTenantStory } from '@/lib/content/story-engine';
+import StoryMissing from '@/components/gesuch/StoryMissing';
 import { SCHWERPUNKT_IDS, SCHWERPUNKTE, isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { resolveShareToken } from '@/lib/utils/share-token';
@@ -78,13 +80,18 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
   const tenant = await getTenant();
 
   // If a specific schwerpunkt is requested via ?s= param, try it first
-  let gesuch = composeGesuch(tenant, foundation);
+  const story = await loadTenantStory(tenant);
+  if (!story) {
+    return <StoryMissing tenant={tenant} />;
+  }
+
+  let gesuch = composeGesuch(story, foundation);
   let primaryColor = gesuch.themes.all[0]?.color ?? DEFAULT_THEME_COLOR;
   let selectedSchwerpunkt: string = 'auto';
 
   if (schwerpunktParam && isSchwerpunktId(schwerpunktParam)) {
     const spId = schwerpunktParam;
-    const variant = composeGesuch(tenant, foundation, spId);
+    const variant = composeGesuch(story, foundation, spId);
     if (variant.ready) {
       gesuch = variant;
       primaryColor = SCHWERPUNKTE[spId].color;
@@ -95,7 +102,7 @@ export default async function GesuchSharePage({ params, searchParams }: Props) {
   // If no specific schwerpunkt matched, fall back to auto-selection
   if (!gesuch.ready || !schwerpunktParam) {
     for (const spId of SCHWERPUNKT_IDS) {
-      const variant = composeGesuch(tenant, foundation, spId);
+      const variant = composeGesuch(story, foundation, spId);
       if (variant.ready) {
         gesuch = variant;
         primaryColor = SCHWERPUNKTE[spId].color;

@@ -19,6 +19,17 @@ export const API_ERR_PDF = 'PDF-Generierung fehlgeschlagen';
 export const API_ERR_FOUNDATION_NOT_FOUND = 'Stiftung nicht gefunden';
 export const API_ERR_GESUCH_UNAVAILABLE = 'Gesuch nicht verfügbar für diese Stiftung';
 export const API_ERR_GESUCH_NOT_READY = 'Gesuch nicht bereit';
+/**
+ * The organisation has not written the narrative a Gesuch is composed from.
+ *
+ * Distinct from NOT_READY, which is about the foundation: that one means "we
+ * know too little about this funder to write to them", this one means "we know
+ * too little about you". Collapsing them would send an applicant to check the
+ * foundation's research status over and over while the missing piece was
+ * theirs.
+ */
+export const API_ERR_STORY_MISSING =
+  'Für diese Organisation ist noch keine Geschichte erfasst — ohne sie lässt sich kein Gesuch erzeugen.';
 export const API_ERR_UNAUTHORIZED = 'Nicht autorisiert';
 export const API_ERR_INTERNAL = 'Interner Fehler';
 export const API_ERR_CRON = 'Cron-Job fehlgeschlagen';

@@ -1,5 +1,5 @@
 import type { WhySection } from '@/lib/schemas/story';
-import type { ThemeKey } from '@/lib/config/stories';
+import type { ThemeKey } from '@/lib/content/story-themes';
 import Card from '@/components/ui/Card';
 
 interface GesuchWhySectionProps {

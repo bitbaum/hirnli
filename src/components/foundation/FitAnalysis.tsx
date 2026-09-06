@@ -147,7 +147,9 @@ export default function FitAnalysis({
                 <span className="text-lg">{a.icon}</span>
                 <div>
                   <span className="text-xs font-semibold text-primary">{a.themeLabel}</span>
-                  <p className="mt-0.5 text-sm text-text-secondary">{a.revampConnection}</p>
+                  {a.ownConnection && (
+                    <p className="mt-0.5 text-sm text-text-secondary">{a.ownConnection}</p>
+                  )}
                 </div>
               </div>
             ))}

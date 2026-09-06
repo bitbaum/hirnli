@@ -4,7 +4,7 @@ import {
   buildFoundationBridge,
   buildSecondaryRelevance,
 } from '../bridge-composer';
-import { makeFoundation, makeTenant } from './fixtures';
+import { makeFoundation, makeTenant, makeStory } from './fixtures';
 
 /** One tenant for every composer call here — the identity is not what these
  *  tests are about, but it must be passed rather than imported. */
@@ -98,11 +98,11 @@ describe('buildFoundationBridge', () => {
 
 describe('buildSecondaryRelevance', () => {
   it('returns empty array for empty input', () => {
-    expect(buildSecondaryRelevance([])).toHaveLength(0);
+    expect(buildSecondaryRelevance(makeStory(), [])).toHaveLength(0);
   });
 
   it('returns label and connection for valid themes', () => {
-    const result = buildSecondaryRelevance(['kreislaufwirtschaft']);
+    const result = buildSecondaryRelevance(makeStory(), ['kreislaufwirtschaft']);
     if (result.length > 0) {
       expect(result[0].label).toBeTruthy();
       expect(result[0].connection).toBeTruthy();
@@ -111,7 +111,7 @@ describe('buildSecondaryRelevance', () => {
   });
 
   it('filters out themes with no WHY section', () => {
-    const result = buildSecondaryRelevance(['nonexistent' as never]);
+    const result = buildSecondaryRelevance(makeStory(), ['nonexistent' as never]);
     expect(result).toHaveLength(0);
   });
 });

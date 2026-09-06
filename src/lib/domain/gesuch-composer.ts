@@ -17,31 +17,22 @@ import type { Foundation } from '@/lib/schemas/foundation';
 import type { ThemeMetadata } from '@/lib/schemas/theme';
 import type { ThemeId } from '@/lib/schemas/foundation';
 import { isResearched, isActionablePriority } from './foundation-helpers';
-import type { ThemeKey } from '@/lib/config/stories';
+import type { ComposedCompetency, TenantStory } from '@/lib/content/story-engine';
+import type { ThemeKey } from '@/lib/content/story-themes';
+import { THEME_ID_TO_STORY_KEY, THEME_PRIORITY } from '@/lib/content/story-themes';
 import type { Tenant } from '@/lib/tenant/profile';
 import { formatDateDE } from '@/lib/utils/format';
 import type {
   Evidence,
   WhySection,
-  CompetencySection,
+  GesuchText,
+  PartnerHighlight,
   Project,
   CoreFacts,
   TrackRecord,
   Anecdote,
   PhotoSlot,
 } from '@/lib/schemas/story';
-import {
-  composeStory,
-  THEME_ID_TO_STORY_KEY,
-  THEME_PRIORITY,
-  resolveCoreFacts,
-  fillStoryContent,
-  SOCIAL_DISPLAY,
-  ANSCHREIBEN_TEMPLATES,
-  PARTNER_HIGHLIGHTS,
-  getAnecdotes,
-  getPhotoSlots,
-} from '@/lib/config/stories';
 import { TYPE_LABELS, THEMES, PRIORITY_CONFIG } from '@/lib/config/foundations';
 import { getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
@@ -95,7 +86,7 @@ export interface ComposedGesuch {
     why: WhySection | undefined;
     how: {
       track_record: TrackRecord;
-      competencies: CompetencySection[];
+      competencies: ComposedCompetency[];
     };
     projects: Project[];
     evidence: Evidence[];
@@ -115,7 +106,17 @@ export interface ComposedGesuch {
     projects: PhotoSlot[];
     kurzportrait: PhotoSlot[];
   };
-  partnerHighlights: typeof PARTNER_HIGHLIGHTS;
+  partnerHighlights: PartnerHighlight[];
+  /**
+   * The prose blocks the renderers print verbatim.
+   *
+   * Carried on the composed document rather than imported by each renderer.
+   * Eight sections and five PDF components used to reach for this themselves,
+   * which meant eight places that could reach for the wrong organisation's —
+   * and they did: every one of them read one specific module. A renderer given
+   * a document has no way to render text belonging to anyone else.
+   */
+  gesuchText: GesuchText;
 }
 
 export interface ComposedGesuchDokument extends ComposedGesuch {
@@ -227,11 +228,22 @@ function buildFoundationInfo(foundation: Foundation) {
 // composeGesuch — Landing page content
 // ============================================================================
 
+/**
+ * Compose the landing-page Gesuch for one applicant and one foundation.
+ *
+ * `story` rather than `tenant` is the whole change: the applicant's narrative
+ * arrives as an argument instead of being imported, so this function has no way
+ * to reach a story other than the one it was handed. It used to import one, and
+ * therefore composed that organisation's WHY sections, competencies, projects,
+ * citations, anecdotes and partners for whoever asked — with the caller's name
+ * interpolated on top, which made the result look tailored.
+ */
 export function composeGesuch(
-  tenant: Tenant,
+  story: TenantStory,
   foundation: Foundation,
   schwerpunktId?: SchwerpunktId,
 ): ComposedGesuch {
+  const { tenant } = story;
   const typeLabel = TYPE_LABELS[foundation.type];
   const mapped = schwerpunktId
     ? mapSchwerpunktThemes(schwerpunktId)
@@ -250,32 +262,30 @@ export function composeGesuch(
     } else {
       reason = 'Keine passenden Themen für die Gesuch-Generierung gefunden.';
     }
-    return fillStoryContent(
-      {
-        tenant,
-        ready: false,
-        readyReason: reason,
-        foundation: buildFoundationInfo(foundation),
-        foundationBridge: '',
-        themes: { primary: 'klima', secondary: [], all: [] },
-        secondaryThemeRelevance: [],
-        story: {
-          why: undefined,
-          how: { track_record: { headline: '', text: '', proof_points: [] }, competencies: [] },
-          projects: [],
-          evidence: [],
-        },
-        organization: resolveCoreFacts(tenant),
-        approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
-        anecdotes: { why: [], how: [] },
-        photos: { why: [], how: [], projects: [], kurzportrait: [] },
-        partnerHighlights: [],
-      },
+    return story.fill({
       tenant,
-    );
+      ready: false,
+      readyReason: reason,
+      foundation: buildFoundationInfo(foundation),
+      foundationBridge: '',
+      themes: { primary: 'klima', secondary: [], all: [] },
+      secondaryThemeRelevance: [],
+      story: {
+        why: undefined,
+        how: { track_record: { headline: '', text: '', proof_points: [] }, competencies: [] },
+        projects: [],
+        evidence: [],
+      },
+      organization: story.coreFacts(),
+      approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
+      anecdotes: { why: [], how: [] },
+      photos: { why: [], how: [], projects: [], kurzportrait: [] },
+      partnerHighlights: [],
+      gesuchText: story.gesuchText(),
+    });
   }
 
-  const story = composeStory(mapped.primary, mapped.secondary);
+  const composed = story.compose(mapped.primary, mapped.secondary);
 
   // Primary theme label for bridge text
   const primaryThemeId = (Object.keys(THEME_ID_TO_STORY_KEY) as ThemeId[]).find(
@@ -283,35 +293,33 @@ export function composeGesuch(
   );
   const primaryThemeLabel = primaryThemeId ? THEMES[primaryThemeId].label : mapped.primary;
 
-  const whyAnecdotes = getAnecdotes(mapped.primary, 'why').slice(0, 2);
-  const howAnecdotes = getAnecdotes(mapped.primary, 'how').slice(0, 1);
+  const whyAnecdotes = story.anecdotes(mapped.primary, 'why').slice(0, 2);
+  const howAnecdotes = story.anecdotes(mapped.primary, 'how').slice(0, 1);
 
-  return fillStoryContent(
-    {
-      tenant,
-      ready: true,
-      foundation: buildFoundationInfo(foundation),
-      foundationBridge: buildFoundationBridge(tenant, foundation, primaryThemeLabel),
-      themes: {
-        primary: mapped.primary,
-        secondary: mapped.secondary,
-        all: collectThemeMetadata(foundation, schwerpunktId),
-      },
-      secondaryThemeRelevance: buildSecondaryRelevance(mapped.secondary),
-      story,
-      organization: resolveCoreFacts(tenant),
-      approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
-      anecdotes: { why: whyAnecdotes, how: howAnecdotes },
-      photos: {
-        why: getPhotoSlots('why', mapped.primary),
-        how: getPhotoSlots('how', mapped.primary),
-        projects: getPhotoSlots('projects', mapped.primary),
-        kurzportrait: getPhotoSlots('kurzportrait'),
-      },
-      partnerHighlights: PARTNER_HIGHLIGHTS,
-    },
+  return story.fill({
     tenant,
-  );
+    ready: true,
+    foundation: buildFoundationInfo(foundation),
+    foundationBridge: buildFoundationBridge(tenant, foundation, primaryThemeLabel),
+    themes: {
+      primary: mapped.primary,
+      secondary: mapped.secondary,
+      all: collectThemeMetadata(foundation, schwerpunktId),
+    },
+    secondaryThemeRelevance: buildSecondaryRelevance(story, mapped.secondary),
+    story: composed,
+    organization: story.coreFacts(),
+    approach: { strategy: typeLabel.approach, typeDescription: typeLabel.desc },
+    anecdotes: { why: whyAnecdotes, how: howAnecdotes },
+    photos: {
+      why: story.photoSlots('why', mapped.primary),
+      how: story.photoSlots('how', mapped.primary),
+      projects: story.photoSlots('projects', mapped.primary),
+      kurzportrait: story.photoSlots('kurzportrait'),
+    },
+    partnerHighlights: story.partnerHighlights(),
+    gesuchText: story.gesuchText(),
+  });
 }
 
 // ============================================================================
@@ -331,35 +339,49 @@ export interface AnschreibenText {
   themeAlignment: string;
 }
 
+/**
+ * The label a cover letter is addressed under when no theme matched.
+ *
+ * This was one organisation's two fields of work, written into the platform as
+ * the default subject line — so an applicant whose foundation matched no theme
+ * posted a letter titled with somebody else's specialism. The applicant's own
+ * mission is the right fallback, and an applicant who has stated none gets a
+ * subject with no claim in it rather than a borrowed one.
+ */
+function subjectLabel(tenant: Tenant, themeMetadata: ThemeMetadata[]): string | undefined {
+  return themeMetadata[0]?.label ?? tenant.missionSummary;
+}
+
+function anschreibenSubject(tenant: Tenant, label: string | undefined): string {
+  return label ? `Fördergesuch: ${label} — ${tenant.name}` : `Fördergesuch — ${tenant.name}`;
+}
+
 /** Compute just the Anschreiben text fields (for the edit panel in step 2) */
 export function composeAnschreibenText(
-  tenant: Tenant,
+  story: TenantStory,
   foundation: Foundation,
   schwerpunktId?: SchwerpunktId,
 ): AnschreibenText {
-  const template = ANSCHREIBEN_TEMPLATES[foundation.type];
+  const { tenant } = story;
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
-  const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
-  return fillStoryContent(
-    {
-      subject: `Fördergesuch: ${primaryLabel} — ${tenant.name}`,
-      opening: buildDynamicOpening(tenant, foundation, primaryLabel),
-      closing: template.closing,
-      themeAlignment: buildThemeAlignment(foundation, themeMetadata),
-    },
-    tenant,
-  );
+  const label = subjectLabel(tenant, themeMetadata);
+  return story.fill({
+    subject: anschreibenSubject(tenant, label),
+    opening: buildDynamicOpening(story, foundation, label ?? ''),
+    closing: story.anschreibenTemplate(foundation.type).closing,
+    themeAlignment: buildThemeAlignment(story, foundation, themeMetadata),
+  });
 }
 
 export function composeGesuchDokument(
-  tenant: Tenant,
+  story: TenantStory,
   foundation: Foundation,
   schwerpunktId?: SchwerpunktId,
 ): ComposedGesuchDokument {
-  const gesuch = composeGesuch(tenant, foundation, schwerpunktId);
-  const template = ANSCHREIBEN_TEMPLATES[foundation.type];
+  const { tenant } = story;
+  const gesuch = composeGesuch(story, foundation, schwerpunktId);
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
-  const primaryLabel = themeMetadata[0]?.label ?? 'Kreislaufwirtschaft und Arbeitsintegration';
+  const label = subjectLabel(tenant, themeMetadata);
 
   const scenario = getScenarioForFoundation(foundation);
   const lineItems = getLineItemsForScenario(scenario.id);
@@ -368,70 +390,67 @@ export function composeGesuchDokument(
   const today = new Date();
   const dateStr = formatDateDE(today, tenant.location);
 
-  const coreFacts = resolveCoreFacts(tenant);
+  const coreFacts = story.coreFacts();
 
-  return fillStoryContent(
-    {
-      ...gesuch,
-      anschreiben: {
-        date: dateStr,
-        foundationAddress: buildFoundationAddress(foundation),
-        subject: `Fördergesuch: ${primaryLabel} — ${tenant.name}`,
-        opening: buildDynamicOpening(tenant, foundation, primaryLabel),
-        closing: template.closing,
-        themeAlignment: buildThemeAlignment(foundation, themeMetadata),
-      },
-      budget: {
-        scenario,
-        lineItems,
-        requestedAmount,
-        projectDuration: `3 Jahre (2026–2028): ${PROJECT_DURATION_LABEL}`,
-        threeYearModel: THREE_YEAR_MODEL.map((y) => ({
-          year: y.year,
-          einmalig: y.einmalig,
-          stiftungen: y.stiftungen,
-          eigen: y.eigen,
-          total: y.total,
-          label: y.label,
-        })),
-        stiftungen3yTotal: STIFTUNGEN_3Y_TOTAL,
-        eigen3yTotal: EIGEN_3Y_TOTAL,
-        project3yTotal: PROJECT_3Y_TOTAL,
-        primaryThemeKey: schwerpunktId ? SCHWERPUNKTE[schwerpunktId].storyThemes[0] : undefined,
-      },
-      kurzportrait: {
-        facts: [
-          { label: 'Name', value: coreFacts.organization.name },
-          { label: 'Rechtsform', value: coreFacts.organization.legalForm },
-          { label: 'Gegründet', value: String(coreFacts.organization.founded) },
-          { label: 'Standort', value: coreFacts.organization.address },
-          {
-            label: 'Kernteam',
-            value: `${coreFacts.organization.team_size} Festangestellte + Freelancer`,
-          },
-          { label: 'Website', value: coreFacts.organization.website },
-          { label: 'Gemeinnützigkeit', value: 'Verein — alle Einnahmen fliessen in die Mission' },
-          {
-            label: 'Praktikant:innen betreut',
-            value: `${SOCIAL_DISPLAY.practitioners_total} seit Gründung`,
-          },
-          { label: 'Wiedereingliederungsquote', value: SOCIAL_DISPLAY.success_rate },
-          {
-            label: 'CO₂-Einsparung pro Laptop',
-            value: `${coreFacts.metrics.environmental.co2_per_laptop} kg`,
-          },
-          { label: 'Reuse-Rate', value: `${coreFacts.metrics.environmental.reuse_rate}%` },
-        ],
-        activities: coreFacts.activities,
-        unique: coreFacts.unique,
-      },
-      // A tenant with no hosted site of its own gets a relative path rather than
-      // one absolute against somebody else's domain — this URL is printed in a
-      // Gesuch that goes to a foundation.
-      landingPageUrl: tenant.siteUrl
-        ? `${tenant.siteUrl.replace(/\/$/, '')}/fundraising/stiftungen/${foundation.slug}/gesuch`
-        : `/fundraising/stiftungen/${foundation.slug}/gesuch`,
+  return story.fill({
+    ...gesuch,
+    anschreiben: {
+      date: dateStr,
+      foundationAddress: buildFoundationAddress(foundation),
+      subject: anschreibenSubject(tenant, label),
+      opening: buildDynamicOpening(story, foundation, label ?? ''),
+      closing: story.anschreibenTemplate(foundation.type).closing,
+      themeAlignment: buildThemeAlignment(story, foundation, themeMetadata),
     },
-    tenant,
-  );
+    budget: {
+      scenario,
+      lineItems,
+      requestedAmount,
+      projectDuration: `3 Jahre (2026–2028): ${PROJECT_DURATION_LABEL}`,
+      threeYearModel: THREE_YEAR_MODEL.map((y) => ({
+        year: y.year,
+        einmalig: y.einmalig,
+        stiftungen: y.stiftungen,
+        eigen: y.eigen,
+        total: y.total,
+        label: y.label,
+      })),
+      stiftungen3yTotal: STIFTUNGEN_3Y_TOTAL,
+      eigen3yTotal: EIGEN_3Y_TOTAL,
+      project3yTotal: PROJECT_3Y_TOTAL,
+      primaryThemeKey: schwerpunktId ? SCHWERPUNKTE[schwerpunktId].storyThemes[0] : undefined,
+    },
+    kurzportrait: {
+      // Identity rows first — these are the same questions every Swiss
+      // Kurzportrait answers, and their values come from the profile. Then
+      // the organisation's own figures, which are the part that differs and
+      // therefore the part that cannot live here. An empty value means the
+      // organisation has not stated that fact, and an unstated fact is left
+      // out rather than printed blank.
+      facts: [
+        { label: 'Name', value: coreFacts.organization.name },
+        { label: 'Rechtsform', value: coreFacts.organization.legalForm },
+        { label: 'Gegründet', value: String(coreFacts.organization.founded) },
+        // The postal address when there is one — a funder wants to know where
+        // to write — and otherwise the town, which every organisation has.
+        // Reading only the address meant an organisation that had not given
+        // one reported no location at all, in a document whose whole purpose
+        // is to say who and where you are.
+        {
+          label: 'Standort',
+          value: coreFacts.organization.address || coreFacts.organization.location,
+        },
+        { label: 'Website', value: coreFacts.organization.website },
+        ...story.kurzportraitFacts(),
+      ].filter((f) => f.value !== ''),
+      activities: coreFacts.activities,
+      unique: coreFacts.unique,
+    },
+    // A tenant with no hosted site of its own gets a relative path rather than
+    // one absolute against somebody else's domain — this URL is printed in a
+    // Gesuch that goes to a foundation.
+    landingPageUrl: tenant.siteUrl
+      ? `${tenant.siteUrl.replace(/\/$/, '')}/fundraising/stiftungen/${foundation.slug}/gesuch`
+      : `/fundraising/stiftungen/${foundation.slug}/gesuch`,
+  });
 }

@@ -7,9 +7,10 @@
  */
 
 import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
-import type { ThemeKey } from '@/lib/config/stories';
+import type { TenantStory } from '@/lib/content/story-engine';
+import type { ThemeKey } from '@/lib/content/story-themes';
 import type { Tenant } from '@/lib/tenant/profile';
-import { THEME_ID_TO_STORY_KEY, WHY } from '@/lib/config/stories';
+import { THEME_ID_TO_STORY_KEY } from '@/lib/content/story-themes';
 import { THEMES } from '@/lib/config/foundations';
 
 // NOTE: TYPE_VERBS removed (was unused). If needed for future bridge text variants,
@@ -82,13 +83,23 @@ export function buildFoundationBridge(
   return `${tenant.name} ist seit über ${tenant.yearsActive} Jahren aktiv in ${primaryThemeLabel} — genau dem Bereich, den ${foundation.name} fördert.`;
 }
 
-/** Build one-sentence connection per non-primary theme */
+/**
+ * Build one-sentence connection per non-primary theme.
+ *
+ * The sentence is the first one of that theme's own solution paragraph, so it
+ * has to come from the applicant's story rather than from a story in scope —
+ * this is the sentence that tells a funder what the applicant does about a
+ * problem, and it read from one organisation's WHY sections regardless of who
+ * was applying. A theme the applicant has not written about yields nothing,
+ * which is the honest result.
+ */
 export function buildSecondaryRelevance(
+  story: TenantStory,
   secondaryThemes: ThemeKey[],
 ): { theme: ThemeKey; label: string; connection: string }[] {
   return secondaryThemes
     .map((theme) => {
-      const whySection = WHY[theme];
+      const whySection = story.why(theme);
       if (!whySection) return null;
       const firstSentence = whySection.solution.split('.')[0].trim() + '.';
       const themeId = (Object.keys(THEME_ID_TO_STORY_KEY) as ThemeId[]).find(

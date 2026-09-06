@@ -15,6 +15,7 @@ import React from 'react';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
+import { loadTenantStory } from '@/lib/content/story-engine';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchOnePagerPDF from '@/lib/pdf/gesuch-onepager';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
@@ -23,6 +24,7 @@ import {
   API_ERR_FOUNDATION_NOT_FOUND,
   API_ERR_GESUCH_UNAVAILABLE,
   API_ERR_GESUCH_NOT_READY,
+  API_ERR_STORY_MISSING,
 } from '@/lib/utils/errors';
 import { getTodayISO } from '@/lib/utils/format';
 import { streamToBuffer, sanitizeFoundationFilename } from '@/lib/pdf/utils';
@@ -52,7 +54,13 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const schwerpunktId =
       schwerpunktParam && isSchwerpunktId(schwerpunktParam) ? schwerpunktParam : undefined;
 
-    const baseDok = composeGesuchDokument(await getTenant(), foundation, schwerpunktId);
+    const tenant = await getTenant();
+    const story = await loadTenantStory(tenant);
+    if (!story) {
+      return NextResponse.json({ success: false, error: API_ERR_STORY_MISSING }, { status: 400 });
+    }
+
+    const baseDok = composeGesuchDokument(story, foundation, schwerpunktId);
     const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
     const dok = applyGesuchOverrides(baseDok, overrides);
 

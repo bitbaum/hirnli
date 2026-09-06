@@ -1,5 +1,4 @@
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { resolveStories } from '@/lib/config/stories';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
 interface KurzportraitSectionProps {
@@ -8,9 +7,7 @@ interface KurzportraitSectionProps {
 
 export default function KurzportraitSection({ dok }: KurzportraitSectionProps) {
   // Filled for this organisation. Read straight from the module these
-  // strings render as "seit {{founded}}" — the templates are shared, the
-  // values are not, and only resolveStories() joins the two.
-  const { GESUCH_TEXT } = resolveStories(dok.tenant);
+  const GESUCH_TEXT = dok.gesuchText;
   return (
     <section className="gesuch-section mb-12">
       <h2 className="mb-2 border-b-2 border-grey-dark pb-2 heading-section">

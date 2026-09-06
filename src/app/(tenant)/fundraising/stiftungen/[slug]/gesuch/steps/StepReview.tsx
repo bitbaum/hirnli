@@ -11,7 +11,7 @@ import type {
   Evidence,
   CoreFacts,
 } from '@/lib/schemas/story';
-import type { ThemeKey } from '@/lib/config/stories';
+import type { ThemeKey } from '@/lib/content/story-themes';
 import type { GesuchOverridesData } from '@/lib/db/schema';
 import type { AnschreibenText } from '../GesuchPageClient';
 import GesuchEditPanel from '@/components/gesuch/GesuchEditPanel';

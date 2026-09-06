@@ -22,7 +22,13 @@
 
 import { describe, it, expect } from 'vitest';
 import { composeGesuch, composeGesuchDokument, composeAnschreibenText } from '../gesuch-composer';
-import { makeFoundation, makeMinimalFoundation, makeMinimalTenant, makeTenant } from './fixtures';
+import {
+  makeFoundation,
+  makeMinimalFoundation,
+  makeMinimalTenant,
+  makeStory,
+  makeTenant,
+} from './fixtures';
 
 /** Matches the placeholder syntax in src/lib/content/interpolate.ts. */
 const PLACEHOLDER = /\{\{\s*[a-zA-Z][a-zA-Z0-9_.]*\s*\}\}/g;
@@ -33,10 +39,11 @@ function unfilled(value: unknown): string[] {
 }
 
 const TENANT = makeTenant();
+const STORY = makeStory(TENANT);
 
 describe('composed output carries no unfilled placeholders', () => {
   it('composeGesuch, ready', () => {
-    const result = composeGesuch(TENANT, makeFoundation());
+    const result = composeGesuch(STORY, makeFoundation());
     expect(result.ready).toBe(true);
     expect(unfilled(result), 'leaked into the landing page content').toEqual([]);
   });
@@ -44,17 +51,17 @@ describe('composed output carries no unfilled placeholders', () => {
   it('composeGesuch, not ready', () => {
     // The not-ready branch returns a different object built from different
     // sources; it is exactly the kind of path that gets forgotten.
-    const result = composeGesuch(TENANT, makeMinimalFoundation());
+    const result = composeGesuch(STORY, makeMinimalFoundation());
     expect(unfilled(result), 'leaked into the not-ready fallback').toEqual([]);
   });
 
   it('composeGesuchDokument', () => {
-    const result = composeGesuchDokument(TENANT, makeFoundation());
+    const result = composeGesuchDokument(STORY, makeFoundation());
     expect(unfilled(result), 'leaked into the Gesuch document').toEqual([]);
   });
 
   it('composeAnschreibenText', () => {
-    const result = composeAnschreibenText(TENANT, makeFoundation());
+    const result = composeAnschreibenText(STORY, makeFoundation());
     expect(unfilled(result), 'leaked into the cover letter').toEqual([]);
   });
 
@@ -62,7 +69,7 @@ describe('composed output carries no unfilled placeholders', () => {
     // Schwerpunkt templates select different WHY sections, so a leak can hide
     // in one variant while the default is clean.
     for (const sp of ['nachhaltigkeit', 'soziale-integration', 'digitale-bildung'] as const) {
-      const result = composeGesuchDokument(TENANT, makeFoundation(), sp);
+      const result = composeGesuchDokument(STORY, makeFoundation(), sp);
       expect(unfilled(result), `leaked in Schwerpunkt "${sp}"`).toEqual([]);
     }
   });
@@ -70,8 +77,14 @@ describe('composed output carries no unfilled placeholders', () => {
 
 describe('the filled values come from the tenant', () => {
   it('two tenants get their own facts in the same template text', () => {
-    const a = composeGesuchDokument(makeTenant({ name: 'Alpha', founded: 2001 }), makeFoundation());
-    const b = composeGesuchDokument(makeTenant({ name: 'Beta', founded: 2015 }), makeFoundation());
+    const a = composeGesuchDokument(
+      makeStory(makeTenant({ name: 'Alpha', founded: 2001 })),
+      makeFoundation(),
+    );
+    const b = composeGesuchDokument(
+      makeStory(makeTenant({ name: 'Beta', founded: 2015 })),
+      makeFoundation(),
+    );
 
     const ja = JSON.stringify(a);
     const jb = JSON.stringify(b);
@@ -94,13 +107,17 @@ describe('shared content fits a tenant with only the required facts', () => {
     // milestones at all — so composing anything, including the Gesuch template
     // pages, would have thrown for it. The year was a fact about that
     // partnership rather than about the organisation, so it became content.
-    expect(() => composeGesuchDokument(makeMinimalTenant(), makeFoundation())).not.toThrow();
-    expect(() => composeGesuch(makeMinimalTenant(), makeFoundation())).not.toThrow();
-    expect(() => composeAnschreibenText(makeMinimalTenant(), makeFoundation())).not.toThrow();
+    expect(() =>
+      composeGesuchDokument(makeStory(makeMinimalTenant()), makeFoundation()),
+    ).not.toThrow();
+    expect(() => composeGesuch(makeStory(makeMinimalTenant()), makeFoundation())).not.toThrow();
+    expect(() =>
+      composeAnschreibenText(makeStory(makeMinimalTenant()), makeFoundation()),
+    ).not.toThrow();
   });
 
   it('leaves no placeholders unfilled for a minimal tenant either', () => {
-    const result = composeGesuchDokument(makeMinimalTenant(), makeFoundation());
+    const result = composeGesuchDokument(makeStory(makeMinimalTenant()), makeFoundation());
     expect(unfilled(result)).toEqual([]);
   });
 });

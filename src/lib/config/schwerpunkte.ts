@@ -13,7 +13,7 @@
  * The organisation's own identity comes from the request's tenant.
  */
 
-import type { ThemeKey } from '@/lib/config/stories';
+import type { ThemeKey } from '@/lib/content/story-themes';
 import type { ThemeId } from '@/lib/schemas/foundation';
 import { THEME_COLORS } from '@/lib/config/chart-colors';
 

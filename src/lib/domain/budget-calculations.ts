@@ -1,6 +1,6 @@
 import type { BudgetLineItem, BudgetScenario, BudgetCategory } from '@/lib/schemas/budget';
 import { BUDGET_SCENARIOS, BUDGET_LINE_ITEMS } from '@/lib/config/budget-scenarios';
-import type { ThemeKey } from '@/lib/config/stories';
+import type { ThemeKey } from '@/lib/content/story-themes';
 
 /**
  * Budget Domain Functions (Pure, Testable)

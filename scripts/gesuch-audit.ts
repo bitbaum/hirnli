@@ -19,6 +19,7 @@ import * as path from 'path';
 import { getAllFoundations } from './lib/foundations';
 import { requireOrgId } from './lib/require-org';
 import { readTenant } from './lib/tenant';
+import { loadTenantStory } from '@/lib/content/story-engine';
 import { hasGesuchPage } from '../src/lib/domain/foundation-helpers';
 import { composeGesuch } from '../src/lib/domain/gesuch-composer';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
@@ -54,6 +55,11 @@ async function main() {
   // it needs that organisation's identity — the composer no longer supplies one.
   const orgId = requireOrgId();
   const tenant = await readTenant(orgId);
+  const story = await loadTenantStory(tenant);
+  if (!story) {
+    console.error(`No story written for "${orgId}" — nothing to audit.`);
+    process.exit(1);
+  }
   const foundations = await getAllFoundations(orgId);
   const gesuchFoundations = foundations.filter((f) => {
     if (!hasGesuchPage(f)) return false;
@@ -72,7 +78,7 @@ async function main() {
   const auditResults: AuditIssue[] = [];
 
   for (const foundation of gesuchFoundations) {
-    const composed = composeGesuch(tenant, foundation);
+    const composed = composeGesuch(story, foundation);
     const computed = computePriorityScore(foundation);
     const issues: string[] = [];
 

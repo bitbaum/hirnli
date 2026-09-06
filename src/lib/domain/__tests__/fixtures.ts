@@ -1,5 +1,9 @@
 import type { Foundation } from '@/lib/schemas/foundation';
 import { deriveTenant, type Tenant } from '@/lib/tenant/profile';
+import { STORIES_CONTENT } from '@/lib/config/stories';
+import { STARTER_STORIES } from '@/lib/content/starter-content';
+import { storiesBlockSchema, type StoriesBlock } from '@/lib/content/stories-source';
+import { tenantStory, type TenantStory } from '@/lib/content/story-engine';
 
 /**
  * Factory for creating test Foundation objects.
@@ -116,4 +120,33 @@ export function makeMinimalTenant(overrides: Partial<Tenant> = {}): Tenant {
     new Date('2026-06-01'),
   );
   return { ...base, ...overrides };
+}
+
+/**
+ * A tenant bound to a story, which is what every composer now takes.
+ *
+ * Built from the code block so the assertions below it keep testing the same
+ * content they always did — the point of these tests is the composition, not
+ * the prose. What changed is that the prose now arrives through a parameter, so
+ * a test can hand a composer a DIFFERENT organisation's story and watch the
+ * output follow, which is the property that was untestable while the story was
+ * an import.
+ */
+export function makeStory(
+  tenant: Tenant = makeTenant(),
+  blockOverrides: Partial<StoriesBlock> = {},
+): TenantStory {
+  const block = storiesBlockSchema.parse({ ...STORIES_CONTENT, ...blockOverrides });
+  return tenantStory(tenant, block);
+}
+
+/**
+ * A tenant that has signed up and written nothing yet.
+ *
+ * The starter block is skeleton prose with "[Bitte ergänzen]" markers, which is
+ * exactly what a new customer has on day one. Composing from it must produce a
+ * visibly unfinished document rather than a polished one.
+ */
+export function makeStarterStory(tenant: Tenant = makeTenant()): TenantStory {
+  return tenantStory(tenant, storiesBlockSchema.parse(STARTER_STORIES));
 }
