@@ -36,15 +36,13 @@ const TEMPLATE_MODULES = [
   {
     module: '@/lib/config/stories',
     exports: ['WHY', 'GESUCH_TEXT', 'ANSCHREIBEN_TEMPLATES', 'PARTNER_HIGHLIGHTS'],
-    // The composers fill the whole assembled tree through `fillStoryContent()`,
-    // and the seed script writes the templates verbatim — that is its whole job.
-    mayReadRaw: [
-      'src/lib/config/stories.ts',
-      'src/lib/domain/gesuch-composer.ts',
-      'src/lib/domain/anschreiben-composer.ts',
-      'src/lib/domain/bridge-composer.ts',
-      'src/lib/domain/foundation-contextualization.ts',
-    ],
+    // Only the module that defines them. The composers used to be on this
+    // list — they imported the raw templates and filled them at the end — and
+    // that was the loophole the whole list was built around: a file allowed to
+    // read raw content is also a file that reads ONE organisation's content.
+    // They now receive a `TenantStory`, which fills on the way out, so there is
+    // nothing left for them to import.
+    mayReadRaw: ['src/lib/config/stories.ts'],
   },
   {
     module: '@/lib/config/gesuch-templates',

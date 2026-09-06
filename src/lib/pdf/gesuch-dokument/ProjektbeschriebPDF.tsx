@@ -8,7 +8,6 @@
 import React from 'react';
 import { View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
-import { findEvidence, resolveStories } from '@/lib/config/stories';
 import { extractPurposeCore } from '@/lib/domain/bridge-composer';
 import { styles, COLORS } from './styles';
 
@@ -18,9 +17,7 @@ interface ProjektbeschriebPDFProps {
 
 export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
   // Filled for this organisation. Read straight from the module these
-  // strings render as "seit {{founded}}" — the templates are shared, the
-  // values are not, and only resolveStories() joins the two.
-  const { GESUCH_TEXT } = resolveStories(dok.tenant);
+  const GESUCH_TEXT = dok.gesuchText;
   return (
     <View>
       {/* Section title */}
@@ -121,14 +118,9 @@ export default function ProjektbeschriebPDF({ dok }: ProjektbeschriebPDFProps) {
                     {c}
                   </Text>
                 ))}
-                {comp.evidence && comp.evidence.length > 0 && (
+                {comp.citations.length > 0 && (
                   <Text style={[styles.muted, { marginTop: 2 }]}>
-                    Quellen:{' '}
-                    {comp.evidence
-                      .map((key) => findEvidence(key))
-                      .filter((e): e is NonNullable<typeof e> => e !== null)
-                      .map((e) => `${e.title} (${e.year})`)
-                      .join('; ')}
+                    Quellen: {comp.citations.map((e) => `${e.title} (${e.year})`).join('; ')}
                   </Text>
                 )}
               </View>

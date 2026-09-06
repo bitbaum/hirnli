@@ -9,6 +9,8 @@ import {
   resolveTemplateFoundation,
 } from '@/lib/config/gesuch-templates';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
+import { loadTenantStory } from '@/lib/content/story-engine';
+import StoryMissing from '@/components/gesuch/StoryMissing';
 import {
   AnschreibenSection,
   ProjektbeschriebSection,
@@ -54,7 +56,12 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
     notFound();
   }
 
-  const dok = composeGesuchDokument(tenant, foundation);
+  const story = await loadTenantStory(tenant);
+  if (!story) {
+    return <StoryMissing tenant={tenant} />;
+  }
+
+  const dok = composeGesuchDokument(story, foundation);
   const typeLabel = resolveTypeLabel(type);
   const tplLabel = resolveTemplateLabels(tenant)[type];
   const bannerTitle = typeLabel

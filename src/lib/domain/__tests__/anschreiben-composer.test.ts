@@ -1,11 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { buildDynamicOpening, buildThemeAlignment } from '../anschreiben-composer';
-import { makeFoundation, makeTenant } from './fixtures';
+import { makeFoundation, makeStory, makeTenant } from './fixtures';
 import type { ThemeMetadata } from '@/lib/schemas/theme';
 
 /** One tenant for every composer call here — the identity is not what these
  *  tests are about, but it must be passed rather than imported. */
 const TENANT = makeTenant();
+/** The same, bound to a story: these functions read templates from it. */
+const STORY = makeStory(TENANT);
 
 const sampleThemes: ThemeMetadata[] = [
   { id: 'kreislaufwirtschaft', label: 'Kreislaufwirtschaft', icon: '♻️', color: '#10b981' },
@@ -14,23 +16,19 @@ const sampleThemes: ThemeMetadata[] = [
 
 describe('buildDynamicOpening', () => {
   it('includes Fördergesuch for type A with purpose', () => {
-    const result = buildDynamicOpening(
-      TENANT,
-      makeFoundation({ type: 'A' }),
-      'Kreislaufwirtschaft',
-    );
+    const result = buildDynamicOpening(STORY, makeFoundation({ type: 'A' }), 'Kreislaufwirtschaft');
     expect(result).toContain('Fördergesuch');
   });
 
   it('varies by foundation type when research is not deep', () => {
     // Deep+highFit triggers a shared opening regardless of type, so test with standard depth
     const typeA = buildDynamicOpening(
-      TENANT,
+      STORY,
       makeFoundation({ type: 'A', researchDepth: 'standard', fitScore: 5 }),
       'Kreislaufwirtschaft',
     );
     const typeC = buildDynamicOpening(
-      TENANT,
+      STORY,
       makeFoundation({ type: 'C', researchDepth: 'standard', fitScore: 5 }),
       'Kreislaufwirtschaft',
     );
@@ -39,21 +37,21 @@ describe('buildDynamicOpening', () => {
 
   it('uses deep+highFit special opening', () => {
     const f = makeFoundation({ researchDepth: 'deep', fitScore: 9 });
-    const result = buildDynamicOpening(TENANT, f, 'Kreislaufwirtschaft');
+    const result = buildDynamicOpening(STORY, f, 'Kreislaufwirtschaft');
     expect(result).toContain('Fördergesuch');
     expect(result).toContain('Kreislaufwirtschaft');
   });
 
   it('falls back to template when no purposeSummary', () => {
     const f = makeFoundation({ type: 'B', purposeSummary: '' });
-    const result = buildDynamicOpening(TENANT, f, 'Kreislaufwirtschaft');
+    const result = buildDynamicOpening(STORY, f, 'Kreislaufwirtschaft');
     expect(result).toBeTruthy();
     expect(result.length).toBeGreaterThan(20);
   });
 
   it('handles type D with standard depth', () => {
     const result = buildDynamicOpening(
-      TENANT,
+      STORY,
       makeFoundation({ type: 'D', researchDepth: 'standard', fitScore: 5 }),
       'Kreislaufwirtschaft',
     );
@@ -64,7 +62,7 @@ describe('buildDynamicOpening', () => {
     // Regression: default case in switch was returning ANSCHREIBEN_TEMPLATES['A'].opening
     // instead of ANSCHREIBEN_TEMPLATES[foundation.type].opening for 'network' foundations
     const networkResult = buildDynamicOpening(
-      TENANT,
+      STORY,
       makeFoundation({
         type: 'network',
         researchDepth: 'standard',
@@ -74,7 +72,7 @@ describe('buildDynamicOpening', () => {
       'Kreislaufwirtschaft',
     );
     const typeAResult = buildDynamicOpening(
-      TENANT,
+      STORY,
       makeFoundation({ type: 'A', researchDepth: 'standard', fitScore: 5, purposeSummary: '' }),
       'Kreislaufwirtschaft',
     );
@@ -87,24 +85,24 @@ describe('buildDynamicOpening', () => {
 
 describe('buildThemeAlignment', () => {
   it('includes theme labels when provided', () => {
-    const result = buildThemeAlignment(makeFoundation(), sampleThemes);
+    const result = buildThemeAlignment(STORY, makeFoundation(), sampleThemes);
     expect(result).toContain('Kreislaufwirtschaft');
     expect(result).toContain('Förderbereiche');
   });
 
   it('includes purpose reference when available', () => {
-    const result = buildThemeAlignment(makeFoundation(), sampleThemes);
+    const result = buildThemeAlignment(STORY, makeFoundation(), sampleThemes);
     expect(result).toContain('Stiftungszweck');
   });
 
   it('falls back gracefully with empty themes', () => {
-    const result = buildThemeAlignment(makeFoundation(), []);
+    const result = buildThemeAlignment(STORY, makeFoundation(), []);
     expect(result).toBeTruthy();
     expect(result).toContain('Stiftungszweck');
   });
 
   it('falls back when no themes and no purpose', () => {
-    const result = buildThemeAlignment(makeFoundation({ purposeSummary: '' }), []);
+    const result = buildThemeAlignment(STORY, makeFoundation({ purposeSummary: '' }), []);
     expect(result).toBeTruthy();
     expect(result.length).toBeGreaterThan(20);
   });

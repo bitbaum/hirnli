@@ -9,7 +9,7 @@ import React from 'react';
 import { View, Text } from '@react-pdf/renderer';
 import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
-import type { ThemeKey } from '@/lib/config/stories';
+import type { ThemeKey } from '@/lib/content/story-themes';
 import { getThemedLabel } from '@/lib/domain/budget-calculations';
 import { EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
 import { styles, COLORS, pdfFormatCHF } from './styles';

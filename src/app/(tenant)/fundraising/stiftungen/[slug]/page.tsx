@@ -7,6 +7,7 @@ import {
   generateApproachSteps,
   getApplicationReadiness,
 } from '@/lib/domain/foundation-contextualization';
+import { loadTenantStory } from '@/lib/content/story-engine';
 import { findSimilarFoundations } from '@/lib/domain/foundation-recommendations';
 import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import MobileFoundationActions from '@/components/foundation/MobileFoundationActions';
@@ -49,7 +50,10 @@ export default async function FoundationDetailPage({ params }: Props) {
 
   // Compute contextualization data (pure functions, no I/O)
   const fitNarrative = generateFitNarrative(tenant, foundation);
-  const themeAlignments = generateThemeAlignments(foundation);
+  // Null when this organisation has not written its story: the themes still
+  // show, without a claim about what the applicant does. Borrowing that claim
+  // from whoever did write one is the bug this replaced.
+  const themeAlignments = generateThemeAlignments(foundation, await loadTenantStory(tenant));
   const approachSteps = generateApproachSteps(foundation);
   const readiness = getApplicationReadiness(foundation);
   const similar = findSimilarFoundations(foundation, allFoundations, 5);

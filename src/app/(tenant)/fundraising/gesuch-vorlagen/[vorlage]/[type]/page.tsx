@@ -7,6 +7,8 @@ import { resolveTypeLabel } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
 import { SCHWERPUNKTE, isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
+import { loadTenantStory } from '@/lib/content/story-engine';
+import StoryMissing from '@/components/gesuch/StoryMissing';
 import {
   GesuchHeroSection,
   GesuchWhySection,
@@ -48,7 +50,12 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
   const sp = SCHWERPUNKTE[schwerpunkt];
   const typeLabel = resolveTypeLabel(type);
   if (!typeLabel) notFound();
-  const gesuch = composeGesuch(tenant, foundation, schwerpunkt);
+  const story = await loadTenantStory(tenant);
+  if (!story) {
+    return <StoryMissing tenant={tenant} />;
+  }
+
+  const gesuch = composeGesuch(story, foundation, schwerpunkt);
   const primaryColor = sp.color;
 
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;

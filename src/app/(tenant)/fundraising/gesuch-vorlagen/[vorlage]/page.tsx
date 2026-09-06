@@ -11,6 +11,8 @@ import {
   resolveTemplateFoundation,
 } from '@/lib/config/gesuch-templates';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
+import { loadTenantStory } from '@/lib/content/story-engine';
+import StoryMissing from '@/components/gesuch/StoryMissing';
 import {
   GesuchHeroSection,
   GesuchWhySection,
@@ -58,7 +60,12 @@ export default async function GesuchVorlagePage({ params }: Props) {
     notFound();
   }
 
-  const gesuch = composeGesuch(tenant, foundation);
+  const story = await loadTenantStory(tenant);
+  if (!story) {
+    return <StoryMissing tenant={tenant} />;
+  }
+
+  const gesuch = composeGesuch(story, foundation);
   const typeLabel = resolveTypeLabel(type);
   const tplLabel = resolveTemplateLabels(tenant)[type];
   const primaryThemeId = foundation.themes[0];

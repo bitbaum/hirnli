@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { getTenant } from '@/lib/tenant/resolve';
 import { getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
+import { loadTenantStory } from '@/lib/content/story-engine';
+import StoryMissing from '@/components/gesuch/StoryMissing';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import {
@@ -45,7 +47,12 @@ export default async function GesuchDokumentPage({ params, searchParams }: Props
   const schwerpunktId =
     schwerpunktParam && isSchwerpunktId(schwerpunktParam) ? schwerpunktParam : undefined;
 
-  const baseDok = composeGesuchDokument(tenant, foundation, schwerpunktId);
+  const story = await loadTenantStory(tenant);
+  if (!story) {
+    return <StoryMissing tenant={tenant} />;
+  }
+
+  const baseDok = composeGesuchDokument(story, foundation, schwerpunktId);
   const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
   const dok = applyGesuchOverrides(baseDok, overrides);
 

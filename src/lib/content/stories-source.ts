@@ -22,33 +22,62 @@
 
 import { z } from 'zod';
 import type { Tenant } from '@/lib/tenant/profile';
+import {
+  anecdoteSchema,
+  anschreibenTemplateSchema,
+  coreFactsContentSchema,
+  evidenceSchema,
+  gesuchTextSchema,
+  howSectionSchema,
+  kurzportraitFactSchema,
+  partnerHighlightSchema,
+  photoSlotSchema,
+  projectSchema,
+  whySectionSchema,
+} from '@/lib/schemas/story';
 import { getOrgContent } from './org-content';
 import { ownsCodeContent } from './page-content';
 
 /**
  * The stored shape, validated at the boundary.
  *
- * Deliberately loose about the INSIDE of each block and strict about the five
- * keys: the prose structure is edited by people and will grow sections, but a
- * row missing `GESUCH_TEXT` would compose a Gesuch with a hole in it, which is
- * worth failing on rather than rendering.
+ * This was deliberately loose about the inside of each block while nothing read
+ * it — a reader that only hands a tree to a renderer does not need types. The
+ * engine does: it indexes into WHY by theme, walks HOW's competency slots and
+ * resolves EVIDENCE keys, and every one of those is a place where a malformed
+ * row would surface as `undefined` inside a document sent to a funder rather
+ * than as an error anyone could act on.
+ *
+ * So the shapes the code version had to satisfy are now the shapes a stored one
+ * must satisfy. Validation is strict at the seam and the composers below it can
+ * be as trusting as they were when the story was a module.
  */
 export const storiesBlockSchema = z.object({
-  CORE_FACTS: z.record(z.string(), z.unknown()),
-  GESUCH_TEXT: z.record(z.string(), z.unknown()),
-  WHY: z.record(z.string(), z.unknown()),
-  ANSCHREIBEN_TEMPLATES: z.record(z.string(), z.unknown()),
-  PARTNER_HIGHLIGHTS: z.array(z.unknown()),
-  // The composer reads these too, and they were NOT in the stored block. A
-  // tenant would have read its own why-sections from the database and then
-  // taken this organisation's competencies, projects and citations from code,
-  // inside the same document — a partially migrated story, which is worse than
-  // an unmigrated one because it looks finished.
-  HOW: z.record(z.string(), z.unknown()),
-  PROJECTS: z.record(z.string(), z.unknown()),
-  EVIDENCE: z.record(z.string(), z.unknown()),
-  ANECDOTES: z.array(z.unknown()),
-  PHOTO_SLOTS: z.array(z.unknown()),
+  CORE_FACTS: coreFactsContentSchema,
+  GESUCH_TEXT: gesuchTextSchema,
+  // Keyed by theme, but not every theme required: an organisation that works in
+  // two fields has two WHY sections, and the composer already renders a theme
+  // it has no story for as "no story", which is true. Requiring all five would
+  // make a narrow organisation write four fictions to pass validation.
+  WHY: z.record(z.string(), whySectionSchema),
+  // Every foundation type required, in contrast — the taxonomy is the
+  // platform's, not the tenant's, and a stored block missing one composes a
+  // cover letter by reading `undefined.opening` the first time that type comes
+  // up. Eight sentences is a fair price for a document that cannot crash.
+  ANSCHREIBEN_TEMPLATES: z.object({
+    A: anschreibenTemplateSchema,
+    B: anschreibenTemplateSchema,
+    C: anschreibenTemplateSchema,
+    D: anschreibenTemplateSchema,
+    network: anschreibenTemplateSchema,
+  }),
+  PARTNER_HIGHLIGHTS: z.array(partnerHighlightSchema),
+  HOW: howSectionSchema,
+  PROJECTS: z.record(z.string(), projectSchema),
+  EVIDENCE: z.record(z.string(), z.record(z.string(), evidenceSchema)),
+  ANECDOTES: z.array(anecdoteSchema),
+  PHOTO_SLOTS: z.array(photoSlotSchema),
+  KURZPORTRAIT_FACTS: z.array(kurzportraitFactSchema),
 });
 
 export type StoriesBlock = z.infer<typeof storiesBlockSchema>;

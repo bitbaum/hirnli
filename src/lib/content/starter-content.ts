@@ -20,6 +20,17 @@
 
 const TODO = '[Bitte ergänzen]';
 
+/** One competency slot — what the organisation can do in a given field. */
+function competency(theme: string) {
+  return {
+    headline: `${TODO}: Was kann {{name}} im Bereich ${theme}?`,
+    capabilities: [
+      `${TODO}: Eine konkrete Fähigkeit oder Leistung`,
+      `${TODO}: Eine weitere — nennen Sie zwei bis vier`,
+    ],
+  };
+}
+
 /** The five theme angles a Gesuch can be written from. */
 function whySection(theme: string, prompt: string) {
   return {
@@ -40,7 +51,10 @@ function whySection(theme: string, prompt: string) {
 export const STARTER_STORIES = {
   CORE_FACTS: {
     team_size: 1,
+    // Groups and keys are the organisation's own; empty until it states some.
     metrics: {},
+    activities: [`${TODO}: Was tut {{name}} konkret? Nennen Sie Ihre Haupttätigkeiten.`],
+    unique: [`${TODO}: Was unterscheidet {{name}} von anderen in diesem Feld?`],
   },
 
   GESUCH_TEXT: {
@@ -101,18 +115,50 @@ export const STARTER_STORIES = {
   PARTNER_HIGHLIGHTS: [] as unknown[],
 
   /**
-   * The rest of what a Gesuch is composed from. Present and empty rather than
-   * absent: the schema requires them, and a missing key would fail validation
-   * on the first page the new customer opens — after being told the account
-   * was created.
+   * Track record and competencies — prompts, not empty objects.
    *
-   * Empty is also the honest state. Competencies, projects and citations are
-   * things an organisation has done; there is nothing plausible to pre-fill,
-   * and filling them from another customer is the leak this all exists to end.
+   * This block was `{}` while the stored shape was checked loosely, and that
+   * looked defensible: an organisation with no track record has nothing to say
+   * yet. But the composer reads `HOW.track_record.headline` and walks a
+   * competency per theme, so `{}` did not compose an empty section — it
+   * composed `undefined` into a grant application, on the first document the
+   * new customer generated. The schema now requires the structure, and the
+   * structure is filled with the questions that produce it.
    */
-  HOW: {} as Record<string, unknown>,
+  HOW: {
+    track_record: {
+      headline: `${TODO}: Ihre Erfahrung in einem Satz`,
+      text: `${TODO}: Was hat {{name}} seit {{founded}} erreicht? Zwei bis drei Sätze, die einer Stiftung zeigen, dass Sie liefern können.`,
+      proof_points: [{ label: 'Gegründet', value: '{{founded}}' }],
+    },
+    technical: competency('Kreislaufwirtschaft'),
+    social: competency('soziale Integration'),
+    environmental: competency('Klimaschutz'),
+    digital: competency('Digitalisierung'),
+    bildung: competency('Bildung'),
+  },
+
+  /**
+   * Projects, citations, anecdotes and photos: empty, and honestly so.
+   *
+   * Unlike the block above, nothing composes these into a sentence — a Gesuch
+   * with no projects renders no project section. They are things an
+   * organisation has actually done, there is nothing plausible to pre-fill, and
+   * filling them from another customer is the leak this all exists to end.
+   */
   PROJECTS: {} as Record<string, unknown>,
   EVIDENCE: {} as Record<string, unknown>,
   ANECDOTES: [] as unknown[],
   PHOTO_SLOTS: [] as unknown[],
+  /**
+   * Deliberately empty rather than pre-filled with placeholder figures.
+   *
+   * Every other starter field carries a "[Bitte ergänzen]" marker, because an
+   * unfinished sentence reads as unfinished. A number does not: "40%" in a
+   * Kurzportrait reads as a measured result whether or not anyone measured it,
+   * and this table is the first thing a funder reads. So a new organisation
+   * starts with the five identity rows the composer builds from its profile and
+   * adds its own figures when it has them.
+   */
+  KURZPORTRAIT_FACTS: [] as { label: string; value: string }[],
 } as const;

@@ -50,6 +50,7 @@ import { getNumericValue, CO2_PER_LAPTOP } from '@/lib/config/numbers';
 import { formatNumber } from '@/lib/utils/format';
 import type { Tenant } from '@/lib/tenant/profile';
 import { fillContent, fillContentWith, templateValues } from '@/lib/content/interpolate';
+import type { ThemeKey } from '@/lib/content/story-themes';
 
 // ============================================================================
 // Types for structures not covered by the story schema
@@ -64,7 +65,10 @@ interface HowSection {
   bildung: CompetencySection;
 }
 
-export type ThemeKey = 'klima' | 'kreislaufwirtschaft' | 'sozial' | 'bildung' | 'digital';
+// The vocabulary this content is written in lives with the platform, not with
+// the content: `story-themes.ts`. Re-exported here only so the many existing
+// importers keep working while the rest of this module moves to `org_content`.
+export type { ThemeKey };
 
 interface ComposedStory {
   why: WhySection | undefined;
@@ -706,6 +710,31 @@ export const PARTNER_HIGHLIGHTS = [
   },
 ];
 
+/**
+ * This organisation's headline figures, as Kurzportrait rows.
+ *
+ * They were six hardcoded rows inside `composeGesuchDokument()` — a laptop CO2
+ * saving, a reuse rate, a reintegration quota, a placement count — printed into
+ * every applicant's Kurzportrait regardless of what that applicant does. They
+ * are facts about this organisation, so they belong in this organisation's
+ * content and nowhere else.
+ *
+ * The two environmental rows cite their metric rather than copying it, so a
+ * figure that changes changes here too. The social ones are literal because
+ * `metrics.social` holds metric IDs rather than values — see SOCIAL_DISPLAY.
+ */
+const KURZPORTRAIT_FACTS = [
+  { label: 'Kernteam', value: '{{teamSize}} Festangestellte + Freelancer' },
+  { label: 'Gemeinnützigkeit', value: 'Verein — alle Einnahmen fliessen in die Mission' },
+  {
+    label: 'Praktikant:innen betreut',
+    value: `${SOCIAL_DISPLAY.practitioners_total} seit Gründung`,
+  },
+  { label: 'Wiedereingliederungsquote', value: SOCIAL_DISPLAY.success_rate },
+  { label: 'CO₂-Einsparung pro Laptop', value: '{{metrics.environmental.co2_per_laptop}} kg' },
+  { label: 'Reuse-Rate', value: '{{metrics.environmental.reuse_rate}}%' },
+];
+
 // ============================================================================
 // ANECDOTES — Human stories with [placeholder] markers (Robert: "Anektoden mit Menschen sind cool")
 // ============================================================================
@@ -878,6 +907,7 @@ export const STORIES_CONTENT = {
   EVIDENCE,
   ANECDOTES,
   PHOTO_SLOTS,
+  KURZPORTRAIT_FACTS,
 } as const;
 
 /**

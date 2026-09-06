@@ -6,7 +6,7 @@ import {
   generateThemeAlignments,
 } from '../foundation-contextualization';
 import type { Foundation } from '@/lib/schemas/foundation';
-import { makeTenant } from './fixtures';
+import { makeTenant, makeStory } from './fixtures';
 
 /** One tenant for every composer call here — the identity is not what these
  *  tests are about, but it must be passed rather than imported. */
@@ -315,26 +315,26 @@ describe('getApplicationReadiness', () => {
 
 describe('generateThemeAlignments', () => {
   it('returns empty array for foundation with no themes', () => {
-    expect(generateThemeAlignments(makeFoundation({ themes: [] }))).toHaveLength(0);
+    expect(generateThemeAlignments(makeFoundation({ themes: [] }), makeStory())).toHaveLength(0);
   });
 
   it('returns one alignment per theme', () => {
     const f = makeFoundation({
       themes: ['kreislaufwirtschaft', 'klima'] as Foundation['themes'],
     });
-    expect(generateThemeAlignments(f)).toHaveLength(2);
+    expect(generateThemeAlignments(f, makeStory())).toHaveLength(2);
   });
 
   it('each alignment has required fields', () => {
     const f = makeFoundation({ themes: ['kreislaufwirtschaft'] as Foundation['themes'] });
-    const alignments = generateThemeAlignments(f);
+    const alignments = generateThemeAlignments(f, makeStory());
     const a = alignments[0];
     expect(a.themeId).toBe('kreislaufwirtschaft');
     expect(typeof a.themeLabel).toBe('string');
     expect(a.themeLabel.length).toBeGreaterThan(0);
     expect(typeof a.icon).toBe('string');
-    expect(typeof a.revampConnection).toBe('string');
-    expect(a.revampConnection.length).toBeGreaterThan(0);
+    expect(typeof a.ownConnection).toBe('string');
+    expect(a.ownConnection!.length).toBeGreaterThan(0);
   });
 
   it('all 7 known ThemeIds produce alignments', () => {
@@ -348,7 +348,7 @@ describe('generateThemeAlignments', () => {
       'arbeitsintegration',
     ] as Foundation['themes'];
     const f = makeFoundation({ themes: allThemes });
-    const alignments = generateThemeAlignments(f);
+    const alignments = generateThemeAlignments(f, makeStory());
     expect(alignments).toHaveLength(7);
   });
 });
