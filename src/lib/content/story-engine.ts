@@ -20,7 +20,7 @@
  * name, and interpolation happens on the way out.
  */
 
-import type { Foundation, ThemeId } from '@/lib/schemas/foundation';
+import type { Foundation } from '@/lib/schemas/foundation';
 import type {
   Anecdote,
   CompetencySection,
