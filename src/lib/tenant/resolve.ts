@@ -14,7 +14,8 @@
  */
 
 import { cache } from 'react';
-import { TENANT_HOST_HEADER } from './registry';
+import { TENANT_HOST_HEADER, TENANT_PATH_HEADER } from './registry';
+import { safeNextPath } from '@/lib/auth/next-path';
 import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -136,4 +137,20 @@ export const getTenantBranding = cache(async (): Promise<TenantBranding> => {
 export async function allTenantIds(): Promise<string[]> {
   const rows = await db.select({ orgId: orgProfiles.orgId }).from(orgProfiles);
   return rows.map((r) => r.orgId).sort();
+}
+
+/**
+ * The path this request asked for, for a guard that needs to send someone back.
+ *
+ * Falls back to the given default when the header is absent — middleware does
+ * not run on every rendering path, and a sign-in link to a plausible page beats
+ * one that throws.
+ */
+export async function currentRequestPath(fallback: string): Promise<string> {
+  const h = await headers();
+  // Validated with the same rule the sign-in page uses. Middleware sets this
+  // from the request, but the check belongs where the value is USED, not where
+  // it happens to be produced — a second producer would otherwise inherit trust
+  // nobody granted it.
+  return safeNextPath(h.get(TENANT_PATH_HEADER), fallback);
 }

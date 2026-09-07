@@ -29,7 +29,12 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
-import { isPlatformHost, normalizeHost, TENANT_HOST_HEADER } from '@/lib/tenant/registry';
+import {
+  isPlatformHost,
+  normalizeHost,
+  TENANT_HOST_HEADER,
+  TENANT_PATH_HEADER,
+} from '@/lib/tenant/registry';
 
 /**
  * Paths the Basic-Auth gate applies to. Previously this list lived only in
@@ -97,6 +102,10 @@ function unauthorized() {
 function withTenantHeader(request: NextRequest, host: string): NextResponse {
   const headers = new Headers(request.headers);
   headers.set(TENANT_HOST_HEADER, host);
+  // Path and query, so a guard can send someone back to the page they asked
+  // for. Set from the request rather than trusted from the client: an inbound
+  // header of the same name is overwritten here.
+  headers.set(TENANT_PATH_HEADER, request.nextUrl.pathname + request.nextUrl.search);
   return NextResponse.next({ request: { headers } });
 }
 
