@@ -252,13 +252,32 @@ export function composeGesuch(
   // Quality gate: tier (data completeness), priority (fit × readiness), themes
   const lowPriority = !isActionablePriority(foundation);
 
-  if (!isResearched(foundation) || mapped.all.length === 0 || lowPriority) {
+  /**
+   * The applicant has not written about the theme this Gesuch would argue from.
+   *
+   * Every other gate here asks whether we know enough about the FOUNDATION.
+   * This one asks whether the applicant has said enough about itself, and it
+   * was missing — so an organisation that works in three fields, matched
+   * against a funder in a fourth, got `ready: true` and a document whose
+   * "Warum" page was blank. That page is the argument; a Gesuch without it is
+   * not a shorter Gesuch, it is an unanswered question sent to a funder.
+   *
+   * Naming the theme matters: the fix is twenty minutes in the editor, and the
+   * message says which section to write.
+   */
+  const themeUnwritten = mapped.all.length > 0 && story.why(mapped.primary) === undefined;
+
+  if (!isResearched(foundation) || mapped.all.length === 0 || lowPriority || themeUnwritten) {
     let reason = '';
     if (!isResearched(foundation)) {
       reason = 'Diese Stiftung benötigt noch weitere Recherche.';
     } else if (lowPriority) {
       const pc = PRIORITY_CONFIG[foundation.priority];
       reason = `Priorität ${pc.label}: ${pc.description}`;
+    } else if (themeUnwritten) {
+      reason =
+        `Für das Themenfeld „${mapped.primary}" ist noch keine Erzählung erfasst. ` +
+        'Ohne sie hätte das Gesuch eine leere „Warum"-Seite — bitte den Abschnitt unter Inhalte ergänzen.';
     } else {
       reason = 'Keine passenden Themen für die Gesuch-Generierung gefunden.';
     }

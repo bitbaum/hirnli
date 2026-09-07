@@ -20,7 +20,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
+import { composeGesuch, composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import {
   makeBudget,
   makeFoundation,
@@ -156,5 +156,27 @@ describe('composed prose belongs to the applicant', () => {
     const labels = dok.kurzportrait.facts.map((f) => f.label);
 
     expect(labels).toEqual(['Name', 'Rechtsform', 'Gegründet', 'Standort', 'Website']);
+  });
+});
+
+describe('a Gesuch is not "ready" with an unwritten argument', () => {
+  it('refuses, and names the theme, when the applicant has no WHY for it', () => {
+    // The organisation works in one field; the funder is matched on another.
+    // Before this gate the document reported ready with a blank "Warum" page —
+    // the page that carries the entire argument.
+    const oneField = makeStory(makeTenant(), {
+      WHY: { klima: STARTER_STORIES.WHY.klima },
+    });
+    const result = composeGesuch(oneField, makeFoundation({ themes: ['soziale-integration'] }));
+
+    expect(result.ready).toBe(false);
+    expect(result.readyReason).toContain('sozial');
+    expect(result.readyReason).toContain('Inhalte');
+  });
+
+  it('still composes when the applicant HAS written that theme', () => {
+    const result = composeGesuch(makeStory(), makeFoundation({ themes: ['soziale-integration'] }));
+    expect(result.ready).toBe(true);
+    expect(result.story.why).toBeDefined();
   });
 });
