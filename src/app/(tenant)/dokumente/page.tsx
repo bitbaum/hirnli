@@ -15,12 +15,13 @@ export const metadata: Metadata = {
 };
 
 export default async function DokumentePage() {
-  const [foundations, tenant, ownsContent] = await Promise.all([
+  const [foundations, tenant, ownsContent, ownsFinancials] = await Promise.all([
     getAllFoundations(),
     getTenant(),
     ownsCodeContent('fundraising'),
+    ownsCodeContent('finanzen'),
   ]);
-  const { documents, stats } = buildDocuments(foundations, tenant, ownsContent);
+  const { documents, stats } = buildDocuments(foundations, tenant, ownsContent, ownsFinancials);
 
   return (
     <>

@@ -7,7 +7,6 @@
 
 import { loadFinancialData } from '@/lib/data/financial';
 import { FINANCIAL_YEAR_START, FINANCIAL_YEAR_END } from '@/lib/config/financial-constants';
-import type { Foundation } from '@/lib/schemas/foundation';
 import { REVENUE_HISTORY } from '@/app/(tenant)/fundraising/data';
 import { arrayToCSV } from '@/lib/utils/csv';
 
@@ -34,38 +33,6 @@ export function exportFinancialData(): string {
     rows.push([year, 'Aufstockung', data.sum('aufstockung'), 'Kivitendo']);
     rows.push([year, 'Total', data.sum('total'), 'Berechnet']);
   });
-
-  return arrayToCSV(headers, rows);
-}
-
-// ---------------------------------------------------------------------------
-// Foundation List Export
-// ---------------------------------------------------------------------------
-
-export function exportFoundationList(foundations: Foundation[]): string {
-  const headers = [
-    'Name',
-    'Typ',
-    'Themen',
-    'Status',
-    'Deadline',
-    'Betrag (CHF)',
-    'Fit-Score',
-    'Region',
-    'URL',
-  ];
-
-  const rows = foundations.map((foundation) => [
-    foundation.name,
-    foundation.type,
-    foundation.themes.join('; '),
-    foundation.status,
-    foundation.deadlineText || 'Rolling',
-    foundation.amount.text || 'Variabel',
-    `${foundation.fitScore}/10`,
-    foundation.region || 'CH',
-    foundation.websiteUrl || '',
-  ]);
 
   return arrayToCSV(headers, rows);
 }

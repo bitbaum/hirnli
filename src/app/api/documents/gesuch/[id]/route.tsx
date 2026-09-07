@@ -28,12 +28,14 @@ import { and, eq } from 'drizzle-orm';
 import { GesuchPDF } from '@/lib/pdf/GesuchTemplate';
 import { generatePersonalizedGesuch } from '@/lib/domain/personalization-engine';
 import { CO2_PER_LAPTOP, CO2_TOTAL_TONNES, NUMBERS_REGISTRY } from '@/lib/config/numbers';
+import { ownsCodeContent } from '@/lib/content/page-content';
 import { getCurrentOrgId, getTenant } from '@/lib/tenant/resolve';
 import { getTodayISO } from '@/lib/utils/format';
 import {
+  API_ERR_DOCUMENT_NOT_AUTHORED,
+  API_ERR_FOUNDATION_NOT_FOUND,
   API_ERR_NOT_FOUND,
   API_ERR_PROCESS,
-  API_ERR_FOUNDATION_NOT_FOUND,
 } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 import { streamToBuffer, sanitizeFoundationFilename } from '@/lib/pdf/utils';
@@ -43,6 +45,28 @@ import { streamToBuffer, sanitizeFoundationFilename } from '@/lib/pdf/utils';
  * Generate personalized PDF for application
  */
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  /**
+   * The document body below is one organisation's, with the READER's name and
+   * founding year interpolated into it.
+   *
+   * "{{name}} refurbiert gespendete Laptops", "seit {{founded}}: N Laptops
+   * refurbished, X Tonnen CO2 eingespart, M Menschen begleitet" — a business
+   * the requesting tenant may not be in, and measurements it has never made,
+   * asserted as its own in a document sent to a funder. The application lookup
+   * was already scoped by org; the CONTENT never was.
+   *
+   * Gated rather than repaired here: the honest version composes from the
+   * tenant's own story like every other Gesuch path does, and that is a rewrite
+   * of this route rather than a guard on it. Until then it belongs to the
+   * organisation it was written about.
+   */
+  if (!(await ownsCodeContent('fundraising'))) {
+    return NextResponse.json(
+      { success: false, error: API_ERR_DOCUMENT_NOT_AUTHORED },
+      { status: 404 },
+    );
+  }
+
   try {
     const { id } = await params;
     const orgId = await getCurrentOrgId();
