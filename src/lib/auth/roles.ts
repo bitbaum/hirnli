@@ -27,3 +27,25 @@ export function roleAtLeast(role: OrgRole, required: OrgRole): boolean {
 export function normalizeRole(raw: string): OrgRole {
   return (ORG_ROLES as readonly string[]).includes(raw) ? (raw as OrgRole) : 'member';
 }
+
+/**
+ * May `actor` hand out `target`?
+ *
+ * Only an owner creates another owner. Without this an admin could invite
+ * themselves — or a confederate — as owner and outrank the person who appointed
+ * them, which makes "admin" and "owner" the same role with two names.
+ */
+export function mayGrantRole(actor: OrgRole, target: OrgRole): boolean {
+  if (!roleAtLeast(actor, 'admin')) return false;
+  return target === 'owner' ? actor === 'owner' : true;
+}
+
+/**
+ * Would removing this member leave the organisation with no owner?
+ *
+ * An ownerless organisation cannot admit anyone or change anything again, and
+ * there is no support desk to undo it. Cheaper to refuse than to repair.
+ */
+export function isLastOwner(roles: readonly OrgRole[], removing: OrgRole): boolean {
+  return removing === 'owner' && roles.filter((r) => r === 'owner').length <= 1;
+}
