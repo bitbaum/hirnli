@@ -36,6 +36,23 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
 
+      # Next keeps its compiler output in .next/cache. Without restoring it,
+      # every CI run recompiles the whole app from scratch — and the deploy
+      # then compiles it a second time. Measured across the fleet on
+      # 2026-09-07: of eight repos, exactly one cached this.
+      #
+      # Keyed on the lockfile so a dependency change invalidates it. The bare
+      # restore-key is last on purpose: a stale cache still beats no cache,
+      # and Next validates its own entries rather than trusting them.
+      - name: Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+            nextjs-${{ runner.os }}-
+
       - name: Install
         run: pnpm install --frozen-lockfile
 
