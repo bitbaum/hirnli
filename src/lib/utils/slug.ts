@@ -1,17 +1,30 @@
 /**
  * Generate a URL-safe slug from a foundation name.
- * Handles German umlauts and French accented characters.
- * Used by API routes, import scripts, and research pipeline.
+ * Used by API routes, import scripts, and the research pipeline.
+ *
+ * This is a directory of SWISS foundations, so French and Italian names are
+ * ordinary, not edge cases. The previous version transliterated a hand-written
+ * list — ä ö ü à é è — and deleted every character not on it:
+ *
+ *   'Association Française'  -> 'association-fran-aise'   (ç absent)
+ *   "Fondation Côte d'Azur"  -> 'fondation-c-te-d-azur'   (ô absent)
+ *   'Fundación Niños'        -> 'fundaci-n-ni-os'         (ó ñ absent)
+ *   'Stiftung Grüße'         -> 'stiftung-grue-e'         (ß absent)
+ *
+ * A list like that is never finished; it is only ever missing the next name
+ * somebody imports. So: expand the German digraphs explicitly, then let Unicode
+ * decomposition handle every remaining Latin diacritic in one rule.
+ *
+ * Order is load-bearing — the German expansion must run BEFORE the NFD strip,
+ * or 'ä' decomposes to 'a' and Stiftung Bär becomes 'bar' instead of 'baer'.
  */
 export function toSlug(name: string): string {
-  return name
+  return String(name)
     .toLowerCase()
-    .replace(/ä/g, 'ae')
-    .replace(/ö/g, 'oe')
-    .replace(/ü/g, 'ue')
-    .replace(/à/g, 'a')
-    .replace(/é/g, 'e')
-    .replace(/è/g, 'e')
+    .replace(/[äöü]/g, m => ({ ä: 'ae', ö: 'oe', ü: 'ue' })[m] ?? m)
+    .replace(/ß/g, 'ss')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .substring(0, 60);

@@ -99,4 +99,41 @@ describe('toSlug', () => {
   it('handles already-valid slug', () => {
     expect(toSlug('test-slug-123')).toBe('test-slug-123');
   });
+
+  // The accents the hand-written list never reached. This is a directory of
+  // SWISS foundations — French and Italian names are ordinary here, and every
+  // one of these previously produced a hyphen where a letter belonged.
+  it('converts ç, which the old list omitted', () => {
+    expect(toSlug('Association Française')).toBe('association-francaise');
+    expect(toSlug('Fondation Provençale')).toBe('fondation-provencale');
+  });
+
+  it('converts circumflex and remaining French accents', () => {
+    expect(toSlug("Fondation Côte d'Azur")).toBe('fondation-cote-d-azur');
+    expect(toSlug('Fondation Hôpital')).toBe('fondation-hopital');
+    expect(toSlug('Fondation Août')).toBe('fondation-aout');
+  });
+
+  it('converts Spanish and Italian accents', () => {
+    expect(toSlug('Fundación Niños')).toBe('fundacion-ninos');
+    expect(toSlug('Fondazione Città')).toBe('fondazione-citta');
+  });
+
+  it('expands ß, which was never handled', () => {
+    expect(toSlug('Stiftung Grüße')).toBe('stiftung-gruesse');
+    expect(toSlug('Straßenkinder')).toBe('strassenkinder');
+  });
+
+  it('still expands ä to ae, not a — the ordering is load-bearing', () => {
+    // Decomposing before the German map would strip the diaeresis and give
+    // 'bar'. This assertion is what fails if the two steps are ever merged.
+    expect(toSlug('Stiftung Bär')).toBe('stiftung-baer');
+    expect(toSlug('Äöü')).toBe('aeoeue');
+  });
+
+  it('leaves plain ASCII byte-identical, so stored slugs stay reproducible', () => {
+    // Slugs are persisted, never recomputed on read. If ASCII output moved,
+    // re-deriving one from an unchanged name would silently orphan a URL.
+    expect(toSlug('Revamp-IT Stiftung 2030')).toBe('revamp-it-stiftung-2030');
+  });
 });
