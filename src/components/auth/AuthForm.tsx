@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signIn, signUp } from '@/lib/auth/client';
+import { DEFAULT_AFTER_SIGN_IN, safeNextPath } from '@/lib/auth/next-path';
 
 type Mode = 'signin' | 'signup';
 
@@ -36,8 +37,12 @@ const COPY = {
 /** Better Auth's minPasswordLength. Stated up front, not discovered on submit. */
 const MIN_PASSWORD = 12;
 
-export function AuthForm({ mode }: { mode: Mode }) {
+export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
   const copy = COPY[mode];
+  // Re-validated here as well as on the page. This value ends up in
+  // router.push(), and the component is reachable from anywhere a prop can be
+  // passed — a check on one caller is a check on one caller.
+  const destination = safeNextPath(next);
   const router = useRouter();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -67,9 +72,10 @@ export function AuthForm({ mode }: { mode: Mode }) {
       return;
     }
 
-    // Where to land is decided server-side by how many organisations this
-    // person belongs to, so send them through the router rather than guessing.
-    router.push('/start');
+    // Back to whatever they were trying to reach, or the server-side chooser
+    // at /start when there was nothing — that page decides where to land based
+    // on how many organisations this person belongs to.
+    router.push(destination);
     router.refresh();
   }
 
@@ -138,7 +144,14 @@ export function AuthForm({ mode }: { mode: Mode }) {
 
       <p className="text-sm text-text-muted">
         {copy.altPrompt}{' '}
-        <Link href={copy.altHref} className="text-text-primary underline">
+        <Link
+          href={
+            destination === DEFAULT_AFTER_SIGN_IN
+              ? copy.altHref
+              : `${copy.altHref}?next=${encodeURIComponent(destination)}`
+          }
+          className="text-text-primary underline"
+        >
           {copy.altLabel}
         </Link>
       </p>

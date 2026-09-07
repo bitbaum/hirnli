@@ -36,6 +36,17 @@ export const PLATFORM_HOST = process.env.PLATFORM_HOST ?? 'hirnli.orangecat.ch';
  */
 export const TENANT_HOST_HEADER = 'x-tenant-host';
 
+/**
+ * The path the browser actually asked for, carried on the request.
+ *
+ * A server component cannot read the URL it is rendering, so a layout that
+ * redirects to sign-in has to guess where to send the person back to. Ours
+ * guessed the section root, which meant anyone following "write your story"
+ * into the login page came back to the account overview and had to find the
+ * button again — in exactly the flow that exists because they have nothing yet.
+ */
+export const TENANT_PATH_HEADER = 'x-request-path';
+
 /** Strip a port so `localhost:3000` and proxied hosts compare cleanly. */
 export function normalizeHost(host: string | null): string {
   return (host ?? '').split(':')[0].toLowerCase();

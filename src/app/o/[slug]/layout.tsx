@@ -10,6 +10,7 @@
 
 import { redirect } from 'next/navigation';
 import { getOrgAccess, getMyOrganizations, getSession } from '@/lib/auth/access';
+import { currentRequestPath } from '@/lib/tenant/resolve';
 import { OrgSwitcher } from '@/components/org/OrgSwitcher';
 
 export default async function OrgLayout({
@@ -22,7 +23,14 @@ export default async function OrgLayout({
   const { slug } = await params;
 
   const session = await getSession();
-  if (!session) redirect(`/anmelden?next=${encodeURIComponent(`/o/${slug}`)}`);
+  if (!session) {
+    // Back to the page they asked for, not the section root. Someone following
+    // "write your story" into sign-in used to land on the overview and have to
+    // find the button again — in the very flow that exists because they have
+    // nothing yet.
+    const next = await currentRequestPath(`/o/${slug}`);
+    redirect(`/anmelden?next=${encodeURIComponent(next)}`);
+  }
 
   const access = await getOrgAccess(slug);
   if (!access) redirect('/start');
