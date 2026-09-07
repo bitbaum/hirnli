@@ -12,6 +12,9 @@
 
 import { describe, it, expect } from 'vitest';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
+import { budgetBlockSchema } from '@/lib/schemas/budget';
+import { tenantBudget } from '@/lib/content/budget-engine';
+import { STARTER_BUDGET } from '../starter-budget';
 import {
   makeBudget,
   makeFoundation,
@@ -119,5 +122,25 @@ describe('the budget in a Gesuch belongs to the applicant', () => {
       },
     });
     expect(() => broken.defaultScenario()).toThrow(/matches no scenario/);
+  });
+});
+
+describe('an unfilled budget is treated as no budget', () => {
+  it('composes no budget section from the starter block', () => {
+    // A customer between "create a budget" and "fill it in" has a structurally
+    // valid block with no line items. Rendering it would print a three-year
+    // table of zeros, which reads as a measured result saying the project costs
+    // nothing — in a document asking a funder to pay for it.
+    const starter = tenantBudget(makeTenant(), budgetBlockSchema.parse(STARTER_BUDGET));
+    const dok = composeGesuchDokument(STORY, starter, makeFoundation());
+
+    expect(dok.budget).toBeUndefined();
+    expect(JSON.stringify(dok)).not.toContain('CHF 0');
+  });
+
+  it('composes one as soon as there is a real line item', () => {
+    const dok = composeGesuchDokument(STORY, makeBudget(), makeFoundation());
+    expect(dok.budget).toBeDefined();
+    expect(dok.budget!.lineItems.length).toBeGreaterThan(0);
   });
 });

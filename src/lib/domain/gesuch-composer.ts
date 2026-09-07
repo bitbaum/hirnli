@@ -407,11 +407,20 @@ export function composeAnschreibenText(
  * call and not a refactor's.
  */
 function composeBudget(
-  budget: TenantBudget,
+  budget: TenantBudget | null,
   foundation: Foundation,
   schwerpunktId?: SchwerpunktId,
-): NonNullable<ComposedGesuchDokument['budget']> {
+): ComposedGesuchDokument['budget'] {
+  if (!budget) return undefined;
+
   const scenario = budget.scenarioForFoundation(foundation);
+
+  // A budget with no line items is materially empty, and rendering it produces
+  // a three-year table of zeros — which reads as a measured result saying the
+  // project costs nothing. That is what a customer HAS between creating a
+  // budget and filling it in, so an unfilled budget is treated exactly as no
+  // budget: the section is absent until there is something true to put in it.
+  if (budget.lineItemsFor(scenario.id).length === 0) return undefined;
   const table = budget.threeYearTable(budget.defaultScenario());
 
   return {
@@ -453,7 +462,7 @@ export function composeGesuchDokument(
       closing: story.anschreibenTemplate(foundation.type).closing,
       themeAlignment: buildThemeAlignment(story, foundation, themeMetadata),
     },
-    budget: budget ? composeBudget(budget, foundation, schwerpunktId) : undefined,
+    budget: composeBudget(budget, foundation, schwerpunktId),
     kurzportrait: {
       // Identity rows first — these are the same questions every Swiss
       // Kurzportrait answers, and their values come from the profile. Then

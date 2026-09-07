@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * The story editor.
+ * The editor for one content block.
  *
  * One long form rather than a wizard: the people filling this in are writing
  * about their own organisation, mostly in one sitting, and a wizard would hide
@@ -13,13 +13,14 @@
 import { useActionState, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { fieldLabel, SECTION_LABELS } from '@/lib/content/field-labels';
-import { saveStory, type SaveState } from './actions';
+import { saveBlock, type SaveState } from './actions';
 
 export const TODO_MARKER = '[Bitte ergänzen]';
 
 export interface EditorField {
   path: string;
   value: string;
+  kind: 'string' | 'number';
 }
 
 const FIELD =
@@ -33,16 +34,18 @@ function rows(value: string): number {
   return 0;
 }
 
-export function StoryEditorForm({
+export function BlockEditorForm({
   orgSlug,
+  blockKey,
   version,
   fields,
 }: {
   orgSlug: string;
+  blockKey: string;
   version: number;
   fields: EditorField[];
 }) {
-  const [state, action, pending] = useActionState<SaveState, FormData>(saveStory, {});
+  const [state, action, pending] = useActionState<SaveState, FormData>(saveBlock, {});
   const [values, setValues] = useState<Record<string, string>>(
     Object.fromEntries(fields.map((f) => [f.path, f.value])),
   );
@@ -59,6 +62,7 @@ export function StoryEditorForm({
   return (
     <form action={action} className="flex flex-col gap-8">
       <input type="hidden" name="orgSlug" value={orgSlug} />
+      <input type="hidden" name="block" value={blockKey} />
       <input type="hidden" name="version" value={version} />
 
       <div className="sticky top-0 z-10 -mx-4 flex flex-wrap items-center justify-between gap-3 border-b border-border-default bg-surface-base px-4 py-3">
@@ -101,7 +105,15 @@ export function StoryEditorForm({
                       </span>
                     )}
                   </span>
-                  {r > 0 ? (
+                  {f.kind === 'number' ? (
+                    <input
+                      name={`f:${f.path}`}
+                      inputMode="decimal"
+                      className={FIELD}
+                      value={value}
+                      onChange={(e) => setValues((v) => ({ ...v, [f.path]: e.target.value }))}
+                    />
+                  ) : r > 0 ? (
                     <textarea
                       name={`f:${f.path}`}
                       rows={r}

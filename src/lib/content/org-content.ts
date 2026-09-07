@@ -228,3 +228,28 @@ export async function writeOrgContent(
 
   return updated[0] ? { ok: true, version: updated[0].version } : { ok: false, reason: 'conflict' };
 }
+
+/**
+ * Create a block a tenant does not have, without touching one it does.
+ *
+ * `ON CONFLICT DO NOTHING` rather than an upsert: the caller is starting
+ * something, and if a row already exists then somebody has written content that
+ * a starter shape would silently erase. Returns false in that case so the
+ * caller can say so instead of reporting success.
+ */
+export async function createOrgContent(
+  key: ContentKey,
+  value: unknown,
+  opts: { orgId?: string; locale?: string } = {},
+): Promise<boolean> {
+  const orgId = opts.orgId ?? (await getCurrentOrgId());
+  const locale = opts.locale ?? DEFAULT_LOCALE;
+
+  const inserted = await db
+    .insert(orgContent)
+    .values({ orgId, key, locale, value, version: 1 })
+    .onConflictDoNothing()
+    .returning({ key: orgContent.key });
+
+  return inserted.length > 0;
+}
