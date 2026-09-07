@@ -78,8 +78,11 @@ describe('buildDynamicOpening', () => {
     );
     // Network opening is distinct from type-A opening
     expect(networkResult).not.toBe(typeAResult);
-    // Network template mentions Mitgliedschaft (unique to network template)
-    expect(networkResult).toContain('Mitgliedschaft');
+    // And it is THIS organisation's network template, whatever that says. The
+    // assertion used to look for a particular German word, which held only
+    // because the fixture was one real customer's content — a test that fails
+    // when a customer rewrites a sentence is testing the customer.
+    expect(networkResult).toBe(STORY.anschreibenTemplate('network').opening);
   });
 });
 

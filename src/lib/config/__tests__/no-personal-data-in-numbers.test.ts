@@ -23,7 +23,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const TEAM_FILE = 'src/lib/config/team.ts';
 
@@ -47,12 +47,23 @@ function rosterNames(): string[] {
 const EXPLAINS_NUMBERS = [
   'src/lib/config/numbers.ts',
   'src/lib/config/metrics.ts',
-  'src/lib/config/stories.ts',
   'src/lib/config/budget-scenarios.ts',
   'src/lib/config/projections.ts',
 ];
 
 describe('the roster is the only place a colleague is named', () => {
+  it('every listed file still exists', () => {
+    // `stories.ts` was on this list and was deleted when its content moved to
+    // org_content. The suite then failed with ENOENT from readFileSync, which
+    // reports a missing file as a crash rather than as a stale list. Naming it
+    // costs one assertion and saves reading a stack trace.
+    const missing = EXPLAINS_NUMBERS.filter((f) => !existsSync(f));
+    expect(
+      missing,
+      `listed but gone — remove from EXPLAINS_NUMBERS: ${missing.join(', ')}`,
+    ).toEqual([]);
+  });
+
   it('finds the roster, so the check has something to protect', () => {
     // If TEAM_MEMBERS is renamed or moved, the scan silently protects nobody.
     const names = rosterNames();

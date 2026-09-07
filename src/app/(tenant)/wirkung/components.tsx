@@ -7,7 +7,7 @@ import {
   CO2_REFURBISH_COST,
 } from '@/lib/config/numbers';
 import { useTenant } from '@/lib/tenant/TenantProvider';
-import { SOCIAL_DISPLAY } from '@/lib/config/stories';
+import { SOCIAL_DISPLAY } from '@/lib/config/social-display';
 
 // ---------------------------------------------------------------------------
 // Impact story cards (ecological, resource conservation, social)

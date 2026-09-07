@@ -1,6 +1,6 @@
 import type { Foundation } from '@/lib/schemas/foundation';
 import { deriveTenant, type Tenant } from '@/lib/tenant/profile';
-import { STORIES_CONTENT } from '@/lib/config/stories';
+import { LESEWERK_STORY } from './story-fixture';
 import { STARTER_STORIES } from '@/lib/content/starter-content';
 import { storiesBlockSchema, type StoriesBlock } from '@/lib/content/stories-source';
 import { tenantStory, type TenantStory } from '@/lib/content/story-engine';
@@ -133,18 +133,16 @@ export function makeMinimalTenant(overrides: Partial<Tenant> = {}): Tenant {
 /**
  * A tenant bound to a story, which is what every composer now takes.
  *
- * Built from the code block so the assertions below it keep testing the same
- * content they always did — the point of these tests is the composition, not
- * the prose. What changed is that the prose now arrives through a parameter, so
- * a test can hand a composer a DIFFERENT organisation's story and watch the
- * output follow, which is the property that was untestable while the story was
- * an import.
+ * The block is a FICTIONAL organisation's — see `story-fixture.ts`. It used to
+ * be a real customer's actual prose, which made these tests pass or fail for
+ * reasons that had nothing to do with the product, and kept that customer's
+ * content in the repository long after it had moved to the database.
  */
 export function makeStory(
   tenant: Tenant = makeTenant(),
   blockOverrides: Partial<StoriesBlock> = {},
 ): TenantStory {
-  const block = storiesBlockSchema.parse({ ...STORIES_CONTENT, ...blockOverrides });
+  const block = storiesBlockSchema.parse({ ...LESEWERK_STORY, ...blockOverrides });
   return tenantStory(tenant, block);
 }
 

@@ -36,7 +36,6 @@ import {
   whySectionSchema,
 } from '@/lib/schemas/story';
 import { getOrgContent } from './org-content';
-import { ownsCodeContent } from './page-content';
 
 /**
  * The stored shape, validated at the boundary.
@@ -91,16 +90,12 @@ export type StoriesBlock = z.infer<typeof storiesBlockSchema>;
  * another tenant's mark.
  */
 export async function getStoriesBlock(tenant: Tenant): Promise<StoriesBlock | null> {
-  const stored = await getOrgContent('stories', storiesBlockSchema, { orgId: tenant.orgId });
-  if (stored) return stored;
-
-  // Transitional: the organisation the code block was written about may still
-  // read it. Everyone else gets null — never this organisation's story.
-  if (await ownsCodeContent('fundraising', tenant.orgId)) {
-    const { STORIES_CONTENT } = await import('@/lib/config/stories');
-    return storiesBlockSchema.parse(STORIES_CONTENT);
-  }
-  return null;
+  // No fallback. There was one — the organisation the code block was written
+  // about could still read it from source — and it was the last thing keeping
+  // that organisation's story in two places at once. Its row exists, validates
+  // against this schema and is the only copy now, which is what "migrated"
+  // has to mean before the word is worth anything.
+  return getOrgContent('stories', storiesBlockSchema, { orgId: tenant.orgId });
 }
 
 /** Has this tenant written the story a Gesuch is composed from? */

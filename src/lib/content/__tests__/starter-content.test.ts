@@ -15,7 +15,6 @@
 import { describe, it, expect } from 'vitest';
 import { STARTER_STORIES } from '../starter-content';
 import { storiesBlockSchema } from '../stories-source';
-import { STORIES_CONTENT } from '@/lib/config/stories';
 
 describe('starter content', () => {
   it('satisfies the schema a stored block is read through', () => {
@@ -26,39 +25,25 @@ describe('starter content', () => {
     ).toEqual([]);
   });
 
-  it('has exactly the keys the real block has', () => {
+  it('has exactly the keys the schema requires', () => {
     // Not a subset and not a superset: the composer reads by key, so a missing
     // one is a hole in a Gesuch and an extra one is dead weight nobody fills.
-    expect(Object.keys(STARTER_STORIES).sort()).toEqual(Object.keys(STORIES_CONTENT).sort());
-  });
-
-  it("shares no prose with the reference organisation's block", () => {
-    // Keyed on the CONTENT rather than a list of forbidden words. A denylist
-    // would need every product, place and system name the first customer uses
-    // — and would itself put those names back into the source, which the trace
-    // ratchet caught when this test was first written.
     //
-    // The failure it guards: seeding a new customer from the first customer's
-    // row makes onboarding feel instant and produces grant applications
-    // describing the wrong organisation.
-    const strings = (v: unknown, out: string[] = []): string[] => {
-      if (typeof v === 'string') out.push(v);
-      else if (Array.isArray(v)) v.forEach((x) => strings(x, out));
-      else if (v && typeof v === 'object') Object.values(v).forEach((x) => strings(x, out));
-      return out;
-    };
-
-    const reference = new Set(
-      strings(STORIES_CONTENT)
-        .map((t) => t.trim())
-        .filter((t) => t.length > 40),
+    // Measured against the SCHEMA rather than against another block. It used to
+    // compare with the reference organisation's code copy, which made one
+    // customer's content the definition of complete; that copy is gone, and the
+    // schema is what every tenant's block is actually held to.
+    expect(Object.keys(STARTER_STORIES).sort()).toEqual(
+      Object.keys(storiesBlockSchema.shape).sort(),
     );
-    const copied = strings(STARTER_STORIES)
-      .map((t) => t.trim())
-      .filter((t) => reference.has(t));
-
-    expect(copied, `copied verbatim from the reference block: ${copied.join(' | ')}`).toEqual([]);
   });
+
+  // A test comparing the starter's prose against the reference organisation's
+  // block used to live here. Its subject was `src/lib/config/stories.ts` — the
+  // code copy of one customer's story — and that module has been deleted now
+  // that the customer's row is the only version. There is no longer a block in
+  // source to copy from, so the guard has nothing left to guard; the trace
+  // ratchet still catches a customer's name appearing in source at all.
 
   it('is visibly unfinished, so it cannot be sent by accident', () => {
     const text = JSON.stringify(STARTER_STORIES);

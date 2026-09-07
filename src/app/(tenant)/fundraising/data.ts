@@ -3,7 +3,7 @@
  * the compile-time org constant is done here; only the prose still lives in
  * TypeScript rather than `org_content`.
  */
-import { SOCIAL_DISPLAY } from '@/lib/config/stories';
+import { SOCIAL_DISPLAY } from '@/lib/config/social-display';
 import { CO2_PER_LAPTOP } from '@/lib/config/numbers';
 import type { Tenant } from '@/lib/tenant/profile';
 import { getScenario, getLineItemsForScenario } from '@/lib/domain/budget-calculations';
