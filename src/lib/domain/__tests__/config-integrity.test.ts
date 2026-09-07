@@ -22,7 +22,8 @@ import { getRegistryFoundations } from '../../../../scripts/lib/foundations';
 import type { Foundation, FoundationStatus } from '@/lib/schemas/foundation';
 import { FoundationType, ApplicationMethod, SourceId, ThemeId } from '@/lib/schemas/foundation';
 import { TRUST_CONFIG } from '@/lib/config/trust-levels';
-import { WHY, ANSCHREIBEN_TEMPLATES, THEME_ID_TO_STORY_KEY } from '@/lib/config/stories';
+import { THEME_ID_TO_STORY_KEY } from '@/lib/content/story-themes';
+import { storiesBlockSchema } from '@/lib/content/stories-source';
 import { BUDGET_SCENARIOS } from '@/lib/config/budget-scenarios';
 import {
   APPLICATION_STATUSES,
@@ -438,30 +439,82 @@ describe('THEME_ID_TO_STORY_KEY integrity', () => {
   });
 });
 
-describe('ANSCHREIBEN_TEMPLATES integrity', () => {
-  it('covers every FoundationType with non-empty opening and closing', () => {
+/**
+ * These asserted the shape of ONE organisation's content, because that content
+ * was a module and could be imported. It is a row now, per tenant, so the same
+ * guarantee has to come from the schema every tenant's row is held to —
+ * which is stronger: it covers customers whose content this suite has never
+ * seen.
+ */
+describe('the stored story block is held to the composer’s requirements', () => {
+  const VALID = {
+    CORE_FACTS: { team_size: 1, metrics: {}, activities: [], unique: [] },
+    GESUCH_TEXT: {
+      zusammenfassung_intro: 'x',
+      wirkungsmessung: { indicators: 'x', sustainability: 'x' },
+      kurzportrait_subtitle: 'x',
+    },
+    WHY: {},
+    ANSCHREIBEN_TEMPLATES: Object.fromEntries(
+      FoundationType.options.map((t) => [t, { opening: 'x', closing: 'x' }]),
+    ),
+    PARTNER_HIGHLIGHTS: [],
+    HOW: {
+      track_record: { headline: 'x', text: 'x', proof_points: [] },
+      technical: { headline: 'x', capabilities: [] },
+      social: { headline: 'x', capabilities: [] },
+      environmental: { headline: 'x', capabilities: [] },
+      digital: { headline: 'x', capabilities: [] },
+      bildung: { headline: 'x', capabilities: [] },
+    },
+    PROJECTS: {},
+    EVIDENCE: {},
+    ANECDOTES: [],
+    PHOTO_SLOTS: [],
+    KURZPORTRAIT_FACTS: [],
+  };
+
+  it('accepts a block that has everything', () => {
+    expect(storiesBlockSchema.safeParse(VALID).success).toBe(true);
+  });
+
+  it('requires a cover-letter template for every foundation type', () => {
+    // A missing type is not a thinner letter: the composer reads
+    // `ANSCHREIBEN_TEMPLATES[type].opening` and would read it off undefined the
+    // first time that type came up.
     for (const type of FoundationType.options) {
-      expect(ANSCHREIBEN_TEMPLATES[type]).toBeDefined();
-      expect(ANSCHREIBEN_TEMPLATES[type].opening.length).toBeGreaterThan(0);
-      expect(ANSCHREIBEN_TEMPLATES[type].closing.length).toBeGreaterThan(0);
+      const missing = {
+        ...VALID,
+        ANSCHREIBEN_TEMPLATES: Object.fromEntries(
+          Object.entries(VALID.ANSCHREIBEN_TEMPLATES).filter(([t]) => t !== type),
+        ),
+      };
+      expect(storiesBlockSchema.safeParse(missing).success, type).toBe(false);
     }
   });
 
-  it('has no extra keys beyond FoundationType', () => {
-    const templateKeys = Object.keys(ANSCHREIBEN_TEMPLATES).sort();
-    const schemaKeys = [...FoundationType.options].sort();
-    expect(templateKeys).toEqual(schemaKeys);
-  });
-});
-
-describe('WHY config integrity', () => {
-  const THEME_KEYS = ['klima', 'kreislaufwirtschaft', 'sozial', 'bildung', 'digital'] as const;
-
-  it('covers every ThemeKey with required fields', () => {
-    for (const key of THEME_KEYS) {
-      expect(WHY[key]).toBeDefined();
-      expect(WHY[key].headline.length).toBeGreaterThan(0);
+  it('requires every competency slot a theme can map to', () => {
+    for (const slot of [
+      'track_record',
+      'technical',
+      'social',
+      'environmental',
+      'digital',
+      'bildung',
+    ]) {
+      const missing = {
+        ...VALID,
+        HOW: Object.fromEntries(Object.entries(VALID.HOW).filter(([k]) => k !== slot)),
+      };
+      expect(storiesBlockSchema.safeParse(missing).success, slot).toBe(false);
     }
+  });
+
+  it('lets an organisation write about only the themes it works in', () => {
+    // The opposite requirement to the two above, and deliberate: a narrow
+    // organisation should not have to invent four fictions to pass validation.
+    // The composer refuses to compose from a theme with no WHY instead.
+    expect(storiesBlockSchema.safeParse({ ...VALID, WHY: {} }).success).toBe(true);
   });
 });
 

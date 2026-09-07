@@ -33,9 +33,9 @@ const BUDGET: Record<string, number> = {
   // Reached zero and removed from this list, so a reappearance is caught by the
   // "no new spelling" case rather than by a budget of 0: ORG_PROFILE,
   // SHARED_ORG_NUMBERS, and the route named after one customer's project.
-  'Revamp-IT': 100,
+  'Revamp-IT': 74,
   'revamp-it': 18,
-  revampit: 13,
+  revampit: 12,
   'revamp-info': 2,
   Kivitendo: 82,
   'revamp-Einnahmen': 11,
