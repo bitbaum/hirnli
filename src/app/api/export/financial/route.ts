@@ -4,7 +4,7 @@ import { getTenant } from '@/lib/tenant/resolve';
 import { ownsCodeContent } from '@/lib/content/page-content';
 import { toFilePrefix } from '@/lib/utils/slug';
 import { FINANCIAL_YEAR_RANGE } from '@/lib/config/financial-constants';
-import { API_ERR_EXPORT } from '@/lib/utils/errors';
+import { API_ERR_EXPORT, API_ERR_EXPORT_NOT_AUTHORED } from '@/lib/utils/errors';
 import { apiError } from '@/lib/api/route-helpers';
 
 export async function GET() {
@@ -16,7 +16,10 @@ export async function GET() {
   // Outside the try on purpose: `notFound()` signals by throwing, and the catch
   // below would turn a deliberate 404 into a 500.
   if (!(await ownsCodeContent('finanzen'))) {
-    return NextResponse.json({ success: false, error: API_ERR_EXPORT }, { status: 404 });
+    return NextResponse.json(
+      { success: false, error: API_ERR_EXPORT_NOT_AUTHORED },
+      { status: 404 },
+    );
   }
 
   try {

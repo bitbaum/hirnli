@@ -53,3 +53,13 @@ export const API_ERR_IMPORT_EMPTY = 'Datei muss ein Array von Stiftungen enthalt
  */
 export const API_ERR_DOCUMENT_NOT_AUTHORED =
   'Für diese Organisation sind noch keine Inhalte hinterlegt, aus denen sich dieses Dokument erzeugen lässt.';
+
+/**
+ * An export of content this tenant has not authored.
+ *
+ * Distinct from API_ERR_EXPORT, which means the export ran and broke. Answering
+ * a 404 with "Export fehlgeschlagen" sends the reader to look for a fault that
+ * is not there; the accurate answer is that these are somebody else's figures.
+ */
+export const API_ERR_EXPORT_NOT_AUTHORED =
+  'Für diese Organisation sind keine solchen Daten hinterlegt.';
