@@ -61,9 +61,10 @@ export default function AnschreibenPDF({ dok }: AnschreibenPDFProps) {
         <Text style={[styles.paragraph, { marginTop: 8 }]}>{dok.anschreiben.opening}</Text>
         <Text style={styles.paragraph}>{dok.anschreiben.themeAlignment}</Text>
         <Text style={styles.paragraph}>
-          Im beiliegenden Projektbeschrieb stellen wir Ihnen unser Vorhaben im Detail vor. Wir
-          beantragen einen Förderbeitrag von {pdfFormatCHF(dok.budget.requestedAmount)} für eine
-          Projektlaufzeit von {dok.budget.projectDuration}.
+          Im beiliegenden Projektbeschrieb stellen wir Ihnen unser Vorhaben im Detail vor.
+          {dok.budget
+            ? ` Wir beantragen einen Förderbeitrag von ${pdfFormatCHF(dok.budget.requestedAmount)} für eine Projektlaufzeit von ${dok.budget.projectDuration}.`
+            : ''}
         </Text>
         <Text style={styles.paragraph}>
           Für eine interaktive Übersicht unserer Arbeit und der Passung zu Ihrem Stiftungszweck

@@ -10,6 +10,7 @@ import {
 } from '@/lib/config/gesuch-templates';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { loadTenantStory } from '@/lib/content/story-engine';
+import { loadTenantBudget } from '@/lib/content/budget-engine';
 import StoryMissing from '@/components/gesuch/StoryMissing';
 import {
   AnschreibenSection,
@@ -57,11 +58,12 @@ export default async function GesuchVorlageDokumentPage({ params }: Props) {
   }
 
   const story = await loadTenantStory(tenant);
+  const budget = await loadTenantBudget(tenant);
   if (!story) {
     return <StoryMissing tenant={tenant} />;
   }
 
-  const dok = composeGesuchDokument(story, foundation);
+  const dok = composeGesuchDokument(story, budget, foundation);
   const typeLabel = resolveTypeLabel(type);
   const tplLabel = resolveTemplateLabels(tenant)[type];
   const bannerTitle = typeLabel

@@ -62,21 +62,25 @@ function LineItemRows({
 }
 
 export default function BudgetPDF({ dok }: BudgetPDFProps) {
-  const themeKey = dok.budget.primaryThemeKey;
-  const einmalig = dok.budget.lineItems.filter((m) => m.type === 'einmalig');
-  const jaehrlich = dok.budget.lineItems.filter((m) => m.type === 'jaehrlich');
+  // Omitted entirely when the organisation has stated no budget — a page of
+  // CHF 0 rows reads as a measured result. See ComposedGesuchDokument['budget'].
+  const budget = dok.budget;
+  if (!budget) return null;
+
+  const themeKey = budget.primaryThemeKey;
+  const einmalig = budget.lineItems.filter((m) => m.type === 'einmalig');
+  const jaehrlich = budget.lineItems.filter((m) => m.type === 'jaehrlich');
   const einmaligTotal = einmalig.reduce((sum, m) => sum + m.amount, 0);
   const jaehrlichTotal = jaehrlich.reduce((sum, m) => sum + m.amount, 0);
   const year1Total = einmaligTotal + jaehrlichTotal;
-  const eigenleistung = dok.budget.scenario.threeYearModel.year1.eigenleistung;
-  const remaining = year1Total - eigenleistung - dok.budget.requestedAmount;
+  const eigenleistung = budget.scenario.threeYearModel.year1.eigenleistung;
+  const remaining = year1Total - eigenleistung - budget.requestedAmount;
 
   return (
     <View>
       <Text style={styles.h2}>Budget und Finanzierungsplan</Text>
       <Text style={styles.subtitle}>
-        {dok.budget.projectDuration} | Gesamtbedarf 3 Jahre:{' '}
-        {pdfFormatCHF(dok.budget.project3yTotal)}
+        {budget.projectDuration} | Gesamtbedarf 3 Jahre: {pdfFormatCHF(budget.project3yTotal)}
       </Text>
 
       {/* 3-Year Model */}
@@ -85,7 +89,7 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
         {/* Header */}
         <View style={styles.tableHeaderRow}>
           <Text style={[styles.small, { flex: 2, fontWeight: 'bold' }]} />
-          {dok.budget.threeYearModel.map((y) => (
+          {budget.threeYearModel.map((y) => (
             <View key={y.year} style={{ width: 65, alignItems: 'flex-end' }}>
               <Text style={[styles.small, { fontWeight: 'bold' }]}>{y.year}</Text>
               <Text style={styles.muted}>{y.label}</Text>
@@ -99,7 +103,7 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
         {/* Einmalige Investitionen */}
         <View style={styles.tableRow}>
           <Text style={[styles.small, { flex: 2 }]}>Einmalige Investitionen</Text>
-          {dok.budget.threeYearModel.map((y) => (
+          {budget.threeYearModel.map((y) => (
             <Text key={y.year} style={[styles.small, { width: 65, textAlign: 'right' }]}>
               {y.einmalig > 0 ? pdfFormatCHF(y.einmalig) : '\u2014'}
             </Text>
@@ -112,13 +116,13 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
         {/* Stiftungsfinanzierung */}
         <View style={styles.tableRow}>
           <Text style={[styles.small, { flex: 2 }]}>Stiftungsfinanzierung (jährlich)</Text>
-          {dok.budget.threeYearModel.map((y) => (
+          {budget.threeYearModel.map((y) => (
             <Text key={y.year} style={[styles.small, { width: 65, textAlign: 'right' }]}>
               {pdfFormatCHF(y.stiftungen)}
             </Text>
           ))}
           <Text style={[styles.small, { width: 65, textAlign: 'right', fontWeight: 'bold' }]}>
-            {pdfFormatCHF(dok.budget.threeYearModel.reduce((s, y) => s + y.stiftungen, 0))}
+            {pdfFormatCHF(budget.threeYearModel.reduce((s, y) => s + y.stiftungen, 0))}
           </Text>
         </View>
 
@@ -127,7 +131,7 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
           <Text style={[styles.small, { flex: 2, fontWeight: 'bold', color: COLORS.greenText }]}>
             Eigenleistung {dok.tenant.name}
           </Text>
-          {dok.budget.threeYearModel.map((y) => (
+          {budget.threeYearModel.map((y) => (
             <Text
               key={y.year}
               style={[styles.small, { width: 65, textAlign: 'right', color: COLORS.greenText }]}
@@ -141,14 +145,14 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
               { width: 65, textAlign: 'right', fontWeight: 'bold', color: COLORS.greenText },
             ]}
           >
-            {pdfFormatCHF(dok.budget.eigen3yTotal)}
+            {pdfFormatCHF(budget.eigen3yTotal)}
           </Text>
         </View>
 
         {/* Total */}
         <View style={styles.tableTotalRow}>
           <Text style={[styles.small, { flex: 2, fontWeight: 'bold' }]}>Total pro Jahr</Text>
-          {dok.budget.threeYearModel.map((y) => (
+          {budget.threeYearModel.map((y) => (
             <Text
               key={y.year}
               style={[styles.small, { width: 65, textAlign: 'right', fontWeight: 'bold' }]}
@@ -157,7 +161,7 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
             </Text>
           ))}
           <Text style={[styles.small, { width: 65, textAlign: 'right', fontWeight: 'bold' }]}>
-            {pdfFormatCHF(dok.budget.project3yTotal)}
+            {pdfFormatCHF(budget.project3yTotal)}
           </Text>
         </View>
       </View>
@@ -165,15 +169,13 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
       <Text style={[styles.muted, styles.mb12, { marginTop: 4 }]}>
         Stiftungsanteil sinkt von{' '}
         {Math.round(
-          ((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) /
-            dok.budget.threeYearModel[0].total) *
+          ((budget.threeYearModel[0].stiftungen + budget.threeYearModel[0].einmalig) /
+            budget.threeYearModel[0].total) *
             100,
         )}
         % (Jahr 1) auf{' '}
-        {Math.round(
-          (dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total) * 100,
-        )}
-        % (Jahr 3). Eigenleistung = bewertete Freiwilligenarbeit (Stunden x CHF{' '}
+        {Math.round((budget.threeYearModel[2].stiftungen / budget.threeYearModel[2].total) * 100)}%
+        (Jahr 3). Eigenleistung = bewertete Freiwilligenarbeit (Stunden x CHF{' '}
         {EIGENLEISTUNG_CONFIG.ratePerHour}/h), kein Cashflow. Wächst durch Community-Aufbau und
         Hub-Betrieb.
       </Text>
@@ -182,8 +184,8 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
       <Text style={styles.h3}>Budgetdetail Jahr 1 ({pdfFormatCHF(year1Total)})</Text>
       <View style={[styles.infoBox, { marginBottom: 8 }]}>
         <Text style={styles.muted}>
-          <Text style={{ fontWeight: 'bold' }}>Szenario:</Text> {dok.budget.scenario.label} —{' '}
-          {dok.budget.scenario.description}
+          <Text style={{ fontWeight: 'bold' }}>Szenario:</Text> {budget.scenario.label} —{' '}
+          {budget.scenario.description}
         </Text>
       </View>
 
@@ -262,10 +264,10 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
               { width: 60, textAlign: 'right', fontWeight: 'bold', color: COLORS.primary },
             ]}
           >
-            {pdfFormatCHF(dok.budget.requestedAmount)}
+            {pdfFormatCHF(budget.requestedAmount)}
           </Text>
           <Text style={[styles.small, { width: 30, textAlign: 'right', color: COLORS.primary }]}>
-            {Math.round((dok.budget.requestedAmount / year1Total) * 100)}%
+            {Math.round((budget.requestedAmount / year1Total) * 100)}%
           </Text>
         </View>
 

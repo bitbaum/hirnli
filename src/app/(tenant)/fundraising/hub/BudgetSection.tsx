@@ -45,7 +45,9 @@ export default function BudgetSection() {
           <div className="bg-accent-muted p-3 rounded-lg">
             <p className="heading-detail text-primary mb-1">Raumbedarf</p>
             <p className="heading-stat-sm text-primary">
-              {scenario.spaceRequirement.min_sqm}–{scenario.spaceRequirement.max_sqm} m²
+              {scenario.spaceRequirement
+                ? `${scenario.spaceRequirement.min_sqm}–${scenario.spaceRequirement.max_sqm} m²`
+                : '—'}
             </p>
           </div>
           <div className="bg-chart-5/10 p-3 rounded-lg">

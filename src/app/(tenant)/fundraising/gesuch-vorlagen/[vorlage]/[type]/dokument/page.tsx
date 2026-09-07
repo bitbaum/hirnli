@@ -7,6 +7,7 @@ import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config
 import { SCHWERPUNKTE, isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { loadTenantStory } from '@/lib/content/story-engine';
+import { loadTenantBudget } from '@/lib/content/budget-engine';
 import StoryMissing from '@/components/gesuch/StoryMissing';
 import {
   AnschreibenSection,
@@ -48,11 +49,12 @@ export default async function SchwerpunktGesuchDokumentPage({ params }: Props) {
   const typeLabel = resolveTypeLabel(type);
   if (!typeLabel) notFound();
   const story = await loadTenantStory(tenant);
+  const budget = await loadTenantBudget(tenant);
   if (!story) {
     return <StoryMissing tenant={tenant} />;
   }
 
-  const dok = composeGesuchDokument(story, foundation, schwerpunkt);
+  const dok = composeGesuchDokument(story, budget, foundation, schwerpunkt);
 
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;
 

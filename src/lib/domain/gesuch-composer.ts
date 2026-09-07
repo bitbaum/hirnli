@@ -10,7 +10,7 @@
  * Delegates to:
  * - bridge-composer.ts    → Foundation↔Org connection text
  * - anschreiben-composer.ts → Cover letter text generation
- * - budget-mapper.ts      → Foundation→budget scenario mapping
+ * - content/budget-engine → the applicant's own figures and scenario choice
  */
 
 import type { Foundation } from '@/lib/schemas/foundation';
@@ -34,21 +34,13 @@ import type {
   PhotoSlot,
 } from '@/lib/schemas/story';
 import { TYPE_LABELS, THEMES, PRIORITY_CONFIG } from '@/lib/config/foundations';
-import { getLineItemsForScenario } from '@/lib/domain/budget-calculations';
 import { SCHWERPUNKTE, type SchwerpunktId } from '@/lib/config/schwerpunkte';
 import type { BudgetLineItem, BudgetScenario } from '@/lib/schemas/budget';
-import {
-  THREE_YEAR_MODEL,
-  STIFTUNGEN_3Y_TOTAL,
-  EIGEN_3Y_TOTAL,
-  PROJECT_3Y_TOTAL,
-  PROJECT_DURATION_LABEL,
-} from '@/app/(tenant)/fundraising/data';
 
 // Extracted domain modules
 import { buildFoundationBridge, buildSecondaryRelevance } from './bridge-composer';
 import { buildDynamicOpening, buildThemeAlignment } from './anschreiben-composer';
-import { getScenarioForFoundation, computeRequestedAmount } from './budget-mapper';
+import type { TenantBudget } from '@/lib/content/budget-engine';
 
 export interface ComposedGesuch {
   /**
@@ -128,7 +120,15 @@ export interface ComposedGesuchDokument extends ComposedGesuch {
     closing: string;
     themeAlignment: string;
   };
-  budget: {
+  /**
+   * Absent when the organisation has not stated what its project costs.
+   *
+   * Optional rather than zero-filled: a table of CHF 0 reads as a measured
+   * result, and this section used to be filled from one organisation's rent,
+   * equipment and staffing for every applicant. A Gesuch with no budget section
+   * is visibly incomplete, which is the true state.
+   */
+  budget?: {
     scenario: BudgetScenario;
     lineItems: BudgetLineItem[];
     requestedAmount: number;
@@ -373,8 +373,44 @@ export function composeAnschreibenText(
   });
 }
 
+/**
+ * The figures half of a Gesuch, from the applicant's own budget.
+ *
+ * The scenario is chosen for the FOUNDATION — its grant range decides how large
+ * a request is plausible — while the three-year table is built from the
+ * tenant's DEFAULT scenario, which is what this document has always shown.
+ *
+ * Those two are not the same scenario, and that is a real inconsistency in a
+ * document sent to funders: a foundation whose range maps to the largest
+ * scenario receives an ask computed from it beside a table of the default's
+ * numbers. Passing `scenario` here instead of `defaultScenario()` fixes it in
+ * one line — but it changes the figures a live customer sends, so it is their
+ * call and not a refactor's.
+ */
+function composeBudget(
+  budget: TenantBudget,
+  foundation: Foundation,
+  schwerpunktId?: SchwerpunktId,
+): NonNullable<ComposedGesuchDokument['budget']> {
+  const scenario = budget.scenarioForFoundation(foundation);
+  const table = budget.threeYearTable(budget.defaultScenario());
+
+  return {
+    scenario,
+    lineItems: budget.lineItemsFor(scenario.id),
+    requestedAmount: budget.requestedAmount(foundation, scenario),
+    projectDuration: budget.projectDuration(),
+    threeYearModel: table.rows,
+    stiftungen3yTotal: table.stiftungen3yTotal,
+    eigen3yTotal: table.eigen3yTotal,
+    project3yTotal: table.project3yTotal,
+    primaryThemeKey: schwerpunktId ? SCHWERPUNKTE[schwerpunktId].storyThemes[0] : undefined,
+  };
+}
+
 export function composeGesuchDokument(
   story: TenantStory,
+  budget: TenantBudget | null,
   foundation: Foundation,
   schwerpunktId?: SchwerpunktId,
 ): ComposedGesuchDokument {
@@ -382,10 +418,6 @@ export function composeGesuchDokument(
   const gesuch = composeGesuch(story, foundation, schwerpunktId);
   const themeMetadata = collectThemeMetadata(foundation, schwerpunktId);
   const label = subjectLabel(tenant, themeMetadata);
-
-  const scenario = getScenarioForFoundation(foundation);
-  const lineItems = getLineItemsForScenario(scenario.id);
-  const requestedAmount = computeRequestedAmount(foundation, scenario);
 
   const today = new Date();
   const dateStr = formatDateDE(today, tenant.location);
@@ -402,24 +434,7 @@ export function composeGesuchDokument(
       closing: story.anschreibenTemplate(foundation.type).closing,
       themeAlignment: buildThemeAlignment(story, foundation, themeMetadata),
     },
-    budget: {
-      scenario,
-      lineItems,
-      requestedAmount,
-      projectDuration: `3 Jahre (2026–2028): ${PROJECT_DURATION_LABEL}`,
-      threeYearModel: THREE_YEAR_MODEL.map((y) => ({
-        year: y.year,
-        einmalig: y.einmalig,
-        stiftungen: y.stiftungen,
-        eigen: y.eigen,
-        total: y.total,
-        label: y.label,
-      })),
-      stiftungen3yTotal: STIFTUNGEN_3Y_TOTAL,
-      eigen3yTotal: EIGEN_3Y_TOTAL,
-      project3yTotal: PROJECT_3Y_TOTAL,
-      primaryThemeKey: schwerpunktId ? SCHWERPUNKTE[schwerpunktId].storyThemes[0] : undefined,
-    },
+    budget: budget ? composeBudget(budget, foundation, schwerpunktId) : undefined,
     kurzportrait: {
       // Identity rows first — these are the same questions every Swiss
       // Kurzportrait answers, and their values come from the profile. Then

@@ -16,6 +16,7 @@ import { hasGesuchPage } from '@/lib/domain/foundation-helpers';
 import { getFoundationBySlug } from '@/lib/db/foundations-repo';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { loadTenantStory } from '@/lib/content/story-engine';
+import { loadTenantBudget } from '@/lib/content/budget-engine';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import GesuchOnePagerPDF from '@/lib/pdf/gesuch-onepager';
 import { loadGesuchOverrides, applyGesuchOverrides } from '@/lib/domain/apply-overrides';
@@ -56,11 +57,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     const tenant = await getTenant();
     const story = await loadTenantStory(tenant);
+    const budget = await loadTenantBudget(tenant);
     if (!story) {
       return NextResponse.json({ success: false, error: API_ERR_STORY_MISSING }, { status: 400 });
     }
 
-    const baseDok = composeGesuchDokument(story, foundation, schwerpunktId);
+    const baseDok = composeGesuchDokument(story, budget, foundation, schwerpunktId);
     const overrides = await loadGesuchOverrides(slug, schwerpunktId ?? 'auto');
     const dok = applyGesuchOverrides(baseDok, overrides);
 

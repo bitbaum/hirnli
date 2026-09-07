@@ -4,6 +4,14 @@ import { STORIES_CONTENT } from '@/lib/config/stories';
 import { STARTER_STORIES } from '@/lib/content/starter-content';
 import { storiesBlockSchema, type StoriesBlock } from '@/lib/content/stories-source';
 import { tenantStory, type TenantStory } from '@/lib/content/story-engine';
+import {
+  BUDGET_LINE_ITEMS,
+  BUDGET_SCENARIOS,
+  EIGENLEISTUNG_CONFIG,
+} from '@/lib/config/budget-scenarios';
+import { CODE_BUDGET_MODEL } from '@/lib/config/budget-model';
+import { budgetBlockSchema, type BudgetBlock } from '@/lib/schemas/budget';
+import { tenantBudget, type TenantBudget } from '@/lib/content/budget-engine';
 
 /**
  * Factory for creating test Foundation objects.
@@ -149,4 +157,111 @@ export function makeStory(
  */
 export function makeStarterStory(tenant: Tenant = makeTenant()): TenantStory {
   return tenantStory(tenant, storiesBlockSchema.parse(STARTER_STORIES));
+}
+
+/**
+ * A tenant bound to a budget, which is what `composeGesuchDokument` now takes.
+ *
+ * `overrides` exists so a test can hand the composer a DIFFERENT organisation's
+ * figures and watch the output follow — the property that was unrepresentable
+ * while the budget was a module import, and the reason every applicant's Gesuch
+ * carried one organisation's rent, equipment and staffing.
+ */
+export function makeBudget(
+  tenant: Tenant = makeTenant(),
+  overrides: Partial<BudgetBlock> = {},
+): TenantBudget {
+  const block = budgetBlockSchema.parse({
+    LINE_ITEMS: BUDGET_LINE_ITEMS,
+    SCENARIOS: BUDGET_SCENARIOS,
+    EIGENLEISTUNG: EIGENLEISTUNG_CONFIG,
+    DEGRESSIVE: CODE_BUDGET_MODEL.DEGRESSIVE,
+    PROJECT: CODE_BUDGET_MODEL.PROJECT,
+    ...overrides,
+  });
+  return tenantBudget(tenant, block);
+}
+
+/**
+ * A budget belonging to an entirely different organisation.
+ *
+ * Same structure, no figure or label in common — a small theatre rather than a
+ * workshop. Used to assert that nothing in a composed Gesuch's numbers survives
+ * changing whose budget it is.
+ */
+export function makeOtherBudget(tenant: Tenant = makeTenant()): TenantBudget {
+  const lineItems = [
+    {
+      id: 'venue_hire',
+      label: 'Saalmiete Probebühne',
+      description: 'Probebühne für Ensemble und Nachwuchsarbeit',
+      category: 'space' as const,
+      amount: 41_000,
+      type: 'jaehrlich' as const,
+      source: {
+        methodology: 'Offerten von drei Spielstätten, Frühjahr 2026',
+        confidence: 'medium' as const,
+        lastVerified: '2026-03-01',
+      },
+    },
+    {
+      id: 'lighting_rig',
+      label: 'Lichtanlage',
+      description: 'Grundausstattung Bühnenlicht',
+      category: 'equipment' as const,
+      amount: 23_000,
+      type: 'einmalig' as const,
+      source: {
+        methodology: 'Zwei Offerten Bühnentechnik',
+        confidence: 'high' as const,
+        lastVerified: '2026-03-01',
+      },
+    },
+  ];
+  return tenantBudget(
+    tenant,
+    budgetBlockSchema.parse({
+      LINE_ITEMS: lineItems,
+      SCENARIOS: [
+        {
+          id: 'ensemble',
+          label: 'Ensemble — Grundbetrieb',
+          description: 'Probebühne und Technik für eine Spielzeit',
+          tagline: 'Der Betrieb, den eine Spielzeit mindestens braucht',
+          lineItemIds: ['venue_hire', 'lighting_rig'],
+          targetFoundations: ['B'],
+          spaceRequirement: { min_sqm: 120, max_sqm: 180 },
+          threeYearModel: {
+            year1: { einmalig: 23_000, jaehrlich: 41_000, eigenleistung: 9_000 },
+            year2: { jaehrlich: 41_000, eigenleistung: 12_000 },
+            year3: { jaehrlich: 41_000, eigenleistung: 17_000 },
+          },
+        },
+      ],
+      EIGENLEISTUNG: {
+        label: 'Freiwilligenarbeit Ensemble',
+        description: 'Bewerteter Wert unbezahlter Probenarbeit, kein Cashflow.',
+        ratePerHour: 30,
+        year1: 9_000,
+        year2: 12_000,
+        year3: 17_000,
+        source: {
+          methodology: 'Probenplan mal Stundenansatz',
+          confidence: 'estimated' as const,
+          lastVerified: '2026-03-01',
+        },
+      },
+      DEGRESSIVE: {
+        year2: { stiftungenPct: 0.8, eigenGrowth: 3_000 },
+        year3: { stiftungenPct: 0.6, eigenGrowth: 8_000 },
+      },
+      PROJECT: {
+        startYear: 2027,
+        endYear: 2029,
+        durationLabel: 'Spielzeit eins → zwei → drei',
+        yearLabels: ['Spielzeit eins', 'Spielzeit zwei', 'Spielzeit drei'],
+        defaultScenarioId: 'ensemble',
+      },
+    }),
+  );
 }

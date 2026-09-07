@@ -22,7 +22,9 @@
 import { describe, it, expect } from 'vitest';
 import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import {
+  makeBudget,
   makeFoundation,
+  makeOtherBudget,
   makeStarterStory,
   makeStory,
   makeTenant,
@@ -44,21 +46,6 @@ const NOT_THE_APPLICANT = {
   // Platform taxonomy: how one approaches a type-A foundation as opposed to a
   // type-C one. A claim about the process, not about the applicant.
   approach: 'how to approach a foundation of this type',
-  /*
-   * THE REMAINING MIGRATION, and the reason this entry is a comment rather
-   * than a quiet omission.
-   *
-   * The budget block — a three-year financial model, its scenarios, its line
-   * items, its totals — is one organisation's fundraising plan, imported from
-   * `@/app/(tenant)/fundraising/data` and printed into every applicant's
-   * Gesuch. It is the same class of defect as the story was, at the same
-   * severity: a funder reads these figures as the applicant's own budget.
-   *
-   * It is excluded rather than fixed here because it is a second content
-   * domain with its own schema and its own migration, not a loose end of this
-   * one. Deleting this line is the definition of done for that work.
-   */
-  budget: 'NOT YET MIGRATED — one organisation’s financial model, see comment',
 };
 
 /** Strings long enough to be prose rather than a label or a number. */
@@ -98,6 +85,7 @@ describe('composed prose belongs to the applicant', () => {
           siteUrl: 'https://alpha.example',
         }),
       ),
+      makeBudget(),
       FOUNDATION,
     );
     const beta = composeGesuchDokument(
@@ -109,6 +97,7 @@ describe('composed prose belongs to the applicant', () => {
           siteUrl: 'https://beta.example',
         }),
       ),
+      makeOtherBudget(),
       FOUNDATION,
     );
 
@@ -127,7 +116,11 @@ describe('composed prose belongs to the applicant', () => {
   it('a starter story composes a visibly unfinished document, not a polished one', () => {
     // The failure mode this replaces was NOT an error. A new customer got a
     // complete, confident Gesuch — somebody else's, with their name in it.
-    const dok = composeGesuchDokument(makeStarterStory(makeTenant({ name: 'Neu' })), FOUNDATION);
+    const dok = composeGesuchDokument(
+      makeStarterStory(makeTenant({ name: 'Neu' })),
+      null,
+      FOUNDATION,
+    );
     const text = JSON.stringify(dok);
 
     expect(text, 'a new customer must see prompts, not finished prose').toContain(
@@ -146,7 +139,7 @@ describe('composed prose belongs to the applicant', () => {
         klima: { ...STARTER_STORIES.WHY.klima, solution: MARKER },
       },
     });
-    const dok = composeGesuchDokument(story, makeFoundation({ themes: ['klima'] }));
+    const dok = composeGesuchDokument(story, makeBudget(), makeFoundation({ themes: ['klima'] }));
 
     expect(JSON.stringify(dok)).toContain(MARKER);
   });
@@ -155,7 +148,11 @@ describe('composed prose belongs to the applicant', () => {
     // Six rows of one organisation's KPIs used to be built into the composer:
     // a CO2 saving per laptop, a reuse rate, a reintegration quota. An
     // organisation that measures none of those must report none of them.
-    const dok = composeGesuchDokument(makeStarterStory(makeTenant({ name: 'Neu' })), FOUNDATION);
+    const dok = composeGesuchDokument(
+      makeStarterStory(makeTenant({ name: 'Neu' })),
+      null,
+      FOUNDATION,
+    );
     const labels = dok.kurzportrait.facts.map((f) => f.label);
 
     expect(labels).toEqual(['Name', 'Rechtsform', 'Gegründet', 'Standort', 'Website']);

@@ -51,14 +51,20 @@ function LineItemRows({
 }
 
 export default function BudgetSection({ dok }: BudgetSectionProps) {
-  const themeKey = dok.budget.primaryThemeKey;
-  const einmalig = dok.budget.lineItems.filter((m) => m.type === 'einmalig');
-  const jaehrlich = dok.budget.lineItems.filter((m) => m.type === 'jaehrlich');
+  // No budget means the organisation has not stated what its project costs.
+  // The section is omitted rather than rendered with zeros, which would read as
+  // a measured result. See ComposedGesuchDokument['budget'].
+  const budget = dok.budget;
+  if (!budget) return null;
+
+  const themeKey = budget.primaryThemeKey;
+  const einmalig = budget.lineItems.filter((m) => m.type === 'einmalig');
+  const jaehrlich = budget.lineItems.filter((m) => m.type === 'jaehrlich');
   const einmaligTotal = einmalig.reduce((sum, m) => sum + m.amount, 0);
   const jaehrlichTotal = jaehrlich.reduce((sum, m) => sum + m.amount, 0);
   const year1Total = einmaligTotal + jaehrlichTotal;
-  const eigenleistung = dok.budget.scenario.threeYearModel.year1.eigenleistung;
-  const remaining = year1Total - eigenleistung - dok.budget.requestedAmount;
+  const eigenleistung = budget.scenario.threeYearModel.year1.eigenleistung;
+  const remaining = year1Total - eigenleistung - budget.requestedAmount;
 
   return (
     <section className="gesuch-section mb-12">
@@ -66,7 +72,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
         Budget und Finanzierungsplan
       </h2>
       <p className="mb-6 text-sm text-text-muted">
-        {dok.budget.projectDuration} | Gesamtbedarf 3 Jahre: {formatCHF(dok.budget.project3yTotal)}
+        {budget.projectDuration} | Gesamtbedarf 3 Jahre: {formatCHF(budget.project3yTotal)}
       </p>
 
       {/* 3-Year Trajectory — the headline story */}
@@ -76,7 +82,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
           <thead>
             <tr className="border-b-2 border-grey-dark text-left">
               <th scope="col" className="pb-2 font-semibold" />
-              {dok.budget.threeYearModel.map((y) => (
+              {budget.threeYearModel.map((y) => (
                 <th key={y.year} scope="col" className="pb-2 text-right font-semibold">
                   {y.year}
                   <br />
@@ -91,7 +97,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
           <tbody>
             <tr className="border-b border-border-default">
               <td className="py-1.5">Einmalige Investitionen</td>
-              {dok.budget.threeYearModel.map((y) => (
+              {budget.threeYearModel.map((y) => (
                 <td key={y.year} className="py-1.5 text-right">
                   {y.einmalig > 0 ? formatCHF(y.einmalig) : '—'}
                 </td>
@@ -100,36 +106,36 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
             </tr>
             <tr className="border-b border-border-default">
               <td className="py-1.5">Stiftungsfinanzierung (jährlich)</td>
-              {dok.budget.threeYearModel.map((y) => (
+              {budget.threeYearModel.map((y) => (
                 <td key={y.year} className="py-1.5 text-right">
                   {formatCHF(y.stiftungen)}
                 </td>
               ))}
               <td className="py-1.5 text-right font-medium">
-                {formatCHF(dok.budget.threeYearModel.reduce((s, y) => s + y.stiftungen, 0))}
+                {formatCHF(budget.threeYearModel.reduce((s, y) => s + y.stiftungen, 0))}
               </td>
             </tr>
             <tr className="border-b border-border-default bg-success/10">
               <td className="py-1.5 font-medium text-success-text">
                 Eigenleistung {dok.tenant.name}
               </td>
-              {dok.budget.threeYearModel.map((y) => (
+              {budget.threeYearModel.map((y) => (
                 <td key={y.year} className="py-1.5 text-right text-success-text">
                   {formatCHF(y.eigen)}
                 </td>
               ))}
               <td className="py-1.5 text-right font-medium text-success-text">
-                {formatCHF(dok.budget.eigen3yTotal)}
+                {formatCHF(budget.eigen3yTotal)}
               </td>
             </tr>
             <tr className="border-b-2 border-grey-dark font-bold">
               <td className="py-2">Total pro Jahr</td>
-              {dok.budget.threeYearModel.map((y) => (
+              {budget.threeYearModel.map((y) => (
                 <td key={y.year} className="py-2 text-right">
                   {formatCHF(y.total)}
                 </td>
               ))}
-              <td className="py-2 text-right">{formatCHF(dok.budget.project3yTotal)}</td>
+              <td className="py-2 text-right">{formatCHF(budget.project3yTotal)}</td>
             </tr>
           </tbody>
         </table>
@@ -137,18 +143,16 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
 
       <p className="mb-8 text-sm text-text-muted">
         Stiftungsanteil sinkt von{' '}
-        {dok.budget.threeYearModel[0].total > 0
+        {budget.threeYearModel[0].total > 0
           ? Math.round(
-              ((dok.budget.threeYearModel[0].stiftungen + dok.budget.threeYearModel[0].einmalig) /
-                dok.budget.threeYearModel[0].total) *
+              ((budget.threeYearModel[0].stiftungen + budget.threeYearModel[0].einmalig) /
+                budget.threeYearModel[0].total) *
                 100,
             )
           : 0}
         % (Jahr 1) auf{' '}
-        {dok.budget.threeYearModel[2].total > 0
-          ? Math.round(
-              (dok.budget.threeYearModel[2].stiftungen / dok.budget.threeYearModel[2].total) * 100,
-            )
+        {budget.threeYearModel[2].total > 0
+          ? Math.round((budget.threeYearModel[2].stiftungen / budget.threeYearModel[2].total) * 100)
           : 0}
         % (Jahr 3). Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF{' '}
         {EIGENLEISTUNG_CONFIG.ratePerHour}/h), kein Cashflow. Wächst durch Community-Aufbau und
@@ -158,7 +162,7 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
       {/* Budget detail by line item (Jahr 1) */}
       <h3 className="mb-3 heading-card">Budgetdetail Jahr 1 ({formatCHF(year1Total)})</h3>
       <div className="mb-4 text-sm text-text-muted bg-accent-muted p-3 rounded">
-        <strong>Szenario:</strong> {dok.budget.scenario.label} — {dok.budget.scenario.description}
+        <strong>Szenario:</strong> {budget.scenario.label} — {budget.scenario.description}
       </div>
       <div className="overflow-x-auto">
         <table className="mb-6 w-full text-sm">
@@ -226,9 +230,9 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
             </tr>
             <tr className="border-b border-border-default font-semibold text-primary">
               <td className="py-1.5">Beantragt bei {dok.foundation.name}</td>
-              <td className="py-1.5 text-right">{formatCHF(dok.budget.requestedAmount)}</td>
+              <td className="py-1.5 text-right">{formatCHF(budget.requestedAmount)}</td>
               <td className="py-1.5 text-right">
-                {Math.round((dok.budget.requestedAmount / year1Total) * 100)}%
+                {Math.round((budget.requestedAmount / year1Total) * 100)}%
               </td>
             </tr>
             {remaining > 0 && (

@@ -6,6 +6,7 @@ import { orgDomains } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { Button } from '@/components/ui/Button';
 import { hasStories } from '@/lib/content/stories-source';
+import { hasBudget } from '@/lib/content/budget-source';
 import { getFunderProfile } from '@/lib/funder/repo';
 import { getTenantById } from '@/lib/tenant/resolve';
 
@@ -77,7 +78,7 @@ export default async function OrgHome({ params }: { params: Promise<{ slug: stri
     .limit(1);
 
   const tenant = await getTenantById(access.orgSlug);
-  const storyWritten = await hasStories(tenant);
+  const [storyWritten, budgetWritten] = await Promise.all([hasStories(tenant), hasBudget(tenant)]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -113,6 +114,14 @@ export default async function OrgHome({ params }: { params: Promise<{ slug: stri
           Für Gesuche fehlt noch Ihre Erzählung — worum es {access.orgName} geht, welches Problem
           Sie adressieren und was Sie dagegen tun. Bis dahin bleiben Gesuch-Vorlagen leer; sie
           werden bewusst nicht mit den Texten einer anderen Organisation gefüllt.
+        </p>
+      )}
+
+      {!budgetWritten && (
+        <p className="max-w-prose rounded-lg border border-border-default bg-surface-raised p-4 text-sm text-text-secondary">
+          Für Gesuche fehlt ausserdem Ihr Budget — was das Vorhaben kostet und wie viel Sie über
+          drei Jahre selbst tragen. Ohne diese Angaben erscheint im Gesuch kein Budgetteil; er wird
+          bewusst nicht mit den Zahlen einer anderen Organisation gefüllt.
         </p>
       )}
 
