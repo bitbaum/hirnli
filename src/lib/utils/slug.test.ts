@@ -119,9 +119,9 @@ describe('toSlug', () => {
     expect(toSlug('Fondazione Città')).toBe('fondazione-citta');
   });
 
-  it('expands ß, which was never handled', () => {
-    expect(toSlug('Stiftung Grüße')).toBe('stiftung-gruesse');
-    expect(toSlug('Straßenkinder')).toBe('strassenkinder');
+  it('expands sharp-s, which was never handled', () => {
+    expect(toSlug('Stiftung Grü\u00dfe')).toBe('stiftung-gruesse');
+    expect(toSlug('Stra\u00dfenkinder')).toBe('strassenkinder');
   });
 
   it('still expands ä to ae, not a — the ordering is load-bearing', () => {
