@@ -1,12 +1,19 @@
 import { describe, it, expect } from 'vitest';
 import { composeGesuch, composeGesuchDokument, composeAnschreibenText } from '../gesuch-composer';
-import { makeFoundation, makeMinimalFoundation, makeStory, makeTenant } from './fixtures';
+import {
+  makeFoundation,
+  makeMinimalFoundation,
+  makeStory,
+  makeTenant,
+  makeBudget,
+} from './fixtures';
 
 /** One tenant for every composer call here — the identity is not what these
  *  tests are about, but it must be passed rather than imported. */
 const TENANT = makeTenant();
 /** The same, bound to a story: composers take the pair, never reach for either. */
 const STORY = makeStory(TENANT);
+const BUDGET = makeBudget();
 
 describe('composeGesuch', () => {
   it('returns ready=true for well-researched foundation with themes', () => {
@@ -117,7 +124,7 @@ describe('composeGesuch', () => {
 
 describe('composeGesuchDokument', () => {
   it('extends composeGesuch with anschreiben, budget, kurzportrait', () => {
-    const result = composeGesuchDokument(STORY, makeFoundation());
+    const result = composeGesuchDokument(STORY, BUDGET, makeFoundation());
     if (result.ready) {
       expect(result.anschreiben).toBeDefined();
       expect(result.anschreiben.date).toBeTruthy();
@@ -126,9 +133,9 @@ describe('composeGesuchDokument', () => {
       expect(result.anschreiben.closing).toBeTruthy();
 
       expect(result.budget).toBeDefined();
-      expect(result.budget.scenario).toBeTruthy();
-      expect(result.budget.lineItems.length).toBeGreaterThan(0);
-      expect(result.budget.requestedAmount).toBeGreaterThan(0);
+      expect(result.budget!.scenario).toBeTruthy();
+      expect(result.budget!.lineItems.length).toBeGreaterThan(0);
+      expect(result.budget!.requestedAmount).toBeGreaterThan(0);
 
       expect(result.kurzportrait).toBeDefined();
       expect(result.kurzportrait.facts.length).toBeGreaterThan(0);
@@ -138,19 +145,19 @@ describe('composeGesuchDokument', () => {
   });
 
   it('returns not-ready for minimal foundation', () => {
-    const result = composeGesuchDokument(STORY, makeMinimalFoundation());
+    const result = composeGesuchDokument(STORY, BUDGET, makeMinimalFoundation());
     expect(result.ready).toBe(false);
   });
 
   it('sets budget.primaryThemeKey when schwerpunktId is provided', () => {
-    const result = composeGesuchDokument(STORY, makeFoundation(), 'nachhaltigkeit');
+    const result = composeGesuchDokument(STORY, BUDGET, makeFoundation(), 'nachhaltigkeit');
     if (result.ready) {
-      expect(result.budget.primaryThemeKey).toBe('klima');
+      expect(result.budget!.primaryThemeKey).toBe('klima');
     }
   });
 
   it('includes foundation address in anschreiben when contact.address is present', () => {
-    const result = composeGesuchDokument(STORY, makeFoundation());
+    const result = composeGesuchDokument(STORY, BUDGET, makeFoundation());
     if (result.ready) {
       expect(result.anschreiben.foundationAddress).toContain('Test Stiftung');
       expect(result.anschreiben.foundationAddress).toContain('Teststr. 1');
@@ -159,7 +166,7 @@ describe('composeGesuchDokument', () => {
 
   it('omits address line in anschreiben when contact has no address', () => {
     const f = makeFoundation({ contact: { email: 'info@test.ch' } });
-    const result = composeGesuchDokument(STORY, f);
+    const result = composeGesuchDokument(STORY, BUDGET, f);
     if (result.ready) {
       expect(result.anschreiben.foundationAddress).toBe('Test Stiftung');
     }

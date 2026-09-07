@@ -28,7 +28,10 @@ export default function ScenarioSelector({
     onChange(scenarioId);
   };
 
-  const scenarioIcons = {
+  // Keyed by one organisation's scenario names, which are no longer the only
+  // ones a tenant may use. A scenario with an unfamiliar name simply gets no
+  // icon rather than an undefined one.
+  const scenarioIcons: Record<string, string> = {
     minimal: '🎯',
     moderate: '⭐',
     maximum: '🚀',
@@ -49,7 +52,7 @@ export default function ScenarioSelector({
             }`}
           >
             <span className="flex items-center gap-2">
-              <span>{scenarioIcons[scenario.id]}</span>
+              {scenarioIcons[scenario.id] && <span>{scenarioIcons[scenario.id]}</span>}
               <span>{scenario.label}</span>
             </span>
           </button>

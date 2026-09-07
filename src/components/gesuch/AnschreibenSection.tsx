@@ -39,10 +39,15 @@ export default function AnschreibenSection({ dok }: AnschreibenSectionProps) {
         <p>{dok.anschreiben.opening}</p>
         <p>{dok.anschreiben.themeAlignment}</p>
         <p>
-          Im beiliegenden Projektbeschrieb stellen wir Ihnen unser Vorhaben im Detail vor. Wir
-          beantragen einen Förderbeitrag von{' '}
-          <strong>{formatCHF(dok.budget.requestedAmount)}</strong> für eine Projektlaufzeit von{' '}
-          {dok.budget.projectDuration}.
+          Im beiliegenden Projektbeschrieb stellen wir Ihnen unser Vorhaben im Detail vor.
+          {dok.budget ? (
+            <>
+              {' '}
+              Wir beantragen einen Förderbeitrag von{' '}
+              <strong>{formatCHF(dok.budget.requestedAmount)}</strong> für eine Projektlaufzeit von{' '}
+              {dok.budget.projectDuration}.
+            </>
+          ) : null}
         </p>
         <p>
           Für eine interaktive Übersicht unserer Arbeit und der Passung zu Ihrem Stiftungszweck

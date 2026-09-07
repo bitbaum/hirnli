@@ -28,6 +28,7 @@ import {
   makeMinimalTenant,
   makeStory,
   makeTenant,
+  makeBudget,
 } from './fixtures';
 
 /** Matches the placeholder syntax in src/lib/content/interpolate.ts. */
@@ -40,6 +41,7 @@ function unfilled(value: unknown): string[] {
 
 const TENANT = makeTenant();
 const STORY = makeStory(TENANT);
+const BUDGET = makeBudget();
 
 describe('composed output carries no unfilled placeholders', () => {
   it('composeGesuch, ready', () => {
@@ -56,7 +58,7 @@ describe('composed output carries no unfilled placeholders', () => {
   });
 
   it('composeGesuchDokument', () => {
-    const result = composeGesuchDokument(STORY, makeFoundation());
+    const result = composeGesuchDokument(STORY, BUDGET, makeFoundation());
     expect(unfilled(result), 'leaked into the Gesuch document').toEqual([]);
   });
 
@@ -69,7 +71,7 @@ describe('composed output carries no unfilled placeholders', () => {
     // Schwerpunkt templates select different WHY sections, so a leak can hide
     // in one variant while the default is clean.
     for (const sp of ['nachhaltigkeit', 'soziale-integration', 'digitale-bildung'] as const) {
-      const result = composeGesuchDokument(STORY, makeFoundation(), sp);
+      const result = composeGesuchDokument(STORY, BUDGET, makeFoundation(), sp);
       expect(unfilled(result), `leaked in Schwerpunkt "${sp}"`).toEqual([]);
     }
   });
@@ -79,10 +81,12 @@ describe('the filled values come from the tenant', () => {
   it('two tenants get their own facts in the same template text', () => {
     const a = composeGesuchDokument(
       makeStory(makeTenant({ name: 'Alpha', founded: 2001 })),
+      BUDGET,
       makeFoundation(),
     );
     const b = composeGesuchDokument(
       makeStory(makeTenant({ name: 'Beta', founded: 2015 })),
+      BUDGET,
       makeFoundation(),
     );
 
@@ -108,7 +112,7 @@ describe('shared content fits a tenant with only the required facts', () => {
     // pages, would have thrown for it. The year was a fact about that
     // partnership rather than about the organisation, so it became content.
     expect(() =>
-      composeGesuchDokument(makeStory(makeMinimalTenant()), makeFoundation()),
+      composeGesuchDokument(makeStory(makeMinimalTenant()), BUDGET, makeFoundation()),
     ).not.toThrow();
     expect(() => composeGesuch(makeStory(makeMinimalTenant()), makeFoundation())).not.toThrow();
     expect(() =>
@@ -117,7 +121,7 @@ describe('shared content fits a tenant with only the required facts', () => {
   });
 
   it('leaves no placeholders unfilled for a minimal tenant either', () => {
-    const result = composeGesuchDokument(makeStory(makeMinimalTenant()), makeFoundation());
+    const result = composeGesuchDokument(makeStory(makeMinimalTenant()), BUDGET, makeFoundation());
     expect(unfilled(result)).toEqual([]);
   });
 });

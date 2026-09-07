@@ -215,12 +215,16 @@ export default function GesuchOnePagerPDF({ dok, shareUrl }: OnePagerPDFProps) {
   const firstProject = dok.story.projects[0];
   const topEvidence = dok.story.evidence.slice(0, 3);
 
-  // Total project budget (scenario total across 3 years)
-  const scenario = dok.budget.scenario;
-  const y1 = scenario.threeYearModel.year1;
-  const y2 = scenario.threeYearModel.year2;
-  const y3 = scenario.threeYearModel.year3;
-  const totalProjectBudget = y1.einmalig + y1.jaehrlich + y2.jaehrlich + y3.jaehrlich;
+  // Total project budget (scenario total across 3 years). Absent when the
+  // organisation has not stated a budget — the whole block is then dropped
+  // rather than printed as zeros. See ComposedGesuchDokument['budget'].
+  const budget = dok.budget;
+  const totalProjectBudget = budget
+    ? budget.scenario.threeYearModel.year1.einmalig +
+      budget.scenario.threeYearModel.year1.jaehrlich +
+      budget.scenario.threeYearModel.year2.jaehrlich +
+      budget.scenario.threeYearModel.year3.jaehrlich
+    : 0;
 
   // Optional fields already filtered — a one-pager footer must not read
   // "kontakt@… ·  · " for a tenant with no phone.
@@ -288,24 +292,28 @@ export default function GesuchOnePagerPDF({ dok, shareUrl }: OnePagerPDFProps) {
         </View>
 
         {/* ── Budget ── */}
-        <Text style={[s.sectionLabel, { marginTop: 8 }]}>Budget & Förderantrag</Text>
-        <View style={s.divider} />
-        <View style={s.budgetRow}>
-          <View style={s.budgetCell}>
-            <Text style={s.budgetLabel}>Projektvolumen (3 Jahre)</Text>
-            <Text style={s.budgetValue}>{pdfFormatCHF(totalProjectBudget)}</Text>
-          </View>
-          <View style={s.budgetCell}>
-            <Text style={s.budgetLabel}>Förderantrag</Text>
-            <Text style={[s.budgetValue, { color: COLORS.primary }]}>
-              {pdfFormatCHF(dok.budget.requestedAmount)}
-            </Text>
-          </View>
-          <View style={s.budgetCellLast}>
-            <Text style={s.budgetLabel}>Zeitraum</Text>
-            <Text style={s.budgetValue}>{dok.budget.projectDuration}</Text>
-          </View>
-        </View>
+        {budget && (
+          <>
+            <Text style={[s.sectionLabel, { marginTop: 8 }]}>Budget & Förderantrag</Text>
+            <View style={s.divider} />
+            <View style={s.budgetRow}>
+              <View style={s.budgetCell}>
+                <Text style={s.budgetLabel}>Projektvolumen (3 Jahre)</Text>
+                <Text style={s.budgetValue}>{pdfFormatCHF(totalProjectBudget)}</Text>
+              </View>
+              <View style={s.budgetCell}>
+                <Text style={s.budgetLabel}>Förderantrag</Text>
+                <Text style={[s.budgetValue, { color: COLORS.primary }]}>
+                  {pdfFormatCHF(budget.requestedAmount)}
+                </Text>
+              </View>
+              <View style={s.budgetCellLast}>
+                <Text style={s.budgetLabel}>Zeitraum</Text>
+                <Text style={s.budgetValue}>{budget.projectDuration}</Text>
+              </View>
+            </View>
+          </>
+        )}
 
         {/* ── Wirkung ── */}
         {topEvidence.length > 0 && (

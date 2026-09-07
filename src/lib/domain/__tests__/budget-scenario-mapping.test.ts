@@ -1,6 +1,24 @@
+/**
+ * Foundation → scenario mapping, now a method on the tenant's own budget.
+ *
+ * `budget-mapper.ts` did this by importing one organisation's scenarios, so it
+ * could only ever map onto that organisation's three funding tiers. The engine
+ * picks by POSITION among whatever scenarios the tenant has stated — smallest,
+ * middle, largest — which for the three tiers below is the same choice the
+ * mapper made. That equivalence is what these tests assert: the module went
+ * away and its behaviour did not.
+ */
+
 import { describe, it, expect } from 'vitest';
-import { getScenarioForFoundation, computeRequestedAmount } from '../budget-mapper';
-import { makeFoundation } from './fixtures';
+import { makeBudget, makeFoundation } from './fixtures';
+
+const BUDGET = makeBudget();
+const getScenarioForFoundation = (f: Parameters<typeof BUDGET.scenarioForFoundation>[0]) =>
+  BUDGET.scenarioForFoundation(f);
+const computeRequestedAmount = (
+  f: Parameters<typeof BUDGET.requestedAmount>[0],
+  s: Parameters<typeof BUDGET.requestedAmount>[1],
+) => BUDGET.requestedAmount(f, s);
 
 describe('getScenarioForFoundation', () => {
   it('returns minimal for max grant < 20k', () => {

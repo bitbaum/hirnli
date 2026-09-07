@@ -49,6 +49,7 @@ import { getCurrentOrgId } from '@/lib/tenant/resolve';
 /** Content blocks a tenant may have authored. The vocabulary, in one place. */
 export const CONTENT_KEYS = [
   'stories',
+  'budget',
   'numbers',
   'schwerpunkte',
   'themes',

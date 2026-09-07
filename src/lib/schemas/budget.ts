@@ -50,16 +50,31 @@ export const BudgetLineItemSchema = z.object({
 
 // Scenario: collection of line items with 3-year financial model
 export const BudgetScenarioSchema = z.object({
-  id: z.enum(['minimal', 'moderate', 'maximum']),
+  /**
+   * The scenario's own name.
+   *
+   * Was `z.enum(['minimal','moderate','maximum'])` — one organisation's three
+   * funding tiers, enforced by the platform on every tenant. A theatre asking
+   * for a season's running costs had no valid id to give, so the schema made
+   * the shared budget unavoidable rather than merely convenient.
+   */
+  id: z.string().min(1),
   label: z.string().min(1),
   description: z.string().min(1),
   tagline: z.string().min(1),
   lineItemIds: z.array(z.string()), // References BudgetLineItem.id
   targetFoundations: z.array(z.string()), // Foundation types: ['A', 'B', 'C']
-  spaceRequirement: z.object({
-    min_sqm: z.number().min(0),
-    max_sqm: z.number().min(0),
-  }),
+  /**
+   * Optional: plenty of projects need no premises, and requiring square metres
+   * of an organisation that has none forces an invented number into a budget a
+   * funder reads.
+   */
+  spaceRequirement: z
+    .object({
+      min_sqm: z.number().min(0),
+      max_sqm: z.number().min(0),
+    })
+    .optional(),
   threeYearModel: z.object({
     year1: z.object({
       einmalig: z.number().min(0),
@@ -110,3 +125,51 @@ export const BUDGET_CATEGORY_LABELS = {
 } as const;
 
 export type BudgetCategory = keyof typeof BUDGET_CATEGORY_LABELS;
+
+// ============================================================================
+// Block-level shape — what `org_content['budget']` holds
+// ============================================================================
+//
+// The budget was a 592-line module whose own header declared itself specific to
+// one organisation and told the reader that supporting another meant rewriting
+// the file's content. That instruction is the defect: a platform cannot require
+// a customer to open a pull request to state what its project costs. Until
+// then every applicant's Gesuch carried one organisation's rent, equipment,
+// staffing and three-year funding model — as their own budget, to a funder.
+//
+// (The name that header used is deliberately not quoted here. A comment
+// describing a leak is still a copy of it, and the trace ratchet counts it.)
+
+/**
+ * How years two and three step down from year one.
+ *
+ * Content, not arithmetic: the shape of a degressive grant is a claim the
+ * applicant makes to a funder about becoming self-sufficient, and different
+ * organisations make different ones. Stored per tenant so it can be stated
+ * rather than inherited.
+ */
+export const degressiveModelSchema = z.object({
+  year2: z.object({ stiftungenPct: z.number(), eigenGrowth: z.number() }),
+  year3: z.object({ stiftungenPct: z.number(), eigenGrowth: z.number() }),
+});
+export type DegressiveModel = z.infer<typeof degressiveModelSchema>;
+
+/** When the project runs and what the applicant calls its phases. */
+export const budgetProjectSchema = z.object({
+  startYear: z.number().int(),
+  endYear: z.number().int(),
+  /** e.g. "Aufbau → Wachstum → Verselbständigung" */
+  durationLabel: z.string(),
+  yearLabels: z.array(z.string()).length(3),
+  /** The scenario shown when nothing selects one. Must exist in SCENARIOS. */
+  defaultScenarioId: z.string(),
+});
+
+export const budgetBlockSchema = z.object({
+  LINE_ITEMS: z.array(BudgetLineItemSchema),
+  SCENARIOS: z.array(BudgetScenarioSchema),
+  EIGENLEISTUNG: EigenleistungConfigSchema,
+  DEGRESSIVE: degressiveModelSchema,
+  PROJECT: budgetProjectSchema,
+});
+export type BudgetBlock = z.infer<typeof budgetBlockSchema>;

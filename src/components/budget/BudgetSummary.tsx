@@ -112,7 +112,9 @@ export default function BudgetSummary({ scenario, className = '' }: BudgetSummar
         <div className="flex justify-between">
           <span>Raumbedarf:</span>
           <span className="font-medium">
-            {scenario.spaceRequirement.min_sqm}–{scenario.spaceRequirement.max_sqm} m²
+            {scenario.spaceRequirement
+              ? `${scenario.spaceRequirement.min_sqm}–${scenario.spaceRequirement.max_sqm} m²`
+              : '—'}
           </span>
         </div>
         <div className="flex justify-between mt-1">
