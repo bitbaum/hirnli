@@ -143,3 +143,88 @@ export async function authoredContentKeys(orgId?: string): Promise<Set<ContentKe
   const authored = new Set(rows.map((r) => r.key));
   return new Set(CONTENT_KEYS.filter((k) => authored.has(k)));
 }
+
+/** A block plus the version it was read at, for a safe write-back. */
+export interface VersionedContent<T> {
+  value: T;
+  version: number;
+}
+
+/**
+ * Read a block together with its version, for editing.
+ *
+ * The version is what makes a write safe against a second editor. Without it
+ * two people opening the same story and saving ten minutes apart produce a
+ * last-writer-wins result in which the first person's paragraphs are gone and
+ * nothing said so.
+ */
+export async function getVersionedOrgContent<T>(
+  key: ContentKey,
+  schema: ZodType<T>,
+  opts: { orgId?: string; locale?: string } = {},
+): Promise<VersionedContent<T> | null> {
+  const orgId = opts.orgId ?? (await getCurrentOrgId());
+  const locale = opts.locale ?? DEFAULT_LOCALE;
+
+  const rows = await db
+    .select({ value: orgContent.value, version: orgContent.version })
+    .from(orgContent)
+    .where(and(eq(orgContent.orgId, orgId), eq(orgContent.key, key), eq(orgContent.locale, locale)))
+    .limit(1);
+
+  const row = rows[0];
+  if (!row) return null;
+
+  const parsed = schema.safeParse(row.value);
+  if (!parsed.success) {
+    throw new Error(
+      `org_content["${orgId}"]["${key}"]["${locale}"] does not match its schema: ` +
+        parsed.error.issues
+          .slice(0, 3)
+          .map((i) => `${i.path.join('.') || '(root)'}: ${i.message}`)
+          .join('; '),
+    );
+  }
+  return { value: parsed.data, version: row.version };
+}
+
+export type WriteResult = { ok: true; version: number } | { ok: false; reason: 'conflict' };
+
+/**
+ * Replace a block, but only if nobody else has written it meanwhile.
+ *
+ * `expectedVersion` is the version the editor loaded. A mismatch means someone
+ * saved in between, and the write is refused rather than applied: the caller
+ * can then reload and show what changed. Silently winning would delete a
+ * colleague's writing, which is the kind of loss people do not discover until
+ * the document goes out.
+ *
+ * The value is validated by the caller's schema BEFORE it reaches here — this
+ * function does not know what shape any given key holds, and a writer that
+ * accepts anything is how a malformed row gets into a column every reader
+ * trusts.
+ */
+export async function writeOrgContent(
+  key: ContentKey,
+  value: unknown,
+  expectedVersion: number,
+  opts: { orgId?: string; locale?: string } = {},
+): Promise<WriteResult> {
+  const orgId = opts.orgId ?? (await getCurrentOrgId());
+  const locale = opts.locale ?? DEFAULT_LOCALE;
+
+  const updated = await db
+    .update(orgContent)
+    .set({ value, version: expectedVersion + 1, updatedAt: new Date() })
+    .where(
+      and(
+        eq(orgContent.orgId, orgId),
+        eq(orgContent.key, key),
+        eq(orgContent.locale, locale),
+        eq(orgContent.version, expectedVersion),
+      ),
+    )
+    .returning({ version: orgContent.version });
+
+  return updated[0] ? { ok: true, version: updated[0].version } : { ok: false, reason: 'conflict' };
+}
