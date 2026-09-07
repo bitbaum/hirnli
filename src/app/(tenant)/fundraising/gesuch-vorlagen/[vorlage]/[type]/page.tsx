@@ -9,6 +9,7 @@ import { SCHWERPUNKTE, isSchwerpunktId } from '@/lib/config/schwerpunkte';
 import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import { loadTenantStory } from '@/lib/content/story-engine';
 import StoryMissing from '@/components/gesuch/StoryMissing';
+import GesuchNotReady from '@/components/gesuch/GesuchNotReady';
 import {
   GesuchHeroSection,
   GesuchWhySection,
@@ -56,6 +57,20 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
   }
 
   const gesuch = composeGesuch(story, foundation, schwerpunkt);
+
+  // `ready` is false when the applicant has not written the theme this
+  // template argues from, or the funder is too thinly researched. Rendering
+  // anyway produced a formal document with a blank argument.
+  if (!gesuch.ready) {
+    return (
+      <GesuchNotReady
+        gesuch={gesuch}
+        tenant={tenant}
+        backHref={'/fundraising/gesuch-vorlagen'}
+        backLabel="Zu den Vorlagen"
+      />
+    );
+  }
   const primaryColor = sp.color;
 
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;

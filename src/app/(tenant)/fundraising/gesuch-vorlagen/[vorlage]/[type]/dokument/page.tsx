@@ -9,6 +9,7 @@ import { composeGesuchDokument } from '@/lib/domain/gesuch-composer';
 import { loadTenantStory } from '@/lib/content/story-engine';
 import { loadTenantBudget } from '@/lib/content/budget-engine';
 import StoryMissing from '@/components/gesuch/StoryMissing';
+import GesuchNotReady from '@/components/gesuch/GesuchNotReady';
 import {
   AnschreibenSection,
   ProjektbeschriebSection,
@@ -55,6 +56,20 @@ export default async function SchwerpunktGesuchDokumentPage({ params }: Props) {
   }
 
   const dok = composeGesuchDokument(story, budget, foundation, schwerpunkt);
+
+  // `ready` is false when the applicant has not written the theme this
+  // template argues from, or the funder is too thinly researched. Rendering
+  // anyway produced a formal document with a blank argument.
+  if (!dok.ready) {
+    return (
+      <GesuchNotReady
+        gesuch={dok}
+        tenant={tenant}
+        backHref={'/fundraising/gesuch-vorlagen'}
+        backLabel="Zu den Vorlagen"
+      />
+    );
+  }
 
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;
 
