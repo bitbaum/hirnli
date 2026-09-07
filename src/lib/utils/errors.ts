@@ -46,15 +46,6 @@ export const API_ERR_IMPORT_JSON_INVALID = 'Ungültiges JSON-Format';
 export const API_ERR_IMPORT_EMPTY = 'Datei muss ein Array von Stiftungen enthalten';
 
 /**
- * A funder-facing document assembled from content this tenant has not written.
- *
- * Distinct from a generic 404: the id may well exist. What is missing is the
- * organisation's own material, and saying so is what stops someone retrying.
- */
-export const API_ERR_DOCUMENT_NOT_AUTHORED =
-  'Für diese Organisation sind noch keine Inhalte hinterlegt, aus denen sich dieses Dokument erzeugen lässt.';
-
-/**
  * An export of content this tenant has not authored.
  *
  * Distinct from API_ERR_EXPORT, which means the export ran and broke. Answering
