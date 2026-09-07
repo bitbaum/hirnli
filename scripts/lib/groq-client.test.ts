@@ -86,6 +86,27 @@ describe('callGroq — fallback across the chain', () => {
   const originalOpenRouterKey = process.env.OPENROUTER_API_KEY;
   let fetchMock: ReturnType<typeof vi.fn>;
 
+  /**
+   * Real `Response` objects, not `{ ok, json }` literals.
+   *
+   * The literals encoded an assumption about HOW the client reads a body, and
+   * broke the moment it read the text first — which it must, to keep the vendor's
+   * body in the error and tell a spent daily budget from a busy minute. A fake
+   * that diverges from the contract it imitates keeps a suite green over a client
+   * that cannot work.
+   *
+   * They also need to be built PER CALL: one `Response` body can only be read
+   * once, so a single instance handed to every link makes link two fail with
+   * "Body has already been read" — a fake failure in front of the real one, in
+   * the very tests that check the fallback.
+   */
+  function jsonResponse(body: unknown, status = 200) {
+    return new Response(JSON.stringify(body), {
+      status,
+      headers: { 'content-type': 'application/json' },
+    });
+  }
+
   beforeEach(() => {
     process.env.GROQ_API_KEY = 'test-key';
     // Explicitly unset so these tests exercise Groq-only behaviour regardless
@@ -107,17 +128,68 @@ describe('callGroq — fallback across the chain', () => {
     vi.unstubAllGlobals();
   });
 
+  // ── The 429 taxonomy: three failures, one status code, opposite responses ──
+  //
+  // The previous client raised `<vendor> API HTTP 429: <first 200 chars>`. The
+  // body was fetched, truncated into a string, and read by nothing — so a spent
+  // daily budget and a one-second burst produced the same message and the same
+  // behaviour, and only one of them can be fixed by trying again.
+
+  it('a DAILY 429 condemns the whole vendor — its other models share that meter', async () => {
+    process.env.OPENROUTER_API_KEY = 'or-key';
+    fetchMock.mockImplementation(async (url: string) =>
+      String(url).includes('groq')
+        ? new Response(
+            JSON.stringify({
+              error: {
+                message: 'Rate limit reached for model per day. Limit 100000, used 100000.',
+              },
+            }),
+            { status: 429 },
+          )
+        : jsonResponse({ choices: [{ message: { content: 'openrouter answered' } }] }),
+    );
+
+    const result = await callGroq('sys', 'user');
+
+    expect(result).toMatchObject({ ok: true, content: 'openrouter answered' });
+    // Groq is asked ONCE. Its second model draws on the same exhausted org-wide
+    // budget, so trying it buys a dead round trip and the identical error.
+    const groqCalls = fetchMock.mock.calls.filter(([url]) => String(url).includes('groq'));
+    expect(groqCalls).toHaveLength(1);
+  });
+
+  it('a SIZE 429 ends the walk — the next model down has a SMALLER ceiling', async () => {
+    process.env.OPENROUTER_API_KEY = 'or-key';
+    fetchMock.mockImplementation(
+      async () =>
+        new Response(
+          JSON.stringify({
+            error: {
+              message:
+                'Request too large for model with 12000 tokens per minute. Limit 12000, Requested 15000.',
+            },
+          }),
+          { status: 429 },
+        ),
+    );
+
+    const result = await callGroq('sys', 'user');
+
+    expect(result.ok).toBe(false);
+    // Demoting cannot help: one request already exceeded the whole per-minute
+    // allowance, and every link below has a smaller one. The cure is a shorter
+    // prompt, and burning the chain to reach a worse version of the same error
+    // only delays saying so.
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it('demotes to the next model in the chain when the first is retired', async () => {
     fetchMock
-      .mockResolvedValueOnce({
-        ok: false,
-        status: 404,
-        text: async () => '{"error":{"code":"model_not_found"}}',
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ choices: [{ message: { content: 'second model answered' } }] }),
-      });
+      .mockResolvedValueOnce(new Response('{"error":{"code":"model_not_found"}}', { status: 404 }))
+      .mockResolvedValueOnce(
+        jsonResponse({ choices: [{ message: { content: 'second model answered' } }] }),
+      );
 
     const result = await callGroq('system', 'user');
 
@@ -132,11 +204,7 @@ describe('callGroq — fallback across the chain', () => {
   });
 
   it('reports every model it tried when the whole chain is exhausted', async () => {
-    fetchMock.mockResolvedValue({
-      ok: false,
-      status: 401,
-      text: async () => 'invalid_api_key',
-    });
+    fetchMock.mockResolvedValue(new Response('invalid_api_key', { status: 401 }));
 
     const result = await callGroq('system', 'user');
 
@@ -148,10 +216,7 @@ describe('callGroq — fallback across the chain', () => {
   });
 
   it('an explicit model is called once and alone, not folded into the chain', async () => {
-    fetchMock.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ choices: [{ message: { content: 'ok' } }] }),
-    });
+    fetchMock.mockResolvedValueOnce(jsonResponse({ choices: [{ message: { content: 'ok' } }] }));
 
     const result = await callGroq('system', 'user', { model: 'small' });
 
@@ -163,11 +228,7 @@ describe('callGroq — fallback across the chain', () => {
   });
 
   it('an explicit model that fails does NOT fall through to the rest of the chain', async () => {
-    fetchMock.mockResolvedValue({
-      ok: false,
-      status: 404,
-      text: async () => 'model_not_found',
-    });
+    fetchMock.mockResolvedValue(new Response('model_not_found', { status: 404 }));
 
     const result = await callGroq('system', 'user', { model: 'small' });
 
@@ -197,12 +258,11 @@ describe('callGroq — fallback across the chain', () => {
     process.env.OPENROUTER_API_KEY = 'test-openrouter-key';
 
     fetchMock
-      .mockResolvedValueOnce({ ok: false, status: 401, text: async () => 'invalid_api_key' })
-      .mockResolvedValueOnce({ ok: false, status: 401, text: async () => 'invalid_api_key' })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ choices: [{ message: { content: 'openrouter answered' } }] }),
-      });
+      .mockResolvedValueOnce(new Response('invalid_api_key', { status: 401 }))
+      .mockResolvedValueOnce(new Response('invalid_api_key', { status: 401 }))
+      .mockResolvedValueOnce(
+        jsonResponse({ choices: [{ message: { content: 'openrouter answered' } }] }),
+      );
 
     const result = await callGroq('system', 'user');
 

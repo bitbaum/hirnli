@@ -7,7 +7,7 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
 minimumReleaseAgeExclude:
-  - '@bitbaum/ai-kit@0.6.2'
+  - '@bitbaum/ai-kit@0.6.2 || 0.12.0'
   - '@bitbaum/mail-kit'
 overrides:
   eslint-plugin-react-hooks: 7.0.1

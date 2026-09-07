@@ -9,7 +9,7 @@
  *   Model: see GROQ_MODELS below — never spell an id out at a call site
  */
 
-import { freeChain, providerModels, tryChain, usableChain, type Link } from '@bitbaum/ai-kit';
+import { complete, freeChain, providerModels, usableChain, type Link } from '@bitbaum/ai-kit';
 
 // Groq retired the entire llama-3.x family, so the previous single pinned
 // default `llama-3.3-70b-versatile` returned 404 on every call with a valid
@@ -105,70 +105,52 @@ interface CallOnceOptions {
 }
 
 /**
- * One call, one link (vendor + model). `callGroq`'s fallback walk and its
- * single-explicit-model path both go through here, so there is exactly one
- * fetch implementation, not two — one per vendor. Throws on any failure —
- * the caller decides whether that means "try the next link" or "report it".
+ * Walk a chain and return the first real answer.
+ *
+ * This replaced a hand-rolled `fetch` that was already careful — it had a
+ * deadline, and it treated an empty body as a failure, which is more than most
+ * of this fleet managed. What it could not do was read a 429.
+ *
+ * The three kinds share that status code and want OPPOSITE responses, and only
+ * the response body tells them apart:
+ *
+ *   capacity — a burst. Demoting to the next link is right.
+ *   daily    — the vendor's whole org-wide budget is spent. Its OTHER models
+ *              draw on the same meter, so trying them buys a dead round trip
+ *              and the identical error. The vendor is condemned for the walk.
+ *   size     — one request exceeded the per-minute allowance on its own. The
+ *              next model down has a SMALLER ceiling, so demoting is strictly
+ *              worse; the walk stops and the caller is told to send less.
+ *
+ * The old message was `<vendor> API HTTP 429: <first 200 chars>` — the body was
+ * fetched, truncated into a string, and never read by anything. `complete()`
+ * classifies it, so an exhausted day stops looking like a busy minute.
  */
-async function callGroqOnce(
-  link: Link,
-  apiKey: string,
+async function callChain(
+  chain: Link[],
   systemPrompt: string,
   userPrompt: string,
   options: CallOnceOptions,
 ): Promise<{ content: string; usage?: GroqResult['usage'] }> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), options.timeoutMs);
+  const result = await complete({
+    chain,
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+    maxTokens: options.maxTokens,
+    temperature: options.temperature,
+    // Per LINK, not per call: a single shared budget is spent by the first
+    // vendor and leaves the rest with an already-expired deadline, which turns
+    // "one vendor is slow" into "every vendor failed".
+    timeoutMs: options.timeoutMs,
+    ...(options.json ? { extraBody: { response_format: { type: 'json_object' } } } : {}),
+  });
 
-  try {
-    const body: Record<string, unknown> = {
-      model: link.model,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt },
-      ],
-      temperature: options.temperature,
-      max_tokens: options.maxTokens,
-      stream: false,
-    };
-
-    if (options.json) {
-      body.response_format = { type: 'json_object' };
-    }
-
-    const response = await fetch(`${link.provider.baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-
-    if (!response.ok) {
-      const errText = await response.text().catch(() => '');
-      throw new Error(
-        `${link.provider.id} API HTTP ${response.status}: ${errText.substring(0, 200)}`,
-      );
-    }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content?.trim();
-
-    if (!content) {
-      throw new Error(`Empty response from ${link.provider.id}`);
-    }
-
-    return { content, usage: data.usage };
-  } catch (err) {
-    if ((err as Error).name === 'AbortError') {
-      throw new Error(`${link.provider.id} timeout after ${options.timeoutMs}ms`);
-    }
-    throw err;
-  } finally {
-    clearTimeout(timeoutId);
-  }
+  return {
+    content: result.text.trim(),
+    usage: (result.raw as { usage?: GroqResult['usage'] } | undefined)?.usage,
+  };
 }
 
 /**
@@ -207,13 +189,10 @@ export async function callGroq(
     }
     const link: Link = { provider: GROQ_PROVIDER, model: resolveModel(model) };
     try {
-      const { content, usage } = await callGroqOnce(
-        link,
-        apiKey,
-        systemPrompt,
-        userPrompt,
-        callOnceOptions,
-      );
+      // A chain of exactly one. Called once and alone, as the doc comment
+      // above promises — but it still reads a 429 properly, which is the whole
+      // point of routing even a single call through the engine.
+      const { content, usage } = await callChain([link], systemPrompt, userPrompt, callOnceOptions);
       return { ok: true, content, usage };
     } catch (err) {
       return { ok: false, error: err instanceof Error ? err.message : String(err) };
@@ -231,19 +210,9 @@ export async function callGroq(
   }
 
   try {
-    const { content, usage } = await tryChain(chain, {
-      // `usableChain` only returns links whose vendor has a key, so this is
-      // always defined — the `!` documents that guarantee rather than
-      // re-deriving it.
-      attempt: (link) =>
-        callGroqOnce(
-          link,
-          process.env[link.provider.keyEnv]!,
-          systemPrompt,
-          userPrompt,
-          callOnceOptions,
-        ),
-    });
+    // No `attempt` callback and no key plumbing: `complete` resolves each
+    // link's key from the same env `usableChain` just filtered on.
+    const { content, usage } = await callChain(chain, systemPrompt, userPrompt, callOnceOptions);
     return { ok: true, content, usage };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) };
