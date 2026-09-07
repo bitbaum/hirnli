@@ -32,7 +32,7 @@ export default function StoryMissing({ tenant }: { tenant: Tenant }) {
             domain, so a relative path would 404 on the tenant's site. Straight
             to the editor rather than the account overview — the person who hit
             this page wants the thing that fixes it, not a summary of it. */}
-        <Button href={`https://${PLATFORM_HOST}/o/${tenant.orgId}/inhalte`} size="lg">
+        <Button href={`https://${PLATFORM_HOST}/o/${tenant.orgId}/inhalte/stories`} size="lg">
           Geschichte erfassen
         </Button>
       </Card>

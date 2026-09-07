@@ -40,7 +40,7 @@ export default function GesuchNotReady({
         <p className="mb-6 text-text-secondary">{gesuch.readyReason}</p>
         <div className="flex flex-wrap justify-center gap-3">
           {isContentGap && (
-            <Button href={`https://${PLATFORM_HOST}/o/${tenant.orgId}/inhalte`} size="lg">
+            <Button href={`https://${PLATFORM_HOST}/o/${tenant.orgId}/inhalte/stories`} size="lg">
               Inhalte ergänzen
             </Button>
           )}

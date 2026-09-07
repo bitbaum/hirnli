@@ -17,13 +17,25 @@ import { storiesBlockSchema } from '../stories-source';
 const BLOCK = storiesBlockSchema.parse(STARTER_STORIES);
 
 describe('collectFields', () => {
-  it('finds every string in the block, and only strings', () => {
+  it('finds the leaves and nothing else', () => {
     const fields = collectFields(BLOCK);
     expect(fields.length).toBeGreaterThan(30);
-    for (const f of fields) expect(typeof f.value).toBe('string');
-    // Numbers are not editable as text — team_size is a number and must not
-    // appear, or saving would put a string where the schema wants a number.
-    expect(fields.map((f) => f.path)).not.toContain('CORE_FACTS.team_size');
+    // Every field carries its value as TEXT for the form, plus the kind it
+    // must be written back as.
+    for (const f of fields) {
+      expect(typeof f.value).toBe('string');
+      expect(['string', 'number']).toContain(f.kind);
+    }
+    // A number is editable — a customer states its own headcount — but is
+    // reported as a number so the write puts one back.
+    const teamSize = fields.find((f) => f.path === 'CORE_FACTS.team_size');
+    expect(teamSize?.kind).toBe('number');
+
+    // Containers are not leaves: offering an object as a text box would let a
+    // submission replace a whole section with a sentence.
+    const paths = fields.map((f) => f.path);
+    expect(paths).not.toContain('CORE_FACTS');
+    expect(paths).not.toContain('WHY.klima');
   });
 
   it('reaches into arrays by index', () => {
@@ -59,11 +71,33 @@ describe('applyFields only writes where a string already is', () => {
     expect(result.unknownPaths).toEqual(['GESUCH_TEXT.erfunden']);
   });
 
-  it('rejects a path that exists but is not a string', () => {
-    // Writing "3" over the team size would pass the form and fail the schema
-    // later; refusing here names the real problem instead.
-    const result = applyFields(BLOCK, new Map([['CORE_FACTS.team_size', '3']]));
-    expect(result.ok).toBe(false);
+  it('rejects a path that exists but is not a leaf', () => {
+    // Replacing a whole section with a sentence would pass the form and fail
+    // the schema later; refusing here names the real problem instead.
+    for (const path of ['CORE_FACTS', 'WHY.klima', 'CORE_FACTS.activities']) {
+      expect(applyFields(BLOCK, new Map([[path, 'x']])).ok, path).toBe(false);
+    }
+  });
+
+  it('writes a number back as a number, not as text', () => {
+    // `"3"` where the schema wants `3` is JSON that looks right, fails
+    // validation at the boundary, and without that boundary would reach a
+    // funder as a value that renders fine and sorts wrong.
+    const result = applyFields(BLOCK, new Map([['CORE_FACTS.team_size', '4']]));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    const block = result.block as { CORE_FACTS: { team_size: unknown } };
+    expect(block.CORE_FACTS.team_size).toBe(4);
+    expect(typeof block.CORE_FACTS.team_size).toBe('number');
+  });
+
+  it('refuses text in a numeric field, and says which', () => {
+    for (const bad of ['drei', '', '  ', '12,5x']) {
+      const result = applyFields(BLOCK, new Map([['CORE_FACTS.team_size', bad]]));
+      expect(result.ok, JSON.stringify(bad)).toBe(false);
+      if (result.ok) continue;
+      expect(result.badNumbers).toEqual(['CORE_FACTS.team_size']);
+    }
   });
 
   it('accepts a path if and only if the form could have rendered it', () => {
@@ -72,10 +106,15 @@ describe('applyFields only writes where a string already is', () => {
     // exactly the set the form renders. Everything else — unknown keys,
     // non-string leaves, prototype walks — follows from it rather than needing
     // its own rule.
-    const rendered = new Set(collectFields(BLOCK).map((f) => f.path));
+    const fields = collectFields(BLOCK);
+    const rendered = new Set(fields.map((f) => f.path));
 
-    for (const path of rendered) {
-      expect(applyFields(BLOCK, new Map([[path, 'x']])).ok, path).toBe(true);
+    // A value valid for the field's own kind: the invariant is about which
+    // PATHS are writable, and offering text to a numeric field tests the other
+    // rule instead.
+    for (const f of fields) {
+      const value = f.kind === 'number' ? '1' : 'x';
+      expect(applyFields(BLOCK, new Map([[f.path, value]])).ok, f.path).toBe(true);
     }
 
     const notRendered = [
@@ -84,7 +123,6 @@ describe('applyFields only writes where a string already is', () => {
       'constructor.prototype.polluted',
       'constructor.name',
       'toString',
-      'CORE_FACTS.team_size',
       'CORE_FACTS',
       'WHY.klima',
       'CORE_FACTS.activities.99',
