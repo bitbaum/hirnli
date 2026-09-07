@@ -125,8 +125,12 @@ export default async function OrgHome({ params }: { params: Promise<{ slug: stri
         </p>
       )}
 
+      <div className="mt-2 flex flex-wrap gap-3">
+        <Button href={`/o/${access.orgSlug}/inhalte`}>Inhalte bearbeiten</Button>
+      </div>
+
       {domain?.host && (
-        <div className="mt-2 flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3">
           <Button href={`https://${domain.host}`} target="_blank">
             Zur eigenen Seite →
           </Button>
