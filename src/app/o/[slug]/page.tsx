@@ -127,6 +127,9 @@ export default async function OrgHome({ params }: { params: Promise<{ slug: stri
 
       <div className="mt-2 flex flex-wrap gap-3">
         <Button href={`/o/${access.orgSlug}/inhalte`}>Inhalte bearbeiten</Button>
+        <Button href={`/o/${access.orgSlug}/mitglieder`} variant="secondary">
+          Mitglieder
+        </Button>
       </div>
 
       {domain?.host && (
