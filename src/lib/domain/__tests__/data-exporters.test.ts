@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { exportFoundationList, exportRevenueHistory, exportFinancialData } from '../data-exporters';
+import { exportRevenueHistory, exportFinancialData } from '../data-exporters';
+import { exportFoundationList } from '../foundation-export';
 import { makeFoundation } from './fixtures';
 
 const TEST_FOUNDATIONS = [

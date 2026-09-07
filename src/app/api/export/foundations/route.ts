@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { exportFoundationList } from '@/lib/domain/data-exporters';
+import { exportFoundationList } from '@/lib/domain/foundation-export';
 import { getAllFoundations } from '@/lib/db/foundations-repo';
 import { getTenant } from '@/lib/tenant/resolve';
 import { toFilePrefix } from '@/lib/utils/slug';

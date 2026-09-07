@@ -95,21 +95,50 @@ function buildTemplateGesuche(tenant: Tenant): Document[] {
 // ---------------------------------------------------------------------------
 
 // Generated exports (computed from live data)
-function buildDataExports(foundationCount: number): Document[] {
+/**
+ * The downloadable exports.
+ *
+ * `ownsFinancials` decides whether the two accounting exports are offered at
+ * all. They were offered to everyone: a second tenant's document page listed
+ * "Finanzdaten" and "Einnahmen-Historie", and the endpoints behind them served
+ * the first tenant's books under a filename built from the DOWNLOADER's name.
+ *
+ * The foundation list is different in kind and stays: the register is shared
+ * research, and the route already scopes it per tenant.
+ */
+function buildDataExports(foundationCount: number, ownsFinancials: boolean): Document[] {
+  const financial: Document[] = ownsFinancials
+    ? [
+        {
+          id: 'export-financial',
+          title: `Finanzdaten ${FINANCIAL_YEAR_RANGE}`,
+          description:
+            'Komplette Einnahmen & Ausgaben nach Jahr und Kategorie — generiert aus Kivitendo-Quelldaten',
+          format: 'CSV',
+          category: 'export',
+          action: 'download',
+          href: '/api/export/financial',
+          size: '~200 KB',
+          badge: FINANCIAL_YEAR_LABEL,
+          lastUpdated: '2026-02-13',
+        },
+        {
+          id: 'export-revenue',
+          title: 'Einnahmen-Historie',
+          description: `Jahresumsätze ${FINANCIAL_YEAR_RANGE} aufgeschlüsselt nach Einnahmequellen — generiert aus Kivitendo-Quelldaten`,
+          format: 'CSV',
+          category: 'export',
+          action: 'download',
+          href: '/api/export/revenue',
+          size: '~10 KB',
+          badge: FINANCIAL_YEAR_LABEL,
+          lastUpdated: '2026-02-13',
+        },
+      ]
+    : [];
+
   return [
-    {
-      id: 'export-financial',
-      title: `Finanzdaten ${FINANCIAL_YEAR_RANGE}`,
-      description:
-        'Komplette Einnahmen & Ausgaben nach Jahr und Kategorie — generiert aus Kivitendo-Quelldaten',
-      format: 'CSV',
-      category: 'export',
-      action: 'download',
-      href: '/api/export/financial',
-      size: '~200 KB',
-      badge: FINANCIAL_YEAR_LABEL,
-      lastUpdated: '2026-02-13',
-    },
+    ...financial,
     {
       id: 'export-foundations',
       title: 'Stiftungsliste',
@@ -120,18 +149,6 @@ function buildDataExports(foundationCount: number): Document[] {
       href: '/api/export/foundations',
       size: '~50 KB',
       badge: `${foundationCount} Stiftungen`,
-      lastUpdated: '2026-02-13',
-    },
-    {
-      id: 'export-revenue',
-      title: 'Einnahmen-Historie',
-      description: `Jahresumsätze ${FINANCIAL_YEAR_RANGE} aufgeschlüsselt nach Einnahmequellen — generiert aus Kivitendo-Quelldaten`,
-      format: 'CSV',
-      category: 'export',
-      action: 'download',
-      href: '/api/export/revenue',
-      size: '~10 KB',
-      badge: FINANCIAL_YEAR_LABEL,
       lastUpdated: '2026-02-13',
     },
   ];
@@ -196,9 +213,20 @@ const BERICHTE: Document[] = [
 // ---------------------------------------------------------------------------
 
 /** Built at render time — the gesuche + exports lists depend on live foundation data. */
-export function buildDocuments(foundations: Foundation[], tenant: Tenant, ownsContent = true) {
+export function buildDocuments(
+  foundations: Foundation[],
+  tenant: Tenant,
+  ownsContent = true,
+  /**
+   * Separate from `ownsContent` on purpose. Both answer "is this the code
+   * owner?" today, so one flag would work — and would silently start offering
+   * another organisation's accounts the day the fundraising content migrates
+   * and the financial content has not.
+   */
+  ownsFinancials = ownsContent,
+) {
   const gesuche = buildFoundationGesuche(foundations);
-  const exports = buildDataExports(foundations.length);
+  const exports = buildDataExports(foundations.length, ownsFinancials);
   const vorlagen = buildTemplateGesuche(tenant);
 
   const berichte = ownsContent ? BERICHTE : [];
