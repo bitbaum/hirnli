@@ -134,6 +134,9 @@ describe('toSlug', () => {
   it('leaves plain ASCII byte-identical, so stored slugs stay reproducible', () => {
     // Slugs are persisted, never recomputed on read. If ASCII output moved,
     // re-deriving one from an unchanged name would silently orphan a URL.
-    expect(toSlug('Revamp-IT Stiftung 2030')).toBe('revamp-it-stiftung-2030');
+    //
+    // Deliberately not a real tenant name: `no-tenant-traces.test.ts` counts
+    // those in source and this fixture does not need one to make its point.
+    expect(toSlug('Beispiel-Stiftung 2030')).toBe('beispiel-stiftung-2030');
   });
 });
