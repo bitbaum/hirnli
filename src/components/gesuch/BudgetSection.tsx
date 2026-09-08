@@ -3,7 +3,6 @@ import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { ThemeKey } from '@/lib/content/story-themes';
 import { getThemedLabel } from '@/lib/domain/budget-calculations';
 import { formatCHF } from '@/lib/utils/format';
-import { EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
 
 interface BudgetSectionProps {
   dok: ComposedGesuchDokument;
@@ -154,9 +153,8 @@ export default function BudgetSection({ dok }: BudgetSectionProps) {
         {budget.threeYearModel[2].total > 0
           ? Math.round((budget.threeYearModel[2].stiftungen / budget.threeYearModel[2].total) * 100)
           : 0}
-        % (Jahr 3). Eigenleistung = bewertete Freiwilligenarbeit (Stunden × CHF{' '}
-        {EIGENLEISTUNG_CONFIG.ratePerHour}/h), kein Cashflow. Wächst durch Community-Aufbau und
-        Hub-Betrieb.
+        % (Jahr 3). Eigenleistung = {budget.eigenleistung.label} (Stunden × CHF{' '}
+        {budget.eigenleistung.ratePerHour}/h), kein Cashflow.
       </p>
 
       {/* Budget detail by line item (Jahr 1) */}

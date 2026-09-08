@@ -33,16 +33,32 @@ import { readFileSync } from 'node:fs';
  * hand for the next instead of extended.
  */
 const TEMPLATE_MODULES = [
+  // `@/lib/config/stories` was the first entry here and is gone: that module
+  // held one customer's story, its row is the only copy now, and there is
+  // nothing left to import raw. The rule that replaced it is the one below.
   {
-    module: '@/lib/config/stories',
-    exports: ['WHY', 'GESUCH_TEXT', 'ANSCHREIBEN_TEMPLATES', 'PARTNER_HIGHLIGHTS'],
-    // Only the module that defines them. The composers used to be on this
-    // list — they imported the raw templates and filled them at the end — and
-    // that was the loophole the whole list was built around: a file allowed to
-    // read raw content is also a file that reads ONE organisation's content.
-    // They now receive a `TenantStory`, which fills on the way out, so there is
-    // nothing left for them to import.
-    mayReadRaw: ['src/lib/config/stories.ts'],
+    module: '@/lib/config/budget-scenarios',
+    exports: ['EIGENLEISTUNG_CONFIG', 'BUDGET_SCENARIOS', 'BUDGET_LINE_ITEMS'],
+    /**
+     * The Gesuch renderers are NOT on this list, and that is the point.
+     *
+     * `BudgetSection` and `BudgetPDF` imported `EIGENLEISTUNG_CONFIG` directly
+     * and printed one organisation's hourly rate — and a closing sentence about
+     * that organisation's own project — into every applicant's budget section.
+     * The composed document carries `budget.eigenleistung` now.
+     *
+     * The prose guard could not have caught it: that test inspects the composed
+     * DOCUMENT, and this sentence lived in a renderer that went around it.
+     * Which is the whole reason this file checks imports instead of output.
+     */
+    mayReadRaw: [
+      'src/lib/config/budget-scenarios.ts',
+      // Reads the code block on behalf of the gated fundraising pages, which
+      // are still code-owned and render for no one else.
+      'src/lib/domain/budget-calculations.ts',
+      'src/components/budget/ScenarioSelector.tsx',
+      'src/app/(tenant)/fundraising/sections/ThreeYearModel.tsx',
+    ],
   },
   {
     module: '@/lib/config/gesuch-templates',

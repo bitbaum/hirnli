@@ -11,7 +11,6 @@ import type { ComposedGesuchDokument } from '@/lib/domain/gesuch-composer';
 import type { BudgetLineItem } from '@/lib/schemas/budget';
 import type { ThemeKey } from '@/lib/content/story-themes';
 import { getThemedLabel } from '@/lib/domain/budget-calculations';
-import { EIGENLEISTUNG_CONFIG } from '@/lib/config/budget-scenarios';
 import { styles, COLORS, pdfFormatCHF } from './styles';
 
 interface BudgetPDFProps {
@@ -175,9 +174,8 @@ export default function BudgetPDF({ dok }: BudgetPDFProps) {
         )}
         % (Jahr 1) auf{' '}
         {Math.round((budget.threeYearModel[2].stiftungen / budget.threeYearModel[2].total) * 100)}%
-        (Jahr 3). Eigenleistung = bewertete Freiwilligenarbeit (Stunden x CHF{' '}
-        {EIGENLEISTUNG_CONFIG.ratePerHour}/h), kein Cashflow. Wächst durch Community-Aufbau und
-        Hub-Betrieb.
+        (Jahr 3). Eigenleistung = {budget.eigenleistung.label} (Stunden x CHF{' '}
+        {budget.eigenleistung.ratePerHour}/h), kein Cashflow.
       </Text>
 
       {/* Year 1 detail */}

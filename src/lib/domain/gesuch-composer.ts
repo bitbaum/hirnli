@@ -145,6 +145,16 @@ export interface ComposedGesuchDokument extends ComposedGesuch {
     eigen3yTotal: number;
     project3yTotal: number;
     primaryThemeKey?: ThemeKey;
+    /**
+     * What this organisation counts as its own contribution.
+     *
+     * Carried here because two renderers imported it straight from the code
+     * module instead — so every applicant's budget section stated one
+     * organisation's hourly rate, and ended with a sentence about that
+     * organisation's own project. A renderer given a document cannot reach for
+     * somebody else's figures.
+     */
+    eigenleistung: { label: string; ratePerHour: number };
   };
   kurzportrait: {
     facts: { label: string; value: string }[];
@@ -433,6 +443,10 @@ function composeBudget(
     eigen3yTotal: table.eigen3yTotal,
     project3yTotal: table.project3yTotal,
     primaryThemeKey: schwerpunktId ? SCHWERPUNKTE[schwerpunktId].storyThemes[0] : undefined,
+    eigenleistung: {
+      label: budget.raw.EIGENLEISTUNG.label,
+      ratePerHour: budget.raw.EIGENLEISTUNG.ratePerHour,
+    },
   };
 }
 
