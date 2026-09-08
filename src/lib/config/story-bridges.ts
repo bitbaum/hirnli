@@ -286,6 +286,19 @@ export const STORY_BRIDGES: Record<string, StoryBridge[]> = {
 /**
  * Get story bridges for a page
  */
-export function getStoryBridges(pageKey: string): StoryBridge[] {
-  return STORY_BRIDGES[pageKey] || [];
+/**
+ * The bridges for a page, minus the ones this tenant cannot show.
+ *
+ * `hidden` is required rather than optional. The homepage already computed the
+ * unauthored routes and filtered its call-to-action links with them, then
+ * passed these bridges through unfiltered three lines below — so a second
+ * customer's front page invited visitors to "Detaillierte Finanzanalyse
+ * ansehen" and "Unsere Wirkung in Zahlen", both of which answer that the
+ * organisation has published nothing.
+ *
+ * A default would have let that happen again silently. Callers must say which
+ * routes are unauthored, and passing an empty set is a visible choice.
+ */
+export function getStoryBridges(pageKey: string, hidden: ReadonlySet<string>): StoryBridge[] {
+  return (STORY_BRIDGES[pageKey] || []).filter((b) => !hidden.has(b.href));
 }
