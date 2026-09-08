@@ -203,16 +203,34 @@ describe('callGroq — fallback across the chain', () => {
     expect(firstBody.model).not.toBe(secondBody.model);
   });
 
-  it('reports every model it tried when the whole chain is exhausted', async () => {
+  it('a REJECTED KEY is asked once per vendor, not once per model', async () => {
+    // Changed deliberately with ai-kit 0.13.0. A 401 says "not you", and every
+    // remaining model at that vendor presents the identical credential — so
+    // walking them spends a request each to be told the same thing. This test
+    // used to assert CHAIN_MODEL_COUNT calls, which was the old, wasteful
+    // behaviour rather than a property worth keeping.
     fetchMock.mockResolvedValue(new Response('invalid_api_key', { status: 401 }));
 
     const result = await callGroq('system', 'user');
 
     expect(result.ok).toBe(false);
-    // Every model in the chain must have been tried — not just the first.
-    expect(fetchMock).toHaveBeenCalledTimes(CHAIN_MODEL_COUNT);
-    // Every link's failure should be named, not just the last one tried.
+    // One attempt at Groq. OpenRouter is not configured in this test, so the
+    // walk ends there.
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    // Every link's failure is still named, not just the last one tried.
     expect(result.error).toMatch(/link\(s\) failed/);
+  });
+
+  it('a 404 still walks EVERY model at the vendor — only auth condemns it', async () => {
+    // The boundary that keeps the skip honest: a retired model id is a fact
+    // about one model, and widening the vendor skip to cover it would turn the
+    // chain back into the pin it replaced.
+    fetchMock.mockResolvedValue(new Response('model_not_found', { status: 404 }));
+
+    const result = await callGroq('system', 'user');
+
+    expect(result.ok).toBe(false);
+    expect(fetchMock).toHaveBeenCalledTimes(CHAIN_MODEL_COUNT);
   });
 
   it('an explicit model is called once and alone, not folded into the chain', async () => {
@@ -257,21 +275,21 @@ describe('callGroq — fallback across the chain', () => {
     // ever crossed vendors.
     process.env.OPENROUTER_API_KEY = 'test-openrouter-key';
 
-    fetchMock
-      .mockResolvedValueOnce(new Response('invalid_api_key', { status: 401 }))
-      .mockResolvedValueOnce(new Response('invalid_api_key', { status: 401 }))
-      .mockResolvedValueOnce(
-        jsonResponse({ choices: [{ message: { content: 'openrouter answered' } }] }),
-      );
+    fetchMock.mockImplementation(async (url: string) =>
+      String(url).includes('groq')
+        ? new Response('invalid_api_key', { status: 401 })
+        : jsonResponse({ choices: [{ message: { content: 'openrouter answered' } }] }),
+    );
 
     const result = await callGroq('system', 'user');
 
     expect(result).toEqual({ ok: true, content: 'openrouter answered', usage: undefined });
-    // Every Groq model tried first (CHAIN_MODEL_COUNT of them), then the walk
-    // crossed to OpenRouter.
-    expect(fetchMock).toHaveBeenCalledTimes(CHAIN_MODEL_COUNT + 1);
-    const lastCallUrl = fetchMock.mock.calls[CHAIN_MODEL_COUNT][0] as string;
-    expect(lastCallUrl).toContain('openrouter.ai');
+    // Groq is asked ONCE — its key is refused, and its other models present the
+    // same one (ai-kit 0.13.0). Crossing to OpenRouter still happens: that is a
+    // DIFFERENT key, and the whole reason the chain spans vendors.
+    const urls = fetchMock.mock.calls.map((call) => String(call[0]));
+    expect(urls.filter((u: string) => u.includes('groq'))).toHaveLength(1);
+    expect(urls.at(-1)).toContain('openrouter.ai');
   });
 
   it('the usable chain includes both vendors when both keys are present', () => {
