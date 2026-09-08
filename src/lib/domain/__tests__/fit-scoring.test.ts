@@ -1,57 +1,87 @@
 import { describe, it, expect } from 'vitest';
 import { computeFitScore, fitScoreToDisplay, evaluateEngine } from '../fit-scoring';
 import { SCORING_ENGINE, READINESS_ENGINE } from '@/lib/config/fit-scoring';
+import type { ThemeCategory } from '@/lib/config/fit-scoring';
+
+/**
+ * The priorities these assertions were written against.
+ *
+ * Taken from the engine's own thematic dimension, so the numbers below mean
+ * exactly what they did when the hierarchy was imported rather than passed.
+ * What changed is that a caller must now SAY whose priorities it is scoring
+ * with; the flat case has its own test.
+ */
+const PRIORITIES = (
+  SCORING_ENGINE.dimensions.find((d) => d.id === 'thematic')!.config as {
+    categories: readonly ThemeCategory[];
+  }
+).categories as ThemeCategory[];
 
 describe('computeFitScore', () => {
   it('returns fitScore 0-10', () => {
-    const result = computeFitScore({
-      themes: ['kreislaufwirtschaft', 'soziale-integration'],
-      canton: 'ZH',
-      city: 'Zürich',
-      applicationMethod: 'email',
-      isFunder: true,
-    });
+    const result = computeFitScore(
+      {
+        themes: ['kreislaufwirtschaft', 'soziale-integration'],
+        canton: 'ZH',
+        city: 'Zürich',
+        applicationMethod: 'email',
+        isFunder: true,
+      },
+      PRIORITIES,
+    );
     expect(result.fitScore).toBeGreaterThanOrEqual(0);
     expect(result.fitScore).toBeLessThanOrEqual(10);
   });
 
   it('returns higher score for matching themes', () => {
-    const withThemes = computeFitScore({
-      themes: ['kreislaufwirtschaft', 'arbeitsintegration', 'digitale-bildung'],
-      canton: 'ZH',
-      city: 'Zürich',
-      applicationMethod: 'email',
-      isFunder: true,
-    });
-    const noThemes = computeFitScore({
-      themes: [],
-      canton: 'AG',
-      city: 'Aarau',
-      applicationMethod: 'unknown',
-      isFunder: true,
-    });
+    const withThemes = computeFitScore(
+      {
+        themes: ['kreislaufwirtschaft', 'arbeitsintegration', 'digitale-bildung'],
+        canton: 'ZH',
+        city: 'Zürich',
+        applicationMethod: 'email',
+        isFunder: true,
+      },
+      PRIORITIES,
+    );
+    const noThemes = computeFitScore(
+      {
+        themes: [],
+        canton: 'AG',
+        city: 'Aarau',
+        applicationMethod: 'unknown',
+        isFunder: true,
+      },
+      PRIORITIES,
+    );
     expect(withThemes.fitScore).toBeGreaterThan(noThemes.fitScore);
   });
 
   it('returns per-dimension breakdown', () => {
-    const result = computeFitScore({
-      themes: ['kreislaufwirtschaft'],
-      canton: 'ZH',
-      city: 'Zürich',
-      applicationMethod: 'email',
-      isFunder: true,
-    });
+    const result = computeFitScore(
+      {
+        themes: ['kreislaufwirtschaft'],
+        canton: 'ZH',
+        city: 'Zürich',
+        applicationMethod: 'email',
+        isFunder: true,
+      },
+      PRIORITIES,
+    );
     expect(Object.keys(result.dimensions).length).toBeGreaterThan(0);
   });
 
   it('returns 0 for empty input', () => {
-    const result = computeFitScore({
-      themes: [],
-      canton: '',
-      city: '',
-      applicationMethod: 'unknown',
-      isFunder: false,
-    });
+    const result = computeFitScore(
+      {
+        themes: [],
+        canton: '',
+        city: '',
+        applicationMethod: 'unknown',
+        isFunder: false,
+      },
+      PRIORITIES,
+    );
     expect(result.fitScore).toBe(0);
   });
 });

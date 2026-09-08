@@ -36,9 +36,29 @@ import * as path from 'path';
 import { sql } from './lib/db';
 import { classifyThemes, scoreFunderOperator, classifyType } from './lib/theme-classifier';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
+import { requireOrgId } from './lib/require-org';
+import { loadThemePriorities } from './lib/scoring';
+import type { ThemeCategory } from '../src/lib/config/fit-scoring';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import type { Foundation } from '../src/lib/schemas/foundation';
 
+/**
+ * The organisation whose priorities fit scores are computed with.
+ *
+ * Loaded once in `main()`. Null until then, and null for an organisation that
+ * has stated no ranking — which weights every theme equally rather than
+ * borrowing another organisation's.
+ */
+let THEME_PRIORITIES: ThemeCategory[] | null = null;
+
+/**
+ * Whose scores these are.
+ *
+ * This script wrote per-organisation fit scores without resolving an
+ * organisation, which is exactly how it came to score with whichever
+ * priorities happened to be compiled into the module.
+ */
+const ORG_ID = requireOrgId();
 // ============================================================================
 // CONFIG
 // ============================================================================
@@ -376,13 +396,16 @@ function enrichFoundation(
   // --- Recompute fit score if themes changed ---
   if (changes.some((c) => c.field === 'themes')) {
     const esa2 = f.uid ? esaByUid.get(f.uid) : undefined;
-    const { fitScore } = computeFitScore({
-      themes: enriched.themes as string[],
-      canton: esa2?.canton || '',
-      city: esa2?.city || enriched.region || '',
-      applicationMethod: enriched.applicationMethod || 'unknown',
-      isFunder: enriched.isOperative === false || enriched.isOperative === undefined,
-    });
+    const { fitScore } = computeFitScore(
+      {
+        themes: enriched.themes as string[],
+        canton: esa2?.canton || '',
+        city: esa2?.city || enriched.region || '',
+        applicationMethod: enriched.applicationMethod || 'unknown',
+        isFunder: enriched.isOperative === false || enriched.isOperative === undefined,
+      },
+      THEME_PRIORITIES,
+    );
 
     if (fitScore !== (enriched.fitScore || 0)) {
       enriched.fitScore = fitScore;
@@ -491,6 +514,7 @@ function buildMinimalResearchNotes(f: Foundation, esa?: ESAEntry): string {
 // ============================================================================
 
 async function main() {
+  THEME_PRIORITIES = await loadThemePriorities(ORG_ID);
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const statsOnly = args.includes('--stats-only');

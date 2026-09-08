@@ -12,9 +12,11 @@
  * To add a genuinely new compute type: add one function here + register it.
  */
 
+import { ThemeId } from '@/lib/schemas/foundation';
 import {
   SCORING_ENGINE,
   FIT_DISPLAY,
+  type ThemeCategory,
   type MatchCondition,
   type MatchExpression,
   type WeightedCategoryMatchConfig,
@@ -245,11 +247,24 @@ export function evaluateEngine(engine: ScoringEngineConfig, input: InputRecord):
 // ============================================================================
 
 /**
- * Compute composite fit score with per-dimension breakdown.
- * Reads all dimensions from SCORING_ENGINE config.
+ * Compute a composite fit score with a per-dimension breakdown.
+ *
+ * This is what the ingest and enrichment scripts write into an assessment, so
+ * the priorities passed here decide which foundations an organisation is told
+ * to approach. Passing none weights every theme equally — correct for an
+ * applicant that has stated no ranking, and never somebody else's ranking.
  */
-export function computeFitScore(input: FitScoreInput): FitResult {
-  const result = evaluateEngine(SCORING_ENGINE, input as unknown as InputRecord);
+export function computeFitScore(
+  input: FitScoreInput,
+  /**
+   * Required, with no default, on purpose. A default would be silent: every
+   * existing caller would keep compiling and quietly start weighting themes
+   * some other way. Making it explicit forced each of the seven ingest and
+   * enrichment scripts to say whose priorities it is scoring with.
+   */
+  thematic: ThemeCategory[] | null,
+): FitResult {
+  const result = evaluateEngine(engineWithPriorities(thematic), input as unknown as InputRecord);
   return { fitScore: result.score, dimensions: result.dimensions };
 }
 
@@ -281,14 +296,62 @@ export interface FitScoreExplanation {
   consistent: boolean;
 }
 
-export function explainFitScore(f: {
-  themes: string[];
-  applicationMethod: string;
-  isFunder: boolean;
-  fitScore: number;
-}): FitScoreExplanation {
+/**
+ * The engine to explain a score with, given the applicant's own priorities.
+ *
+ * `THEME_HIERARCHY` in the config names ONE organisation's core fields of work,
+ * and every tenant's fit breakdown was weighted by them. An applicant that has
+ * stated no priorities gets a single flat category instead: the breakdown still
+ * says which of its themes the foundation matches, without claiming a ranking
+ * the applicant never gave.
+ */
+function engineWithPriorities(thematic: ThemeCategory[] | null): ScoringEngineConfig {
+  if (!thematic) {
+    return {
+      ...SCORING_ENGINE,
+      dimensions: SCORING_ENGINE.dimensions.map((d) =>
+        d.id === 'thematic'
+          ? {
+              ...d,
+              config: {
+                ...(d.config as WeightedCategoryMatchConfig),
+                categories: [
+                  {
+                    name: 'matched',
+                    members: ThemeId.options,
+                    weight: 1,
+                    cap: d.maxScore,
+                  },
+                ],
+              },
+            }
+          : d,
+      ),
+    };
+  }
+
+  return {
+    ...SCORING_ENGINE,
+    dimensions: SCORING_ENGINE.dimensions.map((d) =>
+      d.id === 'thematic'
+        ? { ...d, config: { ...(d.config as WeightedCategoryMatchConfig), categories: thematic } }
+        : d,
+    ),
+  };
+}
+
+export function explainFitScore(
+  f: {
+    themes: string[];
+    applicationMethod: string;
+    isFunder: boolean;
+    fitScore: number;
+  },
+  /** The applicant's own theme priorities; null weights every theme equally. */
+  thematic: ThemeCategory[] | null = null,
+): FitScoreExplanation {
   // Geographic inputs empty → that dimension scores 0 here; thematic + access are exact.
-  const result = evaluateEngine(SCORING_ENGINE, {
+  const result = evaluateEngine(engineWithPriorities(thematic), {
     themes: f.themes,
     canton: '',
     city: '',

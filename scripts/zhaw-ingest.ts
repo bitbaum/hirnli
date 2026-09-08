@@ -24,6 +24,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { sql } from './lib/db';
+import { requireOrgId } from './lib/require-org';
+import { loadThemePriorities } from './lib/scoring';
+import type { ThemeCategory } from '../src/lib/config/fit-scoring';
 import { computeFitScore } from '../src/lib/domain/fit-scoring';
 import {
   classifyThemes,
@@ -33,6 +36,24 @@ import {
   toSlug,
   THEME_LABELS,
 } from './lib/theme-classifier';
+
+/**
+ * The organisation whose priorities fit scores are computed with.
+ *
+ * Loaded once in `main()`. Null until then, and null for an organisation that
+ * has stated no ranking — which weights every theme equally rather than
+ * borrowing another organisation's.
+ */
+let THEME_PRIORITIES: ThemeCategory[] | null = null;
+
+/**
+ * Whose scores these are.
+ *
+ * This script wrote per-organisation fit scores without resolving an
+ * organisation, which is exactly how it came to score with whichever
+ * priorities happened to be compiled into the module.
+ */
+const ORG_ID = requireOrgId();
 
 // ============================================================================
 // TYPES
@@ -209,13 +230,16 @@ function generateDraft(zhaw: ZhawFoundation): object {
   const website = extractWebsite(zhaw);
   const email = extractEmail(zhaw);
 
-  const { fitScore } = computeFitScore({
-    themes,
-    canton: 'ZH',
-    city: zhaw.city,
-    applicationMethod,
-    isFunder,
-  });
+  const { fitScore } = computeFitScore(
+    {
+      themes,
+      canton: 'ZH',
+      city: zhaw.city,
+      applicationMethod,
+      isFunder,
+    },
+    THEME_PRIORITIES,
+  );
   const suggestedFit: 1 | 2 | 3 = fitScore >= 7 ? 3 : fitScore >= 4 ? 2 : 1;
 
   const purposeSummary = generatePurposeSummary(zhaw);
@@ -357,6 +381,7 @@ function enrichExistingDraft(
 // ============================================================================
 
 async function main() {
+  THEME_PRIORITIES = await loadThemePriorities(ORG_ID);
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const limitArg = parseInt(args.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0', 10);

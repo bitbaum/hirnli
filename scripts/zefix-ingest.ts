@@ -19,6 +19,8 @@ config({ path: '.env.local' });
 import * as fs from 'fs';
 import * as path from 'path';
 import { sql, type SqlClient } from './lib/db';
+import { loadThemePriorities } from './lib/scoring';
+import type { ThemeCategory } from '../src/lib/config/fit-scoring';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import { classifyThemes, toSlug, THEME_LABELS } from './lib/theme-classifier';
 
@@ -50,6 +52,14 @@ import type { ResearchDepth } from './lib/utilities';
 import { requireOrgId } from './lib/require-org';
 import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
 
+/**
+ * The organisation whose priorities fit scores are computed with.
+ *
+ * Loaded once in `main()`. Null until then, and null for an organisation that
+ * has stated no ranking — which weights every theme equally rather than
+ * borrowing another organisation's.
+ */
+let THEME_PRIORITIES: ThemeCategory[] | null = null;
 // Resolved before any work begins: a run that cannot say whose data it is
 // producing should fail at the start, not after writing half a register.
 const ORG_ID = requireOrgId();
@@ -170,13 +180,16 @@ async function upsertEntry(sql: SqlClient, entry: ZefixEntry): Promise<{ success
   const isFunder = false; // Can't determine without purpose text
   const applicationMethod = 'unknown';
 
-  const { fitScore } = computeFitScore({
-    themes,
-    canton: '',
-    city: entry.city || '',
-    applicationMethod,
-    isFunder,
-  });
+  const { fitScore } = computeFitScore(
+    {
+      themes,
+      canton: '',
+      city: entry.city || '',
+      applicationMethod,
+      isFunder,
+    },
+    THEME_PRIORITIES,
+  );
   const researchDepth: ResearchDepth = 'rapid';
   const fitDisplay = fitScoreToDisplay(fitScore, researchDepth === 'rapid');
 
@@ -266,6 +279,7 @@ async function upsertEntry(sql: SqlClient, entry: ZefixEntry): Promise<{ success
 // ============================================================================
 
 async function main() {
+  THEME_PRIORITIES = await loadThemePriorities(ORG_ID);
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const limitArg = parseInt(args.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0', 10);
