@@ -74,6 +74,22 @@ export default function Nav({
               width={BRANDING.logoBox.width}
               height={BRANDING.logoBox.height}
               priority
+              /**
+               * Not optimised, and that is the whole point.
+               *
+               * `/_next/image` refuses any host absent from `images.remotePatterns`
+               * in next.config, which is empty — so it answered 400 for every
+               * absolute URL and the nav showed a broken-image icon on every page
+               * of that tenant's site. The first customer never hit it because its
+               * mark is a bundled relative path.
+               *
+               * `logoUrl` is a URL by design: a platform cannot require a customer
+               * to open a pull request to change its logo. Honouring that means the
+               * mark cannot depend on a build-time allowlist, so it goes straight
+               * to an <img> — one path that works for every tenant instead of one
+               * that works for the tenant whose file happens to ship with the app.
+               */
+              unoptimized
               className="h-auto w-auto"
             />
           ) : (

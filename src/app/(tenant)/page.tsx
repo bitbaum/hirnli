@@ -30,7 +30,7 @@ export default async function HomePage() {
         />
       </section>
 
-      <StoryBridge bridges={getStoryBridges('dashboard')} />
+      <StoryBridge bridges={getStoryBridges('dashboard', hidden)} />
     </>
   );
 }
