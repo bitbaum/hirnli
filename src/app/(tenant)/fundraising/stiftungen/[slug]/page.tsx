@@ -15,6 +15,7 @@ import FoundationHeader from '@/components/foundation/FoundationHeader';
 import FoundationSidebar from '@/components/foundation/FoundationSidebar';
 import SimilarFoundations from '@/components/foundation/SimilarFoundations';
 import FoundationDetailTabs from './FoundationDetailTabs';
+import { getThemePriorities } from '@/lib/content/scoring-source';
 import { getTenant } from '@/lib/tenant/resolve';
 
 // Must be dynamic: the root layout reads the locale cookie (next-intl), so no
@@ -38,6 +39,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function FoundationDetailPage({ params }: Props) {
   const tenant = await getTenant();
+  // The viewing organisation's own theme priorities. Null when it has stated
+  // none, which weights every matched theme equally rather than ranking its
+  // foundations by another organisation's core fields of work.
+  const themePriorities = await getThemePriorities(tenant.orgId);
   const { slug } = await params;
   const [foundation, allFoundations] = await Promise.all([
     getFoundationBySlug(slug),
@@ -84,6 +89,7 @@ export default async function FoundationDetailPage({ params }: Props) {
       <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
         <div>
           <FoundationDetailTabs
+            themePriorities={themePriorities}
             foundation={foundation}
             fitNarrative={fitNarrative}
             themeAlignments={themeAlignments}

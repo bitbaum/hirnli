@@ -61,13 +61,22 @@ export type MatchExpression = MatchCondition | { type: 'or'; conditions: MatchCo
 
 // --- Compute type configs ---
 
+/**
+ * One weighted group of themes.
+ *
+ * Named and exported because it is now a per-tenant value read from
+ * `org_scoring`, not only an inline part of this module's config. Stated once
+ * here so the reader, the engine and the scripts all mean the same shape.
+ */
+export interface ThemeCategory {
+  name: string;
+  members: readonly string[];
+  weight: number;
+  cap: number;
+}
+
 export interface WeightedCategoryMatchConfig {
-  categories: readonly {
-    name: string;
-    members: readonly string[];
-    weight: number;
-    cap: number;
-  }[];
+  categories: readonly ThemeCategory[];
   totalCap: number;
   round: boolean;
 }

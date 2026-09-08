@@ -25,6 +25,8 @@ import * as path from 'path';
 import { sql } from './lib/db';
 import { ResearchDraftSchema } from './lib/research-types';
 import { type Foundation, type FoundationRegistry } from '../src/lib/schemas/foundation';
+import { loadThemePriorities } from './lib/scoring';
+import type { ThemeCategory } from '../src/lib/config/fit-scoring';
 import { computeFitScore } from '../src/lib/domain/fit-scoring';
 import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 
@@ -37,6 +39,14 @@ import { requireOrgId } from './lib/require-org';
 import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
 import { getFoundationById } from './lib/foundations';
 
+/**
+ * The organisation whose priorities fit scores are computed with.
+ *
+ * Loaded once in `main()`. Null until then, and null for an organisation that
+ * has stated no ranking — which weights every theme equally rather than
+ * borrowing another organisation's.
+ */
+let THEME_PRIORITIES: ThemeCategory[] | null = null;
 // Resolved before any work begins: a run that cannot say whose data it is
 // producing should fail at the start, not after writing half a register.
 const ORG_ID = requireOrgId();
@@ -48,6 +58,7 @@ function isZefixUrl(url: string): boolean {
 // FIT SCORE — Centralized in src/lib/domain/fit-scoring.ts
 
 async function main() {
+  THEME_PRIORITIES = await loadThemePriorities(ORG_ID);
   let files = process.argv.slice(2);
 
   // Support directory argument: expand to all .json files in it
@@ -162,13 +173,16 @@ async function main() {
     depthCounts[researchDepth]++;
 
     // --- Compute fitScore 0-10 ---
-    const { fitScore } = computeFitScore({
-      themes: a.themes,
-      canton: esa.canton || '',
-      city: esa.city || '',
-      applicationMethod: a.applicationMethod,
-      isFunder: a.isFunder,
-    });
+    const { fitScore } = computeFitScore(
+      {
+        themes: a.themes,
+        canton: esa.canton || '',
+        city: esa.city || '',
+        applicationMethod: a.applicationMethod,
+        isFunder: a.isFunder,
+      },
+      THEME_PRIORITIES,
+    );
     // Priority placeholder for the initial write — computePriorityScore() needs
     // readiness inputs (contact, applicationUrl, etc.) that may only exist on the
     // DB's current merged row, not in this partial draft. Corrected below, after

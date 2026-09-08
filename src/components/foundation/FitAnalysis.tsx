@@ -2,7 +2,7 @@ import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { UNKNOWN_FIELD } from '@/lib/schemas/foundation';
 import { FIT_CONFIG } from '@/lib/config/foundations';
-import { SCORING_ENGINE } from '@/lib/config/fit-scoring';
+import { SCORING_ENGINE, type ThemeCategory } from '@/lib/config/fit-scoring';
 import { getFitLevel } from '@/lib/domain/foundation-helpers';
 import { explainFitScore } from '@/lib/domain/fit-scoring';
 import ProgressBar from '@/components/ui/ProgressBar';
@@ -13,23 +13,36 @@ interface FitAnalysisProps {
   foundation: Foundation;
   fitNarrative?: FitNarrative;
   themeAlignments?: ThemeAlignment[];
+  /**
+   * The viewing organisation's own theme priorities.
+   *
+   * Undefined means it has stated none, and every matched theme is weighted
+   * equally. This breakdown used to be computed from the code module's
+   * hierarchy — one organisation's core fields of work — so every tenant was
+   * shown its foundations ranked by somebody else's priorities.
+   */
+  themePriorities?: ThemeCategory[] | null;
 }
 
 export default function FitAnalysis({
   foundation: f,
   fitNarrative,
   themeAlignments,
+  themePriorities = null,
 }: FitAnalysisProps) {
   const fitLevel = getFitLevel(f);
   const fit = FIT_CONFIG[fitLevel];
   const isUnassessed = fitLevel === 0;
-  const explanation = explainFitScore({
-    themes: f.themes,
-    applicationMethod: f.applicationMethod, // isFunder lives only in the ingest pipeline; false here means unknown-method funder
-    // fallbacks reconcile as inconsistent → honest fallback text instead of wrong numbers
-    isFunder: false,
-    fitScore: f.fitScore,
-  });
+  const explanation = explainFitScore(
+    {
+      themes: f.themes,
+      applicationMethod: f.applicationMethod, // isFunder lives only in the ingest pipeline; false here means unknown-method funder
+      // fallbacks reconcile as inconsistent → honest fallback text instead of wrong numbers
+      isFunder: false,
+      fitScore: f.fitScore,
+    },
+    themePriorities,
+  );
 
   return (
     <Card>

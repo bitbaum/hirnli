@@ -10,11 +10,21 @@ config({ path: '.env.local' });
 import * as fs from 'fs';
 import * as path from 'path';
 import { sql } from './lib/db';
+import { loadThemePriorities } from './lib/scoring';
+import type { ThemeCategory } from '../src/lib/config/fit-scoring';
 import { computeFitScore } from '../src/lib/domain/fit-scoring.js';
 import { ThemeId } from '../src/lib/schemas/foundation.js';
 import { requireOrgId } from './lib/require-org';
 import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
 
+/**
+ * The organisation whose priorities fit scores are computed with.
+ *
+ * Loaded once in `main()`. Null until then, and null for an organisation that
+ * has stated no ranking — which weights every theme equally rather than
+ * borrowing another organisation's.
+ */
+let THEME_PRIORITIES: ThemeCategory[] | null = null;
 const DRY_RUN = process.argv.includes('--dry-run');
 
 // Whose assessments this run produces. Resolved before any work begins: a run
@@ -42,6 +52,7 @@ interface TriageEntry {
 }
 
 async function main() {
+  THEME_PRIORITIES = await loadThemePriorities(ORG_ID);
   if (!INPUT_FILE) {
     console.error('Usage: npx tsx scripts/ingest-triage.ts <results.json> [--dry-run]');
     process.exit(1);
@@ -77,13 +88,16 @@ async function main() {
     }
 
     // Compute fitScore from themes (algorithmic)
-    const { fitScore: algoScore } = computeFitScore({
-      themes: validThemes,
-      canton: '',
-      city: '',
-      applicationMethod: entry.applicationMethod || 'unknown',
-      isFunder: entry.isFunder,
-    });
+    const { fitScore: algoScore } = computeFitScore(
+      {
+        themes: validThemes,
+        canton: '',
+        city: '',
+        applicationMethod: entry.applicationMethod || 'unknown',
+        isFunder: entry.isFunder,
+      },
+      THEME_PRIORITIES,
+    );
 
     // Use best of algorithmic and LLM-assessed score (LLM has context we lack: canton, purpose nuance)
     const fitScore = Math.max(algoScore, (entry as any).fitScore ?? 0);
@@ -165,13 +179,16 @@ async function main() {
       .map((e) => ({
         slug: e.slug,
         name: e.name,
-        fitScore: computeFitScore({
-          themes: e.themes.filter((t) => VALID_THEME_IDS.has(t)),
-          canton: '',
-          city: '',
-          applicationMethod: e.applicationMethod || 'unknown',
-          isFunder: e.isFunder,
-        }).fitScore,
+        fitScore: computeFitScore(
+          {
+            themes: e.themes.filter((t) => VALID_THEME_IDS.has(t)),
+            canton: '',
+            city: '',
+            applicationMethod: e.applicationMethod || 'unknown',
+            isFunder: e.isFunder,
+          },
+          THEME_PRIORITIES,
+        ).fitScore,
         themes: e.themes.filter((t) => VALID_THEME_IDS.has(t)),
         purposeSummary: e.purposeSummary,
         researchNotes: e.researchNotes || '',

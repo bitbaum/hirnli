@@ -39,6 +39,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { sql, type SqlClient } from './lib/db';
 import { execSync } from 'child_process';
+import { loadThemePriorities } from './lib/scoring';
+import type { ThemeCategory } from '../src/lib/config/fit-scoring';
 import { computeFitScore, fitScoreToDisplay } from '../src/lib/domain/fit-scoring';
 import {
   classifyThemes,
@@ -53,6 +55,14 @@ import { ThemeId } from '../src/lib/schemas/foundation';
 import { requireOrgId } from './lib/require-org';
 import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
 
+/**
+ * The organisation whose priorities fit scores are computed with.
+ *
+ * Loaded once in `main()`. Null until then, and null for an organisation that
+ * has stated no ranking — which weights every theme equally rather than
+ * borrowing another organisation's.
+ */
+let THEME_PRIORITIES: ThemeCategory[] | null = null;
 // ============================================================================
 // CLI ARGS
 // ============================================================================
@@ -186,13 +196,16 @@ async function phase1KeywordScreen(sql: SqlClient): Promise<ScreenCandidate[]> {
 
     // Compute fit score
     const applicationMethod = detectApplicationMethod(purpose);
-    const { fitScore } = computeFitScore({
-      themes,
-      canton,
-      city,
-      applicationMethod,
-      isFunder,
-    });
+    const { fitScore } = computeFitScore(
+      {
+        themes,
+        canton,
+        city,
+        applicationMethod,
+        isFunder,
+      },
+      THEME_PRIORITIES,
+    );
 
     candidates.push({
       slug: row.id,
@@ -474,13 +487,16 @@ async function phase2LlmTriage(
     // Compute real fitScore from LLM themes (algorithmic)
     const applicationMethod = (raw.applicationMethod as string) || 'unknown';
     const isFunder = typeof raw.isFunder === 'boolean' ? raw.isFunder : candidate.isFunder;
-    const { fitScore: algoScore } = computeFitScore({
-      themes: validThemes,
-      canton: candidate.canton,
-      city: candidate.city,
-      applicationMethod,
-      isFunder,
-    });
+    const { fitScore: algoScore } = computeFitScore(
+      {
+        themes: validThemes,
+        canton: candidate.canton,
+        city: candidate.city,
+        applicationMethod,
+        isFunder,
+      },
+      THEME_PRIORITIES,
+    );
 
     // LLM's contextual assessment (0-3 scale → map to 0-10)
     // 0→0, 1→4, 2→6, 3→8  (conservative: LLM "3" doesn't auto-become 10)
@@ -677,6 +693,7 @@ function findPendingAutoResearch(): string[] {
 // ============================================================================
 
 async function main() {
+  THEME_PRIORITIES = await loadThemePriorities(ORG_ID);
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('  Pipeline Graduate — Cheap funnel for rapid foundations');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');

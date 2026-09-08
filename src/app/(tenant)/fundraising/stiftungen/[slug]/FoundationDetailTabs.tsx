@@ -3,6 +3,7 @@
 import Tabs from '@/components/ui/Tabs';
 import Callout from '@/components/ui/Callout';
 import FitAnalysis from '@/components/foundation/FitAnalysis';
+import type { ThemeCategory } from '@/lib/config/fit-scoring';
 import ApproachChecklist from '@/components/foundation/ApproachChecklist';
 import Card from '@/components/ui/Card';
 import type { Foundation } from '@/lib/schemas/foundation';
@@ -28,6 +29,7 @@ interface Props {
   themeAlignments?: ThemeAlignment[];
   approachSteps?: ApproachStep[];
   readiness?: ReadinessItem[];
+  themePriorities?: ThemeCategory[] | null;
 }
 
 const TIER_BANNER: Record<QualityTier, { text: string; className: string } | null> = {
@@ -53,6 +55,7 @@ export default function FoundationDetailTabs({
   themeAlignments,
   approachSteps,
   readiness,
+  themePriorities,
 }: Props) {
   const typeLabel = TYPE_LABELS[f.type];
   const tier = getQualityTier(f);
@@ -94,6 +97,7 @@ export default function FoundationDetailTabs({
               return (
                 <FitAnalysis
                   foundation={f}
+                  themePriorities={themePriorities}
                   fitNarrative={fitNarrative}
                   themeAlignments={themeAlignments}
                 />
