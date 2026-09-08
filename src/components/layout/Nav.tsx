@@ -90,7 +90,21 @@ export default function Nav({
                * that works for the tenant whose file happens to ship with the app.
                */
               unoptimized
-              className="h-auto w-auto"
+              /**
+               * The box is enforced here, not left to the optimiser.
+               *
+               * `h-auto w-auto` used to be enough because `/_next/image`
+               * returned an already-resized file, so the natural size WAS the
+               * intended size. Serving the source directly made the same
+               * classes mean "render at whatever the customer uploaded" — and
+               * a 1024px app icon filled the viewport. Worse than the broken
+               * image it replaced, and only visible by looking.
+               *
+               * A mark of any dimensions now fits the same box: capped height,
+               * width follows the aspect ratio.
+               */
+              style={{ height: BRANDING.logoBox.height, width: 'auto' }}
+              className="max-w-none object-contain"
             />
           ) : (
             // No mark of their own yet. Reserve the space so the layout does
