@@ -5,7 +5,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import { BRANDING } from '@/lib/config/branding';
-import { getTenant } from '@/lib/tenant/resolve';
+import { getTenantOrNull } from '@/lib/tenant/resolve';
+import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -14,15 +15,21 @@ const SITE_DESCRIPTION =
   'Alle Zahlen, alle Quellen, komplett nachvollziehbar: Finanzen, Wirkung und Strategie — plus Stiftungsrecherche und Gesuch-Generierung auf einer Plattform.';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const tenant = await getTenant();
-  const siteTitle = `${tenant.name} — Transparentes Fundraising`;
+  // Deliberately the NON-redirecting lookup. This layout wraps the platform
+  // pages too — /registrieren, /anmelden, /plattform — and the platform host
+  // is not a tenant. getTenant() would redirect them all to the marketing
+  // page from inside metadata, after the body had already streamed as a 200.
+  const tenant = await getTenantOrNull();
+  const siteTitle = tenant
+    ? `${tenant.name} — Transparentes Fundraising`
+    : `${PLATFORM_BRAND.name} — ${PLATFORM_BRAND.tagline}`;
 
   return {
     // Absolute base for OG images and canonical URLs (link previews need
     // absolute URLs). Omitted for a tenant with no site of its own rather than
     // pointed at somebody else's domain, which is where every relative URL on
     // the page — including the OG image — would then resolve.
-    metadataBase: tenant.siteUrl ? new URL(tenant.siteUrl) : undefined,
+    metadataBase: tenant?.siteUrl ? new URL(tenant.siteUrl) : undefined,
     title: {
       default: siteTitle,
       template: `%s — ${BRANDING.siteName}`,

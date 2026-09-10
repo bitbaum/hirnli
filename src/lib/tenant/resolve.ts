@@ -63,7 +63,7 @@ export const getTenantById = cache(async (orgId: string): Promise<Tenant> => {
  * `x-org-id` is published by middleware from the Host. The default covers code
  * running outside a request scope (build-time metadata, scripts).
  */
-export const getCurrentOrgId = cache(async (): Promise<string> => {
+const resolveOrgId = cache(async (): Promise<string | null> => {
   const host = (await headers()).get(TENANT_HOST_HEADER);
 
   if (!host) {
@@ -101,14 +101,43 @@ export const getCurrentOrgId = cache(async (): Promise<string> => {
     //   redirect to the platform → an unknown host gets the product's own
     //                            page. Names no customer, leaks nothing, and
     //                            is a truthful answer to "what is this host?".
-    redirect(PLATFORM_BRAND.marketingPath);
+    return null;
   }
+  return orgId;
+});
+
+/**
+ * The tenant this request acts as. An unresolved host is sent to the platform
+ * page, which is correct for anything a TENANT renders.
+ */
+export const getCurrentOrgId = cache(async (): Promise<string> => {
+  const orgId = await resolveOrgId();
+  if (!orgId) redirect(PLATFORM_BRAND.marketingPath);
   return orgId;
 });
 
 /** The tenant this request is acting as, with identity loaded. */
 export const getTenant = cache(async (): Promise<Tenant> => {
   return getTenantById(await getCurrentOrgId());
+});
+
+/**
+ * The tenant, or null when this host is not one — no redirect.
+ *
+ * Anything the PLATFORM renders must use this. The platform host is
+ * deliberately absent from `org_domains`, so `getTenant()` redirects there,
+ * and in `generateMetadata` that redirect is close to invisible: the page body
+ * streams first, so the response commits 200 with the real HTML and the
+ * redirect only reaches the client afterwards, inside the RSC stream. `curl`
+ * sees a working page and a browser is bounced to `/plattform`.
+ *
+ * That is how sign-up became unreachable from the product's own front door
+ * while every status check stayed green — `/registrieren` on the platform host
+ * returned 200 with the form and no browser could ever show it.
+ */
+export const getTenantOrNull = cache(async (): Promise<Tenant | null> => {
+  const orgId = await resolveOrgId();
+  return orgId ? getTenantById(orgId) : null;
 });
 
 /**
