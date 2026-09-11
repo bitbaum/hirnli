@@ -2,6 +2,11 @@
 # NOT from package.json — npm `overrides` and `pnpm.onlyBuiltDependencies`
 # there are silently ignored).
 allowBuilds:
+  # Git dep needs its prepare build; pnpm demands the exact resolved URL and
+  # prints the key in its ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED message. Update
+  # this sha when the listkit pin moves. It goes away if listkit reaches npm,
+  # because a published tarball ships dist/ and needs no build here.
+  listkit@https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525: true
   '@parcel/watcher': true
   '@swc/core': true
   esbuild: true

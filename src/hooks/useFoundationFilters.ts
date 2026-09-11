@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { toggleInSet } from 'listkit';
 import { useCallback, useMemo } from 'react';
 import { QualityTier, ThemeId, FoundationType, FoundationStatus } from '@/lib/schemas/foundation';
 import type { FoundationFilters, SortField, FilterPresetId } from '@/lib/domain/foundation-filter';
@@ -10,6 +11,7 @@ import {
   FILTER_PRESETS,
   filterFoundations,
   sortFoundations,
+  presetParamUpdates,
 } from '@/lib/domain/foundation-filter';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { isSchwerpunktId } from '@/lib/config/schwerpunkte';
@@ -101,10 +103,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
 
   const toggleTheme = useCallback(
     (theme: string) => {
-      const current = filters.themes;
-      const next = current.includes(theme as ThemeId)
-        ? current.filter((t) => t !== theme)
-        : [...current, theme as ThemeId];
+      const next = toggleInSet(filters.themes, theme);
       updateParams({ themes: next.length > 0 ? next.join(',') : null });
     },
     [filters.themes, updateParams],
@@ -112,10 +111,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
 
   const toggleType = useCallback(
     (type: string) => {
-      const current = filters.types;
-      const next = current.includes(type as FoundationType)
-        ? current.filter((t) => t !== type)
-        : [...current, type as FoundationType];
+      const next = toggleInSet(filters.types, type);
       updateParams({ types: next.length > 0 ? next.join(',') : null });
     },
     [filters.types, updateParams],
@@ -123,10 +119,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
 
   const toggleStatus = useCallback(
     (status: string) => {
-      const current = filters.statuses;
-      const next = current.includes(status as FoundationStatus)
-        ? current.filter((s) => s !== status)
-        : [...current, status as FoundationStatus];
+      const next = toggleInSet(filters.statuses, status);
       updateParams({ statuses: next.length > 0 ? next.join(',') : null });
     },
     [filters.statuses, updateParams],
@@ -208,11 +201,8 @@ export function useFoundationFilters(foundations: Foundation[]) {
   }, [filters.requireDataGaps, updateParams]);
 
   const toggleTrustLevel = useCallback(
-    (level: TrustLevel) => {
-      const current = filters.trustLevels;
-      const next = current.includes(level)
-        ? current.filter((l) => l !== level)
-        : [...current, level];
+    (level: string) => {
+      const next = toggleInSet(filters.trustLevels, level);
       updateParams({ trust: next.length > 0 ? next.join(',') : null });
     },
     [filters.trustLevels, updateParams],
@@ -243,26 +233,14 @@ export function useFoundationFilters(foundations: Foundation[]) {
 
   const applyPreset = useCallback(
     (presetId: FilterPresetId) => {
-      const preset = FILTER_PRESETS.find((p) => p.id === presetId);
-      if (!preset) return;
-
-      // Reset to defaults, then apply preset overrides
-      const params = new URLSearchParams();
-      const pf = preset.filters;
-      if (pf.minTier && pf.minTier !== DEFAULT_FILTERS.minTier) params.set('tier', pf.minTier);
-      if (pf.fit && pf.fit.length > 0) params.set('fit', pf.fit.join(','));
-      if (pf.priorityLevels && pf.priorityLevels.length > 0)
-        params.set('pl', pf.priorityLevels.join(','));
-      if (pf.themes && pf.themes.length > 0) params.set('themes', pf.themes.join(','));
-      if (pf.requireEmail) params.set('email', '1');
-      if (pf.requirePhone) params.set('phone', '1');
-      if (pf.requireAddress) params.set('addr', '1');
-      if (pf.requireDataGaps) params.set('gaps', '1');
-
-      const qs = params.toString();
-      router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
+      // A preset changes the dimensions it is about and nothing else. This used
+      // to build `new URLSearchParams()` from scratch, which discarded the
+      // reader's search text, their sort and eleven other params on every
+      // click, with no cause visible on screen. The map lives in the domain
+      // module so a test can reach it without a router.
+      updateParams(presetParamUpdates(presetId));
     },
-    [router, pathname],
+    [updateParams],
   );
 
   const resetFilters = useCallback(() => {
@@ -319,6 +297,11 @@ export function useFoundationFilters(foundations: Foundation[]) {
       filters.requirePhone ||
       filters.requireAddress ||
       filters.requireDataGaps ||
+      // `requireGesuch` was absent here and in activeFilterCount below, so
+      // `?gesuch=1` on its own left hasActiveFilters false: ActiveFilterPills
+      // early-returns on that, so the reader got a filtered list with no pill
+      // saying why and no "Alle zurücksetzen" to escape it.
+      filters.requireGesuch ||
       filters.trustLevels.length > 0 ||
       filters.minTier !== DEFAULT_FILTERS.minTier
     );
@@ -340,6 +323,7 @@ export function useFoundationFilters(foundations: Foundation[]) {
     if (filters.requirePhone) count++;
     if (filters.requireAddress) count++;
     if (filters.requireDataGaps) count++;
+    if (filters.requireGesuch) count++;
     if (filters.trustLevels.length > 0) count++;
     if (filters.minTier !== DEFAULT_FILTERS.minTier) count++;
     return count;

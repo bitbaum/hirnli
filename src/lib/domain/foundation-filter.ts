@@ -282,3 +282,34 @@ export function sortFoundations(
   });
   return sorted;
 }
+
+/**
+ * The URL parameters a preset sets, and the ones it clears.
+ *
+ * This lives here rather than inside the hook so it can be asserted without a
+ * router. It was inside the hook, and the consequence was that nothing tested
+ * it: `applyPreset` built `new URLSearchParams()` from scratch, so every click
+ * discarded the reader's search text, their sort, their themes, types,
+ * statuses, Schwerpunkt, every hide-flag, and any parameter the list does not
+ * own. The caller now feeds this map to `updateParams`, which copies the URL it
+ * was given.
+ *
+ * `null` means "delete this key". A preset is about a fixed set of dimensions:
+ * it sets the ones it wants and clears the ones it is about but does not want,
+ * and says nothing at all about the rest.
+ */
+export function presetParamUpdates(presetId: FilterPresetId): Record<string, string | null> {
+  const preset = FILTER_PRESETS.find((p) => p.id === presetId);
+  if (!preset) return {};
+  const pf = preset.filters;
+  return {
+    tier: pf.minTier && pf.minTier !== DEFAULT_FILTERS.minTier ? pf.minTier : null,
+    fit: pf.fit && pf.fit.length > 0 ? pf.fit.join(',') : null,
+    pl: pf.priorityLevels && pf.priorityLevels.length > 0 ? pf.priorityLevels.join(',') : null,
+    themes: pf.themes && pf.themes.length > 0 ? pf.themes.join(',') : null,
+    email: pf.requireEmail ? '1' : null,
+    phone: pf.requirePhone ? '1' : null,
+    addr: pf.requireAddress ? '1' : null,
+    gaps: pf.requireDataGaps ? '1' : null,
+  };
+}
