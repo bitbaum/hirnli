@@ -12,8 +12,20 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# On a branch the newest push is the only one that matters, so cancel the rest.
+#
+# On main the group is keyed per COMMIT, because a commit cancelling a DIFFERENT
+# commit's run breaks deployment. Deploy waits for CI to pass on the commit it
+# is shipping; auto-merge also re-arms CI with a dispatch, and under one
+# group-per-branch that dispatch cancels the push run for the same commit. The
+# cancelled run is what "Wait for CI to pass on this commit" then finds.
+#
+# Observed 2026-09-11 on 84403805: `push cancelled` at 20:24:07, `dispatch
+# success` at 20:24:08, and Deploy failed at the wait step with the commit
+# merged and the site still serving the previous build. Per-commit keys let
+# both finish, so the wait finds the run that passed.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.ref }}-${{ github.ref == 'refs/heads/main' && github.sha || 'branch' }}
   cancel-in-progress: true
 
 jobs:
