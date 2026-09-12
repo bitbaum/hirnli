@@ -15,8 +15,8 @@ importers:
         specifier: ^1.7.3
         version: 1.7.3(@better-auth/core@1.7.4(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.4.0(zod@4.5.4))(jose@6.2.10)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)(drizzle-orm@0.45.2(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.0))
       '@bitbaum/ai-kit':
-        specifier: ^0.15.0
-        version: 0.15.0(react@19.2.8)
+        specifier: ^1.4.0
+        version: 1.4.0(react@19.2.8)
       '@bitbaum/mail-kit':
         specifier: ^0.1.1
         version: 0.1.1
@@ -297,8 +297,8 @@ packages:
   '@better-fetch/fetch@1.3.1':
     resolution: {integrity: sha512-ABkD1WhyfPZprKRQI3bhATjeiFuNWC9PXhfGWqL+sg/gKrM977oFrYkdb4msM3hgUGonr7KlOsOFT5TU2rht9g==}
 
-  '@bitbaum/ai-kit@0.15.0':
-    resolution: {integrity: sha512-anYal45ZeoyF10HbtLVv3o1DPJGDNetbVjtdC6wHHVRW/IQIep4Y95tCKUW+Ftr5Gd6tLRalFfgZAsRdBewqUw==}
+  '@bitbaum/ai-kit@1.4.0':
+    resolution: {integrity: sha512-ZHN2Vxqszq2xNU7RudI4zEnXMzhxZLIBsE8ZqZo8q1EBYN+WFWOgrsPeHHwWPl5ckw8g2l7r1sZ0G920dDnLHA==}
     engines: {node: '>=20'}
     peerDependencies:
       react: '>=18'
@@ -3954,7 +3954,7 @@ snapshots:
 
   '@better-fetch/fetch@1.3.1': {}
 
-  '@bitbaum/ai-kit@0.15.0(react@19.2.8)':
+  '@bitbaum/ai-kit@1.4.0(react@19.2.8)':
     dependencies:
       ai-forms: 0.1.2(react@19.2.8)
     optionalDependencies:
