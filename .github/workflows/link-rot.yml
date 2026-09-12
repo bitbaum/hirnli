@@ -44,7 +44,7 @@ jobs:
 
       - name: Open an issue if a citation died
         if: steps.check.outputs.failed != '0'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           REPORT: ${{ steps.check.outputs.report }}
         with:
