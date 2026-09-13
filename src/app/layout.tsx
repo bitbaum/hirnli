@@ -76,10 +76,10 @@ export default async function RootLayout({
           </ThemeProvider>
         </NextIntlClientProvider>
 
-        {/* FleetCrown feedback widget — env-gated, see docs/architecture/feedback-widget.md */}
+        {/* Loki feedback widget — env-gated, see docs/architecture/feedback-widget.md */}
         {process.env.NEXT_PUBLIC_FC_WIDGET_TOKEN && (
           <Script
-            src="https://fleetcrown.orangecat.ch/widget.js"
+            src="https://loki.orangecat.ch/widget.js"
             strategy="afterInteractive"
             data-fc-project={process.env.NEXT_PUBLIC_FC_WIDGET_TOKEN}
           />

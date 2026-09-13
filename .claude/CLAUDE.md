@@ -9,7 +9,7 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 **What:** Fundraising intelligence platform (multi-tenant; Revamp-IT is tenant #1)
 **Core:** Ingest project data → Present beautifully → Find funders → Profile fit → Generate documents
 **Stack:** Next.js 16 + TypeScript + Tailwind CSS v4 + Chart.js + Zod 4 + Drizzle + Better Auth
-**Deploy:** push to `main` → `.github/workflows/deploy.yml` (fleet selfhost-deploy; manual fallback: `~/dev/fleetcrown/scripts/hetzner/deploy.sh revamp-info` — see docs/DEPLOYMENT.md)
+**Deploy:** push to `main` → `.github/workflows/deploy.yml` (fleet selfhost-deploy; manual fallback: `~/dev/loki/scripts/hetzner/deploy.sh revamp-info` — see docs/DEPLOYMENT.md)
 **URLs:** https://revamp-info.orangecat.ch (tenant) · https://hirnli.orangecat.ch (platform)
 
 ## First Principles
@@ -95,7 +95,7 @@ pnpm run build
 
 # Deploy: push to main (CD via .github/workflows/deploy.yml). Manual fallback
 # (build locally -> rsync artifact -> restart; see docs/DEPLOYMENT.md):
-~/dev/fleetcrown/scripts/hetzner/deploy.sh revamp-info
+~/dev/loki/scripts/hetzner/deploy.sh revamp-info
 ```
 
 ## Adding a Foundation
