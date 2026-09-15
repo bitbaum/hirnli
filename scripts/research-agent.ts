@@ -41,6 +41,7 @@ import { reconcileContacts, type ContactCandidate } from './lib/source-reconcile
 import { extractWebContent } from './lib/web-extract';
 import { isRegistryUrl } from '../src/lib/config/registry-domains';
 import { requireOrgId } from './lib/require-org';
+import { sleep } from './lib/utilities';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 const LIMIT = parseInt(process.argv.find((a) => a.startsWith('--limit='))?.split('=')[1] || '0');
@@ -75,10 +76,6 @@ interface ResearchResult {
   sourceLinks: { source: string; url: string; label?: string }[];
   conflicts: string[];
   phases: string[]; // log of what happened
-}
-
-async function sleep(ms: number) {
-  return new Promise((r) => setTimeout(r, ms));
 }
 
 /**
