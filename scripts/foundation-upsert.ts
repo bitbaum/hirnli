@@ -36,7 +36,8 @@ import { computePriorityScore } from '../src/lib/domain/foundation-scores';
 
 import { computeResearchDepth, type ResearchDepth } from './lib/utilities';
 import { requireOrgId } from './lib/require-org';
-import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
+import { upsertAssessment } from './lib/assessment-write';
+import { splitFoundationPatch } from '../src/lib/db/assessment-write';
 import { getFoundationById } from './lib/foundations';
 
 /**
