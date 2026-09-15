@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { AVAILABLE_YEARS, CURRENT_FINANCIAL_YEAR, loadFinancialData } from './financial';
+import { FALLBACK_DATA } from './financial-fallback';
 
 // ---------------------------------------------------------------------------
 // AVAILABLE_YEARS / CURRENT_FINANCIAL_YEAR
@@ -14,6 +15,17 @@ describe('AVAILABLE_YEARS', () => {
     for (let i = 1; i < AVAILABLE_YEARS.length; i++) {
       expect(AVAILABLE_YEARS[i]).toBeGreaterThan(AVAILABLE_YEARS[i - 1]);
     }
+  });
+
+  // The list is hand-written and the data is a separate file, so the two can
+  // disagree: import a year and forget the list, and the year exists but no
+  // picker offers it; drop a year from the data and the picker offers an empty
+  // dashboard. Neither shows up as an error anywhere.
+  it('names exactly the years the fallback data actually holds', () => {
+    const inData = Object.keys(FALLBACK_DATA)
+      .map(Number)
+      .sort((a, b) => a - b);
+    expect([...AVAILABLE_YEARS]).toEqual(inData);
   });
 });
 
