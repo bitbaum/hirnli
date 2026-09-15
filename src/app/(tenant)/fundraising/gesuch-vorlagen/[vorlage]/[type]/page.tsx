@@ -1,7 +1,5 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
 import { getTenant } from '@/lib/tenant/resolve';
 import { resolveTypeLabel } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
@@ -10,15 +8,7 @@ import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import { loadTenantStory } from '@/lib/content/story-engine';
 import StoryMissing from '@/components/gesuch/StoryMissing';
 import GesuchNotReady from '@/components/gesuch/GesuchNotReady';
-import {
-  GesuchHeroSection,
-  GesuchWhySection,
-  GesuchHowSection,
-  GesuchProjectsSection,
-  GesuchEvidenceSection,
-  GesuchContactSection,
-} from '@/components/gesuch/sections';
-import { VorlageBanner } from '@/components/gesuch/GesuchDocumentBanners';
+import VorlagePresentation from '@/components/gesuch/VorlagePresentation';
 
 interface Props {
   params: Promise<{ vorlage: string; type: string }>;
@@ -76,56 +66,23 @@ export default async function SchwerpunktGesuchPage({ params }: Props) {
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;
 
   return (
-    <div className="gesuch-page">
-      {/* VORLAGE banner */}
-      <VorlageBanner title={bannerTitle} className="mb-4 print:hidden">
-        Schwerpunkt: <strong>{sp.label}</strong> | Felder wie{' '}
-        <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">
-          [Name der Stiftung]
-        </span>{' '}
-        vor dem Versand ersetzen.
-      </VorlageBanner>
-
-      <GesuchHeroSection
-        orgName={tenant.name}
-        subtitle={`Partnerschaftsvorschlag \u2014 ${sp.shortLabel} (Typ ${typeLabel.short})`}
-        foundationName={gesuch.foundation.name}
-        description={typeLabel.approach}
-        themes={gesuch.themes.all}
-        primaryColor={primaryColor}
-      />
-
-      <div className="mx-auto max-w-4xl space-y-12 px-4 py-12 md:px-0">
-        {gesuch.story.why && <GesuchWhySection why={gesuch.story.why} />}
-
-        <GesuchHowSection
-          trackRecord={gesuch.story.how.track_record}
-          competencies={gesuch.story.how.competencies}
-        />
-
-        <GesuchProjectsSection projects={gesuch.story.projects} />
-
-        <GesuchEvidenceSection evidence={gesuch.story.evidence} />
-
-        <GesuchContactSection
-          orgName={tenant.name}
-          foundationName="Ihre Stiftung"
-          organization={gesuch.organization}
-        />
-
-        {/* Navigation links */}
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">
-          <Button href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}/dokument`} size="lg">
-            Formelles Gesuch-Dokument (PDF)
-          </Button>
-          <Link
-            href="/fundraising/gesuch-vorlagen"
-            className="py-3 text-sm text-primary hover:underline"
-          >
-            &larr; Alle Vorlagen
-          </Link>
-        </div>
-      </div>
-    </div>
+    <VorlagePresentation
+      tenant={tenant}
+      gesuch={gesuch}
+      primaryColor={primaryColor}
+      bannerTitle={bannerTitle}
+      bannerNote={
+        <>
+          Schwerpunkt: <strong>{sp.label}</strong> | Felder wie{' '}
+          <span className="rounded bg-warning-bg px-1 py-0.5 font-mono text-xs text-warning">
+            [Name der Stiftung]
+          </span>{' '}
+          vor dem Versand ersetzen.
+        </>
+      }
+      heroSubtitle={`Partnerschaftsvorschlag \u2014 ${sp.shortLabel} (Typ ${typeLabel.short})`}
+      heroDescription={typeLabel.approach}
+      dokumentHref={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}/dokument`}
+    />
   );
 }
