@@ -4,7 +4,10 @@
  * The scripts' counterpart to src/lib/db/assessment-write.ts. Same job, and it
  * exists for the same reason the reader in ./foundations.ts exists: these are
  * `tsx` one-shots outside any Next context, so they use the raw `pg` client
- * rather than the app's Drizzle instance.
+ * rather than the app's Drizzle instance. What does not depend on the client —
+ * `splitFoundationPatch`, deciding which keys are analysis — is imported from
+ * the app module rather than restated here, so one list decides where a field
+ * lives.
  *
  * Why every ingestion script needs this. Until now they wrote fitScore,
  * priority, themes, tagline, researchNotes, researchDate and researchDepth into
@@ -18,7 +21,7 @@
  */
 
 import { query } from './db';
-import { ANALYSIS_FIELDS, type FoundationAnalysis } from '../../src/lib/schemas/foundation';
+import type { FoundationAnalysis } from '../../src/lib/schemas/foundation';
 
 /**
  * Where each analysis field lives in `fundraising_foundation_assessments`, and
@@ -46,31 +49,6 @@ export const ASSESSMENT_COLUMNS: Record<
 
 /** The analysis fields a script may set; all optional, since most set a few. */
 export type AnalysisPatch = Partial<Record<keyof FoundationAnalysis, unknown>>;
-
-/**
- * Split a Foundation-shaped object into the half that belongs in the shared
- * registry blob and the half that belongs to one organisation.
- *
- * The ingestion scripts build one flat object describing everything they
- * learned about a foundation. That object spans both tables, and which key goes
- * where is decided by ANALYSIS_FIELDS — the same list the read path uses, so
- * the two cannot disagree.
- */
-export function splitFoundationPatch(patch: Record<string, unknown>): {
-  registry: Record<string, unknown>;
-  analysis: AnalysisPatch;
-} {
-  const analysisKeys = new Set<string>(ANALYSIS_FIELDS as unknown as string[]);
-  const registry: Record<string, unknown> = {};
-  const analysis: Record<string, unknown> = {};
-
-  for (const [key, value] of Object.entries(patch)) {
-    if (analysisKeys.has(key)) analysis[key] = value;
-    else registry[key] = value;
-  }
-
-  return { registry, analysis: analysis as AnalysisPatch };
-}
 
 /**
  * Record one organisation's assessment, creating the row on first opinion.

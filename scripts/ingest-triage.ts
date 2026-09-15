@@ -15,7 +15,8 @@ import type { ThemeCategory } from '../src/lib/config/fit-scoring';
 import { computeFitScore } from '../src/lib/domain/fit-scoring.js';
 import { ThemeId } from '../src/lib/schemas/foundation.js';
 import { requireOrgId } from './lib/require-org';
-import { splitFoundationPatch, upsertAssessment } from './lib/assessment-write';
+import { upsertAssessment } from './lib/assessment-write';
+import { splitFoundationPatch } from '../src/lib/db/assessment-write';
 
 /**
  * The organisation whose priorities fit scores are computed with.

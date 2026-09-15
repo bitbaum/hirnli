@@ -11,7 +11,8 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { ASSESSMENT_COLUMNS, splitFoundationPatch } from '../assessment-write';
+import { ASSESSMENT_COLUMNS } from '../assessment-write';
+import { splitFoundationPatch } from '../../../src/lib/db/assessment-write';
 import { ANALYSIS_FIELDS } from '../../../src/lib/schemas/foundation';
 
 describe('ASSESSMENT_COLUMNS', () => {

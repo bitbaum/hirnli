@@ -12,7 +12,8 @@ import { isRegistryUrl } from '../src/lib/config/registry-domains';
 import { RESEARCH_METHOD_RANK as _RESEARCH_METHOD_RANK } from '../src/lib/schemas/foundation';
 const RESEARCH_METHOD_RANK = _RESEARCH_METHOD_RANK as Record<string, number>;
 import { requireOrgId } from './lib/require-org';
-import { splitFoundationPatch, upsertAssessment, readAssessment } from './lib/assessment-write';
+import { upsertAssessment, readAssessment } from './lib/assessment-write';
+import { splitFoundationPatch } from '../src/lib/db/assessment-write';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 
