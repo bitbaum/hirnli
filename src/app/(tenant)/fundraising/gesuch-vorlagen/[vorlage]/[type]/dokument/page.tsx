@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { getTenant } from '@/lib/tenant/resolve';
 import { resolveTypeLabel } from '@/lib/config/foundations';
 import { getSchwerpunktTemplate, getSchwerpunktStaticParams } from '@/lib/config/gesuch-templates';
@@ -10,13 +9,7 @@ import { loadTenantStory } from '@/lib/content/story-engine';
 import { loadTenantBudget } from '@/lib/content/budget-engine';
 import StoryMissing from '@/components/gesuch/StoryMissing';
 import GesuchNotReady from '@/components/gesuch/GesuchNotReady';
-import {
-  AnschreibenSection,
-  ProjektbeschriebSection,
-  BudgetSection,
-  KurzportraitSection,
-} from '@/components/gesuch/sections';
-import { VorlageBanner, PrintTipBanner } from '@/components/gesuch/GesuchDocumentBanners';
+import VorlageDokument from '@/components/gesuch/VorlageDokument';
 
 interface Props {
   params: Promise<{ vorlage: string; type: string }>;
@@ -74,39 +67,15 @@ export default async function SchwerpunktGesuchDokumentPage({ params }: Props) {
   const bannerTitle = `VORLAGE \u2014 ${sp.shortLabel} \u00D7 Typ ${typeLabel.short}: ${typeLabel.long}`;
 
   return (
-    <div className="gesuch-dokument mx-auto max-w-3xl">
-      {/* VORLAGE banner + print bar */}
-      <div className="mb-8 space-y-3 print:hidden">
-        <VorlageBanner title={bannerTitle}>
+    <VorlageDokument
+      dok={dok}
+      bannerTitle={bannerTitle}
+      bannerNote={
+        <>
           Schwerpunkt: <strong>{sp.label}</strong> | Platzhalterfelder vor dem Versand ersetzen.
-        </VorlageBanner>
-        <PrintTipBanner>
-          <Link
-            href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}`}
-            className="text-primary hover:underline"
-          >
-            Interaktive Seite
-          </Link>
-          <Link href="/fundraising/gesuch-vorlagen" className="text-primary hover:underline">
-            Alle Vorlagen
-          </Link>
-        </PrintTipBanner>
-      </div>
-
-      <AnschreibenSection dok={dok} />
-      <ProjektbeschriebSection dok={dok} />
-      <BudgetSection dok={dok} />
-      <KurzportraitSection dok={dok} />
-
-      {/* Back link — hidden in print */}
-      <div className="pb-12 text-center print:hidden">
-        <Link
-          href={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}`}
-          className="text-sm text-primary hover:underline"
-        >
-          &larr; Zurück zur interaktiven Vorlage
-        </Link>
-      </div>
-    </div>
+        </>
+      }
+      interaktiveHref={`/fundraising/gesuch-vorlagen/${schwerpunkt}/${type}`}
+    />
   );
 }
