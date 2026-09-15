@@ -22,6 +22,25 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+  // The app's own code does not print to the console.
+  //
+  // A quality sweep read this repo as carrying 504 `console.log` calls and
+  // called it the fleet's worst debug noise. Every one of them is in
+  // `scripts/` — operator CLIs whose whole output IS stdout, where a log line
+  // is the feature. `src/` had zero, and the only reason that is true is that
+  // nobody has added one yet.
+  //
+  // So the rule is scoped to where it is actually a defect: a server component
+  // logging to a console no operator reads, or a client component printing a
+  // customer's data into their browser. `warn` and `error` stay allowed —
+  // those are diagnostics a running server is expected to emit, and
+  // `apiError()` in lib/api/route-helpers.ts is built on one.
+  {
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    rules: {
+      'no-console': ['error', { allow: ['warn', 'error'] }],
+    },
+  },
   // Pipeline/migration scripts — relax any-type rule.
   // These one-off scripts manipulate JSONB blobs where exact types aren't needed.
   {

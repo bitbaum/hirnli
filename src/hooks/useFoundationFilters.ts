@@ -8,7 +8,6 @@ import type { FoundationFilters, SortField, FilterPresetId } from '@/lib/domain/
 import { TRUST_CONFIG, type TrustLevel } from '@/lib/config/trust-levels';
 import {
   DEFAULT_FILTERS,
-  FILTER_PRESETS,
   filterFoundations,
   sortFoundations,
   presetParamUpdates,

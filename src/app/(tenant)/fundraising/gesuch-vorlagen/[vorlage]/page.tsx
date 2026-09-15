@@ -1,7 +1,5 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
 import { getTenant } from '@/lib/tenant/resolve';
 import { DEFAULT_THEME_COLOR } from '@/lib/config/chart-colors';
 import { THEMES, resolveTypeLabel } from '@/lib/config/foundations';
@@ -14,15 +12,7 @@ import { composeGesuch } from '@/lib/domain/gesuch-composer';
 import { loadTenantStory } from '@/lib/content/story-engine';
 import StoryMissing from '@/components/gesuch/StoryMissing';
 import GesuchNotReady from '@/components/gesuch/GesuchNotReady';
-import {
-  GesuchHeroSection,
-  GesuchWhySection,
-  GesuchHowSection,
-  GesuchProjectsSection,
-  GesuchEvidenceSection,
-  GesuchContactSection,
-} from '@/components/gesuch/sections';
-import { VorlageBanner } from '@/components/gesuch/GesuchDocumentBanners';
+import VorlagePresentation from '@/components/gesuch/VorlagePresentation';
 
 interface Props {
   params: Promise<{ vorlage: string }>;
@@ -95,54 +85,21 @@ export default async function GesuchVorlagePage({ params }: Props) {
   const heroText = typeLabel?.approach ?? tplLabel?.desc ?? '';
 
   return (
-    <div className="gesuch-page">
-      {/* VORLAGE banner */}
-      <VorlageBanner title={bannerTitle} className="mb-4 print:hidden">
-        Dies ist eine generische Vorlage. Felder wie{' '}
-        <span className="font-mono">[Name der Stiftung]</span> müssen vor dem Versand durch die
-        tatsächlichen Angaben ersetzt werden.
-      </VorlageBanner>
-
-      <GesuchHeroSection
-        orgName={tenant.name}
-        subtitle={heroSubtitle}
-        foundationName={gesuch.foundation.name}
-        description={heroText}
-        themes={gesuch.themes.all}
-        primaryColor={primaryColor}
-      />
-
-      <div className="mx-auto max-w-4xl space-y-12 px-4 py-12 md:px-0">
-        {gesuch.story.why && <GesuchWhySection why={gesuch.story.why} />}
-
-        <GesuchHowSection
-          trackRecord={gesuch.story.how.track_record}
-          competencies={gesuch.story.how.competencies}
-        />
-
-        <GesuchProjectsSection projects={gesuch.story.projects} />
-
-        <GesuchEvidenceSection evidence={gesuch.story.evidence} />
-
-        <GesuchContactSection
-          orgName={tenant.name}
-          foundationName="Ihre Stiftung"
-          organization={gesuch.organization}
-        />
-
-        {/* Navigation links */}
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 print:hidden">
-          <Button href={`/fundraising/gesuch-vorlagen/${type}/dokument`} size="lg">
-            Formelles Gesuch-Dokument (PDF)
-          </Button>
-          <Link
-            href="/fundraising/gesuch-vorlagen"
-            className="py-3 text-sm text-primary hover:underline"
-          >
-            &larr; Alle Vorlagen
-          </Link>
-        </div>
-      </div>
-    </div>
+    <VorlagePresentation
+      tenant={tenant}
+      gesuch={gesuch}
+      primaryColor={primaryColor}
+      bannerTitle={bannerTitle}
+      bannerNote={
+        <>
+          Dies ist eine generische Vorlage. Felder wie{' '}
+          <span className="font-mono">[Name der Stiftung]</span> müssen vor dem Versand durch die
+          tatsächlichen Angaben ersetzt werden.
+        </>
+      }
+      heroSubtitle={heroSubtitle}
+      heroDescription={heroText}
+      dokumentHref={`/fundraising/gesuch-vorlagen/${type}/dokument`}
+    />
   );
 }
