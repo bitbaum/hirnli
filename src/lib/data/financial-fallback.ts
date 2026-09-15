@@ -1,10 +1,10 @@
 /**
  * The embedded Kivitendo figures — data, not logic.
  *
- * Real accounting rows for 2022–2025, exported from
- * revamp-Einnahmen-2025.xlsx and kept in the bundle so the finance views
- * work offline and with no database. It is a table: it is read, never
- * reasoned about, and it changes only when a new year is imported.
+ * Real accounting rows for 2022–2025, exported from the reference tenant's
+ * bookkeeping and kept in the bundle so the finance views work offline and
+ * with no database. It is a table: it is read, never reasoned about, and it
+ * changes only when a new year is imported.
  *
  * It lived inline in financial.ts, where 2,168 rows of figures buried the
  * ~250 lines that actually compute anything. Reviewing a change to the
