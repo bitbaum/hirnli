@@ -206,12 +206,12 @@ export default function WirkungClient() {
         <p className="mt-4 text-sm text-text-muted">
           Plattform:{' '}
           <a
-            href="https://revampit.orangecat.ch"
+            href="https://evig.orangecat.ch"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
           >
-            revampit.orangecat.ch
+            evig.orangecat.ch
           </a>{' '}
           — Next.js, TypeScript, PostgreSQL, Open Source
         </p>

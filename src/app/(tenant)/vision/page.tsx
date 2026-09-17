@@ -107,12 +107,12 @@ export default async function Revamp2030Page() {
                 Revamp-IT ist nicht nur eine Werkstatt —{' '}
                 <strong>wir entwickeln eigene Software</strong>. Unsere Community-Plattform (
                 <a
-                  href="https://revampit.orangecat.ch"
+                  href="https://evig.orangecat.ch"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-pillar-digital hover:text-pillar-digital underline"
                 >
-                  revampit.orangecat.ch
+                  evig.orangecat.ch
                 </a>
                 ) ist eine produktionsreife Full-Stack-Anwendung mit{' '}
                 {formatNumber(getNumericValue('PLATFORM_CODEBASE_FILES'))} TypeScript-Dateien,{' '}
