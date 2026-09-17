@@ -35,7 +35,7 @@ const BUDGET: Record<string, number> = {
   // SHARED_ORG_NUMBERS, and the route named after one customer's project.
   'Revamp-IT': 74,
   'revamp-it': 18,
-  revampit: 12,
+  revampit: 8,
   'revamp-info': 2,
   Kivitendo: 82,
   'revamp-Einnahmen': 11,
