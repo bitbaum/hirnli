@@ -1,3 +1,31 @@
-Mao Nakamoto <41178744+catomean@users.noreply.github.com> <41178744+g-but@users.noreply.github.com>
-Mao Nakamoto <41178744+catomean@users.noreply.github.com> g-but <41178744+g-but@users.noreply.github.com>
-Mao Nakamoto <41178744+catomean@users.noreply.github.com> <41178744+maonakamoto@users.noreply.github.com>
+# One identity: Cato <41178744+catomean@users.noreply.github.com>
+#
+# Rewrites the DISPLAYED author of existing commits (git log, git shortlog,
+# GitHub) without rewriting a single hash. Several names and addresses
+# accumulated here before the git config was corrected.
+#
+# The canonical identity is always on the LEFT. A retired name on the left is
+# the bug this file replaces: it renders every commit under the retired name,
+# including new ones that were authored correctly.
+#
+# Three forms are used below:
+#   `Cato <canonical>`                    - any name on the canonical address.
+#   `Cato <canonical> <old-email>`        - matches by commit email alone.
+#   `Cato <canonical> Name <that-email>`  - name + email, the narrowest form.
+
+# Any name ever used on the canonical address resolves to Cato.
+Cato <41178744+catomean@users.noreply.github.com>
+
+# Retired noreply addresses (numbered and unnumbered forms of both accounts)
+Cato <41178744+catomean@users.noreply.github.com> <41178744+maonakamoto@users.noreply.github.com>
+Cato <41178744+catomean@users.noreply.github.com> <maonakamoto@users.noreply.github.com>
+Cato <41178744+catomean@users.noreply.github.com> <41178744+g-but@users.noreply.github.com>
+
+# The unnumbered form of the current noreply address
+Cato <41178744+catomean@users.noreply.github.com> <catomean@users.noreply.github.com>
+
+# The uninitialised default, used before a git config existed here
+Cato <41178744+catomean@users.noreply.github.com> <your.email@example.com>
+
+# The assistant's own commits stay the assistant's.
+Claude (AI assistant) <noreply@anthropic.com> <noreply@anthropic.com>
