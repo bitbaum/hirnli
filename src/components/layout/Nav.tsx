@@ -65,7 +65,7 @@ export default function Nav({
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <Link
           href="/"
-          className="group flex items-center gap-3 transition-all hover:opacity-80 hover:no-underline"
+          className="group flex min-h-11 items-center gap-3 transition-all hover:opacity-80 hover:no-underline"
         >
           {logoUrl ? (
             <Image
