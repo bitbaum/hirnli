@@ -225,7 +225,9 @@ describe('callGroq — fallback across the chain', () => {
     // The boundary that keeps the skip honest: a retired model id is a fact
     // about one model, and widening the vendor skip to cover it would turn the
     // chain back into the pin it replaced.
-    fetchMock.mockResolvedValue(new Response('model_not_found', { status: 404 }));
+    // A fresh Response per call: a body can be read once, and ai-kit reads
+    // the 404 body, so one shared Response threw on the second link.
+    fetchMock.mockImplementation(async () => new Response('model_not_found', { status: 404 }));
 
     const result = await callGroq('system', 'user');
 

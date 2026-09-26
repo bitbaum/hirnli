@@ -18,7 +18,7 @@ export function ThemeToggle() {
   }, []);
 
   if (!mounted) {
-    return <span className="inline-flex h-9 w-9" aria-hidden />;
+    return <span className="inline-flex h-11 w-11" aria-hidden />;
   }
 
   const isDark = resolvedTheme === 'dark';
@@ -26,7 +26,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-text-tertiary transition-colors hover:bg-surface-raised hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+      className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-text-tertiary transition-colors hover:bg-surface-raised hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       aria-label={isDark ? t('themeToLight') : t('themeToDark')}
       title={isDark ? t('themeToLight') : t('themeToDark')}
     >
