@@ -12,30 +12,25 @@ deployment serves each organization's branded site on its own host.
 
 ---
 
-## The funnel (live — run `pnpm run audit`)
+## The funnel
+
+Counts as the live tenant site shows them on 2026-10-02
+([pipeline-methodik](https://revamp-info.orangecat.ch/fundraising/pipeline-methodik));
+`pnpm run audit` prints the current figures from the database.
 
 ```
-        Swiss universe (Zefix)            16,900
+        Swiss universe (Zefix)           ~16,900
                 ↓
-        In DB (active)                    15,506   — minus 1,117 archived
-                ↓ LLM-triaged              13,823 stay rapid/unverified
-        Generated (sync-eligible)          1,683
+        In the register (assessed)         1,683
                 ↓ scored & researched
-        Actionable (P1–P3)                   240   — P1=20, P2=78, P3=142
+        Actionable (P1–P3)                   233   — P1=20, P2=78, P3=135
                 ↓ assembled
-        Gesuch pages (P1–P3)                 212   — 199 quality-perfect (94%)
+        Gesuch pages                         212
 ```
 
-| Tier | Count | Coverage |
-|------|-------|----------|
-| P1 (perfect fit) | 20 | 20/20 Gesuche perfect · 100% appUrl · 95% email |
-| P2 (good fit) | 78 | 70/75 Gesuche perfect · 100% appUrl · 97% email |
-| P3 (possible fit) | 142 | 109/117 Gesuche perfect · 96% appUrl · 89% email |
-| P4 (network / D-list) | 1,443 | LLM-triaged from Zefix purpose text |
-
-The remaining 13 imperfect Gesuche need verified external research (email or
-real website) — automated enrichment is forbidden after the 2026-04-07 incident
-where guessed URLs were 54% wrong. See data-integrity rules in [CLAUDE.md](./CLAUDE.md).
+Contact data and websites are never guessed: automated enrichment is forbidden
+after the 2026-04-07 incident where guessed URLs were 54% wrong. See the
+data-integrity rules in [CLAUDE.md](./CLAUDE.md).
 
 ---
 
@@ -44,7 +39,7 @@ where guessed URLs were 54% wrong. See data-integrity rules in [CLAUDE.md](./CLA
 1. **INGEST** — Zefix register + ESA + Fundraiso + StiftungSchweiz feeds, deduped
    into one Foundation entity per legal Stiftung. DB-write SSOT, Zod-validated.
 2. **TRIAGE** — Groq-hosted LLM scores every active row from raw Zefix text
-   alone, producing a `fitScore` (0–10) + `priority` (P1–P4). 14,919 rapid-triaged.
+   alone, producing a `fitScore` (0–10) + `priority` (P1–P4).
 3. **RESEARCH** — Operator-driven deep research for promising candidates pulls
    websites, grant ranges, deadlines, past grantees, contact channels.
 4. **PRESENT** — Each foundation gets a public-feeling detail page that doubles
@@ -60,16 +55,14 @@ where guessed URLs were 54% wrong. See data-integrity rules in [CLAUDE.md](./CLA
 
 | Signal | Value |
 |--------|-------|
-| Tests | **997 pass** across 56 files (Vitest) |
+| Tests | Vitest — `pnpm test` |
 | Type safety | **0 errors**, **0 `any`**, **0 `@ts-ignore`** in `src/` |
 | Lint | **0 errors** (ESLint flat config) |
 | CI | `pnpm run verify` (format + lint + umlaut lint + typecheck + tests) + build on every push (GitHub Actions) |
-| Mobile | Verified on iPhone SE (375×667) via Playwright |
-| Race conditions | 6 fetch-in-useEffect sites guarded, 1 DB TOCTOU closed with unique constraint |
 | Design tokens | All in `globals.css` (`@theme inline`) — zero hex literals in components |
 | Dark mode | Fully wired via `next-themes` + semantic two-tier token system |
-| Security | Explicit auth modes (Basic Auth / public demo / fail-closed default); HMAC share tokens; security headers on every response |
-| Multi-tenant | Per-request tenant resolution (Host header → `x-org-id`); per-org analysis in `fundraising_foundation_assessments`; tenant identity in `org_profiles` |
+| Security | Accounts via Better Auth; explicit modes for the internal area (Basic Auth / public demo / fail-closed default); HMAC share tokens; security headers on every response |
+| Multi-tenant | Per-request tenant resolution (Host header → `org_domains` row); per-org analysis in `fundraising_foundation_assessments`; tenant identity in `org_profiles` |
 | Deploy | Self-hosted on Hetzner (Caddy + Next.js `standalone` output) — [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) |
 
 Every page that ships data shows a click-to-inspect "where did this number come
@@ -95,7 +88,7 @@ formula, and confidence level. No black boxes.
 ```bash
 pnpm install
 pnpm run dev         # http://localhost:3000  (foundation data reads live from the DB)
-pnpm test            # 997 tests
+pnpm test            # Vitest suite
 pnpm run audit       # live pipeline + Gesuch funnel report
 pnpm run build       # production build (no DB access needed)
 ```
@@ -113,7 +106,7 @@ officers.
 
 ```
 src/
-├── app/                # Next.js App Router (35 page routes; route groups: (tenant), (platform), (share), /o)
+├── app/                # Next.js App Router (route groups: (tenant), (platform), (share), /o)
 ├── components/         # UI: layout, foundation, fundraising, gesuch, charts, ui
 ├── lib/
 │   ├── schemas/        # Zod — SSOT for every type
@@ -124,9 +117,8 @@ src/
 │   └── utils/          # Format, errors, share-token, a11y, slug
 └── hooks/              # useFinancialData, useFoundationFilters, useGesuchOverrides
 
-scripts/                # 28 pipeline + ops scripts (ingest, triage, research, audit)
+scripts/                # pipeline + ops scripts (ingest, triage, research, audit)
 docs/                   # KNOWLEDGE_ARCHITECTURE, DATABASE_SETUP, design guides
-research/               # Pipeline notes + drafts (gitignored except notes)
 org-context/            # New-org onboarding inputs (per-tenant)
 public/documents/       # Source documents (anonymised) — SSOT for displayed numbers
 ```
@@ -151,7 +143,7 @@ rewriting analysis + branding, not re-doing the registry.
 ## Documentation
 
 - **[`CLAUDE.md`](./CLAUDE.md)** — full product vision, scoring model, schema, data flow, conventions
-- **[`scripts/README.md`](./scripts/README.md)** — pipeline tools (28 scripts + 17 pnpm aliases)
+- **[`scripts/README.md`](./scripts/README.md)** — pipeline tools and their pnpm aliases
 - **[`org-context/_template/README.md`](./org-context/_template/README.md)** — multi-tenant onboarding checklist
 - **[`docs/KNOWLEDGE_ARCHITECTURE.md`](./docs/KNOWLEDGE_ARCHITECTURE.md)** — 3-tier SSOT governance
 - **[`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md)** — self-hosted Hetzner deploy procedure, env, crons, migrations
@@ -162,5 +154,4 @@ rewriting analysis + branding, not re-doing the registry.
 
 ## License
 
-Proprietary. © Revamp-IT. All rights reserved.
-See [`LICENSE`](./LICENSE).
+MIT — see [`LICENSE`](./LICENSE).
