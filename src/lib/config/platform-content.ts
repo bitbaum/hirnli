@@ -51,7 +51,7 @@ export interface PlatformContent {
   funnel: {
     heading: string;
     lead: string;
-    labels: { universe: string; analyzed: string };
+    labels: { universe: string; inRegister: string };
   };
   market: {
     heading: string;
@@ -149,11 +149,11 @@ const de: PlatformContent = {
     ],
   },
   funnel: {
-    heading: 'Der Trichter — live',
-    lead: 'Diese Zahlen kommen direkt aus der Datenbank, nicht aus einer Broschüre.',
+    heading: 'Das Register',
+    lead: 'Die erfasste Zahl wird bei jedem Aufruf in der Datenbank gezählt. Die Gesamtzahl ist ein gerundeter Wert aus dem Handelsregister.',
     labels: {
-      universe: 'Stiftungen im Schweizer Register',
-      analyzed: 'analysiert und bewertet',
+      universe: 'Stiftungen in der Schweiz (Zefix, gerundet)',
+      inRegister: 'im Register erfasst',
     },
   },
   market: {
@@ -337,11 +337,11 @@ const en: PlatformContent = {
     ],
   },
   funnel: {
-    heading: 'The funnel — live',
-    lead: 'These numbers come straight from the database, not from a brochure.',
+    heading: 'The register',
+    lead: 'The recorded count is read from the database on every visit. The total is a rounded figure from the Swiss commercial register.',
     labels: {
-      universe: 'foundations in the Swiss register',
-      analyzed: 'analyzed and scored',
+      universe: 'foundations in Switzerland (Zefix, rounded)',
+      inRegister: 'recorded in the register',
     },
   },
   market: {
@@ -526,11 +526,11 @@ const fr: PlatformContent = {
     ],
   },
   funnel: {
-    heading: 'L’entonnoir — en direct',
-    lead: 'Ces chiffres viennent directement de la base de données, pas d’une brochure.',
+    heading: 'Le registre',
+    lead: 'Le nombre enregistré est compté dans la base de données à chaque visite. Le total est une valeur arrondie du registre du commerce.',
     labels: {
-      universe: 'fondations au registre suisse',
-      analyzed: 'analysées et évaluées',
+      universe: 'fondations en Suisse (Zefix, arrondi)',
+      inRegister: 'enregistrées dans le registre',
     },
   },
   market: {

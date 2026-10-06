@@ -81,7 +81,7 @@
     },
     "stiftungen": {
       "label": "{count} foundations",
-      "desc": "🔍 With fit scores, themes, deadlines, amounts"
+      "desc": "🔍 Fit scores, themes, deadlines, amounts — where recorded"
     },
     "vorlagen": {
       "label": "Application templates",

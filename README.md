@@ -21,8 +21,8 @@ Counts as the live tenant site shows them on 2026-10-02
 ```
         Swiss universe (Zefix)           ~16,900
                 ↓
-        In the register (assessed)         1,683
-                ↓ scored & researched
+        In the register (imported)         1,683   — 1,675 with a fit score
+                ↓ researched
         Actionable (P1–P3)                   233   — P1=20, P2=78, P3=135
                 ↓ assembled
         Gesuch pages                         212

@@ -40,7 +40,7 @@ export default function PlatformPageView({
 
   const funnelStats = [
     { value: SWISS_FOUNDATIONS_DISPLAY, label: c.funnel.labels.universe },
-    { value: String(foundations.length), label: c.funnel.labels.analyzed },
+    { value: String(foundations.length), label: c.funnel.labels.inRegister },
   ];
 
   return (
@@ -109,7 +109,7 @@ export default function PlatformPageView({
         </ol>
       </section>
 
-      {/* Live funnel — register facts only */}
+      {/* Register — one live count, one rounded external total */}
       <section className="mb-14">
         <SectionHeading heading={c.funnel.heading} lead={c.funnel.lead} />
         <div className="grid grid-cols-2 gap-3 md:gap-4">
