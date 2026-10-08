@@ -12,6 +12,7 @@ import { patchApplication } from '@/lib/api/applications';
 import { API_ERR_SAVE } from '@/lib/utils/errors';
 import { Button } from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
+import { DateInput } from '@/components/ui/date-input';
 
 interface RequiredFieldsModalProps {
   applicationId: string;
@@ -73,14 +74,24 @@ export default function RequiredFieldsModal({
             <label className={FORM_LABEL_CLASS} htmlFor={`required-field-${field.field}`}>
               {field.label}
             </label>
-            <input
-              id={`required-field-${field.field}`}
-              type={field.type === 'number' ? 'number' : field.type === 'date' ? 'date' : 'text'}
-              value={values[field.field] ?? ''}
-              onChange={(e) => setValues((prev) => ({ ...prev, [field.field]: e.target.value }))}
-              className={FORM_INPUT_CLASS}
-              required
-            />
+            {field.type === 'date' ? (
+              <DateInput
+                id={`required-field-${field.field}`}
+                value={values[field.field] ?? ''}
+                onChange={(e) => setValues((prev) => ({ ...prev, [field.field]: e.target.value }))}
+                className={FORM_INPUT_CLASS}
+                required
+              />
+            ) : (
+              <input
+                id={`required-field-${field.field}`}
+                type={field.type === 'number' ? 'number' : 'text'}
+                value={values[field.field] ?? ''}
+                onChange={(e) => setValues((prev) => ({ ...prev, [field.field]: e.target.value }))}
+                className={FORM_INPUT_CLASS}
+                required
+              />
+            )}
           </div>
         ))}
 
