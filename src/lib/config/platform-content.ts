@@ -1,13 +1,13 @@
 /**
- * Platform product page — bilingual content SSOT (de/en)
+ * Platform product page — content SSOT (de/fr/en)
  *
  * The typed dictionary IS the i18n foundation: both locales must satisfy
  * PlatformContent, so a missing translation is a compile error, not a
- * silent gap. Rendered by src/components/platform/* on /plattform (de)
- * and /en/platform (en).
+ * silent gap. Rendered by src/components/platform/* on /plattform; the
+ * locale comes from the cookie.
  *
- * Funnel numbers are NEVER written here — they are computed at build time
- * from STIFTUNGEN_DATA (see PlatformPageView). Market numbers are external
+ * Funnel numbers are NEVER written here — they are read from the register
+ * per request (see PlatformPageView). Market numbers are external
  * facts and carry their source (Stiftungsreport 2025/2026, SwissFoundations
  * & CEPS Universität Basel).
  */
@@ -51,7 +51,7 @@ export interface PlatformContent {
   funnel: {
     heading: string;
     lead: string;
-    labels: { universe: string; analyzed: string; actionable: string; gesuchReady: string };
+    labels: { universe: string; inRegister: string };
   };
   market: {
     heading: string;
@@ -70,7 +70,6 @@ export interface PlatformContent {
     disclaimer: string;
   };
   businessModel: { heading: string; points: string[] };
-  seeIt: { heading: string; lead: string; links: (TitledText & { href: string })[] };
   outlook: { heading: string; body: string; ctaLabel: string };
 }
 
@@ -85,7 +84,7 @@ const de: PlatformContent = {
   meta: {
     title: 'Die Plattform',
     description:
-      'Was diese Fundraising-Plattform ist, wie sie funktioniert, für wen sie gebaut wurde — und wann sie für weitere Organisationen offen ist.',
+      'Was diese Fundraising-Plattform ist, wie sie funktioniert, für wen sie gebaut wurde — und wohin sie sich entwickelt.',
   },
   hero: {
     overline: 'Die Plattform',
@@ -93,7 +92,7 @@ const de: PlatformContent = {
     lead: `Eine Fundraising-Intelligence-Plattform: Sie durchsucht das gesamte Schweizer Stiftungswesen (${SWISS_FOUNDATIONS_DISPLAY} Einträge), findet die Förderstiftungen, die wirklich passen, und generiert für jede ein massgeschneidertes, belegbares Gesuch — in Minuten statt Tagen.`,
     context: `Entwickelt von und für ${PLATFORM_BRAND.foundingOrg} — als erste Organisation auf der Plattform.`,
     ctas: [
-      { label: 'Stiftungen durchsuchen', href: '/fundraising/stiftungen' },
+      { label: 'Konto erstellen', href: '/registrieren' },
       { label: 'Roadmap ansehen', href: '#roadmap' },
     ],
   },
@@ -150,13 +149,11 @@ const de: PlatformContent = {
     ],
   },
   funnel: {
-    heading: 'Der Trichter — live',
-    lead: 'Diese Zahlen kommen direkt aus der Datenbank, nicht aus einer Broschüre.',
+    heading: 'Das Register',
+    lead: 'Die erfasste Zahl wird bei jedem Aufruf in der Datenbank gezählt. Die Gesamtzahl ist ein gerundeter Wert aus dem Handelsregister.',
     labels: {
-      universe: 'Stiftungen im Schweizer Register',
-      analyzed: 'analysiert und bewertet',
-      actionable: 'priorisierte Kandidaten (P1–P3)',
-      gesuchReady: 'fertige Gesuch-Seiten',
+      universe: 'Stiftungen in der Schweiz (Zefix, gerundet)',
+      inRegister: 'im Register erfasst',
     },
   },
   market: {
@@ -217,7 +214,7 @@ const de: PlatformContent = {
     phases: [
       {
         name: 'Werkzeug beweisen',
-        timeframe: 'Q3 2026 — jetzt',
+        timeframe: 'seit Q3 2026',
         status: 'progress',
         description: `${PLATFORM_BRAND.foundingOrg} reicht die ersten priorisierten Gesuche ein (P1-Stiftungen). Jede Rückmeldung fliesst zurück in Scoring und Textbausteine.`,
         value: 'Belegte Erfolgsquote statt Behauptung — die Fallstudie, die alles Weitere trägt.',
@@ -226,17 +223,16 @@ const de: PlatformContent = {
         name: 'Zweite Organisation',
         timeframe: 'Q4 2026',
         status: 'target',
-        description:
-          'Eine zweite gemeinnützige Organisation wird manuell aufgenommen (dokumentiertes Onboarding: Kontext-Dokumente rein, organisationsspezifische Analyse raus).',
+        description: 'Eine zweite gemeinnützige Organisation arbeitet produktiv mit der Plattform.',
         value:
           'Beweis der Architektur: Das Stiftungsregister wird einmal recherchiert und dient allen — jede weitere Organisation startet mit dem vollen, verifizierten Datenbestand.',
       },
       {
         name: 'Mandantenfähige Plattform',
         timeframe: '1. Halbjahr 2027',
-        status: 'target',
+        status: 'progress',
         description:
-          'Organisations-Konten mit eigener Anmeldung, strikt getrennte Daten (org_id ist bereits heute in jeder Tabelle), Self-Service-Onboarding, vollständige Zweisprachigkeit DE/EN.',
+          'Live: Konto erstellen, eigene Organisation anlegen, Mitglieder einladen, eigene Geschichte und eigenes Budget erfassen — die Daten jeder Organisation strikt getrennt. Noch offen: die ganze Oberfläche dreisprachig (DE/FR/EN).',
         value:
           'Aus dem internen Werkzeug wird ein Produkt: Jede Schweizer Non-Profit-Organisation kann sich anmelden und am selben Tag mit priorisierten Stiftungen arbeiten.',
       },
@@ -256,31 +252,9 @@ const de: PlatformContent = {
   businessModel: {
     heading: 'Geschäftsmodell',
     points: [
-      `Heute: internes Werkzeug von ${PLATFORM_BRAND.foundingOrg} — kostenlos, am eigenen Fundraising geschärft.`,
+      `Heute: kostenlos — geschärft am Fundraising von ${PLATFORM_BRAND.foundingOrg}.`,
       'Ab Mandantenfähigkeit: Abonnement pro Organisation für Analyse-Ebene, Dokumenten-Generierung und Pipeline — das recherchierte Stiftungsregister bleibt gemeinsame Basis.',
       'Später: Zusatzleistungen wie begleitete Recherche, Beratungs-Integrationen und Auswertungen für Stiftungen.',
-    ],
-  },
-  seeIt: {
-    heading: 'Selbst ansehen',
-    lead: 'Die Plattform ist live — alle Bereiche sind offen zugänglich.',
-    links: [
-      {
-        href: '/fundraising/stiftungen',
-        title: 'Stiftungen durchsuchen',
-        description: 'Die bewertete Datenbank mit Filtern, Fit-Scores und Prioritäten.',
-      },
-      {
-        href: '/fundraising/stiftungen/mercator/gesuch',
-        title: 'Ein Gesuch entstehen sehen',
-        description:
-          'Beispiel Mercator Stiftung: vom Schwerpunkt zum fertigen Dokument in drei Schritten.',
-      },
-      {
-        href: '/fundraising/scoring-methodik',
-        title: 'Die Methodik prüfen',
-        description: 'Wie Fit, Bereitschaft und Priorität berechnet werden — offengelegt.',
-      },
     ],
   },
   outlook: {
@@ -306,7 +280,7 @@ const en: PlatformContent = {
     lead: `A fundraising intelligence platform: it screens Switzerland's entire foundation register (${SWISS_FOUNDATIONS_DISPLAY} entries), surfaces the grant-makers that actually fit, and generates a tailored, evidence-backed application for each one — in minutes instead of days.`,
     context: `Built by and for ${PLATFORM_BRAND.foundingOrg} — the first organization on the platform.`,
     ctas: [
-      { label: 'Browse the foundation database', href: '/fundraising/stiftungen' },
+      { label: 'Create an account', href: '/registrieren' },
       { label: 'See the roadmap', href: '#roadmap' },
     ],
   },
@@ -363,13 +337,11 @@ const en: PlatformContent = {
     ],
   },
   funnel: {
-    heading: 'The funnel — live',
-    lead: 'These numbers come straight from the database, not from a brochure.',
+    heading: 'The register',
+    lead: 'The recorded count is read from the database on every visit. The total is a rounded figure from the Swiss commercial register.',
     labels: {
-      universe: 'foundations in the Swiss register',
-      analyzed: 'analyzed and scored',
-      actionable: 'prioritized candidates (P1–P3)',
-      gesuchReady: 'application pages generated',
+      universe: 'foundations in Switzerland (Zefix, rounded)',
+      inRegister: 'recorded in the register',
     },
   },
   market: {
@@ -430,7 +402,7 @@ const en: PlatformContent = {
     phases: [
       {
         name: 'Prove the tool',
-        timeframe: 'Q3 2026 — now',
+        timeframe: 'since Q3 2026',
         status: 'progress',
         description: `${PLATFORM_BRAND.foundingOrg} submits the first prioritized applications (P1 foundations). Every response feeds back into scoring and copy.`,
         value:
@@ -440,17 +412,16 @@ const en: PlatformContent = {
         name: 'Second organization',
         timeframe: 'Q4 2026',
         status: 'target',
-        description:
-          'A second nonprofit is onboarded manually (documented playbook: context documents in, organization-specific analysis out).',
+        description: 'A second nonprofit works with the platform in production.',
         value:
           'Proof of the architecture: the foundation register is researched once and serves everyone — each new organization starts with the full, verified dataset.',
       },
       {
         name: 'Multi-tenant platform',
         timeframe: 'H1 2027',
-        status: 'target',
+        status: 'progress',
         description:
-          'Organization accounts with their own login, strictly separated data (org_id already exists on every table today), self-serve onboarding, full DE/EN bilingual product.',
+          'Live: sign up, create your organization, invite members, enter your own story and budget — each organization’s data strictly separated. Still open: the whole interface in three languages (DE/FR/EN).',
         value:
           'The internal tool becomes a product: any Swiss nonprofit can sign up and work with prioritized foundations the same day.',
       },
@@ -470,31 +441,9 @@ const en: PlatformContent = {
   businessModel: {
     heading: 'Business model',
     points: [
-      `Today: ${PLATFORM_BRAND.foundingOrg}’s internal tool — free, sharpened on our own fundraising.`,
+      `Today: free — sharpened on ${PLATFORM_BRAND.foundingOrg}’s fundraising.`,
       'From multi-tenancy: a per-organization subscription covering the analysis layer, document generation, and pipeline — the researched foundation register stays a shared base.',
       'Later: added services such as assisted research, consultant integrations, and analytics for foundations.',
-    ],
-  },
-  seeIt: {
-    heading: 'See it yourself',
-    lead: 'The platform is live — every area is openly accessible.',
-    links: [
-      {
-        href: '/fundraising/stiftungen',
-        title: 'Browse foundations',
-        description: 'The scored database with filters, fit scores, and priorities. (German UI)',
-      },
-      {
-        href: '/fundraising/stiftungen/mercator/gesuch',
-        title: 'Watch an application take shape',
-        description:
-          'Example Mercator Foundation: from focus area to finished document in three steps. (German UI)',
-      },
-      {
-        href: '/fundraising/scoring-methodik',
-        title: 'Inspect the methodology',
-        description: 'How fit, readiness, and priority are computed — fully disclosed. (German UI)',
-      },
     ],
   },
   outlook: {
@@ -520,7 +469,7 @@ const fr: PlatformContent = {
     lead: `Une plateforme d'intelligence pour la levée de fonds : elle passe au crible l'ensemble du registre suisse des fondations (${SWISS_FOUNDATIONS_DISPLAY} entrées), identifie les fondations donatrices qui correspondent vraiment, et génère pour chacune une demande sur mesure, appuyée par des preuves — en quelques minutes au lieu de plusieurs jours.`,
     context: `Développée par et pour ${PLATFORM_BRAND.foundingOrg} — première organisation sur la plateforme.`,
     ctas: [
-      { label: 'Parcourir les fondations', href: '/fundraising/stiftungen' },
+      { label: 'Créer un compte', href: '/registrieren' },
       { label: 'Voir la feuille de route', href: '#roadmap' },
     ],
   },
@@ -577,13 +526,11 @@ const fr: PlatformContent = {
     ],
   },
   funnel: {
-    heading: 'L’entonnoir — en direct',
-    lead: 'Ces chiffres viennent directement de la base de données, pas d’une brochure.',
+    heading: 'Le registre',
+    lead: 'Le nombre enregistré est compté dans la base de données à chaque visite. Le total est une valeur arrondie du registre du commerce.',
     labels: {
-      universe: 'fondations au registre suisse',
-      analyzed: 'analysées et évaluées',
-      actionable: 'candidates priorisées (P1–P3)',
-      gesuchReady: 'pages de demande générées',
+      universe: 'fondations en Suisse (Zefix, arrondi)',
+      inRegister: 'enregistrées dans le registre',
     },
   },
   market: {
@@ -644,7 +591,7 @@ const fr: PlatformContent = {
     phases: [
       {
         name: "Prouver l'outil",
-        timeframe: 'T3 2026 — maintenant',
+        timeframe: 'depuis T3 2026',
         status: 'progress',
         description: `${PLATFORM_BRAND.foundingOrg} soumet les premières demandes priorisées (fondations P1). Chaque réponse alimente le scoring et les textes.`,
         value:
@@ -654,17 +601,16 @@ const fr: PlatformContent = {
         name: 'Deuxième organisation',
         timeframe: 'T4 2026',
         status: 'target',
-        description:
-          'Une deuxième organisation est intégrée manuellement (playbook documenté : documents de contexte en entrée, analyse spécifique en sortie).',
+        description: 'Une deuxième organisation travaille avec la plateforme en production.',
         value:
           "Preuve de l'architecture : le registre est recherché une fois et sert à tous — chaque nouvelle organisation démarre avec l'ensemble des données vérifiées.",
       },
       {
         name: 'Plateforme multi-organisations',
         timeframe: 'S1 2027',
-        status: 'target',
+        status: 'progress',
         description:
-          "Comptes d'organisation avec connexion propre, données strictement séparées (org_id existe déjà sur chaque table), onboarding en libre-service, produit entièrement trilingue DE/FR/EN.",
+          "En ligne : créer un compte et son organisation, inviter des membres, saisir sa propre histoire et son budget — les données de chaque organisation strictement séparées. Encore ouvert : toute l'interface en trois langues (DE/FR/EN).",
         value:
           "L'outil interne devient un produit : toute organisation suisse peut s'inscrire et travailler le jour même avec des fondations priorisées.",
       },
@@ -684,33 +630,9 @@ const fr: PlatformContent = {
   businessModel: {
     heading: 'Modèle économique',
     points: [
-      `Aujourd'hui : outil interne de ${PLATFORM_BRAND.foundingOrg} — gratuit, affûté sur notre propre levée de fonds.`,
+      `Aujourd'hui : gratuit — affûté sur la levée de fonds de ${PLATFORM_BRAND.foundingOrg}.`,
       "Dès le multi-organisations : abonnement par organisation couvrant l'analyse, la génération de documents et le pipeline — le registre recherché reste une base commune.",
       'Plus tard : services additionnels comme la recherche assistée, des intégrations pour consultants et des analyses pour fondations.',
-    ],
-  },
-  seeIt: {
-    heading: 'Voir par vous-même',
-    lead: 'La plateforme est en ligne — tous les espaces sont librement accessibles.',
-    links: [
-      {
-        href: '/fundraising/stiftungen',
-        title: 'Parcourir les fondations',
-        description:
-          'La base évaluée avec filtres, scores de fit et priorités. (Interface en allemand)',
-      },
-      {
-        href: '/fundraising/stiftungen/mercator/gesuch',
-        title: 'Voir naître une demande',
-        description:
-          'Exemple Fondation Mercator : du domaine prioritaire au document fini en trois étapes. (Interface en allemand)',
-      },
-      {
-        href: '/fundraising/scoring-methodik',
-        title: 'Examiner la méthodologie',
-        description:
-          'Comment fit, préparation et priorité sont calculés — en toute transparence. (Interface en allemand)',
-      },
     ],
   },
   outlook: {
