@@ -46,7 +46,7 @@
     "@react-pdf/renderer": "^4.9.0",
     "better-auth": "^1.7.7",
     "chart.js": "^4.5.1",
-    "drizzle-orm": "^0.45.3",
+    "drizzle-orm": "^0.45.4",
     "fuse.js": "^7.1.0",
     "listkit": "github:bitbaum/listkit#v0.1.0",
     "nanoid": "^6.0.2",
@@ -57,7 +57,7 @@
     "react-chartjs-2": "^5.3.1",
     "react-dom": "19.3.0",
     "xlsx": "^0.18.5",
-    "zod": "^4.6.5"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -70,7 +70,7 @@
     "eslint": "^10",
     "eslint-config-next": "^16.4.0",
     "pg": "^8.23.1",
-    "prettier": "3.9.9",
+    "prettier": "3.9.10",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3",
