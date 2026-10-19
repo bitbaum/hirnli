@@ -31,7 +31,6 @@ here is operations.
 | `pnpm run pipeline:triage` | `ingest-triage.ts` | Triage research-result batches |
 | `pnpm run pipeline:upsert` | `foundation-upsert.ts` | Single-foundation upsert |
 | `pnpm run enrich:bulk` | `bulk-enrich.ts` | Bulk enrichment runner |
-| `pnpm run sync-numbers` | `sync-org-numbers.ts` | Refresh ORG_PROFILE numbers |
 
 ## Tools without aliases (invoke via `pnpm exec tsx`)
 

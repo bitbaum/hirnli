@@ -323,10 +323,12 @@ Quality gate is enforced at import time by `src/lib/domain/foundation-quality.ts
 
 ## Organization Profile
 
-### `src/lib/config/org-profile.ts` — Identity SSOT
-All programmatic references to the organization (name, website, email,
-mission summary) import from `ORG_PROFILE`. Never hardcode org name in
-domain logic or UI chrome.
+### `org_profiles.profile` — Identity SSOT
+The organisation's identity (name, website, email, mission summary) is a row
+per tenant in `org_profiles.profile`; its shape and every derived value live in
+`src/lib/tenant/profile.ts`, and code reads it through `getTenant()`
+(`src/lib/tenant/resolve.ts`). The old `ORG_PROFILE` constant was removed.
+Never hardcode org name in domain logic or UI chrome.
 
 ### ORG-SPECIFIC Files
 Files marked `ORG-SPECIFIC` contain content specific to the current org.
@@ -334,8 +336,8 @@ To support a new org, these files need content rewriting (not just
 search-replace). See file headers for details.
 
 ### Swapping Orgs Checklist
-1. Edit `org-profile.ts` with new org identity
-2. Rewrite `stories.ts` narratives
+1. Write the new org's identity into its `org_profiles` row (provisioning: `src/lib/tenant/provision.ts`)
+2. Write its narratives into `org_content['stories']` (read by `src/lib/content/stories-source.ts`)
 3. Rewrite THEMES in `metadata.ts` + ThemeId enum in `foundation.ts`
 4. Reseed foundation DB (new research, fit scores, priorities) — pages read live, no sync step
 5. Rewrite NOT_RECOMMENDED, schwerpunkte, budget-scenarios
@@ -433,9 +435,9 @@ Narrative Content       →  lib/config/stories.ts                              
 | Footer | `components/layout/Footer.tsx` | Footer via layout.tsx |
 | Formatting | `lib/utils/format.ts` | CHF, %, number, date formatting |
 | Foundation Data | `lib/db/foundations-repo.ts` | getAllFoundations()/getFoundationBySlug() — cached DB read layer |
-| Story Blocks | `lib/config/stories.ts` | WHY/HOW/WHAT/EVIDENCE narratives |
+| Story Blocks | `lib/content/stories-source.ts` | WHY/HOW/WHAT/EVIDENCE narratives, per tenant from `org_content['stories']` |
 | Number Metadata | `lib/config/metrics.ts` | Source, formula, confidence per metric |
-| Org Identity | `lib/config/org-profile.ts` | ORG_PROFILE — all programmatic org references |
+| Org Identity | `lib/tenant/resolve.ts` | `getTenant()` — all programmatic org references (values in `org_profiles`) |
 | Gesuch Composer | `lib/domain/gesuch-composer.ts` | Composes Gesuch document from config |
 | Bridge Composer | `lib/domain/bridge-composer.ts` | Foundation↔org connection narratives |
 | Trust Levels | `lib/config/trust-levels.ts` | Derives verified/assessed/unverified from source + depth |
@@ -481,7 +483,7 @@ guessed URLs from slugs — 54% were wrong (car garages, restaurants, bands).
 
 ## Design System
 
-**Tailwind v4 — no `tailwind.config.ts`.** All tokens are defined in `src/app/globals.css` using the `@theme inline` directive. Tailwind reads CSS vars directly; no separate config file exists or is needed.
+**Tailwind v4 — there is no `tailwind.config.ts`.** All tokens are defined in `src/app/globals.css` using the `@theme inline` directive. Tailwind reads CSS vars directly; no separate config file exists or is needed.
 
 **Token file:** `src/app/globals.css` — the only SSOT for all design tokens.
 
@@ -732,7 +734,7 @@ pnpm exec drizzle-kit push       # pushes schema diff to the Postgres DB
 
 ### Adding a Section Page
 
-1. Create `src/app/[section]/page.tsx`
+1. Create `src/app/(tenant)/<section>/page.tsx` (or under `(platform)` for platform pages)
 2. Add to `NAV_STRUCTURE` in `src/lib/config/nav.ts`
 3. Use `PageHeader` and `Card` components for consistent styling
 
@@ -784,8 +786,8 @@ for the step-by-step checklist.
 
 | # | File | What It Contains |
 |---|------|-----------------|
-| 1 | `src/lib/config/org-profile.ts` | Legal identity, contact, mission keywords |
-| 2 | `src/lib/config/stories.ts` | WHY/HOW/WHAT/EVIDENCE narratives per theme |
+| 1 | `org_profiles.profile` row (shape: `src/lib/tenant/profile.ts`) | Legal identity, contact, mission keywords |
+| 2 | `org_content['stories']` row (read by `src/lib/content/stories-source.ts`) | WHY/HOW/WHAT/EVIDENCE narratives per theme |
 | 3 | `src/lib/config/numbers.ts` | Central metrics registry (impact, financial, team) |
 | 4 | `src/lib/config/budget-scenarios.ts` | 3-year funding models and projections |
 | 5 | `src/lib/config/schwerpunkte.ts` | Strategic focus areas and priorities |
@@ -800,7 +802,7 @@ for the step-by-step checklist.
 | 14 | `src/app/(tenant)/team/data.ts` | Team members and roles |
 | 15 | `src/app/(tenant)/wie-wir-arbeiten/data.ts` | How we work page data |
 | 16 | `src/app/(tenant)/finanzen/FinanzenClient.tsx` | Financial dashboard |
-| 17 | `src/app/api/documents/gesuch/[id]/route.tsx` | Gesuch PDF generation |
+| 17 | `src/app/api/pdf/gesuch/[slug]/route.tsx` | Gesuch PDF generation |
 | 18 | `src/lib/pdf/impact-report/index.tsx` | Wirkungsbericht PDF template (2-page) |
 | 19 | `src/lib/pdf/pitch-deck/index.tsx` | Pitch Deck PDF template (8-slide landscape) |
 
