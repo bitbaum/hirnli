@@ -20,7 +20,7 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 1. **Data Transparency** — every number traceable to source (click-to-inspect)
 2. **Viewer-First** — primary audience is foundation program officers evaluating us
 3. **Foundation Profiles = Presentation Tools** — not just internal research, but shareable
-4. **Config-Driven Data** — foundations, stories, metrics in TypeScript config files
+4. **Config-Driven Data** — foundations and metrics in TypeScript config files; tenant narrative (stories) in the database
 5. **1-File Rule** — adding a foundation = 1 data entry in config (dynamic route handles the rest)
 
 ## Key Rules
@@ -29,9 +29,9 @@ See `/CLAUDE.md` in project root for full product vision and engineering guide.
 2. **Source everything** — cite sources for data/claims
 3. **Types from schemas** — derive types via `z.infer<>`, never define separately
 4. **SSOT components** — shared component library, no copy-paste
-5. **Data in config files** — `lib/config/foundations/` (directory: index, metadata, generated), `lib/config/stories.ts`, `lib/config/metrics.ts`, `lib/config/numbers.ts`
+5. **Data in config files** — `lib/config/foundations/` (directory: index, metadata, generated), `lib/config/metrics.ts`, `lib/config/numbers.ts`. A tenant's narrative (stories) is per-tenant data in `org_content['stories']`, read through `lib/content/stories-source.ts`
 6. **Separation of concerns** — config → domain → hooks → components
-7. **Org identity from `org-profile.ts`** — never hardcode org name in domain logic or UI chrome. Import from `ORG_PROFILE`. Files marked `ORG-SPECIFIC` contain content that needs rewriting per-org.
+7. **Org identity from the tenant** — never hardcode org name in domain logic or UI chrome. Read it from `getTenant()` (`lib/tenant/resolve.ts`); the values live in `org_profiles.profile`, the shape in `lib/tenant/profile.ts`. The old `ORG_PROFILE` constant was removed. Files marked `ORG-SPECIFIC` contain content that needs rewriting per-org.
 
 ## Architecture
 
@@ -77,7 +77,7 @@ src/
 │   └── metrics/                   # MetricCard, MetricGrid, NumberInspector
 ├── lib/
 │   ├── schemas/                   # Zod schemas (SSOT for all types)
-│   ├── config/                    # foundations/, stories, metrics, nav, gesuch-templates, etc.
+│   ├── config/                    # foundations/, metrics, nav, gesuch-templates, etc.
 │   ├── data/                      # FinanceDataSet + fallback financial data
 │   ├── db/                        # Drizzle schema, migrations, queries
 │   ├── domain/                    # gesuch-composer, bridge-composer, foundation-filter, etc.

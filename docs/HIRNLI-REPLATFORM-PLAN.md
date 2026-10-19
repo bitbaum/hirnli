@@ -119,8 +119,10 @@ tenancy. Replace with server-side queries:
   changes are batch events — cache aggressively, invalidate on sync).
 - Org analysis reads: query scoped by `org_id` (columns + indexes already exist on all
   5 tables since migration 0006).
-- Consequence: `npm run sync` and `SKIP_SYNC` disappear; SSG pages become ISR or
-  dynamic; build no longer needs DB access; repo loses the 3.5 MB commit churn.
+- Consequence: SSG pages become ISR or dynamic; build no longer needs DB access;
+  repo loses the 3.5 MB commit churn. Done: the old sync script and `SKIP_SYNC` were
+  deleted along with `stiftungen-generated.ts`; reads go through
+  `src/lib/db/foundations-repo.ts`.
 
 ### 3.4 Auth (replaces basic-auth/`INTERNAL_AUTH=off`)
 
