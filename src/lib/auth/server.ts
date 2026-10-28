@@ -23,6 +23,7 @@
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from '@better-auth/drizzle-adapter';
 import { organization } from 'better-auth/plugins';
+import { MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from '@bitbaum/accountkit/auth/password';
 import { db } from '@/lib/db/client';
 import * as authSchema from '@/lib/db/auth-schema';
 
@@ -57,7 +58,9 @@ function createAuth() {
       // No sender configured, so a "verify your email" flow would strand people
       // on an unverifiable account. Revisit together with RESEND_API_KEY.
       requireEmailVerification: false,
-      minPasswordLength: 12,
+      // The one bitbaum password rule (non-empty, at most 128), not a local number.
+      minPasswordLength: MIN_PASSWORD_LENGTH,
+      maxPasswordLength: MAX_PASSWORD_LENGTH,
     },
     plugins: [
       organization({

@@ -14,5 +14,6 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@bitbaum/ai-kit'
   - '@bitbaum/mail-kit'
+  - '@bitbaum/accountkit@0.9.0'
 overrides:
   eslint-plugin-react-hooks: 7.0.1

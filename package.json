@@ -36,6 +36,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@bitbaum/accountkit": "^0.9.0",
     "@better-auth/drizzle-adapter": "^1.7.12",
     "@bitbaum/ai-kit": "^1.21.0",
     "@bitbaum/mail-kit": "^0.1.1",
