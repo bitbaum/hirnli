@@ -4,7 +4,7 @@
  * Run with: npx tsx scripts/audit-pipeline.ts
  * Or:       npm run audit
  *
- * This is the SSOT for all pipeline stats cited in CLAUDE.md and docs.
+ * This is the SSOT for all pipeline stats cited in AGENTS.md and docs.
  * Run it after any sync/rescore and copy the output to update those docs.
  */
 import { config } from 'dotenv';
@@ -244,7 +244,7 @@ async function main() {
   console.log(``);
 
   console.log(`\n══════════════════════════════════════════════════\n`);
-  console.log(`To update CLAUDE.md, replace the funnel table with:`);
+  console.log(`To update AGENTS.md, replace the funnel table with:`);
   console.log(`  Pipeline ......... ${totals.db_total} (active: ${totals.active})`);
   console.log(`  Generated ........ ${totals.sync_eligible} (data_confidence ≠ unverified)`);
   console.log(`  P1-P3 (actionable) ${p13total} (P1=${p1.total}, P2=${p2.total}, P3=${p3.total})`);

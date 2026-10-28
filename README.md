@@ -8,7 +8,7 @@ per-foundation fit narratives, and ship professional German-language application
 (Gesuche) that stand out from the templated norm. Multi-tenant by design — one
 deployment serves each organization's branded site on its own host.
 
-[Architecture & Conventions](./CLAUDE.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
+[Architecture & Conventions](./AGENTS.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
 
 ---
 
@@ -35,7 +35,7 @@ deployment serves each organization's branded site on its own host.
 
 The remaining 13 imperfect Gesuche need verified external research (email or
 real website) — automated enrichment is forbidden after the 2026-04-07 incident
-where guessed URLs were 54% wrong. See data-integrity rules in [CLAUDE.md](./CLAUDE.md).
+where guessed URLs were 54% wrong. See data-integrity rules in [AGENTS.md](./AGENTS.md).
 
 ---
 
@@ -150,7 +150,7 @@ rewriting analysis + branding, not re-doing the registry.
 
 ## Documentation
 
-- **[`CLAUDE.md`](./CLAUDE.md)** — full product vision, scoring model, schema, data flow, conventions
+- **[`AGENTS.md`](./AGENTS.md)** — full product vision, scoring model, schema, data flow, conventions
 - **[`scripts/README.md`](./scripts/README.md)** — pipeline tools (28 scripts + 17 pnpm aliases)
 - **[`org-context/_template/README.md`](./org-context/_template/README.md)** — multi-tenant onboarding checklist
 - **[`docs/KNOWLEDGE_ARCHITECTURE.md`](./docs/KNOWLEDGE_ARCHITECTURE.md)** — 3-tier SSOT governance

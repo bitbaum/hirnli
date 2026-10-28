@@ -4,7 +4,7 @@
 
 This project uses **PostgreSQL** (self-hosted) with **Drizzle ORM**.
 The DB is the write SSOT for all foundation data — see
-[`/CLAUDE.md`](../CLAUDE.md) §"Foundation Database Model" for the full
+[`/AGENTS.md`](../AGENTS.md) §"Foundation Database Model" for the full
 data flow.
 
 ## Prerequisites

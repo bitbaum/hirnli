@@ -1,7 +1,7 @@
 /**
  * Gesuch Composer — Generates personalized Gesuch content from foundation data
  * Quality gate: isResearched(f) AND priority P1-P3 AND themes mapped.
- * See CLAUDE.md § Scoring Model for gate definitions.
+ * See AGENTS.md § Scoring Model for gate definitions.
  *
  * Two outputs from the same data:
  * 1. composeGesuch()    → Landing page content (marketing-oriented)

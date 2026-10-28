@@ -1,6 +1,6 @@
 /**
  * Scoring Engine — Generic config-driven evaluator for all scoring layers
- * See CLAUDE.md § Scoring Model for the 3-layer architecture.
+ * See AGENTS.md § Scoring Model for the 3-layer architecture.
  * Config lives in lib/config/fit-scoring.ts. This file is pure computation.
  *
  * COMPUTE TYPE REGISTRY:

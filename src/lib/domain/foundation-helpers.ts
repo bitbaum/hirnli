@@ -1,5 +1,5 @@
 // Foundation Helpers — Tier system, research status, fit display, access gates
-// See CLAUDE.md § Scoring Model for the 3-layer architecture.
+// See AGENTS.md § Scoring Model for the 3-layer architecture.
 // All computed from scoring engines — no stored booleans.
 
 import { QualityTier } from '@/lib/schemas/foundation';
