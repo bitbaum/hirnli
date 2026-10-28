@@ -15,8 +15,8 @@ importers:
         specifier: ^1.7.12
         version: 1.7.12(@better-auth/core@1.7.12(@better-auth/utils@0.5.0)(@better-fetch/fetch@1.3.2)(better-call@1.4.4(zod@4.6.7))(jose@6.2.10)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.5.0)(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.1))
       '@bitbaum/accountkit':
-        specifier: ^0.9.0
-        version: 0.9.0(@bitbaum/mail-kit@0.1.1)(better-auth@1.7.12(drizzle-kit@0.31.11)(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.1))(next@16.4.2(@babel/core@7.29.7)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(pg@8.23.1)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vitest@4.1.11(@types/node@26.6.5)(vite@8.2.2(@types/node@26.6.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.15))))(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.1))(next@16.4.2(@babel/core@7.29.7)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: ^0.9.1
+        version: 0.9.1(@bitbaum/mail-kit@0.1.1)(better-auth@1.7.12(drizzle-kit@0.31.11)(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.1))(next@16.4.2(@babel/core@7.29.7)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(pg@8.23.1)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vitest@4.1.11(@types/node@26.6.5)(vite@8.2.2(@types/node@26.6.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.15))))(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.1))(next@16.4.2(@babel/core@7.29.7)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@bitbaum/ai-kit':
         specifier: ^1.21.0
         version: 1.21.0(react@19.3.1)
@@ -280,8 +280,8 @@ packages:
   '@better-fetch/fetch@1.3.2':
     resolution: {integrity: sha512-Gs7n99b5tqUC6cQAPbV0uED3IraHB6xQbHLQ/C3l7ZFafHScOx9pQ+DYmP5blbLFShVWLqxNUlI9wi4xU/X+ow==}
 
-  '@bitbaum/accountkit@0.9.0':
-    resolution: {integrity: sha512-4PzsTrVQvngpkHgeKHsNDEjLCSeIdcJe7e4nZdlUYkn0v+hif0MMWRlTWxmsRyVkX9G39tE/OJharojOe2kxiQ==}
+  '@bitbaum/accountkit@0.9.1':
+    resolution: {integrity: sha512-Y2q4VkbJV7S1uJlBT5FgzYPqecUB3tYu/1b8ln46bYdYcKrDOyKpioyisypDVKPoG4n3h+4xWf6XTbI8lR21PQ==}
     engines: {node: '>=20'}
     peerDependencies:
       '@better-auth/passkey': ^1.7.10
@@ -316,7 +316,7 @@ packages:
     engines: {node: '>=20'}
 
   '@bitbaum/whenkit@https://codeload.github.com/bitbaum/whenkit/tar.gz/f5e0a24208187091c2ca792008cdd7695a19910f':
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/bitbaum/whenkit/tar.gz/f5e0a24208187091c2ca792008cdd7695a19910f}
+    resolution: {gitHosted: true, integrity: sha512-y7wjFst8elmua4bfjhbRDw1U+qndxXeMXG32C5N8GokV3UIdGgO1LZYJFu0OrUftfvcgoERXJ7Nl6goITwarpA==, tarball: https://codeload.github.com/bitbaum/whenkit/tar.gz/f5e0a24208187091c2ca792008cdd7695a19910f}
     version: 0.3.2
     engines: {node: '>=20'}
     peerDependencies:
@@ -3953,7 +3953,7 @@ snapshots:
 
   '@better-fetch/fetch@1.3.2': {}
 
-  '@bitbaum/accountkit@0.9.0(@bitbaum/mail-kit@0.1.1)(better-auth@1.7.12(drizzle-kit@0.31.11)(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.1))(next@16.4.2(@babel/core@7.29.7)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(pg@8.23.1)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vitest@4.1.11(@types/node@26.6.5)(vite@8.2.2(@types/node@26.6.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.15))))(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.1))(next@16.4.2(@babel/core@7.29.7)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+  '@bitbaum/accountkit@0.9.1(@bitbaum/mail-kit@0.1.1)(better-auth@1.7.12(drizzle-kit@0.31.11)(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.1))(next@16.4.2(@babel/core@7.29.7)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(pg@8.23.1)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vitest@4.1.11(@types/node@26.6.5)(vite@8.2.2(@types/node@26.6.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.15))))(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.1))(next@16.4.2(@babel/core@7.29.7)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
     dependencies:
       limitkit: 0.2.0
       react: 19.3.1
