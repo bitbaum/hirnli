@@ -1,7 +1,7 @@
 /**
  * Share chrome — NONE by design. Foundation officers following a share link
  * get a clean, read-only presentation: no internal nav, no pipeline links,
- * no toolbar (the share contract in CLAUDE.md).
+ * no toolbar (the share contract in AGENTS.md).
  */
 
 export default function ShareLayout({ children }: { children: React.ReactNode }) {

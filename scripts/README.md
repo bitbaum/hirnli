@@ -7,7 +7,7 @@ here is operations.
 > **The DB is the write SSOT.** Foundation data flows: research → DB
 > (`fundraising_foundations.config_data`) → `src/lib/db/foundations-repo.ts`
 > (cached DB read layer, `unstable_cache`, 1h TTL) → UI. See
-> `/CLAUDE.md` for the full data-flow diagram.
+> `/AGENTS.md` for the full data-flow diagram.
 
 ---
 
@@ -73,7 +73,7 @@ research:queue → research:batch      │       │
 
 ## Data integrity rules
 
-Per `/CLAUDE.md`:
+Per `/AGENTS.md`:
 - **Never auto-write unverified data to the DB** without provenance tracking
 - **DB is write SSOT** — never hand-edit `stiftungen-generated.ts`
 - **Quality gate** is enforced by `validateFoundationQuality` in
