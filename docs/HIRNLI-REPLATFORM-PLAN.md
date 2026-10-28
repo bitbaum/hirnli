@@ -258,7 +258,7 @@ pages and inside its Gesuch documents (foundations fund Revamp-IT, not Hirnli).
 > hardcoding a second tenant re-creates the coupling that phase removes.
 
 **Phase A — Brand + language shell** (~2–4 focused days)
-1. Update CLAUDE.md naming section: name undecided, PLATFORM_BRAND is the SSOT and sole rename point; codename-secrecy rule replaced by "working title until decided".
+1. Update AGENTS.md naming section: name undecided, PLATFORM_BRAND is the SSOT and sole rename point; codename-secrecy rule replaced by "working title until decided".
 2. Register `hirnli.orangecat.ch` in Caddy → same app; host-routing middleware.
 3. next-intl scaffold; locale-prefix routing with redirects; language switcher in nav
    (elegant, paired with theme toggle).

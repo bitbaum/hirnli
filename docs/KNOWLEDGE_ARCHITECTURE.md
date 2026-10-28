@@ -161,7 +161,7 @@ const AVG_CO2 = 300; // ❌ Already in calculations.ts
 
 | File | Purpose | Contains | Should NOT Contain |
 |------|---------|----------|-------------------|
-| `CLAUDE.md` | Engineering principles | First principles, best practices | Specific metrics |
+| `AGENTS.md` | Engineering principles | First principles, best practices | Specific metrics |
 | `DATABASE_SETUP.md` | Setup instructions | SQL commands, env vars | Actual connection strings |
 | `KNOWLEDGE_ARCHITECTURE.md` | This file | Architecture rules | Actual numbers |
 
@@ -191,7 +191,7 @@ const AVG_CO2 = 300; // ❌ Already in calculations.ts
 
 ### ✅ KEEP (Convert to Tier 3 Format)
 
-**1. CLAUDE.md**
+**1. AGENTS.md**
 - **Status:** Good — already focuses on principles
 - **Action:** ✅ No changes needed
 

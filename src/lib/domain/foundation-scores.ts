@@ -1,6 +1,6 @@
 /**
  * Readiness + Priority computation
- * See CLAUDE.md § Scoring Model for the 3-layer architecture.
+ * See AGENTS.md § Scoring Model for the 3-layer architecture.
  * Config: lib/config/fit-scoring.ts | Helpers: lib/domain/foundation-helpers.ts
  *
  * Readiness (0-100) — "Can we produce a great, tailored document?"
