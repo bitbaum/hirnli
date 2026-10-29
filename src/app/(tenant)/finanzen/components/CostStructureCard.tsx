@@ -2,6 +2,7 @@
 // CostStructureCard — expense breakdown for a given year
 // ---------------------------------------------------------------------------
 
+import { BarChart } from '@bitbaum/chartkit/react';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import { formatCHF } from '@/lib/utils/format';
 import { EXPENSE_CATEGORIES, type AnnualPLEntry } from '../data';
@@ -18,51 +19,22 @@ export function CostStructureCard({ entry }: { entry: AnnualPLEntry }) {
         <CardTitle>Kostenstruktur {entry.year}</CardTitle>
       </CardHeader>
 
-      {/* Stacked bar */}
-      <div className="mb-4 flex h-8 overflow-hidden rounded-lg">
-        {EXPENSE_CATEGORIES.map((cat) => {
-          const amount = detail[cat.key];
-          const pct = total > 0 ? (amount / total) * 100 : 0;
-          if (pct < 0.5) return null;
-          return (
-            <div
-              key={cat.key}
-              className="flex items-center justify-center text-xs font-medium text-white"
-              style={{ width: `${pct}%`, backgroundColor: cat.color }}
-              title={`${cat.label}: ${formatCHF(amount)} (${pct.toFixed(1)}%)`}
-            >
-              {pct > 8 ? `${pct.toFixed(0)}%` : ''}
-            </div>
-          );
-        })}
-      </div>
+      <BarChart
+        rows={EXPENSE_CATEGORIES.map((cat) => ({
+          label: cat.label,
+          value: detail[cat.key],
+          share: total > 0 ? detail[cat.key] / total : 0,
+          note: `Konten ${cat.codes}`,
+        }))}
+        unit="CHF"
+        caption={`Aufwand ${entry.year} nach Kostenart, mit Anteil am Total`}
+        locale="de-CH"
+        labels={{ row: 'Kostenart', value: 'Betrag', share: 'Anteil', note: 'Konten' }}
+      />
 
-      {/* Legend table */}
-      <div className="space-y-2">
-        {EXPENSE_CATEGORIES.map((cat) => {
-          const amount = detail[cat.key];
-          const pct = total > 0 ? (amount / total) * 100 : 0;
-          return (
-            <div key={cat.key} className="flex items-center justify-between text-sm">
-              <div className="flex items-center gap-2">
-                <span
-                  className="inline-block h-3 w-3 rounded-sm"
-                  style={{ backgroundColor: cat.color }}
-                />
-                <span>{cat.label}</span>
-                <span className="text-xs text-text-muted">({cat.codes})</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-text-muted">{pct.toFixed(1)}%</span>
-                <span className="font-medium">{formatCHF(amount)}</span>
-              </div>
-            </div>
-          );
-        })}
-        <div className="flex items-center justify-between border-t border-border-default pt-2 heading-detail">
-          <span>Total Aufwand</span>
-          <span>{formatCHF(total)}</span>
-        </div>
+      <div className="mt-3 flex items-center justify-between border-t border-border-default pt-2 heading-detail">
+        <span>Total Aufwand</span>
+        <span>{formatCHF(total)}</span>
       </div>
 
       {/* Context */}

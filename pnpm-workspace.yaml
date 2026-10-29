@@ -17,5 +17,6 @@ minimumReleaseAgeExclude:
   - '@bitbaum/accountkit'
   - '@bitbaum/listkit@0.2.2'
   - '@bitbaum/whenkit@0.3.3'
+  - '@bitbaum/chartkit@0.6.0'
 overrides:
   eslint-plugin-react-hooks: 7.0.1
