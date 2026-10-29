@@ -1,18 +1,18 @@
 /**
- * Platform product page — shared view for /plattform (de) and /en/platform (en).
+ * Platform product page — the view for /plattform, in the cookie's locale.
  *
  * Mobile-first: every section is a single column by default and only becomes
  * a grid at md+. Touch targets ≥44px, no fixed widths, no horizontal scroll.
- * All copy comes from PLATFORM_CONTENT; funnel numbers are computed at build
- * time from the generated foundation data (never hand-typed).
+ * All copy comes from PLATFORM_CONTENT; funnel numbers are read from the
+ * register (never hand-typed). Only register facts are shown: the platform
+ * has assessed nothing, so priorities and Gesuch counts — which belong to a
+ * tenant's assessments — would read as 0 here.
  */
 
-import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { SWISS_FOUNDATIONS_DISPLAY } from '@/lib/config/projections';
-import { computeFunnelStats } from '@/lib/domain/pipeline-stats';
 import {
   PLATFORM_CONTENT,
   PLATFORM_CONTACT_EMAIL,
@@ -37,14 +37,10 @@ export default function PlatformPageView({
   foundations: Foundation[];
 }) {
   const c = PLATFORM_CONTENT[locale];
-  const stats = computeFunnelStats(foundations);
-  const actionable = stats.pCounts[1] + stats.pCounts[2] + stats.pCounts[3];
 
   const funnelStats = [
     { value: SWISS_FOUNDATIONS_DISPLAY, label: c.funnel.labels.universe },
-    { value: String(foundations.length), label: c.funnel.labels.analyzed },
-    { value: String(actionable), label: c.funnel.labels.actionable },
-    { value: String(stats.gesuchReady), label: c.funnel.labels.gesuchReady },
+    { value: String(foundations.length), label: c.funnel.labels.inRegister },
   ];
 
   return (
@@ -113,10 +109,10 @@ export default function PlatformPageView({
         </ol>
       </section>
 
-      {/* Live funnel — 2 cols on mobile, 4 on desktop */}
+      {/* Register — one live count, one rounded external total */}
       <section className="mb-14">
         <SectionHeading heading={c.funnel.heading} lead={c.funnel.lead} />
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+        <div className="grid grid-cols-2 gap-3 md:gap-4">
           {funnelStats.map((s) => (
             <Card key={s.label} className="text-center">
               <p className="heading-page text-primary-text">{s.value}</p>
@@ -188,21 +184,6 @@ export default function PlatformPageView({
             ))}
           </ul>
         </Card>
-      </section>
-
-      {/* See it yourself */}
-      <section className="mb-14">
-        <SectionHeading heading={c.seeIt.heading} lead={c.seeIt.lead} />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {c.seeIt.links.map((l) => (
-            <Link key={l.href} href={l.href} className="group block">
-              <Card className="h-full transition-shadow hover:shadow-md">
-                <h3 className="mb-2 heading-card group-hover:text-primary-text">{l.title} →</h3>
-                <p className="text-sm leading-relaxed text-text-secondary">{l.description}</p>
-              </Card>
-            </Link>
-          ))}
-        </div>
       </section>
 
       {/* Outlook + contact */}

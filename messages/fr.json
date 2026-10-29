@@ -81,7 +81,7 @@
     },
     "stiftungen": {
       "label": "{count} fondations",
-      "desc": "🔍 Avec scores de fit, thèmes, délais, montants"
+      "desc": "🔍 Scores de fit, thèmes, délais, montants — lorsqu’ils sont connus"
     },
     "vorlagen": {
       "label": "Modèles de demande",

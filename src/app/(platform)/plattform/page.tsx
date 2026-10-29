@@ -15,13 +15,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PlattformPage() {
-  // This page belongs to no tenant, but the funnel statistics it renders are
-  // not tenant-neutral: computeFunnelStats counts fit-score distribution,
-  // themes and research depth alongside registry facts like purpose and
-  // contact. So it reads the reference tenant explicitly rather than
-  // inheriting one from a default — the same numbers as before, but now it is
-  // visible in the code that what this page reports is one customer's work.
-  // See getRegistryFoundations.
+  // This page belongs to no tenant, so it reads the register without any
+  // tenant's assessments (see getRegistryFoundations) and shows only register
+  // facts — priorities and Gesuch counts are a tenant's work, not the product's.
   const [locale, foundations] = await Promise.all([
     getLocale() as Promise<PlatformLocale>,
     getRegistryFoundations(),
