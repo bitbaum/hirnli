@@ -24,8 +24,8 @@ importers:
         specifier: ^1.21.5
         version: 1.21.5(react@19.3.1)
       '@bitbaum/chartkit':
-        specifier: ^0.6.0
-        version: 0.6.0(react@19.3.1)
+        specifier: ^0.7.0
+        version: 0.7.0(react@19.3.1)
       '@bitbaum/mail-kit':
         specifier: ^0.2.0
         version: 0.2.0
@@ -336,8 +336,8 @@ packages:
       react:
         optional: true
 
-  '@bitbaum/chartkit@0.6.0':
-    resolution: {integrity: sha512-AB3R/6qjpYvvgdvjT5plZ8eoZsq/ybGeGKdzsu0K6TJb3UBRkt7DsJwSvu7c4bIWC9WJAnTDvRKvykRHUyO6fQ==}
+  '@bitbaum/chartkit@0.7.0':
+    resolution: {integrity: sha512-E1Df9N4yr/9pWWUUc8a4e6NyfSFMK2njOIeiDjI3gxfxDjO8jqoDCT67gjQTyMLr5nnYoJSyDHNwd8247+kAAQ==}
     engines: {node: '>=20'}
     peerDependencies:
       react: '>=18'
@@ -4195,7 +4195,7 @@ snapshots:
     transitivePeerDependencies:
       - canvas
 
-  '@bitbaum/chartkit@0.6.0(react@19.3.1)':
+  '@bitbaum/chartkit@0.7.0(react@19.3.1)':
     dependencies:
       react: 19.3.1
 
