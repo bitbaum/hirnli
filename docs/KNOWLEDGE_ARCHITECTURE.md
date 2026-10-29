@@ -69,7 +69,9 @@ As the codebase grew, knowledge fragmented across:
   ```
 
 **2. Narrative Content**
-- **File:** `src/lib/config/stories.ts`
+- **Write SSOT:** `org_content['stories']`, one row per tenant (the old
+  single-org `stories.ts` config file was removed)
+- **Read layer:** `src/lib/content/stories-source.ts`
 - **Contains:** Reusable text blocks (WHY, HOW, WHAT, EVIDENCE)
 - **Use when:** Same story used in multiple places (Gesuch templates, foundation profiles)
 
@@ -159,7 +161,7 @@ const AVG_CO2 = 300; // ❌ Already in calculations.ts
 
 | File | Purpose | Contains | Should NOT Contain |
 |------|---------|----------|-------------------|
-| `CLAUDE.md` | Engineering principles | First principles, best practices | Specific metrics |
+| `AGENTS.md` | Engineering principles | First principles, best practices | Specific metrics |
 | `DATABASE_SETUP.md` | Setup instructions | SQL commands, env vars | Actual connection strings |
 | `KNOWLEDGE_ARCHITECTURE.md` | This file | Architecture rules | Actual numbers |
 
@@ -189,7 +191,7 @@ const AVG_CO2 = 300; // ❌ Already in calculations.ts
 
 ### ✅ KEEP (Convert to Tier 3 Format)
 
-**1. CLAUDE.md**
+**1. AGENTS.md**
 - **Status:** Good — already focuses on principles
 - **Action:** ✅ No changes needed
 
@@ -253,72 +255,17 @@ const AVG_CO2 = 300; // ❌ Already in calculations.ts
 
 ## Automation: Preventing Drift
 
-> ⚠️ **PROPOSAL — never built.** The `scripts/validate-ssot.ts` and
-> `scripts/check-stale-docs.ts` sketches below were a 2026-02-12
-> proposal that was not implemented. The actual quality automation
-> that exists today: `pnpm run validate:foundations` (schema +
-> duplicate + quality-gate via `validateFoundationQuality` SSOT —
-> see `scripts/foundation-validate.ts`), `pnpm run audit` (pipeline
-> funnel report), `pnpm run lint:umlauts` (Swiss German enforcement),
-> and `pnpm test` (Vitest, ~1,000 tests). The proposals here remain
-> aspirational; weigh them against the existing tooling before
-> investing further.
+The automated checks that exist today: `pnpm run validate:foundations` (schema +
+duplicate + quality-gate via `validateFoundationQuality` SSOT — see
+`scripts/foundation-validate.ts`), `pnpm run audit` (pipeline funnel report),
+`pnpm run lint:umlauts` (Swiss German enforcement), and `pnpm test` (Vitest).
+`pnpm run verify` runs the gate CI runs.
 
-### 1. Automated SSOT Validation (proposal)
+### 1. Automated SSOT Validation (not built)
 
-Create `scripts/validate-ssot.ts`:
-
-```typescript
-/**
- * Validates that no hardcoded numbers exist outside SSOT
- * Run in CI/CD pipeline before deployment
- */
-
-import { NUMBERS_REGISTRY } from '@/lib/config/numbers';
-import { glob } from 'glob';
-import fs from 'fs';
-
-async function validateSSOT() {
-  const errors: string[] = [];
-
-  // Get all known SSOT values
-  const ssotValues = Object.values(NUMBERS_REGISTRY).map(n => n.value);
-
-  // Scan all .tsx/.ts files (exclude config/)
-  const files = await glob('src/{app,components,hooks}/**/*.{ts,tsx}');
-
-  for (const file of files) {
-    const content = fs.readFileSync(file, 'utf-8');
-
-    // Find hardcoded numbers (basic regex)
-    const hardcodedNumbers = content.match(/(?:const|let|var)\s+\w+\s*=\s*\d+/g);
-
-    if (hardcodedNumbers) {
-      errors.push(`${file}: Found hardcoded numbers - should import from SSOT`);
-    }
-  }
-
-  if (errors.length > 0) {
-    console.error('SSOT violations found:');
-    errors.forEach(e => console.error(`  - ${e}`));
-    process.exit(1);
-  }
-
-  console.log('✅ SSOT validation passed');
-}
-
-validateSSOT();
-```
-
-Add to `package.json`:
-```json
-{
-  "scripts": {
-    "validate-ssot": "tsx scripts/validate-ssot.ts",
-    "prebuild": "npm run validate-ssot"
-  }
-}
-```
+A 2026-02-12 proposal sketched a script that would scan components for
+hard-coded numbers and fail the build. There is no such script in the repo
+today; weigh the idea against the tooling above before building it.
 
 ---
 
@@ -393,7 +340,7 @@ Before deploying ANY change that introduces data:
 - [ ] If not, did I add it with full source metadata?
 - [ ] Did I import from SSOT instead of hardcoding?
 - [ ] Did I update .md files to LINK to SSOT instead of duplicating?
-- [ ] Did I run `npm run validate-ssot`?
+- [ ] Did I run `pnpm run verify`?
 
 ---
 
@@ -417,5 +364,5 @@ If you find the same number in 2 places, one of them is wrong.
 **Next Steps:**
 1. Archive stale .md files → `_archive/`
 2. Migrate any valuable content to SSOT
-3. Add `validate-ssot` script to CI/CD
+3. Decide whether an SSOT number scan is worth adding to CI
 4. Train team on this architecture

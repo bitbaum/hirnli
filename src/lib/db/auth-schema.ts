@@ -17,13 +17,22 @@
  * free. A platform holding many customers' fundraising research also has no
  * business living inside one customer's application database.
  *
- * ── Shapes come from Better Auth ─────────────────────────────────────────────
- * Column names and types below match what Better Auth's core and `organization`
- * plugin expect. Drift here does not fail loudly at build time — it fails at
- * sign-in. Regenerate rather than hand-edit when upgrading the library.
+ * ── Shapes come from AccountKit ──────────────────────────────────────────────
+ * Sign-in runs on `@bitbaum/accountkit` (Better Auth underneath) with the
+ * `organization` plugin mounted beside it. Column names and types below match
+ * what its core, passkey, two-factor and organization plugins expect. Drift
+ * here does not fail loudly at build time — it fails at sign-in.
  */
 
-import { pgTable, text, timestamp, boolean, index, uniqueIndex } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  index,
+  integer,
+  uniqueIndex,
+} from 'drizzle-orm/pg-core';
 
 // ── Core identity ────────────────────────────────────────────────────────────
 
@@ -33,6 +42,12 @@ export const user = pgTable('users', {
   email: text('email').notNull().unique(),
   emailVerified: boolean('email_verified').default(false).notNull(),
   image: text('image'),
+  /**
+   * What this person is to the platform, set by AccountKit (never by sign-up).
+   * Workspace roles live in `org_members.role`; this one gates nothing here.
+   */
+  role: text('role').notNull().default('customer'),
+  twoFactorEnabled: boolean('two_factor_enabled').notNull().default(false),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()
@@ -112,6 +127,48 @@ export const verification = pgTable(
       .notNull(),
   },
   (t) => [index('verifications_identifier_idx').on(t.identifier)],
+);
+
+// ── Second factors (AccountKit's passkey and two-factor plugins) ────────────
+
+export const passkey = pgTable(
+  'passkeys',
+  {
+    id: text('id').primaryKey(),
+    name: text('name'),
+    publicKey: text('public_key').notNull(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    credentialID: text('credential_id').notNull().unique(),
+    counter: integer('counter').notNull(),
+    deviceType: text('device_type').notNull(),
+    backedUp: boolean('backed_up').notNull(),
+    transports: text('transports'),
+    aaguid: text('aaguid'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  },
+  (t) => [index('passkeys_user_id_idx').on(t.userId)],
+);
+
+export const twoFactor = pgTable(
+  'two_factors',
+  {
+    id: text('id').primaryKey(),
+    /** Encrypted with BETTER_AUTH_SECRET before it is stored. */
+    secret: text('secret').notNull(),
+    backupCodes: text('backup_codes').notNull(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    verified: boolean('verified').default(true),
+    failedVerificationCount: integer('failed_verification_count').default(0),
+    lockedUntil: timestamp('locked_until', { withTimezone: true }),
+  },
+  (t) => [
+    index('two_factors_user_id_idx').on(t.userId),
+    index('two_factors_secret_idx').on(t.secret),
+  ],
 );
 
 // ── Organisations and membership ─────────────────────────────────────────────

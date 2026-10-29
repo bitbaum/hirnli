@@ -1,6 +1,7 @@
 import { useId } from 'react';
 import { FORM_INPUT_CLASS, FORM_LABEL_CLASS, FORM_GRID_2COL_CLASS } from '@/lib/utils/form-classes';
 import type { ApplicationStatusId } from '@/lib/config/application-statuses';
+import { DateInput } from '@/components/ui/date-input';
 
 type ApplicationDateField = 'contactDate' | 'submissionDate' | 'decisionExpected' | 'decisionDate';
 type ApplicationOutcomeField = 'successFactors' | 'rejectionReason';
@@ -27,7 +28,7 @@ export function ApplicationDateFields({
         <label htmlFor={`${id}-contact-date`} className={FORM_LABEL_CLASS}>
           Kontaktdatum
         </label>
-        <input
+        <DateInput
           id={`${id}-contact-date`}
           type="date"
           value={contactDate}
@@ -39,7 +40,7 @@ export function ApplicationDateFields({
         <label htmlFor={`${id}-submission-date`} className={FORM_LABEL_CLASS}>
           Eingereicht am
         </label>
-        <input
+        <DateInput
           id={`${id}-submission-date`}
           type="date"
           value={submissionDate}
@@ -51,7 +52,7 @@ export function ApplicationDateFields({
         <label htmlFor={`${id}-decision-expected`} className={FORM_LABEL_CLASS}>
           Entscheidung erwartet
         </label>
-        <input
+        <DateInput
           id={`${id}-decision-expected`}
           type="date"
           value={decisionExpected}
@@ -63,7 +64,7 @@ export function ApplicationDateFields({
         <label htmlFor={`${id}-decision-date`} className={FORM_LABEL_CLASS}>
           Entscheidung erhalten
         </label>
-        <input
+        <DateInput
           id={`${id}-decision-date`}
           type="date"
           value={decisionDate}

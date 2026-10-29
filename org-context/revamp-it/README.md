@@ -9,4 +9,4 @@ Its content lives in the 14 ORG-SPECIFIC files throughout the codebase.
 **Location:** Zürich
 **Mission:** Kreislaufwirtschaft, Arbeitsintegration und digitale Bildung
 
-See `src/lib/config/org-profile.ts` for the full identity SSOT.
+Its full identity is the `revamp-it` row in `org_profiles.profile` (shape: `src/lib/tenant/profile.ts`).

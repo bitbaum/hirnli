@@ -241,7 +241,7 @@ export type FoundationRegistry = z.infer<typeof registrySchema>;
 // Fields that differ per organization analyzing the same foundation.
 
 const analysisSchema = z.object({
-  // -- Scoring (see CLAUDE.md § Scoring Model) --------------------------------
+  // -- Scoring (see AGENTS.md § Scoring Model) --------------------------------
   // fitScore is the ONLY stored fit metric. Display stars computed via getFitLevel().
   fitScore: z.number().min(0).max(10).default(0),
   // priority is stored (1-4) or computed from Fit × Readiness.

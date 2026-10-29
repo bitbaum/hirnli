@@ -99,6 +99,13 @@
       "when": 1784637600002,
       "tag": "0017_parties",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1784637600003,
+      "tag": "0018_accountkit_identity",
+      "breakpoints": true
     }
   ]
 }

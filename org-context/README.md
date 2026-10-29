@@ -35,12 +35,12 @@ Claude can work with less, but more context = better output.
 Claude reads all documents and rewrites these 19 ORG-SPECIFIC files:
 
 ### Identity & Data
-1. `src/lib/config/org-profile.ts` — Legal identity, contact, mission keywords
+1. The org's `org_profiles.profile` row (shape: `src/lib/tenant/profile.ts`) — Legal identity, contact, mission keywords
 2. `src/lib/config/numbers.ts` — Central metrics registry (impact, financials, team)
 3. `src/lib/config/budget-scenarios.ts` — 3-year funding models and projections
 
 ### Content & Narrative
-4. `src/lib/config/stories.ts` — WHY/HOW/WHAT/EVIDENCE narratives per theme
+4. The org's `org_content['stories']` row (read by `src/lib/content/stories-source.ts`) — WHY/HOW/WHAT/EVIDENCE narratives per theme
 5. `src/lib/config/schwerpunkte.ts` — Strategic focus areas and priorities
 
 ### Foundation Research
@@ -58,7 +58,7 @@ Claude reads all documents and rewrites these 19 ORG-SPECIFIC files:
 15. `src/app/(tenant)/finanzen/FinanzenClient.tsx` — Financial dashboard
 
 ### Documents & PDFs
-16. `src/app/api/documents/gesuch/[id]/route.tsx` — Gesuch PDF generation
+16. `src/app/api/pdf/gesuch/[slug]/route.tsx` — Gesuch PDF generation
 17. `src/lib/pdf/impact-report/index.tsx` — Annual impact report PDF template
 18. `src/lib/pdf/pitch-deck/index.tsx` — Pitch deck PDF template
 

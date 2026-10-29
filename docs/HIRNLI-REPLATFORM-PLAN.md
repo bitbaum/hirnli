@@ -119,8 +119,10 @@ tenancy. Replace with server-side queries:
   changes are batch events — cache aggressively, invalidate on sync).
 - Org analysis reads: query scoped by `org_id` (columns + indexes already exist on all
   5 tables since migration 0006).
-- Consequence: `npm run sync` and `SKIP_SYNC` disappear; SSG pages become ISR or
-  dynamic; build no longer needs DB access; repo loses the 3.5 MB commit churn.
+- Consequence: SSG pages become ISR or dynamic; build no longer needs DB access;
+  repo loses the 3.5 MB commit churn. Done: the old sync script and `SKIP_SYNC` were
+  deleted along with `stiftungen-generated.ts`; reads go through
+  `src/lib/db/foundations-repo.ts`.
 
 ### 3.4 Auth (replaces basic-auth/`INTERNAL_AUTH=off`)
 
@@ -256,7 +258,7 @@ pages and inside its Gesuch documents (foundations fund Revamp-IT, not Hirnli).
 > hardcoding a second tenant re-creates the coupling that phase removes.
 
 **Phase A — Brand + language shell** (~2–4 focused days)
-1. Update CLAUDE.md naming section: name undecided, PLATFORM_BRAND is the SSOT and sole rename point; codename-secrecy rule replaced by "working title until decided".
+1. Update AGENTS.md naming section: name undecided, PLATFORM_BRAND is the SSOT and sole rename point; codename-secrecy rule replaced by "working title until decided".
 2. Register `hirnli.orangecat.ch` in Caddy → same app; host-routing middleware.
 3. next-intl scaffold; locale-prefix routing with redirects; language switcher in nav
    (elegant, paired with theme toggle).

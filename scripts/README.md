@@ -7,7 +7,7 @@ here is operations.
 > **The DB is the write SSOT.** Foundation data flows: research → DB
 > (`fundraising_foundations.config_data`) → `src/lib/db/foundations-repo.ts`
 > (cached DB read layer, `unstable_cache`, 1h TTL) → UI. See
-> `/CLAUDE.md` for the full data-flow diagram.
+> `/AGENTS.md` for the full data-flow diagram.
 
 ---
 
@@ -31,7 +31,6 @@ here is operations.
 | `pnpm run pipeline:triage` | `ingest-triage.ts` | Triage research-result batches |
 | `pnpm run pipeline:upsert` | `foundation-upsert.ts` | Single-foundation upsert |
 | `pnpm run enrich:bulk` | `bulk-enrich.ts` | Bulk enrichment runner |
-| `pnpm run sync-numbers` | `sync-org-numbers.ts` | Refresh ORG_PROFILE numbers |
 
 ## Tools without aliases (invoke via `pnpm exec tsx`)
 
@@ -74,7 +73,7 @@ research:queue → research:batch      │       │
 
 ## Data integrity rules
 
-Per `/CLAUDE.md`:
+Per `/AGENTS.md`:
 - **Never auto-write unverified data to the DB** without provenance tracking
 - **DB is write SSOT** — never hand-edit `stiftungen-generated.ts`
 - **Quality gate** is enforced by `validateFoundationQuality` in

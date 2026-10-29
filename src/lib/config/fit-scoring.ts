@@ -1,6 +1,6 @@
 /**
  * Scoring Configuration — Declarative config for all scoring engines
- * See CLAUDE.md § Scoring Model for the 3-layer architecture overview.
+ * See AGENTS.md § Scoring Model for the 3-layer architecture overview.
  *
  * Data flow:
  *   Foundation data ──→ SCORING_ENGINE    ──→ fitScore (0-10)    [stored]

@@ -8,7 +8,7 @@ per-foundation fit narratives, and ship professional German-language application
 (Gesuche) that stand out from the templated norm. Multi-tenant by design — one
 deployment serves each organization's branded site on its own host.
 
-[Architecture & Conventions](./CLAUDE.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
+[Architecture & Conventions](./AGENTS.md) · [Scripts Reference](./scripts/README.md) · [Onboarding a New Org](./org-context/README.md)
 
 ---
 
@@ -30,7 +30,7 @@ Counts as the live tenant site shows them on 2026-10-02
 
 Contact data and websites are never guessed: automated enrichment is forbidden
 after the 2026-04-07 incident where guessed URLs were 54% wrong. See the
-data-integrity rules in [CLAUDE.md](./CLAUDE.md).
+data-integrity rules in [AGENTS.md](./AGENTS.md).
 
 ---
 
@@ -131,7 +131,7 @@ public/documents/       # Source documents (anonymised) — SSOT for displayed n
 |-------|--------|---------------|
 | **1 — Revamp-IT MVP** | ✅ Shipped | Dashboards, foundation list, Gesuch workflow, pipeline kanban |
 | **2 — Document generation** | ✅ Shipped | Gesuch PDF (4-page), one-pager, share landing, pitch deck (8-slide), impact report |
-| **3 — Multi-tenant (Hirnli)** | 🚧 In progress | One deployment serves multiple tenant hosts (Host → tenant resolution); accounts via Better Auth (email+password, organisation plugin) with org-scoped routing at `/o/<slug>/`; org content migrating from ORG-SPECIFIC files to DB rows. |
+| **3 — Multi-tenant (Hirnli)** | 🚧 In progress | One deployment serves multiple tenant hosts (Host → tenant resolution); accounts via `@bitbaum/accountkit` (email+password, passkeys, second factor) with Better Auth's organisation plugin with org-scoped routing at `/o/<slug>/`; org content migrating from ORG-SPECIFIC files to DB rows. |
 
 The architecture is multi-tenant-by-construction: the foundation **registry**
 layer (universal Swiss-foundation facts) is independent from the **analysis**
@@ -142,7 +142,7 @@ rewriting analysis + branding, not re-doing the registry.
 
 ## Documentation
 
-- **[`CLAUDE.md`](./CLAUDE.md)** — full product vision, scoring model, schema, data flow, conventions
+- **[`AGENTS.md`](./AGENTS.md)** — full product vision, scoring model, schema, data flow, conventions
 - **[`scripts/README.md`](./scripts/README.md)** — pipeline tools and their pnpm aliases
 - **[`org-context/_template/README.md`](./org-context/_template/README.md)** — multi-tenant onboarding checklist
 - **[`docs/KNOWLEDGE_ARCHITECTURE.md`](./docs/KNOWLEDGE_ARCHITECTURE.md)** — 3-tier SSOT governance
