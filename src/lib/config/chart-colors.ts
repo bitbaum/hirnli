@@ -1,6 +1,9 @@
 /**
- * Chart Colors — SSOT for all Chart.js color values
- * Matches CSS tokens in globals.css: --color-chart-1 through --color-chart-6
+ * Chart Colors — raw hex values for places that cannot read a CSS variable:
+ * the PDF documents, inline theme fallbacks and the two Chart.js column
+ * charts (RevenueChart, AnnualTrendChart). Matches the tokens in globals.css,
+ * --color-chart-1 through --color-chart-6. Every other chart is drawn by
+ * @bitbaum/chartkit, which reads those tokens through --ck-series-*.
  */
 export const CHART_COLORS = {
   blue: '#3498DB',
@@ -14,16 +17,6 @@ export const CHART_COLORS = {
   silver: '#BDC3C7',
   white: '#ffffff',
 } as const;
-
-/** Ordered array for multi-dataset charts */
-export const CHART_PALETTE = [
-  CHART_COLORS.blue,
-  CHART_COLORS.green,
-  CHART_COLORS.orange,
-  CHART_COLORS.red,
-  CHART_COLORS.purple,
-  CHART_COLORS.teal,
-] as const;
 
 /** Default fallback theme color for gesuch pages when no theme color is available */
 export const DEFAULT_THEME_COLOR = CHART_COLORS.blue;

@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import '@bitbaum/chartkit/styles.css';
 
 /* ─── Dark-mode variant ────────────────────────────────────────────────────── */
 @custom-variant dark (&:is(.dark *));
@@ -250,6 +251,30 @@
      surface-base and surface-raised so P4 cards stay distinguishable but
      don't pop the way a P1/P2 tinted card should. */
   --grey-light: #1f2125;
+}
+
+/* ─── Charts (@bitbaum/chartkit) ────────────────────────────────────────────
+   ChartKit reads --ck-*; its defaults expect design-tokens' HSL triplets,
+   which this app does not use, so they are mapped once onto the tokens above.
+   Declared on .dark too, so the mapping re-resolves wherever the theme flips. */
+:root,
+.dark {
+  --ck-ink: var(--text-primary);
+  --ck-ink-muted: var(--text-tertiary);
+  --ck-line: var(--border-default);
+  --ck-bg: var(--surface-base);
+  --ck-accent: var(--color-primary);
+  --ck-up: var(--color-success);
+  --ck-down: var(--color-danger);
+  --ck-warning: var(--color-warning);
+  --ck-series-1: var(--color-chart-1);
+  --ck-series-2: var(--color-chart-2);
+  --ck-series-3: var(--color-chart-3);
+  --ck-series-4: var(--color-chart-4);
+  --ck-series-5: var(--color-chart-5);
+  --ck-series-6: var(--color-chart-6);
+  --ck-font: var(--font-sans);
+  --ck-mono: var(--font-mono);
 }
 
 /* ========================================

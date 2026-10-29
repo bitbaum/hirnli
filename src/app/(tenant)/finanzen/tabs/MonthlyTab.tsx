@@ -3,6 +3,7 @@ import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import { ChartLoadingSkeleton } from '@/components/charts/ChartWrapper';
+import CategoryBreakdown from '@/components/charts/CategoryBreakdown';
 import YearSelector from '@/components/ui/YearSelector';
 import { formatCHF, formatPercent, formatMonthShort } from '@/lib/utils/format';
 import { NumberSources, metricToInspectorData } from '@/lib/config/metrics';
@@ -11,11 +12,9 @@ import { InsightCard, YearComparison, MonthlyBreakdownTable } from '../component
 import type { InspectorHandle } from '@/app/(tenant)/fundraising/sections/Inspectable';
 import type { useFinancialData } from '@/hooks/useFinancialData';
 
+// Chart.js, not ChartKit: twelve month columns cannot be labelled on a phone
+// by ChartKit 0.6.0 (see package-plan.json, exceptions.period-column-charts).
 const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
-  ssr: false,
-  loading: () => <ChartLoadingSkeleton />,
-});
-const CategoryBreakdown = dynamic(() => import('@/components/charts/CategoryBreakdown'), {
   ssr: false,
   loading: () => <ChartLoadingSkeleton />,
 });
