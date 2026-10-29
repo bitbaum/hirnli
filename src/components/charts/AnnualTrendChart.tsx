@@ -1,22 +1,8 @@
-'use client';
-
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { ColumnChart } from '@bitbaum/chartkit/react';
 import type { AnnualPLEntry } from '@/app/(tenant)/finanzen/data';
 import { FINANCIAL_YEAR_LABEL } from '@/lib/config/financial-constants';
 import { formatCHF } from '@/lib/utils/format';
-import { CHART_COLORS } from '@/lib/config/chart-colors';
-import ChartWrapper from './ChartWrapper';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import ChartCard from './ChartCard';
 
 interface AnnualTrendChartProps {
   data: AnnualPLEntry[];
@@ -24,72 +10,42 @@ interface AnnualTrendChartProps {
   className?: string;
 }
 
+/**
+ * Revenue and expenses per year, side by side, on @bitbaum/chartkit. A year
+ * whose expenses are not booked yet has no expense column ("—" in the table)
+ * and says so in its note.
+ */
 export default function AnnualTrendChart({
   data,
   title = `Einnahmen & Aufwand (${FINANCIAL_YEAR_LABEL})`,
   className,
 }: AnnualTrendChartProps) {
-  const labels = data.map((d) => String(d.year));
-
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        label: 'Einnahmen',
-        data: data.map((d) => d.revenue),
-        backgroundColor: data.map((d) =>
-          d.isComplete ? CHART_COLORS.green : `${CHART_COLORS.green}AA`,
-        ),
-        borderRadius: 3,
-      },
-      {
-        label: 'Aufwand',
-        data: data.map((d) => (d.isComplete ? d.expenses : null)),
-        backgroundColor: CHART_COLORS.red,
-        borderRadius: 3,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'bottom' as const },
-      tooltip: {
-        callbacks: {
-          label: (ctx: { dataset: { label?: string }; parsed: { y: number | null } }) => {
-            if (ctx.parsed.y === null) return `${ctx.dataset.label}: k.A.`;
-            return `${ctx.dataset.label}: ${formatCHF(ctx.parsed.y)}`;
-          },
-          afterBody: (contexts: { dataIndex: number }[]) => {
-            const idx = contexts[0]?.dataIndex;
-            if (idx === undefined) return '';
-            const entry = data[idx];
-            if (!entry) return '';
-            if (!entry.isComplete) return '⚠ Aufwände nicht verbucht';
-            return `Ergebnis: ${formatCHF(entry.result)}`;
-          },
-        },
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          callback: (value: string | number) => {
-            const n = Number(value);
-            if (n >= 1000) return `${Math.round(n / 1000)}k`;
-            return String(n);
-          },
-        },
-      },
-    },
-  };
-
+  const note = (d: AnnualPLEntry) =>
+    d.isComplete ? `Ergebnis: ${formatCHF(d.result)}` : 'Aufwände nicht verbucht';
   return (
-    <ChartWrapper title={title} className={className}>
-      <Bar data={chartData} options={options} />
-    </ChartWrapper>
+    <ChartCard title={title} className={`chart-income-expense ${className ?? ''}`}>
+      <ColumnChart
+        series={[
+          {
+            id: 'revenue',
+            label: 'Einnahmen',
+            points: data.map((d) => ({ x: String(d.year), y: d.revenue, note: note(d) })),
+          },
+          {
+            id: 'expenses',
+            label: 'Aufwand',
+            points: data.map((d) => ({
+              x: String(d.year),
+              y: d.isComplete ? d.expenses : null,
+              note: note(d),
+            })),
+          },
+        ]}
+        unit="CHF"
+        caption={title}
+        locale="de-CH"
+        periodLabel="Jahr"
+      />
+    </ChartCard>
   );
 }

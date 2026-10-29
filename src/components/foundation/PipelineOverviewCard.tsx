@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
-import ProgressBar from '@/components/ui/ProgressBar';
+import { Meter } from '@bitbaum/chartkit/react';
 import { PRIORITY_CONFIG, PRIORITY_LEVELS } from '@/lib/config/foundations';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import type { QualityTier } from '@/lib/schemas/foundation';
@@ -49,17 +49,19 @@ export default function PipelineOverviewCard({
       <div>
         <div className="mb-1.5 flex items-baseline justify-between">
           <span className="heading-detail">Analyse-Fortschritt</span>
-          <span className="text-sm tabular-nums text-text-primary">
-            <span className="font-semibold">{researchStats.researched}</span>
-            <span className="text-text-muted"> / {totalCount}</span>
+          <span className="flex items-center gap-2 text-sm tabular-nums text-text-primary">
+            <span>
+              <span className="font-semibold">{researchStats.researched}</span>
+              <span className="text-text-muted"> / {totalCount}</span>
+            </span>
+            <Meter
+              value={researchStats.researchedPercent}
+              max={100}
+              label="Analyse-Fortschritt"
+              showValue={false}
+            />
           </span>
         </div>
-        <ProgressBar
-          percent={researchStats.researchedPercent}
-          size="md"
-          color="bg-primary"
-          label={`Analyse-Fortschritt: ${researchStats.researchedPercent}% abgeschlossen`}
-        />
         <p className="mt-1.5 text-sm text-text-muted">
           Stiftungszweck und Fit manuell bewertet — {researchStats.researchedPercent}% abgeschlossen
         </p>

@@ -1,6 +1,6 @@
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
-import ProgressBar from '@/components/ui/ProgressBar';
+import { Meter } from '@bitbaum/chartkit/react';
 import type { Foundation } from '@/lib/schemas/foundation';
 import { READINESS_ENGINE } from '@/lib/config/fit-scoring';
 import { getTierPromotionSteps, TIER_LABELS } from '@/lib/domain/foundation-helpers';
@@ -20,21 +20,18 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
       <div className="mb-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-text-muted">Priorität</span>
-          <span className="text-xs font-bold tabular-nums">
-            {priority.label}
-            {priority.isOverride && (
-              <span className="ml-1 rounded bg-warning/10 px-1 py-0.5 text-xs font-medium text-warning-text">
-                manuell
-              </span>
-            )}
+          <span className="flex items-center gap-2 text-xs font-bold tabular-nums">
+            <span>
+              {priority.label}
+              {priority.isOverride && (
+                <span className="ml-1 rounded bg-warning/10 px-1 py-0.5 text-xs font-medium text-warning-text">
+                  manuell
+                </span>
+              )}
+            </span>
+            <Meter value={priority.score} max={100} label="Priorität" showValue={false} />
           </span>
         </div>
-        <ProgressBar
-          percent={priority.score}
-          size="sm"
-          color="bg-primary"
-          label={`Priorität: ${priority.score}%`}
-        />
         <p className="mt-1 text-sm text-text-muted">{priority.description}</p>
         {priority.components.penaltyReason && (
           <p className="mt-0.5 text-sm text-warning-text">{priority.components.penaltyReason}</p>
@@ -56,18 +53,13 @@ export default function FoundationScoresCard({ foundation: f }: { foundation: Fo
         <div className="mt-2 space-y-1.5">
           {Object.entries(readiness.dimensions).map(([id, { score, max }]) => (
             <div key={id}>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-text-muted">{DIM_LABELS[id] ?? id}</span>
-                <span className="tabular-nums text-text-muted">
+              <div className="flex items-center justify-between gap-2 text-xs">
+                <span className="min-w-0 text-text-muted">{DIM_LABELS[id] ?? id}</span>
+                <span className="flex items-center gap-2 tabular-nums text-text-muted">
                   {score}/{max}
+                  <Meter value={score} max={max} label={DIM_LABELS[id] ?? id} showValue={false} />
                 </span>
               </div>
-              <ProgressBar
-                percent={max > 0 ? (score / max) * 100 : 0}
-                size="xs"
-                color="bg-primary/60"
-                label={`${DIM_LABELS[id] ?? id}: ${score} von ${max}`}
-              />
             </div>
           ))}
         </div>

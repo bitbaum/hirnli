@@ -1,9 +1,8 @@
 /**
  * Chart Colors — raw hex values for places that cannot read a CSS variable:
- * the PDF documents, inline theme fallbacks and the two Chart.js column
- * charts (RevenueChart, AnnualTrendChart). Matches the tokens in globals.css,
- * --color-chart-1 through --color-chart-6. Every other chart is drawn by
- * @bitbaum/chartkit, which reads those tokens through --ck-series-*.
+ * the PDF documents and inline theme fallbacks. Matches the tokens in
+ * globals.css, --color-chart-1 through --color-chart-6. Every chart is drawn
+ * by @bitbaum/chartkit, which reads those tokens through --ck-series-*.
  */
 export const CHART_COLORS = {
   blue: '#3498DB',

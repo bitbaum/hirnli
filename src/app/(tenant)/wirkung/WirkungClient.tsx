@@ -31,7 +31,7 @@ import WhyThisMatters from '@/components/layout/WhyThisMatters';
 import StoryBridge from '@/components/layout/StoryBridge';
 import { STORY_BRIDGES } from '@/lib/config/story-bridges';
 import ShareButton from '@/components/ui/ShareButton';
-import ProgressBar from '@/components/ui/ProgressBar';
+import { Meter } from '@bitbaum/chartkit/react';
 
 export default function WirkungClient() {
   const { selectedYear, setSelectedYear, availableYears, totals } = useFinancialData();
@@ -223,15 +223,11 @@ export default function WirkungClient() {
           <CardTitle>Datenabdeckung</CardTitle>
           <p className="text-sm text-text-muted">Wie viel unserer Wirkung können wir messen?</p>
         </CardHeader>
-        <ProgressBar
-          percent={25}
-          size="lg"
-          color="bg-warning"
-          trackColor="bg-grey-light"
-          label="Datenabdeckung: 25% der Wirkungsindikatoren messbar"
-        />
-        <div className="flex justify-between text-sm text-text-muted">
-          <span>25% der Wirkungsindikatoren messbar</span>
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm text-text-muted">
+          <span className="flex items-center gap-2">
+            <Meter value={25} max={100} label="Datenabdeckung" tone="warning" showValue={false} />
+            25% der Wirkungsindikatoren messbar
+          </span>
           <span>Ziel: 75%</span>
         </div>
       </Card>

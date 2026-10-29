@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic';
 import MetricCard from '@/components/metrics/MetricCard';
 import MetricGrid from '@/components/metrics/MetricGrid';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
-import { ChartLoadingSkeleton } from '@/components/charts/ChartWrapper';
+import RevenueChart from '@/components/charts/RevenueChart';
 import CategoryBreakdown from '@/components/charts/CategoryBreakdown';
 import YearSelector from '@/components/ui/YearSelector';
 import { formatCHF, formatPercent, formatMonthShort } from '@/lib/utils/format';
@@ -11,13 +10,6 @@ import { REVENUE_CATEGORIES } from '../data';
 import { InsightCard, YearComparison, MonthlyBreakdownTable } from '../components';
 import type { InspectorHandle } from '@/app/(tenant)/fundraising/sections/Inspectable';
 import type { useFinancialData } from '@/hooks/useFinancialData';
-
-// Chart.js, not ChartKit: twelve month columns cannot be labelled on a phone
-// by ChartKit 0.6.0 (see package-plan.json, exceptions.period-column-charts).
-const RevenueChart = dynamic(() => import('@/components/charts/RevenueChart'), {
-  ssr: false,
-  loading: () => <ChartLoadingSkeleton />,
-});
 
 type FinancialData = ReturnType<typeof useFinancialData>;
 

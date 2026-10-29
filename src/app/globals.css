@@ -277,6 +277,14 @@
   --ck-mono: var(--font-mono);
 }
 
+/* Revenue against expenses: income in the success colour, cost in the danger
+   colour, as the finance pages say them everywhere else. Series are by index,
+   so the chart that pairs the two names them here. */
+.chart-income-expense {
+  --ck-series-1: var(--color-success);
+  --ck-series-2: var(--color-danger);
+}
+
 /* ========================================
    BRAND & SDG GRADIENTS
    Brand stripe + SDG badges only. Other gradients live in components.
