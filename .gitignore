@@ -46,3 +46,4 @@ theme-audit-report.json
 
 # Claude Code runtime files
 .claude/scheduled_tasks.lock
+browser-smoke-artifacts/
