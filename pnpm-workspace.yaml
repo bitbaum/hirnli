@@ -14,6 +14,7 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@bitbaum/ai-kit'
   - '@bitbaum/mail-kit'
+  - '@bitbaum/accountkit'
   - '@bitbaum/listkit@0.2.2'
   - '@bitbaum/whenkit@0.3.3'
 overrides:

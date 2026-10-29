@@ -10,6 +10,7 @@
     "start": "next start",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:auth-journey": "node scripts/auth-journey.mjs",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "verify": "pnpm run format:check && pnpm run lint && pnpm run lint:umlauts && pnpm run typecheck && pnpm run test && pnpm run build",
@@ -36,7 +37,9 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@better-auth/drizzle-adapter": "^1.7.12",
+    "@better-auth/drizzle-adapter": "^1.7.14",
+    "@better-auth/passkey": "^1.7.14",
+    "@bitbaum/accountkit": "^0.14.0",
     "@bitbaum/ai-kit": "^1.21.5",
     "@bitbaum/mail-kit": "^0.2.0",
     "@bitbaum/whenkit": "^0.3.3",
@@ -44,7 +47,7 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@react-pdf/renderer": "^4.9.0",
-    "better-auth": "^1.7.12",
+    "better-auth": "^1.7.14",
     "chart.js": "^4.5.1",
     "drizzle-orm": "^0.45.4",
     "fuse.js": "^7.1.0",
@@ -60,6 +63,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.12",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^26",
     "@types/pg": "^8.23.1",
@@ -70,6 +74,7 @@
     "eslint": "^10",
     "eslint-config-next": "^16.4.2",
     "pg": "^8.23.1",
+    "playwright": "1.63.0",
     "prettier": "3.9.10",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",

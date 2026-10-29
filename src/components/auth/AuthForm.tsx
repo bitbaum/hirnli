@@ -34,9 +34,6 @@ const COPY = {
   },
 } as const;
 
-/** Better Auth's minPasswordLength. Stated up front, not discovered on submit. */
-const MIN_PASSWORD = 12;
-
 export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
   const copy = COPY[mode];
   // Re-validated here as well as on the page. This value ends up in
@@ -123,15 +120,11 @@ export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
         <input
           type="password"
           required
-          minLength={mode === 'signup' ? MIN_PASSWORD : undefined}
           autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="min-h-11 rounded-lg border border-border-default bg-surface-base px-3 text-text-primary"
         />
-        {mode === 'signup' && (
-          <span className="text-xs text-text-muted">Mindestens {MIN_PASSWORD} Zeichen.</span>
-        )}
       </label>
 
       <button

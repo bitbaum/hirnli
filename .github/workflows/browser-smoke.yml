@@ -1,0 +1,77 @@
+name: Browser smoke
+
+# Hirnli's account journey in a real Chromium, against a production build and
+# an isolated PostgreSQL. The fleet's shared journey does not fit this app
+# (account mail is off on purpose, and people work inside organisations), so
+# scripts/auth-journey.mjs drives Hirnli's own pages. The fleet rollout gate
+# requires this workflow before a shared-package change ships here.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: browser-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  account:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: hirnli
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U app -d hirnli"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://app:app@127.0.0.1:5432/hirnli
+      BETTER_AUTH_URL: http://localhost:3000
+      BETTER_AUTH_SECRET: synthetic-hirnli-journey-secret-at-least-32-chars
+      PLATFORM_HOST: localhost
+      INTERNAL_PASSWORD: synthetic-internal-password
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - name: Set pnpm store dir
+        run: pnpm config set store-dir ~/.pnpm-store --global
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # The committed migration chain does not replay onto an empty database
+      # (0004, 0005 and 0016 assume rows and columns from before the chain), so
+      # this throwaway database takes the schema straight from the Drizzle
+      # definitions, which are what the app queries. Never do this to a shared
+      # database: production is migrated by the deploy.
+      - name: Schema from the Drizzle definitions
+        run: pnpm exec drizzle-kit push --force
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm run build
+      - name: Account journey at phone and desktop widths
+        run: |
+          pnpm exec next start -p 3000 > next.log 2>&1 &
+          for i in $(seq 60); do curl -sf -o /dev/null http://localhost:3000/anmelden && break; sleep 1; done
+          BASE_URL=http://localhost:3000 pnpm run test:auth-journey
+      - name: Retain screenshots and server log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hirnli-account-journey
+          path: |
+            browser-smoke-artifacts/
+            next.log
+          retention-days: 14
+          if-no-files-found: warn
