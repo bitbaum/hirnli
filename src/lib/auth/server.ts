@@ -1,9 +1,14 @@
 /**
- * Better Auth server instance — constructed lazily.
+ * Accounts, on `@bitbaum/accountkit` — the fleet's one account runtime (Better
+ * Auth underneath) — constructed lazily.
  *
- * Email + password only for now: Hirnli has no email sender configured
- * (RESEND_API_KEY is absent in production), so magic links and verification
- * mails would fail silently, which is worse than not offering them.
+ * AccountKit owns the sign-in methods, password rule, hashing, limits and
+ * cookie rules. Hirnli adds what is its own: its tables, its hosts and the
+ * `organization` plugin its workspaces run on.
+ *
+ * No account mail: every existing account is unverified, so switching mail on
+ * would make verification compulsory and lock all of them out. Revisit together
+ * with a verification pass for existing people.
  *
  * ── Why this is lazy ─────────────────────────────────────────────────────────
  * `next build` evaluates route modules to collect page data. A `betterAuth({…})`
@@ -20,64 +25,57 @@
  * a running server still refuses to sign sessions without one.
  */
 
-import { betterAuth } from 'better-auth';
-import { drizzleAdapter } from '@better-auth/drizzle-adapter';
 import { organization } from 'better-auth/plugins';
-import { MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from '@bitbaum/accountkit/auth/password';
+import type { betterAuth } from 'better-auth';
+import { createAuthRuntime } from '@bitbaum/accountkit/auth/next';
 import { db } from '@/lib/db/client';
+import { orgDomains } from '@/lib/db/schema';
 import * as authSchema from '@/lib/db/auth-schema';
+import { PLATFORM_HOST } from '@/lib/tenant/registry';
 
-function authSecret(): string {
-  const s = process.env.BETTER_AUTH_SECRET;
-  if (s) return s;
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('BETTER_AUTH_SECRET is not set — sessions cannot be signed.');
-  }
-  // Development only. Deterministic so restarts don't invalidate local logins.
-  return 'dev-only-insecure-secret-do-not-use-in-production';
-}
-
-function createAuth() {
-  return betterAuth({
-    secret: authSecret(),
-    baseURL: process.env.BETTER_AUTH_URL,
-    database: drizzleAdapter(db, {
-      provider: 'pg',
-      schema: {
-        user: authSchema.user,
-        session: authSchema.session,
-        account: authSchema.account,
-        verification: authSchema.verification,
-        organization: authSchema.organization,
-        member: authSchema.member,
-        invitation: authSchema.invitation,
-      },
-    }),
-    emailAndPassword: {
-      enabled: true,
-      // No sender configured, so a "verify your email" flow would strand people
-      // on an unverifiable account. Revisit together with RESEND_API_KEY.
-      requireEmailVerification: false,
-      // The one bitbaum password rule (non-empty, at most 128), not a local number.
-      minPasswordLength: MIN_PASSWORD_LENGTH,
-      maxPasswordLength: MAX_PASSWORD_LENGTH,
-    },
-    plugins: [
-      organization({
-        // A person may hold several customers' fundraising work at once — that
-        // is the product, not an edge case.
-        allowUserToCreateOrganization: true,
-      }),
-    ],
+const organizations = () =>
+  organization({
+    // A person may hold several customers' fundraising work at once — that
+    // is the product, not an edge case.
+    allowUserToCreateOrganization: true,
   });
-}
 
-let _auth: ReturnType<typeof createAuth> | null = null;
+const runtime = createAuthRuntime({
+  site: {
+    url: process.env.BETTER_AUTH_URL ?? `https://${PLATFORM_HOST}`,
+    title: 'Hirnli',
+    // Better Auth's own default prefix, so sessions from before the move stay valid.
+    slug: 'better-auth',
+    // Tenant hosts are rows, so a customer added today can sign in today.
+    trustedOrigins: async () =>
+      (await db.select({ host: orgDomains.host }).from(orgDomains)).map((d) => `https://${d.host}`),
+  },
+  mail: { configured: false, send: async () => {} },
+  isDatabaseConfigured: (env) => Boolean(env.DATABASE_URL),
+  getDatabase: () => db,
+  schema: {
+    user: authSchema.user,
+    session: authSchema.session,
+    account: authSchema.account,
+    verification: authSchema.verification,
+    passkey: authSchema.passkey,
+    twoFactor: authSchema.twoFactor,
+    organization: authSchema.organization,
+    member: authSchema.member,
+    invitation: authSchema.invitation,
+  },
+  plugins: [organizations()],
+});
+
+/** The instance, typed with the organization plugin's endpoints. */
+type HirnliAuth = ReturnType<typeof betterAuth<{ plugins: [ReturnType<typeof organizations>] }>>;
 
 /** The auth instance. Built on first use so a build needs no secret. */
-export function getAuth() {
-  if (!_auth) _auth = createAuth();
-  return _auth;
+export function getAuth(): HirnliAuth {
+  return runtime.getAuth() as unknown as HirnliAuth;
 }
 
-export type Session = ReturnType<typeof createAuth>['$Infer']['Session'];
+/** `/api/auth/**`: AccountKit's surface plus the organization plugin's endpoints. */
+export const { GET, POST } = runtime;
+
+export type Session = HirnliAuth['$Infer']['Session'];

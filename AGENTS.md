@@ -175,8 +175,10 @@ PUBLIC (anyone)                          INTERNAL (org team, password)
 **How auth works:** `src/middleware.ts` checks HTTP Basic Auth on protected routes.
 Set `INTERNAL_PASSWORD` in the server environment. If unset, internal routes are open
 in dev and fail closed (503) in production. The browser handles the prompt.
-Separately, the platform now has real accounts via **Better Auth** (email+password,
-organisation plugin — `src/lib/auth/server.ts`): registration/login pages live under
+Separately, the platform has real accounts on **`@bitbaum/accountkit`** (the fleet's
+account runtime, Better Auth underneath: email+password, passkeys, second factor) with
+the organisation plugin mounted beside it — `src/lib/auth/server.ts`. Tenant hosts
+from `org_domains` pass its origin check. Registration/login pages live under
 `(platform)` (`/registrieren`, `/anmelden`) and org-scoped routing at `/o/<slug>/`.
 
 **The share-page contract:** `/gesuch/share/[token]` is intentionally public. It's the
@@ -190,7 +192,7 @@ see our research on other foundations, or discover that content is generated fro
 shared templates. The `GesuchShareView` component enforces this — no toolbar, no edit
 controls, no internal badges.
 
-**Multi-tenancy implication:** Per-org auth is Better Auth (shipped: accounts,
+**Multi-tenancy implication:** Per-org auth is AccountKit plus Better Auth's organisation plugin (shipped: accounts,
 organisations, memberships — see `src/lib/auth/`). The Basic-Auth gate still covers
 the legacy internal routes until they move behind org membership; the
 internal/external boundary stays the same.

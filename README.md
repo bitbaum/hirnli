@@ -139,7 +139,7 @@ public/documents/       # Source documents (anonymised) — SSOT for displayed n
 |-------|--------|---------------|
 | **1 — Revamp-IT MVP** | ✅ Shipped | Dashboards, foundation list, Gesuch workflow, pipeline kanban |
 | **2 — Document generation** | ✅ Shipped | Gesuch PDF (4-page), one-pager, share landing, pitch deck (8-slide), impact report |
-| **3 — Multi-tenant (Hirnli)** | 🚧 In progress | One deployment serves multiple tenant hosts (Host → tenant resolution); accounts via Better Auth (email+password, organisation plugin) with org-scoped routing at `/o/<slug>/`; org content migrating from ORG-SPECIFIC files to DB rows. |
+| **3 — Multi-tenant (Hirnli)** | 🚧 In progress | One deployment serves multiple tenant hosts (Host → tenant resolution); accounts via `@bitbaum/accountkit` (email+password, passkeys, second factor) with Better Auth's organisation plugin with org-scoped routing at `/o/<slug>/`; org content migrating from ORG-SPECIFIC files to DB rows. |
 
 The architecture is multi-tenant-by-construction: the foundation **registry**
 layer (universal Swiss-foundation facts) is independent from the **analysis**
