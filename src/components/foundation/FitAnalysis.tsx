@@ -5,7 +5,7 @@ import { FIT_CONFIG } from '@/lib/config/foundations';
 import { SCORING_ENGINE, type ThemeCategory } from '@/lib/config/fit-scoring';
 import { getFitLevel } from '@/lib/domain/foundation-helpers';
 import { explainFitScore } from '@/lib/domain/fit-scoring';
-import ProgressBar from '@/components/ui/ProgressBar';
+import { Meter } from '@bitbaum/chartkit/react';
 import ThemeBadgeList from './ThemeBadgeList';
 import type { FitNarrative, ThemeAlignment } from '@/lib/domain/foundation-contextualization';
 
@@ -81,18 +81,13 @@ export default function FitAnalysis({
             <div className="mt-3 space-y-2 rounded-lg border border-border-default p-3">
               {explanation.dimensions.map((d) => (
                 <div key={d.id}>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-text-secondary">{d.label}</span>
-                    <span className="font-semibold tabular-nums text-text-primary">
+                  <div className="flex items-center justify-between gap-2 text-sm">
+                    <span className="min-w-0 text-text-secondary">{d.label}</span>
+                    <span className="flex items-center gap-2 font-semibold tabular-nums text-text-primary">
                       {d.score}/{d.max}
+                      <Meter value={d.score ?? 0} max={d.max} label={d.label} showValue={false} />
                     </span>
                   </div>
-                  <ProgressBar
-                    percent={d.max > 0 ? ((d.score ?? 0) / d.max) * 100 : 0}
-                    size="xs"
-                    color="bg-primary/60"
-                    label={`${d.label}: ${d.score} von ${d.max}`}
-                  />
                   <p className="mt-0.5 text-xs text-text-muted">{d.description}</p>
                 </div>
               ))}

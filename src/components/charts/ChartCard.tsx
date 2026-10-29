@@ -8,8 +8,7 @@ interface ChartCardProps {
 
 /**
  * The card a @bitbaum/chartkit chart sits in. ChartKit draws on the server and
- * sizes itself, so unlike ChartWrapper (Chart.js) there is no client mount to
- * wait for and no fixed-height box.
+ * sizes itself, so there is no client mount to wait for and no fixed-height box.
  */
 export default function ChartCard({ children, title, className = '' }: ChartCardProps) {
   return (

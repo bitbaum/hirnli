@@ -386,7 +386,7 @@ Next.js 16 + TypeScript + Tailwind CSS v4
 ├── TypeScript (strict)   → Type safety throughout
 ├── Tailwind CSS v4       → Utility-first styling with design tokens
 ├── Zod 4                 → Schema validation, SSOT for types
-├── @bitbaum/chartkit → Financial visualizations (Chart.js for RevenueChart and AnnualTrendChart; see package-plan.json)
+├── @bitbaum/chartkit → Every chart (columns, doughnuts, bars, meters)
 └── Hetzner               → Hosting (self-hosted behind Caddy, Next.js standalone)
 ```
 
@@ -426,7 +426,7 @@ hirnli/
 │   ├── components/
 │   │   ├── layout/                    # Nav, Footer, PageHeader, StoryBridge, WhyThisMatters
 │   │   ├── ui/                        # Badge, Button, Card, CTABanner, Tabs, Modal, Table, etc.
-│   │   ├── charts/                    # RevenueChart, CategoryBreakdown, AnnualTrendChart, ChartCard, ChartWrapper
+│   │   ├── charts/                    # RevenueChart, CategoryBreakdown, AnnualTrendChart, ChartCard
 │   │   ├── foundation/               # FoundationCard, Header, Sidebar, FitAnalysis
 │   │   ├── gesuch/                    # GesuchEditPanel, GesuchSubmitSection, section components
 │   │   ├── fundraising/              # Pipeline, application tracking components

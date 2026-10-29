@@ -14,25 +14,32 @@
         {
           "file": "src/app/(tenant)/finanzen/components/CostStructureCard.tsx",
           "symbols": ["BarChart"]
+        },
+        {
+          "file": "src/components/charts/RevenueChart.tsx",
+          "symbols": ["ColumnChart"]
+        },
+        {
+          "file": "src/components/charts/AnnualTrendChart.tsx",
+          "symbols": ["ColumnChart"]
+        },
+        {
+          "file": "src/components/foundation/PipelineOverviewCard.tsx",
+          "symbols": ["Meter"]
+        },
+        {
+          "file": "src/components/foundation/FoundationScoresCard.tsx",
+          "symbols": ["Meter"]
+        },
+        {
+          "file": "src/components/foundation/FitAnalysis.tsx",
+          "symbols": ["Meter"]
+        },
+        {
+          "file": "src/app/(tenant)/wirkung/WirkungClient.tsx",
+          "symbols": ["Meter"]
         }
       ]
-    }
-  },
-  "exceptions": {
-    "period-column-charts": {
-      "package": "@bitbaum/chartkit",
-      "status": "product-owned",
-      "files": [
-        "src/components/charts/RevenueChart.tsx",
-        "src/components/charts/AnnualTrendChart.tsx"
-      ],
-      "reason": "The monthly revenue chart (twelve stacked columns) and the annual revenue/expense chart (eight grouped years) cannot be labelled on a phone by ChartKit 0.6.0. ColumnChart gives every period an equal grid column and ellipsizes a label wider than it (.ck-col-xtick); it never thins or rotates labels. Migrated and rendered in Chromium at 390px, the months read 'J…', 'F…', 'M…' and every year read '20…', even with the axis in thousands to narrow the gutter. Chart.js skips labels instead. Migrate both when ColumnChart thins period labels on narrow plots."
-    },
-    "progress-bars": {
-      "package": "@bitbaum/chartkit",
-      "status": "product-owned",
-      "files": ["src/components/ui/ProgressBar.tsx"],
-      "reason": "ProgressBar draws score and progress bars (foundation fit dimensions, priority, analysis progress, data coverage) whose figure is already printed in the row heading, in a caller-chosen colour and height. ChartKit 0.6.0's Meter takes only value, max, label and href: it always prints its own number beside the track and has no colour or size input, so every use would repeat its figure and lose the warning colour on the data-coverage bar."
     }
   }
 }

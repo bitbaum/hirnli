@@ -77,7 +77,7 @@ formula, and confidence level. No black boxes.
 - **PostgreSQL** (self-hosted, `node-postgres` driver) · **Drizzle ORM** — schema is SSOT
 - **Zod 4** — types derived via `z.infer<>`, never defined separately
 - **Tailwind v4** — design tokens via `@theme inline` in `globals.css`
-- **`@bitbaum/chartkit`** for finance dashboards (Chart.js for the two column charts) · **`@react-pdf/renderer`** for PDFs
+- **`@bitbaum/chartkit`** for every chart · **`@react-pdf/renderer`** for PDFs
 - **Groq** (Llama 3.x) — LLM triage + rewrite (configurable, rate-limit aware)
 - **Hetzner** — self-hosted behind Caddy, Next.js `standalone` server output
 
