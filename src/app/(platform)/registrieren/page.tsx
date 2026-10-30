@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { AuthForm } from '@/components/auth/AuthForm';
 import { getSession } from '@/lib/auth/access';
 import { safeNextPath } from '@/lib/auth/next-path';
+import { sharedSignIn } from '@/lib/auth/shared-signin';
 
 export const metadata: Metadata = { title: 'Konto erstellen' };
 
@@ -19,7 +20,7 @@ export default async function SignUpPage({
 
   return (
     <main className="mx-auto w-full max-w-sm px-4 py-16">
-      <AuthForm mode="signup" next={destination} />
+      <AuthForm mode="signup" next={destination} shared={sharedSignIn()} />
     </main>
   );
 }
