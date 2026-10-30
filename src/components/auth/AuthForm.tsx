@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signIn, signUp } from '@/lib/auth/client';
 import { DEFAULT_AFTER_SIGN_IN, safeNextPath } from '@/lib/auth/next-path';
+import type { SharedSignIn } from '@/lib/auth/shared-signin';
 
 type Mode = 'signin' | 'signup';
 
@@ -34,7 +35,16 @@ const COPY = {
   },
 } as const;
 
-export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
+export function AuthForm({
+  mode,
+  next,
+  shared = null,
+}: {
+  mode: Mode;
+  next?: string;
+  /** The shared bitbaum sign-in, when its env is set (lib/auth/shared-signin). */
+  shared?: SharedSignIn | null;
+}) {
   const copy = COPY[mode];
   // Re-validated here as well as on the page. This value ends up in
   // router.push(), and the component is reachable from anywhere a prop can be
@@ -76,6 +86,29 @@ export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
     router.refresh();
   }
 
+  // The provider creates the account on first use, so sign-up and sign-in are
+  // the same call. Errors come back to this page, keeping `next`.
+  async function onShared() {
+    if (!shared) return;
+    setError(null);
+    setPending(true);
+    const back =
+      destination === DEFAULT_AFTER_SIGN_IN
+        ? '/anmelden'
+        : `/anmelden?next=${encodeURIComponent(destination)}`;
+    const result = await signIn.social({
+      provider: shared.provider,
+      callbackURL: destination,
+      errorCallbackURL: back,
+    });
+    if (result?.error) {
+      setError(
+        'Die Anmeldung konnte nicht gestartet werden. Bitte versuchen Sie es erneut oder melden Sie sich mit E-Mail-Adresse und Passwort an.',
+      );
+      setPending(false);
+    }
+  }
+
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-5">
       <h1 className="text-2xl font-bold tracking-tight text-text-primary">{copy.heading}</h1>
@@ -87,6 +120,20 @@ export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
         >
           {error}
         </p>
+      )}
+
+      {shared && (
+        <>
+          <button
+            type="button"
+            onClick={onShared}
+            disabled={pending}
+            className="min-h-11 rounded-lg border border-border-default bg-surface-base px-4 font-medium text-text-primary disabled:opacity-60"
+          >
+            {shared.label}
+          </button>
+          <p className="text-center text-sm text-text-muted">oder mit E-Mail-Adresse</p>
+        </>
       )}
 
       {mode === 'signup' && (
