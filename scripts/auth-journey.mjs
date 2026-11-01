@@ -41,6 +41,39 @@ async function noSidewaysScroll(page, name) {
 
 const session = (page) => page.evaluate(async () => (await fetch('/api/auth/get-session')).json());
 
+/**
+ * Click "Abmelden", land on /anmelden, and prove the sign-out stuck.
+ *
+ * A session that comes back is the failure to catch: Kivvi's journey found a
+ * prefetch that started before the sign-out and answered after it, writing the
+ * session cookie back (kivvi #201). So this waits for the network to go quiet,
+ * reloads, and asks the server again — and a signed-in-only page must still
+ * send the person to the sign-in page.
+ */
+async function signOutWithButton(where) {
+  const button = page.getByRole('button', { name: 'Abmelden', exact: true });
+  check(await button.isVisible(), `the ${where} shows an Abmelden button`);
+  await page.screenshot({ path: `${OUT}/signout-${where.replace(/\s+/g, '-')}-390.png` });
+  await button.click();
+  await page.waitForURL((url) => url.pathname === '/anmelden', { timeout: 20_000 });
+  check((await session(page)) === null, `Abmelden in the ${where} ends the session`);
+  await page.waitForLoadState('networkidle').catch(() => {});
+  await page.waitForTimeout(1_500);
+  await page.reload();
+  check((await session(page)) === null, `after a reload the person is still signed out (${where})`);
+  const cookies = (await page.context().cookies()).filter((c) => /session_token/.test(c.name));
+  check(cookies.length === 0, `no session cookie is left in the browser (${where})`);
+  await page.goto(`${BASE}/start`);
+  check(
+    new URL(page.url()).pathname === '/anmelden',
+    `a signed-in-only page sends the person to sign in (${where})`,
+  );
+  check(
+    (await page.getByRole('button', { name: 'Abmelden', exact: true }).count()) === 0,
+    `the signed-out nav offers no Abmelden (${where})`,
+  );
+}
+
 async function signInFrom(origin) {
   const res = await fetch(`${BASE}/api/auth/sign-in/email`, {
     method: 'POST',
@@ -68,18 +101,8 @@ try {
   await page.waitForURL((url) => !url.pathname.startsWith('/registrieren'), { timeout: 20_000 });
   check((await session(page))?.user?.email === EMAIL, 'sign-up signs the person in');
 
-  // Sign out (Hirnli has no button for it yet; the endpoint is the contract).
-  const out = await page.evaluate(
-    async () =>
-      (
-        await fetch('/api/auth/sign-out', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: '{}',
-        })
-      ).status,
-  );
-  check(out === 200 && (await session(page)) === null, 'sign-out ends the session');
+  // Sign out with the button in the platform nav, and stay signed out.
+  await signOutWithButton('platform nav');
 
   // A wrong password is refused on the sign-in page; the right one works.
   await page.goto(`${BASE}/anmelden`);
@@ -103,7 +126,7 @@ try {
   await page.locator('input[name="legalForm"]').fill('Verein nach Art. 60 ff. ZGB');
   await page.locator('input[name="founded"]').fill('2026');
   await page.locator('input[name="location"]').fill('Zürich');
-  await page.locator('button[type="submit"]').click();
+  await page.getByRole('button', { name: 'Organisation erstellen' }).click();
   await page.waitForURL(/\/o\/[^/]+$/, { timeout: 30_000 });
   const slug = new URL(page.url()).pathname.split('/')[2];
   const reached = await page.goto(`${BASE}/o/${slug}`);
@@ -115,6 +138,9 @@ try {
     [slug, EMAIL],
   );
   check(members[0]?.role === 'owner', 'the creator owns the organisation');
+
+  // Sign out with the button in the organisation header, too.
+  await signOutWithButton('organisation header');
 
   // A role in the sign-up body is ignored.
   const roleEmail = `role-${run}@example.test`;

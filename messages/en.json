@@ -7,7 +7,9 @@
     "themeToDark": "Switch to dark mode",
     "themeToLight": "Switch to light mode",
     "mainNav": "Main navigation",
-    "contentNotice": "This page's content is currently available in German. Translations are coming."
+    "contentNotice": "This page's content is currently available in German. Translations are coming.",
+    "signOut": "Sign out",
+    "signingOut": "Signing out…"
   },
   "footer": {
     "tagline": "Transparency hub of {org}"

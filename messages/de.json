@@ -7,7 +7,9 @@
     "themeToDark": "Zu dunklem Modus wechseln",
     "themeToLight": "Zu hellem Modus wechseln",
     "mainNav": "Hauptnavigation",
-    "contentNotice": "Die Inhalte dieser Seite sind derzeit auf Deutsch verfügbar. Übersetzungen folgen."
+    "contentNotice": "Die Inhalte dieser Seite sind derzeit auf Deutsch verfügbar. Übersetzungen folgen.",
+    "signOut": "Abmelden",
+    "signingOut": "Wird abgemeldet …"
   },
   "footer": {
     "tagline": "Transparenz-Hub von {org}"
