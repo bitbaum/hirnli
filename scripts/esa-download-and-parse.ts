@@ -18,6 +18,12 @@
  * - Stiftungszweck (purpose)
  * - Canton
  * - Status
+ *
+ * `xlsx` is SheetJS's own build from https://cdn.sheetjs.com (pinned tarball,
+ * integrity in pnpm-lock.yaml). The npm package stopped at 0.18.5, which has
+ * two high advisories (CVE-2023-30533, CVE-2024-22363); the vendor publishes
+ * fixed releases only on its CDN. 0.20.x returns cell text with LF line ends
+ * where 0.18.5 kept the file's CRLF; nothing else in the output changed.
  */
 
 import * as fs from 'fs';
