@@ -7,7 +7,9 @@
     "themeToDark": "Passer en mode sombre",
     "themeToLight": "Passer en mode clair",
     "mainNav": "Navigation principale",
-    "contentNotice": "Le contenu de cette page est actuellement disponible en allemand. Les traductions arrivent."
+    "contentNotice": "Le contenu de cette page est actuellement disponible en allemand. Les traductions arrivent.",
+    "signOut": "Se déconnecter",
+    "signingOut": "Déconnexion…"
   },
   "footer": {
     "tagline": "Hub de transparence de {org}"

@@ -12,6 +12,7 @@ import { redirect } from 'next/navigation';
 import { getOrgAccess, getMyOrganizations, getSession } from '@/lib/auth/access';
 import { currentRequestPath } from '@/lib/tenant/resolve';
 import { OrgSwitcher } from '@/components/org/OrgSwitcher';
+import { SignOutButton } from '@/components/auth/SignOutButton';
 
 export default async function OrgLayout({
   children,
@@ -45,7 +46,10 @@ export default async function OrgLayout({
             current={{ slug: access.orgSlug, name: access.orgName }}
             organizations={orgs}
           />
-          <span className="text-sm text-text-muted">{session.user.email}</span>
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="min-w-0 truncate text-sm text-text-muted">{session.user.email}</span>
+            <SignOutButton />
+          </div>
         </div>
       </header>
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">{children}</main>
