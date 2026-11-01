@@ -13,12 +13,14 @@ import { LanguageToggle } from '@/components/layout/LanguageToggle';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { SignOutButton } from '@/components/auth/SignOutButton';
 import { getSession } from '@/lib/auth/access';
+import { getTranslations } from 'next-intl/server';
 
 export default async function PlatformLayout({ children }: { children: React.ReactNode }) {
   const year = new Date().getFullYear();
   // The product pages are public; a signed-in person sees how to leave. Accounts
   // being unavailable must not take the product page down with them.
   const session = await getSession().catch(() => null);
+  const t = await getTranslations('common');
   return (
     <>
       <nav className="sticky top-0 z-30 border-b border-border-default bg-surface-base/95 backdrop-blur-sm">
@@ -34,7 +36,17 @@ export default async function PlatformLayout({ children }: { children: React.Rea
           <div className="flex items-center gap-1">
             <LanguageToggle />
             <ThemeToggle />
-            {session ? <SignOutButton /> : null}
+            {session ? (
+              <>
+                <Link
+                  href="/konto"
+                  className="inline-flex min-h-11 items-center px-2 text-sm font-medium text-text-primary hover:no-underline"
+                >
+                  {t('account')}
+                </Link>
+                <SignOutButton />
+              </>
+            ) : null}
           </div>
         </div>
       </nav>

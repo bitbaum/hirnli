@@ -78,6 +78,7 @@ export const RESERVED_SLUGS = new Set([
   'start',
   'anmelden',
   'registrieren',
+  'konto',
   'o',
 ]);
 

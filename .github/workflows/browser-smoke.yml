@@ -1,9 +1,9 @@
 name: Browser smoke
 
 # Hirnli's account journey in a real Chromium, against a production build and
-# an isolated PostgreSQL. The fleet's shared journey does not fit this app
-# (account mail is off on purpose, and people work inside organisations), so
-# scripts/auth-journey.mjs drives Hirnli's own pages. The fleet rollout gate
+# an isolated PostgreSQL. People work inside organisations, so
+# scripts/auth-journey.mjs drives Hirnli's own pages, starting with every way
+# in that the env switches on. The fleet rollout gate
 # requires this workflow before a shared-package change ships here.
 on:
   pull_request:
@@ -41,6 +41,15 @@ jobs:
       PLATFORM_HOST: localhost
       INTERNAL_PASSWORD: synthetic-internal-password
       NEXT_TELEMETRY_DISABLED: '1'
+      # Synthetic, unreachable OIDC clients: they switch "Weiter mit OrangeCat"
+      # and the shared sign-in on, so the journey asserts both buttons.
+      # Nothing is clicked through to an issuer.
+      ORANGECAT_OAUTH_ISSUER: https://orangecat.example.test
+      ORANGECAT_OAUTH_CLIENT_ID: hirnli-journey
+      ORANGECAT_OAUTH_CLIENT_SECRET: synthetic-journey-client-secret
+      SIGNIN_ISSUER: https://signin.example.test
+      SIGNIN_CLIENT_ID: hirnli-journey
+      SIGNIN_CLIENT_SECRET: synthetic-journey-client-secret
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
