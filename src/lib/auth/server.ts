@@ -6,9 +6,15 @@
  * cookie rules. Hirnli adds what is its own: its tables, its hosts and the
  * `organization` plugin its workspaces run on.
  *
- * No account mail: every existing account is unverified, so switching mail on
- * would make verification compulsory and lock all of them out. Revisit together
- * with a verification pass for existing people.
+ * Account mail (the sign-in link, password recovery, address confirmation)
+ * goes through AccountKit's mailer and mail-kit, with the fleet's
+ * RESEND_API_KEY. It was off because every existing account is unverified and
+ * the AccountKit of the time made confirmation compulsory once mail was on,
+ * which would have locked all of them out. Since AccountKit 0.19 confirmation
+ * comes AFTER sign-in by default (`emailConfirmation: "after-sign-in"`): an
+ * unverified account keeps signing in as before, and confirms whenever it
+ * likes from /konto ("Bestätigungslink nochmals schicken", AccountKit's
+ * resend) or by using "Passwort vergessen?", which proves the address too.
  *
  * ── Why this is lazy ─────────────────────────────────────────────────────────
  * `next build` evaluates route modules to collect page data. A `betterAuth({…})`
@@ -28,6 +34,7 @@
 import { organization } from 'better-auth/plugins';
 import type { betterAuth } from 'better-auth';
 import { createAuthRuntime } from '@bitbaum/accountkit/auth/next';
+import { createAuthMailer } from '@bitbaum/accountkit/auth/mail';
 import { db } from '@/lib/db/client';
 import { orgDomains } from '@/lib/db/schema';
 import * as authSchema from '@/lib/db/auth-schema';
@@ -40,9 +47,27 @@ const organizations = () =>
     allowUserToCreateOrganization: true,
   });
 
+const siteUrl = process.env.BETTER_AUTH_URL ?? `https://${PLATFORM_HOST}`;
+
+/**
+ * Links in account mail point at the platform host, the runtime's base URL;
+ * the mailer refuses any other origin before a credential leaves by email.
+ */
+const mailer = createAuthMailer({
+  site: { url: siteUrl, title: 'Hirnli' },
+  subjects: {
+    verify: 'Bestätigen Sie Ihre E-Mail-Adresse für Hirnli',
+    magicLink: 'Ihr Anmeldelink für Hirnli',
+    reset: 'Neues Passwort für Hirnli',
+  },
+});
+
+/** Whether account mail can go out; the screens offer the link and recovery only then. */
+export const mailConfigured = (): boolean => mailer.configured;
+
 const runtime = createAuthRuntime({
   site: {
-    url: process.env.BETTER_AUTH_URL ?? `https://${PLATFORM_HOST}`,
+    url: siteUrl,
     title: 'Hirnli',
     // Better Auth's own default prefix, so sessions from before the move stay valid.
     slug: 'better-auth',
@@ -50,7 +75,8 @@ const runtime = createAuthRuntime({
     trustedOrigins: async () =>
       (await db.select({ host: orgDomains.host }).from(orgDomains)).map((d) => `https://${d.host}`),
   },
-  mail: { configured: false, send: async () => {} },
+  // Default confirmation is after sign-in: mail on locks nobody out (above).
+  mail: mailer,
   isDatabaseConfigured: (env) => Boolean(env.DATABASE_URL),
   getDatabase: () => db,
   schema: {

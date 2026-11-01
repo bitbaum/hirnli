@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 /**
  * Hirnli's account journey, in a real browser against a running production
- * build. The fleet's shared journey does not fit this app: account mail is off
- * on purpose (every existing account is unverified) and people work inside
- * organisations, so this drives Hirnli's own pages instead.
+ * build. People work inside organisations, so this drives Hirnli's own pages
+ * instead of the fleet's shared journey.
+ *
+ * It first checks that the sign-in and sign-up screens offer every way in the
+ * env switches on, read from the same env the server has (AccountKit's
+ * signInMethods): email and password and a passkey always; the sign-in link
+ * only with account mail (RESEND_API_KEY); "Weiter mit OrangeCat" with
+ * ORANGECAT_OAUTH_*; the shared sign-in with SIGNIN_*. CI sets synthetic OIDC
+ * clients so both buttons are asserted; nothing is clicked through.
  *
  *   BASE_URL=http://localhost:3000 DATABASE_URL=postgres://… node scripts/auth-journey.mjs
  *
@@ -90,14 +96,51 @@ const browser = await chromium.launch(
 );
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 
+const { authLabelsFor, signInMethods } = await import('@bitbaum/accountkit/auth');
+const labels = authLabelsFor('de');
+const mailKey = (process.env.RESEND_API_KEY ?? '').trim();
+const expected = signInMethods(
+  process.env,
+  Boolean(mailKey) && !mailKey.startsWith('re_placeholder'),
+);
+const shows = (name) =>
+  page
+    .getByRole('button', { name, exact: true })
+    .first()
+    .isVisible({ timeout: 10_000 })
+    .catch(() => false);
+const submit = () =>
+  page
+    .locator('form')
+    .filter({ has: page.locator('#acct-password') })
+    .locator('button[type="submit"]');
+
 try {
+  // Every way in this deployment switches on is offered, and nothing else.
+  for (const path of ['/anmelden', '/registrieren']) {
+    await page.goto(`${BASE}${path}`);
+    await page.locator('#acct-email').waitFor({ state: 'visible', timeout: 20_000 });
+    check(await page.locator('#acct-password').isVisible(), `${path} offers email and password`);
+    for (const [on, name] of [
+      [expected.orangecat, labels.withOrangecat],
+      [expected.signin, labels.withSignin],
+    ]) {
+      check((await shows(name)) === on, `${path} ${on ? 'shows' : 'hides'} «${name}»`);
+    }
+  }
+  await page.goto(`${BASE}/anmelden`);
+  check(await shows(labels.withPasskey), '/anmelden offers a passkey');
+  check(
+    (await shows(labels.withLink)) === expected.magicLink,
+    `/anmelden ${expected.magicLink ? 'offers' : 'hides'} the sign-in link (account mail ${expected.magicLink ? 'on' : 'off'})`,
+  );
+
   // Sign up through the page.
   await page.goto(`${BASE}/registrieren`);
   await noSidewaysScroll(page, 'registrieren');
-  await page.getByLabel('Name').fill('Journey Person');
-  await page.getByLabel('E-Mail-Adresse').fill(EMAIL);
-  await page.getByLabel('Passwort').fill(PASSWORD);
-  await page.getByRole('button', { name: 'Konto erstellen' }).click();
+  await page.locator('#acct-email').fill(EMAIL);
+  await page.locator('#acct-password').fill(PASSWORD);
+  await submit().click();
   await page.waitForURL((url) => !url.pathname.startsWith('/registrieren'), { timeout: 20_000 });
   check((await session(page))?.user?.email === EMAIL, 'sign-up signs the person in');
 
@@ -107,18 +150,31 @@ try {
   // A wrong password is refused on the sign-in page; the right one works.
   await page.goto(`${BASE}/anmelden`);
   await noSidewaysScroll(page, 'anmelden');
-  await page.getByLabel('E-Mail-Adresse').fill(EMAIL);
-  await page.getByLabel('Passwort').fill('not the password');
-  await page.getByRole('button', { name: 'Anmelden' }).click();
+  await page.locator('#acct-email').fill(EMAIL);
+  await page.locator('#acct-password').fill('not the password');
+  await submit().click();
   await page.getByRole('alert').waitFor({ timeout: 15_000 });
   check(
     new URL(page.url()).pathname === '/anmelden' && (await session(page)) === null,
     'a wrong password is refused',
   );
-  await page.getByLabel('Passwort').fill(PASSWORD);
-  await page.getByRole('button', { name: 'Anmelden' }).click();
+  await page.locator('#acct-password').fill(PASSWORD);
+  await submit().click();
   await page.waitForURL((url) => !url.pathname.startsWith('/anmelden'), { timeout: 20_000 });
   check((await session(page))?.user?.email === EMAIL, 'sign-in with the right password works');
+
+  // The account page offers passkeys and the second factor.
+  await page.goto(`${BASE}/konto`);
+  for (const title of [labels.account.passkeys, labels.account.twoFactor]) {
+    check(
+      await page
+        .getByRole('heading', { name: title, exact: true })
+        .isVisible({ timeout: 15_000 })
+        .catch(() => false),
+      `/konto offers «${title}»`,
+    );
+  }
+  await noSidewaysScroll(page, 'konto');
 
   // Create an organisation and reach its page.
   await page.goto(`${BASE}/organisation-erstellen`);

@@ -64,7 +64,9 @@ Afterwards verify the public URL: `curl -sI https://revamp-info.orangecat.ch`.
 | `SHARE_SECRET` | HMAC key for public `/gesuch/share/[token]` pages. Rotating it invalidates every previously sent share link. |
 | `CRON_SECRET` | Bearer token the appcron timers send to `/api/cron/*` |
 | `GROQ_API_KEY` | LLM rewrite endpoint (`/api/ai/gesuch-section`) |
-| `RESEND_API_KEY` | Optional — cron email notifications. Unset = crons run but skip email (requires a Resend account with `revamp-it.ch` domain verified). |
+| `RESEND_API_KEY` | Account mail (sign-in link, password recovery, address confirmation) and cron email notifications. Unset = those options are hidden on `/anmelden` and crons skip email. On the box the fleet key reaches the app (`/opt/fleet/env`). |
+| `ORANGECAT_OAUTH_CLIENT_ID` / `ORANGECAT_OAUTH_CLIENT_SECRET` | "Weiter mit OrangeCat" on `/anmelden` and `/registrieren`; hidden unless both are set. |
+| `SIGNIN_ISSUER` / `SIGNIN_CLIENT_ID` / `SIGNIN_CLIENT_SECRET` | The shared sign-in (Google, Apple, GitHub, X, Facebook); hidden unless all three are set. |
 | `AUTH_TRUST_HOST` | Next.js behind reverse proxy |
 
 Local dev mirrors these in `.env.local` (gitignored). The box env is SSOT for

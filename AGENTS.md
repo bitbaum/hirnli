@@ -186,10 +186,15 @@ PUBLIC (anyone)                          INTERNAL (org team, password)
 Set `INTERNAL_PASSWORD` in the server environment. If unset, internal routes are open
 in dev and fail closed (503) in production. The browser handles the prompt.
 Separately, the platform has real accounts on **`@bitbaum/accountkit`** (the fleet's
-account runtime, Better Auth underneath: email+password, passkeys, second factor) with
-the organisation plugin mounted beside it — `src/lib/auth/server.ts`. Tenant hosts
-from `org_domains` pass its origin check. Registration/login pages live under
-`(platform)` (`/registrieren`, `/anmelden`) and org-scoped routing at `/o/<slug>/`.
+account runtime, Better Auth underneath: email+password, passkeys, second factor, a
+sign-in link and password recovery by email, "Weiter mit OrangeCat" with
+`ORANGECAT_OAUTH_*`, the shared sign-in with `SIGNIN_*`) with the organisation plugin
+mounted beside it — `src/lib/auth/server.ts`. Tenant hosts from `org_domains` pass its
+origin check. The screens are AccountKit's own (`src/components/auth/AccountScreens.tsx`)
+under `(platform)`: `/anmelden`, `/registrieren` and `/konto` (passkeys, second factor);
+org-scoped routing is at `/o/<slug>/`. Account mail uses the fleet's `RESEND_API_KEY`;
+without it the link and recovery are hidden. Links in account mail point at the platform
+host, so a sign-in link asked for on a tenant host signs the person in on the platform.
 
 **The share-page contract:** `/gesuch/share/[token]` is intentionally public. It's the
 controlled channel for sending foundation-specific content to program officers. Tokens
