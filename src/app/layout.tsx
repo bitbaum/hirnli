@@ -1,15 +1,13 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import { BRANDING } from '@/lib/config/branding';
 import { getTenantOrNull } from '@/lib/tenant/resolve';
 import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
+import { inter } from './fonts';
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 const SITE_DESCRIPTION =
   'Alle Zahlen, alle Quellen, komplett nachvollziehbar: Finanzen, Wirkung und Strategie — plus Stiftungsrecherche und Gesuch-Generierung auf einer Plattform.';
