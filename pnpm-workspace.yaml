@@ -18,7 +18,7 @@ minimumReleaseAgeExclude:
   - '@bitbaum/listkit@0.2.2'
   - '@bitbaum/whenkit@0.3.3'
   - '@bitbaum/chartkit@0.6.0 || 0.7.0'
-  - '@bitbaum/design-tokens@1.3.0 || 1.3.1 || 1.4.0 || 1.5.1'
+  - '@bitbaum/design-tokens@1.3.0 || 1.3.1 || 1.4.0 || 1.5.1 || 1.5.2'
 overrides:
   # Security floors (2026-10-30 dev-toolchain sweep): stay inside the
   # major the parents already allow; pnpm does not re-resolve these on update.
