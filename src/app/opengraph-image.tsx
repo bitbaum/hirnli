@@ -14,6 +14,7 @@
  */
 
 import { ImageResponse } from 'next/og';
+import { ogFonts, ogText } from '@bitbaum/design-tokens/og';
 import { getTenant } from '@/lib/tenant/resolve';
 import { PLATFORM_BRAND } from '@/lib/config/platform-brand';
 
@@ -25,6 +26,11 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 const GREEN = '#2ECC71';
+
+// From @bitbaum/design-tokens: Geist (what next/og drew with by default) and
+// Inter for what Geist lacks. The tenant writes the name and the stats; a
+// character neither face has is left out by ogText, never fetched from Google.
+const FACES = ['geist', 'inter:400'];
 const DARK = '#111827';
 
 export default async function OpenGraphImage() {
@@ -38,7 +44,9 @@ export default async function OpenGraphImage() {
     `${tenant.legalForm} seit ${tenant.founded}`,
     tenant.location,
     tenant.missionSummary,
-  ].filter((v): v is string => Boolean(v));
+  ]
+    .map((v) => ogText(v, ...FACES))
+    .filter((v): v is string => Boolean(v));
 
   return new ImageResponse(
     <div
@@ -69,7 +77,7 @@ export default async function OpenGraphImage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div style={{ fontSize: 92, fontWeight: 800, color: '#F9FAFB', lineHeight: 1.05 }}>
-          {tenant.name}
+          {ogText(tenant.name, ...FACES)}
         </div>
         <div style={{ fontSize: 40, color: '#D1D5DB', maxWidth: 980 }}>
           Transparentes Fundraising — alle Zahlen belegbar, jede Quelle nachvollziehbar.
@@ -95,6 +103,6 @@ export default async function OpenGraphImage() {
         ))}
       </div>
     </div>,
-    size,
+    { ...size, fonts: await ogFonts(...FACES) },
   );
 }
