@@ -29,8 +29,8 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0(react@19.3.1)
       '@bitbaum/design-tokens':
-        specifier: github:bitbaum/design-tokens#443d27875a8c4719029fff085053f2735d881366
-        version: https://codeload.github.com/bitbaum/design-tokens/tar.gz/443d27875a8c4719029fff085053f2735d881366
+        specifier: ^1.5.1
+        version: 1.5.1
       '@bitbaum/mail-kit':
         specifier: ^0.2.0
         version: 0.2.0
@@ -342,9 +342,8 @@ packages:
     peerDependencies:
       react: '>=18'
 
-  '@bitbaum/design-tokens@https://codeload.github.com/bitbaum/design-tokens/tar.gz/443d27875a8c4719029fff085053f2735d881366':
-    resolution: {gitHosted: true, integrity: sha512-u4xMPRDIps1jfD160fbqb77oGCbh2vQoOXmS45Ml59/cYtSY8fKskyNxsRD4xSt8zMClUDc48FTuXxEauAENZw==, tarball: https://codeload.github.com/bitbaum/design-tokens/tar.gz/443d27875a8c4719029fff085053f2735d881366}
-    version: 1.5.1
+  '@bitbaum/design-tokens@1.5.1':
+    resolution: {integrity: sha512-yFVbzG0mMxUogvA8MLnvTxuH+mqxGYLeMvwdyJEXLJt3+2IZb+j/zdZ42Rz0Xe5cYuWga60SNVPGZxuF8T1dew==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -4182,7 +4181,7 @@ snapshots:
     dependencies:
       react: 19.3.1
 
-  '@bitbaum/design-tokens@https://codeload.github.com/bitbaum/design-tokens/tar.gz/443d27875a8c4719029fff085053f2735d881366': {}
+  '@bitbaum/design-tokens@1.5.1': {}
 
   '@bitbaum/listkit@0.2.2': {}
 
