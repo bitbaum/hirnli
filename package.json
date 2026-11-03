@@ -42,7 +42,7 @@
     "@bitbaum/accountkit": "^0.27.0",
     "@bitbaum/ai-kit": "^1.24.0",
     "@bitbaum/chartkit": "^0.7.0",
-    "@bitbaum/design-tokens": "github:bitbaum/design-tokens#443d27875a8c4719029fff085053f2735d881366",
+    "@bitbaum/design-tokens": "^1.5.1",
     "@bitbaum/mail-kit": "^0.2.0",
     "@bitbaum/whenkit": "^0.3.3",
     "@dnd-kit/core": "^6.3.1",
