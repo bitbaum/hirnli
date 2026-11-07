@@ -37,8 +37,8 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@better-auth/drizzle-adapter": "^1.7.14",
-    "@better-auth/passkey": "^1.7.14",
+    "@better-auth/drizzle-adapter": "^1.7.16",
+    "@better-auth/passkey": "^1.7.16",
     "@bitbaum/accountkit": "^0.27.0",
     "@bitbaum/ai-kit": "^1.24.0",
     "@bitbaum/chartkit": "^0.7.0",
@@ -49,12 +49,12 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@react-pdf/renderer": "^4.9.0",
-    "better-auth": "^1.7.14",
+    "better-auth": "^1.7.16",
     "drizzle-orm": "^0.45.4",
     "fuse.js": "^7.1.0",
     "listkit": "npm:@bitbaum/listkit@^0.2.2",
     "nanoid": "^6.0.2",
-    "next": "16.4.3",
+    "next": "16.4.5",
     "next-intl": "^4.14.9",
     "next-themes": "^0.4.6",
     "react": "19.3.1",
@@ -62,7 +62,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.5.12",
+    "@electric-sql/pglite": "^0.5.15",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^26",
     "@types/pg": "^8.23.1",
@@ -71,7 +71,7 @@
     "dotenv": "^17.3.1",
     "drizzle-kit": "^0.31.11",
     "eslint": "^10",
-    "eslint-config-next": "^16.4.3",
+    "eslint-config-next": "^16.4.5",
     "pg": "^8.23.1",
     "playwright": "1.64.1",
     "prettier": "3.9.10",
