@@ -34,7 +34,7 @@ const BUDGET: Record<string, number> = {
   // "no new spelling" case rather than by a budget of 0: ORG_PROFILE,
   // SHARED_ORG_NUMBERS, and the route named after one customer's project.
   'Revamp-IT': 74,
-  'revamp-it': 18,
+  'revamp-it': 17,
   revampit: 8,
   'revamp-info': 2,
   Kivitendo: 82,
