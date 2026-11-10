@@ -15,7 +15,7 @@ allowBuilds:
 # would refuse each fresh publish until it ages. One scope glob covers every
 # @bitbaum package; the four unscoped ones are named (fleet SHARED.md).
 minimumReleaseAgeExclude:
-  - "@bitbaum/*"
+  - '@bitbaum/*'
   - limitkit
   - bip-kit
   - threadkit
