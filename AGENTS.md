@@ -53,7 +53,7 @@ Org rules are [bitbaum/fleet AGENTS.md](https://github.com/bitbaum/fleet/blob/ma
 
 ## Mission
 
-Revamp-IT's survival depends on foundation grants — this platform exists to find the right foundations, build compelling evidence of fit, and generate professional Gesuche that win funding. Success means submitted applications that convert: every line of code should move a foundation from "pipeline entry" to "funded partner."
+The organisations on Hirnli (today Revamp-IT and evig) depend on foundation grants — this platform exists to find the right foundations, build compelling evidence of fit, and generate professional Gesuche that win funding. Success means submitted applications that convert: every line of code should move a foundation from "pipeline entry" to "funded partner."
 
 ---
 
@@ -81,7 +81,7 @@ platform's name.
 
 A **fundraising intelligence platform** that helps mission-driven organizations present themselves compellingly to potential funders, find the right foundations, and generate professional application documents.
 
-**Currently:** Built for and used exclusively by Revamp-IT.
+**Currently:** two organisations are set up: Revamp-IT and evig (evig is run by the platform's operator, Cato). Neither develops or operates Hirnli.
 **Future:** Any purpose-driven organization can use this by providing their own context.
 
 ### The Core Value Chain
@@ -951,4 +951,4 @@ internal/external page boundary stays the same.
 ---
 
 **Last Updated:** 2026-09-04 — run `pnpm run audit` for live pipeline stats (as of 2026-05-28: P1=20/P2=78/P3=142=240, generated=1,683, archived=1,117, P2/P3 appUrl=100%/96%; Gesuch P1=20/20 perfect, P2=70/75=93%, P3=109/117=93% — 199/212 total perfect)
-**Maintainer:** Revamp-IT Team
+**Maintainer:** Cato

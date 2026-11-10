@@ -73,6 +73,11 @@ export interface PlatformContent {
   outlook: { heading: string; body: string; ctaLabel: string };
 }
 
+const [FIRST_ORG, SECOND_ORG] = PLATFORM_BRAND.organisations;
+const ORGS_DE = `${FIRST_ORG} und ${SECOND_ORG}`;
+const ORGS_EN = `${FIRST_ORG} and ${SECOND_ORG}`;
+const ORGS_FR = `${FIRST_ORG} et ${SECOND_ORG}`;
+
 const MARKET_SOURCE =
   'Stiftungsreport 2025/2026 — SwissFoundations & CEPS Universität Basel (swissfoundations.ch/stiftungssektor/zahlen-fakten)';
 
@@ -90,7 +95,7 @@ const de: PlatformContent = {
     overline: 'Die Plattform',
     title: 'Die richtigen Stiftungen finden. Mit Belegen überzeugen.',
     lead: `Eine Fundraising-Intelligence-Plattform: Sie durchsucht das gesamte Schweizer Stiftungswesen (${SWISS_FOUNDATIONS_DISPLAY} Einträge), findet die Förderstiftungen, die wirklich passen, und generiert für jede ein massgeschneidertes, belegbares Gesuch — in Minuten statt Tagen.`,
-    context: `Entwickelt von und für ${PLATFORM_BRAND.foundingOrg} — als erste Organisation auf der Plattform.`,
+    context: `Heute auf der Plattform eingerichtet: ${ORGS_DE}.`,
     ctas: [
       { label: 'Konto erstellen', href: '/registrieren' },
       { label: 'Roadmap ansehen', href: '#roadmap' },
@@ -216,7 +221,7 @@ const de: PlatformContent = {
         name: 'Werkzeug beweisen',
         timeframe: 'seit Q3 2026',
         status: 'progress',
-        description: `${PLATFORM_BRAND.foundingOrg} reicht die ersten priorisierten Gesuche ein (P1-Stiftungen). Jede Rückmeldung fliesst zurück in Scoring und Textbausteine.`,
+        description: `Erste priorisierte Gesuche (P1-Stiftungen) für die eingerichteten Organisationen, ${ORGS_DE}. Jede Rückmeldung fliesst zurück in Scoring und Textbausteine.`,
         value: 'Belegte Erfolgsquote statt Behauptung — die Fallstudie, die alles Weitere trägt.',
       },
       {
@@ -252,14 +257,14 @@ const de: PlatformContent = {
   businessModel: {
     heading: 'Geschäftsmodell',
     points: [
-      `Heute: kostenlos — geschärft am Fundraising von ${PLATFORM_BRAND.foundingOrg}.`,
+      `Heute: kostenlos für die eingerichteten Organisationen, ${ORGS_DE}.`,
       'Ab Mandantenfähigkeit: Abonnement pro Organisation für Analyse-Ebene, Dokumenten-Generierung und Pipeline — das recherchierte Stiftungsregister bleibt gemeinsame Basis.',
       'Später: Zusatzleistungen wie begleitete Recherche, Beratungs-Integrationen und Auswertungen für Stiftungen.',
     ],
   },
   outlook: {
-    heading: 'Heute eine Organisation — gebaut für viele',
-    body: `Die Plattform trennt sauber zwischen dem universellen Stiftungsregister und der organisationsspezifischen Analyse (Fit-Scores, Erzählbausteine, Budgets). ${PLATFORM_BRAND.foundingOrg} ist die erste Organisation, die damit arbeitet; die Architektur ist von Anfang an dafür gebaut, weitere aufzunehmen.`,
+    heading: 'Heute zwei Organisationen — gebaut für viele',
+    body: `Die Plattform trennt sauber zwischen dem universellen Stiftungsregister und der organisationsspezifischen Analyse (Fit-Scores, Erzählbausteine, Budgets). Eingerichtet sind heute zwei Organisationen, ${ORGS_DE}; die Architektur ist von Anfang an dafür gebaut, weitere aufzunehmen.`,
     ctaLabel: 'Interesse an der Plattform für Ihre Organisation?',
   },
 };
@@ -278,7 +283,7 @@ const en: PlatformContent = {
     overline: 'The Platform',
     title: 'Find the right foundations. Apply with evidence.',
     lead: `A fundraising intelligence platform: it screens Switzerland's entire foundation register (${SWISS_FOUNDATIONS_DISPLAY} entries), surfaces the grant-makers that actually fit, and generates a tailored, evidence-backed application for each one — in minutes instead of days.`,
-    context: `Built by and for ${PLATFORM_BRAND.foundingOrg} — the first organization on the platform.`,
+    context: `Set up on the platform today: ${ORGS_EN}.`,
     ctas: [
       { label: 'Create an account', href: '/registrieren' },
       { label: 'See the roadmap', href: '#roadmap' },
@@ -404,7 +409,7 @@ const en: PlatformContent = {
         name: 'Prove the tool',
         timeframe: 'since Q3 2026',
         status: 'progress',
-        description: `${PLATFORM_BRAND.foundingOrg} submits the first prioritized applications (P1 foundations). Every response feeds back into scoring and copy.`,
+        description: `First prioritized applications (P1 foundations) for the organizations set up today, ${ORGS_EN}. Every response feeds back into scoring and copy.`,
         value:
           'A documented win rate instead of a claim — the case study that carries everything after it.',
       },
@@ -441,14 +446,14 @@ const en: PlatformContent = {
   businessModel: {
     heading: 'Business model',
     points: [
-      `Today: free — sharpened on ${PLATFORM_BRAND.foundingOrg}’s fundraising.`,
+      `Today: free for the organizations set up, ${ORGS_EN}.`,
       'From multi-tenancy: a per-organization subscription covering the analysis layer, document generation, and pipeline — the researched foundation register stays a shared base.',
       'Later: added services such as assisted research, consultant integrations, and analytics for foundations.',
     ],
   },
   outlook: {
-    heading: 'One organization today — built for many',
-    body: `The platform cleanly separates the universal foundation register from organization-specific analysis (fit scores, narrative building blocks, budgets). ${PLATFORM_BRAND.foundingOrg} is the first organization working with it; the architecture was built from day one to take on more.`,
+    heading: 'Two organizations today — built for many',
+    body: `The platform cleanly separates the universal foundation register from organization-specific analysis (fit scores, narrative building blocks, budgets). Two organizations are set up today, ${ORGS_EN}; the architecture was built from day one to take on more.`,
     ctaLabel: 'Interested in the platform for your organization?',
   },
 };
@@ -467,7 +472,7 @@ const fr: PlatformContent = {
     overline: 'La plateforme',
     title: 'Trouver les bonnes fondations. Convaincre avec des preuves.',
     lead: `Une plateforme d'intelligence pour la levée de fonds : elle passe au crible l'ensemble du registre suisse des fondations (${SWISS_FOUNDATIONS_DISPLAY} entrées), identifie les fondations donatrices qui correspondent vraiment, et génère pour chacune une demande sur mesure, appuyée par des preuves — en quelques minutes au lieu de plusieurs jours.`,
-    context: `Développée par et pour ${PLATFORM_BRAND.foundingOrg} — première organisation sur la plateforme.`,
+    context: `Organisations configurées aujourd'hui sur la plateforme : ${ORGS_FR}.`,
     ctas: [
       { label: 'Créer un compte', href: '/registrieren' },
       { label: 'Voir la feuille de route', href: '#roadmap' },
@@ -593,7 +598,7 @@ const fr: PlatformContent = {
         name: "Prouver l'outil",
         timeframe: 'depuis T3 2026',
         status: 'progress',
-        description: `${PLATFORM_BRAND.foundingOrg} soumet les premières demandes priorisées (fondations P1). Chaque réponse alimente le scoring et les textes.`,
+        description: `Premières demandes priorisées (fondations P1) pour les organisations configurées, ${ORGS_FR}. Chaque réponse alimente le scoring et les textes.`,
         value:
           "Un taux de succès documenté plutôt qu'une affirmation — l'étude de cas qui porte tout le reste.",
       },
@@ -630,14 +635,14 @@ const fr: PlatformContent = {
   businessModel: {
     heading: 'Modèle économique',
     points: [
-      `Aujourd'hui : gratuit — affûté sur la levée de fonds de ${PLATFORM_BRAND.foundingOrg}.`,
+      `Aujourd'hui : gratuit pour les organisations configurées, ${ORGS_FR}.`,
       "Dès le multi-organisations : abonnement par organisation couvrant l'analyse, la génération de documents et le pipeline — le registre recherché reste une base commune.",
       'Plus tard : services additionnels comme la recherche assistée, des intégrations pour consultants et des analyses pour fondations.',
     ],
   },
   outlook: {
-    heading: "Une organisation aujourd'hui — conçue pour plusieurs",
-    body: `La plateforme sépare proprement le registre universel des fondations de l'analyse propre à chaque organisation (scores de fit, éléments narratifs, budgets). ${PLATFORM_BRAND.foundingOrg} est la première organisation à l'utiliser ; l'architecture est conçue dès le départ pour en accueillir d'autres.`,
+    heading: "Deux organisations aujourd'hui — conçue pour plusieurs",
+    body: `La plateforme sépare proprement le registre universel des fondations de l'analyse propre à chaque organisation (scores de fit, éléments narratifs, budgets). Deux organisations sont configurées aujourd'hui, ${ORGS_FR} ; l'architecture est conçue dès le départ pour en accueillir d'autres.`,
     ctaLabel: 'La plateforme vous intéresse pour votre organisation ?',
   },
 };

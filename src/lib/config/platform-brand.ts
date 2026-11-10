@@ -19,23 +19,20 @@ export const PLATFORM_BRAND = {
   marketingPath: '/plattform',
 
   /**
-   * The organisation the platform was built by and for.
-   *
-   * A fact about the PLATFORM's history, not about whoever is reading. The
-   * product page says "developed by and for Revamp-IT — the first organisation
-   * on the platform", and that sentence stays true for every later tenant; it
-   * would become false the moment it read the viewing tenant's name instead.
-   * It was reached through the compile-time tenant constant, which pointed the
-   * platform at a customer and made the product page unrenderable without one.
+   * The organisations set up on the platform today, as named on the product
+   * page. Two customers: Revamp-IT, the Zürich IT refurbisher whose
+   * fundraising the research scripts were first written against, and evig,
+   * the organisation run by the platform's operator. A fact about the
+   * PLATFORM, not about whoever is reading: it must never read the viewing
+   * tenant's name instead. Neither organisation develops or operates Hirnli.
    */
-  foundingOrg: 'Revamp-IT',
+  organisations: ['Revamp-IT', 'evig'],
 
   /**
-   * Where to write about the PLATFORM. Today it is the founding organisation's
-   * fundraising address because that organisation operates the platform —
-   * which is a reason to state it here, not to read it off a tenant.
+   * Where to write about the PLATFORM: its operator, not a tenant. Tenant
+   * contact addresses live in each organisation's profile.
    */
-  contactEmail: 'fundraising@revamp-it.ch',
+  contactEmail: 'cato@orangecat.ch',
 } as const;
 
 export type PlatformBrand = typeof PLATFORM_BRAND;
