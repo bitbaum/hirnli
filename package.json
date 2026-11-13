@@ -39,7 +39,7 @@
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.16",
     "@better-auth/passkey": "^1.7.16",
-    "@bitbaum/accountkit": "^0.30.0",
+    "@bitbaum/accountkit": "^0.31.0",
     "@bitbaum/ai-kit": "^1.27.0",
     "@bitbaum/chartkit": "^0.8.0",
     "@bitbaum/design-tokens": "^1.7.1",
